@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0C8A48
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 06:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B5D2D627;
+	Wed,  1 May 2024 06:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714545197; cv=none; b=DbaOzdHHJRDZP4W7o0u5wGn3gNE5GM6b8sN1wFx0w6v6J5jUMbiuHY6Dy1rAH16dTqz4DlqGneYWriem6tIIn57M+c/uihL2of1cuPPnMoC4kWyF2O4XFRMuar4SK2Nkjy/qzC/qAQL/vPzsM/sltrwH2WIrHAEwkLyqsfeKrTQ=
+	t=1714545199; cv=none; b=VorqFvlbPrxnqwhOKHrSaBCZfnIkIwI6XAMOu7nXgAMYhF27dexlhAQUKmTWvSbqXBvmyYr0trjTo8wTvekw0hobGUgw5uI6lwQxpscw/b355U6cwaOG6jl/Klc5P7LCJpktvVo6c3mP7gLOkDhd/u4C5N1NWZ0HYLs7MnMWt1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714545197; c=relaxed/simple;
-	bh=jQO/TmwWk2dCVpYwFd2oHA4m0GWO86c+24N3JtCnV8w=;
+	s=arc-20240116; t=1714545199; c=relaxed/simple;
+	bh=xnq5nnv/A1CiIYgYO6m3OKjM8n63AgO2pkIc7+Mj3fA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jmwkkRQeynoMibKLOXG1kRJOtZUoSczP3AaTKqxkOlFgiEhcO09ZXXNPbfNYMHaU8W+SxBmnzIaQFpgMe0+sfcNPbRVdWVmGyZwCcYHIrNchOl1uQHjXD6YT4tLXM1Aj0FLfx4jc1lTBVK1PgBHA0PB2xPzV248tr2kIRJA/Y4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BgqyxJ+C; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=ThQVhdkhjMnT5VmbW9au9RcoM4PheyfyVGpr6BbfJOsPW44LlfO4W1Nx1JUnAQDHuf6dm9foz4dlTB5bzs52DBhZxwy5DwRFFJkow+L9t+/qv6vxkq7Qo/mNllh11enGmrbjlSul4krBhKP93nsztoR/c6+YSINVpE+ymuKJc30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFpP5KP3; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BgqyxJ+C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFpP5KP3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714545195; x=1746081195;
+  t=1714545197; x=1746081197;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jQO/TmwWk2dCVpYwFd2oHA4m0GWO86c+24N3JtCnV8w=;
-  b=BgqyxJ+CWODiTELxkmSesJQ9xkAlDppW7bkN9uTWm950fJMoGVQBI74M
-   48Q1Jw8D3iwqR88TkNybPDBosaJL+pSTDMGxH/4V3NTl5t/gchQNDKtUR
-   Xj06dxKjb2wzDAQbN6kSTnjjb+eLfROUa52PwbHjIhXikQqd3pNGErajk
-   srCiE35UILxi0EbPtfsiPOOFiPaASD26qpWDBlt8c/4aXNdejNoVXCWWl
-   YYAe16HnpQcbeD8BTgyrKWwXLQQPGSgcXgI3jAJ4cHexS205hfbPtA2vT
-   kCl3yuMsK6JrvsOpMz/MV9jmYy0sJ6qWrorlInIG+M6R418SLyH3xLgBF
-   Q==;
-X-CSE-ConnectionGUID: NOn0gxLYRJmXhDhH9HMMfw==
-X-CSE-MsgGUID: GS34owExRAqUMtQxWc0a2Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="14050419"
+  bh=xnq5nnv/A1CiIYgYO6m3OKjM8n63AgO2pkIc7+Mj3fA=;
+  b=eFpP5KP3XEkulPc+qAngq8dGH6ttWmUOZ7bSt1690PW+RbA/LCu1JlvT
+   Vp5wBiODSmaSA0JdDWT3iF4nHL2TX1daO3xGMOyj3WTpcsjkOP2Fshw3n
+   EDUwI8gVor2n4a4I9d08CMu6tzpPtSvWEezSi5Ns+cdnPrMF67PfMdpaz
+   Ne5WDu7q/ctnpzcrZewzjNJ58+kA1/WYDIPbeBeCOimDHJXyVmnxb2895
+   QWSgN+0ByN3z0FDZqTtg/3dNedd3WTkrFeuWaEBDnk+08uLYi99GHZKqN
+   gtNHArSG0HfbhDp3u5pD2lTvYIpjvfjZUMhVz1HFxzzVXPykEBwir/MDN
+   A==;
+X-CSE-ConnectionGUID: 1tBpDAWITnuAgEM/lvD44g==
+X-CSE-MsgGUID: aeTWrFHWSK+NE2QrM19sZA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10119871"
 X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
-   d="scan'208";a="14050419"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 23:33:15 -0700
-X-CSE-ConnectionGUID: WqKJG/dVT2OYyLwsfXxpzg==
-X-CSE-MsgGUID: ptQHL7/oQWe5AvIOz4ZygQ==
+   d="scan'208";a="10119871"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 23:33:14 -0700
+X-CSE-ConnectionGUID: hVU0oOXoS4yRV6mDZOwEZg==
+X-CSE-MsgGUID: iyheqARbSW6Qf3UK9nEz0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
-   d="scan'208";a="31414414"
+   d="scan'208";a="31311967"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Apr 2024 23:33:14 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 30 Apr 2024 23:33:13 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s23Wh-0008zg-0n;
-	Wed, 01 May 2024 06:33:11 +0000
-Date: Wed, 1 May 2024 14:32:55 +0800
+	id 1s23Wg-0008zN-2q;
+	Wed, 01 May 2024 06:33:10 +0000
+Date: Wed, 1 May 2024 14:32:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:ipu6 40/50]
- drivers/media/v4l2-core/v4l2-common.c:512:23: error: implicit declaration of
- function 'v4l2_subdev_call_op'; did you mean 'v4l2_subdev_has_op'?
-Message-ID: <202405011421.mkr5FHdn-lkp@intel.com>
+To: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [usb:usb-testing 17/35] drivers/usb/storage/usb.c:141:21: error:
+ incompatible pointer types passing 'unsigned int *' to parameter of type
+ 'uint64_t *' (aka 'unsigned long long *')
+Message-ID: <202405011431.PvaZHpRK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,119 +66,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git ipu6
-head:   308898eb3af1c6530b122a01a5c4b38931717e70
-commit: 68213f72d8c806ff6968fb30c4bf61fd1257c4a3 [40/50] media: v4l: Support obtaining link frequency via get_mbus_config
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240501/202405011421.mkr5FHdn-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011421.mkr5FHdn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   ac6a205c5bef39d65ecd9f5dd2c1d75652c35405
+commit: 70d66b8e47e6fa031f541291e9dd3d7f0c44b41e [17/35] usb-storage: Optimize scan delay more precisely
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240501/202405011431.PvaZHpRK-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011431.PvaZHpRK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405011421.mkr5FHdn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405011431.PvaZHpRK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-common.c: In function '__v4l2_get_link_freq':
->> drivers/media/v4l2-core/v4l2-common.c:512:23: error: implicit declaration of function 'v4l2_subdev_call_op'; did you mean 'v4l2_subdev_has_op'? [-Werror=implicit-function-declaration]
-     512 |                 ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
-         |                       ^~~~~~~~~~~~~~~~~~~
-         |                       v4l2_subdev_has_op
->> drivers/media/v4l2-core/v4l2-common.c:512:47: error: 'pad' undeclared (first use in this function); did you mean 'pid'?
-     512 |                 ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
-         |                                               ^~~
-         |                                               pid
-   drivers/media/v4l2-core/v4l2-common.c:512:47: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/media/v4l2-core/v4l2-common.c:512:52: error: 'get_mbus_config' undeclared (first use in this function); did you mean 'mbus_config'?
-     512 |                 ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
-         |                                                    ^~~~~~~~~~~~~~~
-         |                                                    mbus_config
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/preempt.h:10,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/media/v4l2-core/v4l2-common.c:37:
-   drivers/media/v4l2-core/v4l2-common.c: At top level:
-   drivers/media/v4l2-core/v4l2-common.c:522:19: error: 'v4l2_get_link_freq' undeclared here (not in a function)
-     522 | EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
-         |                   ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:23: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                       ^~~
-   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   drivers/media/v4l2-core/v4l2-common.c:522:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     522 | EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
-         | ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/usb/storage/usb.c:141:21: warning: comparison of distinct pointer types ('typeof ((delay_ms)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+           unsigned int rem = do_div(delay_ms, int_pow(10, ndecimals));
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+           (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+                  ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+>> drivers/usb/storage/usb.c:141:21: error: incompatible pointer types passing 'unsigned int *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+           unsigned int rem = do_div(delay_ms, int_pow(10, ndecimals));
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+                   __rem = __div64_32(&(n), __base);       \
+                                      ^~~~
+   arch/arm/include/asm/div64.h:24:45: note: passing argument to parameter 'n' here
+   static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
+                                               ^
+>> drivers/usb/storage/usb.c:141:21: warning: shift count >= width of type [-Wshift-count-overflow]
+           unsigned int rem = do_div(delay_ms, int_pow(10, ndecimals));
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) == 0)) {          \
+                                  ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   2 warnings and 1 error generated.
 
 
-vim +512 drivers/media/v4l2-core/v4l2-common.c
+vim +141 drivers/usb/storage/usb.c
 
-   466	
-   467	s64 __v4l2_get_link_freq(struct v4l2_subdev *sd,
-   468				 struct v4l2_ctrl_handler *handler, unsigned int mul,
-   469				 unsigned int div)
-   470	{
-   471		struct v4l2_ctrl *ctrl;
-   472		s64 freq;
-   473	
-   474		if (!handler && sd)
-   475			handler = sd->ctrl_handler;
-   476	
-   477		ctrl = v4l2_ctrl_find(handler, V4L2_CID_LINK_FREQ);
-   478		if (ctrl) {
-   479			struct v4l2_querymenu qm = { .id = V4L2_CID_LINK_FREQ };
-   480			int ret;
-   481	
-   482			if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
-   483				return v4l2_ctrl_g_ctrl_int64(ctrl);
-   484	
-   485			qm.index = v4l2_ctrl_g_ctrl(ctrl);
-   486	
-   487			ret = v4l2_querymenu(handler, &qm);
-   488			if (ret)
-   489				return -ENOENT;
-   490	
-   491			freq = qm.value;
-   492		} else {
-   493			if (!mul || !div)
-   494				return -ENOENT;
-   495	
-   496			ctrl = v4l2_ctrl_find(handler, V4L2_CID_PIXEL_RATE);
-   497			if (!ctrl)
-   498				return -ENOENT;
-   499	
-   500			freq = div_u64(v4l2_ctrl_g_ctrl_int64(ctrl) * mul, div);
-   501	
-   502			pr_warn("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
-   503				__func__);
-   504			pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
-   505				__func__);
-   506		}
-   507	
-   508		if (freq <= 0 && sd) {
-   509			struct v4l2_mbus_config mbus_config = {};
-   510			int ret;
-   511	
- > 512			ret = v4l2_subdev_call_op(sd, pad, get_mbus_config,
-   513						  &mbus_config);
-   514			if (ret < 0)
-   515				return ret;
-   516	
-   517			return mbus_config.link_freq;
-   518		}
-   519	
-   520		return freq > 0 ? freq : -EINVAL;
-   521	}
-   522	EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
-   523	
+   123	
+   124	/**
+   125	 * fixed_point_uint_to_str - format a fixed-point decimal value into a string
+   126	 * @val: The integer value to format, scaled by 10^(@ndecimals).
+   127	 * @ndecimals: Number of decimal places in the fixed-point value.
+   128	 * @str: Where to store the formatted string.
+   129	 * @size: The size of buffer for @str.
+   130	 *
+   131	 * Format a fixed-point decimal value in @val scaled by 10^(@ndecimals)
+   132	 * into a string in @str where to store the formatted string.
+   133	 * The string trailing fractional part '0' is trimmed.
+   134	 *
+   135	 * Returns the number of characters written into @str.
+   136	 */
+   137	static int fixed_point_uint_to_str(unsigned int val, int ndecimals,
+   138					   char *str, int size)
+   139	{
+   140		unsigned int delay_ms = val;
+ > 141		unsigned int rem = do_div(delay_ms, int_pow(10, ndecimals));
+   142		int len;
+   143		char buf[16];
+   144	
+   145		len = scnprintf(buf, sizeof(buf), "%d", delay_ms);
+   146		if (rem) {
+   147			char format[8];
+   148	
+   149			snprintf(format, sizeof(format) - 1, ".%%0%dd", ndecimals);
+   150			len += scnprintf(buf + len, sizeof(buf) - len, format, rem);
+   151			while (buf[--len] == '0')
+   152				buf[len] = '\0';
+   153		}
+   154		return scnprintf(str, size, "%s\n", buf);
+   155	}
+   156	
 
 -- 
 0-DAY CI Kernel Test Service
