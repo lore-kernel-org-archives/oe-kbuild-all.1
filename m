@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A73686126
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Apr 2024 23:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83FA37E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 00:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714518782; cv=none; b=q+d1/zU/VetGXgo5pEa0J0Voszp3/hCpzzKRkSEJDll3bJ9gdgz0S/y3au242tAsfbgnOdkQOEhnO9VW1/7spuEn1Nkmq8sfyGGQWGQdu9oQ/J3Gkftsbk7T+G+1yubY3n+Cf+ZdG/hVE53TgwZi064UBW+idEbp6C+/ratuq7s=
+	t=1714523164; cv=none; b=cCjViD/ca1aOdaOIx3Rm3S/aqV5+ch7XLVzHI1Oq7eWk8Z3I5qzhEZx7blrkZcxEBhwqC1w0CMYvB+GU2rrKYjODNfFsRwUOtftgCrVBpsFzUf3/FQYBZBZxtPs6rKH4jKRvFGGTX+E37UIHVeA6mcePNrMZQQjp5pvDZNhBYHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714518782; c=relaxed/simple;
-	bh=9aLMGWlJ3KH73jGrTb0xEXNt+MnIVirER/Y+9TvPXfc=;
+	s=arc-20240116; t=1714523164; c=relaxed/simple;
+	bh=+ocDhZDgrPgavn5mbvG8M6hcZsAGCa72I5P9E4koq7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JLLCJa3/vmnK4FhSq47wH0GBCg/13fCygj6BakEne0JrTjGjkgiM3pLDAoXys9FfOwG0ys+xTCT9DqlwXsMKMiCoJxE35vJS+LNVU7sja22cZlR0QmTc/QIBORXMNNs+HpYKk4uqjEQCc2pGicFGIQLFoS0W2jfxnAQfHDPPmx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYUVXr8b; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=lgm4HD0h8uWVNX1PRFqYUzYJ1U1MQU2FvllmUvSvF49Z17zSQtUhdrQgyShjGRIKmwx+p7vSp5kl/nz3b+qsVg1MU5xKjPVxxP6vPKB4X8vz4A9D0UsyRZmlmFNh10nlHxH+sVsSob/7096ZI1b/V7etgg9F5ctQ8aqEC+/6Mns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ABrEx7VX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYUVXr8b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ABrEx7VX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714518780; x=1746054780;
+  t=1714523162; x=1746059162;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9aLMGWlJ3KH73jGrTb0xEXNt+MnIVirER/Y+9TvPXfc=;
-  b=MYUVXr8bb9HlJ9B4wetLZl7C6ytri16gUXR6gKFR/8uuT/wKjQSE8dZl
-   v90x5EGpJ/kd2acteWV9fQpq5eNeLQfFFSIeZ892saZ3AgCYdCpEL2BzX
-   qrEdsY3k/SD3wr1N/C8hMFfdgpo1Ab36dl/UJv0+C/GQFKHAVM0SFN1Hn
-   IrRaoNOswbxeV3di/5CAuW7v0BU8g2WLQJy2R5nfaHK+s80J8gvHCNFAO
-   6Gzkx+zDf0Gr1s2W6wzqR4lfGI4et5DgT5JvlzXnLS4ySplAMqXGI294K
-   tjXuLQT/k+dGGMo0rj9dwrEqFluwvktUChaeoXIAhIgEoiVIBDQTTfF+D
-   w==;
-X-CSE-ConnectionGUID: N8FPml1RQci0+7QoAc0Omw==
-X-CSE-MsgGUID: prC+EDaFQLGenuT/86s3DA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10373923"
+  bh=+ocDhZDgrPgavn5mbvG8M6hcZsAGCa72I5P9E4koq7w=;
+  b=ABrEx7VXqDBv5U+BQD+95x6nSmWa2MusioyuYBw2lrKpIg7wqOa8Pk4T
+   t1IdNvVnp1UCqn/ITABVdNogYN1eoGtBulHiYeqcfWmghMVOaL0nMG1ad
+   GbmvJUVXUwb1oGCMQtSKxYc/GnL3/WbCyfoyy6Yh/3yU2Y/vfSIGe2Nz4
+   BtQ0p8g+SUPH3D2RBQv9j1OM5Fd/42wwRTYQulN18dqJMWmAyDujY9aBm
+   hfuiCO0cj4kPmrC3/cMYWO7JEAd897DsOcKR0bYcB2OPdL1kL6bHcvjQU
+   RN1F401BnZQrqtkE11CiNgXDSycsKSTwG8LosANztT9RVd0F+Vs8w1nyi
+   g==;
+X-CSE-ConnectionGUID: Nj8N38FDS1WhXRchSFQJIQ==
+X-CSE-MsgGUID: r3mHJElNTfWbRUryu+cW/A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="20942845"
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="10373923"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 16:12:59 -0700
-X-CSE-ConnectionGUID: FmHFoyAOQOSdDFvg4DjAog==
-X-CSE-MsgGUID: +hjdNW6EQnK5Ep20jyw0Og==
+   d="scan'208";a="20942845"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 17:26:01 -0700
+X-CSE-ConnectionGUID: Ln1rorcZRfCvSZcv1emdvg==
+X-CSE-MsgGUID: 9BWxSSmqQ+Gc0qwgGj7m+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="27233252"
+   d="scan'208";a="57526397"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2024 16:12:58 -0700
+  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2024 17:26:00 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s1wee-0008fp-1C;
-	Tue, 30 Apr 2024 23:12:56 +0000
-Date: Wed, 1 May 2024 07:12:21 +0800
+	id 1s1xnJ-0008hT-1Y;
+	Wed, 01 May 2024 00:25:57 +0000
+Date: Wed, 1 May 2024 08:25:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Leon Romanovsky <leon@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-1.0.x-imx 5950/11730]
- drivers/firmware/imx/sm-misc.c:17:5: warning: no previous prototype for
- function 'scmi_imx_misc_ctrl_set'
-Message-ID: <202405010700.Zzw9Rpgb-lkp@intel.com>
+Subject: [leon-rdma:dma-split-v1 4/17] drivers/pci/p2pdma.c:967:33: error:
+ static declaration of 'pci_p2pdma_map_type' follows non-static declaration
+Message-ID: <202405010806.IrtWuj9Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,134 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   776652a165f5bbf30c68a5f6213d75b02e8df11c
-commit: d482cb8ff9593b82d549bcebb1fa406494ab96f9 [5950/11730] LF-10712-2 firmware: imx: add i.MX SM MISC driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240501/202405010700.Zzw9Rpgb-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010700.Zzw9Rpgb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-v1
+head:   b66ed91ccee0e8e645a07f54f0e39fe9ff4f03c9
+commit: c9054c6f609d4d89977171559cd16e48e5fdb8b8 [4/17] dma-mapping: check if IOVA can be used
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240501/202405010806.IrtWuj9Y-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010806.IrtWuj9Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405010700.Zzw9Rpgb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405010806.IrtWuj9Y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/firmware/imx/sm-misc.c:11:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/firmware/imx/sm-misc.c:11:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/firmware/imx/sm-misc.c:11:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/firmware/imx/sm-misc.c:11:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/firmware/imx/sm-misc.c:17:5: warning: no previous prototype for function 'scmi_imx_misc_ctrl_set' [-Wmissing-prototypes]
-      17 | int scmi_imx_misc_ctrl_set(u32 id, u32 val)
-         |     ^
-   drivers/firmware/imx/sm-misc.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      17 | int scmi_imx_misc_ctrl_set(u32 id, u32 val)
-         | ^
-         | static 
->> drivers/firmware/imx/sm-misc.c:26:5: warning: no previous prototype for function 'scmi_imx_misc_ctrl_get' [-Wmissing-prototypes]
-      26 | int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
-         |     ^
-   drivers/firmware/imx/sm-misc.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      26 | int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
-         | ^
-         | static 
-   9 warnings generated.
+>> drivers/pci/p2pdma.c:967:33: error: static declaration of 'pci_p2pdma_map_type' follows non-static declaration
+     967 | static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pci/p2pdma.c:13:
+   include/linux/dma-map-ops.h:521:26: note: previous declaration of 'pci_p2pdma_map_type' with type 'enum pci_p2pdma_map_type(struct dev_pagemap *, struct device *)'
+     521 | enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+         |                          ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/scmi_imx_misc_ctrl_set +17 drivers/firmware/imx/sm-misc.c
+vim +/pci_p2pdma_map_type +967 drivers/pci/p2pdma.c
 
-  > 11	#include <linux/suspend.h>
-    12	
-    13	static const struct scmi_imx_misc_proto_ops *imx_misc_ctrl_ops;
-    14	static struct scmi_protocol_handle *ph;
-    15	struct notifier_block scmi_imx_misc_ctrl_nb;
-    16	
-  > 17	int scmi_imx_misc_ctrl_set(u32 id, u32 val)
-    18	{
-    19		if (!ph)
-    20			return -EPROBE_DEFER;
-    21	
-    22		return imx_misc_ctrl_ops->misc_ctrl_set(ph, id, 1, &val);
-    23	};
-    24	EXPORT_SYMBOL(scmi_imx_misc_ctrl_set);
-    25	
-  > 26	int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
-    27	{
-    28		if (!ph)
-    29			return -EPROBE_DEFER;
-    30	
-    31		return imx_misc_ctrl_ops->misc_ctrl_get(ph, id, num, val);
-    32	}
-    33	EXPORT_SYMBOL(scmi_imx_misc_ctrl_get);
-    34	
+977196b8c5b20b Logan Gunthorpe 2018-10-04  966  
+7e2faa1710c408 Logan Gunthorpe 2021-06-10 @967  static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  968  						    struct device *dev)
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  969  {
+ae21f835a5bda0 Eric Dumazet    2021-07-01  970  	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  971  	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  972  	struct pci_dev *client;
+ae21f835a5bda0 Eric Dumazet    2021-07-01  973  	struct pci_p2pdma *p2pdma;
+719c98658058f4 Logan Gunthorpe 2022-07-08  974  	int dist;
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  975  
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  976  	if (!provider->p2pdma)
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  977  		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  978  
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  979  	if (!dev_is_pci(dev))
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  980  		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  981  
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  982  	client = to_pci_dev(dev);
+7e2faa1710c408 Logan Gunthorpe 2021-06-10  983  
+ae21f835a5bda0 Eric Dumazet    2021-07-01  984  	rcu_read_lock();
+ae21f835a5bda0 Eric Dumazet    2021-07-01  985  	p2pdma = rcu_dereference(provider->p2pdma);
+ae21f835a5bda0 Eric Dumazet    2021-07-01  986  
+ae21f835a5bda0 Eric Dumazet    2021-07-01  987  	if (p2pdma)
+ae21f835a5bda0 Eric Dumazet    2021-07-01  988  		type = xa_to_value(xa_load(&p2pdma->map_types,
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  989  					   map_types_idx(client)));
+ae21f835a5bda0 Eric Dumazet    2021-07-01  990  	rcu_read_unlock();
+719c98658058f4 Logan Gunthorpe 2022-07-08  991  
+719c98658058f4 Logan Gunthorpe 2022-07-08  992  	if (type == PCI_P2PDMA_MAP_UNKNOWN)
+719c98658058f4 Logan Gunthorpe 2022-07-08  993  		return calc_map_type_and_dist(provider, client, &dist, true);
+719c98658058f4 Logan Gunthorpe 2022-07-08  994  
+ae21f835a5bda0 Eric Dumazet    2021-07-01  995  	return type;
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  996  }
+5d52e1abcd4795 Logan Gunthorpe 2019-08-12  997  
+
+:::::: The code at line 967 was first introduced by commit
+:::::: 7e2faa1710c408712185bb6463eaa0ee4776350f PCI/P2PDMA: Refactor pci_p2pdma_map_type()
+
+:::::: TO: Logan Gunthorpe <logang@deltatee.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
