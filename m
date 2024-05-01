@@ -1,100 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AF21DFE3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 14:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F9A1F17B;
+	Wed,  1 May 2024 14:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714574308; cv=none; b=O8wpBU0y9UCeF2DjhFO+Ri4sMI2O4cHcundCq3q9Hlk+LkhiKHgoYiujX6lkvfvClP3P19bOhnu68unjYCT9aGt6b0evvSCqB/j8vTga5aS2O79BRdLIZsC/L5NjBydIhXoW0U5wrvZmnVfNSSPeSn35lMWpZdifEiFht8gZfmI=
+	t=1714574662; cv=none; b=Y38WZoSIhNZHtVD/k+MgdeLSCB4LfrWkb0uHHOD2qQ1VQvPZXUELMq2Ap6nD7lJTcypchg5bDeXbwgQ+wuKAVJCPSFVXoTZs+YTABKkUc0sT0+u8qaWyQSMwKFBqKi4h1glChAOHgqzxPmvYL8tTN5zOsloCNTrpvqNnh8Zk/zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714574308; c=relaxed/simple;
-	bh=SWLdma+jpiPY1r633JyGL5ZvVwl/diBWjEZruh4IVCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QCyfhmOq0uDgqZHEnXiwscTQCYOL0oyZTD1bCj50DSlAZX5lbnBPKO5KviJTLV+Voev9uCWYCAss32N96yE2CdZ9IsVeaPv4JY7gXtjHhAgELftXIs80l9Ub0B6Zt5YFhiD5PvuJVgKcBVwbI/yZwBo/Tlwk/rhRV9o3pc+DtEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNldtaAV; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714574662; c=relaxed/simple;
+	bh=KpgBLuvahv1swO9jxxfBhJtTgwYOnlVXsVrM2js3DXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H1MySYRFBG1Wyh6UIDdQ/HeKGIOSakgzzgYi+Z/58c8eabGIZ/lfD6KbbiTgYn9ltRxHuGrhsWrReLW+98tAWzbS4gVoxwaqe4dHfHXyRWrMyGxOGwCbY3SnFpX9uoSCE9UlxE87ZZ+UQPpBx20RCeXzHSIJeTYoQGkE9Tw10Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyPxZrny; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNldtaAV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714574306; x=1746110306;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SWLdma+jpiPY1r633JyGL5ZvVwl/diBWjEZruh4IVCE=;
-  b=WNldtaAV09a1McTw4wDQJCh7Roh24X4nx6+G34fj7lMZVNZVmIFvLSZy
-   8Z/p5arOdaDcW7CiBju3PGlr6bkGmF1RlZABjIZW5PVE4QQ9gvBniS2RA
-   oA/bBXyjK9tsKlAH7uljO6VLnBJAezA7oQz9meAOyQIB4JUh1ofx4v5XM
-   sSy3vNbkmO8O7j35CFSR7KsXG1cinqK6gOfR9d6gVWKRbOGtu23hsW4fV
-   +Rlaed/zSMSYacxHDjW+K/+963/qrBa1PF3J8v53Bl/2HR26mu/QG2ilv
-   rURXzvRCTKFv8/W8KsjiMK3BvfBWVRYT1oNzEfIcHajAXXpV+c9hWag7A
-   g==;
-X-CSE-ConnectionGUID: 8nCxdb9LTFa1djCnIWvsVg==
-X-CSE-MsgGUID: i7BXEu3YQhGMyQsRaDiQcg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10131816"
-X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="10131816"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 07:38:24 -0700
-X-CSE-ConnectionGUID: XdEIc8J+Q6+xvkTtpreZBA==
-X-CSE-MsgGUID: oyUktwx1RWSO23ScbI8JOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="64279285"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 May 2024 07:38:23 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s2B6C-0009c8-1m;
-	Wed, 01 May 2024 14:38:20 +0000
-Date: Wed, 1 May 2024 22:37:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ping-Ke Shih <pkshih@realtek.com>, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gary.chang@realtek.com,
-	timlee@realtek.com
-Subject: Re: [PATCH 03/12] wifi: rtw89: wow: parsing Auth Key Management from
- associate request
-Message-ID: <202405012221.MONGVGmf-lkp@intel.com>
-References: <20240425112816.26431-4-pkshih@realtek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyPxZrny"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55A6BC072AA;
+	Wed,  1 May 2024 14:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714574662;
+	bh=KpgBLuvahv1swO9jxxfBhJtTgwYOnlVXsVrM2js3DXs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HyPxZrnyG8QiQZ3dSCCTUMtYvN31EH4iIsP9AzhzFcgjwl9R5eT94CmJIDKdTad/9
+	 jzzXqkJ6kPVoX+6Q7uHdLFZAmsqclsa5IZMoZiZFXmkx6+LUxPuUtMUSO0LIaf/oOK
+	 MhBy1xW1Mt33PQtYJMjWKkYcP/mbY9od+FFm03Twg+kuP/DXIJdEMKFuJ0u0tPHfLH
+	 gR23dl1y7ZC3u1SwB3L2uXOzJNsN7Aub1YovFl2BmzAqGC2S+R0APlhhE2r8Msd7Zi
+	 NZa/BYfRxzkekTWDUQyvP2TG1TpU7oN9SreBtuRHuMAmiP2W+F7o409wzCChYZKVOm
+	 dGKVJPybTYKMQ==
+Date: Wed, 1 May 2024 07:44:20 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, "David
+ S . Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric
+ Dumazet <edumazet@google.com>, Jason Wang <jasowang@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Brett Creeley <bcreeley@amd.com>, Ratheesh
+ Kannoth <rkannoth@marvell.com>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal
+ Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
+ Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
+ <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com, netdev@vger.kernel.org,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH net-next v11 2/4] ethtool: provide customized dim
+ profile management
+Message-ID: <20240501074420.1b5e5e69@kernel.org>
+In-Reply-To: <1714538736.2472136-1-hengqi@linux.alibaba.com>
+References: <20240430173136.15807-1-hengqi@linux.alibaba.com>
+	<20240430173136.15807-3-hengqi@linux.alibaba.com>
+	<202405011004.Rkw6IrSl-lkp@intel.com>
+	<1714538736.2472136-1-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240425112816.26431-4-pkshih@realtek.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ping-Ke,
+On Wed, 1 May 2024 12:45:36 +0800 Heng Qi wrote:
+> >    net/ethtool/coalesce.c: At top level:  
+>  [...]  
+> >      446 | static int ethnl_update_profile(struct net_device *dev,
+> >          |            ^~~~~~~~~~~~~~~~~~~~  
+>  [...]  
+> >      151 | static int coalesce_put_profile(struct sk_buff *skb, u16 attr_type,
+> >          |            ^~~~~~~~~~~~~~~~~~~~
+> >   
+> 
+> This is a known minor issue, to reduce the use of 'IS_ENABLED(CONFIG_DIMLIB)'
+> mentioned in v10. Since the calls of ethnl_update_profile() and
+> coalesce_put_profile() will only occur when IS_ENABLED(CONFIG_DIMLIB) returns
+> true, the robot's warning can be ignored the code is safe.
+> 
+> All NIPA test cases running on my local pass successfully on V11.
+> 
+> Alternatively, I remake the series to have IS_ENABLED(CONFIG_DIMLIB) back,
+> up to Kuba (and others). :)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.9-rc6 next-20240501]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-wow-send-RFK-pre-nofity-H2C-command-in-WoWLAN-mode/20240425-193126
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240425112816.26431-4-pkshih%40realtek.com
-patch subject: [PATCH 03/12] wifi: rtw89: wow: parsing Auth Key Management from associate request
-config: alpha-randconfig-r051-20240501 (https://download.01.org/0day-ci/archive/20240501/202405012221.MONGVGmf-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405012221.MONGVGmf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405012221.MONGVGmf-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   alpha-linux-ld: drivers/net/wireless/realtek/rtw89/core.o: in function `rtw89_traffic_stats_accu':
->> (.text+0x11e8): undefined reference to `rtw89_wow_parse_akm'
->> alpha-linux-ld: (.text+0x11f8): undefined reference to `rtw89_wow_parse_akm'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You should remove the ifdef around the member in struct net_device.
+It's too much code complication to save one pointer in the struct.
