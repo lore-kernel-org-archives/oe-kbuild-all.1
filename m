@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2036A433D4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 13:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C391758D;
+	Wed,  1 May 2024 13:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714570524; cv=none; b=DijVGf4LkmPzBWuOpHUD/a7V9aLZ23LwDoB0Ic8gPPubysFT1HXmTJDDAR+Dy/dOj18NYln5wgbBtIiLBYmvGbOmLF3KdmsYtUpmljKOg+1Mj7Yw1Q/nEWF33TZzZseGse7Mg3TSCIV5AdRZzco9HkL4gNLUZmCMZK8TCYuaLSU=
+	t=1714571124; cv=none; b=oHl4/5UYQ2iwc3f/xwOZmrc2i3aJLfoI428OqzWKbGIyimS9+wYi2SU/ISvEBvKhG9tu353s/YayWIaqhSsTl7eNJm7P6h8VyHDMwk95mTfe92/NtiGvkX8/D8tNWAs2ApmJpFca3l4SExyGiHccf/dV6/So9I1k8ipe45Ko6LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714570524; c=relaxed/simple;
-	bh=07TIKvOPB4VyhDClHWR02rziWUkzDlVHKgt/FjUIO2U=;
+	s=arc-20240116; t=1714571124; c=relaxed/simple;
+	bh=QJ2biIJX7GQojTAdufHRLb47yhfWu9vjEK6kJr6yAZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lLdBL3ogiyYsbjV4mCf/vbhlkvOXxY5vjmed2iVpFh3Pmjln56/7IAmEDTk1MICmTOtHE8oZiqF1J0LZk2687Cz07xS5l0yTgpqPTFWLEM0KCt9j4Hahd/VGJBqBs7eEL1bl/2FyGA4958ng9Y5n8WpyGzm62Dyi8uCYCFNDAfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMo4Vzx3; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=KYDPYwu7QgfliRBYMrJ43yR7Lg/BsQRI6aUZE5kZ6SOQZa52XCnf4sJXIFFPuVKXD1tZQr0cLnbZnBUNWPqchf5hdeCgof5cn8m7gbpM3USUD/Ly9WN4mnsR/49ktHa/UXqozyy4Sbfe2LIHJHWk/Njt5QWbHLc4guQi97gQR9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzVB1Ac4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMo4Vzx3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzVB1Ac4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714570522; x=1746106522;
+  t=1714571124; x=1746107124;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=07TIKvOPB4VyhDClHWR02rziWUkzDlVHKgt/FjUIO2U=;
-  b=TMo4Vzx3ppZHKmHLyp7YfpdmQGhCMJZF2pM0XljDaRYzRb6nEjLCp0gL
-   kHtjke8ewLwW+NPFUypPBHf/qkMA7bvB5/mUaCpe/FCkG9kmwjyErVHs0
-   uU76o7bNuGt3sevz+xCHUfzmHZTT4yZeXxAN5vYpiTbFmPoJkSYnx5xUy
-   1pBvtga7Vussh5I2d16+IkXflW4Xw+RqHnUA327g5av7WNrWgGaft0hrI
-   E2ZhzRcljf60NIOGFQfGsgRYR56lIgDdgcjdD0gMoEBLAc+QrSY4Xa7Yc
-   0U0OT0wOskIcj9/yVC6j+JXATLYmdSwlkmdd32yoRaJmZQuCRjSNLgdpp
-   g==;
-X-CSE-ConnectionGUID: UOdYFJTRQ2iaSd5DAKYsgg==
-X-CSE-MsgGUID: Qc4B4p4OQjWu/lf76zNwFw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="14077109"
+  bh=QJ2biIJX7GQojTAdufHRLb47yhfWu9vjEK6kJr6yAZE=;
+  b=SzVB1Ac4/V30HgJcWLXsowXesNqGFbZ16O6XfBjanm9VlnhOe0vNyt8U
+   9tJSlbNmasYRmLxKMawXlTVOSTXfwsHocVqaIjsVKoDDz72jh1STqX7/Y
+   otWloknEs74ufhhP4RkdazKcFB+VX1nrRvxqoiWfahZnoE88m/ZdpBSF5
+   6yQwX6DAJ8auP5tVvU85ZsGpizERtm0mToX+UNjW2RQicp4KcNQDIJKZX
+   HRo9um7txajygAFITH+UQIcJXWwALlKPX/tXdlr0YAzNX5HIirNNUhaax
+   IEwXZo4en9WBeghvlzV4lrqy02uo08wL0wTsMIiOaI13MCofNEPN1u6X4
+   w==;
+X-CSE-ConnectionGUID: VjmwnNq4Qr2wgyD/fApUKQ==
+X-CSE-MsgGUID: VnMDICpvROy0Ony6EKeHag==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="14120229"
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="14077109"
+   d="scan'208";a="14120229"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 06:35:21 -0700
-X-CSE-ConnectionGUID: bIXdqYcLQVSEBXPTwYzkFw==
-X-CSE-MsgGUID: qks5NLE8Qsm5aPKfM4wfTw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 06:45:23 -0700
+X-CSE-ConnectionGUID: TRY0XoeERXaHATngVNtNJA==
+X-CSE-MsgGUID: YkbVjH2WQKWouBjzIARDXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="27269741"
+   d="scan'208";a="27271458"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 May 2024 06:35:20 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 May 2024 06:45:21 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2A7B-0009Y6-1N;
-	Wed, 01 May 2024 13:35:17 +0000
-Date: Wed, 1 May 2024 21:34:27 +0800
+	id 1s2AGs-0009ZP-12;
+	Wed, 01 May 2024 13:45:18 +0000
+Date: Wed, 1 May 2024 21:45:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hawking Zhang <Hawking.Zhang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+To: Oreoluwa Babatunde <quic_obabatun@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Likun Gao <Likun.Gao@amd.com>
-Subject: [linux-next:master 9749/10134]
- drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c:290: warning: Function parameter or
- struct member 'vmhub' not described in 'gmc_v12_0_flush_gpu_tlb'
-Message-ID: <202405012128.UZdRC5sp-lkp@intel.com>
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 9793/10134] drivers/of/of_reserved_mem.c:465:6:
+ warning: variable 'nomap' is uninitialized when used here
+Message-ID: <202405012148.1dCXzomq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,102 +66,97 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f68868ba718e30594165879cc3020607165b0761
-commit: 075b44aa210bd8be1c2c23ba742218fc4fc2bfa8 [9749/10134] drm/amdgpu: Add gmc v12_0 ip block support (v7)
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240501/202405012128.UZdRC5sp-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405012128.UZdRC5sp-lkp@intel.com/reproduce)
+commit: 2acef04ad57cab44b33001542791fc93f81cadf1 [9793/10134] of: reserved_mem: Remove the use of phandle from the reserved_mem APIs
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240501/202405012148.1dCXzomq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405012148.1dCXzomq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405012128.UZdRC5sp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405012148.1dCXzomq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c:290: warning: Function parameter or struct member 'vmhub' not described in 'gmc_v12_0_flush_gpu_tlb'
->> drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c:290: warning: Function parameter or struct member 'flush_type' not described in 'gmc_v12_0_flush_gpu_tlb'
->> drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c:330: warning: Function parameter or struct member 'flush_type' not described in 'gmc_v12_0_flush_gpu_tlb_pasid'
->> drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c:330: warning: Function parameter or struct member 'all_hub' not described in 'gmc_v12_0_flush_gpu_tlb_pasid'
->> drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c:330: warning: Function parameter or struct member 'inst' not described in 'gmc_v12_0_flush_gpu_tlb_pasid'
+   In file included from drivers/of/of_reserved_mem.c:19:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/of/of_reserved_mem.c:465:6: warning: variable 'nomap' is uninitialized when used here [-Wuninitialized]
+     465 |                                         nomap ? "nomap" : "map",
+         |                                         ^~~~~
+   include/linux/printk.h:530:34: note: expanded from macro 'pr_info'
+     530 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                                         ^~~~~~~~~~~
+   include/linux/printk.h:457:60: note: expanded from macro 'printk'
+     457 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   drivers/of/of_reserved_mem.c:441:13: note: initialize the variable 'nomap' to silence this warning
+     441 |                 bool nomap;
+         |                           ^
+         |                            = 0
+   2 warnings generated.
 
 
-vim +290 drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
+vim +/nomap +465 drivers/of/of_reserved_mem.c
 
-   279	
-   280	/**
-   281	 * gmc_v12_0_flush_gpu_tlb - gart tlb flush callback
-   282	 *
-   283	 * @adev: amdgpu_device pointer
-   284	 * @vmid: vm instance to flush
-   285	 *
-   286	 * Flush the TLB for the requested page table.
-   287	 */
-   288	static void gmc_v12_0_flush_gpu_tlb(struct amdgpu_device *adev, uint32_t vmid,
-   289						uint32_t vmhub, uint32_t flush_type)
- > 290	{
-   291		if ((vmhub == AMDGPU_GFXHUB(0)) && !adev->gfx.is_poweron)
-   292			return;
-   293	
-   294		/* flush hdp cache */
-   295		adev->hdp.funcs->flush_hdp(adev, NULL);
-   296	
-   297		/* This is necessary for SRIOV as well as for GFXOFF to function
-   298		 * properly under bare metal
-   299		 */
-   300		if ((adev->gfx.kiq[0].ring.sched.ready || adev->mes.ring.sched.ready) &&
-   301		    (amdgpu_sriov_runtime(adev) || !amdgpu_sriov_vf(adev))) {
-   302			struct amdgpu_vmhub *hub = &adev->vmhub[vmhub];
-   303			const unsigned eng = 17;
-   304			u32 inv_req = hub->vmhub_funcs->get_invalidate_req(vmid, flush_type);
-   305			u32 req = hub->vm_inv_eng0_req + hub->eng_distance * eng;
-   306			u32 ack = hub->vm_inv_eng0_ack + hub->eng_distance * eng;
-   307	
-   308			amdgpu_gmc_fw_reg_write_reg_wait(adev, req, ack, inv_req,
-   309					1 << vmid, GET_INST(GC, 0));
-   310			return;
-   311		}
-   312	
-   313		mutex_lock(&adev->mman.gtt_window_lock);
-   314		gmc_v12_0_flush_vm_hub(adev, vmid, vmhub, 0);
-   315		mutex_unlock(&adev->mman.gtt_window_lock);
-   316		return;
-   317	}
-   318	
-   319	/**
-   320	 * gmc_v12_0_flush_gpu_tlb_pasid - tlb flush via pasid
-   321	 *
-   322	 * @adev: amdgpu_device pointer
-   323	 * @pasid: pasid to be flush
-   324	 *
-   325	 * Flush the TLB for the requested pasid.
-   326	 */
-   327	static void gmc_v12_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
-   328						  uint16_t pasid, uint32_t flush_type,
-   329						  bool all_hub, uint32_t inst)
- > 330	{
-   331		uint16_t queried;
-   332		int vmid, i;
-   333	
-   334		for (vmid = 1; vmid < 16; vmid++) {
-   335			bool valid;
-   336	
-   337			valid = gmc_v12_0_get_vmid_pasid_mapping_info(adev, vmid,
-   338								      &queried);
-   339			if (!valid || queried != pasid)
-   340				continue;
-   341	
-   342			if (all_hub) {
-   343				for_each_set_bit(i, adev->vmhubs_mask,
-   344						 AMDGPU_MAX_VMHUBS)
-   345					gmc_v12_0_flush_gpu_tlb(adev, vmid, i,
-   346								flush_type);
-   347			} else {
-   348				gmc_v12_0_flush_gpu_tlb(adev, vmid, AMDGPU_GFXHUB(0),
-   349							flush_type);
-   350			}
-   351		}
-   352	}
-   353	
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  426  
+3f0c8206644836 Marek Szyprowski   2014-02-28  427  /**
+c8813f7ec01c67 chenqiwu           2020-05-11  428   * fdt_init_reserved_mem() - allocate and init all saved reserved memory regions
+3f0c8206644836 Marek Szyprowski   2014-02-28  429   */
+3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
+3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
+3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
+3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
+3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
+3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
+3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
+6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
+3f0c8206644836 Marek Szyprowski   2014-02-28  442  
+3f0c8206644836 Marek Szyprowski   2014-02-28  443  		if (rmem->size == 0)
+3f0c8206644836 Marek Szyprowski   2014-02-28  444  			err = __reserved_mem_alloc_size(node, rmem->name,
+3f0c8206644836 Marek Szyprowski   2014-02-28  445  						 &rmem->base, &rmem->size);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  446  		if (err == 0) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  447  			err = __reserved_mem_init_node(rmem);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  448  			if (err != 0 && err != -ENOENT) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  449  				pr_info("node %s compatible matching fail\n",
+d0b8ed47e83a22 pierre Kuo         2019-02-19  450  					rmem->name);
+2acef04ad57cab Oreoluwa Babatunde 2024-04-22  451  
+2acef04ad57cab Oreoluwa Babatunde 2024-04-22  452  				nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
+d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
+7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
+3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
+3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
+3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
+aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
+aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
+aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
+aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
+aeb9267eb6b1df Martin Liu         2023-02-10  462  
+6ee7afbabcee4d Geert Uytterhoeven 2023-02-16  463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
+aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
+aeb9267eb6b1df Martin Liu         2023-02-10 @465  					nomap ? "nomap" : "map",
+aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
+aeb9267eb6b1df Martin Liu         2023-02-10  467  					rmem->name ? rmem->name : "unknown");
+d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
+d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
+3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
+3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
+9dcfee01930e6c Marek Szyprowski   2014-07-14  472  
+
+:::::: The code at line 465 was first introduced by commit
+:::::: aeb9267eb6b1df992e39467a620da8fdf434df54 of: reserved-mem: print out reserved-mem details during boot
+
+:::::: TO: Martin Liu <liumartin@google.com>
+:::::: CC: Rob Herring <robh@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
