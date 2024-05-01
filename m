@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7905A2581
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 14:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AF21DFE3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 May 2024 14:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714573045; cv=none; b=MBXkqpW2jrZfCrjZiKs/o9S8Iz0uUPHEgDX7Az/BTpVgY4vF3a4mWkQhL/Es6Mjl+yh4mJ2fM3F97WiBuxD2uS5zgnMO5is8iXAFgza4TpuU0DrOMIflY+C8RRlkx6JSVjs1BZw/3ISZckhPqz+FHGdGyFWVSN7y89tSVd6lsxY=
+	t=1714574308; cv=none; b=O8wpBU0y9UCeF2DjhFO+Ri4sMI2O4cHcundCq3q9Hlk+LkhiKHgoYiujX6lkvfvClP3P19bOhnu68unjYCT9aGt6b0evvSCqB/j8vTga5aS2O79BRdLIZsC/L5NjBydIhXoW0U5wrvZmnVfNSSPeSn35lMWpZdifEiFht8gZfmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714573045; c=relaxed/simple;
-	bh=mcLkQLdW8uT/EVIMc1AToQwBnqAEnGpe54f1K8KhELw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WHbbh7xdWs1UWRyCHoah87MKmxf0eAmNkoAMiXLnPm8UOok/7Qd2efVE8ghtqaEZxTTUp92xVV6TUs3ELOK92SjEdsZqTk0bYUHtBOeYYcJiQncnUZwgGvNX8B7F1qudDuFdHUnXydhf4A9puXWA9nUaAe1TwIj3Ge2+Vqz78W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TkHmTqMz; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1714574308; c=relaxed/simple;
+	bh=SWLdma+jpiPY1r633JyGL5ZvVwl/diBWjEZruh4IVCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QCyfhmOq0uDgqZHEnXiwscTQCYOL0oyZTD1bCj50DSlAZX5lbnBPKO5KviJTLV+Voev9uCWYCAss32N96yE2CdZ9IsVeaPv4JY7gXtjHhAgELftXIs80l9Ub0B6Zt5YFhiD5PvuJVgKcBVwbI/yZwBo/Tlwk/rhRV9o3pc+DtEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNldtaAV; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TkHmTqMz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNldtaAV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714573044; x=1746109044;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mcLkQLdW8uT/EVIMc1AToQwBnqAEnGpe54f1K8KhELw=;
-  b=TkHmTqMzZFiycf7dB5O5NRo5PtI7wC2+vXzggcKvIGeF4ssyViVE1vtQ
-   e0Ug+O6by3qpSeARNt/4Ji0Pvf/xmSE12X/XVfwZCl+kAyyXUgNggVFpw
-   k7qrE0+EJb1dV6HQADK1wTmhdIUlSltvhWSWgvLkOC9437i92ppl6YqW+
-   arDF5vkuKhodH6mvC3Stb1+lUoMBRYao8EoWOWxVScIOTWXPxLUNqKfUI
-   gXISQ63I9jRSqVcKu+YJC8pPle7eqU8Q5XfpbC4V7tVAn/Xoz56p6QYTg
-   HuDAYBVwjicS6Dj0ZZKZwHM5NFTwdaey8HMuPDyHKjqJ26VH1/6MHESbH
-   A==;
-X-CSE-ConnectionGUID: VFlsOqN5Qx6J05Hr1PX0sg==
-X-CSE-MsgGUID: QDcx72haSpKwcTsFcOu/vA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="20916942"
+  t=1714574306; x=1746110306;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SWLdma+jpiPY1r633JyGL5ZvVwl/diBWjEZruh4IVCE=;
+  b=WNldtaAV09a1McTw4wDQJCh7Roh24X4nx6+G34fj7lMZVNZVmIFvLSZy
+   8Z/p5arOdaDcW7CiBju3PGlr6bkGmF1RlZABjIZW5PVE4QQ9gvBniS2RA
+   oA/bBXyjK9tsKlAH7uljO6VLnBJAezA7oQz9meAOyQIB4JUh1ofx4v5XM
+   sSy3vNbkmO8O7j35CFSR7KsXG1cinqK6gOfR9d6gVWKRbOGtu23hsW4fV
+   +Rlaed/zSMSYacxHDjW+K/+963/qrBa1PF3J8v53Bl/2HR26mu/QG2ilv
+   rURXzvRCTKFv8/W8KsjiMK3BvfBWVRYT1oNzEfIcHajAXXpV+c9hWag7A
+   g==;
+X-CSE-ConnectionGUID: 8nCxdb9LTFa1djCnIWvsVg==
+X-CSE-MsgGUID: i7BXEu3YQhGMyQsRaDiQcg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10131816"
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="20916942"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 07:17:23 -0700
-X-CSE-ConnectionGUID: KDGsyUWjQqGOVlswQ4jK6Q==
-X-CSE-MsgGUID: 9/p+5D04SYKyRPxmAUtajQ==
+   d="scan'208";a="10131816"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 07:38:24 -0700
+X-CSE-ConnectionGUID: XdEIc8J+Q6+xvkTtpreZBA==
+X-CSE-MsgGUID: oyUktwx1RWSO23ScbI8JOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="27219131"
+   d="scan'208";a="64279285"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 May 2024 07:17:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 May 2024 07:38:23 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2Alr-0009aW-1a;
-	Wed, 01 May 2024 14:17:19 +0000
-Date: Wed, 1 May 2024 22:16:53 +0800
+	id 1s2B6C-0009c8-1m;
+	Wed, 01 May 2024 14:38:20 +0000
+Date: Wed, 1 May 2024 22:37:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dma-split-v1 5/17] kernel/dma/mapping.c:978: warning:
- Excess function parameter 's' description in 'dma_start_range'
-Message-ID: <202405012243.ELXQt2Po-lkp@intel.com>
+To: Ping-Ke Shih <pkshih@realtek.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gary.chang@realtek.com,
+	timlee@realtek.com
+Subject: Re: [PATCH 03/12] wifi: rtw89: wow: parsing Auth Key Management from
+ associate request
+Message-ID: <202405012221.MONGVGmf-lkp@intel.com>
+References: <20240425112816.26431-4-pkshih@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,60 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240425112816.26431-4-pkshih@realtek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-v1
-head:   98d7b876bb16c599190b66330cc7c5475620ec8c
-commit: 86b6c0afbe811e9ad036864ef9b3bd419834cc09 [5/17] dma-mapping: implement link range API
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240501/202405012243.ELXQt2Po-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405012243.ELXQt2Po-lkp@intel.com/reproduce)
+Hi Ping-Ke,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.9-rc6 next-20240501]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-wow-send-RFK-pre-nofity-H2C-command-in-WoWLAN-mode/20240425-193126
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240425112816.26431-4-pkshih%40realtek.com
+patch subject: [PATCH 03/12] wifi: rtw89: wow: parsing Auth Key Management from associate request
+config: alpha-randconfig-r051-20240501 (https://download.01.org/0day-ci/archive/20240501/202405012221.MONGVGmf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405012221.MONGVGmf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405012243.ELXQt2Po-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405012221.MONGVGmf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/dma/mapping.c:978: warning: Excess function parameter 's' description in 'dma_start_range'
->> kernel/dma/mapping.c:994: warning: Excess function parameter 's' description in 'dma_end_range'
-
-
-vim +978 kernel/dma/mapping.c
-
-   969	
-   970	/**
-   971	 * dma_start_range - Start a range of IOVA space
-   972	 * @state: IOVA state
-   973	 * @s: range state
-   974	 *
-   975	 * Start a range of IOVA space for the given IOVA state.
-   976	 */
-   977	void dma_start_range(struct dma_iova_state *state)
- > 978	{
-   979		struct device *dev = state->iova->dev;
-   980		const struct dma_map_ops *ops = get_dma_ops(dev);
-   981	
-   982		ops->start_range(state);
-   983	}
-   984	EXPORT_SYMBOL_GPL(dma_start_range);
-   985	
-   986	/**
-   987	 * dma_end_range - End a range of IOVA space
-   988	 * @state: IOVA state
-   989	 * @s: range state
-   990	 *
-   991	 * End a range of IOVA space for the given IOVA state.
-   992	 */
-   993	void dma_end_range(struct dma_iova_state *state)
- > 994	{
-   995		struct device *dev = state->iova->dev;
-   996		const struct dma_map_ops *ops = get_dma_ops(dev);
-   997	
-   998		ops->end_range(state);
-   999	}
-  1000	EXPORT_SYMBOL_GPL(dma_end_range);
-  1001	
+   alpha-linux-ld: drivers/net/wireless/realtek/rtw89/core.o: in function `rtw89_traffic_stats_accu':
+>> (.text+0x11e8): undefined reference to `rtw89_wow_parse_akm'
+>> alpha-linux-ld: (.text+0x11f8): undefined reference to `rtw89_wow_parse_akm'
 
 -- 
 0-DAY CI Kernel Test Service
