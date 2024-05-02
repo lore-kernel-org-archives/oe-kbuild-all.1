@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4539A57CB0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 23:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C191C6A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 23:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714691108; cv=none; b=hlOO2sEXiy56gyhE4oFmzNK3IVUsSYhIK6h2fjB6iNdm6AAnZbYClpj+hgDmvVQdGGZZJjEl9zKBOMJ+ZwzOTYtnnoymMacLLqc8BhJonvRHzmLdsBFZqjFmcGS5qjVsaWsY+nW2QQlcv9GHMZ6Tnubm7AI9FjD+XX6HbzeOH9w=
+	t=1714691110; cv=none; b=rVDbk1JLZKbITtYzWMnH7Pa02bL55VeMVQDcrMtgI2XshwFlQdwQBT5NQS1Rzua8wLHlY4LKsCFPCgq07cbOlmmoOqVAD1fTvoEPlBQh//zpgug2ko03olaKLImSP9q+ciLrNcRlyuN5C2eGeRIk8FnWoWW2s6qsiw6/8W/wTHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714691108; c=relaxed/simple;
-	bh=MPVcnmZTn5myPy90Yqyb5lNdeL6BG4wP9B/f5s2O3GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PeurfzZhKqDi7treRFifxXy+V39gR//N9e/elgWKeHrpvNoan//z30QgZ5LNa3avny10+HOT/5lYWcU38F9k5H6IdwiFXN5dFotpTnp2MaHD90d7fam8oVKY7yZD0Cd1zh4DWpvU/0iBRFyhwLCHv0x3B4qUPoJQjN9zi2PU2Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjvQ8vcb; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1714691110; c=relaxed/simple;
+	bh=Ih0ya9bAKxi18ZVb/9/arHPBDVgjdr7DQecohTYIsuQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZ/8kf4N7t1e1/hGFSMDRqVGOkHVjPUFwL34TBDjrpU1prFItgyaNlu1x2rfA6FyLPXpz1qptF9xHbI/vkPTWj3dro5rowudKa2AKkHd/TxbOxeOG0CVY8URulPmE/tx33GW+DiLP9nwmXlkNW053XKHQpjibj01eESoI46r79Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqLhyKcP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjvQ8vcb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqLhyKcP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714691106; x=1746227106;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MPVcnmZTn5myPy90Yqyb5lNdeL6BG4wP9B/f5s2O3GE=;
-  b=cjvQ8vcbzud/2D0h+YY0MTAGcPXMdMVfAEc7z/E5mnUbSJBrUPKppCFi
-   q/iYN6wk+mYgEpZsYWCy8OUKPu/p14+2lASEfbw2Don+zPZvuw0P1fuT7
-   gq4ctzHnm20zOBtDTg4laUYjSnmZQzE9O+GiY8cVYqk1u6ouep/KM9jlQ
-   4NIKaqSZE73/WRy5e9MalHm0rroOVyX2mveuBAS/QP7Ke6A1bPCb9JbqU
-   tDUqM7POtdcHMI59Ue0RBrZ4icSZ2Vdd+W+jFs7iVYw5WCodNz5L4hscy
-   IXrwfv7g5cwK8vUd78R7yLuVGr9rtestMkE38jZhWaF2YxUVvza6WzGj5
+  t=1714691108; x=1746227108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ih0ya9bAKxi18ZVb/9/arHPBDVgjdr7DQecohTYIsuQ=;
+  b=HqLhyKcPEa5WKPPMVGzhFSQEQxNtIQybUNEzIDO+oBKlYm/4ResFY4Qe
+   fDK16Mv5caM0v73RDoZGxqUSEUbq4pythCcAAmfjBb/caxzlRHVaNP2hs
+   w9U6z8Wo4cNbpwnwobZVUJpHkDLYD6fGY1LRPGwnw62F/FeL3VEpIymKg
+   L/t/i97jM9KwWjDmBej2dhqSn0JxtGefZXpWf5PFnVlRHjCHFuepDsW6r
+   4hAFY03DxdpQbVBhhY1yywBWDLP9QHLAV9Cd07pfJiggoXMOCNFFJ7l5g
+   rAq7kKgHT/q5qt8iFmW/dVmNSc4FdKEx59u+9KhrlNtPxvBSsOmnZhWVw
    g==;
-X-CSE-ConnectionGUID: toOfgt7YSs2RYmOH9cuREg==
-X-CSE-MsgGUID: MbJ42BskR/Gpwn6L3tbkAg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="13440053"
+X-CSE-ConnectionGUID: uAyeohslTEuwgFkPjxt0ZQ==
+X-CSE-MsgGUID: ncBhI+ggTayXYvISl9ry2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="13440056"
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="13440053"
+   d="scan'208";a="13440056"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 16:05:05 -0700
-X-CSE-ConnectionGUID: C4fR4l1RSJ+WdJyhwq+U/g==
-X-CSE-MsgGUID: NOD1MESLT+m/Vm1HZ1l08g==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 16:05:06 -0700
+X-CSE-ConnectionGUID: yyQoWIFNQmmC8MP9grK73Q==
+X-CSE-MsgGUID: ruDO/NisSy2PryXfPSIgMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27359672"
+   d="scan'208";a="27359670"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 02 May 2024 16:05:04 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2fU6-000B7i-1N;
+	id 1s2fU6-000B7g-1H;
 	Thu, 02 May 2024 23:05:02 +0000
-Date: Fri, 3 May 2024 07:04:21 +0800
+Date: Fri, 3 May 2024 07:04:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org
-Subject: [s390:features 50/52]
- arch/s390/kvm/../../../virt/kvm/vfio.c:60:(.text+0x186): relocation
- truncated to fit: R_390_PLT32DBL against undefined symbol
- `vfio_file_enforced_coherent'
-Message-ID: <202405030642.Dzc41pZn-lkp@intel.com>
+To: Mans Rullgard <mans@mansr.com>, Johan Hovold <johan@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: use tty_port_register_device_serdev
+Message-ID: <202405030657.vgUKnyOZ-lkp@intel.com>
+References: <20240502100728.7914-1-mans@mansr.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,86 +64,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240502100728.7914-1-mans@mansr.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-head:   7f20dda18a42526c4ce19c043c5e5f62e6c52d64
-commit: 9ecaa2e94e602a3cbcbfe182535f6297f7630b98 [50/52] s390: Relocate vmlinux ELF data to virtual address space
-config: s390-randconfig-r026-20230815 (https://download.01.org/0day-ci/archive/20240503/202405030642.Dzc41pZn-lkp@intel.com/config)
+Hi Mans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on johan-usb-serial/usb-next]
+[also build test ERROR on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v6.9-rc6 next-20240502]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mans-Rullgard/USB-serial-use-tty_port_register_device_serdev/20240502-180923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
+patch link:    https://lore.kernel.org/r/20240502100728.7914-1-mans%40mansr.com
+patch subject: [PATCH] USB: serial: use tty_port_register_device_serdev
+config: s390-randconfig-r081-20240503 (https://download.01.org/0day-ci/archive/20240503/202405030657.vgUKnyOZ-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030642.Dzc41pZn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030657.vgUKnyOZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405030642.Dzc41pZn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405030657.vgUKnyOZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   virt/kvm/vfio.o: in function `kvm_vfio_file_enforced_coherent':
->> arch/s390/kvm/../../../virt/kvm/vfio.c:60:(.text+0x186): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_enforced_coherent'
-   virt/kvm/vfio.o: in function `kvm_vfio_file_set_kvm':
->> arch/s390/kvm/../../../virt/kvm/vfio.c:46:(.text+0x346): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_set_kvm'
-   arch/s390/kvm/../../../virt/kvm/vfio.c:46:(.text+0x582): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_set_kvm'
-   virt/kvm/vfio.o: in function `kvm_vfio_file_is_valid':
->> arch/s390/kvm/../../../virt/kvm/vfio.c:76:(.text+0x7f2): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_is_valid'
-   virt/kvm/vfio.o: in function `kvm_vfio_file_set_kvm':
-   arch/s390/kvm/../../../virt/kvm/vfio.c:46:(.text+0xa26): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_set_kvm'
+   drivers/usb/serial/bus.c: In function 'usb_serial_device_probe':
+>> drivers/usb/serial/bus.c:53:19: error: too few arguments to function 'tty_port_register_device_serdev'
+      53 |         tty_dev = tty_port_register_device_serdev(&port->port,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/tty.h:11,
+                    from drivers/usb/serial/bus.c:10:
+   include/linux/tty_port.h:150:16: note: declared here
+     150 | struct device *tty_port_register_device_serdev(struct tty_port *port,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +60 arch/s390/kvm/../../../virt/kvm/vfio.c
+vim +/tty_port_register_device_serdev +53 drivers/usb/serial/bus.c
 
-ec53500fae421e Alex Williamson 2013-10-30  37  
-ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  38  static void kvm_vfio_file_set_kvm(struct file *file, struct kvm *kvm)
-2fc1bec1588353 Jike Song       2016-12-01  39  {
-ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  40  	void (*fn)(struct file *file, struct kvm *kvm);
-2fc1bec1588353 Jike Song       2016-12-01  41  
-ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  42  	fn = symbol_get(vfio_file_set_kvm);
-2fc1bec1588353 Jike Song       2016-12-01  43  	if (!fn)
-2fc1bec1588353 Jike Song       2016-12-01  44  		return;
-2fc1bec1588353 Jike Song       2016-12-01  45  
-ba70a89f3c2a82 Jason Gunthorpe 2022-05-04 @46  	fn(file, kvm);
-2fc1bec1588353 Jike Song       2016-12-01  47  
-ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  48  	symbol_put(vfio_file_set_kvm);
-2fc1bec1588353 Jike Song       2016-12-01  49  }
-2fc1bec1588353 Jike Song       2016-12-01  50  
-a905ad043f32bb Jason Gunthorpe 2022-05-04  51  static bool kvm_vfio_file_enforced_coherent(struct file *file)
-9d830d47c7a756 Alex Williamson 2014-02-26  52  {
-a905ad043f32bb Jason Gunthorpe 2022-05-04  53  	bool (*fn)(struct file *file);
-a905ad043f32bb Jason Gunthorpe 2022-05-04  54  	bool ret;
-9d830d47c7a756 Alex Williamson 2014-02-26  55  
-a905ad043f32bb Jason Gunthorpe 2022-05-04  56  	fn = symbol_get(vfio_file_enforced_coherent);
-9d830d47c7a756 Alex Williamson 2014-02-26  57  	if (!fn)
-9d830d47c7a756 Alex Williamson 2014-02-26  58  		return false;
-9d830d47c7a756 Alex Williamson 2014-02-26  59  
-a905ad043f32bb Jason Gunthorpe 2022-05-04 @60  	ret = fn(file);
-9d830d47c7a756 Alex Williamson 2014-02-26  61  
-a905ad043f32bb Jason Gunthorpe 2022-05-04  62  	symbol_put(vfio_file_enforced_coherent);
-9d830d47c7a756 Alex Williamson 2014-02-26  63  
-a905ad043f32bb Jason Gunthorpe 2022-05-04  64  	return ret;
-9d830d47c7a756 Alex Williamson 2014-02-26  65  }
-9d830d47c7a756 Alex Williamson 2014-02-26  66  
-b1a59be8a2b64d Yi Liu          2023-07-18  67  static bool kvm_vfio_file_is_valid(struct file *file)
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  68  {
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  69  	bool (*fn)(struct file *file);
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  70  	bool ret;
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  71  
-b1a59be8a2b64d Yi Liu          2023-07-18  72  	fn = symbol_get(vfio_file_is_valid);
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  73  	if (!fn)
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  74  		return false;
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  75  
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07 @76  	ret = fn(file);
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  77  
-b1a59be8a2b64d Yi Liu          2023-07-18  78  	symbol_put(vfio_file_is_valid);
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  79  
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  80  	return ret;
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  81  }
-4b22ef042d6f54 Jason Gunthorpe 2022-10-07  82  
-
-:::::: The code at line 60 was first introduced by commit
-:::::: a905ad043f32bbb0c35d4325036397f20f30c8a9 vfio: Change vfio_external_check_extension() to vfio_file_enforced_coherent()
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+    31	
+    32	static int usb_serial_device_probe(struct device *dev)
+    33	{
+    34		struct usb_serial_port *port = to_usb_serial_port(dev);
+    35		struct usb_serial_driver *driver;
+    36		struct device *tty_dev;
+    37		int retval = 0;
+    38		int minor;
+    39	
+    40		/* make sure suspend/resume doesn't race against port_probe */
+    41		retval = usb_autopm_get_interface(port->serial->interface);
+    42		if (retval)
+    43			return retval;
+    44	
+    45		driver = port->serial->type;
+    46		if (driver->port_probe) {
+    47			retval = driver->port_probe(port);
+    48			if (retval)
+    49				goto err_autopm_put;
+    50		}
+    51	
+    52		minor = port->minor;
+  > 53		tty_dev = tty_port_register_device_serdev(&port->port,
+    54							  usb_serial_tty_driver,
+    55							  minor, dev);
+    56		if (IS_ERR(tty_dev)) {
+    57			retval = PTR_ERR(tty_dev);
+    58			goto err_port_remove;
+    59		}
+    60	
+    61		usb_autopm_put_interface(port->serial->interface);
+    62	
+    63		dev_info(&port->serial->dev->dev,
+    64			 "%s converter now attached to ttyUSB%d\n",
+    65			 driver->description, minor);
+    66	
+    67		return 0;
+    68	
+    69	err_port_remove:
+    70		if (driver->port_remove)
+    71			driver->port_remove(port);
+    72	err_autopm_put:
+    73		usb_autopm_put_interface(port->serial->interface);
+    74	
+    75		return retval;
+    76	}
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
