@@ -1,193 +1,190 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11010001.outbound.protection.outlook.com [52.101.229.1])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E3C28DA5;
-	Thu,  2 May 2024 08:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714637058; cv=fail; b=odPwyata0jDAZ6ank49gnES3R8aYZ7zML9oVpqDcCo8oPPpwz8FL1L6SdwP9Vvkr0f8cJncpbURCQvnSA1XsWkoe5/o5/qK9tHNHI6J7tlcjBAn8ilknwGtP1pr4eUZG2mcu9zV8PdeGJghS5p4waNw1rl8S2ppuCcq/j5vAvDw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714637058; c=relaxed/simple;
-	bh=EZWz8m4hL+Iu2jitQsRaLbcpsXo62sDQQkTetqKgyrc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hBz1u/VfRNEKXI1KXemz+g83kkNgs9GIbTgQWx9Kw8FOAO/lhIBA5bqueSzzXviqOly7y3Gn3atyB8wemxq87UeyK1GXcZ8KJPrgRfsjraaa2Q6k0HK7W3Wqy8vT67rQ8cImDD8sSDgPKG0/P1LyhfupgtlYMfAG5lzsKaaI65c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alpsalpine.com; spf=pass smtp.mailfrom=alpsalpine.com; dkim=pass (2048-bit key) header.d=alpsalpine.com header.i=@alpsalpine.com header.b=ahjWxtpf; arc=fail smtp.client-ip=52.101.229.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alpsalpine.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpsalpine.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C0A22F00
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 08:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714639783; cv=none; b=CI+y4fTZddyuqpmpyO+qYXQQRy7KKANldMKAWgGTq+A7+dw6Zn1oK837nPBi4PeGPiGAk41EEINRRAzSs1PR/QC4vpueKObCaZdBXemIyI5vaE04CKgzdRLEY7d7DchfJ+0rowV9ue4n8Gl1gxt43sVXttCbIgw99UyQiSL4sUg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714639783; c=relaxed/simple;
+	bh=RBNo7t5IGu2yThFFulb8qCfz4Zt2E7C/FOw15MNEb5o=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=bG7x/KDQCOB8OR8UByB9Qm8fXRMjdhITJ4JTub8BB6rlD+0QL8sk8+Bpo1EDa5eBjdwEZr9O6XVjfhDQhol9ic2rvKr7LvSL1+xXk5XFLclw5xeHN8KWerzTf+86QRt2+F/x0648nWC4X1Itgdg6x0NFoU+WTwSOb/c7XDVMpD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zq0M/7of; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alpsalpine.com header.i=@alpsalpine.com header.b="ahjWxtpf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZQ5AXVdpRDh0GZEobnY5giHCbpVeeFLs7aIhVFzcxNiie2wYGpsJ/W59P4iKL9HOQOEXyC6Fz8rZ6vc7jHmabgWrmFuD9FYN4mNhey1Vf+ecnE8Lato9GduviHBIF5mL4ia4b+muzaMsQqRshgRPeTFfifD741aqBXfIKnnUUCbHZDR5LCRPtv5MjmYzklcDqFm0nDz+etlnAYjrG0+M9HD27CNDEIhMvjgTmjHGTFibtNe/2nSgsUcGu3nZspwZzWd6E0CyDVZP9vuLHiPK34ttKW6kWrS7uUbVQGElMlomHaEpTov02aNCIE/Yp+72ZR34OcParK0QFdsi3QexmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jkAYYaKrs3oFFhzuzMccMS395iJcUgojjlsnamcL/s8=;
- b=VeTQHhulvF0VlJwlnKumqXpc4Q15eu+LorJiPaPAoQ/d2L1EsEsaoH4SGVSiFlFrCbZlOlVrWp6LX3izjAHDWLQTuzLApLinlCnTx15aqEa+EVtlygbkOCftVy9cwsJBD98rBTGHDyY3fGHCxtJUbyWsTlSA76Kh69X5PMAIatiY4+I2ed4eOp0SmDSmwLRBlbB45f0DXW365SyAKMGE6EQsarXmaPu4B4qx15KFQQDG+wf4bX7J3Y4wNfbKSbg0iavqCJLjJ/NmHlec3La+d066/Ro/2qLKjWK/Hbil9YhirgiFIyV8GHjUTu+FJbf3BMkku+eFgZIr5n2A0LopPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=alpsalpine.com; dmarc=pass action=none
- header.from=alpsalpine.com; dkim=pass header.d=alpsalpine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alpsalpine.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jkAYYaKrs3oFFhzuzMccMS395iJcUgojjlsnamcL/s8=;
- b=ahjWxtpfZlK/P2e1Vv22nolpjhfCmby5k/xE34RBgkSD0rTMbHWYNIZeH2IiEYWSRiDYmuPbY/4HGT1ZWr55JL80EbEaHB/mFXp46bwdmqfHtjgpYqV2P9WFK8t+YwY0OhT5hoGpZSAbN9s4M2diK15/k9B1fZMDltDmIa+QF77zygRzJQGaxxY5DlLSlZNsnLLolFvP80S6r0/Djf7Pqtm/+aUMxXmi10w9IUGbwY1uLplmCcZj1RyboBkhwkoynZ4fan/3iIS8ow7quw5grmdLujWW6s0jowU7EyErKEjE8gNh/shiuLYhgCcbtZYFEtPpdwwPoq9DMXN4u1QJLQ==
-Received: from TYVPR01MB10781.jpnprd01.prod.outlook.com
- (2603:1096:400:2ae::14) by TYYPR01MB6895.jpnprd01.prod.outlook.com
- (2603:1096:400:d2::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Thu, 2 May
- 2024 08:04:14 +0000
-Received: from TYVPR01MB10781.jpnprd01.prod.outlook.com
- ([fe80::fe5b:1283:68a6:dacc]) by TYVPR01MB10781.jpnprd01.prod.outlook.com
- ([fe80::fe5b:1283:68a6:dacc%4]) with mapi id 15.20.7544.023; Thu, 2 May 2024
- 08:04:14 +0000
-From: Norihiko Hama <norihiko.hama@alpsalpine.com>
-To: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: kernel test robot <lkp@intel.com>, "llvm@lists.linux.dev"
-	<llvm@lists.linux.dev>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>
-Subject: RE: [usb:usb-testing 17/35] drivers/usb/storage/usb.c:141:21: error:
- incompatible pointer types passing 'unsigned int *' to parameter of type
- 'uint64_t *' (aka 'unsigned long long *')
-Thread-Topic: [usb:usb-testing 17/35] drivers/usb/storage/usb.c:141:21: error:
- incompatible pointer types passing 'unsigned int *' to parameter of type
- 'uint64_t *' (aka 'unsigned long long *')
-Thread-Index: AQHam5F1f0p9ZiVPU06SSJjgDE12SLGB8JoAgAB47YCAASsUQA==
-Date: Thu, 2 May 2024 08:04:14 +0000
-Message-ID:
- <TYVPR01MB1078177211401B245ED7150B290182@TYVPR01MB10781.jpnprd01.prod.outlook.com>
-References: <202405011431.PvaZHpRK-lkp@intel.com>
- <2024050141-remote-mockup-f933@gregkh>
- <3e2a7570-0704-4453-ad0b-68c5806157e5@rowland.harvard.edu>
-In-Reply-To: <3e2a7570-0704-4453-ad0b-68c5806157e5@rowland.harvard.edu>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=alpsalpine.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYVPR01MB10781:EE_|TYYPR01MB6895:EE_
-x-ms-office365-filtering-correlation-id: 7f85a195-5683-4131-2c06-08dc6a7e7514
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- =?utf-7?B?RW1XendiUGZiVXp3bUFVTSstUlZyMHZyWHlRemlMeWFQL3BLT0l1S2dxejlR?=
- =?utf-7?B?RWJsbXFVbFNzeTIveDc4NTh3WFM5akhDQ09iWWExZWVUNnJXQUZQVWUrLVBE?=
- =?utf-7?B?QUpBWnlxclpMUystZE8wN0h6QTVUS0dFTmxzZEtSVGo3aDh4aUtyOUc2RDUy?=
- =?utf-7?B?bHNMOFhhdFUxRnVWb01lbSstQ3ZYRWx3MEMvWE8vcGlOVXV1clBEcFM2eXA=?=
- =?utf-7?B?NCstY3RSbi9hSXRtaTZUL2VqZHlJNEt4dDhEblMxNEg5b0xzZm0xSVFhbVBh?=
- =?utf-7?B?RmN0bkJORW54SmRFc1R4UEZ4SjNTMkswTmxqYmtoSm9lRXowMlYxbHdpczQ2?=
- =?utf-7?B?cTU0TndMQzNYaFZObUFaMystbmZzMGwwNWhncDdDZmlDWlFzWld5ZistMXJ2?=
- =?utf-7?B?amlYcmRIbDFWNjVjS1NMU1AxWjFPTHlxVGk4U2JlSjhVUzhYUjNVVVkrLWM3?=
- =?utf-7?B?Z3VuUUN4VmhnQmRETUhCMG1CaElJMGpNRXZ3QlhzTXlxRjkrLTlXWndWWHlJ?=
- =?utf-7?B?QVBoeU9IWFVmQzJ3eHlnSjE4ZGpjMmpYcVhBazYrLWxRQS9RVGowcjBiSzhr?=
- =?utf-7?B?b1RmL2NvMXdtY092dWg2ZnhzVFhOVXdpd09OQ2NSN2VWTXJrMlFYWXA3ek1I?=
- =?utf-7?B?TzJVUHYxcHVUZkkrLWFqRUZMNmZLaFhKQWxvNmFaVXN1WGhxMG9jWGoxWVVr?=
- =?utf-7?B?QmpaUmNNVDR6N1pXa2lMR2lzUlFhYlBEd25WclNYSistTzJmS1c3R2ZVS1lF?=
- =?utf-7?B?VnhwZnZqa2lwT1pURnE4NWtuL1NXYmFld2RIKy1ucUozczJ6R1B5N01TVjFH?=
- =?utf-7?B?YVlIOU1mTXV2b1F2N3N0di96SkF6ek9zN3RYV1FqRUQ2c3N6OER0Vkh4aG5U?=
- =?utf-7?B?aEFXN09zUHprNWRhVnRmRktTWmRwQ3M1S29nRkJKM1lCNVY2dkQzekNOTG9U?=
- =?utf-7?B?UmhIa09tVkt1ZXEvOCstdWoyd2I3eTJzQWIrLVdSdE8vRHNaYzBLWkVuN2hO?=
- =?utf-7?B?VGRNd2JVTFNMNzNXaVhDWWFReEl0S3BCc0dhdlNKVFRrV0lySXppMkMxclhX?=
- =?utf-7?B?WEI5WldMNjBoV1JoMFdjZlhibmxkdUFiQkM3a1F4MlVrSzloNEF1M0xWeWw2?=
- =?utf-7?B?NnIyT21ESHA1QkNXYWpxUkJVUzZCbG04UDRtakVJeXVZNnpTcVpDSTdYRy9K?=
- =?utf-7?B?empOdUhpS1NxMUV3TFZmZ21uWmcwVjJwRnUrLXBiUi9PKy1uTE9vV2RxWFVB?=
- =?utf-7?B?UE9TSkFMYUxWdDAxYTFxT3FHREU0aGZwNUFCbzNpYXBjRXNUTDB2bnNaTkd1?=
- =?utf-7?B?WEtBZ3pidGFkOWZUbkVDWE9SckwwVDIvRUZQUEdOREtqMDA1elRaM1FWL2RT?=
- =?utf-7?B?QXlRMjRkMFd1T0ExbXBneVE4OXYwZWQ4TVcrLXY3NEtFRDZWNDhQekdhZkwx?=
- =?utf-7?B?djQ0MGFSWnpSaENsZW9lM0lpWTRXR01UWHltOUZ1dnpsNUxDSkRLWGlJa3o3?=
- =?utf-7?B?NSstZHZrdWtpYXZwMGRWQzRraXE4U2ptTlc2NHM2N3J1ZlhLcjZvbEZOTWIz?=
- =?utf-7?B?Z1NtRHUycy92U20ycXRjTGFndkNIMTlCazhiQ25GbTFuV3dwTHJZZVRkU1lZ?=
- =?utf-7?B?OW0xNDZuMGFHdzRLeWNWQWpWc3RFNzZweklPbnZCZ3JKNHJQSGhOQVp0c25m?=
- =?utf-7?B?QnB4ckVpVWJxeHN2eVpicVI0SWp2OTBNSmtsZnV6aURVRGpvcWdMNlREYk5o?=
- =?utf-7?B?c1h0VndVeTVWU0x2WU50U0dzVmd3YWxkVndJVlNxMWZFdlE1UldMeVR4YVFa?=
- =?utf-7?B?RWlkMUpUZWxURmlMR1JiSTRrRENNZklXVTd2c1gySWFYcGxRK0FEMEFQUS0=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYVPR01MB10781.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-7?B?YWszQUN5dnNQazBVeEFnTUNmT3NLRXdlSlgxTUtkam9tRmthOGNUaUNDZFJp?=
- =?utf-7?B?ZmRWUjFXc3VnV2FBVHduTVg0ekt1RVZyek9kQVdTQ2ZKTFc5WXFtdGVHeDZF?=
- =?utf-7?B?dnN2d1pCOUVtenpiZ0hIQTIrLU1ybWM1L1NpUGhReGhHY05ZRkdCb2x5eURQ?=
- =?utf-7?B?ZHNna1lhUmZ2V0tYVTRLVmVyNUdpZXdFajZFSjR3L3NUbmdTYistTXU5TnJF?=
- =?utf-7?B?eFhLRm9VcmE0ZDBFY1dPZFhrQWY0TTNpMjJGWFRtRmdKT1ZEMnB3ZG14QVVV?=
- =?utf-7?B?bUFiOFMrLXVsbjZWb0JwcTJ0Y1VUeEdudFVyY3NZWlhpTE4yaHBHNUY0d0hE?=
- =?utf-7?B?VEpCaXlacC9jRFdmRkh4MVNIbDBocDJlejRJZGJIeHZmSmRVekRBT0xpTGVM?=
- =?utf-7?B?QnZrRUJZb01BZUVCdXJnV3hNZW1iM2hmMnNmbWRJaDduMzdZTTlZbHM2bCst?=
- =?utf-7?B?MEhKYmNYNkc5OHpRdkYxSTV3NXkybjN6UlRlc1hwMEZwSGJkUVAwRkhhWWp3?=
- =?utf-7?B?Vms1U0taTlRicE9PQ1FnTGNGMUQwRGhxaHlwYnFvYzFURHorLS8zQWVoNzJP?=
- =?utf-7?B?eWN4YnRBRzZLbEJMdXoxKy05LzRSKy1WWnF6b3dvcDVMNXFaejh2cVRvVGtx?=
- =?utf-7?B?OVBLd1VQMnpHdFdLOFdUbmp1VEZQc3NpR1NsSlpKcHZkVjQzSEpuTjRYRlo=?=
- =?utf-7?B?Ky1MTXJwZEdqOVovckpsT1hrelRvUHBVSm9qVXF2N1lkV05lcVY3Rk5nUVpZ?=
- =?utf-7?B?a3hEWm1TZ1E1S2VwakhWN2p1WnkxVFNmUDJiUVV1bWN2TkVEN0tkMHJmb3RK?=
- =?utf-7?B?YmFFblM1aTByY2pXbEo0U0N3V1ZUNE9PWGNDbUNta0FGT2xYUXZpdmVLZ3hx?=
- =?utf-7?B?WEFpZld6YnZiRFYzbEd3VENmYUR5Wm9vaUV1SjdBWnA5cWdENFdoNTE0cUZh?=
- =?utf-7?B?NmlwNk9NMjM5dlNtb2FIRTBjdnM4M0ZpNm9XTW9jY2ZucUl4SGlHUSstMzZV?=
- =?utf-7?B?UXg0ZWsvVXNCdTRwSTZqeGxheWxSM0NybWhscU9HbktiRC9jNGpDR04wbFA0?=
- =?utf-7?B?S1MxQVpINGJoM0FCKy0xT3RBVWpIa3pTa3UwZnNFb1ZTR1o1SkdWdXdnb2pZ?=
- =?utf-7?B?ZXV2MmVpMVcwUkZGVVhIbnJXclAyWlBLbkFzS1FXQUNLcEErLVNDZVVZKy1P?=
- =?utf-7?B?RHl1T2dXTmlMdGNjQmhMRUNiNS9NSi9mZ1FqVistWG9QMDdyRGZZcmUyRmdR?=
- =?utf-7?B?ekh4NUd5ejRmUWp4NGFrTWtqVFpaNFFKcjNVOHBDUkJha1VCeG9PUm5PY09U?=
- =?utf-7?B?Rk1GUzEzMnlqNDdPOC95ZXZHWmtwWEtHdkpoR2laY1lRc1VORGxET0tGQ0J1?=
- =?utf-7?B?aHF1QlJ1eHFtUDFPV1ZaMi9adWp3azV5OVBzMVlzdjArLXJZUTYzaXkwbGhv?=
- =?utf-7?B?OGRNMXVjNTh6bHJ1dkpaRGVUdWV3MWJXYXV1b28xRk1hZFk1U1JUL0dabVQy?=
- =?utf-7?B?OXlvU2xOQkVScklvY1ZvR3Y3djg4ZFpTdHBUMkRHdFgxMVRjdXhITjRNM2o4?=
- =?utf-7?B?aktodno2RFppWVZkKy1zb0wxZDJiTTlSa0FpOFVKYzVMTGt5TjhFVERtTEx1?=
- =?utf-7?B?WjNKVEZCWGhBemNvWmRLdistZmthWHBacDBaa2QyRlVlMlNBMkh1MTliWVpN?=
- =?utf-7?B?bzJXZ1RwMnZtZlBkNHBIVW9TNGU1TXI2dGplVHRvME9RMFVVTVJJdlk5dlFh?=
- =?utf-7?B?WnNGVks1Ny81MmhkVy9wUW41VjhVOVVrcHBFaDl4M3FWcE5QdlA1aWhwVEh2?=
- =?utf-7?B?aFZLeXVlVjR2cDJpQ1E0alBRQXl3eHo4QWcwMU1EWFRBbHUxNU1RZVF6MWV2?=
- =?utf-7?B?UE1KQlBnb3JkeGlFcTlyMkk1WkRJalVjWXpjcENWKy1oRVU5WThnVVMzekRw?=
- =?utf-7?B?ZHNOWnJnUEVKQnJ0ODFwM3YzQzduanQ1NWlGV1FPUmZHQ2doYXhKN203MDh6?=
- =?utf-7?B?WXl2VjlQS0s1djVuR0lhVEEva0Q3Z0xvWWFwS2tPTkVCTmU2Smo5OFR2MUpB?=
- =?utf-7?B?UTVsTUhnZ3hYcjgrLTNpRTR0em03alEybElqZk8yOWVDZXBhSzU2a25UaGtC?=
- =?utf-7?B?OUYrLS9mbnhwRXg3TWlDOXUrLU54ZmlDQ09RaHE1NFR0NWhyanA3NWRBSC8z?=
- =?utf-7?B?ZA==?=
-Content-Type: text/plain; charset="utf-7"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zq0M/7of"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714639781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3z/p7PSnITLar6zjViIxQUZhsvkqQniW+UpUaJYwp0=;
+	b=Zq0M/7of5/OP0hNH2g+d1yGXXvqySUvhJI0Jz+A9lbvjHwKXZEdOQUUGWtc5o1Jwuiv+lR
+	ejxXSXDLjvo2AAjxcdJNBsqVMZVe77QyPWHYIsgJLYEBRHJeSSCtRrw8rjvdV2nqGUwS8j
+	wzhdythemOjYYFbjCVVDTINQBAIP7Ig=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-662-n-K6lhcVPfOOUN5I1bOdoQ-1; Thu, 02 May 2024 04:49:39 -0400
+X-MC-Unique: n-K6lhcVPfOOUN5I1bOdoQ-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-34a49f5a6baso6302598f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 May 2024 01:49:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714639778; x=1715244578;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+3z/p7PSnITLar6zjViIxQUZhsvkqQniW+UpUaJYwp0=;
+        b=U/ITCjpxE/KI6eeGpG42hcCseI+K6GvJw38mqgpu7wpwOS8t9qgyGxiBmiG02mDpjG
+         aoaO2cFK8ixgFKuywuTEn9Fak95ug4+5ofyDzNVP+iBW/o8+grG6SDgfy0Hf75yN25Fe
+         F8zacQpYWUwHO64jXTtlZ+amgleAsQAB0SXes8pTD3us/+QZtefyOVwgnsxg21xmR97N
+         Q/d4RBdbbpgw9zHNfygBYq9eKVExyJhMi5vKl1MlgGUqMmOO+v5czhb9QKuPA/bxrDwI
+         CvWf7Kil+/OJqdrv00OCAnpp+zTy3t6KkrWdefkXjdIudyOS33w6AtPqHPkW/WWGlJ4z
+         O/VQ==
+X-Gm-Message-State: AOJu0YwsSUKHmbL1QESvLkKesJNN4UdyeB0NvHgN+9uLjxh8krDnfOgI
+	6cQvNe4oWcuZ5C+75Zb7qGRVzJIa0b/VMTssslrgRredjPWWgnMB9YYZ8myB33OMo4ZtDheCwbp
+	BBQhxY5fhL1iuyHCbQobOqK0vIcIRl12Uy+in7Srsa1HillxwxOjZ6GVAdMZIsQM=
+X-Received: by 2002:a5d:4d42:0:b0:34d:b43d:6e24 with SMTP id a2-20020a5d4d42000000b0034db43d6e24mr4206253wru.32.1714639778649;
+        Thu, 02 May 2024 01:49:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVOHj8C2dd7Bt2GMvMzFkmfLMNHv/OiubjKl8vg1gno+Z4uyreVz7F2PF/KvPDgRwuVCzitg==
+X-Received: by 2002:a5d:4d42:0:b0:34d:b43d:6e24 with SMTP id a2-20020a5d4d42000000b0034db43d6e24mr4206236wru.32.1714639778208;
+        Thu, 02 May 2024 01:49:38 -0700 (PDT)
+Received: from redhat.com ([84.33.125.84])
+        by smtp.gmail.com with ESMTPSA id dd3-20020a0560001e8300b0034c9f060a14sm716299wrb.11.2024.05.02.01.49.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 01:49:37 -0700 (PDT)
+From: Oleg Nesterov <onestero@redhat.com>
+X-Google-Original-From: Oleg Nesterov <oleg@redhat.com>
+Date: Thu, 2 May 2024 04:49:36 -0400
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
+Subject: Re: kernel/sched/isolation.c:143 housekeeping_setup() warn: always
+ true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+Message-ID: <ZjNToL7ARe_vfJch@redhat.com>
+References: <202404300915.WNvfwBz3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: alpsalpine.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYVPR01MB10781.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f85a195-5683-4131-2c06-08dc6a7e7514
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2024 08:04:14.2253
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +2k9GAp5h6t8Rk//l3um3CfvS2+8yTA9NaOb+h2ffcWpApeZW4kg/NmHzv/yE37BTy+KUxnGEVwV0dRHAtDVbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB6895
+In-Reply-To: <202404300915.WNvfwBz3-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, May 011, 2024 at 11:03 PM +-0900, Alan Stern wrote:
-+AD4- On Wed, May 01, 2024 at 08:50:36AM +-0200, Greg Kroah-Hartman wrote:
-+AD4- +AD4- On Wed, May 01, 2024 at 02:32:56PM +-0800, kernel test robot wr=
-ote:
-+AD4- +AD4- +AD4- tree:   https://git.kernel.org/pub/scm/linux/kernel/git/g=
-regkh/usb.git
-+AD4- usb-testing
-+AD4- +AD4- +AD4- head:   ac6a205c5bef39d65ecd9f5dd2c1d75652c35405
-+AD4- +AD4- +AD4- commit: 70d66b8e47e6fa031f541291e9dd3d7f0c44b41e +AFs-17/=
-35+AF0-
-+AD4- +AD4- +AD4- usb-storage: Optimize scan delay more precisely
-+AD4- +AD4-
-+AD4- Norihiko, another possibility is to use ordinary integers but have us=
-ers add an
-+AD4- +ACI-m+ACI- or +ACI-ms+ACI- suffix when they want the value to be int=
-erpreted in milliseconds.
-+AD4- So +ACI-5+ACI- means 5 seconds, but +ACI-500ms+ACI- means
-+AD4- 500 milliseconds.
+Hello,
 
-Greg, I'm sorry for my problem.
-Alan, thank you for your proposal.
-I'll change the code based on it although I'm not sure if it's acceptable o=
-r not.
-I'll use only suffix as +ACI-ms+ACI- so that it could be also shown as 'del=
-ay+AF8-use' with unique suffix.
+I am on PTO till May 9 without my working laptop, can't even read the source code.
+I'll return to this when I'm back. CONFIG_SMP=n I guess.
+
+On 04/30, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
+> commit: 257bf89d84121280904800acd25cc2c444c717ae sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
+> date:   2 days ago
+> config: xtensa-randconfig-r081-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300915.WNvfwBz3-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 13.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404300915.WNvfwBz3-lkp@intel.com/
+> 
+> New smatch warnings:
+> kernel/sched/isolation.c:143 housekeeping_setup() warn: always true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+> 
+> Old smatch warnings:
+> arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+> 
+> vim +143 kernel/sched/isolation.c
+> 
+>    117	
+>    118	static int __init housekeeping_setup(char *str, unsigned long flags)
+>    119	{
+>    120		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
+>    121		unsigned int first_cpu;
+>    122		int err = 0;
+>    123	
+>    124		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
+>    125			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
+>    126				pr_warn("Housekeeping: nohz unsupported."
+>    127					" Build with CONFIG_NO_HZ_FULL\n");
+>    128				return 0;
+>    129			}
+>    130		}
+>    131	
+>    132		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
+>    133		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
+>    134			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
+>    135			goto free_non_housekeeping_mask;
+>    136		}
+>    137	
+>    138		alloc_bootmem_cpumask_var(&housekeeping_staging);
+>    139		cpumask_andnot(housekeeping_staging,
+>    140			       cpu_possible_mask, non_housekeeping_mask);
+>    141	
+>    142		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
+>  > 143		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+>    144			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
+>    145			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
+>    146			if (!housekeeping.flags) {
+>    147				pr_warn("Housekeeping: must include one present CPU, "
+>    148					"using boot CPU:%d\n", smp_processor_id());
+>    149			}
+>    150		}
+>    151	
+>    152		if (cpumask_empty(non_housekeeping_mask))
+>    153			goto free_housekeeping_staging;
+>    154	
+>    155		if (!housekeeping.flags) {
+>    156			/* First setup call ("nohz_full=" or "isolcpus=") */
+>    157			enum hk_type type;
+>    158	
+>    159			for_each_set_bit(type, &flags, HK_TYPE_MAX)
+>    160				housekeeping_setup_type(type, housekeeping_staging);
+>    161		} else {
+>    162			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
+>    163			enum hk_type type;
+>    164			unsigned long iter_flags = flags & housekeeping.flags;
+>    165	
+>    166			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
+>    167				if (!cpumask_equal(housekeeping_staging,
+>    168						   housekeeping.cpumasks[type])) {
+>    169					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
+>    170					goto free_housekeeping_staging;
+>    171				}
+>    172			}
+>    173	
+>    174			iter_flags = flags & ~housekeeping.flags;
+>    175	
+>    176			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
+>    177				housekeeping_setup_type(type, housekeeping_staging);
+>    178		}
+>    179	
+>    180		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
+>    181			tick_nohz_full_setup(non_housekeeping_mask);
+>    182	
+>    183		housekeeping.flags |= flags;
+>    184		err = 1;
+>    185	
+>    186	free_housekeeping_staging:
+>    187		free_bootmem_cpumask_var(housekeeping_staging);
+>    188	free_non_housekeeping_mask:
+>    189		free_bootmem_cpumask_var(non_housekeeping_mask);
+>    190	
+>    191		return err;
+>    192	}
+>    193	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
+
