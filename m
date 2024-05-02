@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABEB16FF50
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 17:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A760916FF27
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 17:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714671056; cv=none; b=a4MzEWJFz1Yg1Mv5LiVQiDezNvFDKlyY2aqoXGRcecfQBz04Zu1nxLILEdFwmNgrewdICOUoNJ0rRNU9iuSew36SJehBlIdP0XB+pIRLHOk31XH17i+OZczpXkVqtmooRcAjcwF+ApPXy2ktJqeIYq7tXsde82AgdZ43DYvL1eE=
+	t=1714672253; cv=none; b=noxUIszgYPcYElwU5kRRgNgbfXe715dprYLc98W8PsZ+Af1udkq3Qaf67Jy/QKpZaELcg9OjxP3gfnyrMM1YdDy+ijl0Lxr+kcxsZCCu2sLeuuAHSyaRNCjygkF7F4kZRLqBNpo0gnq/mSfF7ZwkH65QWTINYRcoUr3xTvMbPdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714671056; c=relaxed/simple;
-	bh=x3OsLSHx23GlIg+OP6uIAumXarZa31i6gacfzjATfck=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=abufuVtXuG0Jny+pwGhzkNaJmjQLPPOyAk/zB8V3F38aFpfgecIVoMZ25CXUOJLnuD9JM+/hMugdyInESovmIfsG5vE96VFP9Bee1XMfUbiI/TBdDBPAu49lYLHXEGgsVKIZNJxf1KHGDgfHh56QljT+WPLhiM3K4a6XLNkXEvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xx3uP843; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1714672253; c=relaxed/simple;
+	bh=ulD2EVygoNqP41pB82a2jtNcBvtuX7CZOK9id56+lKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZM/ifXxa3zLPON0NNhE1MnCm/LZONVcuM1h7Mf+o/KPC2ApkkVXAmao6q1PYuQe2SHljbtT58cMYk128nLdSWXioHfoZy7Ddf6kazcPM4T6XO3k6N4WEEqwibjt7WuEmrP5IoJZIeNgluGzRqMGfVrnL53NDkBciYktiRlu0mss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEWKh4EQ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xx3uP843"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEWKh4EQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714671054; x=1746207054;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x3OsLSHx23GlIg+OP6uIAumXarZa31i6gacfzjATfck=;
-  b=Xx3uP843RxORe8IYvxGL7FGl75eWjX0sSWjcAlAst7TWv9v1khjT28d2
-   aZvJzUOu0bMTGgjKiPVMQEikfdgjGW+nir43FD0MgkkY8SBkGz+YwR6HK
-   riBZ0dCEMP2TT3d5UkewGmbYpf6Pr8dmNgD2UpYy8SD9C2YBXcz6BLUux
-   KrvDkUBFHLWORR3sWmY9TsVl+P0zJSSByuCmbKRe5MWjxkRVhyySNJzKH
-   ZNjk1tPyfhJAPl2yhoRhcdFWBRBMWDl3nX8xx6zB1zlWrT0CdJeEzLSN4
-   cIKXiG6I4NtNJas09nAxSod4osNNpX4FNKjQpsXEs0tRdlOPi5UWDMSrp
+  t=1714672252; x=1746208252;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ulD2EVygoNqP41pB82a2jtNcBvtuX7CZOK9id56+lKM=;
+  b=ZEWKh4EQqWo9GL9A9AJU/LygOZGxRi8o2Av0nxg4zQNnA3i9bY2JFW25
+   WRlkju+uNJh8HLseqaJDp98OGfRyxezbkZ43yuGsuNOMHoZkZnh8pgfIp
+   Oj30P0mR/KUnY3SFnWPN1nwbGvCOb13tf731+FQo6gTSVQf4M+WQX1vQA
+   s0MgRf28IB+ZnOhLAQFM9EgFyssHUe/uksEKApLEDwZ2DOl9vUiBC9l0m
+   CRW/uDh9KkKtxg5MLQ1VeqOGoB9/Ycu/a5yFuqGZrlvMInvAd6KtkLrd5
+   BxD/OVgInuP7h7lOR3MqgBeB2HHh4LpbPVGS++ZxxxnZ6dK2c9fRVwQfo
    A==;
-X-CSE-ConnectionGUID: MrAAh6m0R0uCMO9v+8fCYg==
-X-CSE-MsgGUID: XE1RGARZQ6+F97HwZVCJDw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="14234383"
+X-CSE-ConnectionGUID: s36H1xnkTZy98uH4igGb3g==
+X-CSE-MsgGUID: HXV0qMXhRfeehA6AkQMiwA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10620034"
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="14234383"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 10:30:52 -0700
-X-CSE-ConnectionGUID: 01VQHQlmQryQCWSzOnmg1w==
-X-CSE-MsgGUID: M6nLQUrGQ9yunm3N6YBILA==
+   d="scan'208";a="10620034"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 10:50:51 -0700
+X-CSE-ConnectionGUID: PFcLw9PVQ+mPZ1IUT21aMQ==
+X-CSE-MsgGUID: x4hvr1kURLy6m/qwfBQTMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27197936"
+   d="scan'208";a="31685342"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 May 2024 10:30:49 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 May 2024 10:50:50 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2aGd-000ArW-1s;
-	Thu, 02 May 2024 17:30:47 +0000
-Date: Fri, 3 May 2024 01:29:58 +0800
+	id 1s2aa0-000AsC-0D;
+	Thu, 02 May 2024 17:50:48 +0000
+Date: Fri, 3 May 2024 01:50:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: mhkelley58@gmail.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, david@redhat.com
-Subject: Re: [PATCH v2 2/2] hv_balloon: Enable hot-add for memblock sizes >
- 128 MiB
-Message-ID: <202405030141.oWhfOhdl-lkp@intel.com>
-References: <20240501151458.2807-2-mhklinux@outlook.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:fwctl 2/7] drivers/fwctl/main.c:61 fwctl_fops_ioctl()
+ warn: unsigned 'nr' is never less than zero.
+Message-ID: <202405030154.MrXK0L9P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,134 +61,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501151458.2807-2-mhklinux@outlook.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc6 next-20240502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mhkelley58-gmail-com/hv_balloon-Enable-hot-add-for-memblock-sizes-128-MiB/20240501-232643
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240501151458.2807-2-mhklinux%40outlook.com
-patch subject: [PATCH v2 2/2] hv_balloon: Enable hot-add for memblock sizes > 128 MiB
-config: x86_64-buildonly-randconfig-001-20240502 (https://download.01.org/0day-ci/archive/20240503/202405030141.oWhfOhdl-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030141.oWhfOhdl-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux fwctl
+head:   569ad7099a1954a033af70c41f63f5423a270cef
+commit: e75353c4b41460da294d129e398a477b9995608e [2/7] fwctl: Basic ioctl dispatch for the character device
+config: m68k-randconfig-r071-20240502 (https://download.01.org/0day-ci/archive/20240503/202405030154.MrXK0L9P-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405030141.oWhfOhdl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405030154.MrXK0L9P-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+New smatch warnings:
+drivers/fwctl/main.c:61 fwctl_fops_ioctl() warn: unsigned 'nr' is never less than zero.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/crypto/crc32-pclmul.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/minix/minix.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi-avmm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/fbtft/fbtft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
->> ERROR: modpost: "memory_block_size_bytes" [drivers/hv/hv_balloon.ko] undefined!
+Old smatch warnings:
+drivers/fwctl/main.c:62 fwctl_fops_ioctl() warn: always true condition '((nr - 0) >= (0 / 16 + (0))) => (0-u32max >= 0)'
+
+vim +/nr +61 drivers/fwctl/main.c
+
+    49	
+    50	static long fwctl_fops_ioctl(struct file *filp, unsigned int cmd,
+    51				       unsigned long arg)
+    52	{
+    53		struct fwctl_uctx *uctx = filp->private_data;
+    54		const struct fwctl_ioctl_op *op;
+    55		struct fwctl_ucmd ucmd = {};
+    56		union ucmd_buffer buf;
+    57		unsigned int nr;
+    58		int ret;
+    59	
+    60		nr = _IOC_NR(cmd);
+  > 61		if (nr < FWCTL_CMD_BASE ||
+    62		    (nr - FWCTL_CMD_BASE) >= ARRAY_SIZE(fwctl_ioctl_ops))
+    63			return -ENOIOCTLCMD;
+    64		op = &fwctl_ioctl_ops[nr - FWCTL_CMD_BASE];
+    65		if (op->ioctl_num != cmd)
+    66			return -ENOIOCTLCMD;
+    67	
+    68		ucmd.uctx = uctx;
+    69		ucmd.cmd = &buf;
+    70		ucmd.ubuffer = (void __user *)arg;
+    71		ret = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
+    72		if (ret)
+    73			return ret;
+    74	
+    75		if (ucmd.user_size < op->min_size)
+    76			return -EINVAL;
+    77	
+    78		ret = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
+    79					    ucmd.user_size);
+    80		if (ret)
+    81			return ret;
+    82	
+    83		guard(rwsem_read)(&uctx->fwctl->registration_lock);
+    84		if (!uctx->fwctl->ops)
+    85			return -ENODEV;
+    86		return op->execute(&ucmd);
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
