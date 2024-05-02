@@ -1,145 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD95C42AB6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 19:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6B9173333;
+	Thu,  2 May 2024 20:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714679883; cv=none; b=ZoLTSnNyCGPd8QOg+o97ylyXr5/M4QKc/w8OhDiAiqlg9hMQlrHGtHiVC9UJqFi1ybS404YnC2FrwV5kNNNT2rlpljHzayGp/M+N7UkngaECObNPPiY4PvifMRv5MzB1KzFHnEadpHyDtA1RwTz5vxrkITimudYFCpicXqSWPZM=
+	t=1714682774; cv=none; b=ZhHu4InH+78oarKQ0aH3Rh8u8jylG6694mYdfLbz9ln5lh+eXZeY7ZbOX/wBw5wagCtWp0HP6VIH3k3jbYyztt4Vl6k843zDX/jkrVJfx42Kng8qzpPH0fCexyhnGWXGdv3QQYNKiS8nLAtIlvq/kBDe1nUdk9NXx6GWy0gtoog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714679883; c=relaxed/simple;
-	bh=1S0GzJBiUkMO5OirpjjonQ9h3h9HMGieZ3Re6gFYH6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sNytQOUzUm35i65EgUurdh3VLOuKKPMImJ82t/HiDLWwcw7TtR3bb+wEHv3oac6WbWbenJVUovkuEfRzy34V28APcQI4yjjcleTyLxxpQBOCHR7vlgqh1WYGUMtg1V5rSOKE9mYChHRuPlLbj0g/DMUv5FWzFkl7ZaZeg0B6tfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzDVUiBM; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714682774; c=relaxed/simple;
+	bh=kHdI7uoIvTy+aqgfi4h+cWiaabxohimmlZFLNSU1OWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LIzZaRHuVw3xG1VnaN4TmQaHPCbAerirEgzTT2Pl4fH6VvfJSL/RlShPKU4v9EB6oo1sawm5CcWbZzlXimkw9VWL2MEC3BKPO2yqxAqsAlf+YKtxroDUIIc2U02YoxdbNI4oVOM/g4PRO5Drd3IN8rQFcknL58zlN5k0KAv7VdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mhePX391; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzDVUiBM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714679880; x=1746215880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1S0GzJBiUkMO5OirpjjonQ9h3h9HMGieZ3Re6gFYH6Y=;
-  b=XzDVUiBM88Fhi9tIgv0kZN6cFn/MgbbbhJq6g8dfKLFmRT0U76RdIgC9
-   Y6K6d1vn+4lx2/b6SCKEqDm3gAJtgExSG2Xvkbu24QFCwqeu95ZSmTZda
-   ek6kepHVjS0isYJ8C0Q/NGK7ksm0LkWtH9A8szRe26YQJbNZ1X3tGk0m6
-   bfIIQQNHaGWp/YxSsGpk61L0DnU/bK9aWpYhSi+Y8VyT8WzkZXYOCwcih
-   Hp8uoWBUqlEqIIC50W3SKAhIOxxed+LRY+HD+6yxINGzrqWsAgbikKnlb
-   LmWzdY+i4NilekiFyNbhxPeyQIuVWpCJMRLXuC/fOGf9Nvd4MTTbtzfeE
-   w==;
-X-CSE-ConnectionGUID: U9Fy03NKQuuZBkXbq/M4vg==
-X-CSE-MsgGUID: Sa8E06mKR6yCYHS26BVucQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10596930"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10596930"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 12:58:00 -0700
-X-CSE-ConnectionGUID: Gp62U2F4QnCUwMTyJqrJKQ==
-X-CSE-MsgGUID: f+UFLMA2TNqenvU5e7Kbuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27109402"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 May 2024 12:57:58 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s2cZ0-000Awi-1a;
-	Thu, 02 May 2024 19:57:54 +0000
-Date: Fri, 3 May 2024 03:57:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Denose <jdenose@google.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Jonathan Denose <jdenose@google.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffery Miller <jefferymiller@google.com>
-Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
- Lenovo N24
-Message-ID: <202405030346.3Q7ixiBD-lkp@intel.com>
-References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mhePX391"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 442KD8x9019442;
+	Thu, 2 May 2024 20:46:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=+kIWJM0/hSyuFZCMXyPlz9EkQHiUgJs926JlBrH1zYc=; b=mh
+	ePX391CMVYro3O5droDh1TfF3GcrSwXNnn9gLXrLTXv0KjJVvdCkBBgyJECEDaFe
+	C4kFVCixlsN9THQNVVj/B0hrgWZXQPQLJKyJxNcz3yTPhmErg7d7s9Ne/P2LjgV2
+	2OBTFqJufr+TJV+rHhWuNG5CBsOoz/ZLOxyWTzLY0tRdGJGRHWIWXbV0krsSYeg2
+	Z+0+zQzNyBBsCM4e61hn2tR8fDA2pXxzWvjfBEplFRErKtrkLGjl24pzo8U9X9cJ
+	US/vU7DzNPFeHoi1zwnqX1vAVDnHbg2YR3L9MQYhkwqMGLDd7aFrsrfZPPPC4DPG
+	MZj8PYM+18FXog2+8Epw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xv8vs9b11-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 May 2024 20:46:02 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 442Kk0tD024792
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 2 May 2024 20:46:00 GMT
+Received: from [10.71.110.192] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 May 2024
+ 13:45:59 -0700
+Message-ID: <17deb294-223d-4aa2-8aa1-d9e3eee929c9@quicinc.com>
+Date: Thu, 2 May 2024 13:45:59 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 9793/10134] drivers/of/of_reserved_mem.c:463
+ fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+        Linux Memory Management
+ List <linux-mm@kvack.org>,
+        "Rob Herring (Arm)" <robh@kernel.org>
+References: <34976102-567d-4651-bf14-41b85af8735e@moroto.mountain>
+From: Oreoluwa Babatunde <quic_obabatun@quicinc.com>
+In-Reply-To: <34976102-567d-4651-bf14-41b85af8735e@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: BI7MfE7A_DxRJrXZ_YCkGpJVk0cXW75X
+X-Proofpoint-GUID: BI7MfE7A_DxRJrXZ_YCkGpJVk0cXW75X
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-02_12,2024-05-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405020137
 
-Hi Jonathan,
 
-kernel test robot noticed the following build warnings:
+On 5/2/2024 1:45 AM, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   f68868ba718e30594165879cc3020607165b0761
+> commit: 2acef04ad57cab44b33001542791fc93f81cadf1 [9793/10134] of: reserved_mem: Remove the use of phandle from the reserved_mem APIs
+> config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020127.3ncxx3EI-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202405020127.3ncxx3EI-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/of/of_reserved_mem.c:463 fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
+>
+> vim +/nomap +463 drivers/of/of_reserved_mem.c
+>
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
+> ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
+> ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
+> ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
+> ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
+> 6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  442  
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  443  		if (rmem->size == 0)
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  444  			err = __reserved_mem_alloc_size(node, rmem->name,
+> 3f0c8206644836 Marek Szyprowski   2014-02-28  445  						 &rmem->base, &rmem->size);
+> d0b8ed47e83a22 pierre Kuo         2019-02-19  446  		if (err == 0) {
+> d0b8ed47e83a22 pierre Kuo         2019-02-19  447  			err = __reserved_mem_init_node(rmem);
+> d0b8ed47e83a22 pierre Kuo         2019-02-19  448  			if (err != 0 && err != -ENOENT) {
+> d0b8ed47e83a22 pierre Kuo         2019-02-19  449  				pr_info("node %s compatible matching fail\n",
+> d0b8ed47e83a22 pierre Kuo         2019-02-19  450  					rmem->name);
+> 2acef04ad57cab Oreoluwa Babatunde 2024-04-22  451  
+> 2acef04ad57cab Oreoluwa Babatunde 2024-04-22  452  				nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
+> d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
+> 7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
+> 3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
+> 3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
+> 3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
+> aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
+> aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
+> aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
+> aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
+> aeb9267eb6b1df Martin Liu         2023-02-10  462  
+> 6ee7afbabcee4d Geert Uytterhoeven 2023-02-16 @463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
+> aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
+> aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
+>                                                                                         ^^^^^    ^^^^^
+> This is nomap from the previous iteration through the loop.  How is
+> it useful?
+Hi Dan,
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.9-rc6 next-20240502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I have uploaded a new patch which has the correct behavior
+for nomap in this loop.
+https://lore.kernel.org/all/20240502192403.3307277-1-quic_obabatun@quicinc.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/Input-elantech-fix-touchpad-state-on-resume-for-Lenovo-N24/20240501-220739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6%40changeid
-patch subject: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
-config: powerpc64-randconfig-r122-20240502 (https://download.01.org/0day-ci/archive/20240503/202405030346.3Q7ixiBD-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240503/202405030346.3Q7ixiBD-lkp@intel.com/reproduce)
+Moving line 452 into the if statement was an error on my
+part because I did not take note that the value was being
+printed in the else statement as well.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405030346.3Q7ixiBD-lkp@intel.com/
+Thank you!
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/mouse/elantech.c:1509:75: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int timeout @@     got void * @@
-   drivers/input/mouse/elantech.c:1509:75: sparse:     expected unsigned int timeout
-   drivers/input/mouse/elantech.c:1509:75: sparse:     got void *
-   drivers/input/mouse/elantech.c:1515:74: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int timeout @@     got void * @@
-   drivers/input/mouse/elantech.c:1515:74: sparse:     expected unsigned int timeout
-   drivers/input/mouse/elantech.c:1515:74: sparse:     got void *
-
-vim +1509 drivers/input/mouse/elantech.c
-
-  1495	
-  1496	/*
-  1497	 * Put the touchpad back into absolute mode when reconnecting
-  1498	 */
-  1499	static int elantech_reconnect(struct psmouse *psmouse)
-  1500	{
-  1501		psmouse_reset(psmouse);
-  1502	
-  1503		if (elantech_detect(psmouse, 0))
-  1504			return -1;
-  1505	
-  1506		if (dmi_check_system(elantech_needs_reenable)) {
-  1507			int err;
-  1508	
-> 1509			err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
-  1510	
-  1511			if (err)
-  1512				psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
-  1513						psmouse->ps2dev.serio->phys, err);
-  1514	
-  1515			err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
-  1516	
-  1517			if (err)
-  1518				psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
-  1519						psmouse->ps2dev.serio->phys, err);
-  1520		}
-  1521	
-  1522		if (elantech_set_absolute_mode(psmouse)) {
-  1523			psmouse_err(psmouse,
-  1524				    "failed to put touchpad back into absolute mode.\n");
-  1525			return -1;
-  1526		}
-  1527	
-  1528		return 0;
-  1529	}
-  1530	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oreoluwa
