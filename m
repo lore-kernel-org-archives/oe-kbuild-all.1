@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D96015FA72
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 21:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4539A57CB0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 23:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714684923; cv=none; b=PJCaWC/FXR0zI9v4EVZtWbMWbNMmWwzRKZJMD/JQ2rAHddnOwNzi+4dwuGG06+sm2+8n4f4diwyANlUjKnFxNY+s4kaPOuOaePSh5gk3l1zDeL3dZY+In63BQxTfLJnbq0X0yYlOQQ2mXJ5xcYQxKODcE60MFtUB2bWgj/0VkKM=
+	t=1714691108; cv=none; b=hlOO2sEXiy56gyhE4oFmzNK3IVUsSYhIK6h2fjB6iNdm6AAnZbYClpj+hgDmvVQdGGZZJjEl9zKBOMJ+ZwzOTYtnnoymMacLLqc8BhJonvRHzmLdsBFZqjFmcGS5qjVsaWsY+nW2QQlcv9GHMZ6Tnubm7AI9FjD+XX6HbzeOH9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714684923; c=relaxed/simple;
-	bh=GZZ+TkPIWNBAczGqcyZB6HOggCaqCrXGhdrbsXEByXA=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JWezVaLrMmLrTQX/NwJo4q/v699j1Ejwika2sc7TzGW/0613FksRAZjj51avS2VsN4dnxPnQBWG3htQAu0Q7nPvihSqQo9dhh3icqcCotAenqTH2dmGUuk2zX7VFBhzHrdCHC5DlRVDAXAqh4YM8dYRXgf3i6d5OGdw6lT+NEK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GB61G05J; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1714691108; c=relaxed/simple;
+	bh=MPVcnmZTn5myPy90Yqyb5lNdeL6BG4wP9B/f5s2O3GE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PeurfzZhKqDi7treRFifxXy+V39gR//N9e/elgWKeHrpvNoan//z30QgZ5LNa3avny10+HOT/5lYWcU38F9k5H6IdwiFXN5dFotpTnp2MaHD90d7fam8oVKY7yZD0Cd1zh4DWpvU/0iBRFyhwLCHv0x3B4qUPoJQjN9zi2PU2Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjvQ8vcb; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GB61G05J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjvQ8vcb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714684921; x=1746220921;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=GZZ+TkPIWNBAczGqcyZB6HOggCaqCrXGhdrbsXEByXA=;
-  b=GB61G05JIy9AXbExuRqwQQzzdYtf3mxQc5WjRfzvwpu2Gydv3wY6PCk4
-   ZISn96qHZRKbTQHkVEhAIXFfdVIo2Ei8fRBwGc+VnZU0+StAID9c62iJN
-   qq7smbqsCifrz1FBuEOLmc4oFKqLV2vd3noo/lPX/zp/5RDQjtkjB/oIH
-   ou92I9+B3MXwvBwpeUhjKiYIaXfCjO82CvO8YrK8dAnjaHC7RpeVR5CtQ
-   AgIIXAiGEeZpDDF1ARsAPtsA7vWex/6/ie88yMMxaHGPvtCudynMSVc6Y
-   2tPCk4qARgVhXJYs8wJ0bhnQiKTzeaTNze65EtPyrzYtyMETY4rjvFbPu
+  t=1714691106; x=1746227106;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MPVcnmZTn5myPy90Yqyb5lNdeL6BG4wP9B/f5s2O3GE=;
+  b=cjvQ8vcbzud/2D0h+YY0MTAGcPXMdMVfAEc7z/E5mnUbSJBrUPKppCFi
+   q/iYN6wk+mYgEpZsYWCy8OUKPu/p14+2lASEfbw2Don+zPZvuw0P1fuT7
+   gq4ctzHnm20zOBtDTg4laUYjSnmZQzE9O+GiY8cVYqk1u6ouep/KM9jlQ
+   4NIKaqSZE73/WRy5e9MalHm0rroOVyX2mveuBAS/QP7Ke6A1bPCb9JbqU
+   tDUqM7POtdcHMI59Ue0RBrZ4icSZ2Vdd+W+jFs7iVYw5WCodNz5L4hscy
+   IXrwfv7g5cwK8vUd78R7yLuVGr9rtestMkE38jZhWaF2YxUVvza6WzGj5
    g==;
-X-CSE-ConnectionGUID: SCmq3WQ0QMuZfF8tngsYSQ==
-X-CSE-MsgGUID: sppSb8ufTG6ucvs4goiR+w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10611871"
+X-CSE-ConnectionGUID: toOfgt7YSs2RYmOH9cuREg==
+X-CSE-MsgGUID: MbJ42BskR/Gpwn6L3tbkAg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="13440053"
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10611871"
+   d="scan'208";a="13440053"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 14:22:01 -0700
-X-CSE-ConnectionGUID: WUPhl7SFQ4Kdm8SruMdetA==
-X-CSE-MsgGUID: JmWTBV3fRqu139oummCHuQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 16:05:05 -0700
+X-CSE-ConnectionGUID: C4fR4l1RSJ+WdJyhwq+U/g==
+X-CSE-MsgGUID: NOD1MESLT+m/Vm1HZ1l08g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27336905"
+   d="scan'208";a="27359672"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 May 2024 14:22:00 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 02 May 2024 16:05:04 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2dsL-000B2S-3C
-	for oe-kbuild-all@lists.linux.dev;
-	Thu, 02 May 2024 21:21:57 +0000
-Date: Fri, 3 May 2024 05:21:35 +0800
+	id 1s2fU6-000B7i-1N;
+	Thu, 02 May 2024 23:05:02 +0000
+Date: Fri, 3 May 2024 07:04:21 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 12199/30000] ERROR: "arch_setup_dma_ops"
- [sound/soc/snd-soc-core.ko] undefined!
-Message-ID: <202405030520.tOQmntZW-lkp@intel.com>
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org
+Subject: [s390:features 50/52]
+ arch/s390/kvm/../../../virt/kvm/vfio.c:60:(.text+0x186): relocation
+ truncated to fit: R_390_PLT32DBL against undefined symbol
+ `vfio_file_enforced_coherent'
+Message-ID: <202405030642.Dzc41pZn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,21 +64,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   ce145f290ac98252639bf5ba66490f0caa65908d
-commit: 645bb4d43978ab2bb3a8abd6721e45223c224eb0 [12199/30000] ANDROID: GKI: ASoC: pcm: Add support for hostless playback/capture
-config: arc-randconfig-001-20240502 (https://download.01.org/0day-ci/archive/20240503/202405030520.tOQmntZW-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030520.tOQmntZW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+head:   7f20dda18a42526c4ce19c043c5e5f62e6c52d64
+commit: 9ecaa2e94e602a3cbcbfe182535f6297f7630b98 [50/52] s390: Relocate vmlinux ELF data to virtual address space
+config: s390-randconfig-r026-20230815 (https://download.01.org/0day-ci/archive/20240503/202405030642.Dzc41pZn-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030642.Dzc41pZn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405030520.tOQmntZW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405030642.Dzc41pZn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ERROR: "arch_setup_dma_ops" [sound/soc/snd-soc-core.ko] undefined!
+   virt/kvm/vfio.o: in function `kvm_vfio_file_enforced_coherent':
+>> arch/s390/kvm/../../../virt/kvm/vfio.c:60:(.text+0x186): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_enforced_coherent'
+   virt/kvm/vfio.o: in function `kvm_vfio_file_set_kvm':
+>> arch/s390/kvm/../../../virt/kvm/vfio.c:46:(.text+0x346): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_set_kvm'
+   arch/s390/kvm/../../../virt/kvm/vfio.c:46:(.text+0x582): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_set_kvm'
+   virt/kvm/vfio.o: in function `kvm_vfio_file_is_valid':
+>> arch/s390/kvm/../../../virt/kvm/vfio.c:76:(.text+0x7f2): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_is_valid'
+   virt/kvm/vfio.o: in function `kvm_vfio_file_set_kvm':
+   arch/s390/kvm/../../../virt/kvm/vfio.c:46:(.text+0xa26): relocation truncated to fit: R_390_PLT32DBL against undefined symbol `vfio_file_set_kvm'
+
+
+vim +60 arch/s390/kvm/../../../virt/kvm/vfio.c
+
+ec53500fae421e Alex Williamson 2013-10-30  37  
+ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  38  static void kvm_vfio_file_set_kvm(struct file *file, struct kvm *kvm)
+2fc1bec1588353 Jike Song       2016-12-01  39  {
+ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  40  	void (*fn)(struct file *file, struct kvm *kvm);
+2fc1bec1588353 Jike Song       2016-12-01  41  
+ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  42  	fn = symbol_get(vfio_file_set_kvm);
+2fc1bec1588353 Jike Song       2016-12-01  43  	if (!fn)
+2fc1bec1588353 Jike Song       2016-12-01  44  		return;
+2fc1bec1588353 Jike Song       2016-12-01  45  
+ba70a89f3c2a82 Jason Gunthorpe 2022-05-04 @46  	fn(file, kvm);
+2fc1bec1588353 Jike Song       2016-12-01  47  
+ba70a89f3c2a82 Jason Gunthorpe 2022-05-04  48  	symbol_put(vfio_file_set_kvm);
+2fc1bec1588353 Jike Song       2016-12-01  49  }
+2fc1bec1588353 Jike Song       2016-12-01  50  
+a905ad043f32bb Jason Gunthorpe 2022-05-04  51  static bool kvm_vfio_file_enforced_coherent(struct file *file)
+9d830d47c7a756 Alex Williamson 2014-02-26  52  {
+a905ad043f32bb Jason Gunthorpe 2022-05-04  53  	bool (*fn)(struct file *file);
+a905ad043f32bb Jason Gunthorpe 2022-05-04  54  	bool ret;
+9d830d47c7a756 Alex Williamson 2014-02-26  55  
+a905ad043f32bb Jason Gunthorpe 2022-05-04  56  	fn = symbol_get(vfio_file_enforced_coherent);
+9d830d47c7a756 Alex Williamson 2014-02-26  57  	if (!fn)
+9d830d47c7a756 Alex Williamson 2014-02-26  58  		return false;
+9d830d47c7a756 Alex Williamson 2014-02-26  59  
+a905ad043f32bb Jason Gunthorpe 2022-05-04 @60  	ret = fn(file);
+9d830d47c7a756 Alex Williamson 2014-02-26  61  
+a905ad043f32bb Jason Gunthorpe 2022-05-04  62  	symbol_put(vfio_file_enforced_coherent);
+9d830d47c7a756 Alex Williamson 2014-02-26  63  
+a905ad043f32bb Jason Gunthorpe 2022-05-04  64  	return ret;
+9d830d47c7a756 Alex Williamson 2014-02-26  65  }
+9d830d47c7a756 Alex Williamson 2014-02-26  66  
+b1a59be8a2b64d Yi Liu          2023-07-18  67  static bool kvm_vfio_file_is_valid(struct file *file)
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  68  {
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  69  	bool (*fn)(struct file *file);
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  70  	bool ret;
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  71  
+b1a59be8a2b64d Yi Liu          2023-07-18  72  	fn = symbol_get(vfio_file_is_valid);
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  73  	if (!fn)
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  74  		return false;
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  75  
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07 @76  	ret = fn(file);
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  77  
+b1a59be8a2b64d Yi Liu          2023-07-18  78  	symbol_put(vfio_file_is_valid);
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  79  
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  80  	return ret;
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  81  }
+4b22ef042d6f54 Jason Gunthorpe 2022-10-07  82  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: a905ad043f32bbb0c35d4325036397f20f30c8a9 vfio: Change vfio_external_check_extension() to vfio_file_enforced_coherent()
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
