@@ -1,93 +1,112 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5B917543;
-	Thu,  2 May 2024 01:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449F912B87;
+	Thu,  2 May 2024 01:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714612596; cv=none; b=HjssS+GAKfUd40H9yQaok8utNmtGlYqknczuaYVUnH/IChj65IjB5NiJlCYKyRfBzNQG7MoXEpyK+AMGq57L1OlnwvvcrVhpXVMXnQq4IbdB7PzZS/+mOhjxq4RYlVzHJI39q+Un/rmikSGAeZcIdXS58LJE1VDgUYj7E8XNLzA=
+	t=1714612690; cv=none; b=Iqm3RYJwjKnwTSTDmxdK1K23a02RJWL4lVfh7b0Zbz/IFKTM4ewARNripPfcYXFT9SNAMT6utNxK8Pcvh/7OkyWj6ZBdV9oEz9QMn11gFNiac/xwPKlJ27Sq0Mu9uh3+zcHcmbwAHJo+JfaYoSxKcxs7xDmhsDwcOqi3g2sStf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714612596; c=relaxed/simple;
-	bh=qvOtECN4Pb0C2oRpX6+idlo9APhFKqH0ezXUnZi+GfI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cAx93KJErgUuqup7YqoIIhnCAU7HnkyecjNNUB4DVsnzah8KpNEH0xGlnOi3cAQv+Qs6yuThGx4fJVYaouEtbdCvQMi4S5y+iAy14RsXgM/xRQSGDp5bryilrImhvxG3xdoby8SpuZsWLty5iWxlBh68jzlml1Q3U192VZTXvUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4421GLPT01945611, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 4421GLPT01945611
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 2 May 2024 09:16:21 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 2 May 2024 09:16:22 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 2 May 2024 09:16:21 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::1a1:9ae3:e313:52e7]) by
- RTEXMBS04.realtek.com.tw ([fe80::1a1:9ae3:e313:52e7%5]) with mapi id
- 15.01.2507.035; Thu, 2 May 2024 09:16:21 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: kernel test robot <lkp@intel.com>,
-        "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "Gary
- Chang" <gary.chang@realtek.com>, Timlee <timlee@realtek.com>
-Subject: RE: [PATCH 03/12] wifi: rtw89: wow: parsing Auth Key Management from associate request
-Thread-Topic: [PATCH 03/12] wifi: rtw89: wow: parsing Auth Key Management from
- associate request
-Thread-Index: AQHalwPGgPCu/ZF8nU6i2/68lwbLX7GB9h8AgAEyJmA=
-Date: Thu, 2 May 2024 01:16:21 +0000
-Message-ID: <0926e8b0b0a24f3691e6ae5b09f14f02@realtek.com>
-References: <20240425112816.26431-4-pkshih@realtek.com>
- <202405012221.MONGVGmf-lkp@intel.com>
-In-Reply-To: <202405012221.MONGVGmf-lkp@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1714612690; c=relaxed/simple;
+	bh=mzFZRCN/DM4D7nhwU2r1r0KjMtywnF6vbmB1PodwWEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qoedqwBkMfy3+EBtN/esWSWgpv5Np8NyfajF2o09M0kHlTNCNZpEfGMP1AZpIvQ15S2kAUnKRguan6HlxkY99GLJlk46ZbDDTmgG7xnT0qbFqsjYNBdtv6oLqM9sa9gZ0BIUJEnDJaVm21k9+Ek5Trd56W5MMEJJyY6xC9+zIrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/tgc85A; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/tgc85A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714612688; x=1746148688;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mzFZRCN/DM4D7nhwU2r1r0KjMtywnF6vbmB1PodwWEU=;
+  b=i/tgc85AOEl4iT2s0nvqlGfu34wqtGdAqPoozzsvfzahn6ynwDpDJKR9
+   Hp16g1ueGUhQFBPQtZafYcNutZPv4totJThwXXOhfg7BkFzhjJzJ8Sdv3
+   SSBbB5aFBAoceBQ5DRuEoXmPNXUiz+U62RgqPAp4SmGXd80HCZ8hXYYsD
+   BOXh7dXYoWAjTrgwFDcIEvqh+QERqmrKs7Q0UiCC9g82T57nl480bfY3m
+   YL2dPjNWJZpkSp+e1N7AdE2yn6c0UGntNEsUrx2EAD+d3mXAWvzNZz5/n
+   emgrKlkXmYPxGjrem9ytlzGtthjYOMu+eAg2clPWHzmuuxm0Pu3Ob18+N
+   A==;
+X-CSE-ConnectionGUID: QXqH6rBFQf6lnHvFkws0Zw==
+X-CSE-MsgGUID: PotIiVHtSUWZSIB9E7LZ5g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10908444"
+X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
+   d="scan'208";a="10908444"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 18:18:07 -0700
+X-CSE-ConnectionGUID: r9WbM5N7SbWvsO4uRm42XA==
+X-CSE-MsgGUID: TJ81bCL+Q/6djgXjWEDaVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
+   d="scan'208";a="27363820"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 01 May 2024 18:18:06 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2L5H-000AGW-3B;
+	Thu, 02 May 2024 01:18:03 +0000
+Date: Thu, 2 May 2024 09:17:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [weiny2:cxl-cper-testing 5/5] include/linux/cxl-event.h:158:1:
+ error: expected identifier or '('
+Message-ID: <202405020910.9Co46x8J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> wrote:
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on wireless-next/main]
-> [also build test ERROR on wireless/main linus/master v6.9-rc6 next-202405=
-01]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://github.com/weiny2/linux-kernel.git cxl-cper-testing
+head:   9561664438db543f4d61ee0dde4fa9722239fb13
+commit: 9561664438db543f4d61ee0dde4fa9722239fb13 [5/5] acpi/ghes: Add CXL CPER injection debugfs
+config: i386-buildonly-randconfig-003-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020910.9Co46x8J-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240502/202405020910.9Co46x8J-lkp@intel.com/reproduce)
 
-The development tree of Realtek WiFi drivers has changed to
-https://github.com/pkshih/rtw.git, which I documented entry T in MAINTAINER=
- file.
-How can I tell robot about that?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405020910.9Co46x8J-lkp@intel.com/
 
-> All errors (new ones prefixed by >>):
->=20
->    alpha-linux-ld: drivers/net/wireless/realtek/rtw89/core.o: in function=
- `rtw89_traffic_stats_accu':
-> >> (.text+0x11e8): undefined reference to `rtw89_wow_parse_akm'
-> >> alpha-linux-ld: (.text+0x11f8): undefined reference to `rtw89_wow_pars=
-e_akm'
->=20
+All errors (new ones prefixed by >>):
 
-The function rtw89_wow_parse_akm() is built only if CONFIG_PM is defined.
-I will send v2 to correct it. Thanks for the finding.=20
+   In file included from drivers/acpi/acpi_extlog.c:19:
+   In file included from drivers/acpi/apei/apei-internal.h:11:
+>> include/linux/cxl-event.h:158:1: error: expected identifier or '('
+     158 | {
+         | ^
+   include/linux/cxl-event.h:163:1: error: expected identifier or '('
+     163 | {
+         | ^
+   2 errors generated.
 
-Ping-Ke=20
 
+vim +158 include/linux/cxl-event.h
+
+f64693ceeed628 Ira Weiny 2023-07-13  151  
+f64693ceeed628 Ira Weiny 2023-07-13  152  #ifdef CONFIG_ACPI_APEI_GHES
+f64693ceeed628 Ira Weiny 2023-07-13  153  int cxl_cper_register_work(struct work_struct *work);
+f64693ceeed628 Ira Weiny 2023-07-13  154  int cxl_cper_unregister_work(struct work_struct *work);
+f64693ceeed628 Ira Weiny 2023-07-13  155  int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd);
+f64693ceeed628 Ira Weiny 2023-07-13  156  #else
+f64693ceeed628 Ira Weiny 2023-07-13  157  static inline int cxl_cper_register_work(struct work_struct *work);
+f64693ceeed628 Ira Weiny 2023-07-13 @158  {
+f64693ceeed628 Ira Weiny 2023-07-13  159  	return 0;
+f64693ceeed628 Ira Weiny 2023-07-13  160  }
+f64693ceeed628 Ira Weiny 2023-07-13  161  
+
+:::::: The code at line 158 was first introduced by commit
+:::::: f64693ceeed628d8036c8ac75f655bb3292d5bcf acpi/ghes: Process CXL Component Events
+
+:::::: TO: Ira Weiny <ira.weiny@intel.com>
+:::::: CC: Ira Weiny <ira.weiny@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
