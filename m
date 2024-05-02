@@ -1,65 +1,56 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2CD46B9F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 08:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF6855C0A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 09:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714640377; cv=none; b=E+J/m5abOoLTgfH/kqP1NY21SP9d6c0pqYSPxPUbtgxqeef45zmz8OPOsoDGlCYVOuhrd6CcudtugvuHe5bpc9YFJHW7ZLmWYYf3iFy7b6q4tE6tIksLzCQLZnsOXP6vBKHqZHyhmdvj1k4mBUjfVsMCcEFMBpFxT+AIVsbGpOk=
+	t=1714640648; cv=none; b=Iuu7AsdG5FhFvMCH1pSCfVGIuf4JQjl70u7CJYrp3qcwTC0n42rjWhW7AacCNpWvrEKE6ilkbFnxhsyw0Cf7IYbUVvpb8i1bl2Npx/RJNNNDnV/ziV5El00iwpsprtzg7YFm46uLTcrSybUs0mqvZj97ukB4IAqeonQhBqc2VQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714640377; c=relaxed/simple;
-	bh=D4E94Bf3nVOiOUOtGxbjP0qqOdPORDnjxt9Hu/q2a9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ImWwbD4n9njf5of0XGaAOHx5+Ox39VLcnWGLlDYtqmEzA21y6vdHezhXYeATqu5AwqY+MwCxXTfVAM647DDwNcn90nLXZp4xPkkvUy2jnyeya2kSAZdOyXTpDoO2Zgms4S97YTJLJPmto2f/rcUjCngYHvyTbcR4xlgzL/tbo+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=htdmcM9k; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714640648; c=relaxed/simple;
+	bh=RBNo7t5IGu2yThFFulb8qCfz4Zt2E7C/FOw15MNEb5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XDZWS1nBmQzkwFzQiGg6am+9kMO3L06zAYRk1Kf803yl8doHSMURmtbia0RS/r3gv1P5lmAcD7GyU9AgVHOfP+zYaJUKza59PNNE9w+zuTIsfsm+O7GFr0+646R70Tr3QmjtBmg3tIEOXw5pLT/y4OAmGMj77yOXbzykUKhV8dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D4mYV+WD; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="htdmcM9k"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2e1fa1f1d9bso4449591fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 May 2024 01:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714640374; x=1715245174; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0Jv464nUVZs5/EmPlVKp62NMB+0lshPo0ejZbmfV3ec=;
-        b=htdmcM9k89EQhIBey/oxtaUR80Ap/mw2tup04zBhbaEqPFLzJp/UhEJorY5mItDcZS
-         Gy4cfxqwXOIuLxOr8tsqvwQBmxzWvSVzv5e1LtxKKheXAvB75FXtC8VIq5BKL2mFxy+d
-         T4rBk5XXH2n/xs3cwGbYpZiilrp6I5v0k4ZTZXZTHVHEqV2xPx4j6E9s7f+3h6CdVU+/
-         f6SjskxaL6dhDgJpJkjxn+mdIRqb+d+5/u3iL2JHV20u8lg883JbA2JfwKfJu/uVVQut
-         4PiWK13PHBNm8iW3RMGdYBKJ+3VDSNy4sKooIhLfwwqpUwxdEV5mW/mvg+9sMKMNXtkg
-         Txrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714640374; x=1715245174;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Jv464nUVZs5/EmPlVKp62NMB+0lshPo0ejZbmfV3ec=;
-        b=RKzxIgNfaJMfDi/EMZ2IRhjtjyiWbq5p+GRez0QSVlLpPoUJ0wJ4tjDNRI4nlsC8BN
-         rBtYSMJxDisoE2UvJaJNXSWsvU62DHUy/mOBDH+ckMvxU4hDTvtv93TE7yD++wkoav9B
-         QgWNFlr/G7bo6Yz4siunNteFGUwePxIk98rxX/AYdgluyvK/WDHELvrWUw7B1QeQybPb
-         ucO4yjp+vTZHvD3lt381CCvhNPBSkvXLWM2flNSdiL0CKuNpwrjIzt1NCMkoQKk2fQ/Y
-         MgzK3IEeh6f9UNMVwZWaNd+b4mr3POzi4uiZsz2p/c3blNLGFEw/7P75W/D07d0sXO1l
-         wztQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBUSt8vEiODiaooCXByFAnyy5cpLuJfp/xBbJLQt3sMj18rNDSY4a/NO2Dx9XJH0gdl8rT7Z5CJZ2xUFcKRa3rbkt55a2KCLZBkvj18Q==
-X-Gm-Message-State: AOJu0YyEItyagLHQiGws+10+NmG2bcSfIj2uFtv9vPTiN5Cq3R//6ap/
-	ZmFPjQcDP2Q1qwLLSw5QQC4coqWeeoXh+ZnLk107FWMB4tjranXizeFedkxb5+g=
-X-Google-Smtp-Source: AGHT+IFSm1XgjU4ltzkV4coChbf017gLdis2ZE1zb2ZVx12mG5gq9WFToPXwHmmgQqFOfP89396O0w==
-X-Received: by 2002:ac2:5b4f:0:b0:51f:3e0c:ace3 with SMTP id i15-20020ac25b4f000000b0051f3e0cace3mr587276lfp.16.1714640373922;
-        Thu, 02 May 2024 01:59:33 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id i25-20020a056512007900b00516c247fc40sm101701lfo.222.2024.05.02.01.59.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 01:59:33 -0700 (PDT)
-Date: Thu, 2 May 2024 11:45:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Oreoluwa Babatunde <quic_obabatun@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 9793/10134] drivers/of/of_reserved_mem.c:463
- fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
-Message-ID: <34976102-567d-4651-bf14-41b85af8735e@moroto.mountain>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D4mYV+WD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714640645;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3z/p7PSnITLar6zjViIxQUZhsvkqQniW+UpUaJYwp0=;
+	b=D4mYV+WDRiJksVWc5OcQTqlPfbn3jYAkPS4BBtPzyUf5D9QbsSKAwEoACpx6qigl9o7i9d
+	kWZYTsnBXYLyd3FgqThv57+NcUA6kmGlzi3miBQ91HwOPi81S6HzroCz2OrpRwlr1baNUO
+	tVcEJBDCn1dMpX3qHgBmZ5DJluSmfaY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-74-shbXHky0Ojewoz46za8lZg-1; Thu, 02 May 2024 05:04:04 -0400
+X-MC-Unique: shbXHky0Ojewoz46za8lZg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC69080E95D;
+	Thu,  2 May 2024 09:04:03 +0000 (UTC)
+Received: from fedora (unknown [10.39.194.153])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 36235EC685;
+	Thu,  2 May 2024 09:04:01 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu,  2 May 2024 05:04:03 -0400 (EDT)
+Date: Thu, 2 May 2024 05:04:00 -0400
+From: Oleg Nesterov <oleg@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
+Subject: Re: kernel/sched/isolation.c:143 housekeeping_setup() warn: always
+ true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+Message-ID: <ZjNXAEGhAnXX20Xk@redhat.com>
+References: <202404300915.WNvfwBz3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,72 +59,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202404300915.WNvfwBz3-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f68868ba718e30594165879cc3020607165b0761
-commit: 2acef04ad57cab44b33001542791fc93f81cadf1 [9793/10134] of: reserved_mem: Remove the use of phandle from the reserved_mem APIs
-config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020127.3ncxx3EI-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405020127.3ncxx3EI-lkp@intel.com/
+I am on PTO till May 9 without my working laptop, can't even read the source code.
+I'll return to this when I'm back. CONFIG_SMP=n I guess.
 
-smatch warnings:
-drivers/of/of_reserved_mem.c:463 fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
-
-vim +/nomap +463 drivers/of/of_reserved_mem.c
-
-3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
-3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
-3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
-3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
-3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
-3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
-3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
-6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
-3f0c8206644836 Marek Szyprowski   2014-02-28  442  
-3f0c8206644836 Marek Szyprowski   2014-02-28  443  		if (rmem->size == 0)
-3f0c8206644836 Marek Szyprowski   2014-02-28  444  			err = __reserved_mem_alloc_size(node, rmem->name,
-3f0c8206644836 Marek Szyprowski   2014-02-28  445  						 &rmem->base, &rmem->size);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  446  		if (err == 0) {
-d0b8ed47e83a22 pierre Kuo         2019-02-19  447  			err = __reserved_mem_init_node(rmem);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  448  			if (err != 0 && err != -ENOENT) {
-d0b8ed47e83a22 pierre Kuo         2019-02-19  449  				pr_info("node %s compatible matching fail\n",
-d0b8ed47e83a22 pierre Kuo         2019-02-19  450  					rmem->name);
-2acef04ad57cab Oreoluwa Babatunde 2024-04-22  451  
-2acef04ad57cab Oreoluwa Babatunde 2024-04-22  452  				nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
-d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
-7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
-3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
-3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
-3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
-aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
-aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
-aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
-aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
-aeb9267eb6b1df Martin Liu         2023-02-10  462  
-6ee7afbabcee4d Geert Uytterhoeven 2023-02-16 @463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
-aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
-aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
-                                                                                        ^^^^^    ^^^^^
-This is nomap from the previous iteration through the loop.  How is
-it useful?
-
-aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
-aeb9267eb6b1df Martin Liu         2023-02-10  467  					rmem->name ? rmem->name : "unknown");
-d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
-d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
-3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
-3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 04/30, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
+> commit: 257bf89d84121280904800acd25cc2c444c717ae sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
+> date:   2 days ago
+> config: xtensa-randconfig-r081-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300915.WNvfwBz3-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 13.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202404300915.WNvfwBz3-lkp@intel.com/
+> 
+> New smatch warnings:
+> kernel/sched/isolation.c:143 housekeeping_setup() warn: always true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+> 
+> Old smatch warnings:
+> arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+> 
+> vim +143 kernel/sched/isolation.c
+> 
+>    117	
+>    118	static int __init housekeeping_setup(char *str, unsigned long flags)
+>    119	{
+>    120		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
+>    121		unsigned int first_cpu;
+>    122		int err = 0;
+>    123	
+>    124		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
+>    125			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
+>    126				pr_warn("Housekeeping: nohz unsupported."
+>    127					" Build with CONFIG_NO_HZ_FULL\n");
+>    128				return 0;
+>    129			}
+>    130		}
+>    131	
+>    132		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
+>    133		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
+>    134			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
+>    135			goto free_non_housekeeping_mask;
+>    136		}
+>    137	
+>    138		alloc_bootmem_cpumask_var(&housekeeping_staging);
+>    139		cpumask_andnot(housekeeping_staging,
+>    140			       cpu_possible_mask, non_housekeeping_mask);
+>    141	
+>    142		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
+>  > 143		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+>    144			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
+>    145			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
+>    146			if (!housekeeping.flags) {
+>    147				pr_warn("Housekeeping: must include one present CPU, "
+>    148					"using boot CPU:%d\n", smp_processor_id());
+>    149			}
+>    150		}
+>    151	
+>    152		if (cpumask_empty(non_housekeeping_mask))
+>    153			goto free_housekeeping_staging;
+>    154	
+>    155		if (!housekeeping.flags) {
+>    156			/* First setup call ("nohz_full=" or "isolcpus=") */
+>    157			enum hk_type type;
+>    158	
+>    159			for_each_set_bit(type, &flags, HK_TYPE_MAX)
+>    160				housekeeping_setup_type(type, housekeeping_staging);
+>    161		} else {
+>    162			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
+>    163			enum hk_type type;
+>    164			unsigned long iter_flags = flags & housekeeping.flags;
+>    165	
+>    166			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
+>    167				if (!cpumask_equal(housekeeping_staging,
+>    168						   housekeeping.cpumasks[type])) {
+>    169					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
+>    170					goto free_housekeeping_staging;
+>    171				}
+>    172			}
+>    173	
+>    174			iter_flags = flags & ~housekeeping.flags;
+>    175	
+>    176			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
+>    177				housekeeping_setup_type(type, housekeeping_staging);
+>    178		}
+>    179	
+>    180		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
+>    181			tick_nohz_full_setup(non_housekeeping_mask);
+>    182	
+>    183		housekeeping.flags |= flags;
+>    184		err = 1;
+>    185	
+>    186	free_housekeeping_staging:
+>    187		free_bootmem_cpumask_var(housekeeping_staging);
+>    188	free_non_housekeeping_mask:
+>    189		free_bootmem_cpumask_var(non_housekeeping_mask);
+>    190	
+>    191		return err;
+>    192	}
+>    193	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
