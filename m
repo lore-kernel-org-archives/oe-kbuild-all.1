@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D760A10F4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 00:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECB3611E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 00:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714610103; cv=none; b=CIJLSEjzzK1yjo0IL5jRipNsPqeOE1s53FkpCcfrbwUK7NMK0LGXV1mUIdX9gS/OZxh5q2ZDAde6aEvXREHGBvFZVFIrAPIEp3rD+dzEjlVLYndHbiGxIpWe38b6otRUWEYAZs/7ifQrChoxp/3tnJGs3vhv/9G/4Q0FoOxvZvI=
+	t=1714611357; cv=none; b=oUrac8lqa69VpCUbyH9LYRaIp/WsoBl6gqWQqMMn6j6YTE5pbb9Yl4Hjk2chLvjAw0xiP2iR14aKakh5SAwLtYJ9kxykIa9ShCJCH0vcsYUU4lJJMaqIOtrXeSmrn/YP2TvU6UMyw3pNNJs4g9D+FwxLuZTz39GGo4z2trOUDKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714610103; c=relaxed/simple;
-	bh=YU3lZrBxxlBwZrb3Zch9Gj+T+4gqn8Xq6KvN0oAZwgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hxj3KDf0g/HbOWo5dxu2a9bfQ3hHoRTdaloEsvWgycGGbwCxui3OpYT653pJd2idNjrhpIJc1nsIli+p1LS1y5i3GFnw1UllKQRQxJgjjKtvm1iUjKQ1efALcAUIJ98qsoTfbxVP8HzkP6pn3yFTtXGJrIjtZr6SCP0ZCU4tBP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IoLtHbcM; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1714611357; c=relaxed/simple;
+	bh=x0UvXqrNcm//KRGLol15h/MgzHEjrpbwFcPhFHmhE7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUfo0PvmhIEn6t41KYkVIow8iUdsbuhLweQxSov7aHgNt9BOE9MPYAA+M3RVSPC7mfiyHshVNlfY+Z8JT7SUr5e5Z0AC3Blg5mn5L3uq9Ri/pmoGFKy047obebC0s/YUE4xYGK4T+Jw4ylyMUqmCSNzMr+vqnIFsvRJ4Tgb+bQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAowEpm0; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IoLtHbcM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAowEpm0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714610101; x=1746146101;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YU3lZrBxxlBwZrb3Zch9Gj+T+4gqn8Xq6KvN0oAZwgw=;
-  b=IoLtHbcMxyZcXESqBs+SiaBoRdhVAGMQnB7GUFC7LyxQFztB1CCa38kL
-   pfh9rDwkk+NskKq9neJt/RF4YXSXeYlqCR42/D3NvWJxmP1wDPCsK2+nK
-   7hB9beZFQS3xToD5l1WMS8oQpHIVQccBvaSSfKxBg+BokwOi20pGwuDTs
-   u7rloqsoSRP1mGz31Hy6wKHhtiWl7uhdGdqIXwTHj9EkqLVAuftaaEZ2k
-   YPUd4jmAV/KZDOUOtmip6bvKcYzDyAINZsNstZ0rbZxLgVgAGNKi8r4N5
-   frgBJpUr+kfHxWSMwD6RqhgYVDcCi8v6xDc/eRCepu2p5xiM9EzlKf8mj
-   g==;
-X-CSE-ConnectionGUID: 29139VrZR7Kj+uD7o6Mqhw==
-X-CSE-MsgGUID: VQhXFY4qSSKZBfFw5+eUbw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="14168182"
+  t=1714611356; x=1746147356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x0UvXqrNcm//KRGLol15h/MgzHEjrpbwFcPhFHmhE7w=;
+  b=EAowEpm0vfZc09UhuctxfmvV9DvpG71gfwTZMPSlA3YTgTIrpwncRN89
+   8iMotjPYyXcX3TtN3IMJpngkq6UFIaB3SgPB+qEvUpaSLChRujmw5+CaF
+   czNTlWrywNA14EobNZIQNukFh+a9ToycuFl5zvGkJSwEaCpBKXQgtUCeU
+   i2SH5bwSeGcY+IL5ry3h0XvNk40wiW+milpM9MWtZevV7vWeaEosmlz6c
+   Gn2kwygW9inuAFV0Pk9mJ3Ryrl51saacRyWA/XQrYv1vJHG33HXtvY/jm
+   4ySbJgwpqGNNGb4zXDq8lB0hnuXkEBmisbtmIoA3iZROn2oHu5F3JRK2+
+   A==;
+X-CSE-ConnectionGUID: 1piHwgTfRwaZeQ4Q4rhGUw==
+X-CSE-MsgGUID: xxJMU2DaQauLyK763SW1Hw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10532940"
 X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="14168182"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 17:35:00 -0700
-X-CSE-ConnectionGUID: M9XVYW74T5SgbZNd9PCkSQ==
-X-CSE-MsgGUID: JT5F7dx7RmSb3RSuK3PgHg==
+   d="scan'208";a="10532940"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 17:55:55 -0700
+X-CSE-ConnectionGUID: Jreuta6ySGqrRpaJMlRpRw==
+X-CSE-MsgGUID: TuBljbkGT9uB6NL8DLthpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="27032159"
+   d="scan'208";a="27064007"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 May 2024 17:34:59 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 01 May 2024 17:55:50 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2KPY-000ACu-2C;
-	Thu, 02 May 2024 00:34:56 +0000
-Date: Thu, 2 May 2024 08:34:26 +0800
+	id 1s2Kjj-000AFw-20;
+	Thu, 02 May 2024 00:55:47 +0000
+Date: Thu, 2 May 2024 08:54:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: KP Singh <kpsingh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
-	Casey Schaufler <casey@schaufler-ca.com>
-Subject: [kpsingh:static_calls 5/5] undefined reference to
- `security_toggle_hook'
-Message-ID: <202405020848.mDKFUGLg-lkp@intel.com>
+To: Vabhav Sharma <vabhav.sharma@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
+	Ulf Hansson <ulf.hansson@linaro.org>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Iuliana Prodan <iuliana.prodan@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Silvano Di Ninno <silvano.dininno@nxp.com>,
+	Varun Sethi <V.Sethi@nxp.com>, Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Peng Fan <peng.fan@nxp.com>, Dong Aisheng <aisheng.dong@nxp.com>,
+	frank.li@nxp.com, daniel.baluta@nxp.com,
+	Vabhav Sharma <vabhav.sharma@nxp.com>,
+	Franck LENORMAND <franck.lenormand@nxp.com>
+Subject: Re: [PATCH 3/4] soc: imx: secvio: Add support for SNVS secvio and
+ tamper via SCFW
+Message-ID: <202405020818.2mTfooXt-lkp@intel.com>
+References: <20240501053205.1737248-4-vabhav.sharma@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +78,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240501053205.1737248-4-vabhav.sharma@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kpsingh/linux.git static_calls
-head:   654713c5bec96290562355c40aca6b98bb5c01c4
-commit: 654713c5bec96290562355c40aca6b98bb5c01c4 [5/5] bpf: Only enable BPF LSM hooks when an LSM program is attached
-config: parisc-randconfig-r063-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020848.mDKFUGLg-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240502/202405020848.mDKFUGLg-lkp@intel.com/reproduce)
+Hi Vabhav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next linus/master v6.9-rc6 next-20240501]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vabhav-Sharma/dt-bindings-firmware-secvio-Add-documentation/20240501-133607
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240501053205.1737248-4-vabhav.sharma%40nxp.com
+patch subject: [PATCH 3/4] soc: imx: secvio: Add support for SNVS secvio and tamper via SCFW
+config: hexagon-randconfig-r131-20240502 (https://download.01.org/0day-ci/archive/20240502/202405020818.2mTfooXt-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce: (https://download.01.org/0day-ci/archive/20240502/202405020818.2mTfooXt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405020848.mDKFUGLg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405020818.2mTfooXt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/imx/secvio/imx-secvio-sc.c:381:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void * @@
+   drivers/soc/imx/secvio/imx-secvio-sc.c:381:37: sparse:     expected void [noderef] __user *to
+   drivers/soc/imx/secvio/imx-secvio-sc.c:381:37: sparse:     got void *
+>> drivers/soc/imx/secvio/imx-secvio-sc.c:393:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
+   drivers/soc/imx/secvio/imx-secvio-sc.c:393:46: sparse:     expected void const [noderef] __user *from
+   drivers/soc/imx/secvio/imx-secvio-sc.c:393:46: sparse:     got void *
 
-   hppa-linux-ld: kernel/bpf/trampoline.o: in function `bpf_trampoline_toggle_lsm':
->> (.text+0x54): undefined reference to `security_toggle_hook'
->> hppa-linux-ld: (.text+0x80): undefined reference to `security_toggle_hook'
+vim +381 drivers/soc/imx/secvio/imx-secvio-sc.c
+
+   368	
+   369	static long imx_secvio_sc_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+   370	{
+   371		struct device *dev = file->private_data;
+   372		struct secvio_sc_notifier_info info;
+   373		int ret;
+   374	
+   375		switch (cmd) {
+   376		case IMX_SECVIO_SC_GET_STATE:
+   377			ret = imx_secvio_sc_get_state(dev, &info);
+   378			if (ret)
+   379				return ret;
+   380	
+ > 381			ret = copy_to_user((void *)arg, &info, sizeof(info));
+   382			if (ret) {
+   383				dev_err(dev, "Fail to copy info to user\n");
+   384				return -EFAULT;
+   385			}
+   386			break;
+   387		case IMX_SECVIO_SC_CHECK_STATE:
+   388			ret = imx_secvio_sc_check_state(dev);
+   389			if (ret)
+   390				return ret;
+   391			break;
+   392		case IMX_SECVIO_SC_CLEAR_STATE:
+ > 393			ret = copy_from_user(&info, (void *)arg, sizeof(info));
+   394			if (ret) {
+   395				dev_err(dev, "Fail to copy info from user\n");
+   396				return -EFAULT;
+   397			}
+   398	
+   399			ret = imx_secvio_sc_clear_state(dev, info.hpsvs, info.lps,
+   400							    info.lptds);
+   401			if (ret)
+   402				return ret;
+   403			break;
+   404		default:
+   405			ret = -ENOIOCTLCMD;
+   406		}
+   407	
+   408		return ret;
+   409	}
+   410	
 
 -- 
 0-DAY CI Kernel Test Service
