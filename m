@@ -1,116 +1,148 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E5915E80D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 18:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356CE69D2F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 19:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714674715; cv=none; b=I+F02ix4758BbFLdF9+ZeZn1Rs2H0onYDXclqYxH8tBWXldCPiHFXQCs3wsGn3EH6CWOkHlWGNmXH1l5vl5EeTFRHxVjzbXw8tGbZGL08aUHuFaCK/GFCLiHpthtTaj6vrpQoUp0l+q4851wetcBUSvLqyNF9Yc3DzthWYdVD8w=
+	t=1714676639; cv=none; b=nDKYKaazrDsWpqwOCpqp8Y4NJYBEs8Acd5hobJk/2CiCHu1UnE6xUpbcGYTmTQoPWCzHJheUhIUaGia4chobVQh3Kx4IYbHGl3QZwzGhblmZrzs07iHZwAGjk2esCIn+JfMRN/AQ1z3+xrfosmN8Nq5JBa9bgtp4DPXRyyFX4IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714674715; c=relaxed/simple;
-	bh=lI4qPQIoad0Ah9XwKmXsml3itVLiyRUUGhnO0GntaxY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dYw+5jpmvOqH4/q2jaKpzEq5B58MQJW7tjCzhibnlU6hbl5TwtDiVeB3KjV30eBBsmD1tOsvxA7scskQvWmS+vEcyq7KIu16UTYCz3ZrraCo375MYk9PXxBh7skJB3oqu5PP97n2lIWpQnUOSgtQUEIo+IZA0LS5CjYFkd1Tyik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=P3uRb6iL; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1714676639; c=relaxed/simple;
+	bh=EoWpaGahS9+7N/Tn7VrR0XBjpa7/lAxYqFMa8FhNZMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sM7o5JIozO//mwuJvitrQ5g3ixf/7iqhh4LinQfkgFtvaRWVUXMSvZDEp+76lBbeXy2xbvMpQn/gb9PSqebCceM5TlbfBCUzpkdvi67ZK8F7VVivgTggh56hhILdmP2N1KTbxTP/Q3wRBkY6x3PYwBKcvfGmnlonXiI4qmlHBXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNtG7Hdj; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="P3uRb6iL"
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 442IUsYG002107;
-	Thu, 2 May 2024 18:31:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=lI4qPQIoad0Ah9XwKmXsml3itVLiyRUUGhnO0GntaxY=;
- b=P3uRb6iLCYJZD+y77Zp2n2Zqnqo/GEsfd10awnc9C97ckQ0t2/0Pi6xFFHPgQ8cebGZJ
- 0rroq8IM3Pm8wW004W2h7Jhj9miMb3ABXoPKPhDy461nJsDBRTqdNnUj72N1sobu/mVs
- OXpp2jxp4EjlFs9WgNv1MZdVF1m9XQY4SS6j2YOie+UvkBiYTdYN5uKM/+H3VkzTNH3B
- foFJkofYosxUb1hEBllXv0nVHDKj7X9+1q7SR9ZOh/MfBeXNGSt5MYPLw5NQ9L+VpzPr
- DVhUm8T94/0UbqjWa/K82bqa8lJGnBIckYdaSwUWk/TC/nqfi+/0Xyd78tDpLOx45C2D Lg== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xvg1xr0gk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 May 2024 18:31:42 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 442Fl9iK022229;
-	Thu, 2 May 2024 18:31:41 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xsd6n1c6p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 May 2024 18:31:41 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 442IVbhQ43974956
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 2 May 2024 18:31:39 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0E8AC20040;
-	Thu,  2 May 2024 18:31:37 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0078920043;
-	Thu,  2 May 2024 18:31:35 +0000 (GMT)
-Received: from [9.43.80.154] (unknown [9.43.80.154])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  2 May 2024 18:31:34 +0000 (GMT)
-Message-ID: <dbc992da-ffa3-4d62-9e0c-734e9d180fec@linux.ibm.com>
-Date: Fri, 3 May 2024 00:01:33 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 7646/8170] arch/powerpc/kexec/crash.c:488:2-8:
- WARNING: NULL check before some freeing functions is not needed.
-To: Michael Ellerman <mpe@ellerman.id.au>, kernel test robot <lkp@intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <202404261048.skfV5DDB-lkp@intel.com>
- <9c14d5bc-ffb2-4ddd-a5f1-5d419e88b187@linux.ibm.com>
- <87o79o2vqc.fsf@mail.lhotse>
-Content-Language: en-US
-From: Sourabh Jain <sourabhjain@linux.ibm.com>
-In-Reply-To: <87o79o2vqc.fsf@mail.lhotse>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rCetYAM2qJx9wal5eEjs5b7p4_yURvZk
-X-Proofpoint-ORIG-GUID: rCetYAM2qJx9wal5eEjs5b7p4_yURvZk
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNtG7Hdj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714676638; x=1746212638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EoWpaGahS9+7N/Tn7VrR0XBjpa7/lAxYqFMa8FhNZMQ=;
+  b=HNtG7HdjMP1UJrDta3vc46HzKIDCgh271Ynb31QKtPwL6I4ekeeCfjGu
+   u6LIMZaV74gKRi4eD1elJ037tP/ESsDdXFmHaYPEvsa3We/c4cGrkmXlJ
+   YBP9mtGXzfMqhAxMwBy+00tJr6gBofjfAoHsczgw/D0amsJQ0mhDU48ZR
+   QG201nI3yGX+nfn2CzbWrQfqgeOEFMv40XoCZzOHbUprJxMy8bp5ET/sp
+   spvYucJEWwKm6hOEqgSXuiiRwpuSrAxqZvTE28grDqm8yGOWCU0Pcytju
+   L1h+YWUorKpZ7i4HeWlmbOwVtn5QSAo5cTR1wuTZBoFdy5nvQVw3kvOek
+   A==;
+X-CSE-ConnectionGUID: hgxd8e2VR1SfiOP7tW6mFA==
+X-CSE-MsgGUID: 6wofQSzQSbiA6RE/Wy7Ppw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10399724"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="10399724"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 12:03:57 -0700
+X-CSE-ConnectionGUID: hIsS+t9vTdWnvfoomMjbOQ==
+X-CSE-MsgGUID: pNk0L24ZSrGX7MRYoWkhkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="27324360"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 May 2024 12:03:54 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2bii-000AuK-02;
+	Thu, 02 May 2024 19:03:52 +0000
+Date: Fri, 3 May 2024 03:03:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Denose <jdenose@google.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Jonathan Denose <jdenose@google.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jeffery Miller <jefferymiller@google.com>
+Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
+ Lenovo N24
+Message-ID: <202405030210.izdCj8wZ-lkp@intel.com>
+References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-02_10,2024-05-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- mlxlogscore=999 impostorscore=0 spamscore=0 adultscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2405020123
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 
-Hello Michael and Stephen,
+Hi Jonathan,
 
-On 02/05/24 18:53, Michael Ellerman wrote:
-> Sourabh Jain <sourabhjain@linux.ibm.com> writes:
->> Hello Michael and Stephen,
->>
->> I fixed the below build warning in v19:
->>
->> v19 patch series link:
->> https://lore.kernel.org/all/20240426060728.559753-1-sourabhjain@linux.ibm.com/
->>
->> Only 6/6 patch has been adjusted; all other patches remain unchanged.
-> I don't want to rebase the branch just for that tiny change.
->
-> If you want to fix it, send an incremental patch on top of v18.
+kernel test robot noticed the following build warnings:
 
-The below patch:
-https://lore.kernel.org/all/20240502182040.774759-1-sourabhjain@linux.ibm.com/
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.9-rc6 next-20240502]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-fixes the following build warning:
-https://lore.kernel.org/oe-kbuild-all/202404261048.skfV5DDB-lkp@intel.com/
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/Input-elantech-fix-touchpad-state-on-resume-for-Lenovo-N24/20240501-220739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6%40changeid
+patch subject: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240503/202405030210.izdCj8wZ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030210.izdCj8wZ-lkp@intel.com/reproduce)
 
-The fix patch is rebased on the linux-next/master branch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405030210.izdCj8wZ-lkp@intel.com/
 
-Thanks,
-Sourabh Jain
+All warnings (new ones prefixed by >>):
+
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/math.h:5,
+                    from include/linux/delay.h:22,
+                    from drivers/input/mouse/elantech.c:10:
+   drivers/input/mouse/elantech.c: In function 'elantech_reconnect':
+>> include/linux/stddef.h:8:14: warning: passing argument 3 of 'ps2_sendbyte' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/input/mouse/elantech.c:1509:75: note: in expansion of macro 'NULL'
+    1509 |                 err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
+         |                                                                           ^~~~
+   In file included from drivers/input/mouse/elantech.c:19:
+   include/linux/libps2.h:64:63: note: expected 'unsigned int' but argument is of type 'void *'
+      64 | int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout);
+         |                                                  ~~~~~~~~~~~~~^~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 3 of 'ps2_sendbyte' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/input/mouse/elantech.c:1515:74: note: in expansion of macro 'NULL'
+    1515 |                 err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
+         |                                                                          ^~~~
+   include/linux/libps2.h:64:63: note: expected 'unsigned int' but argument is of type 'void *'
+      64 | int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout);
+         |                                                  ~~~~~~~~~~~~~^~~~~~~
+   drivers/input/mouse/elantech.c: In function 'elantech_setup_ps2':
+   drivers/input/mouse/elantech.c:2123:65: warning: '/input1' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+    2123 |                 snprintf(etd->tp_phys, sizeof(etd->tp_phys), "%s/input1",
+         |                                                                 ^~~~~~~
+   drivers/input/mouse/elantech.c:2123:17: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+    2123 |                 snprintf(etd->tp_phys, sizeof(etd->tp_phys), "%s/input1",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2124 |                         psmouse->ps2dev.serio->phys);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ps2_sendbyte +8 include/linux/stddef.h
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
+6e218287432472 Richard Knutsson 2006-09-30  9  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
