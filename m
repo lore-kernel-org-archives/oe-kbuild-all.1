@@ -1,173 +1,70 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF6855C0A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 09:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E4B57301
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 May 2024 13:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714640648; cv=none; b=Iuu7AsdG5FhFvMCH1pSCfVGIuf4JQjl70u7CJYrp3qcwTC0n42rjWhW7AacCNpWvrEKE6ilkbFnxhsyw0Cf7IYbUVvpb8i1bl2Npx/RJNNNDnV/ziV5El00iwpsprtzg7YFm46uLTcrSybUs0mqvZj97ukB4IAqeonQhBqc2VQg=
+	t=1714656227; cv=none; b=fdQVUN9eOmHN7g4LBMuEp6+pFdRfEHTdiJ3gOXZmT6MBmQbT02+P+EIOG9BDIx0sNYbH+t+9NoH51/hecnvnTrCpcttA5yT1WSYCqNiAz+Z3kvCMh+jeJVmOwXS5CapopGvfDnWvOyH5g7rW99ikFvAhsBuHT0kMkHbwy8XaEoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714640648; c=relaxed/simple;
-	bh=RBNo7t5IGu2yThFFulb8qCfz4Zt2E7C/FOw15MNEb5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XDZWS1nBmQzkwFzQiGg6am+9kMO3L06zAYRk1Kf803yl8doHSMURmtbia0RS/r3gv1P5lmAcD7GyU9AgVHOfP+zYaJUKza59PNNE9w+zuTIsfsm+O7GFr0+646R70Tr3QmjtBmg3tIEOXw5pLT/y4OAmGMj77yOXbzykUKhV8dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D4mYV+WD; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1714656227; c=relaxed/simple;
+	bh=t4XsFHmrsF44ZClX+cIdDUB/fa+zvnz3fYN9t24QKpY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fLVgAMKiW3d6z3a293vZUT5th/4K+938G4oyw9Yj9d/2SjKfhk9nqVwNOTauexsqgzYGyrUA1eGHMJ7EDhPVL8IuZI2g8CIZJqfyWxnv5Vo8E1wLKgYg9j95Esuiv23jK/aN8A2qyMZWCXU5/KJ64IwVgD1zdM27Fz1kKWaidU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=UkiMcbXh; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D4mYV+WD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714640645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+3z/p7PSnITLar6zjViIxQUZhsvkqQniW+UpUaJYwp0=;
-	b=D4mYV+WDRiJksVWc5OcQTqlPfbn3jYAkPS4BBtPzyUf5D9QbsSKAwEoACpx6qigl9o7i9d
-	kWZYTsnBXYLyd3FgqThv57+NcUA6kmGlzi3miBQ91HwOPi81S6HzroCz2OrpRwlr1baNUO
-	tVcEJBDCn1dMpX3qHgBmZ5DJluSmfaY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-74-shbXHky0Ojewoz46za8lZg-1; Thu, 02 May 2024 05:04:04 -0400
-X-MC-Unique: shbXHky0Ojewoz46za8lZg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="UkiMcbXh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1714656221;
+	bh=3yP/pzQtESBILyvNR+5Nu71/NLNrgKSAAJ7uTOxXLJk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=UkiMcbXhuMHBypITkrqDZ1LiM4W+vRBJkuxHcUpFjC5i/ITVWG9X7QG02Z+7ZOnxA
+	 Bh7/r8zx9cM+SN1ytG5ucuBnZEJTyLtbfydMdkFZyLQB2aiVbJy/4K9E5TH21pTzzP
+	 LPE6tyLprXiw0LmLLQaMl8owooyXijfJln5V279qWvhlhFOS4T8HTKUdzjrTnQccEc
+	 Hs/DPkKfhdBPp7knZc6NJ3SyDH9nKlPPT/o5AIBR2diUMYvND+gt1ym/miam7vpSxS
+	 Pz+SBs3G/FCtBhwZPnv8tl5/BDrDOfmGeUbotC8Kh8yRRDvYhXILfvajzMqIcnqKGR
+	 tsoZq8EoSl01w==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC69080E95D;
-	Thu,  2 May 2024 09:04:03 +0000 (UTC)
-Received: from fedora (unknown [10.39.194.153])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 36235EC685;
-	Thu,  2 May 2024 09:04:01 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu,  2 May 2024 05:04:03 -0400 (EDT)
-Date: Thu, 2 May 2024 05:04:00 -0400
-From: Oleg Nesterov <oleg@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
-Subject: Re: kernel/sched/isolation.c:143 housekeeping_setup() warn: always
- true condition '(first_cpu >= 0) => (0-u32max >= 0)'
-Message-ID: <ZjNXAEGhAnXX20Xk@redhat.com>
-References: <202404300915.WNvfwBz3-lkp@intel.com>
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VVZQ453lfz4wc7;
+	Thu,  2 May 2024 23:23:40 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Sourabh Jain <sourabhjain@linux.ibm.com>, kernel test robot
+ <lkp@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 7646/8170]
+ arch/powerpc/kexec/crash.c:488:2-8: WARNING: NULL check before some
+ freeing functions is not needed.
+In-Reply-To: <9c14d5bc-ffb2-4ddd-a5f1-5d419e88b187@linux.ibm.com>
+References: <202404261048.skfV5DDB-lkp@intel.com>
+ <9c14d5bc-ffb2-4ddd-a5f1-5d419e88b187@linux.ibm.com>
+Date: Thu, 02 May 2024 23:23:39 +1000
+Message-ID: <87o79o2vqc.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202404300915.WNvfwBz3-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+Content-Type: text/plain
 
-Hello,
+Sourabh Jain <sourabhjain@linux.ibm.com> writes:
+> Hello Michael and Stephen,
+>
+> I fixed the below build warning in v19:
+>
+> v19 patch series link: 
+> https://lore.kernel.org/all/20240426060728.559753-1-sourabhjain@linux.ibm.com/
+>
+> Only 6/6 patch has been adjusted; all other patches remain unchanged.
 
-I am on PTO till May 9 without my working laptop, can't even read the source code.
-I'll return to this when I'm back. CONFIG_SMP=n I guess.
+I don't want to rebase the branch just for that tiny change.
 
-On 04/30, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
-> commit: 257bf89d84121280904800acd25cc2c444c717ae sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
-> date:   2 days ago
-> config: xtensa-randconfig-r081-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300915.WNvfwBz3-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 13.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404300915.WNvfwBz3-lkp@intel.com/
-> 
-> New smatch warnings:
-> kernel/sched/isolation.c:143 housekeeping_setup() warn: always true condition '(first_cpu >= 0) => (0-u32max >= 0)'
-> 
-> Old smatch warnings:
-> arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
-> 
-> vim +143 kernel/sched/isolation.c
-> 
->    117	
->    118	static int __init housekeeping_setup(char *str, unsigned long flags)
->    119	{
->    120		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
->    121		unsigned int first_cpu;
->    122		int err = 0;
->    123	
->    124		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
->    125			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
->    126				pr_warn("Housekeeping: nohz unsupported."
->    127					" Build with CONFIG_NO_HZ_FULL\n");
->    128				return 0;
->    129			}
->    130		}
->    131	
->    132		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
->    133		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
->    134			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
->    135			goto free_non_housekeeping_mask;
->    136		}
->    137	
->    138		alloc_bootmem_cpumask_var(&housekeeping_staging);
->    139		cpumask_andnot(housekeeping_staging,
->    140			       cpu_possible_mask, non_housekeeping_mask);
->    141	
->    142		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
->  > 143		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
->    144			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
->    145			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
->    146			if (!housekeeping.flags) {
->    147				pr_warn("Housekeeping: must include one present CPU, "
->    148					"using boot CPU:%d\n", smp_processor_id());
->    149			}
->    150		}
->    151	
->    152		if (cpumask_empty(non_housekeeping_mask))
->    153			goto free_housekeeping_staging;
->    154	
->    155		if (!housekeeping.flags) {
->    156			/* First setup call ("nohz_full=" or "isolcpus=") */
->    157			enum hk_type type;
->    158	
->    159			for_each_set_bit(type, &flags, HK_TYPE_MAX)
->    160				housekeeping_setup_type(type, housekeeping_staging);
->    161		} else {
->    162			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
->    163			enum hk_type type;
->    164			unsigned long iter_flags = flags & housekeeping.flags;
->    165	
->    166			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
->    167				if (!cpumask_equal(housekeeping_staging,
->    168						   housekeeping.cpumasks[type])) {
->    169					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
->    170					goto free_housekeeping_staging;
->    171				}
->    172			}
->    173	
->    174			iter_flags = flags & ~housekeeping.flags;
->    175	
->    176			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
->    177				housekeeping_setup_type(type, housekeeping_staging);
->    178		}
->    179	
->    180		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
->    181			tick_nohz_full_setup(non_housekeeping_mask);
->    182	
->    183		housekeeping.flags |= flags;
->    184		err = 1;
->    185	
->    186	free_housekeeping_staging:
->    187		free_bootmem_cpumask_var(housekeeping_staging);
->    188	free_non_housekeeping_mask:
->    189		free_bootmem_cpumask_var(non_housekeeping_mask);
->    190	
->    191		return err;
->    192	}
->    193	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+If you want to fix it, send an incremental patch on top of v18.
 
+cheers
