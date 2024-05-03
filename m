@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A1141C72
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 19:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01C52C69D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 20:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714765612; cv=none; b=cV9zP4og16ljlS2JVGtQtHcu4nhphS6tdXC6w2O1JyQX6BXH5k/QJo/LvJalemu6BhHieqyhQPEbjYjtnxvxklbkgJsVZbQhnDOvDn8JoAn6jT4PBKCQZD3HDbDLShJK+yJ9lVN3JvejlQsWRRjw8NmFq2rqEUHH89HZnzjAcjU=
+	t=1714769398; cv=none; b=Pg+mGlDQ4EAZpKz66pxeD2Dwq1qeEaSsZyE6BeXSm9r9v329rWoHs8umlM6SESBqCxk+m2N19zzYzdCZyiR7gAc/TZPvDmQbzugdGbb+T1RfHKci3kqPqMzi/hT9Sq5p5PhnZcqru3lmbFGFMVHochLGhGt2ZaKKoDwDmMqVMEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714765612; c=relaxed/simple;
-	bh=Ja9K5GR9yI4lzgg748DBtvhmXTGfenFNvPAX9rHrw3w=;
+	s=arc-20240116; t=1714769398; c=relaxed/simple;
+	bh=1gJIGYTpaMmedJaQiwcbnTFHRSZshQI3jYTP31VD2yg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gfL8HDtkOA1OH+GWLCZ5TseYE9lyyXlrXFUT2+ot9sUuyj55bzv38oAM8V7gRSTPAwU4LAej3To2pwXRyE3kgI7XAVapUdINtStRAlb/xhlEmrMcDoVMnOLIdxnyE0VXBNh54FLfrG2yD5HZMhytYppTfA7DOBYOxPKwhoJNaSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BSEX3fao; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=i4mck8VFHoqTaapNF0qe2hjlNxfzDfozk2zKf2Y27eNL/jJP5IEL6fmZOBDCyG9wkkjhyt6A8K0etKllihd73ygntAQlemkq+e00E+cLyX5TWBBkvGeXvIFwh3K9sVtIjJe92pXSyLeGZE2jPd60cYo0DCyCnYG/MThISYbxatM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wnw3DGWm; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSEX3fao"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wnw3DGWm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714765610; x=1746301610;
+  t=1714769396; x=1746305396;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ja9K5GR9yI4lzgg748DBtvhmXTGfenFNvPAX9rHrw3w=;
-  b=BSEX3faooxo9emuRk3dz1sHLcr0v0OhTJODejgXI0EZ0fVes5iMgxZmq
-   0Am5tavw4RrUu52o19jmQPBU4YU5IK0ZOBCu9RQWF0FkEywQaD2o0kSM2
-   jPj2zUJB91LLGtV3+Or1p6zCkE9PcRZipU/PdnLq1PScNEzL7KhmZEumR
-   rEU2nCboNySefhGKxrJCWqxGdFxWVcrhgqXSfLmu/LUIwUBRSfVW5K0gX
-   8ZlN32nVX2pH/uAx/TNaIWTph2alc2Z+esXs1f1EwLjxwdEcATZb4Nbfp
-   tOhK0/9BgqbE/cuQhnyZSgbBOoje8u+0LbN4iUYcvMnmz7t6vFe373NL4
+  bh=1gJIGYTpaMmedJaQiwcbnTFHRSZshQI3jYTP31VD2yg=;
+  b=Wnw3DGWmASuQSiZd4fLQ5HewLkxk/DQn8QTbcOvdM0Yu/oUwJV9phvOF
+   ov3oJIDKPid09GDtpS6M0OFYZT3J16vW13gNRFXwXdP3akQLT4oEuqLwG
+   uP7dRGEPRysQyt4RZIjDOwxX+RXVEhYjDU6VcmKYjNjS1eGYaNz26V5J/
+   MPjnkTQerl238WuqNurLn4TjGzxfCg3Yq2fXADtNp5gsr2rCAOm/2PsHi
+   Yfe0geUr7WirhfjNkMG0VUCC/wOQFRpzU7o3ZibJ75cPW84nYKt1dt+zV
+   e1SzXngrNHIrl59NsHx5VwiSQCsJMdEwiAEpOfYSCyJL6Qc5dlfMII7lB
    A==;
-X-CSE-ConnectionGUID: 0nGA61xySAuZRP0gWZS0Hw==
-X-CSE-MsgGUID: q6NE3J/MSzeM0b8LoI489A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="28115932"
+X-CSE-ConnectionGUID: 7gx4E/n5SIi44FpFaDWMKg==
+X-CSE-MsgGUID: 1dHN0bVIQQqPMkG7eCgRyA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14408014"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="28115932"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 12:46:50 -0700
-X-CSE-ConnectionGUID: 5VB0jKr7SKu90hvTjk8h1w==
-X-CSE-MsgGUID: BL40CPjrTmijZFvloLHPkg==
+   d="scan'208";a="14408014"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 13:49:54 -0700
+X-CSE-ConnectionGUID: h3DukbAxToWRvR5e8ak5sw==
+X-CSE-MsgGUID: WHtbtj4bRpWWUJTq/G4gaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="32021162"
+   d="scan'208";a="27614459"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 May 2024 12:46:48 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 May 2024 13:49:52 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2yrm-000C3g-2N;
-	Fri, 03 May 2024 19:46:46 +0000
-Date: Sat, 4 May 2024 03:46:30 +0800
+	id 1s2zqo-000C5b-05;
+	Fri, 03 May 2024 20:49:50 +0000
+Date: Sat, 4 May 2024 04:49:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
+To: Kees Cook <keescook@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 1014/1143]
- drivers/soc/aspeed/rvas/video_main.c:1437:6: warning: variable 'mcr_base' is
- used uninitialized whenever 'if' condition is true
-Message-ID: <202405040352.S51iX41G-lkp@intel.com>
+Subject: [kees:wip/v6.9-rc2/unsigned-overflow-sanitizer 30/109]
+ include/linux/overflow.h:128:17: warning: right-hand operand of comma
+ expression has no effect
+Message-ID: <202405040428.lcRUPsuc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,277 +63,673 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/shenki/linux aspeed-6.9-rebase
-head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: f778d27331abc1655c4425fcdee0086a7b81464e [1014/1143] RVAS: add rvas driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405040352.S51iX41G-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040352.S51iX41G-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git wip/v6.9-rc2/unsigned-overflow-sanitizer
+head:   4eae48ae0df1d1feb751f794fa8495093e36168d
+commit: 42a77f20b876489304c8e46c2b30ccb154d876bf [30/109] include/linux/percpu-defs.h: negated variable: use wrapping_sub()
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240504/202405040428.lcRUPsuc-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040428.lcRUPsuc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405040352.S51iX41G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040428.lcRUPsuc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/soc/aspeed/rvas/video_main.c:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/soc/aspeed/rvas/video_main.c:25:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/soc/aspeed/rvas/video_main.c:295:6: warning: no previous prototype for function 'free_all_mem_entries' [-Wmissing-prototypes]
-     295 | void free_all_mem_entries(struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:295:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     295 | void free_all_mem_entries(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:386:5: warning: no previous prototype for function 'get_mem_entry' [-Wmissing-prototypes]
-     386 | int get_mem_entry(struct AstRVAS *pAstRVAS)
-         |     ^
-   drivers/soc/aspeed/rvas/video_main.c:386:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     386 | int get_mem_entry(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:416:6: warning: no previous prototype for function 'delete_mem_entry' [-Wmissing-prototypes]
-     416 | bool delete_mem_entry(const void *crmh, struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:416:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     416 | bool delete_mem_entry(const void *crmh, struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:603:6: warning: no previous prototype for function 'init_osr_es' [-Wmissing-prototypes]
-     603 | void init_osr_es(struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:603:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     603 | void init_osr_es(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:627:6: warning: no previous prototype for function 'release_osr_es' [-Wmissing-prototypes]
-     627 | void release_osr_es(struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:627:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     627 | void release_osr_es(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:725:6: warning: no previous prototype for function 'display_event_map' [-Wmissing-prototypes]
-     725 | void display_event_map(const struct EventMap *pem)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:725:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     725 | void display_event_map(const struct EventMap *pem)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:971:6: warning: no previous prototype for function 'disable_video_engines' [-Wmissing-prototypes]
-     971 | void disable_video_engines(struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:971:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     971 | void disable_video_engines(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:977:6: warning: no previous prototype for function 'enable_video_engines' [-Wmissing-prototypes]
-     977 | void enable_video_engines(struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:977:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     977 | void enable_video_engines(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
-   drivers/soc/aspeed/rvas/video_main.c:983:6: warning: no previous prototype for function 'disable_rvas_engines' [-Wmissing-prototypes]
-     983 | void disable_rvas_engines(struct AstRVAS *pAstRVAS)
-         |      ^
-   drivers/soc/aspeed/rvas/video_main.c:983:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     983 | void disable_rvas_engines(struct AstRVAS *pAstRVAS)
-         | ^
-         | static 
->> drivers/soc/aspeed/rvas/video_main.c:1437:6: warning: variable 'mcr_base' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1437 |         if (!edac_node) {
-         |             ^~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_main.c:1445:28: note: uninitialized use occurs here
-    1445 |         set_FBInfo_size(pAstRVAS, mcr_base);
-         |                                   ^~~~~~~~
-   drivers/soc/aspeed/rvas/video_main.c:1437:2: note: remove the 'if' if its condition is always false
-    1437 |         if (!edac_node) {
-         |         ^~~~~~~~~~~~~~~~~
-    1438 |                 dev_err(&pdev->dev, "cannot find edac node\n");
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1439 |         } else {
-         |         ~~~~~~
-   drivers/soc/aspeed/rvas/video_main.c:1382:24: note: initialize the variable 'mcr_base' to silence this warning
-    1382 |         void __iomem *mcr_base;
-         |                               ^
-         |                                = NULL
-   drivers/soc/aspeed/rvas/video_main.c:1554:18: warning: unused variable 'ast2500_dram_table' [-Wunused-const-variable]
-    1554 | static const u32 ast2500_dram_table[] = {
-         |                  ^~~~~~~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_main.c:1561:18: warning: unused variable 'ast2600_dram_table' [-Wunused-const-variable]
-    1561 | static const u32 ast2600_dram_table[] = {
-         |                  ^~~~~~~~~~~~~~~~~~
-   19 warnings generated.
+   In file included from ./arch/parisc/include/generated/asm/percpu.h:1,
+                    from arch/parisc/include/asm/processor.h:22,
+                    from include/linux/sched.h:13,
+                    from arch/parisc/kernel/asm-offsets.c:18:
+   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:401:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     401 | #define this_cpu_add_1(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:404:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     404 | #define this_cpu_add_2(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:366:25: note: in expansion of macro 'this_cpu_add_2'
+     366 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:407:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     407 | #define this_cpu_add_4(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:367:25: note: in expansion of macro 'this_cpu_add_4'
+     367 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:410:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_add_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:401:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     401 | #define this_cpu_add_1(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:404:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     404 | #define this_cpu_add_2(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:366:25: note: in expansion of macro 'this_cpu_add_2'
+     366 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:407:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     407 | #define this_cpu_add_4(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:367:25: note: in expansion of macro 'this_cpu_add_4'
+     367 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:410:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_add_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+--
+   In file included from ./arch/parisc/include/generated/asm/percpu.h:1,
+                    from include/linux/irqflags.h:19,
+                    from include/asm-generic/cmpxchg-local.h:6,
+                    from arch/parisc/include/asm/cmpxchg.h:89,
+                    from arch/parisc/include/asm/atomic.h:10,
+                    from include/linux/atomic.h:7,
+                    from arch/parisc/include/asm/bitops.h:13,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from arch/parisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/parisc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from lib/kobject_uevent.c:16:
+   include/linux/percpu-rwsem.h: In function 'percpu_up_read':
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:401:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     401 | #define this_cpu_add_1(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:404:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     404 | #define this_cpu_add_2(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:366:25: note: in expansion of macro 'this_cpu_add_2'
+     366 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:407:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     407 | #define this_cpu_add_4(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:367:25: note: in expansion of macro 'this_cpu_add_4'
+     367 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:410:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_add_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:106:17: note: in expansion of macro 'this_cpu_dec'
+     106 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:401:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     401 | #define this_cpu_add_1(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:404:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     404 | #define this_cpu_add_2(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:366:25: note: in expansion of macro 'this_cpu_add_2'
+     366 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:407:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     407 | #define this_cpu_add_4(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:367:25: note: in expansion of macro 'this_cpu_add_4'
+     367 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:410:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'this_cpu_add_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro 'this_cpu_add'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:500:59: note: in expansion of macro 'wrapping_sub'
+     500 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                           ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:502:41: note: in expansion of macro 'this_cpu_sub'
+     502 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-rwsem.h:118:17: note: in expansion of macro 'this_cpu_dec'
+     118 |                 this_cpu_dec(*sem->read_count);
+         |                 ^~~~~~~~~~~~
+   include/linux/netdevice.h: In function 'dev_xmit_recursion_dec':
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'raw_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:410:41: note: in expansion of macro '__pcpu_size_call'
+     410 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:445:9: note: in expansion of macro 'raw_cpu_add'
+     445 |         raw_cpu_add(pcp, val);                                          \
+         |         ^~~~~~~~~~~
+   include/linux/percpu-defs.h:478:41: note: in expansion of macro '__this_cpu_add'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:478:61: note: in expansion of macro 'wrapping_sub'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                             ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:480:41: note: in expansion of macro '__this_cpu_sub'
+     480 | #define __this_cpu_dec(pcp)             __this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/netdevice.h:3287:9: note: in expansion of macro '__this_cpu_dec'
+    3287 |         __this_cpu_dec(softnet_data.xmit.recursion);
+         |         ^~~~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/linux/percpu-defs.h:366:25: note: in expansion of macro 'raw_cpu_add_2'
+     366 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:410:41: note: in expansion of macro '__pcpu_size_call'
+     410 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:445:9: note: in expansion of macro 'raw_cpu_add'
+     445 |         raw_cpu_add(pcp, val);                                          \
+         |         ^~~~~~~~~~~
+   include/linux/percpu-defs.h:478:41: note: in expansion of macro '__this_cpu_add'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:478:61: note: in expansion of macro 'wrapping_sub'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                             ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:480:41: note: in expansion of macro '__this_cpu_sub'
+     480 | #define __this_cpu_dec(pcp)             __this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/netdevice.h:3287:9: note: in expansion of macro '__this_cpu_dec'
+    3287 |         __this_cpu_dec(softnet_data.xmit.recursion);
+         |         ^~~~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/linux/percpu-defs.h:367:25: note: in expansion of macro 'raw_cpu_add_4'
+     367 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:410:41: note: in expansion of macro '__pcpu_size_call'
+     410 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:445:9: note: in expansion of macro 'raw_cpu_add'
+     445 |         raw_cpu_add(pcp, val);                                          \
+         |         ^~~~~~~~~~~
+   include/linux/percpu-defs.h:478:41: note: in expansion of macro '__this_cpu_add'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:478:61: note: in expansion of macro 'wrapping_sub'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                             ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:480:41: note: in expansion of macro '__this_cpu_sub'
+     480 | #define __this_cpu_dec(pcp)             __this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/netdevice.h:3287:9: note: in expansion of macro '__this_cpu_dec'
+    3287 |         __this_cpu_dec(softnet_data.xmit.recursion);
+         |         ^~~~~~~~~~~~~~
+>> include/linux/overflow.h:128:17: warning: right-hand operand of comma expression has no effect [-Wunused-value]
+     128 |                 __builtin_sub_overflow(a, b, &__val);           \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/linux/percpu-defs.h:368:25: note: in expansion of macro 'raw_cpu_add_8'
+     368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:410:41: note: in expansion of macro '__pcpu_size_call'
+     410 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:445:9: note: in expansion of macro 'raw_cpu_add'
+     445 |         raw_cpu_add(pcp, val);                                          \
+         |         ^~~~~~~~~~~
+   include/linux/percpu-defs.h:478:41: note: in expansion of macro '__this_cpu_add'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:478:61: note: in expansion of macro 'wrapping_sub'
+     478 | #define __this_cpu_sub(pcp, val)        __this_cpu_add(pcp, wrapping_sub(typeof(pcp), 0, (typeof(pcp))(val)))
+         |                                                             ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:480:41: note: in expansion of macro '__this_cpu_sub'
+     480 | #define __this_cpu_dec(pcp)             __this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/netdevice.h:3287:9: note: in expansion of macro '__this_cpu_dec'
+    3287 |         __this_cpu_dec(softnet_data.xmit.recursion);
+         |         ^~~~~~~~~~~~~~
+..
 
 
-vim +1437 drivers/soc/aspeed/rvas/video_main.c
+vim +128 include/linux/overflow.h
 
-  1372	
-  1373	//
-  1374	//
-  1375	//
-  1376	static int video_drv_probe(struct platform_device *pdev)
-  1377	{
-  1378		int result = 0;
-  1379		struct regmap *sdram_scu;
-  1380		struct device_node *dp_node;
-  1381		struct device_node *edac_node;
-  1382		void __iomem *mcr_base;
-  1383	
-  1384		pr_info("RVAS driver probe\n");
-  1385		pAstRVAS = devm_kzalloc(&pdev->dev, sizeof(struct AstRVAS), GFP_KERNEL);
-  1386		VIDEO_DBG("pAstRVAS: 0x%p\n", pAstRVAS);
-  1387	
-  1388		if (!pAstRVAS) {
-  1389			dev_err(pAstRVAS->pdev, "Cannot allocate device structure\n");
-  1390			return -ENOMEM;
-  1391		}
-  1392		pAstRVAS->pdev = (void *)&pdev->dev;
-  1393	
-  1394		// Get resources
-  1395		result = video_drv_get_resources(pdev);
-  1396		if (result < 0) {
-  1397			dev_err(pAstRVAS->pdev, "video_probe: Error getting resources\n");
-  1398			return result;
-  1399		}
-  1400	
-  1401		//get irqs
-  1402		result = video_drv_get_irqs(pdev);
-  1403		if (result < 0) {
-  1404			dev_err(pAstRVAS->pdev, "video_probe: Error getting irqs\n");
-  1405			return result;
-  1406		}
-  1407	
-  1408		pAstRVAS->rvas_reset = devm_reset_control_get_by_index(&pdev->dev, 0);
-  1409		if (IS_ERR(pAstRVAS->rvas_reset)) {
-  1410			dev_err(&pdev->dev, "can't get rvas reset\n");
-  1411			return -ENOENT;
-  1412		}
-  1413	
-  1414		pAstRVAS->video_engine_reset = devm_reset_control_get_by_index(&pdev->dev, 1);
-  1415		if (IS_ERR(pAstRVAS->video_engine_reset)) {
-  1416			dev_err(&pdev->dev, "can't get video engine reset\n");
-  1417			return -ENOENT;
-  1418		}
-  1419	
-  1420		//prepare video engine clock
-  1421		result = video_drv_get_clock(pdev);
-  1422		if (result < 0) {
-  1423			dev_err(pAstRVAS->pdev, "video_probe: Error getting clocks\n");
-  1424			return result;
-  1425		}
-  1426	
-  1427		dp_node = of_find_compatible_node(NULL, NULL, "aspeed,ast2600-displayport");
-  1428		if (!dp_node) {
-  1429			dev_err(&pdev->dev, "cannot find dp node\n");
-  1430		} else {
-  1431			dp_base = of_iomap(dp_node, 0);
-  1432			if (!dp_base)
-  1433				dev_err(&pdev->dev, "failed to iomem of display port\n");
-  1434		}
-  1435	
-  1436		edac_node = of_find_compatible_node(NULL, NULL, "aspeed,ast2600-sdram-edac");
-> 1437		if (!edac_node) {
-  1438			dev_err(&pdev->dev, "cannot find edac node\n");
-  1439		} else {
-  1440			mcr_base = of_iomap(edac_node, 0);
-  1441			if (!mcr_base)
-  1442				dev_err(&pdev->dev, "failed to iomem of MCR\n");
-  1443		}
-  1444	
-  1445		set_FBInfo_size(pAstRVAS, mcr_base);
-  1446	
-  1447		//scu
-  1448		sdram_scu = syscon_regmap_lookup_by_compatible("aspeed,ast2600-scu");
-  1449		VIDEO_DBG("sdram_scu: 0x%p\n", sdram_scu);
-  1450		if (IS_ERR(sdram_scu)) {
-  1451			dev_err(&pdev->dev, "failed to find ast2600-scu regmap\n");
-  1452			return PTR_ERR(sdram_scu);
-  1453		}
-  1454		pAstRVAS->scu = sdram_scu;
-  1455	
-  1456		result = misc_register(&video_misc);
-  1457		if (result) {
-  1458			pr_err("Failed in miscellaneous register (err: %d)\n", result);
-  1459			return result;
-  1460		}
-  1461		pr_info("Video misc minor %d\n", video_misc.minor);
-  1462	
-  1463		if (sysfs_create_group(&pdev->dev.kobj, &rvas_attribute_group)) {
-  1464			pr_err("Failed in creating group\n");
-  1465			return -1;
-  1466		}
-  1467	
-  1468		VIDEO_DBG("Disabling interrupts...\n");
-  1469		disable_grce_tse_interrupt(pAstRVAS);
-  1470	
-  1471		//reserve memory
-  1472		of_reserved_mem_device_init(&pdev->dev);
-  1473		result = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-  1474		if (result) {
-  1475			dev_err(&pdev->dev, "Failed to set DMA mask\n");
-  1476			of_reserved_mem_device_release(&pdev->dev);
-  1477		}
-  1478	
-  1479		// map irqs to irq_handlers
-  1480		result = video_drv_map_irqs(pdev);
-  1481		if (result < 0) {
-  1482			dev_err(pAstRVAS->pdev, "video_probe: Error mapping irqs\n");
-  1483			return result;
-  1484		}
-  1485		VIDEO_DBG("After IRQ registration\n");
-  1486	
-  1487		platform_set_drvdata(pdev, pAstRVAS);
-  1488		pAstRVAS->rvas_dev = &video_misc;
-  1489		VIDEO_DBG("pdev: 0x%p dev: 0x%p pAstRVAS: 0x%p rvas_dev: 0x%p\n", pdev,
-  1490			  &pdev->dev, pAstRVAS, pAstRVAS->rvas_dev);
-  1491	
-  1492		init_osr_es(pAstRVAS);
-  1493		rvas_init();
-  1494		video_engine_reserveMem(pAstRVAS);
-  1495		video_engine_init();
-  1496	
-  1497		pr_info("RVAS: driver successfully loaded.\n");
-  1498		return result;
-  1499	}
-  1500	
+9b80e4c4ddaca35 Kees Cook        2020-08-12   55  
+31970608a6d3796 Kees Cook        2022-09-26   56  /**
+31970608a6d3796 Kees Cook        2022-09-26   57   * check_add_overflow() - Calculate addition with overflow checking
+d219d2a9a92e39a Kees Cook        2022-08-29   58   * @a: first addend
+d219d2a9a92e39a Kees Cook        2022-08-29   59   * @b: second addend
+d219d2a9a92e39a Kees Cook        2022-08-29   60   * @d: pointer to store sum
+d219d2a9a92e39a Kees Cook        2022-08-29   61   *
+3e19086fb5a9079 Kees Cook        2024-01-29   62   * Returns true on wrap-around, false otherwise.
+d219d2a9a92e39a Kees Cook        2022-08-29   63   *
+3e19086fb5a9079 Kees Cook        2024-01-29   64   * *@d holds the results of the attempted addition, regardless of whether
+3e19086fb5a9079 Kees Cook        2024-01-29   65   * wrap-around occurred.
+f0907827a8a9152 Rasmus Villemoes 2018-05-08   66   */
+d219d2a9a92e39a Kees Cook        2022-08-29   67  #define check_add_overflow(a, b, d)	\
+d219d2a9a92e39a Kees Cook        2022-08-29   68  	__must_check_overflow(__builtin_add_overflow(a, b, d))
+f0907827a8a9152 Rasmus Villemoes 2018-05-08   69  
+d70de8054c58d7b Kees Cook        2024-01-18   70  /**
+d70de8054c58d7b Kees Cook        2024-01-18   71   * wrapping_add() - Intentionally perform a wrapping addition
+d70de8054c58d7b Kees Cook        2024-01-18   72   * @type: type for result of calculation
+d70de8054c58d7b Kees Cook        2024-01-18   73   * @a: first addend
+d70de8054c58d7b Kees Cook        2024-01-18   74   * @b: second addend
+d70de8054c58d7b Kees Cook        2024-01-18   75   *
+d70de8054c58d7b Kees Cook        2024-01-18   76   * Return the potentially wrapped-around addition without
+d70de8054c58d7b Kees Cook        2024-01-18   77   * tripping any wrap-around sanitizers that may be enabled.
+d70de8054c58d7b Kees Cook        2024-01-18   78   */
+d70de8054c58d7b Kees Cook        2024-01-18   79  #define wrapping_add(type, a, b)				\
+d70de8054c58d7b Kees Cook        2024-01-18   80  	({							\
+d70de8054c58d7b Kees Cook        2024-01-18   81  		type __val;					\
+d70de8054c58d7b Kees Cook        2024-01-18   82  		__builtin_add_overflow(a, b, &__val);		\
+d70de8054c58d7b Kees Cook        2024-01-18   83  		__val;						\
+d70de8054c58d7b Kees Cook        2024-01-18   84  	})
+d70de8054c58d7b Kees Cook        2024-01-18   85  
+08d45ee84bb2650 Kees Cook        2024-01-26   86  /**
+08d45ee84bb2650 Kees Cook        2024-01-26   87   * wrapping_assign_add() - Intentionally perform a wrapping increment assignment
+08d45ee84bb2650 Kees Cook        2024-01-26   88   * @var: variable to be incremented
+08d45ee84bb2650 Kees Cook        2024-01-26   89   * @offset: amount to add
+08d45ee84bb2650 Kees Cook        2024-01-26   90   *
+08d45ee84bb2650 Kees Cook        2024-01-26   91   * Increments @var by @offset with wrap-around. Returns the resulting
+08d45ee84bb2650 Kees Cook        2024-01-26   92   * value of @var. Will not trip any wrap-around sanitizers.
+08d45ee84bb2650 Kees Cook        2024-01-26   93   *
+08d45ee84bb2650 Kees Cook        2024-01-26   94   * Returns the new value of @var.
+08d45ee84bb2650 Kees Cook        2024-01-26   95   */
+08d45ee84bb2650 Kees Cook        2024-01-26   96  #define wrapping_assign_add(var, offset)				\
+08d45ee84bb2650 Kees Cook        2024-01-26   97  	({								\
+08d45ee84bb2650 Kees Cook        2024-01-26   98  		typeof(var) *__ptr = &(var);				\
+08d45ee84bb2650 Kees Cook        2024-01-26   99  		*__ptr = wrapping_add(typeof(var), *__ptr, offset);	\
+08d45ee84bb2650 Kees Cook        2024-01-26  100  	})
+08d45ee84bb2650 Kees Cook        2024-01-26  101  
+31970608a6d3796 Kees Cook        2022-09-26  102  /**
+31970608a6d3796 Kees Cook        2022-09-26  103   * check_sub_overflow() - Calculate subtraction with overflow checking
+d219d2a9a92e39a Kees Cook        2022-08-29  104   * @a: minuend; value to subtract from
+d219d2a9a92e39a Kees Cook        2022-08-29  105   * @b: subtrahend; value to subtract from @a
+d219d2a9a92e39a Kees Cook        2022-08-29  106   * @d: pointer to store difference
+d219d2a9a92e39a Kees Cook        2022-08-29  107   *
+3e19086fb5a9079 Kees Cook        2024-01-29  108   * Returns true on wrap-around, false otherwise.
+d219d2a9a92e39a Kees Cook        2022-08-29  109   *
+3e19086fb5a9079 Kees Cook        2024-01-29  110   * *@d holds the results of the attempted subtraction, regardless of whether
+3e19086fb5a9079 Kees Cook        2024-01-29  111   * wrap-around occurred.
+d219d2a9a92e39a Kees Cook        2022-08-29  112   */
+d219d2a9a92e39a Kees Cook        2022-08-29  113  #define check_sub_overflow(a, b, d)	\
+d219d2a9a92e39a Kees Cook        2022-08-29  114  	__must_check_overflow(__builtin_sub_overflow(a, b, d))
+f0907827a8a9152 Rasmus Villemoes 2018-05-08  115  
+d70de8054c58d7b Kees Cook        2024-01-18  116  /**
+d70de8054c58d7b Kees Cook        2024-01-18  117   * wrapping_sub() - Intentionally perform a wrapping subtraction
+d70de8054c58d7b Kees Cook        2024-01-18  118   * @type: type for result of calculation
+d70de8054c58d7b Kees Cook        2024-01-18  119   * @a: minuend; value to subtract from
+d70de8054c58d7b Kees Cook        2024-01-18  120   * @b: subtrahend; value to subtract from @a
+d70de8054c58d7b Kees Cook        2024-01-18  121   *
+d70de8054c58d7b Kees Cook        2024-01-18  122   * Return the potentially wrapped-around subtraction without
+d70de8054c58d7b Kees Cook        2024-01-18  123   * tripping any wrap-around sanitizers that may be enabled.
+d70de8054c58d7b Kees Cook        2024-01-18  124   */
+d70de8054c58d7b Kees Cook        2024-01-18  125  #define wrapping_sub(type, a, b)				\
+d70de8054c58d7b Kees Cook        2024-01-18  126  	({							\
+d70de8054c58d7b Kees Cook        2024-01-18  127  		type __val;					\
+d70de8054c58d7b Kees Cook        2024-01-18 @128  		__builtin_sub_overflow(a, b, &__val);		\
+d70de8054c58d7b Kees Cook        2024-01-18  129  		__val;						\
+d70de8054c58d7b Kees Cook        2024-01-18  130  	})
+d70de8054c58d7b Kees Cook        2024-01-18  131  
+
+:::::: The code at line 128 was first introduced by commit
+:::::: d70de8054c58d7bd9a4654c9f4797d29fa46d545 overflow: Introduce wrapping_add(), wrapping_sub(), and wrapping_mul()
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
