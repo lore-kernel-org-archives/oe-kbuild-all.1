@@ -1,34 +1,63 @@
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91861509B7;
-	Fri,  3 May 2024 10:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B984152179
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 11:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714732916; cv=none; b=r7bxTJmRPO5YDTs95ciHv6/HgHcbIh+/eyeDAVnPsD4xkAZlSN+EGFSPb9tM92UvvpHScGLh7RzcNHcw0vsCzEnVZIXMBVwlcWz31VFv9+l2Gbz0BcWdCXILSHevHhuZEnB8Y7VJ1vAtUxlvnxGZ+c7XROQjVMLpYYFJBRro/Gs=
+	t=1714737274; cv=none; b=KEtN84QDMniGJY3SrOTGcqM58aabUCDDGisjSY0pF6qJfWTlpgtgREx64PxyNTOW2EFaUGYbLTuLwy7bKxxlbeEWpdp1sLdVOmEzF2DZroz1HY+kQwR/WhM8CH0K71p6fzMGNe2baf2QjdKXanK8Tw1lv4F56RUSvrGI9uvc0As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714732916; c=relaxed/simple;
-	bh=BeMHoJOu1sgwWKRFqAwYYsALNTVJWj+Tn/G61kiqAUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cVEJkxv7jLefLGZdkKqETtPQqRsfzhXzZm2qtxwnRCyBN95gAx/j2w+xtmBPMNuHCDTxUoPiEaPCQ6hePYwfFsqGv6gUKd1Wp4+wDVKpj51dgwZz96b6CGzrRrHUWz3DbpCqy3nvHIh2DNl/heDz1a2Tc0RXHw6FgtMkdiRZJIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-	(envelope-from <fw@strlen.de>)
-	id 1s2qMJ-0000Yk-Qq; Fri, 03 May 2024 12:41:43 +0200
-Date: Fri, 3 May 2024 12:41:43 +0200
-From: Florian Westphal <fw@strlen.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Florian Westphal <fw@strlen.de>, oe-kbuild-all@lists.linux.dev,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [netfilter-nf:under-review 14/18]
- net/netfilter/nft_set_pipapo.c:2122: warning: expecting prototype for
- __nft_pipapo_walk(). Prototype was for nft_pipapo_do_walk() instead
-Message-ID: <20240503104143.GA9734@breakpoint.cc>
-References: <202405031522.nDHvTzEz-lkp@intel.com>
+	s=arc-20240116; t=1714737274; c=relaxed/simple;
+	bh=2IsXhYfbq0DnjmnBteMhBEQDqIf10OR2W5tBMKUzT6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FlCnc7r/P99P+bLyIGGHlUf5XQJRJMper8K3J/TpSiST3oxap1UoE0kFCS0WouTQaUzI0TGppiZ10CaWeZP7+stwGANpecPUpHyFazdT4dkTHAKSRjrMM73FBu4O3dRXwGmUXsWDtiKlbgjH3z+CPvqZIVKiRUp3KxNrhR1HiVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJYWF0Vo; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJYWF0Vo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714737272; x=1746273272;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2IsXhYfbq0DnjmnBteMhBEQDqIf10OR2W5tBMKUzT6c=;
+  b=TJYWF0VoqFiIx+KKnhjUQXAdS4gLBuF3pWzgsnynBSd3JQULUlX+lVL1
+   alPBAJt96/9n6qMy5cH6EUKBZi1Id8+y/JOLzHj87EOwKqiFncNd1JQoc
+   bPUKZSIf0CWCZSvnAlvUCaMhVQY58gMNufmOjg6Mw0i5a8cG6hPtcNsX7
+   /xocQvx1VIFnFgEdoOhxRj1r0Eskx7BE7r2gaawviVHTNTkiIyHPHuVPe
+   JAEwA9UDMwOWtkSc0371XEeyqG6ckTEebHvKfDO7eORZ+Q/fWvimZcHXA
+   dZok8UWglnIKnjM0FfPSKacihge2BJR/azRDMK2QqfzYPDYizfsmo+5w6
+   w==;
+X-CSE-ConnectionGUID: UGJufurcTM+5tBDj3I4EFg==
+X-CSE-MsgGUID: 7b679gnlThGFCBHFbcRDZQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="21230381"
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
+   d="scan'208";a="21230381"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 04:54:31 -0700
+X-CSE-ConnectionGUID: jKKWTQPTTzWGw7C+kcaTzw==
+X-CSE-MsgGUID: /GZWh8c7R/qc9m1TLG7HyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
+   d="scan'208";a="27459875"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 03 May 2024 04:54:29 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2rUh-000Beq-1l;
+	Fri, 03 May 2024 11:54:27 +0000
+Date: Fri, 3 May 2024 19:53:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lijo Lazar <lijo.lazar@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Asad Kamal <asad.kamal@amd.com>
+Subject: [linux-next:master 10507/10967]
+ drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:58: error: '%d' directive
+ output may be truncated writing between 1 and 11 bytes into a region of size
+ 9
+Message-ID: <202405031953.taqZevDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -37,40 +66,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202405031522.nDHvTzEz-lkp@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-kernel test robot <lkp@intel.com> wrote:
-> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git under-review
-> head:   7ab960ad3bd958ddbeabe9ab2287ac5d0a673f23
-> commit: cd491237776df450e99904b9408bfad35366a73f [14/18] netfilter: nft_set_pipapo: prepare walk function for on-demand clone
-> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240503/202405031522.nDHvTzEz-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405031522.nDHvTzEz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405031522.nDHvTzEz-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> net/netfilter/nft_set_pipapo.c:2122: warning: expecting prototype for __nft_pipapo_walk(). Prototype was for nft_pipapo_do_walk() instead
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9221b2819b8a4196eecf5476d66201be60fbcf29
+commit: 97d814fe4f697791abfbe27e035f0b943c483243 [10507/10967] drm/amd/amdxcp: Use unique name for partition dev
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240503/202405031953.taqZevDO-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405031953.taqZevDO-lkp@intel.com/reproduce)
 
-Sigh.  Pablo, can you squash this to
-"netfilter: nft_set_pipapo: prepare walk function for on-demand clone"?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405031953.taqZevDO-lkp@intel.com/
 
-diff --git a/net/netfilter/nft_set_pipapo.c b/net/netfilter/nft_set_pipapo.c
-index be5c554ca4d3..1a1dcb646af5 100644
---- a/net/netfilter/nft_set_pipapo.c
-+++ b/net/netfilter/nft_set_pipapo.c
-@@ -2100,7 +2100,7 @@ static void nft_pipapo_remove(const struct net *net, const struct nft_set *set,
- }
- 
- /**
-- * __nft_pipapo_walk() - Walk over elements in m
-+ * nft_pipapo_do_walk() - Walk over elements in m
-  * @ctx:       nftables API context
-  * @set:       nftables API set representation
-  * @m:         matching data pointing to key mapping array
+All errors (new ones prefixed by >>):
 
+   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c: In function 'amdgpu_xcp_drm_dev_alloc':
+>> drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:58: error: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 9 [-Werror=format-truncation=]
+      59 |         snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
+         |                                                          ^~
+   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:46: note: directive argument in the range [-2147483648, 63]
+      59 |         snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
+         |                                              ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:9: note: 'snprintf' output between 13 and 23 bytes into a destination of size 20
+      59 |         snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +59 drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c
+
+    48	
+    49	int amdgpu_xcp_drm_dev_alloc(struct drm_device **ddev)
+    50	{
+    51		struct platform_device *pdev;
+    52		struct xcp_device *pxcp_dev;
+    53		char dev_name[20];
+    54		int ret;
+    55	
+    56		if (pdev_num >= MAX_XCP_PLATFORM_DEVICE)
+    57			return -ENODEV;
+    58	
+  > 59		snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
+    60		pdev = platform_device_register_simple(dev_name, -1, NULL, 0);
+    61		if (IS_ERR(pdev))
+    62			return PTR_ERR(pdev);
+    63	
+    64		if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+    65			ret = -ENOMEM;
+    66			goto out_unregister;
+    67		}
+    68	
+    69		pxcp_dev = devm_drm_dev_alloc(&pdev->dev, &amdgpu_xcp_driver, struct xcp_device, drm);
+    70		if (IS_ERR(pxcp_dev)) {
+    71			ret = PTR_ERR(pxcp_dev);
+    72			goto out_devres;
+    73		}
+    74	
+    75		xcp_dev[pdev_num] = pxcp_dev;
+    76		xcp_dev[pdev_num]->pdev = pdev;
+    77		*ddev = &pxcp_dev->drm;
+    78		pdev_num++;
+    79	
+    80		return 0;
+    81	
+    82	out_devres:
+    83		devres_release_group(&pdev->dev, NULL);
+    84	out_unregister:
+    85		platform_device_unregister(pdev);
+    86	
+    87		return ret;
+    88	}
+    89	EXPORT_SYMBOL(amdgpu_xcp_drm_dev_alloc);
+    90	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
