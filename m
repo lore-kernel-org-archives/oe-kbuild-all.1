@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BCF157A72
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 17:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40084157E7A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 17:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714756550; cv=none; b=d7Pq0ONtUEy52kDPXFBSao2UxP/WQjDfg8JyPJqA4GYAEURwo/hs2Mpd3flVIsVOQQBegVjpnkE5NvxEqSHVU2bauq6KJXD5l6BBJHafeDNGeUwnJuHxsbcR6kpgyOz8cTo9GqJ/0gcZUK3jtAbEeiWsW1ImsM68PpThZ3/KTz4=
+	t=1714757267; cv=none; b=K4hwjj1rl1RAJme4GB4axAEzSd7iVTA5RcPNFI8y1dJmEWL8y/Cm9mHHN2wg9cAToW2mcJ9N4xD35ZIShJVBSoJZT4Cm4oURogRkGhyDsILYFZhhpRXtf/zG6jRxWl0RfSKd26ClaBzhXBLPv38a36+t3lAlK6c8jF6eaQPLUZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714756550; c=relaxed/simple;
-	bh=nmzk+rIi5lhP+mMY1lgQk4NZ9UnrTXzds4LWmy2mArY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FUGAjmE+d0N8Czg4C393akXybd2ZBHO6obs3gHZPWiLxhh+nYE/RTwDqw9c5Tg15LFBzSQrZacqqzQ+N1BfwVcRKsFJZAsUkus4vABkcSbGhzqNgU6/o01ZL7QQVTdsh29kNbb/VbJQ5/Z/5Okc4o2vxjIu/XLoR0HVpVkCsO8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAHHNHyI; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1714757267; c=relaxed/simple;
+	bh=kC1rxghHJQnlVZD5qvO+LCxYw8ev5a1rXSdqYFOpRcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ClogYAzd8PRJrEGYe8dm8Ha71xXTrevFNBjUM400EpwmGzxjcs1I0ZjJb1CqcOurbZENQ2hkwnyNBwUc1Cf5Hj/wX4V5BsryOuMLxNOjBmjVbK4oTgeDllrLiHlhwrUW9NxjrX1ho87ThEeShr9o3BYfY3c1FmF+GCvSHrbzsBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgYQm/Wu; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAHHNHyI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgYQm/Wu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714756549; x=1746292549;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nmzk+rIi5lhP+mMY1lgQk4NZ9UnrTXzds4LWmy2mArY=;
-  b=SAHHNHyIUPctz3+Q4BOz3lipk9rGbqFKusJFUgQ6o+4VBC37kNSQSlX+
-   nU1v8MohxetSYODNq2K2nSKnPsGT2Vx+VPoph3d8O+OMPd9w1/vm4MGpG
-   6bQfTQP39uoxLITVdTFnHJJo/LPZCXI3bC9WuWNzmsgjFvE4mQAirtQwu
-   dJGtMEOgi3bLojsAhfiV0MQzvspOJjb3qyraifK3LZg14mEJM+SLo2PKc
-   0fx4NlCoUC+0J5tnrYLnM/lmZ5VzNb0WkMnFjHePqabWpt78rYvpZzHl8
-   lMzkQFQ/wsBJS3v7tzPxLrO84DXFgmY4DuhYNXanFALzvdvuxAo6HPABy
+  t=1714757266; x=1746293266;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kC1rxghHJQnlVZD5qvO+LCxYw8ev5a1rXSdqYFOpRcI=;
+  b=PgYQm/WuwJniThMALK/4iYC+riqFtAraFA/4eHGNY4Fmq/LUz71qyzVI
+   KZb6a8GJslAlj5BlH6T0WieEqsv0wtStrumWWgf8tb6vw7MY6cbHsr+LO
+   iGmRvAjjTLnS5uzWnpHHD1rciifuv/W4F18Ue9HMffmAxLuWuscRyrmgP
+   gwQILGUFkv6JbC+brbeSW/w1FKbaPnxnpeFfxdEX/we0sVM0+mxxud6Er
+   Z+cOiD8R88PJxNi5JuwuRkahoCInjjjkdBj9EahiGagLwhbUC9HktWj2/
+   9XFf5EZsonxhkaKj2P+SHq+tJQWxDmm+0Bg68NR8OzLd39HV9A151N77b
    A==;
-X-CSE-ConnectionGUID: QCy4/5sGRd+ALzAEYgkl4w==
-X-CSE-MsgGUID: XnnyQIdLRKWwcd1URHt0NQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10499677"
+X-CSE-ConnectionGUID: B8OD3tEASHiCrM6CxEkNsA==
+X-CSE-MsgGUID: 4YcpOF4oQnaTTipI18Z1uw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="35962837"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="10499677"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 10:15:48 -0700
-X-CSE-ConnectionGUID: KdVxzLLHRbG1FAlcm1gMAg==
-X-CSE-MsgGUID: jzsi3S87SGqKEJo5T5+tCw==
+   d="scan'208";a="35962837"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 10:27:46 -0700
+X-CSE-ConnectionGUID: 8YhapoZfTDmSgK1qONHdyg==
+X-CSE-MsgGUID: 7JxxymMNQJWZVSh4FkrWsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="32185685"
+   d="scan'208";a="28100002"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 May 2024 10:15:44 -0700
+  by orviesa008.jf.intel.com with ESMTP; 03 May 2024 10:27:44 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2wVZ-000Bw0-2e;
-	Fri, 03 May 2024 17:15:41 +0000
-Date: Sat, 4 May 2024 01:14:57 +0800
+	id 1s2whC-000Bwm-0p;
+	Fri, 03 May 2024 17:27:42 +0000
+Date: Sat, 4 May 2024 01:27:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shay Drory <shayd@nvidia.com>, netdev@vger.kernel.org,
-	pabeni@redhat.com, davem@davemloft.net, kuba@kernel.org,
-	edumazet@google.com, gregkh@linuxfoundation.org,
-	david.m.ertman@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, ira.weiny@intel.com,
-	linux-rdma@vger.kernel.org, leon@kernel.org, tariqt@nvidia.com,
-	Shay Drory <shayd@nvidia.com>, Parav Pandit <parav@nvidia.com>
-Subject: Re: [PATCH 1/2] driver core: auxiliary bus: show auxiliary device
- IRQs
-Message-ID: <202405040108.NWUaSJgz-lkp@intel.com>
-References: <20240503043104.381938-2-shayd@nvidia.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 145/1143]
+ drivers/soc/aspeed/aspeed-bmc-dev.c:433:16: warning: conversion from 'long
+ unsigned int' to 'u32' {aka 'unsigned int'} changes value from
+ '18446744073708503041' to '4293918721'
+Message-ID: <202405040118.GjeEHyFu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,56 +63,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240503043104.381938-2-shayd@nvidia.com>
 
-Hi Shay,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus net/main net-next/main linus/master v6.9-rc6 next-20240503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shay-Drory/driver-core-auxiliary-bus-show-auxiliary-device-IRQs/20240503-123319
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20240503043104.381938-2-shayd%40nvidia.com
-patch subject: [PATCH 1/2] driver core: auxiliary bus: show auxiliary device IRQs
-config: s390-randconfig-r081-20240503 (https://download.01.org/0day-ci/archive/20240504/202405040108.NWUaSJgz-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040108.NWUaSJgz-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: 2667c4a4b011369552565f08ce22c013b0f68f5e [145/1143] soc:aspeed: bmc device for ast2700
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405040118.GjeEHyFu-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040118.GjeEHyFu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405040108.NWUaSJgz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040118.GjeEHyFu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/base/auxiliary.c:182: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Auxiliary devices can share IRQs. Expose to user whether the provided IRQ is
+   drivers/soc/aspeed/aspeed-bmc-dev.c: In function 'aspeed_bmc_device_init':
+>> drivers/soc/aspeed/aspeed-bmc-dev.c:433:16: warning: conversion from 'long unsigned int' to 'u32' {aka 'unsigned int'} changes value from '18446744073708503041' to '4293918721' [-Woverflow]
+     433 |         writel(~(BMC_MEM_BAR_SIZE - 1) | HOST2BMC_MEM_BAR_ENABLE,
 
 
-vim +182 drivers/base/auxiliary.c
+vim +433 drivers/soc/aspeed/aspeed-bmc-dev.c
 
-   180	
-   181	/**
- > 182	 * Auxiliary devices can share IRQs. Expose to user whether the provided IRQ is
-   183	 * shared or exclusive.
-   184	 */
-   185	static ssize_t auxiliary_irq_mode_show(struct device *dev,
-   186					       struct device_attribute *attr, char *buf)
-   187	{
-   188		struct auxiliary_irq_info *info =
-   189			container_of(attr, struct auxiliary_irq_info, sysfs_attr);
-   190	
-   191		if (refcount_read(xa_load(&irqs, info->irq)) > 1)
-   192			return sysfs_emit(buf, "%s\n", "shared");
-   193		else
-   194			return sysfs_emit(buf, "%s\n", "exclusive");
-   195	}
-   196	
+   432	
+ > 433		writel(~(BMC_MEM_BAR_SIZE - 1) | HOST2BMC_MEM_BAR_ENABLE,
+   434		       bmc_device->reg_base + ASPEED_BMC_MEM_BAR);
+   435		writel(bmc_device->bmc_mem_phy, bmc_device->reg_base + ASPEED_BMC_MEM_BAR_REMAP);
+   436	#endif
+   437	
+   438		//Setting BMC to Host Q register
+   439		writel(BMC2HOST_Q2_FULL_UNMASK | BMC2HOST_Q1_FULL_UNMASK | BMC2HOST_ENABLE_INTB,
+   440		       bmc_device->reg_base + ASPEED_BMC_BMC2HOST_STS);
+   441		writel(HOST2BMC_Q2_FULL_UNMASK | HOST2BMC_Q1_FULL_UNMASK | HOST2BMC_ENABLE_INTB,
+   442		       bmc_device->reg_base + ASPEED_BMC_HOST2BMC_STS);
+   443	}
+   444	
 
 -- 
 0-DAY CI Kernel Test Service
