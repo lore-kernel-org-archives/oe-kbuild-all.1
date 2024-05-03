@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4E4153815
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 13:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEE014A0AB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 13:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714742979; cv=none; b=Fxm7C03xZ2yc5H0ncveo381b+o4JmEQWbJTfOjhSe4lqHCytlRHrBSk2xcZFsJtPiJjmGSmxV+p+cChR4rxb0/SbWoBJyj64gjloVARDkhGHYIy/X2q/xnW486v/AMau0G7GuVSR6Iq7Ew0rhTU2cLOptK4Q142YEmj5tUcKQE8=
+	t=1714743697; cv=none; b=MVOsmDAXlp/gIX+invUVYPFacvcbkZS5fJQnwxQo1ujs9joYKNn4RqnLyyWGjl8nXbXIy/CYx2ITIiRItu4IGbspvrxiV1LqG/ryKsU2chaBnlSyoO9nRG+sa6tp+YdcrtF6WL14VYpIQ+BgEq3nE/qO8/THXn+4rodyulkoA8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714742979; c=relaxed/simple;
-	bh=89JThmPNE1h+7CSCCxLWpFOS82LEXGRdT7WI5TtVO1k=;
+	s=arc-20240116; t=1714743697; c=relaxed/simple;
+	bh=Yh4TqxkIYITdVOMoQZrVsalhZo/eYyJGXbRyZoqBPgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QNuNDETSuyyOfIRPa4tvYZGSHn3V4I1OmA+ph9enQbvIh5qwCIgCzuz3rkqI0v5KtJ1YGTTUoDGTcoMYuzri5SulkJqAaebNcwZpgyHeduafhKdJNCA3IY50xupfayZSURD80iTPMSyYIN4qiTaRoT5noZTs76bt65WxC+bxaLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KdgHksgk; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=ZrY2hMc2f1pf90KBLBzeAB0uMaFxKt4ZzF79Qd2QE4AISdRMDmKt1Cu9v0h2dgKBVsEmblXrfkmTYB8CNYJUyMRcWGY/TrY0A5nzXencWJUmyzkgWlcgSXcSeAqlfcLtYOpO34n8Ey+pUPP619S3rRZ6BHo0uc6U0uvi2d6dtBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gA0hW2U9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KdgHksgk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gA0hW2U9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714742978; x=1746278978;
+  t=1714743696; x=1746279696;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=89JThmPNE1h+7CSCCxLWpFOS82LEXGRdT7WI5TtVO1k=;
-  b=KdgHksgkL/wQ+0SGtLKduj+cKes024SI+LS6NzcwA/Xlxc6XauMHWnda
-   j0N64ZghUEjqPMkhg0d3bbGZpZqDUR1vm8hrcDkoUC3YA46bGbQumalWg
-   Fx7AQbyvlkFmzuM41gEg4bvZQkekqV54An6+3iLh0BKEfOIwhn+lmj9ai
-   ShhBTg5/B5xbegH2R7Ly9UoVIx8KY7jd3f03SQsdGpfQHXXOugSdd2hU4
-   j+/TwpUIl/5eO+zUK9lkaJ7hDmJM+ep3KdKRi2mvkfDP1m0IlDc/P8/XW
-   YcVvEcUJj+qm2bD2GcYCtTmI+6tOPw2yBHQJcjDtLFSokMqpNtGgPF5Pm
+  bh=Yh4TqxkIYITdVOMoQZrVsalhZo/eYyJGXbRyZoqBPgs=;
+  b=gA0hW2U9QFTjT/28eWiUGgIzzkSlyt1NcJEtwTeVkMRZVDvzDThHaUVm
+   T391R5N/ROeeSgX3cobnWUP3lGWI02GxhbjVUwE1brqR8z2NKIy5+AX/G
+   GD+o7vUwVZLU46OrWSDK7gsyNzdHXNTqQW+JkUfKbQwvRDDv//G+HTgse
+   SHqs7bgWiWRhWmiEjZE/YHNVgb6AvOLIc8RPXB8coQZsEI7mBl5Jsea+9
+   +XFevXJob/R8N/CT0WnXroyQplNvCO8wCkqrV+Anx4oV6Zqnm7H07KDpo
+   a4Cqo1BeHNJLSHcNCGicnDsz2iy6fqVmfzbbrc7OD2KXC/6NVav+F8/+U
    Q==;
-X-CSE-ConnectionGUID: uFKvA0K7RsK/FUBbK7M/ZA==
-X-CSE-MsgGUID: fXtfC69MQ8yNOVbI6/sKvQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10402539"
+X-CSE-ConnectionGUID: AQNzc4waSzSBkyVQyoolxw==
+X-CSE-MsgGUID: L3H2anr2RvmMPkPuLQjDBA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10767837"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="10402539"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 06:29:36 -0700
-X-CSE-ConnectionGUID: IssJMP45S/yOYmJ57tRfUA==
-X-CSE-MsgGUID: JOQzMzbwS+qXgtuez/eJDg==
+   d="scan'208";a="10767837"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 06:41:35 -0700
+X-CSE-ConnectionGUID: 5NHK01fwRpmKrd9EXmH0Qw==
+X-CSE-MsgGUID: apKbYYziRqaE+IjA0V6/Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="27857590"
+   d="scan'208";a="32133868"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 May 2024 06:29:34 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 May 2024 06:41:34 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2syh-000Bj3-2u;
-	Fri, 03 May 2024 13:29:31 +0000
-Date: Fri, 3 May 2024 21:28:51 +0800
+	id 1s2tAJ-000BjG-3A;
+	Fri, 03 May 2024 13:41:31 +0000
+Date: Fri, 3 May 2024 21:41:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lijo Lazar <lijo.lazar@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Asad Kamal <asad.kamal@amd.com>
-Subject: [linux-next:master 10507/10967]
- drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:58: warning: '%d' directive
- output may be truncated writing between 1 and 11 bytes into a region of size
- 9
-Message-ID: <202405032143.9iYuUxkm-lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 208/1143]
+ drivers/i3c/master/dw-i3c-master.c:14:10: fatal error: 'linux/i3c/target.h'
+ file not found
+Message-ID: <202405032126.SJC0Ts5p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,77 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9221b2819b8a4196eecf5476d66201be60fbcf29
-commit: 97d814fe4f697791abfbe27e035f0b943c483243 [10507/10967] drm/amd/amdxcp: Use unique name for partition dev
-config: csky-randconfig-r031-20220611 (https://download.01.org/0day-ci/archive/20240503/202405032143.9iYuUxkm-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405032143.9iYuUxkm-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: d1e5ebb66f8d1729d5dd7349190b9befb083e5e3 [208/1143] i3c: master: dw: Implement I3C target functions
+config: arm-randconfig-001-20240503 (https://download.01.org/0day-ci/archive/20240503/202405032126.SJC0Ts5p-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405032126.SJC0Ts5p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405032143.9iYuUxkm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405032126.SJC0Ts5p-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c: In function 'amdgpu_xcp_drm_dev_alloc':
->> drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:58: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 9 [-Wformat-truncation=]
-      59 |         snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
-         |                                                          ^~
-   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:46: note: directive argument in the range [-2147483648, 63]
-      59 |         snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
-         |                                              ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c:59:9: note: 'snprintf' output between 13 and 23 bytes into a destination of size 20
-      59 |         snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/i3c/master/dw-i3c-master.c:13:
+   In file included from include/linux/i3c/master.h:14:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/i3c/master/dw-i3c-master.c:14:10: fatal error: 'linux/i3c/target.h' file not found
+      14 | #include <linux/i3c/target.h>
+         |          ^~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +59 drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c
+vim +14 drivers/i3c/master/dw-i3c-master.c
 
-    48	
-    49	int amdgpu_xcp_drm_dev_alloc(struct drm_device **ddev)
-    50	{
-    51		struct platform_device *pdev;
-    52		struct xcp_device *pxcp_dev;
-    53		char dev_name[20];
-    54		int ret;
-    55	
-    56		if (pdev_num >= MAX_XCP_PLATFORM_DEVICE)
-    57			return -ENODEV;
-    58	
-  > 59		snprintf(dev_name, sizeof(dev_name), "amdgpu_xcp_%d", pdev_num);
-    60		pdev = platform_device_register_simple(dev_name, -1, NULL, 0);
-    61		if (IS_ERR(pdev))
-    62			return PTR_ERR(pdev);
-    63	
-    64		if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
-    65			ret = -ENOMEM;
-    66			goto out_unregister;
-    67		}
-    68	
-    69		pxcp_dev = devm_drm_dev_alloc(&pdev->dev, &amdgpu_xcp_driver, struct xcp_device, drm);
-    70		if (IS_ERR(pxcp_dev)) {
-    71			ret = PTR_ERR(pxcp_dev);
-    72			goto out_devres;
-    73		}
-    74	
-    75		xcp_dev[pdev_num] = pxcp_dev;
-    76		xcp_dev[pdev_num]->pdev = pdev;
-    77		*ddev = &pxcp_dev->drm;
-    78		pdev_num++;
-    79	
-    80		return 0;
-    81	
-    82	out_devres:
-    83		devres_release_group(&pdev->dev, NULL);
-    84	out_unregister:
-    85		platform_device_unregister(pdev);
-    86	
-    87		return ret;
-    88	}
-    89	EXPORT_SYMBOL(amdgpu_xcp_drm_dev_alloc);
-    90	
+  > 14	#include <linux/i3c/target.h>
+    15	#include <linux/interrupt.h>
+    16	#include <linux/ioport.h>
+    17	#include <linux/iopoll.h>
+    18	#include <linux/list.h>
+    19	#include <linux/module.h>
+    20	#include <linux/of.h>
+    21	#include <linux/platform_device.h>
+    22	#include <linux/reset.h>
+    23	#include <linux/slab.h>
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
