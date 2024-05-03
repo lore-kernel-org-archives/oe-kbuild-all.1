@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573DA1509A8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 12:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D5B15357A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 13:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714739135; cv=none; b=C/S9b08hYWOXJA0hAaSnNl+/N7xOak7REArssDjyZbeyVHfy0bv3g8h9XfOZEfujW0sJ3sX5mJiw9YTF02cStESAn0G1fq3nc/6ITZWTp0Oi3uCv/Lx558xfeL+X+gG1BG36VJQmnOOAj7/cTTJZ92G5AkLYhaj5LAevx9CBqwE=
+	t=1714742317; cv=none; b=JfP4VcAk6jd0bRDeSyETSO8U9EgGFNQMgELbRfpQoDK4mX/FFIuxUB50KZUW4Aeb6sgg9dtVyPu4HZ54gjLgeWUH/A9EoSkbr222w6uhTxnjw73v2PV2VkOn74HWIuLDElvKAtkLI8uY7+sJ3hJe5k8igpQZj5fi6ASrJ3haxZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714739135; c=relaxed/simple;
-	bh=EsnEyi2okC/R3rqmzZtvET+7vMx1V05zhbbhQCXECQ4=;
+	s=arc-20240116; t=1714742317; c=relaxed/simple;
+	bh=uD+ogd+PpMh4ljsbi+3B3rauxthKlOCym5gU8PJOgIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DvX/lrT+ylX/rIUqrvfn7QvQjoHbSvPAtZ8nLASNo01jzhQ5SbHfMP1M9id2QYj1U9l6asZXPKOIw4s6O9rW7emLjbSLIYlzI4y+ZvYOxD2V655Frhr9QyqA9ak4LteSsQH9Q0g03RC2+XuFPgB6tuc9tY2dx6GlWr23CamLOz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8JSK8mG; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=iin2WAA6Jraufzex2ECqkvuVFZditglIgGk/1wsVbqymRlYAwDGfjiMuuKU+PuPOG/deo8Dv5SH+g+FFl8qHJVn/3E1lieMfKP9aiWvlzo1/MXyT7owVMY7AhVUkwsSg7BqE6+nTkJLDh1gm7GGgl+RTky3VWg5/33H2d0bqFvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KpVpuHGZ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8JSK8mG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KpVpuHGZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714739133; x=1746275133;
+  t=1714742315; x=1746278315;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EsnEyi2okC/R3rqmzZtvET+7vMx1V05zhbbhQCXECQ4=;
-  b=b8JSK8mGjxUgVcE8oExS7BDv4FHmE7E9Oi73ES+mzEE4BloLhgPKJ8UJ
-   ppFyXyD+Pg7UQB7wqTLYPnlibDzs5t3m58r+v3/9tVfStAN7tXpnU3o4e
-   ZwicyQgZQTpKpIWRt3OvCGhDyMub5Cr2QvOwdj94ipPFgMR3IH0/+D9FF
-   Mxf/xhEX4vce8xlJtyTktOP74CT1HYoh0Je1LayP2hQ5MT3YV/sEXlhqt
-   EG7U5pIE0xbUQzn/AVhPW60CuhoWspux5IGTqk04/+rVm7ELGvht9thGK
-   6f8mBeGIVx1sS5PNb0MeawXxDuwnUm9I5gd78lheB6bZ/HS8YbD733NmQ
+  bh=uD+ogd+PpMh4ljsbi+3B3rauxthKlOCym5gU8PJOgIE=;
+  b=KpVpuHGZsuuhRCpWMDBuIgNNkd7F12IDXZMeVVtSVBaMsiQTeXOZzp/Y
+   dUSo8DpBRUL2M38NbNK0Va6lAt/iznzGC789G4RvXOg8arF6GVf9KUaCi
+   QBlcDw5ozo302hBxqRBlsNiqDJ60BwG/634mXVKins4k1PXqbN/zK44YC
+   FEffQAGV97iWGnhmR9mq3YCJaF8PvILK6qxp/4TQLqeLrao+QPxqjnR6J
+   c7Yg/oMW4a0bxKK+tUcAdooD9Z7wBpqPsHU6zwdpbA/1GxUno7ufB6Gjo
+   KIFvDWeIxZFD2deRDYcYs6F8EnxXch5zRGaBkTSOF8y1EqwC0qw7hqKqH
    g==;
-X-CSE-ConnectionGUID: lcCxOyoZTvuZ1VmeTaVlDA==
-X-CSE-MsgGUID: clG1PqFYTR2JXZ5ouwxiVA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="11083068"
+X-CSE-ConnectionGUID: GB+uogkNT7eoWUfglN77hw==
+X-CSE-MsgGUID: aJg3+BwPT1em5j8Bn1l6ww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="13497911"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="11083068"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 05:25:32 -0700
-X-CSE-ConnectionGUID: GZX51e8MT9+pKH3NBZbsaw==
-X-CSE-MsgGUID: YxYPQpWqQYWCYkV8Pjatdw==
+   d="scan'208";a="13497911"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 06:18:34 -0700
+X-CSE-ConnectionGUID: AZTjp8J+QPihOfyfn2qzhg==
+X-CSE-MsgGUID: hNKYgwBfReSOFFOPNTR21Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="27953034"
+   d="scan'208";a="31956784"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 May 2024 05:25:31 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 May 2024 06:18:33 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2ryj-000BgS-0z;
-	Fri, 03 May 2024 12:25:29 +0000
-Date: Fri, 3 May 2024 20:25:23 +0800
+	id 1s2so3-000Bia-1i;
+	Fri, 03 May 2024 13:18:31 +0000
+Date: Fri, 3 May 2024 21:18:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joel Stanley <joel@jms.id.au>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 950/1143]
- drivers/gpu/drm/ast/ast_post.c:351:21: error: use of undeclared identifier
- 'AST_IO_MISC_PORT_WRITE'
-Message-ID: <202405032008.dX2MxMzf-lkp@intel.com>
+Subject: [shenki:aspeed-6.9-rebase 740/1143] drivers/i3c/device.c:84:5:
+ warning: no previous prototype for function 'i3c_device_getstatus_ccc'
+Message-ID: <202405032101.IqKhejZo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,56 +64,74 @@ Content-Disposition: inline
 
 tree:   https://github.com/shenki/linux aspeed-6.9-rebase
 head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: 12af9e35efffa226dc9ced8d18b00a6c88d1c1d2 [950/1143] drm/ast: Fix boot-up hang if no vbios
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240503/202405032008.dX2MxMzf-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405032008.dX2MxMzf-lkp@intel.com/reproduce)
+commit: 25b964218f873fa25639e22bde2ac5e02f317b05 [740/1143] i3c: master: Implement CCC GETSTATUS function
+config: arm-randconfig-002-20240503 (https://download.01.org/0day-ci/archive/20240503/202405032101.IqKhejZo-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405032101.IqKhejZo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405032008.dX2MxMzf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405032101.IqKhejZo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/ast/ast_post.c:351:21: error: use of undeclared identifier 'AST_IO_MISC_PORT_WRITE'
-     351 |         ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x0b);
-         |                            ^
->> drivers/gpu/drm/ast/ast_post.c:352:25: error: use of undeclared identifier 'AST_IO_GR_PORT'
-     352 |         ast_set_index_reg(ast, AST_IO_GR_PORT, 6, 0x05);
-         |                                ^
-   2 errors generated.
+   In file included from drivers/i3c/device.c:15:
+   In file included from drivers/i3c/internals.h:11:
+   In file included from include/linux/i3c/master.h:14:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/i3c/device.c:15:
+   In file included from drivers/i3c/internals.h:11:
+   In file included from include/linux/i3c/master.h:15:
+   In file included from include/linux/i3c/ccc.h:12:
+   include/linux/i3c/device.h:320:1: error: version control conflict marker in file
+     320 | <<<<<<< HEAD
+         | ^
+>> drivers/i3c/device.c:84:5: warning: no previous prototype for function 'i3c_device_getstatus_ccc' [-Wmissing-prototypes]
+      84 | int i3c_device_getstatus_ccc(struct i3c_device *dev, struct i3c_device_info *info)
+         |     ^
+   drivers/i3c/device.c:84:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      84 | int i3c_device_getstatus_ccc(struct i3c_device *dev, struct i3c_device_info *info)
+         | ^
+         | static 
+   2 warnings and 1 error generated.
 
 
-vim +/AST_IO_MISC_PORT_WRITE +351 drivers/gpu/drm/ast/ast_post.c
+vim +/i3c_device_getstatus_ccc +84 drivers/i3c/device.c
 
-   345	
-   346	void ast_post_gpu(struct drm_device *dev)
-   347	{
-   348		struct ast_device *ast = to_ast_device(dev);
-   349	
-   350		ast_set_def_ext_reg(dev);
- > 351		ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x0b);
- > 352		ast_set_index_reg(ast, AST_IO_GR_PORT, 6, 0x05);
-   353	
-   354		if (IS_AST_GEN7(ast)) {
-   355			if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
-   356				ast_dp_launch(dev);
-   357		} else if (ast->config_mode == ast_use_p2a) {
-   358			if (IS_AST_GEN6(ast))
-   359				ast_post_chip_2500(dev);
-   360			else if (IS_AST_GEN5(ast) || IS_AST_GEN4(ast))
-   361				ast_post_chip_2300(dev);
-   362			else
-   363				ast_init_dram_reg(dev);
-   364	
-   365			ast_init_3rdtx(dev);
-   366		} else {
-   367			if (ast->tx_chip_types & AST_TX_SIL164_BIT)
-   368				ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);	/* Enable DVO */
-   369		}
-   370	}
-   371	
+    72	
+    73	/**
+    74	 * i3c_device_getstatus_ccc() - receive device status
+    75	 *
+    76	 * @dev: I3C device to get the status for
+    77	 * @info: I3C device info to fill the status in
+    78	 *
+    79	 * Receive I3C device status from I3C master device via corresponding CCC
+    80	 * command
+    81	 *
+    82	 * Return: 0 in case of success, a negative error code otherwise.
+    83	 */
+  > 84	int i3c_device_getstatus_ccc(struct i3c_device *dev, struct i3c_device_info *info)
+    85	{
+    86		int ret = -EINVAL;
+    87	
+    88		i3c_bus_normaluse_lock(dev->bus);
+    89		if (dev->desc)
+    90			ret = i3c_dev_getstatus_locked(dev->desc, info);
+    91		i3c_bus_normaluse_unlock(dev->bus);
+    92	
+    93		return ret;
+    94	}
+    95	EXPORT_SYMBOL_GPL(i3c_device_getstatus_ccc);
+    96	
 
 -- 
 0-DAY CI Kernel Test Service
