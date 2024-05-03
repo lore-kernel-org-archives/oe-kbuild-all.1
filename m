@@ -1,69 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B492C181;
-	Fri,  3 May 2024 05:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F576139CE0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 05:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714714100; cv=none; b=N6i3iZs/uYhOr/a9yLLk4R/BsikdlJu3tLNXlfe7f7+YWqfd3dzjK63Eiyfo0y168mvkk6+A6TeXACYKI9v0vO47lclauo6rfwkxGKmhCw8XXTUcc8NKh9EEDCH/aenr6ngUTSvIAlH71k8jBm5kjd5yLph6dUT2ujz9q0W5JNU=
+	t=1714714700; cv=none; b=cz2uWggIYHXtCcqpYDqENqMpIfZGa6HqE7KTZWwVjk20d/uVoUWN1zL56xFZBj+8dd92HmPgoJ80vauMaStnJ3olBLrl2eB35+HsF1IPpZPW3Af81h1UWFDOGsnbbj6GPDMISU5X6FzlSH/+/Cdjev0LDqADIdXClrFzdJotPw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714714100; c=relaxed/simple;
-	bh=qbvw7iLaf2fZEd6UPwtqlQskjo9r3Fjn07UVy58tZgA=;
+	s=arc-20240116; t=1714714700; c=relaxed/simple;
+	bh=rKKCeOF3G9JpimaU43Lw2IpoOJrnNfrZXT1xQPXth8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JjM8fGrUwhthnl/Ym+K6OuVGlD5UgNrjAt86yiZ0foQCs89sOrh4Mwb1WTQwKK7Aj2updyABk5y5qU7eC5nTd+IsqIxxoa65RiaTZ8M6KU+wJVQXh/23vYxWpVwG/b+Q26QqsCSmCtKDI8opufwRl4eFnkQCebSttQi/nOuDDhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ElBD925d; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=CsJA7GGRBkLhW2oV1Pg5KtXXipjAvjaNPwcBOWww8gVVacoSpRngdmUop8kzmhFGtnu3QFTAbjViLVP47wP5iVsjAex7ksVJPKq3t3IVO/dgxGHi4BQVDZMXqijSbedZiM1GAR0zys/QhF8olwy9Jc0QtyUS7iPBAZd/SVXdr4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRYkBbDX; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ElBD925d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRYkBbDX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714714099; x=1746250099;
+  t=1714714699; x=1746250699;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qbvw7iLaf2fZEd6UPwtqlQskjo9r3Fjn07UVy58tZgA=;
-  b=ElBD925dW9JxaybTDo2CA694V3TEWz76KLcYbHRY2mAlM8QzW79ahcgX
-   8/7EItBHHQeoMi7lYcRD65FdCPhU6Qm9s0iziEjf1w4xzRJiG90ERXAzj
-   mmoFZ5iM1MK4A58n19DNueNLO7t2Q/IRSi5LzlxEpGnPHK6U5007TJkvO
-   G00/B2xrLhf8X7mD4ffGt+BvttWsjwFqYFD6uHYaAinmpNSYUWozcMNPY
-   Uoa9fxudmHeUITAqFHhd5ERTSOtDuMxK/azTGzJ3m7REsjGVgFP/y+qBK
-   +ch671WYGJWuUaYg74Uvlw79pxuGbc0V1ueYnquMFgOwaCWimBPtaNcmc
-   g==;
-X-CSE-ConnectionGUID: 7Y7uh4SvT4ORVld21zE8DQ==
-X-CSE-MsgGUID: FY93xX5fQXebTUOFymDE2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10442870"
+  bh=rKKCeOF3G9JpimaU43Lw2IpoOJrnNfrZXT1xQPXth8A=;
+  b=JRYkBbDXPBWorQJQs4RmdDhb6Ly6khOldhDix3cpkQ6UcFW24WsW4WWl
+   aQx/ukKvMBFvKGRyy64tbIZzfLLb9TtwNLBxY2TMk6n0KSMpkQmnac3P6
+   doUsWMriLMlK6Xq75iJa/xDmB3TTeidDnl1Nnz0HxgJRHzo+o6IPg/6ar
+   LxJak5Defmy7j0v3qwUt6I3jOxBY9cyKcpbTYfWVNFAe4ZT2ZBW2tPw7p
+   kU6TVrUK4rWcBWIamIg5BC88mZAy4JWdHLGiH1ci+C83kOzg6XSpfXX/g
+   oS6qvjVWThtPXkj8btkvIIFIRdKSHfWeNi27RkdvGuHBouklELWg3NAw2
+   A==;
+X-CSE-ConnectionGUID: Fb8OaYsBSPqplWSP4XX/DA==
+X-CSE-MsgGUID: VWJnRnQAQ3anSIVgMhO/Dg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="13463446"
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10442870"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 22:28:18 -0700
-X-CSE-ConnectionGUID: LHay6kF8TfWXCwKCUIJX2Q==
-X-CSE-MsgGUID: hdpS1xCtR+q0Evxs84mdzw==
+   d="scan'208";a="13463446"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 22:38:18 -0700
+X-CSE-ConnectionGUID: k8feyb1gQr+mYHjcJFVckg==
+X-CSE-MsgGUID: WZxVMUhvTvuHjXpz3ZIjMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27399371"
+   d="scan'208";a="27372199"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 02 May 2024 22:28:15 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 May 2024 22:38:15 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2lSu-000BLA-3A;
-	Fri, 03 May 2024 05:28:13 +0000
-Date: Fri, 3 May 2024 13:27:33 +0800
+	id 1s2lcb-000BLs-1D;
+	Fri, 03 May 2024 05:38:13 +0000
+Date: Fri, 3 May 2024 13:37:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-riscv@lists.infradead.org, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	valentina.fernandezalanis@microchip.com,
-	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>
-Subject: Re: [PATCH 1/3] spi: spi-microchip-core: Add support for GPIO based
- CS
-Message-ID: <202405031328.ljBB1tMb-lkp@intel.com>
-References: <20240502143410.12629-2-prajna.rajendrakumar@microchip.com>
+To: Udipto Goswami <quic_ugoswami@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Udipto Goswami <quic_ugoswami@quicinc.com>
+Subject: Re: [PATCH] phy: qcom-snps-femto-v2: Add load and voltage setting
+ for LDO's used
+Message-ID: <202405031311.9f1PrPou-lkp@intel.com>
+References: <20240502123312.31083-1-quic_ugoswami@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,70 +69,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240502143410.12629-2-prajna.rajendrakumar@microchip.com>
+In-Reply-To: <20240502123312.31083-1-quic_ugoswami@quicinc.com>
 
-Hi Prajna,
+Hi Udipto,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.9-rc6 next-20240502]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.9-rc6 next-20240502]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prajna-Rajendra-Kumar/spi-spi-microchip-core-Add-support-for-GPIO-based-CS/20240502-223714
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20240502143410.12629-2-prajna.rajendrakumar%40microchip.com
-patch subject: [PATCH 1/3] spi: spi-microchip-core: Add support for GPIO based CS
-config: arm-randconfig-002-20240503 (https://download.01.org/0day-ci/archive/20240503/202405031328.ljBB1tMb-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405031328.ljBB1tMb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Udipto-Goswami/phy-qcom-snps-femto-v2-Add-load-and-voltage-setting-for-LDO-s-used/20240502-203521
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240502123312.31083-1-quic_ugoswami%40quicinc.com
+patch subject: [PATCH] phy: qcom-snps-femto-v2: Add load and voltage setting for LDO's used
+config: x86_64-buildonly-randconfig-003-20240503 (https://download.01.org/0day-ci/archive/20240503/202405031311.9f1PrPou-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405031311.9f1PrPou-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405031328.ljBB1tMb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405031311.9f1PrPou-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/spi/spi-microchip-core.c:21:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/spi/spi-microchip-core.c:261:11: warning: address of array 'spi->cs_gpiod' will always evaluate to 'true' [-Wpointer-bool-conversion]
-     261 |         if (spi->cs_gpiod)
-         |         ~~  ~~~~~^~~~~~~~
-   2 warnings generated.
+>> drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c:168: warning: Function parameter or struct member 'vreg_list' not described in 'qcom_snps_hsphy'
 
 
-vim +261 drivers/spi/spi-microchip-core.c
+vim +168 drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
 
-   255	
-   256	static int mchp_corespi_setup(struct spi_device *spi)
-   257	{
-   258		struct mchp_corespi *corespi = spi_controller_get_devdata(spi->controller);
-   259		u32 reg;
-   260	
- > 261		if (spi->cs_gpiod)
-   262			return 0;
-   263	
-   264		/*
-   265		 * Active high targets need to be specifically set to their inactive
-   266		 * states during probe by adding them to the "control group" & thus
-   267		 * driving their select line low.
-   268		 */
-   269		if (spi->mode & SPI_CS_HIGH) {
-   270			reg = mchp_corespi_read(corespi, REG_SLAVE_SELECT);
-   271			reg |= BIT(spi_get_chipselect(spi, 0));
-   272			mchp_corespi_write(corespi, REG_SLAVE_SELECT, reg);
-   273		}
-   274		return 0;
-   275	}
-   276	
+df2217ff17a820 Krishna Kurapati    2022-09-06  136  
+51e8114f80d076 Wesley Cheng        2020-05-04  137  /**
+51e8114f80d076 Wesley Cheng        2020-05-04  138   * struct qcom_snps_hsphy - snps hs phy attributes
+51e8114f80d076 Wesley Cheng        2020-05-04  139   *
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  140   * @dev: device structure
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  141   *
+51e8114f80d076 Wesley Cheng        2020-05-04  142   * @phy: generic phy
+51e8114f80d076 Wesley Cheng        2020-05-04  143   * @base: iomapped memory space for snps hs phy
+51e8114f80d076 Wesley Cheng        2020-05-04  144   *
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  145   * @num_clks: number of clocks
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  146   * @clks: array of clocks
+51e8114f80d076 Wesley Cheng        2020-05-04  147   * @phy_reset: phy reset control
+51e8114f80d076 Wesley Cheng        2020-05-04  148   * @vregs: regulator supplies bulk data
+51e8114f80d076 Wesley Cheng        2020-05-04  149   * @phy_initialized: if PHY has been initialized correctly
+dcbec046507615 Wesley Cheng        2020-06-25  150   * @mode: contains the current mode the PHY is in
+2a881183dc5ab2 Krzysztof Kozlowski 2023-05-07  151   * @update_seq_cfg: tuning parameters for phy init
+51e8114f80d076 Wesley Cheng        2020-05-04  152   */
+51e8114f80d076 Wesley Cheng        2020-05-04  153  struct qcom_snps_hsphy {
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  154  	struct device *dev;
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  155  
+51e8114f80d076 Wesley Cheng        2020-05-04  156  	struct phy *phy;
+51e8114f80d076 Wesley Cheng        2020-05-04  157  	void __iomem *base;
+51e8114f80d076 Wesley Cheng        2020-05-04  158  
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  159  	int num_clks;
+8a0eb8f9b9a002 Adrien Thierry      2023-06-29  160  	struct clk_bulk_data *clks;
+51e8114f80d076 Wesley Cheng        2020-05-04  161  	struct reset_control *phy_reset;
+51e8114f80d076 Wesley Cheng        2020-05-04  162  	struct regulator_bulk_data vregs[SNPS_HS_NUM_VREGS];
+4dac559b5584a2 Udipto Goswami      2024-05-02  163  	const struct qcom_snps_hsphy_regulator_data *vreg_list;
+51e8114f80d076 Wesley Cheng        2020-05-04  164  
+51e8114f80d076 Wesley Cheng        2020-05-04  165  	bool phy_initialized;
+dcbec046507615 Wesley Cheng        2020-06-25  166  	enum phy_mode mode;
+df2217ff17a820 Krishna Kurapati    2022-09-06  167  	struct phy_override_seq update_seq_cfg[NUM_HSPHY_TUNING_PARAMS];
+51e8114f80d076 Wesley Cheng        2020-05-04 @168  };
+51e8114f80d076 Wesley Cheng        2020-05-04  169  
 
 -- 
 0-DAY CI Kernel Test Service
