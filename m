@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6160C10A1A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 16:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09618495
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 16:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714753846; cv=none; b=XnF/wntqVXGNyue7oGEjhnScq6o5eSwCPlwSicSQgfzo9MGVPjQNsQt1Z9Cf2yFdmVYXrlWDTP+MFCBNdVBPxQeQKUg9z/O6lNQa4N0bX5DSdd+tFtFCTIDalgKIpIQXuoi/aESD7NchAUKE1vbKT21/RhpYo8MyUEYawzGGr0o=
+	t=1714753854; cv=none; b=tz9rhAkS2vNuN1zQeP+Q4Vm0l32s9SugU97uM90BvzKAWkVKOVVsy1dyN52ktABN8PhdFStakywlcc/oiY0kCIsRp0/stcl0DQLODijHVjL2/ZSDE/HV+XIqmwmXzeLVehMaGNvNwcuotcZgGNO8+Mwpo/wyagbzc5KNlkb2GOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714753846; c=relaxed/simple;
-	bh=SxoL0kblxMoUnT46pxYoQcfRky76SRT+Nm5MHrRk0XY=;
+	s=arc-20240116; t=1714753854; c=relaxed/simple;
+	bh=ygtQdzbKR11vg6znzEmL2IcMG/WSaW8TdITD2d/NwNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lkn/jbVTE9i3YROUNFJSExSegN66DxKGolYv5U8SgxxrhEd6ZznRWJ9ikYOwsFlSHlQOxZGJImyL/IzZd3SdEFWNykpQNryLYcC751a8S+abkmw81F/GoB51Yi3epbY0rSwduCq72OEVXkMKBV5VvGkGXl+RiKr/B4MqBIu9pFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXREnS4k; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=DrrKCr7xxx5rU13KPMWxecIhFAmojQATN0QDEen4WQUFIe8hdtayzrIzikOzZd6l/07iBmog9Q4ZftEZxx318mcVNLOrHLYLhWzFmOXJzdJNeYglit4jqO1UBDok9TNBdyxLWftkiw8qeZd0w/T9OzV0lV+1MhgPpFm5aEC9eOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UP9AC0Of; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXREnS4k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UP9AC0Of"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714753845; x=1746289845;
+  t=1714753853; x=1746289853;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SxoL0kblxMoUnT46pxYoQcfRky76SRT+Nm5MHrRk0XY=;
-  b=RXREnS4kaQchqunnsoJNpQOm7+t+P0d0dURyiUYGbwYiPxDl0Oy6d1ZB
-   DPy5fNHgpQlMwUbkZiJSbyMBlWsW6s1lU/qHkkpfN2LBeSroFdLdiz/Am
-   2yFDE+eCv9UXQGdFwpCdKFUp2xEIvyMdxqQ5t+qOIya3VC+G7HUgMn5ri
-   pQJ9DoVlJQrqVEgA/3mp4StvyKu6qtxrNaYFDdZb7c+pqAQ5ovpmuZ+a8
-   fiCx0BmbKVDsqrWeRCl8rmu+JCqpg6v/vB2nz7NLtvnf6VpSY4sb1zJsE
-   ksb7UOTOUlHwf8ohz4c2zrgUBSvjkjq0NWE6EYb4hH0JuaEm/a6yvLU8H
-   w==;
-X-CSE-ConnectionGUID: IjS/KDoaRyuOR633P1/nhA==
-X-CSE-MsgGUID: A4kIA1ZnTEm3StYjvAulFQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21121128"
+  bh=ygtQdzbKR11vg6znzEmL2IcMG/WSaW8TdITD2d/NwNo=;
+  b=UP9AC0OfDBoB2RFvfTsSk47JmTrZTB+cryKHKm8JgkNF+Tr2QOiwwWnU
+   dXR505hbNFPHkpAM4OXUDL7NArn/ST1btV+MBsUnMB4SlpUGplu3x6kkB
+   q/CE+w1IDXlb7winL05ATj2ee7wKZAugzPpeTbAow5qpTHX2RneB0ZS6v
+   kmAAyA4/d1OVpaKMZ330KCm+JHORrmW3YZ4fg2hXp54UPZdkHfJNqI5PI
+   /l/EmkY/DqKlUVg9oer/nxg/9XbZX8nAv8uNVYLXLSYPcPKLLPW3x0tRb
+   AOSbt94hebyz7xfgY5MUKUGrc0+fY2Xr2TjBCYTEI2e1uapxoe26XExsw
+   g==;
+X-CSE-ConnectionGUID: Hc2jO5+fQ7u9s+MJDEK1nQ==
+X-CSE-MsgGUID: 0vw5l5NoTmGDtmz3ItjGeA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10443054"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="21121128"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 09:30:44 -0700
-X-CSE-ConnectionGUID: Zn0KOpGhRKi1GZrtV2U2Yw==
-X-CSE-MsgGUID: KPPLBvsISJWAWVpq1ul0hA==
+   d="scan'208";a="10443054"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 09:30:43 -0700
+X-CSE-ConnectionGUID: mr70WP1eRwm6sZmRKQnYmw==
+X-CSE-MsgGUID: wYVD0yuRSuu0Na4X8L5jKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="28086183"
+   d="scan'208";a="27554101"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 May 2024 09:30:42 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 May 2024 09:30:42 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2vo0-000BtS-08;
+	id 1s2vnz-000BtQ-3B;
 	Fri, 03 May 2024 16:30:40 +0000
-Date: Sat, 4 May 2024 00:30:20 +0800
+Date: Sat, 4 May 2024 00:30:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Likun Gao <Likun.Gao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: [agd5f:drm-next 260/362]
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:422:54: warning: '_pfp.bin' directive
- output may be truncated writing 8 bytes into a region of size between 4 and
- 33
-Message-ID: <202405040033.a1kpCWLf-lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 187/1143] drivers/rtc/rtc-aspeed.c:148:19:
+ warning: variable 'reg2' set but not used
+Message-ID: <202405040055.nnA5RRnd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,115 +62,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   b0923d5d80facb205cc2b7f82994ab5c3eef3181
-commit: 52cb80c12e8a647aa9c903903d58916e6c1c4d38 [260/362] drm/amdgpu: Add gfx v12_0 ip block support (v6)
-config: csky-randconfig-r031-20220611 (https://download.01.org/0day-ci/archive/20240504/202405040033.a1kpCWLf-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040033.a1kpCWLf-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: f963eb104497b49d1943ffd0909169de6f0a004b [187/1143] drivers: rtc: enable rtc and add alarm related rtc ops.
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405040055.nnA5RRnd-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040055.nnA5RRnd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405040033.a1kpCWLf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040055.nnA5RRnd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c: In function 'gfx_v12_0_init_microcode':
->> drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:422:54: warning: '_pfp.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Wformat-truncation=]
-     422 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", ucode_prefix);
-         |                                                      ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:422:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
-     422 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", ucode_prefix);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:429:54: warning: '_me.bin' directive output may be truncated writing 7 bytes into a region of size between 4 and 33 [-Wformat-truncation=]
-     429 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", ucode_prefix);
-         |                                                      ^~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:429:9: note: 'snprintf' output between 15 and 44 bytes into a destination of size 40
-     429 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", ucode_prefix);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:437:62: warning: '_rlc.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Wformat-truncation=]
-     437 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
-         |                                                              ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:437:17: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
-     437 |                 snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:449:54: warning: '_mec.bin' directive output may be truncated writing 8 bytes into a region of size between 4 and 33 [-Wformat-truncation=]
-     449 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", ucode_prefix);
-         |                                                      ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c:449:9: note: 'snprintf' output between 16 and 45 bytes into a destination of size 40
-     449 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", ucode_prefix);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-aspeed.c: In function 'aspeed_rtc_read_alarm':
+>> drivers/rtc/rtc-aspeed.c:148:19: warning: variable 'reg2' set but not used [-Wunused-but-set-variable]
+     148 |         u32 reg1, reg2;
+         |                   ^~~~
 
 
-vim +422 drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
+vim +/reg2 +148 drivers/rtc/rtc-aspeed.c
 
-   408	
-   409	static int gfx_v12_0_init_microcode(struct amdgpu_device *adev)
-   410	{
-   411		char fw_name[40];
-   412		char ucode_prefix[30];
-   413		int err;
-   414		const struct rlc_firmware_header_v2_0 *rlc_hdr;
-   415		uint16_t version_major;
-   416		uint16_t version_minor;
-   417	
-   418		DRM_DEBUG("\n");
-   419	
-   420		amdgpu_ucode_ip_version_decode(adev, GC_HWIP, ucode_prefix, sizeof(ucode_prefix));
-   421	
- > 422		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_pfp.bin", ucode_prefix);
-   423		err = amdgpu_ucode_request(adev, &adev->gfx.pfp_fw, fw_name);
-   424		if (err)
-   425			goto out;
-   426		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_PFP);
-   427		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_PFP_P0_STACK);
-   428	
- > 429		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_me.bin", ucode_prefix);
-   430		err = amdgpu_ucode_request(adev, &adev->gfx.me_fw, fw_name);
-   431		if (err)
-   432			goto out;
-   433		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_ME);
-   434		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_ME_P0_STACK);
-   435	
-   436		if (!amdgpu_sriov_vf(adev)) {
- > 437			snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", ucode_prefix);
-   438			err = amdgpu_ucode_request(adev, &adev->gfx.rlc_fw, fw_name);
-   439			if (err)
-   440				goto out;
-   441			rlc_hdr = (const struct rlc_firmware_header_v2_0 *)adev->gfx.rlc_fw->data;
-   442			version_major = le16_to_cpu(rlc_hdr->header.header_version_major);
-   443			version_minor = le16_to_cpu(rlc_hdr->header.header_version_minor);
-   444			err = amdgpu_gfx_rlc_init_microcode(adev, version_major, version_minor);
-   445			if (err)
-   446				goto out;
-   447		}
-   448	
- > 449		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", ucode_prefix);
-   450		err = amdgpu_ucode_request(adev, &adev->gfx.mec_fw, fw_name);
-   451		if (err)
-   452			goto out;
-   453		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_MEC);
-   454		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_MEC_P0_STACK);
-   455		amdgpu_gfx_cp_init_microcode(adev, AMDGPU_UCODE_ID_CP_RS64_MEC_P1_STACK);
-   456	
-   457		if (adev->firmware.load_type == AMDGPU_FW_LOAD_RLC_BACKDOOR_AUTO)
-   458			err = gfx_v12_0_init_toc_microcode(adev, ucode_prefix);
-   459	
-   460		/* only one MEC for gfx 12 */
-   461		adev->gfx.mec2_fw = NULL;
-   462	
-   463	out:
-   464		if (err) {
-   465			amdgpu_ucode_release(&adev->gfx.pfp_fw);
-   466			amdgpu_ucode_release(&adev->gfx.me_fw);
-   467			amdgpu_ucode_release(&adev->gfx.rlc_fw);
-   468			amdgpu_ucode_release(&adev->gfx.mec_fw);
-   469		}
-   470	
-   471		return err;
-   472	}
-   473	
+   144	
+   145	static int aspeed_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alarm)
+   146	{
+   147		struct aspeed_rtc *rtc = dev_get_drvdata(dev);
+ > 148		u32 reg1, reg2;
+   149		unsigned int alarm_enable;
+   150		unsigned int alarm_status;
+   151	
+   152		if (!(readl(rtc->base + RTC_CTRL) & RTC_ENABLE)) {
+   153			dev_dbg(dev, "%s failing as rtc disabled\n", __func__);
+   154			return -EINVAL;
+   155		}
+   156	
+   157		do {
+   158			reg2 = readl(rtc->base + RTC_YEAR);
+   159			reg1 = readl(rtc->base + RTC_TIME);
+   160		} while (reg1 != readl(rtc->base + RTC_TIME));
+   161	
+   162		/* read alarm value */
+   163		alarm->time.tm_mday = (reg1 >> 24) & 0x1f;
+   164		alarm->time.tm_hour = (reg1 >> 16) & 0x1f;
+   165		alarm->time.tm_min = (reg1 >> 8) & 0x3f;
+   166		alarm->time.tm_sec = (reg1 >> 0) & 0x3f;
+   167	
+   168		/* don't allow the ALARM read to mess up ALARM_STATUS */
+   169		mutex_lock(&rtc->write_mutex);
+   170	
+   171		alarm_enable = RTC_ALARM_SEC_ENABLE | RTC_ALARM_MIN_ENABLE |
+   172			       RTC_ALARM_HOUR_ENABLE | RTC_ALARM_MDAY_ENABLE;
+   173		/* alarm is enabled if the interrupt is enabled */
+   174		if (readl(rtc->base + RTC_CTRL) & alarm_enable)
+   175			alarm->enabled = true;
+   176		else
+   177			alarm->enabled = false;
+   178	
+   179		alarm_status = RTC_ALARM_SEC_CB_STATUS | RTC_ALARM_MIN_STATUS |
+   180			       RTC_ALARM_HOUR_STATUS | RTC_ALARM_MDAY_STATUS;
+   181		if (readl(rtc->base + RTC_ALARM_STATUS) & alarm_status)
+   182			alarm->pending = true;
+   183		else
+   184			alarm->pending = false;
+   185	
+   186		mutex_unlock(&rtc->write_mutex);
+   187	
+   188		return 0;
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
