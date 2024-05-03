@@ -1,172 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0199F156F2A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 17:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BCF157A72
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 May 2024 17:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714755831; cv=none; b=HzDlgYGe1L1WEv/PCcv9gV0bwoNW/cb0itzw/teBJWYFI80gwW54YAu4GnFjFh1H4j9m3zS2+h8lR1XEY8I2cTKDNU22SU6EMsVIdaXRRgUKgi+pqF7H1CldMMeqUcGmzCWiHMarp1A/HGqCR7rNjTSVKEKIS41y5c0Xw3oKuRA=
+	t=1714756550; cv=none; b=d7Pq0ONtUEy52kDPXFBSao2UxP/WQjDfg8JyPJqA4GYAEURwo/hs2Mpd3flVIsVOQQBegVjpnkE5NvxEqSHVU2bauq6KJXD5l6BBJHafeDNGeUwnJuHxsbcR6kpgyOz8cTo9GqJ/0gcZUK3jtAbEeiWsW1ImsM68PpThZ3/KTz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714755831; c=relaxed/simple;
-	bh=DpNQ9WpXd+WqaKVFHA7AvU/+4GfiTfXQlg7HRpUExvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EvWRA77v9sVv7KRD6CmiGci4H9Sb0ox60vySv/Asce5u9NwFdfceL3pArbFBOIOZF7rDatmqyqeMwc55STr8slLS80vzOZ/fLMQ10WkBr0iTy/2U+BJc3JEK7Zobg1d328v+9prKPvMi9M7KoF7FmAN/wVx7/8tgeed8ARJjTYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XkpH+Cmv; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1714756550; c=relaxed/simple;
+	bh=nmzk+rIi5lhP+mMY1lgQk4NZ9UnrTXzds4LWmy2mArY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FUGAjmE+d0N8Czg4C393akXybd2ZBHO6obs3gHZPWiLxhh+nYE/RTwDqw9c5Tg15LFBzSQrZacqqzQ+N1BfwVcRKsFJZAsUkus4vABkcSbGhzqNgU6/o01ZL7QQVTdsh29kNbb/VbJQ5/Z/5Okc4o2vxjIu/XLoR0HVpVkCsO8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAHHNHyI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XkpH+Cmv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAHHNHyI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714755830; x=1746291830;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DpNQ9WpXd+WqaKVFHA7AvU/+4GfiTfXQlg7HRpUExvY=;
-  b=XkpH+CmvkO4lKsQvVRhvceFuyklxSNB+i02TG0TT9WDnSKM8Lf1h5V/u
-   FEbAm+DRHaMC9H6+BhJYqyey0f53uRgd348wHUuqntZ2cjW0Bopa23R/n
-   6e1k2hQfzlO/+BfdpBKf07IqeuiREcgGyG87bbZL5AELcMOp1WWTHoMTi
-   FDS9a3EPGzn3jmI73gISaliPPelNCxtRUrMaKalLwPOuW8EO8aMZfQJ1o
-   y4rngjoZK7TIg/MRx22J2pZoKiJ+WSozfol4eWWKh21D91bpdeQWgCby1
-   TdKnIJxuxROlE4aX/FZMihWe2DAF1Cd43XJrNrS7MwG2HeDD3udEoZCeg
+  t=1714756549; x=1746292549;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nmzk+rIi5lhP+mMY1lgQk4NZ9UnrTXzds4LWmy2mArY=;
+  b=SAHHNHyIUPctz3+Q4BOz3lipk9rGbqFKusJFUgQ6o+4VBC37kNSQSlX+
+   nU1v8MohxetSYODNq2K2nSKnPsGT2Vx+VPoph3d8O+OMPd9w1/vm4MGpG
+   6bQfTQP39uoxLITVdTFnHJJo/LPZCXI3bC9WuWNzmsgjFvE4mQAirtQwu
+   dJGtMEOgi3bLojsAhfiV0MQzvspOJjb3qyraifK3LZg14mEJM+SLo2PKc
+   0fx4NlCoUC+0J5tnrYLnM/lmZ5VzNb0WkMnFjHePqabWpt78rYvpZzHl8
+   lMzkQFQ/wsBJS3v7tzPxLrO84DXFgmY4DuhYNXanFALzvdvuxAo6HPABy
    A==;
-X-CSE-ConnectionGUID: k8bnAhzNSFu0Fzm73T+W1w==
-X-CSE-MsgGUID: 3k6xa5whQ2CNzjJvvOIrsw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21256844"
+X-CSE-ConnectionGUID: QCy4/5sGRd+ALzAEYgkl4w==
+X-CSE-MsgGUID: XnnyQIdLRKWwcd1URHt0NQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10499677"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="21256844"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 10:03:45 -0700
-X-CSE-ConnectionGUID: D9TzIAP6QyOKigoe/0ZTug==
-X-CSE-MsgGUID: MZ8i6s9sQcKIJhq5xtndBA==
+   d="scan'208";a="10499677"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 10:15:48 -0700
+X-CSE-ConnectionGUID: KdVxzLLHRbG1FAlcm1gMAg==
+X-CSE-MsgGUID: jzsi3S87SGqKEJo5T5+tCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="28094338"
+   d="scan'208";a="32185685"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 May 2024 10:03:44 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 May 2024 10:15:44 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2wJx-000BvM-1O;
-	Fri, 03 May 2024 17:03:41 +0000
-Date: Sat, 4 May 2024 01:03:02 +0800
+	id 1s2wVZ-000Bw0-2e;
+	Fri, 03 May 2024 17:15:41 +0000
+Date: Sat, 4 May 2024 01:14:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 483/1143]
- drivers/spi/spi-aspeed-smc.c:359:37: warning: incompatible pointer to
- integer conversion passing 'const struct spi_mem_op *' to parameter of type
- 'u8' (aka 'unsigned char')
-Message-ID: <202405040124.o5YP5a4D-lkp@intel.com>
+To: Shay Drory <shayd@nvidia.com>, netdev@vger.kernel.org,
+	pabeni@redhat.com, davem@davemloft.net, kuba@kernel.org,
+	edumazet@google.com, gregkh@linuxfoundation.org,
+	david.m.ertman@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, ira.weiny@intel.com,
+	linux-rdma@vger.kernel.org, leon@kernel.org, tariqt@nvidia.com,
+	Shay Drory <shayd@nvidia.com>, Parav Pandit <parav@nvidia.com>
+Subject: Re: [PATCH 1/2] driver core: auxiliary bus: show auxiliary device
+ IRQs
+Message-ID: <202405040108.NWUaSJgz-lkp@intel.com>
+References: <20240503043104.381938-2-shayd@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240503043104.381938-2-shayd@nvidia.com>
 
-tree:   https://github.com/shenki/linux aspeed-6.9-rebase
-head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: 27d50ee4b07f666120eec24379af1fb451d64876 [483/1143] spi: aspeed: Support address bus width greater than 1
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240504/202405040124.o5YP5a4D-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040124.o5YP5a4D-lkp@intel.com/reproduce)
+Hi Shay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus net/main net-next/main linus/master v6.9-rc6 next-20240503]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shay-Drory/driver-core-auxiliary-bus-show-auxiliary-device-IRQs/20240503-123319
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20240503043104.381938-2-shayd%40nvidia.com
+patch subject: [PATCH 1/2] driver core: auxiliary bus: show auxiliary device IRQs
+config: s390-randconfig-r081-20240503 (https://download.01.org/0day-ci/archive/20240504/202405040108.NWUaSJgz-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040108.NWUaSJgz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405040124.o5YP5a4D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040108.NWUaSJgz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-aspeed-smc.c:359:37: warning: incompatible pointer to integer conversion passing 'const struct spi_mem_op *' to parameter of type 'u8' (aka 'unsigned char') [-Wint-conversion]
-                   ctl_val |= aspeed_spi_get_io_mode(op);
-                                                     ^~
-   drivers/spi/spi-aspeed-smc.c:110:38: note: passing argument to parameter 'buswidth' here
-   static u32 aspeed_spi_get_io_mode(u8 buswidth)
-                                        ^
-   1 warning generated.
+>> drivers/base/auxiliary.c:182: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Auxiliary devices can share IRQs. Expose to user whether the provided IRQ is
 
 
-vim +359 drivers/spi/spi-aspeed-smc.c
+vim +182 drivers/base/auxiliary.c
 
-53526ab27d9c256 Cédric Le Goater                    2022-05-09  320  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  321  static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  322  {
-21ac58f59125f1c Yang Yingliang                      2023-07-28  323  	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->controller);
-9e264f3f85a56cc Amit Kumar Mahapatra via Alsa-devel 2023-03-10  324  	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(mem->spi, 0)];
-e3228ed92893458 Cédric Le Goater                    2022-05-09  325  	u32 addr_mode, addr_mode_backup;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  326  	u32 ctl_val;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  327  	int ret = 0;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  328  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  329  	dev_dbg(aspi->dev,
-e3228ed92893458 Cédric Le Goater                    2022-05-09  330  		"CE%d %s OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x len:%#x",
-e3228ed92893458 Cédric Le Goater                    2022-05-09  331  		chip->cs, op->data.dir == SPI_MEM_DATA_IN ? "read" : "write",
-e3228ed92893458 Cédric Le Goater                    2022-05-09  332  		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
-e3228ed92893458 Cédric Le Goater                    2022-05-09  333  		op->dummy.buswidth, op->data.buswidth,
-e3228ed92893458 Cédric Le Goater                    2022-05-09  334  		op->addr.nbytes, op->dummy.nbytes, op->data.nbytes);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  335  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  336  	addr_mode = readl(aspi->regs + CE_CTRL_REG);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  337  	addr_mode_backup = addr_mode;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  338  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  339  	ctl_val = chip->ctl_val[ASPEED_SPI_BASE];
-e3228ed92893458 Cédric Le Goater                    2022-05-09  340  	ctl_val &= ~CTRL_IO_CMD_MASK;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  341  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  342  	ctl_val |= op->cmd.opcode << CTRL_COMMAND_SHIFT;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  343  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  344  	/* 4BYTE address mode */
-e3228ed92893458 Cédric Le Goater                    2022-05-09  345  	if (op->addr.nbytes) {
-e3228ed92893458 Cédric Le Goater                    2022-05-09  346  		if (op->addr.nbytes == 4)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  347  			addr_mode |= (0x11 << chip->cs);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  348  		else
-e3228ed92893458 Cédric Le Goater                    2022-05-09  349  			addr_mode &= ~(0x11 << chip->cs);
-53526ab27d9c256 Cédric Le Goater                    2022-05-09  350  
-53526ab27d9c256 Cédric Le Goater                    2022-05-09  351  		if (op->addr.nbytes == 4 && chip->aspi->data == &ast2400_spi_data)
-53526ab27d9c256 Cédric Le Goater                    2022-05-09  352  			ctl_val |= CTRL_IO_ADDRESS_4B;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  353  	}
-e3228ed92893458 Cédric Le Goater                    2022-05-09  354  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  355  	if (op->dummy.nbytes)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  356  		ctl_val |= CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  357  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  358  	if (op->data.nbytes)
-e3228ed92893458 Cédric Le Goater                    2022-05-09 @359  		ctl_val |= aspeed_spi_get_io_mode(op);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  360  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  361  	if (op->data.dir == SPI_MEM_DATA_OUT)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  362  		ctl_val |= CTRL_IO_MODE_WRITE;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  363  	else
-e3228ed92893458 Cédric Le Goater                    2022-05-09  364  		ctl_val |= CTRL_IO_MODE_READ;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  365  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  366  	if (addr_mode != addr_mode_backup)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  367  		writel(addr_mode, aspi->regs + CE_CTRL_REG);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  368  	writel(ctl_val, chip->ctl);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  369  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  370  	if (op->data.dir == SPI_MEM_DATA_IN) {
-e3228ed92893458 Cédric Le Goater                    2022-05-09  371  		if (!op->addr.nbytes)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  372  			ret = aspeed_spi_read_reg(chip, op);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  373  		else
-e3228ed92893458 Cédric Le Goater                    2022-05-09  374  			ret = aspeed_spi_read_user(chip, op, op->addr.val,
-e3228ed92893458 Cédric Le Goater                    2022-05-09  375  						   op->data.nbytes, op->data.buf.in);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  376  	} else {
-e3228ed92893458 Cédric Le Goater                    2022-05-09  377  		if (!op->addr.nbytes)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  378  			ret = aspeed_spi_write_reg(chip, op);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  379  		else
-e3228ed92893458 Cédric Le Goater                    2022-05-09  380  			ret = aspeed_spi_write_user(chip, op);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  381  	}
-e3228ed92893458 Cédric Le Goater                    2022-05-09  382  
-e3228ed92893458 Cédric Le Goater                    2022-05-09  383  	/* Restore defaults */
-e3228ed92893458 Cédric Le Goater                    2022-05-09  384  	if (addr_mode != addr_mode_backup)
-e3228ed92893458 Cédric Le Goater                    2022-05-09  385  		writel(addr_mode_backup, aspi->regs + CE_CTRL_REG);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  386  	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
-e3228ed92893458 Cédric Le Goater                    2022-05-09  387  	return ret;
-e3228ed92893458 Cédric Le Goater                    2022-05-09  388  }
-e3228ed92893458 Cédric Le Goater                    2022-05-09  389  
-
-:::::: The code at line 359 was first introduced by commit
-:::::: e3228ed92893458e360ba2be8d75d859e115e552 spi: spi-mem: Convert Aspeed SMC driver to spi-mem
-
-:::::: TO: Cédric Le Goater <clg@kaod.org>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   180	
+   181	/**
+ > 182	 * Auxiliary devices can share IRQs. Expose to user whether the provided IRQ is
+   183	 * shared or exclusive.
+   184	 */
+   185	static ssize_t auxiliary_irq_mode_show(struct device *dev,
+   186					       struct device_attribute *attr, char *buf)
+   187	{
+   188		struct auxiliary_irq_info *info =
+   189			container_of(attr, struct auxiliary_irq_info, sysfs_attr);
+   190	
+   191		if (refcount_read(xa_load(&irqs, info->irq)) > 1)
+   192			return sysfs_emit(buf, "%s\n", "shared");
+   193		else
+   194			return sysfs_emit(buf, "%s\n", "exclusive");
+   195	}
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
