@@ -1,153 +1,217 @@
-Received: from wfout8-smtp.messagingengine.com (wfout8-smtp.messagingengine.com [64.147.123.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87CF17F8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 01:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E2717F0;
+	Sat,  4 May 2024 01:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714784649; cv=none; b=jRSaugeEIMBud9BnkEWJq8n0UTBBXymYJE83P5z26SyhNegISwfEeXu5zBDO2xUPs+Y6JGs3nNYYDATCq8zt26Y9QprVmGS8yx5DDNH14pi5bUB8XQpnASLWtURj36YgS0lNb4rBVijIRAYPpwmmp7rmNhfBv8gpJO7hZnGFQhw=
+	t=1714786275; cv=none; b=TNz7tCpnbUyE+NBqj1hiaaeEfXuuHOVxwzFgMlBh2p2DpFJLfiwGiqZc1IEy3/Cr+ts8W31UoaCjZDBjJlO6C7+YEIxigbpd0cWi0rXh4Sk+rP8bE05KQyf7mv9Ujgspwr6JzG64223nDsygP5jUj01bP0BNhrdIeZpdJUQ2TVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714784649; c=relaxed/simple;
-	bh=GTAviRUSbLhWepPZbkOt/9B6fmwH/X/W0vVQuT4dRwk=;
-	h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZKc/4as3OZBZ0EG25qlv3puOAUK0PBj2lZqo+vjSRDDgkHTjecwn1yYkVSwclReePLyTBwG4/fUtZgjJsQrwLlVouzoZUglcZ0H164oA+/ydJqytO55LriMSRdRIb0DJi+EKzLwLJWWy7wtqgDNIFcN8AAXUvsDvHpNa6IKYybU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca; spf=pass smtp.mailfrom=lyndeno.ca; dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b=IWH4myxU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SkXMJr2Y; arc=none smtp.client-ip=64.147.123.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lyndeno.ca
+	s=arc-20240116; t=1714786275; c=relaxed/simple;
+	bh=PyxY0oE69hZ0c4dm+MXzuFqcMWQum1NUbC5k6H+O7Ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RYjLCcKm8MDGC9lMseXpfZTRRCByNvBlghpiJDKs0/j9pFjgNSTcLYk7J9yv3MKJLzVghmiVidTUxpr1uI/g9HHkFq2sjKMnfY/4/lzzaqXjHWVCpxvZ7MOT7VC9ZSvfu8MQFuZiEIfEzV+kGglu5lMYx2rb4BL/UO2eB5kIC4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZ9Iyauj; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b="IWH4myxU";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SkXMJr2Y"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfout.west.internal (Postfix) with ESMTP id C03C41C00122;
-	Fri,  3 May 2024 21:04:05 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 03 May 2024 21:04:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lyndeno.ca; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1714784645; x=1714871045; bh=hqb5qPm2Ez
-	Fq5XsSUyPxT/J/oPYrlFVrHq8anqHONac=; b=IWH4myxUaXyxJWEEwlZyo4zXUr
-	KlMPgbIxu93asxZ2GT74V9c+vm/qwnRl1AAJEh8BNTEbNvGs19+ZddDVvS1pFZU3
-	KvA6R8tbPM2yKcnWqEXqGzAyW5LVCGXjdRHrtHjloJ7LQSgdQIaSwufshhExBsBV
-	yp2VyKcf6uIgoKFgMS4cXr1C196VRCtW2qI6lQq+YfKBzSfrHpntW8ly3FDQtys+
-	+cq0yEJIpfmBGGf7VxIfkFqafQIFTiyTmfS+L9+rtOpPQKP3Ssr8WQRLecKGCFOJ
-	jTIQ7q3sZuZVrOQUt/9A6TgY2ePS0Xv0Wtl2YOhPWQ/oVksyFgbgCZo5PCCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1714784645; x=1714871045; bh=hqb5qPm2EzFq5XsSUyPxT/J/oPYr
-	lFVrHq8anqHONac=; b=SkXMJr2YnD04MZ0x/+PVsHd59w85r74zC76FZE67D46Z
-	syf5HoMFxpg51gQF/ObM4beSJurk+hUuzfkT9e9D1YYnQLSjVtQ3pc7QkqbzPTFg
-	hXYAc6X/oDoNswk+FzY9CLE/l6y2N/9kuaamHU0RDfZt+TDowhMCUCutcmZ21tGo
-	7WnjgmrjgZDa7TFdh2RGfE4hh0FCJU8apdTHc6u0kgL5QrepTiHBrGxHoQutq0Lj
-	KWlnzQR+1sQw2uVwZCwJ8VaTo/pWUpJRdRm1mBS8b5pd8oYJJCHTEfXi/S+n74z1
-	jibpoTLRLkZZOcqpXV9ZwFWyN1X3VdXK/mbCXiyX2w==
-X-ME-Sender: <xms:hIk1Zs7fqncGfg8UXnrEHClTwRowOaZcKy_OlS0HzFlMeySxZ1cPmg>
-    <xme:hIk1Zt56sraQMlXzhWCIqmw8TgciaZWIcffG0I6JbyvYFKYPT_DN3hCGK8zzqMVLv
-    23ZpjR3mqG0pkmm6mw>
-X-ME-Received: <xmr:hIk1ZrccauRwvWZhM5twEGeylc18zUOkCPg47CJtuL-LNOe_hxAoUcdKFSu9ntp4U3bH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvuddggedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhuffvvefkjghfofggtgesthdtredtredtvdenucfhrhhomhepnfihnhgu
-    ohhnucfurghntghhvgcuoehlshgrnhgthhgvsehlhihnuggvnhhordgtrgeqnecuggftrf
-    grthhtvghrnhepvdfgjeduvddtheekkeduiedtieegveefgeekgfevffffjeevgeffueev
-    heejjedtnecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomh
-    dpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehlshgrnhgthhgvsehlhihnuggvnhhordgtrg
-X-ME-Proxy: <xmx:hIk1ZhIQkgaynT7idR4bB-x_YMq0NVM106dCScAeY0O4tfQtiRQM-w>
-    <xmx:hIk1ZgLIfK_63V8oTkanacBDwLbAB5SSdTjlGNbsMcGIfFu-pFGmEw>
-    <xmx:hIk1ZiyRkXLf5OQN9bY3upnEA5-FxH4p4FoI2iqeFll4ABhIsFzqZw>
-    <xmx:hIk1ZkLplf_lQRtRvjbjrR9NRrnmLOsairvz-pAUNf0DFowZ4CP_eg>
-    <xmx:hYk1Zpeqtfdo85_ZJMW1kDxy4gw61w5IEYys4TSa9BO8QWcJn70t9zyA>
-Feedback-ID: i1719461a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 May 2024 21:03:45 -0400 (EDT)
-Date: Fri, 03 May 2024 19:03:10 -0600
-From: Lyndon Sanche <lsanche@lyndeno.ca>
-Subject: Re: [PATCH v5] platform/x86: dell-laptop: Implement platform_profile
-To: kernel test robot <lkp@intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
-	<fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev,
-	mario.limonciello@amd.com, pali@kernel.org, W_Armin@gmx.de,
-	srinivas.pandruvada@linux.intel.com, ilpo.jarvinen@linux.intel.com,
-	Hans de Goede <hdegoede@redhat.com>, Matthew Garrett <mjg59@srcf.ucam.org>,
-	Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com
-Message-Id: <A9SXCS.IUN31UTTT9GM2@lyndeno.ca>
-In-Reply-To: <202405031851.NYy0ZB02-lkp@intel.com>
-References: <20240501215829.4991-2-lsanche@lyndeno.ca>
-	<202405031851.NYy0ZB02-lkp@intel.com>
-X-Mailer: geary/44.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZ9Iyauj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714786273; x=1746322273;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PyxY0oE69hZ0c4dm+MXzuFqcMWQum1NUbC5k6H+O7Ys=;
+  b=BZ9Iyaujr9EgzYodeXUH43MmD/XKHMLWsEycR7p90PImAcY5qtBm7NBL
+   2LSlZ8/wvBA/W2RaY3pylS3/7ipeuGOh3+QnSV9V2QM+vjcrot64llf9C
+   VFIZdkfy7n7eA8nIiISd6QanxZGCLfEy9nrjw31KHbWINmDGGpUHlL/KY
+   kXE28Kbsg64xuP8SH1LyS6457KA9AVn/PzcCBrnMI7H+IFjhLd1p6mVT0
+   jZ4sFrVnJRKQe9LHApdnCU2sXTe50TrqMUhRO6NVhsyVkkeDDnMdQQJcu
+   LWUc0cOqJmWyo/PCaKhrLWZavuaL0C/EO159M3T+KetOElUCnatfHSdNW
+   w==;
+X-CSE-ConnectionGUID: zIYC4I70S52i7UWCAnlTkA==
+X-CSE-MsgGUID: zJHigyF9ToeNeDp3b6SzHA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="22019870"
+X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
+   d="scan'208";a="22019870"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 18:31:13 -0700
+X-CSE-ConnectionGUID: CsKHDJlLRT26MVLiY1ayRA==
+X-CSE-MsgGUID: fosB1S7HTi2Sy+DTtD4eHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
+   d="scan'208";a="58812264"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 03 May 2024 18:31:09 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s34F0-000CIO-0z;
+	Sat, 04 May 2024 01:31:06 +0000
+Date: Sat, 4 May 2024 09:30:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Allen Pais <apais@linux.microsoft.com>, linux-fsdevel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	ebiederm@xmission.com, keescook@chromium.org, mcgrof@kernel.org,
+	j.granados@samsung.com, allen.lkml@gmail.com
+Subject: Re: [PATCH v3] fs/coredump: Enable dynamic configuration of max file
+ note size
+Message-ID: <202405040817.bJeHlwXS-lkp@intel.com>
+References: <20240502235603.19290-1-apais@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240502235603.19290-1-apais@linux.microsoft.com>
+
+Hi Allen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kees/for-next/execve]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.9-rc6 next-20240503]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/fs-coredump-Enable-dynamic-configuration-of-max-file-note-size/20240503-075758
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+patch link:    https://lore.kernel.org/r/20240502235603.19290-1-apais%40linux.microsoft.com
+patch subject: [PATCH v3] fs/coredump: Enable dynamic configuration of max file note size
+config: powerpc64-randconfig-001-20240504 (https://download.01.org/0day-ci/archive/20240504/202405040817.bJeHlwXS-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040817.bJeHlwXS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040817.bJeHlwXS-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from fs/compat_binfmt_elf.c:17:
+   In file included from include/linux/elfcore-compat.h:6:
+   In file included from include/linux/elfcore.h:11:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/compat_binfmt_elf.c:144:
+>> fs/binfmt_elf.c:1598:14: error: use of undeclared identifier 'core_file_note_size_max'
+    1598 |         if (size >= core_file_note_size_max) {
+         |                     ^
+   1 warning and 1 error generated.
 
 
+vim +/core_file_note_size_max +1598 fs/binfmt_elf.c
 
-On Fri, May 3 2024 at 06:19:18 PM +08:00:00, kernel test robot 
-<lkp@intel.com> wrote:
-> Hi Lyndon,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.9-rc6 next-20240503]
-> [If your patch is applied to the wrong git tree, kindly drop us a 
-> note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    
-> https://github.com/intel-lab-lkp/linux/commits/Lyndon-Sanche/platform-x86-dell-laptop-Implement-platform_profile/20240502-060146
-> base:   linus/master
-> patch link:    
-> https://lore.kernel.org/r/20240501215829.4991-2-lsanche%40lyndeno.ca
-> patch subject: [PATCH v5] platform/x86: dell-laptop: Implement 
-> platform_profile
-> config: 
-> i386-kismet-CONFIG_ACPI_PLATFORM_PROFILE-CONFIG_DELL_LAPTOP-0-0 
-> (https://download.01.org/0day-ci/archive/20240503/202405031851.NYy0ZB02-lkp@intel.com/config)
-> reproduce: 
-> (https://download.01.org/0day-ci/archive/20240503/202405031851.NYy0ZB02-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202405031851.NYy0ZB02-lkp@intel.com/
-> 
-> kismet warnings: (new ones prefixed by >>)
->>>  kismet: WARNING: unmet direct dependencies detected for 
->>> ACPI_PLATFORM_PROFILE when selected by DELL_LAPTOP
->    WARNING: unmet direct dependencies detected for 
-> ACPI_PLATFORM_PROFILE
->      Depends on [n]: ACPI [=n]
->      Selected by [y]:
->      - DELL_LAPTOP [=y] && X86_PLATFORM_DEVICES [=y] && 
-> X86_PLATFORM_DRIVERS_DELL [=y] && DMI [=y] && BACKLIGHT_CLASS_DEVICE 
-> [=y] && (ACPI_VIDEO [=n] || ACPI_VIDEO [=n]=n) && (RFKILL [=n] || 
-> RFKILL [=n]=n) && (DELL_WMI [=n] || DELL_WMI [=n]=n) && SERIO_I8042 
-> [=y] && DELL_SMBIOS [=y]
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+  1569	
+  1570	/*
+  1571	 * Format of NT_FILE note:
+  1572	 *
+  1573	 * long count     -- how many files are mapped
+  1574	 * long page_size -- units for file_ofs
+  1575	 * array of [COUNT] elements of
+  1576	 *   long start
+  1577	 *   long end
+  1578	 *   long file_ofs
+  1579	 * followed by COUNT filenames in ASCII: "FILE1" NUL "FILE2" NUL...
+  1580	 */
+  1581	static int fill_files_note(struct memelfnote *note, struct coredump_params *cprm)
+  1582	{
+  1583		unsigned count, size, names_ofs, remaining, n;
+  1584		user_long_t *data;
+  1585		user_long_t *start_end_ofs;
+  1586		char *name_base, *name_curpos;
+  1587		int i;
+  1588	
+  1589		/* *Estimated* file count and total data size needed */
+  1590		count = cprm->vma_count;
+  1591		if (count > UINT_MAX / 64)
+  1592			return -EINVAL;
+  1593		size = count * 64;
+  1594	
+  1595		names_ofs = (2 + 3 * count) * sizeof(data[0]);
+  1596	 alloc:
+  1597		/* paranoia check */
+> 1598		if (size >= core_file_note_size_max) {
+  1599			pr_warn_once("coredump Note size too large: %u "
+  1600			"(does kernel.core_file_note_size_max sysctl need adjustment?)\n",
+  1601			size);
+  1602			return -EINVAL;
+  1603		}
+  1604		size = round_up(size, PAGE_SIZE);
+  1605		/*
+  1606		 * "size" can be 0 here legitimately.
+  1607		 * Let it ENOMEM and omit NT_FILE section which will be empty anyway.
+  1608		 */
+  1609		data = kvmalloc(size, GFP_KERNEL);
+  1610		if (ZERO_OR_NULL_PTR(data))
+  1611			return -ENOMEM;
+  1612	
+  1613		start_end_ofs = data + 2;
+  1614		name_base = name_curpos = ((char *)data) + names_ofs;
+  1615		remaining = size - names_ofs;
+  1616		count = 0;
+  1617		for (i = 0; i < cprm->vma_count; i++) {
+  1618			struct core_vma_metadata *m = &cprm->vma_meta[i];
+  1619			struct file *file;
+  1620			const char *filename;
+  1621	
+  1622			file = m->file;
+  1623			if (!file)
+  1624				continue;
+  1625			filename = file_path(file, name_curpos, remaining);
+  1626			if (IS_ERR(filename)) {
+  1627				if (PTR_ERR(filename) == -ENAMETOOLONG) {
+  1628					kvfree(data);
+  1629					size = size * 5 / 4;
+  1630					goto alloc;
+  1631				}
+  1632				continue;
+  1633			}
+  1634	
+  1635			/* file_path() fills at the end, move name down */
+  1636			/* n = strlen(filename) + 1: */
+  1637			n = (name_curpos + remaining) - filename;
+  1638			remaining = filename - name_curpos;
+  1639			memmove(name_curpos, filename, n);
+  1640			name_curpos += n;
+  1641	
+  1642			*start_end_ofs++ = m->start;
+  1643			*start_end_ofs++ = m->end;
+  1644			*start_end_ofs++ = m->pgoff;
+  1645			count++;
+  1646		}
+  1647	
+  1648		/* Now we know exact count of files, can store it */
+  1649		data[0] = count;
+  1650		data[1] = PAGE_SIZE;
+  1651		/*
+  1652		 * Count usually is less than mm->map_count,
+  1653		 * we need to move filenames down.
+  1654		 */
+  1655		n = cprm->vma_count - count;
+  1656		if (n != 0) {
+  1657			unsigned shift_bytes = n * 3 * sizeof(data[0]);
+  1658			memmove(name_base - shift_bytes, name_base,
+  1659				name_curpos - name_base);
+  1660			name_curpos -= shift_bytes;
+  1661		}
+  1662	
+  1663		size = name_curpos - (char *)data;
+  1664		fill_note(note, "CORE", NT_FILE, size, data);
+  1665		return 0;
+  1666	}
+  1667	
 
-I will try reproducing this test on my machine, to avoid spamming the 
-mailing list with the same error over and over.
-
-
-
-
-
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
