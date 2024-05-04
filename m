@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361B01E53F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 18:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA084122C;
+	Sat,  4 May 2024 19:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714848288; cv=none; b=Q5kDqNoUTLjnXUAT/tXfkUT19+EsEJJhbvtnw5NQ5CBB0qhsWsqjDkb3IlCIQ1rca/7MEorwLUzU8rHqp/x70NaVQxjSFxR1Ifzzul9UsdLBX5H8p0PnKRvePEXxQtjyaixW3oZ+fmYrnEKFUkQTcvETg4GdrduYTDmuOxhsUdM=
+	t=1714849669; cv=none; b=lZpUSmZcr3l7Hq0pSbOIsftdlvmsN6Po4xQYZJ53KSSm0Ku0+kA4TIZ3MPSWkff+JRticNRoTKEJBalOLPnrCkGTy9owhZRT59JwGOCcp31kpAd3UVNYYtlRLgpOlMSXggdnxcm21LWcJ0tYPKCaBYrVCs73FnCp/IYgOlOJeng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714848288; c=relaxed/simple;
-	bh=CUeuyv3Aedv9eHUC8fy1iiXz/9+shD+tl8oL0bajZx4=;
+	s=arc-20240116; t=1714849669; c=relaxed/simple;
+	bh=Bn5OCPgnnnAJgLYB8urvyWd76V5wsD6EF/aRqDYSAZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DZC0qGUEcXmeM9TddOsLxdBLs9w3z5+UOqweB2P2fn2MRN3IMRZbSWCZJpL9fCfMjkfc8N2+B3b6AD42QOSXy1ziagrqKvRcafCKcDnJacHmEasTnV4TCjDjUjMd7wyq4ghH1vBeW0mFklmM+n3MpJ6XsVw/zRYHKLAsgEhOjow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E013vecf; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=eBDegq4i2ZGQWVF/Kxn7FmPSQuMGxwMxaMimyhOpgnDuH2fFetKlE2HyK/91FAJk45ehGshLzeWDU6OODZjgjNLMcW7TdNw7oUr4tRRebW4Sv0GFaUSFkiXDlV2FFJM+NdkNFYGtJ/vfcWHFpSUJX1GUSQ2uXPV+lOOCPBFz9IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJDWis8T; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E013vecf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJDWis8T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714848287; x=1746384287;
+  t=1714849667; x=1746385667;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CUeuyv3Aedv9eHUC8fy1iiXz/9+shD+tl8oL0bajZx4=;
-  b=E013vecfHUm5T4+UrX+7EgnWsmY1Ia+6h8SPJ+zk9awC38zRmQ7iDPnd
-   9CcrGwlsc0O5YgxNEZJmcsESTJCff+3bB6jMNo73U8Ll9UX26WxJEdxEY
-   8xDFGtAwl6n3ybfw0jtFtbbOjdKGP+QseZ2SISjmOoK0+faGUjk+VNtto
-   AxM1TGegcXmVWVJkkoElTUOaLGu0k3TzYb35/qBzkoGt5M2tlXDeeHVF/
-   tf51STygRZ1eD1qzlVR8KX58//Z3jFrniwtZNGuT8KRkqEDzfWFZgds85
-   wHO+zSq/yukvjeUfbQ/41vrgxVB2dkLHMRzhhpKyzboeh4QOp3J5wvbNI
-   g==;
-X-CSE-ConnectionGUID: RNrcEieFSWC88aZgMrR4Tw==
-X-CSE-MsgGUID: /MbHzQNJT2e0pquatAZHGg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14424203"
+  bh=Bn5OCPgnnnAJgLYB8urvyWd76V5wsD6EF/aRqDYSAZA=;
+  b=hJDWis8TYBsFAeHaFdGFU+8lN48YF6Eg0iEKxIwKT/whoV2VxSTKm3zN
+   p9pK2a5GE5+6l7Ryu/nmzqLqhIwjU/m1d8n7kDSwlSr/TP/CG4S4C1cjS
+   Lc7bAe39xJnaZkNkLx3mH5f/Ff8ye66G+bkCNLjq6/wpOcbyBQggnOW1w
+   +l2wT3y39d4gFk5Aq6inoGGoyxCr7bNFLLPybIQNVJPNlSJ9vQCMhC3UR
+   zAK2b1pLAn0gHOiTTSM62SPjZkvffeZJr0gvAWRD+4PYOzS7BUoHMan76
+   2MfdG+EIHMP49VWU6iMdqtlNXIoqt8LO9t7hdf6NZJsNgCVGT1xq4p67Q
+   A==;
+X-CSE-ConnectionGUID: x9ihpLabTiiXlRXwweuEAA==
+X-CSE-MsgGUID: bIngPW3dTZ+SutnIXhTYzA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21792285"
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="14424203"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 11:44:46 -0700
-X-CSE-ConnectionGUID: +CpTS6DcS22AINQx+30g5Q==
-X-CSE-MsgGUID: JpRNSLNvTBCUF6eaUdi5pA==
+   d="scan'208";a="21792285"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 12:07:46 -0700
+X-CSE-ConnectionGUID: tQOCUuirSgmGGGshzxHU3w==
+X-CSE-MsgGUID: fYVl3ue4RYivKjj3/SPGbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="32560485"
+   d="scan'208";a="32229092"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 May 2024 11:44:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 04 May 2024 12:07:45 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3KNG-000D4o-0w;
-	Sat, 04 May 2024 18:44:42 +0000
-Date: Sun, 5 May 2024 02:44:20 +0800
+	id 1s3KjW-000D6E-3A;
+	Sat, 04 May 2024 19:07:42 +0000
+Date: Sun, 5 May 2024 03:06:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alexander Graf <graf@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
-Subject: [agraf-2.6:kvm-kho-gmem-test 20/27] arch/arm64/kvm/mmu.c:1691:31:
- warning: format '%lx' expects argument of type 'long unsigned int', but
- argument 4 has type 'gfn_t' {aka 'long long unsigned int'}
-Message-ID: <202405050218.bdbPXR1X-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm-ppc@vger.kernel.org
+Subject: [agraf-2.6:kvm-kho-gmem-test 26/27] kernel/time/sched_clock.c:76:49:
+ error: call to undeclared function 'read_sysreg'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202405050255.uiq0NPjq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,181 +66,47 @@ Content-Disposition: inline
 
 tree:   https://github.com/agraf/linux-2.6.git kvm-kho-gmem-test
 head:   9a58862a298a63bad21d05191e28b857063bb9dc
-commit: dc3f33bb180826ee0bcd0ecc79cad842ff3ffccf [20/27] XXX early kvmm implementation
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240505/202405050218.bdbPXR1X-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050218.bdbPXR1X-lkp@intel.com/reproduce)
+commit: 12b2509463b155fec805d7fb2ecbef3aafbd2414 [26/27] XXX arm: make early time stamps contiguous
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240505/202405050255.uiq0NPjq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050255.uiq0NPjq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405050218.bdbPXR1X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405050255.uiq0NPjq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm64/kvm/mmu.c: In function 'kvm_handle_guest_abort':
->> arch/arm64/kvm/mmu.c:1691:31: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'gfn_t' {aka 'long long unsigned int'} [-Wformat=]
-    1691 | trace_printk("XXX %s:%d gfn=%lx memslot=%lx hva=%lx write_fault=%d\n", __func__, __LINE__, gfn, memslot, hva, write_fault);
-         |                             ~~^                                                            ~~~
-         |                               |                                                            |
-         |                               long unsigned int                                            gfn_t {aka long long unsigned int}
-         |                             %llx
->> arch/arm64/kvm/mmu.c:1691:43: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'struct kvm_memory_slot *' [-Wformat=]
-    1691 | trace_printk("XXX %s:%d gfn=%lx memslot=%lx hva=%lx write_fault=%d\n", __func__, __LINE__, gfn, memslot, hva, write_fault);
-         |                                         ~~^                                                     ~~~~~~~
-         |                                           |                                                     |
-         |                                           long unsigned int                                     struct kvm_memory_slot *
+>> kernel/time/sched_clock.c:76:49: error: call to undeclared function 'read_sysreg'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      76 |                 clocks_calc_mult_shift(&rd->mult, &rd->shift, read_sysreg(cntfrq_el0), NSEC_PER_SEC, 600);
+         |                                                               ^
+>> kernel/time/sched_clock.c:76:61: error: use of undeclared identifier 'cntfrq_el0'
+      76 |                 clocks_calc_mult_shift(&rd->mult, &rd->shift, read_sysreg(cntfrq_el0), NSEC_PER_SEC, 600);
+         |                                                                           ^
+   kernel/time/sched_clock.c:183:27: warning: variable 'new_epoch' set but not used [-Wunused-but-set-variable]
+     183 |         u64 res, wrap, new_mask, new_epoch, cyc, ns;
+         |                                  ^
+   kernel/time/sched_clock.c:183:43: warning: variable 'ns' set but not used [-Wunused-but-set-variable]
+     183 |         u64 res, wrap, new_mask, new_epoch, cyc, ns;
+         |                                                  ^
+   2 warnings and 2 errors generated.
 
 
-vim +1691 arch/arm64/kvm/mmu.c
+vim +/read_sysreg +76 kernel/time/sched_clock.c
 
-  1613	
-  1614	/**
-  1615	 * kvm_handle_guest_abort - handles all 2nd stage aborts
-  1616	 * @vcpu:	the VCPU pointer
-  1617	 *
-  1618	 * Any abort that gets to the host is almost guaranteed to be caused by a
-  1619	 * missing second stage translation table entry, which can mean that either the
-  1620	 * guest simply needs more memory and we must allocate an appropriate page or it
-  1621	 * can mean that the guest tried to access I/O memory, which is emulated by user
-  1622	 * space. The distinction is based on the IPA causing the fault and whether this
-  1623	 * memory region has been registered as standard RAM by user space.
-  1624	 */
-  1625	int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
-  1626	{
-  1627		unsigned long esr;
-  1628		phys_addr_t fault_ipa;
-  1629		struct kvm_memory_slot *memslot;
-  1630		unsigned long hva;
-  1631		bool is_iabt, write_fault, writable;
-  1632		gfn_t gfn;
-  1633		int ret, idx;
-  1634	
-  1635		esr = kvm_vcpu_get_esr(vcpu);
-  1636	
-  1637		fault_ipa = kvm_vcpu_get_fault_ipa(vcpu);
-  1638		is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
-  1639	
-  1640		if (esr_fsc_is_permission_fault(esr)) {
-  1641			/* Beyond sanitised PARange (which is the IPA limit) */
-  1642			if (fault_ipa >= BIT_ULL(get_kvm_ipa_limit())) {
-  1643				kvm_inject_size_fault(vcpu);
-  1644				return 1;
-  1645			}
-  1646	
-  1647			/* Falls between the IPA range and the PARange? */
-  1648			if (fault_ipa >= BIT_ULL(vcpu->arch.hw_mmu->pgt->ia_bits)) {
-  1649				fault_ipa |= kvm_vcpu_get_hfar(vcpu) & GENMASK(11, 0);
-  1650	
-  1651				if (is_iabt)
-  1652					kvm_inject_pabt(vcpu, fault_ipa);
-  1653				else
-  1654					kvm_inject_dabt(vcpu, fault_ipa);
-  1655				return 1;
-  1656			}
-  1657		}
-  1658	
-  1659		/* Synchronous External Abort? */
-  1660		if (kvm_vcpu_abt_issea(vcpu)) {
-  1661			/*
-  1662			 * For RAS the host kernel may handle this abort.
-  1663			 * There is no need to pass the error into the guest.
-  1664			 */
-  1665			if (kvm_handle_guest_sea(fault_ipa, kvm_vcpu_get_esr(vcpu)))
-  1666				kvm_inject_vabt(vcpu);
-  1667	
-  1668			return 1;
-  1669		}
-  1670	
-  1671		trace_kvm_guest_fault(*vcpu_pc(vcpu), kvm_vcpu_get_esr(vcpu),
-  1672				      kvm_vcpu_get_hfar(vcpu), fault_ipa);
-  1673	
-  1674		/* Check the stage-2 fault is trans. fault or write fault */
-  1675		if (!esr_fsc_is_translation_fault(esr) &&
-  1676		    !esr_fsc_is_permission_fault(esr) &&
-  1677		    !esr_fsc_is_access_flag_fault(esr)) {
-  1678			kvm_err("Unsupported FSC: EC=%#x xFSC=%#lx ESR_EL2=%#lx\n",
-  1679				kvm_vcpu_trap_get_class(vcpu),
-  1680				(unsigned long)kvm_vcpu_trap_get_fault(vcpu),
-  1681				(unsigned long)kvm_vcpu_get_esr(vcpu));
-  1682			return -EFAULT;
-  1683		}
-  1684	
-  1685		idx = srcu_read_lock(&vcpu->kvm->srcu);
-  1686	
-  1687		gfn = fault_ipa >> PAGE_SHIFT;
-  1688		memslot = gfn_to_memslot(vcpu->kvm, gfn);
-  1689		hva = gfn_to_hva_memslot_prot(memslot, gfn, &writable);
-  1690		write_fault = kvm_is_write_fault(vcpu);
-> 1691	trace_printk("XXX %s:%d gfn=%lx memslot=%lx hva=%lx write_fault=%d\n", __func__, __LINE__, gfn, memslot, hva, write_fault);
-  1692		if (kvm_is_error_hva(hva) || (write_fault && !writable)) {
-  1693			/*
-  1694			 * The guest has put either its instructions or its page-tables
-  1695			 * somewhere it shouldn't have. Userspace won't be able to do
-  1696			 * anything about this (there's no syndrome for a start), so
-  1697			 * re-inject the abort back into the guest.
-  1698			 */
-  1699			if (is_iabt) {
-  1700				ret = -ENOEXEC;
-  1701				goto out;
-  1702			}
-  1703	
-  1704			if (kvm_vcpu_abt_iss1tw(vcpu)) {
-  1705				kvm_inject_dabt(vcpu, kvm_vcpu_get_hfar(vcpu));
-  1706				ret = 1;
-  1707				goto out_unlock;
-  1708			}
-  1709	
-  1710			/*
-  1711			 * Check for a cache maintenance operation. Since we
-  1712			 * ended-up here, we know it is outside of any memory
-  1713			 * slot. But we can't find out if that is for a device,
-  1714			 * or if the guest is just being stupid. The only thing
-  1715			 * we know for sure is that this range cannot be cached.
-  1716			 *
-  1717			 * So let's assume that the guest is just being
-  1718			 * cautious, and skip the instruction.
-  1719			 */
-  1720			if (kvm_is_error_hva(hva) && kvm_vcpu_dabt_is_cm(vcpu)) {
-  1721				kvm_incr_pc(vcpu);
-  1722				ret = 1;
-  1723				goto out_unlock;
-  1724			}
-  1725	
-  1726			/*
-  1727			 * The IPA is reported as [MAX:12], so we need to
-  1728			 * complement it with the bottom 12 bits from the
-  1729			 * faulting VA. This is always 12 bits, irrespective
-  1730			 * of the page size.
-  1731			 */
-  1732			fault_ipa |= kvm_vcpu_get_hfar(vcpu) & ((1 << 12) - 1);
-  1733			ret = io_mem_abort(vcpu, fault_ipa);
-  1734			goto out_unlock;
-  1735		}
-  1736	
-  1737		/* Userspace should not be able to register out-of-bounds IPAs */
-  1738		VM_BUG_ON(fault_ipa >= kvm_phys_size(vcpu->arch.hw_mmu));
-  1739	
-  1740		if (esr_fsc_is_access_flag_fault(esr)) {
-  1741			handle_access_fault(vcpu, fault_ipa);
-  1742			ret = 1;
-  1743			goto out_unlock;
-  1744		}
-  1745	
-  1746		ret = user_mem_abort(vcpu, fault_ipa, memslot, hva,
-  1747				     esr_fsc_is_permission_fault(esr));
-  1748		if (ret == 0)
-  1749			ret = 1;
-  1750	out:
-  1751		if (ret == -ENOEXEC) {
-  1752			kvm_inject_pabt(vcpu, kvm_vcpu_get_hfar(vcpu));
-  1753			ret = 1;
-  1754		}
-  1755	out_unlock:
-  1756		srcu_read_unlock(&vcpu->kvm->srcu, idx);
-  1757		return ret;
-  1758	}
-  1759	
+    69	
+    70	static void cd_early_init(void)
+    71	{
+    72		static bool is_initialized;
+    73		struct clock_read_data *rd = &cd.read_data[0];
+    74	
+    75		if (!is_initialized) {
+  > 76			clocks_calc_mult_shift(&rd->mult, &rd->shift, read_sysreg(cntfrq_el0), NSEC_PER_SEC, 600);
+    77			is_initialized = true;
+    78		}
+    79	}
+    80	
 
 -- 
 0-DAY CI Kernel Test Service
