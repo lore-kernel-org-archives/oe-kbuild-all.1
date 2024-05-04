@@ -1,170 +1,125 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFDA1EF15
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 12:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4BB39FD0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 12:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714825350; cv=none; b=WB57PcUiz92TV6HCCLDzN3p0blTmR3SHyiMpasJncPsAVE988fbQLp3B6+a/UM67YQvcwwNZBmBXBWg/HGfxvqGlmHbU/ar9W9NochqO2lTq9GMgf0MY4spDytRpEQJdsNWA7trkDQswfbI3AgYtNcnouZUy6UPiEEpsruZWXWk=
+	t=1714826854; cv=none; b=BE1GOyAEFAsbbkjc8ObEWWb+frjQBNhWTrMwP7Otx3nmR7aPvzeaxjW3yixHWb7oq0dQAedKSWEM6lBJHrsatDRcCuur7pMdYVDAq7sP5JfsE7YN5cWp2jR7fhVyDYsuGrCPewL2tQOk1ru2I76kG5/hbBFtLHGCwTMVi1xIwe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714825350; c=relaxed/simple;
-	bh=GRHxUCqGaZoAecd6ElsSHObJmxt3nCdb/R8cqqNDzew=;
+	s=arc-20240116; t=1714826854; c=relaxed/simple;
+	bh=hrMkbsrstHyhq5wwCShdeniuRz0zu6y+Ah7yMty/moA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=lSqyruHcNS15ZOnEOLgKfH+myBFlBC16H5vhqZstvqBlqKkz2QPJ9ngR5YkX79p9vNeNEK1S4p6svV5uHHcR2Wb++KCobq+tjNlmFD/5l//P1qEgZM9uVI/p++Nwe7ziqFMp2UEqx7nG6Yl5VzzoJtmpc83vYt/QCj0FGO5vqTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BpraEqoC; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=LEJDPt4H9/CG1X3upx5U1+bTepasqaO1m3fJyB9Rgl+YEAXV4JnbgUg5eDAsHYA0/W3RY4/BTdmIYFym+twckNFRDdZugweew/rQ+mDMWJCY6MQqQ2+3ftoOkQsRBzDcUcBMf2zIUir4agKwIwic3fiveb7jbf5bfrAACs2YSC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMwnt077; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BpraEqoC"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41bab13ca81so5263405e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 May 2024 05:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714825345; x=1715430145; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=M2vp/JKI429/HHS37Iz8iVVeNzZRSNJFUP79XleGm+E=;
-        b=BpraEqoCM9mfgLTpK21bS4twrHRfyAxFL8MjdJmOio4vt7x6BofeuYN7ue+09i0G+g
-         luIovrfLK6FhnIsgYGVS8XS2LpiEDwBI62yrpgZslc36sp9zSUDmQHBD+KlPK+mLPPRg
-         0y9p333vingmkzBpl0nDsKbsMd2Pzhn8oQMaSWiII87BFd8bG8WuNYvY5lNrOdm99YP8
-         0ZVRhvIUtya7UhleOpZ7/iCeYzy2vBj/LhiZj8ajDe/dQ2bI2kv0XkJtCDVsfZDkUzpY
-         jRGqT3e+dQpn9v0wczTWPhkKrjeDGqrZYXhVYDFjmUKpbrCOeYVsBJIhqulGhYh8s4KI
-         heDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714825345; x=1715430145;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M2vp/JKI429/HHS37Iz8iVVeNzZRSNJFUP79XleGm+E=;
-        b=GAibgh5BU1TTTwvgTg41wqk0j2V+W2Bj6YRyPXjhltd7g6OIzSYDRvLbFI0xTQJKl7
-         LrM2yBoU1uMzVx6fzsVi1gG4hgKZaU+o6gw+87uYAwZfbGMnbuCVZ/KqVp0pvQUvzYgo
-         2XgG66DRUK7Gb6HTZzRBBNPcbx7nNd0lsMWH9X9vKsVx4VfEXSHCPcdaSAOGOWrJoDJn
-         /g/kAw7SX9e47xsnw6kZ4RZdqE/+2RL79tcFC8xRi6TgZbr8iDr2ek4pBmdVwC/a5xDP
-         6uiOCjaaIqmwyfPrY1mPeAojkDUwL1m5H51A4QxK7Dtj7OXiv7i8x5kL2ozkjuC7w9EY
-         2mhg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOpbmcHSH5Bsq/E5A4mps5I60RkJGOeCY/tC+kDCETaATnpCnncjSiZWA8ILrtnvmHTb9k1Av2aGgsYS494zVOEkcfb+GowEsLppNwtw==
-X-Gm-Message-State: AOJu0Yzk5AQ8Ok/D+lvJ52/a2II1VNVzh8MMqfv3hLQm6ymTbX2Co731
-	08OoHMWrzWF9Y0tl/FWqW0osdYPf+BfgP3HDKUOqwNSqLPFa3Lb9xCt2FUu2JXw=
-X-Google-Smtp-Source: AGHT+IFF4yjgKipag7jhN7Q7o11f1T7BsWiIH2Qt4T9Q5z3xzGtEXUPJe6y2u65rRYlosu9Kt8H7vw==
-X-Received: by 2002:a05:600c:3586:b0:41c:b44:f917 with SMTP id p6-20020a05600c358600b0041c0b44f917mr5631753wmq.22.1714825345404;
-        Sat, 04 May 2024 05:22:25 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id d1-20020a05600c34c100b0041c130520f3sm12850227wmq.6.2024.05.04.05.22.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 05:22:25 -0700 (PDT)
-Date: Sat, 4 May 2024 15:22:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Siddharth Chintamaneni <sidchintamaneni@gmail.com>,
-	bpf@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	alexei.starovoitov@gmail.com, daniel@iogearbox.net,
-	olsajiri@gmail.com, andrii@kernel.org, yonghong.song@linux.dev,
-	rjsu26@vt.edu, sairoop@vt.edu,
-	Siddharth Chintamaneni <sidchintamaneni@vt.edu>,
-	syzbot+8bdfc2c53fb2b63e1871@syzkaller.appspotmail.com
-Subject: Re: [PATCH bpf-next 1/2] Patch to Fix deadlocks in queue and stack
- maps
-Message-ID: <e5286af1-53cb-40f1-a0c9-601e2a368114@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMwnt077"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714826852; x=1746362852;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hrMkbsrstHyhq5wwCShdeniuRz0zu6y+Ah7yMty/moA=;
+  b=kMwnt077fAolwrn4YXO4gQ7y3Tvrchk0spVSgIkPMIw4dugcDZr4qbbC
+   xZACMMYj2V8FppYRODba+fa+jQqXdX94glo8p07xv3VGiL5xTDVCp4I4C
+   rZ0u3xMORtdMcOBN9v1NitXTSCyBdx9PrvuSeXyDbI7sRX9XDed3VcIFp
+   6fBImus8YXb7/jeLYXlrAtuh84/nwECTYof3svGq6fWNWf/QRFyBRbSd0
+   2zuLANukJID7sT19MA2xvvKb3lUluwci7hHaMZUT5KIVacID6YoLCntUt
+   O0GE3bGbAWuCjl5k3yREY+hqsK8rtIlSKidIJ/v9aSA/G5M7M2Yijn09T
+   w==;
+X-CSE-ConnectionGUID: R/CwQkG/Rlm5XIU7d3xZGQ==
+X-CSE-MsgGUID: 9AlyTKzaTqWTxACvarpySQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21241043"
+X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
+   d="scan'208";a="21241043"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 05:47:31 -0700
+X-CSE-ConnectionGUID: ast/9bMrRMqya6nqKUPwhg==
+X-CSE-MsgGUID: 572iopJnQYaYFh3f+ID6/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
+   d="scan'208";a="27726403"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 04 May 2024 05:47:30 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3EnX-000Clk-2a;
+	Sat, 04 May 2024 12:47:27 +0000
+Date: Sat, 4 May 2024 20:47:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 724/1143]
+ drivers/net/can/aspeed_can.c:301:6: warning: no previous prototype for
+ 'aspeed_can_err_init'
+Message-ID: <202405042003.wbWT0aDv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240429165658.1305969-1-sidchintamaneni@gmail.com>
 
-Hi Siddharth,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Chintamaneni/Added-selftests-to-check-deadlocks-in-queue-and-stack-map/20240430-142201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240429165658.1305969-1-sidchintamaneni%40gmail.com
-patch subject: [PATCH bpf-next 1/2] Patch to Fix deadlocks in queue and stack maps
-config: i386-randconfig-141-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041108.2Up5HT0H-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: 2ee73951fe1501d2112dffe0779046c31b9e84c8 [724/1143] can: aspeed: Can driver initial support
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405042003.wbWT0aDv-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405042003.wbWT0aDv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405041108.2Up5HT0H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405042003.wbWT0aDv-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/queue_stack_maps.c:273 queue_stack_map_push_elem() warn: inconsistent returns 'irq_flags'.
+All warnings (new ones prefixed by >>):
 
-vim +/irq_flags +273 kernel/bpf/queue_stack_maps.c
-
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  219  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  220  /* Called from syscall or from eBPF program */
-d7ba4cc900bf1e JP Kobryn              2023-03-22  221  static long queue_stack_map_push_elem(struct bpf_map *map, void *value,
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  222  				      u64 flags)
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  223  {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  224  	struct bpf_queue_stack *qs = bpf_queue_stack(map);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  225  	unsigned long irq_flags;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  226  	int err = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  227  	void *dst;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  228  
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  229  	preempt_disable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  230  	local_irq_save(irq_flags);
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  231  	if (unlikely(__this_cpu_inc_return(*(qs->map_locked)) != 1)) {
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  232  		__this_cpu_dec(*(qs->map_locked));
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  233  		local_irq_restore(irq_flags);
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  234  		preempt_enable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  235  		return -EBUSY;
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  236  	}
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  237  	preempt_enable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  238  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  239  	/* BPF_EXIST is used to force making room for a new element in case the
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  240  	 * map is full
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  241  	 */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  242  	bool replace = (flags & BPF_EXIST);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  243  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  244  	/* Check supported flags for queue and stack maps */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  245  	if (flags & BPF_NOEXIST || flags > BPF_EXIST)
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  246  		return -EINVAL;
-
-local_irq_restore(irq_flags) before returning.
-
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  247  
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  248  	if (in_nmi()) {
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  249  		if (!raw_spin_trylock_irqsave(&qs->lock, irq_flags))
+>> drivers/net/can/aspeed_can.c:301:6: warning: no previous prototype for 'aspeed_can_err_init' [-Wmissing-prototypes]
+     301 | void aspeed_can_err_init(struct net_device *ndev)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/can/aspeed_can.c:312:6: warning: no previous prototype for 'aspeed_can_interrupt_conf' [-Wmissing-prototypes]
+     312 | void aspeed_can_interrupt_conf(struct net_device *ndev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/aspeed_can.c: In function 'aspeed_can_err_interrupt':
+>> drivers/net/can/aspeed_can.c:836:13: warning: variable 'tecnt' set but not used [-Wunused-but-set-variable]
+     836 |         u32 tecnt;
+         |             ^~~~~
+>> drivers/net/can/aspeed_can.c:835:13: warning: variable 'recnt' set but not used [-Wunused-but-set-variable]
+     835 |         u32 recnt;
+         |             ^~~~~
 
 
-_irqsave can't be nested.  Has this code been tested?  Perhaps it works
-because the callers always call this with IRQs disabled.
+vim +/aspeed_can_err_init +301 drivers/net/can/aspeed_can.c
 
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  250  			return -EBUSY;
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  251  	} else {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  252  		raw_spin_lock_irqsave(&qs->lock, irq_flags);
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  253  	}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  254  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  255  	if (queue_stack_map_is_full(qs)) {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  256  		if (!replace) {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  257  			err = -E2BIG;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  258  			goto out;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  259  		}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  260  		/* advance tail pointer to overwrite oldest element */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  261  		if (unlikely(++qs->tail >= qs->size))
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  262  			qs->tail = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  263  	}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  264  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  265  	dst = &qs->elements[qs->head * qs->map.value_size];
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  266  	memcpy(dst, value, qs->map.value_size);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  267  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  268  	if (unlikely(++qs->head >= qs->size))
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  269  		qs->head = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  270  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  271  out:
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  272  	raw_spin_unlock_irqrestore(&qs->lock, irq_flags);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18 @273  	return err;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  274  }
+   300	
+ > 301	void aspeed_can_err_init(struct net_device *ndev)
+   302	{
+   303		struct aspeed_can_priv *priv = netdev_priv(ndev);
+   304		u32 reg_val;
+   305	
+   306		reg_val = (STAT_AFWL << CAN_ERR_AFWL_BITOFF) & CAN_ERR_AFWL_MASK;
+   307		reg_val |= (STAT_EWL << CAN_ERR_EWL_BITOFF) & CAN_ERR_EWL_MASK;
+   308	
+   309		writel(reg_val, priv->reg_base + CAN_ERR_STAT);
+   310	}
+   311	
+ > 312	void aspeed_can_interrupt_conf(struct net_device *ndev)
+   313	{
+   314		struct aspeed_can_priv *priv = netdev_priv(ndev);
+   315		u32 inte;
+   316	
+   317		inte = CAN_INT_EIE_BIT | CAN_INT_TSIE_BIT | CAN_INT_TPIE_BIT |
+   318		       CAN_INT_RAFIE_BIT | CAN_INT_RFIE_BIT | CAN_INT_ROIE_BIT |
+   319		       CAN_INT_RIE_BIT | CAN_INT_BEIE_BIT | CAN_INT_ALIE_BIT |
+   320		       CAN_INT_EPIE_BIT;
+   321	
+   322		writel(inte, priv->reg_base + CAN_INTE);
+   323	}
+   324	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
