@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8A1CF8F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 13:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4FE24B2A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 13:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714828714; cv=none; b=Ejo+1CBYZBWmuuXgIRI5yFX11i6FKWjZCOsPrTCR+0OXfnJDp7aK4OHPDYt4ZFV9RKqGM8joXONU+EH/pKXjJIgcnGH8YVtWfw7OALZvPRxdWLBRCudgcmx+QhOWWxgw5CcNXROhkOpTZ/Qs/rHOWgTiXC7NhBazv7BoL+sBKvY=
+	t=1714830037; cv=none; b=dDU0tW/JzkNUsSCJ14yt0B9c9kiYQEq+VmKvapCTMHc686sMwk4mqksxzaJFHrddA5LyqNqvJyCv0nEQ+xiNYE/Ta09MShU9tcm69IFfcfT2NbG6fCZs/dgulEdOu0Of5Ftcprq4djZldEJdJ2PBGU6uq3mWVzVqWjobBIJ1rSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714828714; c=relaxed/simple;
-	bh=mzhVRefB22gAtVIKHYROpuOkiC/cn6djUs0Hcc+W31A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zt8CbFNl4IQGbZ+5aEoiihJzLh0Wis1Vgxuiz6H2hRkP7hv1StScYSUY5+AoPGCxrJwIEb3LmFE56R69P3/N64xxpYeZOX6/Q1jw2RHR8xbI3Ak3rDz8J7QWL8r05OFFkStM86sJKAM54hy3vkObojWh7RG42vW/YBvpco8+gUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeMGKI/Z; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1714830037; c=relaxed/simple;
+	bh=t3FONzaDjqiT8WtMX9xx77TxQj428dRPexrHMx5m5n8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2qlwHVN+GqVUIL1SbnoiG4Mw2bm8D9PKJ4Y1Xv7cRmQYRFb72jy3l92MFNiPuJVGaLYbgmZC9m+hkVPaQYAOLxCBaNXFyPHR3/w7tgfFo8jO0+QT8P6Fqa+vnqyop0Wc+AULDcJHSbFDgAODIHLhqXBKxdBKJUgGuL2ggMhQks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oq3KtuiI; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeMGKI/Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oq3KtuiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714828713; x=1746364713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mzhVRefB22gAtVIKHYROpuOkiC/cn6djUs0Hcc+W31A=;
-  b=GeMGKI/Z7w9z3yo0FcoSMjV4IDfr1s4H81Yn6xWFti1SEe64o6lmkEMn
-   EWJaytIBdESAsFxTNHrFPaW5rb0FkFQtabtULtlPM3w++I4jqXSM6ngyB
-   Zc07zVp05Zy6jIXdNcLPp6XcVZWtvxzept1agBJfP8KqTnUu0A41XNSWZ
-   sc5N0UOmYbOFVMz4kcpbMMUiy6xRZ+oNbg+4ZD5wBUO5juRJJ17Nd5WO2
-   ZBDFTNP5s/GX39kBzZbccKKDvaHqkqfZNiHgfUX1xfnIzn9gTF9J4pRFp
-   nDjZ42g9JHIHsRDeCbnZTMxkPoBXpImD83p4hXreEQgwnpNSLmL4H6boe
-   A==;
-X-CSE-ConnectionGUID: ADdH+/ynSginj9l7Ittnlw==
-X-CSE-MsgGUID: czALtLnYSZuRAW4iRN0yzA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10782961"
-X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
-   d="scan'208";a="10782961"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 06:18:33 -0700
-X-CSE-ConnectionGUID: xc0FRMLJTDqeXHvSiRNElw==
-X-CSE-MsgGUID: KoB3op1cQo+MjCUqKkZKAg==
+  t=1714830035; x=1746366035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t3FONzaDjqiT8WtMX9xx77TxQj428dRPexrHMx5m5n8=;
+  b=Oq3KtuiI7OwHNSIgYOC08lx497qK0FDIAgIfdbTitxQSQblPxsK35p4c
+   e5fHlR7WEaDI/7ZVfezPIXgszdseRu9Wjwlnyl1Coiaw0vpaAQlpbKHNA
+   eoAn103KQzpWLi3zGNmAOJq/7wgV3xs1y57RnQVOVbilx9yeojy29liC5
+   wfwe2p60uqLykDfwW7oa3sDRFE3iH4UQZOZ9dWBhKQ+NCgI3FTaNk9KUL
+   pgY2M+wU9H5xoFZVa0v2+FiBs94OKWNAr92JwcxBoHpwNRWxeq+f754CV
+   yW4CNkWmJZOiO6yQreEtMIOJFCU79kcaUPUDJxb+4IcpnZKfK507hIihP
+   w==;
+X-CSE-ConnectionGUID: bI/y4IuJSWu31nch97rPdg==
+X-CSE-MsgGUID: X4sBcpzXTZW6Dhj6tyRnqQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10846182"
+X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
+   d="scan'208";a="10846182"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 06:40:35 -0700
+X-CSE-ConnectionGUID: 9kMINrEcSMiLY7iXJfr8Dg==
+X-CSE-MsgGUID: qNN/0NVZQC+hOsLs1neCYw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
-   d="scan'208";a="27600985"
+X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
+   d="scan'208";a="27750226"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 May 2024 06:18:31 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 May 2024 06:40:31 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3FHY-000CnI-2B;
-	Sat, 04 May 2024 13:18:28 +0000
-Date: Sat, 4 May 2024 21:17:59 +0800
+	id 1s3Fcr-000CoO-1l;
+	Sat, 04 May 2024 13:40:29 +0000
+Date: Sat, 4 May 2024 21:39:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 566/1143]
- drivers/spi/spi-aspeed-txrx.c:254:23: error: array subscript is not an
- integer
-Message-ID: <202405042138.9ZZg04bG-lkp@intel.com>
+To: Justin Lai <justinlai0215@realtek.com>, kuba@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	pabeni@redhat.com, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, andrew@lunn.ch, jiri@resnulli.us,
+	pkshih@realtek.com, larry.chiu@realtek.com,
+	Justin Lai <justinlai0215@realtek.com>
+Subject: Re: [PATCH net-next v17 12/13] realtek: Update the Makefile and
+ Kconfig in the realtek folder
+Message-ID: <202405042153.ugnyFsrz-lkp@intel.com>
+References: <20240502091847.65181-13-justinlai0215@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,243 +67,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240502091847.65181-13-justinlai0215@realtek.com>
 
-tree:   https://github.com/shenki/linux aspeed-6.9-rebase
-head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: 0185b4985fffd883f0effa47910e87237c6cefb1 [566/1143] spi: aspeed: Add pure SPI controller driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405042138.9ZZg04bG-lkp@intel.com/config)
+Hi Justin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on horms-ipvs/master]
+[cannot apply to net-next/main linus/master v6.9-rc6 next-20240503]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Lai/rtase-Add-pci-table-supported-in-this-module/20240502-172835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+patch link:    https://lore.kernel.org/r/20240502091847.65181-13-justinlai0215%40realtek.com
+patch subject: [PATCH net-next v17 12/13] realtek: Update the Makefile and Kconfig in the realtek folder
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405042153.ugnyFsrz-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405042138.9ZZg04bG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405042153.ugnyFsrz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405042138.9ZZg04bG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405042153.ugnyFsrz-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:566,
-                    from include/asm-generic/bug.h:22,
-                    from arch/loongarch/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/spi/spi-aspeed-txrx.c:8:
-   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_setup':
-   drivers/spi/spi-aspeed-txrx.c:239:22: warning: format '%d' expects argument of type 'int', but argument 4 has type 'u8 *' {aka 'unsigned char *'} [-Wformat=]
-     239 |         dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/spi/spi-aspeed-txrx.c:239:9: note: in expansion of macro 'dev_dbg'
-     239 |         dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
-         |         ^~~~~~~
-   drivers/spi/spi-aspeed-txrx.c:239:28: note: format string is defined here
-     239 |         dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
-         |                           ~^
-         |                            |
-         |                            int
-         |                           %hhn
->> drivers/spi/spi-aspeed-txrx.c:254:23: error: array subscript is not an integer
-     254 |         host->ctrl_val[spi->chip_select] = SPI_CE_INACTIVE | SPI_CMD_USER_MODE;
-         |                       ^
-   drivers/spi/spi-aspeed-txrx.c:263:23: error: array subscript is not an integer
-     263 |         host->ctrl_val[spi->chip_select] |= clk_div;
-         |                       ^
-   drivers/spi/spi-aspeed-txrx.c:266:31: error: array subscript is not an integer
-     266 |                 host->ctrl_val[spi->chip_select] |= SPI_LSB_FIRST_CTRL;
-         |                               ^
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/spi/spi-aspeed-txrx.c:16:
-   drivers/spi/spi-aspeed-txrx.c:269:50: error: array subscript is not an integer
-     269 |                  spi->chip_select, host->ctrl_val[spi->chip_select]);
-         |                                                  ^
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/spi/spi-aspeed-txrx.c:268:9: note: in expansion of macro 'dev_info'
-     268 |         dev_info(dev, "cs: %d, ctrl_val: 0x%08x\n",
-         |         ^~~~~~~~
-   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_start_user':
-   drivers/spi/spi-aspeed-txrx.c:278:38: error: array subscript is not an integer
-     278 |         u32 ctrl_val = host->ctrl_val[spi->chip_select];
-         |                                      ^
->> drivers/spi/spi-aspeed-txrx.c:280:51: error: invalid operands to binary * (have 'u8 *' {aka 'unsigned char *'} and 'int')
-     279 |         void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
-         |                                                                ~
-         |                                                                |
-         |                                                                u8 * {aka unsigned char *}
-     280 |                                  spi->chip_select * 4;
-         |                                                   ^
-   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_stop_user':
-   drivers/spi/spi-aspeed-txrx.c:293:38: error: array subscript is not an integer
-     293 |         u32 ctrl_val = host->ctrl_val[spi->chip_select] | SPI_CE_INACTIVE;
-         |                                      ^
-   drivers/spi/spi-aspeed-txrx.c:295:51: error: invalid operands to binary * (have 'u8 *' {aka 'unsigned char *'} and 'int')
-     294 |         void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
-         |                                                                ~
-         |                                                                |
-         |                                                                u8 * {aka unsigned char *}
-     295 |                                  spi->chip_select * 4;
-         |                                                   ^
-   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_transfer':
->> drivers/spi/spi-aspeed-txrx.c:303:43: error: implicit declaration of function 'spi_master_get_devdata'; did you mean 'spi_controller_get_devdata'? [-Werror=implicit-function-declaration]
-     303 |                 (struct aspeed_spi_host *)spi_master_get_devdata(spi->controller);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-         |                                           spi_controller_get_devdata
->> drivers/spi/spi-aspeed-txrx.c:303:17: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     303 |                 (struct aspeed_spi_host *)spi_master_get_devdata(spi->controller);
-         |                 ^
-   drivers/spi/spi-aspeed-txrx.c:315:12: warning: assignment to 'u32' {aka 'unsigned int'} from 'u8 *' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
-     315 |         cs = spi->chip_select;
-         |            ^
-   cc1: some warnings being treated as errors
+>> drivers/net/ethernet/realtek/rtase/rtase_main.c:67:10: fatal error: net/netdev_queues.h: No such file or directory
+      67 | #include <net/netdev_queues.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +254 drivers/spi/spi-aspeed-txrx.c
+vim +67 drivers/net/ethernet/realtek/rtase/rtase_main.c
 
-   231	
-   232	static int aspeed_spi_setup(struct spi_device *spi)
-   233	{
-   234		struct aspeed_spi_host *host =
-   235			(struct aspeed_spi_host *)spi_controller_get_devdata(spi->controller);
-   236		struct device *dev = host->dev;
-   237		u32 clk_div;
-   238	
-   239		dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
-   240			spi->chip_select, spi->mode,
-   241			spi->max_speed_hz, spi->bits_per_word);
-   242	
-   243		if (spi->mode & SPI_MODE_X_MASK) {
-   244			dev_dbg(dev, "unsupported mode bits: %x\n",
-   245				(u32)(spi->mode & SPI_MODE_X_MASK));
-   246			return -EINVAL;
-   247		}
-   248	
-   249		if (spi->mode & SPI_CS_HIGH) {
-   250			dev_dbg(dev, "can't be active-high\n");
-   251			return -EINVAL;
-   252		}
-   253	
- > 254		host->ctrl_val[spi->chip_select] = SPI_CE_INACTIVE | SPI_CMD_USER_MODE;
-   255	
-   256		if (spi->max_speed_hz) {
-   257			clk_div = host->info->get_clk_div(host, spi->max_speed_hz);
-   258		} else {
-   259			/* speed zero means "as slow as possible" */
-   260			clk_div = ~(host->info->hclk_mask);
-   261		}
-   262	
-   263		host->ctrl_val[spi->chip_select] |= clk_div;
-   264	
-   265		if (spi->mode & SPI_LSB_FIRST)
-   266			host->ctrl_val[spi->chip_select] |= SPI_LSB_FIRST_CTRL;
-   267	
-   268		dev_info(dev, "cs: %d, ctrl_val: 0x%08x\n",
-   269			 spi->chip_select, host->ctrl_val[spi->chip_select]);
-   270	
-   271		return 0;
-   272	}
-   273	
-   274	static void aspeed_spi_start_user(struct spi_device *spi)
-   275	{
-   276		struct aspeed_spi_host *host =
-   277			(struct aspeed_spi_host *)spi_controller_get_devdata(spi->controller);
-   278		u32 ctrl_val = host->ctrl_val[spi->chip_select];
-   279		void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
- > 280					 spi->chip_select * 4;
-   281	
-   282		ctrl_val |= SPI_CE_INACTIVE;
-   283		writel(ctrl_val, ctrl_reg);
-   284	
-   285		ctrl_val &= ~SPI_CE_INACTIVE;
-   286		writel(ctrl_val, ctrl_reg);
-   287	}
-   288	
-   289	static void aspeed_spi_stop_user(struct spi_device *spi)
-   290	{
-   291		struct aspeed_spi_host *host =
-   292			(struct aspeed_spi_host *)spi_controller_get_devdata(spi->controller);
-   293		u32 ctrl_val = host->ctrl_val[spi->chip_select] | SPI_CE_INACTIVE;
-   294		void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
-   295					 spi->chip_select * 4;
-   296	
-   297		writel(ctrl_val, ctrl_reg);
-   298	}
-   299	
-   300	static int aspeed_spi_transfer(struct spi_device *spi, struct spi_message *msg)
-   301	{
-   302		struct aspeed_spi_host *host =
- > 303			(struct aspeed_spi_host *)spi_master_get_devdata(spi->controller);
-   304		struct device *dev = host->dev;
-   305		struct spi_transfer *xfer;
-   306		const u8 *tx_buf;
-   307		u8 *rx_buf;
-   308		u32 cs;
-   309		unsigned long flags;
-   310		u32 i = 0;
-   311		u32 j = 0;
-   312	
-   313		spin_lock_irqsave(&host->lock, flags);
-   314	
-   315		cs = spi->chip_select;
-   316	
-   317		aspeed_spi_start_user(spi);
-   318		dev_dbg(dev, "cs: %d\n", cs);
-   319	
-   320		list_for_each_entry(xfer, &msg->transfers, transfer_list) {
-   321			dev_dbg(dev,
-   322				"xfer[%d]: width %d, len %u, tx %p, rx %p\n",
-   323				j,
-   324				xfer->bits_per_word, xfer->len,
-   325				xfer->tx_buf, xfer->rx_buf);
-   326	
-   327			tx_buf = xfer->tx_buf;
-   328			rx_buf = xfer->rx_buf;
-   329	
-   330			if (tx_buf != 0) {
-   331	#if defined(SPI_ASPEED_TXRX_DBG)
-   332				pr_info("tx : ");
-   333				if (xfer->len > 10) {
-   334					for (i = 0; i < 10; i++)
-   335						pr_info("%x ", tx_buf[i]);
-   336				} else {
-   337					for (i = 0; i < xfer->len; i++)
-   338						pr_info("%x ", tx_buf[i]);
-   339				}
-   340				pr_info("\n");
-   341	#endif
-   342	
-   343				for (i = 0; i < xfer->len; i++)
-   344					writeb(tx_buf[i], (void *)host->chip_ahb_base[cs]);
-   345			}
-   346	
-   347			if (rx_buf != 0) {
-   348				for (i = 0; i < xfer->len; i++)
-   349					rx_buf[i] = readb((void *)host->chip_ahb_base[cs]);
-   350	
+6c114677e472d0 Justin Lai 2024-05-02 @67  #include <net/netdev_queues.h>
+6c114677e472d0 Justin Lai 2024-05-02  68  #include <net/page_pool/helpers.h>
+6c114677e472d0 Justin Lai 2024-05-02  69  #include <net/pkt_cls.h>
+6c114677e472d0 Justin Lai 2024-05-02  70  
 
 -- 
 0-DAY CI Kernel Test Service
