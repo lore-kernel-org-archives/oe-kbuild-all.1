@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC27A4C9F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 05:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8ED4A1C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 05:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714800685; cv=none; b=c+Uoeot1DDHyQZCMUlm0oDKRY3/3eKB/iq6J65AWs6YWO4PPdiejV4lKI3kP4ft5S481avVi7IBM6e7PdiXVKTMfTAc0vbDzsNCgSNpN89uABVBRqW71QUePoEiwYhiw2w5V+FYxqnBwoPZ7NHiitrIT5AG3EDdkyG05slna1Zk=
+	t=1714801941; cv=none; b=ElKk3WmHpsYQdJtcNCE/PsG/K424WpqicZvlQ6MnJAUvC4n8ZOg11p3+9msm+NK0YNxkO8KVEOIlU+5XnPWd16AL8JtQl74FMq9QusZPjsNRD40LOrogWewA8UGwMUuHq/1RNSFWr2/IuoUI7Zpy+MEG7j+2Ie4dRTP+2eacR80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714800685; c=relaxed/simple;
-	bh=sJjOB3zA6SjbS1+qIxhCf9ws/CS6ok9FeDp/n7Smlnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=plWrs6Ne9dYE17WnJe2umdo/Dj7VL99HXZ/5VdLnSRZgCDebuVNUWGKJOlxFKhIN34Me1hxzy/qlbm+P4Q8dKWKpUGn99Dq5v+WOQRz2kc8ec0fNLIPzLEGqKwQfRdUyI4LFnE5ZjH0JFvTkDfAOOMrXTV1vQRBKgXd71P0gaUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJuy+ulU; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1714801941; c=relaxed/simple;
+	bh=pUQFekvUgJ+eVBQlmYRhUqNZwio0GGDCEC2qkuVIp78=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fTMzNpjLbbK7u+7YvsGA+m5wIdIbXY8wkVCmvsUioXMj2kpZQ8BD/uvg4C8J4jnlHW5sye6I8u5+qDT0eJQZfJ845rQIdO7GKsC/CM28Pje5URnDiFC42d+r/HicjXgYRr8eSz60b9QoVv+tLX1TOqNpV3VbCQT6pcKaG6OJBIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JH+LlZHJ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJuy+ulU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JH+LlZHJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714800682; x=1746336682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sJjOB3zA6SjbS1+qIxhCf9ws/CS6ok9FeDp/n7Smlnc=;
-  b=hJuy+ulUPDySTSpOs0CKLC0nJKdG50ucxEJVQr78i4CQoiMFAHrU8A1R
-   DFWy0Jc3vf/ekOfI9fsfgQEQ2iwvSWO543ueOkn88ag0/Z0ERU4kaCrWJ
-   w6Ve/DWbHMT6BP9a6YDpbCpPIR5BEerO2jrQT3RrvbhuJPtSDS8Kvkfe9
-   s2BFv01qvBjJ7tQyDeJRxiCetov2pks19l6TRGZRAhDjWvAQd5L3i60qg
-   DYvDK6jehQI/x3to64oAmMIVLmcZFCeaCDLUtLjhhy58i0InvzmgdbyLj
-   AskEutS7vGIfQRdriYGikBgwSAFdwmGsIoR309nhHgU7G5+xM22oapnGS
-   w==;
-X-CSE-ConnectionGUID: I8sEeWXdSZO5+XuWWcBbRg==
-X-CSE-MsgGUID: 5TbnrOojSA+jhRPuIiW6og==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10542781"
+  t=1714801939; x=1746337939;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pUQFekvUgJ+eVBQlmYRhUqNZwio0GGDCEC2qkuVIp78=;
+  b=JH+LlZHJfMPK4qBywJHkqxH+4eCXlgqz2vuyrjtdYy60yAqXL1mVmRRi
+   jJ2NqaIzYCRWSlL54JBEznoNrbnS/KCtOIvSDjQf3HqIHEJL2fn56dTdF
+   ViCNxgCwAMmJBfQSiCC7M47K/uOd2563Y4919eoPSn5rV1HqSkX6kUkTw
+   9gtZCMGLojx/iZ7KtItqic1jLoAz9X58uTWanyjTdwen+akqT4QtBicO8
+   L3sBkYPMzYYRZzxpzChRDMt/C6zIFulzbeacui3H3yW01Mg8W2mZz4JBN
+   wsdOdT2sCcL4DXBzs8NTuNiROGM4jdicipHNgBqtzZ8v/9rQ/rjE2jume
+   A==;
+X-CSE-ConnectionGUID: nx4eJeY0REu2uzAHGopACA==
+X-CSE-MsgGUID: FK4YIWR3T7W5gYepb5Qb5Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10465552"
 X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="10542781"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 22:31:22 -0700
-X-CSE-ConnectionGUID: GJtR8RFyRlepBvvKPvRTjQ==
-X-CSE-MsgGUID: nSBnHCBQRGOzr6VphNgHqA==
+   d="scan'208";a="10465552"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 22:52:19 -0700
+X-CSE-ConnectionGUID: JluPqg1sT0eSE8RkRF606g==
+X-CSE-MsgGUID: 1Y8fGS/hRLGUVYjEq9pDZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="32450736"
+   d="scan'208";a="27673685"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 May 2024 22:31:18 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 03 May 2024 22:52:17 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s37zO-000CSb-2k;
-	Sat, 04 May 2024 05:31:14 +0000
-Date: Sat, 4 May 2024 13:31:12 +0800
+	id 1s38Jj-000CTZ-21;
+	Sat, 04 May 2024 05:52:15 +0000
+Date: Sat, 4 May 2024 13:51:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>,
-	jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-	manivannan.sadhasivam@linaro.org, andersson@kernel.org,
-	agross@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_msarkar@quicinc.com,
-	quic_kraravin@quicinc.com,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] PCI: qcom: Refactor common code
-Message-ID: <202405041326.aSnZgClv-lkp@intel.com>
-References: <20240501163610.8900-2-quic_schintav@quicinc.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 735/1143]
+ arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts:657:10: fatal error:
+ 'dt-bindings/i3c/i3c.h' file not found
+Message-ID: <202405041354.9U7dklMZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,56 +62,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501163610.8900-2-quic_schintav@quicinc.com>
 
-Hi Shashank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.9-rc6 next-20240503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shashank-Babu-Chinta-Venkata/PCI-qcom-Refactor-common-code/20240502-003801
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240501163610.8900-2-quic_schintav%40quicinc.com
-patch subject: [PATCH v4 1/3] PCI: qcom: Refactor common code
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240504/202405041326.aSnZgClv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405041326.aSnZgClv-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: a3b83282ac2740e6b114866adbe83b323f389a2f [735/1143] dts: arm: move dts to aspeed folder with dtsi fixed.
+config: arm-randconfig-001-20240503 (https://download.01.org/0day-ci/archive/20240504/202405041354.9U7dklMZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405041354.9U7dklMZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405041326.aSnZgClv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405041354.9U7dklMZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-qcom-common.c: In function 'qcom_pcie_common_icc_get_resource':
->> drivers/pci/controller/dwc/pcie-qcom-common.c:25:24: warning: returning 'long int' from a function with return type 'struct icc_path *' makes pointer from integer without a cast [-Wint-conversion]
-      25 |                 return PTR_ERR(icc_mem_p);
-         |                        ^~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/boot/dts/aspeed/aspeed-ast2600-evb-a1.dts:4:
+>> arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts:657:10: fatal error: 'dt-bindings/i3c/i3c.h' file not found
+     657 | #include <dt-bindings/i3c/i3c.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +25 drivers/pci/controller/dwc/pcie-qcom-common.c
+vim +657 arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
 
-    15	
-    16	#define QCOM_PCIE_LINK_SPEED_TO_BW(speed) \
-    17			Mbps_to_icc(PCIE_SPEED2MBS_ENC(pcie_link_speed[speed]))
-    18	
-    19	struct icc_path *qcom_pcie_common_icc_get_resource(struct dw_pcie *pci, const char *path)
-    20	{
-    21		struct icc_path *icc_mem_p;
-    22	
-    23		icc_mem_p = devm_of_icc_get(pci->dev, path);
-    24		if (IS_ERR_OR_NULL(icc_mem_p))
-  > 25			return PTR_ERR(icc_mem_p);
-    26		return icc_mem_p;
-    27	}
-    28	EXPORT_SYMBOL_GPL(qcom_pcie_common_icc_get_resource);
-    29	
+801cf43756cb83 Dylan Hung 2023-08-21  656  
+801cf43756cb83 Dylan Hung 2023-08-21 @657  #include <dt-bindings/i3c/i3c.h>
+801cf43756cb83 Dylan Hung 2023-08-21  658  
+
+:::::: The code at line 657 was first introduced by commit
+:::::: 801cf43756cb83f6dcd12c8d7cf212a58f31bd19 ARM: dts: ast2600-evb: Enable I3C0 ~ I3C3 controllers
+
+:::::: TO: Dylan Hung <dylan_hung@aspeedtech.com>
+:::::: CC: Joel Stanley <joel@jms.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
