@@ -1,106 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD871CA92
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 11:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592FE20DF7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 12:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714823193; cv=none; b=kmUr91DhmifZyoMtZQ58+abWZLR1sgTQqthkUkdac9Lavsf9b/JUWzP9vvYzB/de+XCMxck45hBUMGAZxLHZawgTjpZ9j33sYfLxCB52Akf03biV5jZMKNn9wAK6tdfWy72AEx0ELor08lg9wM/pNnPPPM07+iiAPcfKtggZUm0=
+	t=1714825125; cv=none; b=dEiE1lsk9L91sDH2OIqIPRX2ikljQRuwq3BvIGpmqdyhTmDv+tiy2FOJInqUIob+NfQ9O720vNhED5gmxSZrrDu62ZOtQnjZsuYkFVDvyT/FRmp7DHWlowRcwUekruDPWoR81bHnY8oMSLkOJt2pN79MFxAPD6H8+rmWlu+pBfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714823193; c=relaxed/simple;
-	bh=qQXVDmyCOh7VCNUbBBWBaLbWHRimpTQLcNFH0D/M+ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dOzqM452ywJFpgtn0bUXeynVDlPsLe71aVhaPLHkh8OyEBa1IsL7EeGBZeNv7G0dnDrqDyMoE8HBkBtawVo6XOIjBRM/29RiqFnWc/xCl6fK0DFEhoqX78tJQVUlsYze10KSLNovH+kdgaLCZtvg7qia5wPBhBOxuqY6Jlylbno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwFTIK/Q; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714825125; c=relaxed/simple;
+	bh=KvX+tMQC35r8Zw36jjxi/3yW/6yDNWHuAjrkLFnobVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=LvcDW5sAdCOpdixgsKoceFGiLCh48Y9I6qlrOwG30vxWq0QqxG97dlS2VVk2HHIcHaiFv0NOl3JvAqhWQipZLCSIqWmer7SLuNQ3/BLO4Y4e6mv8dYaQ8pJQAsrJVfO6Z0+d5OWghKO6v4y8VIDTTqxECb215o6CA/83h3uBHwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wO61j6al; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwFTIK/Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714823192; x=1746359192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qQXVDmyCOh7VCNUbBBWBaLbWHRimpTQLcNFH0D/M+ts=;
-  b=jwFTIK/Q8JsDVy6kkVuGtgbMPOZ4ea1BUwd2SyIAnaFU/f5RG+QZ0puu
-   0L3SKgt590mJFihgxhlrs+oARx+uUl6CD6pkubNIv0gnWCQju96TJjGVA
-   LZCIiLadje7QoBWsaSwSQ83kyKSaKE+/tLtmZc+XvIXC05HZbv4mZ1DrA
-   A1InqydvaQSjeEmkTC8Js6AUzs3i5/TEMa8js8CsIJd9peBV1JjMs6UXd
-   EyfuYxvJkuD5hgngsxs2ze1Wrmy9PBwUSULYX1Y8uYVXRSeFgGFnRVuK+
-   U+uJqx6F29H1UqUpstdaAcImp5CMBELslq3FxxOp1F8FhnCuOVv226h93
-   A==;
-X-CSE-ConnectionGUID: TurNKUloTx+T9xcG/RNDrg==
-X-CSE-MsgGUID: I5W8A/+eRD+czu5lDfdlhw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="36012711"
-X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
-   d="scan'208";a="36012711"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 04:46:31 -0700
-X-CSE-ConnectionGUID: UwtQGMebQa+3N6cKVb31yQ==
-X-CSE-MsgGUID: S5sYHNEeRVSJl+dF0XdkXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
-   d="scan'208";a="32506763"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 May 2024 04:46:27 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3DqT-000CjU-1h;
-	Sat, 04 May 2024 11:46:25 +0000
-Date: Sat, 4 May 2024 19:46:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
-Message-ID: <202405041939.MNsieCv5-lkp@intel.com>
-References: <20240503192858.103640-1-florian.fainelli@broadcom.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wO61j6al"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2db17e8767cso6198301fa.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 May 2024 05:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714825121; x=1715429921; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Z/7UJGubfMelKvbYDiZ/Mv2wY5bh+9xHKgfJKuvSMK4=;
+        b=wO61j6al8fOkQpUAgMVtEr3ynhpgINdAcDNEH+3/mQY+oUQaY6WwKz4niuow114aXx
+         vGvjvt/2vh0GJS6T/1OsJW26LussgudCYmg6ciE0mtNe9A53oQj7Mh5/rUv0oVDC4MBo
+         RGWtmMkKtzqIZgsaxlu2M2rDbqGmY+cvufbfsq6fZjcS7M04y7T442FFUagsQs7C40mp
+         jRDtM7mmeecO/9yAL1DbkgxB46dB6D/yYEYPKJr692gazg7CK7YvItaISQV9Zakw9oQ+
+         hMrKSfWAqA1SGpMw1H/SisgW7ECo0mKyhY6G8mzwo3a5cwJK4cvaTiXzToNo9I+urzfm
+         T+CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714825121; x=1715429921;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/7UJGubfMelKvbYDiZ/Mv2wY5bh+9xHKgfJKuvSMK4=;
+        b=Dg0aycXuH5B8fz2NbvcyYxCJq6G2J7RSSoNKITReFSKwzSnJfPVt2zGdGUnCO10CWd
+         Brl3mri0zMpziTtoTRMgjQcBjTKEGrbfQ3P0GEcUilZVzNE7UajdR9BMcI5ZVc/wXqpq
+         W+vSg2l4s0cJXVg7nCPQmuHp4U5VYBf7F/KZTQtvVIenCRQlVlbXGofaeQap8iSdcMsT
+         2WLeRbkI/Jz4khwjG0hJL8lt83rG1x/YlWVRQrYsbVGt97Ik3UAGfr/n3veKbJ5KQ109
+         mi2Jkm82ksgqolKhDKrl/m0g/lCyXs1TnogULXa2MDcF1TU44jT/Kxt99Ldl/cVdkT8Z
+         FgTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWb99G6BUb0e2Zk6CAB/dk6JR9qlr1Nw0nWuUOTD1/WVQ92RZ1MLwD+HLaEbnzXDTSF+e0LQHyE2ruWvmz9UmNf04IrjotA6fzWAePUWw==
+X-Gm-Message-State: AOJu0YzalhOsP7M2aHYsRWgOKhat8qro/J643ojkSbrBfx1/3QYTPp1b
+	j9Oy5yvpkBZJ8H47497417oFdhsXgLioA8RpTQVnmRQGf3vqGlIY3MYM81K/yvCjNd3MHS8X8VX
+	a
+X-Google-Smtp-Source: AGHT+IEMl3/9+VdMxzxvYyxuTl4RsZq5GUNid+YtiRDPqktYL2gYS0YU1UFZkgLtuk9S3nLdXGTH9w==
+X-Received: by 2002:a05:651c:201c:b0:2dd:c9fc:c472 with SMTP id s28-20020a05651c201c00b002ddc9fcc472mr3128640ljo.26.1714825121362;
+        Sat, 04 May 2024 05:18:41 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id y12-20020a5d614c000000b0034dd3849eeasm6105031wrt.106.2024.05.04.05.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 05:18:41 -0700 (PDT)
+Date: Sat, 4 May 2024 15:18:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Kamil =?iso-8859-1?Q?Hor=E1k?= - 2N <kamilh@axis.com>,
+	florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
+	hkallweit1@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kamilh@axis.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach
+ link modes
+Message-ID: <586a9bc8-aa2a-4312-8936-a10f18e1f9ce@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240503192858.103640-1-florian.fainelli@broadcom.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240503083719.899312-4-kamilh@axis.com>
 
-Hi Florian,
+Hi Kamil,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.9-rc6 next-20240503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/fbdev-Have-CONFIG_FB_NOTIFY-be-tristate/20240504-033139
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240503192858.103640-1-florian.fainelli%40broadcom.com
-patch subject: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
-config: powerpc-randconfig-001-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041939.MNsieCv5-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405041939.MNsieCv5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamil-Hor-k-2N/net-phy-bcm54811-New-link-mode-for-BroadR-Reach/20240503-164308
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240503083719.899312-4-kamilh%40axis.com
+patch subject: [PATCH v2 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach link modes
+config: i386-randconfig-141-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041037.sjZak003-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405041939.MNsieCv5-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405041037.sjZak003-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/phy/broadcom.c:627 bcm5481x_config_delay_swap() error: uninitialized symbol 'ret'.
+drivers/net/phy/broadcom.c:1249 bcm_read_master_slave() error: uninitialized symbol 'cfg'.
 
-   powerpc-linux-ld: drivers/leds/trigger/ledtrig-backlight.o: in function `bl_trig_deactivate':
->> ledtrig-backlight.c:(.text+0x360): undefined reference to `fb_unregister_client'
-   powerpc-linux-ld: drivers/leds/trigger/ledtrig-backlight.o: in function `bl_trig_activate':
->> ledtrig-backlight.c:(.text+0x3e8): undefined reference to `fb_register_client'
+vim +/ret +627 drivers/net/phy/broadcom.c
+
+f1e9c8e593d6ea Kamil Horák - 2N 2024-05-03  611  static int bcm5481x_config_delay_swap(struct phy_device *phydev)
+57bb7e222804c6 Anton Vorontsov  2008-03-04  612  {
+b14995ac2527b4 Jon Mason        2016-11-04  613  	struct device_node *np = phydev->mdio.dev.of_node;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  614  	int ret;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  615  
+f1e9c8e593d6ea Kamil Horák - 2N 2024-05-03  616  	/* Set up the delay. */
+042cb56478152b Tao Ren          2018-11-05  617  	bcm54xx_config_clock_delay(phydev);
+57bb7e222804c6 Anton Vorontsov  2008-03-04  618  
+b14995ac2527b4 Jon Mason        2016-11-04  619  	if (of_property_read_bool(np, "enet-phy-lane-swap")) {
+b14995ac2527b4 Jon Mason        2016-11-04  620  		/* Lane Swap - Undocumented register...magic! */
+b14995ac2527b4 Jon Mason        2016-11-04  621  		ret = bcm_phy_write_exp(phydev, MII_BCM54XX_EXP_SEL_ER + 0x9,
+b14995ac2527b4 Jon Mason        2016-11-04  622  					0x11B);
+b14995ac2527b4 Jon Mason        2016-11-04  623  		if (ret < 0)
+b14995ac2527b4 Jon Mason        2016-11-04  624  			return ret;
+b14995ac2527b4 Jon Mason        2016-11-04  625  	}
+
+"ret" not initialized on else path.
+
+b14995ac2527b4 Jon Mason        2016-11-04  626  
+57bb7e222804c6 Anton Vorontsov  2008-03-04 @627  	return ret;
+
+Also "return 0;" is always better.
+
+57bb7e222804c6 Anton Vorontsov  2008-03-04  628  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
