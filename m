@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BEA5FB87
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 18:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361F571747;
+	Sat,  4 May 2024 18:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714847628; cv=none; b=UEOKI0TBOuBpxdRva8rYSna++1UXAQd3re574OcAGdgKMoPo+LcRypCuLW97UA9C5YWuWstqtARNzeFsrwDSFUlXHkoUWyZv6SylB25MyjOl9sz4HQ1FfJgMYSym+yrKx4ij0hWtXUNhobjYCrv6aILkL83PN3OoeudFftntq5s=
+	t=1714848287; cv=none; b=Fewf/5yTFEY3n38afOVjG1om/QTvu9hO50zvfdk78HD9U4NkQl2dGHxQJ7qRg+T0VzjQF2regJQuk87Qy8iZbi+CE2ecu083g4lSiZ8irOkcBCyv1sPIXpifGFY5ZbZKMQ04aZA5xeuN+unMFk85klyNXHNbkD7GZlvSfLGk6bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714847628; c=relaxed/simple;
-	bh=RoCfG4DA9AQpU8MFuJE6telorlbQmT/gsz6oF472bR0=;
+	s=arc-20240116; t=1714848287; c=relaxed/simple;
+	bh=YeP0bgsGBGJPSt2o1V1tiRCIlXkeWM2GwjMibri9IhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DMmDCEtJpapYHnTDkYYPDyXvDjSgN/JWYT87yExOGjimaMs5Dxr6E1KslYHWjil4yQCq7F7I9D6/0pjF2EI3zEMz0/gAV+ziNEo8BTO/KlIIljytTqwI75+pvHR2vsgdwH7H/nl7fk0XTBvqCbDWb8+DTv+MnOAc5FyB/xBSrKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BN02Czwx; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=GNMeba9dFKsI0W8UpU16O6CbIq/4wkKStCzbPQJfZexAt741g5IpsPBp0IMNNbLAbalDRvrCdiIBQBplegIt+TGJ4Xr4AGwQPvBxQonBkVqOMV8BWPjp5GigN6Ju1qsyGh+BRBCI6Rzz+hrpDw+1GkeIMJY4x9l3r1ZSfjeRR78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOuClivj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BN02Czwx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOuClivj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714847626; x=1746383626;
+  t=1714848286; x=1746384286;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RoCfG4DA9AQpU8MFuJE6telorlbQmT/gsz6oF472bR0=;
-  b=BN02Czwxnz4gOKC+XV5xXVhyF/PtQtGcb8s1DlcfBD0ntWLLEBt5fZaT
-   9333Ly2EGIEzpWPGxnOCYyuH/P7aFYjuhQtO228HwKtD4uX5aD4m6ziLV
-   zOG7rWUWyf7J440YxkXChIwFmXwMX9pMSyKvhb+BoTG1xh3VSfoB1EESS
-   1pxqK88ZQy66YpIOzt5+mpN5SRVpeDjBMwL1J64p1F4ZXYmmnMAXYsWAI
-   yBvjFwRD9Mtr/I+zEFWzdJ3aSfxwdCV1Gws848QTdD9uff+fFFyZPaZvJ
-   u6Z95eGhQOQ28WkSv68HGIPDLi28yIVrgOgEDBt8g6vpNyDDKtbBkuHLr
-   g==;
-X-CSE-ConnectionGUID: 3csqIhQASgqspxaEuHYf9g==
-X-CSE-MsgGUID: i4Qc+r8iRHmEM6AuqvSR0w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14445120"
+  bh=YeP0bgsGBGJPSt2o1V1tiRCIlXkeWM2GwjMibri9IhY=;
+  b=LOuClivjBJwSVBJSkMDUdkKHJuwZyPM47vT7QYYuvgUoFfKEF+vUOurG
+   +CBJAmNMWymCMeuwIByS7/xqNMYEq3LI6LT6klL3S47wZnnbgW1kB0nqT
+   +PUAgDHs1WtPtADaxpNtL0PnYuK1LicWEzKxJ9tcc14YDNmDNY9N61E//
+   Hcg5+3xR4knZVUb+n8vLsEZstyU5vGukJr34Tkf50TkOEOfDDi3l7ZZ+i
+   RIof0oda5Dhvqn/1y9ExKD9KzluOORi/WHM0ob8hU5OrNIh7s1lCejOXZ
+   CgDONJysMbkflL53dhJHt50F3gbIPT4QYq5QqokNgyUhYFxci5jPAwjaa
+   Q==;
+X-CSE-ConnectionGUID: RWkJXqpwTC6BKq9bFB8CZA==
+X-CSE-MsgGUID: INfV+z4QTSuSSpHPu3Pysw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="28113164"
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="14445120"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 11:33:45 -0700
-X-CSE-ConnectionGUID: KWqNQYOsTGmw0EzcMRBF/A==
-X-CSE-MsgGUID: uejx8RICScGNl1GyB5VRdQ==
+   d="scan'208";a="28113164"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 11:44:45 -0700
+X-CSE-ConnectionGUID: vPJCxT6rRd6KoVrvF2c9dA==
+X-CSE-MsgGUID: 74hSU5XbTp2Owzn2cEO/xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="58956808"
+   d="scan'208";a="32225668"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 May 2024 11:33:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 04 May 2024 11:44:44 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3KCb-000D48-2r;
-	Sat, 04 May 2024 18:33:41 +0000
-Date: Sun, 5 May 2024 02:33:37 +0800
+	id 1s3KNG-000D4m-0o;
+	Sat, 04 May 2024 18:44:42 +0000
+Date: Sun, 5 May 2024 02:44:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alexander Graf <graf@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
-Subject: [agraf-2.6:kvm-kho-gmem-test 9/27] kernel/kexec_kho_out.c:208:26:
- warning: excess elements in struct initializer
-Message-ID: <202405050241.50OPTPXf-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm-ppc@vger.kernel.org
+Subject: [agraf-2.6:kvm-kho-gmem-test 26/27] kernel/time/sched_clock.c:76:49:
+ error: call to undeclared function 'read_sysreg'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202405050219.81JETL6w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,212 +66,47 @@ Content-Disposition: inline
 
 tree:   https://github.com/agraf/linux-2.6.git kvm-kho-gmem-test
 head:   9a58862a298a63bad21d05191e28b857063bb9dc
-commit: 55d4e99ed5b8909f348e838e03dda3cda4f2fa2e [9/27] x86: Add KHO support
-config: i386-randconfig-053-20240505 (https://download.01.org/0day-ci/archive/20240505/202405050241.50OPTPXf-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050241.50OPTPXf-lkp@intel.com/reproduce)
+commit: 12b2509463b155fec805d7fb2ecbef3aafbd2414 [26/27] XXX arm: make early time stamps contiguous
+config: mips-vocore2_defconfig (https://download.01.org/0day-ci/archive/20240505/202405050219.81JETL6w-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050219.81JETL6w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405050241.50OPTPXf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405050219.81JETL6w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/kexec_kho_out.c:10:
-   include/linux/kexec.h:369:34: error: field 'dt' has incomplete type
-     369 |                 struct kexec_buf dt;
-         |                                  ^~
-   include/linux/kexec.h:370:34: error: field 'mem_cache' has incomplete type
-     370 |                 struct kexec_buf mem_cache;
-         |                                  ^~~~~~~~~
-   kernel/kexec_kho_out.c: In function 'kho_mem_cache_add':
-   kernel/kexec_kho_out.c:59:13: warning: variable 'prev_start' set but not used [-Wunused-but-set-variable]
-      59 |         u64 prev_start = 0;
-         |             ^~~~~~~~~~
-   kernel/kexec_kho_out.c: In function 'kho_fill_kimage':
-   kernel/kexec_kho_out.c:208:18: error: 'struct kexec_buf' has no member named 'image'
-     208 |                 .image = image,
-         |                  ^~~~~
->> kernel/kexec_kho_out.c:208:26: warning: excess elements in struct initializer
-     208 |                 .image = image,
-         |                          ^~~~~
-   kernel/kexec_kho_out.c:208:26: note: (near initialization for '(anonymous)')
-   kernel/kexec_kho_out.c:209:18: error: 'struct kexec_buf' has no member named 'buffer'
-     209 |                 .buffer = NULL,
-         |                  ^~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:290,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from include/linux/cma.h:5,
-                    from kernel/kexec_kho_out.c:9:
-   include/linux/stddef.h:8:14: warning: excess elements in struct initializer
-       8 | #define NULL ((void *)0)
-         |              ^
-   kernel/kexec_kho_out.c:209:27: note: in expansion of macro 'NULL'
-     209 |                 .buffer = NULL,
-         |                           ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for '(anonymous)')
-       8 | #define NULL ((void *)0)
-         |              ^
-   kernel/kexec_kho_out.c:209:27: note: in expansion of macro 'NULL'
-     209 |                 .buffer = NULL,
-         |                           ^~~~
-   kernel/kexec_kho_out.c:210:18: error: 'struct kexec_buf' has no member named 'bufsz'
-     210 |                 .bufsz = 0,
-         |                  ^~~~~
-   kernel/kexec_kho_out.c:210:26: warning: excess elements in struct initializer
-     210 |                 .bufsz = 0,
-         |                          ^
-   kernel/kexec_kho_out.c:210:26: note: (near initialization for '(anonymous)')
-   kernel/kexec_kho_out.c:211:18: error: 'struct kexec_buf' has no member named 'mem'
-     211 |                 .mem = KEXEC_BUF_MEM_UNKNOWN,
-         |                  ^~~
-   kernel/kexec_kho_out.c:211:24: error: 'KEXEC_BUF_MEM_UNKNOWN' undeclared (first use in this function)
-     211 |                 .mem = KEXEC_BUF_MEM_UNKNOWN,
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-   kernel/kexec_kho_out.c:211:24: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/kexec_kho_out.c:211:24: warning: excess elements in struct initializer
-   kernel/kexec_kho_out.c:211:24: note: (near initialization for '(anonymous)')
-   kernel/kexec_kho_out.c:212:18: error: 'struct kexec_buf' has no member named 'memsz'
-     212 |                 .memsz = 0,
-         |                  ^~~~~
-   kernel/kexec_kho_out.c:212:26: warning: excess elements in struct initializer
-     212 |                 .memsz = 0,
-         |                          ^
-   kernel/kexec_kho_out.c:212:26: note: (near initialization for '(anonymous)')
-   kernel/kexec_kho_out.c:213:18: error: 'struct kexec_buf' has no member named 'buf_align'
-     213 |                 .buf_align = SZ_64K, /* Makes it easier to map */
-         |                  ^~~~~~~~~
-   In file included from include/linux/mm.h:27,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from include/linux/elfcore.h:11,
-                    from include/linux/vmcore_info.h:6,
-                    from include/linux/kexec.h:18:
-   include/linux/sizes.h:27:41: warning: excess elements in struct initializer
-      27 | #define SZ_64K                          0x00010000
-         |                                         ^~~~~~~~~~
-   kernel/kexec_kho_out.c:213:30: note: in expansion of macro 'SZ_64K'
-     213 |                 .buf_align = SZ_64K, /* Makes it easier to map */
-         |                              ^~~~~~
-   include/linux/sizes.h:27:41: note: (near initialization for '(anonymous)')
-      27 | #define SZ_64K                          0x00010000
-         |                                         ^~~~~~~~~~
-   kernel/kexec_kho_out.c:213:30: note: in expansion of macro 'SZ_64K'
-     213 |                 .buf_align = SZ_64K, /* Makes it easier to map */
-         |                              ^~~~~~
-   kernel/kexec_kho_out.c:214:18: error: 'struct kexec_buf' has no member named 'buf_max'
-     214 |                 .buf_max = ULONG_MAX,
-         |                  ^~~~~~~
-   In file included from include/linux/limits.h:7,
-                    from include/linux/overflow.h:6,
-                    from include/linux/string.h:12,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/user_32.h:5,
-                    from arch/x86/include/asm/user.h:6,
-                    from include/linux/user.h:1,
-                    from include/linux/elfcore.h:5:
-   include/vdso/limits.h:13:25: warning: excess elements in struct initializer
-      13 | #define ULONG_MAX       (~0UL)
-         |                         ^
-   kernel/kexec_kho_out.c:214:28: note: in expansion of macro 'ULONG_MAX'
-     214 |                 .buf_max = ULONG_MAX,
-         |                            ^~~~~~~~~
-   include/vdso/limits.h:13:25: note: (near initialization for '(anonymous)')
-      13 | #define ULONG_MAX       (~0UL)
-         |                         ^
-   kernel/kexec_kho_out.c:214:28: note: in expansion of macro 'ULONG_MAX'
-     214 |                 .buf_max = ULONG_MAX,
-         |                            ^~~~~~~~~
-   kernel/kexec_kho_out.c:215:18: error: 'struct kexec_buf' has no member named 'top_down'
-     215 |                 .top_down = true,
-         |                  ^~~~~~~~
+>> kernel/time/sched_clock.c:76:49: error: call to undeclared function 'read_sysreg'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   clocks_calc_mult_shift(&rd->mult, &rd->shift, read_sysreg(cntfrq_el0), NSEC_PER_SEC, 600);
+                                                                 ^
+   kernel/time/sched_clock.c:76:61: error: use of undeclared identifier 'cntfrq_el0'
+                   clocks_calc_mult_shift(&rd->mult, &rd->shift, read_sysreg(cntfrq_el0), NSEC_PER_SEC, 600);
+                                                                             ^
+   kernel/time/sched_clock.c:183:27: warning: variable 'new_epoch' set but not used [-Wunused-but-set-variable]
+           u64 res, wrap, new_mask, new_epoch, cyc, ns;
+                                    ^
+   kernel/time/sched_clock.c:183:43: warning: variable 'ns' set but not used [-Wunused-but-set-variable]
+           u64 res, wrap, new_mask, new_epoch, cyc, ns;
+                                                    ^
+   2 warnings and 2 errors generated.
 
 
-vim +208 kernel/kexec_kho_out.c
+vim +/read_sysreg +76 kernel/time/sched_clock.c
 
-4d945e93456555 Alexander Graf 2023-12-12  195  
-4d945e93456555 Alexander Graf 2023-12-12  196  int kho_fill_kimage(struct kimage *image)
-4d945e93456555 Alexander Graf 2023-12-12  197  {
-4d945e93456555 Alexander Graf 2023-12-12  198  	int err = 0;
-4d945e93456555 Alexander Graf 2023-12-12  199  	void *dt;
-4d945e93456555 Alexander Graf 2023-12-12  200  
-4d945e93456555 Alexander Graf 2023-12-12  201  	mutex_lock(&kho.lock);
-4d945e93456555 Alexander Graf 2023-12-12  202  
-4d945e93456555 Alexander Graf 2023-12-12  203  	if (!kho.active)
-4d945e93456555 Alexander Graf 2023-12-12  204  		goto out;
-4d945e93456555 Alexander Graf 2023-12-12  205  
-4d945e93456555 Alexander Graf 2023-12-12  206  	/* Initialize kexec_buf for mem_cache */
-4d945e93456555 Alexander Graf 2023-12-12  207  	image->kho.mem_cache = (struct kexec_buf) {
-4d945e93456555 Alexander Graf 2023-12-12 @208  		.image = image,
-4d945e93456555 Alexander Graf 2023-12-12  209  		.buffer = NULL,
-4d945e93456555 Alexander Graf 2023-12-12  210  		.bufsz = 0,
-4d945e93456555 Alexander Graf 2023-12-12  211  		.mem = KEXEC_BUF_MEM_UNKNOWN,
-4d945e93456555 Alexander Graf 2023-12-12  212  		.memsz = 0,
-4d945e93456555 Alexander Graf 2023-12-12  213  		.buf_align = SZ_64K, /* Makes it easier to map */
-4d945e93456555 Alexander Graf 2023-12-12  214  		.buf_max = ULONG_MAX,
-4d945e93456555 Alexander Graf 2023-12-12  215  		.top_down = true,
-4d945e93456555 Alexander Graf 2023-12-12  216  	};
-4d945e93456555 Alexander Graf 2023-12-12  217  
-4d945e93456555 Alexander Graf 2023-12-12  218  	/*
-4d945e93456555 Alexander Graf 2023-12-12  219  	 * We need to make all allocations visible here via the mem_cache so that
-4d945e93456555 Alexander Graf 2023-12-12  220  	 * kho_is_destination_range() can identify overlapping regions and ensure
-4d945e93456555 Alexander Graf 2023-12-12  221  	 * that no kimage (including the DT one) lands on handed over memory.
-4d945e93456555 Alexander Graf 2023-12-12  222  	 *
-4d945e93456555 Alexander Graf 2023-12-12  223  	 * Since we conveniently already built an array of all allocations, let's
-4d945e93456555 Alexander Graf 2023-12-12  224  	 * pass that on to the target kernel so that reuse it to initialize its
-4d945e93456555 Alexander Graf 2023-12-12  225  	 * memory blocks.
-4d945e93456555 Alexander Graf 2023-12-12  226  	 */
-4d945e93456555 Alexander Graf 2023-12-12  227  	err = kho_alloc_mem_cache(image, kho.dt);
-4d945e93456555 Alexander Graf 2023-12-12  228  	if (err)
-4d945e93456555 Alexander Graf 2023-12-12  229  		goto out;
-4d945e93456555 Alexander Graf 2023-12-12  230  
-4d945e93456555 Alexander Graf 2023-12-12  231  	err = kexec_add_buffer(&image->kho.mem_cache);
-4d945e93456555 Alexander Graf 2023-12-12  232  	if (err)
-4d945e93456555 Alexander Graf 2023-12-12  233  		goto out;
-4d945e93456555 Alexander Graf 2023-12-12  234  
-4d945e93456555 Alexander Graf 2023-12-12  235  	/*
-4d945e93456555 Alexander Graf 2023-12-12  236  	 * Create a kexec copy of the DT here. We need this because lifetime may
-4d945e93456555 Alexander Graf 2023-12-12  237  	 * be different between kho.dt and the kimage
-4d945e93456555 Alexander Graf 2023-12-12  238  	 */
-4d945e93456555 Alexander Graf 2023-12-12  239  	dt = kvmemdup(kho.dt, kho.dt_len, GFP_KERNEL);
-4d945e93456555 Alexander Graf 2023-12-12  240  	if (!dt) {
-4d945e93456555 Alexander Graf 2023-12-12  241  		err = -ENOMEM;
-4d945e93456555 Alexander Graf 2023-12-12  242  		goto out;
-4d945e93456555 Alexander Graf 2023-12-12  243  	}
-4d945e93456555 Alexander Graf 2023-12-12  244  
-4d945e93456555 Alexander Graf 2023-12-12  245  	/* Allocate target memory for kho dt */
-4d945e93456555 Alexander Graf 2023-12-12  246  	image->kho.dt = (struct kexec_buf) {
-4d945e93456555 Alexander Graf 2023-12-12  247  		.image = image,
-4d945e93456555 Alexander Graf 2023-12-12  248  		.buffer = dt,
-4d945e93456555 Alexander Graf 2023-12-12  249  		.bufsz = kho.dt_len,
-4d945e93456555 Alexander Graf 2023-12-12  250  		.mem = KEXEC_BUF_MEM_UNKNOWN,
-4d945e93456555 Alexander Graf 2023-12-12  251  		.memsz = kho.dt_len,
-4d945e93456555 Alexander Graf 2023-12-12  252  		.buf_align = SZ_64K, /* Makes it easier to map */
-4d945e93456555 Alexander Graf 2023-12-12  253  		.buf_max = ULONG_MAX,
-4d945e93456555 Alexander Graf 2023-12-12  254  		.top_down = true,
-4d945e93456555 Alexander Graf 2023-12-12  255  	};
-4d945e93456555 Alexander Graf 2023-12-12  256  	err = kexec_add_buffer(&image->kho.dt);
-4d945e93456555 Alexander Graf 2023-12-12  257  
-4d945e93456555 Alexander Graf 2023-12-12  258  out:
-4d945e93456555 Alexander Graf 2023-12-12  259  	mutex_unlock(&kho.lock);
-4d945e93456555 Alexander Graf 2023-12-12  260  	return err;
-4d945e93456555 Alexander Graf 2023-12-12  261  }
-4d945e93456555 Alexander Graf 2023-12-12  262  
-
-:::::: The code at line 208 was first introduced by commit
-:::::: 4d945e934565554b4f997c57162e833303f56cb0 kexec: Add KHO support to kexec file loads
-
-:::::: TO: Alexander Graf <graf@amazon.com>
-:::::: CC: Alexander Graf <graf@amazon.com>
+    69	
+    70	static void cd_early_init(void)
+    71	{
+    72		static bool is_initialized;
+    73		struct clock_read_data *rd = &cd.read_data[0];
+    74	
+    75		if (!is_initialized) {
+  > 76			clocks_calc_mult_shift(&rd->mult, &rd->shift, read_sysreg(cntfrq_el0), NSEC_PER_SEC, 600);
+    77			is_initialized = true;
+    78		}
+    79	}
+    80	
 
 -- 
 0-DAY CI Kernel Test Service
