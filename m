@@ -1,142 +1,305 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E31B2135A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 12:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8A1CF8F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 13:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714826933; cv=none; b=QX5RXEms9F0nPfvlQ4/NYfwELYoJ1VLdjYCwSTYBucjaD9l/ZiNJy+zfalMZC5InwZlKIXA8h0qpwKtvoAAZg1kd+QU7vPEtqbtvtjNLZAAq4qqkxo6Z1mWhJsEu67r5ji1dEmx8dR7bXPErjKv+zBKCjovDtYukCFQylpYBE4w=
+	t=1714828714; cv=none; b=Ejo+1CBYZBWmuuXgIRI5yFX11i6FKWjZCOsPrTCR+0OXfnJDp7aK4OHPDYt4ZFV9RKqGM8joXONU+EH/pKXjJIgcnGH8YVtWfw7OALZvPRxdWLBRCudgcmx+QhOWWxgw5CcNXROhkOpTZ/Qs/rHOWgTiXC7NhBazv7BoL+sBKvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714826933; c=relaxed/simple;
-	bh=7YTmRSVgSl/F/s2kKDbrLa9w2wJpPxCuhuJdT0JEU9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z03yR0chGECFI0CgC84hnnspgNokukvTAaFVwEua+8OFZ4J06wrIaqr/qEy6O/tPFy8F7epyHPlrFugDUVdUWQpAt6ot9YaAPV/XTK2oogeHVlGcmXrx00GRZnhWY5kXp14BLBhFsEl7yApL/wzGVUtYlbHu1/zSBacYYS2oMXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD64BE0003;
-	Sat,  4 May 2024 12:48:46 +0000 (UTC)
-Message-ID: <9330574f-a06f-4a77-8cb0-3503441e0556@ghiti.fr>
-Date: Sat, 4 May 2024 14:48:46 +0200
+	s=arc-20240116; t=1714828714; c=relaxed/simple;
+	bh=mzhVRefB22gAtVIKHYROpuOkiC/cn6djUs0Hcc+W31A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zt8CbFNl4IQGbZ+5aEoiihJzLh0Wis1Vgxuiz6H2hRkP7hv1StScYSUY5+AoPGCxrJwIEb3LmFE56R69P3/N64xxpYeZOX6/Q1jw2RHR8xbI3Ak3rDz8J7QWL8r05OFFkStM86sJKAM54hy3vkObojWh7RG42vW/YBvpco8+gUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeMGKI/Z; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeMGKI/Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714828713; x=1746364713;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mzhVRefB22gAtVIKHYROpuOkiC/cn6djUs0Hcc+W31A=;
+  b=GeMGKI/Z7w9z3yo0FcoSMjV4IDfr1s4H81Yn6xWFti1SEe64o6lmkEMn
+   EWJaytIBdESAsFxTNHrFPaW5rb0FkFQtabtULtlPM3w++I4jqXSM6ngyB
+   Zc07zVp05Zy6jIXdNcLPp6XcVZWtvxzept1agBJfP8KqTnUu0A41XNSWZ
+   sc5N0UOmYbOFVMz4kcpbMMUiy6xRZ+oNbg+4ZD5wBUO5juRJJ17Nd5WO2
+   ZBDFTNP5s/GX39kBzZbccKKDvaHqkqfZNiHgfUX1xfnIzn9gTF9J4pRFp
+   nDjZ42g9JHIHsRDeCbnZTMxkPoBXpImD83p4hXreEQgwnpNSLmL4H6boe
+   A==;
+X-CSE-ConnectionGUID: ADdH+/ynSginj9l7Ittnlw==
+X-CSE-MsgGUID: czALtLnYSZuRAW4iRN0yzA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10782961"
+X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
+   d="scan'208";a="10782961"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 06:18:33 -0700
+X-CSE-ConnectionGUID: xc0FRMLJTDqeXHvSiRNElw==
+X-CSE-MsgGUID: KoB3op1cQo+MjCUqKkZKAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; 
+   d="scan'208";a="27600985"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 04 May 2024 06:18:31 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3FHY-000CnI-2B;
+	Sat, 04 May 2024 13:18:28 +0000
+Date: Sat, 4 May 2024 21:17:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 566/1143]
+ drivers/spi/spi-aspeed-txrx.c:254:23: error: array subscript is not an
+ integer
+Message-ID: <202405042138.9ZZg04bG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 10966/10967]
- fs/ext4/super.c:1356:(.text+0x3945c): relocation truncated to fit:
- R_RISCV_GPREL_I against `.LANCHOR15'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202405041522.1kGSNbp1-lkp@intel.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <202405041522.1kGSNbp1-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04/05/2024 09:57, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   9221b2819b8a4196eecf5476d66201be60fbcf29
-> commit: d82ddecceb499745a8c436fb94dd0ccc0cb097b4 [10966/10967] Merge branch 'refactor-heap' of https://evilpiepirate.org/git/bcachefs.git
-> config: riscv-randconfig-r005-20230228 (https://download.01.org/0day-ci/archive/20240504/202405041522.1kGSNbp1-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405041522.1kGSNbp1-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405041522.1kGSNbp1-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     riscv64-linux-ld: section .data LMA [0000000000454000,0000000001d5a5af] overlaps section .text LMA [0000000000155b70,00000000036ea517]
->     riscv64-linux-ld: section .init.pi.text VMA [ffffffff836ea518,ffffffff836ed8db] overlaps section .data VMA [ffffffff82000000,ffffffff839065af]
->     riscv64-linux-ld: section .got VMA [ffffffff839065b0,ffffffff839065bf] overlaps section .rodata VMA [ffffffff836ed900,ffffffff84390e1d]
->     riscv64-linux-ld: section .init.pi.rodata.str1.8 VMA [ffffffff84390e20,ffffffff84390ea2] overlaps section .bss VMA [ffffffff83a32000,ffffffff849e773f]
->     fs/ext4/super.o: in function `ext4_put_super':
->>> fs/ext4/super.c:1356:(.text+0x3945c): relocation truncated to fit: R_RISCV_GPREL_I against `.LANCHOR15'
->     fs/jffs2/malloc.o: in function `jffs2_create_slab_caches':
->>> fs/jffs2/malloc.c:36:(.init.text+0x20): relocation truncated to fit: R_RISCV_GPREL_I against `.LANCHOR0'
->     fs/ntfs3/frecord.o: in function `ni_new_attr_flags':
->     fs/ntfs3/frecord.c:1792:(.text+0x7ec8): relocation truncated to fit: R_RISCV_GPREL_I against symbol `ntfs_aops_cmpr' defined in .rodata section in fs/ntfs3/inode.o
->     fs/ntfs3/fslog.o: in function `is_rec_base':
->>> fs/ntfs3/ntfs.h:308:(.text+0xa774): relocation truncated to fit: R_RISCV_GPREL_I against `.L3843'
->     fs/ntfs3/inode.o: in function `put_page_testzero':
->>> include/linux/mm.h:1135:(.text+0x9fc): relocation truncated to fit: R_RISCV_GPREL_I against `.LANCHOR2'
->     fs/jffs2/read.o: in function `jffs2_read_dnode':
->>> fs/jffs2/read.c:41:(.text+0x200): relocation truncated to fit: R_RISCV_GPREL_I against `.LANCHOR0'
->     fs/jffs2/nodemgmt.o: in function `jffs2_add_physical_node_ref':
->>> fs/jffs2/nodemgmt.c:517:(.text+0x6a8): relocation truncated to fit: R_RISCV_GPREL_I against `.LANCHOR0'
->
-> vim +1356 fs/ext4/super.c
->
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1335
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1336  	/* Debugging code just in case the in-memory inode orphan list
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1337  	 * isn't empty.  The on-disk one can be non-empty if we've
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1338  	 * detected an error and taken the fs readonly, but the
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1339  	 * in-memory list had better be clean by this point. */
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1340  	if (!list_empty(&sbi->s_orphan))
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1341  		dump_orphan_list(sb, sbi);
-> 837c23fbc1b812 Chunguang Xu            2020-11-07  1342  	ASSERT(list_empty(&sbi->s_orphan));
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1343
-> 89d96a6f8e6491 Theodore Ts'o           2015-06-20  1344  	sync_blockdev(sb->s_bdev);
-> f98393a64ca139 Peter Zijlstra          2007-05-06  1345  	invalidate_bdev(sb->s_bdev);
-> 61ead71476cf8b Christian Brauner       2024-01-23  1346  	if (sbi->s_journal_bdev_file) {
-> 1489dffd51d7e4 Christoph Hellwig       2023-08-09  1347  		/*
-> 1489dffd51d7e4 Christoph Hellwig       2023-08-09  1348  		 * Invalidate the journal device's buffers.  We don't want them
-> 1489dffd51d7e4 Christoph Hellwig       2023-08-09  1349  		 * floating about in memory - the physical journal device may
-> 1489dffd51d7e4 Christoph Hellwig       2023-08-09  1350  		 * hotswapped, and it breaks the `ro-after' testing code.
-> 1489dffd51d7e4 Christoph Hellwig       2023-08-09  1351  		 */
-> 61ead71476cf8b Christian Brauner       2024-01-23  1352  		sync_blockdev(file_bdev(sbi->s_journal_bdev_file));
-> 61ead71476cf8b Christian Brauner       2024-01-23  1353  		invalidate_bdev(file_bdev(sbi->s_journal_bdev_file));
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1354  	}
-> 50c15df69e062b Chengguang Xu           2018-12-04  1355
-> dec214d00e0d78 Tahsin Erdogan          2017-06-22 @1356  	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
-> dec214d00e0d78 Tahsin Erdogan          2017-06-22  1357  	sbi->s_ea_inode_cache = NULL;
-> 50c15df69e062b Chengguang Xu           2018-12-04  1358
-> 47387409ee2e09 Tahsin Erdogan          2017-06-22  1359  	ext4_xattr_destroy_cache(sbi->s_ea_block_cache);
-> 47387409ee2e09 Tahsin Erdogan          2017-06-22  1360  	sbi->s_ea_block_cache = NULL;
-> 50c15df69e062b Chengguang Xu           2018-12-04  1361
-> 618f003199c618 Pavel Skripkin          2021-04-30  1362  	ext4_stop_mmpd(sbi);
-> 618f003199c618 Pavel Skripkin          2021-04-30  1363
-> 9060dd2c5036b1 Eric Sandeen            2016-11-26  1364  	brelse(sbi->s_sbh);
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1365  	sb->s_fs_info = NULL;
-> 3197ebdb130473 Theodore Ts'o           2009-03-31  1366  	/*
-> 3197ebdb130473 Theodore Ts'o           2009-03-31  1367  	 * Now that we are completely done shutting down the
-> 3197ebdb130473 Theodore Ts'o           2009-03-31  1368  	 * superblock, we need to actually destroy the kobject.
-> 3197ebdb130473 Theodore Ts'o           2009-03-31  1369  	 */
-> 3197ebdb130473 Theodore Ts'o           2009-03-31  1370  	kobject_put(&sbi->s_kobj);
-> 3197ebdb130473 Theodore Ts'o           2009-03-31  1371  	wait_for_completion(&sbi->s_kobj_unregister);
-> 0441984a339897 Darrick J. Wong         2012-04-29  1372  	if (sbi->s_chksum_driver)
-> 0441984a339897 Darrick J. Wong         2012-04-29  1373  		crypto_free_shash(sbi->s_chksum_driver);
-> 705895b61133ef Pekka Enberg            2009-02-15  1374  	kfree(sbi->s_blockgroup_lock);
-> 8012b866085523 Shiyang Ruan            2022-06-03  1375  	fs_put_dax(sbi->s_daxdev, NULL);
-> ac4acb1f4b2b6b Eric Biggers            2020-09-16  1376  	fscrypt_free_dummy_policy(&sbi->s_dummy_enc_policy);
-> 5298d4bfe80f6a Christoph Hellwig       2022-01-18  1377  #if IS_ENABLED(CONFIG_UNICODE)
-> f8f4acb6cded4e Daniel Rosenberg        2020-10-28  1378  	utf8_unload(sb->s_encoding);
-> c83ad55eaa91c8 Gabriel Krisman Bertazi 2019-04-25  1379  #endif
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1380  	kfree(sbi);
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1381  }
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  1382
->
-> :::::: The code at line 1356 was first introduced by commit
-> :::::: dec214d00e0d78a08b947d7dccdfdb84407a9f4d ext4: xattr inode deduplication
->
-> :::::: TO: Tahsin Erdogan <tahsin@google.com>
-> :::::: CC: Theodore Ts'o <tytso@mit.edu>
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: 0185b4985fffd883f0effa47910e87237c6cefb1 [566/1143] spi: aspeed: Add pure SPI controller driver
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240504/202405042138.9ZZg04bG-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405042138.9ZZg04bG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405042138.9ZZg04bG-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/printk.h:566,
+                    from include/asm-generic/bug.h:22,
+                    from arch/loongarch/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/spi/spi-aspeed-txrx.c:8:
+   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_setup':
+   drivers/spi/spi-aspeed-txrx.c:239:22: warning: format '%d' expects argument of type 'int', but argument 4 has type 'u8 *' {aka 'unsigned char *'} [-Wformat=]
+     239 |         dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/spi/spi-aspeed-txrx.c:239:9: note: in expansion of macro 'dev_dbg'
+     239 |         dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
+         |         ^~~~~~~
+   drivers/spi/spi-aspeed-txrx.c:239:28: note: format string is defined here
+     239 |         dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
+         |                           ~^
+         |                            |
+         |                            int
+         |                           %hhn
+>> drivers/spi/spi-aspeed-txrx.c:254:23: error: array subscript is not an integer
+     254 |         host->ctrl_val[spi->chip_select] = SPI_CE_INACTIVE | SPI_CMD_USER_MODE;
+         |                       ^
+   drivers/spi/spi-aspeed-txrx.c:263:23: error: array subscript is not an integer
+     263 |         host->ctrl_val[spi->chip_select] |= clk_div;
+         |                       ^
+   drivers/spi/spi-aspeed-txrx.c:266:31: error: array subscript is not an integer
+     266 |                 host->ctrl_val[spi->chip_select] |= SPI_LSB_FIRST_CTRL;
+         |                               ^
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/spi/spi-aspeed-txrx.c:16:
+   drivers/spi/spi-aspeed-txrx.c:269:50: error: array subscript is not an integer
+     269 |                  spi->chip_select, host->ctrl_val[spi->chip_select]);
+         |                                                  ^
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/spi/spi-aspeed-txrx.c:268:9: note: in expansion of macro 'dev_info'
+     268 |         dev_info(dev, "cs: %d, ctrl_val: 0x%08x\n",
+         |         ^~~~~~~~
+   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_start_user':
+   drivers/spi/spi-aspeed-txrx.c:278:38: error: array subscript is not an integer
+     278 |         u32 ctrl_val = host->ctrl_val[spi->chip_select];
+         |                                      ^
+>> drivers/spi/spi-aspeed-txrx.c:280:51: error: invalid operands to binary * (have 'u8 *' {aka 'unsigned char *'} and 'int')
+     279 |         void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
+         |                                                                ~
+         |                                                                |
+         |                                                                u8 * {aka unsigned char *}
+     280 |                                  spi->chip_select * 4;
+         |                                                   ^
+   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_stop_user':
+   drivers/spi/spi-aspeed-txrx.c:293:38: error: array subscript is not an integer
+     293 |         u32 ctrl_val = host->ctrl_val[spi->chip_select] | SPI_CE_INACTIVE;
+         |                                      ^
+   drivers/spi/spi-aspeed-txrx.c:295:51: error: invalid operands to binary * (have 'u8 *' {aka 'unsigned char *'} and 'int')
+     294 |         void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
+         |                                                                ~
+         |                                                                |
+         |                                                                u8 * {aka unsigned char *}
+     295 |                                  spi->chip_select * 4;
+         |                                                   ^
+   drivers/spi/spi-aspeed-txrx.c: In function 'aspeed_spi_transfer':
+>> drivers/spi/spi-aspeed-txrx.c:303:43: error: implicit declaration of function 'spi_master_get_devdata'; did you mean 'spi_controller_get_devdata'? [-Werror=implicit-function-declaration]
+     303 |                 (struct aspeed_spi_host *)spi_master_get_devdata(spi->controller);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+         |                                           spi_controller_get_devdata
+>> drivers/spi/spi-aspeed-txrx.c:303:17: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     303 |                 (struct aspeed_spi_host *)spi_master_get_devdata(spi->controller);
+         |                 ^
+   drivers/spi/spi-aspeed-txrx.c:315:12: warning: assignment to 'u32' {aka 'unsigned int'} from 'u8 *' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
+     315 |         cs = spi->chip_select;
+         |            ^
+   cc1: some warnings being treated as errors
 
 
-And that's again a XIP kernel configuration, so nothing to worry here.
+vim +254 drivers/spi/spi-aspeed-txrx.c
 
-I remember we had this discussion before, but isn't there a way to 
-remove the XIP config from randconfig builds?
+   231	
+   232	static int aspeed_spi_setup(struct spi_device *spi)
+   233	{
+   234		struct aspeed_spi_host *host =
+   235			(struct aspeed_spi_host *)spi_controller_get_devdata(spi->controller);
+   236		struct device *dev = host->dev;
+   237		u32 clk_div;
+   238	
+   239		dev_dbg(dev, "cs: %d, mode: %d, max_speed: %d, bits_per_word: %d.\n",
+   240			spi->chip_select, spi->mode,
+   241			spi->max_speed_hz, spi->bits_per_word);
+   242	
+   243		if (spi->mode & SPI_MODE_X_MASK) {
+   244			dev_dbg(dev, "unsupported mode bits: %x\n",
+   245				(u32)(spi->mode & SPI_MODE_X_MASK));
+   246			return -EINVAL;
+   247		}
+   248	
+   249		if (spi->mode & SPI_CS_HIGH) {
+   250			dev_dbg(dev, "can't be active-high\n");
+   251			return -EINVAL;
+   252		}
+   253	
+ > 254		host->ctrl_val[spi->chip_select] = SPI_CE_INACTIVE | SPI_CMD_USER_MODE;
+   255	
+   256		if (spi->max_speed_hz) {
+   257			clk_div = host->info->get_clk_div(host, spi->max_speed_hz);
+   258		} else {
+   259			/* speed zero means "as slow as possible" */
+   260			clk_div = ~(host->info->hclk_mask);
+   261		}
+   262	
+   263		host->ctrl_val[spi->chip_select] |= clk_div;
+   264	
+   265		if (spi->mode & SPI_LSB_FIRST)
+   266			host->ctrl_val[spi->chip_select] |= SPI_LSB_FIRST_CTRL;
+   267	
+   268		dev_info(dev, "cs: %d, ctrl_val: 0x%08x\n",
+   269			 spi->chip_select, host->ctrl_val[spi->chip_select]);
+   270	
+   271		return 0;
+   272	}
+   273	
+   274	static void aspeed_spi_start_user(struct spi_device *spi)
+   275	{
+   276		struct aspeed_spi_host *host =
+   277			(struct aspeed_spi_host *)spi_controller_get_devdata(spi->controller);
+   278		u32 ctrl_val = host->ctrl_val[spi->chip_select];
+   279		void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
+ > 280					 spi->chip_select * 4;
+   281	
+   282		ctrl_val |= SPI_CE_INACTIVE;
+   283		writel(ctrl_val, ctrl_reg);
+   284	
+   285		ctrl_val &= ~SPI_CE_INACTIVE;
+   286		writel(ctrl_val, ctrl_reg);
+   287	}
+   288	
+   289	static void aspeed_spi_stop_user(struct spi_device *spi)
+   290	{
+   291		struct aspeed_spi_host *host =
+   292			(struct aspeed_spi_host *)spi_controller_get_devdata(spi->controller);
+   293		u32 ctrl_val = host->ctrl_val[spi->chip_select] | SPI_CE_INACTIVE;
+   294		void __iomem *ctrl_reg = host->ctrl_reg + SPI_CE0_CTRL +
+   295					 spi->chip_select * 4;
+   296	
+   297		writel(ctrl_val, ctrl_reg);
+   298	}
+   299	
+   300	static int aspeed_spi_transfer(struct spi_device *spi, struct spi_message *msg)
+   301	{
+   302		struct aspeed_spi_host *host =
+ > 303			(struct aspeed_spi_host *)spi_master_get_devdata(spi->controller);
+   304		struct device *dev = host->dev;
+   305		struct spi_transfer *xfer;
+   306		const u8 *tx_buf;
+   307		u8 *rx_buf;
+   308		u32 cs;
+   309		unsigned long flags;
+   310		u32 i = 0;
+   311		u32 j = 0;
+   312	
+   313		spin_lock_irqsave(&host->lock, flags);
+   314	
+   315		cs = spi->chip_select;
+   316	
+   317		aspeed_spi_start_user(spi);
+   318		dev_dbg(dev, "cs: %d\n", cs);
+   319	
+   320		list_for_each_entry(xfer, &msg->transfers, transfer_list) {
+   321			dev_dbg(dev,
+   322				"xfer[%d]: width %d, len %u, tx %p, rx %p\n",
+   323				j,
+   324				xfer->bits_per_word, xfer->len,
+   325				xfer->tx_buf, xfer->rx_buf);
+   326	
+   327			tx_buf = xfer->tx_buf;
+   328			rx_buf = xfer->rx_buf;
+   329	
+   330			if (tx_buf != 0) {
+   331	#if defined(SPI_ASPEED_TXRX_DBG)
+   332				pr_info("tx : ");
+   333				if (xfer->len > 10) {
+   334					for (i = 0; i < 10; i++)
+   335						pr_info("%x ", tx_buf[i]);
+   336				} else {
+   337					for (i = 0; i < xfer->len; i++)
+   338						pr_info("%x ", tx_buf[i]);
+   339				}
+   340				pr_info("\n");
+   341	#endif
+   342	
+   343				for (i = 0; i < xfer->len; i++)
+   344					writeb(tx_buf[i], (void *)host->chip_ahb_base[cs]);
+   345			}
+   346	
+   347			if (rx_buf != 0) {
+   348				for (i = 0; i < xfer->len; i++)
+   349					rx_buf[i] = readb((void *)host->chip_ahb_base[cs]);
+   350	
 
-Thanks,
-
-Alex
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
