@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDE582485
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 19:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDB94C8F;
+	Sat,  4 May 2024 19:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714849671; cv=none; b=YjZqgal1Q2zJ3EmanI86ZsaTPOkVimSJ5UfTDWahhBRyqXExIhHiZX2LPnbRNLITN0JiP8VfQZG4P2yZZtJxMk67rjplria8jxwy1Qv3Zn1ek2Zu4D3bRu8v14IAp9o0fVW6o5mJF+uj2KVJ/Wr8u6wIfwG9fPy3PXZjDIbjihQ=
+	t=1714851530; cv=none; b=PvtuvKPA+uteNv5E+tgIIIqjmEt9w30PWisQR2eSeWW/mHlMbro4DKjoI1wU9PZvfp0jVETdY2ul4eepK/9cWy89te9lFGdXLYaV4dF1zOxLHCFJsOfnVCzfVh6lyG5okexJKq88T9WZnz2BI//gPZZXfFECulT1QnxLHjhGifE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714849671; c=relaxed/simple;
-	bh=KbIDwpO9JF9w+L82r3GZnC8Iz2PHVzO8INj56ALYj6Y=;
+	s=arc-20240116; t=1714851530; c=relaxed/simple;
+	bh=v4KGjrTq20etWiwgMFKIHbSGzct9mSLXrVMZCWUwf4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=opqQIJc7m+RQnX96Sn3SqPa7qL8yt6iWOmjzpysxOITZnentG+6DRuogu3wPhZiad5kgk3CBf5gtWAD+2Vy5Wq9eD8NQRg+05SUMuuXYsgqBeGBqYRqNkMkKab7hvFAAy2p46mqHai+CO5ue9xNvImH4UxiYbY0EhK/7+LdlfoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igBvfA1K; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=jSw5kTpvTz7djRwBeqbt737Uer7yCOPAiam9vMgXuU4bOTWcLZ+nTSMUwG4fk7azhDywZMtiqKxvd+8U1LL2DTZI5tfzcPdVp70Ni5B/1i9u5I25XO+KTn78Ui/omKTIywOvqpZ+vU/GpPCVzjt/KG67W6DjQfR+Z38BruzdxRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lZ4zcLGk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igBvfA1K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lZ4zcLGk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714849669; x=1746385669;
+  t=1714851529; x=1746387529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KbIDwpO9JF9w+L82r3GZnC8Iz2PHVzO8INj56ALYj6Y=;
-  b=igBvfA1KZsSbA5FEDb0UiyCHPsSubcaC/DQMArVhS5odFTVr0cFauy73
-   z/Jda/IJjRIV/wQc41AdgAK6yYn0sjFBuDfAwZm3Qr9lUMu+qQzcLf4iq
-   IskyBLMvfK54WZXRiZT9K7WQ4oGs67SqVwDiRY8umWilVRB2ATH3UmtUM
-   +Dduw2H8KeZD38YFrFxGrx4xxN2MjgSgT1z3YW83rfL0w8DX+fIBwmmkZ
-   QnBJ0waLt7b8UNSqg/VJlbf7bPkifYqLRsp9WnI/DkVuROeOUncO6sGU4
-   PFA6Epz87m0nR2c664QuCJfd2OF6diARDst7NRdrgFNiEmYI1kZSDEujQ
-   A==;
-X-CSE-ConnectionGUID: 7IZN4aIQQaGOKwEJ83d/eg==
-X-CSE-MsgGUID: m0yyBlCYQsGqI+XeUuSoaA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21792288"
+  bh=v4KGjrTq20etWiwgMFKIHbSGzct9mSLXrVMZCWUwf4s=;
+  b=lZ4zcLGka5TPell9wHPJITPEm1XOlazJr07i+tgt+ou8VCasxOqHc/5t
+   Y5qaJPkgjH7qmtcA1l5eSPqsVtBpb5v/3rkKwDXCAHKD6/jq5lzzpzWRp
+   BJyO/DlhMoPDx0QwX2OIBTT/chMElbdLmRkfc0R64NlY7t0ueWKgwMTvB
+   /CEHb7ACsGvvIVxdS+LhzlgFF4OMiTL3RiU1D51BheZT5TLrvzbHrhzvr
+   mAMPED9lZQDWK++9mIBU2IAmEj/6JtU+HOBRpu5I7SxMjHNq2oDQmH0mn
+   ttDuWHPVyfDEXBJznUcdw/L/lfZCxZ0LZ7R3VdXUaVgM+WnYDlT/pdB97
+   w==;
+X-CSE-ConnectionGUID: BttIFvJGT3GSzXm53nKeLA==
+X-CSE-MsgGUID: DW6Ipk1DT0SObvFuemI9oA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14454665"
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="21792288"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 12:07:46 -0700
-X-CSE-ConnectionGUID: FgxgfJDyQyuuYL/O1JzliQ==
-X-CSE-MsgGUID: L8XuVqOuSySNY3YvtEhqPQ==
+   d="scan'208";a="14454665"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 12:38:48 -0700
+X-CSE-ConnectionGUID: EEuSBY4oQ2ynJ93LSQZFRA==
+X-CSE-MsgGUID: OJFicr+KTLC3Ih7ZYa4LWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="32229093"
+   d="scan'208";a="65189681"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 May 2024 12:07:45 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 May 2024 12:38:46 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3KjW-000D6C-35;
-	Sat, 04 May 2024 19:07:42 +0000
-Date: Sun, 5 May 2024 03:06:48 +0800
+	id 1s3LDX-000D7L-2y;
+	Sat, 04 May 2024 19:38:43 +0000
+Date: Sun, 5 May 2024 03:37:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [agd5f:drm-next 340/362]
- drivers/gpu/drm/amd/amdgpu/../display/dc/hdcp/hdcp_msg.c:133:31: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202405050255.j2OlCXlL-lkp@intel.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: [rmk:for-next 35/36] drivers/clk/clkdev.c:195:9: error: incompatible
+ pointer types assigning to 'va_list *' (aka '__builtin_va_list *') from
+ 'struct __va_list_tag **'
+Message-ID: <202405050318.OSjmXulC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,91 +64,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   b0923d5d80facb205cc2b7f82994ab5c3eef3181
-commit: fa71face755e27dc44bc296416ebdf2c67163316 [340/362] drm/amd/display: Check msg_id before processing transcation
-config: x86_64-randconfig-123-20240504 (https://download.01.org/0day-ci/archive/20240505/202405050255.j2OlCXlL-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050255.j2OlCXlL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git for-next
+head:   15b7967c1ef112c0f4179ed4e9a537e84388210b
+commit: 5d998425e37b10e05393941e7a8fbefd3d1d4101 [35/36] clkdev: report over-sized strings when creating clkdev entries
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240505/202405050318.OSjmXulC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050318.OSjmXulC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405050255.j2OlCXlL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405050318.OSjmXulC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hdcp/hdcp_msg.c:133:31: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +133 drivers/gpu/drm/amd/amdgpu/../display/dc/hdcp/hdcp_msg.c
+   In file included from drivers/clk/clkdev.c:9:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/clkdev.c:195:9: error: incompatible pointer types assigning to 'va_list *' (aka '__builtin_va_list *') from 'struct __va_list_tag **' [-Werror,-Wincompatible-pointer-types]
+     195 |         fmt.va = &ap;
+         |                ^ ~~~
+   5 warnings and 1 error generated.
 
-   121	
-   122	static bool hdmi_14_process_transaction(
-   123		struct dc_link *link,
-   124		struct hdcp_protection_message *message_info)
-   125	{
-   126		uint8_t *buff = NULL;
-   127		bool result;
-   128		const uint8_t hdcp_i2c_addr_link_primary = 0x3a; /* 0x74 >> 1*/
-   129		const uint8_t hdcp_i2c_addr_link_secondary = 0x3b; /* 0x76 >> 1*/
-   130		struct i2c_command i2c_command;
-   131		uint8_t offset;
-   132		struct i2c_payload i2c_payloads[] = {
- > 133			{ true, 0, 1, 0 },
-   134			/* actual hdcp payload, will be filled later, zeroed for now*/
-   135			{ 0 }
-   136		};
-   137	
-   138		if (message_info->msg_id == HDCP_MESSAGE_ID_INVALID) {
-   139			DC_LOG_ERROR("%s: Invalid message_info msg_id - %d\n", __func__, message_info->msg_id);
-   140			return false;
-   141		}
-   142	
-   143		offset = hdcp_i2c_offsets[message_info->msg_id];
-   144		i2c_payloads[0].data = &offset;
-   145	
-   146		switch (message_info->link) {
-   147		case HDCP_LINK_SECONDARY:
-   148			i2c_payloads[0].address = hdcp_i2c_addr_link_secondary;
-   149			i2c_payloads[1].address = hdcp_i2c_addr_link_secondary;
-   150			break;
-   151		case HDCP_LINK_PRIMARY:
-   152		default:
-   153			i2c_payloads[0].address = hdcp_i2c_addr_link_primary;
-   154			i2c_payloads[1].address = hdcp_i2c_addr_link_primary;
-   155			break;
-   156		}
-   157	
-   158		if (hdcp_cmd_is_read[message_info->msg_id]) {
-   159			i2c_payloads[1].write = false;
-   160			i2c_command.number_of_payloads = ARRAY_SIZE(i2c_payloads);
-   161			i2c_payloads[1].length = message_info->length;
-   162			i2c_payloads[1].data = message_info->data;
-   163		} else {
-   164			i2c_command.number_of_payloads = 1;
-   165			buff = kzalloc(message_info->length + 1, GFP_KERNEL);
-   166	
-   167			if (!buff)
-   168				return false;
+
+vim +195 drivers/clk/clkdev.c
+
+   155	
+   156	static struct clk_lookup * __ref
+   157	vclkdev_alloc(struct clk_hw *hw, const char *con_id, const char *dev_fmt,
+   158		va_list ap)
+   159	{
+   160		struct clk_lookup_alloc *cla;
+   161		struct va_format fmt;
+   162		const char *failure;
+   163		size_t max_size;
+   164		ssize_t res;
+   165	
+   166		cla = kzalloc(sizeof(*cla), GFP_KERNEL);
+   167		if (!cla)
+   168			return NULL;
    169	
-   170			buff[0] = offset;
-   171			memmove(&buff[1], message_info->data, message_info->length);
-   172			i2c_payloads[0].length = message_info->length + 1;
-   173			i2c_payloads[0].data = buff;
-   174		}
-   175	
-   176		i2c_command.payloads = i2c_payloads;
-   177		i2c_command.engine = I2C_COMMAND_ENGINE_HW;//only HW
-   178		i2c_command.speed = link->ddc->ctx->dc->caps.i2c_speed_in_khz;
-   179	
-   180		result = dm_helpers_submit_i2c(
-   181				link->ctx,
-   182				link,
-   183				&i2c_command);
-   184		kfree(buff);
-   185	
-   186		return result;
-   187	}
-   188	
+   170		cla->cl.clk_hw = hw;
+   171		if (con_id) {
+   172			res = strscpy(cla->con_id, con_id, sizeof(cla->con_id));
+   173			if (res < 0) {
+   174				max_size = sizeof(cla->con_id);
+   175				failure = "connection";
+   176				goto fail;
+   177			}
+   178			cla->cl.con_id = cla->con_id;
+   179		}
+   180	
+   181		if (dev_fmt) {
+   182			res = vsnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
+   183			if (res >= sizeof(cla->dev_id)) {
+   184				max_size = sizeof(cla->dev_id);
+   185				failure = "device";
+   186				goto fail;
+   187			}
+   188			cla->cl.dev_id = cla->dev_id;
+   189		}
+   190	
+   191		return &cla->cl;
+   192	
+   193	fail:
+   194		fmt.fmt = dev_fmt;
+ > 195		fmt.va = &ap;
+   196		pr_err("%pV:%s: %s ID is greater than %zu\n",
+   197		       &fmt, con_id, failure, max_size);
+   198		kfree(cla);
+   199		return NULL;
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
