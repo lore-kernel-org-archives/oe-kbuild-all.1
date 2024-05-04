@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E2717F0;
-	Sat,  4 May 2024 01:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2122139B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 01:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714786275; cv=none; b=TNz7tCpnbUyE+NBqj1hiaaeEfXuuHOVxwzFgMlBh2p2DpFJLfiwGiqZc1IEy3/Cr+ts8W31UoaCjZDBjJlO6C7+YEIxigbpd0cWi0rXh4Sk+rP8bE05KQyf7mv9Ujgspwr6JzG64223nDsygP5jUj01bP0BNhrdIeZpdJUQ2TVw=
+	t=1714786932; cv=none; b=TbVIHJuXFbzvcgjsKUnYCcy5WpaGJwcpqi7KwLpqfagrpWVTqC1DEQ1AFJe0Q8vmf9Nk4MHYv0IR2FWQxAFfTqs7hvw/McFKmv4rIjZ/itUgVA+yMG4wZM0TUvSQXALkNEobM8C7yUMBOzDTS2sd7CxZme0oCaDoIxhbA3y8bWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714786275; c=relaxed/simple;
-	bh=PyxY0oE69hZ0c4dm+MXzuFqcMWQum1NUbC5k6H+O7Ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RYjLCcKm8MDGC9lMseXpfZTRRCByNvBlghpiJDKs0/j9pFjgNSTcLYk7J9yv3MKJLzVghmiVidTUxpr1uI/g9HHkFq2sjKMnfY/4/lzzaqXjHWVCpxvZ7MOT7VC9ZSvfu8MQFuZiEIfEzV+kGglu5lMYx2rb4BL/UO2eB5kIC4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZ9Iyauj; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1714786932; c=relaxed/simple;
+	bh=SW2JUZOjwpzMv7z+BBoEdu/64iMJaRIB0qpsSzuOGsg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q8L1mD0MjkwBTd5kkarLmWa7xdsgZiOKoY+ErSm33keZebAKqZI41HceJor96oLTWWIAyLOHY4uTHuVLoqjslg+leXUMtBSJpSV0BNIKR47bQODj91qQr3VjyTsh+D6ZDk4SbKTlso1UeRoSHvGRU2iZgNNyb689S9aNQMlbgMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PrGBCjF0; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZ9Iyauj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PrGBCjF0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714786273; x=1746322273;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PyxY0oE69hZ0c4dm+MXzuFqcMWQum1NUbC5k6H+O7Ys=;
-  b=BZ9Iyaujr9EgzYodeXUH43MmD/XKHMLWsEycR7p90PImAcY5qtBm7NBL
-   2LSlZ8/wvBA/W2RaY3pylS3/7ipeuGOh3+QnSV9V2QM+vjcrot64llf9C
-   VFIZdkfy7n7eA8nIiISd6QanxZGCLfEy9nrjw31KHbWINmDGGpUHlL/KY
-   kXE28Kbsg64xuP8SH1LyS6457KA9AVn/PzcCBrnMI7H+IFjhLd1p6mVT0
-   jZ4sFrVnJRKQe9LHApdnCU2sXTe50TrqMUhRO6NVhsyVkkeDDnMdQQJcu
-   LWUc0cOqJmWyo/PCaKhrLWZavuaL0C/EO159M3T+KetOElUCnatfHSdNW
-   w==;
-X-CSE-ConnectionGUID: zIYC4I70S52i7UWCAnlTkA==
-X-CSE-MsgGUID: zJHigyF9ToeNeDp3b6SzHA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="22019870"
+  t=1714786931; x=1746322931;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SW2JUZOjwpzMv7z+BBoEdu/64iMJaRIB0qpsSzuOGsg=;
+  b=PrGBCjF0JjXgJICEuVgsRoQVmZ8CUU3eVDNKPqwUH0pC5rih4KGdFakY
+   JEBLuIFxTzgkd9QpI+C0qSoc5Z63/0Y7sdlW9HgJDyiATgC6imLUSnAFS
+   2IACIuEcP9Rkzpk3La8E0dHx2Oz+Bj3KBrMTBd9NjqWWVnjBeGhVcptgI
+   oSiX9I25ICgh9ZNb+cnN6h6yV8FtmhL6kpRJ100c5SgvcSpOcYNSEqYtS
+   NxlVherMTMYZS51GKiVPq5k3zKyunWa0TjTPqll3h2CqiSZMjhDAV0ZOw
+   8xhGkfrKoTOlZXutybqFLwnpKkkJ0ScpxiYC0GYNj/pKsV+NrTeztkn07
+   g==;
+X-CSE-ConnectionGUID: dCZyvsWLTFCVqUbBRu9Ukg==
+X-CSE-MsgGUID: N4YSxvsKTFeuTsGnffvKLA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10488194"
 X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="22019870"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 18:31:13 -0700
-X-CSE-ConnectionGUID: CsKHDJlLRT26MVLiY1ayRA==
-X-CSE-MsgGUID: fosB1S7HTi2Sy+DTtD4eHQ==
+   d="scan'208";a="10488194"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 18:42:10 -0700
+X-CSE-ConnectionGUID: b8uHSjotQk+EaiEZAI12FQ==
+X-CSE-MsgGUID: 7B8n34CXSlOMlQAEUjr+YA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="58812264"
+   d="scan'208";a="28019454"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 May 2024 18:31:09 -0700
+  by orviesa006.jf.intel.com with ESMTP; 03 May 2024 18:42:09 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s34F0-000CIO-0z;
-	Sat, 04 May 2024 01:31:06 +0000
-Date: Sat, 4 May 2024 09:30:58 +0800
+	id 1s34Pe-000CJ4-2A;
+	Sat, 04 May 2024 01:42:06 +0000
+Date: Sat, 4 May 2024 09:41:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Allen Pais <apais@linux.microsoft.com>, linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	ebiederm@xmission.com, keescook@chromium.org, mcgrof@kernel.org,
-	j.granados@samsung.com, allen.lkml@gmail.com
-Subject: Re: [PATCH v3] fs/coredump: Enable dynamic configuration of max file
- note size
-Message-ID: <202405040817.bJeHlwXS-lkp@intel.com>
-References: <20240502235603.19290-1-apais@linux.microsoft.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:dma-split-v1 5/17] include/linux/dma-mapping.h:76:41:
+ warning: overflow in conversion from 'long long unsigned int' to 'int'
+ changes value from '18446744073709551615' to '-1'
+Message-ID: <202405040936.yz70atoK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,150 +62,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240502235603.19290-1-apais@linux.microsoft.com>
 
-Hi Allen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kees/for-next/execve]
-[also build test ERROR on brauner-vfs/vfs.all linus/master v6.9-rc6 next-20240503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/fs-coredump-Enable-dynamic-configuration-of-max-file-note-size/20240503-075758
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
-patch link:    https://lore.kernel.org/r/20240502235603.19290-1-apais%40linux.microsoft.com
-patch subject: [PATCH v3] fs/coredump: Enable dynamic configuration of max file note size
-config: powerpc64-randconfig-001-20240504 (https://download.01.org/0day-ci/archive/20240504/202405040817.bJeHlwXS-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040817.bJeHlwXS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-v1
+head:   9da240ed50fabf3d371ed059aff21c206982f722
+commit: a086d6de4fdb629b97a02c3b03fcd64d6074e2ba [5/17] dma-mapping: implement link range API
+config: um-randconfig-001-20240504 (https://download.01.org/0day-ci/archive/20240504/202405040936.yz70atoK-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040936.yz70atoK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405040817.bJeHlwXS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040936.yz70atoK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/compat_binfmt_elf.c:17:
-   In file included from include/linux/elfcore-compat.h:6:
-   In file included from include/linux/elfcore.h:11:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from fs/compat_binfmt_elf.c:144:
->> fs/binfmt_elf.c:1598:14: error: use of undeclared identifier 'core_file_note_size_max'
-    1598 |         if (size >= core_file_note_size_max) {
-         |                     ^
-   1 warning and 1 error generated.
+   In file included from include/linux/pci.h:2693,
+                    from include/media/media-device.h:16,
+                    from include/media/media-request.h:20,
+                    from include/media/v4l2-ctrls.h:14,
+                    from drivers/media/platform/samsung/s3c-camif/camif-core.h:21,
+                    from drivers/media/platform/samsung/s3c-camif/camif-regs.h:14,
+                    from drivers/media/platform/samsung/s3c-camif/camif-regs.c:11:
+   include/linux/dma-mapping.h: In function 'dma_start_range':
+>> include/linux/dma-mapping.h:76:41: warning: overflow in conversion from 'long long unsigned int' to 'int' changes value from '18446744073709551615' to '-1' [-Woverflow]
+      76 | #define DMA_MAPPING_ERROR               (~(dma_addr_t)0)
+         |                                         ^
+   include/linux/dma-mapping.h:371:16: note: in expansion of macro 'DMA_MAPPING_ERROR'
+     371 |         return DMA_MAPPING_ERROR;
+         |                ^~~~~~~~~~~~~~~~~
 
 
-vim +/core_file_note_size_max +1598 fs/binfmt_elf.c
+vim +76 include/linux/dma-mapping.h
 
-  1569	
-  1570	/*
-  1571	 * Format of NT_FILE note:
-  1572	 *
-  1573	 * long count     -- how many files are mapped
-  1574	 * long page_size -- units for file_ofs
-  1575	 * array of [COUNT] elements of
-  1576	 *   long start
-  1577	 *   long end
-  1578	 *   long file_ofs
-  1579	 * followed by COUNT filenames in ASCII: "FILE1" NUL "FILE2" NUL...
-  1580	 */
-  1581	static int fill_files_note(struct memelfnote *note, struct coredump_params *cprm)
-  1582	{
-  1583		unsigned count, size, names_ofs, remaining, n;
-  1584		user_long_t *data;
-  1585		user_long_t *start_end_ofs;
-  1586		char *name_base, *name_curpos;
-  1587		int i;
-  1588	
-  1589		/* *Estimated* file count and total data size needed */
-  1590		count = cprm->vma_count;
-  1591		if (count > UINT_MAX / 64)
-  1592			return -EINVAL;
-  1593		size = count * 64;
-  1594	
-  1595		names_ofs = (2 + 3 * count) * sizeof(data[0]);
-  1596	 alloc:
-  1597		/* paranoia check */
-> 1598		if (size >= core_file_note_size_max) {
-  1599			pr_warn_once("coredump Note size too large: %u "
-  1600			"(does kernel.core_file_note_size_max sysctl need adjustment?)\n",
-  1601			size);
-  1602			return -EINVAL;
-  1603		}
-  1604		size = round_up(size, PAGE_SIZE);
-  1605		/*
-  1606		 * "size" can be 0 here legitimately.
-  1607		 * Let it ENOMEM and omit NT_FILE section which will be empty anyway.
-  1608		 */
-  1609		data = kvmalloc(size, GFP_KERNEL);
-  1610		if (ZERO_OR_NULL_PTR(data))
-  1611			return -ENOMEM;
-  1612	
-  1613		start_end_ofs = data + 2;
-  1614		name_base = name_curpos = ((char *)data) + names_ofs;
-  1615		remaining = size - names_ofs;
-  1616		count = 0;
-  1617		for (i = 0; i < cprm->vma_count; i++) {
-  1618			struct core_vma_metadata *m = &cprm->vma_meta[i];
-  1619			struct file *file;
-  1620			const char *filename;
-  1621	
-  1622			file = m->file;
-  1623			if (!file)
-  1624				continue;
-  1625			filename = file_path(file, name_curpos, remaining);
-  1626			if (IS_ERR(filename)) {
-  1627				if (PTR_ERR(filename) == -ENAMETOOLONG) {
-  1628					kvfree(data);
-  1629					size = size * 5 / 4;
-  1630					goto alloc;
-  1631				}
-  1632				continue;
-  1633			}
-  1634	
-  1635			/* file_path() fills at the end, move name down */
-  1636			/* n = strlen(filename) + 1: */
-  1637			n = (name_curpos + remaining) - filename;
-  1638			remaining = filename - name_curpos;
-  1639			memmove(name_curpos, filename, n);
-  1640			name_curpos += n;
-  1641	
-  1642			*start_end_ofs++ = m->start;
-  1643			*start_end_ofs++ = m->end;
-  1644			*start_end_ofs++ = m->pgoff;
-  1645			count++;
-  1646		}
-  1647	
-  1648		/* Now we know exact count of files, can store it */
-  1649		data[0] = count;
-  1650		data[1] = PAGE_SIZE;
-  1651		/*
-  1652		 * Count usually is less than mm->map_count,
-  1653		 * we need to move filenames down.
-  1654		 */
-  1655		n = cprm->vma_count - count;
-  1656		if (n != 0) {
-  1657			unsigned shift_bytes = n * 3 * sizeof(data[0]);
-  1658			memmove(name_base - shift_bytes, name_base,
-  1659				name_curpos - name_base);
-  1660			name_curpos -= shift_bytes;
-  1661		}
-  1662	
-  1663		size = name_curpos - (char *)data;
-  1664		fill_note(note, "CORE", NT_FILE, size, data);
-  1665		return 0;
-  1666	}
-  1667	
+b2fb366425ceb8 Mitchel Humpherys 2017-01-06  65  
+eba304c6861613 Christoph Hellwig 2020-09-11  66  /*
+eba304c6861613 Christoph Hellwig 2020-09-11  67   * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+eba304c6861613 Christoph Hellwig 2020-09-11  68   * be given to a device to use as a DMA source or target.  It is specific to a
+eba304c6861613 Christoph Hellwig 2020-09-11  69   * given device and there may be a translation between the CPU physical address
+eba304c6861613 Christoph Hellwig 2020-09-11  70   * space and the bus address space.
+eba304c6861613 Christoph Hellwig 2020-09-11  71   *
+eba304c6861613 Christoph Hellwig 2020-09-11  72   * DMA_MAPPING_ERROR is the magic error code if a mapping failed.  It should not
+eba304c6861613 Christoph Hellwig 2020-09-11  73   * be used directly in drivers, but checked for using dma_mapping_error()
+eba304c6861613 Christoph Hellwig 2020-09-11  74   * instead.
+eba304c6861613 Christoph Hellwig 2020-09-11  75   */
+42ee3cae0ed38b Christoph Hellwig 2018-11-21 @76  #define DMA_MAPPING_ERROR		(~(dma_addr_t)0)
+42ee3cae0ed38b Christoph Hellwig 2018-11-21  77  
+
+:::::: The code at line 76 was first introduced by commit
+:::::: 42ee3cae0ed38b6c04038bf851ea2496da2135bb dma-mapping: provide a generic DMA_MAPPING_ERROR
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 -- 
 0-DAY CI Kernel Test Service
