@@ -1,96 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from wfout8-smtp.messagingengine.com (wfout8-smtp.messagingengine.com [64.147.123.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243A017C9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 00:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87CF17F8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 01:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714783151; cv=none; b=iLuLekQ61ve7E81uRyv41X8Q2X4aK1t++gAiyAyP7cX5ng78itRXfVtl5dAB57SmtfhpDO6a0mi/8IMSA5eQa0H6AtgU1SYfPRFXL+mW5oVphTNyAL86ZVoIEHfK3B4Qpoz27nuvzA6vLyTNCkFSrAh5N8QO0TgPGw3h/7ff7C4=
+	t=1714784649; cv=none; b=jRSaugeEIMBud9BnkEWJq8n0UTBBXymYJE83P5z26SyhNegISwfEeXu5zBDO2xUPs+Y6JGs3nNYYDATCq8zt26Y9QprVmGS8yx5DDNH14pi5bUB8XQpnASLWtURj36YgS0lNb4rBVijIRAYPpwmmp7rmNhfBv8gpJO7hZnGFQhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714783151; c=relaxed/simple;
-	bh=9ICopGl1di+/JPlLEalcb7Nig5F3a1H2471LOSTjcwA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T6gGRfFDSeOourDDuXZpgeaMXKlTa8/6y2GoHkEuqNA7oyGaQF8OEkz5nDo3JYQMfuiuXfDsw6Vyc4qm8NeFPoWnTY7dFCgO9sfCTQK1utYim4Ek4WDhJ8b6M422QYeymEt1V5Yi95I7dtKIx1Js0pXvA7LtEtVGi0x0HQVf2VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8AwSico; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714784649; c=relaxed/simple;
+	bh=GTAviRUSbLhWepPZbkOt/9B6fmwH/X/W0vVQuT4dRwk=;
+	h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZKc/4as3OZBZ0EG25qlv3puOAUK0PBj2lZqo+vjSRDDgkHTjecwn1yYkVSwclReePLyTBwG4/fUtZgjJsQrwLlVouzoZUglcZ0H164oA+/ydJqytO55LriMSRdRIb0DJi+EKzLwLJWWy7wtqgDNIFcN8AAXUvsDvHpNa6IKYybU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca; spf=pass smtp.mailfrom=lyndeno.ca; dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b=IWH4myxU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SkXMJr2Y; arc=none smtp.client-ip=64.147.123.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lyndeno.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8AwSico"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714783149; x=1746319149;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9ICopGl1di+/JPlLEalcb7Nig5F3a1H2471LOSTjcwA=;
-  b=X8AwSicoDbKPHhpT6innwS8FTvANDb+ub1BVNUE6sJNsJkniaxaXzEoz
-   /LI0yiBcdmosLOhArRfjRovNjtGeWcEpx37N0ZLVT7sLmLcV4TuwRGjEd
-   B+Cyy54rGd9r6402xxGs2n219pUJmCmS0Wv89lUpJ7QuGFgpZebMtTgpz
-   nyiHUCBqJqlOCzYKtTgfz+83bg/DNQnOHEi+qihDzoqPHDFDKs2fLNyMW
-   /5Lc6NBEXBvBeO9f/6mGK+Qfw5kxQYZl79PiakgiykWt/IGPk1dKyBffm
-   Hv2q8tlhEqv7pEtvnd9cJsdZ8LJuiX4fyMDeebwh/nXYed8usZ33e8qDk
-   Q==;
-X-CSE-ConnectionGUID: BS52SZp5RFGmnPLplYg6eQ==
-X-CSE-MsgGUID: t1MLOWPTRvCZDA8dVfycTg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10438115"
-X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="10438115"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 17:39:08 -0700
-X-CSE-ConnectionGUID: SJvNQEu7RDazmag95T1KdQ==
-X-CSE-MsgGUID: YmIK1dEbQ761fwdXiR5uVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="27576642"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 May 2024 17:39:07 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s33Qf-000CGV-0W;
-	Sat, 04 May 2024 00:39:05 +0000
-Date: Sat, 4 May 2024 08:38:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 80/82] kernel/watchdog_perf.c:282:
- warning: Function parameter or struct member 'str' not described in
- 'hardlockup_config_perf_event'
-Message-ID: <202405040851.2EgypmL1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b="IWH4myxU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SkXMJr2Y"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailfout.west.internal (Postfix) with ESMTP id C03C41C00122;
+	Fri,  3 May 2024 21:04:05 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Fri, 03 May 2024 21:04:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lyndeno.ca; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1714784645; x=1714871045; bh=hqb5qPm2Ez
+	Fq5XsSUyPxT/J/oPYrlFVrHq8anqHONac=; b=IWH4myxUaXyxJWEEwlZyo4zXUr
+	KlMPgbIxu93asxZ2GT74V9c+vm/qwnRl1AAJEh8BNTEbNvGs19+ZddDVvS1pFZU3
+	KvA6R8tbPM2yKcnWqEXqGzAyW5LVCGXjdRHrtHjloJ7LQSgdQIaSwufshhExBsBV
+	yp2VyKcf6uIgoKFgMS4cXr1C196VRCtW2qI6lQq+YfKBzSfrHpntW8ly3FDQtys+
+	+cq0yEJIpfmBGGf7VxIfkFqafQIFTiyTmfS+L9+rtOpPQKP3Ssr8WQRLecKGCFOJ
+	jTIQ7q3sZuZVrOQUt/9A6TgY2ePS0Xv0Wtl2YOhPWQ/oVksyFgbgCZo5PCCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714784645; x=1714871045; bh=hqb5qPm2EzFq5XsSUyPxT/J/oPYr
+	lFVrHq8anqHONac=; b=SkXMJr2YnD04MZ0x/+PVsHd59w85r74zC76FZE67D46Z
+	syf5HoMFxpg51gQF/ObM4beSJurk+hUuzfkT9e9D1YYnQLSjVtQ3pc7QkqbzPTFg
+	hXYAc6X/oDoNswk+FzY9CLE/l6y2N/9kuaamHU0RDfZt+TDowhMCUCutcmZ21tGo
+	7WnjgmrjgZDa7TFdh2RGfE4hh0FCJU8apdTHc6u0kgL5QrepTiHBrGxHoQutq0Lj
+	KWlnzQR+1sQw2uVwZCwJ8VaTo/pWUpJRdRm1mBS8b5pd8oYJJCHTEfXi/S+n74z1
+	jibpoTLRLkZZOcqpXV9ZwFWyN1X3VdXK/mbCXiyX2w==
+X-ME-Sender: <xms:hIk1Zs7fqncGfg8UXnrEHClTwRowOaZcKy_OlS0HzFlMeySxZ1cPmg>
+    <xme:hIk1Zt56sraQMlXzhWCIqmw8TgciaZWIcffG0I6JbyvYFKYPT_DN3hCGK8zzqMVLv
+    23ZpjR3mqG0pkmm6mw>
+X-ME-Received: <xmr:hIk1ZrccauRwvWZhM5twEGeylc18zUOkCPg47CJtuL-LNOe_hxAoUcdKFSu9ntp4U3bH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvuddggedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhuffvvefkjghfofggtgesthdtredtredtvdenucfhrhhomhepnfihnhgu
+    ohhnucfurghntghhvgcuoehlshgrnhgthhgvsehlhihnuggvnhhordgtrgeqnecuggftrf
+    grthhtvghrnhepvdfgjeduvddtheekkeduiedtieegveefgeekgfevffffjeevgeffueev
+    heejjedtnecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomh
+    dpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehlshgrnhgthhgvsehlhihnuggvnhhordgtrg
+X-ME-Proxy: <xmx:hIk1ZhIQkgaynT7idR4bB-x_YMq0NVM106dCScAeY0O4tfQtiRQM-w>
+    <xmx:hIk1ZgLIfK_63V8oTkanacBDwLbAB5SSdTjlGNbsMcGIfFu-pFGmEw>
+    <xmx:hIk1ZiyRkXLf5OQN9bY3upnEA5-FxH4p4FoI2iqeFll4ABhIsFzqZw>
+    <xmx:hIk1ZkLplf_lQRtRvjbjrR9NRrnmLOsairvz-pAUNf0DFowZ4CP_eg>
+    <xmx:hYk1Zpeqtfdo85_ZJMW1kDxy4gw61w5IEYys4TSa9BO8QWcJn70t9zyA>
+Feedback-ID: i1719461a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 May 2024 21:03:45 -0400 (EDT)
+Date: Fri, 03 May 2024 19:03:10 -0600
+From: Lyndon Sanche <lsanche@lyndeno.ca>
+Subject: Re: [PATCH v5] platform/x86: dell-laptop: Implement platform_profile
+To: kernel test robot <lkp@intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
+	<fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev,
+	mario.limonciello@amd.com, pali@kernel.org, W_Armin@gmx.de,
+	srinivas.pandruvada@linux.intel.com, ilpo.jarvinen@linux.intel.com,
+	Hans de Goede <hdegoede@redhat.com>, Matthew Garrett <mjg59@srcf.ucam.org>,
+	Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>, platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com
+Message-Id: <A9SXCS.IUN31UTTT9GM2@lyndeno.ca>
+In-Reply-To: <202405031851.NYy0ZB02-lkp@intel.com>
+References: <20240501215829.4991-2-lsanche@lyndeno.ca>
+	<202405031851.NYy0ZB02-lkp@intel.com>
+X-Mailer: geary/44.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   2ce87845f9106e693ba6d72cc95af6c86dc52d98
-commit: 96dca662f6d64b4d31ad186ea1464e9b25d749c3 [80/82] watchdog: allow nmi watchdog to use raw perf event
-config: x86_64-buildonly-randconfig-003-20240504 (https://download.01.org/0day-ci/archive/20240504/202405040851.2EgypmL1-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040851.2EgypmL1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405040851.2EgypmL1-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/watchdog_perf.c:282: warning: Function parameter or struct member 'str' not described in 'hardlockup_config_perf_event'
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
 
-vim +282 kernel/watchdog_perf.c
 
-   277	
-   278	/**
-   279	 * hardlockup_config_perf_event - Overwrite config of wd_hw_attr.
-   280	 */
-   281	void __init hardlockup_config_perf_event(const char *str)
- > 282	{
+On Fri, May 3 2024 at 06:19:18 PM +08:00:00, kernel test robot 
+<lkp@intel.com> wrote:
+> Hi Lyndon,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.9-rc6 next-20240503]
+> [If your patch is applied to the wrong git tree, kindly drop us a 
+> note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Lyndon-Sanche/platform-x86-dell-laptop-Implement-platform_profile/20240502-060146
+> base:   linus/master
+> patch link:    
+> https://lore.kernel.org/r/20240501215829.4991-2-lsanche%40lyndeno.ca
+> patch subject: [PATCH v5] platform/x86: dell-laptop: Implement 
+> platform_profile
+> config: 
+> i386-kismet-CONFIG_ACPI_PLATFORM_PROFILE-CONFIG_DELL_LAPTOP-0-0 
+> (https://download.01.org/0day-ci/archive/20240503/202405031851.NYy0ZB02-lkp@intel.com/config)
+> reproduce: 
+> (https://download.01.org/0day-ci/archive/20240503/202405031851.NYy0ZB02-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202405031851.NYy0ZB02-lkp@intel.com/
+> 
+> kismet warnings: (new ones prefixed by >>)
+>>>  kismet: WARNING: unmet direct dependencies detected for 
+>>> ACPI_PLATFORM_PROFILE when selected by DELL_LAPTOP
+>    WARNING: unmet direct dependencies detected for 
+> ACPI_PLATFORM_PROFILE
+>      Depends on [n]: ACPI [=n]
+>      Selected by [y]:
+>      - DELL_LAPTOP [=y] && X86_PLATFORM_DEVICES [=y] && 
+> X86_PLATFORM_DRIVERS_DELL [=y] && DMI [=y] && BACKLIGHT_CLASS_DEVICE 
+> [=y] && (ACPI_VIDEO [=n] || ACPI_VIDEO [=n]=n) && (RFKILL [=n] || 
+> RFKILL [=n]=n) && (DELL_WMI [=n] || DELL_WMI [=n]=n) && SERIO_I8042 
+> [=y] && DELL_SMBIOS [=y]
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I will try reproducing this test on my machine, to avoid spamming the 
+mailing list with the same error over and over.
+
+
+
+
+
+
+
