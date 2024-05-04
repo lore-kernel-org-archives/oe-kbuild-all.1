@@ -1,315 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E04B54BD8;
-	Fri,  3 May 2024 22:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DF1386
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 00:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714775021; cv=none; b=B9lT1LO6taUL7ih8f6Mx9rJyI4AL6TzICKwKhi6elvLsTeBbKW1jfSW5yzQOdZB+9oVI/HG0FQr5YHynxBssTtdShP5Y3vM4YfKSMW7fL8ItbGmEbFuUiAlYAzUHNm4GLdFB2+OBeU62t854zf9MK+/m13P3zQWgEUs+T4flrYI=
+	t=1714781171; cv=none; b=GGhSc5NgC7Fq8h4fesm7k6MzdIUTdDeLi84VKUMeqilTzQE85wuWN4EufYFlytSZ/W2Z+uIeMlR4rnLI5/RlLYmyq0t+4tTsP7d6JSUPVB9Ra7gliWyduGhrxGOvrhXAJWPozut1YIExAx9pHsckRwk8c/CJmf027hVkeilZjJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714775021; c=relaxed/simple;
-	bh=q3zMuThyMbc2WOrC0iwqs1HYXtKJQklPkENzvWozpIg=;
+	s=arc-20240116; t=1714781171; c=relaxed/simple;
+	bh=n2SZEuocUgy6py23Dq0fblkTnaWOTleAfvkXP/zWG4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KXeBKaB7xmK095nbK+sjJ4WQkgS+F2v/UkToyHUBstgXDlOj3noiFtcNQ3bL6qwwsfUaUnwY0gb/6W+7EuiycIsavSH+gtLI1eayyYonK7KSAyEIM+HdAYhbPscs6qKTqHJtocnQfubLfMdTYThmZVWh7Gk/PmqukdwBIcarvOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d0Hny7mL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=llXc3MLdsW7ftFySnclHioIc6FZUhHLGgXonQKTIzJQjEk6UJTTye8XtrSr58JdoavbqOzMubJSPGEaNWZjUkCmURHveS2DAXlNS2PgzVmGouqGUMAOY4ESWd+zauzdThf0044Qa0lJbpzyNIrKypM7dO08Vh48prYjOR0HWmag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIZi8jLf; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d0Hny7mL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1484AC116B1;
-	Fri,  3 May 2024 22:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714775020;
-	bh=q3zMuThyMbc2WOrC0iwqs1HYXtKJQklPkENzvWozpIg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d0Hny7mLbScpjCtZfYZTYXPn4YZCgV91SriWlGuL55hybXRAZF4vdAifu20ycmhGU
-	 M3NZhCqOw+wFFNc9jfPhCpAKVyCfkjUjmIYWv3HlDUir0Vpi2exmMdCb/dvnE6N9qX
-	 cs+pD42YY26q55leq1bDHzSGUA7JkI5yoVTL63E782k7Tsbj2M9UrW9NjMiLB30t+y
-	 KFunGVHg818gtjzcyLOvGeJQEffea0qfGIjNvNDROJlPQMLuX1HpzbPfxiNXTB4anG
-	 NVVCblsCfEODl7Bs+dZ3CbuSGCkCCuwhHtKDymeIV/UZ+8o0bB55HUmFoXI0/ax8d2
-	 avbvK6HyLbPiw==
-Date: Fri, 3 May 2024 15:23:38 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, kernel test robot <lkp@intel.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] lib/test_bitops: Add benchmark test for fns()
-Message-ID: <20240503222338.GA1908482@thelio-3990X>
-References: <20240502092443.6845-2-visitorckw@gmail.com>
- <202405030808.UsoMKFNP-lkp@intel.com>
- <ZjQ/JOpcdgWZXo0y@visitorckw-System-Product-Name>
- <20240503041701.GA3660305@thelio-3990X>
- <ZjSSylciH+qJeEEG@visitorckw-System-Product-Name>
- <ZjSUk4vgsQ63wfcn@visitorckw-System-Product-Name>
- <20240503155401.GA3960118@thelio-3990X>
- <ZjVdbavKgDo8a0CZ@yury-ThinkPad>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIZi8jLf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714781170; x=1746317170;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=n2SZEuocUgy6py23Dq0fblkTnaWOTleAfvkXP/zWG4w=;
+  b=DIZi8jLf7tHgb4UBmrKlAxlyoBBpgxJa4QevyAJxXHYJzSUN/2F+MnYc
+   PKc/Z0HuughC9LiH5RMcpy8bCSTQD+ZAMKDK3I4AnwpAPSGcCpMvzxCll
+   /c9V4lvqUxOirFzYCpDJWUukCHJ9CRRznq+K+6ZIQ4UWuSu9hQlUAkUjc
+   l1hWlOTDmwLopTit7egpLpFOMhviHcOb7dHzMXAY62nCYBSHgyja1LvFC
+   cMHjJ/e7TyJsL/ipSWlyyEYPecREFRI65WAMYliVAMvjyffJ4ZVA7efrr
+   /Py56oInTwdEeVGHL911jGgUEiuwdFR9K/gCSG+3GrxSUJC/321I0gbH7
+   w==;
+X-CSE-ConnectionGUID: lCAgzwVqQRWY7CM/aN7Vhw==
+X-CSE-MsgGUID: ey3WK2SxSB2NO+NqkcBWuA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10484736"
+X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
+   d="scan'208";a="10484736"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 17:06:08 -0700
+X-CSE-ConnectionGUID: p034Rb+aRSuA6Wp5F0QbcA==
+X-CSE-MsgGUID: GO5xY0pnR9+AFPmMFE9Y+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
+   d="scan'208";a="65027667"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 03 May 2024 17:06:06 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s32uh-000CE0-0t;
+	Sat, 04 May 2024 00:06:03 +0000
+Date: Sat, 4 May 2024 08:05:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kamil =?iso-8859-1?Q?Hor=E1k?= - 2N <kamilh@axis.com>,
+	florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
+	hkallweit1@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, kamilh@axis.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach
+ link modes
+Message-ID: <202405040748.9mCHwtzA-lkp@intel.com>
+References: <20240503083719.899312-4-kamilh@axis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZjVdbavKgDo8a0CZ@yury-ThinkPad>
+In-Reply-To: <20240503083719.899312-4-kamilh@axis.com>
 
-On Fri, May 03, 2024 at 02:55:57PM -0700, Yury Norov wrote:
-> On Fri, May 03, 2024 at 08:54:01AM -0700, Nathan Chancellor wrote:
-> > On Fri, May 03, 2024 at 03:38:59PM +0800, Kuan-Wei Chiu wrote:
-> > > On Fri, May 03, 2024 at 03:31:26PM +0800, Kuan-Wei Chiu wrote:
-> > > > On Thu, May 02, 2024 at 09:17:01PM -0700, Nathan Chancellor wrote:
-> > > > > Hi Kuan-Wei,
-> > > > > 
-> > > > > On Fri, May 03, 2024 at 09:34:28AM +0800, Kuan-Wei Chiu wrote:
-> > > > > > On Fri, May 03, 2024 at 08:49:00AM +0800, kernel test robot wrote:
-> > > > > > > Hi Kuan-Wei,
-> > > > > > > 
-> > > > > > > kernel test robot noticed the following build errors:
-> > > > > > > 
-> > > > > > > [auto build test ERROR on linus/master]
-> > > > > > > [also build test ERROR on v6.9-rc6 next-20240502]
-> > > > > > > [cannot apply to akpm-mm/mm-everything akpm-mm/mm-nonmm-unstable]
-> > > > > > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > > > > > And when submitting patch, we suggest to use '--base' as documented in
-> > > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > > > > > 
-> > > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Kuan-Wei-Chiu/lib-test_bitops-Add-benchmark-test-for-fns/20240502-172638
-> > > > > > > base:   linus/master
-> > > > > > > patch link:    https://lore.kernel.org/r/20240502092443.6845-2-visitorckw%40gmail.com
-> > > > > > > patch subject: [PATCH v5 1/2] lib/test_bitops: Add benchmark test for fns()
-> > > > > > > config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240503/202405030808.UsoMKFNP-lkp@intel.com/config)
-> > > > > > > compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-> > > > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030808.UsoMKFNP-lkp@intel.com/reproduce)
-> > > > > > > 
-> > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > > > the same patch/commit), kindly add following tags
-> > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202405030808.UsoMKFNP-lkp@intel.com/
-> > > > > > > 
-> > > > > > > All errors (new ones prefixed by >>):
-> > > > > > > 
-> > > > > > > >> lib/test_bitops.c:56:39: error: variable 'tmp' set but not used [-Werror,-Wunused-but-set-variable]
-> > > > > > >       56 |         static volatile __used unsigned long tmp __initdata;
-> > > > > > >          |                                              ^
-> > > > > > >    1 error generated.
-> > > > > > > 
-> > > > > > > 
-> > > > > > > vim +/tmp +56 lib/test_bitops.c
-> > > > > > > 
-> > > > > > >     52	
-> > > > > > >     53	static int __init test_fns(void)
-> > > > > > >     54	{
-> > > > > > >     55		static unsigned long buf[10000] __initdata;
-> > > > > > >   > 56		static volatile __used unsigned long tmp __initdata;
-> > > > > > 
-> > > > > > I apologize for causing the compilation failure with clang. I'm not
-> > > > > > very familiar with clang and I'm not sure why something marked as
-> > > > > > __used would result in the warning mentioned above. Perhaps clang does
-> > > > > > not support attribute((used))? Is there a way to work around this
-> > > > > > issue?
-> > > > > 
-> > > > > It looks like __attribute__((__used__)) is not enough to stop clang from
-> > > > > warning, unlike GCC. I can likely fix that in clang if it is acceptable
-> > > > > to the clang maintainers (although more below on why this might be
-> > > > > intentional) but the warning will still need to be resolved for older
-> > > > > versions. Looking at the current clang source code and tests, it looks
-> > > > > like __attribute__((__unused__)) should silence the warning, which the
-> > > > > kernel has available as __always_unused or __maybe_unused, depending on
-> > > > > the context.
-> > > > > 
-> > > > > $ cat test.c
-> > > > > void foo(void)
-> > > > > {
-> > > > >         int a;
-> > > > >         a = 1;
-> > > > > }
-> > > > > 
-> > > > > void bar(void)
-> > > > > {
-> > > > >         static int b;
-> > > > >         b = 2;
-> > > > > }
-> > > > > 
-> > > > > void baz(void)
-> > > > > {
-> > > > >         static int c __attribute__((__used__));
-> > > > >         c = 3;
-> > > > > }
-> > > > > 
-> > > > > void quux(void)
-> > > > > {
-> > > > >         static int d __attribute__((__unused__));
-> > > > >         d = 4;
-> > > > > }
-> > > > > 
-> > > > > void foobar(void)
-> > > > > {
-> > > > >         static int e __attribute__((__used__)) __attribute__((__unused__));
-> > > > >         e = 1;
-> > > > > }
-> > > > > 
-> > > > > $ gcc -Wunused-but-set-variable -c -o /dev/null test.c
-> > > > > test.c: In function ‘foo’:
-> > > > > test.c:3:13: warning: variable ‘a’ set but not used [-Wunused-but-set-variable]
-> > > > >     3 |         int a;
-> > > > >       |             ^
-> > > > > test.c: In function ‘bar’:
-> > > > > test.c:9:20: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
-> > > > >     9 |         static int b;
-> > > > >       |                    ^
-> > > > > 
-> > > > > $ clang -fsyntax-only -Wunused-but-set-variable test.c
-> > > > > test.c:3:6: warning: variable 'a' set but not used [-Wunused-but-set-variable]
-> > > > >     3 |         int a;
-> > > > >       |             ^
-> > > > > test.c:9:13: warning: variable 'b' set but not used [-Wunused-but-set-variable]
-> > > > >     9 |         static int b;
-> > > > >       |                    ^
-> > > > > test.c:15:13: warning: variable 'c' set but not used [-Wunused-but-set-variable]
-> > > > >    15 |         static int c __attribute__((__used__));
-> > > > >       |                    ^
-> > > > > 3 warnings generated.
-> > > > > 
-> > > > > I've attached a diff below that resolves the warning for me and it has
-> > > > > no code generation differences based on objdump. While having used and
-> > > > > unused attributes together might look unusual, reading the GCC attribute
-> > > > > manual makes it seem like these attributes fulfill similar yet different
-> > > > > roles, __unused__ prevents any unused warnings while __used__ forces the
-> > > > > variable to be emitted:
-> > > > > 
-> > > > > https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/Common-Variable-Attributes.html#index-unused-variable-attribute
-> > > > > 
-> > > > > A strict reading of that does not make it seem like __used__ implies
-> > > > > disabling unused warnings, so I can understand why clang's behavior is
-> > > > > the way that it is.
-> > > > > 
-> > > > Thank you for your explanation and providing the solution. I tested the
-> > > > diff stat you provided, and it works well for me.
-> > > > 
-> > > Should I submit an updated version of the patch to the bitmap
-> > > maintainer, or should this be a separate patch since the patch causing
-> > > build failure has already been accepted? My instinct is the latter, but
-> > > I'm concerned it might make git bisection more challenging.
-> > 
-> > Yury would be the best person to answer these questions since each
-> > maintainer is different, some never rebase their trees while others will
-> > squash simple fixes in to avoid bisection issues and such. I've added
-> > him to the thread now to chime in (somehow he got dropped? the thread
-> > starts at https://lore.kernel.org/202405030808.UsoMKFNP-lkp@intel.com/).
-> > 
-> > I think the diff in my email should be directly applicable on top of
-> > your change with no conflicts so he could just squash that in if you are
-> > both happy with that.
-> > 
-> > Cheers,
-> > Nathan
-> > 
-> > > > > diff --git a/lib/test_bitops.c b/lib/test_bitops.c
-> > > > > index 5c627b525a48..28c91072cf85 100644
-> > > > > --- a/lib/test_bitops.c
-> > > > > +++ b/lib/test_bitops.c
-> > > > > @@ -53,7 +53,7 @@ static unsigned long order_comb_long[][2] = {
-> > > > >  static int __init test_fns(void)
-> > > > >  {
-> > > > >  	static unsigned long buf[10000] __initdata;
-> > > > > -	static volatile __used unsigned long tmp __initdata;
-> > > > > +	static volatile __always_unused __used unsigned long tmp __initdata;
-> > > > >  	unsigned int i, n;
-> > > > >  	ktime_t time;
-> 
-> Hi Nathan,
-> 
-> Thank you for sharing this.
-> 
-> I think this __used __unused thing may confuse readers when spotted in
-> a random test code. What do you think if we make it a new macro and
-> comment properly to avoid confusion?
-> 
-> I did that in the patch below. If you like it, I can prepend the 
-> Kuan-Wei's series and fix the test inplace.
-> 
-> Thanks,
-> Yury
-> 
-> From 987a021cc76495b32f680507e0c55a105e8edff3 Mon Sep 17 00:00:00 2001
-> From: Yury Norov <yury.norov@gmail.com>
-> Date: Fri, 3 May 2024 12:12:00 -0700
-> Subject: [PATCH] Compiler Attributes: Add __always_used macro
-> 
-> In some cases like performance benchmarking, we need to call a
-> function, but don't need to read the returned value. If compiler
-> recognizes the function as pure or const, it can remove the function
-> invocation, which is not what we want.
-> 
-> To prevent that, the common practice is assigning the return value to
-> a temporary static volatile __used variable. This works with GCC, but
-> clang still emits Wunused-but-set-variable. To suppress that warning,
-> we need to teach clang to do that with the 'unused' attribute.
-> 
-> Nathan Chancellor explained that in details:
-> 
->   While having used and unused attributes together might look unusual,
->   reading the GCC attribute manual makes it seem like these attributes
->   fulfill similar yet different roles, __unused__ prevents any unused
->   warnings while __used__ forces the variable to be emitted. A strict
->   reading of that does not make it seem like __used__ implies disabling
->   unused warnings
-> 
-> The compiler documentation makes it clear what happens behind the used
-> and unused attributes, but the chosen names may confuse readers if such
-> combination catches an eye in a random code.
-> 
-> This patch adds __always_used macro, which combines both attributes
-> and comments on what happens for those interested in details.
-> 
-> Suggested-by: Nathan Chancellor <nathan@kernel.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202405030808.UsoMKFNP-lkp@intel.com/
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+Hi Kamil,
 
-Yeah I think this is reasonable to make this a macro, I am sure there
-are other places where this might be useful.
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master v6.9-rc6 next-20240503]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Adding Miguel as compiler attributes maintainer to make him aware of the
-change. I think it would be reasonable to have you take it through the
-bitops tree with your ack so that the test patch can make use of this as
-the fix for the robot's issue.
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamil-Hor-k-2N/net-phy-bcm54811-New-link-mode-for-BroadR-Reach/20240503-164308
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240503083719.899312-4-kamilh%40axis.com
+patch subject: [PATCH v2 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach link modes
+config: powerpc-randconfig-r081-20240504 (https://download.01.org/0day-ci/archive/20240504/202405040748.9mCHwtzA-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040748.9mCHwtzA-lkp@intel.com/reproduce)
 
-One gotcha that might be worth mentioning is that this combination only
-works on functions and non-local variables (i.e., static or global).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405040748.9mCHwtzA-lkp@intel.com/
 
-> ---
->  include/linux/compiler_attributes.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-> index 8bdf6e0918c1..957b2d914119 100644
-> --- a/include/linux/compiler_attributes.h
-> +++ b/include/linux/compiler_attributes.h
-> @@ -361,6 +361,18 @@
->   */
->  #define __used                          __attribute__((__used__))
->  
-> +/*
-> + * The __used attribute guarantees that the attributed variable will be
-> + * always emitted by a compiler. It doesn't prevent the compiler from
-> + * throwing the 'unused' warnings when it can't detect how the variable
-> + * is actually used. It's a compiler implementation details either emit
-> + * the warning in that case or not.
-> + *
-> + * The combination of both 'used' and 'unused' attributes ensures that
-> + * the variable would be emitted, and will not trigger 'unused' warnings.
-> + */
-> +#define __always_used			__used __maybe_unused
-> +
->  /*
->   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-warn_005funused_005fresult-function-attribute
->   * clang: https://clang.llvm.org/docs/AttributeReference.html#nodiscard-warn-unused-result
-> -- 
-> 2.40.1
-> 
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/net/phy/broadcom.c:13:
+   In file included from drivers/net/phy/bcm-phy-lib.h:9:
+   In file included from include/linux/brcmphy.h:5:
+   In file included from include/linux/phy.h:16:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/powerpc/include/asm/cacheflush.h:7:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/net/phy/broadcom.c:619:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     619 |         if (of_property_read_bool(np, "enet-phy-lane-swap")) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/broadcom.c:627:9: note: uninitialized use occurs here
+     627 |         return ret;
+         |                ^~~
+   drivers/net/phy/broadcom.c:619:2: note: remove the 'if' if its condition is always true
+     619 |         if (of_property_read_bool(np, "enet-phy-lane-swap")) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/broadcom.c:614:9: note: initialize the variable 'ret' to silence this warning
+     614 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
+
+
+vim +619 drivers/net/phy/broadcom.c
+
+b0ed0bbfb3046e Kevin Lo         2020-05-16  610  
+f1e9c8e593d6ea Kamil Hor�k - 2N 2024-05-03  611  static int bcm5481x_config_delay_swap(struct phy_device *phydev)
+57bb7e222804c6 Anton Vorontsov  2008-03-04  612  {
+b14995ac2527b4 Jon Mason        2016-11-04  613  	struct device_node *np = phydev->mdio.dev.of_node;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  614  	int ret;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  615  
+f1e9c8e593d6ea Kamil Hor�k - 2N 2024-05-03  616  	/* Set up the delay. */
+042cb56478152b Tao Ren          2018-11-05  617  	bcm54xx_config_clock_delay(phydev);
+57bb7e222804c6 Anton Vorontsov  2008-03-04  618  
+b14995ac2527b4 Jon Mason        2016-11-04 @619  	if (of_property_read_bool(np, "enet-phy-lane-swap")) {
+b14995ac2527b4 Jon Mason        2016-11-04  620  		/* Lane Swap - Undocumented register...magic! */
+b14995ac2527b4 Jon Mason        2016-11-04  621  		ret = bcm_phy_write_exp(phydev, MII_BCM54XX_EXP_SEL_ER + 0x9,
+b14995ac2527b4 Jon Mason        2016-11-04  622  					0x11B);
+b14995ac2527b4 Jon Mason        2016-11-04  623  		if (ret < 0)
+b14995ac2527b4 Jon Mason        2016-11-04  624  			return ret;
+b14995ac2527b4 Jon Mason        2016-11-04  625  	}
+b14995ac2527b4 Jon Mason        2016-11-04  626  
+57bb7e222804c6 Anton Vorontsov  2008-03-04  627  	return ret;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  628  }
+57bb7e222804c6 Anton Vorontsov  2008-03-04  629  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
