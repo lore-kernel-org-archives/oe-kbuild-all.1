@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF321EF01
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 19:59:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C201839F5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 May 2024 19:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714852790; cv=none; b=lB0ALOaA7KKQycm10jaHQq0qiUDQU9++ASoo2m3eyOKu3+6dzKAVHH8cC46xq9MGMGs/3dbITLoOEDbmtjzNMHDHP9V5S6my21C11BmBRXrDT/85ojQPcnbtVEef3cAK/jaKyjTP19sqTCqIXy2uiYVo2HmyDXX5xh7QcAf3YNs=
+	t=1714852793; cv=none; b=M7UB3rMGjODo3J38q5kqBjFgmk0A3v/E21fCcPAOjlDjjgzY0we5McU/IwLYWiiqu96Wj+ACN3RhykL3odXoS+k5AfN1JiQlYCGf67QQZcYz65eoIzF7susQpA9vLDCU37cHCb2kwwpz+TpE7HLxUt4GYmVwO//V7UBQaE+6jYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714852790; c=relaxed/simple;
-	bh=0T8qAnmBVebpWBS8M13LDypCDlFKWxWQf2LHB7GJ9v0=;
+	s=arc-20240116; t=1714852793; c=relaxed/simple;
+	bh=D0Ea7R5Cdz75Sn4fXDP8EGmbCNIuCx3ejw1sQcpoiCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hacEJI9DjXm0F+lmR5tzKPHUALNAa8YvrRLYGiRbERJrwAOYI9TGGNKllxfvUEcoWquSxQJvGGLIEL4luYAqmDC5SccDcIsz4BYgjbhF2TpJHAPV0Rhk0W7ckY362xBKZtPDH79ezYuPibhKsmY3AN15/OP6tYCPvs/CjCLYnw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oi1Zz6DL; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=QeLMvwWBH4vW2o815gB9lS5F7LMK3Z+s4q9d2fELUGIC+MAshNe7e6FRE5AyPhn1FOy8ek1Rh8YhuoNZJmWP8lp+Krj3LehrNK9e9BbkT8nPuaZDb2C9qH+njM6T1aRzXvJiF4B3Ib6v9XGQMX413ukEPxPH06QSFsEEzWtey9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AILVYMMf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oi1Zz6DL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AILVYMMf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714852789; x=1746388789;
+  t=1714852790; x=1746388790;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0T8qAnmBVebpWBS8M13LDypCDlFKWxWQf2LHB7GJ9v0=;
-  b=Oi1Zz6DLkvdOrx6oIqyM7FW7mY9Q/1GUHq6DLpj4ZUOfW0Wr9taynMbs
-   YytoEdpeiEY6fFKj7ZILE5Z7jdmeUPxHUd67kj8AAlPMTX25ot4mCXvAt
-   SV6dzWFJmKkqxHGDJ+S9hyLze95peNzCJzbAJszx6OGMMXtYrd0jvfhB4
-   7RQy6r/eK5Wo12UnkW+8ZA8qp5AdTXVf0LkbvdRuTpZJk2CkgFGe0lPJU
-   fMneVbozFFwNvtsMuQKet/bKoFc/e6tA+OTLYSePNDCNeqFSLNhfOJdUJ
-   dDMDQhBlrfL0JuFPvxWdJkLXeL101PrhDcWArGLqUz4XjyDM8eggdxpSP
-   g==;
-X-CSE-ConnectionGUID: 5EItp3cLRy6whZXzK9XTdw==
-X-CSE-MsgGUID: bRAIIYDSTH+mTFD9ZfBlEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14447229"
+  bh=D0Ea7R5Cdz75Sn4fXDP8EGmbCNIuCx3ejw1sQcpoiCc=;
+  b=AILVYMMfB/dox7NfSH0E/wVVv8mS0qgXoXLx60r31MXW56B3B6hhL89k
+   almG+p8Te0udeWUomsLm+644IFYAwo6ttUj6xczxlA0sVlOeKNVknlFHX
+   jqajtIAAznkL7YRy/MFyKBO5FKB6qcBjnW053WDDDp9uYBTA0J2NXkGMd
+   3m2HwZb9OPTcfSZBvul36IfisVG5Yh476ponsrlIF9SzQux9Kar78sy8y
+   yEF+jcLY557bTs2jBFSSR1HfvX344eEsq/E9Gat174CBxj1gRNbX5SxCh
+   X9AJc+4QAQLB+CGQDkx0NJwsWyKh9jSRzgJpVDHV4P9RBsCT35P2kgV2Q
+   Q==;
+X-CSE-ConnectionGUID: IMXQXZQQQBuMVp7TLq4uDA==
+X-CSE-MsgGUID: sWU4xitkTyOAZuUon2gePQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14447231"
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="14447229"
+   d="scan'208";a="14447231"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 12:59:48 -0700
-X-CSE-ConnectionGUID: 3Ne6YIspTm2oSwYo88k+gQ==
-X-CSE-MsgGUID: PVf0JD7RRg+Kmw+V5ygjSQ==
+X-CSE-ConnectionGUID: lND2vwz8SAuhQwxuRW2a6g==
+X-CSE-MsgGUID: 1N16BuB3Tz+5Nnou6+8X+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
-   d="scan'208";a="32569588"
+   d="scan'208";a="32569589"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 04 May 2024 12:59:47 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3LXs-000D8a-2B;
+	id 1s3LXs-000D8c-2I;
 	Sat, 04 May 2024 19:59:44 +0000
-Date: Sun, 5 May 2024 03:59:40 +0800
+Date: Sun, 5 May 2024 03:59:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alexander Graf <graf@amazon.com>
 Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
-Subject: [agraf-2.6:kvm-kho-gmem-test 24/27] drivers/misc/fdbox.c:504:12:
- error: initializing 'ulong *' (aka 'unsigned long *') with an expression of
- type 'const void *' discards qualifiers
-Message-ID: <202405050321.MKZxcasf-lkp@intel.com>
+Subject: [agraf-2.6:kvm-kho-gmem-test 23/27]
+ arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4477:55: error: 'struct
+ kvm_arch' has no member named 'timer_data'
+Message-ID: <202405050307.cSw7dtP2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,120 +65,195 @@ Content-Disposition: inline
 
 tree:   https://github.com/agraf/linux-2.6.git kvm-kho-gmem-test
 head:   9a58862a298a63bad21d05191e28b857063bb9dc
-commit: eac026594b9dc0e92a0093a3443b9bc973be99a4 [24/27] XXX WIP
-config: i386-randconfig-141-20240505 (https://download.01.org/0day-ci/archive/20240505/202405050321.MKZxcasf-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050321.MKZxcasf-lkp@intel.com/reproduce)
+commit: 3c9cb25fc553cc12e4cca8f313472e567f41f128 [23/27] XXX initial kvm kho integration
+config: powerpc-powernv_defconfig (https://download.01.org/0day-ci/archive/20240505/202405050307.cSw7dtP2-lkp@intel.com/config)
+compiler: powerpc64le-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050307.cSw7dtP2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405050321.MKZxcasf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405050307.cSw7dtP2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/misc/fdbox.c:13:
-   include/linux/kexec.h:369:20: error: field has incomplete type 'struct kexec_buf'
-     369 |                 struct kexec_buf dt;
-         |                                  ^
-   include/linux/kexec.h:369:10: note: forward declaration of 'struct kexec_buf'
-     369 |                 struct kexec_buf dt;
-         |                        ^
-   include/linux/kexec.h:370:20: error: field has incomplete type 'struct kexec_buf'
-     370 |                 struct kexec_buf mem_cache;
-         |                                  ^
-   include/linux/kexec.h:369:10: note: forward declaration of 'struct kexec_buf'
-     369 |                 struct kexec_buf dt;
-         |                        ^
->> drivers/misc/fdbox.c:504:12: error: initializing 'ulong *' (aka 'unsigned long *') with an expression of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     504 |                                 ulong *link = fdt_getprop(fdt, fd, "link", &l);
-         |                                        ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
+   In file included from include/linux/bug.h:5,
+                    from arch/powerpc/include/asm/mmu.h:142,
+                    from arch/powerpc/include/asm/paca.h:18,
+                    from arch/powerpc/include/asm/current.h:13,
+                    from include/linux/mutex.h:14,
+                    from include/linux/kvm_types.h:23,
+                    from include/kvm/iodev.h:6,
+                    from arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:16:
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_kho_write_vcpu':
+>> arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4433:49: error: 'struct kvm_vcpu_arch' has no member named 'ctxt'
+    4433 |                         .addr = __pa(&vcpu->arch.ctxt),
+         |                                                 ^
+   arch/powerpc/include/asm/bug.h:88:32: note: in definition of macro 'WARN_ON'
+      88 |         int __ret_warn_on = !!(x);                              \
+         |                                ^
+   arch/powerpc/include/asm/page.h:217:9: note: in expansion of macro 'VIRTUAL_WARN_ON'
+     217 |         VIRTUAL_WARN_ON((unsigned long)(x) < PAGE_OFFSET);              \
+         |         ^~~~~~~~~~~~~~~
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4433:33: note: in expansion of macro '__pa'
+    4433 |                         .addr = __pa(&vcpu->arch.ctxt),
+         |                                 ^~~~
+   In file included from arch/powerpc/include/asm/mmu.h:144:
+>> arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4433:49: error: 'struct kvm_vcpu_arch' has no member named 'ctxt'
+    4433 |                         .addr = __pa(&vcpu->arch.ctxt),
+         |                                                 ^
+   arch/powerpc/include/asm/page.h:218:25: note: in definition of macro '__pa'
+     218 |         (unsigned long)(x) & 0x0fffffffffffffffUL;                      \
+         |                         ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4434:49: error: 'struct kvm_vcpu_arch' has no member named 'ctxt'
+    4434 |                         .len = sizeof(vcpu->arch.ctxt),
+         |                                                 ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_kho_write_vm':
+>> arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4477:55: error: 'struct kvm_arch' has no member named 'timer_data'
+    4477 |         ret |= fdt_property(fdt, "voffset", &kvm->arch.timer_data.voffset, sizeof(u64));
+         |                                                       ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4478:55: error: 'struct kvm_arch' has no member named 'timer_data'
+    4478 |         ret |= fdt_property(fdt, "poffset", &kvm->arch.timer_data.poffset, sizeof(u64));
+         |                                                       ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: At top level:
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4524:49: warning: 'struct kvm_s2_mmu' declared inside parameter list will not be visible outside of this definition or declaration
+    4524 | int kvm_init_stage2_mmu(struct kvm *kvm, struct kvm_s2_mmu *mmu, unsigned long type);
+         |                                                 ^~~~~~~~~~
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_unwrap_file':
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4550:58: error: 'struct kvm_arch' has no member named 'mmu'
+    4550 |                 ret = kvm_init_stage2_mmu(kvm, &kvm->arch.mmu, 0);
+         |                                                          ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_wrap_vm':
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4601:48: error: 'struct kvm_arch' has no member named 'mmu'
+    4601 |         r = kvm_init_stage2_mmu(kvm, &kvm->arch.mmu, 0);
+         |                                                ^
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/powerpc/include/asm/bug.h:116:
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_dev_ioctl_create_vm':
+   include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:500:9: note: in expansion of macro 'printk'
+     500 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:500:16: note: in expansion of macro 'KERN_ERR'
+     500 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:5682:1: note: in expansion of macro 'pr_err'
+    5682 | pr_err("XXX %s:%d type=%d fdname=%s", __func__, __LINE__, type, fdname);
+         | ^~~~~~
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_kho_recover_vcpu':
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6744:27: error: 'struct kvm_vcpu_arch' has no member named 'ctxt'
+    6744 |         memcpy(&vcpu->arch.ctxt, old_ctxt, sizeof(*old_ctxt));
+         |                           ^
+>> arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6744:50: error: invalid application of 'sizeof' to incomplete type 'struct kvm_cpu_context'
+    6744 |         memcpy(&vcpu->arch.ctxt, old_ctxt, sizeof(*old_ctxt));
+         |                                                  ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_kho_recover_vm':
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6784:17: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    6784 |         poffset = fdt_getprop(fdt, node, "poffset", &l);
+         |                 ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6787:18: error: 'struct kvm_arch' has no member named 'timer_data'
+    6787 |         kvm->arch.timer_data.poffset = *poffset;
+         |                  ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6789:17: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    6789 |         voffset = fdt_getprop(fdt, node, "voffset", &l);
+         |                 ^
+   arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6792:18: error: 'struct kvm_arch' has no member named 'timer_data'
+    6792 |         kvm->arch.timer_data.voffset = *voffset;
+         |                  ^
 
 
-vim +504 drivers/misc/fdbox.c
+vim +4477 arch/powerpc/kvm/../../../virt/kvm/kvm_main.c
 
-   448	
-   449	static void fdbox_kho_recover(void)
-   450	{
-   451		const void *fdt = kho_get_fdt();
-   452		const char *path = "/fdbox";
-   453		int fdbox, box, fd;
-   454		int err;
-   455	
-   456		/* Not a KHO boot */
-   457		if (!fdt)
-   458			return;
-   459	
-   460		fdbox = fdt_path_offset(fdt, path);
-   461		if (fdbox < 0) {
-   462			pr_debug("Could not find '%s' in DT", path);
-   463			return;
-   464		}
-   465	
-   466		err = fdt_node_check_compatible(fdt, fdbox, "fdbox-v1");
-   467		if (err) {
-   468			char p[256] = "";
-   469			fdt_get_path(fdt, fdbox, p, sizeof(p) - 1);
-   470			pr_warn("Node '%s' has invalid compatible", p);
-   471			return;
-   472		}
-   473	
-   474		fdt_for_each_subnode(box, fdt, fdbox) {
-   475			struct fdbox_create_box create_box = {
-   476				.flags = 0,
-   477			};
-   478			struct box *new_box;
-   479	
-   480			strncpy(create_box.name, fdt_get_name(fdt, box, NULL), sizeof(create_box.name) - 1);
-   481	
-   482			err = fdt_node_check_compatible(fdt, box, "fdbox,box-v1");
-   483			if (err) {
-   484				char p[256] = "";
-   485				fdt_get_path(fdt, box, p, sizeof(p) - 1);
-   486				pr_warn("Node '%s' has invalid compatible", p);
-   487				continue;
-   488			}
-   489	
-   490			err = _fdbox_create_box(&create_box, &new_box);
-   491			if (err) {
-   492				char p[256] = "";
-   493				fdt_get_path(fdt, box, p, sizeof(p) - 1);
-   494				pr_warn("Node '%s' could not spawn", p);
-   495				continue;
-   496			}
-   497	
-   498			new_box->wrapped = true;
-   499			
-   500			fdt_for_each_subnode(fd, fdt, box) {
-   501				if (!fdt_node_check_compatible(fdt, fd, "fdbox,fd-v1")) {
-   502					int l;
-   503					struct box_dangle *dangle;
- > 504					ulong *link = fdt_getprop(fdt, fd, "link", &l);
-   505					struct fdbox_fd put_fd = {
-   506						.flags = 0,
-   507						.fd = -1,
-   508					};
-   509					struct box_fd *box_fd;
-   510	
-   511					strncpy(put_fd.name, fdt_get_name(fdt, fd, NULL), sizeof(put_fd.name) - 1);
-   512	
-   513					if (!link || l != sizeof(ulong))
-   514						continue;
-   515					dangle = find_dangle(*link);
-   516					box_fd = fdbox_put_file(new_box, &put_fd, dangle->file);
-   517					if (!box_fd)
-   518						continue;
-   519					list_del(&dangle->next);
-   520				} else {
-   521					char p[256] = "";
-   522					fdt_get_path(fdt, fd, p, sizeof(p) - 1);
-   523					pr_warn("Node '%s' has invalid compatible", p);
-   524				}
-   525			}
-   526		}
-   527	}
-   528	
+  4427	
+  4428	static int kvm_kho_write_vcpu(void *fdt, struct kvm_vcpu *vcpu)
+  4429	{
+  4430		const char compatible[] = "kvm,vcpu-v1";
+  4431		struct kho_mem mem[] = {
+  4432			{
+> 4433				.addr = __pa(&vcpu->arch.ctxt),
+  4434				.len = sizeof(vcpu->arch.ctxt),
+  4435			}
+  4436		};
+  4437		int ret = 0;
+  4438		char *name;
+  4439	
+  4440		name = kasprintf(GFP_KERNEL, "vcpu@%lx", (long)vcpu);
+  4441		if (!name)
+  4442			return -ENOMEM;
+  4443	
+  4444		ret |= fdt_begin_node(fdt, name);
+  4445		ret |= fdt_property(fdt, "compatible", compatible, sizeof(compatible));
+  4446		ret |= fdt_property(fdt, "phandle", &vcpu, sizeof(vcpu));
+  4447		ret |= fdt_property(fdt, "mem", mem, sizeof(mem));
+  4448		ret |= fdt_property(fdt, "id", &vcpu->vcpu_id, sizeof(vcpu->vcpu_id));
+  4449		ret |= fdt_end_node(fdt);
+  4450	
+  4451		kfree(name);
+  4452	
+  4453		return ret;
+  4454	}
+  4455	
+  4456	static int kvm_kho_write_vm(void *fdt, struct kvm *kvm)
+  4457	{
+  4458		const char compatible[] = "kvm,vm-v1";
+  4459		struct kvm_memory_slot *kho_slots;
+  4460		struct kvm_memory_slot *slot;
+  4461		struct kvm_memslots *slots;
+  4462		int bkt, nr_slots = 0;
+  4463		struct kvm_vcpu *vcpu;
+  4464		unsigned long i;
+  4465		char *name;
+  4466		int ret;
+  4467	
+  4468		name = kasprintf(GFP_KERNEL, "vm@%lx", (long)kvm);
+  4469		if (!name)
+  4470			return -ENOMEM;
+  4471	
+  4472		ret |= fdt_begin_node(fdt, name);
+  4473		ret |= fdt_property(fdt, "compatible", compatible, sizeof(compatible));
+  4474		ret |= fdt_property(fdt, "phandle", &kvm, sizeof(kvm));
+  4475	
+  4476		/* XXX should go to arch code */
+> 4477		ret |= fdt_property(fdt, "voffset", &kvm->arch.timer_data.voffset, sizeof(u64));
+  4478		ret |= fdt_property(fdt, "poffset", &kvm->arch.timer_data.poffset, sizeof(u64));
+  4479	
+  4480		/* XXX protect memslots from writes after serialization */
+  4481		slots = kvm_memslots(kvm);
+  4482		kvm_for_each_memslot(slot, bkt, slots)
+  4483			nr_slots++;
+  4484	
+  4485		kho_slots = kmalloc(sizeof(*kho_slots) * nr_slots, GFP_KERNEL);
+  4486		if (!kho_slots) {
+  4487			ret = -ENOMEM;
+  4488			goto out;
+  4489		}
+  4490	
+  4491		i = 0;
+  4492		kvm_for_each_memslot(slot, bkt, slots)
+  4493			kho_slots[i++] = *slot;
+  4494	
+  4495		ret |= fdt_property(fdt, "slots", kho_slots, sizeof(*kho_slots) * nr_slots);
+  4496		kfree(kho_slots);
+  4497	
+  4498		kvm_for_each_vcpu(i, vcpu, kvm) {
+  4499			ret |= kvm_kho_write_vcpu(fdt, vcpu);
+  4500		}
+  4501	
+  4502	out:
+  4503		ret |= fdt_end_node(fdt);
+  4504		kfree(name);
+  4505	
+  4506		return ret;
+  4507	}
+  4508	
 
 -- 
 0-DAY CI Kernel Test Service
