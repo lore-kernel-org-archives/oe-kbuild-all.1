@@ -1,108 +1,99 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849C5567F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 08:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446A3FBF3;
+	Sun,  5 May 2024 10:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714898614; cv=none; b=a8OjBpT2QInDitzZjRYWvsP1dIWTf/VaiAK3w4CK4g5hptpv3EymDR3l5BS+Haaw5l3JF/c8RmZ4MwS9OAfoyFuyVhCwQgGLY7JazXnkpzXUXmb3twSNeWiRdT4pb/WvW8wDIR/LHovweNmOKGCSR81tXfcB94O4Eki4CNsOCNI=
+	t=1714905856; cv=none; b=f3V8oIPIO6rNnzfjJ2niBU1Y8pT8ElhyNeQVVlTo72PamjtBr7de2osCdjFuMyMR/ylXU05UmQ2eXbIRC1dQ6pBu5tJNB1SK62teJ0Qs/E84gqzZUeAn4v/Og32QgLuGfW3pGkchYdLeHVGxPn6eusDUNgxrdGMaX52K7ovqAfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714898614; c=relaxed/simple;
-	bh=O5+bvmfdVExG/EAbmeNv3poRJsvTkXwcWhp3xSLMFw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I9P8M1sUJOn7IsI9CoSa6N25Mj9EQsORaLPkGP2TIVD+EFNBpAJsujxaJ9l9zxhMlQrRcg1nZof0tLYSL0TqG2VFec2BC5/VbTCLEC+lMNiNum560dZ6rb/yloRkmfJjB+s/87DTJ787Vj3DTwoxuuF7U378LQ7VTLPJvx6uS40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=A+w0s+UT; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1714905856; c=relaxed/simple;
+	bh=KHEhv3zmaRfP0djX9DxadejSI7CWrAi5q8BogsN6Uzg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HXhhc3Td+3lXGbFjkJQ9sWY2V+8ukioL7IHTHRzQ1nUM3WbPoJShlq7cqqxfljCe9giwtFy7pzk2ODl7epJRXGMFd9V9YR65MKdqJAARrFjggGc109oPyzT7e7eqfO/ENQOSaD7suDcP/UihjH+6aMPgNPx/5bYS3UcwV6Ck1F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=npme2n7C; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="A+w0s+UT"
-Message-ID: <fe52e4b3-46ed-4bb4-842e-41121dc72bf0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1714898608;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7IF0KGUJv0OyGtqZTBvYnl0RBdIjrhetfYgsEgyySGA=;
-	b=A+w0s+UTw1uue3nciBe6pn/siLmd6q6lNfMQNjnKV1tDRd6tmWlUBuS7vf69+L7n5KoMm8
-	ljUnE0Im1J6+SQUPGd1gRX6bKOQ08RqMrhcsmR11/QhKjC0WTzM9P8BFYJJ9mhk9fORLw7
-	vxONtRfVEoNR285ONg/Mo7HF/er0Yi4=
-Date: Sun, 5 May 2024 10:43:23 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="npme2n7C"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-620e30d8f37so938209a12.2;
+        Sun, 05 May 2024 03:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714905854; x=1715510654; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KHEhv3zmaRfP0djX9DxadejSI7CWrAi5q8BogsN6Uzg=;
+        b=npme2n7CTKJYwEDlVMy/owf3hmMW8Zrk4H9DGmo3LCWnIZ4SNI7lxfrHgFY1jhZlR6
+         +Zww0cKR29UauDvmCD8YEJAOybQy0qvo5odjaq6+LO8mUkTJ+4YXkPKGPtHgdUL2vSTC
+         debC6MqNmYlqSiA9pxaclg9akH8Lg2qK7I+QNqurOEvwSIUm/1RUwgadWf/KaKanSu7y
+         LPpUs/rmjDyL3FH3831Ym6RNqNXL6md9qtY/CWVlgwBktwMlC9UjT7y4M7pUReTuweEA
+         mKJUC7HaYQfhvuIMPtalQl6IZIrjTdJrwJz5fbaPqfXekN31emeRc3IpICubRMekK1bx
+         kS6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714905854; x=1715510654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KHEhv3zmaRfP0djX9DxadejSI7CWrAi5q8BogsN6Uzg=;
+        b=GHOK6TYQmGlRN0Z0tmeQiZnPUh4P3dFTKwOtF+5YLcZpZZK/bov0M3xLeSTP/CUI9W
+         ytjk+yBv80LIrF3WwhV6rwZ9typ92cLAG3ApqJzpAGzzxScPMfKplHCblevNLpoigh/g
+         ZyPa8xQyTfGa7pxx5wcp8vs39ucPlFODeQgUqZqrRlBBa25l54yuhbWceyEAQSkcFfNZ
+         6h/btkuvxuoyuHmTCSVhJ1JE6z3ipFEy98ah0mdiqjzbtCV3XK3t6nLzEPu8hpDNozvk
+         2Usb2mmgGMkXz02Gs/5T+EFLQhv0uR8a5ux1JwVLjPC3AGcTe571dgIxghgwkIOLCWpG
+         NQ9g==
+X-Forwarded-Encrypted: i=1; AJvYcCWQYXQ51WfBgB2j4Ck3KpQycumQaTcsQsRCFg9UxKgNLonxiDWP9+3MPgN53gYs8qBhoFP78uATPMQPL5zOJUKw+NkZOsGOOpmQV3Tg2iJ0DhoKwlwc31Y0R0jjFykAWZWDn9E=
+X-Gm-Message-State: AOJu0Yyf6fZQrGrjJ/oQeShbf+fpimUHUcfl9yNFNvvFbSI0ifavmlV4
+	RndT34TLC8hMdW1YbKlasKXQ9NzV5Vxdn8IyKJNnwFyv05RMEG3Ep6EJj7rffA4nIh3AYi95+pf
+	//b3bbc/QngPe8oEz5VnyLGREPMk=
+X-Google-Smtp-Source: AGHT+IE/KQfFTavx9IjjwIVQyxMZ7eZmWGjgcGO/oqK1nSJ7M3enWhKtOEViDKSlx+ck20q3uRIjXvGpMgTk6YXz/fg=
+X-Received: by 2002:a17:90a:51a5:b0:2b2:d375:3b7c with SMTP id
+ u34-20020a17090a51a500b002b2d3753b7cmr6369408pjh.31.1714905854426; Sun, 05
+ May 2024 03:44:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] driver core: auxiliary bus: show auxiliary device
- IRQs
-To: kernel test robot <lkp@intel.com>, Shay Drory <shayd@nvidia.com>,
- netdev@vger.kernel.org, pabeni@redhat.com, davem@davemloft.net,
- kuba@kernel.org, edumazet@google.com, gregkh@linuxfoundation.org,
- david.m.ertman@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, ira.weiny@intel.com,
- linux-rdma@vger.kernel.org, leon@kernel.org, tariqt@nvidia.com,
- Parav Pandit <parav@nvidia.com>
-References: <20240503043104.381938-2-shayd@nvidia.com>
- <202405040108.NWUaSJgz-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <202405040108.NWUaSJgz-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20240502092443.6845-2-visitorckw@gmail.com> <202405030808.UsoMKFNP-lkp@intel.com>
+ <ZjQ/JOpcdgWZXo0y@visitorckw-System-Product-Name> <20240503041701.GA3660305@thelio-3990X>
+ <ZjSSylciH+qJeEEG@visitorckw-System-Product-Name> <ZjSUk4vgsQ63wfcn@visitorckw-System-Product-Name>
+ <20240503155401.GA3960118@thelio-3990X> <ZjVdbavKgDo8a0CZ@yury-ThinkPad> <20240503222338.GA1908482@thelio-3990X>
+In-Reply-To: <20240503222338.GA1908482@thelio-3990X>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 5 May 2024 12:42:50 +0200
+Message-ID: <CANiq72mJPPp=H6qb7sG1K1hxR3uiHA9+WEVAZkvymSt_dW3CbA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] lib/test_bitops: Add benchmark test for fns()
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Kuan-Wei Chiu <visitorckw@gmail.com>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-在 2024/5/3 19:14, kernel test robot 写道:
-> Hi Shay,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on driver-core/driver-core-testing]
-> [also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus net/main net-next/main linus/master v6.9-rc6 next-20240503]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Shay-Drory/driver-core-auxiliary-bus-show-auxiliary-device-IRQs/20240503-123319
-> base:   driver-core/driver-core-testing
-> patch link:    https://lore.kernel.org/r/20240503043104.381938-2-shayd%40nvidia.com
-> patch subject: [PATCH 1/2] driver core: auxiliary bus: show auxiliary device IRQs
-> config: s390-randconfig-r081-20240503 (https://download.01.org/0day-ci/archive/20240504/202405040108.NWUaSJgz-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405040108.NWUaSJgz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405040108.NWUaSJgz-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/base/auxiliary.c:182: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->      * Auxiliary devices can share IRQs. Expose to user whether the provided IRQ is
-> 
-> 
-> vim +182 drivers/base/auxiliary.c
-> 
->     180	
->     181	/**
- From the above, "/**" should be "/*"?
+On Sat, May 4, 2024 at 12:23=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> Adding Miguel as compiler attributes maintainer to make him aware of the
+> change. I think it would be reasonable to have you take it through the
+> bitops tree with your ack so that the test patch can make use of this as
+> the fix for the robot's issue.
 
-Zhu Yanjun
->   > 182	 * Auxiliary devices can share IRQs. Expose to user whether the provided IRQ is
->     183	 * shared or exclusive.
->     184	 */
->     185	static ssize_t auxiliary_irq_mode_show(struct device *dev,
->     186					       struct device_attribute *attr, char *buf)
->     187	{
->     188		struct auxiliary_irq_info *info =
->     189			container_of(attr, struct auxiliary_irq_info, sysfs_attr);
->     190	
->     191		if (refcount_read(xa_load(&irqs, info->irq)) > 1)
->     192			return sysfs_emit(buf, "%s\n", "shared");
->     193		else
->     194			return sysfs_emit(buf, "%s\n", "exclusive");
->     195	}
->     196	
-> 
+Thanks Nathan!
 
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+The new macro sounds OK to me. Perhaps we should add some docs to the
+other two attributes about their relationship and/or the existence of
+this new `__always_used` one (so that it is easier to find). And if
+so, then perhaps the docs for `__always_used` can be simplified.
+
+> One gotcha that might be worth mentioning is that this combination only
+> works on functions and non-local variables (i.e., static or global).
+
+Yeah, since the `unused` one only applies to that, right?
+
+Cheers,
+Miguel
