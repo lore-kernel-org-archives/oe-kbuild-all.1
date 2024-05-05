@@ -1,230 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4800917F7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 04:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6901852
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 04:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714882567; cv=none; b=WJ6nNyGd0UUlKNRXkJ69SLvn/1m3Ngmbs7dhOTW5rW7sncQnVilICt4vfeupCAX/ub+QTi/q2Ms/1PKt/wE8yGniVor6i5fuNBN3Ps1s5GWblaPAw5n8ER4TsNhFvaxl0xexrF1igxDk4JukqPfvMcMcVcL9mzd8w/RvvLlmNio=
+	t=1714883829; cv=none; b=OEff+b7MFgfTdk2Ek1TV9NOGbvou7+CoOSJAIiJHDKfezB+0ko95eCA0faABoQHH2zGpZ/Fjnay34XPzLwCgK95v9bsJIMnwJ+hqmHVYTCqy2Y6+N7SUlka/uFHAVbuQ+hrRYw2uDdDbVJ3FcaL+fcAhKzGKj2MlK4HdSUjoO/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714882567; c=relaxed/simple;
-	bh=G8uSsYdMsXhKYL3BqB6vJCgBpj9jjoQ4b7S1cbd59FE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IkTpoSNHGUoefY2SHuXh+o87h543OGxSzQDty1hq29S45o+XdtCieRGwD1JCPOih4n8tdXyhSk8CRxg0Xhu3BJrVqDhdJ5GXt/iRwOjL1WLQ+oyu3Rn9TsjDSEF9IgXxuicTnba1qglpDw31qChvPMe64VVLXui0ho16ib7DyU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1+d91Yq; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1714883829; c=relaxed/simple;
+	bh=lg3ZmrqDpgoWH7uchHVbaymLxKfhlI7YH7/bVp1vSis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqQnUfBRxZsFha8OiowQRJKPMi4/wXWtvRHx6OfGLFLVO5kGrreHm3p4FBa1ZFCTG6rzMQXmplWNUCJVNGzsk8yvRiGQPMFlMCZ7grR9ROIQMnx42GLBI868rowG5IcoNOB7P5KCQVwWk6UHb1oM3zMLJC3gGlXQrup8+ZBkFfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNPeh+Mb; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1+d91Yq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNPeh+Mb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714882565; x=1746418565;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G8uSsYdMsXhKYL3BqB6vJCgBpj9jjoQ4b7S1cbd59FE=;
-  b=U1+d91YqvmF/izVu3Yuz+6m26jpYAvxr7SnwNhq91eiWwJdtmqTMwWFg
-   SivrQcpJcYH6WiWcdsz/k8O4kj/V09s6Faux05GrspPiTgRe+Fq84ea2N
-   QhgLXwYJ63/KwhDGZ70E6KmiF/leEzLdtg6QO/F7+Zp9QpB3eDVYl6PFr
-   wAvRTowfK8mkshN2C768ZSCI8wi6bT/mUKizZJDavI/i3ccTO+/xNsF5K
-   MHCIctHEWiI8ee5htvSaXXo7bMXukne1tSvP4Ip3pQR4MQTWYHgKdTWP5
-   NnkUJ6y7WGWvtnuEDigX4ymlADcM6JSPSw1gTCIdmE36Xf7onABZA3uyC
+  t=1714883827; x=1746419827;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lg3ZmrqDpgoWH7uchHVbaymLxKfhlI7YH7/bVp1vSis=;
+  b=QNPeh+Mb0Qa6Sj3QhReNK009x6iCGZt8XVYZ0dZyj3C++HWPZOh25GjW
+   amD0wN3VgEUIGgM2HeYarua3NvWUbEHBpdSifShiE5JND79I+/mQ/Klbo
+   8n9M3XqON+pjW3QvT2LDKikM7Gu+oz4FrC/yojcuLB5+mVlFgpvnyA5Yr
+   qo70gDQvLVcn+LU6l/FM00FHXTnhqc60Mly0T2O5dsFLNc6EN/wZe7BvF
+   T+TBQPyEOtGg0mr4qwCXSl+3cJCfRBe5x6Nilio80p0I1Wfn98X3yhbRO
+   Nxm8x7l2tl07hZ51+ZObnXIWnDNT7+4W6Asauuk7vevmjsuE58rqhuTVa
    w==;
-X-CSE-ConnectionGUID: rbfjz8JaSGWbgbCOMqB1TQ==
-X-CSE-MsgGUID: ykfM+ZLoSvKPbuVtZH+rHQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14437387"
+X-CSE-ConnectionGUID: WR+9WeIyQzeIW3y8m+8v/Q==
+X-CSE-MsgGUID: 143v1309T7OxvWNyyNM2Uw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21203695"
 X-IronPort-AV: E=Sophos;i="6.07,255,1708416000"; 
-   d="scan'208";a="14437387"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 21:16:05 -0700
-X-CSE-ConnectionGUID: WBCPB3uBQCuboHfT8NuK+A==
-X-CSE-MsgGUID: ujNP0C7eQ8aoGneyJYjywA==
+   d="scan'208";a="21203695"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 21:37:07 -0700
+X-CSE-ConnectionGUID: 9IPwF6yjTvyC7RD4dFu7fg==
+X-CSE-MsgGUID: ZfK8V6V+TwaMEjJc2DmUuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,255,1708416000"; 
-   d="scan'208";a="27890380"
+   d="scan'208";a="59037530"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 May 2024 21:16:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 May 2024 21:37:04 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3TI9-000DQ8-0u;
-	Sun, 05 May 2024 04:16:01 +0000
-Date: Sun, 5 May 2024 12:15:15 +0800
+	id 1s3TcT-000DQi-1v;
+	Sun, 05 May 2024 04:37:01 +0000
+Date: Sun, 5 May 2024 12:36:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 833/1143]
- drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function
- parameter or struct member 'vga_base' not described in 'aspeed_video'
-Message-ID: <202405051227.v4M3ZwJk-lkp@intel.com>
+To: =?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
+	Danila Tikhonov <danila@jiaxyga.com>
+Subject: Re: [PATCH 1/2] iio: imu: bmi160: add support for bmi120
+Message-ID: <202405051259.R7WyR8LV-lkp@intel.com>
+References: <20240504-bmi120-v1-1-478470a85058@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240504-bmi120-v1-1-478470a85058@gmail.com>
 
-tree:   https://github.com/shenki/linux aspeed-6.9-rebase
-head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: f927aff15f50ab040743318cbffad708f2a60818 [833/1143] media: aspeed: Workaround for AST2700 VE1
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240505/202405051227.v4M3ZwJk-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405051227.v4M3ZwJk-lkp@intel.com/reproduce)
+Hi Barnabás,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9221b2819b8a4196eecf5476d66201be60fbcf29]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Barnab-s-Cz-m-n/iio-imu-bmi160-add-support-for-bmi120/20240504-074802
+base:   9221b2819b8a4196eecf5476d66201be60fbcf29
+patch link:    https://lore.kernel.org/r/20240504-bmi120-v1-1-478470a85058%40gmail.com
+patch subject: [PATCH 1/2] iio: imu: bmi160: add support for bmi120
+config: x86_64-randconfig-121-20240505 (https://download.01.org/0day-ci/archive/20240505/202405051259.R7WyR8LV-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405051259.R7WyR8LV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405051227.v4M3ZwJk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405051259.R7WyR8LV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/bmi160/bmi160_core.c:116:10: sparse: sparse: symbol 'bmi_chip_ids' was not declared. Should it be static?
 
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'base' not described in 'aspeed_video'
->> drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'vga_base' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'eclk' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'vclk' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'reset' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'dev' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'ctrl_handler' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'v4l2_dev' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'pix_fmt' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'active_timings' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'detected_timings' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'v4l2_input_status' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'queue' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'vdev' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'video_lock' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'debugfs_entry' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'id' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'scu' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'gfx' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'version' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'jpeg_mode' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'comp_size_read' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'compare_only' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'wait' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'lock' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'res_work' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'buffers' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'flags' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'sequence' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'max_compressed_size' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'srcs' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'jpeg' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'bcd' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'dbg_src' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'yuv420' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'format' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'hq_mode' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'input' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'frame_rate' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'jpeg_quality' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'jpeg_hq_quality' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'frame_bottom' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'frame_left' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'frame_right' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'frame_top' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'perf' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'bounding_box' not described in 'aspeed_video'
-   drivers/media/platform/aspeed/aspeed-video.c:381: warning: Function parameter or struct member 'boxes' not described in 'aspeed_video'
+vim +/bmi_chip_ids +116 drivers/iio/imu/bmi160/bmi160_core.c
 
-
-vim +381 drivers/media/platform/aspeed/aspeed-video.c
-
-52fed10ad7566c drivers/media/platform/aspeed-video.c        Jammy Huang  2021-10-01  293  
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  294  #define to_aspeed_video_buffer(x) \
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  295  	container_of((x), struct aspeed_video_buffer, vb)
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  296  
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  297  /**
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  298   * struct aspeed_video - driver data
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  299   *
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  300   * res_work:		holds the delayed_work for res-detection if unlock
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  301   * buffers:		holds the list of buffer queued from user
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  302   * flags:		holds the state of video
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  303   * sequence:		holds the last number of frame completed
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  304   * max_compressed_size:holds max compressed stream's size
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  305   * srcs:		holds the buffer information for srcs
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  306   * jpeg:		holds the buffer information for jpeg header
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  307   * bcd:			holds the buffer information for bcd work
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  308   * dbg_src:		holds the buffer information for debug input
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  309   * yuv420:		a flag raised if JPEG subsampling is 420
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  310   * format:		holds the video format
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  311   * hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  312   * input:		holds the video input
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  313   * frame_rate:		holds the frame_rate
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  314   * jpeg_quality:	holds jpeq's quality (0~11)
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  315   * jpeg_hq_quality:	holds hq's quality (1~12) only if hq_mode enabled
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  316   * frame_bottom:	end position of video data in vertical direction
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  317   * frame_left:		start position of video data in horizontal direction
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  318   * frame_right:	end position of video data in horizontal direction
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  319   * frame_top:		start position of video data in vertical direction
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  320   * perf:		holds the statistics primary for debugfs
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  321   * bounding_box:	holds the video rect for partial-jpeg
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  322   * boxes:		holds the list of video-rect info for each partial-jpeg
-a12403affeac3d drivers/media/platform/aspeed-video.c        Jammy Huang  2021-12-07  323   */
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  324  struct aspeed_video {
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  325  	void __iomem *base;
-f927aff15f50ab drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-11-24  326  	void __iomem *vga_base;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  327  	struct clk *eclk;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  328  	struct clk *vclk;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  329  	struct reset_control *reset;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  330  
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  331  	struct device *dev;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  332  	struct v4l2_ctrl_handler ctrl_handler;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  333  	struct v4l2_device v4l2_dev;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  334  	struct v4l2_pix_format pix_fmt;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  335  	struct v4l2_bt_timings active_timings;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  336  	struct v4l2_bt_timings detected_timings;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  337  	u32 v4l2_input_status;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  338  	struct vb2_queue queue;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  339  	struct video_device vdev;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  340  	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
-8e45f9d94d0186 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-08-18  341  	struct dentry *debugfs_entry;
-8e45f9d94d0186 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-08-18  342  	int id;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  343  
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  344  	struct regmap *scu;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  345  	struct regmap *gfx;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  346  
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  347  	u32 version;
-39857de4f82f14 drivers/media/platform/aspeed-video.c        Joel Stanley 2020-01-07  348  	u32 jpeg_mode;
-39857de4f82f14 drivers/media/platform/aspeed-video.c        Joel Stanley 2020-01-07  349  	u32 comp_size_read;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  350  	u32 compare_only;
-39857de4f82f14 drivers/media/platform/aspeed-video.c        Joel Stanley 2020-01-07  351  
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  352  	wait_queue_head_t wait;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  353  	spinlock_t lock;		/* buffer list lock */
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  354  	struct delayed_work res_work;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  355  	struct list_head buffers;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  356  	unsigned long flags;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  357  	unsigned int sequence;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  358  
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  359  	unsigned int max_compressed_size;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  360  	struct aspeed_video_addr srcs[2];
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  361  	struct aspeed_video_addr jpeg;
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  362  	struct aspeed_video_addr bcd;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  363  	struct aspeed_video_addr dbg_src;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  364  
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  365  	bool yuv420;
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  366  	enum aspeed_video_format format;
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  367  	bool hq_mode;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  368  	enum aspeed_video_input input;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  369  	unsigned int frame_rate;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  370  	unsigned int jpeg_quality;
-d4b9fd006fae58 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2022-10-28  371  	unsigned int jpeg_hq_quality;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  372  
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  373  	unsigned int frame_bottom;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  374  	unsigned int frame_left;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  375  	unsigned int frame_right;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  376  	unsigned int frame_top;
-52fed10ad7566c drivers/media/platform/aspeed-video.c        Jammy Huang  2021-10-01  377  
-52fed10ad7566c drivers/media/platform/aspeed-video.c        Jammy Huang  2021-10-01  378  	struct aspeed_video_perf perf;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  379  	struct v4l2_rect bounding_box;
-a86e70cb305119 drivers/media/platform/aspeed/aspeed-video.c Jammy Huang  2023-04-10  380  	struct list_head boxes;
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11 @381  };
-d2b4387f3bdf01 drivers/media/platform/aspeed-video.c        Eddie James  2018-12-11  382  
-
-:::::: The code at line 381 was first introduced by commit
-:::::: d2b4387f3bdf016e266d23cf657465f557721488 media: platform: Add Aspeed Video Engine driver
-
-:::::: TO: Eddie James <eajames@linux.ibm.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+   115	
+ > 116	const u8 bmi_chip_ids[] = {
+   117		BMI120_CHIP_ID_VAL,
+   118		BMI160_CHIP_ID_VAL,
+   119	};
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
