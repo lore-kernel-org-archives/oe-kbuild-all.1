@@ -1,278 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D8E111A8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 11:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F4914267
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 11:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714907879; cv=none; b=GSFmAQs+R9FtlvzF7thwnaBj0o1lweQrJWLVIiE1TLLrXoYsAyzPWydIOPaSzQxOjyC12MyPXWpjGGJZjVoUOo+U97QOCeTEUsFIwKdYPhPwCS6fMLd2Izovh0TCoenGQeYmizfwoxyx3e92wTx3eFAaKqj3FP8m1vRed9umwuQ=
+	t=1714907885; cv=none; b=Aull+9UUWwkYuydRG159bbwATrvFH6rfbAC3DcQtA4ujFbPK3a6mHmNopHiF36gFb73MqYhkkdpTTiU4shTzSj2fdsMQzRKBCuYf96qg5Udbyit3xKPK1x8ZWvW6t8+RroJi4sNueSL0cLdNTT3KHXQW254+po3udVqCMP7adIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714907879; c=relaxed/simple;
-	bh=a3PV2ppPXW4XMd2guphHR1Ns0jWHoz9w76RPu83CWAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GVVRfe/cxnwxzysRRDSvvfd00fpQp5y0WDafQXfsSlsuDhk2gbEHrBtn6s13zJiVT0breIDn7h4zxmVAF+spyBTOXi/Me/Qu2TCYDuXm7KYPJbsNarHuMYz9USUimyR5Db6ZRW3Pyc4nyvplHokjDGOSiNZeBqEQxJ3yvC/4QCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3EvNM/K; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714907885; c=relaxed/simple;
+	bh=ru7fMimQdej2rZlpz1llHVTGQwDFG6DuHrBFcI9/v7g=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=RTfkj8ggyrdgjwlCZ2sQuSvfNekdGG7ebwRjoyTEhHeeaX/+3j61dpYxlLd/Y6xSDgMkq0VAE5r1x4DF7+8v6Uyn9TgJnrOkz48cxm+fXuI6tSU9F+XTJzdPlyBHwcHjYi1uPWXIirQwwyoFh6qYKDFjkhAiuj/iVBnLHwYAYfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=OuGIFNRH; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3EvNM/K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714907877; x=1746443877;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="OuGIFNRH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a3PV2ppPXW4XMd2guphHR1Ns0jWHoz9w76RPu83CWAc=;
-  b=J3EvNM/K1toYhe9dR9qHi+ywr9i380VPIiF+omFTZt4bIytGTIbPGt6a
-   NetgF7H5sfV988D5aiIlOcuyw8agWpAo0hg4um0SAFraIFQ8UKrjFAIYe
-   m+LdlSa9xmvdZlPypMfTc0szbilH4WZhX1KR28eA1BZLWGGAAc0HWwPR6
-   zdP7jPNflmDKPEO/bNL+shK8TfQNWJdjHh9qTy1i3+gPrYdruWq71k30r
-   yxFZA8huKhDrlxVSjriIEkrQLErD3LXgNAA4iwvedPCrA5uEkDBI1CxoO
-   3m/j6XIuG5PV9qPVWgMYM8lxmSPwyt6/e7U588N9mHXrZmXo1TS8vd75m
-   w==;
-X-CSE-ConnectionGUID: 5FL0RcbHRy2IUlxgqoEVPQ==
-X-CSE-MsgGUID: lkLdQYpjSACBVwJcqtkuUg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="33172981"
-X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
-   d="scan'208";a="33172981"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 04:17:57 -0700
-X-CSE-ConnectionGUID: 9iNwIt0kQOuV06ZVBi6m8w==
-X-CSE-MsgGUID: QFRJsO2GQTqQmeOOP/t3Gg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
-   d="scan'208";a="27986745"
-Received: from lkp-server01.sh.intel.com (HELO 123fad1cf874) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 May 2024 04:17:55 -0700
-Received: from kbuild by 123fad1cf874 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3ZsP-00009c-1r;
-	Sun, 05 May 2024 11:17:53 +0000
-Date: Sun, 5 May 2024 19:16:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Hutchings <bwh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.4.y-st-rc 2244/2247] drivers/net/vxlan.c:1190:10:
- warning: 'return' with a value, in function returning void
-Message-ID: <202405051957.swCEY1g7-lkp@intel.com>
+  bh=yZOSHiPoDXg5BRuJhBvEzO5qE3MrmYzEHwcoLAo9s4s=;
+  b=OuGIFNRHPgF5RalHmd3KO4xsmAfZlMdLa8ltCv3pTAzCrYz5Wv95uTvm
+   BScMftIndrE1QWY9b54luXrz4pQqAiP4+phHv5CaMvuDaS6F/1owZCFnz
+   2cSiRx3fCiXmXmZH1P6DcA10oPpzL07WjUHBO8gew5aPcY/2XtuL1XU6e
+   s=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,256,1708383600"; 
+   d="scan'208";a="164543578"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 13:17:59 +0200
+Date: Sun, 5 May 2024 13:17:59 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+cc: Matt Roper <matthew.d.roper@intel.com>, linux-kernel@vger.kernel.org, 
+    oe-kbuild-all@lists.linux.dev
+Subject: drivers/gpu/drm/xe/xe_guc_ads.c:103:21-27: WARNING use flexible-array
+ member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+ (fwd)
+Message-ID: <alpine.DEB.2.22.394.2405051317090.3397@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rc
-head:   ef9c8224c182965fc619b512ec14e478cae6dd08
-commit: 14bb6b12a4abe7a755e5c8eb81365a53deffb795 [2244/2247] vxlan: drop packets from invalid src-address
-config: i386-randconfig-004-20240505 (https://download.01.org/0day-ci/archive/20240505/202405051957.swCEY1g7-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405051957.swCEY1g7-lkp@intel.com/reproduce)
+Can a flexible array be used at the end of this structure?
+
+julia
+
+---------- Forwarded message ----------
+Date: Sun, 5 May 2024 19:06:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/xe/xe_guc_ads.c:103:21-27: WARNING use flexible-array
+    member instead
+    (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
+    and-one-element-arrays)
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: Matt Roper <matthew.d.roper@intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7367539ad4b0f8f9b396baf02110962333719a48
+commit: 237412e45390805e14a6936fb998d756c4eac9d8 drm/xe: Enable 32bits build
+date:   3 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-054-20240505 (https://download.01.org/0day-ci/archive/20240505/202405051824.AmjAI5Pg-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405051957.swCEY1g7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202405051824.AmjAI5Pg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_guc_ads.c:103:21-27: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-   drivers/net/vxlan.c: In function 'vxlan_rcv':
->> drivers/net/vxlan.c:1190:10: warning: 'return' with a value, in function returning void
-      return false;
-             ^~~~~
-   drivers/net/vxlan.c:1159:13: note: declared here
-    static void vxlan_rcv(struct vxlan_sock *vs, struct sk_buff *skb,
-                ^~~~~~~~~
-   drivers/net/vxlan.c: In function 'neigh_reduce':
-   drivers/net/vxlan.c:1552:25: warning: variable 'saddr' set but not used [-Wunused-but-set-variable]
-     const struct in6_addr *saddr, *daddr;
-                            ^~~~~
-   In file included from include/linux/rhashtable.h:24:0,
-                    from include/net/inet_frag.h:4,
-                    from include/net/netns/ipv4.h:9,
-                    from include/net/net_namespace.h:17,
-                    from include/linux/netdevice.h:43,
-                    from drivers/net/vxlan.c:20:
-   include/linux/jhash.h: In function 'jhash':
-   include/linux/jhash.h:90:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 12: c += (u32)k[11]<<24;
-              ~~^~~~~~~~~~~~~~~~~
-   include/linux/jhash.h:91:2: note: here
-     case 11: c += (u32)k[10]<<16;
-     ^~~~
-   include/linux/jhash.h:91:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 11: c += (u32)k[10]<<16;
-              ~~^~~~~~~~~~~~~~~~~
-   include/linux/jhash.h:92:2: note: here
-     case 10: c += (u32)k[9]<<8;
-     ^~~~
-   include/linux/jhash.h:92:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 10: c += (u32)k[9]<<8;
-              ~~^~~~~~~~~~~~~~~
-   include/linux/jhash.h:93:2: note: here
-     case 9:  c += k[8];
-     ^~~~
-   include/linux/jhash.h:93:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 9:  c += k[8];
-              ~~^~~~~~~
-   include/linux/jhash.h:94:2: note: here
-     case 8:  b += (u32)k[7]<<24;
-     ^~~~
-   include/linux/jhash.h:94:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 8:  b += (u32)k[7]<<24;
-              ~~^~~~~~~~~~~~~~~~
-   include/linux/jhash.h:95:2: note: here
-     case 7:  b += (u32)k[6]<<16;
-     ^~~~
-   include/linux/jhash.h:95:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 7:  b += (u32)k[6]<<16;
-              ~~^~~~~~~~~~~~~~~~
-   include/linux/jhash.h:96:2: note: here
-     case 6:  b += (u32)k[5]<<8;
-     ^~~~
-   include/linux/jhash.h:96:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 6:  b += (u32)k[5]<<8;
-              ~~^~~~~~~~~~~~~~~
-   include/linux/jhash.h:97:2: note: here
-     case 5:  b += k[4];
-     ^~~~
-   include/linux/jhash.h:97:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 5:  b += k[4];
-              ~~^~~~~~~
-   include/linux/jhash.h:98:2: note: here
-     case 4:  a += (u32)k[3]<<24;
-     ^~~~
-   include/linux/jhash.h:98:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 4:  a += (u32)k[3]<<24;
-              ~~^~~~~~~~~~~~~~~~
-   include/linux/jhash.h:99:2: note: here
-     case 3:  a += (u32)k[2]<<16;
-     ^~~~
-   include/linux/jhash.h:99:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 3:  a += (u32)k[2]<<16;
-              ~~^~~~~~~~~~~~~~~~
-   include/linux/jhash.h:100:2: note: here
-     case 2:  a += (u32)k[1]<<8;
-     ^~~~
-   include/linux/jhash.h:100:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     case 2:  a += (u32)k[1]<<8;
-              ~~^~~~~~~~~~~~~~~
-   include/linux/jhash.h:101:2: note: here
-     case 1:  a += k[0];
-     ^~~~
+vim +103 drivers/gpu/drm/xe/xe_guc_ads.c
 
+dd08ebf6c3525a Matthew Brost 2023-03-30   53
+dd08ebf6c3525a Matthew Brost 2023-03-30   54  /*
+dd08ebf6c3525a Matthew Brost 2023-03-30   55   * The Additional Data Struct (ADS) has pointers for different buffers used by
+dd08ebf6c3525a Matthew Brost 2023-03-30   56   * the GuC. One single gem object contains the ADS struct itself (guc_ads) and
+dd08ebf6c3525a Matthew Brost 2023-03-30   57   * all the extra buffers indirectly linked via the ADS struct's entries.
+dd08ebf6c3525a Matthew Brost 2023-03-30   58   *
+dd08ebf6c3525a Matthew Brost 2023-03-30   59   * Layout of the ADS blob allocated for the GuC:
+dd08ebf6c3525a Matthew Brost 2023-03-30   60   *
+dd08ebf6c3525a Matthew Brost 2023-03-30   61   *      +---------------------------------------+ <== base
+dd08ebf6c3525a Matthew Brost 2023-03-30   62   *      | guc_ads                               |
+dd08ebf6c3525a Matthew Brost 2023-03-30   63   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   64   *      | guc_policies                          |
+dd08ebf6c3525a Matthew Brost 2023-03-30   65   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   66   *      | guc_gt_system_info                    |
+dd08ebf6c3525a Matthew Brost 2023-03-30   67   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   68   *      | guc_engine_usage                      |
+dd08ebf6c3525a Matthew Brost 2023-03-30   69   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   70   *      | guc_um_init_params                    |
+dd08ebf6c3525a Matthew Brost 2023-03-30   71   *      +---------------------------------------+ <== static
+dd08ebf6c3525a Matthew Brost 2023-03-30   72   *      | guc_mmio_reg[countA] (engine 0.0)     |
+dd08ebf6c3525a Matthew Brost 2023-03-30   73   *      | guc_mmio_reg[countB] (engine 0.1)     |
+dd08ebf6c3525a Matthew Brost 2023-03-30   74   *      | guc_mmio_reg[countC] (engine 1.0)     |
+dd08ebf6c3525a Matthew Brost 2023-03-30   75   *      |   ...                                 |
+dd08ebf6c3525a Matthew Brost 2023-03-30   76   *      +---------------------------------------+ <== dynamic
+dd08ebf6c3525a Matthew Brost 2023-03-30   77   *      | padding                               |
+dd08ebf6c3525a Matthew Brost 2023-03-30   78   *      +---------------------------------------+ <== 4K aligned
+dd08ebf6c3525a Matthew Brost 2023-03-30   79   *      | golden contexts                       |
+dd08ebf6c3525a Matthew Brost 2023-03-30   80   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   81   *      | padding                               |
+dd08ebf6c3525a Matthew Brost 2023-03-30   82   *      +---------------------------------------+ <== 4K aligned
+dd08ebf6c3525a Matthew Brost 2023-03-30   83   *      | capture lists                         |
+dd08ebf6c3525a Matthew Brost 2023-03-30   84   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   85   *      | padding                               |
+dd08ebf6c3525a Matthew Brost 2023-03-30   86   *      +---------------------------------------+ <== 4K aligned
+dd08ebf6c3525a Matthew Brost 2023-03-30   87   *      | UM queues                             |
+dd08ebf6c3525a Matthew Brost 2023-03-30   88   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   89   *      | padding                               |
+dd08ebf6c3525a Matthew Brost 2023-03-30   90   *      +---------------------------------------+ <== 4K aligned
+dd08ebf6c3525a Matthew Brost 2023-03-30   91   *      | private data                          |
+dd08ebf6c3525a Matthew Brost 2023-03-30   92   *      +---------------------------------------+
+dd08ebf6c3525a Matthew Brost 2023-03-30   93   *      | padding                               |
+dd08ebf6c3525a Matthew Brost 2023-03-30   94   *      +---------------------------------------+ <== 4K aligned
+dd08ebf6c3525a Matthew Brost 2023-03-30   95   */
+dd08ebf6c3525a Matthew Brost 2023-03-30   96  struct __guc_ads_blob {
+dd08ebf6c3525a Matthew Brost 2023-03-30   97  	struct guc_ads ads;
+dd08ebf6c3525a Matthew Brost 2023-03-30   98  	struct guc_policies policies;
+dd08ebf6c3525a Matthew Brost 2023-03-30   99  	struct guc_gt_system_info system_info;
+dd08ebf6c3525a Matthew Brost 2023-03-30  100  	struct guc_engine_usage engine_usage;
+dd08ebf6c3525a Matthew Brost 2023-03-30  101  	struct guc_um_init_params um_init_params;
+dd08ebf6c3525a Matthew Brost 2023-03-30  102  	/* From here on, location is dynamic! Refer to above diagram. */
+dd08ebf6c3525a Matthew Brost 2023-03-30 @103  	struct guc_mmio_reg regset[0];
+dd08ebf6c3525a Matthew Brost 2023-03-30  104  } __packed;
+dd08ebf6c3525a Matthew Brost 2023-03-30  105
 
-vim +/return +1190 drivers/net/vxlan.c
+:::::: The code at line 103 was first introduced by commit
+:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
 
-  1158	
-  1159	static void vxlan_rcv(struct vxlan_sock *vs, struct sk_buff *skb,
-  1160			      struct vxlan_metadata *md, u32 vni,
-  1161			      struct metadata_dst *tun_dst)
-  1162	{
-  1163		struct iphdr *oip = NULL;
-  1164		struct ipv6hdr *oip6 = NULL;
-  1165		struct vxlan_dev *vxlan;
-  1166		struct pcpu_sw_netstats *stats;
-  1167		union vxlan_addr saddr;
-  1168		int err = 0;
-  1169	
-  1170		/* For flow based devices, map all packets to VNI 0 */
-  1171		if (vs->flags & VXLAN_F_COLLECT_METADATA)
-  1172			vni = 0;
-  1173	
-  1174		/* Is this VNI defined? */
-  1175		vxlan = vxlan_vs_find_vni(vs, vni);
-  1176		if (!vxlan)
-  1177			goto drop;
-  1178	
-  1179		skb_reset_mac_header(skb);
-  1180		skb_scrub_packet(skb, !net_eq(vxlan->net, dev_net(vxlan->dev)));
-  1181		skb->protocol = eth_type_trans(skb, vxlan->dev);
-  1182		skb_postpull_rcsum(skb, eth_hdr(skb), ETH_HLEN);
-  1183	
-  1184		/* Ignore packet loops (and multicast echo) */
-  1185		if (ether_addr_equal(eth_hdr(skb)->h_source, vxlan->dev->dev_addr))
-  1186			goto drop;
-  1187	
-  1188		/* Ignore packets from invalid src-address */
-  1189		if (!is_valid_ether_addr(eth_hdr(skb)->h_source))
-> 1190			return false;
-  1191	
-  1192		/* Get data from the outer IP header */
-  1193		if (vxlan_get_sk_family(vs) == AF_INET) {
-  1194			oip = ip_hdr(skb);
-  1195			saddr.sin.sin_addr.s_addr = oip->saddr;
-  1196			saddr.sa.sa_family = AF_INET;
-  1197	#if IS_ENABLED(CONFIG_IPV6)
-  1198		} else {
-  1199			oip6 = ipv6_hdr(skb);
-  1200			saddr.sin6.sin6_addr = oip6->saddr;
-  1201			saddr.sa.sa_family = AF_INET6;
-  1202	#endif
-  1203		}
-  1204	
-  1205		if (tun_dst) {
-  1206			skb_dst_set(skb, (struct dst_entry *)tun_dst);
-  1207			tun_dst = NULL;
-  1208		}
-  1209	
-  1210		if ((vxlan->flags & VXLAN_F_LEARN) &&
-  1211		    vxlan_snoop(skb->dev, &saddr, eth_hdr(skb)->h_source))
-  1212			goto drop;
-  1213	
-  1214		skb_reset_network_header(skb);
-  1215		/* In flow-based mode, GBP is carried in dst_metadata */
-  1216		if (!(vs->flags & VXLAN_F_COLLECT_METADATA))
-  1217			skb->mark = md->gbp;
-  1218	
-  1219		if (oip6)
-  1220			err = IP6_ECN_decapsulate(oip6, skb);
-  1221		if (oip)
-  1222			err = IP_ECN_decapsulate(oip, skb);
-  1223	
-  1224		if (unlikely(err)) {
-  1225			if (log_ecn_error) {
-  1226				if (oip6)
-  1227					net_info_ratelimited("non-ECT from %pI6\n",
-  1228							     &oip6->saddr);
-  1229				if (oip)
-  1230					net_info_ratelimited("non-ECT from %pI4 with TOS=%#x\n",
-  1231							     &oip->saddr, oip->tos);
-  1232			}
-  1233			if (err > 1) {
-  1234				++vxlan->dev->stats.rx_frame_errors;
-  1235				++vxlan->dev->stats.rx_errors;
-  1236				goto drop;
-  1237			}
-  1238		}
-  1239	
-  1240		rcu_read_lock();
-  1241	
-  1242		if (unlikely(!(vxlan->dev->flags & IFF_UP))) {
-  1243			rcu_read_unlock();
-  1244			atomic_long_inc(&vxlan->dev->rx_dropped);
-  1245			goto drop;
-  1246		}
-  1247	
-  1248		stats = this_cpu_ptr(vxlan->dev->tstats);
-  1249		u64_stats_update_begin(&stats->syncp);
-  1250		stats->rx_packets++;
-  1251		stats->rx_bytes += skb->len;
-  1252		u64_stats_update_end(&stats->syncp);
-  1253	
-  1254		gro_cells_receive(&vxlan->gro_cells, skb);
-  1255	
-  1256		rcu_read_unlock();
-  1257	
-  1258		return;
-  1259	drop:
-  1260		if (tun_dst)
-  1261			dst_release((struct dst_entry *)tun_dst);
-  1262	
-  1263		/* Consume bad packet */
-  1264		kfree_skb(skb);
-  1265	}
-  1266	
+:::::: TO: Matthew Brost <matthew.brost@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
