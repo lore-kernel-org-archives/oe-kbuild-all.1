@@ -1,191 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE3DEA4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 01:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714872780; cv=none; b=a3UscnOBOutObXA4rwkUi0EL7CVRMgRKBPXcJVGGhMvSFGdLosCW84EBTmtp2c0qx20du1tmsMh5cZmx30pBvJ9l9mFfR4rpBY3UoNsy33mHuCoyay7Q5zM28mD+HUMCgYRKN7iktItIAteYPQzuhgEOYv/TW6TA6XpF9vxavd8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714872780; c=relaxed/simple;
-	bh=WFbqfGmG5K/cPWPJH+PHeuRJ7SfAcdl3l6AI/7giZhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IaFPrkG1Z2WBDghEueZxTBzcld3BzUz2J9b2j9PMKIW6lAKecnl7BYKo0U7dwt60Q/wsczKMzdWlubJbO/q9agSU80UTNV2uo97qSr9tFNzacaj78c9kLVt4G0N/nBi800nAF6eSoZ0BFZOQSWeZQQHDkKdexh2DNqyYbRjYQU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LelL787v; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF54ED8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 02:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714875343; cv=fail; b=HchW3aKWs8xxE+knKF7cNtICNtYj7U9Y/2ypKGwKwWov+FMRi+NUzdH7aZegGXKBcCGOEGfzqiOplqAhnYVnDa0D/jMXd4Tmkmz9FHi3CS2nOHyTnRyA5wXR36iYPIUP27GWtHPprhm37HWS+SQjN0v/VNprtbKW6bcwBur0IP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714875343; c=relaxed/simple;
+	bh=MAWIA9rVEXUTt1/1JeApNRhgVCHLT/9PP0kri/Rpxxw=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=OYpkG82FA/gwKNZyNyiOEz2K6lg5+jftY75MDLS7wC7KLMyH/tIuoXEadj+nCFq04Fg74NIEu+hbMUhjzHHbpDDBO20IvedWExbdxiAj5rHSHEmmq0Y8w8Xa9Vje3C3ozLXdSTJEPByTzrqoeaopG23qAZcReboXZKlVe2OqCj8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D7LzWs9y; arc=fail smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LelL787v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D7LzWs9y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714872779; x=1746408779;
+  t=1714875342; x=1746411342;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WFbqfGmG5K/cPWPJH+PHeuRJ7SfAcdl3l6AI/7giZhw=;
-  b=LelL787vq72sznhcJm1ZK/E2rxbCgrv1/JptywyXn34eUsIkTMm/o6Tj
-   4GJ5WjMk5XhuLG6ecCYPEdtT+paVhTIXq3jDjdkX52Jw/myEkyVKkdU30
-   7xDNN6qA2hvPEaG4fWNYAcdaKYSuSq8vd5/y+q7419WRW3lRqy8E68W+K
-   Z43MApp5LHpvt4U/rfdGYny/7u3UDEB96V8nOea6HdkVgKVLvvmt91U37
-   Ai2RHO5x8F0ON6oaX2dD0pk/pyQYvQiDeYy3zbSTWhwgYDACWuzRCzFv5
-   aPbuOWp2/eijbNArwoCUV9RbpezUea1nsWPgFtyjW2cvmMig78Cp1AJmj
-   g==;
-X-CSE-ConnectionGUID: nIs7dTqASu2sPZ09TKViHQ==
-X-CSE-MsgGUID: zXIuA9nuRA2IJ/vq8pKQCA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10867342"
+  bh=MAWIA9rVEXUTt1/1JeApNRhgVCHLT/9PP0kri/Rpxxw=;
+  b=D7LzWs9yvZAfXFHBmCO6h/OC2iP4iVQcA/TYFYJZjYt3gKJvO/h7a+Jh
+   RNqRNRi2oFyKc7XPHlvusmXKCzwkQKY+J8N+PTmC33VTHpdTNGG8xhOFY
+   NtrejveI5F02d6VmVmmaZ5RDPGpE6V2rFkZ/WKyt6vl5Nh3I9T31brJ2w
+   4otdiRxtpkNhCbWygrXrPSC6LBtmW0CqBdTLn1FbI266QMV0/U3XHBQQA
+   TZffodxBk2+ByO2gBZb6aF1VX7TLFo34QnyCgE+/5bmIBGy9oRGbQNZqo
+   23dMxGlQJpKmYOhVHR8kCiSSWDRItlSpiiyefQOOyTMq0GG8PHzv53Pc9
+   w==;
+X-CSE-ConnectionGUID: EpFQH0x6SduzpvPnqTywAg==
+X-CSE-MsgGUID: 9bK/Y8JuTd+4v3EqlhYUWA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="33161019"
 X-IronPort-AV: E=Sophos;i="6.07,255,1708416000"; 
-   d="scan'208";a="10867342"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 18:32:58 -0700
-X-CSE-ConnectionGUID: RB68s7tWTiKqR0iyedyGUg==
-X-CSE-MsgGUID: E27Pp5nNSISJ962NXcI+cQ==
+   d="scan'208";a="33161019"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 19:15:42 -0700
+X-CSE-ConnectionGUID: nfzR7L/FQlCUBR5UxmXYrw==
+X-CSE-MsgGUID: gOsOPG2eS2ymPeFxhkMGdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,255,1708416000"; 
-   d="scan'208";a="50997101"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 May 2024 18:32:56 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3QkI-000DLc-0v;
-	Sun, 05 May 2024 01:32:54 +0000
-Date: Sun, 5 May 2024 09:31:59 +0800
+   d="scan'208";a="27907743"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 May 2024 19:15:41 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 4 May 2024 19:15:40 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 4 May 2024 19:15:40 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sat, 4 May 2024 19:15:40 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sat, 4 May 2024 19:15:39 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E8KCzqEc7RifkrKlShYvDFHLABkFk4zCjlFqOeAdeTjQIJjULEmawyO8QYyWH51aMJSoHVV3yN2/PqM8Qj+Iu0uio+pH3eY9NF2QNeYTWbYQMxqOIdPoyO2hjcaxlz1MopaKecOs1OmzOo1f9ox1SRIX5b2PDukZXxESx9jTwIqQntD02Tw2LnQOXXemdf6ZeaVJWztRrkPj6Off8Or0FmwHEWtzcOS0PeyD/Rl57D/6DX/XpGz0/xYM5pbHce/njTKTkGUUdA/AfBmwhTHa95UCk/GiR3FYSgzATxAh6ZfFrLZ7IL4BHx2uvq+3zelkYViBmzlgvNNSXbjYd/RnJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pd2wo+1TsLEfKd67jTHUzu4OzNe1bJBR8lLIU+ZTy1I=;
+ b=WxlQS5Vbacm5ow11WbWGmMvt9NWFT6wjxRdk7EYBuXiolCK3dBbR83dyBY7ByIe7tPHfhTZw1CldynM4wYBJJeTIxWJQ1z19g2RyrEub4cJf1jyNr+93ZTxT70aYYIWQ8+bUGli6hyf36BiZ6UwqOOj0tnSA21tp5H0DZypSC6av8lgNbWD/2cWJpCYHRqTJ8IU+7Hq8FJSXukQweCUtL57BifNVx43K21eUxTp4y0WB0KJlvm7+65Y5Fs6KHROlXifJFF+EGKBk5hA5xVcevdw6d18ahmdKuSDVb7e4LZXMcaJx3xXxAstEhTL+EP50K/teg/K8Ao68u3J0FFPh2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN6PR11MB3230.namprd11.prod.outlook.com (2603:10b6:805:b8::29)
+ by IA1PR11MB8197.namprd11.prod.outlook.com (2603:10b6:208:446::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.28; Sun, 5 May
+ 2024 02:15:35 +0000
+Received: from SN6PR11MB3230.namprd11.prod.outlook.com
+ ([fe80::35d6:c016:dbf5:478e]) by SN6PR11MB3230.namprd11.prod.outlook.com
+ ([fe80::35d6:c016:dbf5:478e%7]) with mapi id 15.20.7544.036; Sun, 5 May 2024
+ 02:15:35 +0000
+Date: Sun, 5 May 2024 10:15:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 828/1143]
- drivers/char/ipmi/bt-bmc.c:461:42: error: 'IRQ_TYPE_LEVEL_HIGH' undeclared
-Message-ID: <202405050948.cktU5Lbd-lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <kvm-ppc@vger.kernel.org>
+Subject: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46: warning:
+ unused variable 'region'
+Message-ID: <ZjbrwAWnOOcKOmUG@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0168.apcprd04.prod.outlook.com (2603:1096:4::30)
+ To SN6PR11MB3230.namprd11.prod.outlook.com (2603:10b6:805:b8::29)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3230:EE_|IA1PR11MB8197:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4b1ff87-826e-4790-9cf3-08dc6ca93f55
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?D3qXFIkA3BMoKTeZ+65Y5sfptbraIAcoLym3pKV7HeSRZ7V4DmSjwi12k9ez?=
+ =?us-ascii?Q?q0i9amOJAeQGldlrD0VRla8jW2hgzXovjwc3DPr30UwW9rhgMIBS05yawIBU?=
+ =?us-ascii?Q?bSfQbCGDAKGUZmJZm/i97xpODNjD0ojj2n5gaKVDOqe9uE2F8Az7FmLgVZ7s?=
+ =?us-ascii?Q?eh9QczbRjcaVe30lxwEs2QuCuXJZcAvN15JlAgX6DtJFh1vgk6f/Ags2AD7P?=
+ =?us-ascii?Q?nWYFQdz8Ldk7tGJfg8Co6SWKsU7lMv5iO5d232lmIW3sUw3EENXunYdi5V4m?=
+ =?us-ascii?Q?39frbBoaoqBsEYI1leLTKuUsxM9Hg/WGnVDj7HX8MnepVXCBAjC4nO75C6YK?=
+ =?us-ascii?Q?n5tMq6iBWd/m94s1rKQhTtS3rAks5uUOyt14p/O8+FTctqLQ1hgjNjCr5QLg?=
+ =?us-ascii?Q?Ah6n6mF8/TbOO6dcIw6FOWi84J3HXxhAHCgwSQW5MUclooYkQx6leorw597z?=
+ =?us-ascii?Q?c+Z+FrBV2WERqrXmdTQzf0uNy95ctNJW3Jd14m7bEoW+eIglgVMQCZIkcxq9?=
+ =?us-ascii?Q?vHk3v9sgnPtcY70jAzdpGI4Ixh2X4aU9g5qgdq0Bh+ihI/6IiXw2SrmdV+pp?=
+ =?us-ascii?Q?m/1TF0DA7cqb72F+ioxMHIR44ow7YVwNHYV/h80v1qZodhNrcQdsi5+TvWR9?=
+ =?us-ascii?Q?A3ECQLYCgSwSgZUWP16Qc/aU3j0GOArN64K/nP1pGmvgKs/Q6LDyK2cLeeFW?=
+ =?us-ascii?Q?k2GjqVJchgi9IbcgaBtJnEx/dBXadHlTkr1CeDJVE7ul9qYVRPKQwG8nBHr3?=
+ =?us-ascii?Q?iZNkzOz1LCmL0yQVrO5+EkjmdwbmxDM6gJT/HaLFxIJrxrDlTDfB0QCgeUUy?=
+ =?us-ascii?Q?mgi+AtDYP3xW4OBhL3Yn/vv4S1FlikuK/MFmg+1+EKG3bG4Sz2jw59kjECcy?=
+ =?us-ascii?Q?Qv+43YRt+2HwztVI86iuHDWt/ECmhAXSDyCJY4lijNqqMF7QgEtL7nH8as2G?=
+ =?us-ascii?Q?AJ9VD1VhD3KL+Toxi4tc1j8oAClnqHroro2PAZxfajKsjznga0xSdznCx5wT?=
+ =?us-ascii?Q?ViemcC4GAy+ZsgYMvRJEH0ppf+GceLOaJlvh+WdkPYCb0Bufj5bYHhwoesLU?=
+ =?us-ascii?Q?E6EzvanWJ577jGjw2FVOXYWJGbMpCNDhQQZYkXBnqbrHWegIbSITNbA1JrXQ?=
+ =?us-ascii?Q?jBvwcaX7q5Am2WFsSXk7aHfQv0AF/RG8FEJ8dZYn9atZKgJ7TfUQpu6fHqQq?=
+ =?us-ascii?Q?CJXqkP+unwCdM54tq2eXWXNOC57XmQnPAL1d0FBACk6aJZf7Tnz1ftwrJ1E?=
+ =?us-ascii?Q?=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3230.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3ZjQySi4Z6EtWB2B02zLG3HsAD/WhwmHDtwndh6FxLLe3y5CIEHDa28KVzy2?=
+ =?us-ascii?Q?9Z3dk1Y23X0mP8WcydCbWRIgud1eIsfPgBiz6d9bs+Ys1aM2TyO0nR1FGcu9?=
+ =?us-ascii?Q?aEmXkH97w66ixjXB41mkG6DGOZOijzxN3pYi/iYVT+vd7f7Qczt0Wcjyc13U?=
+ =?us-ascii?Q?XFHMiSsinlkksRnT2sqNgaSNzjAc8MMNo8PKW8jkDHdMDgolyy8hqcaoaGkf?=
+ =?us-ascii?Q?GCGFA2OBTm5hRIi35VV5xi+g/Ps8LutvqAHGWFLFtq03aRtCY/k/e0Thl9qC?=
+ =?us-ascii?Q?lJDXAmW3gPJ3HmQwhjrRcNPI4/CE0MSkfd/lojOEdbo5LyN6ZVx8Te2a6pd2?=
+ =?us-ascii?Q?2TB80V/Ko0ygJOWfKGi6awFvLWRBn2BRJ4+Uous4t76cY8m4UaYj2if1qcd2?=
+ =?us-ascii?Q?EW0iOsqoFds2VyMubkUquKHLpiWk0Tg5GLrQVYhVyYNfcq2Alr9fiVAoktYf?=
+ =?us-ascii?Q?ZPnD4jqC/GH3L2SUxFl9DupRVZdHB+TuH0fBgR1hs30SP4Y4GF29hof0FCZW?=
+ =?us-ascii?Q?AzWooZ5g8sUTSjqNKAzS2vobpaGXY/Hdp7/vo77gqRG6Sw6jX+apX6Q2NwPe?=
+ =?us-ascii?Q?7aV8dw4041wgb2+2WbXkXm2QmzxvRwtoWHuz4p3NqkTyVTYsRJLtCh8Zdt8j?=
+ =?us-ascii?Q?4keAmbfv5hxk5EZaZvBe/lNS0LIz8ZB6QF4Fnqzt5n4s6XkyuX4zJwqL7gKW?=
+ =?us-ascii?Q?tWZFjbXUocl6wVV6JjxTsJAD6I3b7aI4ZXK+1xF6cJ8brwFVxJ08c7V75xjg?=
+ =?us-ascii?Q?5slHgt0w8Xq6j5ZReQRpz+hVo9YSRLHIVOL5idS0y1cDp7EhYm+pjpXEE4k7?=
+ =?us-ascii?Q?kG45vTUytvXpoC9MfGBWPUJLCbm7zfl8fJM+igO+FFhET7e60ltbX+7iaFuz?=
+ =?us-ascii?Q?u0wQ+w6J5Q5y1cSX4h+PKRj8HPkcWuvBuACzmeO9UizQWjc6kCw+LQrWzSrn?=
+ =?us-ascii?Q?FzZgmaGbLHqWbZ75nMx9y+T2GJSOI47ePrrFnfBJ5Q4s4LvoU18Z6N7eI0C7?=
+ =?us-ascii?Q?6UTE7sMqMeRnj72OgrbvhLfkq9npIhFZjhNhk9DCLNg5eOdJJZFJKtc3EbJY?=
+ =?us-ascii?Q?uxDORwWyAYxiFQd/d5ZaehNKniXYFJ8e6KosB55Va27fgKYay/k+72OguCyg?=
+ =?us-ascii?Q?kYBqIcr2ZBs6+fihs2IzaaXMTkHQhKUx9lvD37n/l3JbPhK1JPPuMuU1V5sn?=
+ =?us-ascii?Q?ZbPeLyGOHqtxmjK/TapOBvC1KXC/cfQcn7AbZXkFASQfxFfmSeHBjefoUyO3?=
+ =?us-ascii?Q?LKtz3modVIVvYdmwK4DyPHWcv/L1CTVEwjfAGlXGf2F3gkTN1Ted4wUbE0hB?=
+ =?us-ascii?Q?7VCs+wjmS76CeBFo4fS8VI2q8MqbBzz5cHjjzJ69VhAzgThDNShTi32sMszZ?=
+ =?us-ascii?Q?k1tDTXRoYr64HNS71j2rnkoiZuvl8zJ5gnvfBn5lWoWCWu1eqbRQrQtBH4Rg?=
+ =?us-ascii?Q?A6jnfARgnuF0TSS3tFeQUw166AebuKUI5Y73p/4Yiz6RUWgsN4Zgqspr1vc9?=
+ =?us-ascii?Q?mSd9O16TxTU0QV6GrQemllK37V2Ligj070LKyLI/PFKc1EuGYXd0MQAv0CJs?=
+ =?us-ascii?Q?ncdG4yEQfjzdDSRszMRu39VosmLq4MkCNWUo4wTX?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4b1ff87-826e-4790-9cf3-08dc6ca93f55
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3230.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2024 02:15:35.2727
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nwH+AVThpCi0Xusi2ne8mQ6686KS0XRKcEUhOvbyOZIL+VMbXUWqv2ktDdj9w8IDS2X13o57RqiCeHjsDY0+4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8197
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/shenki/linux aspeed-6.9-rebase
-head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: 468c33b5b88d7f3c041d92583462a04a8144484f [828/1143] ipmi: bt_bmc_aspeed: Fix SerIRQ type
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20240505/202405050948.cktU5Lbd-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050948.cktU5Lbd-lkp@intel.com/reproduce)
+tree:   https://github.com/agraf/linux-2.6.git kvm-kho-gmem-test
+head:   9a58862a298a63bad21d05191e28b857063bb9dc
+commit: ea39f95803e6da8a46791922be3724b49bea2c7a [19/27] XXX make fdbox work
+:::::: branch date: 35 hours ago
+:::::: commit date: 7 weeks ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405050343.ZgfQxdbN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405050948.cktU5Lbd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405050343.ZgfQxdbN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/char/ipmi/bt-bmc.c: In function 'bt_bmc_probe':
-   drivers/char/ipmi/bt-bmc.c:454:37: error: 'IRQ_TYPE_LEVEL_LOW' undeclared (first use in this function)
-     454 |                 bt_bmc->sirq.type = IRQ_TYPE_LEVEL_LOW;
-         |                                     ^~~~~~~~~~~~~~~~~~
-   drivers/char/ipmi/bt-bmc.c:454:37: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/char/ipmi/bt-bmc.c:461:42: error: 'IRQ_TYPE_LEVEL_HIGH' undeclared (first use in this function)
-     461 |                 if (bt_bmc->sirq.type != IRQ_TYPE_LEVEL_HIGH &&
-         |                                          ^~~~~~~~~~~~~~~~~~~
-   drivers/char/ipmi/bt-bmc.c:477:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     477 |         writel(FIELD_PREP(BTCR0_IO_BASE, bt_bmc->io_addr) |
-         |                ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+   lib/kvm_util.c: In function 'vm_open':
+>> lib/kvm_util.c:202:46: warning: unused variable 'region' [-Wunused-variable]
+     202 |                 struct userspace_mem_region *region;
+         |                                              ^~~~~~
+>> lib/kvm_util.c:201:36: warning: unused variable 'node' [-Wunused-variable]
+     201 |                 struct hlist_node *node;
+         |                                    ^~~~
+>> lib/kvm_util.c:200:21: warning: unused variable 'ctr' [-Wunused-variable]
+     200 |                 int ctr;
+         |                     ^~~
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
 
 
-vim +/IRQ_TYPE_LEVEL_HIGH +461 drivers/char/ipmi/bt-bmc.c
+vim +/region +202 tools/testing/selftests/kvm/lib/kvm_util.c
 
-   412	
-   413	static int bt_bmc_probe(struct platform_device *pdev)
-   414	{
-   415		struct bt_bmc *bt_bmc;
-   416		struct device *dev;
-   417		int rc, chan;
-   418	
-   419		dev = &pdev->dev;
-   420	
-   421		bt_bmc = devm_kzalloc(dev, sizeof(*bt_bmc), GFP_KERNEL);
-   422		if (!bt_bmc)
-   423			return -ENOMEM;
-   424	
-   425		dev_set_drvdata(&pdev->dev, bt_bmc);
-   426	
-   427		bt_bmc->base = devm_platform_ioremap_resource(pdev, 0);
-   428		if (IS_ERR(bt_bmc->base))
-   429			return PTR_ERR(bt_bmc->base);
-   430	
-   431		mutex_init(&bt_bmc->mutex);
-   432		init_waitqueue_head(&bt_bmc->queue);
-   433	
-   434		rc = of_property_read_u32(dev->of_node, "bt-io-addr", &bt_bmc->io_addr);
-   435		if (rc) {
-   436			bt_bmc->io_addr = 0xe4;
-   437		} else if (bt_bmc->io_addr > (USHRT_MAX - 1)) {
-   438			dev_err(dev, "invalid IO address\n");
-   439			return -ENODEV;
-   440		}
-   441	
-   442		rc = of_property_read_u32(dev->of_node, "bt-channel", &chan);
-   443		if (rc) {
-   444			chan = ida_alloc(&aspeed_bt_bmc_ida, GFP_KERNEL);
-   445			if (chan < 0) {
-   446				dev_err(dev, "cannot allocate ID for BT channel\n");
-   447				return chan;
-   448			}
-   449		}
-   450	
-   451		rc = of_property_read_u32_array(dev->of_node, "bt-upstream-serirq", (u32 *)&bt_bmc->sirq, 2);
-   452		if (rc) {
-   453			bt_bmc->sirq.id = 0xa;
-   454			bt_bmc->sirq.type = IRQ_TYPE_LEVEL_LOW;
-   455		} else {
-   456			if (bt_bmc->sirq.id > 15) {
-   457				dev_err(dev, "invalid SerIRQ number, expected sirq <= 15\n");
-   458				return -EINVAL;
-   459			}
-   460	
- > 461			if (bt_bmc->sirq.type != IRQ_TYPE_LEVEL_HIGH &&
-   462			    bt_bmc->sirq.type != IRQ_TYPE_LEVEL_LOW) {
-   463				dev_err(dev, "invalid SerIRQ type, expected IRQ_TYPE_LEVEL_HIGH/LOW only\n");
-   464				return -EINVAL;
-   465			}
-   466		}
-   467	
-   468		bt_bmc_config_irq(bt_bmc, pdev);
-   469	
-   470		if (bt_bmc->irq < 0) {
-   471			dev_info(dev, "No IRQ; using timer\n");
-   472			timer_setup(&bt_bmc->poll_timer, poll_timer, 0);
-   473			bt_bmc->poll_timer.expires = jiffies + msecs_to_jiffies(10);
-   474			add_timer(&bt_bmc->poll_timer);
-   475		}
-   476	
-   477		writel(FIELD_PREP(BTCR0_IO_BASE, bt_bmc->io_addr) |
-   478		       FIELD_PREP(BTCR0_SIRQ, bt_bmc->sirq.id) |
-   479		       FIELD_PREP(BTCR0_SIRQ_TYPE, ((bt_bmc->sirq.type == IRQ_TYPE_LEVEL_LOW) ? 0 : 1)) |
-   480		       BTCR0_EN_CLR_SLV_RDP |
-   481		       BTCR0_EN_CLR_SLV_WRP |
-   482		       BTCR0_ENABLE_IBT,
-   483		       bt_bmc->base + BTCR0);
-   484	
-   485		clr_b_busy(bt_bmc);
-   486	
-   487		bt_bmc->miscdev.name = devm_kasprintf(dev, GFP_KERNEL, "%s%u",
-   488						      DEVICE_NAME, chan);
-   489	
-   490		bt_bmc->miscdev.minor = MISC_DYNAMIC_MINOR;
-   491		bt_bmc->miscdev.fops = &bt_bmc_fops;
-   492		bt_bmc->miscdev.parent = dev;
-   493		rc = misc_register(&bt_bmc->miscdev);
-   494		if (rc) {
-   495			dev_err(dev, "Unable to register misc device\n");
-   496			return rc;
-   497		}
-   498	
-   499		dev_info(dev, "initialised channel %d at IO address 0x%x\n",
-   500			 chan, bt_bmc->io_addr);
-   501	
-   502		return 0;
-   503	}
-   504	
+ea39f95803e6da Alexander Graf      2024-03-15  191  
+ccc82ba6bea451 Sean Christopherson 2022-02-14  192  static void vm_open(struct kvm_vm *vm)
+fa3899add1056f Paolo Bonzini       2018-07-26  193  {
+ccc82ba6bea451 Sean Christopherson 2022-02-14  194  	vm->kvm_fd = _open_kvm_dev_path_or_exit(O_RDWR);
+fa3899add1056f Paolo Bonzini       2018-07-26  195  
+7ed397d107d461 Sean Christopherson 2022-05-27  196  	TEST_REQUIRE(kvm_has_cap(KVM_CAP_IMMEDIATE_EXIT));
+c68c21ca929771 Paolo Bonzini       2019-04-11  197  
+ea39f95803e6da Alexander Graf      2024-03-15  198  	/* XXX HACK! */
+ea39f95803e6da Alexander Graf      2024-03-15  199  	if (old_vmfd) {
+ea39f95803e6da Alexander Graf      2024-03-15  200  		int ctr;
+ea39f95803e6da Alexander Graf      2024-03-15  201  		struct hlist_node *node;
+ea39f95803e6da Alexander Graf      2024-03-15 @202  		struct userspace_mem_region *region;
+ea39f95803e6da Alexander Graf      2024-03-15  203  
+ea39f95803e6da Alexander Graf      2024-03-15  204  		/* Recover old VM fd */
+ea39f95803e6da Alexander Graf      2024-03-15  205  		vm->fd = old_vmfd;
+ea39f95803e6da Alexander Graf      2024-03-15  206  	} else
+fcba483e824628 Sean Christopherson 2022-06-01  207  		vm->fd = __kvm_ioctl(vm->kvm_fd, KVM_CREATE_VM, (void *)vm->type);
+f9725f89dc5027 Sean Christopherson 2022-02-15  208  	TEST_ASSERT(vm->fd >= 0, KVM_IOCTL_ERROR(KVM_CREATE_VM, vm->fd));
+fa3899add1056f Paolo Bonzini       2018-07-26  209  }
+fa3899add1056f Paolo Bonzini       2018-07-26  210  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
