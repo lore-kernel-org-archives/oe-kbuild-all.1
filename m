@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139BA57C9A;
-	Sun,  5 May 2024 15:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E80C3D76
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 15:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714923398; cv=none; b=BGLjexUaMQmwkZvvPuvKXFBxbCM4FuiDvyD2wnC844gVdbckpxeaUK2rgxaWf0HWcytGumI4EJ0HDt+N8sn3gXXTfnn5Bn88/El3oGxLVofy5ZYpbp+qqGdYFv2T8fEZvCwoNNx10t2lxFErUFuD4bdakvHEclGQ4v180CrKT3s=
+	t=1714924660; cv=none; b=A0cYeeNQwNpwtBKXFo/4cFxIIdPVCNqSF5lRMzEg0AzUZYiFMQCD3Ejh3JG3lV2qUre4BvCpqtfGCC/ke2LeAApdIQg5WOJjKu44/CeGtyisFqNWpnyRm1p/SQOPvjyGy12x1199gCbLupj4bKYoA00arhICE0RWUWNxprghhTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714923398; c=relaxed/simple;
-	bh=BWokMerW/cxS4NyxRotKz7gSxuno5iM10HpbYDkJMI0=;
+	s=arc-20240116; t=1714924660; c=relaxed/simple;
+	bh=GTo8Rm+SvnY9HNJ5FgeH1VwoQEg3mqSp2qTv+C8myJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=awjtIwS3ldo8aGCAHW/KVaCPrlNyy+lPwOY5uHXLtgoe89vDIhiBambEGl7c4HJ3YbmjcAii0isnWbtssqe4nrWLiIekB03n7t+67MlW2i/3ePOj++m/E6Si8VtXtH5AaBgUnKrhZKmNT6fuLPuc1Qo9qeTnDTTOrgoQVLckiT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NO/mnsWE; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=dX0z7mhakfQariXyAqQ8NJ8SmBjgGq0F9anSh/p4tuoxLDv+Rru0+Nuj5mGTNMTO+SMmAXeWI0atCmapT5gure6rj9HaU+gjZtzjEguFrXpYbM2X1LyqeW4WzNMjLMCtWP8lejwtr8SgyPlLB9SLG2H63wxp4MEmmQxxJAmMUw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=POaq5hmd; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NO/mnsWE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="POaq5hmd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714923396; x=1746459396;
+  t=1714924657; x=1746460657;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BWokMerW/cxS4NyxRotKz7gSxuno5iM10HpbYDkJMI0=;
-  b=NO/mnsWERIELpceTY4FEhGGp+noG/gNkEthfBNRfIomw2rT3sBwvKkwz
-   N7FRUGk9RgiTr6C4hZ6xb3IOA5J49UUx3VAV/SROUycEUv+vPqUOb8eRk
-   W9uPTRBENHJ4Z7o5Kqm30bu4miSHXI0me8yxfNk885ZKdkRtgaQXRoI+p
-   uYTGmli2puxP6w3iUpuhXFmo3HG+xuZR94z4Ytj3JEkF37idGfYHynlD7
-   0pThFbBz2Px+x0E/1YlwVAVoIC0ahFdypEV23xXeIMAysIXvrRaqmUkfL
-   BvDNYN+Z4Wpf2AiR5lWjtxd2Wc7+m7b4R+/6U2wFklo6mSEsUTEmW2t6s
-   w==;
-X-CSE-ConnectionGUID: 7s6N4pScReGX4lKxlG287A==
-X-CSE-MsgGUID: Dev3EkQEQzGFwjlBYVyBrw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10501193"
+  bh=GTo8Rm+SvnY9HNJ5FgeH1VwoQEg3mqSp2qTv+C8myJ0=;
+  b=POaq5hmdAMycpHCZAY2fPoPF7IRoNB7OyYINE9BSVYGSYIwcq+P0B/zp
+   sU1xYpqzNj1dt2Qw2HdBAvJOXdQwV80PhTXKzaVCQGgGTwB3QTXbENyCY
+   VSTgiloYOPVXmzAZyYhQB7JeTO+TPOgTzY+7KG8v0lt4IbhVzj2hKgtfg
+   MoLW4wb8TwGRBxq2UDYv6ehf6jlX7v7O7auAiTUda1psqfkLsJw2wglUg
+   3K2PmYbvzWk/DCYDgOidTG4oIfLhljwP8SDg7xKReRYyj8NrK277pV1cM
+   6RCggf3FQ9TWvBpCVxAt8LIvFG3RkIaVedAS4fo32Ghf8Y077RNcFSGOB
+   A==;
+X-CSE-ConnectionGUID: 9g13oczhSdKBxWkADI2uVw==
+X-CSE-MsgGUID: TjCdUFzkTLeMc5RvIpGzEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="22080142"
 X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
-   d="scan'208";a="10501193"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 08:36:35 -0700
-X-CSE-ConnectionGUID: w13o7bOPSyqKXin0aHVYCw==
-X-CSE-MsgGUID: LoYoOew9TXWdTOoTRcor7g==
+   d="scan'208";a="22080142"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 08:57:36 -0700
+X-CSE-ConnectionGUID: ALLmbas0SeS+DVpHewNvbQ==
+X-CSE-MsgGUID: 2eFgYWm4TISzWc52B3ehtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
-   d="scan'208";a="28044263"
+   d="scan'208";a="32605709"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 May 2024 08:36:33 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 May 2024 08:57:34 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3duh-000012-1F;
-	Sun, 05 May 2024 15:36:31 +0000
-Date: Sun, 5 May 2024 23:36:14 +0800
+	id 1s3eF2-00001c-0l;
+	Sun, 05 May 2024 15:57:32 +0000
+Date: Sun, 5 May 2024 23:56:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
 	Jakub Kicinski <kuba@kernel.org>
-Subject: [arm:zii 35/93] drivers/net/dsa/b53/b53_common.c:2283:3: error:
- field designator 'adjust_link' does not refer to any field in type 'const
- struct dsa_switch_ops'
-Message-ID: <202405052312.ZN4UrG6u-lkp@intel.com>
+Subject: [arm:zii 35/93] drivers/net/dsa/b53/b53_common.c:2283:10: error:
+ 'const struct dsa_switch_ops' has no member named 'adjust_link'
+Message-ID: <202405052355.pG0dj25L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,21 +67,29 @@ Content-Disposition: inline
 tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git zii
 head:   b602a1302aefbab72bb6e770c84998f0878536f8
 commit: 3517bea94ef507148072d1ae9b6b1cfc097fa278 [35/93] net: dsa: Remove adjust_link paths
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240505/202405052312.ZN4UrG6u-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405052312.ZN4UrG6u-lkp@intel.com/reproduce)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240505/202405052355.pG0dj25L-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405052355.pG0dj25L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405052312.ZN4UrG6u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405052355.pG0dj25L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/dsa/b53/b53_common.c:2283:3: error: field designator 'adjust_link' does not refer to any field in type 'const struct dsa_switch_ops'
-           .adjust_link            = b53_adjust_link,
-            ^
-   1 error generated.
+>> drivers/net/dsa/b53/b53_common.c:2283:10: error: 'const struct dsa_switch_ops' has no member named 'adjust_link'
+    2283 |         .adjust_link            = b53_adjust_link,
+         |          ^~~~~~~~~~~
+>> drivers/net/dsa/b53/b53_common.c:2283:35: error: initialization of 'void (*)(struct dsa_switch *, int,  struct phylink_config *)' from incompatible pointer type 'void (*)(struct dsa_switch *, int,  struct phy_device *)' [-Werror=incompatible-pointer-types]
+    2283 |         .adjust_link            = b53_adjust_link,
+         |                                   ^~~~~~~~~~~~~~~
+   drivers/net/dsa/b53/b53_common.c:2283:35: note: (near initialization for 'b53_switch_ops.phylink_get_caps')
+   drivers/net/dsa/b53/b53_common.c:2284:35: warning: initialized field overwritten [-Woverride-init]
+    2284 |         .phylink_get_caps       = b53_phylink_get_caps,
+         |                                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/b53/b53_common.c:2284:35: note: (near initialization for 'b53_switch_ops.phylink_get_caps')
+   cc1: some warnings being treated as errors
 
 
 vim +2283 drivers/net/dsa/b53/b53_common.c
