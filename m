@@ -1,108 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6901852
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 04:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6199FED8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 04:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714883829; cv=none; b=OEff+b7MFgfTdk2Ek1TV9NOGbvou7+CoOSJAIiJHDKfezB+0ko95eCA0faABoQHH2zGpZ/Fjnay34XPzLwCgK95v9bsJIMnwJ+hqmHVYTCqy2Y6+N7SUlka/uFHAVbuQ+hrRYw2uDdDbVJ3FcaL+fcAhKzGKj2MlK4HdSUjoO/w=
+	t=1714884004; cv=none; b=luyMMJkqqwmhvUku+7QO7cWXhmoengua+3K+xWowW2UXNRF5q++cJMdt/fLxulWsy+VvRXYSNcu0DOJlPBKl1btvlEJ/nAb50hz3y5Iaw/NLc1k9AKKZ5ArVCAqL7a6tsVN3LpmJ1B+uaTTJwdESK73MSNM7z8XtssIq1Od7BkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714883829; c=relaxed/simple;
-	bh=lg3ZmrqDpgoWH7uchHVbaymLxKfhlI7YH7/bVp1vSis=;
+	s=arc-20240116; t=1714884004; c=relaxed/simple;
+	bh=zg1XkJMfhl0NSO0NTG2Ku336zIdH3gENBvcjq01QdDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KqQnUfBRxZsFha8OiowQRJKPMi4/wXWtvRHx6OfGLFLVO5kGrreHm3p4FBa1ZFCTG6rzMQXmplWNUCJVNGzsk8yvRiGQPMFlMCZ7grR9ROIQMnx42GLBI868rowG5IcoNOB7P5KCQVwWk6UHb1oM3zMLJC3gGlXQrup8+ZBkFfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNPeh+Mb; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kJitrj6QIz9Uh0w3UYCqli8z2z+QpfZA4QFB4j78LZibzhxg8Se4QLKe2Ovq3j6X6nAyI9rpJlTEeHaexP+MMB4g9CpCaRF8/pNZ6/bULo1RYCF2broAVLiLI1fjV16fRgW6iFRcFT2mRu8btHMmxtQh9rIqhlJKfY0VDuwlUi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ngb0Ujjg; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNPeh+Mb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714883827; x=1746419827;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=lg3ZmrqDpgoWH7uchHVbaymLxKfhlI7YH7/bVp1vSis=;
-  b=QNPeh+Mb0Qa6Sj3QhReNK009x6iCGZt8XVYZ0dZyj3C++HWPZOh25GjW
-   amD0wN3VgEUIGgM2HeYarua3NvWUbEHBpdSifShiE5JND79I+/mQ/Klbo
-   8n9M3XqON+pjW3QvT2LDKikM7Gu+oz4FrC/yojcuLB5+mVlFgpvnyA5Yr
-   qo70gDQvLVcn+LU6l/FM00FHXTnhqc60Mly0T2O5dsFLNc6EN/wZe7BvF
-   T+TBQPyEOtGg0mr4qwCXSl+3cJCfRBe5x6Nilio80p0I1Wfn98X3yhbRO
-   Nxm8x7l2tl07hZ51+ZObnXIWnDNT7+4W6Asauuk7vevmjsuE58rqhuTVa
-   w==;
-X-CSE-ConnectionGUID: WR+9WeIyQzeIW3y8m+8v/Q==
-X-CSE-MsgGUID: 143v1309T7OxvWNyyNM2Uw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="21203695"
-X-IronPort-AV: E=Sophos;i="6.07,255,1708416000"; 
-   d="scan'208";a="21203695"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 21:37:07 -0700
-X-CSE-ConnectionGUID: 9IPwF6yjTvyC7RD4dFu7fg==
-X-CSE-MsgGUID: ZfK8V6V+TwaMEjJc2DmUuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,255,1708416000"; 
-   d="scan'208";a="59037530"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 May 2024 21:37:04 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3TcT-000DQi-1v;
-	Sun, 05 May 2024 04:37:01 +0000
-Date: Sun, 5 May 2024 12:36:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <trabarni@gmail.com>,
-	Danila Tikhonov <danila@jiaxyga.com>
-Subject: Re: [PATCH 1/2] iio: imu: bmi160: add support for bmi120
-Message-ID: <202405051259.R7WyR8LV-lkp@intel.com>
-References: <20240504-bmi120-v1-1-478470a85058@gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ngb0Ujjg"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1ecd9dab183so24600385ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 May 2024 21:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714884003; x=1715488803; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TzpM7FU8Imvm8zuTPXcEgxBeaAl1FWkYeSH3YqD2Xns=;
+        b=ngb0UjjgJ5Ctpx8FEeU3oMXceaImK83aJH2OOlB1EImZyJ2XcvxD0uVey7o3eN+cuT
+         QsmP4ZVtXJtlhrf0d0ZYP1pDQsKSLI3ZIzduhXW4FYAL9+u5YeFd1UH/D+w/xTtqHTbx
+         EaHzb4iv2iGK2XJqt1AvYXQ0rx9yTqc6gA2Ek=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714884003; x=1715488803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TzpM7FU8Imvm8zuTPXcEgxBeaAl1FWkYeSH3YqD2Xns=;
+        b=AMSgKDZr6ACqRsJqzQRbeNqGOf5LliZyRk85ute44nxA2GBMxiXcmqp7WZmhRU6vQh
+         8lT0KWEHl46t/S/5JlLP1jW1wTLMsd2bAFrPUndp5JHpifNZDGjh9Rgk0uWsmH44npLp
+         ARPPBt+JNPpUKcnc7zAYQFc/tZY3m4Ijyej5A/saYWhJGaTqusvLI+oxgDnX/Qx/fywY
+         8622dHbxMGJQ+JJlIT6+7nGy/KxP1aP4Xf6clT//H0BOAOrJLDBU0uSYzyGBtVUBL5uh
+         9ntu7r46nVhg4asACs+VFRUlE6jxY1AeDXCZqHsxBy5AxKkqGKoYNYkMes+VPX50224d
+         dyBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHads/xg0MxLtlsV2AQYB/AxJgDHHAw1rLLCupiGclyWtarzh7/UKRk3YFfbNfkoxWlIo0EIjJcqS9Cb3Rm+ehATC0Yia9eH2mCjgoRg==
+X-Gm-Message-State: AOJu0YyN6+9E8Jlv+mYPb1IXqZhO2R2dE88GmrDKx37HY87qzSCQPyPq
+	gjoSNNWhRJlIRs2/DG5GWjsiLXDph0KYBUd+S7tOl+JMIZTPJpKD62vmZh44FA==
+X-Google-Smtp-Source: AGHT+IEeiKOrRPU5vIIqBtlS4HJNxQ0aabIvlspSUVAEeWBnpj7xpaPpcUt2xQ7IpYeR2DLXXzG+rw==
+X-Received: by 2002:a17:902:ecc4:b0:1e4:59a2:d7c1 with SMTP id a4-20020a170902ecc400b001e459a2d7c1mr15472258plh.33.1714884002658;
+        Sat, 04 May 2024 21:40:02 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:8263:3b89:bcee:2ed4])
+        by smtp.gmail.com with ESMTPSA id r12-20020a170902c60c00b001ec7a1a8702sm5789626plr.271.2024.05.04.21.40.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 21:40:02 -0700 (PDT)
+Date: Sun, 5 May 2024 13:39:57 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	kernel test robot <lkp@intel.com>, Minchan Kim <minchan@kernel.org>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 08/14] zram: check that backends array has at least one
+ backend
+Message-ID: <20240505043957.GA8623@google.com>
+References: <20240503091823.3616962-9-senozhatsky@chromium.org>
+ <202405041440.UTBQZAaf-lkp@intel.com>
+ <20240504071416.GH14947@google.com>
+ <20240504161004.f5a0aab5e5aa1033d4696c20@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240504-bmi120-v1-1-478470a85058@gmail.com>
+In-Reply-To: <20240504161004.f5a0aab5e5aa1033d4696c20@linux-foundation.org>
 
-Hi Barnabás,
+On (24/05/04 16:10), Andrew Morton wrote:
+> > On (24/05/04 14:54), kernel test robot wrote:
+> > >          |                            ~~~~~~~~~~~~~~~~~~~~~~
+> > > >> drivers/block/zram/zcomp.c:214:2: error: call to '__compiletime_assert_285' declared with 'error' attribute: BUILD_BUG_ON failed: ARRAY_SIZE(backends) <= 1
+> > >      214 |         BUILD_BUG_ON(ARRAY_SIZE(backends) <= 1);
+> > >          |         ^
+> > 
+> > So this is what that BUILD_BUG_ON() is supposed to catch. You don't
+> > have any backends selected in your .config:
+> > 
+> > # CONFIG_ZRAM_BACKEND_LZO is not set
+> > # CONFIG_ZRAM_BACKEND_LZ4 is not set
+> > # CONFIG_ZRAM_BACKEND_LZ4HC is not set
+> > # CONFIG_ZRAM_BACKEND_ZSTD is not set
+> > # CONFIG_ZRAM_BACKEND_DEFLATE is not set
+> > CONFIG_ZRAM_DEF_COMP="unset-value"
+> > 
+> > Which is invalid configuration because it means that zram has no
+> > compression enabled.
+> 
+> We don't want s390 defconfig to be doing this!
+> 
+> I guess just pick one if none were selected.
 
-kernel test robot noticed the following build warnings:
+I'm looking into it.
 
-[auto build test WARNING on 9221b2819b8a4196eecf5476d66201be60fbcf29]
+We used to have "zram depends on crypto compression algorithm"
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Barnab-s-Cz-m-n/iio-imu-bmi160-add-support-for-bmi120/20240504-074802
-base:   9221b2819b8a4196eecf5476d66201be60fbcf29
-patch link:    https://lore.kernel.org/r/20240504-bmi120-v1-1-478470a85058%40gmail.com
-patch subject: [PATCH 1/2] iio: imu: bmi160: add support for bmi120
-config: x86_64-randconfig-121-20240505 (https://download.01.org/0day-ci/archive/20240505/202405051259.R7WyR8LV-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405051259.R7WyR8LV-lkp@intel.com/reproduce)
+: config ZRAM
+:        tristate "Compressed RAM block device support"
+:        depends on BLOCK && SYSFS && MMU
+:        depends on CRYPTO_LZO || CRYPTO_ZSTD || CRYPTO_LZ4 || CRYPTO_LZ4HC || CRYPTO_842
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405051259.R7WyR8LV-lkp@intel.com/
+I sort of wanted to change it and make zram select compression algorithm,
+instead of depending on some comp algorithm being already selected.
+But I can probably keep the old behaviour
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/imu/bmi160/bmi160_core.c:116:10: sparse: sparse: symbol 'bmi_chip_ids' was not declared. Should it be static?
-
-vim +/bmi_chip_ids +116 drivers/iio/imu/bmi160/bmi160_core.c
-
-   115	
- > 116	const u8 bmi_chip_ids[] = {
-   117		BMI120_CHIP_ID_VAL,
-   118		BMI160_CHIP_ID_VAL,
-   119	};
-   120	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+: config ZRAM
+:        tristate "Compressed RAM block device support"
+:        depends on BLOCK && SYSFS && MMU
+:        select ZSMALLOC
+:        depends on (LZO_COMPRESS && LZO_DECOMPRESS) || \
+:                (LZ4_COMPRESS && LZ4_DECOMPRESS) || \
+:                (LZ4HC_COMPRESS && LZ4_DECOMPRESS) || \
+:                (ZSTD_COMPRESS && ZSTD_DECOMPRESS) || \
+:                (ZLIB_DEFLATE && ZLIB_INFLATE)
