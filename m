@@ -1,151 +1,149 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F4914267
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 11:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4626614A84
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 13:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714907885; cv=none; b=Aull+9UUWwkYuydRG159bbwATrvFH6rfbAC3DcQtA4ujFbPK3a6mHmNopHiF36gFb73MqYhkkdpTTiU4shTzSj2fdsMQzRKBCuYf96qg5Udbyit3xKPK1x8ZWvW6t8+RroJi4sNueSL0cLdNTT3KHXQW254+po3udVqCMP7adIo=
+	t=1714917063; cv=none; b=imWET5GSw+TQvTE4pFWNbYf3zV7Yk/paPjH9hlgxTJ9Ejhwc3hkfLx2nBP4F2E9xL5BoN+koi+YIjgsmy6h+8uilOuHsK5axy5VEUunH4ZioA7owjHpF51M5H5kyRX0V4LOEI3H4WmW9ZC5O2StSZGOqyFLUFsqsWAp/1IrZwWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714907885; c=relaxed/simple;
-	bh=ru7fMimQdej2rZlpz1llHVTGQwDFG6DuHrBFcI9/v7g=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=RTfkj8ggyrdgjwlCZ2sQuSvfNekdGG7ebwRjoyTEhHeeaX/+3j61dpYxlLd/Y6xSDgMkq0VAE5r1x4DF7+8v6Uyn9TgJnrOkz48cxm+fXuI6tSU9F+XTJzdPlyBHwcHjYi1uPWXIirQwwyoFh6qYKDFjkhAiuj/iVBnLHwYAYfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=OuGIFNRH; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1714917063; c=relaxed/simple;
+	bh=pvEvL58Tt2ORsuyF5yQ7N1fB7Ub+S0qmZRaLTxULPMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pLZV+J6aBt6re/weoGv5+cf3GVWroJmg99Lr1C0GtkdWLqucmudw2KD73Xpg+NdpMo3QrqWc+kPs8eD67yqu55wBiZSUJ0tIVzAkmKNFsSzwnmDYSICSP+hbFyJC1paczL0Vq3KVrKVzey4EoU6LBQwkaA9Tm3Z0+1wxlBgICfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3w+kNgZ; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="OuGIFNRH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3w+kNgZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714917062; x=1746453062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yZOSHiPoDXg5BRuJhBvEzO5qE3MrmYzEHwcoLAo9s4s=;
-  b=OuGIFNRHPgF5RalHmd3KO4xsmAfZlMdLa8ltCv3pTAzCrYz5Wv95uTvm
-   BScMftIndrE1QWY9b54luXrz4pQqAiP4+phHv5CaMvuDaS6F/1owZCFnz
-   2cSiRx3fCiXmXmZH1P6DcA10oPpzL07WjUHBO8gew5aPcY/2XtuL1XU6e
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.07,256,1708383600"; 
-   d="scan'208";a="164543578"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 13:17:59 +0200
-Date: Sun, 5 May 2024 13:17:59 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-cc: Matt Roper <matthew.d.roper@intel.com>, linux-kernel@vger.kernel.org, 
-    oe-kbuild-all@lists.linux.dev
-Subject: drivers/gpu/drm/xe/xe_guc_ads.c:103:21-27: WARNING use flexible-array
- member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
- (fwd)
-Message-ID: <alpine.DEB.2.22.394.2405051317090.3397@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=pvEvL58Tt2ORsuyF5yQ7N1fB7Ub+S0qmZRaLTxULPMk=;
+  b=e3w+kNgZO2dsglfgge+j8IMwNYRUq6b8qKRhzoUbxiIbXpMDfcCu+Igi
+   bcpJZMhxJWooYCRipsTnOJFf04GewOMxSbe+y14aVfBqfgcWJILzPd5s4
+   Gf5GRnMiZWtZ4R+d80aToFj+sWWj17x5jLVsmtkrD6KUFNpFRMiE51dy0
+   gvlslEP3BBnRJYJb9j0QemJvuKmhdjdvm1dvYih9DzpwiNBkeEgFI7dqo
+   f2LnQPLVrF0kSreFA4/JJoNrZDEnB5IiuzGbl1H85ZfrVbBYi58P3AWeR
+   I8U4sapkqFKNLu3g/chksGBUMlii6tz9ryuRaGPFh0bdG294Vpit7r4Bl
+   g==;
+X-CSE-ConnectionGUID: r5gCLNlyTEqk19AGkWxEJA==
+X-CSE-MsgGUID: /RaForSJTBaF+KR6ZhmEgQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="14452989"
+X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
+   d="scan'208";a="14452989"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 06:51:01 -0700
+X-CSE-ConnectionGUID: wduHGjsCSJWG5NWo8Bfrjg==
+X-CSE-MsgGUID: YwWdXv02QF+mccgGlys3Mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
+   d="scan'208";a="28003595"
+Received: from lkp-server01.sh.intel.com (HELO 123fad1cf874) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 05 May 2024 06:50:59 -0700
+Received: from kbuild by 123fad1cf874 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3cGX-0000Fs-10;
+	Sun, 05 May 2024 13:50:57 +0000
+Date: Sun, 5 May 2024 21:50:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 866/1143]
+ drivers/ufs/host/ufs-aspeed.c:202:31: warning: unused variable 'host_cap'
+Message-ID: <202405052159.mKdPd7JD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Can a flexible array be used at the end of this structure?
-
-julia
-
----------- Forwarded message ----------
-Date: Sun, 5 May 2024 19:06:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/xe/xe_guc_ads.c:103:21-27: WARNING use flexible-array
-    member instead
-    (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
-    and-one-element-arrays)
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: Matt Roper <matthew.d.roper@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7367539ad4b0f8f9b396baf02110962333719a48
-commit: 237412e45390805e14a6936fb998d756c4eac9d8 drm/xe: Enable 32bits build
-date:   3 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-054-20240505 (https://download.01.org/0day-ci/archive/20240505/202405051824.AmjAI5Pg-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: 31c27ef87645acacd6db6c29d2ce897645968869 [866/1143] drivers: ufs: register pre power change for high speed workaround
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240505/202405052159.mKdPd7JD-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405052159.mKdPd7JD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202405051824.AmjAI5Pg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405052159.mKdPd7JD-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_guc_ads.c:103:21-27: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+All warnings (new ones prefixed by >>):
 
-vim +103 drivers/gpu/drm/xe/xe_guc_ads.c
+   drivers/ufs/host/ufs-aspeed.c: In function 'aspeed_ufshc_pre_pwr_change':
+   drivers/ufs/host/ufs-aspeed.c:202:31: error: storage size of 'host_cap' isn't known
+     202 |         struct ufs_dev_params host_cap;
+         |                               ^~~~~~~~
+   drivers/ufs/host/ufs-aspeed.c:205:9: error: implicit declaration of function 'ufshcd_init_pwr_dev_param'; did you mean 'ufshcd_init_host_params'? [-Werror=implicit-function-declaration]
+     205 |         ufshcd_init_pwr_dev_param(&host_cap);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         ufshcd_init_host_params
+   drivers/ufs/host/ufs-aspeed.c:209:15: error: implicit declaration of function 'ufshcd_get_pwr_dev_param' [-Werror=implicit-function-declaration]
+     209 |         ret = ufshcd_get_pwr_dev_param(&host_cap,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ufs/host/ufs-aspeed.c:202:31: warning: unused variable 'host_cap' [-Wunused-variable]
+     202 |         struct ufs_dev_params host_cap;
+         |                               ^~~~~~~~
+   cc1: some warnings being treated as errors
 
-dd08ebf6c3525a Matthew Brost 2023-03-30   53
-dd08ebf6c3525a Matthew Brost 2023-03-30   54  /*
-dd08ebf6c3525a Matthew Brost 2023-03-30   55   * The Additional Data Struct (ADS) has pointers for different buffers used by
-dd08ebf6c3525a Matthew Brost 2023-03-30   56   * the GuC. One single gem object contains the ADS struct itself (guc_ads) and
-dd08ebf6c3525a Matthew Brost 2023-03-30   57   * all the extra buffers indirectly linked via the ADS struct's entries.
-dd08ebf6c3525a Matthew Brost 2023-03-30   58   *
-dd08ebf6c3525a Matthew Brost 2023-03-30   59   * Layout of the ADS blob allocated for the GuC:
-dd08ebf6c3525a Matthew Brost 2023-03-30   60   *
-dd08ebf6c3525a Matthew Brost 2023-03-30   61   *      +---------------------------------------+ <== base
-dd08ebf6c3525a Matthew Brost 2023-03-30   62   *      | guc_ads                               |
-dd08ebf6c3525a Matthew Brost 2023-03-30   63   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   64   *      | guc_policies                          |
-dd08ebf6c3525a Matthew Brost 2023-03-30   65   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   66   *      | guc_gt_system_info                    |
-dd08ebf6c3525a Matthew Brost 2023-03-30   67   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   68   *      | guc_engine_usage                      |
-dd08ebf6c3525a Matthew Brost 2023-03-30   69   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   70   *      | guc_um_init_params                    |
-dd08ebf6c3525a Matthew Brost 2023-03-30   71   *      +---------------------------------------+ <== static
-dd08ebf6c3525a Matthew Brost 2023-03-30   72   *      | guc_mmio_reg[countA] (engine 0.0)     |
-dd08ebf6c3525a Matthew Brost 2023-03-30   73   *      | guc_mmio_reg[countB] (engine 0.1)     |
-dd08ebf6c3525a Matthew Brost 2023-03-30   74   *      | guc_mmio_reg[countC] (engine 1.0)     |
-dd08ebf6c3525a Matthew Brost 2023-03-30   75   *      |   ...                                 |
-dd08ebf6c3525a Matthew Brost 2023-03-30   76   *      +---------------------------------------+ <== dynamic
-dd08ebf6c3525a Matthew Brost 2023-03-30   77   *      | padding                               |
-dd08ebf6c3525a Matthew Brost 2023-03-30   78   *      +---------------------------------------+ <== 4K aligned
-dd08ebf6c3525a Matthew Brost 2023-03-30   79   *      | golden contexts                       |
-dd08ebf6c3525a Matthew Brost 2023-03-30   80   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   81   *      | padding                               |
-dd08ebf6c3525a Matthew Brost 2023-03-30   82   *      +---------------------------------------+ <== 4K aligned
-dd08ebf6c3525a Matthew Brost 2023-03-30   83   *      | capture lists                         |
-dd08ebf6c3525a Matthew Brost 2023-03-30   84   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   85   *      | padding                               |
-dd08ebf6c3525a Matthew Brost 2023-03-30   86   *      +---------------------------------------+ <== 4K aligned
-dd08ebf6c3525a Matthew Brost 2023-03-30   87   *      | UM queues                             |
-dd08ebf6c3525a Matthew Brost 2023-03-30   88   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   89   *      | padding                               |
-dd08ebf6c3525a Matthew Brost 2023-03-30   90   *      +---------------------------------------+ <== 4K aligned
-dd08ebf6c3525a Matthew Brost 2023-03-30   91   *      | private data                          |
-dd08ebf6c3525a Matthew Brost 2023-03-30   92   *      +---------------------------------------+
-dd08ebf6c3525a Matthew Brost 2023-03-30   93   *      | padding                               |
-dd08ebf6c3525a Matthew Brost 2023-03-30   94   *      +---------------------------------------+ <== 4K aligned
-dd08ebf6c3525a Matthew Brost 2023-03-30   95   */
-dd08ebf6c3525a Matthew Brost 2023-03-30   96  struct __guc_ads_blob {
-dd08ebf6c3525a Matthew Brost 2023-03-30   97  	struct guc_ads ads;
-dd08ebf6c3525a Matthew Brost 2023-03-30   98  	struct guc_policies policies;
-dd08ebf6c3525a Matthew Brost 2023-03-30   99  	struct guc_gt_system_info system_info;
-dd08ebf6c3525a Matthew Brost 2023-03-30  100  	struct guc_engine_usage engine_usage;
-dd08ebf6c3525a Matthew Brost 2023-03-30  101  	struct guc_um_init_params um_init_params;
-dd08ebf6c3525a Matthew Brost 2023-03-30  102  	/* From here on, location is dynamic! Refer to above diagram. */
-dd08ebf6c3525a Matthew Brost 2023-03-30 @103  	struct guc_mmio_reg regset[0];
-dd08ebf6c3525a Matthew Brost 2023-03-30  104  } __packed;
-dd08ebf6c3525a Matthew Brost 2023-03-30  105
 
-:::::: The code at line 103 was first introduced by commit
-:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
+vim +/host_cap +202 drivers/ufs/host/ufs-aspeed.c
 
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+   197	
+   198	static int aspeed_ufshc_pre_pwr_change(struct ufs_hba *hba,
+   199					       struct ufs_pa_layer_attr *dev_max_params,
+   200					       struct ufs_pa_layer_attr *dev_req_params)
+   201	{
+ > 202		struct ufs_dev_params host_cap;
+   203		int ret;
+   204	
+ > 205		ufshcd_init_pwr_dev_param(&host_cap);
+   206		host_cap.hs_rx_gear = UFS_HS_G2;
+   207		host_cap.hs_tx_gear = UFS_HS_G2;
+   208	
+   209		ret = ufshcd_get_pwr_dev_param(&host_cap,
+   210					       dev_max_params,
+   211					       dev_req_params);
+   212		if (ret) {
+   213			pr_info("%s: failed to determine capabilities\n",
+   214				__func__);
+   215		}
+   216	
+   217		ufshcd_dme_peer_set(hba, UIC_ARG_MIB(PA_MAXRXHSGEAR), host_cap.hs_rx_gear);
+   218	
+   219		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_TXTERMINATION), true);
+   220		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_TXGEAR), UFS_PWM_G1);
+   221	
+   222		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_RXTERMINATION), true);
+   223		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_RXGEAR), UFS_PWM_G1);
+   224	
+   225		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_ACTIVETXDATALANES),
+   226			       dev_req_params->lane_tx);
+   227		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_ACTIVERXDATALANES),
+   228			       dev_req_params->lane_rx);
+   229		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_HSSERIES),
+   230			       dev_req_params->hs_rate);
+   231	
+   232		ufshcd_dme_set(hba, UIC_ARG_MIB(PA_TXHSADAPTTYPE),
+   233			       PA_NO_ADAPT);
+   234	
+   235		ret = ufshcd_uic_change_pwr_mode(hba,
+   236						 SLOWAUTO_MODE << 4 | SLOWAUTO_MODE);
+   237	
+   238		if (ret) {
+   239			dev_err(hba->dev, "%s: HSG1B FASTAUTO failed ret=%d\n",
+   240				__func__, ret);
+   241		}
+   242	
+   243		return ret;
+   244	}
+   245	
 
 -- 
 0-DAY CI Kernel Test Service
