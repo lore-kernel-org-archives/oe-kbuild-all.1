@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A2D1339A2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 22:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86173E48F;
+	Sun,  5 May 2024 22:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714947814; cv=none; b=rfUB1N67uM5XrH7J2PxZix8XDNu436qkfLHVgsS7hUafjM6ppTvOsjm5vU3z6XLDXuM6A0FW8jQ4sq/25+6Q+1f5TsumRsAqDEpjTjA3MvfTpy1Zx0d06HdwmRNggXug8gysz/+vTnuvJJUExpD03cez6eqyPvPopwVAumzHH64=
+	t=1714948429; cv=none; b=bfZalWY8WTwjTCpvv9wtsLAFqnG5EAfPeISNVDE6v01l1B6iXzZxBdcMHjdOCZLw6SUccOgd9zjOhn2bJuO4BSuEw56IE7e2xzBsqAbJGwjWofR/xDegFlKbDFH85R2ol/Hb7aOv3wFelMU7iw5PJ63PtmpoayCpaOtAD/K9UAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714947814; c=relaxed/simple;
-	bh=c4rxBXZNxnSTwo/P6OYdZPtb8tRm/N64x9EQxDvJRRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NkdQvu6I26LLDDOvh4PVRAnn+zVZs6xzwPEtqkVGgTzwUDVkAx4+Jgengw0pcITkhiEkEw0Cc/jUCkOz/l91R7wgQjoiShZ+voxgSo2uv6twrsXOIYHljtmwRVYIxzoMZb0mtBpuzy4g7KR7U25EHduI5MThLuv+0/hzhyL0OzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEtKMCcr; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1714948429; c=relaxed/simple;
+	bh=NVy75iIFNvmIbmRgBWApp4Iv7pImltO4vpHqlAOGIsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dHlcXAAQTz2cQNH5ttCbWnbtvxWxtkP/0Ep+iusIBxoo+8N0MovOmviJgGH5SOUiy/XAQfY3DZFcOQaOTIK2xxyUnc8fLO0qlRvei2BsRzbslLYTFnf5ydicXQO6JYGWMJmNhnA9erdvDH8Gsz64kLfVmWgk77vEjl8tC0W0j7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCBuHfQ/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEtKMCcr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCBuHfQ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714947812; x=1746483812;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c4rxBXZNxnSTwo/P6OYdZPtb8tRm/N64x9EQxDvJRRA=;
-  b=jEtKMCcrzNIhDe4mNSXYo2xnTbBCFS0LV+qOwgJfn8wLCD1P9jKohjm2
-   UIEfYGRRctPWM6BJYLQRdZtLNoa+Ze8vpQJRTg73jOoWtfR1Ysfevy4ue
-   MDJmujkADjWIrPCEwqRU2w32vp4m+yEoQhvafWw8RGSagBgoPbI71kHIv
-   hlNGLLnZWZqekNu1+Y+F3YeJZZB9M1vNadC+RIp2xYlv/Yl5olLWeWf/F
-   GOOg7OXlax7CR4fuKsI5HPvVQQBeiqvVe2S7ce2GisMJoD1r9ceAnNc/Q
-   sUB8Y4mSWhPRReVFaoTovwvBMDRwyRDAN3dnn3N3ZItrJA4nDleiqIaUX
-   g==;
-X-CSE-ConnectionGUID: 1U9NZomBSR+U6p4eLCaCFA==
-X-CSE-MsgGUID: FRmUqSg7Qbqv2hPliKDkfQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10513132"
+  t=1714948428; x=1746484428;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NVy75iIFNvmIbmRgBWApp4Iv7pImltO4vpHqlAOGIsM=;
+  b=oCBuHfQ/l6zbnP8Cm9tDPS6JEhXmT0JoRNE8iuN5LTStM0VU3RK4HxCg
+   klV8c2mv52tqOUf4xWLaPv6J6H78GecMSbqxZonDNUZMtgt18F2ZNqsB/
+   3bZa0mMLMWSgzXIf7OR8p5zW5E9YCwueNSX8e3yvPC+eSYd8yEjVOKysV
+   iBWRvC8/AiL548fgwggII3av70PLqMeUcdR0bY78QToZFUJrrGm/tk017
+   BVCMXzv/weybpxsPSv0L+XQ7GrrVWPR/zkwLSx00l7WYOFSIJr/LFs7bl
+   0exoLsZyRVmT6VFAu+tBe7vnMEoF/3V8EcQjnjxPja26XIy5v0B4kMa0W
+   Q==;
+X-CSE-ConnectionGUID: g3UAcoHpRVaszoirj3u7xA==
+X-CSE-MsgGUID: k6eKbKpcR+GLtpkV1nzd0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="36069678"
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="10513132"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 15:23:32 -0700
-X-CSE-ConnectionGUID: 9ZfgZfOAQx+uxZQpnvqHvg==
-X-CSE-MsgGUID: OZ7wk5HZTdmW92ON92DRRA==
+   d="scan'208";a="36069678"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 15:33:47 -0700
+X-CSE-ConnectionGUID: y35fWdOCQJ2bpOe3MIKTYQ==
+X-CSE-MsgGUID: JKlQ5+UFRWiJkvIgE1caGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="28067000"
+   d="scan'208";a="59174002"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 May 2024 15:23:31 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 05 May 2024 15:33:44 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3kGW-0000Fk-1s;
-	Sun, 05 May 2024 22:23:28 +0000
-Date: Mon, 6 May 2024 06:22:31 +0800
+	id 1s3kQQ-0000Fs-0o;
+	Sun, 05 May 2024 22:33:42 +0000
+Date: Mon, 6 May 2024 06:33:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.9-netdma 35/36]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:1364:36: warning: unused
- variable 'addr'
-Message-ID: <202405060659.wOdHePO3-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dustin Howett <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing
+ through EC_FEATURE_PWM_KEYB
+Message-ID: <202405060655.dD06crN0-lkp@intel.com>
+References: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,102 +70,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2@weissschuh.net>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-netdma
-head:   f4e76f5899b89144d4421d61833ecc6bee17328f
-commit: afb3fcc813b994c689a568e83981189ff2566134 [35/36] tx-dma revert the 36bit adressing part
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240506/202405060659.wOdHePO3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060659.wOdHePO3-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 2fbe479c0024e1c6b992184a799055e19932aa48]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/platform-chrome-cros_kbd_led_backlight-enable-probing-through-EC_FEATURE_PWM_KEYB/20240505-174413
+base:   2fbe479c0024e1c6b992184a799055e19932aa48
+patch link:    https://lore.kernel.org/r/20240505-cros_ec-kbd-led-framework-v1-1-bfcca69013d2%40weissschuh.net
+patch subject: [PATCH] platform/chrome: cros_kbd_led_backlight: enable probing through EC_FEATURE_PWM_KEYB
+config: x86_64-randconfig-072-20240506 (https://download.01.org/0day-ci/archive/20240506/202405060655.dD06crN0-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060655.dD06crN0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405060659.wOdHePO3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405060655.dD06crN0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_init_fq_dma':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1364:36: warning: unused variable 'addr' [-Wunused-variable]
-    1364 |                         dma_addr_t addr = dma_addr + i * MTK_QDMA_PAGE_SIZE;
-         |                                    ^~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: At top level:
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:4632:12: warning: 'mtk_change_mtu' defined but not used [-Wunused-function]
-    4632 | static int mtk_change_mtu(struct net_device *dev, int new_mtu)
-         |            ^~~~~~~~~~~~~~
+   drivers/platform/chrome/cros_kbd_led_backlight.c:218:42: error: redefinition of 'keyboard_led_drvdata_ec_pwm'
+     218 | static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+         |                                          ^
+   drivers/platform/chrome/cros_kbd_led_backlight.c:184:57: note: previous definition is here
+     184 | static const __maybe_unused struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {
+         |                                                         ^
+>> drivers/platform/chrome/cros_kbd_led_backlight.c:240:14: error: use of undeclared identifier 'keyboard_led_drvdata_ec_pwm_mfd'; did you mean 'keyboard_led_drvdata_acpi'?
+     240 |                 drvdata = &keyboard_led_drvdata_ec_pwm_mfd;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                            keyboard_led_drvdata_acpi
+   drivers/platform/chrome/cros_kbd_led_backlight.c:114:42: note: 'keyboard_led_drvdata_acpi' declared here
+     114 | static const struct keyboard_led_drvdata keyboard_led_drvdata_acpi = {
+         |                                          ^
+   2 errors generated.
 
 
-vim +/addr +1364 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+vim +240 drivers/platform/chrome/cros_kbd_led_backlight.c
 
-  1326	
-  1327	/* the qdma core needs scratch memory to be setup */
-  1328	static int mtk_init_fq_dma(struct mtk_eth *eth)
-  1329	{
-  1330		const struct mtk_soc_data *soc = eth->soc;
-  1331		dma_addr_t phy_ring_tail;
-  1332		int cnt = soc->txrx.fq_dma_size;
-  1333		dma_addr_t dma_addr;
-  1334		int i, j, len;
-  1335	
-  1336		if (MTK_HAS_CAPS(eth->soc->caps, MTK_SRAM))
-  1337			eth->scratch_ring = eth->sram_base;
-  1338		else
-  1339			eth->scratch_ring = dma_alloc_coherent(eth->dma_dev,
-  1340							       cnt * soc->txrx.txd_size,
-  1341							       &eth->phy_scratch_ring,
-  1342							       GFP_KERNEL);
-  1343	
-  1344		if (unlikely(!eth->scratch_ring))
-  1345			return -ENOMEM;
-  1346	
-  1347		phy_ring_tail = eth->phy_scratch_ring + soc->txrx.txd_size * (cnt - 1);
-  1348	
-  1349		for (j = 0; j < DIV_ROUND_UP(soc->txrx.fq_dma_size, MTK_FQ_DMA_LENGTH); j++) {
-  1350			len = min_t(int, cnt - j * MTK_FQ_DMA_LENGTH, MTK_FQ_DMA_LENGTH);
-  1351			eth->scratch_head[j] = kcalloc(len, MTK_QDMA_PAGE_SIZE, GFP_KERNEL);
-  1352	
-  1353			if (unlikely(!eth->scratch_head[j]))
-  1354				return -ENOMEM;
-  1355	
-  1356			dma_addr = dma_map_single(eth->dma_dev,
-  1357						  eth->scratch_head[j], len * MTK_QDMA_PAGE_SIZE,
-  1358						  DMA_FROM_DEVICE);
-  1359	
-  1360			if (unlikely(dma_mapping_error(eth->dma_dev, dma_addr)))
-  1361				return -ENOMEM;
-  1362	
-  1363			for (i = 0; i < cnt; i++) {
-> 1364				dma_addr_t addr = dma_addr + i * MTK_QDMA_PAGE_SIZE;
-  1365				struct mtk_tx_dma_v2 *txd;
-  1366	
-  1367				txd = eth->scratch_ring + (j * MTK_FQ_DMA_LENGTH + i) * soc->txrx.txd_size;
-  1368				txd->txd1 = dma_addr + i * MTK_QDMA_PAGE_SIZE;
-  1369				if (j * MTK_FQ_DMA_LENGTH + i < cnt)
-  1370					txd->txd2 = eth->phy_scratch_ring +
-  1371						    (j * MTK_FQ_DMA_LENGTH + i + 1) * soc->txrx.txd_size;
-  1372	
-  1373				txd->txd3 = TX_DMA_PLEN0(MTK_QDMA_PAGE_SIZE);
-  1374				if (MTK_HAS_CAPS(soc->caps, MTK_36BIT_DMA))
-  1375					txd->txd3 |= TX_DMA_PREP_ADDR64(addr);
-  1376	
-  1377				txd->txd4 = 0;
-  1378				if (mtk_is_netsys_v2_or_greater(eth)) {
-  1379					txd->txd5 = 0;
-  1380					txd->txd6 = 0;
-  1381					txd->txd7 = 0;
-  1382					txd->txd8 = 0;
-  1383				}
-  1384			}
-  1385		}
-  1386	
-  1387		mtk_w32(eth, eth->phy_scratch_ring, soc->reg_map->qdma.fq_head);
-  1388		mtk_w32(eth, phy_ring_tail, soc->reg_map->qdma.fq_tail);
-  1389		mtk_w32(eth, (cnt << 16) | cnt, soc->reg_map->qdma.fq_count);
-  1390		mtk_w32(eth, MTK_QDMA_PAGE_SIZE << 16, soc->reg_map->qdma.fq_blen);
-  1391	
-  1392		return 0;
-  1393	}
-  1394	
+   217	
+ > 218	static const struct keyboard_led_drvdata keyboard_led_drvdata_ec_pwm = {};
+   219	
+   220	#endif /* IS_ENABLED(CONFIG_MFD_CROS_EC_DEV) */
+   221	
+   222	static int keyboard_led_is_mfd_device(struct platform_device *pdev)
+   223	{
+   224		if (!IS_ENABLED(CONFIG_MFD_CROS_EC_DEV))
+   225			return 0;
+   226	
+   227		if (!pdev->dev.parent)
+   228			return 0;
+   229	
+   230		return strcmp(pdev->dev.parent->driver->name, "cros-ec-dev") == 0;
+   231	}
+   232	
+   233	static int keyboard_led_probe(struct platform_device *pdev)
+   234	{
+   235		const struct keyboard_led_drvdata *drvdata;
+   236		struct keyboard_led *keyboard_led;
+   237		int error;
+   238	
+   239		if (keyboard_led_is_mfd_device(pdev))
+ > 240			drvdata = &keyboard_led_drvdata_ec_pwm_mfd;
+   241		else
+   242			drvdata = device_get_match_data(&pdev->dev);
+   243		if (!drvdata)
+   244			return -EINVAL;
+   245	
+   246		keyboard_led = devm_kzalloc(&pdev->dev, sizeof(*keyboard_led), GFP_KERNEL);
+   247		if (!keyboard_led)
+   248			return -ENOMEM;
+   249		platform_set_drvdata(pdev, keyboard_led);
+   250	
+   251		if (drvdata->init) {
+   252			error = drvdata->init(pdev);
+   253			if (error)
+   254				return error;
+   255		}
+   256	
+   257		keyboard_led->cdev.name = "chromeos::kbd_backlight";
+   258		keyboard_led->cdev.flags |= LED_CORE_SUSPENDRESUME;
+   259		keyboard_led->cdev.max_brightness = drvdata->max_brightness;
+   260		keyboard_led->cdev.brightness_set = drvdata->brightness_set;
+   261		keyboard_led->cdev.brightness_set_blocking = drvdata->brightness_set_blocking;
+   262		keyboard_led->cdev.brightness_get = drvdata->brightness_get;
+   263	
+   264		error = devm_led_classdev_register(&pdev->dev, &keyboard_led->cdev);
+   265		if (error)
+   266			return error;
+   267	
+   268		return 0;
+   269	}
+   270	
 
 -- 
 0-DAY CI Kernel Test Service
