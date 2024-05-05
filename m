@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9E76D1AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 16:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B52D79D2
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 May 2024 16:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714925260; cv=none; b=kCgKp+74RUlcAKcHfcy2i6KP2+lWUcseuIY084ue4w6NsG3y3aawH9XAH/G7tT3fiFnEBtmtgwr87uH3lTfwEXWS7MLMI6yfLgzWjKpnbpPUcYmto3Mpa+BhXa1fAah4xURzXcwtrfEObdO9SSogiSZX4Afk9GiQOk0EybKcJ/8=
+	t=1714926520; cv=none; b=uyPGyxD+5z+Ihif3jYuIQjhmpSH3kzwCnxKjkNg76jdXdmkw8wE2prYSRFeORpyKAVv09Ic3+WzLF9C8xdK1ev5o7f+/EQJIkCL8fccAAuOdDqfVTPDhB6avb9gLqiQqpHL/n6Gv673Oco+Kzp/KryzURQql1oa9KlVnH9XyRVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714925260; c=relaxed/simple;
-	bh=hCoBH/tZnyRd+be98rL6smCJhx93FZbMHOkwAFmdIh0=;
+	s=arc-20240116; t=1714926520; c=relaxed/simple;
+	bh=pGZSdgD5t9eRqk9GmC08GN1FsMMaDS5CHVzyg8KBP/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ivrdZrn0wsg/GT3v4BgFPsXhS3qnI9tMyTcX6w9kt0DHicLyM5ujiP+Tp1RcMoycpSXZXCR6eA88bXb7kByQUjWIqSo/R3KsVmkXtoFafi4Ja3kccvnQRkYA+P/4h6AY5AVdDWlx0ZLTUM+gFFskI9Eiu+RRZds+wr6VBmUZoRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb+UkYx+; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=lriuvRuC/1Vy69hYEmDdDw8oONIiDEm/eZeK9QKTXQLC3MqUaqQwOfG6ayt67kjtuUf6yu0a9hqWzpjYvL2dPReV6v2weEsB7TKtB5UsDOkF438ZYjTTAAWxfJms1JbuxAQlEmEOIVjN9BMxcnSr7JKdYzGalSiVQ0lMrsMYdf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVFpLs0E; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb+UkYx+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVFpLs0E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714925259; x=1746461259;
+  t=1714926518; x=1746462518;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hCoBH/tZnyRd+be98rL6smCJhx93FZbMHOkwAFmdIh0=;
-  b=Yb+UkYx+TcfqoYwolpyxPxu1TkGa0qAYMMLn6x7How2uQqltH4eo3nUh
-   z24xZA8Lmm6jsFWVZSvVQRNUfn2u7LUT8VgmEWmM8LSxkN2mdLCUQYVYF
-   wET1lz+n3pIMiLjeDmRufcqs+7SYz1NabxxbqAm3WK4QV/c/RxNxOoFWS
-   U47yBZpdFPaR9kDLVmSO8ASNoKEP0wd6n0Ny0wHqwOZXElkQ4MEzBcpD4
-   oZvKIbEpQWy2NcZ51CcRPhpffd9hNtDmCmBCNrty9WW7gErQZaVd4hUTo
-   uUNyq5wc68c3tUxT4rUio/wS+Vz6XkOjNhsXcex7iS3L1Akk0askHZnoG
-   Q==;
-X-CSE-ConnectionGUID: gMOQ05xJS5GooQVptoHX8g==
-X-CSE-MsgGUID: 12CrfXrdQceOh0yMjhSvEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="21351752"
+  bh=pGZSdgD5t9eRqk9GmC08GN1FsMMaDS5CHVzyg8KBP/U=;
+  b=XVFpLs0Ed48C4Vn16HOEGbIZ8NCe/ZJnFrqey3prYIaooSiXU2wgjJ1x
+   9VvaGGZwArHXtSRkUE1lUmEhKS32o8Z5g/cJY9OxAYfFSKMGQm+ou2MJO
+   6LIz/HJg9L4h5IZLpArV9Z+xqGUCHpNPrRrGyC9XVovEJK4jVIOucEWh8
+   4sjStMIiDnbfVWH8I72r+FMKnGhgvnGFKN63ssXxb6R3pg9EWulK/xZKT
+   dSyLw7Kra8RrUEAdq3ifg9iQWi2tHpBJT2AK5Wa+HZ73s4X6xH+1gVnk+
+   i1L5UrXWgwyF82oxhivFkZHVc5lIWW73wK1lniFAP2IOtWzILukVg2ACj
+   g==;
+X-CSE-ConnectionGUID: uTJ8wNNcRpGWIvyLrp+wjw==
+X-CSE-MsgGUID: kiEMo4NXSc+HtY7vypnNeg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10890633"
 X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
-   d="scan'208";a="21351752"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 09:07:36 -0700
-X-CSE-ConnectionGUID: sl2O+qA/Thu4dp0sDmczIA==
-X-CSE-MsgGUID: R3K/5KDiTqyi5yLnmd3E3A==
+   d="scan'208";a="10890633"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 09:28:37 -0700
+X-CSE-ConnectionGUID: 5s6Iu+16Rx2nf2Vw7Wjx0w==
+X-CSE-MsgGUID: II8n+igXTte6jwG6WXtPFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,256,1708416000"; 
-   d="scan'208";a="32741634"
+   d="scan'208";a="27957036"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 May 2024 09:07:35 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 May 2024 09:28:36 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3eOi-00002A-1y;
-	Sun, 05 May 2024 16:07:32 +0000
-Date: Mon, 6 May 2024 00:07:08 +0800
+	id 1s3ej3-00003I-33;
+	Sun, 05 May 2024 16:28:33 +0000
+Date: Mon, 6 May 2024 00:27:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3220/30000]
- drivers/input/touchscreen/vtl/vtl_ts.c:126:undefined reference to
- `i2c_transfer'
-Message-ID: <202405052358.q0f4Qe2U-lkp@intel.com>
+To: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linux-next:master 8796/10967] rtl8366rb.c:undefined reference to
+ `devm_led_classdev_register_ext'
+Message-ID: <202405060055.ZWEObHxN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,64 +64,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   411c52448fdc0906f70c4585c7e05359c0b05c11
-commit: 5fd1a9756fe0090bd795889b135e4dfb78141f0a [3220/30000] MLK-13244 input: touchscreen: add support for vtl touchscreen
-config: x86_64-randconfig-076-20240505 (https://download.01.org/0day-ci/archive/20240505/202405052358.q0f4Qe2U-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240505/202405052358.q0f4Qe2U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9221b2819b8a4196eecf5476d66201be60fbcf29
+commit: 32d617005475a71ebcc4ec8b2791e8d1481e9a10 [8796/10967] net: dsa: realtek: add LED drivers for rtl8366rb
+config: mips-buildonly-randconfig-r005-20230209 (https://download.01.org/0day-ci/archive/20240506/202405060055.ZWEObHxN-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060055.ZWEObHxN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405052358.q0f4Qe2U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405060055.ZWEObHxN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   ld: drivers/input/touchscreen/vtl/vtl_ts.o: in function `vtl_read_xy_data':
->> drivers/input/touchscreen/vtl/vtl_ts.c:126:(.text+0x778): undefined reference to `i2c_transfer'
-   ld: drivers/input/touchscreen/vtl/vtl_ts.o: in function `ct36x_test_tp':
-   drivers/input/touchscreen/vtl/vtl_ts.c:376:(.text+0x9b3): undefined reference to `i2c_transfer'
-   ld: drivers/input/touchscreen/vtl/vtl_ts.o: in function `vtl_ts_driver_init':
->> drivers/input/touchscreen/vtl/vtl_ts.c:492:(.init.text+0x14): undefined reference to `i2c_register_driver'
-   ld: drivers/input/touchscreen/vtl/vtl_ts.o: in function `vtl_ts_driver_exit':
->> drivers/input/touchscreen/vtl/vtl_ts.c:492:(.exit.text+0xd): undefined reference to `i2c_del_driver'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [m]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
-
-
-vim +126 drivers/input/touchscreen/vtl/vtl_ts.c
-
-   113	
-   114	static union ts_xy_data *vtl_read_xy_data(struct ts_info *ts)
-   115	{
-   116		struct i2c_msg msgs;
-   117		int err;
-   118	
-   119		DEBUG();
-   120	
-   121		msgs.addr = ts->driver->client->addr;
-   122		msgs.flags = 0x01;
-   123		msgs.len = sizeof(ts->xy_data.buf);
-   124		msgs.buf = ts->xy_data.buf;
-   125	
- > 126		err = i2c_transfer(ts->driver->client->adapter, &msgs, 1);
-   127		if (err != 1) {
-   128			pr_err("___%s:i2c read err___\n", __func__);
-   129			return NULL;
-   130		}
-   131		return &ts->xy_data;
-   132	}
-   133	
+   mips-linux-ld: drivers/net/dsa/realtek/rtl8366rb.o: in function `rtl8366rb_setup_led':
+>> rtl8366rb.c:(.text.unlikely+0x25c): undefined reference to `devm_led_classdev_register_ext'
 
 -- 
 0-DAY CI Kernel Test Service
