@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017A127269
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 21:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E18D15B57D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 21:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715031430; cv=none; b=qxLD+wDO5xJRcRc/+OfKubdMsMg1mjw0H/DGnnvGC6b+kNzsiLsh6nk3dPmJrarV5PmJmynT6H0UzuTmqoHVHQ9yhJY/iayD4t6YJQmc8YTcGqA8Lkf7TZlGYfDtIorabaDrsLtwGZjQNHfyW6HZ/lUMeH8vvr6zVhc1/BsJpbE=
+	t=1715032712; cv=none; b=iAZzZ4yjBtk2PHEHAPg7IbowS5iiYYH5Znw+2E+W9fk6/QwvC+MHD8S/Irh4Zmk6RsfEAx1hf9TyE1iAPiVFrZtwBqVIart1dtiLUQAARMcuRa9MWw5RuaanwIsI6LDs3gFCEayEapPEvmv/2NOIcoOvSjjHIf2KYoAb0AEeHFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715031430; c=relaxed/simple;
-	bh=C1X/qpVcKdkFHSb9YUIl+FFCQAw3y5yBg1ENUGnQsi8=;
+	s=arc-20240116; t=1715032712; c=relaxed/simple;
+	bh=tO3UQXl/zQKH0gidQpE3yTKhcJ0TLTZONZqHNsgUKVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N0g6+cR89L38qhNOK55d26CwrtMFWJszk7+Z1Z6KsS0y0D+VSEk719OGMHh2EdfP/cUV3iqmFkD/gWkEPlEzKWvFT+0PzHO3e15gMmsoj8pfKXs3/UjeJUttdeE4UWzNauAesDBjnTb5yAs7v4+mUhzJVm2tm/44fuSv+jSu+fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lMj4z+A6; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=EJEpa+TfYlo3Xc6vP591aNDE+p3oFWyAMHI8kPmiBIPZobDvF+KwoOiVBNei3C000TO2I280M3ScGg4TyU160pCThuK5J8f9hReCp3ooAgjoIdsLBWIORnTGbutXZUAwp3ozNF8fiUARDvH/xDlyeDoS5F6E9p5ToaTc3VuXTRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lPMSwvPi; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMj4z+A6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lPMSwvPi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715031429; x=1746567429;
+  t=1715032710; x=1746568710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C1X/qpVcKdkFHSb9YUIl+FFCQAw3y5yBg1ENUGnQsi8=;
-  b=lMj4z+A61N6SYHm6bW/0bzOFOAM578n5S/I+ODepqD9TfGKpdXMmPZwn
-   jma1vTRvxxvGDpfBv/a8lRsyBTfhLRypW9o6/5c3oJi5oueqFH+BTn3LA
-   nGNxIB2gENd1NvApSAvPB+YkgUqJMblAOQ/k7luu7sO5HoxrsMBt45kPB
-   RkVz8lmV3iVfvvmIjwS/XZCg77iWE+2LpIByefqgdrmt3+QD8v5oZv/vf
-   l38abZX0wRcVGt74HjxMWtQ6j9tSUoJsS8GOGD5RSRR6qphr0vQPXnSFw
-   Sbjjl8zAtjx8BBx4D64fNvkNXKhHOxVIfRUUEUfOT5+IA53S7WuFCwMy3
-   g==;
-X-CSE-ConnectionGUID: MT2CXLU/RXapheP/DKREVg==
-X-CSE-MsgGUID: YIZbjFTnQ1qe1lQclSDhHg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="14618059"
+  bh=tO3UQXl/zQKH0gidQpE3yTKhcJ0TLTZONZqHNsgUKVI=;
+  b=lPMSwvPi4A9uTFF+rVwgOM+Q+zd7/2ok2F09X8MVOInmdL4JXMQDQW4Z
+   K8JFZqUCFLy+St63fo8d4xdae9ygQvPK6b/xMdILZuGaKw+jNESzXMVXi
+   Id3WE+wwo/AWu+/mRLx1ytKz8K5RjW4GptjNnyTgB35d3jhDMNMfGl0eg
+   M/4P4F+KbqolH/sfhxrgN45XiXB3XoIOYHWM0xySLkvhX2WPrbf6KQNXs
+   dlTAPR2oIi3/CL6e3KzxUPA1UWr6RDyvCaSK5b5sR8PYY3gIzyorjuALN
+   VeoghNh68KkwiQSrfNx5mazg1OcFnDhIy/7vIcsQCdp+S49ZBFxg9pezN
+   w==;
+X-CSE-ConnectionGUID: +udUTOLrTt+xBPt/gurS9Q==
+X-CSE-MsgGUID: a7DXnVNuScaRXWp7/g4dAg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="10683332"
 X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="14618059"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 14:37:09 -0700
-X-CSE-ConnectionGUID: ArKQ/9OnRK2kWKcVjwT9Rw==
-X-CSE-MsgGUID: QPAAVtALT7ij7XBS7G5ygQ==
+   d="scan'208";a="10683332"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 14:58:30 -0700
+X-CSE-ConnectionGUID: 12bpXB/1S6WHQBOvExUMvQ==
+X-CSE-MsgGUID: Cvb1QIyCTi2KLnn98f+pcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="33097826"
+   d="scan'208";a="28291132"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 May 2024 14:37:08 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 May 2024 14:58:28 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s461A-00013p-3D;
-	Mon, 06 May 2024 21:37:05 +0000
-Date: Tue, 7 May 2024 05:36:35 +0800
+	id 1s46Lq-00014n-1L;
+	Mon, 06 May 2024 21:58:26 +0000
+Date: Tue, 7 May 2024 05:57:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/syzbot 30/42] fs/f2fs/node.c:1357:1: warning: label
- 'out_dec' defined but not used
-Message-ID: <202405070500.1xxNvsi8-lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:page_frag_cache_v3_test_0506 8/11]
+ net/rxrpc/conn_object.c:345:35: error: incompatible type for argument 1 of
+ 'page_frag_cache_drain'
+Message-ID: <202405070500.1HOSOdIZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
-head:   6fd891b7248d0b825dbff6454be21f60c7ba1fb0
-commit: 144ab4eadffa6ed7dfa906c24e27134c78a0b01c [30/42] f2fs: fix to release node block count in error path of f2fs_new_node_page()
-config: x86_64-buildonly-randconfig-006-20240507 (https://download.01.org/0day-ci/archive/20240507/202405070500.1xxNvsi8-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405070500.1xxNvsi8-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache_v3_test_0506
+head:   99acbf369a16aae2fe03c509c811029881a1ea4d
+commit: 15e685b00ff333b0a5355b5617391bd9b029d953 [8/11] mm: page_frag: avoid caller accessing 'page_frag_cache' directly
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240507/202405070500.1HOSOdIZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405070500.1HOSOdIZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405070500.1xxNvsi8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405070500.1HOSOdIZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/f2fs/node.c: In function 'f2fs_new_node_page':
->> fs/f2fs/node.c:1357:1: warning: label 'out_dec' defined but not used [-Wunused-label]
-    1357 | out_dec:
-         | ^~~~~~~
+   net/rxrpc/conn_object.c: In function 'rxrpc_clean_up_connection':
+>> net/rxrpc/conn_object.c:345:35: error: incompatible type for argument 1 of 'page_frag_cache_drain'
+     345 |         page_frag_cache_drain(conn->tx_data_alloc);
+         |                               ~~~~^~~~~~~~~~~~~~~
+         |                                   |
+         |                                   struct page_frag_cache
+   In file included from include/linux/skbuff.h:34,
+                    from net/rxrpc/conn_object.c:13:
+   include/linux/page_frag_cache.h:36:52: note: expected 'struct page_frag_cache *' but argument is of type 'struct page_frag_cache'
+      36 | void page_frag_cache_drain(struct page_frag_cache *nc);
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~^~
 
 
-vim +/out_dec +1357 fs/f2fs/node.c
+vim +/page_frag_cache_drain +345 net/rxrpc/conn_object.c
 
-  1306	
-  1307	struct page *f2fs_new_node_page(struct dnode_of_data *dn, unsigned int ofs)
-  1308	{
-  1309		struct f2fs_sb_info *sbi = F2FS_I_SB(dn->inode);
-  1310		struct node_info new_ni;
-  1311		struct page *page;
-  1312		int err;
-  1313	
-  1314		if (unlikely(is_inode_flag_set(dn->inode, FI_NO_ALLOC)))
-  1315			return ERR_PTR(-EPERM);
-  1316	
-  1317		page = f2fs_grab_cache_page(NODE_MAPPING(sbi), dn->nid, false);
-  1318		if (!page)
-  1319			return ERR_PTR(-ENOMEM);
-  1320	
-  1321		if (unlikely((err = inc_valid_node_count(sbi, dn->inode, !ofs))))
-  1322			goto fail;
-  1323	
-  1324	#ifdef CONFIG_F2FS_CHECK_FS
-  1325		err = f2fs_get_node_info(sbi, dn->nid, &new_ni, false);
-  1326		if (err)
-  1327			goto out_dec;
-  1328	
-  1329		if (unlikely(new_ni.blk_addr != NULL_ADDR)) {
-  1330			err = -EFSCORRUPTED;
-  1331			set_sbi_flag(sbi, SBI_NEED_FSCK);
-  1332			f2fs_handle_error(sbi, ERROR_INVALID_BLKADDR);
-  1333			goto out_dec;
-  1334		}
-  1335	#endif
-  1336		new_ni.nid = dn->nid;
-  1337		new_ni.ino = dn->inode->i_ino;
-  1338		new_ni.blk_addr = NULL_ADDR;
-  1339		new_ni.flag = 0;
-  1340		new_ni.version = 0;
-  1341		set_node_addr(sbi, &new_ni, NEW_ADDR, false);
-  1342	
-  1343		f2fs_wait_on_page_writeback(page, NODE, true, true);
-  1344		fill_node_footer(page, dn->nid, dn->inode->i_ino, ofs, true);
-  1345		set_cold_node(page, S_ISDIR(dn->inode->i_mode));
-  1346		if (!PageUptodate(page))
-  1347			SetPageUptodate(page);
-  1348		if (set_page_dirty(page))
-  1349			dn->node_changed = true;
-  1350	
-  1351		if (f2fs_has_xattr_block(ofs))
-  1352			f2fs_i_xnid_write(dn->inode, dn->nid);
-  1353	
-  1354		if (ofs == 0)
-  1355			inc_valid_inode_count(sbi);
-  1356		return page;
-> 1357	out_dec:
-  1358		dec_valid_node_count(sbi, dn->inode, !ofs);
-  1359	fail:
-  1360		clear_node_page_dirty(page);
-  1361		f2fs_put_page(page, 1);
-  1362		return ERR_PTR(err);
-  1363	}
-  1364	
+   305	
+   306	/*
+   307	 * Clean up a dead connection.
+   308	 */
+   309	static void rxrpc_clean_up_connection(struct work_struct *work)
+   310	{
+   311		struct rxrpc_connection *conn =
+   312			container_of(work, struct rxrpc_connection, destructor);
+   313		struct rxrpc_net *rxnet = conn->rxnet;
+   314	
+   315		ASSERT(!conn->channels[0].call &&
+   316		       !conn->channels[1].call &&
+   317		       !conn->channels[2].call &&
+   318		       !conn->channels[3].call);
+   319		ASSERT(list_empty(&conn->cache_link));
+   320	
+   321		del_timer_sync(&conn->timer);
+   322		cancel_work_sync(&conn->processor); /* Processing may restart the timer */
+   323		del_timer_sync(&conn->timer);
+   324	
+   325		write_lock(&rxnet->conn_lock);
+   326		list_del_init(&conn->proc_link);
+   327		write_unlock(&rxnet->conn_lock);
+   328	
+   329		rxrpc_purge_queue(&conn->rx_queue);
+   330	
+   331		rxrpc_kill_client_conn(conn);
+   332	
+   333		conn->security->clear(conn);
+   334		key_put(conn->key);
+   335		rxrpc_put_bundle(conn->bundle, rxrpc_bundle_put_conn);
+   336		rxrpc_put_peer(conn->peer, rxrpc_peer_put_conn);
+   337		rxrpc_put_local(conn->local, rxrpc_local_put_kill_conn);
+   338	
+   339		/* Drain the Rx queue.  Note that even though we've unpublished, an
+   340		 * incoming packet could still be being added to our Rx queue, so we
+   341		 * will need to drain it again in the RCU cleanup handler.
+   342		 */
+   343		rxrpc_purge_queue(&conn->rx_queue);
+   344	
+ > 345		page_frag_cache_drain(conn->tx_data_alloc);
+   346		call_rcu(&conn->rcu, rxrpc_rcu_free_connection);
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
