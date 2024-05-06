@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812831E492;
-	Mon,  6 May 2024 23:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB3215533A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 23:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715037010; cv=none; b=XoLoBMHsSV9EgQ62DCqFcexJWI9BaWOw+fqZ1LbCfZSXKQwhyjpGBknzsf8w07W8mly/7ivId6QgptXeLcYlcDGeTE4XAIafJx+kVsFsGE2MGPULIQCHfDdnXrXCKx+f5xs4sUZo2LHGLOyLD4ZLIBIxdhRlfDP1QKVBun5BS18=
+	t=1715037695; cv=none; b=gIgx50M1znPXgqhXX7ZUpbclsQu1m0dqFPDep9ESJXVtZb0F2t4RvW053aCrlULxhsqSRUhWhYBOTO725Fv48iqdJgSFJkOQVov0ZZmx0ArRx1bM3osHLGtASkmjDsD/f5517v5u/MKOUVUwik3qKzPJ84rzEhQ8YRTLiVu38/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715037010; c=relaxed/simple;
-	bh=8IFsR4Q0/wEtjUDOeGHgCpfHoPbJWpnC621sA71+9DQ=;
+	s=arc-20240116; t=1715037695; c=relaxed/simple;
+	bh=1Hc4biOajDkM4/9CHtsha1vLg2+encEV0dSHcd2yqdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R/PeylHnFs2ljlwiSwyzE7iSjU4/Mazf6nWDe3Np9uatC5b1wSayQgN2/egc8baA/FdA9TbhZEd9QQP9J63nKPjocxuN8JyPOzqKYhQCNtQHCOXpnneHeKjrjAPue+lOT5NnO1z5fmi0OJ29m/vQaTBCt4twi27Z0QVkHK/tSMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MKorSB5+; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=MnBAvmLVhFk199qKA6VsaFLDquYg8uM9IKewNa+5okiAjfYonEuNV7St/UEZI9N4uHPZ/916jmqCNTw8vJjVjbQ/NW1aoJBzfoa9X3h0dUz1WkzgUrSnTcNVgos+0LdjnHmpDdrMTVYuLa9k+oOwMC86ej7ulxHvCYAexDJ4mUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1vaFfVU; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MKorSB5+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1vaFfVU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715037008; x=1746573008;
+  t=1715037693; x=1746573693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8IFsR4Q0/wEtjUDOeGHgCpfHoPbJWpnC621sA71+9DQ=;
-  b=MKorSB5++z9bl4sb63d/wmj+w9VrJTDus4rF+TjQxfij/ZfKJUEqQ6B1
-   BfAbM+yZpYlKjPgPrXao/qaMhzWx0bOmC5Ph7agIKH5aXEY2WwRGaA9u6
-   sFdkabNF45CBTRNlAsHKp08cMgok8jBcwXV2KlgumD5H/5OrQXc4Cziwm
-   PucPb8Sz2WZhsYR05TFNrX5bnXGFWqDT7YA+RfW3vmSlo1pswcl6wdztq
-   y2mJx/6hGbB7OsnNcMsbZtB/noQ2kFKAl+LfG/f798V2k67tzqSVg5DL6
-   aCXQ/Ki9jYNpdLHC0Wzbi0/Rr0uuvKKqSr9d4MMk7pIEdCu5sAyCMtcc5
-   A==;
-X-CSE-ConnectionGUID: QjmEMml3SnuXXtv2kpg5RQ==
-X-CSE-MsgGUID: 44RWFdLcTGa6ryTtB4jh/A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="10968665"
+  bh=1Hc4biOajDkM4/9CHtsha1vLg2+encEV0dSHcd2yqdc=;
+  b=F1vaFfVUsqRjP66tBtsjge/Z6tC7Z+HQtpugbNEw4wwMK3nxkZOjL3Bk
+   PRJx4LMyn58bCWIOPCY2Y1WM8lAy71UE1x/L1yn+Lbl8AJotIraJsBRZ1
+   ASz9bKDC+pa6E6wD1YtNr/Pj1L39oMaA8yafgY+PIQiYVtxIO6U2Qqjyw
+   P/Wyp99n0y1T+YKb7rX1P2LXkm6DycT5jKt0mpBJSoFijC/Kzni6V8s5X
+   fLRSojj0Vl3bXm2YuAAStGBEZo51BbpxAjTVtHJCirkjqaOqsE1CY4QHp
+   iXpYY2HSwegdToaCR+/SGPJjK0jAxz5nOm5k3XgV1IS5SfmreroGqp9VK
+   w==;
+X-CSE-ConnectionGUID: BiNk0CcoRhOHXB57tfLP4g==
+X-CSE-MsgGUID: AxrT3m+jSbuZl29nAyScSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="10690157"
 X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="10968665"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 16:10:08 -0700
-X-CSE-ConnectionGUID: T3Do4q8fRl6PmVE7eSkaWg==
-X-CSE-MsgGUID: wUrElg0dRZSmGAS1pF0MtQ==
+   d="scan'208";a="10690157"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 16:21:07 -0700
+X-CSE-ConnectionGUID: vSsWYLa0Tgq8WaLivZZPag==
+X-CSE-MsgGUID: 7hMHIhdkQuiwTMdVLOIHuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="59489147"
+   d="scan'208";a="32894121"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 May 2024 16:10:06 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 06 May 2024 16:21:07 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s47TA-000171-1H;
-	Mon, 06 May 2024 23:10:04 +0000
-Date: Tue, 7 May 2024 07:09:39 +0800
+	id 1s47do-00017R-1y;
+	Mon, 06 May 2024 23:21:04 +0000
+Date: Tue, 7 May 2024 07:20:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:page_frag_cache_v3_test_0506 8/11]
- net/rxrpc/conn_object.c:345:24: error: passing 'struct page_frag_cache' to
- parameter of incompatible type 'struct page_frag_cache *'; take the address
- with &
-Message-ID: <202405070703.uZj9fVoB-lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/x86-rox/rfc-v2 21/25]
+ arch/x86/kernel/alternative.c:742:33: warning: initialization of 'void *'
+ from 'int' makes pointer from integer without a cast
+Message-ID: <202405070715.5Gh4xAfD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,169 +63,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gestionlin/linux.git page_frag_cache_v3_test_0506
-head:   99acbf369a16aae2fe03c509c811029881a1ea4d
-commit: 15e685b00ff333b0a5355b5617391bd9b029d953 [8/11] mm: page_frag: avoid caller accessing 'page_frag_cache' directly
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240507/202405070703.uZj9fVoB-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405070703.uZj9fVoB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/rfc-v2
+head:   0caa8ac5e8f2f6de2e75cd2ddd552e8756779944
+commit: 4527045f6e1892edac12176b8d82094c35427cdf [21/25] x86/module: perpare module loading for ROX allocations of text
+config: x86_64-buildonly-randconfig-006-20240507 (https://download.01.org/0day-ci/archive/20240507/202405070715.5Gh4xAfD-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405070715.5Gh4xAfD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405070703.uZj9fVoB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405070715.5Gh4xAfD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from net/rxrpc/conn_object.c:10:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/rxrpc/conn_object.c:13:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/rxrpc/conn_object.c:13:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/rxrpc/conn_object.c:13:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> net/rxrpc/conn_object.c:345:24: error: passing 'struct page_frag_cache' to parameter of incompatible type 'struct page_frag_cache *'; take the address with &
-     345 |         page_frag_cache_drain(conn->tx_data_alloc);
-         |                               ^~~~~~~~~~~~~~~~~~~
-         |                               &
-   include/linux/page_frag_cache.h:36:52: note: passing argument to parameter 'nc' here
-      36 | void page_frag_cache_drain(struct page_frag_cache *nc);
-         |                                                    ^
-   17 warnings and 1 error generated.
+   arch/x86/kernel/alternative.c: In function 'alt_replace_call':
+   arch/x86/kernel/alternative.c:417:24: error: implicit declaration of function 'module_writable_address'; did you mean 'mce_usable_address'? [-Werror=implicit-function-declaration]
+     417 |         u8 *wr_instr = module_writable_address(mod, instr);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+         |                        mce_usable_address
+   arch/x86/kernel/alternative.c:417:24: warning: initialization of 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   arch/x86/kernel/alternative.c: In function 'apply_alternatives':
+   arch/x86/kernel/alternative.c:500:26: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     500 |                 wr_instr = module_writable_address(mod, instr);
+         |                          ^
+   arch/x86/kernel/alternative.c:503:32: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     503 |                 wr_replacement = module_writable_address(mod, replacement);
+         |                                ^
+   arch/x86/kernel/alternative.c: In function 'apply_retpolines':
+>> arch/x86/kernel/alternative.c:742:33: warning: initialization of 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     742 |                 void *wr_addr = module_writable_address(mod, addr);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/alternative.c: In function 'apply_returns':
+   arch/x86/kernel/alternative.c:824:33: warning: initialization of 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     824 |                 void *wr_addr = module_writable_address(mod, addr);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/alternative.c: In function 'apply_seal_endbr':
+   arch/x86/kernel/alternative.c:908:33: warning: initialization of 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     908 |                 void *wr_addr = module_writable_address(mod, addr);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +345 net/rxrpc/conn_object.c
+vim +742 arch/x86/kernel/alternative.c
 
-   305	
-   306	/*
-   307	 * Clean up a dead connection.
-   308	 */
-   309	static void rxrpc_clean_up_connection(struct work_struct *work)
-   310	{
-   311		struct rxrpc_connection *conn =
-   312			container_of(work, struct rxrpc_connection, destructor);
-   313		struct rxrpc_net *rxnet = conn->rxnet;
-   314	
-   315		ASSERT(!conn->channels[0].call &&
-   316		       !conn->channels[1].call &&
-   317		       !conn->channels[2].call &&
-   318		       !conn->channels[3].call);
-   319		ASSERT(list_empty(&conn->cache_link));
-   320	
-   321		del_timer_sync(&conn->timer);
-   322		cancel_work_sync(&conn->processor); /* Processing may restart the timer */
-   323		del_timer_sync(&conn->timer);
-   324	
-   325		write_lock(&rxnet->conn_lock);
-   326		list_del_init(&conn->proc_link);
-   327		write_unlock(&rxnet->conn_lock);
-   328	
-   329		rxrpc_purge_queue(&conn->rx_queue);
-   330	
-   331		rxrpc_kill_client_conn(conn);
-   332	
-   333		conn->security->clear(conn);
-   334		key_put(conn->key);
-   335		rxrpc_put_bundle(conn->bundle, rxrpc_bundle_put_conn);
-   336		rxrpc_put_peer(conn->peer, rxrpc_peer_put_conn);
-   337		rxrpc_put_local(conn->local, rxrpc_local_put_kill_conn);
-   338	
-   339		/* Drain the Rx queue.  Note that even though we've unpublished, an
-   340		 * incoming packet could still be being added to our Rx queue, so we
-   341		 * will need to drain it again in the RCU cleanup handler.
-   342		 */
-   343		rxrpc_purge_queue(&conn->rx_queue);
-   344	
- > 345		page_frag_cache_drain(conn->tx_data_alloc);
-   346		call_rcu(&conn->rcu, rxrpc_rcu_free_connection);
-   347	}
-   348	
+   731	
+   732	/*
+   733	 * Generated by 'objtool --retpoline'.
+   734	 */
+   735	void __init_or_module noinline apply_retpolines(s32 *start, s32 *end,
+   736							struct module *mod)
+   737	{
+   738		s32 *s;
+   739	
+   740		for (s = start; s < end; s++) {
+   741			void *addr = (void *)s + *s;
+ > 742			void *wr_addr = module_writable_address(mod, addr);
+   743			struct insn insn;
+   744			int len, ret;
+   745			u8 bytes[16];
+   746			u8 op1, op2;
+   747	
+   748			ret = insn_decode_kernel(&insn, wr_addr);
+   749			if (WARN_ON_ONCE(ret < 0))
+   750				continue;
+   751	
+   752			op1 = insn.opcode.bytes[0];
+   753			op2 = insn.opcode.bytes[1];
+   754	
+   755			switch (op1) {
+   756			case CALL_INSN_OPCODE:
+   757			case JMP32_INSN_OPCODE:
+   758				break;
+   759	
+   760			case 0x0f: /* escape */
+   761				if (op2 >= 0x80 && op2 <= 0x8f)
+   762					break;
+   763				fallthrough;
+   764			default:
+   765				WARN_ON_ONCE(1);
+   766				continue;
+   767			}
+   768	
+   769			DPRINTK(RETPOLINE, "retpoline at: %pS (%px) len: %d to: %pS",
+   770				addr, addr, insn.length,
+   771				addr + insn.length + insn.immediate.value);
+   772	
+   773			len = patch_retpoline(addr, &insn, bytes);
+   774			if (len == insn.length) {
+   775				optimize_nops(bytes, len);
+   776				DUMP_BYTES(RETPOLINE, ((u8*)wr_addr),  len, "%px: orig: ", addr);
+   777				DUMP_BYTES(RETPOLINE, ((u8*)bytes), len, "%px: repl: ", addr);
+   778				text_poke_early(wr_addr, bytes, len);
+   779			}
+   780		}
+   781	}
+   782	
 
 -- 
 0-DAY CI Kernel Test Service
