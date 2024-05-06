@@ -1,281 +1,111 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13246EB51;
-	Mon,  6 May 2024 11:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A6114388D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 11:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714995559; cv=none; b=FaUvmhJE4w8Xq/lnm0eFLEN0iF4yYglJKRJtz4dgNyhfEQ+tk+SsEKURyHY96adr2QZd406vcqekuuY00p2df0DQAeycwxxBerPKEE+cyq4xpB3727HL/FG7uzVkdswhbIkU3sD2EkZobJa5yLI0FKr+X2DstMnVsgD43YDyNxA=
+	t=1714995564; cv=none; b=dw+41sWWZDCRVy1YO0TyLp8v/u5BB3lOdP0qmVimKHt7k5mpgOE880JtWaeoQFkRBY576ma1wIlczzsoDemekgxS7Kw/Y4rNe5gI7hDE0/yc4501uLuq0n+E9KlH2mG68KlEnEQmL6wHAg1SlqpAeNzdfzqTzRpzsxHZU1PTikY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714995559; c=relaxed/simple;
-	bh=FZGGdKQ/lgfW27r0KhDZZdtOmV6Nq5yH7l+nCt+HMHA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=eTDTJjz20lbXAPOhGqcHeEmL9EneP6TROvU90IEUa4/Hytozpf9Ort+Gw9AgQzMQPYMQemt++sdHguutDfF2KJ8BXJeGI8Kh13FJaGH21MsSZd5MRxnABL3krSNI8npVpFioEfecAGOhb4C3kGgJleJVG3Dd2x70mGEklN4UrOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 446Bd0aC52263399, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 446Bd0aC52263399
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 6 May 2024 19:39:00 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 6 May 2024 19:39:01 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 6 May 2024 19:39:00 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::1a1:9ae3:e313:52e7]) by
- RTEXMBS04.realtek.com.tw ([fe80::1a1:9ae3:e313:52e7%5]) with mapi id
- 15.01.2507.035; Mon, 6 May 2024 19:39:00 +0800
-From: Justin Lai <justinlai0215@realtek.com>
-To: kernel test robot <lkp@intel.com>, "kuba@kernel.org" <kuba@kernel.org>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com"
-	<edumazet@google.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "andrew@lunn.ch"
-	<andrew@lunn.ch>,
-        "jiri@resnulli.us" <jiri@resnulli.us>,
-        Ping-Ke Shih
-	<pkshih@realtek.com>,
-        Larry Chiu <larry.chiu@realtek.com>
-Subject: RE: [PATCH net-next v17 12/13] realtek: Update the Makefile and Kconfig in the realtek folder
-Thread-Topic: [PATCH net-next v17 12/13] realtek: Update the Makefile and
- Kconfig in the realtek folder
-Thread-Index: AQHanHJwtQlHSOPjc0iBIoHkieL8ZLGG2wqAgAM+1GA=
-Date: Mon, 6 May 2024 11:39:00 +0000
-Message-ID: <261fdf3adbe84127890e6d551ce0d407@realtek.com>
-References: <20240502091847.65181-13-justinlai0215@realtek.com>
- <202405050111.thv4v0Bl-lkp@intel.com>
-In-Reply-To: <202405050111.thv4v0Bl-lkp@intel.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1714995564; c=relaxed/simple;
+	bh=z2M2Lr9xy3nHyYqXX559Fn7WfPefFbsp3EL5j5Q0vDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sODs8LOv7er+azsPuK9Iry5SIJd3sh+7smnon5WasAj4vF3Swbl25m6W7wnIEfhIXNXWK7J3hauyxQ6L3rMt/5XzDThbwE58Rt+wQfI3kY5q5WxiGi14b7pzGLdu3i202v1DOy8IOB6FpXbTf0KcpUolz5XSt3C24Cb0XFLONco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQfCgTMD; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQfCgTMD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714995563; x=1746531563;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z2M2Lr9xy3nHyYqXX559Fn7WfPefFbsp3EL5j5Q0vDs=;
+  b=bQfCgTMDGVntna8VGNATVsr13fCWLcHmxRahErDp1p9MTWGx9Ow4tvMo
+   bCTpVW/5SMueLBFlx18ey06tqDxiFxAE3THZ4wnP/KA4wZOeWD/2ltyn3
+   QgUYGfmnXYLTcA3Ik8qSK8aNQsCnnB27lWvyNjPaRRDXHE78K7TfUHM4V
+   L/9E2OWcIAPfnvI1bkpmO2aQrrdo/mWuujRuL8o/IrRdbdIIDGCXqe70o
+   NBSlI/mQ+bNOrHpfWVzurPjUavcTPfQdDIyXaubmIRaFYHooeT7SMk73j
+   /pK/gmjJP8dZYFlHN2EV5u5rw571eSw/sLXKfNLyjudzjQKIgh+S5/eDs
+   A==;
+X-CSE-ConnectionGUID: tHNj7z15T2yd+9H0+95Yaw==
+X-CSE-MsgGUID: N7O1WLvETJOHewpIn0L2pw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="13681959"
+X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
+   d="scan'208";a="13681959"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 04:39:22 -0700
+X-CSE-ConnectionGUID: 9BwIgWGASCqiftIfDBsfpA==
+X-CSE-MsgGUID: Wt6JhCnkRFGNsEk6HPNnng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
+   d="scan'208";a="28235026"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 06 May 2024 04:39:22 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3wgh-0000eB-1b;
+	Mon, 06 May 2024 11:39:19 +0000
+Date: Mon, 6 May 2024 19:39:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:fns2 3/8] lib/test_bitops.c:56:39: error: variable 'tmp' set
+ but not used
+Message-ID: <202405061900.4HgQJjvK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The problem this time seems to be caused by me not doing a rebase.
-I will modify the reviewer's suggestions in the next version and re-upload
-the next version after rebase.
+tree:   https://github.com/norov/linux fns2
+head:   f92306cbaa708996e4cabe1c802e4d71e2e0ad77
+commit: 4bb80c67057ee84c93316be9f688e969a1a6ad63 [3/8] lib/test_bitops: Add benchmark test for fns()
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240506/202405061900.4HgQJjvK-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061900.4HgQJjvK-lkp@intel.com/reproduce)
 
-> Hi Justin,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on horms-ipvs/master] [cannot apply to net-next/ma=
-in
-> linus/master v6.9-rc6 next-20240503] [If your patch is applied to the wro=
-ng git
-> tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:
-> https://github.com/intel-lab-lkp/linux/commits/Justin-Lai/rtase-Add-pci-t=
-able-s
-> upported-in-this-module/20240502-172835
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git ma=
-ster
-> patch link:
-> https://lore.kernel.org/r/20240502091847.65181-13-justinlai0215%40realtek=
-.c
-> om
-> patch subject: [PATCH net-next v17 12/13] realtek: Update the Makefile an=
-d
-> Kconfig in the realtek folder
-> config: s390-allmodconfig
-> (https://download.01.org/0day-ci/archive/20240505/202405050111.thv4v0Bl-l
-> kp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project
-> 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20240505/202405050111.thv4v0Bl-l
-> kp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> | https://lore.kernel.org/oe-kbuild-all/202405050111.thv4v0Bl-lkp@intel.
-> | com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    In file included from drivers/net/ethernet/realtek/rtase/rtase_main.c:=
-47:
->    In file included from include/linux/dma-mapping.h:7:
->    In file included from include/linux/device.h:32:
->    In file included from include/linux/device/driver.h:21:
->    In file included from include/linux/module.h:19:
->    In file included from include/linux/elf.h:6:
->    In file included from arch/s390/include/asm/elf.h:173:
->    In file included from arch/s390/include/asm/mmu_context.h:11:
->    In file included from arch/s390/include/asm/pgalloc.h:18:
->    In file included from include/linux/mm.h:1970:
->    include/linux/vmstat.h:502:43: warning: arithmetic between different
-> enumeration types ('enum zone_stat_item' and 'enum numa_stat_item')
-> [-Wenum-enum-conversion]
->      502 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      503 |                            item];
->          |                            ~~~~
->    include/linux/vmstat.h:509:43: warning: arithmetic between different
-> enumeration types ('enum zone_stat_item' and 'enum numa_stat_item')
-> [-Wenum-enum-conversion]
->      509 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      510 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/vmstat.h:516:36: warning: arithmetic between different
-> enumeration types ('enum node_stat_item' and 'enum lru_list')
-> [-Wenum-enum-conversion]
->      516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip
-> "nr_"
->          |                               ~~~~~~~~~~~ ^ ~~~
->    include/linux/vmstat.h:521:43: warning: arithmetic between different
-> enumeration types ('enum zone_stat_item' and 'enum numa_stat_item')
-> [-Wenum-enum-conversion]
->      521 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      522 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/vmstat.h:530:43: warning: arithmetic between different
-> enumeration types ('enum zone_stat_item' and 'enum numa_stat_item')
-> [-Wenum-enum-conversion]
->      530 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      531 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
->    In file included from drivers/net/ethernet/realtek/rtase/rtase_main.c:=
-47:
->    In file included from include/linux/dma-mapping.h:10:
->    In file included from include/linux/scatterlist.h:9:
->    In file included from arch/s390/include/asm/io.h:75:
->    include/asm-generic/io.h:547:31: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      547 |         val =3D __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:560:61: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      560 |         val =3D __le16_to_cpu((__le16
-> __force)__raw_readw(PCI_IOBASE + addr));
->          |
-> ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from
-> macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
->          |
-> ^
->    include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
->      102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
->          |
-> ^
->    In file included from drivers/net/ethernet/realtek/rtase/rtase_main.c:=
-47:
->    In file included from include/linux/dma-mapping.h:10:
->    In file included from include/linux/scatterlist.h:9:
->    In file included from arch/s390/include/asm/io.h:75:
->    include/asm-generic/io.h:573:61: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      573 |         val =3D __le32_to_cpu((__le32
-> __force)__raw_readl(PCI_IOBASE + addr));
->          |
-> ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from
-> macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
->          |
-> ^
->    include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
->      115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
->          |
-> ^
->    In file included from drivers/net/ethernet/realtek/rtase/rtase_main.c:=
-47:
->    In file included from include/linux/dma-mapping.h:10:
->    In file included from include/linux/scatterlist.h:9:
->    In file included from arch/s390/include/asm/io.h:75:
->    include/asm-generic/io.h:584:33: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      584 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:594:59: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      594 |         __raw_writew((u16 __force)cpu_to_le16(value),
-> PCI_IOBASE + addr);
->          |
-> ~~~~~~~~~~ ^
->    include/asm-generic/io.h:604:59: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      604 |         __raw_writel((u32 __force)cpu_to_le32(value),
-> PCI_IOBASE + addr);
->          |
-> ~~~~~~~~~~ ^
->    include/asm-generic/io.h:692:20: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      692 |         readsb(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:700:20: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      700 |         readsw(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:708:20: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      708 |         readsl(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:717:21: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      717 |         writesb(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:726:21: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      726 |         writesw(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:735:21: warning: performing pointer arithmeti=
-c
-> on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      735 |         writesl(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
-> >> drivers/net/ethernet/realtek/rtase/rtase_main.c:67:10: fatal error:
-> >> 'net/netdev_queues.h' file not found
->       67 | #include <net/netdev_queues.h>
->          |          ^~~~~~~~~~~~~~~~~~~~~
->    17 warnings and 1 error generated.
->=20
->=20
-> vim +67 drivers/net/ethernet/realtek/rtase/rtase_main.c
->=20
-> 6c114677e472d0 Justin Lai 2024-05-02 @67  #include
-> <net/netdev_queues.h>
-> 6c114677e472d0 Justin Lai 2024-05-02  68  #include
-> <net/page_pool/helpers.h>
-> 6c114677e472d0 Justin Lai 2024-05-02  69  #include <net/pkt_cls.h>
-> 6c114677e472d0 Justin Lai 2024-05-02  70
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405061900.4HgQJjvK-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> lib/test_bitops.c:56:39: error: variable 'tmp' set but not used [-Werror,-Wunused-but-set-variable]
+      56 |         static volatile __used unsigned long tmp __initdata;
+         |                                              ^
+   1 error generated.
+
+
+vim +/tmp +56 lib/test_bitops.c
+
+    52	
+    53	static int __init test_fns(void)
+    54	{
+    55		static unsigned long buf[10000] __initdata;
+  > 56		static volatile __used unsigned long tmp __initdata;
+    57		unsigned int i, n;
+    58		ktime_t time;
+    59	
+    60		get_random_bytes(buf, sizeof(buf));
+    61		time = ktime_get();
+    62	
+    63		for (n = 0; n < BITS_PER_LONG; n++)
+    64			for (i = 0; i < 10000; i++)
+    65				tmp = fns(buf[i], n);
+    66	
+    67		time = ktime_get() - time;
+    68		pr_err("fns:  %18llu ns\n", time);
+    69	
+    70		return 0;
+    71	}
+    72	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
