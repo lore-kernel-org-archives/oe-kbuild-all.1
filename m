@@ -1,163 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3614C4CB58;
-	Mon,  6 May 2024 05:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC113D967
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 06:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714972876; cv=none; b=LHYY/yHn1EMpmKUUIsS7loS/vm8njq5ITML7Ui6hFnSNn+UjcRwyEIZEpzqv55ER+/dYHAn2uG0M61994bE2CBIYdXT4M/bfNvgk920T6guMnabKMsKLuV9Dvj9UWJSce/hluubqEVY7J8T3p2lVPhznsYnIfIdl1LC12GxxWbo=
+	t=1714976244; cv=none; b=UTq0IHDQTxoaLWfq2aIAtqLrdWcpqtElPqMmoOxuKN433b+sYTR7BrJ9kiKblBKqntzO9pj99k7Iy5AWtAqazd1PZ60lwTJ6OfnIjpdUfDoJf7Uk2wdy94cikDgcSjGaGJtCOx6EU1uF3sjUTKeyjPN52wNaPBuQ8SFpYcj1YFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714972876; c=relaxed/simple;
-	bh=IKlIvjuBn/H754DI9jvJWcFPcdV3jR8qdRnrj4+WI+E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gTNkp4lLt5ir7vVD9cX50esZmzprHcolyE25WBUBhthMgi4Yur3iBO0i4DXRuGC5r0xGmvjcjPFUkAWTrisd5914DK8fQp+95pZ0hZEZ9Foe9s10TIZaltM27fs7pxQVSTDxrIgIM+gW36mQ8iJAeQh4GXgN18mjrs2mW6C3aug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tqHS/vGn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714976244; c=relaxed/simple;
+	bh=DS75kR6rvA6P03ay+HToIVPzYFK1TrZv0isR3R/fu4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n8bQRWFas0IsB0oqJPRx9DSAgkRb41itQTvTPk0kY+l4Y9/77GhfAmIbIhzI4UfrHjSSv0CK3Bw1tsnzZLJ8K1XwnsAkf86OlpkjdhhizvGFoXucX3mqQmwjnfVYLtMX03DxPiYGjWE9P0hQ4i3r9VyJbA5s1vS+YNwrhYWC320=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gn1DzL0J; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tqHS/vGn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6495C4DDE3;
-	Mon,  6 May 2024 05:21:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714972875;
-	bh=IKlIvjuBn/H754DI9jvJWcFPcdV3jR8qdRnrj4+WI+E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tqHS/vGnvtQgm5ottAK403iYyDc6/kLmsTqJatmTnLywHGL2J4Yx3BQFHn8kIh5py
-	 nAooPFJ/9D/gp80HpsyAE7VLHtgoEXN2oFlLX5jPGy9UcaNhHy63gOMOzCBNTTjYzY
-	 zTp1VSdM3dp9bb6a1cRiUxYBB01w14LtjpGUitKZvmBd////F+XFWc+2WhNuCayL1f
-	 5DKi+xN1JCPwBItgzdC22IH1kLTrDRX9bueAA25gRiT5J7ruCdhav0YQqrZ4kFm33e
-	 GoiquvMi/ejmmVn8rmJXrvcabBTLqBrTOjH9PoG8HDm8g2HgzSTiZfZk5HaOctZgEA
-	 vnVuNTv7yqmXw==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51f99f9e0faso1578351e87.2;
-        Sun, 05 May 2024 22:21:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV1W7V85/XVj4El8kyvsfFjmEkuee56EDnJImbm9uudXxZ42PwCFN3nm23pW928S6DV68BqgCpmsxzsbJo0W800QZa5KgxRSW/aNs6YACyvJ0Aqt3yYe8qZbjXUxKFKAGhba5g=
-X-Gm-Message-State: AOJu0Yz1Xzw1ovyw6ye2uBjtLkWF0G+Zj8eP1OJ6gF9G+odTDWFaNIjA
-	MTNXN0Cih0eZIefl6VCcJsO6HnxbUno+Z6btPRuOd9RTy0g8vt6ksD5lsdsL9GfbWnoYoJJeZ09
-	jBKo+QqT910U1wQH9QCMGsO3KsNQ=
-X-Google-Smtp-Source: AGHT+IHQJhS1znz8gVwOUrqUtv4OQz0bCGrfCQ1loRBZocjB8uJP1gVAFiA08qYh/ghUaXKQtWYvCUkCZIIXeKTn4Jg=
-X-Received: by 2002:ac2:4189:0:b0:51d:aaf7:a92e with SMTP id
- z9-20020ac24189000000b0051daaf7a92emr6626911lfh.47.1714972874359; Sun, 05 May
- 2024 22:21:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gn1DzL0J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714976242; x=1746512242;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DS75kR6rvA6P03ay+HToIVPzYFK1TrZv0isR3R/fu4U=;
+  b=Gn1DzL0JH7u5HLDu0Kqnc5ST6h5rqBtFHghLRsRQ33X1LD5jWkvQoa98
+   B2zMrJXi4oCn4f5sZl1Fp/x5Pf5KeaP8lhkqL2VY/QPknKWme6j3zmHsM
+   mllxyIYYO6dp9rtFF0uzbpDzdHva7788BxoEZrlqJ0kf+z54Bo1Ige2WY
+   2o35uw6FUzaqyHv1JKcLF+IXMB9YroWeUQ36q7VXr+P/w/Ux+BJpZhGTw
+   XzteSpKv1R11qpTyAb7SToelHIUgROLzTZesE4vwjaTxFWGtrTi9vQ+EY
+   QTyel1c8B+8HMs1OC7a4j1nr94RNyTUwWhbIQikLl2zurQpZnsiYuV046
+   g==;
+X-CSE-ConnectionGUID: k+IQtRmeT02ogVj9T+PPDA==
+X-CSE-MsgGUID: OK3FuWUTSeuGF4mgX6pZIA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="14492751"
+X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
+   d="scan'208";a="14492751"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 23:17:21 -0700
+X-CSE-ConnectionGUID: EsECcozQTVWhclR1Sci4kw==
+X-CSE-MsgGUID: Ea8FpC9WQly65l7NxxqvxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
+   d="scan'208";a="27946571"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 05 May 2024 23:17:20 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3rf3-0000VL-1R;
+	Mon, 06 May 2024 06:17:17 +0000
+Date: Mon, 6 May 2024 14:16:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [linux-next:master 10340/10967]
+ drivers/gpu/drm/panel/panel-lg-sw43408.c:106:undefined reference to
+ `drm_dsc_pps_payload_pack'
+Message-ID: <202405061441.2d9bfNRP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240503091823.3616962-9-senozhatsky@chromium.org>
- <202405041440.UTBQZAaf-lkp@intel.com> <20240504071416.GH14947@google.com>
- <20240504161004.f5a0aab5e5aa1033d4696c20@linux-foundation.org>
- <20240505043957.GA8623@google.com> <20240505051305.GB8623@google.com>
- <20240505064832.GC8623@google.com> <20240506032207.GD8623@google.com>
-In-Reply-To: <20240506032207.GD8623@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 6 May 2024 14:20:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARUBuR3gDtX6GfB7Zv6dydt1+qzBB_XT58wOg3WeCTVvA@mail.gmail.com>
-Message-ID: <CAK7LNARUBuR3gDtX6GfB7Zv6dydt1+qzBB_XT58wOg3WeCTVvA@mail.gmail.com>
-Subject: Re: [PATCH 08/14] zram: check that backends array has at least one backend
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kbuild@vger.kernel.org, 
-	kernel test robot <lkp@intel.com>, Minchan Kim <minchan@kernel.org>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, May 6, 2024 at 12:22=E2=80=AFPM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (24/05/05 15:48), Sergey Senozhatsky wrote:
-> > On (24/05/05 14:13), Sergey Senozhatsky wrote:
-> > > On (24/05/05 13:39), Sergey Senozhatsky wrote:
-> > > [..]
-> > > > > I guess just pick one if none were selected.
-> > >
-> > > How do I pick one if none were selected? Does Kconfig support
-> > > something like that?
-> >
-> > This triggers Kconfig error:
-> >
-> > config ZRAM_EMPTY_BACKENDS_FIXUP
-> >        bool
-> >        depends on ZRAM && !ZRAM_BACKEND_LZO && !ZRAM_BACKEND_LZ4 && \
-> >                !ZRAM_BACKEND_LZ4HC && !ZRAM_BACKEND_ZSTD && \
-> >                !ZRAM_BACKEND_DEFLATE
-> >        select ZRAM_BACKEND_LZO
-> >
-> >
-> > drivers/block/zram/Kconfig:17:error: recursive dependency detected!
-> > drivers/block/zram/Kconfig:17:  symbol ZRAM_BACKEND_LZO is selected by =
-ZRAM_EMPTY_BACKENDS_FIXUP
-> > drivers/block/zram/Kconfig:52:  symbol ZRAM_EMPTY_BACKENDS_FIXUP depend=
-s on ZRAM_BACKEND_LZO
-> >
-> >
-> > I'm a little surprised by this - EMPTY_BACKENDS_FIXUP does not depend
-> > on ZRAM_BACKEND_LZO, it depends on NOT ZRAM_BACKEND_LZO.
-> >
-> > Let me Cc linux-kbuild. Kbuild folks, how do I workaround this?
->
-> Is this how one does it?
->
-> config ZRAM_BACKEND_LZO
->        bool "lzo and lzo-rle compression support"
->        depends on ZRAM
->        default y if !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
->                !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
->        default n
->        select LZO_COMPRESS
->        select LZO_DECOMPRESS
->
->
-> User still can select N and then we'll have empty backends, but
-> at least default is Y if none of the algorithms were selected.
-> Is it good enough?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9221b2819b8a4196eecf5476d66201be60fbcf29
+commit: 7fe302ae198a35ac071d3a9e78ebd8e14b0958eb [10340/10967] Revert "drm: Switch DRM_DISPLAY_DP_HELPER to depends on"
+config: i386-randconfig-012-20240506 (https://download.01.org/0day-ci/archive/20240506/202405061441.2d9bfNRP-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061441.2d9bfNRP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405061441.2d9bfNRP-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/gpu/drm/panel/panel-lg-sw43408.o: in function `sw43408_program':
+>> drivers/gpu/drm/panel/panel-lg-sw43408.c:106:(.text+0x35c): undefined reference to `drm_dsc_pps_payload_pack'
 
 
-I interpret this sentence into:
+vim +106 drivers/gpu/drm/panel/panel-lg-sw43408.c
 
-"randconfig will eventually disable all ZRAM_BACKEND_*,
-causing the build error again.
-Is it good enough, Arnd?"
+069a6c0e94f994 Sumit Semwal 2024-04-08   60  
+069a6c0e94f994 Sumit Semwal 2024-04-08   61  static int sw43408_program(struct drm_panel *panel)
+069a6c0e94f994 Sumit Semwal 2024-04-08   62  {
+069a6c0e94f994 Sumit Semwal 2024-04-08   63  	struct sw43408_panel *ctx = to_panel_info(panel);
+069a6c0e94f994 Sumit Semwal 2024-04-08   64  	struct drm_dsc_picture_parameter_set pps;
+069a6c0e94f994 Sumit Semwal 2024-04-08   65  
+069a6c0e94f994 Sumit Semwal 2024-04-08   66  	mipi_dsi_dcs_write_seq(ctx->link, MIPI_DCS_SET_GAMMA_CURVE, 0x02);
+069a6c0e94f994 Sumit Semwal 2024-04-08   67  
+069a6c0e94f994 Sumit Semwal 2024-04-08   68  	mipi_dsi_dcs_set_tear_on(ctx->link, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+069a6c0e94f994 Sumit Semwal 2024-04-08   69  
+069a6c0e94f994 Sumit Semwal 2024-04-08   70  	mipi_dsi_dcs_write_seq(ctx->link, 0x53, 0x0c, 0x30);
+069a6c0e94f994 Sumit Semwal 2024-04-08   71  	mipi_dsi_dcs_write_seq(ctx->link, 0x55, 0x00, 0x70, 0xdf, 0x00, 0x70, 0xdf);
+069a6c0e94f994 Sumit Semwal 2024-04-08   72  	mipi_dsi_dcs_write_seq(ctx->link, 0xf7, 0x01, 0x49, 0x0c);
+069a6c0e94f994 Sumit Semwal 2024-04-08   73  
+069a6c0e94f994 Sumit Semwal 2024-04-08   74  	mipi_dsi_dcs_exit_sleep_mode(ctx->link);
+069a6c0e94f994 Sumit Semwal 2024-04-08   75  
+069a6c0e94f994 Sumit Semwal 2024-04-08   76  	msleep(135);
+069a6c0e94f994 Sumit Semwal 2024-04-08   77  
+069a6c0e94f994 Sumit Semwal 2024-04-08   78  	/* COMPRESSION_MODE moved after setting the PPS */
+069a6c0e94f994 Sumit Semwal 2024-04-08   79  
+069a6c0e94f994 Sumit Semwal 2024-04-08   80  	mipi_dsi_dcs_write_seq(ctx->link, 0xb0, 0xac);
+069a6c0e94f994 Sumit Semwal 2024-04-08   81  	mipi_dsi_dcs_write_seq(ctx->link, 0xe5,
+069a6c0e94f994 Sumit Semwal 2024-04-08   82  			       0x00, 0x3a, 0x00, 0x3a, 0x00, 0x0e, 0x10);
+069a6c0e94f994 Sumit Semwal 2024-04-08   83  	mipi_dsi_dcs_write_seq(ctx->link, 0xb5,
+069a6c0e94f994 Sumit Semwal 2024-04-08   84  			       0x75, 0x60, 0x2d, 0x5d, 0x80, 0x00, 0x0a, 0x0b,
+069a6c0e94f994 Sumit Semwal 2024-04-08   85  			       0x00, 0x05, 0x0b, 0x00, 0x80, 0x0d, 0x0e, 0x40,
+069a6c0e94f994 Sumit Semwal 2024-04-08   86  			       0x00, 0x0c, 0x00, 0x16, 0x00, 0xb8, 0x00, 0x80,
+069a6c0e94f994 Sumit Semwal 2024-04-08   87  			       0x0d, 0x0e, 0x40, 0x00, 0x0c, 0x00, 0x16, 0x00,
+069a6c0e94f994 Sumit Semwal 2024-04-08   88  			       0xb8, 0x00, 0x81, 0x00, 0x03, 0x03, 0x03, 0x01,
+069a6c0e94f994 Sumit Semwal 2024-04-08   89  			       0x01);
+069a6c0e94f994 Sumit Semwal 2024-04-08   90  	msleep(85);
+069a6c0e94f994 Sumit Semwal 2024-04-08   91  	mipi_dsi_dcs_write_seq(ctx->link, 0xcd,
+069a6c0e94f994 Sumit Semwal 2024-04-08   92  			       0x00, 0x00, 0x00, 0x19, 0x19, 0x19, 0x19, 0x19,
+069a6c0e94f994 Sumit Semwal 2024-04-08   93  			       0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19,
+069a6c0e94f994 Sumit Semwal 2024-04-08   94  			       0x16, 0x16);
+069a6c0e94f994 Sumit Semwal 2024-04-08   95  	mipi_dsi_dcs_write_seq(ctx->link, 0xcb, 0x80, 0x5c, 0x07, 0x03, 0x28);
+069a6c0e94f994 Sumit Semwal 2024-04-08   96  	mipi_dsi_dcs_write_seq(ctx->link, 0xc0, 0x02, 0x02, 0x0f);
+069a6c0e94f994 Sumit Semwal 2024-04-08   97  	mipi_dsi_dcs_write_seq(ctx->link, 0x55, 0x04, 0x61, 0xdb, 0x04, 0x70, 0xdb);
+069a6c0e94f994 Sumit Semwal 2024-04-08   98  	mipi_dsi_dcs_write_seq(ctx->link, 0xb0, 0xca);
+069a6c0e94f994 Sumit Semwal 2024-04-08   99  
+069a6c0e94f994 Sumit Semwal 2024-04-08  100  	mipi_dsi_dcs_set_display_on(ctx->link);
+069a6c0e94f994 Sumit Semwal 2024-04-08  101  
+069a6c0e94f994 Sumit Semwal 2024-04-08  102  	msleep(50);
+069a6c0e94f994 Sumit Semwal 2024-04-08  103  
+069a6c0e94f994 Sumit Semwal 2024-04-08  104  	ctx->link->mode_flags &= ~MIPI_DSI_MODE_LPM;
+069a6c0e94f994 Sumit Semwal 2024-04-08  105  
+069a6c0e94f994 Sumit Semwal 2024-04-08 @106  	drm_dsc_pps_payload_pack(&pps, ctx->link->dsc);
+069a6c0e94f994 Sumit Semwal 2024-04-08  107  	mipi_dsi_picture_parameter_set(ctx->link, &pps);
+069a6c0e94f994 Sumit Semwal 2024-04-08  108  
+069a6c0e94f994 Sumit Semwal 2024-04-08  109  	ctx->link->mode_flags |= MIPI_DSI_MODE_LPM;
+069a6c0e94f994 Sumit Semwal 2024-04-08  110  
+069a6c0e94f994 Sumit Semwal 2024-04-08  111  	/*
+069a6c0e94f994 Sumit Semwal 2024-04-08  112  	 * This panel uses PPS selectors with offset:
+069a6c0e94f994 Sumit Semwal 2024-04-08  113  	 * PPS 1 if pps_identifier is 0
+069a6c0e94f994 Sumit Semwal 2024-04-08  114  	 * PPS 2 if pps_identifier is 1
+069a6c0e94f994 Sumit Semwal 2024-04-08  115  	 */
+069a6c0e94f994 Sumit Semwal 2024-04-08  116  	mipi_dsi_compression_mode_ext(ctx->link, true,
+069a6c0e94f994 Sumit Semwal 2024-04-08  117  				      MIPI_DSI_COMPRESSION_DSC, 1);
+069a6c0e94f994 Sumit Semwal 2024-04-08  118  
+069a6c0e94f994 Sumit Semwal 2024-04-08  119  	return 0;
+069a6c0e94f994 Sumit Semwal 2024-04-08  120  }
+069a6c0e94f994 Sumit Semwal 2024-04-08  121  
 
+:::::: The code at line 106 was first introduced by commit
+:::::: 069a6c0e94f99437652dbb7229a56233c7d39968 drm: panel: Add LG sw43408 panel driver
 
+:::::: TO: Sumit Semwal <sumit.semwal@linaro.org>
+:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Some possible solutions:
-
-
-
-config ZRAM_BACKEND_FORCE_LZO
-        def_bool !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
-                 !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
-        depends on ZRAM
-        select ZRAM_BACKEND_LZO
-
-config ZRAM_BACKEND_LZO
-        bool "lzo and lzo-rle compression support"
-        depends on ZRAM
-        select LZO_COMPRESS
-        select LZO_DECOMPRESS
-
-
-OR
-
-
-config ZRAM_BACKEND_FORCE_LZO
-        def_bool !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
-                 !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
-
-config ZRAM_BACKEND_LZO
-        bool "lzo and lzo-rle compression support" if !ZRAM_BACKEND_FORCE_L=
-ZO
-        depends on ZRAM
-        default ZRAM_BACKEND_FORCE_LZO
-        select LZO_COMPRESS
-        select LZO_DECOMPRESS
-
-
-
-
-BTW, "default n" you are adding are redundant.
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
