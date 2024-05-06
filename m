@@ -1,93 +1,242 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DDC158855;
-	Mon,  6 May 2024 18:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF5D5FDA5
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 19:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715019008; cv=none; b=LlEBuQOib5uRamPRK0lx45P0cIcfn2T+7poOy+sm38uF1BCGo1iOTVW2kvZqAj9Q+3+BZnHRc/u3aORdTImdGPOh0jhTiI5WKKxWv9hYEwugubQLjkA87pnpLWAM3AD+IdMC2rNE077hmNDBeaFc+LfMISfRtQPGgSw1Uvp0mE4=
+	t=1715024519; cv=none; b=uCO4CsvMfWQOzMQou/6z7V+IUdoSuWGcai1A3DBKiCMM7mk3MAnZ1YeOwQV1tIf/Z5hJu9oVaLIP2w7asRCz8zQT1SG9zl99NJkDCuKpn9qFCOVQnQao/PYZOhijFR9ES/zbdGDxU+kB34rbLidf5HZPkAoLjJoapN7tE6f4cHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715019008; c=relaxed/simple;
-	bh=3YT6GoTBD5RTJNZvjWe/gTCDSC9xyl71eW2q74FFQVs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uoeI5ymqGqfacjwplUmJZI7vjnDkKI7DVFgYV9KVK1TJu1FQrNgQAB/mNEbiEkVWwD07Q6IJbikFiXmzJkebivsGLCNFa5c22O/X1a89Kq2DD/VqORGJSGkaKSkD4Zd/wjFeLzjSRkGt/qYe851FfMjaD6404NPEfAB9u9Si2IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqtkuh1d; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715024519; c=relaxed/simple;
+	bh=Uq0/bBB8YEtZ8rW9Ny9i5geFqQ31mji1ptlL/DQmUak=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZSo7IJMi/mCTViGiVNoHPnbMZ5E9zRSmTp0cgWTBvOfXYkozfJtYmSGWLwgWQ0jQEdkh9XbC/kUYxCDgUlilLG4ms6aMkVW7/oDVp2w5zOUdOC1JsH7lTTsRD7FDAS9EgBwUgXhS0V0CnMs+ChHG1ujyfqFBCLeyRROKtXQuNsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hcHviFGD; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqtkuh1d"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6f4178aec15so1930314b3a.0;
-        Mon, 06 May 2024 11:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715019006; x=1715623806; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3YT6GoTBD5RTJNZvjWe/gTCDSC9xyl71eW2q74FFQVs=;
-        b=mqtkuh1durqrUG+APkS3E/ujmaHHWiRYaHqM6UPLXxvrEB3fr5SzlxykTW7RW4DiqD
-         /6pmijKjxHPKGsJpVgOeC/VOP+3nej9gIBPg7GOPf7sUtovwNB7w8O5ZX9HFbB95I//3
-         WZBOoKv7CIEtSS+yHf4ooNhU7zmh1UJ13rVTGoOSbJ9QepYI7WW6hhPCga20OxoqRQzW
-         BW9cNu/6HyBed1x7N/ZDEoM8BJ4ntyHonISPuornb5L/mHxEAjddyKoIycJFcBy7ED9N
-         HWAUavh+5cEKCKEA9LdHo6XuokbawGbAbbWWuwbykrmbIoML9a9yDLFZNCkfKMKA0arh
-         c5LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715019006; x=1715623806;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3YT6GoTBD5RTJNZvjWe/gTCDSC9xyl71eW2q74FFQVs=;
-        b=h0ce9Godo3UTapZ6pXkcmolcrpl2DjSt4CY7o3QUE8uVvjSnZwDu7aw6i9wAp4A8XF
-         mW52gwk5VKV8HLSERzR7wXure6rIBDSAdBzspf++VlaZ+sw0jNomk1vhLvCUyisPhD5Z
-         U9SvaUe5XgV++xS6M/lYMie90lFBzOs5yG8nY9++ul0vVTdsqnhoJys+cbDOd7XJ/rwP
-         Q0pLvQWErypQQp8IbDMD8oQxvwM74J83geTPe4AYK3R1/5A2Je28lmf4zh/5LdLRLid/
-         1RS6NwG5PEGBdzXbgakfSC/E+jobBLXnZfyYhxnSrr8a0mAKV0qWF/3lZrGQx2H1lnN1
-         I18w==
-X-Forwarded-Encrypted: i=1; AJvYcCWa7pol+tTDo515V4li1eA6zzD+kQt7CQ7stWRKzL9MLJv51Bp3o5IlyYO2QIuXIQ/IaOoxcJ/+iKNCVBO5mwEgl1+LwrWHAaOMfUTP453efWLrnEcZ0qVYhmLSnNn4mzU/PeM=
-X-Gm-Message-State: AOJu0Yy2ql3sOShSBg3F57IMJkhHddaCdV17tfbr3Qrnz9sq51ANPKei
-	4GtfJUGZG2daNSphzT2En1iyQGv4CrswFFVz4GIL0gjN4YUcJd92LXBjZNcGMutd5Z6gsCIoQnM
-	hW5mxS63/KSE1ydyLL/GogpeEQjQ=
-X-Google-Smtp-Source: AGHT+IHX8PagyLuNaCOkfS7Kj0znlYabXOvIdJsimyqynpZ7zYWizoaX3k9aFYgI/STGAH4BqPszoOW+tPGykBsBRdA=
-X-Received: by 2002:a05:6a00:148d:b0:6ed:d68d:948a with SMTP id
- v13-20020a056a00148d00b006edd68d948amr12160424pfu.23.1715019006151; Mon, 06
- May 2024 11:10:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcHviFGD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715024517; x=1746560517;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Uq0/bBB8YEtZ8rW9Ny9i5geFqQ31mji1ptlL/DQmUak=;
+  b=hcHviFGDV1PKtGyr/RBd5XURD0Z/aYEPsCfaaEYbFjNni4chrCOFtQY+
+   fhDQgdbtMh7HIwSA4WCWerBBJFKTJcUoalVYq+lnkVbFfI1hLL+AMc8ZT
+   TYWHXnADlbgpN8a1z37coao6MGPZ+rTP1iv6gZddMSaVkbCAuMgfGMUjn
+   ROcrI7ZnwlzqbS6MGbqcmgXRDQlJTFNcejsBpeNxBfXPVdBBy4u2PsbcD
+   EhkqnhLatbPwhNzlNYKIOeceHZGCtDJ86/8oPff7GLfqa5kvlHuz2rtqH
+   MiE9j8eNEfXsKWpkOZZA3lnyxE/IUuKTBpaO/aRecp+fFPxgC4ryaKkxC
+   g==;
+X-CSE-ConnectionGUID: tKaIV8GBTliHvxiYG6HLLQ==
+X-CSE-MsgGUID: kNk5zvroTg2mCw8YKclgAw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="21464636"
+X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
+   d="scan'208";a="21464636"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 12:41:56 -0700
+X-CSE-ConnectionGUID: 1FSnk6b7RDC++kQKCHTqAw==
+X-CSE-MsgGUID: GewF/XKwRr24affq+cm/eQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
+   d="scan'208";a="28148676"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 06 May 2024 12:41:56 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s44Dh-0000zX-17;
+	Mon, 06 May 2024 19:41:53 +0000
+Date: Tue, 7 May 2024 03:41:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/x86-rox/rfc-v2 21/25]
+ arch/x86/kernel/alternative.c:417:24: error: implicit declaration of
+ function 'module_writable_address'; did you mean 'mce_usable_address'?
+Message-ID: <202405070346.DkDlGdMZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240502092443.6845-2-visitorckw@gmail.com> <202405030808.UsoMKFNP-lkp@intel.com>
- <ZjQ/JOpcdgWZXo0y@visitorckw-System-Product-Name> <20240503041701.GA3660305@thelio-3990X>
- <ZjSSylciH+qJeEEG@visitorckw-System-Product-Name> <ZjSUk4vgsQ63wfcn@visitorckw-System-Product-Name>
- <20240503155401.GA3960118@thelio-3990X> <ZjVdbavKgDo8a0CZ@yury-ThinkPad>
- <20240503222338.GA1908482@thelio-3990X> <CANiq72mJPPp=H6qb7sG1K1hxR3uiHA9+WEVAZkvymSt_dW3CbA@mail.gmail.com>
- <20240506175209.GA1425562@thelio-3990X>
-In-Reply-To: <20240506175209.GA1425562@thelio-3990X>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 6 May 2024 20:08:41 +0200
-Message-ID: <CANiq72=mSafSJH1hab57LxYfyj_BD7UOtyAerOT8S41MD-MnAw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] lib/test_bitops: Add benchmark test for fns()
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Kuan-Wei Chiu <visitorckw@gmail.com>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, May 6, 2024 at 7:52=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
-> wrote:
->
-> No, unused can be used with local variables, used cannot.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/rfc-v2
+head:   0caa8ac5e8f2f6de2e75cd2ddd552e8756779944
+commit: 4527045f6e1892edac12176b8d82094c35427cdf [21/25] x86/module: perpare module loading for ROX allocations of text
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20240507/202405070346.DkDlGdMZ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405070346.DkDlGdMZ-lkp@intel.com/reproduce)
 
-Yeah, sorry, I meant `used`, i.e. it is that one the one that
-constraints the combination rather than `unused`.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405070346.DkDlGdMZ-lkp@intel.com/
 
-From a quick look at the links in `compiler_attributes.h`, `unused`
-can also be applied to types, while `used` cannot -- it is another
-difference, but your sentence above already implies it anyway. :)
+All error/warnings (new ones prefixed by >>):
 
-Thanks for the correction!
+   arch/x86/kernel/alternative.c: In function 'alt_replace_call':
+>> arch/x86/kernel/alternative.c:417:24: error: implicit declaration of function 'module_writable_address'; did you mean 'mce_usable_address'? [-Werror=implicit-function-declaration]
+     417 |         u8 *wr_instr = module_writable_address(mod, instr);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+         |                        mce_usable_address
+>> arch/x86/kernel/alternative.c:417:24: warning: initialization of 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   arch/x86/kernel/alternative.c: In function 'apply_alternatives':
+>> arch/x86/kernel/alternative.c:500:26: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     500 |                 wr_instr = module_writable_address(mod, instr);
+         |                          ^
+   arch/x86/kernel/alternative.c:503:32: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     503 |                 wr_replacement = module_writable_address(mod, replacement);
+         |                                ^
+   cc1: some warnings being treated as errors
 
-Cheers,
-Miguel
+
+vim +417 arch/x86/kernel/alternative.c
+
+   409	
+   410	/*
+   411	 * Rewrite the "call BUG_func" replacement to point to the target of the
+   412	 * indirect pv_ops call "call *disp(%ip)".
+   413	 */
+   414	static int alt_replace_call(u8 *instr, u8 *insn_buff, struct alt_instr *a,
+   415				    struct module *mod)
+   416	{
+ > 417		u8 *wr_instr = module_writable_address(mod, instr);
+   418		void *target, *bug = &BUG_func;
+   419		s32 disp;
+   420	
+   421		if (a->replacementlen != 5 || insn_buff[0] != CALL_INSN_OPCODE) {
+   422			pr_err("ALT_FLAG_DIRECT_CALL set for a non-call replacement instruction\n");
+   423			BUG();
+   424		}
+   425	
+   426		if (a->instrlen != 6 ||
+   427		    wr_instr[0] != CALL_RIP_REL_OPCODE ||
+   428		    wr_instr[1] != CALL_RIP_REL_MODRM) {
+   429			pr_err("ALT_FLAG_DIRECT_CALL set for unrecognized indirect call\n");
+   430			BUG();
+   431		}
+   432	
+   433		/* Skip CALL_RIP_REL_OPCODE and CALL_RIP_REL_MODRM */
+   434		disp = *(s32 *)(wr_instr + 2);
+   435	#ifdef CONFIG_X86_64
+   436		/* ff 15 00 00 00 00   call   *0x0(%rip) */
+   437		/* target address is stored at "next instruction + disp". */
+   438		target = *(void **)(instr + a->instrlen + disp);
+   439	#else
+   440		/* ff 15 00 00 00 00   call   *0x0 */
+   441		/* target address is stored at disp. */
+   442		target = *(void **)disp;
+   443	#endif
+   444		if (!target)
+   445			target = bug;
+   446	
+   447		/* (BUG_func - .) + (target - BUG_func) := target - . */
+   448		*(s32 *)(insn_buff + 1) += target - bug;
+   449	
+   450		if (target == &nop_func)
+   451			return 0;
+   452	
+   453		return 5;
+   454	}
+   455	
+   456	/*
+   457	 * Replace instructions with better alternatives for this CPU type. This runs
+   458	 * before SMP is initialized to avoid SMP problems with self modifying code.
+   459	 * This implies that asymmetric systems where APs have less capabilities than
+   460	 * the boot processor are not handled. Tough. Make sure you disable such
+   461	 * features by hand.
+   462	 *
+   463	 * Marked "noinline" to cause control flow change and thus insn cache
+   464	 * to refetch changed I$ lines.
+   465	 */
+   466	void __init_or_module noinline apply_alternatives(struct alt_instr *start,
+   467							  struct alt_instr *end,
+   468							  struct module *mod)
+   469	{
+   470		struct alt_instr *a;
+   471		u8 *instr, *replacement;
+   472		u8 insn_buff[MAX_PATCH_LEN];
+   473	
+   474		DPRINTK(ALT, "alt table %px, -> %px", start, end);
+   475	
+   476		/*
+   477		 * In the case CONFIG_X86_5LEVEL=y, KASAN_SHADOW_START is defined using
+   478		 * cpu_feature_enabled(X86_FEATURE_LA57) and is therefore patched here.
+   479		 * During the process, KASAN becomes confused seeing partial LA57
+   480		 * conversion and triggers a false-positive out-of-bound report.
+   481		 *
+   482		 * Disable KASAN until the patching is complete.
+   483		 */
+   484		kasan_disable_current();
+   485	
+   486		/*
+   487		 * The scan order should be from start to end. A later scanned
+   488		 * alternative code can overwrite previously scanned alternative code.
+   489		 * Some kernel functions (e.g. memcpy, memset, etc) use this order to
+   490		 * patch code.
+   491		 *
+   492		 * So be careful if you want to change the scan order to any other
+   493		 * order.
+   494		 */
+   495		for (a = start; a < end; a++) {
+   496			int insn_buff_sz = 0;
+   497			u8 *wr_instr, *wr_replacement;
+   498	
+   499			instr = (u8 *)&a->instr_offset + a->instr_offset;
+ > 500			wr_instr = module_writable_address(mod, instr);
+   501	
+   502			replacement = (u8 *)&a->repl_offset + a->repl_offset;
+   503			wr_replacement = module_writable_address(mod, replacement);
+   504	
+   505			BUG_ON(a->instrlen > sizeof(insn_buff));
+   506			BUG_ON(a->cpuid >= (NCAPINTS + NBUGINTS) * 32);
+   507	
+   508			/*
+   509			 * Patch if either:
+   510			 * - feature is present
+   511			 * - feature not present but ALT_FLAG_NOT is set to mean,
+   512			 *   patch if feature is *NOT* present.
+   513			 */
+   514			if (!boot_cpu_has(a->cpuid) == !(a->flags & ALT_FLAG_NOT)) {
+   515				optimize_nops_inplace(wr_instr, a->instrlen);
+   516				continue;
+   517			}
+   518	
+   519			DPRINTK(ALT, "feat: %d*32+%d, old: (%pS (%px) len: %d), repl: (%px, len: %d) flags: 0x%x",
+   520				a->cpuid >> 5,
+   521				a->cpuid & 0x1f,
+   522				instr, instr, a->instrlen,
+   523				replacement, a->replacementlen, a->flags);
+   524	
+   525			memcpy(insn_buff, wr_replacement, a->replacementlen);
+   526			insn_buff_sz = a->replacementlen;
+   527	
+   528			if (a->flags & ALT_FLAG_DIRECT_CALL) {
+   529				insn_buff_sz = alt_replace_call(instr, insn_buff, a,
+   530								mod);
+   531				if (insn_buff_sz < 0)
+   532					continue;
+   533			}
+   534	
+   535			for (; insn_buff_sz < a->instrlen; insn_buff_sz++)
+   536				insn_buff[insn_buff_sz] = 0x90;
+   537	
+   538			apply_relocation(insn_buff, a->instrlen, instr, replacement, a->replacementlen);
+   539	
+   540			DUMP_BYTES(ALT, wr_instr, a->instrlen, "%px:   old_insn: ", instr);
+   541			DUMP_BYTES(ALT, replacement, a->replacementlen, "%px:   rpl_insn: ", replacement);
+   542			DUMP_BYTES(ALT, insn_buff, insn_buff_sz, "%px: final_insn: ", instr);
+   543	
+   544			text_poke_early(wr_instr, insn_buff, insn_buff_sz);
+   545		}
+   546	
+   547		kasan_enable_current();
+   548	}
+   549	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
