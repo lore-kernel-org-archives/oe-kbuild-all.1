@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619041FB5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 00:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4345B6FBF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 01:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714955970; cv=none; b=F7UFL1B5Yyk+/aLKXQfp1PsDfuACDgVoN/r1x0on/YkAsvkXd93kwCFRM8tJCztJWBku+gVmn1kAuM0p6ySK2lUioLx2yA+fhNGkPwMGA45XW+hzhly6MPbpLJgJhGfqF2oQrz3XVjjKgx/4E0Z4rolrajatZ2VnJ4HA8cZRajA=
+	t=1714957250; cv=none; b=Q4Vb5l9FejvFovOvd+yLkIDPos9NLS6G4IPRa2xTT++c16LYNtswcvdRDpg5i794UxmFbWcuSvG9lRDC9/VTbmBm7JaH/v/05+aB7puZ8mkO0v/WbYn9GfwgdXcbwAzaeuOr3xs7a4ksPprA33v3IYdnVcD+yHhKSNpj1KvFxmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714955970; c=relaxed/simple;
-	bh=xrKXEvHIZziC/eKW2Y0RiR52mwEdx4UPgzF1o1G5mPM=;
+	s=arc-20240116; t=1714957250; c=relaxed/simple;
+	bh=RRalxoNPSynWD+7n6FXQ55yDgRUuTybMiTrJnamT2m0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ORbGNPT6IJ0ytKjTsDVto5OE6qpACBHPGuMBiYaJLhJWsxVASxdMH9czcywW8Oq9dPg3u8hXRzqCGozaM1e24FybQwNyHkzKp0D6k1HO2+NC/yl3Ct84V4KFd4lxaU8H0TNwDPccfN5vAi5oaELXnQFPwHCLjZMqK/kdzdYzZ3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RiHtMGRF; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=DtGp73F8eF+x8GuQ1qpJi5HJL9TtcoEIZMjbzbp5ys8NpGaSfas+YR20GFsGEd9TuLWGkLjV0v9MkoU+0AC1Z9nACOumDpoOptFjsDGbLs7GnrU8ILWOY5aZWVaoFq/nYPt+6xh7rZpgFlE80ZVvB8e4jMlL2vpDoMIVfEqRDVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NbVKpuAd; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RiHtMGRF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NbVKpuAd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714955968; x=1746491968;
+  t=1714957247; x=1746493247;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xrKXEvHIZziC/eKW2Y0RiR52mwEdx4UPgzF1o1G5mPM=;
-  b=RiHtMGRFAApxJ1t2zHKphHBdVtu0dSeIKElzjY5TO4bYy6WpsVqLHmAJ
-   sXVFK3kIBzcJLhPs5swlpPjpY5YUeI1Hc5wz8+UdSAo4V9KvmfKF8yI/w
-   yq1uh8sQBDSebD/UguIYJsHr3ldVSgyjzjHRkOGiN2Sn3ETZ9m8A79r7P
-   2RJ6MJOcmGTnpteY1t9hPR2NRiXSqVqQexeyhCCUcrtGT2AWw/MGi3Haa
-   7T9MFcZByL+PUXHOqQuZJcXNmRFBN/i8joQQ/cUQBU+JjNTwc5vxnOXn2
-   URqBaYIA843/EUHtfQ3qmvUm+V0zzxki7NJflmt8VeYa0GMVBs+KrucPQ
-   g==;
-X-CSE-ConnectionGUID: Vk9nC82sQS+SR2HQLtXepQ==
-X-CSE-MsgGUID: ZhroDYg1RxWGT2msdwa9gg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10810327"
+  bh=RRalxoNPSynWD+7n6FXQ55yDgRUuTybMiTrJnamT2m0=;
+  b=NbVKpuAdNvBGkHeDv0i8u0M8sc2hQcPKq29x0OTS/3Kjk47zs5PX3xwD
+   pEvWgbIAcZ/7hG18vKz4Yvc4HUFYwUo5okcXH8iyMtqLbeWvqfv2vWWOJ
+   bWLuF2QwaZJS8fPkaXKhqQCslalHRm80BfV+d5sDhk0CKY6bWECOBxIkX
+   t9p/SXSZSrKKJw1mfCEzv4OS5Zufz7OZBUNl1ukpydATVj6BUSuyp2Yrt
+   b031HTEZ+SFMoy8+H6DYa6YrBVZ3wTMkJBQ8jghgKQh6RndtPzWvaCfxe
+   gUzRR1PBWI1AQxln2WuPVrM24KzPe6eakJb02rUwnmF7G4njk8MJPP+41
+   w==;
+X-CSE-ConnectionGUID: oVBDcuMeRcKgn3BziltkwA==
+X-CSE-MsgGUID: cHo8rUNIRtOkdqGWbxmyzQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="22094470"
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="10810327"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 17:39:27 -0700
-X-CSE-ConnectionGUID: jrTb8wUWQDS2GO1TK3tYAg==
-X-CSE-MsgGUID: DJQVModjR2a+Jn1JEGEBRA==
+   d="scan'208";a="22094470"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 18:00:46 -0700
+X-CSE-ConnectionGUID: f6VjumpSSYKZfZXOuagHLg==
+X-CSE-MsgGUID: BQma0NXbRISez+8cgdnXGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="28018216"
+   d="scan'208";a="28581799"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 May 2024 17:39:26 -0700
+  by orviesa008.jf.intel.com with ESMTP; 05 May 2024 18:00:46 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3mO4-0000JM-0D;
-	Mon, 06 May 2024 00:39:24 +0000
-Date: Mon, 6 May 2024 08:39:15 +0800
+	id 1s3mig-0000K8-36;
+	Mon, 06 May 2024 01:00:42 +0000
+Date: Mon, 6 May 2024 09:00:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-6.9-rebase 1043/1143]
- drivers/soc/aspeed/rvas/video_engine.c:473:13: warning: 'dump_buffer'
- defined but not used
-Message-ID: <202405060819.E59Jl3Km-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.9-netdma 36/36]
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:3130:33: warning: variable
+ 'ip4dst' is uninitialized when used here
+Message-ID: <202405060848.84OkascR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,138 +63,170 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/shenki/linux aspeed-6.9-rebase
-head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
-commit: 867a6cd8ea2c0514739e75bc2701687f294c2578 [1043/1143] RVAS engine: video engine
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240506/202405060819.E59Jl3Km-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060819.E59Jl3Km-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-netdma
+head:   f4e76f5899b89144d4421d61833ecc6bee17328f
+commit: f4e76f5899b89144d4421d61833ecc6bee17328f [36/36] changes to lro based on review from daniel
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240506/202405060848.84OkascR-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405060848.84OkascR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405060819.E59Jl3Km-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405060848.84OkascR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         |                 ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:432:17: note: in expansion of macro 'VIDEO_ENG_DBG'
-     432 |                 VIDEO_ENG_DBG("Sync None Direct Mode\n");
-         |                 ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c:396:39: warning: variable 'VGA_Scratch_Register_354' set but not used [-Wunused-but-set-variable]
-     396 |         u32 VGA_Scratch_Register_350, VGA_Scratch_Register_354, VGA_Scratch_Register_34C, Color_Depth;
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'video_capture_trigger':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:442:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     442 |         VIDEO_ENG_DBG("\n");
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'get_vga_mem_base':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:469:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     469 |         VIDEO_ENG_DBG("VGA Info : MEM Size %dMB, VGA Mem Size %dMB\n", mem_size / 1024 / 1024, vga_mem_size / 1024 / 1024);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'dump_buffer':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:480:17: note: in expansion of macro 'VIDEO_ENG_DBG'
-     480 |                 VIDEO_ENG_DBG("%#x, ", val);
-         |                 ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c:476:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-     476 |         u32 val = 0;
-         |             ^~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'video_set_scaling':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:491:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     491 |         VIDEO_ENG_DBG("Scaling Disable\n");
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'video_ctrl_init':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:505:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     505 |         VIDEO_ENG_DBG("\n");
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:506:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     506 |         VIDEO_ENG_DBG("reg address: %p\n", pAstRVAS->video_reg_base);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:518:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     518 |         VIDEO_ENG_DBG("JpegTable in Memory:%#x\n", vem.jpegTable.pVirt);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'reserve_video_engine_memory':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:553:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     553 |         VIDEO_ENG_DBG("Allocating memory size: 0x%x\n", size);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:570:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     570 |         VIDEO_ENG_DBG("Allocated: phys: 0x%llx\n", phys_add);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:571:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     571 |         VIDEO_ENG_DBG("Phy: Buf0:0x%llx; Buf1:0x%llx; jpegT:0x%llx\n", vem.captureBuf0.phy, vem.captureBuf1.phy, vem.jpegTable.phy);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:572:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-     572 |         VIDEO_ENG_DBG("Virt: Buf0:%p; Buf1:%p; JpegT:%p\n", vem.captureBuf0.pVirt, vem.captureBuf1.pVirt, vem.jpegTable.pVirt);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'video_write':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:1163:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-    1163 |         VIDEO_ENG_DBG("write offset: %x, val: %x\n", reg, val);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: In function 'video_read':
-   drivers/soc/aspeed/rvas/video_debug.h:26:39: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
-      26 | #define VIDEO_ENG_DBG(fmt, args...) do; while (0)
-         |                                       ^
-   drivers/soc/aspeed/rvas/video_engine.c:1176:9: note: in expansion of macro 'VIDEO_ENG_DBG'
-    1176 |         VIDEO_ENG_DBG("read offset: %x, val: %x\n", reg, val);
-         |         ^~~~~~~~~~~~~
-   drivers/soc/aspeed/rvas/video_engine.c: At top level:
->> drivers/soc/aspeed/rvas/video_engine.c:473:13: warning: 'dump_buffer' defined but not used [-Wunused-function]
-     473 | static void dump_buffer(phys_addr_t dwPhyStreamAddress, u32 size)
-         |             ^~~~~~~~~~~
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:10:
+   In file included from include/linux/of_mdio.h:12:
+   In file included from include/linux/phy.h:16:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:10:
+   In file included from include/linux/of_mdio.h:12:
+   In file included from include/linux/phy.h:16:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:10:
+   In file included from include/linux/of_mdio.h:12:
+   In file included from include/linux/phy.h:16:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:3130:33: warning: variable 'ip4dst' is uninitialized when used here [-Wuninitialized]
+    3130 |         mac->hwlro_ip[fsp->location] = ip4dst;
+         |                                        ^~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3119:12: note: initialize the variable 'ip4dst' to silence this warning
+    3119 |         u32 ip4dst;
+         |                   ^
+         |                    = 0
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:4528:12: warning: unused function 'mtk_change_mtu' [-Wunused-function]
+    4528 | static int mtk_change_mtu(struct net_device *dev, int new_mtu)
+         |            ^~~~~~~~~~~~~~
+   19 warnings generated.
 
 
-vim +/dump_buffer +473 drivers/soc/aspeed/rvas/video_engine.c
+vim +/ip4dst +3130 drivers/net/ethernet/mediatek/mtk_eth_soc.c
 
-   472	
- > 473	static void dump_buffer(phys_addr_t dwPhyStreamAddress, u32 size)
-   474	{
-   475		u32 iC;
-   476		u32 val = 0;
-   477	
-   478		for (iC = 0; iC < size; iC += 4) {
-   479			val = readl((void *)(dwPhyStreamAddress + iC));
-   480			VIDEO_ENG_DBG("%#x, ", val);
-   481		}
-   482	
+7aab747e5563ec Nelson Chang     2016-09-17  3110  
+7aab747e5563ec Nelson Chang     2016-09-17  3111  static int mtk_hwlro_add_ipaddr(struct net_device *dev,
+7aab747e5563ec Nelson Chang     2016-09-17  3112  				struct ethtool_rxnfc *cmd)
+7aab747e5563ec Nelson Chang     2016-09-17  3113  {
+7aab747e5563ec Nelson Chang     2016-09-17  3114  	struct ethtool_rx_flow_spec *fsp =
+7aab747e5563ec Nelson Chang     2016-09-17  3115  		(struct ethtool_rx_flow_spec *)&cmd->fs;
+7aab747e5563ec Nelson Chang     2016-09-17  3116  	struct mtk_mac *mac = netdev_priv(dev);
+7aab747e5563ec Nelson Chang     2016-09-17  3117  	struct mtk_eth *eth = mac->hw;
+7aab747e5563ec Nelson Chang     2016-09-17  3118  	int hwlro_idx;
+e0e5f1040639ab Frank Wunderlich 2023-12-21  3119  	u32 ip4dst;
+7aab747e5563ec Nelson Chang     2016-09-17  3120  
+e0e5f1040639ab Frank Wunderlich 2023-12-21  3121  printk(KERN_ALERT "DEBUG: Passed %s %d\n",__FUNCTION__,__LINE__);
+7aab747e5563ec Nelson Chang     2016-09-17  3122  	if ((fsp->flow_type != TCP_V4_FLOW) ||
+7aab747e5563ec Nelson Chang     2016-09-17  3123  	    (!fsp->h_u.tcp_ip4_spec.ip4dst) ||
+7aab747e5563ec Nelson Chang     2016-09-17  3124  	    (fsp->location > 1))
+7aab747e5563ec Nelson Chang     2016-09-17  3125  		return -EINVAL;
+e0e5f1040639ab Frank Wunderlich 2023-12-21  3126  printk(KERN_ALERT "DEBUG: Passed %s %d\n",__FUNCTION__,__LINE__);
+f4e76f5899b891 Frank Wunderlich 2024-05-03  3127  	mac->hwlro_ip[fsp->location] = htonl(fsp->h_u.tcp_ip4_spec.ip4dst);
+f4e76f5899b891 Frank Wunderlich 2024-05-03  3128  	hwlro_idx = (mac->id * MTK_MAX_LRO_IP_CNT) + fsp->location;
+7aab747e5563ec Nelson Chang     2016-09-17  3129  
+e0e5f1040639ab Frank Wunderlich 2023-12-21 @3130  	mac->hwlro_ip[fsp->location] = ip4dst;
+7aab747e5563ec Nelson Chang     2016-09-17  3131  
+7aab747e5563ec Nelson Chang     2016-09-17  3132  	mac->hwlro_ip_cnt = mtk_hwlro_get_ip_cnt(mac);
+7aab747e5563ec Nelson Chang     2016-09-17  3133  
+7aab747e5563ec Nelson Chang     2016-09-17  3134  	mtk_hwlro_val_ipaddr(eth, hwlro_idx, mac->hwlro_ip[fsp->location]);
+7aab747e5563ec Nelson Chang     2016-09-17  3135  
+7aab747e5563ec Nelson Chang     2016-09-17  3136  	return 0;
+7aab747e5563ec Nelson Chang     2016-09-17  3137  }
+7aab747e5563ec Nelson Chang     2016-09-17  3138  
+
+:::::: The code at line 3130 was first introduced by commit
+:::::: e0e5f1040639abdab37ba59de0b67b6b73d7f2bb net: lro patch from balika011
+
+:::::: TO: Frank Wunderlich <frank-w@public-files.de>
+:::::: CC: Frank Wunderlich <frank-w@public-files.de>
 
 -- 
 0-DAY CI Kernel Test Service
