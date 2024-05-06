@@ -1,150 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE211EB36
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 05:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3614C4CB58;
+	Mon,  6 May 2024 05:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714971823; cv=none; b=eWe2kSDIcppa6T8258MlXPR3gGQhqqlS48G75zHlBqdUzrYKhJkMWXFY2l1drDB9Z+zHsUpmGC2+5pD6lKSyhXAr6YMFtMcM1r7hqtTjNF1HM5TO+94zSnw2oKrZJ3lWJWzRghjdKFJDAhVUiKw1kC9SmHPGimhbk+ZVuSwtkdk=
+	t=1714972876; cv=none; b=LHYY/yHn1EMpmKUUIsS7loS/vm8njq5ITML7Ui6hFnSNn+UjcRwyEIZEpzqv55ER+/dYHAn2uG0M61994bE2CBIYdXT4M/bfNvgk920T6guMnabKMsKLuV9Dvj9UWJSce/hluubqEVY7J8T3p2lVPhznsYnIfIdl1LC12GxxWbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714971823; c=relaxed/simple;
-	bh=ZJJIlAKamPYLzqHroDfCYJc4pa1iY9LLdMy64ia9XVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=len5hU4wkCgDB6f3CRr/2tOAblhxkgBeW18FRqlLOAx0iqDLLVcMAqCrnZ8OG0ztUvQaI2wQYOrRB6yOXUekkQHFIHAoJEZvOWRRGuLS4AA7g2EYX+0ZLuynMY2qkOUhrA7gshKeClYjcXh7W3mVUAdTRCaKSY8xmxjyQzw55x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k82oVh3N; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714972876; c=relaxed/simple;
+	bh=IKlIvjuBn/H754DI9jvJWcFPcdV3jR8qdRnrj4+WI+E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gTNkp4lLt5ir7vVD9cX50esZmzprHcolyE25WBUBhthMgi4Yur3iBO0i4DXRuGC5r0xGmvjcjPFUkAWTrisd5914DK8fQp+95pZ0hZEZ9Foe9s10TIZaltM27fs7pxQVSTDxrIgIM+gW36mQ8iJAeQh4GXgN18mjrs2mW6C3aug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tqHS/vGn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k82oVh3N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714971821; x=1746507821;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZJJIlAKamPYLzqHroDfCYJc4pa1iY9LLdMy64ia9XVI=;
-  b=k82oVh3NxhAhMbKN4pLAT+WbLqgR4qdzqQGBXR1DVPvzhBSDvmCBL8M8
-   ldZZCJ4uyevHe6sH1Y8FBXgKyERLY+5k+ZIscWPhOr0c7RUjiYxocbgf+
-   usRSgZDK2GkCIRICkVt7KaxQXvgVDUekHuLw+Zi0bj7QplQPxeRYLi1Dx
-   BSYSnCm1aFI6tAoz5kJQI4maTly1u3cjao7nqet3rzWK37WENQumNOwUH
-   PmXH9kjj948S31TvvqBYsIhSkGGT6fc1ur+whhCMEhL59YhDmJofCBMeE
-   UlJly12V9hsdYngxNFGQmR5SltkxlFqYfUFiEmczCufySHAlDhULv/U4f
-   g==;
-X-CSE-ConnectionGUID: H1sgv/g8SXydcXrlm0c8OA==
-X-CSE-MsgGUID: UvKEbWBjTvu3gKKjxp4VUQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="22109823"
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="22109823"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 22:03:40 -0700
-X-CSE-ConnectionGUID: MiXy8seFT6+zGTUR0W4wmw==
-X-CSE-MsgGUID: uhMhUfzcTXSjqlgL0N4yeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="32556389"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 May 2024 22:03:39 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3qVk-0000Tz-1Q;
-	Mon, 06 May 2024 05:03:36 +0000
-Date: Mon, 6 May 2024 13:03:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3482/30000]
- drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5234:1: warning: 'inline' is
- not at beginning of declaration
-Message-ID: <202405061208.OUH9u7TK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tqHS/vGn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6495C4DDE3;
+	Mon,  6 May 2024 05:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714972875;
+	bh=IKlIvjuBn/H754DI9jvJWcFPcdV3jR8qdRnrj4+WI+E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tqHS/vGnvtQgm5ottAK403iYyDc6/kLmsTqJatmTnLywHGL2J4Yx3BQFHn8kIh5py
+	 nAooPFJ/9D/gp80HpsyAE7VLHtgoEXN2oFlLX5jPGy9UcaNhHy63gOMOzCBNTTjYzY
+	 zTp1VSdM3dp9bb6a1cRiUxYBB01w14LtjpGUitKZvmBd////F+XFWc+2WhNuCayL1f
+	 5DKi+xN1JCPwBItgzdC22IH1kLTrDRX9bueAA25gRiT5J7ruCdhav0YQqrZ4kFm33e
+	 GoiquvMi/ejmmVn8rmJXrvcabBTLqBrTOjH9PoG8HDm8g2HgzSTiZfZk5HaOctZgEA
+	 vnVuNTv7yqmXw==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51f99f9e0faso1578351e87.2;
+        Sun, 05 May 2024 22:21:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV1W7V85/XVj4El8kyvsfFjmEkuee56EDnJImbm9uudXxZ42PwCFN3nm23pW928S6DV68BqgCpmsxzsbJo0W800QZa5KgxRSW/aNs6YACyvJ0Aqt3yYe8qZbjXUxKFKAGhba5g=
+X-Gm-Message-State: AOJu0Yz1Xzw1ovyw6ye2uBjtLkWF0G+Zj8eP1OJ6gF9G+odTDWFaNIjA
+	MTNXN0Cih0eZIefl6VCcJsO6HnxbUno+Z6btPRuOd9RTy0g8vt6ksD5lsdsL9GfbWnoYoJJeZ09
+	jBKo+QqT910U1wQH9QCMGsO3KsNQ=
+X-Google-Smtp-Source: AGHT+IHQJhS1znz8gVwOUrqUtv4OQz0bCGrfCQ1loRBZocjB8uJP1gVAFiA08qYh/ghUaXKQtWYvCUkCZIIXeKTn4Jg=
+X-Received: by 2002:ac2:4189:0:b0:51d:aaf7:a92e with SMTP id
+ z9-20020ac24189000000b0051daaf7a92emr6626911lfh.47.1714972874359; Sun, 05 May
+ 2024 22:21:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240503091823.3616962-9-senozhatsky@chromium.org>
+ <202405041440.UTBQZAaf-lkp@intel.com> <20240504071416.GH14947@google.com>
+ <20240504161004.f5a0aab5e5aa1033d4696c20@linux-foundation.org>
+ <20240505043957.GA8623@google.com> <20240505051305.GB8623@google.com>
+ <20240505064832.GC8623@google.com> <20240506032207.GD8623@google.com>
+In-Reply-To: <20240506032207.GD8623@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 6 May 2024 14:20:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARUBuR3gDtX6GfB7Zv6dydt1+qzBB_XT58wOg3WeCTVvA@mail.gmail.com>
+Message-ID: <CAK7LNARUBuR3gDtX6GfB7Zv6dydt1+qzBB_XT58wOg3WeCTVvA@mail.gmail.com>
+Subject: Re: [PATCH 08/14] zram: check that backends array has at least one backend
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kbuild@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, Minchan Kim <minchan@kernel.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   411c52448fdc0906f70c4585c7e05359c0b05c11
-commit: 9aaa64d658b13f9f4ca06763dc79386e4ee90df3 [3482/30000] MGS-6425 [#imx-2711] use default list_head in linux
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240506/202405061208.OUH9u7TK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061208.OUH9u7TK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405061208.OUH9u7TK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   cc1: warning: arch/arm/mm: No such file or directory [-Wmissing-include-dirs]
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:166:1: warning: no previous prototype for '_ClearPendingIntr' [-Wmissing-prototypes]
-     166 | _ClearPendingIntr(
-         | ^~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:208:1: warning: no previous prototype for '_MonitorTimerFunction' [-Wmissing-prototypes]
-     208 | _MonitorTimerFunction(
-         | ^~~~~~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:391:1: warning: no previous prototype for '_DumpDriverConfigure' [-Wmissing-prototypes]
-     391 | _DumpDriverConfigure(
-         | ^~~~~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:406:1: warning: no previous prototype for '_DumpState' [-Wmissing-prototypes]
-     406 | _DumpState(
-         | ^~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:458:1: warning: no previous prototype for '_SetRecovery' [-Wmissing-prototypes]
-     458 | _SetRecovery(
-         | ^~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1489:1: warning: no previous prototype for '_AllocateLinearMemory' [-Wmissing-prototypes]
-    1489 | _AllocateLinearMemory(
-         | ^~~~~~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1612:1: warning: no previous prototype for '_ReleaseVideoMemory' [-Wmissing-prototypes]
-    1612 | _ReleaseVideoMemory(
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2130:1: warning: no previous prototype for '_SetVidMemMetadata' [-Wmissing-prototypes]
-    2130 | _SetVidMemMetadata(
-         | ^~~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2302:1: warning: no previous prototype for 'gckKERNEL_ConfigPowerManagement' [-Wmissing-prototypes]
-    2302 | gckKERNEL_ConfigPowerManagement(
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5234:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
-    5234 | void inline
-         | ^~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5242:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
-    5242 | void inline
-         | ^~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5251:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
-    5251 | void inline
-         | ^~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5260:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
-    5260 | void inline
-         | ^~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5667:1: warning: no previous prototype for 'gckDEVICE_ChipInfo' [-Wmissing-prototypes]
-    5667 | gckDEVICE_ChipInfo(
-         | ^~~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5689:1: warning: no previous prototype for 'gckDEVICE_Version' [-Wmissing-prototypes]
-    5689 | gckDEVICE_Version(
-         | ^~~~~~~~~~~~~~~~~
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: In function 'gckDEVICE_SetTimeOut':
-   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5751:19: warning: variable 'coreList' set but not used [-Wunused-but-set-variable]
-    5751 |     gcsCORE_LIST *coreList;
-         |                   ^~~~~~~~
+On Mon, May 6, 2024 at 12:22=E2=80=AFPM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
+>
+> On (24/05/05 15:48), Sergey Senozhatsky wrote:
+> > On (24/05/05 14:13), Sergey Senozhatsky wrote:
+> > > On (24/05/05 13:39), Sergey Senozhatsky wrote:
+> > > [..]
+> > > > > I guess just pick one if none were selected.
+> > >
+> > > How do I pick one if none were selected? Does Kconfig support
+> > > something like that?
+> >
+> > This triggers Kconfig error:
+> >
+> > config ZRAM_EMPTY_BACKENDS_FIXUP
+> >        bool
+> >        depends on ZRAM && !ZRAM_BACKEND_LZO && !ZRAM_BACKEND_LZ4 && \
+> >                !ZRAM_BACKEND_LZ4HC && !ZRAM_BACKEND_ZSTD && \
+> >                !ZRAM_BACKEND_DEFLATE
+> >        select ZRAM_BACKEND_LZO
+> >
+> >
+> > drivers/block/zram/Kconfig:17:error: recursive dependency detected!
+> > drivers/block/zram/Kconfig:17:  symbol ZRAM_BACKEND_LZO is selected by =
+ZRAM_EMPTY_BACKENDS_FIXUP
+> > drivers/block/zram/Kconfig:52:  symbol ZRAM_EMPTY_BACKENDS_FIXUP depend=
+s on ZRAM_BACKEND_LZO
+> >
+> >
+> > I'm a little surprised by this - EMPTY_BACKENDS_FIXUP does not depend
+> > on ZRAM_BACKEND_LZO, it depends on NOT ZRAM_BACKEND_LZO.
+> >
+> > Let me Cc linux-kbuild. Kbuild folks, how do I workaround this?
+>
+> Is this how one does it?
+>
+> config ZRAM_BACKEND_LZO
+>        bool "lzo and lzo-rle compression support"
+>        depends on ZRAM
+>        default y if !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
+>                !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
+>        default n
+>        select LZO_COMPRESS
+>        select LZO_DECOMPRESS
+>
+>
+> User still can select N and then we'll have empty backends, but
+> at least default is Y if none of the algorithms were selected.
+> Is it good enough?
 
 
-vim +/inline +5234 drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c
+I interpret this sentence into:
 
-  5229	
-  5230	/*******************************************************************************\
-  5231	*************************** List Helper *****************************************
-  5232	\*******************************************************************************/
-  5233	#ifdef LINUX_VERSION_CODE
-> 5234	void inline
-  5235	gcsLIST_Init(
-  5236	    gcsLISTHEAD_PTR Node
-  5237	    )
-  5238	{
-  5239	    INIT_LIST_HEAD(Node);
-  5240	}
-  5241	
+"randconfig will eventually disable all ZRAM_BACKEND_*,
+causing the build error again.
+Is it good enough, Arnd?"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+
+Some possible solutions:
+
+
+
+config ZRAM_BACKEND_FORCE_LZO
+        def_bool !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
+                 !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
+        depends on ZRAM
+        select ZRAM_BACKEND_LZO
+
+config ZRAM_BACKEND_LZO
+        bool "lzo and lzo-rle compression support"
+        depends on ZRAM
+        select LZO_COMPRESS
+        select LZO_DECOMPRESS
+
+
+OR
+
+
+config ZRAM_BACKEND_FORCE_LZO
+        def_bool !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
+                 !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
+
+config ZRAM_BACKEND_LZO
+        bool "lzo and lzo-rle compression support" if !ZRAM_BACKEND_FORCE_L=
+ZO
+        depends on ZRAM
+        default ZRAM_BACKEND_FORCE_LZO
+        select LZO_COMPRESS
+        select LZO_DECOMPRESS
+
+
+
+
+BTW, "default n" you are adding are redundant.
+
+--=20
+Best Regards
+Masahiro Yamada
