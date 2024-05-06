@@ -1,58 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FCB1DA3A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 06:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827CC47F45
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 06:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714977061; cv=none; b=dtXaZNFt4nlDSPqgLQ0DZICoSyeiVpYL2SFknKxiJF29k8gppEUJe3MUR1dIGz4gWcS9ixNi4+7MODz4SBBlDBd11Qzr7KJVe7G14VMnG8JVb0znjUvfDaY1qHvRwCo7zC+KiCLA8dsljIXE7nEyRS+H20oKKOa84l85+KX+ThU=
+	t=1714977822; cv=none; b=bbyKY7iBB+71daBUY4pUZH9KFDOLYt2BZ92Ga0HWJRmPs4wkwoBfpFB2YO8Qrx7Oda2LHPbl8Hk64eUKZF9El3TKde7SVkaI+Ihjai2RII0v/EUlH5yUGCOA1eH0I3WDeQBz9EQxD/BFvup5gi2jNSGU/3sEz+BgkxdmDnY/XnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714977061; c=relaxed/simple;
-	bh=Pbj9OTCcYhyjQVDlPTVnxW1Kw3JnegvuiuQ9XbD3Vb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tYJS8+qhBG4Vkh0L/uxCcGlX3tbI8UMbhtjvbTBUpVr5C+Hlkfk9xm9WiKXTWkU6sTnq1Kocu5ea+dj7g4Rzpzl9Cs+LKG3wpKazLinWOj7W+fFZtSrGN4p3TpxwRLaxbI1/Dw4DKTLqtZMZRvY6oD6nOs1KXSnsXfbj5lopnc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CO37DFLf; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714977822; c=relaxed/simple;
+	bh=TTtQyHcx8HkIEEBoI/wvFIf+0GYqPB/yGd00nQkF9Ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QlsV2ranDcKwYX0ALR74IPHIHsOy33fOZvCT1TWu1b6tRN2X+2vCnUyB+BgaX0El0unI1HIf4jCTz92Nahfkxk+8AqUZktvSQ8Ke9LxbsC+u92vXX6MNufbKDzpze5Y95d8zjAGGoFc3sXXBzyVJNHMy04XGA3CfrZeMGBrUPAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=X/+nB2zi; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CO37DFLf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714977061; x=1746513061;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pbj9OTCcYhyjQVDlPTVnxW1Kw3JnegvuiuQ9XbD3Vb0=;
-  b=CO37DFLfmOhzDUQ5x7Le4Po4RPpb6g+xMt5mUTMYMrEfJdMcApc55CZE
-   IP174Cz1Jl+8yEGkEv++bp+VxeEguHXFSpn80Qb9uPVxUzFBhMxPmNb8P
-   80zrCyaKOXxqj0++zEx3iDoDPDTQP6rCrOHfEkCAAenoVk4iqjPstHWU4
-   ca4BFvyM8kvSEomzJ1lpFOZk7uuvGzTsz0G3vBeAk6gaUJzr6Oxk5oHSy
-   Lz/v9qinethEsInKQHeyNfDLbOG28hkkHdQ1Wy8pc9wd1leL1QZ8EX2wJ
-   gfn/znSHFRa272CUhr1wgNvpWoPWgEhhoDK3Cz9jDp2RJb/UvmsPaFVsu
-   w==;
-X-CSE-ConnectionGUID: u8bjxYYhTAGePTxZujRQhA==
-X-CSE-MsgGUID: NielEj8qTkW4l0qJ+N6R5g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="21264145"
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="21264145"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 23:31:00 -0700
-X-CSE-ConnectionGUID: VGveWpWZSLqorsGqroifSw==
-X-CSE-MsgGUID: 4g/xDwLqTrCVSp/TtPxQSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="32577367"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 May 2024 23:30:58 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3rsG-0000Vt-2Q;
-	Mon, 06 May 2024 06:30:56 +0000
-Date: Mon, 6 May 2024 14:30:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 11733/30000] ld.lld: error: undefined
- symbol: rtl8366rb_variant
-Message-ID: <202405061400.0BOitWJj-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="X/+nB2zi"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2b33d011e5dso959876a91.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 May 2024 23:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714977821; x=1715582621; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Awh0YX9sFOZlmXGVWv7TrQyTmY6KwzUZh2FsqtFN28s=;
+        b=X/+nB2zi0CqUC5Mzlz282PC4mHW108sT2OtTmKz+9Fd9on2jbkmo60IH0vHSOfmAOF
+         KhrjD21cctvjRQ9R22k5ydWBHhSWrVok9SO2rt0UnFH7+6elbLk3Kyym+hTFqEefSYpJ
+         +OSOy/lOXR/P4HwEnfac0PZJo0fsUszBsikcE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714977821; x=1715582621;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Awh0YX9sFOZlmXGVWv7TrQyTmY6KwzUZh2FsqtFN28s=;
+        b=VhElZBhtZIilAwncZyJE5bbC5y9qbnpwmHB7Nglux48265mp5OLLp8UGUGQJAXhuUV
+         0w+ymPGPjEBv8+5eW0oFtbMVYzK5xn+9L84qQAcH6unv21yzx1DyeuGiq1ii4gPfBrk0
+         LXh92upS4Y+HzqEXTo3hTzyqG0jXtMdqTS4GMbYGgh7ATsx8qaOMMknrUggIWOvDDH12
+         fmT0x4Vf7t1bT62IGBXy/fHzAkPGY4MdM8I1GyNFa+3DfSptMTTL3W5hG/+ribxmykEM
+         edES6Vq0zOzn8jCmZ5qhJwH3863ktFf4cIuyrloFbd7Rrr8da4jz8XlPrUS7GKpbpStO
+         OYIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZkGQTLeSAmTsKuyf44J9MavUu0Fvm/IlUxAS/t2ga0x0MWUwcge6bSiO9F0nZ4wL7M3Nk0QSP/vexp84NO9ZJBRybMCd3avfQDriGEA==
+X-Gm-Message-State: AOJu0YwKZyEn2PMnKwZpfrxRGoUtXgTjc5mQjnTDqBOhn7WhKgfFijjW
+	mKmApd2uXvx32sSBw2yfD8+mPXpf5Rhqcox/b1R76V43UFCzzxgpZkGr2r4PQQ==
+X-Google-Smtp-Source: AGHT+IH9/hiNrPAZgMq5yCe0qsmK1lm2LH0SwY8LB+Tn+zX2oS8PqcHxJee+fl5rH8OfTgRdDd1VYA==
+X-Received: by 2002:a17:90b:124b:b0:2b0:763b:370e with SMTP id gx11-20020a17090b124b00b002b0763b370emr18238105pjb.18.1714977820818;
+        Sun, 05 May 2024 23:43:40 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:4e24:10c3:4b65:e126])
+        by smtp.gmail.com with ESMTPSA id rr3-20020a17090b2b4300b002b113ad5f10sm9316590pjb.12.2024.05.05.23.43.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 May 2024 23:43:40 -0700 (PDT)
+Date: Mon, 6 May 2024 15:43:35 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kbuild@vger.kernel.org, kernel test robot <lkp@intel.com>,
+	Minchan Kim <minchan@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 08/14] zram: check that backends array has at least one
+ backend
+Message-ID: <20240506064335.GE8623@google.com>
+References: <20240503091823.3616962-9-senozhatsky@chromium.org>
+ <202405041440.UTBQZAaf-lkp@intel.com>
+ <20240504071416.GH14947@google.com>
+ <20240504161004.f5a0aab5e5aa1033d4696c20@linux-foundation.org>
+ <20240505043957.GA8623@google.com>
+ <20240505051305.GB8623@google.com>
+ <20240505064832.GC8623@google.com>
+ <20240506032207.GD8623@google.com>
+ <CAK7LNARUBuR3gDtX6GfB7Zv6dydt1+qzBB_XT58wOg3WeCTVvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +79,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAK7LNARUBuR3gDtX6GfB7Zv6dydt1+qzBB_XT58wOg3WeCTVvA@mail.gmail.com>
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   411c52448fdc0906f70c4585c7e05359c0b05c11
-commit: b8ddf8c31ea1e949da35486b6ac498d0a6bd58d2 [11733/30000] net: dsa: realtek: convert subdrivers into modules
-config: riscv-randconfig-001-20240505 (https://download.01.org/0day-ci/archive/20240506/202405061400.0BOitWJj-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061400.0BOitWJj-lkp@intel.com/reproduce)
+On (24/05/06 14:20), Masahiro Yamada wrote:
+> config ZRAM_BACKEND_FORCE_LZO
+>         def_bool !ZRAM_BACKEND_LZ4 && !ZRAM_BACKEND_LZ4HC && \
+>                  !ZRAM_BACKEND_ZSTD && !ZRAM_BACKEND_DEFLATE
+> 
+> config ZRAM_BACKEND_LZO
+>         bool "lzo and lzo-rle compression support" if !ZRAM_BACKEND_FORCE_LZO
+>         depends on ZRAM
+>         default ZRAM_BACKEND_FORCE_LZO
+>         select LZO_COMPRESS
+>         select LZO_DECOMPRESS
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405061400.0BOitWJj-lkp@intel.com/
+I'll take this one. Thank you.
 
-All errors (new ones prefixed by >>):
+> BTW, "default n" you are adding are redundant.
 
->> ld.lld: error: undefined symbol: rtl8366rb_variant
-   >>> referenced by realtek-smi.c
-   >>>               net/dsa/realtek/realtek-smi.o:(realtek_smi_of_match) in archive drivers/built-in.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+OK.
