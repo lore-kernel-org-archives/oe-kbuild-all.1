@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DD93E462
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 04:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE211EB36
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 05:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714968700; cv=none; b=BOire+6ktD+JjngvdjeVB+QQc3EFXrow93AuGWEpXzpsSPwaZgmuDAA/Ol4ICYpZC0MRsEXMXV2GjSU3vycsEMB0Ov9iGREQHk7Hg9ZHOTP9k+zX7tCfr0kUN7ZSA1F/11OWArBxeSHsKhJ9g6tWmyCmaw8OKL25wxfOxqSAO0E=
+	t=1714971823; cv=none; b=eWe2kSDIcppa6T8258MlXPR3gGQhqqlS48G75zHlBqdUzrYKhJkMWXFY2l1drDB9Z+zHsUpmGC2+5pD6lKSyhXAr6YMFtMcM1r7hqtTjNF1HM5TO+94zSnw2oKrZJ3lWJWzRghjdKFJDAhVUiKw1kC9SmHPGimhbk+ZVuSwtkdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714968700; c=relaxed/simple;
-	bh=mG7Cgc3vcfK5k0D51vAltgmOOKCHtlD3SEql57OeD5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IpeWjDRocPilPn5vUrdFjA8VxN9vUm4lMe32iiEZskkJu50JxZqkq3QEqMRTYyoqRCkbyE4YGaE09jL4WEI/UpTkM7LvH/SoJMwwF/IhBdF6UqpYyzsmT/StjNtGhtbk9piDWYAeWZmZlGKbUaIvlwy7sAuYzphaUT+g5yaQVB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQerEaR3; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1714971823; c=relaxed/simple;
+	bh=ZJJIlAKamPYLzqHroDfCYJc4pa1iY9LLdMy64ia9XVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=len5hU4wkCgDB6f3CRr/2tOAblhxkgBeW18FRqlLOAx0iqDLLVcMAqCrnZ8OG0ztUvQaI2wQYOrRB6yOXUekkQHFIHAoJEZvOWRRGuLS4AA7g2EYX+0ZLuynMY2qkOUhrA7gshKeClYjcXh7W3mVUAdTRCaKSY8xmxjyQzw55x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k82oVh3N; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQerEaR3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k82oVh3N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714968699; x=1746504699;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mG7Cgc3vcfK5k0D51vAltgmOOKCHtlD3SEql57OeD5g=;
-  b=HQerEaR3h+rkwFpabtDgbJ0+Vfl0XdaVj7ucC2FR8bdCpWfR/OLzS3/n
-   KdoloVlpb8UBZQwAa1vvEuylLt+kO5XfMdHVuRXcW+wEy3btF7qw2klE/
-   qwa+EI0sHoF9ARotpYHwRK3G9sWwylqscuGtxpXIxNvR5vxqJuQPbadQz
-   AHZshbFJ3TF6czFALCA5bxhjEy2s66F6qei6xlg0AeasMH75Jf/hIWzDM
-   q0KyuHdwHhYPlCm9tdCdrxdkTxAnFtKBxsXC0ZkAHPYIaCmrH02eSX6T8
-   JVLa4vuMMQZANKNUWt8HXjycWo3NJ+iCnxBGboeTESuSIzljCHzh/nbL7
-   w==;
-X-CSE-ConnectionGUID: 2bICwnaETM+r9S3BjsXfJg==
-X-CSE-MsgGUID: oS5H1OHDTnmT0LUocE5ysQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10540166"
+  t=1714971821; x=1746507821;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZJJIlAKamPYLzqHroDfCYJc4pa1iY9LLdMy64ia9XVI=;
+  b=k82oVh3NxhAhMbKN4pLAT+WbLqgR4qdzqQGBXR1DVPvzhBSDvmCBL8M8
+   ldZZCJ4uyevHe6sH1Y8FBXgKyERLY+5k+ZIscWPhOr0c7RUjiYxocbgf+
+   usRSgZDK2GkCIRICkVt7KaxQXvgVDUekHuLw+Zi0bj7QplQPxeRYLi1Dx
+   BSYSnCm1aFI6tAoz5kJQI4maTly1u3cjao7nqet3rzWK37WENQumNOwUH
+   PmXH9kjj948S31TvvqBYsIhSkGGT6fc1ur+whhCMEhL59YhDmJofCBMeE
+   UlJly12V9hsdYngxNFGQmR5SltkxlFqYfUFiEmczCufySHAlDhULv/U4f
+   g==;
+X-CSE-ConnectionGUID: H1sgv/g8SXydcXrlm0c8OA==
+X-CSE-MsgGUID: UvKEbWBjTvu3gKKjxp4VUQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="22109823"
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="10540166"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 21:11:38 -0700
-X-CSE-ConnectionGUID: u+6BpSexQOWQAGyl9flwqA==
-X-CSE-MsgGUID: s4WjE3DVRDq0M7K1WqdZ7g==
+   d="scan'208";a="22109823"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 22:03:40 -0700
+X-CSE-ConnectionGUID: MiXy8seFT6+zGTUR0W4wmw==
+X-CSE-MsgGUID: uhMhUfzcTXSjqlgL0N4yeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="32645864"
+   d="scan'208";a="32556389"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 May 2024 21:11:37 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 05 May 2024 22:03:39 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3phP-0000Sh-0t;
-	Mon, 06 May 2024 04:11:35 +0000
-Date: Mon, 6 May 2024 12:11:25 +0800
+	id 1s3qVk-0000Tz-1Q;
+	Mon, 06 May 2024 05:03:36 +0000
+Date: Mon, 6 May 2024 13:03:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ignat Korchagin <ignat@cloudflare.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] KEYS: implement derived keys
-Message-ID: <202405061102.XZnccCUU-lkp@intel.com>
-References: <20240503221634.44274-3-ignat@cloudflare.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 3482/30000]
+ drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5234:1: warning: 'inline' is
+ not at beginning of declaration
+Message-ID: <202405061208.OUH9u7TK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,136 +62,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240503221634.44274-3-ignat@cloudflare.com>
 
-Hi Ignat,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on zohar-integrity/next-integrity]
-[also build test ERROR on linus/master v6.9-rc7 next-20240503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ignat-Korchagin/tpm-add-some-algorithm-and-constant-definitions-from-the-TPM-spec/20240504-061938
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20240503221634.44274-3-ignat%40cloudflare.com
-patch subject: [RFC PATCH 2/2] KEYS: implement derived keys
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240506/202405061102.XZnccCUU-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061102.XZnccCUU-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   411c52448fdc0906f70c4585c7e05359c0b05c11
+commit: 9aaa64d658b13f9f4ca06763dc79386e4ee90df3 [3482/30000] MGS-6425 [#imx-2711] use default list_head in linux
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240506/202405061208.OUH9u7TK-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061208.OUH9u7TK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405061102.XZnccCUU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405061208.OUH9u7TK-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: drivers/parport/parport_amiga: section mismatch in reference: amiga_parallel_driver+0x8 (section: .data) -> amiga_parallel_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
->> ERROR: modpost: "ima_iint_find" [security/keys/derived-keys/derived-keys.ko] undefined!
->> ERROR: modpost: "get_task_exe_file" [security/keys/derived-keys/derived-keys.ko] undefined!
+   cc1: warning: arch/arm/mm: No such file or directory [-Wmissing-include-dirs]
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:166:1: warning: no previous prototype for '_ClearPendingIntr' [-Wmissing-prototypes]
+     166 | _ClearPendingIntr(
+         | ^~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:208:1: warning: no previous prototype for '_MonitorTimerFunction' [-Wmissing-prototypes]
+     208 | _MonitorTimerFunction(
+         | ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:391:1: warning: no previous prototype for '_DumpDriverConfigure' [-Wmissing-prototypes]
+     391 | _DumpDriverConfigure(
+         | ^~~~~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:406:1: warning: no previous prototype for '_DumpState' [-Wmissing-prototypes]
+     406 | _DumpState(
+         | ^~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:458:1: warning: no previous prototype for '_SetRecovery' [-Wmissing-prototypes]
+     458 | _SetRecovery(
+         | ^~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1489:1: warning: no previous prototype for '_AllocateLinearMemory' [-Wmissing-prototypes]
+    1489 | _AllocateLinearMemory(
+         | ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:1612:1: warning: no previous prototype for '_ReleaseVideoMemory' [-Wmissing-prototypes]
+    1612 | _ReleaseVideoMemory(
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2130:1: warning: no previous prototype for '_SetVidMemMetadata' [-Wmissing-prototypes]
+    2130 | _SetVidMemMetadata(
+         | ^~~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:2302:1: warning: no previous prototype for 'gckKERNEL_ConfigPowerManagement' [-Wmissing-prototypes]
+    2302 | gckKERNEL_ConfigPowerManagement(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5234:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+    5234 | void inline
+         | ^~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5242:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+    5242 | void inline
+         | ^~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5251:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+    5251 | void inline
+         | ^~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5260:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+    5260 | void inline
+         | ^~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5667:1: warning: no previous prototype for 'gckDEVICE_ChipInfo' [-Wmissing-prototypes]
+    5667 | gckDEVICE_ChipInfo(
+         | ^~~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5689:1: warning: no previous prototype for 'gckDEVICE_Version' [-Wmissing-prototypes]
+    5689 | gckDEVICE_Version(
+         | ^~~~~~~~~~~~~~~~~
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: In function 'gckDEVICE_SetTimeOut':
+   drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c:5751:19: warning: variable 'coreList' set but not used [-Wunused-but-set-variable]
+    5751 |     gcsCORE_LIST *coreList;
+         |                   ^~~~~~~~
+
+
+vim +/inline +5234 drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c
+
+  5229	
+  5230	/*******************************************************************************\
+  5231	*************************** List Helper *****************************************
+  5232	\*******************************************************************************/
+  5233	#ifdef LINUX_VERSION_CODE
+> 5234	void inline
+  5235	gcsLIST_Init(
+  5236	    gcsLISTHEAD_PTR Node
+  5237	    )
+  5238	{
+  5239	    INIT_LIST_HEAD(Node);
+  5240	}
+  5241	
 
 -- 
 0-DAY CI Kernel Test Service
