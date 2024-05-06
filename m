@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A6114388D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 May 2024 11:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FAE15A5;
+	Mon,  6 May 2024 13:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714995564; cv=none; b=dw+41sWWZDCRVy1YO0TyLp8v/u5BB3lOdP0qmVimKHt7k5mpgOE880JtWaeoQFkRBY576ma1wIlczzsoDemekgxS7Kw/Y4rNe5gI7hDE0/yc4501uLuq0n+E9KlH2mG68KlEnEQmL6wHAg1SlqpAeNzdfzqTzRpzsxHZU1PTikY=
+	t=1715001214; cv=none; b=NNiI+HSDJHPLd4eFW4dz1jSQ5uP3aMJ2AK9tBLG/DHRBz8QxCJeynsetEwedIEebxvSTnbv+QO4hWJPXnsrpsZgD9dYT51zK1d2zfKubGT69kzxbRKdFrgMlVgL+6lDwPMC1O+RoOdlFyhRtM5PgWq4AJqcnNyNVkTGQbrGV7x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714995564; c=relaxed/simple;
-	bh=z2M2Lr9xy3nHyYqXX559Fn7WfPefFbsp3EL5j5Q0vDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sODs8LOv7er+azsPuK9Iry5SIJd3sh+7smnon5WasAj4vF3Swbl25m6W7wnIEfhIXNXWK7J3hauyxQ6L3rMt/5XzDThbwE58Rt+wQfI3kY5q5WxiGi14b7pzGLdu3i202v1DOy8IOB6FpXbTf0KcpUolz5XSt3C24Cb0XFLONco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQfCgTMD; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1715001214; c=relaxed/simple;
+	bh=HyLdIy5f9/EBvRuI0GTtSPfaqq7n1U6/buN3znQZ3Io=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E446k6DcaulA1wq8apvNkAkf5pJutW69e1pxsiNRhdQbmhQ7FPZtXnc8s5CddVg3OWYkpCryyomVBNTgtRgRpATlTIHR01RfpTBJPq2JpqgBIWZkZk/sNaZSi2yQY0gLLZmlCsMrcF/INX1lzVrP9CorrTGoC89Qyj6DBtBI9Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKd4qEEm; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQfCgTMD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKd4qEEm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714995563; x=1746531563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z2M2Lr9xy3nHyYqXX559Fn7WfPefFbsp3EL5j5Q0vDs=;
-  b=bQfCgTMDGVntna8VGNATVsr13fCWLcHmxRahErDp1p9MTWGx9Ow4tvMo
-   bCTpVW/5SMueLBFlx18ey06tqDxiFxAE3THZ4wnP/KA4wZOeWD/2ltyn3
-   QgUYGfmnXYLTcA3Ik8qSK8aNQsCnnB27lWvyNjPaRRDXHE78K7TfUHM4V
-   L/9E2OWcIAPfnvI1bkpmO2aQrrdo/mWuujRuL8o/IrRdbdIIDGCXqe70o
-   NBSlI/mQ+bNOrHpfWVzurPjUavcTPfQdDIyXaubmIRaFYHooeT7SMk73j
-   /pK/gmjJP8dZYFlHN2EV5u5rw571eSw/sLXKfNLyjudzjQKIgh+S5/eDs
-   A==;
-X-CSE-ConnectionGUID: tHNj7z15T2yd+9H0+95Yaw==
-X-CSE-MsgGUID: N7O1WLvETJOHewpIn0L2pw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="13681959"
+  t=1715001212; x=1746537212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HyLdIy5f9/EBvRuI0GTtSPfaqq7n1U6/buN3znQZ3Io=;
+  b=PKd4qEEmq9CZN2SsRTKF44+6Np1cfJX1Cn4RfXcXwBp6WSkuWl1DMHcz
+   nJkmJ5H5YXMp1L2PsBhnOMRliTmLt/zW1kdGy7JEkRF5pOKqleOkrZ4+C
+   phn2dsiN48N+6jHrbuIt5PH/WKtEs9LAQOTtDwGIejzl+U9c0ylw+z/Dq
+   6XFNG04TJw4G8lWxL1JRnn8jzTnmWA6r+ZAzA97zbhaF1QvUd5uMRzNK0
+   aKgn/BdNRH0C2J8dz6Uq5Wk3ACdBBI+gpLKv49Cbiz17KN38ocmSzBX9R
+   Q54noECcABExhjdJL+uAkFOvwTBagD5b6/axC0/gextUCmzlH6yCCV4hY
+   w==;
+X-CSE-ConnectionGUID: r79rXnVSQRK98Nyrt8F3Pg==
+X-CSE-MsgGUID: DTbPe7lvRqyngSvEVIoEBg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="21296153"
 X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
-   d="scan'208";a="13681959"
+   d="scan'208";a="21296153"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 04:39:22 -0700
-X-CSE-ConnectionGUID: 9BwIgWGASCqiftIfDBsfpA==
-X-CSE-MsgGUID: Wt6JhCnkRFGNsEk6HPNnng==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 06:13:31 -0700
+X-CSE-ConnectionGUID: YpuMv00uSNmVbCEvdrZxkg==
+X-CSE-MsgGUID: DVFmBwS7RByM34XvkpThXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
-   d="scan'208";a="28235026"
+   d="scan'208";a="28256666"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 May 2024 04:39:22 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 06 May 2024 06:13:26 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s3wgh-0000eB-1b;
-	Mon, 06 May 2024 11:39:19 +0000
-Date: Mon, 6 May 2024 19:39:13 +0800
+	id 1s3y9k-0000gh-07;
+	Mon, 06 May 2024 13:13:24 +0000
+Date: Mon, 6 May 2024 21:12:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:fns2 3/8] lib/test_bitops.c:56:39: error: variable 'tmp' set
- but not used
-Message-ID: <202405061900.4HgQJjvK-lkp@intel.com>
+To: Baojun Xu <baojun.xu@ti.com>, tiwai@suse.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh+dt@kernel.org,
+	andriy.shevchenko@linux.intel.com, lgirdwood@gmail.com,
+	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
+	kevin-lu@ti.com, shenghao-ding@ti.com, navada@ti.com,
+	13916275206@139.com, v-po@ti.com, niranjan.hy@ti.com,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
+	baojun.xu@ti.com, broonie@kernel.org, soyer@irl.hu
+Subject: Re: [PATCH v4 2/3] ALSA: hda/tas2781: Tas2781 hda driver for SPI
+Message-ID: <202405062037.6HgeMiih-lkp@intel.com>
+References: <20240430072544.1877-3-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +69,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240430072544.1877-3-baojun.xu@ti.com>
 
-tree:   https://github.com/norov/linux fns2
-head:   f92306cbaa708996e4cabe1c802e4d71e2e0ad77
-commit: 4bb80c67057ee84c93316be9f688e969a1a6ad63 [3/8] lib/test_bitops: Add benchmark test for fns()
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240506/202405061900.4HgQJjvK-lkp@intel.com/config)
+Hi Baojun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tiwai-sound/for-linus]
+[also build test ERROR on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.9-rc7 next-20240506]
+[cannot apply to tiwai-sound/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baojun-Xu/ALSA-hda-tas2781-Add-tas2781-hda-driver-based-on-SPI/20240430-153305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-linus
+patch link:    https://lore.kernel.org/r/20240430072544.1877-3-baojun.xu%40ti.com
+patch subject: [PATCH v4 2/3] ALSA: hda/tas2781: Tas2781 hda driver for SPI
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240506/202405062037.6HgeMiih-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405061900.4HgQJjvK-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240506/202405062037.6HgeMiih-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405061900.4HgQJjvK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405062037.6HgeMiih-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/test_bitops.c:56:39: error: variable 'tmp' set but not used [-Werror,-Wunused-but-set-variable]
-      56 |         static volatile __used unsigned long tmp __initdata;
-         |                                              ^
-   1 error generated.
+   In file included from sound/pci/hda/tas2781_hda_spi.c:15:
+   In file included from include/linux/efi.h:20:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/hda/tas2781_hda_spi.c:466:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     466 |                 guard(mutex)(&tas_hda->priv->codec_lock);
+         |                 ^
+   include/linux/cleanup.h:164:2: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:119:2: note: expanded from macro 'CLASS'
+     119 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:107:1: note: expanded from here
+     107 | class_mutex_t
+         | ^
+>> sound/pci/hda/tas2781_hda_spi.c:471:2: error: cannot jump from switch statement to this case label
+     471 |         default:
+         |         ^
+   sound/pci/hda/tas2781_hda_spi.c:466:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     466 |                 guard(mutex)(&tas_hda->priv->codec_lock);
+         |                 ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:105:1: note: expanded from here
+     105 | __UNIQUE_ID_guard511
+         | ^
+   sound/pci/hda/tas2781_hda_spi.c:462:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     462 |                 guard(mutex)(&tas_hda->priv->codec_lock);
+         |                 ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:96:1: note: expanded from here
+      96 | __UNIQUE_ID_guard510
+         | ^
+   sound/pci/hda/tas2781_hda_spi.c:465:2: error: cannot jump from switch statement to this case label
+     465 |         case HDA_GEN_PCM_ACT_CLOSE:
+         |         ^
+   sound/pci/hda/tas2781_hda_spi.c:462:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     462 |                 guard(mutex)(&tas_hda->priv->codec_lock);
+         |                 ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:96:1: note: expanded from here
+      96 | __UNIQUE_ID_guard510
+         | ^
+   6 warnings and 2 errors generated.
 
 
-vim +/tmp +56 lib/test_bitops.c
+vim +471 sound/pci/hda/tas2781_hda_spi.c
 
-    52	
-    53	static int __init test_fns(void)
-    54	{
-    55		static unsigned long buf[10000] __initdata;
-  > 56		static volatile __used unsigned long tmp __initdata;
-    57		unsigned int i, n;
-    58		ktime_t time;
-    59	
-    60		get_random_bytes(buf, sizeof(buf));
-    61		time = ktime_get();
-    62	
-    63		for (n = 0; n < BITS_PER_LONG; n++)
-    64			for (i = 0; i < 10000; i++)
-    65				tmp = fns(buf[i], n);
-    66	
-    67		time = ktime_get() - time;
-    68		pr_err("fns:  %18llu ns\n", time);
-    69	
-    70		return 0;
-    71	}
-    72	
+   454	
+   455	static void tas2781_hda_playback_hook(struct device *dev, int action)
+   456	{
+   457		struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
+   458	
+   459		switch (action) {
+   460		case HDA_GEN_PCM_ACT_OPEN:
+   461			pm_runtime_get_sync(dev);
+   462			guard(mutex)(&tas_hda->priv->codec_lock);
+   463			tasdevice_spi_tuning_switch(tas_hda->priv, 0);
+   464			break;
+   465		case HDA_GEN_PCM_ACT_CLOSE:
+   466			guard(mutex)(&tas_hda->priv->codec_lock);
+   467			tasdevice_spi_tuning_switch(tas_hda->priv, 1);
+   468			pm_runtime_mark_last_busy(dev);
+   469			pm_runtime_put_autosuspend(dev);
+   470			break;
+ > 471		default:
+   472			dev_dbg(tas_hda->priv->dev,
+   473				"Playback action not supported: %d\n", action);
+   474			break;
+   475		}
+   476	}
+   477	
 
 -- 
 0-DAY CI Kernel Test Service
