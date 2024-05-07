@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971C17462
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 17:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB07116C870;
+	Tue,  7 May 2024 18:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715104308; cv=none; b=nNvnHjAl9T5T71b7bgHgb1ZHk4Pi2Qwz5dCkihH9qRyG9LcaGCBxAQ0ke+sOApvoDJt9MmLnb0kCFlIpZxqr6nPRBgJSOttLvWPhB18mYItUemP/cjtVy2J+is9Cqs/zwSO7YwBRG7+oDN+JVRZ747Ygn3BaVfOD+TAtMyZg/9U=
+	t=1715105752; cv=none; b=oHKOKUrA4ku71eWkOoKeIkzChJcn68p9J4jvLwc24HnX+qglS+uEl9x3/yZYnQ+OtjY1bFcpBNWQLCyYsydyM5uxKJvVL8tOsUw8i4TRijx7BG97ayo3ubVr7vESEXYx1FQsGSxg6jCi0G/7gNwtalwHVRQYaPujfZf7sOi1s8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715104308; c=relaxed/simple;
-	bh=Bmk4LdIyOk0nNbG56VHOG2A+j4E5RnebEM++XDPQcqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pcFVO/ymArvZpCmQWYf6yRmziauO5xiEc1nBKwndrlm1HFqB+gc66HVHq5qxGEjoqlNxzFeqKSel0lj45lT7itoP+XajTX+tMM/FO/nySuaSykgvoLWtaELOs8gINuXrks3MK/riZ9gPipAnubn7bPk82v77YobxoNOJOHjMZ1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwG5u5zz; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1715105752; c=relaxed/simple;
+	bh=mf5UmPMNWI6z/l0QJkKwSomwSt9p6Keyb3TpKEP4LUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L6FRf3qAQfRTKos1s4MDIXyJ9jEDikQx+iAJDSfyeckWnPS1qT6amxdgb/TQCvnpvtadumn2rYkxU9llb1fg70wOoFt2q5ma1/f6y35Ekjf6dQlWnbbp++jvePpA/y3QkP/KzXI5WBmjr6mIPELus70nPQ8ZJ7wno5AzQZD2Jr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDEZVI/b; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwG5u5zz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDEZVI/b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715104307; x=1746640307;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bmk4LdIyOk0nNbG56VHOG2A+j4E5RnebEM++XDPQcqo=;
-  b=DwG5u5zzMNWmwnTe/usJ+lZl/eIn9IfKyxzhXx+cztt+E+rXW/qd1W6m
-   R50VD474xbNMnEDUQvFtUBKjvj9B9Nkhd+0lEwQXdDuSSHmNO2Um6HHri
-   6HYFh/sWe4Pq65qs8ZqFi8nesobRWZRLJAKa5gy9AQvmrvQIXLsKCVz2E
-   +LAoAGg4VT2kA8BBqSEYJAshRWNUTs6XLKYwtiqcoqhwbn3A1vcGT8E/5
-   gOfqj2Z9EbPxGFmhIjvGcWyoc++Geyk7QbrrwUbckiqvQ+julmn5sTtxo
-   ATleUB3ZlXxK0Hb4UbJd2tK2eoc5eAJcDhomKzq7Opjuta5CIBQkBvrU/
-   A==;
-X-CSE-ConnectionGUID: z5YrhIZWScOSZWHpjfvjeg==
-X-CSE-MsgGUID: QWH82cfsSheMOwcILQMbaA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10788411"
+  t=1715105749; x=1746641749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mf5UmPMNWI6z/l0QJkKwSomwSt9p6Keyb3TpKEP4LUc=;
+  b=ZDEZVI/bYlZKvYfZ6BSa4qEN5jbxbuvrVD3wWE0LC+b+2UjKgxy6ms5M
+   N8e2eCcsC6AgX8dYZdArZe1EdbdFIdyjA58g57eTZIxCIXLXXrmfpwG66
+   +BdbNXlCYAdPd7IwMtJiUzpPCk8iKWwOeDXEiLNmubG50heeUf9sC3LGZ
+   RUR8ApAUEKwsZTtuHiwEGqOhLNI7ni0akqcEeZR1Bl5Vu5RO1xXZO3UJw
+   OSFTYkmYkHLUwlb12dbLvRcPWb67+Oiu0hotARELV1YYjvCuggEU0NHjj
+   SeXUGmuQlW1m7NtfXqJ1kln6UkPQGmFoKHHAYpy8wPLf/knI0ddN4mOBD
+   Q==;
+X-CSE-ConnectionGUID: sg1AuN+mRtSdEgvvaefxiQ==
+X-CSE-MsgGUID: asH10tCST+SlwCizAHLLow==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11049799"
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="10788411"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 10:51:46 -0700
-X-CSE-ConnectionGUID: 2qOo3A2+TOylvuTaGDUvuw==
-X-CSE-MsgGUID: 1+UTvj9jTGeKqiOlzGkHMg==
+   d="scan'208";a="11049799"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 11:15:48 -0700
+X-CSE-ConnectionGUID: zfCVuL4KQOuW0pBFkG9aDw==
+X-CSE-MsgGUID: NBKi7VABT0ewefpDuLOBiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="28691418"
+   d="scan'208";a="33167004"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 May 2024 10:51:44 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 May 2024 11:15:45 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4Oyb-0002Wu-24;
-	Tue, 07 May 2024 17:51:41 +0000
-Date: Wed, 8 May 2024 01:51:34 +0800
+	id 1s4PLq-0002Xs-1r;
+	Tue, 07 May 2024 18:15:42 +0000
+Date: Wed, 8 May 2024 02:14:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-dma-mapping:for-next 9/10] net/core/page_pool.c:406:47: error:
- passing 'const struct page *' to parameter of type 'struct page *' discards
- qualifiers
-Message-ID: <202405080101.0mPUjuAp-lkp@intel.com>
+To: Perry Yuan <perry.yuan@amd.com>, rafael.j.wysocki@intel.com,
+	Mario.Limonciello@amd.com, viresh.kumar@linaro.org,
+	Ray.Huang@amd.com, gautham.shenoy@amd.com, Borislav.Petkov@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexander.Deucher@amd.com, Xinmei.Huang@amd.com,
+	Xiaojian.Du@amd.com, Li.Meng@amd.com, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/11] cpufreq: amd-pstate: implement heterogeneous core
+ topology for highest performance initialization
+Message-ID: <202405080122.4pEEcR2C-lkp@intel.com>
+References: <731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +68,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan@amd.com>
 
-tree:   git://git.infradead.org/users/hch/dma-mapping for-next
-head:   66772d621cbea3d8acfeda4ba1f411030798d26f
-commit: 8bf4d7154d4c0d281666e5595a843be89147d352 [9/10] page_pool: check for DMA sync shortcut earlier
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240508/202405080101.0mPUjuAp-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 0ab4458df0688955620b72cc2c72a32dffad3615)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080101.0mPUjuAp-lkp@intel.com/reproduce)
+Hi Perry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge next-20240507]
+[cannot apply to tip/x86/core linus/master v6.9-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Perry-Yuan/cpufreq-amd-pstate-optimiza-the-initial-frequency-values-verification/20240507-151930
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan%40amd.com
+patch subject: [PATCH 09/11] cpufreq: amd-pstate: implement heterogeneous core topology for highest performance initialization
+config: x86_64-buildonly-randconfig-001-20240507 (https://download.01.org/0day-ci/archive/20240508/202405080122.4pEEcR2C-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080122.4pEEcR2C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405080101.0mPUjuAp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405080122.4pEEcR2C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from net/core/page_pool.c:13:
-   In file included from include/net/page_pool/helpers.h:55:
-   In file included from include/net/page_pool/types.h:7:
-   In file included from include/linux/ptr_ring.h:26:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/core/page_pool.c:406:47: error: passing 'const struct page *' to parameter of type 'struct page *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     406 |         dma_addr_t dma_addr = page_pool_get_dma_addr(page);
-         |                                                      ^~~~
-   include/net/page_pool/helpers.h:373:62: note: passing argument to parameter 'page' here
-     373 | static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
-         |                                                              ^
-   1 warning and 1 error generated.
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:59:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+>> arch/x86/include/asm/processor.h:690:51: warning: non-void function does not return a value [-Wreturn-type]
+     690 | static inline int amd_get_this_core_type(void)          { }
+         |                                                           ^
+   1 warning generated.
+--
+   In file included from drivers/usb/dwc2/hcd_ddma.c:12:
+   In file included from include/linux/module.h:13:
+   In file included from include/linux/stat.h:19:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:5:
+>> arch/x86/include/asm/processor.h:690:51: warning: non-void function does not return a value [-Wreturn-type]
+     690 | static inline int amd_get_this_core_type(void)          { }
+         |                                                           ^
+   drivers/usb/dwc2/hcd_ddma.c:555:16: warning: variable 'n_desc' set but not used [-Wunused-but-set-variable]
+     555 |         u16 idx, inc, n_desc = 0, ntd_max = 0;
+         |                       ^
+   2 warnings generated.
+--
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:59:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+>> arch/x86/include/asm/processor.h:690:51: warning: non-void function does not return a value [-Wreturn-type]
+     690 | static inline int amd_get_this_core_type(void)          { }
+         |                                                           ^
+   1 warning generated.
 
 
-vim +406 net/core/page_pool.c
+vim +690 arch/x86/include/asm/processor.h
 
-ff7d6b27f894f1 Jesper Dangaard Brouer  2018-04-17  400  
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  401  static void __page_pool_dma_sync_for_device(const struct page_pool *pool,
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  402  					    const struct page *page,
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  403  					    u32 dma_sync_size)
-e68bc75691cc3d Lorenzo Bianconi        2019-11-20  404  {
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  405  #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
-9ddb3c14afba8b Matthew Wilcox (Oracle  2021-05-14 @406) 	dma_addr_t dma_addr = page_pool_get_dma_addr(page);
-9ddb3c14afba8b Matthew Wilcox (Oracle  2021-05-14  407) 
-e68bc75691cc3d Lorenzo Bianconi        2019-11-20  408  	dma_sync_size = min(dma_sync_size, pool->p.max_len);
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  409  	__dma_sync_single_for_device(pool->p.dev, dma_addr + pool->p.offset,
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  410  				     dma_sync_size, pool->p.dma_dir);
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  411  #endif
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  412  }
-8bf4d7154d4c0d Alexander Lobakin       2024-05-07  413  
-
-:::::: The code at line 406 was first introduced by commit
-:::::: 9ddb3c14afba8bc5950ed297f02d4ae05ff35cd1 mm: fix struct page layout on 32-bit systems
-
-:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   680	
+   681	#ifdef CONFIG_CPU_SUP_AMD
+   682	extern u32 amd_get_highest_perf(void);
+   683	extern void amd_clear_divider(void);
+   684	extern void amd_check_microcode(void);
+   685	extern int amd_get_this_core_type(void);
+   686	#else
+   687	static inline u32 amd_get_highest_perf(void)		{ return 0; }
+   688	static inline void amd_clear_divider(void)		{ }
+   689	static inline void amd_check_microcode(void)		{ }
+ > 690	static inline int amd_get_this_core_type(void)		{ }
+   691	#endif
+   692	
 
 -- 
 0-DAY CI Kernel Test Service
