@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D8115ECF2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 14:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6AD160883
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 15:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715092732; cv=none; b=cOIVt9xjEkpWnLwDH5hXbKE+oZLJUcbCDVIBOl1lBd/dO/VYJ/kKsdQCnJ1856YMkpp+aEKkJkGjJUg6GQXw+FmcKTzW4tWOJAf6kSrcS8lbNahvjFZPnN+fy0Ordfuzl2TuEZVCERVTQJBUNUoF3uiHkqbLTS0zHxJOc8Cy9Gg=
+	t=1715094758; cv=none; b=ekROrFQ5t/FfFzHsQRUVxOgyVtPMDzTp/9BvMoO019Ku4ht7F4bBqEGWEcrbsfWnPyV6iSbRJ50hBpQw4SChs84JFRzf8FjMJuSJPz1/zSqKdEult7efIwJofag/ir8hTX567zmftZZkS4lgHH8z6qSB3rOBx1qr+iyQgtIgnd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715092732; c=relaxed/simple;
-	bh=yZuzJyyvPy8+ARyrfWyX9X3SwCYwiAjFi1r7M1BzdqQ=;
+	s=arc-20240116; t=1715094758; c=relaxed/simple;
+	bh=sDXlhsNL5aaev9Nug91UWPEjiW+dKOlplEJl0WJcwro=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mDPniJCrZnPNGB60I2U02ZLWhRWCLjySCxUNlMmZ6NBfXMBkOXxuMb7VoVyodKWo7o48t9hHmcjDtFkp9jTX4Ng59D6VkMUPRbe1JfK+nXWY8iD2b8XLeqD4bxHvROsyT2Fmaj1EY7wX7o1BEuMp88PoxxoyOfFZk0jO2n1ICEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GwZoA1MW; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QcLu3wTg9JYqWvqVoWAOpInw+TkHt7kI1dg+VDpCboRoK3p7DDlcc3m22HXcKzQzWVdck4zlfO2vTiWtI6Wo6xu4hzDZl9soBYyr8U+8rFyy23394FzU75aR/Mnmjbx6MpCfwoVafG2rB/A3zKtbmvfE/p7UewOSU3TRakEDnIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cbtvZcyp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GwZoA1MW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbtvZcyp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715092729; x=1746628729;
+  t=1715094755; x=1746630755;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yZuzJyyvPy8+ARyrfWyX9X3SwCYwiAjFi1r7M1BzdqQ=;
-  b=GwZoA1MWn/d8t1hersSkRprH1RrQfDCV88bn8o0xs5FoqnITAw4/kIF3
-   JY0dTOwlyVfvSnZGz7SM3UThxeopgbTVs8dRsu1MvTlzDrUfALKzOyTqU
-   P+WSXOqEmi+XiV66C0UaJo3JHYMPRIfF6pAod01pUqArTIStWDvAcPmRQ
-   8/OPOOrlkefJy97mB39PN3390F2CM2adleashKZ3rBErHxdiUeTc3fLOi
-   vpOHiRcn1bDE1bVgRTtzp6WHKlcFNxQAkvZos9FXLTQLzJWp9Foi5Hcm+
-   Ba3xjk1WSaal9gLOVLHYnNoWdxiN++u5AiJiMFRgXZLy3XfKwfysuVVE3
-   g==;
-X-CSE-ConnectionGUID: i3qiLBc6Rg6Buwv/Yp+olg==
-X-CSE-MsgGUID: wNVEdMDAQdqM4kQESeIklA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11048382"
+  bh=sDXlhsNL5aaev9Nug91UWPEjiW+dKOlplEJl0WJcwro=;
+  b=cbtvZcypOR1EoR2tlweJaMtsm/Fgx3Plro0XA+DVNjn1xYqEUbEZ0tZK
+   /OcbFCkHgLNiz/KZAEgZzPpTV4BSpuggaTsJlRfGR5p4hZPfpXkjeyoug
+   rJjP3MF6/kR6L/0Tv6b+QzpIOiJvkeh0LKcjsOhDoE/rI5eBq5U9SGAVR
+   dE4kCZZq9Myk0gdRk1NBdYphz9kMne9V4PjPoEqRCSEraKKgAZk75Cfub
+   40SDWiKdwNK961++jsusyyNDt9TmNChXpTacmobaBzHKlQV6lppsejn5X
+   QfWcz9GnTHADXqjJ4OcBziqXVACan9aTivbqqZ8pv1LVZzOFaj6HQwVoe
+   w==;
+X-CSE-ConnectionGUID: KcW6iujuRiap4+8sKMnmFw==
+X-CSE-MsgGUID: vz0rGgWcSd+JgKKQ6B4I7g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="14684880"
 X-IronPort-AV: E=Sophos;i="6.08,142,1712646000"; 
-   d="scan'208";a="11048382"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 07:38:49 -0700
-X-CSE-ConnectionGUID: 16wnDbnPRNewE1eD8Y75Bg==
-X-CSE-MsgGUID: UV8B/KW9SmCG43pTkG+SSw==
+   d="scan'208";a="14684880"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 08:12:34 -0700
+X-CSE-ConnectionGUID: QnsjyMUSRxuQuZTqlOlNMg==
+X-CSE-MsgGUID: gHdADgIIRwWIs7FK4UGgQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,142,1712646000"; 
-   d="scan'208";a="33018359"
+   d="scan'208";a="29077414"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 May 2024 07:38:47 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 May 2024 08:12:31 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4Lxs-0002Cy-0o;
-	Tue, 07 May 2024 14:38:44 +0000
-Date: Tue, 7 May 2024 22:38:40 +0800
+	id 1s4MUW-0002Et-2V;
+	Tue, 07 May 2024 15:12:28 +0000
+Date: Tue, 7 May 2024 23:11:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, michael.riesch@wolfvision.net,
-	kernel@pengutronix.de, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH] usb: dwc3: gadget: create per ep interrupts
-Message-ID: <202405072202.VCOpSmIK-lkp@intel.com>
-References: <20240507-dwc3_per_ep_irqthread-v1-1-f14dec6de19f@pengutronix.de>
+To: Allen Pais <apais@linux.microsoft.com>, linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, ebiederm@xmission.com, keescook@chromium.org,
+	mcgrof@kernel.org, j.granados@samsung.com, allen.lkml@gmail.com
+Subject: Re: [PATCH v4] fs/coredump: Enable dynamic configuration of max file
+ note size
+Message-ID: <202405072249.fLkavX40-lkp@intel.com>
+References: <20240506193700.7884-1-apais@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,78 +66,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240507-dwc3_per_ep_irqthread-v1-1-f14dec6de19f@pengutronix.de>
+In-Reply-To: <20240506193700.7884-1-apais@linux.microsoft.com>
 
-Hi Michael,
+Hi Allen,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on dd5a440a31fae6e459c0d6271dddd62825505361]
+[auto build test ERROR on kees/for-next/execve]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.9-rc7 next-20240507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-dwc3-gadget-create-per-ep-interrupts/20240507-070804
-base:   dd5a440a31fae6e459c0d6271dddd62825505361
-patch link:    https://lore.kernel.org/r/20240507-dwc3_per_ep_irqthread-v1-1-f14dec6de19f%40pengutronix.de
-patch subject: [PATCH] usb: dwc3: gadget: create per ep interrupts
-config: i386-randconfig-141-20240507 (https://download.01.org/0day-ci/archive/20240507/202405072202.VCOpSmIK-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/fs-coredump-Enable-dynamic-configuration-of-max-file-note-size/20240507-033907
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+patch link:    https://lore.kernel.org/r/20240506193700.7884-1-apais%40linux.microsoft.com
+patch subject: [PATCH v4] fs/coredump: Enable dynamic configuration of max file note size
+config: loongarch-randconfig-001-20240507 (https://download.01.org/0day-ci/archive/20240507/202405072249.fLkavX40-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405072249.fLkavX40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405072202.VCOpSmIK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405072249.fLkavX40-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/dwc3/gadget.c:1126 dwc3_gadget_init_endpoint_irq() warn: unsigned 'dep->irq_endpoint' is never less than zero.
-drivers/usb/dwc3/gadget.c:3077 dwc3_gadget_start() warn: 'dwc->irq_gadget' from request_threaded_irq() not released on lines: 3067.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/usb/dwc3/gadget.c:1733 __dwc3_gadget_kick_transfer() warn: missing error code? 'ret'
-drivers/usb/dwc3/gadget.c:2848 dwc3_gadget_pullup() warn: pm_runtime_get_sync() also returns 1 on success
+   fs/binfmt_elf.c: In function 'fill_files_note':
+>> fs/binfmt_elf.c:1598:21: error: 'core_file_note_size_min' undeclared (first use in this function)
+    1598 |         if (size >= core_file_note_size_min) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:1598:21: note: each undeclared identifier is reported only once for each function it appears in
 
-vim +1126 drivers/usb/dwc3/gadget.c
 
-  1111	
-  1112	static int dwc3_gadget_init_endpoint_irq(struct dwc3 *dwc, struct dwc3_ep *dep)
-  1113	{
-  1114		char *irq_name;
-  1115		int ret = 0;
-  1116	
-  1117		/* FIXME: endpoint.claimed would be better here, but somehow
-  1118		 * the composite gadget layer is leaving the claimed value to 0
-  1119		 * after calling usb_ep_autoconfig_reset after the final bind
-  1120		 */
-  1121		/* ep0in and ep0out share the same interrupt thread */
-  1122		if (!dep->endpoint.address && dep->number)
-  1123			return 0;
-  1124	
-  1125		dep->irq_endpoint = irq_create_mapping(dwc->ep_irq_domain, dep->number);
-> 1126		if (dep->irq_endpoint < 0) {
-  1127			ret = dep->irq_endpoint;
-  1128	
-  1129			dev_err(dwc->dev, "failed to map irq for ep%d --> %d\n",
-  1130					dep->number, ret);
-  1131			return ret;
-  1132		}
-  1133	
-  1134		irq_name = kzalloc(16, GFP_KERNEL);
-  1135		if (!dep->number)
-  1136			snprintf(irq_name, 16, "ep0");
-  1137		else
-  1138			snprintf(irq_name, 16, "ep%d%s", dep->number >> 1, dep->direction ?
-  1139				"in" : "out");
-  1140	
-  1141		ret = request_threaded_irq(dep->irq_endpoint, dwc3_endpoint_irq,
-  1142					   dwc3_endpoint_thread_irq, IRQF_SHARED,
-  1143					   irq_name, dep);
-  1144		if (ret) {
-  1145			irq_dispose_mapping(irq_find_mapping(dwc->ep_irq_domain, dep->number));
-  1146			dev_err(dwc->dev, "failed to request irq #%d --> %d\n",
-  1147					dep->irq_endpoint, ret);
-  1148		}
-  1149	
-  1150		return ret;
-  1151	}
-  1152	
+vim +/core_file_note_size_min +1598 fs/binfmt_elf.c
+
+  1569	
+  1570	/*
+  1571	 * Format of NT_FILE note:
+  1572	 *
+  1573	 * long count     -- how many files are mapped
+  1574	 * long page_size -- units for file_ofs
+  1575	 * array of [COUNT] elements of
+  1576	 *   long start
+  1577	 *   long end
+  1578	 *   long file_ofs
+  1579	 * followed by COUNT filenames in ASCII: "FILE1" NUL "FILE2" NUL...
+  1580	 */
+  1581	static int fill_files_note(struct memelfnote *note, struct coredump_params *cprm)
+  1582	{
+  1583		unsigned count, size, names_ofs, remaining, n;
+  1584		user_long_t *data;
+  1585		user_long_t *start_end_ofs;
+  1586		char *name_base, *name_curpos;
+  1587		int i;
+  1588	
+  1589		/* *Estimated* file count and total data size needed */
+  1590		count = cprm->vma_count;
+  1591		if (count > UINT_MAX / 64)
+  1592			return -EINVAL;
+  1593		size = count * 64;
+  1594	
+  1595		names_ofs = (2 + 3 * count) * sizeof(data[0]);
+  1596	 alloc:
+  1597		/* paranoia check */
+> 1598		if (size >= core_file_note_size_min) {
+  1599			pr_warn_once("coredump Note size too large: %u (does kernel.core_file_note_size_min sysctl need adjustment?\n",
+  1600				      size);
+  1601			return -EINVAL;
+  1602		}
+  1603		size = round_up(size, PAGE_SIZE);
+  1604		/*
+  1605		 * "size" can be 0 here legitimately.
+  1606		 * Let it ENOMEM and omit NT_FILE section which will be empty anyway.
+  1607		 */
+  1608		data = kvmalloc(size, GFP_KERNEL);
+  1609		if (ZERO_OR_NULL_PTR(data))
+  1610			return -ENOMEM;
+  1611	
+  1612		start_end_ofs = data + 2;
+  1613		name_base = name_curpos = ((char *)data) + names_ofs;
+  1614		remaining = size - names_ofs;
+  1615		count = 0;
+  1616		for (i = 0; i < cprm->vma_count; i++) {
+  1617			struct core_vma_metadata *m = &cprm->vma_meta[i];
+  1618			struct file *file;
+  1619			const char *filename;
+  1620	
+  1621			file = m->file;
+  1622			if (!file)
+  1623				continue;
+  1624			filename = file_path(file, name_curpos, remaining);
+  1625			if (IS_ERR(filename)) {
+  1626				if (PTR_ERR(filename) == -ENAMETOOLONG) {
+  1627					kvfree(data);
+  1628					size = size * 5 / 4;
+  1629					goto alloc;
+  1630				}
+  1631				continue;
+  1632			}
+  1633	
+  1634			/* file_path() fills at the end, move name down */
+  1635			/* n = strlen(filename) + 1: */
+  1636			n = (name_curpos + remaining) - filename;
+  1637			remaining = filename - name_curpos;
+  1638			memmove(name_curpos, filename, n);
+  1639			name_curpos += n;
+  1640	
+  1641			*start_end_ofs++ = m->start;
+  1642			*start_end_ofs++ = m->end;
+  1643			*start_end_ofs++ = m->pgoff;
+  1644			count++;
+  1645		}
+  1646	
+  1647		/* Now we know exact count of files, can store it */
+  1648		data[0] = count;
+  1649		data[1] = PAGE_SIZE;
+  1650		/*
+  1651		 * Count usually is less than mm->map_count,
+  1652		 * we need to move filenames down.
+  1653		 */
+  1654		n = cprm->vma_count - count;
+  1655		if (n != 0) {
+  1656			unsigned shift_bytes = n * 3 * sizeof(data[0]);
+  1657			memmove(name_base - shift_bytes, name_base,
+  1658				name_curpos - name_base);
+  1659			name_curpos -= shift_bytes;
+  1660		}
+  1661	
+  1662		size = name_curpos - (char *)data;
+  1663		fill_note(note, "CORE", NT_FILE, size, data);
+  1664		return 0;
+  1665	}
+  1666	
 
 -- 
 0-DAY CI Kernel Test Service
