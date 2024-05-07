@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB07116C870;
-	Tue,  7 May 2024 18:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EB416D316
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 18:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715105752; cv=none; b=oHKOKUrA4ku71eWkOoKeIkzChJcn68p9J4jvLwc24HnX+qglS+uEl9x3/yZYnQ+OtjY1bFcpBNWQLCyYsydyM5uxKJvVL8tOsUw8i4TRijx7BG97ayo3ubVr7vESEXYx1FQsGSxg6jCi0G/7gNwtalwHVRQYaPujfZf7sOi1s8o=
+	t=1715107131; cv=none; b=L1dIVmkIdTbwtOx+00Gk9ufSMdc9BuZHJ4Ow6l9dMgs5KX8+yjh/oeS4gMRCpYT5uogcu7ZfGK3RBittycnxqlM3utDax+lPXRAvSxX/pZJiXLXF05Ii0vTIzd8asSjIQ04vTy+J3ImgyhP6x+KkbMsYL1LvK774ikNq4ORHbI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715105752; c=relaxed/simple;
-	bh=mf5UmPMNWI6z/l0QJkKwSomwSt9p6Keyb3TpKEP4LUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L6FRf3qAQfRTKos1s4MDIXyJ9jEDikQx+iAJDSfyeckWnPS1qT6amxdgb/TQCvnpvtadumn2rYkxU9llb1fg70wOoFt2q5ma1/f6y35Ekjf6dQlWnbbp++jvePpA/y3QkP/KzXI5WBmjr6mIPELus70nPQ8ZJ7wno5AzQZD2Jr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDEZVI/b; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1715107131; c=relaxed/simple;
+	bh=Uv9XTPLaYTiV0mmnqhSuZCe+yWrOTeED5yq5y7Ux/OQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UwRcNZ5Xicc9sAO3AAq5cOZM8VSVNVjeuwEQ4EO82yHs45OE644mwbDYRhd/tWTEYigbRMC1RnIHcVPWTns75M3hMUPVdP7mGB4jGg6/R2xHgHzW5GDddsOWHOV3JBZi90MjDvzophwI5n1UgMZMAlF9HJYB072bTAYIj+U9gEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdcpwAsb; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDEZVI/b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdcpwAsb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715105749; x=1746641749;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mf5UmPMNWI6z/l0QJkKwSomwSt9p6Keyb3TpKEP4LUc=;
-  b=ZDEZVI/bYlZKvYfZ6BSa4qEN5jbxbuvrVD3wWE0LC+b+2UjKgxy6ms5M
-   N8e2eCcsC6AgX8dYZdArZe1EdbdFIdyjA58g57eTZIxCIXLXXrmfpwG66
-   +BdbNXlCYAdPd7IwMtJiUzpPCk8iKWwOeDXEiLNmubG50heeUf9sC3LGZ
-   RUR8ApAUEKwsZTtuHiwEGqOhLNI7ni0akqcEeZR1Bl5Vu5RO1xXZO3UJw
-   OSFTYkmYkHLUwlb12dbLvRcPWb67+Oiu0hotARELV1YYjvCuggEU0NHjj
-   SeXUGmuQlW1m7NtfXqJ1kln6UkPQGmFoKHHAYpy8wPLf/knI0ddN4mOBD
-   Q==;
-X-CSE-ConnectionGUID: sg1AuN+mRtSdEgvvaefxiQ==
-X-CSE-MsgGUID: asH10tCST+SlwCizAHLLow==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11049799"
+  t=1715107129; x=1746643129;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Uv9XTPLaYTiV0mmnqhSuZCe+yWrOTeED5yq5y7Ux/OQ=;
+  b=CdcpwAsbCgQX3u5Kd3dYaihe7S5uLplLwcoO42rPiXcGVXCYXm1N8org
+   +DB/qMO7nD1zIbXBIoJ0Itr/jbbGIMJWbsJQgNYWoSdWkaEq7/0yu89KP
+   vcb65HXgeJllO5xvVDjdVesxyOt60zIx4JK3MDIvEsbHKvBIp/6gCWLn9
+   UI+4WX96hXxp6j/+gfRsTKZLNEXOJkZ+VhAHESOZXT8RHuuMRmZe6kBxD
+   qow/+fLf5Jp0/DJjOIMvccggeNX4+I8fi4S7Dw9/3ZSQf4BBzxF8fu8fg
+   7Kmmln6nNjE4YbhjCroVKC3xbxOVdgr7PzZtL1SOTAzPnVW7KOnIl9jLI
+   g==;
+X-CSE-ConnectionGUID: owWiYfIHSkSJjE1WYOf9TQ==
+X-CSE-MsgGUID: FI9L7wmTT6WDlST5knC5ig==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10783173"
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="11049799"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 11:15:48 -0700
-X-CSE-ConnectionGUID: zfCVuL4KQOuW0pBFkG9aDw==
-X-CSE-MsgGUID: NBKi7VABT0ewefpDuLOBiQ==
+   d="scan'208";a="10783173"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 11:38:49 -0700
+X-CSE-ConnectionGUID: Mww/YtB0R2iLk6YlJ95aYg==
+X-CSE-MsgGUID: GRu4QDlAQYmw6Vjm5Gwz9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="33167004"
+   d="scan'208";a="28677852"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 May 2024 11:15:45 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 07 May 2024 11:38:45 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4PLq-0002Xs-1r;
-	Tue, 07 May 2024 18:15:42 +0000
-Date: Wed, 8 May 2024 02:14:59 +0800
+	id 1s4Pi7-0002YQ-1P;
+	Tue, 07 May 2024 18:38:43 +0000
+Date: Wed, 8 May 2024 02:37:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Perry Yuan <perry.yuan@amd.com>, rafael.j.wysocki@intel.com,
-	Mario.Limonciello@amd.com, viresh.kumar@linaro.org,
-	Ray.Huang@amd.com, gautham.shenoy@amd.com, Borislav.Petkov@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexander.Deucher@amd.com, Xinmei.Huang@amd.com,
-	Xiaojian.Du@amd.com, Li.Meng@amd.com, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/11] cpufreq: amd-pstate: implement heterogeneous core
- topology for highest performance initialization
-Message-ID: <202405080122.4pEEcR2C-lkp@intel.com>
-References: <731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan@amd.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 6514/6518] drivers/crypto/ccp/hygon/hct.c:2098:6:
+ warning: no previous prototype for 'hct_noiommu_set_memory_wb'
+Message-ID: <202405080231.NA9geGDj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,91 +64,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan@amd.com>
 
-Hi Perry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge next-20240507]
-[cannot apply to tip/x86/core linus/master v6.9-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Perry-Yuan/cpufreq-amd-pstate-optimiza-the-initial-frequency-values-verification/20240507-151930
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan%40amd.com
-patch subject: [PATCH 09/11] cpufreq: amd-pstate: implement heterogeneous core topology for highest performance initialization
-config: x86_64-buildonly-randconfig-001-20240507 (https://download.01.org/0day-ci/archive/20240508/202405080122.4pEEcR2C-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080122.4pEEcR2C-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   b294718c76ed688d3272e48c431221a8194cd2d3
+commit: f0872dfb71fb45aaf2ea14da6e32c68bf43a399f [6514/6518] ccp: supporting memory encryption features for host vfio-noiommu mode, and wb attribute for the bar memory of virtual machine.
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240508/202405080231.NA9geGDj-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080231.NA9geGDj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405080122.4pEEcR2C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405080231.NA9geGDj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/thread_info.h:60:
-   In file included from arch/x86/include/asm/thread_info.h:59:
-   In file included from arch/x86/include/asm/cpufeature.h:5:
->> arch/x86/include/asm/processor.h:690:51: warning: non-void function does not return a value [-Wreturn-type]
-     690 | static inline int amd_get_this_core_type(void)          { }
-         |                                                           ^
-   1 warning generated.
---
-   In file included from drivers/usb/dwc2/hcd_ddma.c:12:
-   In file included from include/linux/module.h:13:
-   In file included from include/linux/stat.h:19:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:5:
->> arch/x86/include/asm/processor.h:690:51: warning: non-void function does not return a value [-Wreturn-type]
-     690 | static inline int amd_get_this_core_type(void)          { }
-         |                                                           ^
-   drivers/usb/dwc2/hcd_ddma.c:555:16: warning: variable 'n_desc' set but not used [-Wunused-but-set-variable]
-     555 |         u16 idx, inc, n_desc = 0, ntd_max = 0;
-         |                       ^
-   2 warnings generated.
---
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/thread_info.h:60:
-   In file included from arch/x86/include/asm/thread_info.h:59:
-   In file included from arch/x86/include/asm/cpufeature.h:5:
->> arch/x86/include/asm/processor.h:690:51: warning: non-void function does not return a value [-Wreturn-type]
-     690 | static inline int amd_get_this_core_type(void)          { }
-         |                                                           ^
-   1 warning generated.
+   drivers/crypto/ccp/hygon/hct.c:1345:15: warning: no previous prototype for 'hct_pin_memory' [-Wmissing-prototypes]
+    1345 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
+         |               ^~~~~~~~~~~~~~
+>> drivers/crypto/ccp/hygon/hct.c:2098:6: warning: no previous prototype for 'hct_noiommu_set_memory_wb' [-Wmissing-prototypes]
+    2098 | void hct_noiommu_set_memory_wb(unsigned long address)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +690 arch/x86/include/asm/processor.h
+vim +/hct_noiommu_set_memory_wb +2098 drivers/crypto/ccp/hygon/hct.c
 
-   680	
-   681	#ifdef CONFIG_CPU_SUP_AMD
-   682	extern u32 amd_get_highest_perf(void);
-   683	extern void amd_clear_divider(void);
-   684	extern void amd_check_microcode(void);
-   685	extern int amd_get_this_core_type(void);
-   686	#else
-   687	static inline u32 amd_get_highest_perf(void)		{ return 0; }
-   688	static inline void amd_clear_divider(void)		{ }
-   689	static inline void amd_check_microcode(void)		{ }
- > 690	static inline int amd_get_this_core_type(void)		{ }
-   691	#endif
-   692	
+  2094	
+  2095	/* set the flags PAT, PCT and PWT of page all to 0
+  2096	 * for obtaining cache properties.
+  2097	 */
+> 2098	void hct_noiommu_set_memory_wb(unsigned long address)
+  2099	{
+  2100		pgd_t *pgd = current->mm->pgd + pgd_index(address);
+  2101		p4d_t *p4d;
+  2102		pud_t *pud;
+  2103		pmd_t *pmd;
+  2104		pte_t *pte;
+  2105		pte_t old_pte;
+  2106		pte_t new_pte;
+  2107		pgprot_t new_prot;
+  2108		unsigned long pfn;
+  2109	
+  2110		if (pgd_none(*pgd)) {
+  2111			pr_err("pgd val shouldn't be none\n");
+  2112			return;
+  2113		}
+  2114	
+  2115		p4d = p4d_offset(pgd, address);
+  2116		if (p4d_none(*p4d)) {
+  2117			pr_err("p4d val shouldn't be none\n");
+  2118			return;
+  2119		}
+  2120	
+  2121		pud = pud_offset(p4d, address);
+  2122		if (pud_none(*pud) || pud_large(*pud) || !pud_present(*pud)) {
+  2123			pr_err("pud val is invalid.\n");
+  2124			return;
+  2125		}
+  2126	
+  2127		pmd = pmd_offset(pud, address);
+  2128		if (pmd_none(*pmd) || pmd_large(*pmd) || !pmd_present(*pmd)) {
+  2129			pr_err("pmd val is invalid.\n");
+  2130			return;
+  2131		}
+  2132	
+  2133		pte = pte_offset_kernel(pmd, address);
+  2134		if (pte_none(*pte)) {
+  2135			pr_err("pte val shouldn't be none\n");
+  2136			return;
+  2137		}
+  2138	
+  2139		old_pte = *pte;
+  2140		pfn = pte_pfn(old_pte);
+  2141		new_prot = pte_pgprot(old_pte);
+  2142		pgprot_val(new_prot) &= ~(_PAGE_PAT | _PAGE_PCD | _PAGE_PWT);
+  2143		new_pte = pfn_pte(pfn, new_prot);
+  2144		set_pte_atomic(pte, new_pte);
+  2145	}
+  2146	
 
 -- 
 0-DAY CI Kernel Test Service
