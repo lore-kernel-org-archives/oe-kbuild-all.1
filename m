@@ -1,224 +1,223 @@
-Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B15915FD0E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 16:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7428C51C59
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 16:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097656; cv=none; b=nF05v1ie4bfFgzGbB07Jp7VBDbyGj2kD5W6HaWQfOuQ2YI+TDFFQ+mRnswkQQUORslflIKTmaxJg3Cutn/l9NTUCkEqcb27DcPnRCTFFquP6LIQKKf92EBTRlfesys98HW2YI8cz5FRMgsTeuXxCqNqjj1KNRTUJH6UrRdP4Lyk=
+	t=1715099782; cv=none; b=HSFuWdnghA562IRy80IzJjGEqWGwdd67u5dQWDInN9YHcUiGLXn3FiEvi0KZy2y2OA8YHblIzDuGCOq67GtQJlsah8+BOKv7vi/4Vf8moW+JAolzlIQnx/PShJ24gINYdggMmAB2fvSh8RHBhhRoVO0raN6DAGg5VLXeDGNu3mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715097656; c=relaxed/simple;
-	bh=FddP+c4dgFZb9XdTcHg7G1UtgfmUmewlW32Kal5emFk=;
-	h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kznwEcqmoBRF3FGdmra6dXOu+Y1I0V5E05aqghC13PMX1Ovt8+jhih+WVpURegrr8x2Dw7zJsmXkBGk/4NVe6olHJ7TSA3ZJGVrmPJ1MjmHAoMv+C8Uer2hNpeaWHU2NsPInDBFdLcxXN04rabQHY8RIPrrhJHb4KOpRw0pjXNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca; spf=pass smtp.mailfrom=lyndeno.ca; dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b=WM5EB99d; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eSTXjV9P; arc=none smtp.client-ip=64.147.123.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lyndeno.ca
+	s=arc-20240116; t=1715099782; c=relaxed/simple;
+	bh=2Bajx+l3ITU8XWvxfqEXTZnzcts3/3BYXAtY2w1Z04M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cYzb0PJHn8WJ8D/XJH1vi+FyKVOGp4v83f+M8h6VsV7DK1I7cYcFyMTtoRtzGUpDCZ4rwSsURJyA8untHKtPRD+kkogrOCQ9uls0lKXNOlmhkonFBK4HpUFAt5u1mazKNARebNyU1XJpd0vr3QSze/5dwVWsbOD6Ov3o5MYBsew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ju9X0y4N; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b="WM5EB99d";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eSTXjV9P"
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfhigh.west.internal (Postfix) with ESMTP id C808F18000E1;
-	Tue,  7 May 2024 12:00:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Tue, 07 May 2024 12:00:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lyndeno.ca; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1715097650; x=1715184050; bh=x9SXQUaEjS
-	lb5DAJspjir6oHwES+a/5cta9M20wGfws=; b=WM5EB99deHS6/YdZrhB1WiWOsT
-	9RjEotf3L1RU8tVMjYbuMiuC+DFfGOFx4kXsYynGUsWLdXUHPtbw0gSYilAUUfNN
-	s1OvtIexwbQsJ3FG3p9nX8zT/kbCw3SOpPGdU5ZEbPPyMTREucaRYgZYc3aBYG58
-	/aoFehJ/W0dhKDBLstNFumaNWs3zIrq0fITK7KRUeeTfRJ+wX+MU6IPOfJatU1bu
-	3EtiN8RIY/kqINrvf7m34TbT4GCJ4Kqa33u8ttJvLzeWsFtpmqRw8Y8VqcAZdfaD
-	mopAeYwlx02M3E7TF/NJBdKk9iK6h1z2NxrdQi1yjehVsLkOWyUjVZx7PJ4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1715097650; x=1715184050; bh=x9SXQUaEjSlb5DAJspjir6oHwES+
-	a/5cta9M20wGfws=; b=eSTXjV9PxS8BRR/5pdxJbkNthk6INdFXzSVtret03MOl
-	+I/wk8/hMVzrNt19myDKRS+y35QieKcTViO8abvIyrEuPE+dZgXS9viFFHpLJcce
-	MAsTsgosUXJI09LWX5b8p68r5VUQwIj3X3zckUStbgLOgVrLgaUkrgQbDwTsMB8x
-	yhTz92rwwgOP9/R4r2CqWYgiQJA506M8sjDP74pJ0HNMwbhYvtI4d9EUOe36/u/A
-	krWn74VL36cp55EcAes4vbno7nOc9bnOrbE42K+HOf+/UN9HoO1tSDL0SfAgh+cM
-	rn9qTLdf+mcLEPwzh5FlqSEkAn2EobtHRr+nssmw+w==
-X-ME-Sender: <xms:MVA6Zvy2cC3gTDiG_gj8l5UgmwuK_vafMQSazFuoLZ-o27zKPqUcow>
-    <xme:MVA6ZnRtqh082m2305P2kvCoD9mVh1CCpMixR-OrOAJ7sm6FQa0gZysn8PA6w5d4z
-    pn7TdycuGOr3TlR8as>
-X-ME-Received: <xmr:MVA6ZpUqNzbDVqIGC3OwXwlPlxx8-XWGAweaKYj1AeVC2nWPRpXJfGEGASo5SERpYsw7Pw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvkedgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhuffvvefkjghfofggtgesthdtredtredtvdenucfhrhhomhepnfihnhgu
-    ohhnucfurghntghhvgcuoehlshgrnhgthhgvsehlhihnuggvnhhordgtrgeqnecuggftrf
-    grthhtvghrnhepvdfgjeduvddtheekkeduiedtieegveefgeekgfevffffjeevgeffueev
-    heejjedtnecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomh
-    dpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehlshgrnhgthhgvsehlhihnuggvnhhordgtrg
-X-ME-Proxy: <xmx:MVA6Zphr_mHn0ROrXrxSuf5s3IrRSW7tMa7W6Cz1My0_xWLhSCszBw>
-    <xmx:MVA6ZhAkYopwc5mE9wysh0rHnwrmmI1aXNyN9PR1W3eD1-VKkYmWnw>
-    <xmx:MVA6ZiJX1rcsNobFuk1g8oGrPSBkvz3bR7bkciotQfZGnzNLqdDj2w>
-    <xmx:MVA6ZgA3gRqE-Hp1GLhhtUVLxUbpxU1_MfM8toM6bYsCeAATIeZY_A>
-    <xmx:MlA6Zl3OKYHu3VH2ojdk4xDeC9FUponUcqAeddS7mEP1IVPiC1po8ES2>
-Feedback-ID: i1719461a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 May 2024 12:00:44 -0400 (EDT)
-Date: Tue, 07 May 2024 10:00:33 -0600
-From: Lyndon Sanche <lsanche@lyndeno.ca>
-Subject: Re: [PATCH v5] platform/x86: dell-laptop: Implement platform_profile
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev,
-	mario.limonciello@amd.com, pali@kernel.org, W_Armin@gmx.de,
-	srinivas.pandruvada@linux.intel.com, ilpo.jarvinen@linux.intel.com,
-	Matthew Garrett <mjg59@srcf.ucam.org>, Jonathan Corbet <corbet@lwn.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>, Vegard Nossum
-	<vegard.nossum@oracle.com>, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com
-Message-Id: <XSH4DS.Y4TZMDPWKC5Z1@lyndeno.ca>
-In-Reply-To: <4bb43e89-c387-4219-9051-421d700f332e@redhat.com>
-References: <20240501215829.4991-2-lsanche@lyndeno.ca>
-	<202405031851.NYy0ZB02-lkp@intel.com> <A9SXCS.IUN31UTTT9GM2@lyndeno.ca>
-	<4bb43e89-c387-4219-9051-421d700f332e@redhat.com>
-X-Mailer: geary/44.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ju9X0y4N"
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-47ef7e85cf0so701931137.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 May 2024 09:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715099779; x=1715704579; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OIH6aQmwwJHXxsNaL1gpFbq6JK/4rTlX3KH1VdDetm8=;
+        b=Ju9X0y4NgElN7LAvJT+q7BFe0Apbdu988U5iBQentm8vin8j6opTBY5VHAAyQPklXY
+         b7tFzkjHq27cR6tXkC4hpCoyxFNefuwSVEzqUE0WqlvJYvGGmmGuGeRUmG/NeugRfW0a
+         KcVjg+aTKt4OnjRFGu2LIzfhIS+rcFbP6HTlzj1R6N5w5LgILzgJUq08IYaDw2vBs3Fx
+         Wb1Cf8IV9WOzr2vlvOIU9JJs6wgePq+siwi089bDOvOBTDbzr6dtOz3X8dtSHyWWCLw1
+         0SoTxAeFqAtWqhET72acpwybAR2joJah484O4inrOtI05hlDooY0BV/cs6O3Tno/BiAW
+         3jzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715099779; x=1715704579;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OIH6aQmwwJHXxsNaL1gpFbq6JK/4rTlX3KH1VdDetm8=;
+        b=enIk5L8W2yZokmg4SIf98r1PyLgewjsmw6zG0OyXmTGsBEBVtwhB8s6NZPvQ9i/nWz
+         PrnIz3AbzLEx+J2ySiriVpntHDvc/0Be9m6CHJIldNS1A/DZvsgaGFCCANKYD86xuLej
+         DzJep2RpTHsrA9t13c0/6lwNlQCH4Svibych2FLKIU3TYF1Jl0OJZpEvkTxgWTQEBozt
+         KhhsQ1XdlwkoJZihnaH89oP/9s2wNxusM8oWQrKZErSbDGawVhm3V0OK7ML6BmlFsBOm
+         TYoJSuy9z0U12DPRimAIp+87suUUijnecPQrZ3SALo64IjPffuHod6EcxqTt5b7Fv67k
+         T6dA==
+X-Forwarded-Encrypted: i=1; AJvYcCWiOoJnNJPsbdq8808ZuNpmj5zPyN7BpBdZR0PjMvfMYkACb+p/4oxQtEQpabIk7O57BkTbMuiUT7PNoW2K9y985nQzRRXljVK+GfN9OA==
+X-Gm-Message-State: AOJu0YwutsigZ09SLu+SOp5kBBFJ3wayq7VrTdnSguuUiM+nkRAQfGGE
+	gQoLrJdziQkRq+zpSNVkNDKnZCfp1spf+0N+eFjCwqLnlco/QwGhux6zyCZ2LqycKptd+tniJ5Y
+	l2bGFImw/6BSYy1jsudHJzMkm5Uk=
+X-Google-Smtp-Source: AGHT+IFLE7o1q4yIV5QIpQ2zwnryVHkBTr8cvfHOkMi+4EMADqYRYKPCAK7R+jI7/0heAa0+ZJFW6vFupgJDauVUo2c=
+X-Received: by 2002:a67:f2ca:0:b0:47e:bd11:7e5e with SMTP id
+ a10-20020a67f2ca000000b0047ebd117e5emr16136515vsn.7.1715099777915; Tue, 07
+ May 2024 09:36:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+References: <20240506193700.7884-1-apais@linux.microsoft.com> <202405072249.fLkavX40-lkp@intel.com>
+In-Reply-To: <202405072249.fLkavX40-lkp@intel.com>
+From: Allen <allen.lkml@gmail.com>
+Date: Tue, 7 May 2024 09:36:06 -0700
+Message-ID: <CAOMdWSLsVXC8TNifYwXPE4O+saxBeG6Koa=MMH3ZUNutBkDVcQ@mail.gmail.com>
+Subject: Re: [PATCH v4] fs/coredump: Enable dynamic configuration of max file
+ note size
+To: kernel test robot <lkp@intel.com>
+Cc: Allen Pais <apais@linux.microsoft.com>, linux-fsdevel@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	ebiederm@xmission.com, keescook@chromium.org, mcgrof@kernel.org, 
+	j.granados@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on kees/for-next/execve]
+> [also build test ERROR on brauner-vfs/vfs.all linus/master v6.9-rc7 next-20240507]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/fs-coredump-Enable-dynamic-configuration-of-max-file-note-size/20240507-033907
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+> patch link:    https://lore.kernel.org/r/20240506193700.7884-1-apais%40linux.microsoft.com
+> patch subject: [PATCH v4] fs/coredump: Enable dynamic configuration of max file note size
+> config: loongarch-randconfig-001-20240507 (https://download.01.org/0day-ci/archive/20240507/202405072249.fLkavX40-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405072249.fLkavX40-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405072249.fLkavX40-lkp@intel.com/
+>
+
+ Thanks for reporting. The kernel builds fine with
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
+for-next/execve.
+The issue is with loongarch-randconfig, which has CONFIG_SYSCTL set to
+"n". It is needed for this patch.
+
+
+Thanks,
+Allen
+
+> All errors (new ones prefixed by >>):
+>
+>    fs/binfmt_elf.c: In function 'fill_files_note':
+> >> fs/binfmt_elf.c:1598:21: error: 'core_file_note_size_min' undeclared (first use in this function)
+>     1598 |         if (size >= core_file_note_size_min) {
+>          |                     ^~~~~~~~~~~~~~~~~~~~~~~
+>    fs/binfmt_elf.c:1598:21: note: each undeclared identifier is reported only once for each function it appears in
+>
+>
+> vim +/core_file_note_size_min +1598 fs/binfmt_elf.c
+>
+>   1569
+>   1570  /*
+>   1571   * Format of NT_FILE note:
+>   1572   *
+>   1573   * long count     -- how many files are mapped
+>   1574   * long page_size -- units for file_ofs
+>   1575   * array of [COUNT] elements of
+>   1576   *   long start
+>   1577   *   long end
+>   1578   *   long file_ofs
+>   1579   * followed by COUNT filenames in ASCII: "FILE1" NUL "FILE2" NUL...
+>   1580   */
+>   1581  static int fill_files_note(struct memelfnote *note, struct coredump_params *cprm)
+>   1582  {
+>   1583          unsigned count, size, names_ofs, remaining, n;
+>   1584          user_long_t *data;
+>   1585          user_long_t *start_end_ofs;
+>   1586          char *name_base, *name_curpos;
+>   1587          int i;
+>   1588
+>   1589          /* *Estimated* file count and total data size needed */
+>   1590          count = cprm->vma_count;
+>   1591          if (count > UINT_MAX / 64)
+>   1592                  return -EINVAL;
+>   1593          size = count * 64;
+>   1594
+>   1595          names_ofs = (2 + 3 * count) * sizeof(data[0]);
+>   1596   alloc:
+>   1597          /* paranoia check */
+> > 1598          if (size >= core_file_note_size_min) {
+>   1599                  pr_warn_once("coredump Note size too large: %u (does kernel.core_file_note_size_min sysctl need adjustment?\n",
+>   1600                                size);
+>   1601                  return -EINVAL;
+>   1602          }
+>   1603          size = round_up(size, PAGE_SIZE);
+>   1604          /*
+>   1605           * "size" can be 0 here legitimately.
+>   1606           * Let it ENOMEM and omit NT_FILE section which will be empty anyway.
+>   1607           */
+>   1608          data = kvmalloc(size, GFP_KERNEL);
+>   1609          if (ZERO_OR_NULL_PTR(data))
+>   1610                  return -ENOMEM;
+>   1611
+>   1612          start_end_ofs = data + 2;
+>   1613          name_base = name_curpos = ((char *)data) + names_ofs;
+>   1614          remaining = size - names_ofs;
+>   1615          count = 0;
+>   1616          for (i = 0; i < cprm->vma_count; i++) {
+>   1617                  struct core_vma_metadata *m = &cprm->vma_meta[i];
+>   1618                  struct file *file;
+>   1619                  const char *filename;
+>   1620
+>   1621                  file = m->file;
+>   1622                  if (!file)
+>   1623                          continue;
+>   1624                  filename = file_path(file, name_curpos, remaining);
+>   1625                  if (IS_ERR(filename)) {
+>   1626                          if (PTR_ERR(filename) == -ENAMETOOLONG) {
+>   1627                                  kvfree(data);
+>   1628                                  size = size * 5 / 4;
+>   1629                                  goto alloc;
+>   1630                          }
+>   1631                          continue;
+>   1632                  }
+>   1633
+>   1634                  /* file_path() fills at the end, move name down */
+>   1635                  /* n = strlen(filename) + 1: */
+>   1636                  n = (name_curpos + remaining) - filename;
+>   1637                  remaining = filename - name_curpos;
+>   1638                  memmove(name_curpos, filename, n);
+>   1639                  name_curpos += n;
+>   1640
+>   1641                  *start_end_ofs++ = m->start;
+>   1642                  *start_end_ofs++ = m->end;
+>   1643                  *start_end_ofs++ = m->pgoff;
+>   1644                  count++;
+>   1645          }
+>   1646
+>   1647          /* Now we know exact count of files, can store it */
+>   1648          data[0] = count;
+>   1649          data[1] = PAGE_SIZE;
+>   1650          /*
+>   1651           * Count usually is less than mm->map_count,
+>   1652           * we need to move filenames down.
+>   1653           */
+>   1654          n = cprm->vma_count - count;
+>   1655          if (n != 0) {
+>   1656                  unsigned shift_bytes = n * 3 * sizeof(data[0]);
+>   1657                  memmove(name_base - shift_bytes, name_base,
+>   1658                          name_curpos - name_base);
+>   1659                  name_curpos -= shift_bytes;
+>   1660          }
+>   1661
+>   1662          size = name_curpos - (char *)data;
+>   1663          fill_note(note, "CORE", NT_FILE, size, data);
+>   1664          return 0;
+>   1665  }
+>   1666
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 
 
-On Mon, May 6 2024 at 12:18:05 PM +02:00:00, Hans de Goede 
-<hdegoede@redhat.com> wrote:
-> Hi Lyndon,
-> 
-> Thank you for your patch!
-> 
-> On 5/4/24 3:03 AM, Lyndon Sanche wrote:
->> 
->> 
->>  On Fri, May 3 2024 at 06:19:18 PM +08:00:00, kernel test robot 
->> <lkp@intel.com> wrote:
->>>  Hi Lyndon,
->>> 
->>>  kernel test robot noticed the following build warnings:
->>> 
->>>  [auto build test WARNING on linus/master]
->>>  [also build test WARNING on v6.9-rc6 next-20240503]
->>>  [If your patch is applied to the wrong git tree, kindly drop us a 
->>> note.
->>>  And when submitting patch, we suggest to use '--base' as 
->>> documented in
->>>  https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>> 
->>>  url:    
->>> https://github.com/intel-lab-lkp/linux/commits/Lyndon-Sanche/platform-x86-dell-laptop-Implement-platform_profile/20240502-060146
->>>  base:   linus/master
->>>  patch link:    
->>> https://lore.kernel.org/r/20240501215829.4991-2-lsanche%40lyndeno.ca
->>>  patch subject: [PATCH v5] platform/x86: dell-laptop: Implement 
->>> platform_profile
->>>  config: 
->>> i386-kismet-CONFIG_ACPI_PLATFORM_PROFILE-CONFIG_DELL_LAPTOP-0-0 
->>> (https://download.01.org/0day-ci/archive/20240503/202405031851.NYy0ZB02-lkp@intel.com/config)
->>>  reproduce: 
->>> (https://download.01.org/0day-ci/archive/20240503/202405031851.NYy0ZB02-lkp@intel.com/reproduce)
->>> 
->>>  If you fix the issue in a separate patch/commit (i.e. not just a 
->>> new version of
->>>  the same patch/commit), kindly add following tags
->>>  | Reported-by: kernel test robot <lkp@intel.com>
->>>  | Closes: 
->>> https://lore.kernel.org/oe-kbuild-all/202405031851.NYy0ZB02-lkp@intel.com/
->>> 
->>>  kismet warnings: (new ones prefixed by >>)
->>>>>   kismet: WARNING: unmet direct dependencies detected for 
->>>>> ACPI_PLATFORM_PROFILE when selected by DELL_LAPTOP
->>>     WARNING: unmet direct dependencies detected for 
->>> ACPI_PLATFORM_PROFILE
->>>       Depends on [n]: ACPI [=n]
->>>       Selected by [y]:
->>>       - DELL_LAPTOP [=y] && X86_PLATFORM_DEVICES [=y] && 
->>> X86_PLATFORM_DRIVERS_DELL [=y] && DMI [=y] && 
->>> BACKLIGHT_CLASS_DEVICE [=y] && (ACPI_VIDEO [=n] || ACPI_VIDEO 
->>> [=n]=n) && (RFKILL [=n] || RFKILL [=n]=n) && (DELL_WMI [=n] || 
->>> DELL_WMI [=n]=n) && SERIO_I8042 [=y] && DELL_SMBIOS [=y]
->>> 
->>>  --
->>>  0-DAY CI Kernel Test Service
->>>  https://github.com/intel/lkp-tests/wiki
->> 
->>  I will try reproducing this test on my machine, to avoid spamming 
->> the mailing list with the same error over and over.
-> 
-> No need to reproduce this. When you select something in Kconfig you 
-> must ensure
-> that the item doing the selecting depends on all the dependencies of 
-> what you
-> are selecting.
-> 
-> IOW if you add this change to your next version then that should fix 
-> this:
-> 
-> diff --git a/drivers/platform/x86/dell/Kconfig 
-> b/drivers/platform/x86/dell/Kconfig
-> index bd9f445974cc..d18fbc6a5fbf 100644
-> --- a/drivers/platform/x86/dell/Kconfig
-> +++ b/drivers/platform/x86/dell/Kconfig
-> @@ -47,6 +47,7 @@ config DCDBAS
->  config DELL_LAPTOP
->  	tristate "Dell Laptop Extras"
->  	default m
-> +	depends on ACPI
->  	depends on DMI
->  	depends on BACKLIGHT_CLASS_DEVICE
->  	depends on ACPI_VIDEO || ACPI_VIDEO = n
-> 
-> And please also address Armin's remark about making sure that failure
-> to initialize platform_profile support should not cause the entire 
-> driver
-> to fail to probe.
-> 
-> I see that Armin suggests to check da_supported_commands for this,
-> this is a good idea but atm this is private to dell-smbios-base. So
-> you will first need to do a small preparation patch adding a small:
-> 
-> bool dell_laptop_check_supported_cmds(struct calling_interface_buffer 
-> *buffer)
-> {
-> 	return da_supported_commands & (1 << buffer->cmd_class);
-> }
-> EXPORT_SYMBOL_GPL(dell_laptop_check_supported_cmds):
-> 
-> helper for this.
-> 
-> If this check fails (returns false) make the code not register
-> the platform_profile() while allowing probe() to continue / succeed,
-> please do not log anything in this case (or use dev_dbg())
-> 
-> If this check succeeds but subsequent dell_smbios_call()'s
-> fail during probe, then it is ok to log an error but please
-> still let probe() continue / succeed (without registering
-> a platform_profile handler).
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-Hello Hans:
-
-Thank you very much for your feedback and suggestions! I have been busy 
-the past few days, but will be able to tackle this this week. These are 
-good ideas which I plan to implement.
-
-Thank you,
-
-Lyndon
-
-
+-- 
+       - Allen
