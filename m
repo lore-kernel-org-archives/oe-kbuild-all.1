@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65FE16DEB5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 19:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6B021373
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 19:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715110251; cv=none; b=it8fLNmesXiWmwEOsa/XYzLhNbYTgOA45cPTNjkwaxC5N6hadnH4+cxWC60/HW9jfun558azzKp2taXDlBMVg843Lk2pcHDT0nbNKoTQZZiG/KNr7Q8TWeggdyAz8cIeL5MmiJVBFihY2RLrDx4reSmB10QpYmCj3M6Rd//PO1c=
+	t=1715110853; cv=none; b=rz3A6mZ3LDL2onIMo1J2LjI/iAVwUBBX5GHWaGT7Ma0em8NjfJV6rXhsBzTjqsv4W56Ilrb7uEX7zAaXHDUVjiUrzpesaciahHgJNhYR0MyNq37fg7+dIWPWkNl88bKDKmfozRImoVfsJR+QPWL9UojktXvLcPdqtQhsG6YZgu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715110251; c=relaxed/simple;
-	bh=edLOHaFXPxOQUDcUpSF4YhMZMvSNPwXk5aBWRK6hodM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lOmo+fz3+myQbqixcfk2zG4jYi30jaF6fiH7h8Zf5+0BWDbhCFLtX8tl0Jl1CXgmBG+fZLs19vtePWuJk179f/lIiIZAHxx2Ky12vIXY5Gi9UjMzmMzXhgCugFrLCLnRqv99saFotCC/AgTpmfpbvjFl/vyXIBJM9nLW8KPl7iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LlV72VZd; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1715110853; c=relaxed/simple;
+	bh=MCExTJG3akmiqgdJUA5kJ/OATvP+QAosuc1ov3k7V+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S30CNrDpNCFmMmpO3kd3J518uSvnYD6ibt5r7rETKOEBuiNoSKBDT8aUap4gs5wN429jjzKReneqdnACPul0NbR7WlSx7TlCtaDu60WybwdQYmAsJqsR6rGbo+C5d8Nt4joOB8t6CKLyr/MgzpEztwKTvKibqiFYtQKiGBTKT0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhiMiAzK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LlV72VZd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhiMiAzK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715110250; x=1746646250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=edLOHaFXPxOQUDcUpSF4YhMZMvSNPwXk5aBWRK6hodM=;
-  b=LlV72VZdKkZjTHJAvkgWem0+VERC3cr1VTMPkNq47u77KqpYGBri0zsI
-   zy9IIhXK0Nn9rRFF92VJ9U7FlqTiu3Lp6Bd3f3kuvw+eACaDqpzSThP48
-   bzRuCo89LEkphP9pb0BTLooV2Tl87kpbYw188/fmg/waxtZhiyXy99QSD
-   f3IhFIp3yibt2l3nAypCoWNhDFefXU0jF/cRdcCR9a7YM/VvCleibwOEj
-   bGjK0gNZ2ugo9NP0hG+KmmQmh8dkzGOuSOxmcEbhrYsML5g2Nm8iaiXUU
-   hufCyQGLwBsZMC8kqCie/uzAZDkqmPHvFWmTAtVl8MMgQmgtkBS98L3TZ
-   g==;
-X-CSE-ConnectionGUID: q1/8K25gQUWcI/sEFWteaA==
-X-CSE-MsgGUID: p7vtxuyETh64qBKJpldeUw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22343609"
+  t=1715110851; x=1746646851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MCExTJG3akmiqgdJUA5kJ/OATvP+QAosuc1ov3k7V+c=;
+  b=FhiMiAzKzp9Pyw7Ury6W+oQpayy/m4jbQqooeLi5NPObYdrsfguSJs9r
+   /6Ob+rlSPa69sC1XflJn4eHoQciN4uCWZ099zG5ZdnvEYJ9sbmNUuj3z/
+   Tq6TcLA/6+zB5XSh90gQE+f2WBrqULdJ6aTOhDMI5/HC1AESu3jloRqwZ
+   akLvVkmTLngbfbuXpNUFjLeMuNYjKvuV6NdFpS1HT+eistn+Tiz43brYU
+   GCfyXrmSTORTZqIUVAL23TPqSjkuJZuXNxuXwy4xmpVCMlbqayy91b2ZL
+   Yt+Z/H1iZQAlj0+etE2+4zlL+jYHAdaFizYhvBKwvUWbH2d/fdBaQIeA3
+   A==;
+X-CSE-ConnectionGUID: ErtMgpwgSLivfZE7ex42EA==
+X-CSE-MsgGUID: 1vl3uZVqRHC9GhdM5oNvEQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11090827"
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="22343609"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 12:30:49 -0700
-X-CSE-ConnectionGUID: RyJu+Rf5RIeDJCfp1OabBg==
-X-CSE-MsgGUID: V+HLQ9uhRBO8uYfh5SJwLg==
+   d="scan'208";a="11090827"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 12:40:51 -0700
+X-CSE-ConnectionGUID: eQlpIZTvSc2/iNhGnLU2gg==
+X-CSE-MsgGUID: ayGnskz1RQCwXKHjxXL3MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="33434838"
+   d="scan'208";a="28600902"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 May 2024 12:30:47 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 May 2024 12:40:47 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4QWS-0002a8-2C;
-	Tue, 07 May 2024 19:30:44 +0000
-Date: Wed, 8 May 2024 03:30:02 +0800
+	id 1s4Qg9-0002ae-00;
+	Tue, 07 May 2024 19:40:45 +0000
+Date: Wed, 8 May 2024 03:40:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Will Deacon <will@kernel.org>, Michael Shavit <mshavit@google.com>
-Subject: [linux-next:master 9356/11707] include/kunit/test.h:444:undefined
- reference to `kunit_kmalloc_array'
-Message-ID: <202405080300.iTZpE1xH-lkp@intel.com>
+To: Perry Yuan <perry.yuan@amd.com>, rafael.j.wysocki@intel.com,
+	Mario.Limonciello@amd.com, viresh.kumar@linaro.org,
+	Ray.Huang@amd.com, gautham.shenoy@amd.com, Borislav.Petkov@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, Alexander.Deucher@amd.com,
+	Xinmei.Huang@amd.com, Xiaojian.Du@amd.com, Li.Meng@amd.com,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/11] cpufreq: amd-pstate: implement heterogeneous core
+ topology for highest performance initialization
+Message-ID: <202405080340.n0nVlmfY-lkp@intel.com>
+References: <731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +67,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   93a39e4766083050ca0ecd6a3548093a3b9eb60c
-commit: 56e1a4cc2588a7cb9664457a62fd7a77e005aa01 [9356/11707] iommu/arm-smmu-v3: Add unit tests for arm_smmu_write_entry
-config: arm64-randconfig-r023-20221023 (https://download.01.org/0day-ci/archive/20240508/202405080300.iTZpE1xH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080300.iTZpE1xH-lkp@intel.com/reproduce)
+Hi Perry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge next-20240507]
+[cannot apply to tip/x86/core linus/master v6.9-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Perry-Yuan/cpufreq-amd-pstate-optimiza-the-initial-frequency-values-verification/20240507-151930
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/731a28ea8dda4ca1db64f673c87770de4646290b.1715065568.git.perry.yuan%40amd.com
+patch subject: [PATCH 09/11] cpufreq: amd-pstate: implement heterogeneous core topology for highest performance initialization
+config: i386-buildonly-randconfig-005-20240507 (https://download.01.org/0day-ci/archive/20240508/202405080340.n0nVlmfY-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080340.n0nVlmfY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405080300.iTZpE1xH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405080340.n0nVlmfY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: in function `kunit_kmalloc':
->> include/kunit/test.h:444:(.text+0x440): undefined reference to `kunit_kmalloc_array'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: in function `arm_smmu_test_writer_record_syncs':
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:77:(.text+0x598): undefined reference to `kunit_unary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_unary_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:77:(.text+0x598): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:77:(.text+0x5a0): undefined reference to `kunit_unary_assert_format'
->> aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:77:(.text+0x5b0): undefined reference to `__kunit_do_failed_assertion'
->> aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:58:(.text+0x5ec): undefined reference to `kunit_binary_ptr_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_binary_ptr_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:58:(.text+0x5ec): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:58:(.text+0x5f4): undefined reference to `kunit_binary_ptr_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:58:(.text+0x604): undefined reference to `__kunit_do_failed_assertion'
->> aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:58:(.text+0x60c): undefined reference to `__kunit_abort'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: in function `arm_smmu_v3_test_cd_expect_transition':
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:322:(.text+0x728): undefined reference to `kunit_mem_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_mem_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:322:(.text+0x728): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:322:(.text+0x734): undefined reference to `kunit_mem_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:322:(.text+0x748): undefined reference to `__kunit_do_failed_assertion'
->> aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:320:(.text+0x850): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_binary_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:320:(.text+0x850): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:320:(.text+0x854): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:320:(.text+0x868): undefined reference to `__kunit_do_failed_assertion'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:321:(.text+0x898): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_binary_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:321:(.text+0x898): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:321:(.text+0x8a0): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:321:(.text+0x8b0): undefined reference to `__kunit_do_failed_assertion'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: in function `arm_smmu_v3_test_ste_expect_transition':
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:144:(.text+0xcd4): undefined reference to `kunit_mem_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_mem_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:144:(.text+0xcd4): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:144:(.text+0xce4): undefined reference to `kunit_mem_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:144:(.text+0xcf8): undefined reference to `__kunit_do_failed_assertion'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:142:(.text+0xdf4): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_binary_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:142:(.text+0xdf4): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:142:(.text+0xdf8): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:142:(.text+0xe08): undefined reference to `__kunit_do_failed_assertion'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:143:(.text+0xe38): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `kunit_binary_assert_format' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:143:(.text+0xe38): dangerous relocation: unsupported relocation
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:143:(.text+0xe40): undefined reference to `kunit_binary_assert_format'
-   aarch64-linux-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c:143:(.text+0xe50): undefined reference to `__kunit_do_failed_assertion'
+   In file included from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:59,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   arch/x86/include/asm/processor.h: In function 'amd_get_this_core_type':
+>> arch/x86/include/asm/processor.h:690:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     690 | static inline int amd_get_this_core_type(void)          { }
+         | ^~~~~~
+--
+   In file included from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:59,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   arch/x86/include/asm/processor.h: In function 'amd_get_this_core_type':
+>> arch/x86/include/asm/processor.h:690:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     690 | static inline int amd_get_this_core_type(void)          { }
+         | ^~~~~~
 
 
-vim +444 include/kunit/test.h
+vim +690 arch/x86/include/asm/processor.h
 
-7122debb4367ee Daniel Latypov  2021-05-03  430  
-7122debb4367ee Daniel Latypov  2021-05-03  431  /**
-7122debb4367ee Daniel Latypov  2021-05-03  432   * kunit_kmalloc() - Like kmalloc() except the allocation is *test managed*.
-7122debb4367ee Daniel Latypov  2021-05-03  433   * @test: The test context object.
-7122debb4367ee Daniel Latypov  2021-05-03  434   * @size: The size in bytes of the desired memory.
-7122debb4367ee Daniel Latypov  2021-05-03  435   * @gfp: flags passed to underlying kmalloc().
-7122debb4367ee Daniel Latypov  2021-05-03  436   *
-7122debb4367ee Daniel Latypov  2021-05-03  437   * See kmalloc() and kunit_kmalloc_array() for more information.
-57e3cded99e9c8 David Gow       2023-05-25  438   *
-57e3cded99e9c8 David Gow       2023-05-25  439   * Note that some internal context data is also allocated with GFP_KERNEL,
-57e3cded99e9c8 David Gow       2023-05-25  440   * regardless of the gfp passed in.
-7122debb4367ee Daniel Latypov  2021-05-03  441   */
-7122debb4367ee Daniel Latypov  2021-05-03  442  static inline void *kunit_kmalloc(struct kunit *test, size_t size, gfp_t gfp)
-7122debb4367ee Daniel Latypov  2021-05-03  443  {
-7122debb4367ee Daniel Latypov  2021-05-03 @444  	return kunit_kmalloc_array(test, 1, size, gfp);
-7122debb4367ee Daniel Latypov  2021-05-03  445  }
-0a756853586ce1 Brendan Higgins 2019-09-23  446  
-
-:::::: The code at line 444 was first introduced by commit
-:::::: 7122debb4367ee5c89237e5d36dcc0007d7ec43c kunit: introduce kunit_kmalloc_array/kunit_kcalloc() helpers
-
-:::::: TO: Daniel Latypov <dlatypov@google.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
+   680	
+   681	#ifdef CONFIG_CPU_SUP_AMD
+   682	extern u32 amd_get_highest_perf(void);
+   683	extern void amd_clear_divider(void);
+   684	extern void amd_check_microcode(void);
+   685	extern int amd_get_this_core_type(void);
+   686	#else
+   687	static inline u32 amd_get_highest_perf(void)		{ return 0; }
+   688	static inline void amd_clear_divider(void)		{ }
+   689	static inline void amd_check_microcode(void)		{ }
+ > 690	static inline int amd_get_this_core_type(void)		{ }
+   691	#endif
+   692	
 
 -- 
 0-DAY CI Kernel Test Service
