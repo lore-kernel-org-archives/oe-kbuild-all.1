@@ -1,223 +1,108 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7428C51C59
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 16:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AE253E28
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 May 2024 16:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715099782; cv=none; b=HSFuWdnghA562IRy80IzJjGEqWGwdd67u5dQWDInN9YHcUiGLXn3FiEvi0KZy2y2OA8YHblIzDuGCOq67GtQJlsah8+BOKv7vi/4Vf8moW+JAolzlIQnx/PShJ24gINYdggMmAB2fvSh8RHBhhRoVO0raN6DAGg5VLXeDGNu3mw=
+	t=1715100280; cv=none; b=IArZPfrvRhosEQ268ioYyUd+7B0IZuCa60+HWXcsW1enn+D3oS2CAu50V/uCl134pHVG0hiezUcBJBQ8eDhYzwF7XHQ/wMaMOOnqjNOLsunbgelg1ZzyKSjpACPqMbc/yD3mb20Vpb5jcxl9znZbvQVmIaFZ/HqnrFeBnR8FYd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715099782; c=relaxed/simple;
-	bh=2Bajx+l3ITU8XWvxfqEXTZnzcts3/3BYXAtY2w1Z04M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cYzb0PJHn8WJ8D/XJH1vi+FyKVOGp4v83f+M8h6VsV7DK1I7cYcFyMTtoRtzGUpDCZ4rwSsURJyA8untHKtPRD+kkogrOCQ9uls0lKXNOlmhkonFBK4HpUFAt5u1mazKNARebNyU1XJpd0vr3QSze/5dwVWsbOD6Ov3o5MYBsew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ju9X0y4N; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715100280; c=relaxed/simple;
+	bh=cIAlWcQJfI0nPAYv9cCBgHsf1yQsizkoprBhV8Km3Tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HHbaoBVnx35sFpAM6IjStqds8B73kGhMePmdc8/nlr4ihFdb/D0N92z0hCgB0xGHBcUmEN5NzDKe4zNrWhiFG/2ncTk7fZCcz4KN3xfv1ljF11CBNzZlGDKm4dVtLm6uF1BL3+Y7LEC4riWbiUGQsAKPYEEGS/gDZp0ScFEX9c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+INO7ma; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ju9X0y4N"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-47ef7e85cf0so701931137.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 May 2024 09:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715099779; x=1715704579; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OIH6aQmwwJHXxsNaL1gpFbq6JK/4rTlX3KH1VdDetm8=;
-        b=Ju9X0y4NgElN7LAvJT+q7BFe0Apbdu988U5iBQentm8vin8j6opTBY5VHAAyQPklXY
-         b7tFzkjHq27cR6tXkC4hpCoyxFNefuwSVEzqUE0WqlvJYvGGmmGuGeRUmG/NeugRfW0a
-         KcVjg+aTKt4OnjRFGu2LIzfhIS+rcFbP6HTlzj1R6N5w5LgILzgJUq08IYaDw2vBs3Fx
-         Wb1Cf8IV9WOzr2vlvOIU9JJs6wgePq+siwi089bDOvOBTDbzr6dtOz3X8dtSHyWWCLw1
-         0SoTxAeFqAtWqhET72acpwybAR2joJah484O4inrOtI05hlDooY0BV/cs6O3Tno/BiAW
-         3jzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715099779; x=1715704579;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OIH6aQmwwJHXxsNaL1gpFbq6JK/4rTlX3KH1VdDetm8=;
-        b=enIk5L8W2yZokmg4SIf98r1PyLgewjsmw6zG0OyXmTGsBEBVtwhB8s6NZPvQ9i/nWz
-         PrnIz3AbzLEx+J2ySiriVpntHDvc/0Be9m6CHJIldNS1A/DZvsgaGFCCANKYD86xuLej
-         DzJep2RpTHsrA9t13c0/6lwNlQCH4Svibych2FLKIU3TYF1Jl0OJZpEvkTxgWTQEBozt
-         KhhsQ1XdlwkoJZihnaH89oP/9s2wNxusM8oWQrKZErSbDGawVhm3V0OK7ML6BmlFsBOm
-         TYoJSuy9z0U12DPRimAIp+87suUUijnecPQrZ3SALo64IjPffuHod6EcxqTt5b7Fv67k
-         T6dA==
-X-Forwarded-Encrypted: i=1; AJvYcCWiOoJnNJPsbdq8808ZuNpmj5zPyN7BpBdZR0PjMvfMYkACb+p/4oxQtEQpabIk7O57BkTbMuiUT7PNoW2K9y985nQzRRXljVK+GfN9OA==
-X-Gm-Message-State: AOJu0YwutsigZ09SLu+SOp5kBBFJ3wayq7VrTdnSguuUiM+nkRAQfGGE
-	gQoLrJdziQkRq+zpSNVkNDKnZCfp1spf+0N+eFjCwqLnlco/QwGhux6zyCZ2LqycKptd+tniJ5Y
-	l2bGFImw/6BSYy1jsudHJzMkm5Uk=
-X-Google-Smtp-Source: AGHT+IFLE7o1q4yIV5QIpQ2zwnryVHkBTr8cvfHOkMi+4EMADqYRYKPCAK7R+jI7/0heAa0+ZJFW6vFupgJDauVUo2c=
-X-Received: by 2002:a67:f2ca:0:b0:47e:bd11:7e5e with SMTP id
- a10-20020a67f2ca000000b0047ebd117e5emr16136515vsn.7.1715099777915; Tue, 07
- May 2024 09:36:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+INO7ma"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715100279; x=1746636279;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cIAlWcQJfI0nPAYv9cCBgHsf1yQsizkoprBhV8Km3Tc=;
+  b=U+INO7maHiEmXUJt1Rfc1EN12CnUx1WQc+lQKlvJapiBdVB1IpzAquib
+   zFp38QIiIgXMgPGYuFrVCjnwscRP5FJS4CF+bK3UMVKpXQRoOLIvNh0ZT
+   1vObQFrvt5tnIgwreHZByha6V0N+myjUzFzcSJ3uc5yI2vx5i3SaEWl1d
+   p3BNxAQa0saLrLEY2ho3IQ0uQxfSQ63BSKAUCT+s54zNtLnvCKRiXShNW
+   pMzi+VPD4erISa3TyWYx+eSudFsdyAuq0T4SnJVOYzVG8oLcCdyVfwqNp
+   hV2XF/kG4X1uNtPZAKs97gz5fQ5J3xmEa4tCXlAzjbAdQXrWAFEEqD8+L
+   w==;
+X-CSE-ConnectionGUID: x089E1y5RY2qdeRD287d+w==
+X-CSE-MsgGUID: Xk80P44ySaqWBLUSxbVu9w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10752188"
+X-IronPort-AV: E=Sophos;i="6.08,142,1712646000"; 
+   d="scan'208";a="10752188"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 09:44:38 -0700
+X-CSE-ConnectionGUID: LFhwasUORBWBO/xHwRhhTQ==
+X-CSE-MsgGUID: l1i8isJfS2aIetH5jkm1dg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,142,1712646000"; 
+   d="scan'208";a="29154839"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 07 May 2024 09:44:35 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s4Nvc-0002Lc-2j;
+	Tue, 07 May 2024 16:44:32 +0000
+Date: Wed, 8 May 2024 00:44:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 6506/6518]
+ drivers/crypto/ccp/hygon/ccp-dev-v5.c:206: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202405080058.0rqclkdl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240506193700.7884-1-apais@linux.microsoft.com> <202405072249.fLkavX40-lkp@intel.com>
-In-Reply-To: <202405072249.fLkavX40-lkp@intel.com>
-From: Allen <allen.lkml@gmail.com>
-Date: Tue, 7 May 2024 09:36:06 -0700
-Message-ID: <CAOMdWSLsVXC8TNifYwXPE4O+saxBeG6Koa=MMH3ZUNutBkDVcQ@mail.gmail.com>
-Subject: Re: [PATCH v4] fs/coredump: Enable dynamic configuration of max file
- note size
-To: kernel test robot <lkp@intel.com>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-fsdevel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	ebiederm@xmission.com, keescook@chromium.org, mcgrof@kernel.org, 
-	j.granados@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on kees/for-next/execve]
-> [also build test ERROR on brauner-vfs/vfs.all linus/master v6.9-rc7 next-20240507]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/fs-coredump-Enable-dynamic-configuration-of-max-file-note-size/20240507-033907
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
-> patch link:    https://lore.kernel.org/r/20240506193700.7884-1-apais%40linux.microsoft.com
-> patch subject: [PATCH v4] fs/coredump: Enable dynamic configuration of max file note size
-> config: loongarch-randconfig-001-20240507 (https://download.01.org/0day-ci/archive/20240507/202405072249.fLkavX40-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405072249.fLkavX40-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405072249.fLkavX40-lkp@intel.com/
->
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   b294718c76ed688d3272e48c431221a8194cd2d3
+commit: 861bd616fbc656a29bb7709ee79f441cf0ed85e4 [6506/6518] ccp: ccp-crypto support sm2 on Hygon generation 4th CPU
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240508/202405080058.0rqclkdl-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405080058.0rqclkdl-lkp@intel.com/reproduce)
 
- Thanks for reporting. The kernel builds fine with
-https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
-for-next/execve.
-The issue is with loongarch-randconfig, which has CONFIG_SYSCTL set to
-"n". It is needed for this patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405080058.0rqclkdl-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/crypto/ccp/hygon/ccp-dev-v5.c:206: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Hygon CCP from 4th generation support both sm2 & ecc,
 
 
-Thanks,
-Allen
+vim +206 drivers/crypto/ccp/hygon/ccp-dev-v5.c
 
-> All errors (new ones prefixed by >>):
->
->    fs/binfmt_elf.c: In function 'fill_files_note':
-> >> fs/binfmt_elf.c:1598:21: error: 'core_file_note_size_min' undeclared (first use in this function)
->     1598 |         if (size >= core_file_note_size_min) {
->          |                     ^~~~~~~~~~~~~~~~~~~~~~~
->    fs/binfmt_elf.c:1598:21: note: each undeclared identifier is reported only once for each function it appears in
->
->
-> vim +/core_file_note_size_min +1598 fs/binfmt_elf.c
->
->   1569
->   1570  /*
->   1571   * Format of NT_FILE note:
->   1572   *
->   1573   * long count     -- how many files are mapped
->   1574   * long page_size -- units for file_ofs
->   1575   * array of [COUNT] elements of
->   1576   *   long start
->   1577   *   long end
->   1578   *   long file_ofs
->   1579   * followed by COUNT filenames in ASCII: "FILE1" NUL "FILE2" NUL...
->   1580   */
->   1581  static int fill_files_note(struct memelfnote *note, struct coredump_params *cprm)
->   1582  {
->   1583          unsigned count, size, names_ofs, remaining, n;
->   1584          user_long_t *data;
->   1585          user_long_t *start_end_ofs;
->   1586          char *name_base, *name_curpos;
->   1587          int i;
->   1588
->   1589          /* *Estimated* file count and total data size needed */
->   1590          count = cprm->vma_count;
->   1591          if (count > UINT_MAX / 64)
->   1592                  return -EINVAL;
->   1593          size = count * 64;
->   1594
->   1595          names_ofs = (2 + 3 * count) * sizeof(data[0]);
->   1596   alloc:
->   1597          /* paranoia check */
-> > 1598          if (size >= core_file_note_size_min) {
->   1599                  pr_warn_once("coredump Note size too large: %u (does kernel.core_file_note_size_min sysctl need adjustment?\n",
->   1600                                size);
->   1601                  return -EINVAL;
->   1602          }
->   1603          size = round_up(size, PAGE_SIZE);
->   1604          /*
->   1605           * "size" can be 0 here legitimately.
->   1606           * Let it ENOMEM and omit NT_FILE section which will be empty anyway.
->   1607           */
->   1608          data = kvmalloc(size, GFP_KERNEL);
->   1609          if (ZERO_OR_NULL_PTR(data))
->   1610                  return -ENOMEM;
->   1611
->   1612          start_end_ofs = data + 2;
->   1613          name_base = name_curpos = ((char *)data) + names_ofs;
->   1614          remaining = size - names_ofs;
->   1615          count = 0;
->   1616          for (i = 0; i < cprm->vma_count; i++) {
->   1617                  struct core_vma_metadata *m = &cprm->vma_meta[i];
->   1618                  struct file *file;
->   1619                  const char *filename;
->   1620
->   1621                  file = m->file;
->   1622                  if (!file)
->   1623                          continue;
->   1624                  filename = file_path(file, name_curpos, remaining);
->   1625                  if (IS_ERR(filename)) {
->   1626                          if (PTR_ERR(filename) == -ENAMETOOLONG) {
->   1627                                  kvfree(data);
->   1628                                  size = size * 5 / 4;
->   1629                                  goto alloc;
->   1630                          }
->   1631                          continue;
->   1632                  }
->   1633
->   1634                  /* file_path() fills at the end, move name down */
->   1635                  /* n = strlen(filename) + 1: */
->   1636                  n = (name_curpos + remaining) - filename;
->   1637                  remaining = filename - name_curpos;
->   1638                  memmove(name_curpos, filename, n);
->   1639                  name_curpos += n;
->   1640
->   1641                  *start_end_ofs++ = m->start;
->   1642                  *start_end_ofs++ = m->end;
->   1643                  *start_end_ofs++ = m->pgoff;
->   1644                  count++;
->   1645          }
->   1646
->   1647          /* Now we know exact count of files, can store it */
->   1648          data[0] = count;
->   1649          data[1] = PAGE_SIZE;
->   1650          /*
->   1651           * Count usually is less than mm->map_count,
->   1652           * we need to move filenames down.
->   1653           */
->   1654          n = cprm->vma_count - count;
->   1655          if (n != 0) {
->   1656                  unsigned shift_bytes = n * 3 * sizeof(data[0]);
->   1657                  memmove(name_base - shift_bytes, name_base,
->   1658                          name_curpos - name_base);
->   1659                  name_curpos -= shift_bytes;
->   1660          }
->   1661
->   1662          size = name_curpos - (char *)data;
->   1663          fill_note(note, "CORE", NT_FILE, size, data);
->   1664          return 0;
->   1665  }
->   1666
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
-
+   204	
+   205	/**
+ > 206	 * Hygon CCP from 4th generation support both sm2 & ecc,
+   207	 * but its input content is different from previous version.
+   208	 * the previous requries only one src buffer which include
+   209	 * hash + key. Now, hash and key should passed separately. To
+   210	 * compatible with previous driver, we parse hash and key
+   211	 * from src buffer which same as previous input
+   212	 */
+   213	#define SM2_ECC_OPERAND_LEN				32
+   214	#define SM2_ECC_KG_SRC_SIZE				32
+   215	#define SM2_ECC_LP_SRC_SIZE				32
+   216	#define SM2_ECC_SIGN_SRC_SIZE			64
+   217	#define SM2_ECC_VERIFY_SRC_SIZE			96
+   218	
 
 -- 
-       - Allen
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
