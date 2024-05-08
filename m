@@ -1,175 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35C912FF99;
-	Wed,  8 May 2024 19:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF24D131728
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 20:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715195571; cv=none; b=uCv3SNaamsyQVxbTRNAI0OHzRrDFl356zFnHqBLQsU94nUV3gtlWcRov8cd76jBarb8ODmqGmtgKIatdBCX6thuXlq1I5j+n6G4N1YhTjc2sAQbu/it+F7hwqq/nQhld9iWXVfuzWNNqackfTptcWlYSAE07lDhBpZrsHDzg2dc=
+	t=1715200707; cv=none; b=aDCeQYooxkQ/XAB0vR+s7Potm4witx7P6sYzyvNcX08i9rvwvLcQtUmo2b8waWohO9k0lzXOKRn8I+91j0z4ptDb11FH/ooQAXezi4P7bs34yNgI4iyYDKowZYQMwbH3YpwjI95xkjoXcqd+pOvbIJT+d+PkLsD4Fsy+Z/Iunvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715195571; c=relaxed/simple;
-	bh=UDZ+y5C+6hi5R+nL3waykWlk6BdAqhdWysBV2RefEBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dATK+qAQxlUjb0gJe8fXeIv3QxzXz+s61j47T/Htd4L7KJMYkPNBfbnqigmcchIYStbxRQEsn1xzCnEvLq/lv9UHEJ57ltbVuCcq96ERvqTSNy3Gtgx9r+jqlgUeqaiLs4PA3hJjCOQbFJlTvxkht0bpYOiVi1QLrSmqdaNbklQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQKodHYQ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715200707; c=relaxed/simple;
+	bh=iELKPKEBdzp99N3dT3F0Gig++k6H1GB9X40m4RmGOXA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gYdE9qB14Qf44qjx91M9s2bf2uClj6qmtTjyhwga2zYdPG604hV/lwrz/WTCfR/molBbANymgbPdGtoQtWm4ZuP3ETKsdOEnzOBklFeZKUkH7yMgiQxBxQCN4Jo4psUq1/Kt+VoEg9kxiJMRgh5rqSJo2h2EvHOxrv0qxNeTeh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBNAqTg4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQKodHYQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715195570; x=1746731570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UDZ+y5C+6hi5R+nL3waykWlk6BdAqhdWysBV2RefEBo=;
-  b=mQKodHYQ7iLPOykywkrG0PKlTPG1wm0ivef1ar4gxj1nkAOKgopOX1QQ
-   k5ojcblv8ymQL9scLAxL23hXlb3miRDV8UGJAhAkriCtem8JYMvPU9Yw2
-   /z2MR+NojFnN2rJMaebpJbrK8+zREcHS2pXdgPy4KwISI0Nb8mIvBD2D7
-   QXaok5dFndZnZb4pfMcpJ5EDdPi3AnXDsMlyVxXg32A7KXRV5SBZt6FXX
-   qS2SDGm8T7aNp4LAZwtN7VrCGvxyw130sKiscYWR6Hq3ImAc5MGYveof1
-   L/OhhKkQwK/J7gLpn4INyjn7YjqWq8eihF7oRgX2bRtq8ILZikOYi8/FQ
-   Q==;
-X-CSE-ConnectionGUID: I/Zzv9RVQaK9c59KSGGTIQ==
-X-CSE-MsgGUID: z8eESwNvQeGnxTmO6wlrHA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="22472883"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="22472883"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 12:12:49 -0700
-X-CSE-ConnectionGUID: Y9xI5MwgSyyR4UMngLRhrw==
-X-CSE-MsgGUID: 9tj+b7tkSDeV37hXSQ8cfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="33502300"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 May 2024 12:12:48 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s4mib-00042A-24;
-	Wed, 08 May 2024 19:12:45 +0000
-Date: Thu, 9 May 2024 03:12:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] erofs: Zstandard compression support
-Message-ID: <202405090343.ZIq0cRfw-lkp@intel.com>
-References: <20240508090346.2992116-1-hsiangkao@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBNAqTg4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62CD3C32782
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 20:38:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715200707;
+	bh=iELKPKEBdzp99N3dT3F0Gig++k6H1GB9X40m4RmGOXA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kBNAqTg4HplcgEYFfj01exaT7HAJ7N+FPWaC/TIuRtChjY8DK2FRDaX93GhxSEBw7
+	 FAqPYf0Z18yxPQAcd9/CTsXCX3Iu9+hhdjy2Bw+6EehEFvSs0k/YeYRowDbHru8Stb
+	 MdErkMNhjlkl+hEmuA9AgEQ8V0nS8H+G5C+FWaD/c1iH9sBWOReEbWP4GrqW7VmnZ5
+	 DNuz5abzNzoJPXy3uXPuJNUpC4KgjvtX4pUNY+0OaQIMsU3ww6uMWEsn9Hn2OibqCt
+	 JFqASvEe7AAt9FyFBGujWXAB5TJF2A/wWAlcHSz/kj3VrEB+8Xnh+7pbYPcfdlq6w+
+	 +X3hN60qFmhfA==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59d5b112ecso1199766b.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 May 2024 13:38:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXKB6zTx0UM3IuN/4vpj8IEayqbTj40/8Xm2R6nxCMIHNwntcOhNWhUruv983xy+k7lnoxK5mnwXAyjuzW7uJWUgLVscakBYEyxKUWztw==
+X-Gm-Message-State: AOJu0YzaRaREttHVREexdTrkO8hUHK6M1UVA8MFSyU1Dk62hioPEplck
+	Pi3WZnmhja2qacmDtm8WgIiMoPTxffoHFEw1Q1tlHuqigHT+K8kTXXI4QePa/oOdf2ZvisB5W4Q
+	sJW06E/lbh40YjUBek5a2kjrkrfg=
+X-Google-Smtp-Source: AGHT+IGl3o8/eHyjVt0T4UwXGfTaWvH2xFalvsf84UytUpmXoRi9teX9R7b2iY+GS6HtUaWKgNUfBGoI1uT+V5ZO1m8=
+X-Received: by 2002:a17:906:df14:b0:a59:bce9:8454 with SMTP id
+ a640c23a62f3a-a59fb94f6d3mr232661766b.1.1715200705917; Wed, 08 May 2024
+ 13:38:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240508090346.2992116-1-hsiangkao@linux.alibaba.com>
+References: <965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang@kernel.org>
+ <202405081456.v2MvcQ0P-lkp@intel.com> <CABBYNZLH7mGdP7AcdHnY8q=3i=Lupk-D2Af4G5X4o1_XdbTfVw@mail.gmail.com>
+In-Reply-To: <CABBYNZLH7mGdP7AcdHnY8q=3i=Lupk-D2Af4G5X4o1_XdbTfVw@mail.gmail.com>
+From: Sean Wang <sean.wang@kernel.org>
+Date: Wed, 8 May 2024 13:38:13 -0700
+X-Gmail-Original-Message-ID: <CAGp9LzrNE9Hi-a9y8oQMXmug44k7VUsmcDiAiXgbFu8bLbtFTg@mail.gmail.com>
+Message-ID: <CAGp9LzrNE9Hi-a9y8oQMXmug44k7VUsmcDiAiXgbFu8bLbtFTg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get the fw name
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, marcel@holtmann.org, johan.hedberg@gmail.com, 
+	oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Sean Wang <sean.wang@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Gao,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On Wed, May 8, 2024 at 7:37=E2=80=AFAM Luiz Augusto von Dentz
+<luiz.dentz@gmail.com> wrote:
+>
+> Hi Sean,
+>
+> On Wed, May 8, 2024 at 3:13=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+> >
+> > Hi,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on bluetooth/master]
+> > [also build test WARNING on bluetooth-next/master linus/master v6.9-rc7=
+ next-20240507]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-kernel=
+-org/Bluetooth-btmtk-apply-the-common-btmtk_fw_get_filename/20240508-032333
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluet=
+ooth.git master
+> > patch link:    https://lore.kernel.org/r/965cd14922aea67e2750ff2c2ecad7=
+73f8ba485a.1715109394.git.sean.wang%40kernel.org
+> > patch subject: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get=
+ the fw name
+> > config: arm64-defconfig (https://download.01.org/0day-ci/archive/202405=
+08/202405081456.v2MvcQ0P-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240508/202405081456.v2MvcQ0P-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202405081456.v2MvcQ0P-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    drivers/bluetooth/btmtk.c: In function 'btmtk_fw_get_filename':
+> > >> drivers/bluetooth/btmtk.c:115:35: warning: 'mediatek/BT_RAM_CODE_MT'=
+ directive output truncated writing 23 bytes into a region of size 8 [-Wfor=
+mat-truncation=3D]
+> >      115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_=
+hdr.bin",
+> >          |                           ~~~~~~~~^~~~~~~~~~~~~~~
+> >    drivers/bluetooth/btmtk.c:115:26: note: directive argument in the ra=
+nge [1, 256]
+> >      115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_=
+hdr.bin",
+> >          |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+> >    drivers/bluetooth/btmtk.c:114:17: note: 'snprintf' output between 41=
+ and 43 bytes into a destination of size 8
+> >      114 |                 snprintf(buf, sizeof(size),
+> >          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >      115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_=
+hdr.bin",
+> >          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+> >      116 |                          dev_id & 0xffff, (fw_ver & 0xff) + =
+1);
+> >          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+> >
+> >
+> > vim +115 drivers/bluetooth/btmtk.c
+> >
+> >    105
+> >    106  void btmtk_fw_get_filename(char *buf, size_t size, u32 dev_id, =
+u32 fw_ver,
+> >    107                             u32 fw_flavor)
+> >    108  {
+> >    109          if (dev_id =3D=3D 0x7925)
+> >    110                  snprintf(buf, size,
+> >    111                           "mediatek/mt%04x/BT_RAM_CODE_MT%04x_1_=
+%x_hdr.bin",
+> >    112                           dev_id & 0xffff, dev_id & 0xffff, (fw_=
+ver & 0xff) + 1);
+> >    113          else if (dev_id =3D=3D 0x7961 && fw_flavor)
+> >    114                  snprintf(buf, sizeof(size),
+> >  > 115                           "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr=
+.bin",
+> >    116                           dev_id & 0xffff, (fw_ver & 0xff) + 1);
+> >    117          else
+> >    118                  snprintf(buf, size,
+> >    119                           "mediatek/BT_RAM_CODE_MT%04x_1_%x_hdr.=
+bin",
+> >    120                           dev_id & 0xffff, (fw_ver & 0xff) + 1);
+> >    121  }
+> >    122  EXPORT_SYMBOL_GPL(btmtk_fw_get_filename);
+> >    123
+>
+> Could you please fix the above?
 
-[auto build test WARNING on xiang-erofs/dev]
-[also build test WARNING on next-20240508]
-[cannot apply to xiang-erofs/dev-test xiang-erofs/fixes linus/master v6.9-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+No problem, I'll take care of it and send it over later.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gao-Xiang/erofs-Zstandard-compression-support/20240508-170754
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev
-patch link:    https://lore.kernel.org/r/20240508090346.2992116-1-hsiangkao%40linux.alibaba.com
-patch subject: [PATCH] erofs: Zstandard compression support
-config: arm64-randconfig-002-20240509 (https://download.01.org/0day-ci/archive/20240509/202405090343.ZIq0cRfw-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405090343.ZIq0cRfw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405090343.ZIq0cRfw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/erofs/decompressor_zstd.c:90:56: warning: variable 'dict_size' is uninitialized when used here [-Wuninitialized]
-                   erofs_err(sb, "unsupported zstd dictionary size %u", dict_size);
-                                                                        ^~~~~~~~~
-   fs/erofs/internal.h:30:39: note: expanded from macro 'erofs_err'
-           _erofs_err(sb, __func__, fmt "\n", ##__VA_ARGS__)
-                                                ^~~~~~~~~~~
-   fs/erofs/decompressor_zstd.c:80:24: note: initialize the variable 'dict_size' to silence this warning
-           unsigned int dict_size, wkspsz;
-                                 ^
-                                  = 0
-   1 warning generated.
-
-
-vim +/dict_size +90 fs/erofs/decompressor_zstd.c
-
-    74	
-    75	int z_erofs_load_zstd_config(struct super_block *sb,
-    76				struct erofs_super_block *dsb, void *data, int size)
-    77	{
-    78		static DEFINE_MUTEX(zstd_resize_mutex);
-    79		struct z_erofs_zstd_cfgs *zstd = data;
-    80		unsigned int dict_size, wkspsz;
-    81		struct z_erofs_zstd *strm, *head = NULL;
-    82		void *wksp;
-    83	
-    84		if (!zstd || size < sizeof(struct z_erofs_zstd_cfgs) || zstd->format) {
-    85			erofs_err(sb, "unsupported zstd format, size=%u", size);
-    86			return -EINVAL;
-    87		}
-    88	
-    89		if (zstd->windowlog > ilog2(Z_EROFS_ZSTD_MAX_DICT_SIZE) - 10) {
-  > 90			erofs_err(sb, "unsupported zstd dictionary size %u", dict_size);
-    91			return -EINVAL;
-    92		}
-    93		dict_size = 1U << (zstd->windowlog + 10);
-    94	
-    95		/* in case 2 z_erofs_load_zstd_config() race to avoid deadlock */
-    96		mutex_lock(&zstd_resize_mutex);
-    97		if (z_erofs_zstd_max_dictsize >= dict_size) {
-    98			mutex_unlock(&zstd_resize_mutex);
-    99			return 0;
-   100		}
-   101	
-   102		/* 1. collect/isolate all streams for the following check */
-   103		while (z_erofs_zstd_avail_strms) {
-   104			struct z_erofs_zstd *n;
-   105	
-   106			for (strm = z_erofs_isolate_strms(true); strm; strm = n) {
-   107				n = strm->next;
-   108				strm->next = head;
-   109				head = strm;
-   110				--z_erofs_zstd_avail_strms;
-   111			}
-   112		}
-   113	
-   114		/* 2. walk each isolated stream and grow max dict_size if needed */
-   115		wkspsz = zstd_dstream_workspace_bound(dict_size);
-   116		for (strm = head; strm; strm = strm->next) {
-   117			wksp = kvmalloc(wkspsz, GFP_KERNEL);
-   118			if (!wksp)
-   119				break;
-   120			kvfree(strm->wksp);
-   121			strm->wksp = wksp;
-   122			strm->wkspsz = wkspsz;
-   123		}
-   124	
-   125		/* 3. push back all to the global list and update max dict_size */
-   126		spin_lock(&z_erofs_zstd_lock);
-   127		DBG_BUGON(z_erofs_zstd_head);
-   128		z_erofs_zstd_head = head;
-   129		spin_unlock(&z_erofs_zstd_lock);
-   130		z_erofs_zstd_avail_strms = z_erofs_zstd_nstrms;
-   131		wake_up_all(&z_erofs_zstd_wq);
-   132		if (!strm)
-   133			z_erofs_zstd_max_dictsize = dict_size;
-   134		mutex_unlock(&zstd_resize_mutex);
-   135		return strm ? -ENOMEM : 0;
-   136	}
-   137	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+                 Sean
+>
+> --
+> Luiz Augusto von Dentz
