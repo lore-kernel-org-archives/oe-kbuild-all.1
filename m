@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EB47BB1B;
-	Wed,  8 May 2024 10:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371B581729;
+	Wed,  8 May 2024 11:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715164291; cv=none; b=F0oW3oOl10lsT8m7ZkqmmCLcYSi+DxPzIOLlFZJgqPMxszhrUzR9L/h53NQ5Fcdnzn3m96eYJDaASJDJMoVsU2GmzTzCHrod0Imuzn9zrHKx3ZQR7YM8iTdJGZHpqnPbBwsRj/npSneTDSjAZhFszahLCaFKW13jPXjIOt0Ks3s=
+	t=1715167411; cv=none; b=BtD8gukvRNBKAses6J2cM2qGWHrnqNKS719hLB0fjg2jNhQqkXI5XlMLbjnorgHwC3M2yzLVP+O+cIoC/qtCRn6OAKqxRQ4bQFO7gwwfYlXPXKCQqMtSNytRCXpfIQp2OtsjgwDaBIyd/Te2vj12uxuhnlqjwcROaUVAi8akSO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715164291; c=relaxed/simple;
-	bh=99x4ehDiM/UptmsMYH4fmYqhiYX5aGpK6IVmIXXtvNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tBthhxQvlAqBpq35/sH/R2GXHEPDVs731uQSbB78dKgjK9RXOMldA43G2PDQScIDMTiPRPeymZeg//zU6iugN0R2/VHMSUdsW1EU9N+HUpzEtUt2pQrW9N3+8KZGV2eb6Xlx9JgEpUOdvU7SnTNP9lbovmmRnHtOkHF+b7cduNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZU9FTS6; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1715167411; c=relaxed/simple;
+	bh=Cc81Sm9+kFaTqiurwOpfbIBmuCu+bUVjuSjxcgMXyO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJRL6FckLnXceV3U3/k2UaAVawKL/mCvamw+uRRnv5y5y3ASciwTuMbiTfHlPQRbumoyQXWUdvHm7HWu4mV/hEDp2xo7hONi764nLn42R++qv6k2uevHhKezWKLPjxmsqGf1YChMjW4KcGSNFReKNNNZPaRcjKLxapW7pUfpWOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSSzMdKe; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZU9FTS6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSSzMdKe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715164290; x=1746700290;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=99x4ehDiM/UptmsMYH4fmYqhiYX5aGpK6IVmIXXtvNc=;
-  b=HZU9FTS6ztF5g0B3EoP8cHQmYQNtza8roLLxpEbKH0Jofl9QEEm428Ub
-   IF7p3AhZuebFKA2Spd8leOGxPfD3eCQMkNhN4ZvEAyUbX04E0jTQ5RzQr
-   FB72YpOYhGmJo/IB96czc8SPMiP1usM1K0mgvwLkl+zREfhRDrKssUZ5i
-   U7106wapXkeeoZPp8KgiDzZcZNsXV8EkNlEjCz6wZGtaQE8OVFqQM5BQx
-   4XX9QXdFW1d+/shW7Hso71llC6Bv5x8FQ13MX0/JTa93WeNObQv9bZD2i
-   tTTpt37COorwan/5awtenm1Cze3GuWypk8qQQs+1k48AzpNZMaaEWj0kb
-   Q==;
-X-CSE-ConnectionGUID: CURItEatQbWfj8WOnFxylw==
-X-CSE-MsgGUID: sKfmtEMKQ8m0CJiMnpqJfA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="28490840"
+  t=1715167410; x=1746703410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Cc81Sm9+kFaTqiurwOpfbIBmuCu+bUVjuSjxcgMXyO4=;
+  b=JSSzMdKebr4EmKplin4OpmBXJnvnVQ8RkQDxdPdzgwf+Cz22OC4UUDAt
+   qSHGWb5HrrLEk6Ph389I0h9kNbwfZUJbERgo/Xm6oyhdndoYsmJi+ofHO
+   AKDN2QyttHqvSD5OYqd/8wGtk/ARDlpKm/0XkqCNrzoXcP0m4f+BbaJT6
+   LJpxqwnxmlUKFbl+aJm+UBly/tWppO2f7TAIXRVsoZvscoe5DMP4Z2XBL
+   VH/2IZ6wm7Fk3gdwTAooz0Oba8hEMaz4uz44KEPP4ziu4eMoR/m+7H/Yu
+   NRnFHMYaAsBnszqRnqdB5D9+6pNZsri/PuvUQRcJC7WtnzJF87KaMXh1F
+   g==;
+X-CSE-ConnectionGUID: MADdi21XSSislkNdkfXefg==
+X-CSE-MsgGUID: YaGSZxfsT4+z7Ogw3IJ1ug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22412248"
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="28490840"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 03:31:25 -0700
-X-CSE-ConnectionGUID: f5RUhJmLTvuvNf0WbMz7pw==
-X-CSE-MsgGUID: xxTq3UzmQ1GIsxk5tIjOWA==
+   d="scan'208";a="22412248"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 04:23:30 -0700
+X-CSE-ConnectionGUID: HQZM8k96QZOhQgZVyNEMJg==
+X-CSE-MsgGUID: dcpymqCtT9uJPwoz8me6EA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="28901443"
+   d="scan'208";a="59714775"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 May 2024 03:31:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 May 2024 04:23:26 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4eZz-0003Hq-1i;
-	Wed, 08 May 2024 10:31:19 +0000
-Date: Wed, 8 May 2024 18:30:25 +0800
+	id 1s4fOO-0003LE-0i;
+	Wed, 08 May 2024 11:23:24 +0000
+Date: Wed, 8 May 2024 19:22:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Allen Pais <apais@linux.microsoft.com>
+To: sean.wang@kernel.org, marcel@holtmann.org, johan.hedberg@gmail.com,
+	luiz.dentz@gmail.com
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kees Cook <keescook@chromium.org>,
-	Vijay Nag <nagvijay@microsoft.com>
-Subject: [linux-next:master 11772/12060] fs/coredump.c:67:27: warning: unused
- variable 'core_file_note_size_min'
-Message-ID: <202405081838.tuETPvPf-lkp@intel.com>
+	linux-bluetooth@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>
+Subject: Re: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get the fw
+ name
+Message-ID: <202405081828.e6IMNKPn-lkp@intel.com>
+References: <965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +66,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e7b4ef8fffaca247809337bb78daceb406659f2d
-commit: 13513eafc3ea08cdb70aebe56a7e43083302a809 [11772/12060] fs/coredump: Enable dynamic configuration of max file note size
-config: i386-buildonly-randconfig-005-20240508 (https://download.01.org/0day-ci/archive/20240508/202405081838.tuETPvPf-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081838.tuETPvPf-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v6.9-rc7 next-20240508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-kernel-org/Bluetooth-btmtk-apply-the-common-btmtk_fw_get_filename/20240508-032333
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang%40kernel.org
+patch subject: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get the fw name
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240508/202405081828.e6IMNKPn-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 0ab4458df0688955620b72cc2c72a32dffad3615)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081828.e6IMNKPn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405081838.tuETPvPf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405081828.e6IMNKPn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/coredump.c:67:27: warning: unused variable 'core_file_note_size_min' [-Wunused-const-variable]
-      67 | static const unsigned int core_file_note_size_min = CORE_FILE_NOTE_SIZE_DEFAULT;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/coredump.c:68:27: warning: unused variable 'core_file_note_size_max' [-Wunused-const-variable]
-      68 | static const unsigned int core_file_note_size_max = CORE_FILE_NOTE_SIZE_MAX;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+   In file included from drivers/bluetooth/btmtk.c:8:
+   In file included from include/net/bluetooth/bluetooth.h:30:
+   In file included from include/net/sock.h:38:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/bluetooth/btmtk.c:8:
+   In file included from include/net/bluetooth/bluetooth.h:30:
+   In file included from include/net/sock.h:38:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/bluetooth/btmtk.c:8:
+   In file included from include/net/bluetooth/bluetooth.h:30:
+   In file included from include/net/sock.h:38:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/bluetooth/btmtk.c:8:
+   In file included from include/net/bluetooth/bluetooth.h:30:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/bluetooth/btmtk.c:114:3: warning: 'snprintf' will always be truncated; specified size is 4, but format string expands to at least 41 [-Wformat-truncation]
+     114 |                 snprintf(buf, sizeof(size),
+         |                 ^
+   8 warnings generated.
 
 
-vim +/core_file_note_size_min +67 fs/coredump.c
+vim +/snprintf +114 drivers/bluetooth/btmtk.c
 
-    62	
-    63	static int core_uses_pid;
-    64	static unsigned int core_pipe_limit;
-    65	static char core_pattern[CORENAME_MAX_SIZE] = "core";
-    66	static int core_name_size = CORENAME_MAX_SIZE;
-  > 67	static const unsigned int core_file_note_size_min = CORE_FILE_NOTE_SIZE_DEFAULT;
-    68	static const unsigned int core_file_note_size_max = CORE_FILE_NOTE_SIZE_MAX;
-    69	unsigned int core_file_note_size_limit = CORE_FILE_NOTE_SIZE_DEFAULT;
-    70	
+   105	
+   106	void btmtk_fw_get_filename(char *buf, size_t size, u32 dev_id, u32 fw_ver,
+   107				   u32 fw_flavor)
+   108	{
+   109		if (dev_id == 0x7925)
+   110			snprintf(buf, size,
+   111				 "mediatek/mt%04x/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
+   112				 dev_id & 0xffff, dev_id & 0xffff, (fw_ver & 0xff) + 1);
+   113		else if (dev_id == 0x7961 && fw_flavor)
+ > 114			snprintf(buf, sizeof(size),
+   115				 "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr.bin",
+   116				 dev_id & 0xffff, (fw_ver & 0xff) + 1);
+   117		else
+   118			snprintf(buf, size,
+   119				 "mediatek/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
+   120				 dev_id & 0xffff, (fw_ver & 0xff) + 1);
+   121	}
+   122	EXPORT_SYMBOL_GPL(btmtk_fw_get_filename);
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
