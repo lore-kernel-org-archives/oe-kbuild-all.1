@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FA56A33F;
-	Wed,  8 May 2024 13:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E4254FA3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 13:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715173774; cv=none; b=h1ZS/YsIInOvTSs7U7hNapLtU3wYhjZbrAfsaJ1JUxypr4XII9xPsTXtxZTSmGS73JNSCk6chzFCSd1bmQMVZH+XkuKxp2Yyqt2cWGVbDtN07uGQVfuIALh+Xk9jeeUMsI2MdncDTDq2OzTX39Tr40iB7vbf3vsr4cG13jz9rHM=
+	t=1715174434; cv=none; b=SD8ChuKmbWysp95UWFH12+NL7l14qwfcg1M48jTWbpt6P7to90ljIyLSqbEL4M3BXoh6rjXyzOmIwskgbdOWxqlouLgA9Eg4PcIg4c9OOCFyg2ODoR+QGN/o7o/2dP8Na3IgYoBC6UuJ5JzOhHUphaYC2x6QTcSgj7mZG4UdgGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715173774; c=relaxed/simple;
-	bh=7Srr5aldngBkhL3D0GTzy3jmTKIqCFssJbQWYhN5LKo=;
+	s=arc-20240116; t=1715174434; c=relaxed/simple;
+	bh=fAXVGILNG/47zIsMCPqg7mpxvnGj371c1vvDoSfpDSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=faPCEhnqovEoUfr45poGQ/R1k/SLbmllx692fVVLkNvQNrRxJIDleSbkHDtvb1+BdpyFsFvlvhPSMMotKjUQBnrwIg+9efHkrW3GVgyToKS4yWuaNBXu+BFBKx1ByOO3OegHCcJ8TuCBfCnRhgcA3/H9PwYOt/D3cB2W3Tk5cDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhQvmMov; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Cq+SVuZqrnH5pYMgAbtR7pZxQQkRO8MYnp/0MEa4NjaH53gcvL1YVTdTNUJIhXnht/FMOHHw//QO39D9qor/lW3fwiIHVZB6KZuqEILxusNeX8QW9lajxyev5FLLjA+yosfEuIPYxPYS1opxbXbNajc1ba1qcxHyW4LA4D4I7EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4keX/8l; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhQvmMov"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4keX/8l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715173772; x=1746709772;
+  t=1715174433; x=1746710433;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Srr5aldngBkhL3D0GTzy3jmTKIqCFssJbQWYhN5LKo=;
-  b=DhQvmMov8NS4GKKkbtW/R/aP73gXs0vzGV8fDQLGivADxuG9JJD+eKO0
-   RUypPJn9/5SjheHyPBi54PdDlR27858W1/w/HF96LKxWKaWraNS6x1KtW
-   4J/njySL9JlmZHvtBxhznt8jn6sSQ6NDMdaGOBQ5Zg0FDbWw/6lJKinSH
-   cvrYJvUyG0kW38sxjT8bV0RTegY2TGwBIjpz3BcalOdxwP3u+uwWrzuHA
-   8qMs8H0UFJZ8l95mX1R+7lSHXMiED4XR3U/5PxLPnNqnWN1bW5S4Ap/R6
-   ddZlGclHAjjbb0HPZ3j1lyYP4wFXKPNbPTFaubt507+3ZrQlOCESvV7L8
-   w==;
-X-CSE-ConnectionGUID: eVhuJtkTT+uMIDlJzfzgGw==
-X-CSE-MsgGUID: RUXkO25cSWerBBMF6TlQUg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="21702157"
+  bh=fAXVGILNG/47zIsMCPqg7mpxvnGj371c1vvDoSfpDSA=;
+  b=g4keX/8l9oJJEadT1Go9FX6k87VDstDjC30/G2GgN7N0ZSaqH6vmJo6j
+   AarN3lhuSk6vi0tRa9FQVD4Xjb/uHQDKuCrR3RC+KQ0Uu/sXPFzZhlUkJ
+   Q3dYjGSoFtiput9RrIX9Zv8f3WDf5Jd4LYX2hRLJjfA32vp4pt8CcYMG7
+   fvPXsLiNGpL6VGlbupyYdV1YKUoN4U++K/S9e5hqyxeSH4sDctf1rPlTH
+   rpMVqIgphTpPSs9uSPve+D2T0nT/NytqwwcVVCt6ik7+W/Mzz1eAKVKBR
+   8Zr7MXem0jMl0xZhLfj1MTsyYZ4TfCD8UMLnopsSAsYohHYGKdXRxPfcJ
+   A==;
+X-CSE-ConnectionGUID: S1JgY1NRRkG8fjyCiu5FMg==
+X-CSE-MsgGUID: tDTwoBM+QRWCrAzp9HiMSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="14839192"
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="21702157"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:09:32 -0700
-X-CSE-ConnectionGUID: lGcVO2vYSJCzQnG+elj/vg==
-X-CSE-MsgGUID: RRh0bGaqRlaf9DInaAZHLw==
+   d="scan'208";a="14839192"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:20:32 -0700
+X-CSE-ConnectionGUID: uVS4+sXkQ0WlaUPDuUwjyA==
+X-CSE-MsgGUID: ZtvKv/nfQEi7VslF8Pc/mA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="28815756"
+   d="scan'208";a="66315104"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 May 2024 06:09:30 -0700
+  by orviesa001.jf.intel.com with ESMTP; 08 May 2024 06:20:30 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4h32-0003Qw-0u;
-	Wed, 08 May 2024 13:09:28 +0000
-Date: Wed, 8 May 2024 21:09:27 +0800
+	id 1s4hDg-0003R7-1W;
+	Wed, 08 May 2024 13:20:28 +0000
+Date: Wed, 8 May 2024 21:20:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:execmem/x86-rox/rfc-v2 22/26] mm/execmem.c:54:24: error: use
- of undeclared identifier 'PMD_SIZE'
-Message-ID: <202405082149.P22IAtVv-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 12/12]
+ kernel/sched/rt.c:982:50: error: 'struct rq' has no member named 'cpu'
+Message-ID: <202405082117.kaRrlF8q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,303 +62,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/x86-rox/rfc-v2
-head:   4558f82d6dd794c972d26cbbd6b2f9d5a18dc472
-commit: 4955fdf4d8459ab94ae656dcb23f94c375388f21 [22/26] execmem: add support for cache of large ROX pages
-config: arm-randconfig-002-20240508 (https://download.01.org/0day-ci/archive/20240508/202405082149.P22IAtVv-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 0ab4458df0688955620b72cc2c72a32dffad3615)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405082149.P22IAtVv-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   60159db699f14e547ce5ede2a7bad9b99e24cd3f
+commit: 60159db699f14e547ce5ede2a7bad9b99e24cd3f [12/12] CHROMIUM: x86: rt: Avoid throttling over host suspend.
+config: i386-buildonly-randconfig-004-20240508 (https://download.01.org/0day-ci/archive/20240508/202405082117.kaRrlF8q-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405082117.kaRrlF8q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405082149.P22IAtVv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405082117.kaRrlF8q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/execmem.c:9:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> mm/execmem.c:54:24: error: use of undeclared identifier 'PMD_SIZE'
-      54 |                 if (IS_ALIGNED(size, PMD_SIZE) && IS_ALIGNED(mas.index, PMD_SIZE)) {
-         |                                      ^
-   mm/execmem.c:54:59: error: use of undeclared identifier 'PMD_SIZE'
-      54 |                 if (IS_ALIGNED(size, PMD_SIZE) && IS_ALIGNED(mas.index, PMD_SIZE)) {
-         |                                                                         ^
-   mm/execmem.c:88:11: error: use of undeclared identifier 'PMD_SIZE'
-      88 |                 align = PMD_SIZE;
-         |                         ^
-   mm/execmem.c:228:30: error: use of undeclared identifier 'PMD_SIZE'
-     228 |         alloc_size = round_up(size, PMD_SIZE);
-         |                                     ^
-   mm/execmem.c:244:2: error: call to undeclared function 'flush_tlb_kernel_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     244 |         flush_tlb_kernel_range(start, end);
-         |         ^
->> mm/execmem.c:249:12: error: use of undeclared identifier 'PMD_SHIFT'
-     249 |                                        PMD_SHIFT);
-         |                                        ^
-   1 warning and 6 errors generated.
+   kernel/sched/rt.c:675:6: warning: no previous prototype for 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
+     675 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:17,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:6,
+                    from include/linux/sched.h:12,
+                    from kernel/sched/sched.h:5,
+                    from kernel/sched/rt.c:6:
+   kernel/sched/rt.c: In function 'sched_rt_runtime_exceeded':
+>> kernel/sched/rt.c:982:50: error: 'struct rq' has no member named 'cpu'
+     982 |                     "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
+         |                                                  ^~
+   include/linux/printk.h:460:40: note: in definition of macro 'printk_deferred_once'
+     460 |                 printk_deferred(fmt, ##__VA_ARGS__);            \
+         |                                        ^~~~~~~~~~~
 
 
-vim +/PMD_SIZE +54 mm/execmem.c
+vim +982 kernel/sched/rt.c
 
-   > 9	#include <linux/mm.h>
-    10	#include <linux/mutex.h>
-    11	#include <linux/vmalloc.h>
-    12	#include <linux/execmem.h>
-    13	#include <linux/maple_tree.h>
-    14	#include <linux/moduleloader.h>
-    15	#include <linux/text-patching.h>
-    16	
-    17	#include <asm/tlbflush.h>
-    18	
-    19	#include "internal.h"
-    20	
-    21	static struct execmem_info *execmem_info __ro_after_init;
-    22	static struct execmem_info default_execmem_info __ro_after_init;
-    23	
-    24	struct execmem_cache {
-    25		struct mutex mutex;
-    26		struct maple_tree busy_areas;
-    27		struct maple_tree free_areas;
-    28	};
-    29	
-    30	static struct execmem_cache execmem_cache = {
-    31		.mutex = __MUTEX_INITIALIZER(execmem_cache.mutex),
-    32		.busy_areas = MTREE_INIT_EXT(busy_areas, MT_FLAGS_LOCK_EXTERN,
-    33					     execmem_cache.mutex),
-    34		.free_areas = MTREE_INIT_EXT(free_areas, MT_FLAGS_LOCK_EXTERN,
-    35					     execmem_cache.mutex),
-    36	};
-    37	
-    38	static void execmem_cache_clean(struct work_struct *work)
-    39	{
-    40		struct maple_tree *free_areas = &execmem_cache.free_areas;
-    41		struct mutex *mutex = &execmem_cache.mutex;
-    42		MA_STATE(mas, free_areas, 0, ULONG_MAX);
-    43		void *area;
-    44	
-    45		mutex_lock(mutex);
-    46		mas_for_each(&mas, area, ULONG_MAX) {
-    47			size_t size;
-    48	
-    49			if (!xa_is_value(area))
-    50				continue;
-    51	
-    52			size = xa_to_value(area);
-    53	
-  > 54			if (IS_ALIGNED(size, PMD_SIZE) && IS_ALIGNED(mas.index, PMD_SIZE)) {
-    55				void *ptr = (void *)mas.index;
-    56	
-    57				mas_erase(&mas);
-    58				vfree(ptr);
-    59			}
-    60		}
-    61		mutex_unlock(mutex);
-    62	}
-    63	
-    64	static DECLARE_WORK(execmem_cache_clean_work, execmem_cache_clean);
-    65	
-    66	static void execmem_fill_trapping_insns(void *ptr, size_t size, bool writable)
-    67	{
-    68		if (execmem_info->fill_trapping_insns)
-    69			execmem_info->fill_trapping_insns(ptr, size, writable);
-    70		else
-    71			memset(ptr, 0, size);
-    72	}
-    73	
-    74	static void *execmem_vmalloc(struct execmem_range *range, size_t size,
-    75				     pgprot_t pgprot, unsigned long vm_flags)
-    76	{
-    77		bool kasan = range->flags & EXECMEM_KASAN_SHADOW;
-    78		gfp_t gfp_flags = GFP_KERNEL | __GFP_NOWARN;
-    79		unsigned int align = range->alignment;
-    80		unsigned long start = range->start;
-    81		unsigned long end = range->end;
-    82		void *p;
-    83	
-    84		if (kasan)
-    85			vm_flags |= VM_DEFER_KMEMLEAK;
-    86	
-    87		if (vm_flags & VM_ALLOW_HUGE_VMAP)
-  > 88			align = PMD_SIZE;
-    89	
-    90		p = __vmalloc_node_range(size, align, start, end, gfp_flags, pgprot,
-    91					 vm_flags, NUMA_NO_NODE,
-    92					 __builtin_return_address(0));
-    93		if (!p && range->fallback_start) {
-    94			start = range->fallback_start;
-    95			end = range->fallback_end;
-    96			p = __vmalloc_node_range(size, align, start, end, gfp_flags,
-    97						 pgprot, vm_flags, NUMA_NO_NODE,
-    98						 __builtin_return_address(0));
-    99		}
-   100	
-   101		if (!p) {
-   102			pr_warn_ratelimited("execmem: unable to allocate memory\n");
-   103			return NULL;
-   104		}
-   105	
-   106		if (kasan && (kasan_alloc_module_shadow(p, size, GFP_KERNEL) < 0)) {
-   107			vfree(p);
-   108			return NULL;
-   109		}
-   110	
-   111		return p;
-   112	}
-   113	
-   114	static int execmem_cache_add(void *ptr, size_t size)
-   115	{
-   116		struct maple_tree *free_areas = &execmem_cache.free_areas;
-   117		struct mutex *mutex = &execmem_cache.mutex;
-   118		unsigned long addr = (unsigned long)ptr;
-   119		MA_STATE(mas, free_areas, addr - 1, addr + 1);
-   120		unsigned long lower, lower_size = 0;
-   121		unsigned long upper, upper_size = 0;
-   122		unsigned long area_size;
-   123		void *area = NULL;
-   124		int err;
-   125	
-   126		lower = addr;
-   127		upper = addr + size - 1;
-   128	
-   129		mutex_lock(mutex);
-   130		area = mas_walk(&mas);
-   131		if (area && xa_is_value(area) && mas.last == addr - 1) {
-   132			lower = mas.index;
-   133			lower_size = xa_to_value(area);
-   134		}
-   135	
-   136		area = mas_next(&mas, ULONG_MAX);
-   137		if (area && xa_is_value(area) && mas.index == addr + size) {
-   138			upper = mas.last;
-   139			upper_size = xa_to_value(area);
-   140		}
-   141	
-   142		mas_set_range(&mas, lower, upper);
-   143		area_size = lower_size + upper_size + size;
-   144		err = mas_store_gfp(&mas, xa_mk_value(area_size), GFP_KERNEL);
-   145		mutex_unlock(mutex);
-   146		if (err)
-   147			return -ENOMEM;
-   148	
-   149		return 0;
-   150	}
-   151	
-   152	static bool within_range(struct execmem_range *range, struct ma_state *mas,
-   153				 size_t size)
-   154	{
-   155		unsigned long addr = mas->index;
-   156	
-   157		if (addr >= range->start && addr + size < range->end)
-   158			return true;
-   159	
-   160		if (range->fallback_start &&
-   161		    addr >= range->fallback_start && addr + size < range->fallback_end)
-   162			return true;
-   163	
-   164		return false;
-   165	}
-   166	
-   167	static void *__execmem_cache_alloc(struct execmem_range *range, size_t size)
-   168	{
-   169		struct maple_tree *free_areas = &execmem_cache.free_areas;
-   170		struct maple_tree *busy_areas = &execmem_cache.busy_areas;
-   171		MA_STATE(mas_free, free_areas, 0, ULONG_MAX);
-   172		MA_STATE(mas_busy, busy_areas, 0, ULONG_MAX);
-   173		struct mutex *mutex = &execmem_cache.mutex;
-   174		unsigned long addr, last, area_size = 0;
-   175		void *area, *ptr = NULL;
-   176		int err;
-   177	
-   178		mutex_lock(mutex);
-   179		mas_for_each(&mas_free, area, ULONG_MAX) {
-   180			area_size = xa_to_value(area);
-   181	
-   182			if (area_size >= size && within_range(range, &mas_free, size))
-   183				break;
-   184		}
-   185	
-   186		if (area_size < size)
-   187			goto out_unlock;
-   188	
-   189		addr = mas_free.index;
-   190		last = mas_free.last;
-   191	
-   192		/* insert allocated size to busy_areas at range [addr, addr + size) */
-   193		mas_set_range(&mas_busy, addr, addr + size - 1);
-   194		err = mas_store_gfp(&mas_busy, xa_mk_value(size), GFP_KERNEL);
-   195		if (err)
-   196			goto out_unlock;
-   197	
-   198		mas_erase(&mas_free);
-   199		if (area_size > size) {
-   200			/*
-   201			 * re-insert remaining free size to free_areas at range
-   202			 * [addr + size, last]
-   203			 */
-   204			mas_set_range(&mas_free, addr + size, last);
-   205			size = area_size - size;
-   206			err = mas_store_gfp(&mas_free, xa_mk_value(size), GFP_KERNEL);
-   207			if (err) {
-   208				mas_erase(&mas_busy);
-   209				goto out_unlock;
-   210			}
-   211		}
-   212		ptr = (void *)addr;
-   213	
-   214	out_unlock:
-   215		mutex_unlock(mutex);
-   216		return ptr;
-   217	}
-   218	
-   219	static int execmem_cache_populate(struct execmem_range *range, size_t size)
-   220	{
-   221		unsigned long vm_flags = VM_FLUSH_RESET_PERMS | VM_ALLOW_HUGE_VMAP;
-   222		unsigned long start, end;
-   223		struct vm_struct *vm;
-   224		size_t alloc_size;
-   225		int err = -ENOMEM;
-   226		void *p;
-   227	
-   228		alloc_size = round_up(size, PMD_SIZE);
-   229		p = execmem_vmalloc(range, alloc_size, PAGE_KERNEL, vm_flags);
-   230		if (!p)
-   231			return err;
-   232	
-   233		vm = find_vm_area(p);
-   234		if (!vm)
-   235			goto err_free_mem;
-   236	
-   237		/* fill memory with instructions that will trap */
-   238		execmem_fill_trapping_insns(p, alloc_size, /* writable = */ true);
-   239	
-   240		start = (unsigned long)p;
-   241		end = start + alloc_size;
-   242	
-   243		vunmap_range_noflush(start, end);
-   244		flush_tlb_kernel_range(start, end);
-   245	
-   246		/* FIXME: handle direct map alias */
-   247	
-   248		err = vmap_pages_range_noflush(start, end, range->pgprot, vm->pages,
- > 249					       PMD_SHIFT);
-   250		if (err)
-   251			goto err_free_mem;
-   252	
-   253		err = execmem_cache_add(p, alloc_size);
-   254		if (err)
-   255			goto err_free_mem;
-   256	
-   257		return 0;
-   258	
-   259	err_free_mem:
-   260		vfree(p);
-   261		return err;
-   262	}
-   263	
+6f505b16425a51 kernel/sched_rt.c Peter Zijlstra       2008-01-25   955  
+9f0c1e560c4332 kernel/sched_rt.c Peter Zijlstra       2008-02-13   956  static int sched_rt_runtime_exceeded(struct rt_rq *rt_rq)
+6f505b16425a51 kernel/sched_rt.c Peter Zijlstra       2008-01-25   957  {
+9f0c1e560c4332 kernel/sched_rt.c Peter Zijlstra       2008-02-13   958  	u64 runtime = sched_rt_runtime(rt_rq);
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25   959  
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25   960  	if (rt_rq->rt_throttled)
+23b0fdfc9299b1 kernel/sched_rt.c Peter Zijlstra       2008-02-13   961  		return rt_rq_throttled(rt_rq);
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25   962  
+5b680fd61388ab kernel/sched/rt.c Shan Hai             2011-11-29   963  	if (runtime >= sched_rt_period(rt_rq))
+ac086bc22997a2 kernel/sched_rt.c Peter Zijlstra       2008-04-19   964  		return 0;
+ac086bc22997a2 kernel/sched_rt.c Peter Zijlstra       2008-04-19   965  
+7def2be1dc6799 kernel/sched_rt.c Peter Zijlstra       2008-06-05   966  	balance_runtime(rt_rq);
+ac086bc22997a2 kernel/sched_rt.c Peter Zijlstra       2008-04-19   967  	runtime = sched_rt_runtime(rt_rq);
+7def2be1dc6799 kernel/sched_rt.c Peter Zijlstra       2008-06-05   968  	if (runtime == RUNTIME_INF)
+7def2be1dc6799 kernel/sched_rt.c Peter Zijlstra       2008-06-05   969  		return 0;
+ac086bc22997a2 kernel/sched_rt.c Peter Zijlstra       2008-04-19   970  
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   971  	/*
+60159db699f14e kernel/sched/rt.c Suleiman Souhlal     2024-05-07   972  	 * XXX Temporary workaround for b/307775867 and b/336912980.
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   973  	 * We think we ran for this long because the host suspended while we
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   974  	 * were running, so just pretend we didn't run instead of throttling
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   975  	 * for a long time.
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   976  	 * The "5" was chosen so that it would be highly unlikely for this to
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   977  	 * happen in normal operation, while being small enough to be able to
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   978  	 * mitigate issues for shorter suspends.
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   979  	 */
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   980  	if (unlikely(runtime > 0 && rt_rq->rt_time >= 5 * runtime)) {
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   981  		printk_deferred_once("suspected host suspend. cpu %d rt_time "
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16  @982  		    "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   983  		rt_rq->rt_time = 0;
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   984  	}
+4f653d6975381f kernel/sched/rt.c Suleiman Souhlal     2024-03-16   985  
+9f0c1e560c4332 kernel/sched_rt.c Peter Zijlstra       2008-02-13   986  	if (rt_rq->rt_time > runtime) {
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   987  		struct rt_bandwidth *rt_b = sched_rt_bandwidth(rt_rq);
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   988  
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   989  		/*
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   990  		 * Don't actually throttle groups that have no runtime assigned
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   991  		 * but accrue some time due to boosting.
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   992  		 */
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18   993  		if (likely(rt_b->rt_runtime)) {
+6f505b16425a51 kernel/sched_rt.c Peter Zijlstra       2008-01-25   994  			rt_rq->rt_throttled = 1;
+c224815dac9c73 kernel/sched/rt.c John Stultz          2014-06-04   995  			printk_deferred_once("sched: RT throttling activated\n");
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   996  
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   997  			trace_android_vh_dump_throttled_rt_tasks(
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   998  				raw_smp_processor_id(),
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   999  				rq_clock(rq_of_rt_rq(rt_rq)),
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02  1000  				sched_rt_period(rt_rq),
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02  1001  				runtime,
+bf3d991a7daad2 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02  1002  				hrtimer_get_expires_ns(&rt_b->rt_period_timer));
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1003  		} else {
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1004  			/*
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1005  			 * In case we did anyway, make it go away,
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1006  			 * replenishment is a joke, since it will replenish us
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1007  			 * with exactly 0 ns.
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1008  			 */
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1009  			rt_rq->rt_time = 0;
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1010  		}
+7abc63b1bd412f kernel/sched/rt.c Peter Zijlstra       2011-10-18  1011  
+23b0fdfc9299b1 kernel/sched_rt.c Peter Zijlstra       2008-02-13  1012  		if (rt_rq_throttled(rt_rq)) {
+9f0c1e560c4332 kernel/sched_rt.c Peter Zijlstra       2008-02-13  1013  			sched_rt_rq_dequeue(rt_rq);
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1014  			return 1;
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1015  		}
+23b0fdfc9299b1 kernel/sched_rt.c Peter Zijlstra       2008-02-13  1016  	}
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1017  
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1018  	return 0;
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1019  }
+fa85ae2418e684 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1020  
+
+:::::: The code at line 982 was first introduced by commit
+:::::: 4f653d6975381f93075754c0d2b1ec8bc37b0df8 CHROMIUM: arm64: rt: Avoid throttling over host suspend.
+
+:::::: TO: Suleiman Souhlal <suleiman@google.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
