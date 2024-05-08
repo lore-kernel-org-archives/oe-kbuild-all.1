@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4809476;
-	Wed,  8 May 2024 08:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEC0535D5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 08:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715158699; cv=none; b=oO/4/1XuRz068Oj7fxScb9K+V1p3AtIYn2XANbkOi4HLKI0zsDDu6y50n89Fzg0bfjNEDe+M/27HOV/YzOGTRsgF5lG8fKRmoLhA/mPybZN3okUxN51qfYERES7Xvjt7ZHqe9ddT9D55YVimRYR/nJVhyQpsWULg5XbxamuqMR4=
+	t=1715158700; cv=none; b=fd+ZhUID83tJoKJwWdLIuHWq9Zwqtv+e+RP+9RaH/JXiddcy37sh3VyXvStulP/HlpaFbth2k1y/fcA2aVtcvEpYysuxq+snnHDaBAG/KaJ6sTM1am9aHKx4nrfzdM536GZ9XsNRhovUAa/CYQih7ZwgUWBCSVRB+JD+9KoRpcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715158699; c=relaxed/simple;
-	bh=FAL6TpmLghsL+pNKj3y6Xs67lv3hH64ffYCsHRGBkng=;
+	s=arc-20240116; t=1715158700; c=relaxed/simple;
+	bh=1KzELSzrAkMg1EeAtSxDr1jxjnvN/lOFk+FAIeGM548=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p2Ey/adgjbI1ESm/j20oq8g3E3qpCro/Mz8F65qx10T45665OgERLRUBLcY1CjlV35Q3zNgxzysuk+x94Vd7VZ0ODOkXdidG1ZSsm7CABgNsutocWovVgr3z8O0IP2OCZXqDKpU+f1BisMpC3eAExGjio1ErN0XG5EkgXL536cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nubkWa0C; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Vl5KdhzQ5KQy/oB1udo+Zk++7lFgFV0MYRPXkGCKOg/4do6j+rK9tUqLk8DkkyMxPOv2T91jNyvgYyMDQhdrXPbz9588cWtqPrxYMyDB1RTMwy+UZc86DF65CgL90NNJHAq7HSCA/2NXYOl6NEzYK7QMF2E1JoBusV1dRv1vqQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGczsDkG; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nubkWa0C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGczsDkG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715158697; x=1746694697;
+  t=1715158699; x=1746694699;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FAL6TpmLghsL+pNKj3y6Xs67lv3hH64ffYCsHRGBkng=;
-  b=nubkWa0CJrF+xNVWbazdFRqN0Ceiw2BzcyhFulq3FkiRrIptwUBjTZC9
-   3Tot4fDil4Lxr1l2/CQgjQ/qIsfxQ9mx7+mlceQ9cRuJafb7WCxBJmD+4
-   jd/OQpontBzFfL9zRW6LgvSgLzL1eM5kHECVpzQrsmkdsQiXqA69/Ozlo
-   dQ57rgZqNllEIuiqmEmIRvu6UdwUSdPQSgTdjqO+PTjYVQGVfEcscOS82
-   FdAm3/7WBeopxcgXGnx2JBtaPbZ4kcA+wXmNhqMKQ8iMMzuZD4++PTK6W
-   hnlgL353HkJkG7ws8vtoCYxZmm01quo3nH9P1mGeUfZ0qXMOuMXZINdIp
+  bh=1KzELSzrAkMg1EeAtSxDr1jxjnvN/lOFk+FAIeGM548=;
+  b=bGczsDkGBpsQbMEs+cOQg6ZiVy1VGWEyY05LUnCX4Bdq17Kb8SwLlvbX
+   rrXNjLwJRHzgk4cSPuhS+Bo/euzsSf0k/zQTnz8hdaRCDMqj+7IUufKav
+   cHbP81lXsZAUT0BbQSVIKvvuZkyXg9la2RjHJf7RVNgblpkrnoD0jdcsq
+   hsOoIa0YBDYbtcrh2ufhaTjjXIkqm990rWByXzzfS66fdP/25ImqlAmgO
+   j64156ibuPyhkFQVrhsthptx7Ca0T9BySzLrPie7QJA5v5A3hAsQZDWGY
+   ynHloE0sMAcbDuF21KVGOnfuotcvgquywT61SIzdma0j6FyD24y289WX+
    Q==;
-X-CSE-ConnectionGUID: +V8Wlab7SECu3Q7ELS29aA==
-X-CSE-MsgGUID: HLXbLZamS4iuLfjWUQUf0Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10857264"
+X-CSE-ConnectionGUID: 1cH9TUsPQymY28X/3x7D1g==
+X-CSE-MsgGUID: RizSfSuQQX6FHyzS2sE+Qg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10857267"
 X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="10857264"
+   d="scan'208";a="10857267"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 01:58:17 -0700
-X-CSE-ConnectionGUID: SVxy8aSAQcK3d+rNinB6bQ==
-X-CSE-MsgGUID: Bzj0hahpROiR3fht4XIhyQ==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 01:58:19 -0700
+X-CSE-ConnectionGUID: SlvoB1LkR+6CWWQcGhhQmg==
+X-CSE-MsgGUID: CjTeo4czQculf0q075jH0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="29347238"
+   d="scan'208";a="29347248"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 08 May 2024 01:58:16 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4d7s-0003BE-32;
-	Wed, 08 May 2024 08:58:12 +0000
-Date: Wed, 8 May 2024 16:57:28 +0800
+	id 1s4d7t-0003BG-05;
+	Wed, 08 May 2024 08:58:13 +0000
+Date: Wed, 8 May 2024 16:57:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 167/167] fs/bcachefs/bkey_sort.c:170:28:
- warning: unused variable 'f'
-Message-ID: <202405081651.dAvosJcU-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 6548/6577]
+ drivers/crypto/ccp/hygon/csv-dev.c:141:29: sparse: sparse: incorrect type in
+ argument 2 (different address spaces)
+Message-ID: <202405081647.fZcWhmJf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +66,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   820055ea04424d9c5d0d58322888ee46fefb55bc
-commit: 820055ea04424d9c5d0d58322888ee46fefb55bc [167/167] bcachefs: whiteout fix
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240508/202405081651.dAvosJcU-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 0ab4458df0688955620b72cc2c72a32dffad3615)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081651.dAvosJcU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ffca8a908fafd64ef6729c1f9953adc81cd5ffe1
+commit: a90e977db157287a8a9766dc190bac769b7bc8d6 [6548/6577] crypto: ccp: Implement CSV_DOWNLOAD_FIRMWARE ioctl command
+config: x86_64-randconfig-123-20240508 (https://download.01.org/0day-ci/archive/20240508/202405081647.fZcWhmJf-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081647.fZcWhmJf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405081651.dAvosJcU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405081647.fZcWhmJf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/ccp/hygon/csv-dev.c:141:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
+   drivers/crypto/ccp/hygon/csv-dev.c:141:29: sparse:     expected void const [noderef] __user *from
+   drivers/crypto/ccp/hygon/csv-dev.c:141:29: sparse:     got void *
+   drivers/crypto/ccp/hygon/csv-dev.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from fs/bcachefs/bkey_sort.c:2:
-   In file included from fs/bcachefs/bcachefs.h:188:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/bcachefs/bkey_sort.c:170:28: warning: unused variable 'f' [-Wunused-variable]
-     170 |         const struct bkey_format *f = &iter->b->format;
-         |                                   ^
-   6 warnings generated.
+vim +141 drivers/crypto/ccp/hygon/csv-dev.c
 
-
-vim +/f +170 fs/bcachefs/bkey_sort.c
-
-820055ea04424d Kent Overstreet 2024-05-08  167  
-820055ea04424d Kent Overstreet 2024-05-08  168  unsigned bch2_sort_keys_keep_unwritten_whiteouts(struct bkey_packed *dst, struct sort_iter *iter)
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  169  {
-5b8a9227f8a4ac Kent Overstreet 2018-11-27 @170  	const struct bkey_format *f = &iter->b->format;
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  171  	struct bkey_packed *in, *next, *out = dst;
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  172  
-820055ea04424d Kent Overstreet 2024-05-08  173  	sort_iter_sort(iter, keep_unwritten_whiteouts_cmp);
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  174  
-820055ea04424d Kent Overstreet 2024-05-08  175  	while ((in = sort_iter_next(iter, keep_unwritten_whiteouts_cmp))) {
-820055ea04424d Kent Overstreet 2024-05-08  176  		if (bkey_deleted(in) && in < unwritten_whiteouts_start(iter->b))
-820055ea04424d Kent Overstreet 2024-05-08  177  			continue;
-a965ef4986243b Kent Overstreet 2020-01-15  178  
-820055ea04424d Kent Overstreet 2024-05-08  179  		if ((next = sort_iter_peek(iter)) &&
-820055ea04424d Kent Overstreet 2024-05-08  180  		    !bch2_bkey_cmp_packed_inlined(iter->b, in, next))
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  181  			continue;
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  182  
-820055ea04424d Kent Overstreet 2024-05-08  183  		bkey_p_copy(out, in);
-820055ea04424d Kent Overstreet 2024-05-08  184  		out = bkey_p_next(out);
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  185  	}
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  186  
-820055ea04424d Kent Overstreet 2024-05-08  187  	return (u64 *) out - (u64 *) dst;
-5b8a9227f8a4ac Kent Overstreet 2018-11-27  188  }
-820055ea04424d Kent Overstreet 2024-05-08  189  
-
-:::::: The code at line 170 was first introduced by commit
-:::::: 5b8a9227f8a4acd9652d6d89a608fbf4c39c6f44 bcachefs: Split out bkey_sort.c
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+    93	
+    94	static int csv_ioctl_do_download_firmware(struct sev_issue_cmd *argp)
+    95	{
+    96		struct sev_data_download_firmware *data = NULL;
+    97		struct csv_user_data_download_firmware input;
+    98		int ret, order;
+    99		struct page *p;
+   100		u64 data_size;
+   101	
+   102		/* Only support DOWNLOAD_FIRMWARE if build greater or equal 1667 */
+   103		if (!csv_version_greater_or_equal(1667)) {
+   104			pr_err("DOWNLOAD_FIRMWARE not supported\n");
+   105			return -EIO;
+   106		}
+   107	
+   108		if (copy_from_user(&input, (void __user *)argp->data, sizeof(input)))
+   109			return -EFAULT;
+   110	
+   111		if (!input.address) {
+   112			argp->error = SEV_RET_INVALID_ADDRESS;
+   113			return -EINVAL;
+   114		}
+   115	
+   116		if (!input.length || input.length > CSV_FW_MAX_SIZE) {
+   117			argp->error = SEV_RET_INVALID_LEN;
+   118			return -EINVAL;
+   119		}
+   120	
+   121		/*
+   122		 * CSV FW expects the physical address given to it to be 32
+   123		 * byte aligned. Memory allocated has structure placed at the
+   124		 * beginning followed by the firmware being passed to the CSV
+   125		 * FW. Allocate enough memory for data structure + alignment
+   126		 * padding + CSV FW.
+   127		 */
+   128		data_size = ALIGN(sizeof(struct sev_data_download_firmware), 32);
+   129	
+   130		order = get_order(input.length + data_size);
+   131		p = alloc_pages(GFP_KERNEL, order);
+   132		if (!p)
+   133			return -ENOMEM;
+   134	
+   135		/*
+   136		 * Copy firmware data to a kernel allocated contiguous
+   137		 * memory region.
+   138		 */
+   139		data = page_address(p);
+   140		if (copy_from_user((void *)(page_address(p) + data_size),
+ > 141				   (void *)input.address, input.length)) {
+   142			ret = -EFAULT;
+   143			goto err_free_page;
+   144		}
+   145	
+   146		data->address = __psp_pa(page_address(p) + data_size);
+   147		data->len = input.length;
+   148	
+   149		ret = hygon_psp_hooks.__sev_do_cmd_locked(SEV_CMD_DOWNLOAD_FIRMWARE,
+   150							  data, &argp->error);
+   151		if (ret)
+   152			pr_err("Failed to update CSV firmware: %#x\n", argp->error);
+   153		else
+   154			pr_info("CSV firmware update successful\n");
+   155	
+   156	err_free_page:
+   157		__free_pages(p, order);
+   158	
+   159		return ret;
+   160	}
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
