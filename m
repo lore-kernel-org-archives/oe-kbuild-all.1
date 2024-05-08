@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E4254FA3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 13:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BA76D1B0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 13:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715174434; cv=none; b=SD8ChuKmbWysp95UWFH12+NL7l14qwfcg1M48jTWbpt6P7to90ljIyLSqbEL4M3BXoh6rjXyzOmIwskgbdOWxqlouLgA9Eg4PcIg4c9OOCFyg2ODoR+QGN/o7o/2dP8Na3IgYoBC6UuJ5JzOhHUphaYC2x6QTcSgj7mZG4UdgGA=
+	t=1715174436; cv=none; b=eYIzPjFyD9IZ1PSQI45x88Q+ySzVXkWZQ52ujesNkV6+32UKHZ1EhWLyA3LNUNPSb9iiUt3RUpkBxfU2aeXIbU4ACCoWakY9fAW9rTmyh703GTJn9ciUsD0+kLkTN8xmtCgF6KYx7y2VRNjoGFKm8+FmNyBJRU32FR4s805xPI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715174434; c=relaxed/simple;
-	bh=fAXVGILNG/47zIsMCPqg7mpxvnGj371c1vvDoSfpDSA=;
+	s=arc-20240116; t=1715174436; c=relaxed/simple;
+	bh=ZWyPChhyxDaVhGoXHb1MLKr/U3QAqNL0rIaNjJV8MBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cq+SVuZqrnH5pYMgAbtR7pZxQQkRO8MYnp/0MEa4NjaH53gcvL1YVTdTNUJIhXnht/FMOHHw//QO39D9qor/lW3fwiIHVZB6KZuqEILxusNeX8QW9lajxyev5FLLjA+yosfEuIPYxPYS1opxbXbNajc1ba1qcxHyW4LA4D4I7EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4keX/8l; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=S4SloD67R/thvo2swoj3fDEqRZmwAc5PqawPGtd/sORKSmZBEzNNOygfsxnYZ4kTVhugRBpQClgNT8p0urRRhksD5zfBMu9QFrJ6pdIAI6CoRmuqirNOySwV3lCpG3sDrQP89TziQvMVptWZeyCXy0wA1ucigtOkwT99SoS0elk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tcw8OzFR; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4keX/8l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tcw8OzFR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715174433; x=1746710433;
+  t=1715174435; x=1746710435;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fAXVGILNG/47zIsMCPqg7mpxvnGj371c1vvDoSfpDSA=;
-  b=g4keX/8l9oJJEadT1Go9FX6k87VDstDjC30/G2GgN7N0ZSaqH6vmJo6j
-   AarN3lhuSk6vi0tRa9FQVD4Xjb/uHQDKuCrR3RC+KQ0Uu/sXPFzZhlUkJ
-   Q3dYjGSoFtiput9RrIX9Zv8f3WDf5Jd4LYX2hRLJjfA32vp4pt8CcYMG7
-   fvPXsLiNGpL6VGlbupyYdV1YKUoN4U++K/S9e5hqyxeSH4sDctf1rPlTH
-   rpMVqIgphTpPSs9uSPve+D2T0nT/NytqwwcVVCt6ik7+W/Mzz1eAKVKBR
-   8Zr7MXem0jMl0xZhLfj1MTsyYZ4TfCD8UMLnopsSAsYohHYGKdXRxPfcJ
-   A==;
-X-CSE-ConnectionGUID: S1JgY1NRRkG8fjyCiu5FMg==
-X-CSE-MsgGUID: tDTwoBM+QRWCrAzp9HiMSA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="14839192"
+  bh=ZWyPChhyxDaVhGoXHb1MLKr/U3QAqNL0rIaNjJV8MBA=;
+  b=Tcw8OzFRWdW7dGWe4cZeR1js5p3TikMBGWuDIkJbIyXRSUhNTN0Ewbrw
+   D+HuJfFDGKk8S6RFbQ7VWZKT+Qh3yRpoPMIfDvDU6dF1YiSk38nXPaA0w
+   QGCSTwwVCEEdqOmG7aVr1g/5B9kdzG4SqyKVOLB+RQsa74obKsZ+BXw7+
+   B0l0vq2o9iJjCI+sQDFp5LqNB3G2gtywbLL7IgwPQTe9rwwyrnNlcMvEg
+   z1kACYZTlKLt1uuMKbQeS6xGt+hhIYhtkUG2X5cc1Yh3Aa54IfMt0y9co
+   rzXojxEXO0GDcICcfCRpggVudnsIpnoC6rN7pfECVmPa7YcaSiHJamc6F
+   w==;
+X-CSE-ConnectionGUID: 3ZmY3IC8TJ65rfefRiUlxw==
+X-CSE-MsgGUID: jg83LJ6jR3CT05FYW2yLhQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="14839195"
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="14839192"
+   d="scan'208";a="14839195"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:20:32 -0700
-X-CSE-ConnectionGUID: uVS4+sXkQ0WlaUPDuUwjyA==
-X-CSE-MsgGUID: ZtvKv/nfQEi7VslF8Pc/mA==
+X-CSE-ConnectionGUID: 6ju0KFzWSTqopLrRHg1r/Q==
+X-CSE-MsgGUID: 8uSHWQ/OR0KHV3av8Nq4UQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="66315104"
+   d="scan'208";a="66315103"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 08 May 2024 06:20:30 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4hDg-0003R7-1W;
+	id 1s4hDg-0003R4-1K;
 	Wed, 08 May 2024 13:20:28 +0000
-Date: Wed, 8 May 2024 21:20:15 +0800
+Date: Wed, 8 May 2024 21:20:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:mirror-chromeos-5.10-arcvm 12/12]
- kernel/sched/rt.c:982:50: error: 'struct rq' has no member named 'cpu'
-Message-ID: <202405082117.kaRrlF8q-lkp@intel.com>
+ kernel/sched/rt.c:982:43: warning: format specifies type 'long' but the
+ argument has type 'u64' (aka 'unsigned long long')
+Message-ID: <202405082144.cX4OuwUT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,33 +66,50 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
 head:   60159db699f14e547ce5ede2a7bad9b99e24cd3f
 commit: 60159db699f14e547ce5ede2a7bad9b99e24cd3f [12/12] CHROMIUM: x86: rt: Avoid throttling over host suspend.
-config: i386-buildonly-randconfig-004-20240508 (https://download.01.org/0day-ci/archive/20240508/202405082117.kaRrlF8q-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405082117.kaRrlF8q-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20240508 (https://download.01.org/0day-ci/archive/20240508/202405082144.cX4OuwUT-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405082144.cX4OuwUT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405082117.kaRrlF8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405082144.cX4OuwUT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/rt.c:675:6: warning: no previous prototype for 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
+   In file included from kernel/sched/rt.c:6:
+   kernel/sched/sched.h:1448:15: warning: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Wcast-function-type-strict]
+    1448 |         head->func = (void (*)(struct callback_head *))func;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:260:6: warning: no previous prototype for function 'free_rt_sched_group' [-Wmissing-prototypes]
+     260 | void free_rt_sched_group(struct task_group *tg) { }
+         |      ^
+   kernel/sched/rt.c:260:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     260 | void free_rt_sched_group(struct task_group *tg) { }
+         | ^
+         | static 
+   kernel/sched/rt.c:262:5: warning: no previous prototype for function 'alloc_rt_sched_group' [-Wmissing-prototypes]
+     262 | int alloc_rt_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^
+   kernel/sched/rt.c:262:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     262 | int alloc_rt_sched_group(struct task_group *tg, struct task_group *parent)
+         | ^
+         | static 
+   kernel/sched/rt.c:675:6: warning: no previous prototype for function 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
      675 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:17,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/rt.c:6:
-   kernel/sched/rt.c: In function 'sched_rt_runtime_exceeded':
->> kernel/sched/rt.c:982:50: error: 'struct rq' has no member named 'cpu'
+         |      ^
+   kernel/sched/rt.c:675:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     675 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
+         | ^
+         | static 
+>> kernel/sched/rt.c:982:43: warning: format specifies type 'long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
      982 |                     "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
-         |                                                  ^~
-   include/linux/printk.h:460:40: note: in definition of macro 'printk_deferred_once'
+         |                       ~~~                               ^~~~~~~~~~~~~~
+         |                       %llu
+   include/linux/printk.h:460:26: note: expanded from macro 'printk_deferred_once'
      460 |                 printk_deferred(fmt, ##__VA_ARGS__);            \
-         |                                        ^~~~~~~~~~~
+         |                                 ~~~    ^~~~~~~~~~~
+   5 warnings generated.
 
 
 vim +982 kernel/sched/rt.c
