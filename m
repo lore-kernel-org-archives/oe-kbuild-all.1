@@ -1,166 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF24D131728
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 20:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6D1130AE4;
+	Wed,  8 May 2024 21:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715200707; cv=none; b=aDCeQYooxkQ/XAB0vR+s7Potm4witx7P6sYzyvNcX08i9rvwvLcQtUmo2b8waWohO9k0lzXOKRn8I+91j0z4ptDb11FH/ooQAXezi4P7bs34yNgI4iyYDKowZYQMwbH3YpwjI95xkjoXcqd+pOvbIJT+d+PkLsD4Fsy+Z/Iunvw=
+	t=1715203102; cv=none; b=Fo100IIDQnciOkqaSF7Q2vDDeNMNRL9t86NefqDoLoOPwjHQ3JDHicGLJfCGMquxnud2IFKcszuSZUATZhBnKoSmBs6HXaQGmdU7a9XwuB/Xvf6LqT2FKvGkkPGeJ8LMFUDAhb8iFh92bQT3KKlFbS+YsD5SNLta59+8/ksCfYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715200707; c=relaxed/simple;
-	bh=iELKPKEBdzp99N3dT3F0Gig++k6H1GB9X40m4RmGOXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gYdE9qB14Qf44qjx91M9s2bf2uClj6qmtTjyhwga2zYdPG604hV/lwrz/WTCfR/molBbANymgbPdGtoQtWm4ZuP3ETKsdOEnzOBklFeZKUkH7yMgiQxBxQCN4Jo4psUq1/Kt+VoEg9kxiJMRgh5rqSJo2h2EvHOxrv0qxNeTeh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBNAqTg4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715203102; c=relaxed/simple;
+	bh=Jl8a2gzeUWXyecXSjecelhMzBK0892fkGfODCZrcQRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PJfXLD+0fN4dU9sSh3c/n1loJlUtGpOqG1xS1TWjOwFk7KYFyexcIDLXTB0K6JqBiPZf07mj6xQjMhekRpglXJaRI43E0U1uBTxRskVEV99aEZO+HW8GiadggeaFAcxpKqshsp9qLvOIK0Pp9hBWPM5DlUUxzYOriIjF0Z1by8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=es0Q55zq; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBNAqTg4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62CD3C32782
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 20:38:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715200707;
-	bh=iELKPKEBdzp99N3dT3F0Gig++k6H1GB9X40m4RmGOXA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kBNAqTg4HplcgEYFfj01exaT7HAJ7N+FPWaC/TIuRtChjY8DK2FRDaX93GhxSEBw7
-	 FAqPYf0Z18yxPQAcd9/CTsXCX3Iu9+hhdjy2Bw+6EehEFvSs0k/YeYRowDbHru8Stb
-	 MdErkMNhjlkl+hEmuA9AgEQ8V0nS8H+G5C+FWaD/c1iH9sBWOReEbWP4GrqW7VmnZ5
-	 DNuz5abzNzoJPXy3uXPuJNUpC4KgjvtX4pUNY+0OaQIMsU3ww6uMWEsn9Hn2OibqCt
-	 JFqASvEe7AAt9FyFBGujWXAB5TJF2A/wWAlcHSz/kj3VrEB+8Xnh+7pbYPcfdlq6w+
-	 +X3hN60qFmhfA==
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59d5b112ecso1199766b.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 May 2024 13:38:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXKB6zTx0UM3IuN/4vpj8IEayqbTj40/8Xm2R6nxCMIHNwntcOhNWhUruv983xy+k7lnoxK5mnwXAyjuzW7uJWUgLVscakBYEyxKUWztw==
-X-Gm-Message-State: AOJu0YzaRaREttHVREexdTrkO8hUHK6M1UVA8MFSyU1Dk62hioPEplck
-	Pi3WZnmhja2qacmDtm8WgIiMoPTxffoHFEw1Q1tlHuqigHT+K8kTXXI4QePa/oOdf2ZvisB5W4Q
-	sJW06E/lbh40YjUBek5a2kjrkrfg=
-X-Google-Smtp-Source: AGHT+IGl3o8/eHyjVt0T4UwXGfTaWvH2xFalvsf84UytUpmXoRi9teX9R7b2iY+GS6HtUaWKgNUfBGoI1uT+V5ZO1m8=
-X-Received: by 2002:a17:906:df14:b0:a59:bce9:8454 with SMTP id
- a640c23a62f3a-a59fb94f6d3mr232661766b.1.1715200705917; Wed, 08 May 2024
- 13:38:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="es0Q55zq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715203101; x=1746739101;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Jl8a2gzeUWXyecXSjecelhMzBK0892fkGfODCZrcQRs=;
+  b=es0Q55zqixAVf9VhmPvuOcurLdNVAl42fzN2g3Ibhn4REdxgYWJ9n8Mk
+   kLSS7nQrZLkgadHrRCpFpdN6RaDEY9nYfK/RlokdtIga61acpMH5aSbXW
+   TpDdvKZeFzP4eN5Zc11xnHEboFjtTu8SUD+CYTT5Ts4AaoTm6fqpdAEHt
+   z353FC+zwq3CLquJ4BkqH9YSdGodJJt1dKuy3scrz+3AbQ5amdj1kF/KO
+   H5dju4KU0qUFygrVRuqZt1NZ99q+Szlc01WNGn5du5BHrOdUzhNLjesJA
+   Hyxeip7Wx2qYgOIc9AqRjsZnejfyY0sK4vALMhnlwJWkekhS1g6iC6jZb
+   w==;
+X-CSE-ConnectionGUID: zzgwmE43QA6VGFOiRCWaZA==
+X-CSE-MsgGUID: x04HpCP9S4iwUwZbxR/n0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="28572256"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
+   d="scan'208";a="28572256"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 14:18:21 -0700
+X-CSE-ConnectionGUID: CaXnspVTR8ifvR6M1dU1eg==
+X-CSE-MsgGUID: OZQ4MhZXRE2PBVEwSznTPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
+   d="scan'208";a="28993656"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 08 May 2024 14:18:15 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s4og0-00047O-2S;
+	Wed, 08 May 2024 21:18:12 +0000
+Date: Thu, 9 May 2024 05:18:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+	dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+	zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+	zhoubinbin@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] Loongarch:Support loongarch avec
+Message-ID: <202405090438.c1xvjipc-lkp@intel.com>
+References: <20240507125953.9117-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang@kernel.org>
- <202405081456.v2MvcQ0P-lkp@intel.com> <CABBYNZLH7mGdP7AcdHnY8q=3i=Lupk-D2Af4G5X4o1_XdbTfVw@mail.gmail.com>
-In-Reply-To: <CABBYNZLH7mGdP7AcdHnY8q=3i=Lupk-D2Af4G5X4o1_XdbTfVw@mail.gmail.com>
-From: Sean Wang <sean.wang@kernel.org>
-Date: Wed, 8 May 2024 13:38:13 -0700
-X-Gmail-Original-Message-ID: <CAGp9LzrNE9Hi-a9y8oQMXmug44k7VUsmcDiAiXgbFu8bLbtFTg@mail.gmail.com>
-Message-ID: <CAGp9LzrNE9Hi-a9y8oQMXmug44k7VUsmcDiAiXgbFu8bLbtFTg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get the fw name
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, marcel@holtmann.org, johan.hedberg@gmail.com, 
-	oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Sean Wang <sean.wang@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240507125953.9117-1-zhangtianyang@loongson.cn>
 
-Hi,
+Hi Tianyang,
 
-On Wed, May 8, 2024 at 7:37=E2=80=AFAM Luiz Augusto von Dentz
-<luiz.dentz@gmail.com> wrote:
->
-> Hi Sean,
->
-> On Wed, May 8, 2024 at 3:13=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
-> >
-> > Hi,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > [auto build test WARNING on bluetooth/master]
-> > [also build test WARNING on bluetooth-next/master linus/master v6.9-rc7=
- next-20240507]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-kernel=
--org/Bluetooth-btmtk-apply-the-common-btmtk_fw_get_filename/20240508-032333
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluet=
-ooth.git master
-> > patch link:    https://lore.kernel.org/r/965cd14922aea67e2750ff2c2ecad7=
-73f8ba485a.1715109394.git.sean.wang%40kernel.org
-> > patch subject: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get=
- the fw name
-> > config: arm64-defconfig (https://download.01.org/0day-ci/archive/202405=
-08/202405081456.v2MvcQ0P-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240508/202405081456.v2MvcQ0P-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202405081456.v2MvcQ0P-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    drivers/bluetooth/btmtk.c: In function 'btmtk_fw_get_filename':
-> > >> drivers/bluetooth/btmtk.c:115:35: warning: 'mediatek/BT_RAM_CODE_MT'=
- directive output truncated writing 23 bytes into a region of size 8 [-Wfor=
-mat-truncation=3D]
-> >      115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_=
-hdr.bin",
-> >          |                           ~~~~~~~~^~~~~~~~~~~~~~~
-> >    drivers/bluetooth/btmtk.c:115:26: note: directive argument in the ra=
-nge [1, 256]
-> >      115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_=
-hdr.bin",
-> >          |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-> >    drivers/bluetooth/btmtk.c:114:17: note: 'snprintf' output between 41=
- and 43 bytes into a destination of size 8
-> >      114 |                 snprintf(buf, sizeof(size),
-> >          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >      115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_=
-hdr.bin",
-> >          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-> >      116 |                          dev_id & 0xffff, (fw_ver & 0xff) + =
-1);
-> >          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-> >
-> >
-> > vim +115 drivers/bluetooth/btmtk.c
-> >
-> >    105
-> >    106  void btmtk_fw_get_filename(char *buf, size_t size, u32 dev_id, =
-u32 fw_ver,
-> >    107                             u32 fw_flavor)
-> >    108  {
-> >    109          if (dev_id =3D=3D 0x7925)
-> >    110                  snprintf(buf, size,
-> >    111                           "mediatek/mt%04x/BT_RAM_CODE_MT%04x_1_=
-%x_hdr.bin",
-> >    112                           dev_id & 0xffff, dev_id & 0xffff, (fw_=
-ver & 0xff) + 1);
-> >    113          else if (dev_id =3D=3D 0x7961 && fw_flavor)
-> >    114                  snprintf(buf, sizeof(size),
-> >  > 115                           "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr=
-.bin",
-> >    116                           dev_id & 0xffff, (fw_ver & 0xff) + 1);
-> >    117          else
-> >    118                  snprintf(buf, size,
-> >    119                           "mediatek/BT_RAM_CODE_MT%04x_1_%x_hdr.=
-bin",
-> >    120                           dev_id & 0xffff, (fw_ver & 0xff) + 1);
-> >    121  }
-> >    122  EXPORT_SYMBOL_GPL(btmtk_fw_get_filename);
-> >    123
->
-> Could you please fix the above?
+kernel test robot noticed the following build warnings:
 
-No problem, I'll take care of it and send it over later.
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on linus/master v6.9-rc7]
+[cannot apply to next-20240508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-                 Sean
->
-> --
-> Luiz Augusto von Dentz
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Loongarch-Support-loongarch-avec/20240507-210314
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20240507125953.9117-1-zhangtianyang%40loongson.cn
+patch subject: [PATCH 2/2] Loongarch:Support loongarch avec
+config: loongarch-randconfig-r133-20240508 (https://download.01.org/0day-ci/archive/20240509/202405090438.c1xvjipc-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240509/202405090438.c1xvjipc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405090438.c1xvjipc-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-loongarch-avec.c:41:3: sparse: sparse: symbol 'loongarch_avec' was not declared. Should it be static?
+   drivers/irqchip/irq-loongarch-avec.c:181:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:181:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:184:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:184:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:187:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:187:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:190:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:190:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:215:18: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:215:18: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c: note: in included file (through include/linux/smp.h, include/linux/percpu.h, include/linux/context_tracking_state.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   drivers/irqchip/irq-loongarch-avec.c:164:6: sparse: sparse: context imbalance in 'complete_irq_moving' - different lock contexts for basic block
+   drivers/irqchip/irq-loongarch-avec.c: note: in included file (through arch/loongarch/include/asm/loongarch.h, arch/loongarch/include/asm/cpu-info.h, ...):
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:294:30: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrrd_d'
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:294:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:332:3: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrwr_d'
+
+vim +/loongarch_avec +41 drivers/irqchip/irq-loongarch-avec.c
+
+    35	
+    36	struct loongarch_avec_chip {
+    37		struct fwnode_handle	*fwnode;
+    38		struct irq_domain	*domain;
+    39		struct irq_matrix	*vector_matrix;
+    40		raw_spinlock_t		lock;
+  > 41	} loongarch_avec;
+    42	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
