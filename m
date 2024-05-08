@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8A325632
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 07:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B32E1773D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 07:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715152396; cv=none; b=VIXsi7I3pLfyMtaG+wMfNvqOMozvgEJXYK0HFgodwUkVfBWdkBxRC5xHDFq1tOpJxLXMVqmGApnIZrEEKy5Omr2iMYfiefC79ZZM8tsZ2mN5WGRht8wgUb7YkgDSJHyPJUtcHUIdPvRC2IZ/F4UYsbKpqe9Yv5eue7nnM9AohbI=
+	t=1715153055; cv=none; b=n6L3nJvbBRg4WNNBSaoK6h4Pw03QPp8scezl2qpNw7hldoyha9wKZm/TuqQZb+c8BSFs54efkP0yS4Ud9MAx5V3xNg0kkuYCYQGrWBPdkAhZb1jl4j0SYJ7Q7zHNFsNChwlCCjEPJlwAIATvvswKfvIK5NQA0EugWp5xSzkgz68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715152396; c=relaxed/simple;
-	bh=kcyv9B4aVwqHiIYH9soi2Une9+zbvCi85GRN+JQDBrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fs2ek/4Cdz8HczYfDn+MgMEEmIgxg5PzlRGQ+CTcMaWuuLRS14b6HNmtggPFzlIvX3XCiG3CD9Xh7BQSH2o8tlGb3lUlC7gp944rxBmGAbVbZ5kIrR72QdXOiypSoLz5cxSvRzeunOiljF9zRiRlHeW+YPyR1gUeypvSqZmEAXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVToH9qf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1715153055; c=relaxed/simple;
+	bh=Pkpw29Zp26M15tmH4I3Muhga2RmrSN8tspqX2XBEe9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k/fig3ziDvBgk4Ktju7+4XTCfMXp8gwXOgxtBoM17c8HSHrZUbnOWqAli3r6HMjuz+SRxiQI2O5ecv5fJ4vhjKtMCM8kVnHtMyhONFmxRpgFxhBIKoKx/o4M/06hDXuwf2Bc4H+tIYUeF4yXSq46r35Hz82enm98Vc+anxJUeV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkXXCquA; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVToH9qf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkXXCquA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715152394; x=1746688394;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kcyv9B4aVwqHiIYH9soi2Une9+zbvCi85GRN+JQDBrw=;
-  b=YVToH9qfjGIvFNkVk2EPoyPJn14/W0G6GyuCB9KC8t/tqdSIno6AAOub
-   gAzagqVVYSii3cBc7VClUnp2+7+TP8m6wFSnJE5aVPL0dRZsfUltzop9V
-   pNhD2AtWrE2igwNtiqMVWwTY4uy3aKFs19+yGxdf19QZSORtPC0GGFnC7
-   i1U25TaOn8u/61Byf2fX078kVJXpqEpITa69sAh8lNFpndNR1dvYGjgmd
-   IYNIcJ2bEfNllEpUfaj+TVljxK4VlzwupwCNh+z2HOM/WxRooQeowDgHj
-   xvFBcdzpml6veOBUutM0ht2SRHVycNbD0+hcf2ZVSUBw5IbbbqKqLDx/i
-   A==;
-X-CSE-ConnectionGUID: Ah1EPwrlSZmGKRPC0+425g==
-X-CSE-MsgGUID: tTk6OHtuRruLuNWZXkbAqA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="28510635"
+  t=1715153054; x=1746689054;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Pkpw29Zp26M15tmH4I3Muhga2RmrSN8tspqX2XBEe9A=;
+  b=YkXXCquAhwzBVl/elS/NI0TEcT1DmWPgQ134aTYbBdCCBdWy65dxk3t5
+   QuvSJzMXJRkg3/3EDa1gLXHlly/uzRzUCM9XTSZjlVvfhCYluX+d2zGyp
+   tWsqWEDruUv9FwsCEXI2nq54389eVNZc3T2AqEw78rJyf/0TWd0Ze3BL0
+   efOdUNfdqg4hS3lQYOQw9xErSiZmDmJKkDiOAUJbdT1EJVAkczKEVq7zk
+   d6gRcGPf//rVRCpq68fiy61hypLI8UfpFmXTpTvuOjfwRrLRBaD1xMuSD
+   B1Q4y1Dxt/ZJ7CELYL5Qek+kFOqBuBDK3Re7tJUXDOVfRdAOtDfFfiAa7
+   Q==;
+X-CSE-ConnectionGUID: AT4GN6W4RnaySqas+u/vSg==
+X-CSE-MsgGUID: 9k780zyvSq2DWEUPh2XUDQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="13941201"
 X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="28510635"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 00:13:13 -0700
-X-CSE-ConnectionGUID: ENhzKVk6SOGhN6R8K3Ve/w==
-X-CSE-MsgGUID: 3/5Xc0TtRTCLRkYiBpYK5w==
+   d="scan'208";a="13941201"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 00:24:13 -0700
+X-CSE-ConnectionGUID: 3b90xFIaRseqo3n+kjQ++A==
+X-CSE-MsgGUID: lJT3DJSOQiWqAgHABIBtCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="33310222"
+   d="scan'208";a="28882114"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 May 2024 00:13:10 -0700
+  by orviesa009.jf.intel.com with ESMTP; 08 May 2024 00:24:13 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4bUC-00037E-0m;
-	Wed, 08 May 2024 07:13:08 +0000
-Date: Wed, 8 May 2024 15:12:52 +0800
+	id 1s4bes-00037o-02;
+	Wed, 08 May 2024 07:24:10 +0000
+Date: Wed, 8 May 2024 15:23:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: sean.wang@kernel.org, marcel@holtmann.org, johan.hedberg@gmail.com,
-	luiz.dentz@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Sean Wang <sean.wang@mediatek.com>
-Subject: Re: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get the fw
- name
-Message-ID: <202405081456.v2MvcQ0P-lkp@intel.com>
-References: <965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang@kernel.org>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1625/9446] ld:
+ drivers/video/fbdev/ls2k500sfb.c:247:undefined reference to `fg_console'
+Message-ID: <202405081542.RUf3xcAg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,70 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang@kernel.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v6.9-rc7 next-20240507]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-kernel-org/Bluetooth-btmtk-apply-the-common-btmtk_fw_get_filename/20240508-032333
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/965cd14922aea67e2750ff2c2ecad773f8ba485a.1715109394.git.sean.wang%40kernel.org
-patch subject: [PATCH v4 1/5] Bluetooth: btmtk: add the function to get the fw name
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240508/202405081456.v2MvcQ0P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081456.v2MvcQ0P-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   0993c620607a484e46e5954e6d6b012184a40803
+commit: 8248d42b7c5f4338a54f26d8efebec8614b43466 [1625/9446] fbdev: add ls2k500sfb driver for ls2k500 bmc.
+config: x86_64-randconfig-016-20240508 (https://download.01.org/0day-ci/archive/20240508/202405081542.RUf3xcAg-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081542.RUf3xcAg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405081456.v2MvcQ0P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405081542.RUf3xcAg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/bluetooth/btmtk.c: In function 'btmtk_fw_get_filename':
->> drivers/bluetooth/btmtk.c:115:35: warning: 'mediatek/BT_RAM_CODE_MT' directive output truncated writing 23 bytes into a region of size 8 [-Wformat-truncation=]
-     115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr.bin",
-         |                           ~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/bluetooth/btmtk.c:115:26: note: directive argument in the range [1, 256]
-     115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr.bin",
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btmtk.c:114:17: note: 'snprintf' output between 41 and 43 bytes into a destination of size 8
-     114 |                 snprintf(buf, sizeof(size),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-     115 |                          "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr.bin",
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     116 |                          dev_id & 0xffff, (fw_ver & 0xff) + 1);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +115 drivers/bluetooth/btmtk.c
-
-   105	
-   106	void btmtk_fw_get_filename(char *buf, size_t size, u32 dev_id, u32 fw_ver,
-   107				   u32 fw_flavor)
-   108	{
-   109		if (dev_id == 0x7925)
-   110			snprintf(buf, size,
-   111				 "mediatek/mt%04x/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
-   112				 dev_id & 0xffff, dev_id & 0xffff, (fw_ver & 0xff) + 1);
-   113		else if (dev_id == 0x7961 && fw_flavor)
-   114			snprintf(buf, sizeof(size),
- > 115				 "mediatek/BT_RAM_CODE_MT%04x_1a_%x_hdr.bin",
-   116				 dev_id & 0xffff, (fw_ver & 0xff) + 1);
-   117		else
-   118			snprintf(buf, size,
-   119				 "mediatek/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
-   120				 dev_id & 0xffff, (fw_ver & 0xff) + 1);
-   121	}
-   122	EXPORT_SYMBOL_GPL(btmtk_fw_get_filename);
-   123	
+   ld: vmlinux.o: in function `ls2k500sfb_events_fn':
+   drivers/video/fbdev/ls2k500sfb.c:247:(.text+0x1225f33): undefined reference to `fg_console'
+>> ld: drivers/video/fbdev/ls2k500sfb.c:247:(.text+0x1225f60): undefined reference to `fg_console'
+   ld: drivers/video/fbdev/ls2k500sfb.c:247:(.text+0x12261e2): undefined reference to `fg_console'
 
 -- 
 0-DAY CI Kernel Test Service
