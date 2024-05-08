@@ -1,122 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E92D14F68
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 04:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37067179A8;
+	Wed,  8 May 2024 06:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715142368; cv=none; b=pjEGvR2iCBo0cE+feBX6mJf2763TaslqBOMdU6sUZnha1xUeoROwE0EDJ06JQqY76Al09rjoxB1WPsrZxZ/0cnA0f0a/PVX1TWW77FysGDQJIH6eRKmSwRT3rS4vyZokTqvC2+8vfAOX5ymss35ZWMxDpwqdqpRJsNpxMbkEnVA=
+	t=1715148225; cv=none; b=LjrREwGk/PwETkNxtNk9UTxb8bErLNw2BejhY/oDs+jK9xUWJ6y8TRsP6m1ckNvgY0BIJS6ykG1JAtk+PE+4q5/fEmrTVcKOb+VqzfXielsIKUM2oNkjukYd0DmixGkNMnaQGlc/9nRnkErZ4rVmzDmA1XBIwROw++37vF47a4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715142368; c=relaxed/simple;
-	bh=QZIT7iQDBVJZTbQ9mGbt5vp/UJcHZPLU5z2XdRKjGrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ewx2g1+gb1UU5RZc/yFtCvBMcBh0i7Hu1iiokfH7zJ8UxxvDEr8DOONsA8K/ZYsnbB643+pLEe28r0p3QjYkN9Rk2E70vamt8KwDFSxrAqhdw/Ku4GV8p4tQYjVFDtcg31M6dEIzcTFa2fjU7Sd8ngR7gSiv9RrTeaCyET3+GK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G96ozzc3; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715148225; c=relaxed/simple;
+	bh=vR8MQjZ4OZFhEHYcpFtvdK1XRggMdo6jqFWufXUb6lw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FOiUOGwFPq4DtwC3CHjk5uv8+XBbpPDZzoR1IR5F5PlLlpBrxuB4XsW4hBoUvnBFUtYKfZ7nFc+U/pt2LikuxrNlpap6jqofdbLr0cqGrwqjr6VG6tzbgoZxgCoX7QE3doNcEESFXdZnONWbGJvotPR4wJtiFMGlrNgTV7aWq6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=M0dC76PS; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G96ozzc3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715142368; x=1746678368;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QZIT7iQDBVJZTbQ9mGbt5vp/UJcHZPLU5z2XdRKjGrw=;
-  b=G96ozzc36j6JLdMfW+fG/N8+awyvefV4um7+I1Yy12k+2SN3G5xlUVUv
-   jKDJ1OqWhKENjqYIgnDAN3zFaMU6tylkvIEz9NKwF5N45bvkqCH5ukDQe
-   5YEXX/7MxPI07A0kwxTr6lQ0h2JFfMpfEr9oi+HNPh3OaW+ofCfkQz4Lj
-   BIpLhYwJTrG0iJneE8imSTvb5bwFbj+B7kpssB4OMT9U8clWB+Ypt6oFH
-   3ADuPKXe2sEuUH78aTox9WNStjkINFLfCdBZgTTd+lZMbP24Fd9Wj/n7A
-   9NEOgZBIA9Yn1LMTU7XTTk5FOKtujhV1U8ko6g702zTHK4lv5kU4z07fd
-   g==;
-X-CSE-ConnectionGUID: nCsbNOcxQrmBk07JGUb5sQ==
-X-CSE-MsgGUID: gI/7eUFWQjCrv0X2platlQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22387665"
-X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="22387665"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 21:26:07 -0700
-X-CSE-ConnectionGUID: morbseBlRrybiPCWXseYsA==
-X-CSE-MsgGUID: 6nyQMITXRUWHTlT9DnC3gg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="59599436"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 07 May 2024 21:26:04 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s4YsU-0002xq-18;
-	Wed, 08 May 2024 04:26:02 +0000
-Date: Wed, 8 May 2024 12:25:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Paul Burton <paulburton@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH 5/5] MIPS: cm: Probe GCR address from DeviceTree
-Message-ID: <202405081255.MGvZEuuc-lkp@intel.com>
-References: <20240507-cm_probe-v1-5-11dbfd598f3c@flygoat.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="M0dC76PS"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1715148217; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=quezWr5QuXsegJOKyc01UZwoa4UGQB+lMfqaDG5ySt4=;
+	b=M0dC76PSi5EJU+kfyDhPKEE/dF4SPcbeDfaMMu/z14myLJy/Ks0SylhLhtbTlegEv5b1bXKWS+17yLrU1NZrRbKFMfwIFTHIRLyeBeK/eBAXnqSfc9Rnfums6yk6Y+tTuYHR/4ZToXElUsDFleu8vtcysg+p4ubFUfS55orR1cg=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032014031;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0W62W8yi_1715148214;
+Received: from 30.97.56.69(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0W62W8yi_1715148214)
+          by smtp.aliyun-inc.com;
+          Wed, 08 May 2024 14:03:35 +0800
+Message-ID: <4a6c6c90-04bd-4a02-9080-0f98e8cf5ebe@linux.alibaba.com>
+Date: Wed, 8 May 2024 14:03:34 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240507-cm_probe-v1-5-11dbfd598f3c@flygoat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] mm: shmem: add mTHP support for anonymous shmem
+To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
+ hughd@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, willy@infradead.org,
+ david@redhat.com, ioworker0@gmail.com, wangkefeng.wang@huawei.com,
+ ying.huang@intel.com, 21cnbao@gmail.com, ryan.roberts@arm.com,
+ shy828301@gmail.com, ziy@nvidia.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+References: <adc64bf0f150bdc614c6c06fc313adeef7dbbbff.1714978902.git.baolin.wang@linux.alibaba.com>
+ <202405071820.2KY0UnDu-lkp@intel.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <202405071820.2KY0UnDu-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jiaxun,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 2024/5/7 18:46, kernel test robot wrote:
+>>> mm/shmem.c:1780:10: warning: variable 'folio' is used uninitialized whenever 'while' loop exits because its condition is false [-Wsometimes-uninitialized]
+>      1780 |                 while (suitable_orders) {
+>           |                        ^~~~~~~~~~~~~~~
+>     mm/shmem.c:1795:7: note: uninitialized use occurs here
+>      1795 |         if (!folio)
+>           |              ^~~~~
+>     mm/shmem.c:1780:10: note: remove the condition if it is always true
+>      1780 |                 while (suitable_orders) {
+>           |                        ^~~~~~~~~~~~~~~
+>           |                        1
+>     mm/shmem.c:1750:21: note: initialize the variable 'folio' to silence this warning
+>      1750 |         struct folio *folio;
+>           |                            ^
+>           |                             = NULL
+>     mm/shmem.c:1564:20: warning: unused function 'shmem_show_mpol' [-Wunused-function]
+>      1564 | static inline void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
 
-[auto build test WARNING on 2b84edefcad14934796fad37b16512b6a2ca467e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/MIPS-generic-Do-__dt_setup_arch-in-prom_init/20240507-170413
-base:   2b84edefcad14934796fad37b16512b6a2ca467e
-patch link:    https://lore.kernel.org/r/20240507-cm_probe-v1-5-11dbfd598f3c%40flygoat.com
-patch subject: [PATCH 5/5] MIPS: cm: Probe GCR address from DeviceTree
-config: mips-randconfig-r113-20240508 (https://download.01.org/0day-ci/archive/20240508/202405081255.MGvZEuuc-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 0ab4458df0688955620b72cc2c72a32dffad3615)
-reproduce: (https://download.01.org/0day-ci/archive/20240508/202405081255.MGvZEuuc-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405081255.MGvZEuuc-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/mips/kernel/mips-cm.c:193:13: warning: result of comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-     193 |         if (*cmgcr == OF_BAD_ADDR)
-         |             ~~~~~~ ^  ~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +193 arch/mips/kernel/mips-cm.c
-
-   183	
-   184	static int __init mips_cm_fdt_scan(unsigned long node, const char *uname,
-   185			int depth, void *data)
-   186	{
-   187		unsigned long *cmgcr = data;
-   188	
-   189		if (!of_flat_dt_is_compatible(node, "mti,mips-cm"))
-   190			return 0;
-   191	
-   192		*cmgcr = of_flat_dt_translate_address(node);
- > 193		if (*cmgcr == OF_BAD_ADDR)
-   194			*cmgcr = 0;
-   195	
-   196		return 0;
-   197	}
-   198	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for reporting. Will add below change to avoid the warning:
+diff --git a/mm/shmem.c b/mm/shmem.c
+index d603e36e0f4f..fd2cb2e73a21 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1747,7 +1747,7 @@ static struct folio 
+*shmem_alloc_and_add_folio(struct vm_fault *vmf,
+         struct shmem_inode_info *info = SHMEM_I(inode);
+         struct vm_area_struct *vma = vmf ? vmf->vma : NULL;
+         unsigned long suitable_orders;
+-       struct folio *folio;
++       struct folio *folio = NULL;
+         long pages;
+         int error, order;
