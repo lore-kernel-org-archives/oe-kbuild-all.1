@@ -1,73 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E53125C7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 03:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1CC11C94
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 03:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715137929; cv=none; b=nHTbQvdBC+O69jJsUmnotu865AowcLEQ0JJ8L4MJvZttFmCkJKC3mM879s8RO/p8IgzMaETFkKcnMRaqPHUWzGT6kAEnFW9tHjbQsxUnnr5k7I/Z1znpcTBrN4gvuOExfYkvraIARkkcY+tAimQAZI49QP7BMnci+38sGvVZCFo=
+	t=1715138585; cv=none; b=AaGYvQxaDQUU0aTNfK8Cf2xExawMoFFhlnQRvrOYKXk8ontM99XRDWKZy8sj8F6QL3eLOA37SUHrFS874xsdhINM95cXE6w8RUs1hSi+6W6agd9VgfSgQQQRPRH78iqjpOes3NCYAdHNlimhMzAphKo88FVBlW5iOzm0fwI2mLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715137929; c=relaxed/simple;
-	bh=dojBfFEdRQ4nxloccm/HMrkGY2HBMwlLPi66aL/0V4Q=;
+	s=arc-20240116; t=1715138585; c=relaxed/simple;
+	bh=TYiDW/ytglgjHK0I6iejG+2IRyuqW835XZhpbmCqJCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lMg3XStSJ5kaBOLSAm2TSboywFV7E+iFlEULNRObky/HU+/B3DttNpvOVyWzH6Z9lJPOTNv/8NgatEjiwW/Hs4NyF+hzLMheCKutreIE81pQ2Zr5tjYeBRykpOoOL8RaBgDYCKuJTwD6EMO4a5mi1CntaMF1DR51PdwbdBCnUD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRTCEoFq; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=qcFjdwiuV8920NrllAaR2gsWSc2u6EEwQ/hSARWuZqGATlbuj3VgsbQXjf6XFqLRxv/qYVAAFeL8OUU/F6OFZf8Col1DtSZav0eBFpy1WJRmMwciYYCx+mqjJj37FtsJ0+srBfx2VlH+TssGCjgHCPKsjpOSSKi98dNkL4+QyNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k08LhB1B; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRTCEoFq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k08LhB1B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715137928; x=1746673928;
+  t=1715138584; x=1746674584;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dojBfFEdRQ4nxloccm/HMrkGY2HBMwlLPi66aL/0V4Q=;
-  b=bRTCEoFqWxPl2jhTsssT4xNjtJ/K6Xj/QB5VJOn+TtT6/J6CLOlA0dOO
-   5xxN6Q2CGiQSHkSL09zk07AP6QTO42T03MURCswwDMsoV4Vzr18h7A4SW
-   Q0lHQwWv/iLE6tLU4Rnvs7gxHyZVYVg6RiugH1/ge2cp62UuRiarl9yz+
-   lWyX9NdIGt8/LA7PhULKp19mjkP+tLJLxXC6SBgCiVnCqz5pb7Cexiy6W
-   Dzg2uaPgjW2ZcjVNAEeDBj4ymAcioldPe4lJkmdPe7Gev5mlJP0rfZOj0
-   HocMTZTpMHBS06Z/2Z8JRKQyh41U5bVIx1Efw8FWeAfjb5BBNP9d6k6Rz
-   w==;
-X-CSE-ConnectionGUID: mTkAKuwsQGiJjfre+Or1ww==
-X-CSE-MsgGUID: i1B3N8m1Sda29VFFK3PIAw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10814140"
+  bh=TYiDW/ytglgjHK0I6iejG+2IRyuqW835XZhpbmCqJCA=;
+  b=k08LhB1BNB7WZrwBcYU2NAGTBy51/uaaqeHicO27bx9S73eSpndOQbhu
+   vxANFQK/nrqIjqiRMM8XLb/wvrag/UyP5q+BqWsuivLYUKG6VIJzFr6OW
+   PFtwAHTLAC8cMN7jZOyenla56NC683fUV+P9rfn71XMcCK/9lllP6inIc
+   /Otkvye91N0NW0ObB+fMpQrRqUgZEOsaeSto5qET9e0B0B09WTHlGZ8OT
+   40dXG3uxXU8ha0HLMni28JIhBl7oZ/1re8hbFI0R435fyw44B+yIgEhBm
+   SZPi81uRu7FKZ716BDwltvk/L/lKdw4SBtKgAZTfySyeR3fF3NRZraOB6
+   g==;
+X-CSE-ConnectionGUID: TVJITA/RSxumFg3GyiSMug==
+X-CSE-MsgGUID: 25GoIrbaQ46i+CO3PZYB2w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11104298"
 X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="10814140"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 20:12:07 -0700
-X-CSE-ConnectionGUID: xwQBTDE0Tay2I1d6rDrH8Q==
-X-CSE-MsgGUID: 4zxaEh4FQVuxc8Z2qTzPCw==
+   d="scan'208";a="11104298"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 20:23:03 -0700
+X-CSE-ConnectionGUID: dtc4mAQETMOPtEZSP6Dx9Q==
+X-CSE-MsgGUID: +X9yA49rS5qDNYVe8EvJOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="28720178"
+   d="scan'208";a="28608728"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 May 2024 20:12:03 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 May 2024 20:23:02 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4Xiq-0002uY-13;
-	Wed, 08 May 2024 03:12:00 +0000
-Date: Wed, 8 May 2024 11:11:57 +0800
+	id 1s4XtU-0002um-1S;
+	Wed, 08 May 2024 03:23:00 +0000
+Date: Wed, 8 May 2024 11:22:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Michal Simek <monstr@monstr.eu>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH 06/18] media: siano: Refactor struct sms_msg_data
-Message-ID: <202405081007.7eCrDhSN-lkp@intel.com>
-References: <20240507-cocci-flexarray-v1-6-4a421c21fd06@chromium.org>
+To: Kiran K <kiran.k@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] Bluetooth: btintel_pcie: Add support for PCIe
+ transport
+Message-ID: <202405081103.uZlK7ysR-lkp@intel.com>
+References: <20240507155658.294676-2-kiran.k@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,116 +63,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240507-cocci-flexarray-v1-6-4a421c21fd06@chromium.org>
+In-Reply-To: <20240507155658.294676-2-kiran.k@intel.com>
 
-Hi Ricardo,
+Hi Kiran,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on e695668af8523b059127dfa8b261c76e7c9cde10]
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on bluetooth/master linus/master v6.9-rc7 next-20240507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Ribalda/media-allegro-nal-hevc-Refactor-nal_hevc_sub_layer_hrd_parameters/20240507-213119
-base:   e695668af8523b059127dfa8b261c76e7c9cde10
-patch link:    https://lore.kernel.org/r/20240507-cocci-flexarray-v1-6-4a421c21fd06%40chromium.org
-patch subject: [PATCH 06/18] media: siano: Refactor struct sms_msg_data
-config: mips-randconfig-r113-20240508 (https://download.01.org/0day-ci/archive/20240508/202405081007.7eCrDhSN-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 0ab4458df0688955620b72cc2c72a32dffad3615)
-reproduce: (https://download.01.org/0day-ci/archive/20240508/202405081007.7eCrDhSN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel_pcie-Add-support-for-PCIe-transport/20240507-234447
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240507155658.294676-2-kiran.k%40intel.com
+patch subject: [PATCH v2 2/3] Bluetooth: btintel_pcie: Add support for PCIe transport
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240508/202405081103.uZlK7ysR-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240508/202405081103.uZlK7ysR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405081007.7eCrDhSN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405081103.uZlK7ysR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/common/siano/smsendian.c:15:
-   In file included from drivers/media/common/siano/smscoreapi.h:18:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/media/common/siano/smsendian.c:27:16: error: subscripted value is not an array, pointer, or vector
-      27 |                 msg->msg_data[0] = le32_to_cpu((__force __le32)(msg->msg_data[0]));
-         |                 ~~~~~~~~~~~~~^~
-   drivers/media/common/siano/smsendian.c:27:64: error: subscripted value is not an array, pointer, or vector
-      27 |                 msg->msg_data[0] = le32_to_cpu((__force __le32)(msg->msg_data[0]));
-         |                                                                 ~~~~~~~~~~~~~^~
-   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   drivers/media/common/siano/smsendian.c:36:17: error: subscripted value is not an array, pointer, or vector
-      36 |                         msg->msg_data[i] = le32_to_cpu((__force __le32)msg->msg_data[i]);
-         |                         ~~~~~~~~~~~~~^~
-   drivers/media/common/siano/smsendian.c:36:64: error: subscripted value is not an array, pointer, or vector
-      36 |                         msg->msg_data[i] = le32_to_cpu((__force __le32)msg->msg_data[i]);
-         |                                                                        ~~~~~~~~~~~~~^~
-   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   drivers/media/common/siano/smsendian.c:73:17: error: subscripted value is not an array, pointer, or vector
-      73 |                         msg->msg_data[i] = le32_to_cpu((__force __le32)msg->msg_data[i]);
-         |                         ~~~~~~~~~~~~~^~
-   drivers/media/common/siano/smsendian.c:73:64: error: subscripted value is not an array, pointer, or vector
-      73 |                         msg->msg_data[i] = le32_to_cpu((__force __le32)msg->msg_data[i]);
-         |                                                                        ~~~~~~~~~~~~~^~
-   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   1 warning and 6 errors generated.
+   drivers/bluetooth/btintel_pcie.c: In function 'btintel_pcie_enable_bt':
+>> drivers/bluetooth/btintel_pcie.c:192:47: warning: right shift count >= width of type [-Wshift-count-overflow]
+     192 |                               data->ci_p_addr >> 32);
+         |                                               ^~
+   drivers/bluetooth/btintel_pcie.c:184:13: warning: variable 'reg' set but not used [-Wunused-but-set-variable]
+     184 |         u32 reg;
+         |             ^~~
+   drivers/bluetooth/btintel_pcie.c: In function 'btintel_pcie_msix_rx_handle':
+   drivers/bluetooth/btintel_pcie.c:458:22: warning: variable 'frbd' set but not used [-Wunused-but-set-variable]
+     458 |         struct frbd *frbd;
+         |                      ^~~~
 
 
-vim +27 drivers/media/common/siano/smsendian.c
+vim +192 drivers/bluetooth/btintel_pcie.c
 
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  13  
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  14  #include "smsendian.h"
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20 @15  #include "smscoreapi.h"
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  16  
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  17  void smsendian_handle_tx_message(void *buffer)
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  18  {
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  19  #ifdef __BIG_ENDIAN
-ff7ff3656465f7 drivers/media/common/siano/smsendian.c Dong Chuanjian        2022-12-26  20  	struct sms_msg_data *msg = buffer;
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  21  	int i;
-28a59df4d7cb8f drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2013-03-21  22  	int msg_words;
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  23  
-dfef84fc135832 drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2013-03-21  24  	switch (msg->x_msg_header.msg_type) {
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  25  	case MSG_SMS_DATA_DOWNLOAD_REQ:
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  26  	{
-e1b7f11b37def5 drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2018-04-20 @27  		msg->msg_data[0] = le32_to_cpu((__force __le32)(msg->msg_data[0]));
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  28  		break;
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  29  	}
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  30  
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  31  	default:
-28a59df4d7cb8f drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2013-03-21  32  		msg_words = (msg->x_msg_header.msg_length -
-dfef84fc135832 drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2013-03-21  33  				sizeof(struct sms_msg_hdr))/4;
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  34  
-28a59df4d7cb8f drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2013-03-21  35  		for (i = 0; i < msg_words; i++)
-e1b7f11b37def5 drivers/media/common/siano/smsendian.c Mauro Carvalho Chehab 2018-04-20  36  			msg->msg_data[i] = le32_to_cpu((__force __le32)msg->msg_data[i]);
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  37  
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  38  		break;
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  39  	}
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  40  #endif /* __BIG_ENDIAN */
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  41  }
-2c5582e58ce298 drivers/media/dvb/siano/smsendian.c    Mauro Carvalho Chehab 2009-05-14  42  EXPORT_SYMBOL_GPL(smsendian_handle_tx_message);
-cb17f9047d2c6f drivers/media/dvb/siano/smsendian.c    Uri Shkolnik          2009-04-20  43  
+   174	
+   175	/* This function enables BT function by setting BTINTEL_PCIE_CSR_FUNC_CTRL_MAC_INIT bit in
+   176	 * BTINTEL_PCIE_CSR_FUNC_CTRL_REG register and wait for MSI-X with
+   177	 * BTINTEL_PCIE_MSIX_HW_INT_CAUSES_GP0.
+   178	 * Then the host reads firmware version from BTINTEL_CSR_F2D_MBX and the boot stage
+   179	 * from BTINTEL_PCIE_CSR_BOOT_STAGE_REG.
+   180	 */
+   181	static int btintel_pcie_enable_bt(struct btintel_pcie_data *data)
+   182	{
+   183		int err;
+   184		u32 reg;
+   185	
+   186		data->gp0_received = false;
+   187	
+   188		/* Update the DMA address of CI struct to CSR */
+   189		btintel_pcie_wr_reg32(data, BTINTEL_PCIE_CSR_CI_ADDR_LSB_REG,
+   190				      data->ci_p_addr & 0xffffffff);
+   191		btintel_pcie_wr_reg32(data, BTINTEL_PCIE_CSR_CI_ADDR_MSB_REG,
+ > 192				      data->ci_p_addr >> 32);
+   193	
+   194		/* Reset the cached value of boot stage. it is updated by the MSI-X
+   195		 * gp0 interrupt handler.
+   196		 */
+   197		data->boot_stage_cache = 0x0;
+   198	
+   199		/* Set MAC_INIT bit to start primary bootloader */
+   200		reg = btintel_pcie_rd_reg32(data, BTINTEL_PCIE_CSR_FUNC_CTRL_REG);
+   201	
+   202		btintel_pcie_set_reg_bits(data, BTINTEL_PCIE_CSR_FUNC_CTRL_REG,
+   203					  BTINTEL_PCIE_CSR_FUNC_CTRL_MAC_INIT);
+   204	
+   205		/* Wait until MAC_ACCESS is granted */
+   206		err = btintel_pcie_poll_bit(data, BTINTEL_PCIE_CSR_FUNC_CTRL_REG,
+   207					    BTINTEL_PCIE_CSR_FUNC_CTRL_MAC_ACCESS_STS,
+   208					    BTINTEL_PCIE_CSR_FUNC_CTRL_MAC_ACCESS_STS,
+   209					    BTINTEL_DEFAULT_MAC_ACCESS_TIMEOUT_US);
+   210		if (err < 0)
+   211			return -ENODEV;
+   212	
+   213		/* MAC is ready. Enable BT FUNC */
+   214		btintel_pcie_set_reg_bits(data, BTINTEL_PCIE_CSR_FUNC_CTRL_REG,
+   215					  BTINTEL_PCIE_CSR_FUNC_CTRL_FUNC_ENA |
+   216					  BTINTEL_PCIE_CSR_FUNC_CTRL_FUNC_INIT);
+   217	
+   218		reg = btintel_pcie_rd_reg32(data, BTINTEL_PCIE_CSR_FUNC_CTRL_REG);
+   219	
+   220		/* wait for interrupt from the device after booting up to primary
+   221		 * bootloader.
+   222		 */
+   223		err = wait_event_timeout(data->gp0_wait_q, data->gp0_received,
+   224					 msecs_to_jiffies(BTINTEL_DEFAULT_INTR_TIMEOUT));
+   225		if (!err)
+   226			return -ETIME;
+   227	
+   228		/* Check cached boot stage is BTINTEL_PCIE_CSR_BOOT_STAGE_ROM(BIT(0)) */
+   229		if (~data->boot_stage_cache & BTINTEL_PCIE_CSR_BOOT_STAGE_ROM)
+   230			return -ENODEV;
+   231	
+   232		return 0;
+   233	}
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
