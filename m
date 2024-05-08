@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9399C12C497
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 May 2024 21:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC40C12BF20;
+	Wed,  8 May 2024 21:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715203160; cv=none; b=sAiNHKX+FlqDdGf6UFEcljRZ0MYvCjvC/tFHP0u0r0Nc8OdxEUqCMtw+Pnge/qFqGu3JUPzfWlqpI+EWYs+WON767Jf7McqFprqGpFPF0YrNtIrsqPAiMfeN+xWTUmjqSxQoL5RYbif09PT8JgMPoL1P93xKMZSXwx+GkIYmQuk=
+	t=1715203765; cv=none; b=PaWV8tDlVUGOdq1Uf1NHOe5+rtRCombItT+6L1GAnnweYgbm//C5oL15/ai9f4Lhf4O4droN6k7V6I1lQnvVIRhxzwyJ4McjZQNXtGlorAQQR8Wq49xQbJm/C99JPkzGTBYpLsmTCCUBv9eSkEAvubicWxsei67uxmy2q4Gb0nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715203160; c=relaxed/simple;
-	bh=YLYrpjHh3hn32bvgW3ETTt82p/27a+oZUhGKBb/WX+Y=;
+	s=arc-20240116; t=1715203765; c=relaxed/simple;
+	bh=C8Xvi1dqxGMmUWFmC5443UIoMw0DmQtqXBALLo+P4cs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CLN/qUvqgV4jRqCZGo6yP65JgUXmfH5Tuovazix7RqOk/ANmFIDsh0czVZeIHDZulSxnt2BVqA9kf6JL/BiJoewwQlEkjVRGq+ioTrmb5WoYxKWdHHHc/OecIT7qiZ9V8fMP9ouomInJgTX6XvCnfRcMD4N52lgam3u9+bC5Iaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DM5i1Ki/; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=g5P+eMo3qYToUvOwhC4fPQophf7sKVYKTctaQOdgGu7qgBN9JWGwGSxNS/7E/TYDBi+BRGvVWwnESS7Yhz1fNuNt33k1xfiAwYcEoGitCQuA2/6reuUzZlnCpCH+GRM/9fldp0qZPjgDKfr3DLApArKmtPb23Qwu8pj0zHBfoa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qt3eHpTi; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DM5i1Ki/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qt3eHpTi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715203158; x=1746739158;
+  t=1715203762; x=1746739762;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YLYrpjHh3hn32bvgW3ETTt82p/27a+oZUhGKBb/WX+Y=;
-  b=DM5i1Ki//dBWvOlYVitMvOVBKiriJPR0V2Xz61lvK4qrG2FVbvLoIivq
-   +RIw7dPIhtrfyHHHpIB0Id5cBZV2j/VppiNxXW93O8QV9M95lXJGaGZIF
-   AdJiihy6kUAfZfP1MmiU7g8KWiGq/oGUGuucy1PKgFAmO0s6rfKXJnMXv
-   CSXhQQ6XpaepWv2vk4tmeejSjU+v0HJyEmrwZvxHd78XOzaqYnpDYWGpC
-   eEcJRc5k4DJ0HBT4jjoWdq+DbMPMqgrrMpl6T8y7+g3uAXa3S5o7ph8WN
-   8L6E0T7Dr7XVWFAO/YHKVQBdEqpQggNSGPoY4ajkvchKIqVJTj5vhXs0v
+  bh=C8Xvi1dqxGMmUWFmC5443UIoMw0DmQtqXBALLo+P4cs=;
+  b=Qt3eHpTiQRNKHlRnoreEcEFcKYLgsW6tjSYtbYMvLmKw9AQr15ie3BKH
+   DwFj21nizk9T6a3spB91zdTg3Yt0uefEoVMmkx8ahdkRd0RcnYMKWfPsX
+   3DCl9a50Fdx4i/aVaTY0VCbjm3+McbFPNL/Od7u6GXO+Xg7ZUfANdQxIL
+   mDzMAwdOUtd7SG74Yk0cMYaf9sviTbij9OTpqPnUP/sYm5k4mc8mFxxpE
+   /9qFGsPPr5AWEKUz3dQb04Ov4S9/RtPyE18XIg8LjthGGL+kic0JpzEg4
+   iXj7bZDDRqgm7b26gEXakGeGJTka8Lkmtw4UDYMt+QwXmFHt6aO1EsdoE
    A==;
-X-CSE-ConnectionGUID: l8A607a0Qo+rY7SA1QNpAg==
-X-CSE-MsgGUID: 97DI73Z6RH2htt0KZW3MXQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="21662613"
+X-CSE-ConnectionGUID: +FahSy2qR+6Atp27KHm1NA==
+X-CSE-MsgGUID: Ww7qO09ZRjyeJo+HOA0Vjw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="10944292"
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="21662613"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 14:19:18 -0700
-X-CSE-ConnectionGUID: QT7w+RkPTiy3xD8mcnJifQ==
-X-CSE-MsgGUID: EWHKRMMtRImX7RSmLSeJ1w==
+   d="scan'208";a="10944292"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 14:29:21 -0700
+X-CSE-ConnectionGUID: iSeayxZASOe+bvS8jTtpbg==
+X-CSE-MsgGUID: 1lF8zhgzQeu+oVzzGWXuZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="29389461"
+   d="scan'208";a="33708469"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 May 2024 14:19:15 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 May 2024 14:29:17 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4ogy-00047W-2c;
-	Wed, 08 May 2024 21:19:12 +0000
-Date: Thu, 9 May 2024 05:18:17 +0800
+	id 1s4oqg-00047m-0I;
+	Wed, 08 May 2024 21:29:14 +0000
+Date: Thu, 9 May 2024 05:28:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
-	srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 5/5] misc: fastrpc: Add static PD restart support
-Message-ID: <202405090532.EhFuvhrs-lkp@intel.com>
-References: <20240508054250.2922-6-quic_ekangupt@quicinc.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+	dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+	zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+	zhoubinbin@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] Loongarch:Support loongarch avec
+Message-ID: <202405090419.xGNdK28X-lkp@intel.com>
+References: <20240507125953.9117-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,147 +69,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240508054250.2922-6-quic_ekangupt@quicinc.com>
+In-Reply-To: <20240507125953.9117-1-zhangtianyang@loongson.cn>
 
-Hi Ekansh,
+Hi Tianyang,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.9-rc7 next-20240508]
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on linus/master v6.9-rc7]
+[cannot apply to next-20240508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Redesign-remote-heap-management/20240508-134613
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20240508054250.2922-6-quic_ekangupt%40quicinc.com
-patch subject: [PATCH v1 5/5] misc: fastrpc: Add static PD restart support
-config: arm-randconfig-001-20240509 (https://download.01.org/0day-ci/archive/20240509/202405090532.EhFuvhrs-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405090532.EhFuvhrs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Loongarch-Support-loongarch-avec/20240507-210314
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20240507125953.9117-1-zhangtianyang%40loongson.cn
+patch subject: [PATCH 2/2] Loongarch:Support loongarch avec
+config: loongarch-randconfig-r113-20240508 (https://download.01.org/0day-ci/archive/20240509/202405090419.xGNdK28X-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240509/202405090419.xGNdK28X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405090532.EhFuvhrs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405090419.xGNdK28X-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-loongarch-avec.c:34:1: sparse: sparse: symbol '__pcpu_scope_pending_list' was not declared. Should it be static?
+   drivers/irqchip/irq-loongarch-avec.c:41:3: sparse: sparse: symbol 'loongarch_avec' was not declared. Should it be static?
+   drivers/irqchip/irq-loongarch-avec.c:181:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:181:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:184:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:184:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:187:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:187:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:190:31: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:190:31: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c:215:18: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_d'
+   drivers/irqchip/irq-loongarch-avec.c:215:18: sparse: sparse: cast from unknown type
+   drivers/irqchip/irq-loongarch-avec.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/irqchip/irq-loongarch-avec.c:164:6: sparse: sparse: context imbalance in 'complete_irq_moving' - different lock contexts for basic block
+   drivers/irqchip/irq-loongarch-avec.c: note: in included file (through arch/loongarch/include/asm/loongarch.h, arch/loongarch/include/asm/cpu-info.h, ...):
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:294:30: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrrd_d'
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:294:11: sparse: sparse: cast from unknown type
+   ../lib/gcc/loongarch64-linux/13.2.0/include/larchintrin.h:332:3: sparse: sparse: undefined identifier '__builtin_loongarch_iocsrwr_d'
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-mipi0a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6797-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6797-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-eth.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-apmixed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-infracfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mfgcfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-infra_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mdp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-wpe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-msdc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/chipidea/ci_hdrc_msm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-twl.o
-WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x8 (section: .data) -> et8ek8_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
->> ERROR: modpost: "qmi_txn_init" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_send_request" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_txn_cancel" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_txn_wait" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_add_lookup" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_handle_init" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_handle_release" [drivers/soc/qcom/pdr_interface.ko] undefined!
->> ERROR: modpost: "qmi_response_type_v01_ei" [drivers/soc/qcom/pdr_interface.ko] undefined!
+vim +/__pcpu_scope_pending_list +34 drivers/irqchip/irq-loongarch-avec.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for QCOM_PDR_HELPERS
-   Depends on [n]: NET [=n]
-   Selected by [m]:
-   - QCOM_FASTRPC [=m] && (ARCH_QCOM [=n] || COMPILE_TEST [=y]) && RPMSG [=m]
+    33	
+  > 34	DEFINE_PER_CPU(struct pending_list, pending_list);
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
