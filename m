@@ -1,77 +1,65 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B877D09D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 11:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293B3130488;
+	Thu,  9 May 2024 11:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715253307; cv=none; b=ENIPmco0jPx0yq/secMKT23StUr5TM5MPX0Fs6S+TIAUzC/jenEW6cnjaNkRXfTddGCCkkWW0iaHuzSzJBV/W/8cv5hR9sV+S3IK/XgaTGBX3LWQQZ6s0F9Sl7509qtv1ZCgCHzmfDN0uwMPq2PTBWno8MtuzlFkGSVly4gm/Dg=
+	t=1715253850; cv=none; b=DLjRjurJlRDMIQ8XekqOpME1aGs2aVgsCbnZJ0pUDugUQyVzBt9vJ2KKJV5V5R952V8z1/ZmQcWBeEUb2gaVnKmunJOx+Si2dwyxMdnam/855kXor+vyhv9jzrSXCiKIbTGEeeod+5iELlag0WmMXCEk0au0z72tyGc9I+pQvoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715253307; c=relaxed/simple;
-	bh=vXsFMRaxSZwNwrtFNURLPwY0cD8dWAmv9PX27I1oIPQ=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dNzF3x0uc3SrO71hm3geg2DDWlbNibll49+Cg4BP0xi34BzhENvI9FeKyCYa5uk3IebB3CqgpeUaKgmdMZH/gWq8RPxvwlnmS93VyO4w8QYlnHvbQvvDTDx0tdA0KbVofzuSdqcYBWT1ioN+i7LCsn6n9MUBcJ7ho6rASMFHYN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=egCc1kp0; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715253850; c=relaxed/simple;
+	bh=tLMPuK2Ly0RBsmWYYg9cOjP/3RZQ19gOk8kWcXXHoFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQa5eokjZq4sFSEWnwWNAdH+uICHy43OxjYbLKr/DqcVpvnjHoS2+Inmj/OIDGzcOmcQ/qW/A03mBhjf59nLg+hM2ql7MEjzcnKylSliXJLeOcVNl8Lzs+9RVrLj5w8uVgLZe4K6rYrrvbFYVSy5Cpf6CLWPikrSYW/k3FTYwGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhAowGzz; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="egCc1kp0"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-34e0d8b737eso1078792f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 May 2024 04:15:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715253304; x=1715858104; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IJB+OgvYLYogQhbVxq5DLy1Lyjt+NholKOBiVxc0zRI=;
-        b=egCc1kp0OQL6vbHr9i5iPGHD//SRbfc2LyrYu0EJg9oQ51h0iO8IYcZL8MH+5z3Lk8
-         6RZtC/GPQ9Kcpy6IRtzmcJk+YkdtoJ/qqaxeygGgr5cAFw2eEsjhlUmT+x6M7vCxCCk8
-         Ufm3BMR1HVYgHPRNFsy2l/fnsrZf9zTH/VTWdTEB8tUAzToaJNNFVsmEoUot5rJe2xdY
-         JmVn+I4nvx2obSBem4hcjVUoPhzmzmwbRxEre2HLPS5DXDJv//Vk+XqehZBo9ddnUwcJ
-         Vf3s4gh6s4bzrixzt8zA59ehCFjs8gCXKsAPgr/pxTJRGdR35RdFBIGuk+lMu4/lDdiX
-         Q20A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715253304; x=1715858104;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IJB+OgvYLYogQhbVxq5DLy1Lyjt+NholKOBiVxc0zRI=;
-        b=ECyQ79SEwtasoA87B6/WhkAhY02Ot7ubO5wyRfoNijtJF6eH7bASOvKcPINYdoCXC+
-         bgntRH34bEEJ9K5eaArXg9cwP3174Ew6TCShpxyhMjzVGmqL8JcrcA1MWCA7IMgZHzvs
-         PdQ4BjvSbAqgTXonbDM0jpappcOxi/9W6vN8A9EXzQSOkI1CwIf44bME4C5EQWkDBPs7
-         GkkGy+Qtir5PHk5RksJa5LGIHwJx9tXG2J3hmwtfSeKYT7JQKJfyGAqDE31XaxGDM2LL
-         tJpKCw6QInlY4Gs61KUZ5StXft0DFnKc/1Tuw4+iFBbpGnR4RN2k/N8pW46OMfzbAv6w
-         sXag==
-X-Forwarded-Encrypted: i=1; AJvYcCWzC9lg/oOCm3fOXhMQNiIhqgbDkBwCz/ayGIkpLQkIFpEOtK7eyezMbbiFcVu1kSciTN25EZJy1cBJu8pYP3tACg8PsoVPhwPXn3VZBw==
-X-Gm-Message-State: AOJu0YyWHdJjd1HG1+LekzMFh3ZGRSr6r5RQe2LQBE/R065DOo/dEieQ
-	JKVO2ZBN8YlBETFQJRr2BnP4PT5bDAqWOqldQ2V59/g0LD3b4ioD
-X-Google-Smtp-Source: AGHT+IHHCRkykSFXuu6ipQb2TuDdXJTI3AAL4s9XQ0bI3eoTF9YXQdmpGXJ2MLVDIqVGbi11gFDoDg==
-X-Received: by 2002:adf:fe8a:0:b0:34c:fd92:3359 with SMTP id ffacd0b85a97d-350185d57e7mr2016967f8f.21.1715253303584;
-        Thu, 09 May 2024 04:15:03 -0700 (PDT)
-Received: from Ansuel-XPS. (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baacfd3sm1426846f8f.84.2024.05.09.04.15.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 04:15:03 -0700 (PDT)
-Message-ID: <663cb037.5d0a0220.41af4.3328@mx.google.com>
-X-Google-Original-Message-ID: <ZjywNBzF0EwuS4MM@Ansuel-XPS.>
-Date: Thu, 9 May 2024 13:15:00 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Hauke Mehrtens <hauke@hauke-m.de>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	=?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>,
-	linux-mips@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Daniel =?iso-8859-1?Q?Gonz=E1lez?= Cabanelas <dgcbueu@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/5] mips: bmips: rework and cache CBR addr handling
-References: <20240503212139.5811-3-ansuelsmth@gmail.com>
- <202405090546.iqx9FAqu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhAowGzz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715253847; x=1746789847;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tLMPuK2Ly0RBsmWYYg9cOjP/3RZQ19gOk8kWcXXHoFA=;
+  b=LhAowGzzqmFj5R/IT1RXDb8duTAm+3AH+2Rd8XKPFHQpplF2wWcHv7Nk
+   BbH6PXbT1qFDoS+L4i0idLa1+PmunxYl3QE8kEvZBHZNo0be0cV5KIvic
+   vSVRhR0IQDj93X7b4Hf7BPDJUrleKJQxgjvmR6MtfUjb2ezg1TjXTav65
+   laQN7DNBDcU5bctQC1gxpkP4RQy7vdh2C9T/Han0NhJ3JG+qcmdgdDBv6
+   goNYO30QVB7uSJ9K5lw2H9KBDseXb1Rskdobi1Lr7R810mDQwnkFqiIo9
+   lL6pNnVoidoylpz1MR51PJicACbWN9ZDrJhbgbL03SDzzVhzB67SrGfq9
+   A==;
+X-CSE-ConnectionGUID: tqadPIKeQwWvPWuNoIxEpA==
+X-CSE-MsgGUID: 6bKvNMV/RWCw30t3nUQ2BA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="21838610"
+X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; 
+   d="scan'208";a="21838610"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 04:24:07 -0700
+X-CSE-ConnectionGUID: TDrF/mY/TVCfXE0QIr001A==
+X-CSE-MsgGUID: wwK+3fd5SpSj0LfYkrLsCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; 
+   d="scan'208";a="33680718"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 09 May 2024 04:24:04 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s51sY-0004pA-0c;
+	Thu, 09 May 2024 11:24:02 +0000
+Date: Thu, 9 May 2024 19:23:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Minchan Kim <minchan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCHv3 02/19] zram: add lzo and lzorle compression backends
+ support
+Message-ID: <202405091921.320BxOyE-lkp@intel.com>
+References: <20240508074223.652784-3-senozhatsky@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,44 +68,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202405090546.iqx9FAqu-lkp@intel.com>
+In-Reply-To: <20240508074223.652784-3-senozhatsky@chromium.org>
 
-On Thu, May 09, 2024 at 07:13:16AM +0800, kernel test robot wrote:
-> Hi Christian,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on linus/master v6.9-rc7 next-20240508]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/mips-bmips-BCM6358-make-sure-CBR-is-correctly-set/20240504-052513
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20240503212139.5811-3-ansuelsmth%40gmail.com
-> patch subject: [PATCH v2 2/5] mips: bmips: rework and cache CBR addr handling
-> config: mips-bcm63xx_defconfig (https://download.01.org/0day-ci/archive/20240509/202405090546.iqx9FAqu-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405090546.iqx9FAqu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405090546.iqx9FAqu-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    mips-linux-ld: arch/mips/kernel/smp-bmips.o: in function `bmips_ebase_setup':
-> >> smp-bmips.c:(.text+0x114): undefined reference to `bmips_cbr_addr'
-> >> mips-linux-ld: smp-bmips.c:(.text+0x118): undefined reference to `bmips_cbr_addr'
->    mips-linux-ld: arch/mips/kernel/smp-bmips.o: in function `bmips_cpu_setup':
->    smp-bmips.c:(.text+0x1a4): undefined reference to `bmips_cbr_addr'
->    mips-linux-ld: smp-bmips.c:(.text+0x1b4): undefined reference to `bmips_cbr_addr'
->
+Hi Sergey,
 
-This is caused by legacy brcm47xx and brcm63xx target. v4 will have this
-fixed (and I will drop the ACK since I moved code around)
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.9-rc7 next-20240509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sergey-Senozhatsky/zram-move-from-crypto-API-to-custom-comp-backends-API/20240508-154917
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20240508074223.652784-3-senozhatsky%40chromium.org
+patch subject: [PATCHv3 02/19] zram: add lzo and lzorle compression backends support
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240509/202405091921.320BxOyE-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405091921.320BxOyE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405091921.320BxOyE-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ioat/ioatdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-evtchn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-privcmd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/i915/kvmgt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/hmem/dax_hmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/kmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/isci/isci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/intel_soc_dts_iosf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rapl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_mbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_wt_hint.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/intel-ish-hid/intel-ishtp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-vbtn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-rst.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/amilo-rfkill.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/classmate-laptop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ras/amd/atl/amd_atl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dca/dca.o
+>> ERROR: modpost: "backend_lzorle" [drivers/block/zram/zram.ko] undefined!
+>> ERROR: modpost: "backend_lzo" [drivers/block/zram/zram.ko] undefined!
 
 -- 
-	Ansuel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
