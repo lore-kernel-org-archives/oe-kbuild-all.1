@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8336B147C6F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 03:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3381494C9;
+	Thu,  9 May 2024 04:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715226901; cv=none; b=Zom7q9BoZJX1CEg0CBSl+6wRbw2JIyX8gy3y0V21bMlmE0MAJdS0aV4D0SlhfehQD2dewa34g8rWhaRdT0gVJl7JjSyuy3ye/oY61c+NQ7yWGVkTMLX0A9rX7PHUkBcK+UKwRxHLx04v1MdAoHZp/qHnzG3iy+/J8BtIajehHqA=
+	t=1715230086; cv=none; b=ihsHOhlMmQGXGgM4VZet2F4U3PD+LCFm+dNUO0jsfaV4zZahGsJUNPW+pyGHivb8XpogaXPODI2ten/rTqQyp8xM5h/n8jJNINUY5Jn0cPVOKeAbNWkmquJjPiqd8bdgdxWm05a+3MRxfmIQC0C3sn/4g4Ai1KO+gKU+7ChMTks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715226901; c=relaxed/simple;
-	bh=P+rAORxq7vvZlGp2lvbH9at+/ZXUdgm3RqR6S9CnS80=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gyoj8JG/BTR5uxcdhCUb117uJ8wjP7eilx/aEhcju4uQ5dde4RfNLYtdKjAzXn4L9+ZuBkGHfThgQQeJt76k0IM52n6ZfVI/V3Wei5MliKS5RAmLsKYKrTlp2S9KVDSyY7hWKErGPpq6S2Qk02ozSGz0by0pvwa+8RKyYRO3gKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RROAWEFi; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1715230086; c=relaxed/simple;
+	bh=E6GLGUNu5XEPafk+JfG6+bGh7d1mOOqhkHHoKLbrq8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nkqVTxSYz/dmwTl2vyidLlyZr+84Gar3syu9emnDAmFqy9JPXuA6XCtoWQkZ09lFXas7cwjNtO2Glkw5lFgqvyU886KrnBM1SO6/xAecbBr4jgx5HldpPK2S7z87Yn/dPzuRCAzbP03/dQjWknLsvnLn2GkIUc0bmCF6C4TzhVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+WGMD3f; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RROAWEFi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+WGMD3f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715226898; x=1746762898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P+rAORxq7vvZlGp2lvbH9at+/ZXUdgm3RqR6S9CnS80=;
-  b=RROAWEFid5YG3YGD3fp6CC1Egs4YSjzIt/1Wnk5HS2Xtkb/OYB7KiG1U
-   /kd/v4s+Q+2gHnOT8fvn59Emi+HT6lrw8TQ2I85y6zs995Zzy/GzmotrC
-   Ag1b8wrJr9Oaf7TQ10ahvq+7VFlnfNvs+uyr4QLXDeMoBuDmcnzU1x7xr
-   xUlXV+VVS68zYfiPnoI+UDcleyuNCf6jbRVgOYjPu0K+kg9EeDC3t4JpX
-   mcD7NOaqHYrhF9PSiMWicleLY7HaoA/2/FlDu/hjbxyHj46DzXvJsxyjo
-   II1PCK1wWrWm+EGzsHWgsYCH/WdBl7ZVkvU0gofh4XxA8l+XIyZPj16kK
-   A==;
-X-CSE-ConnectionGUID: 6pilqdsZSK2YWubEI6mhVg==
-X-CSE-MsgGUID: 3QIOMM4bTVeaISbRaJrRLg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="22517244"
+  t=1715230084; x=1746766084;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E6GLGUNu5XEPafk+JfG6+bGh7d1mOOqhkHHoKLbrq8I=;
+  b=L+WGMD3f3Lh+sdM5CaKDDaHxGiEgIYtFBmmu3FfaScFD+TzIpSOGPWNy
+   LYOx9AJnl1Bab7I6DF1l4OwwUd1DyLONUVtJTHlvLzusZdO8XWQ1eAgF4
+   TOYuFdXz4HaI9LsVaAeWvpimCUP0FdGMoiDvOpn2nE9n3wLOOARHIIvob
+   pg/mTSn+ySiwfW2n1DJxPSTQryeTPvf3Ly4wzHGrIffyHO/RwHbhV7TS8
+   OHQDpEwSp9uBEkZrhQAWET4OT8JbCrRYLylH6l2Ty4QBrMpSATtnB4ROj
+   MbaeB6uQcAPstO6tjBg0Rm2aaOAj1WAUpqxeIr97z6oudt+DmY5REPVcR
+   Q==;
+X-CSE-ConnectionGUID: HkkV4zsHSYGgzy1hIc0biQ==
+X-CSE-MsgGUID: JTvQTbSwREamsKd5n+vfow==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="36508420"
 X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
-   d="scan'208";a="22517244"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 20:54:58 -0700
-X-CSE-ConnectionGUID: XWUEZN39RNCqmR3IeOiYrA==
-X-CSE-MsgGUID: Iz43qB41Qu6wX21rUr5YaQ==
+   d="scan'208";a="36508420"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 21:48:03 -0700
+X-CSE-ConnectionGUID: DP2pll5XTlWBTP78z2kmVw==
+X-CSE-MsgGUID: MoqN1fHWQmerOeJEMA4WDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
-   d="scan'208";a="29195380"
+   d="scan'208";a="29051161"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 May 2024 20:54:56 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 May 2024 21:48:00 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4urt-0004QC-1V;
-	Thu, 09 May 2024 03:54:53 +0000
-Date: Thu, 9 May 2024 11:54:10 +0800
+	id 1s4vhG-0004Sq-09;
+	Thu, 09 May 2024 04:47:58 +0000
+Date: Thu, 9 May 2024 12:46:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Varadarajan Narayanan <quic_varada@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: WARNING: modpost: "__udelay" [drivers/phy/qualcomm/phy-qcom-m31.ko]
- has no CRC!
-Message-ID: <202405091140.aGz4I354-lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>, brendan.higgins@linux.dev,
+	davidgow@google.com, rmoar@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v2] kunit: Cover 'assert.c' with tests
+Message-ID: <202405091253.FrHa2zBi-lkp@intel.com>
+References: <20240508132557.599213-1-ivan.orlov0322@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,227 +66,273 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240508132557.599213-1-ivan.orlov0322@gmail.com>
 
-Hi Varadarajan,
+Hi Ivan,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   45db3ab70092637967967bfd8e6144017638563c
-commit: 08e49af507017521b90940493d0fc3a190f5f69b phy: qcom: Introduce M31 USB PHY driver
-date:   9 months ago
-config: sparc-randconfig-r051-20240309 (https://download.01.org/0day-ci/archive/20240509/202405091140.aGz4I354-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405091140.aGz4I354-lkp@intel.com/reproduce)
+[auto build test WARNING on shuah-kselftest/kunit]
+[also build test WARNING on shuah-kselftest/kunit-fixes linus/master v6.9-rc7 next-20240508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/kunit-Cover-assert-c-with-tests/20240508-212654
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
+patch link:    https://lore.kernel.org/r/20240508132557.599213-1-ivan.orlov0322%40gmail.com
+patch subject: [PATCH v2] kunit: Cover 'assert.c' with tests
+config: i386-randconfig-001-20240509 (https://download.01.org/0day-ci/archive/20240509/202405091253.FrHa2zBi-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405091253.FrHa2zBi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405091140.aGz4I354-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405091253.FrHa2zBi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/wlan-ng/prism2_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/fddi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-ERROR: modpost: "ebus_dma_irq_enable" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_unregister" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_enable" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_prepare" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_request" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_residue" [drivers/parport/parport_pc.ko] undefined!
-ERROR: modpost: "ebus_dma_register" [drivers/parport/parport_pc.ko] undefined!
-WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__udelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "bzero_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "bzero_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__copy_1page" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__copy_1page" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__divdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__divdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_exit" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_exit" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_read_try" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_read_try" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "___rw_write_enter" [vmlinux] version generation failed, symbol will not be versioned.
-Is "___rw_write_enter" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "__muldi3" [vmlinux] version generation failed, symbol will not be versioned.
-Is "__muldi3" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "__udelay" [kernel/rcu/rcuscale.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [fs/xfs/xfs.ko] has no CRC!
-WARNING: modpost: "__udelay" [fs/xfs/xfs.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [fs/xfs/xfs.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [fs/btrfs/btrfs.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [fs/btrfs/btrfs.ko] has no CRC!
-WARNING: modpost: "empty_zero_page" [lib/crypto/libchacha20poly1305.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [lib/test_scanf.ko] has no CRC!
-WARNING: modpost: "__udelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__ndelay" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/amlogic/phy-meson-axg-pcie.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/broadcom/phy-brcm-sata.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/phy/cadence/phy-cadence-torrent.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/cadence/phy-cadence-salvo.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/mediatek/phy-mtk-mipi-dsi-drv.ko] has no CRC!
->> WARNING: modpost: "__udelay" [drivers/phy/qualcomm/phy-qcom-m31.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/ralink/phy-ralink-usb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/rockchip/phy-rockchip-inno-usb2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/rockchip/phy-rockchip-typec.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/phy/sunplus/phy-sunplus-usb2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pinctrl/bcm/pinctrl-bcm2835.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pinctrl/qcom/pinctrl-msm.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/gpio/gpio-aggregator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pci/controller/dwc/pci-meson.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pci/controller/pci-aardvark.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pci/controller/pcie-mediatek.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/pci/controller/pcie-brcmstb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/core/fb_ddc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/cyber2000fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/matrox/matroxfb_DAC1064.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/riva/rivafb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/aty/aty128fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/neofb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s3fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/cirrusfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/s1d13xxxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/carminefb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/mb862xx/mb862xxfb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/video/fbdev/da8xx-fb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/clk/sprd/clk-sprd.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/clk/sunxi-ng/sunxi-ccu.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/clk/clk-cs2000-cp.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/mediatek/mtk-cqdma.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/xilinx/xilinx_dpdma.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/altera-msgdma.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/idma64.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/dma/tegra210-adma.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/soc/qcom/qcom_rpmh.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/regulator/ti-abb-regulator.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/reset/reset-berlin.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/reset/reset-imx7.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/ba431-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/st-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/stm32-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/char/hw_random/mtk-rng.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/parport/parport_pc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/altera-stapl/altera-stapl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/misc/dw-xdata-pcie.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/ene-kb3930.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/axp20x.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/si476x-core.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/ssbi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/atmel-hlcdc.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/rn5t618.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/mfd/acer-ec-a500.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/arcmsr/arcmsr.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/aacraid/aacraid.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/aic94xx/aic94xx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/fdomain.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/qla1280.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/qla2xxx/qla2xxx.ko] has no CRC!
-WARNING: modpost: "__ndelay" [drivers/scsi/qla2xxx/qla2xxx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/bfa/bfa.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/dmx3191d.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/esp_scsi.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/am53c974.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/megaraid.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/mpt3sas/mpt3sas.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/sun_esp.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/myrb.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/ppa.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/imm.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/stex.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/scsi/mvumi.ko] has no CRC!
-WARNING: modpost: "__lshrdi3" [drivers/scsi/sd_mod.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/phy/bcm7xxx.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/phy/icplus.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/phy/microchip_t1s.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/mdio/mdio-ipq4019.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/mdio/mdio-moxart.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/mdio/mdio-mux-meson-g12a.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/mdio/mdio-mux-meson-gxl.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/can/c_can/c_can.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/can/c_can/c_can_platform.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/can/flexcan/flexcan.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/can/m_can/m_can.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/adaptec/starfire.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/aquantia/atlantic/atlantic.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/atheros/atlx/atl1.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/atheros/atlx/atl2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/atheros/atl1c/atl1c.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/broadcom/bnxt/bnxt_en.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/chelsio/cxgb3/cxgb3.ko] has no CRC!
-WARNING: modpost: "__ashldi3" [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/chelsio/cxgb4vf/cxgb4vf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/cisco/enic/enic.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/emulex/benet/be2net.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/freescale/gianfar_driver.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/hisilicon/hns/hns_dsaf.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/marvell/mv643xx_eth.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/marvell/mvneta.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/marvell/skge.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/marvell/sky2.ko] has no CRC!
-WARNING: modpost: "__udelay" [drivers/net/ethernet/smsc/smsc9420.ko] has no CRC!
+>> lib/kunit/assert.c:35:6: warning: no previous prototype for function 'kunit_assert_print_msg' [-Wmissing-prototypes]
+      35 | void kunit_assert_print_msg(const struct va_format *message,
+         |      ^
+   lib/kunit/assert.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      35 | void kunit_assert_print_msg(const struct va_format *message,
+         | ^
+         | static 
+>> lib/kunit/assert.c:95:23: warning: no previous prototype for function 'is_literal' [-Wmissing-prototypes]
+      95 | VISIBLE_IF_KUNIT bool is_literal(const char *text, long long value)
+         |                       ^
+   lib/kunit/assert.c:95:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      95 | VISIBLE_IF_KUNIT bool is_literal(const char *text, long long value)
+         |                  ^
+         |                  static 
+>> lib/kunit/assert.c:173:23: warning: no previous prototype for function 'is_str_literal' [-Wmissing-prototypes]
+     173 | VISIBLE_IF_KUNIT bool is_str_literal(const char *text, const char *value)
+         |                       ^
+   lib/kunit/assert.c:173:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     173 | VISIBLE_IF_KUNIT bool is_str_literal(const char *text, const char *value)
+         |                  ^
+         |                  static 
+>> lib/kunit/assert.c:217:6: warning: no previous prototype for function 'kunit_assert_hexdump' [-Wmissing-prototypes]
+     217 | void kunit_assert_hexdump(struct string_stream *stream,
+         |      ^
+   lib/kunit/assert.c:217:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     217 | void kunit_assert_hexdump(struct string_stream *stream,
+         | ^
+         | static 
+   4 warnings generated.
+
+
+vim +/kunit_assert_print_msg +35 lib/kunit/assert.c
+
+    33	
+    34	VISIBLE_IF_KUNIT
+  > 35	void kunit_assert_print_msg(const struct va_format *message,
+    36				    struct string_stream *stream)
+    37	{
+    38		if (message->fmt)
+    39			string_stream_add(stream, "\n%pV", message);
+    40	}
+    41	EXPORT_SYMBOL_IF_KUNIT(kunit_assert_print_msg);
+    42	
+    43	void kunit_fail_assert_format(const struct kunit_assert *assert,
+    44				      const struct va_format *message,
+    45				      struct string_stream *stream)
+    46	{
+    47		string_stream_add(stream, "%pV", message);
+    48	}
+    49	EXPORT_SYMBOL_GPL(kunit_fail_assert_format);
+    50	
+    51	void kunit_unary_assert_format(const struct kunit_assert *assert,
+    52				       const struct va_format *message,
+    53				       struct string_stream *stream)
+    54	{
+    55		struct kunit_unary_assert *unary_assert;
+    56	
+    57		unary_assert = container_of(assert, struct kunit_unary_assert, assert);
+    58	
+    59		if (unary_assert->expected_true)
+    60			string_stream_add(stream,
+    61					  KUNIT_SUBTEST_INDENT "Expected %s to be true, but is false\n",
+    62					  unary_assert->condition);
+    63		else
+    64			string_stream_add(stream,
+    65					  KUNIT_SUBTEST_INDENT "Expected %s to be false, but is true\n",
+    66					  unary_assert->condition);
+    67		kunit_assert_print_msg(message, stream);
+    68	}
+    69	EXPORT_SYMBOL_GPL(kunit_unary_assert_format);
+    70	
+    71	void kunit_ptr_not_err_assert_format(const struct kunit_assert *assert,
+    72					     const struct va_format *message,
+    73					     struct string_stream *stream)
+    74	{
+    75		struct kunit_ptr_not_err_assert *ptr_assert;
+    76	
+    77		ptr_assert = container_of(assert, struct kunit_ptr_not_err_assert,
+    78					  assert);
+    79	
+    80		if (!ptr_assert->value) {
+    81			string_stream_add(stream,
+    82					  KUNIT_SUBTEST_INDENT "Expected %s is not null, but is\n",
+    83					  ptr_assert->text);
+    84		} else if (IS_ERR(ptr_assert->value)) {
+    85			string_stream_add(stream,
+    86					  KUNIT_SUBTEST_INDENT "Expected %s is not error, but is: %ld\n",
+    87					  ptr_assert->text,
+    88					  PTR_ERR(ptr_assert->value));
+    89		}
+    90		kunit_assert_print_msg(message, stream);
+    91	}
+    92	EXPORT_SYMBOL_GPL(kunit_ptr_not_err_assert_format);
+    93	
+    94	/* Checks if `text` is a literal representing `value`, e.g. "5" and 5 */
+  > 95	VISIBLE_IF_KUNIT bool is_literal(const char *text, long long value)
+    96	{
+    97		char *buffer;
+    98		int len;
+    99		bool ret;
+   100	
+   101		len = snprintf(NULL, 0, "%lld", value);
+   102		if (strlen(text) != len)
+   103			return false;
+   104	
+   105		buffer = kmalloc(len+1, GFP_KERNEL);
+   106		if (!buffer)
+   107			return false;
+   108	
+   109		snprintf(buffer, len+1, "%lld", value);
+   110		ret = strncmp(buffer, text, len) == 0;
+   111	
+   112		kfree(buffer);
+   113	
+   114		return ret;
+   115	}
+   116	EXPORT_SYMBOL_IF_KUNIT(is_literal);
+   117	
+   118	void kunit_binary_assert_format(const struct kunit_assert *assert,
+   119					const struct va_format *message,
+   120					struct string_stream *stream)
+   121	{
+   122		struct kunit_binary_assert *binary_assert;
+   123	
+   124		binary_assert = container_of(assert, struct kunit_binary_assert,
+   125					     assert);
+   126	
+   127		string_stream_add(stream,
+   128				  KUNIT_SUBTEST_INDENT "Expected %s %s %s, but\n",
+   129				  binary_assert->text->left_text,
+   130				  binary_assert->text->operation,
+   131				  binary_assert->text->right_text);
+   132		if (!is_literal(binary_assert->text->left_text, binary_assert->left_value))
+   133			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld (0x%llx)\n",
+   134					  binary_assert->text->left_text,
+   135					  binary_assert->left_value,
+   136					  binary_assert->left_value);
+   137		if (!is_literal(binary_assert->text->right_text, binary_assert->right_value))
+   138			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld (0x%llx)",
+   139					  binary_assert->text->right_text,
+   140					  binary_assert->right_value,
+   141					  binary_assert->right_value);
+   142		kunit_assert_print_msg(message, stream);
+   143	}
+   144	EXPORT_SYMBOL_GPL(kunit_binary_assert_format);
+   145	
+   146	void kunit_binary_ptr_assert_format(const struct kunit_assert *assert,
+   147					    const struct va_format *message,
+   148					    struct string_stream *stream)
+   149	{
+   150		struct kunit_binary_ptr_assert *binary_assert;
+   151	
+   152		binary_assert = container_of(assert, struct kunit_binary_ptr_assert,
+   153					     assert);
+   154	
+   155		string_stream_add(stream,
+   156				  KUNIT_SUBTEST_INDENT "Expected %s %s %s, but\n",
+   157				  binary_assert->text->left_text,
+   158				  binary_assert->text->operation,
+   159				  binary_assert->text->right_text);
+   160		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %px\n",
+   161				  binary_assert->text->left_text,
+   162				  binary_assert->left_value);
+   163		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %px",
+   164				  binary_assert->text->right_text,
+   165				  binary_assert->right_value);
+   166		kunit_assert_print_msg(message, stream);
+   167	}
+   168	EXPORT_SYMBOL_GPL(kunit_binary_ptr_assert_format);
+   169	
+   170	/* Checks if KUNIT_EXPECT_STREQ() args were string literals.
+   171	 * Note: `text` will have ""s where as `value` will not.
+   172	 */
+ > 173	VISIBLE_IF_KUNIT bool is_str_literal(const char *text, const char *value)
+   174	{
+   175		int len;
+   176	
+   177		len = strlen(text);
+   178		if (len < 2)
+   179			return false;
+   180		if (text[0] != '\"' || text[len - 1] != '\"')
+   181			return false;
+   182	
+   183		return strncmp(text + 1, value, len - 2) == 0;
+   184	}
+   185	EXPORT_SYMBOL_IF_KUNIT(is_str_literal);
+   186	
+   187	void kunit_binary_str_assert_format(const struct kunit_assert *assert,
+   188					    const struct va_format *message,
+   189					    struct string_stream *stream)
+   190	{
+   191		struct kunit_binary_str_assert *binary_assert;
+   192	
+   193		binary_assert = container_of(assert, struct kunit_binary_str_assert,
+   194					     assert);
+   195	
+   196		string_stream_add(stream,
+   197				  KUNIT_SUBTEST_INDENT "Expected %s %s %s, but\n",
+   198				  binary_assert->text->left_text,
+   199				  binary_assert->text->operation,
+   200				  binary_assert->text->right_text);
+   201		if (!is_str_literal(binary_assert->text->left_text, binary_assert->left_value))
+   202			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == \"%s\"\n",
+   203					  binary_assert->text->left_text,
+   204					  binary_assert->left_value);
+   205		if (!is_str_literal(binary_assert->text->right_text, binary_assert->right_value))
+   206			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == \"%s\"",
+   207					  binary_assert->text->right_text,
+   208					  binary_assert->right_value);
+   209		kunit_assert_print_msg(message, stream);
+   210	}
+   211	EXPORT_SYMBOL_GPL(kunit_binary_str_assert_format);
+   212	
+   213	/* Adds a hexdump of a buffer to a string_stream comparing it with
+   214	 * a second buffer. The different bytes are marked with <>.
+   215	 */
+   216	VISIBLE_IF_KUNIT
+ > 217	void kunit_assert_hexdump(struct string_stream *stream,
+   218				  const void *buf,
+   219				  const void *compared_buf,
+   220				  const size_t len)
+   221	{
+   222		size_t i;
+   223		const u8 *buf1 = buf;
+   224		const u8 *buf2 = compared_buf;
+   225	
+   226		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT);
+   227	
+   228		for (i = 0; i < len; ++i) {
+   229			if (!(i % 16) && i)
+   230				string_stream_add(stream, "\n" KUNIT_SUBSUBTEST_INDENT);
+   231	
+   232			if (buf1[i] != buf2[i])
+   233				string_stream_add(stream, "<%02x>", buf1[i]);
+   234			else
+   235				string_stream_add(stream, " %02x ", buf1[i]);
+   236		}
+   237	}
+   238	EXPORT_SYMBOL_IF_KUNIT(kunit_assert_hexdump);
+   239	
 
 -- 
 0-DAY CI Kernel Test Service
