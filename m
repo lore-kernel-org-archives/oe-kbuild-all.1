@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B3680034
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 21:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE74129A68;
+	Thu,  9 May 2024 21:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715289328; cv=none; b=B63dw0g0/MljcH1Rp3zpuFG31Mx0nbzmDddvHjUH23bKolFL5ww4+5v5eVZrTO/93qkllZiHmYEK3mta74/8Y5tZD06pfbtyMlM1rwkpWFlqHGKIloprFcn3Dk5QPWOZ6LdAjgjDNlyTLb5XtI9CknAeRMeirYx//5KzvXGEX7k=
+	t=1715290532; cv=none; b=VLp5qsW9KIVltr38/yR1pVNrP2pT+Q72uenBlBLd4tSzijrUZMxwJv1FO9JhaVSF61myAC9xqi3JuipKxW64OjpKUMd/ZgHK4bOe4FbWSuI3mzYjm2FP5PAsXmDrmx7kNIhnAEqlSXn/8Zu5iFowk5MydYWZUx6keT5JAxd8/FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715289328; c=relaxed/simple;
-	bh=e+t6dd+TKSI8pEOw8/KQZoIUjPrk7Tepy+t5r97F0Dc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a0BLHOiLUMa8z/AWE0b9XYISLuXB3hQWj6XprWGctweV4o2ZrjQiB/QsdMBkSZTAHJeaQl2kNRWYOkm3EETkEIUeu8QqsK2K9EQUu682id8blqgnuyTITIqOl9JGsLwXMf2G/CJgicXQt+4v3/61l1NOtQwgT8ffLnMiJmo5POE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mklmqBVa; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1715290532; c=relaxed/simple;
+	bh=lPh/nEqoGgLssGU9u/530CpaLB+yT+jCGmsBtzdaaQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhkCXmnxHsfP0PpoNCRvwynh5Imq9BD8MypjLpapDMKyfOaFB9KvygLzRrRZnOuZPBLOBdRDJ/JeFTHqtej4XrO1WUHVywsbDCEyhBCyAe+3g5SUwnvN2Me8TsdeT7hqidhUEaAPqoNYJtYKEXwW/RzTmlKfQ8Yb7rC8AYzNptQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjAeEoVP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mklmqBVa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjAeEoVP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715289327; x=1746825327;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e+t6dd+TKSI8pEOw8/KQZoIUjPrk7Tepy+t5r97F0Dc=;
-  b=mklmqBVa5YFkBz1EYXqvoocYR5q2rOSnasyLKCoLiUVHJbeKdmPatWie
-   AoRhj8d8/TufUsTSKD9VAv0tMcoYR3EDoYjQIWvXnmqeCsM5B8EBPLyCY
-   hQK3qU3VGr4PEg/Rz5csfbbuC+E+TanSdgFBCE93XeJdzz32WRBH2e9Wd
-   TijwSoenkhusLq4uDlwA9/W2ggK6COyAXXBkfrQHEqCieEsFsEw1mTdPE
-   p+GmFfvOXWCkU9JKwo7pFoQSYAxPx8KNHebFS2ypTNPnW3Aec7J06viOy
-   e/52Ny3fbfp3Aw952G1aCHZ9/TPnZNvlYDbUPSFOdi4wjnK0kjksH79ft
-   w==;
-X-CSE-ConnectionGUID: 4xZeJKhaT0GoKWrulbG+kg==
-X-CSE-MsgGUID: NnySNkm2RhGWC0bdOS0T4A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21913157"
+  t=1715290530; x=1746826530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lPh/nEqoGgLssGU9u/530CpaLB+yT+jCGmsBtzdaaQ8=;
+  b=LjAeEoVPVAFUC+99WvJfi0yLkaY84DyHdVIakvpW2Cj1LfteC6SjXcQi
+   TGfannFZGBSlkyZ97vo9w5iC+zNbJZzf2+8hNnnznc3tY7f8H8sYV1JNl
+   t39/SPnkIzvOjfmSN5+tcuThbbHFJqN479ZzQjb1cKsW836s3oWsESj6j
+   zj9rYAs6uUFRfAw2tIxJx6VyRWD5uVgJALucieUGzCFjnjZnWJhG5r+W2
+   aqn7+QtZiXcYg+WCP0/kduMZ5Ww3XT5H3S+g7MIDbmDxPcYKk45qgsopX
+   kwnLZMcMxuXtHof6M0u0ogFQIQ2ljoVGBOx+PF/cFMGX8K6+Lcrp6mzaJ
+   Q==;
+X-CSE-ConnectionGUID: Etc68XgnTBKzSulg7wYQKA==
+X-CSE-MsgGUID: pYgW6BUbRUq5ZAwpQerDag==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14195727"
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="21913157"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 14:15:26 -0700
-X-CSE-ConnectionGUID: xhxBdbBlQpefBteTRZ4n0Q==
-X-CSE-MsgGUID: pKtv26+QQwu8AKw6vwysVw==
+   d="scan'208";a="14195727"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 14:35:30 -0700
+X-CSE-ConnectionGUID: jZEUWdnKQRWUgZS/vlvJXg==
+X-CSE-MsgGUID: NoyrwYZmT1qL4g3agHmioQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="66823831"
+   d="scan'208";a="34240486"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 May 2024 14:15:24 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 May 2024 14:35:26 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5B6o-0005Ns-1y;
-	Thu, 09 May 2024 21:15:22 +0000
-Date: Fri, 10 May 2024 05:14:37 +0800
+	id 1s5BQA-0005OV-2x;
+	Thu, 09 May 2024 21:35:22 +0000
+Date: Fri, 10 May 2024 05:34:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:memcontrol_v1.rfc 4/10] mm/memcontrol-v1.c:1109:23:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202405100515.D644UVCg-lkp@intel.com>
+To: Dan Carpenter <error27@gmail.com>,
+	Trond Myklebust <Trond.Myklebust@netapp.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>, Anna Schumaker <anna@kernel.org>,
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 1/2] SUNRPC: prevent integer overflow in XDR_QUADLEN()
+Message-ID: <202405100514.9QcoLUdp-lkp@intel.com>
+References: <bbf929d6-18d2-4b7e-a660-a19460af0a3c@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,102 +69,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <bbf929d6-18d2-4b7e-a660-a19460af0a3c@moroto.mountain>
 
-tree:   https://github.com/rgushchin/linux.git memcontrol_v1.rfc
-head:   0011ac60f32b91542b15b122087bd97f41634b51
-commit: bb7dddcd85b885a163916d548d1907c89771fd67 [4/10] mm: memcg: move charge migration code to memcontrol-v1.c
-config: i386-randconfig-061-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100515.D644UVCg-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100515.D644UVCg-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on linus/master v6.9-rc7 next-20240509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Carpenter/SUNRPC-prevent-integer-overflow-in-XDR_QUADLEN/20240509-185141
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/bbf929d6-18d2-4b7e-a660-a19460af0a3c%40moroto.mountain
+patch subject: [PATCH 1/2] SUNRPC: prevent integer overflow in XDR_QUADLEN()
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240510/202405100514.9QcoLUdp-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100514.9QcoLUdp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405100515.D644UVCg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405100514.9QcoLUdp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/memcontrol-v1.c:1109:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol-v1.c:1109:23: sparse:    struct task_struct [noderef] __rcu *
-   mm/memcontrol-v1.c:1109:23: sparse:    struct task_struct *
-   mm/memcontrol-v1.c:417:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
-   mm/memcontrol-v1.c:464:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
-   mm/memcontrol-v1.c: note: in included file (through include/linux/rculist.h, include/linux/cgroup.h, include/linux/memcontrol.h):
-   include/linux/rcupdate.h:812:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
-   include/linux/rcupdate.h:812:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +1109 mm/memcontrol-v1.c
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2188:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/nfsd/nfs4callback.c:34:
+   In file included from include/linux/nfs4.h:19:
+   In file included from include/linux/sunrpc/msg_prot.h:205:
+   In file included from include/linux/inet.h:42:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from fs/nfsd/nfs4callback.c:34:
+   In file included from include/linux/nfs4.h:19:
+   In file included from include/linux/sunrpc/msg_prot.h:205:
+   In file included from include/linux/inet.h:42:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from fs/nfsd/nfs4callback.c:34:
+   In file included from include/linux/nfs4.h:19:
+   In file included from include/linux/sunrpc/msg_prot.h:205:
+   In file included from include/linux/inet.h:42:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> fs/nfsd/nfs4callback.c:832:2: error: initializer element is not a compile-time constant
+     832 |         PROC(CB_OFFLOAD,        COMPOUND,       cb_offload,     cb_offload),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs4callback.c:819:15: note: expanded from macro 'PROC'
+     819 |         .p_arglen  = NFS4_enc_##argtype##_sz,                           \
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:133:1: note: expanded from here
+     133 | NFS4_enc_cb_offload_sz
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/xdr4cb.h:43:33: note: expanded from macro 'NFS4_enc_cb_offload_sz'
+      43 | #define NFS4_enc_cb_offload_sz          (cb_compound_enc_hdr_sz +       \
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      44 |                                         cb_sequence_enc_sz +            \
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      45 |                                         enc_nfs4_fh_sz +                \
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      46 |                                         enc_stateid_sz +                \
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      47 |                                         enc_cb_offload_info_sz)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~
+   17 warnings and 1 error generated.
 
-  1062	
-  1063	int mem_cgroup_can_attach(struct cgroup_taskset *tset)
-  1064	{
-  1065		struct cgroup_subsys_state *css;
-  1066		struct mem_cgroup *memcg = NULL; /* unneeded init to make gcc happy */
-  1067		struct mem_cgroup *from;
-  1068		struct task_struct *leader, *p;
-  1069		struct mm_struct *mm;
-  1070		unsigned long move_flags;
-  1071		int ret = 0;
-  1072	
-  1073		/* charge immigration isn't supported on the default hierarchy */
-  1074		if (cgroup_subsys_on_dfl(memory_cgrp_subsys))
-  1075			return 0;
-  1076	
-  1077		/*
-  1078		 * Multi-process migrations only happen on the default hierarchy
-  1079		 * where charge immigration is not used.  Perform charge
-  1080		 * immigration if @tset contains a leader and whine if there are
-  1081		 * multiple.
-  1082		 */
-  1083		p = NULL;
-  1084		cgroup_taskset_for_each_leader(leader, css, tset) {
-  1085			WARN_ON_ONCE(p);
-  1086			p = leader;
-  1087			memcg = mem_cgroup_from_css(css);
-  1088		}
-  1089		if (!p)
-  1090			return 0;
-  1091	
-  1092		/*
-  1093		 * We are now committed to this value whatever it is. Changes in this
-  1094		 * tunable will only affect upcoming migrations, not the current one.
-  1095		 * So we need to save it, and keep it going.
-  1096		 */
-  1097		move_flags = READ_ONCE(memcg->move_charge_at_immigrate);
-  1098		if (!move_flags)
-  1099			return 0;
-  1100	
-  1101		from = mem_cgroup_from_task(p);
-  1102	
-  1103		VM_BUG_ON(from == memcg);
-  1104	
-  1105		mm = get_task_mm(p);
-  1106		if (!mm)
-  1107			return 0;
-  1108		/* We move charges only when we move a owner of the mm */
-> 1109		if (mm->owner == p) {
-  1110			VM_BUG_ON(mc.from);
-  1111			VM_BUG_ON(mc.to);
-  1112			VM_BUG_ON(mc.precharge);
-  1113			VM_BUG_ON(mc.moved_charge);
-  1114			VM_BUG_ON(mc.moved_swap);
-  1115	
-  1116			spin_lock(&mc.lock);
-  1117			mc.mm = mm;
-  1118			mc.from = from;
-  1119			mc.to = memcg;
-  1120			mc.flags = move_flags;
-  1121			spin_unlock(&mc.lock);
-  1122			/* We set mc.moving_task later */
-  1123	
-  1124			ret = mem_cgroup_precharge_mc(mm);
-  1125			if (ret)
-  1126				mem_cgroup_clear_mc();
-  1127		} else {
-  1128			mmput(mm);
-  1129		}
-  1130		return ret;
-  1131	}
-  1132	
+
+vim +832 fs/nfsd/nfs4callback.c
+
+^1da177e4c3f415 Linus Torvalds    2005-04-16  824  
+499b4988109e91b Christoph Hellwig 2017-05-12  825  static const struct rpc_procinfo nfs4_cb_procedures[] = {
+7d93bd71cb3e262 Chuck Lever       2010-12-14  826  	PROC(CB_NULL,	NULL,		cb_null,	cb_null),
+7d93bd71cb3e262 Chuck Lever       2010-12-14  827  	PROC(CB_RECALL,	COMPOUND,	cb_recall,	cb_recall),
+c5c707f96fc9a6e Christoph Hellwig 2014-09-23  828  #ifdef CONFIG_NFSD_PNFS
+c5c707f96fc9a6e Christoph Hellwig 2014-09-23  829  	PROC(CB_LAYOUT,	COMPOUND,	cb_layout,	cb_layout),
+c5c707f96fc9a6e Christoph Hellwig 2014-09-23  830  #endif
+a188620ebd294b1 Jeff Layton       2016-09-16  831  	PROC(CB_NOTIFY_LOCK,	COMPOUND,	cb_notify_lock,	cb_notify_lock),
+9eb190fca8f9056 Olga Kornievskaia 2018-07-20 @832  	PROC(CB_OFFLOAD,	COMPOUND,	cb_offload,	cb_offload),
+3959066b697b5df Dai Ngo           2022-11-16  833  	PROC(CB_RECALL_ANY,	COMPOUND,	cb_recall_any,	cb_recall_any),
+^1da177e4c3f415 Linus Torvalds    2005-04-16  834  };
+^1da177e4c3f415 Linus Torvalds    2005-04-16  835  
 
 -- 
 0-DAY CI Kernel Test Service
