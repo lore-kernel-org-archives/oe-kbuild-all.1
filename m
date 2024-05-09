@@ -1,80 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AA012D75A;
-	Thu,  9 May 2024 23:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFA77BB12
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 23:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715296236; cv=none; b=YvZ1lBFSphUnOjODc51HoTsA7NGfhKhghQaWKmrdaGWwpE8voorwNh6BlG4odw0J+tSxW9Cye7gac3JQNmSV91X+IaR45Xs/w0ai8hSE4AERKsHCpHiWfknK1Ou8TU9Nj29OXQYKqGEqyIK8nkw7ai/UIdZ/niWYI4RXcRswsIo=
+	t=1715298092; cv=none; b=QQuFy3j7ylhJMdB4khtE/SriZiFOeQFR+S//9H97uuwE3P0TBBzoviHPq50zSEHMBsv9WXBoi8pJaLXDmj2rLejmM1n7EyACK3RuJtHpRTawVqmKzHn4p6s++GHyIekPStM2ADczeRAys0ElrENdkJTNUStjJr2Vz/Nu0+IWRdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715296236; c=relaxed/simple;
-	bh=iiYqaRLoWKNSifFPh2hXuPTM8AiJ9lhpKkeJ1QnZqJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nSJIMW/wxO/kGu/U0sy6oEUfKmXxxWPWnqe8jJXR4LBhqieu9MFgTgfCbIM4cZ0IQRwgjB9QFkFbPLZxhrgAP/x+WhtGi1rsZeVb/ZguBpmJddndgB5fGaMT4laquClEXjoYVaBylSU6r6fHwRVxh4PyOB1+vv6NLTbwwDtmGeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJfe4iAy; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1715298092; c=relaxed/simple;
+	bh=znEBaFet0EUKnW6DeF75wRYAOvn+cw3D1XHGyJcDF2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q4un2tv5tep0NJCwv3q6dbVTm9hGghPCdnjc5qv1xOHSHDW/wuSksD+76/l3bn8f3s9I1P7FhCw0OSjldDI135SoMkfzqiUYuXQwHL8DRMH8cpYcFd2nvWUxHKhTk2X0N0UMSosO76+fTzTLeJ2ybJqPd3Hgwj8V1YOT4rzCK3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHZyXkAj; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJfe4iAy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHZyXkAj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715296235; x=1746832235;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iiYqaRLoWKNSifFPh2hXuPTM8AiJ9lhpKkeJ1QnZqJM=;
-  b=QJfe4iAy+h16sUw4FueipAhlW4ZZpmoJZkLCoeOVfhk0VhO7RjwV/WEi
-   DE/SgjYRTUJ5weDdsH0c7biwVY5pR26jLxn0X8xzQMYIbx5+MuQ0E1UeC
-   VNiB/AvJKZcZzDwnT8vQOymn9QTxgeLLec+NP5jqHQGrwFxHme9RP+0uA
-   sL9irbUgniSqMb37X+wAb3NOTlUarwOuKdqDEx4Nz7Iy9WLT8YNbR9Z1D
-   T6rQXvIrhz39x4/VkOe2fDznChS38tnITKgqMWetZeGjWhSQAgI6R4Ot2
-   tX0obXX8697KfEfksmaGOJNQS1vfkp51mlH+Nfk8SK+hpObTpHhYPmCfk
-   Q==;
-X-CSE-ConnectionGUID: TNCG9yaDRa66StNXDguQog==
-X-CSE-MsgGUID: g0LVXZ00RCaDPDMArGFTgQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22658913"
+  t=1715298091; x=1746834091;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=znEBaFet0EUKnW6DeF75wRYAOvn+cw3D1XHGyJcDF2o=;
+  b=mHZyXkAjb1jFNijgAc8o+ufmlRPVVZ1Wv/7xPVpNA2jkl04t8yb174KQ
+   mG2UfpPWZYX8Pctws3JkfwYlyyYQh8kgDD6VuDVRVE/Zsw16aLQcHw7Ea
+   7ZtNxm7ND3spF7/KnpB9RvChnGBNO+Yx1K40JLYpvAZLPmkmU4wWxVJ1K
+   tPDOi3D8AXMizQkQDAJFRqVf/42Ovw2SGfun2e0jcB/hIjK2o6VgFyUVV
+   RjVAEor1xsoKJXWf6PT3wszP/NRLS7eBIlnypYMx9abPdpE8oBTXd1G4p
+   Q0VKJuVs1PDJMoZFoycs7wbnGicLkvZ3aZsVIC1yZYRqWLoo0jgAAFnz7
+   g==;
+X-CSE-ConnectionGUID: vNfd+X2IRtK+KP35kSdEVQ==
+X-CSE-MsgGUID: sl4xuICyS7unLhQWFDwOxQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14206953"
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="22658913"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 16:10:35 -0700
-X-CSE-ConnectionGUID: peb8aCUlSw+MT1IsNjA38g==
-X-CSE-MsgGUID: j/6MzvdCQwandplxoHjdVA==
+   d="scan'208";a="14206953"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 16:41:30 -0700
+X-CSE-ConnectionGUID: ofSPgE/cR3OcmsiL0p/NKA==
+X-CSE-MsgGUID: UHqViTSWRHGOh7rqsSuM8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="34192718"
+   d="scan'208";a="29483802"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 May 2024 16:10:28 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 May 2024 16:41:29 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5CuA-0005Tl-0L;
-	Thu, 09 May 2024 23:10:26 +0000
-Date: Fri, 10 May 2024 07:09:52 +0800
+	id 1s5DOA-0005Uf-2a;
+	Thu, 09 May 2024 23:41:26 +0000
+Date: Fri, 10 May 2024 07:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com,
-	donald.hunter@gmail.com
-Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim profile
- management
-Message-ID: <202405100654.5PbLQXnL-lkp@intel.com>
-References: <20240509044747.101237-3-hengqi@linux.alibaba.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:qwip 12/15] drivers/gpio/gpio-mpfs.c:209:22: warning: unused
+ variable 'irq'
+Message-ID: <202405100710.NLaOfsa7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,34 +61,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240509044747.101237-3-hengqi@linux.alibaba.com>
 
-Hi Heng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240509-125007
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240509044747.101237-3-hengqi%40linux.alibaba.com
-patch subject: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
-config: arm-randconfig-002-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git qwip
+head:   520f2563214599bc3abdd1aa6f127f67e084e65f
+commit: 92e2da2f671866ae934e08c8e1e31e50d77729b7 [12/15] gpio: mpfs: pass gpio line number as irq data
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240510/202405100710.NLaOfsa7-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100710.NLaOfsa7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405100654.5PbLQXnL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405100710.NLaOfsa7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: lockdep_rtnl_is_held
-   >>> referenced by net_dim.c
-   >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
-   >>> referenced by net_dim.c
-   >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
+   drivers/gpio/gpio-mpfs.c: In function 'mpfs_gpio_irq_handler':
+>> drivers/gpio/gpio-mpfs.c:209:22: warning: unused variable 'irq' [-Wunused-variable]
+     209 |         unsigned int irq;
+         |                      ^~~
+>> drivers/gpio/gpio-mpfs.c:207:26: warning: unused variable 'child_desc' [-Wunused-variable]
+     207 |         struct irq_desc *child_desc;
+         |                          ^~~~~~~~~~
+
+
+vim +/irq +209 drivers/gpio/gpio-mpfs.c
+
+   199	
+   200	static void mpfs_gpio_irq_handler(struct irq_desc *desc)
+   201	{
+   202		struct irq_chip *irqchip = irq_desc_get_chip(desc);
+   203		void *handler_data = irq_desc_get_handler_data(desc);
+   204		struct gpio_chip *gc = irq_data_get_irq_chip_data(&desc->irq_data);
+   205		struct mpfs_gpio_chip *mpfs_gpio = gpiochip_get_data(gc);
+   206		u8 gpio_index = *((u8 *)handler_data);
+ > 207		struct irq_desc *child_desc;
+   208		unsigned long status;
+ > 209		unsigned int irq;
+   210	
+   211		/*
+   212		 * Since the parent may be a muxed/"non-direct" interrupt, this
+   213		 * interrupt may not be for us.
+   214		 */
+   215		status = readl(mpfs_gpio->base + MPFS_IRQ_REG);
+   216		if (!(status & BIT(gpio_index)))
+   217			return;
+   218	
+   219		chained_irq_enter(irqchip, desc);
+   220	
+   221		generic_handle_irq(irq_find_mapping(mpfs_gpio->gc.irq.domain, gpio_index));
+   222		mpfs_gpio_assign_bit(mpfs_gpio->base + MPFS_IRQ_REG, gpio_index, 1);
+   223	
+   224		chained_irq_exit(irqchip, desc);
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
