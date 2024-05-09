@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2602A82876;
-	Thu,  9 May 2024 21:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B3680034
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 21:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715288728; cv=none; b=ovpCxKwc1KXE5DBI3TgZc2P8x76E5C0+vu8fWkyO8K0M/q/EVtrAsSkXMoPi9ab7rvMvIOfWfAkN8TFmb1lZluqb/F4Jen01+45KugADVC1qqAFDSL8f79fTRuMirZsahcZG8Esqmt595/q4SM7w44LII5kHoG95QkNvlUTlj10=
+	t=1715289328; cv=none; b=B63dw0g0/MljcH1Rp3zpuFG31Mx0nbzmDddvHjUH23bKolFL5ww4+5v5eVZrTO/93qkllZiHmYEK3mta74/8Y5tZD06pfbtyMlM1rwkpWFlqHGKIloprFcn3Dk5QPWOZ6LdAjgjDNlyTLb5XtI9CknAeRMeirYx//5KzvXGEX7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715288728; c=relaxed/simple;
-	bh=EQwD5qQz1wwQh4rYd/Q+odH7uY7DweQtUtgwjvV8F9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=blNrfMyitNDApwaj274y+OKCbWZnnRmSUYl4U60uW3CiiVlOh8L7KGtLXxmfnJPw/ZAYPFEo4r+guwM9GwpDjVf1ZcvG2GfR9UAEEMrUY6S9eT8ZrpucXZfmF/6NjosDcDyNNo006+wLszWlZYSyXiedRzprdTUP3mHyshKWW9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHIVr50N; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1715289328; c=relaxed/simple;
+	bh=e+t6dd+TKSI8pEOw8/KQZoIUjPrk7Tepy+t5r97F0Dc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a0BLHOiLUMa8z/AWE0b9XYISLuXB3hQWj6XprWGctweV4o2ZrjQiB/QsdMBkSZTAHJeaQl2kNRWYOkm3EETkEIUeu8QqsK2K9EQUu682id8blqgnuyTITIqOl9JGsLwXMf2G/CJgicXQt+4v3/61l1NOtQwgT8ffLnMiJmo5POE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mklmqBVa; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHIVr50N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mklmqBVa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715288726; x=1746824726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EQwD5qQz1wwQh4rYd/Q+odH7uY7DweQtUtgwjvV8F9M=;
-  b=AHIVr50NNyG1bhEremAOh1wUpljd/kVXXeaKqi24xrO7o2duJMTyyWLw
-   OumZcD4B5QGbwmIR3PC7pAszzKjZ2eYyUK1rRB/EPLK3iBVRPqQ8VzNdV
-   ALp1Lf/VWCxgWdGxSAoMUtH1Nl/4elhFikXF2B8avvcDF93TW7Vp8PMgt
-   U0FkqWVPZCkfIGxlG7DlD1mQpZeBqDS+KwR/xmNltznOPiqb9XtR291Mv
-   F7OMgztBuEBY4AI2sswsk2lKfaH0NpVUJSpHcwRRUhfrWiw+OcrWG7bYF
-   JJX3O5Mvcu1PmTiehJORJfsvwkLd60j1A0iGmirYKv24e6sg5LOWQbs76
-   Q==;
-X-CSE-ConnectionGUID: lER5W8IiSzavfr2wQ6YufQ==
-X-CSE-MsgGUID: +jGmfDRGR7eKuIWvPy/qZg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21814561"
+  t=1715289327; x=1746825327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e+t6dd+TKSI8pEOw8/KQZoIUjPrk7Tepy+t5r97F0Dc=;
+  b=mklmqBVa5YFkBz1EYXqvoocYR5q2rOSnasyLKCoLiUVHJbeKdmPatWie
+   AoRhj8d8/TufUsTSKD9VAv0tMcoYR3EDoYjQIWvXnmqeCsM5B8EBPLyCY
+   hQK3qU3VGr4PEg/Rz5csfbbuC+E+TanSdgFBCE93XeJdzz32WRBH2e9Wd
+   TijwSoenkhusLq4uDlwA9/W2ggK6COyAXXBkfrQHEqCieEsFsEw1mTdPE
+   p+GmFfvOXWCkU9JKwo7pFoQSYAxPx8KNHebFS2ypTNPnW3Aec7J06viOy
+   e/52Ny3fbfp3Aw952G1aCHZ9/TPnZNvlYDbUPSFOdi4wjnK0kjksH79ft
+   w==;
+X-CSE-ConnectionGUID: 4xZeJKhaT0GoKWrulbG+kg==
+X-CSE-MsgGUID: NnySNkm2RhGWC0bdOS0T4A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21913157"
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="21814561"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 14:05:26 -0700
-X-CSE-ConnectionGUID: e0rmWpgrS/yz7SKEiUAq9Q==
-X-CSE-MsgGUID: nPzFq5hgQxyMyUGgXpAXbw==
+   d="scan'208";a="21913157"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 14:15:26 -0700
+X-CSE-ConnectionGUID: xhxBdbBlQpefBteTRZ4n0Q==
+X-CSE-MsgGUID: pKtv26+QQwu8AKw6vwysVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="34048248"
+   d="scan'208";a="66823831"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 May 2024 14:05:24 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 May 2024 14:15:24 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5Ax8-0005N9-0L;
-	Thu, 09 May 2024 21:05:22 +0000
-Date: Fri, 10 May 2024 05:04:25 +0800
+	id 1s5B6o-0005Ns-1y;
+	Thu, 09 May 2024 21:15:22 +0000
+Date: Fri, 10 May 2024 05:14:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hongyan Xia <hongyan.xia2@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 2/6] sched/uclamp: Track a new util_avg_bias signal
-Message-ID: <202405100428.Ao1oE7iL-lkp@intel.com>
-References: <2e43dc6b376ea6d785976a398b5d9ffe823cf35d.1715082714.git.hongyan.xia2@arm.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:memcontrol_v1.rfc 4/10] mm/memcontrol-v1.c:1109:23:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202405100515.D644UVCg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,148 +62,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e43dc6b376ea6d785976a398b5d9ffe823cf35d.1715082714.git.hongyan.xia2@arm.com>
 
-Hi Hongyan,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on tip/master next-20240509]
-[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge linus/master tip/auto-latest peterz-queue/sched/core v6.9-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongyan-Xia/Revert-sched-uclamp-Set-max_spare_cap_cpu-even-if-max_spare_cap-is-0/20240507-205300
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/2e43dc6b376ea6d785976a398b5d9ffe823cf35d.1715082714.git.hongyan.xia2%40arm.com
-patch subject: [RFC PATCH v3 2/6] sched/uclamp: Track a new util_avg_bias signal
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240510/202405100428.Ao1oE7iL-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100428.Ao1oE7iL-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git memcontrol_v1.rfc
+head:   0011ac60f32b91542b15b122087bd97f41634b51
+commit: bb7dddcd85b885a163916d548d1907c89771fd67 [4/10] mm: memcg: move charge migration code to memcontrol-v1.c
+config: i386-randconfig-061-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100515.D644UVCg-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100515.D644UVCg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405100428.Ao1oE7iL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405100515.D644UVCg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/memcontrol-v1.c:1109:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol-v1.c:1109:23: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol-v1.c:1109:23: sparse:    struct task_struct *
+   mm/memcontrol-v1.c:417:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
+   mm/memcontrol-v1.c:464:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
+   mm/memcontrol-v1.c: note: in included file (through include/linux/rculist.h, include/linux/cgroup.h, include/linux/memcontrol.h):
+   include/linux/rcupdate.h:812:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
+   include/linux/rcupdate.h:812:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
-   In file included from kernel/sched/fair.c:27:
-   In file included from include/linux/mm_api.h:1:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/sched/fair.c:6805:29: error: no member named 'avg' in 'struct cfs_rq'
-    6805 |         util_bias_enqueue(&rq->cfs.avg, p);
-         |                            ~~~~~~~ ^
-   kernel/sched/fair.c:6899:29: error: no member named 'avg' in 'struct cfs_rq'
-    6899 |         util_bias_dequeue(&rq->cfs.avg, p);
-         |                            ~~~~~~~ ^
-   1 warning and 2 errors generated.
+vim +1109 mm/memcontrol-v1.c
 
-
-vim +6805 kernel/sched/fair.c
-
-  6736	
-  6737	/*
-  6738	 * The enqueue_task method is called before nr_running is
-  6739	 * increased. Here we update the fair scheduling stats and
-  6740	 * then put the task into the rbtree:
-  6741	 */
-  6742	static void
-  6743	enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
-  6744	{
-  6745		struct cfs_rq *cfs_rq;
-  6746		struct sched_entity *se = &p->se;
-  6747		int idle_h_nr_running = task_has_idle_policy(p);
-  6748		int task_new = !(flags & ENQUEUE_WAKEUP);
-  6749	
-  6750		/*
-  6751		 * The code below (indirectly) updates schedutil which looks at
-  6752		 * the cfs_rq utilization to select a frequency.
-  6753		 * Let's add the task's estimated utilization to the cfs_rq's
-  6754		 * estimated utilization, before we update schedutil.
-  6755		 */
-  6756		util_est_enqueue(&rq->cfs, p);
-  6757	
-  6758		/*
-  6759		 * If in_iowait is set, the code below may not trigger any cpufreq
-  6760		 * utilization updates, so do it here explicitly with the IOWAIT flag
-  6761		 * passed.
-  6762		 */
-  6763		if (p->in_iowait)
-  6764			cpufreq_update_util(rq, SCHED_CPUFREQ_IOWAIT);
-  6765	
-  6766		for_each_sched_entity(se) {
-  6767			if (se->on_rq)
-  6768				break;
-  6769			cfs_rq = cfs_rq_of(se);
-  6770			enqueue_entity(cfs_rq, se, flags);
-  6771	
-  6772			cfs_rq->h_nr_running++;
-  6773			cfs_rq->idle_h_nr_running += idle_h_nr_running;
-  6774	
-  6775			if (cfs_rq_is_idle(cfs_rq))
-  6776				idle_h_nr_running = 1;
-  6777	
-  6778			/* end evaluation on encountering a throttled cfs_rq */
-  6779			if (cfs_rq_throttled(cfs_rq))
-  6780				goto enqueue_throttle;
-  6781	
-  6782			flags = ENQUEUE_WAKEUP;
-  6783		}
-  6784	
-  6785		for_each_sched_entity(se) {
-  6786			cfs_rq = cfs_rq_of(se);
-  6787	
-  6788			update_load_avg(cfs_rq, se, UPDATE_TG);
-  6789			se_update_runnable(se);
-  6790			update_cfs_group(se);
-  6791	
-  6792			cfs_rq->h_nr_running++;
-  6793			cfs_rq->idle_h_nr_running += idle_h_nr_running;
-  6794	
-  6795			if (cfs_rq_is_idle(cfs_rq))
-  6796				idle_h_nr_running = 1;
-  6797	
-  6798			/* end evaluation on encountering a throttled cfs_rq */
-  6799			if (cfs_rq_throttled(cfs_rq))
-  6800				goto enqueue_throttle;
-  6801		}
-  6802	
-  6803		/* At this point se is NULL and we are at root level*/
-  6804		add_nr_running(rq, 1);
-> 6805		util_bias_enqueue(&rq->cfs.avg, p);
-  6806		/* XXX: We should skip the update above and only do it once here. */
-  6807		cpufreq_update_util(rq, 0);
-  6808	
-  6809		/*
-  6810		 * Since new tasks are assigned an initial util_avg equal to
-  6811		 * half of the spare capacity of their CPU, tiny tasks have the
-  6812		 * ability to cross the overutilized threshold, which will
-  6813		 * result in the load balancer ruining all the task placement
-  6814		 * done by EAS. As a way to mitigate that effect, do not account
-  6815		 * for the first enqueue operation of new tasks during the
-  6816		 * overutilized flag detection.
-  6817		 *
-  6818		 * A better way of solving this problem would be to wait for
-  6819		 * the PELT signals of tasks to converge before taking them
-  6820		 * into account, but that is not straightforward to implement,
-  6821		 * and the following generally works well enough in practice.
-  6822		 */
-  6823		if (!task_new)
-  6824			check_update_overutilized_status(rq);
-  6825	
-  6826	enqueue_throttle:
-  6827		assert_list_leaf_cfs_rq(rq);
-  6828	
-  6829		hrtick_update(rq);
-  6830	}
-  6831	
+  1062	
+  1063	int mem_cgroup_can_attach(struct cgroup_taskset *tset)
+  1064	{
+  1065		struct cgroup_subsys_state *css;
+  1066		struct mem_cgroup *memcg = NULL; /* unneeded init to make gcc happy */
+  1067		struct mem_cgroup *from;
+  1068		struct task_struct *leader, *p;
+  1069		struct mm_struct *mm;
+  1070		unsigned long move_flags;
+  1071		int ret = 0;
+  1072	
+  1073		/* charge immigration isn't supported on the default hierarchy */
+  1074		if (cgroup_subsys_on_dfl(memory_cgrp_subsys))
+  1075			return 0;
+  1076	
+  1077		/*
+  1078		 * Multi-process migrations only happen on the default hierarchy
+  1079		 * where charge immigration is not used.  Perform charge
+  1080		 * immigration if @tset contains a leader and whine if there are
+  1081		 * multiple.
+  1082		 */
+  1083		p = NULL;
+  1084		cgroup_taskset_for_each_leader(leader, css, tset) {
+  1085			WARN_ON_ONCE(p);
+  1086			p = leader;
+  1087			memcg = mem_cgroup_from_css(css);
+  1088		}
+  1089		if (!p)
+  1090			return 0;
+  1091	
+  1092		/*
+  1093		 * We are now committed to this value whatever it is. Changes in this
+  1094		 * tunable will only affect upcoming migrations, not the current one.
+  1095		 * So we need to save it, and keep it going.
+  1096		 */
+  1097		move_flags = READ_ONCE(memcg->move_charge_at_immigrate);
+  1098		if (!move_flags)
+  1099			return 0;
+  1100	
+  1101		from = mem_cgroup_from_task(p);
+  1102	
+  1103		VM_BUG_ON(from == memcg);
+  1104	
+  1105		mm = get_task_mm(p);
+  1106		if (!mm)
+  1107			return 0;
+  1108		/* We move charges only when we move a owner of the mm */
+> 1109		if (mm->owner == p) {
+  1110			VM_BUG_ON(mc.from);
+  1111			VM_BUG_ON(mc.to);
+  1112			VM_BUG_ON(mc.precharge);
+  1113			VM_BUG_ON(mc.moved_charge);
+  1114			VM_BUG_ON(mc.moved_swap);
+  1115	
+  1116			spin_lock(&mc.lock);
+  1117			mc.mm = mm;
+  1118			mc.from = from;
+  1119			mc.to = memcg;
+  1120			mc.flags = move_flags;
+  1121			spin_unlock(&mc.lock);
+  1122			/* We set mc.moving_task later */
+  1123	
+  1124			ret = mem_cgroup_precharge_mc(mm);
+  1125			if (ret)
+  1126				mem_cgroup_clear_mc();
+  1127		} else {
+  1128			mmput(mm);
+  1129		}
+  1130		return ret;
+  1131	}
+  1132	
 
 -- 
 0-DAY CI Kernel Test Service
