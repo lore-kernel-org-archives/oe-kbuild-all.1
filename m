@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B130184A50
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 22:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2E885C7B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 22:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715293650; cv=none; b=tHQoTgTWv00w2avxEh+iknTE4pR7yUYPE5RydsAZ8vbwbzendTX0m4+Uw//73LMmLgk53We5R3d64M56ozS6ZAo19JDftMEwa/pL1FrzRl+ADhGP3ufOm4LoiG5xcKMk8ehQmpFpagoYFk3mNA1lHqdGBJO+SyULGqrErLlvkgE=
+	t=1715295572; cv=none; b=dC8/eyYa9sE1KEjnLMSDeG3H2zXdNWYgNDaWnK0AlsL43ykR8OnhuzAXs/Ya0XU1pQ82rW5doaVhjuaYQjj4aGfcmWekZvHV8+yPDFne97CxJhFIGqAHACAxp3E0d29TTP/Rpb9FMzF5CMKQ1PISCE18NBTc8C0tW9kZnDJ1ypQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715293650; c=relaxed/simple;
-	bh=uc7D+CLij5X8AQHnj8dGNFzH9YPIWdz7491qGTwfmfA=;
+	s=arc-20240116; t=1715295572; c=relaxed/simple;
+	bh=OGgmylap9QZN40WiQFdwN8sPtjTsX6B7H8DWZZFOQ+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gEWLrXnCOnrwM7QNoGYZYh0OFaniuDuvaFvCrogE6GCGXgouc0nbpIJuk9yYFw8xwFvA9VIeaeFCQVYOY8dM1eKckVjqWosb0YdXp/aPOGt1U5yCw/9aqxu5jiy7Pg2oKKvu7Dwwjv/tVqJcEMRFdyoX7JehwaLnS+Tu8IPqNNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ch30uEKk; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=MCiuVcXnJrlPH+zX10uJvIqkD3g2QmFBtnbUhBi2ZTNlEt3mIRNhCf+quuHoBjKbRPKtYiTbsmWruWarv+UM1a/lWAkvF+lTgHTfP5/MWWHJunDOez6J+pKIsz5p2XHUO2SU89QdvapgQyg7H/XDAGWwFlHcoxBxMF8hzRNSlNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IfrYvX99; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ch30uEKk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IfrYvX99"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715293649; x=1746829649;
+  t=1715295570; x=1746831570;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uc7D+CLij5X8AQHnj8dGNFzH9YPIWdz7491qGTwfmfA=;
-  b=Ch30uEKklPzETOip+TkpBCyhJ5hxlDZph5mBQcr74OO4Bhon7s7Q2vTl
-   VK5Ht5kNe3WiyVuFwoXqXuMdbmiKQLe20nixGm9taXzr4T1fxd+aMaCWE
-   GTelzQ43Sf3HdyWmIt1iuDl2XWpi3vIJ9mCWwldUNl4VMPmL7xvzVFmbt
-   9TU2tLzy5jY3g25aBB4yt43qxeNi7OfMkWgIm40wos9es0MVUyUTx5v5F
-   IcGLt9Q6E9I2uVfxiOzBbwULJfnPnTkkBSyi1g2nEbnDnBv6djciVTeUc
-   ft7Ayl+AZPt0qZzXqFRRZGRoawc2TTryBE8MbSRmvTcOalI+iopwmFpP+
-   w==;
-X-CSE-ConnectionGUID: O5TWiwT+SFu++gMzaEqcXA==
-X-CSE-MsgGUID: yVvt5PnFQjyJfyfQWV+eKg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="28760305"
+  bh=OGgmylap9QZN40WiQFdwN8sPtjTsX6B7H8DWZZFOQ+E=;
+  b=IfrYvX99zKXBIu2CFVkF9OOfRiwwVPaq/gXQePj0YJCTG13gfz23Zny2
+   shiHIzq/RolsyCbG5CkhnSXaOV6Nz9/CM/xfD/Q7jlcvyaHNZCHvBB8Au
+   oyhOxhQxHINhgyfPun2kcqBB2P61YK5sdYUhViAHVsaKEkZ8TYwfFg6rr
+   ewa9dvFRFFXxMFEX20NNqYnCZkMNLggw4kacds98Sg05ejcSyUaxGWip5
+   cpejo+HNdewiBJsF7sIfTl64OsyanlMyuYycj2FTZbhaj1LNpTK5m9Fjq
+   K5fKw5zNZghiJf13fwe8kFDj0mNEmDxccYUtAIpg5QiYDMtNKeLIeF1rt
+   Q==;
+X-CSE-ConnectionGUID: DxpaTXKnQtKtK6TweptJfQ==
+X-CSE-MsgGUID: q2e0Kt1VRimNqUEIMUebvA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21827200"
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="28760305"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 15:27:28 -0700
-X-CSE-ConnectionGUID: UO3hgDxFSPCtxRHblA2d6A==
-X-CSE-MsgGUID: A0lY5fGISM6C+APPWEC0mA==
+   d="scan'208";a="21827200"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 15:59:29 -0700
+X-CSE-ConnectionGUID: ymr2dOoBQxGBRypMYczuNg==
+X-CSE-MsgGUID: zS7RGbquSHedcp6BQIL4Tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="29955428"
+   d="scan'208";a="66848909"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 May 2024 15:27:27 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 May 2024 15:59:28 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5CEW-0005R9-1f;
-	Thu, 09 May 2024 22:27:24 +0000
-Date: Fri, 10 May 2024 06:26:34 +0800
+	id 1s5CjV-0005TJ-2x;
+	Thu, 09 May 2024 22:59:25 +0000
+Date: Fri, 10 May 2024 06:59:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
+To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:qwip 10/15] drivers/irqchip/irq-mpfs-mux.c:215:6: warning:
- variable 'mask' set but not used
-Message-ID: <202405100628.xntHTI5e-lkp@intel.com>
+Subject: [rgushchin:memcontrol_v1.rfc 7/10] mm/memcontrol-v1.c:1475:6:
+ sparse: sparse: symbol 'mem_cgroup_oom_notify' was not declared. Should it
+ be static?
+Message-ID: <202405100613.RXNccOGL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git qwip
-head:   520f2563214599bc3abdd1aa6f127f67e084e65f
-commit: c0ea499b12c76ccd8bceafc3ee52ba5655125837 [10/15] irqchip: add mpfs gpio interrupt mux
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240510/202405100628.xntHTI5e-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100628.xntHTI5e-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git memcontrol_v1.rfc
+head:   0011ac60f32b91542b15b122087bd97f41634b51
+commit: aff3b6905c9323586157503a143c23c9fc5536b5 [7/10] mm: memcg: move cgroup v1 oom handling code into memcontrol-v1.c
+config: i386-randconfig-061-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100613.RXNccOGL-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100613.RXNccOGL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405100628.xntHTI5e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405100613.RXNccOGL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/memcontrol-v1.c:1174:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol-v1.c:1174:23: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol-v1.c:1174:23: sparse:    struct task_struct *
+   mm/memcontrol-v1.c:1386:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol-v1.c:1386:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol-v1.c:1386:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol-v1.c:1388:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol-v1.c:1388:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol-v1.c:1388:21: sparse:    struct mem_cgroup_threshold_ary *
+>> mm/memcontrol-v1.c:1475:6: sparse: sparse: symbol 'mem_cgroup_oom_notify' was not declared. Should it be static?
+   mm/memcontrol-v1.c:1566:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol-v1.c:1566:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol-v1.c:1566:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol-v1.c:1660:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol-v1.c:1660:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol-v1.c:1660:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol-v1.c:482:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
+   mm/memcontrol-v1.c:529:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
+   mm/memcontrol-v1.c: note: in included file (through include/linux/rculist.h, include/linux/cgroup.h, include/linux/memcontrol.h):
+   include/linux/rcupdate.h:812:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
+   include/linux/rcupdate.h:812:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
-   In file included from drivers/irqchip/irq-mpfs-mux.c:11:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/irqchip/irq-mpfs-mux.c:215:6: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-     215 |         u64 mask;
-         |             ^
-   2 warnings generated.
+vim +/mem_cgroup_oom_notify +1475 mm/memcontrol-v1.c
 
+7436a2e299bc25 Roman Gushchin 2024-05-06  1474  
+7436a2e299bc25 Roman Gushchin 2024-05-06 @1475  void mem_cgroup_oom_notify(struct mem_cgroup *memcg)
+7436a2e299bc25 Roman Gushchin 2024-05-06  1476  {
+7436a2e299bc25 Roman Gushchin 2024-05-06  1477  	struct mem_cgroup *iter;
+7436a2e299bc25 Roman Gushchin 2024-05-06  1478  
+7436a2e299bc25 Roman Gushchin 2024-05-06  1479  	for_each_mem_cgroup_tree(iter, memcg)
+7436a2e299bc25 Roman Gushchin 2024-05-06  1480  		mem_cgroup_oom_notify_cb(iter);
+7436a2e299bc25 Roman Gushchin 2024-05-06  1481  }
+7436a2e299bc25 Roman Gushchin 2024-05-06  1482  
 
-vim +/mask +215 drivers/irqchip/irq-mpfs-mux.c
+:::::: The code at line 1475 was first introduced by commit
+:::::: 7436a2e299bc254dfe54f5de8719e37b72ae2d9a mm: memcg: move legacy memcg event code into memcontrol-v1.c
 
-   207	
-   208	static int mpfs_irq_mux_alloc(struct irq_domain *d, unsigned int virq,
-   209				      unsigned int nr_irqs, void *arg)
-   210	{
-   211		struct mpfs_irq_mux *priv = d->host_data;
-   212		struct irq_fwspec *fwspec = arg;
-   213		struct irq_fwspec parent_fwspec;
-   214		unsigned int bank, line, irq;
- > 215		u64 mask;
-   216	
-   217		if (!mpfs_irq_mux_is_direct(priv, fwspec))
-   218			return mpfs_irq_mux_nondirect_alloc(d, virq, fwspec, priv);
-   219	
-   220		bank = fwspec->param[0] / MPFS_MAX_IRQS_PER_GPIO;
-   221		line = fwspec->param[0] % MPFS_MAX_IRQS_PER_GPIO;
-   222		mask = mpfs_irq_mux_bank_configs[bank].mask;
-   223		irq = line + mpfs_irq_mux_bank_configs[bank].shift;
-   224	
-   225		parent_fwspec.fwnode = d->parent->fwnode;
-   226		parent_fwspec.param[0] = priv->parent_irqs[irq];
-   227		parent_fwspec.param_count = 1;
-   228	
-   229		irq_domain_set_hwirq_and_chip(d, virq, fwspec->param[0], &mpfs_irq_mux_irq_chip, priv);
-   230	
-   231		return irq_domain_alloc_irqs_parent(d, virq, 1, &parent_fwspec);
-   232	}
-   233	
+:::::: TO: Roman Gushchin <roman.gushchin@linux.dev>
+:::::: CC: Roman Gushchin <roman.gushchin@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
