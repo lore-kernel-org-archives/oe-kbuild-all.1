@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A454613BC1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 03:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8000C146D42
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 May 2024 03:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715223717; cv=none; b=LM3oseydgSSM69xOUOFrzj+WTVjbPbAJMPZqqV6CwN938+eBjIBx6sG5uFJ4IpPNbxbKjG47pyiWSHBUY6+eVq/DXfzl/1kPVDEnbieGnZarpjS5RaJvR0M7RHeA6oWCVGqHTI7MxR68d9sXOaoGdCn/f074FSugGFzj8EMTOOI=
+	t=1715225641; cv=none; b=aC8IhLei3owc4IpCH1ATN2a4f93mx060gnAMo5o7vzVh92VXMgTEeG9aJSHlLGVLFnac93Kwuk77RWZAXivnviPfqvD6EfNPR9QuM3Mq91Eae+q72xIEs7ao3GetPhZKBtOCaWmKibyOqJDnmy/Cwo+m27LY1Kv626Dl7BvEh4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715223717; c=relaxed/simple;
-	bh=Zlw4KkNhMi51YFVouGJsewNKdKfKDjtcFDpXJa7AWC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lx7DRtcN71BCoq4ep6ivi8Np4bD4PeOgGHLVhQHzB2EKgPfaih6TLcLjpjH19QxlrgSmYTPFaWp3B7DdPE9AS0FjhjPCAvkuT+mNt9U92PsogxrBQqcW0sGBw54ae5uVTDGelidD4Z5LCQD+aZUuxP5KJRoJC6WTxCe8IghR8Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bao7lgNb; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1715225641; c=relaxed/simple;
+	bh=ddq2PrSc8jg2qRz2VY92lmOAPCg7XWrl3IgtCa1cQvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oCSe8+13ls3BtNao+rHJhf2idV6Vr9DvMrpdikZ0aC3Ay2MjktF3oDawH/aktURChSehQQtTj5LPljiZQeil4ApGCsMk/SOS/iP9ckq8K9bQdRrLPKqnUv2YKpCTAmJ40Tdcy/b7HNlEI6czFNFzIti5R2b142ntPdO+zIzSKBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BlAqsFFH; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bao7lgNb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BlAqsFFH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715223716; x=1746759716;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zlw4KkNhMi51YFVouGJsewNKdKfKDjtcFDpXJa7AWC0=;
-  b=bao7lgNbqgq6yot08CKbjh2M8EJYRhpVhg49hhep2CwJbP7KJg/+8JFn
-   egRAYk3jAl5/W2EGZu7EOLk6i07oD313INcmCjXEyGbIcS4iKk9VTn3p1
-   GB09B3t6gqdagZ5wNE621emVRl05xcvnmMl7VhMa9HLolRSnttbLO4rUu
-   61rG6BmK77WBVw163c1C+s1ey0ypaVVXoqGiaxViT1iP5hHFBTlbYjXep
-   DP4kgQkav+HweaIyzjrwQECPBAjB97FX0cc69aTgnC/Xo9A+JCZEH0x0W
-   ixiU/vE4Vbk+JGq9x4zUExA242rDc+4jmL2SHckjCX2b0XtWYNFqrmwpQ
-   Q==;
-X-CSE-ConnectionGUID: jG0tik7VQlKAdVM/botQ+w==
-X-CSE-MsgGUID: YzSzp98CQG6WSNOglbNJvg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="21689197"
+  t=1715225639; x=1746761639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ddq2PrSc8jg2qRz2VY92lmOAPCg7XWrl3IgtCa1cQvo=;
+  b=BlAqsFFHiuF5cLbRh5mTLh/5ePZ6d2pS4sXWzSN0B6mNAfCHMHPa3Fba
+   JnjVX+RpgVm9W19n5436aIC6N+BvlowKwNjRNAGUnoNObDagaGc47yRTf
+   0LHnJYr10CxCgEln/Z7gkCJYDHwm66KLlwCrxMXvXkdMMA3SZi+sShWfe
+   oGSJg+vVfuSrm3WcV7BNd7bjsUHRbS1qrwPGDh9ZUP1tNg7Pj25heXG+K
+   M4oqhEdFe53BIqFPGlUzVa06t62sJVkS/fU7Gl8OhHiOvHGV0ocG83VZ8
+   PXoA7W675HYEZakw9a+dASiPWXWGjzbliavwR0McV5V4VOq+tl9rrkBma
+   w==;
+X-CSE-ConnectionGUID: 3+70k5qhSpeu6kHiX2M+HA==
+X-CSE-MsgGUID: dm+bPTJ3TMS749nyw77R4w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="10955011"
 X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
-   d="scan'208";a="21689197"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 20:01:55 -0700
-X-CSE-ConnectionGUID: xj6sZKBsR4CxrmN792Jtdw==
-X-CSE-MsgGUID: c8kfgXLjQQqkJWZSjq+wdw==
+   d="scan'208";a="10955011"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 20:33:58 -0700
+X-CSE-ConnectionGUID: JtLEBq92TX6Gb0LE2tdZCA==
+X-CSE-MsgGUID: G/flVZurRIC846hEpl08ZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
-   d="scan'208";a="29618252"
+   d="scan'208";a="33907996"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 May 2024 20:01:55 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 May 2024 20:33:55 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s4u2Z-0004NM-2H;
-	Thu, 09 May 2024 03:01:51 +0000
-Date: Thu, 9 May 2024 11:01:33 +0800
+	id 1s4uXY-0004PA-2N;
+	Thu, 09 May 2024 03:33:52 +0000
+Date: Thu, 9 May 2024 11:33:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Steven Song <steven.song@3snic.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21328/22325]
- drivers/scsi/sssraid/sssraid_os.o: warning: objtool: missing symbol for
- section .init.text
-Message-ID: <202405091039.NCGh5Ism-lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>, brendan.higgins@linux.dev,
+	davidgow@google.com, rmoar@google.com
+Cc: oe-kbuild-all@lists.linux.dev, Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v2] kunit: Cover 'assert.c' with tests
+Message-ID: <202405091128.Rh6iS2He-lkp@intel.com>
+References: <20240508132557.599213-1-ivan.orlov0322@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +65,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240508132557.599213-1-ivan.orlov0322@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   c95e10512c79660564907e3ba0c6403dcbd99d18
-commit: 2e2a4edd9d4a725c5474dc278b090913d9b5bfd5 [21328/22325] SCSI: SSSRAID: Support 3SNIC 3S5XX serial RAID/HBA  controllers
-config: x86_64-buildonly-randconfig-005-20240509 (https://download.01.org/0day-ci/archive/20240509/202405091039.NCGh5Ism-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405091039.NCGh5Ism-lkp@intel.com/reproduce)
+Hi Ivan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/kunit]
+[also build test WARNING on linus/master v6.9-rc7 next-20240508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/kunit-Cover-assert-c-with-tests/20240508-212654
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
+patch link:    https://lore.kernel.org/r/20240508132557.599213-1-ivan.orlov0322%40gmail.com
+patch subject: [PATCH v2] kunit: Cover 'assert.c' with tests
+config: x86_64-randconfig-121-20240509 (https://download.01.org/0day-ci/archive/20240509/202405091128.Rh6iS2He-lkp@intel.com/config)
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405091128.Rh6iS2He-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405091039.NCGh5Ism-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405091128.Rh6iS2He-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/kunit/assert_test.c:368:19: sparse: sparse: symbol 'assert_test_cases' was not declared. Should it be static?
+>> lib/kunit/assert_test.c:383:20: sparse: sparse: symbol 'assert_test_suite' was not declared. Should it be static?
 
->> drivers/scsi/sssraid/sssraid_os.o: warning: objtool: missing symbol for section .init.text
+vim +/assert_test_cases +368 lib/kunit/assert_test.c
+
+   367	
+ > 368	struct kunit_case assert_test_cases[] = {
+   369		KUNIT_CASE(kunit_test_is_literal),
+   370		KUNIT_CASE(kunit_test_is_str_literal),
+   371		KUNIT_CASE(kunit_test_assert_prologue),
+   372		KUNIT_CASE(kunit_test_assert_print_msg),
+   373		KUNIT_CASE(kunit_test_unary_assert_format),
+   374		KUNIT_CASE(kunit_test_ptr_not_err_assert_format),
+   375		KUNIT_CASE(kunit_test_binary_assert_format),
+   376		KUNIT_CASE(kunit_test_binary_ptr_assert_format),
+   377		KUNIT_CASE(kunit_test_binary_str_assert_format),
+   378		KUNIT_CASE(kunit_test_assert_hexdump),
+   379		KUNIT_CASE(kunit_test_mem_assert_format),
+   380		{}
+   381	};
+   382	
+ > 383	struct kunit_suite assert_test_suite = {
+   384		.name = "kunit-assert",
+   385		.test_cases = assert_test_cases,
+   386	};
+   387	
 
 -- 
 0-DAY CI Kernel Test Service
