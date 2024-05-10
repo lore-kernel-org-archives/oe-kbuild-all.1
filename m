@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CA714BFAE;
-	Fri, 10 May 2024 04:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C17414A63C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 05:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715316833; cv=none; b=UE4xSHnNjzYGBEHTz20rlMbtHZWsDvYU/VTWUu11ny4gt1DgwiFLVBUsnpwV7qmhr4i2caZRhHysVWEHs2SkKLHE3zSVbBObR6bVmIugSr8aBqjbkxUQPt3vLpnpsy3P6jo5o6Kx9Wv7foMr46W8WOF8pMQ2VSjSzN7X/sVWabE=
+	t=1715318089; cv=none; b=TnzOQHCWSoITsfXz3zWa+zfh3PEyKUOCQaZzS7XClE7ZNIRhegQP3JEb6i21zoSdt8yBuUgp/vCNfV7G+Cd/zpvteMDK7BA1EC2WnTYOQu8fWbvgYwtM13WBK+dW9CZvCqNjf4qnwsYPOKBEJs0R+hvd71IF8VX4S/RIHggC/oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715316833; c=relaxed/simple;
-	bh=/c9OvSb75VEC1kUzCDrlHq7E5W9av+rawCJ15Tn7Jsc=;
+	s=arc-20240116; t=1715318089; c=relaxed/simple;
+	bh=w7pGuYNb1wjUIp7h30yocHECKC+JDgC/7ip1xIc4JvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ofBTmPKfKLJHA4wT+5kemrmrzFZhO+93XEGhNfERUbk0Epc4eoCrEL0ypG0dcFfWO3cYd9VEjj/KYxUQuvYhHZ1B7tLhBRHLWcjU/P6linFHciewt8bEQn2/9/87h/tJ0q6GV8EgA3tdORniND1Bu/C3kLK1qKVg6OjNZ0xe/iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nU7vc5Jz; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ZjKRblsFGxVO4qHEXx7z7bok52Vn6xFT3JRSbdBih68fbls3W8EtKdwIJLW4COCiFxeX+/h3IHgTGloa6OiMNfDvNBVHONtSj+dEhfebPduREsOjiqInvNpjeMAPI0ZgLyW4FdkabyOafsH1jfzFRuFinkBipOqvLZnM2s7trYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XvzGcqwP; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nU7vc5Jz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvzGcqwP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715316830; x=1746852830;
+  t=1715318087; x=1746854087;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/c9OvSb75VEC1kUzCDrlHq7E5W9av+rawCJ15Tn7Jsc=;
-  b=nU7vc5Jznd0w+lHln9Qkf8FpQKIf4K6n588WiDmrApcfpP8s4XXAZOl1
-   hTPw7h7tlokW+fr6i/LiOo/s7VIObbB/wi7yErsDZfAJd/gmUF6z8SENM
-   k8kKKJI7HPzOmQmXLbLLdqUhORqGdvHOq6mlrwoRHUBddSCFBmkmF8UD3
-   5yF51rzGcRsgteRgRoaJeJ6/3SK2h1srUDaxfX9KU4r63tnyiPKgFrG8w
-   +tP6TE15lTDvPRhSs50euVhOXXe1JZ1YcUNF8p7hDUppZ3k/G86jm10j5
-   agXVHgUA/jLtsBzATIX4rcjNK2JxKqkPTkoXQ4ZUmsOqu4Byb26Byj5kt
+  bh=w7pGuYNb1wjUIp7h30yocHECKC+JDgC/7ip1xIc4JvU=;
+  b=XvzGcqwPwiXAU2sViuve23Zlb9MDRa8b+GW0V30FluUz3KwpdDUWN1uk
+   LHnLL7+L/LmBjlhaPfTy4gf1Jmkncr5d9V4BAuiJMcH8S9h4awMvfRiUz
+   kgmgoiWKnk5mT4hVcf7BFhLUXXeM8pU/fuST4z8VHME75QrHRAV7GgQT4
+   SeH3qyfTALqznyQPfFZFB/r+gNr2MRmQQbAV4UzTqEiEn8NxmYua9asQ2
+   kRmgdfLKrneO2ohPTSsb6GSNjDizL3Cf5D6vTwj07T6sWdnUpzmzi3biI
+   kKw8lbdSeurJsq4jO7H8zs1zES739+0xwcXY2yz6VawTnRpFXyT8B+vtM
    A==;
-X-CSE-ConnectionGUID: hgARj+SgSDmdC6C/190wbQ==
-X-CSE-MsgGUID: tFUaOsEhTgiGPyl13Xj1Qg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11140611"
+X-CSE-ConnectionGUID: zpKyZTJZTtWMFohtCxRC/g==
+X-CSE-MsgGUID: 6LZrALyURf+0NRH785xIPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21952104"
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="11140611"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 21:53:47 -0700
-X-CSE-ConnectionGUID: 5vnPPdBUTGSS8Oy+h0DE0Q==
-X-CSE-MsgGUID: of3oGIxsQjqEJ57DHnhl0Q==
+   d="scan'208";a="21952104"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 22:14:47 -0700
+X-CSE-ConnectionGUID: 0n99MwRoSu6fLJtb8g4yYQ==
+X-CSE-MsgGUID: NxXefiweTqOayGAohd8iUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="60340000"
+   d="scan'208";a="29453084"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 May 2024 21:53:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 May 2024 22:14:45 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5IGM-0005jn-32;
-	Fri, 10 May 2024 04:53:42 +0000
-Date: Fri, 10 May 2024 12:53:41 +0800
+	id 1s5Iah-0005l5-1s;
+	Fri, 10 May 2024 05:14:43 +0000
+Date: Fri, 10 May 2024 13:14:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie-new 27/72]
- drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion
- failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) +
- ((int)(((sizeof(struct (unnamed at
- drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct
- ...
-Message-ID: <202405101249.yceeqJPg-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 98/104] dtbs_check:
+ Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml:
+ properties:#address-cells: 'maxItems' is not one of ['description',
+ 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf',
+ 'default', '$ref', 'oneOf']
+Message-ID: <202405101308.u1CykYDC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,450 +66,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   c4b6f5889f2ab7520b410de974c363426751b195
-commit: 2c7cc404049ece67d6862d66e9c45d7e40de28cb [27/72] idpf: strictly assert cachelines of queue and queue vector structures
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240510/202405101249.yceeqJPg-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   cb75f24663df84986d5056df93e821564be6d886
+commit: f294ca970899f99e9f8c2f8f25a31837eb99d55c [98/104] CHROMIUM: dt-bindings: media: mediatek: add isp7x camsys device
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101249.yceeqJPg-lkp@intel.com/reproduce)
+dtschema version: 2024.5.dev2+ged9190d
+reproduce: (https://download.01.org/0day-ci/archive/20240510/202405101308.u1CykYDC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101249.yceeqJPg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405101308.u1CykYDC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:22:
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) + ((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1)) & ~((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1))': sizeof(struct idpf_sw_queue) <= __LIBETH_LARGEST_ALIGNED(128)
-     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:43:16: note: expanded from macro 'libeth_cacheline_struct_assert'
-      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
-         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: note: expression evaluates to '512 <= 256'
-     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:43:29: note: expanded from macro 'libeth_cacheline_struct_assert'
-      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   17 warnings and 1 error generated.
---
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:22:
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) + ((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1)) & ~((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1))': sizeof(struct idpf_sw_queue) <= __LIBETH_LARGEST_ALIGNED(128)
-     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:43:16: note: expanded from macro 'libeth_cacheline_struct_assert'
-      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
-         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: note: expression evaluates to '512 <= 256'
-     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:43:29: note: expanded from macro 'libeth_cacheline_struct_assert'
-      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/net/ethernet/intel/idpf/idpf_main.c:166:39: warning: shift count >= width of type [-Wshift-count-overflow]
-     166 |         err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
-         |                                              ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   18 warnings and 1 error generated.
---
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
-   In file included from include/net/pkt_sched.h:7:
-   In file included from include/linux/if_vlan.h:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:22:
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) + ((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1)) & ~((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1))': sizeof(struct idpf_sw_queue) <= __LIBETH_LARGEST_ALIGNED(128)
-     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:43:16: note: expanded from macro 'libeth_cacheline_struct_assert'
-      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
-         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: note: expression evaluates to '512 <= 256'
-     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/libeth/cache.h:43:29: note: expanded from macro 'libeth_cacheline_struct_assert'
-      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.c:2794:49: warning: bitwise operation between different enumeration types ('enum idpf_tx_desc_dtype_value' and 'enum idpf_tx_flex_ctx_desc_cmd_bits') [-Wenum-enum-conversion]
-    2794 |                                 cpu_to_le16(IDPF_TX_DESC_DTYPE_FLEX_TSO_CTX |
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-    2795 |                                             IDPF_TX_FLEX_CTX_DESC_CMD_TSO);
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/byteorder/generic.h:90:21: note: expanded from macro 'cpu_to_le16'
-      90 | #define cpu_to_le16 __cpu_to_le16
-         |                     ^
-   include/uapi/linux/byteorder/big_endian.h:36:53: note: expanded from macro '__cpu_to_le16'
-      36 | #define __cpu_to_le16(x) ((__force __le16)__swab16((x)))
-         |                                                     ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   18 warnings and 1 error generated.
-
-
-vim +952 drivers/net/ethernet/intel/idpf/idpf_txrx.h
-
-   925	
-   926	/**
-   927	 * struct idpf_sw_queue
-   928	 * @ring: Pointer to the ring
-   929	 * @flags: See enum idpf_queue_flags_t
-   930	 * @desc_count: Descriptor count
-   931	 * @next_to_use: Buffer to allocate at
-   932	 * @next_to_clean: Next descriptor to clean
-   933	 *
-   934	 * Software queues are used in splitq mode to manage buffers between rxq
-   935	 * producer and the bufq consumer.  These are required in order to maintain a
-   936	 * lockless buffer management system and are strictly software only constructs.
-   937	 */
-   938	struct idpf_sw_queue {
-   939		libeth_cacheline_group(read_mostly,
-   940			u32 *ring;
-   941	
-   942			DECLARE_BITMAP(flags, __IDPF_Q_FLAGS_NBITS);
-   943			u32 desc_count;
-   944		);
-   945		libeth_cacheline_group(read_write,
-   946			u32 next_to_use;
-   947			u32 next_to_clean;
-   948		);
-   949	};
-   950	libeth_cacheline_group_assert(struct idpf_sw_queue, read_mostly, 20);
-   951	libeth_cacheline_group_assert(struct idpf_sw_queue, read_write, 8);
- > 952	libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
-   953	
+dtcheck warnings: (new ones prefixed by >>)
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/arm/socionext/uniphier.yaml: title: 'Socionext UniPhier platform device tree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/arm/socionext/milbeaut.yaml: title: 'Milbeaut platforms device tree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/qcom,gcc-sc8180x.yaml: title: 'Qualcomm Global Clock & Reset Controller Binding for SC8180x' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml: properties:#address-cells: 'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+   from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml: properties:#size-cells: 'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+   from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+   $id: http://devicetree.org/schemas/media/mediatek,camisp.yaml
+   file: Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml
+   Documentation/devicetree/bindings/watchdog/fsl,scu-wdt.yaml: title: 'i.MX SCU Client Device Node - Watchdog bindings based on SCU Message Protocol' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/imx1-clock.yaml: title: 'Clock bindings for Freescale i.MX1 CPUs' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,seninf-core.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+   $id: http://devicetree.org/schemas/media/mediatek,seninf-core.yaml
+   file: Documentation/devicetree/bindings/media/mediatek/mediatek,seninf-core.yaml
+   Documentation/devicetree/bindings/sound/ti,src4xxx.yaml: title: 'Texas Instruments SRC4392 Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml: properties:#address-cells: 'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+   from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml: properties:#size-cells: 'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+   from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+   $id: http://devicetree.org/schemas/media/mediatek,cam-yuv.yaml
+   file: Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
+   Documentation/devicetree/bindings/phy/phy-tegra194-p2u.yaml: title: 'NVIDIA Tegra194 & Tegra234 P2U binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/imx8ulp-pcc-clock.yaml: title: 'NXP i.MX8ULP Peripheral Clock Controller(PCC) Module Binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+   $id: http://devicetree.org/schemas/media/mediatek,cam-raw.yaml
+   file: Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+   Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml: title: 'STMicroelectronics STM32 DAC bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml: title: 'OLPC XO-1.75 Embedded Controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/media/mediatek/mediatek,seninf.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+   $id: http://devicetree.org/schemas/media/mediatek,seninf.yaml
+   file: Documentation/devicetree/bindings/media/mediatek/mediatek,seninf.yaml
+   Documentation/devicetree/bindings/iio/dac/nxp,lpc1850-dac.yaml: title: 'NXP LPC1850 DAC bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml: title: 'Visionox model RM69299 Panels Device Tree Bindings.' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/fixed-clock.yaml: title: 'Binding for simple fixed-rate clock sources' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
 
 -- 
 0-DAY CI Kernel Test Service
