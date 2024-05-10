@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DFA944F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 17:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB4617C98
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 18:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715362888; cv=none; b=j0S3FvpX18t3iMkKQgJkRzdlvKTFGoxP3O7axGazsV1GljhPUbAK+56OvbWEBL9g2Pug8EVhiYMZA3cDTZ81wQ30UPIjgFfRUpjPlSkavDlDznAcCTaSD67Xl2NwCKcALLI02IyWGQmazcd4e/iTWAlmVAqYb8oEW4JLwuoCD0w=
+	t=1715364750; cv=none; b=fDL/v3NF+sSeJtHdBs7cFeK5Z3QWaj57s37p5Ln4DTZMs3ofa+LJwW2zuxKKZOm+MdOrLc1vrRXgEkmRd1r5B1tq+7X0H/4/BbrVV3lo915OsdzDHaxgw06QX36ZXpbGcyVAUt8FuKY2aeAd+hjUHCF/2LOosMuwaMEmAoZWgRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715362888; c=relaxed/simple;
-	bh=VwM+5YJkdCCO/1x2RaFhFn51m9oJeXBh0Si8vnjKDyc=;
+	s=arc-20240116; t=1715364750; c=relaxed/simple;
+	bh=jMoluFo0BAP2EtpQnSVBGVOc92tNPhrLOVscDxsXyKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FRFgemdZM2Pnb/cAmaOJDSueOh96rgYBOI2Be2xW4ECOd98KJNKyADxbI/G2beYMSAzkFGdf/JWZynH8MCya1gM+J1kc9tZU+yJaQztuHN//R3kgkuQVE0KnBn1kprS6/R1Gb6U9hfT7qnwzCOHGfs41bWhSgFqAi0CCpSfIez8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KsThjYlo; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=p61Qbk1hVDgUouD6g1Ae3bt6aBHXNpIB+Yk511nzon8nzHKTNYoK6rlyoCep6HkR9GRjFfgfCF9MlskAsKlI/08KdUyhNbOV3k3TzwVlxg6mAwXKx6UXczE8DyPyHVJBSWlUYEIp1wyzigw7OAPJUGS61iEyrQzCgsEb6Nvm4As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrKOtJxe; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KsThjYlo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrKOtJxe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715362887; x=1746898887;
+  t=1715364748; x=1746900748;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VwM+5YJkdCCO/1x2RaFhFn51m9oJeXBh0Si8vnjKDyc=;
-  b=KsThjYloh4iRLhLj0IptScFBGg2uGYrSXWubqFfwEW3jea+XB9IdpYFy
-   gr+HsDrIUUB72lPCejdajNY4KBWiHfdx0C/asNZl36N9BTqOepR41jqtp
-   SHtra4eIPpb0tFmP9cj62Xw6tACzXp+v4aOrQWYWCDHg4JfHTSaYotsVd
-   4GzETBEXGcQgJqCD7Ii+E0xR3Yu6+qDk4BVqNggWo5U/I5CAHz0pYR7MG
-   1RQqZjShX1wF4hbHs4kG+nt5bLQytCfj/fK6xVRVyOhtRWxn/SPVK2lyC
-   v6ieWCJx5f68yNnOsQpCwEGkmu0lteQGgfofAGlRc9UmYe54hsrZ2ZeGj
-   A==;
-X-CSE-ConnectionGUID: mSC84DRWSIC62uE+5wAklg==
-X-CSE-MsgGUID: PVDSh2WiQ4CTclKTO0O51Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11572821"
+  bh=jMoluFo0BAP2EtpQnSVBGVOc92tNPhrLOVscDxsXyKU=;
+  b=hrKOtJxepbxTiRWn5+NZtrBFMuwB8j64tO+NoPLMD8gQwIyS/xMO3RBG
+   HUA9pZ0KvK79bpQ5M7Rozy6WH2fdYJhOtj+Z4Q4X4fZ/nhj1nyd39GqgK
+   rFc8pOHrVPmGIryi23RYh/JDCwPLLRXWdjlSWS1uoWsei+V9rjsI5pC9p
+   JfyyI2rOYMI5uORyZ8O+MjwbiU5vblMHqYiv1Vr/kfz7GfVRfiQcegEGv
+   e/E8GHZvWODjY33vsA1rBRGtMDi9xnT+zvIURJBFbOspNvRZn/BGU/3W9
+   q/VT8EUED4+R/DEjcORMDd9RHzNPRdPX4AKvDarumbO9o6572gvWwdBaz
+   Q==;
+X-CSE-ConnectionGUID: J4E5swXkQpWFDIeB2Z+Ing==
+X-CSE-MsgGUID: TYdLNQGjQ8ODrjTMJ6aeOg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11189955"
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="11572821"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 10:41:26 -0700
-X-CSE-ConnectionGUID: V6qIjIrxSzaIUZtwh57VeA==
-X-CSE-MsgGUID: sTicpcxnS1iehgrtm/zUCg==
+   d="scan'208";a="11189955"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 11:12:27 -0700
+X-CSE-ConnectionGUID: crRh6AOtRYSz5xfVLGF47w==
+X-CSE-MsgGUID: A5MAWgQYR5KZacpBEMe3sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="52901746"
+   d="scan'208";a="34227484"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 May 2024 10:41:26 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 May 2024 11:12:26 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5UFH-0006RL-0y;
-	Fri, 10 May 2024 17:41:23 +0000
-Date: Sat, 11 May 2024 01:41:03 +0800
+	id 1s5UjI-0006Sf-0l;
+	Fri, 10 May 2024 18:12:24 +0000
+Date: Sat, 11 May 2024 02:11:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.9-netnext 3/4]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:1150:57: error: 'const struct
- <anonymous>' has no member named 'txd_size'; did you mean 'tx_dma_size'?
-Message-ID: <202405110144.Ca6tMbps-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 18554/22398]
+ drivers/net/ethernet/netswift/ngbe/ngbe_main.o: warning: objtool: missing
+ symbol for section .init.text
+Message-ID: <202405110244.yz4AxkCm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,133 +63,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-netnext
-head:   1e4e8b309fb8046b0b6fe43a01c296c606833938
-commit: aa62e0d7ebff3929eb1b1d8fb415ff217d2eda85 [3/4] net: mediatek: make MTK_DMA_SIZE soc specific
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240511/202405110144.Ca6tMbps-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110144.Ca6tMbps-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a786a35ec1aeb84a5ff258956854c2eaebec12b7
+commit: 206f9c11a8c8b0197da5a26859d96d2ed65f5757 [18554/22398] net: ngbe: Add Netswift Giga NIC driver
+config: x86_64-buildonly-randconfig-004-20240510 (https://download.01.org/0day-ci/archive/20240511/202405110244.yz4AxkCm-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110244.yz4AxkCm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405110144.Ca6tMbps-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405110244.yz4AxkCm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_init_fq_dma':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1150:57: error: 'const struct <anonymous>' has no member named 'txd_size'; did you mean 'tx_dma_size'?
-    1150 |         phy_ring_tail = eth->phy_scratch_ring + soc->tx.txd_size * (cnt - 1);
-         |                                                         ^~~~~~~~
-         |                                                         tx_dma_size
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1170:89: error: 'const struct <anonymous>' has no member named 'txd_size'; did you mean 'tx_dma_size'?
-    1170 |                         txd = eth->scratch_ring + (j * MTK_FQ_DMA_LENGTH + i) * soc->tx.txd_size;
-         |                                                                                         ^~~~~~~~
-         |                                                                                         tx_dma_size
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1174:87: error: 'const struct <anonymous>' has no member named 'txd_size'; did you mean 'tx_dma_size'?
-    1174 |                                             (j * MTK_FQ_DMA_LENGTH + i + 1) * soc->tx.txd_size;
-         |                                                                                       ^~~~~~~~
-         |                                                                                       tx_dma_size
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: At top level:
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5071:18: error: 'struct <anonymous>' has no member named 'dma_size'; did you mean 'desc_size'?
-    5071 |                 .dma_size = MTK_DMA_SIZE(2K),
-         |                  ^~~~~~~~
-         |                  desc_size
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:5078:18: error: 'struct <anonymous>' has no member named 'dma_size'; did you mean 'desc_size'?
-    5078 |                 .dma_size = MTK_DMA_SIZE(2K),
-         |                  ^~~~~~~~
-         |                  desc_size
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:31:
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:32:33: warning: initialized field overwritten [-Woverride-init]
-      32 | #define MTK_TX_DMA_BUF_LEN      0x3fff
-         |                                 ^~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:5079:32: note: in expansion of macro 'MTK_TX_DMA_BUF_LEN'
-    5079 |                 .dma_max_len = MTK_TX_DMA_BUF_LEN,
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:32:33: note: (near initialization for 'mt2701_data.rx.dma_max_len')
-      32 | #define MTK_TX_DMA_BUF_LEN      0x3fff
-         |                                 ^~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:5079:32: note: in expansion of macro 'MTK_TX_DMA_BUF_LEN'
-    5079 |                 .dma_max_len = MTK_TX_DMA_BUF_LEN,
-         |                                ^~~~~~~~~~~~~~~~~~
-
-
-vim +1150 drivers/net/ethernet/mediatek/mtk_eth_soc.c
-
-  1128	
-  1129	/* the qdma core needs scratch memory to be setup */
-  1130	static int mtk_init_fq_dma(struct mtk_eth *eth)
-  1131	{
-  1132		const struct mtk_soc_data *soc = eth->soc;
-  1133		dma_addr_t phy_ring_tail;
-  1134		int cnt = soc->tx.fq_dma_size;
-  1135		dma_addr_t dma_addr;
-  1136		u64 addr64 = 0;
-  1137		int i, j, len;
-  1138	
-  1139		if (MTK_HAS_CAPS(eth->soc->caps, MTK_SRAM))
-  1140			eth->scratch_ring = eth->sram_base;
-  1141		else
-  1142			eth->scratch_ring = dma_alloc_coherent(eth->dma_dev,
-  1143							       cnt * soc->tx.desc_size,
-  1144							       &eth->phy_scratch_ring,
-  1145							       GFP_KERNEL);
-  1146	
-  1147		if (unlikely(!eth->scratch_ring))
-  1148			return -ENOMEM;
-  1149	
-> 1150		phy_ring_tail = eth->phy_scratch_ring + soc->tx.txd_size * (cnt - 1);
-  1151	
-  1152		for (j = 0; j < DIV_ROUND_UP(soc->tx.fq_dma_size, MTK_FQ_DMA_LENGTH); j++) {
-  1153			len = min_t(int, cnt - j * MTK_FQ_DMA_LENGTH, MTK_FQ_DMA_LENGTH);
-  1154			eth->scratch_head[j] = kcalloc(len, MTK_QDMA_PAGE_SIZE, GFP_KERNEL);
-  1155	
-  1156			if (unlikely(!eth->scratch_head[j]))
-  1157				return -ENOMEM;
-  1158	
-  1159			dma_addr = dma_map_single(eth->dma_dev,
-  1160						  eth->scratch_head[j], len * MTK_QDMA_PAGE_SIZE,
-  1161						  DMA_FROM_DEVICE);
-  1162	
-  1163			if (unlikely(dma_mapping_error(eth->dma_dev, dma_addr)))
-  1164				return -ENOMEM;
-  1165	
-  1166			for (i = 0; i < cnt; i++) {
-  1167				//dma_addr_t addr = dma_addr + i * MTK_QDMA_PAGE_SIZE;
-  1168				struct mtk_tx_dma_v2 *txd;
-  1169	
-  1170				txd = eth->scratch_ring + (j * MTK_FQ_DMA_LENGTH + i) * soc->tx.txd_size;
-  1171				txd->txd1 = dma_addr + i * MTK_QDMA_PAGE_SIZE;
-  1172				if (j * MTK_FQ_DMA_LENGTH + i < cnt)
-  1173					txd->txd2 = eth->phy_scratch_ring +
-  1174						    (j * MTK_FQ_DMA_LENGTH + i + 1) * soc->tx.txd_size;
-  1175	
-  1176				addr64 = (MTK_HAS_CAPS(eth->soc->caps, MTK_8GB_ADDRESSING)) ?
-  1177					  TX_DMA_SDP1(dma_addr + i * MTK_QDMA_PAGE_SIZE) : 0;
-  1178	
-  1179				txd->txd3 = TX_DMA_PLEN0(MTK_QDMA_PAGE_SIZE) | addr64;
-  1180	
-  1181				if (MTK_HAS_CAPS(soc->caps, MTK_36BIT_DMA))
-  1182					txd->txd3 |= TX_DMA_PREP_ADDR64(addr64);
-  1183	
-  1184				txd->txd4 = 0;
-  1185				if (mtk_is_netsys_v2_or_greater(eth)) {
-  1186					txd->txd5 = 0;
-  1187					txd->txd6 = 0;
-  1188					txd->txd7 = 0;
-  1189					txd->txd8 = 0;
-  1190				}
-  1191			}
-  1192		}
-  1193	
-  1194		mtk_w32(eth, eth->phy_scratch_ring, soc->reg_map->qdma.fq_head);
-  1195		mtk_w32(eth, phy_ring_tail, soc->reg_map->qdma.fq_tail);
-  1196		mtk_w32(eth, (cnt << 16) | cnt, soc->reg_map->qdma.fq_count);
-  1197		mtk_w32(eth, MTK_QDMA_PAGE_SIZE << 16, soc->reg_map->qdma.fq_blen);
-  1198	
-  1199		return 0;
-  1200	}
-  1201	
+   In file included from drivers/net/ethernet/netswift/ngbe/ngbe_main.c:38:
+   drivers/net/ethernet/netswift/ngbe/ngbe.h:764:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     764 |         u32 cur_diff = 0;
+         |             ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:170:6: warning: no previous prototype for function 'ngbe_service_event_schedule' [-Wmissing-prototypes]
+     170 | void ngbe_service_event_schedule(struct ngbe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:170:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     170 | void ngbe_service_event_schedule(struct ngbe_adapter *adapter)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:433:7: warning: variable 'real_tx_hang' set but not used [-Wunused-but-set-variable]
+     433 |         bool real_tx_hang = false;
+         |              ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3223:6: warning: no previous prototype for function 'ngbe_configure_isb' [-Wmissing-prototypes]
+    3223 | void ngbe_configure_isb(struct ngbe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3223:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3223 | void ngbe_configure_isb(struct ngbe_adapter *adapter)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3233:6: warning: no previous prototype for function 'ngbe_configure_port' [-Wmissing-prototypes]
+    3233 | void ngbe_configure_port(struct ngbe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3233:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3233 | void ngbe_configure_port(struct ngbe_adapter *adapter)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3592:6: warning: no previous prototype for function 'ngbe_disable_device' [-Wmissing-prototypes]
+    3592 | void ngbe_disable_device(struct ngbe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3592:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3592 | void ngbe_disable_device(struct ngbe_adapter *adapter)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3693:5: warning: no previous prototype for function 'ngbe_init_shared_code' [-Wmissing-prototypes]
+    3693 | s32 ngbe_init_shared_code(struct ngbe_hw *hw)
+         |     ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3693:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3693 | s32 ngbe_init_shared_code(struct ngbe_hw *hw)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:5810:5: warning: no previous prototype for function 'ngbe_skb_pad_nonzero' [-Wmissing-prototypes]
+    5810 | int ngbe_skb_pad_nonzero(struct sk_buff *skb, int pad)
+         |     ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:5810:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    5810 | int ngbe_skb_pad_nonzero(struct sk_buff *skb, int pad)
+         | ^
+         | static 
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6010:6: warning: variable 'prtad' set but not used [-Wunused-but-set-variable]
+    6010 |         int prtad, devad, ret = 0;
+         |             ^
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6010:13: warning: variable 'devad' set but not used [-Wunused-but-set-variable]
+    6010 |         int prtad, devad, ret = 0;
+         |                    ^
+   10 warnings generated.
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:257: warning: Function parameter or member 'quiet' not described in 'ngbe_read_reg'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:1644: warning: Function parameter or member 'queues' not described in 'ngbe_irq_enable'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:1644: warning: Function parameter or member 'flush' not described in 'ngbe_irq_enable'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2035: warning: Function parameter or member 'adapter' not described in 'ngbe_configure_msi_and_legacy'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2449: warning: Function parameter or member 'adapter' not described in 'ngbe_configure_bridge_mode'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2913: warning: Function parameter or member 'pool' not described in 'ngbe_write_uc_addr_list'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3722: warning: cannot understand function prototype: 'const u32 def_rss_key[10] = '
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4583: warning: Function parameter or member 'adapter' not described in 'ngbe_check_hang_subtask'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4648: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_update_link_status'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4744: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_link_is_up'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4789: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_link_is_down'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4856: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_flush_tx'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4928: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_subtask'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4957: warning: Function parameter or member 't' not described in 'ngbe_service_timer'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4957: warning: Excess function parameter 'data' description in 'ngbe_service_timer'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6043: warning: Function parameter or member 'dev' not described in 'ngbe_setup_tc'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6043: warning: Excess function parameter 'netdev' description in 'ngbe_setup_tc'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6297: warning: Excess function parameter 'device_id' description in 'ngbe_wol_supported'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6297: warning: Excess function parameter 'subdev_id' description in 'ngbe_wol_supported'
+>> drivers/net/ethernet/netswift/ngbe/ngbe_main.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
