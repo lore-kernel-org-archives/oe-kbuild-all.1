@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF47014A0AD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 08:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBCA1635A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 09:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715331422; cv=none; b=WPIB2RUKr7snQav/GbUAftlrc64vu+S0OG0tZLdspjYLqPmKqGRnAHiLRMbqq1kBHlu03QC4CSYLgQJufGhf11LpqXZFRespT2vQ1WTfKHV805ifvDku+fyhIu9H8Xtx/50MrvK5dIUshQqH0ZcWdmbf+XCEk/KTxbzzN8tBYnw=
+	t=1715334723; cv=none; b=t3p+78VpCH23bRcdH/SjMrS2EDMXsjGnGDHV8qjSfX1XLKH5KxAa9nQj0KZ/t/GHrUP1xn1Ck7jFoMoL0DyPs2kJFIvt6/BBaK3ewKRSD6hJvl4xzCIw7gBUiDHCeGbdeOyMRqeBDTN0ArgN2eJ0lD5e9qDUTprdSxP0BM6Xazs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715331422; c=relaxed/simple;
-	bh=ZRU8fIQ4WqG3qiZu4D6exV0HMgQQgugX67A3jbnkyGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cqTfAd5VjRq9exktG71sxdu14BAE4yb0dWyCyA9qSB8fUXH2PsgvHSdefqbw6HQfb4Wk6YlA6MaKi9CofEDndnzscHLAQ6PCHhgDMQ7KduAHnBlNVdzqZYF+qFo5CQTiPSqPPO4udvGV4imVpV5ZPTdsZLn9H3XYNQPzdA+dI1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYIHmJfe; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1715334723; c=relaxed/simple;
+	bh=ueHFWeJxblGRYmSd0tm2y+AlWqZunxSxasR+kiLznBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UTOlHfFmZoe4DKH6+qSANE81JDjkKBwgj+krYGHeaswCq2z2oHED31y3Rx8uQpbAsSihUSx5oPuoknLy36RZOXfLSptBjD3FHKDmSV9cl+U5D5CLagqszVCXcPIccc3HelqbIDdtag/6AD8qD18p1OrLNSNbjg42FqolCKh82q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=he7gi6C2; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYIHmJfe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="he7gi6C2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715331420; x=1746867420;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZRU8fIQ4WqG3qiZu4D6exV0HMgQQgugX67A3jbnkyGk=;
-  b=TYIHmJfeOWzLQNx1TMVw7WJG41toIpAKScuTSQFszoR2RuDfALLQAZUR
-   ESTylI1wloiJcYjBu/iEByjZBr3UDrZrBqISSVkm0bhABy+0UI7wxR1Bs
-   aQ5a+rSkDzQDY7KdkJXhJs8Zt49lSElQCuCZlbmII6fUW9LHk+FywBnGO
-   GJ6tWMO1ksubMRgUQqLy/UO3YAM4CW8b20io9PTDx2Pj7OZbZasDYh/wf
-   OMMC/4F/MZ2vyuk+J7Wc6Pj+ErH486OwZNGcQqlJeDRcspx4S/jt/hUHT
-   tHCOVrUIYPchBl9M9mtxbJOWF0kpWIpXjtKmCFCqXUtlWjuMVLUJVGsZE
-   g==;
-X-CSE-ConnectionGUID: Iy3ZYxjhR9W1H2A6NNL27g==
-X-CSE-MsgGUID: HOIAF79uROKf1EPnujWYPA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="28786581"
+  t=1715334722; x=1746870722;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ueHFWeJxblGRYmSd0tm2y+AlWqZunxSxasR+kiLznBM=;
+  b=he7gi6C2ofB3SvbKB3zuCitTcHe62fp7pr1rFBfQgC70bhJtdR8lHbK/
+   FwjbSD4Nu7Tmn/CIRKwT2aNX4NO46bSGc20s57ueKhL6FEXzDajqR32r8
+   KRZfPpQ+9x8XW6h2m09rx8PtuG6E9N67ASbh1+ZPWXeKPjqGftLdCk7ZK
+   uXvUDAsTvxd1J/ANrDvI1NyiJmSMZuRzgdZCm+RKE2M/3XZCAe6MoHIKL
+   GIEdUUcum4+c0IaXTmP5VEN2Y5U9eUESqRVGV6S07Fu6SQeI6w3ljsZ/r
+   MOA14efNZaN4E7xKy7NnSO5TxaiZImXd+ojHqvaigWlV+TCFoqxNlcPTJ
+   A==;
+X-CSE-ConnectionGUID: q6LXNfVFQ3WWJu7YUG8czA==
+X-CSE-MsgGUID: 6xhnl7acS06Uno7QuE9lqA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11140700"
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="28786581"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 01:56:59 -0700
-X-CSE-ConnectionGUID: T1Sv1MAnQ+OWhfTk/OwveA==
-X-CSE-MsgGUID: 1XIx28bdTVGoYb9xQXsI8g==
+   d="scan'208";a="11140700"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 02:52:01 -0700
+X-CSE-ConnectionGUID: iICI3GvtSNGR20V3pYqK/Q==
+X-CSE-MsgGUID: KJhPhIgCSu6zcXsxmqBlbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="34065975"
+   d="scan'208";a="52769610"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 May 2024 01:56:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 May 2024 02:52:00 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5M3j-0005uh-0j;
-	Fri, 10 May 2024 08:56:55 +0000
-Date: Fri, 10 May 2024 16:56:41 +0800
+	id 1s5Muz-0005yR-1e;
+	Fri, 10 May 2024 09:51:57 +0000
+Date: Fri, 10 May 2024 17:51:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 17/78] drivers/hid/hid-himax.c:311:35:
- sparse: sparse: incorrect type in assignment (different base types)
-Message-ID: <202405101606.CZ3FvkfM-lkp@intel.com>
+Subject: Re: [RFC v2] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update
+ existing connection
+Message-ID: <202405101745.hjoY6Te2-lkp@intel.com>
+References: <20240509225043.1357933-1-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,127 +63,213 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240509225043.1357933-1-luiz.dentz@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   cd87d14c5c4cc74e7c89677acb4aa9c804165fc7
-commit: ec121059093ba2a3d03ca56d67bdfe02d2e34ffc [17/78] CHROMIUM: HID: hid-himax: Add Himax HX83102J touchscreen driver
-config: arm64-randconfig-r113-20240510 (https://download.01.org/0day-ci/archive/20240510/202405101606.CZ3FvkfM-lkp@intel.com/config)
+Hi Luiz,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.9-rc7 next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-MGMT-Make-MGMT_OP_LOAD_CONN_PARAM-update-existing-connection/20240510-065108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240509225043.1357933-1-luiz.dentz%40gmail.com
+patch subject: [RFC v2] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update existing connection
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240510/202405101745.hjoY6Te2-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240510/202405101606.CZ3FvkfM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101745.hjoY6Te2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101606.CZ3FvkfM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405101745.hjoY6Te2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-himax.c:311:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:311:35: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:311:35: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:378:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:378:35: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:378:35: sparse:     got restricted __le32 [usertype]
->> drivers/hid/hid-himax.c:560:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:560:26: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:560:26: sparse:     got restricted __le32 [usertype]
->> drivers/hid/hid-himax.c:608:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/hid/hid-himax.c:608:30: sparse:     expected unsigned short
-   drivers/hid/hid-himax.c:608:30: sparse:     got restricted __le16 [usertype]
->> drivers/hid/hid-himax.c:625:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:625:36: sparse:     expected unsigned int [addressable] [usertype] dword
-   drivers/hid/hid-himax.c:625:36: sparse:     got restricted __le32 [usertype]
->> drivers/hid/hid-himax.c:684:30: sparse: sparse: cast to restricted __le32
->> drivers/hid/hid-himax.c:864:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] *[assigned] word @@
-   drivers/hid/hid-himax.c:864:57: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:864:57: sparse:     got unsigned int [usertype] *[assigned] word
-   drivers/hid/hid-himax.c:866:61: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] *[assigned] word @@
-   drivers/hid/hid-himax.c:866:61: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:866:61: sparse:     got unsigned int [usertype] *[assigned] word
->> drivers/hid/hid-himax.c:1453:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1455:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1457:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1459:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1461:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1463:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1465:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1467:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1469:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1471:25: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All error/warnings (new ones prefixed by >>):
 
-vim +311 drivers/hid/hid-himax.c
+   net/bluetooth/mgmt.c: In function 'conn_update_sync':
+>> net/bluetooth/mgmt.c:7881:9: error: 'conn' undeclared (first use in this function)
+    7881 |         conn = hci_conn_hash_lookup_le(hdev, params->addr.bdaddr,
+         |         ^~~~
+   net/bluetooth/mgmt.c:7881:9: note: each undeclared identifier is reported only once for each function it appears in
+>> net/bluetooth/mgmt.c:7881:58: error: 'bdaddr_t' has no member named 'bdaddr'
+    7881 |         conn = hci_conn_hash_lookup_le(hdev, params->addr.bdaddr,
+         |                                                          ^
+>> net/bluetooth/mgmt.c:7886:9: error: expected ';' before 'return'
+    7886 |         return hci_le_conn_update_sync(hdev, conn, params);
+         |         ^~~~~~
+   net/bluetooth/mgmt.c: In function 'load_conn_param':
+>> net/bluetooth/mgmt.c:7960:27: error: 'params' undeclared (first use in this function); did you mean 'param'?
+    7960 |                 if (!i && params == 1) {
+         |                           ^~~~~~
+         |                           param
+>> net/bluetooth/mgmt.c:7992:36: error: 'struct hci_conn' has no member named 'le_supervision_timeout'; did you mean 'le_supv_timeout'?
+    7992 |                              conn->le_supervision_timeout != timeout))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~
+         |                                    le_supv_timeout
+>> net/bluetooth/mgmt.c:7994:52: error: 'hci_params' undeclared (first use in this function); did you mean 'hci_param'?
+    7994 |                                                    hci_params, NULL);
+         |                                                    ^~~~~~~~~~
+         |                                                    hci_param
+   In file included from net/bluetooth/mgmt.c:31:
+   net/bluetooth/mgmt.c: At top level:
+>> include/net/bluetooth/hci_core.h:1615:46: error: expected declaration specifiers or '...' before '&' token
+    1615 | #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+         |                                              ^
+   net/bluetooth/mgmt.c:7999:9: note: in expansion of macro 'hci_dev_unlock'
+    7999 |         hci_dev_unlock(hdev);
+         |         ^~~~~~~~~~~~~~
+>> net/bluetooth/mgmt.c:8001:9: error: expected identifier or '(' before 'return'
+    8001 |         return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM, 0,
+         |         ^~~~~~
+>> net/bluetooth/mgmt.c:8003:1: error: expected identifier or '(' before '}' token
+    8003 | }
+         | ^
+   net/bluetooth/mgmt.c: In function 'load_conn_param':
+>> net/bluetooth/mgmt.c:7997:9: warning: control reaches end of non-void function [-Wreturn-type]
+    7997 |         }
+         |         ^
+--
+>> net/bluetooth/hci_sync.c:6716:5: warning: no previous prototype for 'hci_le_conn_update_sync' [-Wmissing-prototypes]
+    6716 | int hci_le_conn_update_sync(struct hci_dev *hdev, struct hci_conn *conn,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
-   273	
-   274	/**
-   275	 * himax_mcu_register_read() - Read data from IC register/sram
-   276	 * @ts: Himax touch screen data
-   277	 * @addr: Address to read
-   278	 * @buf: Buffer to store data, caller should allocate the buffer
-   279	 * @len: Length of data to read
-   280	 *
-   281	 * Himax TP IC has its internal register and SRAM, this function is used to
-   282	 * read data from it. The reading protocol require a sequence of write and read,
-   283	 * which include write address to IC and read data from IC. Thus the read/write
-   284	 * operation is proctected by reg_lock mutex_unlock to protect the sequence.
-   285	 * The first step is to set the burst mode for MCU, then write the address to
-   286	 * AHB register to tell where to read. Then set the access direction to read,
-   287	 * and read the data from AHB register. The max length of data to read is decided
-   288	 * by AHB register max transfer size, but if it could't bigger then SPI controller
-   289	 * max transfer size. When the length of data is over the max transfer size,
-   290	 * the data will be read in multiple times.
-   291	 *
-   292	 * Return: 0 on success, negative error code on failure
-   293	 */
-   294	static int himax_mcu_register_read(struct himax_ts_data *ts, u32 addr, u8 *buf, u32 len)
-   295	{
-   296		int i;
-   297		int ret;
-   298		u8 direction_switch = HIMAX_AHB_CMD_ACCESS_DIRECTION_READ;
-   299		u32 read_sz;
-   300		const u32 max_trans_sz =
-   301			min(HIMAX_HX83102J_REG_XFER_MAX, ts->spi_xfer_max_sz - HIMAX_BUS_R_HLEN);
-   302		union himax_dword_data target_addr;
-   303	
-   304		mutex_lock(&ts->reg_lock);
-   305	
-   306		ret = himax_burst_mode_enable(ts, addr, len);
-   307		if (ret)
-   308			goto read_end;
-   309	
-   310		for (i = 0; i < len; i += read_sz) {
- > 311			target_addr.dword = cpu_to_le32(addr + i);
-   312			ret = himax_write(ts, HIMAX_AHB_ADDR_BYTE_0, target_addr.byte, NULL, 4);
-   313			if (ret < 0) {
-   314				dev_err(ts->dev, "%s: write ahb_addr_byte_0 failed\n", __func__);
-   315				goto read_end;
-   316			}
-   317	
-   318			ret = himax_write(ts, HIMAX_AHB_ADDR_ACCESS_DIRECTION, NULL,
-   319					  &direction_switch, 1);
-   320			if (ret < 0) {
-   321				dev_err(ts->dev, "%s: write ahb_addr_access_direction failed\n", __func__);
-   322				goto read_end;
-   323			}
-   324	
-   325			read_sz = min((len - i), max_trans_sz);
-   326			ret = himax_read(ts, HIMAX_AHB_ADDR_RDATA_BYTE_0, buf + i, read_sz);
-   327			if (ret < 0) {
-   328				dev_err(ts->dev, "%s: read ahb_addr_rdata_byte_0 failed\n", __func__);
-   329				goto read_end;
-   330			}
-   331		}
-   332	
-   333	read_end:
-   334		mutex_unlock(&ts->reg_lock);
-   335		if (ret < 0)
-   336			dev_err(ts->dev, "%s: addr = 0x%08X, len = %u, ret = %d\n", __func__,
-   337				addr, len, ret);
-   338	
-   339		return ret;
-   340	}
-   341	
+
+vim +/conn +7881 net/bluetooth/mgmt.c
+
+  7876	
+  7877	static int conn_update_sync(struct hci_dev *hdev, void *data)
+  7878	{
+  7879		struct hci_conn_params *params = data;
+  7880	
+> 7881		conn = hci_conn_hash_lookup_le(hdev, params->addr.bdaddr,
+  7882					       params->addr_type);
+  7883		if (!conn)
+  7884			return -ECANCELED
+  7885	
+> 7886		return hci_le_conn_update_sync(hdev, conn, params);
+  7887	}
+  7888	
+  7889	static int load_conn_param(struct sock *sk, struct hci_dev *hdev, void *data,
+  7890				   u16 len)
+  7891	{
+  7892		struct mgmt_cp_load_conn_param *cp = data;
+  7893		const u16 max_param_count = ((U16_MAX - sizeof(*cp)) /
+  7894					     sizeof(struct mgmt_conn_param));
+  7895		u16 param_count, expected_len;
+  7896		int i;
+  7897	
+  7898		if (!lmp_le_capable(hdev))
+  7899			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7900					       MGMT_STATUS_NOT_SUPPORTED);
+  7901	
+  7902		param_count = __le16_to_cpu(cp->param_count);
+  7903		if (param_count > max_param_count) {
+  7904			bt_dev_err(hdev, "load_conn_param: too big param_count value %u",
+  7905				   param_count);
+  7906			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7907					       MGMT_STATUS_INVALID_PARAMS);
+  7908		}
+  7909	
+  7910		expected_len = struct_size(cp, params, param_count);
+  7911		if (expected_len != len) {
+  7912			bt_dev_err(hdev, "load_conn_param: expected %u bytes, got %u bytes",
+  7913				   expected_len, len);
+  7914			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7915					       MGMT_STATUS_INVALID_PARAMS);
+  7916		}
+  7917	
+  7918		bt_dev_dbg(hdev, "param_count %u", param_count);
+  7919	
+  7920		hci_dev_lock(hdev);
+  7921	
+  7922		if (i > 1)
+  7923			hci_conn_params_clear_disabled(hdev);
+  7924	
+  7925		for (i = 0; i < param_count; i++) {
+  7926			struct mgmt_conn_param *param = &cp->params[i];
+  7927			struct hci_conn_params *hci_param;
+  7928			u16 min, max, latency, timeout;
+  7929			u8 addr_type;
+  7930			bool update;
+  7931	
+  7932			bt_dev_dbg(hdev, "Adding %pMR (type %u)", &param->addr.bdaddr,
+  7933				   param->addr.type);
+  7934	
+  7935			if (param->addr.type == BDADDR_LE_PUBLIC) {
+  7936				addr_type = ADDR_LE_DEV_PUBLIC;
+  7937			} else if (param->addr.type == BDADDR_LE_RANDOM) {
+  7938				addr_type = ADDR_LE_DEV_RANDOM;
+  7939			} else {
+  7940				bt_dev_err(hdev, "ignoring invalid connection parameters");
+  7941				continue;
+  7942			}
+  7943	
+  7944			min = le16_to_cpu(param->min_interval);
+  7945			max = le16_to_cpu(param->max_interval);
+  7946			latency = le16_to_cpu(param->latency);
+  7947			timeout = le16_to_cpu(param->timeout);
+  7948	
+  7949			bt_dev_dbg(hdev, "min 0x%04x max 0x%04x latency 0x%04x timeout 0x%04x",
+  7950				   min, max, latency, timeout);
+  7951	
+  7952			if (hci_check_conn_params(min, max, latency, timeout) < 0) {
+  7953				bt_dev_err(hdev, "ignoring invalid connection parameters");
+  7954				continue;
+  7955			}
+  7956	
+  7957			/* Detect when the loading is for an existing parameter then
+  7958			 * attempt to trigger the connection update procedure.
+  7959			 */
+> 7960			if (!i && params == 1) {
+  7961				hci_param = hci_conn_params_lookup(hdev,
+  7962								   &param->addr.bdaddr,
+  7963								   addr_type);
+  7964				if (hci_param)
+  7965					update = true;
+  7966				else
+  7967					hci_conn_params_clear_disabled(hdev);
+  7968			}
+  7969	
+  7970			hci_param = hci_conn_params_add(hdev, &param->addr.bdaddr,
+  7971							addr_type);
+  7972			if (!hci_param) {
+  7973				bt_dev_err(hdev, "failed to add connection parameters");
+  7974				continue;
+  7975			}
+  7976	
+  7977			hci_param->conn_min_interval = min;
+  7978			hci_param->conn_max_interval = max;
+  7979			hci_param->conn_latency = latency;
+  7980			hci_param->supervision_timeout = timeout;
+  7981	
+  7982			if (update) {
+  7983				struct hci_conn *conn;
+  7984	
+  7985				conn = hci_conn_hash_lookup_le(hdev,
+  7986							       params->addr.bdaddr,
+  7987							       addr_type);
+  7988				if (conn && conn->role == HCI_ROLE_MASTER &&
+  7989				    (conn->le_conn_min_interval != min ||
+  7990				     conn->le_conn_max_interval != max ||
+  7991				     conn->le_conn_latency != latency ||
+> 7992				     conn->le_supervision_timeout != timeout))
+  7993					hci_cmd_sync_queue(hdev, conn_update_sync,
+> 7994							   hci_params, NULL);
+  7995				}
+  7996			}
+> 7997		}
+  7998	
+> 7999		hci_dev_unlock(hdev);
+  8000	
+> 8001		return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM, 0,
+  8002					 NULL, 0);
+> 8003	}
+  8004	
 
 -- 
 0-DAY CI Kernel Test Service
