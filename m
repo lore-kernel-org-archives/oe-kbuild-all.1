@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAB6127E3F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 13:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146E4127E3F;
+	Fri, 10 May 2024 13:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715346151; cv=none; b=fpZloRQWNOKSLeqltgvCajGTxwBAZ3KrtjSdAhvVJaU38E75F9w+DKlOIoJ2rMiHLlFop6ue1gMKBM05ne6Gm0b4/qM9BEjFclgGTmsW3IyO19BWpQF9MiRX9G21BYTmSeYMSMyWmsT2p5dOmDNkG99yOiVvaU0JqPzE43+6/h4=
+	t=1715346157; cv=none; b=kPFcLz8kmA5nuZYjWpG3lY5kyotYJH1TKNLT+BU8JtdEl7hbp1+m+Ou22XFDSKRS+lNz1i763JChEMeh7E/l591+6jgGnH80shAU6J/rqHYN+TzTq3Z/wnl3BgMTnyUAoYRE9hbiriMePMovawXKwYIP0YbhXA5pgWOff1nhcZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715346151; c=relaxed/simple;
-	bh=ETm8Zorh0cZFJ3946t76LP9adujqszHCfe8gQJtGerE=;
+	s=arc-20240116; t=1715346157; c=relaxed/simple;
+	bh=NvHB2Oro775s7jRQr3orQN9JJSCfRS+yP1uJKhIr8zQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ak4dHGOmZgL8E5xeCIQJc43D8/gRgHNG5YkUXjb0ygIHsesMS7PdDZw1O4TJHepy3a24OaQqZr3Arn4yR/+GM+zR8lbicZxKfz+qViAsQxMM8HZ3PXhp3Z7BLtcLES/A8qduoe4XIztjKxo/E3ge+SJW4E/xAHkhZaz4uf1MqPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MMuK710S; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=E1b+WI96H3nLV7BCVZioVCmvKZQRwvf1rvyk0hn8OJ48v8uGsDBdNzWxDVcZvaJ/7OBcF/AoHFpIntQpPam96yxHGhgXPLo8A9xTrhB+TNzBG56/tmQl+Hm5m7Fo2xjbfzjx6F1GWtlgELaGTri4tH2/Wk+s7I+yp0N3PRNavxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lA/ootVV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMuK710S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lA/ootVV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715346150; x=1746882150;
+  t=1715346152; x=1746882152;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ETm8Zorh0cZFJ3946t76LP9adujqszHCfe8gQJtGerE=;
-  b=MMuK710S+SawgMD8DEPYO01n0X7M8DYBe+XUOkMnR5kPylNwTD9h1UfU
-   WEI4HK5Gd37KFr4YzNTCcmwauJhllBYIZ+ebZ9ki63yGum6wTrLFTD46z
-   yx8iuaHSUHZnLziT9IanPqA1tMmyFy4Zt1apA5uO+lOvhPZ+CwS08BzQT
-   +2HwY3I6pR7e5SKL+iGaRFJrapZ0o0TUsm0aJE3D9QfXB/yXrfEL1ElA9
-   FE2LeI62GUVxF4+q0cky/08IbvAXFVhKSXy6mQi0cHo/3Rxhq7JZSgaqM
-   IS8Hgn29MRpdzbA7N5xBoPIqPQEy6ohehdNFUMfh/eDz1/ZKAIGPlylu/
+  bh=NvHB2Oro775s7jRQr3orQN9JJSCfRS+yP1uJKhIr8zQ=;
+  b=lA/ootVV+dW6GRUB1F2MI4lZdBdGF2jDgpUZfKDK7sIT9OpZp0eBb+c4
+   bxh6FoO50BY9XQjVMFOm4tQN0ZY9Y9f5H8qVI5YPvn1bUWfBWQugxCBsg
+   3vM83U+GnG25/CQBYTc+0Pvh8kIkudiqJXwZcLs5nXYt5WCasvf1J0HZl
+   qCsBE3bTqnbZ0eEgbbUOTsJeMgM/W97IbfQ08blwkK8ywZ7L50dMds4CC
+   3BwcxASZgB0N5vWAtKoUVZhFYtvQg/PpNnuhTglKSvVj5u5bvhG7bJhX+
+   +sNWty6W764m7c6fKehn18k47P2QrO2ZtaA/cuOrj/7vOIe/lH7jXGbc2
    A==;
-X-CSE-ConnectionGUID: gzgjq+Y/QfmGNlV5RPmwag==
-X-CSE-MsgGUID: ibEDSsOiSwK++Cto97NNAw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22731532"
+X-CSE-ConnectionGUID: slkIpWvtSQ6iXZEfBR7UAQ==
+X-CSE-MsgGUID: vKOLpWogR4uRMnMnnQpVZA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22731536"
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="22731532"
+   d="scan'208";a="22731536"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 06:02:10 -0700
-X-CSE-ConnectionGUID: tKEa2VeYTnyJRszhPoMldw==
-X-CSE-MsgGUID: 3eXbBualROaRIDjD3sykug==
+X-CSE-ConnectionGUID: asuWpvjdTx+2NNFRrTUsSA==
+X-CSE-MsgGUID: jm3F36enRxueLBso9knM1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="34046632"
+   d="scan'208";a="34046642"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 10 May 2024 06:02:07 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5Psz-0006A7-2P;
+	id 1s5Psz-0006AC-2Z;
 	Fri, 10 May 2024 13:02:05 +0000
-Date: Fri, 10 May 2024 21:01:44 +0800
+Date: Fri, 10 May 2024 21:01:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:pci-mbox 2/9] drivers/pci/mrb.c:55: warning: Function
- parameter or struct member 'dev_type' not described in
- 'mmio_find_regblock_instance'
-Message-ID: <202405102051.D264as1O-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:pci-mbox 7/9] drivers/pci/mmb.c:56:11: error: call to
+ undeclared function 'readq'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202405102047.li8ZD9Vo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,98 +65,225 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git pci-mbox
 head:   9c38a15525283584d0d49404c11c397fe71ba1e8
-commit: a08c6a2a48f9dea06ca214c1d3cd9c199098e25b [2/9] PCI: Add discovery of MMIO register block common helpers
-config: x86_64-buildonly-randconfig-001-20240510 (https://download.01.org/0day-ci/archive/20240510/202405102051.D264as1O-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405102051.D264as1O-lkp@intel.com/reproduce)
+commit: d7ef18124cb4ba45e597c4b1fdd44ab208ce797e [7/9] PCI/cxl: Migrate the common mailbox operation code from CXL to PCI
+config: i386-buildonly-randconfig-004-20240510 (https://download.01.org/0day-ci/archive/20240510/202405102047.li8ZD9Vo-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405102047.li8ZD9Vo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405102051.D264as1O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405102047.li8ZD9Vo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/mrb.c:55: warning: Function parameter or struct member 'dev_type' not described in 'mmio_find_regblock_instance'
->> drivers/pci/mrb.c:55: warning: Function parameter or struct member 'index' not described in 'mmio_find_regblock_instance'
->> drivers/pci/mrb.c:55: warning: expecting prototype for mmio_find_regblock(). Prototype was for mmio_find_regblock_instance() instead
+>> drivers/pci/mmb.c:56:11: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      56 |         status = readq(mbox->mbox_ready_addr + PCI_MMB_STATUS_OFFSET);
+         |                  ^
+>> drivers/pci/mmb.c:180:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     180 |         writeq(cmd_reg, mbox->mbox_ctrl_addr + PCI_MMB_CMD_OFFSET);
+         |         ^
+   drivers/pci/mmb.c:194:15: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     194 |         status_reg = readq(mbox->mbox_ctrl_addr + PCI_MMB_STATUS_OFFSET);
+         |                      ^
+   3 errors generated.
 --
->> drivers/cxl/core/regs.c:599: warning: expecting prototype for cxl_find_regblock_instance(). Prototype was for cxl_find_dvsec_regblock_instance() instead
+>> drivers/cxl/core/mbox.c:1463:14: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1463 |         md_status = readq(mbox->mbox_ready_addr + CXLMDEV_STATUS_OFFSET);
+         |                     ^
+   drivers/cxl/core/mbox.c:1491:8: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1491 |         reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_BG_CMD_STATUS_OFFSET);
+         |               ^
+   drivers/cxl/core/mbox.c:1557:18: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1557 |         bg_status_reg = readq(cxlds->regs.mbox +
+         |                         ^
+   3 errors generated.
 
 
-vim +55 drivers/pci/mrb.c
+vim +/readq +56 drivers/pci/mmb.c
 
-    40	
-    41	/**
-    42	 * mmio_find_regblock() - Locate MMIO register blocks by type
-    43	 * @pdev: The PCI device to enumerate
-    44	 * @type: Register Block ID
-    45	 * @map: Enumeration output, clobbered on error
-    46	 *
-    47	 * Return: 0 if register block enumerated, negative error code otherwise
-    48	 *
-    49	 * One or more register blocks may exist, search for them by @type.
-    50	 */
-    51	int mmio_find_regblock_instance(struct pci_dev *pdev,
-    52					enum mrb_dev_type dev_type, int type,
-    53					struct mmio_register_map *map,
-    54					int index)
-  > 55	{
-    56		u32 mrbl_size, mrbl_blocks;
-    57		int instance = 0;
-    58		int mloc, i;
-    59	
-    60		*map = (struct mmio_register_map) {
-    61			.dev_type = dev_type,
-    62			.host = &pdev->dev,
-    63			.resource = MMIO_RESOURCE_NONE,
-    64		};
-    65	
-    66		switch (dev_type) {
-    67		case DEV_TYPE_PCI:
-    68			mloc = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_MRBL);
-    69			pci_read_config_dword(pdev, mloc + PCI_MRBL_CAP, &mrbl_size);
-    70			mrbl_size = PCI_MRBL_LEN(mrbl_size);
-    71			mloc += PCI_MRBL_REG_LOCATOR_BLOCK1_OFFSET;
-    72			mrbl_blocks = (mrbl_size - PCI_MRBL_REG_LOCATOR_BLOCK1_OFFSET) / 8;
-    73			break;
-    74		case DEV_TYPE_CXL:
-    75			mloc = pci_find_dvsec_capability(pdev, PCI_VENDOR_ID_CXL,
-    76							 CXL_DVSEC_REG_LOCATOR);
-    77			pci_read_config_dword(pdev, mloc + PCI_DVSEC_HEADER1, &mrbl_size);
-    78			mrbl_size = PCI_DVSEC_HEADER1_LEN(mrbl_size);
-    79			mloc += CXL_DVSEC_REG_LOCATOR_BLOCK1_OFFSET;
-    80			mrbl_blocks = (mrbl_size - CXL_DVSEC_REG_LOCATOR_BLOCK1_OFFSET) / 8;
-    81			break;
-    82		default:
-    83			return -EINVAL;
-    84		}
-    85	
-    86		if (!mloc)
-    87			return -ENXIO;
+    51	
+    52	static bool pci_mmb_ready(struct mmio_mailbox *mbox)
+    53	{
+    54		u64 status;
+    55	
+  > 56		status = readq(mbox->mbox_ready_addr + PCI_MMB_STATUS_OFFSET);
+    57	
+    58		return !!(status & PCI_MMB_STATUS_READY);
+    59	}
+    60	
+    61	static int pci_mmb_wait_for_doorbell(struct mmio_mailbox *mbox)
+    62	{
+    63		const unsigned long start = jiffies;
+    64		struct device *dev = mbox->dev;
+    65		unsigned long end = start;
+    66	
+    67		while (mmb_doorbell_busy(mbox)) {
+    68			end = jiffies;
+    69	
+    70			if (time_after(end, start + PCI_MMB_TIMEOUT_MS)) {
+    71				/* Check again in case preempted before timeout test */
+    72				if (!mmb_doorbell_busy(mbox))
+    73					break;
+    74				return -ETIMEDOUT;
+    75			}
+    76			cpu_relax();
+    77		}
+    78	
+    79		dev_dbg(dev, "Doorbell wait took %dms",
+    80			jiffies_to_msecs(end) - jiffies_to_msecs(start));
+    81		return 0;
+    82	}
+    83	
+    84	static int mmb_send_prep(struct mmio_mailbox *mbox, struct mmio_mbox_cmd *cmd)
+    85	{
+    86		if (!mbox->ops || !mbox->ops->cmd_prep)
+    87			return -EOPNOTSUPP;
     88	
-    89		for (i = 0; i < mrbl_blocks; i++, mloc += 8) {
-    90			u32 reg_lo, reg_hi;
+    89		return mbox->ops->cmd_prep(mbox, cmd);
+    90	}
     91	
-    92			pci_read_config_dword(pdev, mloc, &reg_lo);
-    93			pci_read_config_dword(pdev, mloc + 4, &reg_hi);
-    94	
-    95			if (!decode_regblock(pdev, reg_lo, reg_hi, map))
-    96				continue;
-    97	
-    98			if (map->reg_type == type) {
-    99				if (index == instance)
-   100					return 0;
-   101				instance++;
-   102			}
-   103		}
+    92	static int mmb_send_done(struct mmio_mailbox *mbox, struct mmio_mbox_cmd *cmd)
+    93	{
+    94		if (!mbox->ops || !mbox->ops->cmd_done)
+    95			return -EOPNOTSUPP;
+    96	
+    97		return mbox->ops->cmd_done(mbox, cmd);
+    98	}
+    99	
+   100	static int mmb_ready(struct mmio_mailbox *mbox)
+   101	{
+   102		if (!mbox->ops || !mbox->ops->mbox_ready)
+   103			return -EOPNOTSUPP;
    104	
-   105		map->resource = MMIO_RESOURCE_NONE;
-   106	
-   107		return -ENODEV;
-   108	}
-   109	EXPORT_SYMBOL_GPL(mmio_find_regblock_instance);
-   110	
+   105		return mbox->ops->mbox_ready(mbox);
+   106	}
+   107	
+   108	/**
+   109	 * __cxl_pci_mbox_send_cmd() - Execute a mailbox command
+   110	 * @mds: The memory device driver data
+   111	 * @mbox_cmd: Command to send to the memory device.
+   112	 *
+   113	 * Context: Any context. Expects mbox_mutex to be held.
+   114	 * Return: -ETIMEDOUT if timeout occurred waiting for completion. 0 on success.
+   115	 *         Caller should check the return code in @mbox_cmd to make sure it
+   116	 *         succeeded.
+   117	 *
+   118	 * This is a generic form of the CXL mailbox send command thus only using the
+   119	 * registers defined by the mailbox capability ID - CXL 2.0 8.2.8.4. Memory
+   120	 * devices, and perhaps other types of CXL devices may have further information
+   121	 * available upon error conditions. Driver facilities wishing to send mailbox
+   122	 * commands should use the wrapper command.
+   123	 *
+   124	 * The CXL spec allows for up to two mailboxes. The intention is for the primary
+   125	 * mailbox to be OS controlled and the secondary mailbox to be used by system
+   126	 * firmware. This allows the OS and firmware to communicate with the device and
+   127	 * not need to coordinate with each other. The driver only uses the primary
+   128	 * mailbox.
+   129	 */
+   130	static int __mmio_mailbox_send_cmd(struct mmio_mailbox *mbox,
+   131					   struct mmio_mbox_cmd *mbox_cmd)
+   132	{
+   133		void __iomem *payload = mbox->mbox_ctrl_addr + PCI_MMB_PAYLOAD_OFFSET;
+   134		struct device *dev = mbox->dev;
+   135		u64 cmd_reg, status_reg;
+   136		size_t out_len;
+   137		int rc;
+   138	
+   139		lockdep_assert_held(&mbox->mbox_mutex);
+   140	
+   141		/*
+   142		 * Here are the steps from '6.35.1.3.1 MMB Operation' of PCIe Base Spec r6.2
+   143		 *   1. Caller reads MB Control Register to verify doorbell is clear
+   144		 *   2. Caller writes Command Register
+   145		 *   3. Caller writes Command Payload Registers if input payload is non-empty
+   146		 *   4. Caller writes MB Control Register to set doorbell
+   147		 *   5. Caller either polls for doorbell to be clear or waits for interrupt if configured
+   148		 *   6. Caller reads MB Status Register to fetch Return code
+   149		 *   7. If command successful, Caller reads Command Register to get Payload Length
+   150		 *   8. If output payload is non-empty, host reads Command Payload Registers
+   151		 *
+   152		 * Hardware is free to do whatever it wants before the doorbell is rung,
+   153		 * and isn't allowed to change anything after it clears the doorbell. As
+   154		 * such, steps 2 and 3 can happen in any order, and steps 6, 7, 8 can
+   155		 * also happen in any order (though some orders might not make sense).
+   156		 */
+   157	
+   158		/* #1 */
+   159		if (mmb_doorbell_busy(mbox)) {
+   160			dev_warn(dev, "mailbox queue busy");
+   161			return -EBUSY;
+   162		}
+   163	
+   164		rc = mmb_send_prep(mbox, mbox_cmd);
+   165		if (rc < 0)
+   166			return rc;
+   167	
+   168		cmd_reg = FIELD_PREP(PCI_MMB_CMD_COMMAND_OPCODE_MASK,
+   169				     mbox_cmd->opcode);
+   170		if (mbox_cmd->size_in) {
+   171			if (WARN_ON(!mbox_cmd->payload_in))
+   172				return -EINVAL;
+   173	
+   174			cmd_reg |= FIELD_PREP(PCI_MMB_CMD_PAYLOAD_LENGTH_MASK,
+   175					      mbox_cmd->size_in);
+   176			memcpy_toio(payload, mbox_cmd->payload_in, mbox_cmd->size_in);
+   177		}
+   178	
+   179		/* #2, #3 */
+ > 180		writeq(cmd_reg, mbox->mbox_ctrl_addr + PCI_MMB_CMD_OFFSET);
+   181	
+   182		/* #4 */
+   183		dev_dbg(dev, "Sending command: 0x%04x\n", mbox_cmd->opcode);
+   184		writel(PCI_MMB_CTRL_DOORBELL, mbox->mbox_ctrl_addr + PCI_MMB_CTRL_OFFSET);
+   185	
+   186		/* #5 */
+   187		rc = pci_mmb_wait_for_doorbell(mbox);
+   188		if (rc == -ETIMEDOUT) {
+   189			dev_warn(dev, "mailbox timeout");
+   190			return rc;
+   191		}
+   192	
+   193		/* #6 */
+   194		status_reg = readq(mbox->mbox_ctrl_addr + PCI_MMB_STATUS_OFFSET);
+   195		mbox_cmd->return_code = FIELD_GET(PCI_MMB_STATUS_RET_CODE_MASK,
+   196						  status_reg);
+   197	
+   198		rc = mmb_send_done(mbox, mbox_cmd);
+   199		if (rc < 0)
+   200			return rc;
+   201		if (rc == 1)
+   202			goto success;
+   203	
+   204		if (mbox_cmd->return_code != 0)
+   205			return 0; /* completed but caller must check return_code */
+   206	
+   207	success:
+   208		/* #7 */
+   209		cmd_reg = readq(mbox->mbox_ctrl_addr + PCI_MMB_CMD_OFFSET);
+   210		out_len = FIELD_GET(PCI_MMB_CMD_PAYLOAD_LENGTH_MASK, cmd_reg);
+   211	
+   212		/* #8 */
+   213		if (out_len && mbox_cmd->payload_out) {
+   214			/*
+   215			 * Sanitize the copy. If hardware misbehaves, out_len per the
+   216			 * spec can actually be greater than the max allowed size (21
+   217			 * bits available but spec defined 1M max). The caller also may
+   218			 * have requested less data than the hardware supplied even
+   219			 * within spec.
+   220			 */
+   221			size_t n;
+   222	
+   223			n = min3(mbox_cmd->size_out, mbox->payload_size, out_len);
+   224			memcpy_fromio(mbox_cmd->payload_out, payload, n);
+   225			mbox_cmd->size_out = n;
+   226		} else {
+   227			mbox_cmd->size_out = 0;
+   228		}
+   229	
+   230		return 0;
+   231	}
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
