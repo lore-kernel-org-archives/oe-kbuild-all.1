@@ -1,60 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B9353E26
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 04:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CA714BFAE;
+	Fri, 10 May 2024 04:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715316830; cv=none; b=JIwvQiL7WcVyE128opBpb8SbA2Jp6E96GCzKeloLjBqD2vmppPcMaMEBOFdJ39kREE/8cX6F56NppwXn3rk/UTNowspqlWzjL8HhxcupaFpJU1WxcLVH0pJFFRm8NAqoEy4fo3dt/sK2I3ZeSmjse4HdkwsXe3nXfO4LbUZsivg=
+	t=1715316833; cv=none; b=UE4xSHnNjzYGBEHTz20rlMbtHZWsDvYU/VTWUu11ny4gt1DgwiFLVBUsnpwV7qmhr4i2caZRhHysVWEHs2SkKLHE3zSVbBObR6bVmIugSr8aBqjbkxUQPt3vLpnpsy3P6jo5o6Kx9Wv7foMr46W8WOF8pMQ2VSjSzN7X/sVWabE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715316830; c=relaxed/simple;
-	bh=wstIwcJ5d32pzTm5GMRJI2/RPjRLmnE/iAku0UFZFaw=;
+	s=arc-20240116; t=1715316833; c=relaxed/simple;
+	bh=/c9OvSb75VEC1kUzCDrlHq7E5W9av+rawCJ15Tn7Jsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oCe4Rxa8r5dRnOp+ZWzWJHtzJ2VPKzdt2eaYxfTEqInjc5NDzJk5fzU9c5nCGGducw2tKILBYChp0bOkTzqprLt4ROGfzCSL9YdZSJRx/er2rGhriU83bWFh4NCh9QKAwdHGW75jI07M/945N4i33jWCvEg+fe6hNX2jlpkfsUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ChLSajp9; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ofBTmPKfKLJHA4wT+5kemrmrzFZhO+93XEGhNfERUbk0Epc4eoCrEL0ypG0dcFfWO3cYd9VEjj/KYxUQuvYhHZ1B7tLhBRHLWcjU/P6linFHciewt8bEQn2/9/87h/tJ0q6GV8EgA3tdORniND1Bu/C3kLK1qKVg6OjNZ0xe/iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nU7vc5Jz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChLSajp9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nU7vc5Jz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715316828; x=1746852828;
+  t=1715316830; x=1746852830;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wstIwcJ5d32pzTm5GMRJI2/RPjRLmnE/iAku0UFZFaw=;
-  b=ChLSajp9uogtj6eAFFSKZAWzqIALF6SwCrLQwLYAVlEzIZyq7ppwYX1T
-   ZL03N337YEJXyP8xj2ZZrS8OJ4GM+fGVsA4BFkCUeHJG1NKln0CcCDg7K
-   uLyCNrOha/JastrAbALrTMxo7YBCTRnWa9dwc8cGvmu+cpZiHC63cgsHx
-   7B/8m5SL/T4lT6Y2sm7AOlqsKCTr4HVB+zAcS4fKxFduv4dyhM3M0oAqR
-   y+juHLjvk1HyvqIqhkJstBeWHTBcrNigKq9v25agRjdy2mAy5Zl6+4lYc
-   D53OIGG9cdCWimZXkqRHYM/2spJ37/5OnLGEjF6iMG413WPlGt27TWtNc
-   Q==;
-X-CSE-ConnectionGUID: SiLAN9hiRCWNhbjSopJuog==
-X-CSE-MsgGUID: HJzR27xoSo64aP0TCWSwHA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11140608"
+  bh=/c9OvSb75VEC1kUzCDrlHq7E5W9av+rawCJ15Tn7Jsc=;
+  b=nU7vc5Jznd0w+lHln9Qkf8FpQKIf4K6n588WiDmrApcfpP8s4XXAZOl1
+   hTPw7h7tlokW+fr6i/LiOo/s7VIObbB/wi7yErsDZfAJd/gmUF6z8SENM
+   k8kKKJI7HPzOmQmXLbLLdqUhORqGdvHOq6mlrwoRHUBddSCFBmkmF8UD3
+   5yF51rzGcRsgteRgRoaJeJ6/3SK2h1srUDaxfX9KU4r63tnyiPKgFrG8w
+   +tP6TE15lTDvPRhSs50euVhOXXe1JZ1YcUNF8p7hDUppZ3k/G86jm10j5
+   agXVHgUA/jLtsBzATIX4rcjNK2JxKqkPTkoXQ4ZUmsOqu4Byb26Byj5kt
+   A==;
+X-CSE-ConnectionGUID: hgARj+SgSDmdC6C/190wbQ==
+X-CSE-MsgGUID: tFUaOsEhTgiGPyl13Xj1Qg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11140611"
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="11140608"
+   d="scan'208";a="11140611"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 21:53:47 -0700
-X-CSE-ConnectionGUID: JAPdGYZ+SPSn26REXrmlVg==
-X-CSE-MsgGUID: YvTDPasfRti0SpOYr4Ip7w==
+X-CSE-ConnectionGUID: 5vnPPdBUTGSS8Oy+h0DE0Q==
+X-CSE-MsgGUID: of3oGIxsQjqEJ57DHnhl0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="60339981"
+   d="scan'208";a="60340000"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 09 May 2024 21:53:45 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5IGM-0005jp-36;
+	id 1s5IGM-0005jn-32;
 	Fri, 10 May 2024 04:53:42 +0000
-Date: Fri, 10 May 2024 12:53:42 +0800
+Date: Fri, 10 May 2024 12:53:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 101/104]
- drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c:320:15:
- error: cast to pointer from integer of different size
-Message-ID: <202405101205.enk8iQTh-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:idpf-libie-new 27/72]
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion
+ failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) +
+ ((int)(((sizeof(struct (unnamed at
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct
+ ...
+Message-ID: <202405101249.yceeqJPg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,267 +66,450 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   cb75f24663df84986d5056df93e821564be6d886
-commit: 35d65c4423bf525d557b423789c0c3f3c41fa92c [101/104] CHROMIUM: media: platform: mediatek: isp: add IMGSYS driver
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240510/202405101205.enk8iQTh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101205.enk8iQTh-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   c4b6f5889f2ab7520b410de974c363426751b195
+commit: 2c7cc404049ece67d6862d66e9c45d7e40de28cb [27/72] idpf: strictly assert cachelines of queue and queue vector structures
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240510/202405101249.yceeqJPg-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101249.yceeqJPg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101205.enk8iQTh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405101249.yceeqJPg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c: In function 'imgsys_scp_handler':
->> drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c:320:15: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-     320 |         req = (struct mtk_imgsys_request *)swfrm_info->req_vaddr;
-         |               ^
-   drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c: In function 'mtk_imgsys_hw_connect':
->> drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c:461:25: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-     461 |         info.drv_data = (u64)&imgsys_dev;
-         |                         ^
-   drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c: In function 'imgsys_composer_workfunc':
-   drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c:700:33: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-     700 |         ipi_param.req_addr_va = (u64)req;
-         |                                 ^
-   cc1: all warnings being treated as errors
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:22:
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) + ((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1)) & ~((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1))': sizeof(struct idpf_sw_queue) <= __LIBETH_LARGEST_ALIGNED(128)
+     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:43:16: note: expanded from macro 'libeth_cacheline_struct_assert'
+      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
+         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: note: expression evaluates to '512 <= 256'
+     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:43:29: note: expanded from macro 'libeth_cacheline_struct_assert'
+      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   17 warnings and 1 error generated.
 --
-   drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-v4l2.c: In function 'mtk_imgsys_vb2_meta_buf_init':
->> drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-v4l2.c:276:40: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-     276 |                 dev_buf->va_daddr[0] = (u64)vb2_plane_vaddr(vb, 0);
-         |                                        ^
-   cc1: all warnings being treated as errors
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:22:
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) + ((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1)) & ~((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1))': sizeof(struct idpf_sw_queue) <= __LIBETH_LARGEST_ALIGNED(128)
+     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:43:16: note: expanded from macro 'libeth_cacheline_struct_assert'
+      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
+         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: note: expression evaluates to '512 <= 256'
+     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:43:29: note: expanded from macro 'libeth_cacheline_struct_assert'
+      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   drivers/net/ethernet/intel/idpf/idpf_main.c:166:39: warning: shift count >= width of type [-Wshift-count-overflow]
+     166 |         err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+         |                                              ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   18 warnings and 1 error generated.
+--
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:12:
+   In file included from include/net/pkt_sched.h:7:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:22:
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: error: static assertion failed due to requirement 'sizeof(struct idpf_sw_queue) <= ((((128)) + ((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1)) & ~((int)(((sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) > 256 ? sizeof(struct (unnamed at drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1)) : 256))) - 1))': sizeof(struct idpf_sw_queue) <= __LIBETH_LARGEST_ALIGNED(128)
+     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:43:16: note: expanded from macro 'libeth_cacheline_struct_assert'
+      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
+         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:952:1: note: expression evaluates to '512 <= 256'
+     952 | libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:43:29: note: expanded from macro 'libeth_cacheline_struct_assert'
+      43 |         static_assert(sizeof(type) <= __LIBETH_LARGEST_ALIGNED(sz))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.c:2794:49: warning: bitwise operation between different enumeration types ('enum idpf_tx_desc_dtype_value' and 'enum idpf_tx_flex_ctx_desc_cmd_bits') [-Wenum-enum-conversion]
+    2794 |                                 cpu_to_le16(IDPF_TX_DESC_DTYPE_FLEX_TSO_CTX |
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+    2795 |                                             IDPF_TX_FLEX_CTX_DESC_CMD_TSO);
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/byteorder/generic.h:90:21: note: expanded from macro 'cpu_to_le16'
+      90 | #define cpu_to_le16 __cpu_to_le16
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:36:53: note: expanded from macro '__cpu_to_le16'
+      36 | #define __cpu_to_le16(x) ((__force __le16)__swab16((x)))
+         |                                                     ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   18 warnings and 1 error generated.
 
 
-vim +320 drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-sys.c
+vim +952 drivers/net/ethernet/intel/idpf/idpf_txrx.h
 
-   267	
-   268	static void imgsys_scp_handler(void *data, unsigned int len, void *priv)
-   269	{
-   270		int job_id;
-   271		struct mtk_imgsys_pipe *pipe;
-   272		int pipe_id;
-   273		struct mtk_imgsys_request *req;
-   274		struct mtk_imgsys_dev *imgsys_dev = (struct mtk_imgsys_dev *)priv;
-   275		struct img_sw_buffer *swbuf_data;
-   276		struct swfrm_info_t *swfrm_info;
-   277		int i = 0;
-   278		void *gce_virt;
-   279		int total_framenum = 0;
-   280	
-   281		if (!data) {
-   282			WARN_ONCE(!data, "%s: failed due to NULL data\n", __func__);
-   283			return;
-   284		}
-   285	
-   286		if (WARN_ONCE(len != sizeof(struct img_sw_buffer),
-   287			      "%s: len(%d) not match img_sw_buffer\n", __func__, len))
-   288			return;
-   289	
-   290		swbuf_data = (struct img_sw_buffer *)data;
-   291		gce_virt = mtk_hcp_get_gce_mem_virt(imgsys_dev->scp_pdev);
-   292		if (!gce_virt) {
-   293			pr_info("%s: invalid gce_virt(%p)\n",
-   294				__func__, gce_virt);
-   295			return;
-   296		}
-   297	
-   298		swfrm_info = (struct swfrm_info_t *)(gce_virt + (swbuf_data->offset));
-   299		if ((int)swbuf_data->offset < 0 ||
-   300		    swbuf_data->offset > mtk_hcp_get_gce_mem_size(imgsys_dev->scp_pdev)) {
-   301			pr_info("%s: invalid swbuf_data->offset(%d), max(%llu)\n",
-   302				__func__, swbuf_data->offset,
-   303				(u64)mtk_hcp_get_gce_mem_size(imgsys_dev->scp_pdev));
-   304			return;
-   305		}
-   306	
-   307		swfrm_info->req_sbuf_goft = swbuf_data->offset;
-   308		swfrm_info->req_sbuf_kva = gce_virt + (swbuf_data->offset);
-   309	
-   310		job_id = swfrm_info->handle;
-   311		pipe_id = mtk_imgsys_pipe_get_pipe_from_job_id(job_id);
-   312		pipe = mtk_imgsys_dev_get_pipe(imgsys_dev, pipe_id);
-   313		if (!pipe) {
-   314			dev_info(imgsys_dev->dev,
-   315				 "%s: get invalid img_ipi_frameparam index(%d) from firmware\n",
-   316				 __func__, job_id);
-   317			return;
-   318		}
-   319	
- > 320		req = (struct mtk_imgsys_request *)swfrm_info->req_vaddr;
-   321		if (!req) {
-   322			WARN_ONCE(!req, "%s: frame_no(%d) is lost\n", __func__, job_id);
-   323			return;
-   324		}
-   325	
-   326		if (!req->working_buf) {
-   327			dev_dbg(imgsys_dev->dev,
-   328				"%s: (reqfd-%d) composing\n",
-   329				__func__, req->request_fd);
-   330		}
-   331	
-   332		swfrm_info->is_sent = false;
-   333		swfrm_info->req = (void *)req;
-   334		swfrm_info->pipe = (void *)pipe;
-   335		swfrm_info->cb_frmcnt = 0;
-   336		swfrm_info->total_taskcnt = 0;
-   337		swfrm_info->chan_id = 0;
-   338		swfrm_info->hw_hang = -1;
-   339		total_framenum = swfrm_info->total_frmnum;
-   340	
-   341		if (total_framenum < 0 || total_framenum > TMAX) {
-   342			dev_info(imgsys_dev->dev,
-   343				 "%s:unexpected total_framenum (%d -> %d), batchnum(%d) MAX (%d/%d)\n",
-   344				 __func__, swfrm_info->total_frmnum,
-   345				 total_framenum,
-   346				 swfrm_info->batchnum,
-   347				 TMAX, TIME_MAX);
-   348			return;
-   349		}
-   350	
-   351		for (i = 0 ; i < total_framenum ; i++) {
-   352			swfrm_info->user_info[i].g_swbuf = gce_virt + (swfrm_info->user_info[i].sw_goft);
-   353			swfrm_info->user_info[i].bw_swbuf = gce_virt + (swfrm_info->user_info[i].sw_bwoft);
-   354		}
-   355	
-   356		req->swfrm_info = swfrm_info;
-   357	
-   358		up(&imgsys_dev->sem);
-   359	
-   360		INIT_WORK(&req->runner_work, imgsys_runner_func);
-   361		queue_work(req->imgsys_pipe->imgsys_dev->runner_wq,
-   362			   &req->runner_work);
-   363	}
-   364	
-   365	static int mtk_imgsys_hw_flush_pipe_jobs(struct mtk_imgsys_pipe *pipe)
-   366	{
-   367		struct mtk_imgsys_request *req;
-   368		struct list_head job_list = LIST_HEAD_INIT(job_list);
-   369		unsigned long flag;
-   370		int num;
-   371		int ret;
-   372	
-   373		spin_lock_irqsave(&pipe->running_job_lock, flag);
-   374		list_splice_init(&pipe->pipe_job_running_list, &job_list);
-   375		pipe->num_jobs = 0;
-   376		spin_unlock_irqrestore(&pipe->running_job_lock, flag);
-   377	
-   378		ret = wait_event_timeout
-   379			(pipe->imgsys_dev->flushing_waitq,
-   380			 !(num = atomic_read(&pipe->imgsys_dev->num_composing)),
-   381			 msecs_to_jiffies(1000 / 30 * IMGSYS_WORKING_BUF_NUM * 3));
-   382		if (!ret && num) {
-   383			dev_info(pipe->imgsys_dev->dev,
-   384				 "flushing is aborted, num(%d)\n", num);
-   385			return -EINVAL;
-   386		}
-   387	
-   388		list_for_each_entry(req, &job_list, list)
-   389			mtk_imgsys_pipe_job_finish(req, VB2_BUF_STATE_ERROR);
-   390	
-   391		dev_dbg(pipe->imgsys_dev->dev,
-   392			"%s: wakeup num(%d)\n", __func__, num);
-   393		return 0;
-   394	}
-   395	
-   396	static void module_uninit(struct kref *kref)
-   397	{
-   398		struct mtk_imgsys_dev *imgsys_dev;
-   399		int i;
-   400	
-   401		imgsys_dev = container_of(kref, struct mtk_imgsys_dev, init_kref);
-   402	
-   403		for (i = 0; i < (imgsys_dev->num_mods); i++)
-   404			if (imgsys_dev->modules[i].uninit)
-   405				imgsys_dev->modules[i].uninit(imgsys_dev);
-   406	}
-   407	
-   408	void mtk_imgsys_mod_put(struct mtk_imgsys_dev *imgsys_dev)
-   409	{
-   410		struct kref *kref;
-   411	
-   412		kref = &imgsys_dev->init_kref;
-   413		kref_put(kref, module_uninit);
-   414	}
-   415	
-   416	void mtk_imgsys_mod_get(struct mtk_imgsys_dev *imgsys_dev)
-   417	{
-   418		struct kref *kref;
-   419	
-   420		kref = &imgsys_dev->init_kref;
-   421		kref_get(kref);
-   422	}
-   423	
-   424	static int mtk_imgsys_hw_connect(struct mtk_imgsys_dev *imgsys_dev)
-   425	{
-   426		int ret, i;
-   427		u32 user_cnt = 0;
-   428		struct img_init_info info;
-   429	
-   430		user_cnt = atomic_read(&imgsys_dev->imgsys_user_cnt);
-   431		if (user_cnt != 0)
-   432			dev_info(imgsys_dev->dev,
-   433				 "%s: [ERROR] imgsys user count is not zero(%d)\n",
-   434				 __func__, user_cnt);
-   435	
-   436		atomic_set(&imgsys_dev->imgsys_user_cnt, 0);
-   437	
-   438		pm_runtime_get_sync(imgsys_dev->dev);
-   439		/* set default value for hw module */
-   440		for (i = 0; i < (imgsys_dev->num_mods); i++)
-   441			imgsys_dev->modules[i].init(imgsys_dev);
-   442		kref_init(&imgsys_dev->init_kref);
-   443	
-   444		pm_runtime_put_sync(imgsys_dev->dev);
-   445		if (!imgsys_quick_onoff_en) {
-   446			pm_runtime_get_sync(imgsys_dev->dev);
-   447			for (i = 0; i < (imgsys_dev->num_mods); i++)
-   448				if (imgsys_dev->modules[i].set)
-   449					imgsys_dev->modules[i].set(imgsys_dev);
-   450		}
-   451	
-   452		ret = mtk_hcp_allocate_working_buffer(imgsys_dev->scp_pdev, 0);
-   453		if (ret) {
-   454			dev_err(imgsys_dev->dev, "%s: mtk_hcp_allocate_working_buffer failed %d\n",
-   455				__func__, ret);
-   456			return -EBUSY;
-   457		}
-   458	
-   459		/* IMGSYS HW INIT */
-   460		memset(&info, 0, sizeof(info));
- > 461		info.drv_data = (u64)&imgsys_dev;
-   462		info.header_version = HEADER_VER;
-   463		info.frameparam_size = sizeof(struct img_ipi_frameparam);
-   464		info.reg_phys_addr = imgsys_dev->imgsys_resource->start;
-   465		info.reg_range = resource_size(imgsys_dev->imgsys_resource);
-   466	
-   467		mtk_hcp_get_init_info(imgsys_dev->scp_pdev, &info);
-   468		info.sec_tag = imgsys_dev->imgsys_pipe[0].init_info.sec_tag;
-   469		info.full_wd = imgsys_dev->imgsys_pipe[0].init_info.sensor.full_wd;
-   470		info.full_ht = imgsys_dev->imgsys_pipe[0].init_info.sensor.full_ht;
-   471		info.smvr_mode = 0;
-   472	
-   473		ret = imgsys_send(imgsys_dev->scp_pdev, HCP_IMGSYS_INIT_ID,
-   474				  (void *)&info, sizeof(info), 0, 1);
-   475	
-   476		if (ret) {
-   477			dev_err(imgsys_dev->dev, "%s: send SCP_IPI_DIP_FRAME failed %d\n",
-   478				__func__, ret);
-   479			return -EBUSY;
-   480		}
-   481	
-   482		/* calling cmdq stream on */
-   483		imgsys_cmdq_streamon(imgsys_dev);
-   484	
-   485		mtk_hcp_register(imgsys_dev->scp_pdev, HCP_IMGSYS_FRAME_ID,
-   486				 imgsys_scp_handler, "imgsys_scp_handler", imgsys_dev);
-   487	
-   488		return 0;
-   489	}
-   490	
+   925	
+   926	/**
+   927	 * struct idpf_sw_queue
+   928	 * @ring: Pointer to the ring
+   929	 * @flags: See enum idpf_queue_flags_t
+   930	 * @desc_count: Descriptor count
+   931	 * @next_to_use: Buffer to allocate at
+   932	 * @next_to_clean: Next descriptor to clean
+   933	 *
+   934	 * Software queues are used in splitq mode to manage buffers between rxq
+   935	 * producer and the bufq consumer.  These are required in order to maintain a
+   936	 * lockless buffer management system and are strictly software only constructs.
+   937	 */
+   938	struct idpf_sw_queue {
+   939		libeth_cacheline_group(read_mostly,
+   940			u32 *ring;
+   941	
+   942			DECLARE_BITMAP(flags, __IDPF_Q_FLAGS_NBITS);
+   943			u32 desc_count;
+   944		);
+   945		libeth_cacheline_group(read_write,
+   946			u32 next_to_use;
+   947			u32 next_to_clean;
+   948		);
+   949	};
+   950	libeth_cacheline_group_assert(struct idpf_sw_queue, read_mostly, 20);
+   951	libeth_cacheline_group_assert(struct idpf_sw_queue, read_write, 8);
+ > 952	libeth_cacheline_struct_assert(struct idpf_sw_queue, 128);
+   953	
 
 -- 
 0-DAY CI Kernel Test Service
