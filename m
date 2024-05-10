@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D285A1635CB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 09:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003F74AEFA;
+	Fri, 10 May 2024 10:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715334726; cv=none; b=pa7N9sAPPjHHmmFASrJanpb/1eio5Cg3ijUkxlr3u4oKCD4WNZrvKS/elAEdredvjkyqckrL3ojMtsGW6JpK98CRRAl+w8JUlq3Xf6i1nN9PHNEjcEgU4AFVbxYsH0bC2SooHF9WdMmE9dptIKYugENAwlaB4t11jqtEacCt0Wo=
+	t=1715335385; cv=none; b=SY7SMNxsjb03o+Csk7hIWduEcjYVTnHcgbVf5B4rKO74pFPnr+0FLCt+5jWsR2rjn8Q1p3tjKQUN+cdCIYb+nw+hds+n+gIJlrd6MTQs2uIxpmcxL9b+yyFQQ4FO9nxdFF9j0DiJmlsCBHmyzyAc/M2QKFeXu4f7C8kXr5bbQBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715334726; c=relaxed/simple;
-	bh=73MhQNY+V6Zy7zfr5F40OQSoj0EBJF8+mVYNWNIBwCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f9Iuvjm9CleZ+j6XieCv177E7MvKZyjnYlllYe/5HG6+sbzbhNArHbrzrqnn+YnekBPF7els8sVxLCkOdqaRPpg7VMCqqq6aIp30mfTi6+N7ED/nXD6jPxhApn1Ck2eZYeh32Yd401nUXT5cl2VfJBqO5g7TgsK9dZFsvRMqN3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URttB1p/; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1715335385; c=relaxed/simple;
+	bh=dKt6lGbr/pIHiBmKA2PhqxjGCN/RRqklM6Q3uOQ3CC4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXuea4G4dQehU193IXftfVSfqBtrrIsKiiGmJBLHlJoLRE6YPEbunJqWzMioQa5gKNR4CB3XH5r24dXXk05tTzgjJlaNTpSiDnFNwBXotvU2IyppWOI/b86F96UmsjcDmEjum1OvoqY9JVPciKbReCqGJ9NS5CTEUz5D9HGHs7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWiGEl1Y; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URttB1p/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWiGEl1Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715334724; x=1746870724;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=73MhQNY+V6Zy7zfr5F40OQSoj0EBJF8+mVYNWNIBwCw=;
-  b=URttB1p/By+JWXJPKWr33oBPiDtjIOHzQ8vtUDqtrav4m58fyLOBVcYe
-   n4pV6j1k5JYHmT11mSfUZTIjSylFmw8MOPIV7lnADlp1qa0mgd2hCk2ly
-   emfdT46Ha323hy9hgkpCPNWqjj9wfCPA05+FuYjAgL3NLcTf+ZPu3b11e
-   RN0j+Cq2CMFsDk6J919J7Wrn+j5IADPoc67WGU8pWv3/Rsdfn9ERh460R
-   LRb7tG9PrNmn9Oi6RVZUna50wibww+Jxyt83lexg0y50TwWZ2hhRSgrE0
-   goSf3ylMoPl77t2D81u2Wv/eflKnmxF4UoM+XEt+xyGrmiqZhEVrvppq5
+  t=1715335383; x=1746871383;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dKt6lGbr/pIHiBmKA2PhqxjGCN/RRqklM6Q3uOQ3CC4=;
+  b=UWiGEl1Yl5S8OFM/R+xKUkoJ/Ex53WNRjCfmiUP9KrzvLcnx0FcW5dHw
+   9XEflkpo5LYWSSWq5VFRqK+/FFyJGHnzrkvbS8Xf/CFaAl7rJ5r/5Frxf
+   Yg7GCvyIb1qTjgFwYJGlw/GvSClI99nCr5Ypv00LyoISpT4K3E41Yifp1
+   lgfSNSldO3N9lagaWhNnVzZ+biSHW7S0TqgXqXxbzU+nKhuU2jgF7gs8x
+   8s80+iL9Jz3H7iY7gr5I+se9W+9eFCVmfff9WmQPjoZ8GhFHLyDL/4YPF
+   5aqX0RRU2zn+CoXXVhbXpy+Zvy0ZpXBIemvd2fJkvmNtBp2ghHc+R9Gbq
    A==;
-X-CSE-ConnectionGUID: sgANaEqkRoehbyloxxIrHg==
-X-CSE-MsgGUID: EWKQA2yBQfWcyP0k+Nx5sg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11140701"
+X-CSE-ConnectionGUID: 53tTIcIKQ1OLwIzDeulj5Q==
+X-CSE-MsgGUID: V+gCNYqRSnSWuzYW/B4hfg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11144425"
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="11140701"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 02:52:01 -0700
-X-CSE-ConnectionGUID: GJ/WExVKQvGZ5e6rknFozA==
-X-CSE-MsgGUID: 2aRwDpU5Q3GtD3TzRzdovA==
+   d="scan'208";a="11144425"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 03:03:03 -0700
+X-CSE-ConnectionGUID: 8nczeQBTR3GodM0sMTXrcg==
+X-CSE-MsgGUID: 6JcBGryoTIu20feRDyIM3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="52769609"
+   d="scan'208";a="29587018"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 May 2024 02:52:00 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 May 2024 03:03:00 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5Muz-0005yT-1i;
-	Fri, 10 May 2024 09:51:57 +0000
-Date: Fri, 10 May 2024 17:51:16 +0800
+	id 1s5N5d-0005yh-2i;
+	Fri, 10 May 2024 10:02:57 +0000
+Date: Fri, 10 May 2024 18:02:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 103/105]
- drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-debug.c:543:6:
- error: no previous prototype for function 'imgsys_cg_debug_dump'
-Message-ID: <202405101730.ZxLOrvCh-lkp@intel.com>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v2] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update
+ existing connection
+Message-ID: <202405101700.NwHcUWrt-lkp@intel.com>
+References: <20240509225043.1357933-1-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,135 +63,262 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240509225043.1357933-1-luiz.dentz@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   cd87d14c5c4cc74e7c89677acb4aa9c804165fc7
-commit: eba329daee52c5bc6a7d2ee896053b318f90ca50 [103/105] CHROMIUM: media: platform: mediatek: isp: NDD for IMGSYS RED SCP migration
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240510/202405101730.ZxLOrvCh-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101730.ZxLOrvCh-lkp@intel.com/reproduce)
+Hi Luiz,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.9-rc7 next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-MGMT-Make-MGMT_OP_LOAD_CONN_PARAM-update-existing-connection/20240510-065108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240509225043.1357933-1-luiz.dentz%40gmail.com
+patch subject: [RFC v2] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update existing connection
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240510/202405101700.NwHcUWrt-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101700.NwHcUWrt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101730.ZxLOrvCh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405101700.NwHcUWrt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-debug.c:543:6: error: no previous prototype for function 'imgsys_cg_debug_dump' [-Werror,-Wmissing-prototypes]
-     543 | void imgsys_cg_debug_dump(struct mtk_imgsys_dev *imgsys_dev)
-         |      ^
-   drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-debug.c:543:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     543 | void imgsys_cg_debug_dump(struct mtk_imgsys_dev *imgsys_dev)
-         | ^
-         | static 
-   1 error generated.
+>> net/bluetooth/mgmt.c:7881:2: error: use of undeclared identifier 'conn'
+           conn = hci_conn_hash_lookup_le(hdev, params->addr.bdaddr,
+           ^
+>> net/bluetooth/mgmt.c:7881:52: error: no member named 'bdaddr' in 'bdaddr_t'
+           conn = hci_conn_hash_lookup_le(hdev, params->addr.bdaddr,
+                                                ~~~~~~~~~~~~ ^
+   net/bluetooth/mgmt.c:7883:7: error: use of undeclared identifier 'conn'; did you mean 'down'?
+           if (!conn)
+                ^~~~
+                down
+   include/linux/semaphore.h:44:13: note: 'down' declared here
+   extern void down(struct semaphore *sem);
+               ^
+>> net/bluetooth/mgmt.c:7883:7: warning: address of function 'down' will always evaluate to 'true' [-Wpointer-bool-conversion]
+           if (!conn)
+               ~^~~~
+   net/bluetooth/mgmt.c:7883:7: note: prefix with the address-of operator to silence this warning
+           if (!conn)
+                ^
+                &
+>> net/bluetooth/mgmt.c:7884:20: error: expected ';' after return statement
+                   return -ECANCELED
+                                    ^
+                                    ;
+>> net/bluetooth/mgmt.c:7960:13: error: use of undeclared identifier 'params'; did you mean 'param'?
+                   if (!i && params == 1) {
+                             ^~~~~~
+                             param
+   net/bluetooth/mgmt.c:7926:27: note: 'param' declared here
+                   struct mgmt_conn_param *param = &cp->params[i];
+                                           ^
+   net/bluetooth/mgmt.c:7986:14: error: use of undeclared identifier 'params'
+                                                          params->addr.bdaddr,
+                                                          ^
+>> net/bluetooth/mgmt.c:7992:15: error: no member named 'le_supervision_timeout' in 'struct hci_conn'; did you mean 'le_supv_timeout'?
+                                conn->le_supervision_timeout != timeout))
+                                      ^~~~~~~~~~~~~~~~~~~~~~
+                                      le_supv_timeout
+   include/net/bluetooth/hci_core.h:712:9: note: 'le_supv_timeout' declared here
+           __u16           le_supv_timeout;
+                           ^
+>> net/bluetooth/mgmt.c:7994:10: error: use of undeclared identifier 'hci_params'; did you mean 'hci_param'?
+                                                      hci_params, NULL);
+                                                      ^~~~~~~~~~
+                                                      hci_param
+   net/bluetooth/mgmt.c:7927:27: note: 'hci_param' declared here
+                   struct hci_conn_params *hci_param;
+                                           ^
+>> net/bluetooth/mgmt.c:7999:2: error: expected parameter declarator
+           hci_dev_unlock(hdev);
+           ^
+   include/net/bluetooth/hci_core.h:1615:40: note: expanded from macro 'hci_dev_unlock'
+   #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+                                                ^
+>> net/bluetooth/mgmt.c:7999:2: error: expected ')'
+   include/net/bluetooth/hci_core.h:1615:40: note: expanded from macro 'hci_dev_unlock'
+   #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+                                                ^
+   net/bluetooth/mgmt.c:7999:2: note: to match this '('
+   include/net/bluetooth/hci_core.h:1615:39: note: expanded from macro 'hci_dev_unlock'
+   #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+                                               ^
+>> net/bluetooth/mgmt.c:7999:2: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+           hci_dev_unlock(hdev);
+           ^
+   include/net/bluetooth/hci_core.h:1615:27: note: expanded from macro 'hci_dev_unlock'
+   #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+                                   ^
+>> net/bluetooth/mgmt.c:7999:2: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+   include/net/bluetooth/hci_core.h:1615:39: note: expanded from macro 'hci_dev_unlock'
+   #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+                                               ^
+>> net/bluetooth/mgmt.c:7999:2: error: conflicting types for 'mutex_unlock'
+   include/net/bluetooth/hci_core.h:1615:27: note: expanded from macro 'hci_dev_unlock'
+   #define hci_dev_unlock(d)       mutex_unlock(&d->lock)
+                                   ^
+   include/linux/mutex.h:165:13: note: previous declaration is here
+   extern void mutex_unlock(struct mutex *lock);
+               ^
+>> net/bluetooth/mgmt.c:8001:2: error: expected identifier or '('
+           return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM, 0,
+           ^
+>> net/bluetooth/mgmt.c:8003:1: error: extraneous closing brace ('}')
+   }
+   ^
+   1 warning and 15 errors generated.
+--
+>> net/bluetooth/hci_sync.c:6716:5: warning: no previous prototype for function 'hci_le_conn_update_sync' [-Wmissing-prototypes]
+   int hci_le_conn_update_sync(struct hci_dev *hdev, struct hci_conn *conn,
+       ^
+   net/bluetooth/hci_sync.c:6716:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int hci_le_conn_update_sync(struct hci_dev *hdev, struct hci_conn *conn,
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/imgsys_cg_debug_dump +543 drivers/media/platform/mediatek/isp/isp_7x/imgsys/mtk_imgsys-debug.c
+vim +/conn +7881 net/bluetooth/mgmt.c
 
-   542	
- > 543	void imgsys_cg_debug_dump(struct mtk_imgsys_dev *imgsys_dev)
-   544	{
-   545		unsigned int i = 0;
-   546	
-   547		if (!imgsys_main_reg_base) {
-   548			dev_info(imgsys_dev->dev, "%s Unable to ioremap imgsys_top registers\n",
-   549				 __func__);
-   550			dev_info(imgsys_dev->dev, "%s of_iomap fail, devnode(%s).\n",
-   551				 __func__, imgsys_dev->dev->of_node->name);
-   552			return;
-   553		}
-   554	
-   555		for (i = 0; i <= 0x500; i += 0x10) {
-   556			dev_info(imgsys_dev->dev, "%s: [0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X]",
-   557				 __func__, 0x15000000 + i, ioread32(imgsys_main_reg_base + i),
-   558				 0x15000000 + i + 0x4, ioread32(imgsys_main_reg_base + i + 0x4),
-   559				 0x15000000 + i + 0x8, ioread32(imgsys_main_reg_base + i + 0x8),
-   560				 0x15000000 + i + 0xc, ioread32(imgsys_main_reg_base + i + 0xc));
-   561		}
-   562	
-   563		if (!dip_reg_base) {
-   564			dev_info(imgsys_dev->dev, "%s Unable to ioremap dip registers\n",
-   565				 __func__);
-   566			dev_info(imgsys_dev->dev, "%s of_iomap fail, devnode(%s).\n",
-   567				 __func__, imgsys_dev->dev->of_node->name);
-   568			return;
-   569		}
-   570	
-   571		for (i = 0; i <= 0x100; i += 0x10) {
-   572			dev_info(imgsys_dev->dev, "%s: [0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X]",
-   573				 __func__, 0x15110000 + i, ioread32(dip_reg_base + i),
-   574				 0x15110000 + i + 0x4, ioread32(dip_reg_base + i + 0x4),
-   575				 0x15110000 + i + 0x8, ioread32(dip_reg_base + i + 0x8),
-   576				 0x15110000 + i + 0xc, ioread32(dip_reg_base + i + 0xc));
-   577		}
-   578	
-   579		if (!dip1_reg_base) {
-   580			dev_info(imgsys_dev->dev, "%s Unable to ioremap dip1 registers\n",
-   581				 __func__);
-   582			dev_info(imgsys_dev->dev, "%s of_iomap fail, devnode(%s).\n",
-   583				 __func__, imgsys_dev->dev->of_node->name);
-   584			return;
-   585		}
-   586	
-   587		for (i = 0; i <= 0x100; i += 0x10) {
-   588			dev_info(imgsys_dev->dev, "%s: [0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X]",
-   589				 __func__, 0x15130000 + i, ioread32(dip1_reg_base + i),
-   590				 0x15130000 + i + 0x4, ioread32(dip1_reg_base + i + 0x4),
-   591				 0x15130000 + i + 0x8, ioread32(dip1_reg_base + i + 0x8),
-   592				 0x15130000 + i + 0xc, ioread32(dip1_reg_base + i + 0xc));
-   593		}
-   594	
-   595		if (!wpe_dip1_reg_base) {
-   596			dev_info(imgsys_dev->dev, "%s Unable to ioremap wpe_dip1 registers\n",
-   597				 __func__);
-   598			dev_info(imgsys_dev->dev, "%s of_iomap fail, devnode(%s).\n",
-   599				 __func__, imgsys_dev->dev->of_node->name);
-   600			return;
-   601		}
-   602	
-   603		for (i = 0; i <= 0x100; i += 0x10) {
-   604			dev_info(imgsys_dev->dev, "%s: [0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X]",
-   605				 __func__, 0x15220000 + i, ioread32(wpe_dip1_reg_base + i),
-   606				 0x15220000 + i + 0x4, ioread32(wpe_dip1_reg_base + i + 0x4),
-   607				 0x15220000 + i + 0x8, ioread32(wpe_dip1_reg_base + i + 0x8),
-   608				 0x15220000 + i + 0xc, ioread32(wpe_dip1_reg_base + i + 0xc));
-   609		}
-   610	
-   611		if (!wpe_dip2_reg_base) {
-   612			dev_info(imgsys_dev->dev, "%s Unable to ioremap wpe_dip2 registers\n",
-   613				 __func__);
-   614			dev_info(imgsys_dev->dev, "%s of_iomap fail, devnode(%s).\n",
-   615				 __func__, imgsys_dev->dev->of_node->name);
-   616			return;
-   617		}
-   618	
-   619		for (i = 0; i <= 0x100; i += 0x10) {
-   620			dev_info(imgsys_dev->dev, "%s: [0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X]",
-   621				 __func__, 0x15520000 + i, ioread32(wpe_dip2_reg_base + i),
-   622				 0x15520000 + i + 0x4, ioread32(wpe_dip2_reg_base + i + 0x4),
-   623				 0x15520000 + i + 0x8, ioread32(wpe_dip2_reg_base + i + 0x8),
-   624				 0x15520000 + i + 0xc, ioread32(wpe_dip2_reg_base + i + 0xc));
-   625		}
-   626	
-   627		if (!wpe_dip3_reg_base) {
-   628			dev_info(imgsys_dev->dev, "%s Unable to ioremap wpe_dip3 registers\n",
-   629				 __func__);
-   630			dev_info(imgsys_dev->dev, "%s of_iomap fail, devnode(%s).\n",
-   631				 __func__, imgsys_dev->dev->of_node->name);
-   632			return;
-   633		}
-   634	
-   635		for (i = 0; i <= 0x100; i += 0x10) {
-   636			dev_info(imgsys_dev->dev, "%s: [0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X][0x%08X 0x%08X]",
-   637				 __func__, 0x15620000 + i, ioread32(wpe_dip3_reg_base + i),
-   638				 0x15620000 + i + 0x4, ioread32(wpe_dip3_reg_base + i + 0x4),
-   639				 0x15620000 + i + 0x8, ioread32(wpe_dip3_reg_base + i + 0x8),
-   640				 0x15620000 + i + 0xc, ioread32(wpe_dip3_reg_base + i + 0xc));
-   641		}
-   642	}
-   643	
+  7876	
+  7877	static int conn_update_sync(struct hci_dev *hdev, void *data)
+  7878	{
+  7879		struct hci_conn_params *params = data;
+  7880	
+> 7881		conn = hci_conn_hash_lookup_le(hdev, params->addr.bdaddr,
+  7882					       params->addr_type);
+> 7883		if (!conn)
+> 7884			return -ECANCELED
+  7885	
+  7886		return hci_le_conn_update_sync(hdev, conn, params);
+  7887	}
+  7888	
+  7889	static int load_conn_param(struct sock *sk, struct hci_dev *hdev, void *data,
+  7890				   u16 len)
+  7891	{
+  7892		struct mgmt_cp_load_conn_param *cp = data;
+  7893		const u16 max_param_count = ((U16_MAX - sizeof(*cp)) /
+  7894					     sizeof(struct mgmt_conn_param));
+  7895		u16 param_count, expected_len;
+  7896		int i;
+  7897	
+  7898		if (!lmp_le_capable(hdev))
+  7899			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7900					       MGMT_STATUS_NOT_SUPPORTED);
+  7901	
+  7902		param_count = __le16_to_cpu(cp->param_count);
+  7903		if (param_count > max_param_count) {
+  7904			bt_dev_err(hdev, "load_conn_param: too big param_count value %u",
+  7905				   param_count);
+  7906			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7907					       MGMT_STATUS_INVALID_PARAMS);
+  7908		}
+  7909	
+  7910		expected_len = struct_size(cp, params, param_count);
+  7911		if (expected_len != len) {
+  7912			bt_dev_err(hdev, "load_conn_param: expected %u bytes, got %u bytes",
+  7913				   expected_len, len);
+  7914			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7915					       MGMT_STATUS_INVALID_PARAMS);
+  7916		}
+  7917	
+  7918		bt_dev_dbg(hdev, "param_count %u", param_count);
+  7919	
+  7920		hci_dev_lock(hdev);
+  7921	
+  7922		if (i > 1)
+  7923			hci_conn_params_clear_disabled(hdev);
+  7924	
+  7925		for (i = 0; i < param_count; i++) {
+  7926			struct mgmt_conn_param *param = &cp->params[i];
+  7927			struct hci_conn_params *hci_param;
+  7928			u16 min, max, latency, timeout;
+  7929			u8 addr_type;
+  7930			bool update;
+  7931	
+  7932			bt_dev_dbg(hdev, "Adding %pMR (type %u)", &param->addr.bdaddr,
+  7933				   param->addr.type);
+  7934	
+  7935			if (param->addr.type == BDADDR_LE_PUBLIC) {
+  7936				addr_type = ADDR_LE_DEV_PUBLIC;
+  7937			} else if (param->addr.type == BDADDR_LE_RANDOM) {
+  7938				addr_type = ADDR_LE_DEV_RANDOM;
+  7939			} else {
+  7940				bt_dev_err(hdev, "ignoring invalid connection parameters");
+  7941				continue;
+  7942			}
+  7943	
+  7944			min = le16_to_cpu(param->min_interval);
+  7945			max = le16_to_cpu(param->max_interval);
+  7946			latency = le16_to_cpu(param->latency);
+  7947			timeout = le16_to_cpu(param->timeout);
+  7948	
+  7949			bt_dev_dbg(hdev, "min 0x%04x max 0x%04x latency 0x%04x timeout 0x%04x",
+  7950				   min, max, latency, timeout);
+  7951	
+  7952			if (hci_check_conn_params(min, max, latency, timeout) < 0) {
+  7953				bt_dev_err(hdev, "ignoring invalid connection parameters");
+  7954				continue;
+  7955			}
+  7956	
+  7957			/* Detect when the loading is for an existing parameter then
+  7958			 * attempt to trigger the connection update procedure.
+  7959			 */
+> 7960			if (!i && params == 1) {
+  7961				hci_param = hci_conn_params_lookup(hdev,
+  7962								   &param->addr.bdaddr,
+  7963								   addr_type);
+  7964				if (hci_param)
+  7965					update = true;
+  7966				else
+  7967					hci_conn_params_clear_disabled(hdev);
+  7968			}
+  7969	
+  7970			hci_param = hci_conn_params_add(hdev, &param->addr.bdaddr,
+  7971							addr_type);
+  7972			if (!hci_param) {
+  7973				bt_dev_err(hdev, "failed to add connection parameters");
+  7974				continue;
+  7975			}
+  7976	
+  7977			hci_param->conn_min_interval = min;
+  7978			hci_param->conn_max_interval = max;
+  7979			hci_param->conn_latency = latency;
+  7980			hci_param->supervision_timeout = timeout;
+  7981	
+  7982			if (update) {
+  7983				struct hci_conn *conn;
+  7984	
+  7985				conn = hci_conn_hash_lookup_le(hdev,
+  7986							       params->addr.bdaddr,
+  7987							       addr_type);
+  7988				if (conn && conn->role == HCI_ROLE_MASTER &&
+  7989				    (conn->le_conn_min_interval != min ||
+  7990				     conn->le_conn_max_interval != max ||
+  7991				     conn->le_conn_latency != latency ||
+> 7992				     conn->le_supervision_timeout != timeout))
+  7993					hci_cmd_sync_queue(hdev, conn_update_sync,
+> 7994							   hci_params, NULL);
+  7995				}
+  7996			}
+  7997		}
+  7998	
+> 7999		hci_dev_unlock(hdev);
+  8000	
+> 8001		return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM, 0,
+  8002					 NULL, 0);
+> 8003	}
+  8004	
 
 -- 
 0-DAY CI Kernel Test Service
