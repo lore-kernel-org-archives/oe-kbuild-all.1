@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7E013B5AE;
-	Fri, 10 May 2024 22:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B52C13B597
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 22:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715379158; cv=none; b=HU+/QJGdgqJeFxWW73N/eZGD19duSrWn7ASq5qBZUIuXKyCMTGdSz9YGBLXgkGWXnYOMPx8A6VqrfwwIMCfzpL2Dt+Df8VqNuOfxwa+slQe7gosCv4NtFKq6RiVKDHDFSREzIWuYeW/pF+xtVFMTLJ376hfh2PpVmtKskHTwMZk=
+	t=1715379767; cv=none; b=RdzuwaPD96jBsPdOgytSuhf7tJs0aq9CrlgawlXyXHgDDdtA72Rb1ueLlGuo5yf14c/sawFb3kq3uBlVEkbRl/JzSIETmYDVyjy3h/N9PKYNKIMMDRYmXSflomXGcWCSYOpQrSPFGISD5y5hkXWp7xP8mWSe4i7EmhNN5fzz1fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715379158; c=relaxed/simple;
-	bh=CBjw0RHx7SJF0qYeY7R/Dmz9Bf+XASAExiSRT3ukPDc=;
+	s=arc-20240116; t=1715379767; c=relaxed/simple;
+	bh=1eupN9In0SKeHI6aNxZYRKBeLC1ty/HA2POqcDmV410=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAZ5vXf4cW7taGgXoXMV2FZyAUgdzubUeRqSbaSo4lA6jskmky0Fi2AKS32panjg+2LEeHUOUaLOeEFntHWJPSz97QShrKdKkrHpJM3HgVdnFl6okTRXmgnhq09iguwKt3vVlMEpYtaQgXYyIk/ywACYZzJq1DuLZ9FPHB7+Itk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E0XAdk21; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=YS5FeEu87GBCdhPpMm3qUkCtWqCNEkIL+dkvrJ1XhHCGaojPBKeY594vukVZHv1F/TCgFT4LjUyfpIpJOxAmXbvzZag0l2bL17YF51Va0dXcYHewLoDzeIklibhVBf6nHobK2P+szh9Grv8JgAKeWEshdtnzono+PeaucGpe5zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYKln0oH; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E0XAdk21"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYKln0oH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715379156; x=1746915156;
+  t=1715379765; x=1746915765;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CBjw0RHx7SJF0qYeY7R/Dmz9Bf+XASAExiSRT3ukPDc=;
-  b=E0XAdk21EcQgI49qVdZgMm00wOpJ0tKlUVu/SHLc4d5jYndzm8inl5f4
-   xI1h+yHOLV5f0gN77rrJFTs1AEzGtUvEfjZsj8t0Q3o7lcEhlqOAebL2I
-   Fp8bWb2obqcoRNDPGA77uzS0BE3HakdnVcq8sXMOgRYqV+4MC7nysYJl3
-   lT0rAbdO1+yRZ085JfmU1Z6//dFinykwtXUyu96tHEj8hdSkrCaYz5D4T
-   R0MKYawfJf3hRzuHk2q5YH9ZRWeGMie7oIFaJ7mmREhTeBaJD/HnpBJsP
-   YrFlqG3UKQiT77dCyzfxncoxp55zYF3yD/xqeUIZ5N3T2xaa2IAdyzNfF
-   w==;
-X-CSE-ConnectionGUID: 3I2/pLBHQtGduFGVhZ1dDw==
-X-CSE-MsgGUID: eewh8EvDQwC0WkaD3GsjUw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="15213771"
+  bh=1eupN9In0SKeHI6aNxZYRKBeLC1ty/HA2POqcDmV410=;
+  b=kYKln0oHHS86QfbDEhydxEQeCC/FqOyOk7XuKpM9L5Ob1mJH3JMYu0DJ
+   eGFuJ63Co/1M0OtGcE5TtzL8OY1f3h84huCaStoo1HgBec824WcDJT1hc
+   6TNRqsKY0hse+l31fE7h4aASEB43m66VFdr2j6U75H8nmOjzc/PoMHdRl
+   VeUCxel+FoLf+8VL8rl0EGse7fO0EEo6upv+ESd5pudxKvhCFuLmBhjj1
+   eYNR8yy4E0Jk8qfw/O5nMMPv4IeA3+hOtGenMt8op4tIq2R2vns1yO0c1
+   KtCmGp2faiBUB+S86Mjjpno648nNLXKJTl2B7my/GZ6bMV5axeCWsOR3o
+   g==;
+X-CSE-ConnectionGUID: W2xX+8fSSyKVHVC/UnGvJg==
+X-CSE-MsgGUID: YxAYT9BzR0aMCRaPZA6ktQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11540584"
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="15213771"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 15:12:36 -0700
-X-CSE-ConnectionGUID: jaMgVNYZTUeEsCdt9MhDLw==
-X-CSE-MsgGUID: xU/PrQDkSCC6cA4UdFZ2Aw==
+   d="scan'208";a="11540584"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 15:22:37 -0700
+X-CSE-ConnectionGUID: RZOv4w4eTTaxQPDK1oR0xg==
+X-CSE-MsgGUID: ZJmwQYcKQ4We5Xo0hvmsaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="29755742"
+   d="scan'208";a="34514195"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 May 2024 15:12:34 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 May 2024 15:22:35 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5YTg-0006cv-1B;
-	Fri, 10 May 2024 22:12:32 +0000
-Date: Sat, 11 May 2024 06:11:41 +0800
+	id 1s5YdM-0006dn-2o;
+	Fri, 10 May 2024 22:22:32 +0000
+Date: Sat, 11 May 2024 06:21:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update
- existing connection
-Message-ID: <202405110542.nDEonveB-lkp@intel.com>
-References: <20240510143645.1408056-1-luiz.dentz@gmail.com>
+To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
+	linux-kernel@vger.kernel.org, jic23@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	robh@kernel.org, nuno.sa@analog.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+Subject: Re: [PATCH v2 4/8] iio: imu: adis_buffer: Add buffer setup API with
+ buffer attributes
+Message-ID: <202405110642.5PmTepVs-lkp@intel.com>
+References: <20240508131310.880479-5-ramona.bolboaca13@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,160 +68,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510143645.1408056-1-luiz.dentz@gmail.com>
+In-Reply-To: <20240508131310.880479-5-ramona.bolboaca13@gmail.com>
 
-Hi Luiz,
+Hi Ramona,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on bluetooth/master linus/master v6.9-rc7 next-20240510]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.9-rc7 next-20240510]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-MGMT-Make-MGMT_OP_LOAD_CONN_PARAM-update-existing-connection/20240510-223834
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20240510143645.1408056-1-luiz.dentz%40gmail.com
-patch subject: [PATCH v3] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update existing connection
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240511/202405110542.nDEonveB-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110542.nDEonveB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240508-211559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240508131310.880479-5-ramona.bolboaca13%40gmail.com
+patch subject: [PATCH v2 4/8] iio: imu: adis_buffer: Add buffer setup API with buffer attributes
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240511/202405110642.5PmTepVs-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110642.5PmTepVs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405110542.nDEonveB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405110642.5PmTepVs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/bluetooth/mgmt.c:7922:6: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-           if (i > 1)
-               ^
-   net/bluetooth/mgmt.c:7896:7: note: initialize the variable 'i' to silence this warning
-           int i;
-                ^
-                 = 0
-   1 warning generated.
+   In file included from drivers/iio/imu/adis16400.c:24:
+>> include/linux/iio/imu/adis.h:530:60: warning: 'struct iio_dev_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     530 |                                               const struct iio_dev_attr **buffer_attrs);
+         |                                                            ^~~~~~~~~~~~
 
 
-vim +/i +7922 net/bluetooth/mgmt.c
+vim +530 include/linux/iio/imu/adis.h
 
-  7888	
-  7889	static int load_conn_param(struct sock *sk, struct hci_dev *hdev, void *data,
-  7890				   u16 len)
-  7891	{
-  7892		struct mgmt_cp_load_conn_param *cp = data;
-  7893		const u16 max_param_count = ((U16_MAX - sizeof(*cp)) /
-  7894					     sizeof(struct mgmt_conn_param));
-  7895		u16 param_count, expected_len;
-  7896		int i;
-  7897	
-  7898		if (!lmp_le_capable(hdev))
-  7899			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
-  7900					       MGMT_STATUS_NOT_SUPPORTED);
-  7901	
-  7902		param_count = __le16_to_cpu(cp->param_count);
-  7903		if (param_count > max_param_count) {
-  7904			bt_dev_err(hdev, "load_conn_param: too big param_count value %u",
-  7905				   param_count);
-  7906			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
-  7907					       MGMT_STATUS_INVALID_PARAMS);
-  7908		}
-  7909	
-  7910		expected_len = struct_size(cp, params, param_count);
-  7911		if (expected_len != len) {
-  7912			bt_dev_err(hdev, "load_conn_param: expected %u bytes, got %u bytes",
-  7913				   expected_len, len);
-  7914			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
-  7915					       MGMT_STATUS_INVALID_PARAMS);
-  7916		}
-  7917	
-  7918		bt_dev_dbg(hdev, "param_count %u", param_count);
-  7919	
-  7920		hci_dev_lock(hdev);
-  7921	
-> 7922		if (i > 1)
-  7923			hci_conn_params_clear_disabled(hdev);
-  7924	
-  7925		for (i = 0; i < param_count; i++) {
-  7926			struct mgmt_conn_param *param = &cp->params[i];
-  7927			struct hci_conn_params *hci_param;
-  7928			u16 min, max, latency, timeout;
-  7929			u8 addr_type;
-  7930			bool update;
-  7931	
-  7932			bt_dev_dbg(hdev, "Adding %pMR (type %u)", &param->addr.bdaddr,
-  7933				   param->addr.type);
-  7934	
-  7935			if (param->addr.type == BDADDR_LE_PUBLIC) {
-  7936				addr_type = ADDR_LE_DEV_PUBLIC;
-  7937			} else if (param->addr.type == BDADDR_LE_RANDOM) {
-  7938				addr_type = ADDR_LE_DEV_RANDOM;
-  7939			} else {
-  7940				bt_dev_err(hdev, "ignoring invalid connection parameters");
-  7941				continue;
-  7942			}
-  7943	
-  7944			min = le16_to_cpu(param->min_interval);
-  7945			max = le16_to_cpu(param->max_interval);
-  7946			latency = le16_to_cpu(param->latency);
-  7947			timeout = le16_to_cpu(param->timeout);
-  7948	
-  7949			bt_dev_dbg(hdev, "min 0x%04x max 0x%04x latency 0x%04x timeout 0x%04x",
-  7950				   min, max, latency, timeout);
-  7951	
-  7952			if (hci_check_conn_params(min, max, latency, timeout) < 0) {
-  7953				bt_dev_err(hdev, "ignoring invalid connection parameters");
-  7954				continue;
-  7955			}
-  7956	
-  7957			/* Detect when the loading is for an existing parameter then
-  7958			 * attempt to trigger the connection update procedure.
-  7959			 */
-  7960			if (!i && param_count == 1) {
-  7961				hci_param = hci_conn_params_lookup(hdev,
-  7962								   &param->addr.bdaddr,
-  7963								   addr_type);
-  7964				if (hci_param)
-  7965					update = true;
-  7966				else
-  7967					hci_conn_params_clear_disabled(hdev);
-  7968			}
-  7969	
-  7970			hci_param = hci_conn_params_add(hdev, &param->addr.bdaddr,
-  7971							addr_type);
-  7972			if (!hci_param) {
-  7973				bt_dev_err(hdev, "failed to add connection parameters");
-  7974				continue;
-  7975			}
-  7976	
-  7977			hci_param->conn_min_interval = min;
-  7978			hci_param->conn_max_interval = max;
-  7979			hci_param->conn_latency = latency;
-  7980			hci_param->supervision_timeout = timeout;
-  7981	
-  7982			if (update) {
-  7983				struct hci_conn *conn;
-  7984	
-  7985				conn = hci_conn_hash_lookup_le(hdev, &hci_param->addr,
-  7986							       addr_type);
-  7987				if (conn && conn->role == HCI_ROLE_MASTER &&
-  7988				    (conn->le_conn_min_interval != min ||
-  7989				     conn->le_conn_max_interval != max ||
-  7990				     conn->le_conn_latency != latency ||
-  7991				     conn->le_supv_timeout != timeout))
-  7992					hci_cmd_sync_queue(hdev, conn_update_sync,
-  7993							   hci_param, NULL);
-  7994			}
-  7995		}
-  7996	
-  7997		hci_dev_unlock(hdev);
-  7998	
-  7999		return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM, 0,
-  8000					 NULL, 0);
-  8001	}
-  8002	
+   524	
+   525	int
+   526	devm_adis_setup_buffer_and_trigger_with_attrs(struct adis *adis,
+   527						      struct iio_dev *indio_dev,
+   528						      irq_handler_t trigger_handler,
+   529						      const struct iio_buffer_setup_ops *ops,
+ > 530						      const struct iio_dev_attr **buffer_attrs);
+   531	
 
 -- 
 0-DAY CI Kernel Test Service
