@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF8513CF8C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 21:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7E013B5AE;
+	Fri, 10 May 2024 22:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715377836; cv=none; b=tXsG/uss6CmOwDJT126r85L6akw1IMX1qoRhbKF74BXVS6RR17s8Pbz18o4/zPnEpbabbGXf3oCGmPQmMI9t5L0Sxi6t2T8N/6m0s/yeypEF2WHlzzvvzg/xeC5s8Xrix1u7OEL96gOIpOT+d4gE1SNITqrmuiZw/EYBBOgmzB8=
+	t=1715379158; cv=none; b=HU+/QJGdgqJeFxWW73N/eZGD19duSrWn7ASq5qBZUIuXKyCMTGdSz9YGBLXgkGWXnYOMPx8A6VqrfwwIMCfzpL2Dt+Df8VqNuOfxwa+slQe7gosCv4NtFKq6RiVKDHDFSREzIWuYeW/pF+xtVFMTLJ376hfh2PpVmtKskHTwMZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715377836; c=relaxed/simple;
-	bh=gRR88CNig+NlIjGZsMMImTgYG+WpTUavkUCYweNVUy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sb7ZnUf7qe3ftDDNZ0kAIcTvka0srlZ42q/E94FMsGZjhGGjk4pOQ1JX8yw4VaMZwGONR1VTQ6FtZuNNbQCMqg350l66zujqo9TpnTlknCRm5eQIwZGCYdVZOwzc7+U82FQ0VclFUc/06T0gSlyQni8gKPTh6iPorBuO5JP2ufY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebnylN0v; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1715379158; c=relaxed/simple;
+	bh=CBjw0RHx7SJF0qYeY7R/Dmz9Bf+XASAExiSRT3ukPDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HAZ5vXf4cW7taGgXoXMV2FZyAUgdzubUeRqSbaSo4lA6jskmky0Fi2AKS32panjg+2LEeHUOUaLOeEFntHWJPSz97QShrKdKkrHpJM3HgVdnFl6okTRXmgnhq09iguwKt3vVlMEpYtaQgXYyIk/ywACYZzJq1DuLZ9FPHB7+Itk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E0XAdk21; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebnylN0v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E0XAdk21"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715377835; x=1746913835;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gRR88CNig+NlIjGZsMMImTgYG+WpTUavkUCYweNVUy0=;
-  b=ebnylN0vH+70H8eCXW54J5XU4wPdUr5jnq7H2lONSozvm6/CWSo6cHRd
-   +iHm6rcpBs2misHZYC8icuQ7cpXIZWq154wyaRbEsRBiPgnj5Rbyn24Nj
-   DT6tAOD8WOfHo8bkV59CYWgJs+MLxpjUuWeE+i80RA9eKVfhzzE6ENfzo
-   NKYNvtFEJ7jah75DwznDUbI4/uTIl7uX2Xy2n/4TIKruFNx/DksTOO5zB
-   hDz4i1VYudsL4dGLvX+smaPoram6opO5tdEtJQ4b2Ft7WxjZId/CaeXPw
-   Y9NNA2ZSi+nRsA/e1GdzN4eoaJKNdwfAx8iSH33woYJNqZuEVldkT8eQj
+  t=1715379156; x=1746915156;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CBjw0RHx7SJF0qYeY7R/Dmz9Bf+XASAExiSRT3ukPDc=;
+  b=E0XAdk21EcQgI49qVdZgMm00wOpJ0tKlUVu/SHLc4d5jYndzm8inl5f4
+   xI1h+yHOLV5f0gN77rrJFTs1AEzGtUvEfjZsj8t0Q3o7lcEhlqOAebL2I
+   Fp8bWb2obqcoRNDPGA77uzS0BE3HakdnVcq8sXMOgRYqV+4MC7nysYJl3
+   lT0rAbdO1+yRZ085JfmU1Z6//dFinykwtXUyu96tHEj8hdSkrCaYz5D4T
+   R0MKYawfJf3hRzuHk2q5YH9ZRWeGMie7oIFaJ7mmREhTeBaJD/HnpBJsP
+   YrFlqG3UKQiT77dCyzfxncoxp55zYF3yD/xqeUIZ5N3T2xaa2IAdyzNfF
    w==;
-X-CSE-ConnectionGUID: Z9DiKvK0Rf+NZtVzmiwOzw==
-X-CSE-MsgGUID: r0stJUbZSISTYUjSmNwqEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11542706"
+X-CSE-ConnectionGUID: 3I2/pLBHQtGduFGVhZ1dDw==
+X-CSE-MsgGUID: eewh8EvDQwC0WkaD3GsjUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="15213771"
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="11542706"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 14:50:34 -0700
-X-CSE-ConnectionGUID: Qa6NsCCrSzazjJtGiMuHeA==
-X-CSE-MsgGUID: tGYitw5dSdWHhhOJbr6IjA==
+   d="scan'208";a="15213771"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 15:12:36 -0700
+X-CSE-ConnectionGUID: jaMgVNYZTUeEsCdt9MhDLw==
+X-CSE-MsgGUID: xU/PrQDkSCC6cA4UdFZ2Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="34613512"
+   d="scan'208";a="29755742"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 May 2024 14:50:32 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 May 2024 15:12:34 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5Y8L-0006bn-3D;
-	Fri, 10 May 2024 21:50:30 +0000
-Date: Sat, 11 May 2024 05:49:36 +0800
+	id 1s5YTg-0006cv-1B;
+	Fri, 10 May 2024 22:12:32 +0000
+Date: Sat, 11 May 2024 06:11:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2850/9501] kernel/sched/isolation.c:244:19:
- error: invalid storage class for function 'enhanced_isolcpus_setup'
-Message-ID: <202405110520.AdmHWk19-lkp@intel.com>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update
+ existing connection
+Message-ID: <202405110542.nDEonveB-lkp@intel.com>
+References: <20240510143645.1408056-1-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,229 +64,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240510143645.1408056-1-luiz.dentz@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a00ba8b54d9123a4242dc589aee8122a3adf0d4a
-commit: 5f20541757730418065c3ae77dfdbcde3f523394 [2850/9501] blk-mq: avoid housekeeping CPUs scheduling a worker on a non-housekeeping CPU
-config: x86_64-randconfig-012-20240511 (https://download.01.org/0day-ci/archive/20240511/202405110520.AdmHWk19-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110520.AdmHWk19-lkp@intel.com/reproduce)
+Hi Luiz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on bluetooth/master linus/master v6.9-rc7 next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-MGMT-Make-MGMT_OP_LOAD_CONN_PARAM-update-existing-connection/20240510-223834
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240510143645.1408056-1-luiz.dentz%40gmail.com
+patch subject: [PATCH v3] Bluetooth: MGMT: Make MGMT_OP_LOAD_CONN_PARAM update existing connection
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240511/202405110542.nDEonveB-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110542.nDEonveB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405110520.AdmHWk19-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405110542.nDEonveB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-      54 | EXPORT_SYMBOL_GPL(housekeeping_any_cpu);
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:39:5: note: previous definition of 'housekeeping_any_cpu' with type 'int(enum hk_type)'
-      39 | int housekeeping_any_cpu(enum hk_type type)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:63:19: error: non-static declaration of 'housekeeping_cpumask' follows static declaration
-      63 | EXPORT_SYMBOL_GPL(housekeeping_cpumask);
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/isolation.c:63:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-      63 | EXPORT_SYMBOL_GPL(housekeeping_cpumask);
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:56:23: note: previous definition of 'housekeeping_cpumask' with type 'const struct cpumask *(enum hk_type)'
-      56 | const struct cpumask *housekeeping_cpumask(enum hk_type type)
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:71:19: error: non-static declaration of 'housekeeping_affine' follows static declaration
-      71 | EXPORT_SYMBOL_GPL(housekeeping_affine);
-         |                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/isolation.c:71:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-      71 | EXPORT_SYMBOL_GPL(housekeeping_affine);
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:65:6: note: previous definition of 'housekeeping_affine' with type 'void(struct task_struct *, enum hk_type)'
-      65 | void housekeeping_affine(struct task_struct *t, enum hk_type type)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:80:19: error: non-static declaration of 'housekeeping_test_cpu' follows static declaration
-      80 | EXPORT_SYMBOL_GPL(housekeeping_test_cpu);
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/isolation.c:80:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-      80 | EXPORT_SYMBOL_GPL(housekeeping_test_cpu);
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:73:6: note: previous definition of 'housekeeping_test_cpu' with type 'bool(int,  enum hk_type)' {aka '_Bool(int,  enum hk_type)'}
-      73 | bool housekeeping_test_cpu(int cpu, enum hk_type type)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:100:20: error: invalid storage class for function 'housekeeping_setup_type'
-     100 | static void __init housekeeping_setup_type(enum hk_type type,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:109:19: error: invalid storage class for function 'housekeeping_setup'
-     109 | static int __init housekeeping_setup(char *str, unsigned long flags)
-         |                   ^~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:180:19: error: invalid storage class for function 'housekeeping_nohz_full_setup'
-     180 | static int __init housekeeping_nohz_full_setup(char *str)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:6,
-                    from include/linux/kernel.h:30:
-   kernel/sched/isolation.c:189:23: error: initializer element is not constant
-     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/isolation.c:189:1: note: in expansion of macro '__setup'
-     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
-         | ^~~~~~~
-   kernel/sched/isolation.c:189:23: note: (near initialization for '__setup_housekeeping_nohz_full_setup.setup_func')
-     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/isolation.c:189:1: note: in expansion of macro '__setup'
-     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
-         | ^~~~~~~
-   kernel/sched/isolation.c:191:19: error: invalid storage class for function 'housekeeping_isolcpus_setup'
-     191 | static int __init housekeeping_isolcpus_setup(char *str)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:241:22: error: initializer element is not constant
-     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/isolation.c:241:1: note: in expansion of macro '__setup'
-     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
-         | ^~~~~~~
-   kernel/sched/isolation.c:241:22: note: (near initialization for '__setup_housekeeping_isolcpus_setup.setup_func')
-     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/isolation.c:241:1: note: in expansion of macro '__setup'
-     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
-         | ^~~~~~~
->> kernel/sched/isolation.c:244:19: error: invalid storage class for function 'enhanced_isolcpus_setup'
-     244 | static int __init enhanced_isolcpus_setup(char *str)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:249:30: error: initializer element is not constant
-     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/isolation.c:249:1: note: in expansion of macro '__setup'
-     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
-         | ^~~~~~~
-   kernel/sched/isolation.c:249:30: note: (near initialization for '__setup_enhanced_isolcpus_setup.setup_func')
-     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/isolation.c:249:1: note: in expansion of macro '__setup'
-     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
-         | ^~~~~~~
-   In file included from kernel/sched/build_utility.c:109:
-   kernel/sched/autogroup.c:7:28: error: section attribute cannot be specified for local variables
-       7 | unsigned int __read_mostly sysctl_sched_autogroup_enabled = 1;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:15:35: error: initializer element is not constant
-      15 |                 .data           = &sysctl_sched_autogroup_enabled,
-         |                                   ^
-   kernel/sched/autogroup.c:15:35: note: (near initialization for 'sched_autogroup_sysctls[0].data')
-   kernel/sched/autogroup.c:25:20: error: invalid storage class for function 'sched_autogroup_sysctl_init'
-      25 | static void __init sched_autogroup_sysctl_init(void)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:47:20: error: invalid storage class for function 'autogroup_destroy'
-      47 | static inline void autogroup_destroy(struct kref *kref)
-         |                    ^~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:60:20: error: invalid storage class for function 'autogroup_kref_put'
-      60 | static inline void autogroup_kref_put(struct autogroup *ag)
-         |                    ^~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:65:33: error: invalid storage class for function 'autogroup_kref_get'
-      65 | static inline struct autogroup *autogroup_kref_get(struct autogroup *ag)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:71:33: error: invalid storage class for function 'autogroup_task_get'
-      71 | static inline struct autogroup *autogroup_task_get(struct task_struct *p)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:85:33: error: invalid storage class for function 'autogroup_create'
-      85 | static inline struct autogroup *autogroup_create(void)
-         |                                 ^~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:158:1: error: invalid storage class for function 'autogroup_move_group'
-     158 | autogroup_move_group(struct task_struct *p, struct autogroup *ag)
-         | ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:202:15: error: non-static declaration of 'sched_autogroup_create_attach' follows static declaration
-     202 | EXPORT_SYMBOL(sched_autogroup_create_attach);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:202:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     202 | EXPORT_SYMBOL(sched_autogroup_create_attach);
-         | ^~~~~~~~~~~~~
-   kernel/sched/autogroup.c:193:6: note: previous definition of 'sched_autogroup_create_attach' with type 'void(struct task_struct *)'
-     193 | void sched_autogroup_create_attach(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:209:15: error: non-static declaration of 'sched_autogroup_detach' follows static declaration
-     209 | EXPORT_SYMBOL(sched_autogroup_detach);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:209:1: note: in expansion of macro 'EXPORT_SYMBOL'
-     209 | EXPORT_SYMBOL(sched_autogroup_detach);
-         | ^~~~~~~~~~~~~
-   kernel/sched/autogroup.c:205:6: note: previous definition of 'sched_autogroup_detach' with type 'void(struct task_struct *)'
-     205 | void sched_autogroup_detach(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:221:19: error: invalid storage class for function 'setup_autogroup'
-     221 | static int __init setup_autogroup(char *str)
-         |                   ^~~~~~~~~~~~~~~
-   kernel/sched/autogroup.c:227:24: error: initializer element is not constant
-     227 | __setup("noautogroup", setup_autogroup);
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/autogroup.c:227:1: note: in expansion of macro '__setup'
-     227 | __setup("noautogroup", setup_autogroup);
-         | ^~~~~~~
-   kernel/sched/autogroup.c:227:24: note: (near initialization for '__setup_setup_autogroup.setup_func')
-     227 | __setup("noautogroup", setup_autogroup);
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
-     343 |                 = { __setup_str_##unique_id, fn, early }
-         |                                              ^~
-   kernel/sched/autogroup.c:227:1: note: in expansion of macro '__setup'
-     227 | __setup("noautogroup", setup_autogroup);
-         | ^~~~~~~
+>> net/bluetooth/mgmt.c:7922:6: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+           if (i > 1)
+               ^
+   net/bluetooth/mgmt.c:7896:7: note: initialize the variable 'i' to silence this warning
+           int i;
+                ^
+                 = 0
+   1 warning generated.
 
 
-vim +/enhanced_isolcpus_setup +244 kernel/sched/isolation.c
+vim +/i +7922 net/bluetooth/mgmt.c
 
-   242	
-   243	bool enhanced_isolcpus;
- > 244	static int __init enhanced_isolcpus_setup(char *str)
+  7888	
+  7889	static int load_conn_param(struct sock *sk, struct hci_dev *hdev, void *data,
+  7890				   u16 len)
+  7891	{
+  7892		struct mgmt_cp_load_conn_param *cp = data;
+  7893		const u16 max_param_count = ((U16_MAX - sizeof(*cp)) /
+  7894					     sizeof(struct mgmt_conn_param));
+  7895		u16 param_count, expected_len;
+  7896		int i;
+  7897	
+  7898		if (!lmp_le_capable(hdev))
+  7899			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7900					       MGMT_STATUS_NOT_SUPPORTED);
+  7901	
+  7902		param_count = __le16_to_cpu(cp->param_count);
+  7903		if (param_count > max_param_count) {
+  7904			bt_dev_err(hdev, "load_conn_param: too big param_count value %u",
+  7905				   param_count);
+  7906			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7907					       MGMT_STATUS_INVALID_PARAMS);
+  7908		}
+  7909	
+  7910		expected_len = struct_size(cp, params, param_count);
+  7911		if (expected_len != len) {
+  7912			bt_dev_err(hdev, "load_conn_param: expected %u bytes, got %u bytes",
+  7913				   expected_len, len);
+  7914			return mgmt_cmd_status(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM,
+  7915					       MGMT_STATUS_INVALID_PARAMS);
+  7916		}
+  7917	
+  7918		bt_dev_dbg(hdev, "param_count %u", param_count);
+  7919	
+  7920		hci_dev_lock(hdev);
+  7921	
+> 7922		if (i > 1)
+  7923			hci_conn_params_clear_disabled(hdev);
+  7924	
+  7925		for (i = 0; i < param_count; i++) {
+  7926			struct mgmt_conn_param *param = &cp->params[i];
+  7927			struct hci_conn_params *hci_param;
+  7928			u16 min, max, latency, timeout;
+  7929			u8 addr_type;
+  7930			bool update;
+  7931	
+  7932			bt_dev_dbg(hdev, "Adding %pMR (type %u)", &param->addr.bdaddr,
+  7933				   param->addr.type);
+  7934	
+  7935			if (param->addr.type == BDADDR_LE_PUBLIC) {
+  7936				addr_type = ADDR_LE_DEV_PUBLIC;
+  7937			} else if (param->addr.type == BDADDR_LE_RANDOM) {
+  7938				addr_type = ADDR_LE_DEV_RANDOM;
+  7939			} else {
+  7940				bt_dev_err(hdev, "ignoring invalid connection parameters");
+  7941				continue;
+  7942			}
+  7943	
+  7944			min = le16_to_cpu(param->min_interval);
+  7945			max = le16_to_cpu(param->max_interval);
+  7946			latency = le16_to_cpu(param->latency);
+  7947			timeout = le16_to_cpu(param->timeout);
+  7948	
+  7949			bt_dev_dbg(hdev, "min 0x%04x max 0x%04x latency 0x%04x timeout 0x%04x",
+  7950				   min, max, latency, timeout);
+  7951	
+  7952			if (hci_check_conn_params(min, max, latency, timeout) < 0) {
+  7953				bt_dev_err(hdev, "ignoring invalid connection parameters");
+  7954				continue;
+  7955			}
+  7956	
+  7957			/* Detect when the loading is for an existing parameter then
+  7958			 * attempt to trigger the connection update procedure.
+  7959			 */
+  7960			if (!i && param_count == 1) {
+  7961				hci_param = hci_conn_params_lookup(hdev,
+  7962								   &param->addr.bdaddr,
+  7963								   addr_type);
+  7964				if (hci_param)
+  7965					update = true;
+  7966				else
+  7967					hci_conn_params_clear_disabled(hdev);
+  7968			}
+  7969	
+  7970			hci_param = hci_conn_params_add(hdev, &param->addr.bdaddr,
+  7971							addr_type);
+  7972			if (!hci_param) {
+  7973				bt_dev_err(hdev, "failed to add connection parameters");
+  7974				continue;
+  7975			}
+  7976	
+  7977			hci_param->conn_min_interval = min;
+  7978			hci_param->conn_max_interval = max;
+  7979			hci_param->conn_latency = latency;
+  7980			hci_param->supervision_timeout = timeout;
+  7981	
+  7982			if (update) {
+  7983				struct hci_conn *conn;
+  7984	
+  7985				conn = hci_conn_hash_lookup_le(hdev, &hci_param->addr,
+  7986							       addr_type);
+  7987				if (conn && conn->role == HCI_ROLE_MASTER &&
+  7988				    (conn->le_conn_min_interval != min ||
+  7989				     conn->le_conn_max_interval != max ||
+  7990				     conn->le_conn_latency != latency ||
+  7991				     conn->le_supv_timeout != timeout))
+  7992					hci_cmd_sync_queue(hdev, conn_update_sync,
+  7993							   hci_param, NULL);
+  7994			}
+  7995		}
+  7996	
+  7997		hci_dev_unlock(hdev);
+  7998	
+  7999		return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_LOAD_CONN_PARAM, 0,
+  8000					 NULL, 0);
+  8001	}
+  8002	
 
 -- 
 0-DAY CI Kernel Test Service
