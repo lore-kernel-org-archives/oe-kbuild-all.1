@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A6C148837
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 03:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAF0149C78
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 03:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715310468; cv=none; b=S2LEZEFPCnBXl2sF9FiceuBV3CZje5188sy2rTwdI0+lSIHLRL2d4fVZVGyzDM3CBEV2pYb4jZeh85U7NcfpzEAUwdkrRfciuHnL3eP3zWhVZG+LjvaTp+H7RSw2V8KWy2SJijKdPTuPSZ3o4ar9zX1YOiO7HJ3zKVSlcjljL+E=
+	t=1715311126; cv=none; b=Q0ISXYBeeoEJNayq7zV5zjcV3a2JaQjhnsUtW7c5f3qBK9D3Rik754LWDkawgda868FcbbY+DGYEBqmhf6p008ywRDWzkhodgn/XpUgmPREas6Mt7TAREmGxBUwxqeShg+VYPtXlkgEcNSDDUyJn1EJT8iB6zdzzBENQ74zYq+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715310468; c=relaxed/simple;
-	bh=dPH6kqDpeaeBXR2NBCEu1O/kZ4gXvXSAUQZnXU7j9Lc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SFcTMQSn9lHXQRkue1/PIiSgGCPBQCIg9WIBZ/nQQ+TW5qVvzhuXoaKW2265HJvWV1YJY0vm2kLbY/TrPcQfouSm64jBGybuikQ4OCO53/r60DNpuPI2mHu+3l5ujO5toQg0J4YkAra9Nf5+GRpPaqDX5DXU07dGvKtSSeODPoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P11mSzpO; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1715311126; c=relaxed/simple;
+	bh=2Hkh+D7A3+9I+g4VTqamE95LKjpsbW4LEEh7Fg9xnnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PkdoM6wEEPy77i2zdPMPNsd33PzkPSS9mO3w/pecjfVDrzZoSH1uAtxAnKsmXoxl6BI8g6vLibQyItiodziH4QwTEJq9awN6IFS0IXNCbPCRuffUjlQtJe4ZykvaHarWk/0MER0F9TgtXzrNEqJa7XjeC8gzJdI9FuMpB39KQug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EU8lI10h; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P11mSzpO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EU8lI10h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715310465; x=1746846465;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dPH6kqDpeaeBXR2NBCEu1O/kZ4gXvXSAUQZnXU7j9Lc=;
-  b=P11mSzpOcQAY52ahZy+N3zEusuhKA7Q+1t4B6rU3Eb9ORtW3ipUv/O8M
-   Cv86OUXHwz37H+Pk374WRBQbVOPgD2zeGrREf8KeZqGgMzChneUruDhT+
-   xX4gyhVYv9bErt44LdKuLDW23DWGmTGAENofqZT+vmxYq2WG3+Oh9gb9W
-   EsvcWij1/jab8fbwIKxBOBnC+DsOB8cmHwsFdfyMRkVNSjqm+JBfws47j
-   rUT/iGF3XB7yqypkwzoQyct2C3HNUH1qLa/5Dk+VFxBNqhvORah17S8vR
-   YFJZDj7QTwdoTSJFVTiT0Ot7kHtHOevDieXqTTI3mNGO0p1mu6SxqCVLi
-   Q==;
-X-CSE-ConnectionGUID: V4rL5nxyQa+9AUVr/SAlfQ==
-X-CSE-MsgGUID: yNPMWmn0SLSzSvzuUybr/A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15107357"
+  t=1715311125; x=1746847125;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2Hkh+D7A3+9I+g4VTqamE95LKjpsbW4LEEh7Fg9xnnI=;
+  b=EU8lI10hw3AsF5B5EoG4ga+UmX9YdFaPtjtrExf6nt62qlpKSiMCtyqJ
+   9uj1398fJDW9SfFVclypwOTUYAMbPvilIa8K1uRVCfskaVTcltn1d/gYC
+   1omWUuSxbsT6OdC/jog1W9cxUjNXNrhCfYbW5UwBv+wfh9BNbqi7maodX
+   MgJe+LQx3wlw9Y9GtzzfC2/YDwKT2lIs7DDkFGs5ljWTInKvOZg+SDBN+
+   YXmVnofbVzTinjv7F41qDcvv1X5RuDC38tx2aUtCKLC9SbRoTVE84lQiA
+   KZO5Gf4SSkgkPGPl+DLNlj4gDnwGjPTtPJ+3bFtrEUZkqPCdri3W+b/aJ
+   g==;
+X-CSE-ConnectionGUID: JLqg75QbQDefpdpG6PGmSg==
+X-CSE-MsgGUID: 9NS0nRsfTMem9SrCWQjtsg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11121688"
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="15107357"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 20:07:45 -0700
-X-CSE-ConnectionGUID: +dD9JHRBTF6nDBh//nmNqA==
-X-CSE-MsgGUID: naGFnkWzQ52ckeAjBn/F5g==
+   d="scan'208";a="11121688"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 20:18:45 -0700
+X-CSE-ConnectionGUID: xLrYM4QnT1WKip2fyTuP4A==
+X-CSE-MsgGUID: weAUcQU4QFWhqH9+hhKERg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="33982807"
+   d="scan'208";a="30015495"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 May 2024 20:07:42 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 May 2024 20:18:43 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5Gbk-0005ez-1A;
-	Fri, 10 May 2024 03:07:40 +0000
-Date: Fri, 10 May 2024 11:07:27 +0800
+	id 1s5GmO-0005fN-1q;
+	Fri, 10 May 2024 03:18:40 +0000
+Date: Fri, 10 May 2024 11:17:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 2/4] bpf: crypto: make state and IV dynptr
- nullable
-Message-ID: <202405101026.4PbHjNBN-lkp@intel.com>
-References: <20240509134023.1289303-3-vadfed@meta.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 99/104]
+ drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c:178:38:
+ error: cast to pointer from integer of different size
+Message-ID: <202405101121.bZVN9oK0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,72 +63,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240509134023.1289303-3-vadfed@meta.com>
 
-Hi Vadim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-verifier-make-kfuncs-args-nullalble/20240509-214252
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240509134023.1289303-3-vadfed%40meta.com
-patch subject: [PATCH bpf-next 2/4] bpf: crypto: make state and IV dynptr nullable
-config: x86_64-randconfig-102-20240510 (https://download.01.org/0day-ci/archive/20240510/202405101026.4PbHjNBN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101026.4PbHjNBN-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   cb75f24663df84986d5056df93e821564be6d886
+commit: 3d4651aa212e1a671e15a4a8411b748bb70a8585 [99/104] CHROMIUM: media: platform: mediatek: isp: isp_7x camsys driver migration
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240510/202405101121.bZVN9oK0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101121.bZVN9oK0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101026.4PbHjNBN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405101121.bZVN9oK0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/bpf/crypto.c:317: warning: Function parameter or struct member 'siv__nullable' not described in 'bpf_crypto_decrypt'
->> kernel/bpf/crypto.c:317: warning: Excess function parameter 'siv' description in 'bpf_crypto_decrypt'
->> kernel/bpf/crypto.c:334: warning: Function parameter or struct member 'siv__nullable' not described in 'bpf_crypto_encrypt'
->> kernel/bpf/crypto.c:334: warning: Excess function parameter 'siv' description in 'bpf_crypto_encrypt'
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c: In function 'mtk_cam_raw_res_copy_fmt_from_user':
+>> drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c:178:38: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
+     178 |         bytes = copy_from_user(dest, (void __user *)res_user->sink_fmt,
+         |                                      ^
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c: In function 'mtk_cam_raw_res_copy_fmt_to_user':
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c:198:30: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
+     198 |         bytes = copy_to_user((void __user *)res_user->sink_fmt, src, sizeof(*src));
+         |                              ^
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c: In function 'mtk_cam_raw_get_ctrl':
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c:227:64: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
+     227 |                                                                (struct v4l2_mbus_framefmt *)
+         |                                                                ^
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c: In function 'mtk_raw_fmt_get_res':
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c:2577:20: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
+    2577 |         user_ptr = (void *)addr;
+         |                    ^
+   cc1: all warnings being treated as errors
+--
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.c: In function 'mtk_cam_exception_work':
+>> drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.c:881:42: error: '%s' directive output may be truncated writing up to 63 bytes into a region of size 41 [-Werror=format-truncation=]
+     881 |         snprintf(title_desc, 48, "Camsys:%s", dbg_work->desc);
+         |                                          ^~
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.c:881:9: note: 'snprintf' output between 8 and 71 bytes into a destination of size 48
+     881 |         snprintf(title_desc, 48, "Camsys:%s", dbg_work->desc);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.c:882:53: error: '%s' directive output may be truncated writing up to 63 bytes into a region of size between 0 and 33 [-Werror=format-truncation=]
+     882 |         snprintf(warn_desc, 48, "%s:ctx(%d):req(%d):%s",
+         |                                                     ^~
+   drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.c:882:9: note: 'snprintf' output between 16 and 125 bytes into a destination of size 48
+     882 |         snprintf(warn_desc, 48, "%s:ctx(%d):req(%d):%s",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     883 |                  req->req.debug_str, ctx->stream_id, s_data->frame_seq_no,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     884 |                  dbg_work->desc);
+         |                  ~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +317 kernel/bpf/crypto.c
+vim +178 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c
 
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  303  
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  304  /**
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  305   * bpf_crypto_decrypt() - Decrypt buffer using configured context and IV provided.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  306   * @ctx:	The crypto context being used. The ctx must be a trusted pointer.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  307   * @src:	bpf_dynptr to the encrypted data. Must be a trusted pointer.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  308   * @dst:	bpf_dynptr to the buffer where to store the result. Must be a trusted pointer.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  309   * @siv:	bpf_dynptr to IV data and state data to be used by decryptor.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  310   *
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  311   * Decrypts provided buffer using IV data and the crypto context. Crypto context must be configured.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  312   */
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  313  __bpf_kfunc int bpf_crypto_decrypt(struct bpf_crypto_ctx *ctx,
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  314  				   const struct bpf_dynptr_kern *src,
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  315  				   const struct bpf_dynptr_kern *dst,
-9ce5fb6f36b954 Vadim Fedorenko 2024-05-09  316  				   const struct bpf_dynptr_kern *siv__nullable)
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22 @317  {
-9ce5fb6f36b954 Vadim Fedorenko 2024-05-09  318  	return bpf_crypto_crypt(ctx, src, dst, siv__nullable, true);
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  319  }
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  320  
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  321  /**
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  322   * bpf_crypto_encrypt() - Encrypt buffer using configured context and IV provided.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  323   * @ctx:	The crypto context being used. The ctx must be a trusted pointer.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  324   * @src:	bpf_dynptr to the plain data. Must be a trusted pointer.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  325   * @dst:	bpf_dynptr to buffer where to store the result. Must be a trusted pointer.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  326   * @siv:	bpf_dynptr to IV data and state data to be used by decryptor.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  327   *
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  328   * Encrypts provided buffer using IV data and the crypto context. Crypto context must be configured.
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  329   */
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  330  __bpf_kfunc int bpf_crypto_encrypt(struct bpf_crypto_ctx *ctx,
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  331  				   const struct bpf_dynptr_kern *src,
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  332  				   const struct bpf_dynptr_kern *dst,
-9ce5fb6f36b954 Vadim Fedorenko 2024-05-09  333  				   const struct bpf_dynptr_kern *siv__nullable)
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22 @334  {
-9ce5fb6f36b954 Vadim Fedorenko 2024-05-09  335  	return bpf_crypto_crypt(ctx, src, dst, siv__nullable, false);
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  336  }
-3e1c6f35409f9e Vadim Fedorenko 2024-04-22  337  
+   157	
+   158	static bool mtk_cam_raw_resource_calc(struct mtk_cam_device *cam,
+   159					      struct mtk_cam_resource_config *res,
+   160					      s64 pixel_rate, int res_plan, int in_w,
+   161					      int in_h, int *out_w, int *out_h);
+   162	
+   163	static int mtk_cam_raw_res_copy_fmt_from_user(struct mtk_raw_pipeline *pipeline,
+   164						      struct mtk_cam_resource *res_user,
+   165						      struct v4l2_mbus_framefmt *dest)
+   166	{
+   167		long bytes;
+   168		struct device *dev = pipeline->raw->devs[pipeline->id];
+   169	
+   170		if (!res_user->sink_fmt) {
+   171			dev_err(dev,
+   172				"%s:pipe(%d): sink_fmt can't be NULL for res ctrl\n",
+   173				__func__, pipeline->id);
+   174	
+   175			return -EINVAL;
+   176		}
+   177	
+ > 178		bytes = copy_from_user(dest, (void __user *)res_user->sink_fmt,
+   179				       sizeof(*dest));
+   180		if (bytes) {
+   181			dev_err(dev,
+   182				"%s:pipe(%d): copy_from_user on sink_fmt failed (%ld)\n",
+   183				__func__, pipeline->id, bytes);
+   184			return -EINVAL;
+   185		}
+   186	
+   187		return 0;
+   188	}
+   189	
 
 -- 
 0-DAY CI Kernel Test Service
