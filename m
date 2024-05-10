@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3D91DA4E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 12:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A023161330
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 12:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715343551; cv=none; b=VcaYeyqC6zvZ0NyNyql8rHG7YDPc55IsR7uQUfwtryYgwqfRaY83LjggHpxhngQyjgMEI+owJ8OC1jjiwdxqUGq1Xp594mdCXaFnlkfwOShOI6SRcjueaHAyxIc4XhwaXsxrqaoXsydmFUyGFdipFH0Yz4EeIKfYvQuYCZajqMo=
+	t=1715344210; cv=none; b=hGl+yU7XKjjj07ScY16IZuSWHHvKPKTqknwqqQbRl4G4/qXK1lG4fUDspJhiL4CYUuL/qC0oZN9DoPjNSOZkblNJaJX13bIzcqJfImGStQsRtjRZ8do5v/8gdTnRWLhObPva8WkdsTOUmRxi7ugJ3c01cLLnyBMPkplkZp8iIjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715343551; c=relaxed/simple;
-	bh=4191olldBnq9DmYWWVA0YBDyx1/967DbCsmOxnKl0gQ=;
+	s=arc-20240116; t=1715344210; c=relaxed/simple;
+	bh=AP/qMJsYVY7spXtXCwbUIm39ypHPdtqo7x79OU6Ahy4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V/ot4gyKtfjB3VsSnjPBSV9UV4xlpOY4fXcFzU87UmUbfK/L71jlm0PeuF6O6zu0pfxX55zzUlCZSLoZuyOekXOZGJT30b1CW93a73NKofs9ZyImSv+tCOXIUhiKsSz3JuldZ0k71M9Rh6eI5BIT0yXXevNqm3UqOw2KaGnj6QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFMSg0aD; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Ofuj2UFuXTeHHqSCHNOSofZtbO97upjCCs30XNxTwi8OVyyUaupgIKGQfIeuz5n+DIwUqB66/OuLYIZO+GZ+D0JA8j/qgR7ewNg7eHvv1bl2bodfUpQcdYPQKz9eZ7WTgEJd7kch7YTOm+XaFAHyUJeUssBVgNCM3esB6kMNSNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ChTxGbn5; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFMSg0aD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChTxGbn5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715343549; x=1746879549;
+  t=1715344208; x=1746880208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4191olldBnq9DmYWWVA0YBDyx1/967DbCsmOxnKl0gQ=;
-  b=SFMSg0aDqmGwoyDPNNg8H6a/N5ykQ1kGdoKAIlB6PKLEtJsuRZ38PI8f
-   dqXZkF+CubV6yqG3o41M5oo8ct7DUlgHLPT9K9VWfEI0/cq5XGSw5fbLb
-   jDDJaaM+UbKv6GAJlfv4mZbc+NXJWKWWKY1zmgE3n9aBG/fuswbJ83WoL
-   fV+j/GOrH5w/XZ/YUFibHKDWk0stikzfIMkb2FEF1GA50O1wc0fLxEjjn
-   gZ4iFQowexDOmhn8Q1kl2MszOTOr4fxhRPUlknJ5BdopdIusQbWRkHRra
-   3eX028VKtxcfOgfNELp2S48cI5ezyci40kf3VQ1gIPuLEr2vGayf/7qZy
+  bh=AP/qMJsYVY7spXtXCwbUIm39ypHPdtqo7x79OU6Ahy4=;
+  b=ChTxGbn5OzmKYQnH2730ZHeIFU6nE4i7Q1qvvOi8jAI0GsR8MCPj1O16
+   niESrJFfAjlmBvhm7/gELpciyyC8s2uDJhQZ0VdGdDWRI0eM8jpvlUpWC
+   0P7QbmQNLQN9RzfdRKF2idGke3+r/5o//6xI0zwvD8mvU72HEOWBQQHql
+   av1RIbygbP7jrEX/u+XNyz6I5v+90sAnNPXurYNIBEJpya/pMgPMdNbvx
+   4tveHrNBLiwMePredVQ4Cm4L9MlHISn4BaTl2l3HuIEaXaSmaqF91udCp
+   lhRz9cki7uwMWsaRFwEFrxxeWQJ0iXbo0+JcjJvQAYeOAFFAQioagMZnC
    g==;
-X-CSE-ConnectionGUID: KRo2agV/S5iLckA1n/w8cw==
-X-CSE-MsgGUID: PkFafN/hS4iMSLyRbCSiOw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15155343"
+X-CSE-ConnectionGUID: x4wPRnWkTAeazehcpTM0qg==
+X-CSE-MsgGUID: cl8ENVUDSLmFdmOMIRYpJg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="28832839"
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="15155343"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 05:19:08 -0700
-X-CSE-ConnectionGUID: W9QREFv0QBmNn/BUgf5LEQ==
-X-CSE-MsgGUID: Ry6hToj5Q6ajT9TZdDGyIg==
+   d="scan'208";a="28832839"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 05:30:08 -0700
+X-CSE-ConnectionGUID: yjaXh8DsSOu4gQwjBpDJRg==
+X-CSE-MsgGUID: IQjVCHWFQRKIhQBSfNBNkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="52807958"
+   d="scan'208";a="60771039"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 May 2024 05:19:07 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 May 2024 05:30:07 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5PDM-00067T-0s;
-	Fri, 10 May 2024 12:19:04 +0000
-Date: Fri, 10 May 2024 20:18:55 +0800
+	id 1s5PO0-00068V-2X;
+	Fri, 10 May 2024 12:30:04 +0000
+Date: Fri, 10 May 2024 20:29:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 23/78] drivers/hid/hid-himax.c:1494:26:
- sparse: sparse: incorrect type in assignment (different base types)
-Message-ID: <202405102036.8oOEhnI8-lkp@intel.com>
+Subject: [axboe-block:net-accept-more 3/6] net/tipc/socket.c:2719: warning:
+ Function parameter or struct member 'arg' not described in 'tipc_accept'
+Message-ID: <202405102016.FpxHgryj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,193 +62,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   cd87d14c5c4cc74e7c89677acb4aa9c804165fc7
-commit: 50c4d6f26836b63f8f5fe713f49aef462e05399f [23/78] CHROMIUM: HID: hid-himax: Implement hidraw debug functions
-config: arm64-randconfig-r113-20240510 (https://download.01.org/0day-ci/archive/20240510/202405102036.8oOEhnI8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240510/202405102036.8oOEhnI8-lkp@intel.com/reproduce)
+Hi Jens,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git net-accept-more
+head:   3b4f987e70b3ba8a6da0a425daf61c9cac61f55d
+commit: 11129a54ba83064e7ba3157cb5d12febfdf813df [3/6] net: change proto and proto_ops accept type
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240510/202405102016.FpxHgryj-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405102016.FpxHgryj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405102036.8oOEhnI8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405102016.FpxHgryj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/hid/hid-himax.c:402:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:402:35: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:402:35: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:469:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:469:35: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:469:35: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:645:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:645:28: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:645:28: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:653:30: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-himax.c:685:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:685:28: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:685:28: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:687:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:687:28: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:687:28: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:737:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:737:26: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:737:26: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:785:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/hid/hid-himax.c:785:30: sparse:     expected unsigned short
-   drivers/hid/hid-himax.c:785:30: sparse:     got restricted __le16 [usertype]
-   drivers/hid/hid-himax.c:802:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:802:36: sparse:     expected unsigned int [addressable] [usertype] dword
-   drivers/hid/hid-himax.c:802:36: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:839:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:839:26: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:839:26: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:855:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/hid/hid-himax.c:855:30: sparse:     expected unsigned short
-   drivers/hid/hid-himax.c:855:30: sparse:     got restricted __le16 [usertype]
-   drivers/hid/hid-himax.c:911:30: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-himax.c:1247:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1247:20: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:1247:20: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:1261:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1261:20: sparse:     expected unsigned int [addressable] [usertype] dword
-   drivers/hid/hid-himax.c:1261:20: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:1268:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1268:20: sparse:     expected unsigned int [addressable] [usertype] dword
-   drivers/hid/hid-himax.c:1268:20: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:1290:21: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-himax.c:1372:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1372:20: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:1372:20: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:1379:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/hid/hid-himax.c:1379:22: sparse:     expected unsigned short
-   drivers/hid/hid-himax.c:1379:22: sparse:     got restricted __le16 [usertype]
-   drivers/hid/hid-himax.c:1380:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/hid/hid-himax.c:1380:22: sparse:     expected unsigned short
-   drivers/hid/hid-himax.c:1380:22: sparse:     got restricted __le16 [usertype]
-   drivers/hid/hid-himax.c:1393:13: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:1405:30: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-himax.c:1413:39: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-himax.c:1449:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1449:37: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:1449:37: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:1451:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1451:37: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:1451:37: sparse:     got restricted __le32 [usertype]
->> drivers/hid/hid-himax.c:1494:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] vid @@     got restricted __be16 [usertype] @@
-   drivers/hid/hid-himax.c:1494:26: sparse:     expected unsigned short [usertype] vid
-   drivers/hid/hid-himax.c:1494:26: sparse:     got restricted __be16 [usertype]
->> drivers/hid/hid-himax.c:1495:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] pid @@     got restricted __be16 [usertype] @@
-   drivers/hid/hid-himax.c:1495:26: sparse:     expected unsigned short [usertype] pid
-   drivers/hid/hid-himax.c:1495:26: sparse:     got restricted __be16 [usertype]
->> drivers/hid/hid-himax.c:1500:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] y_res @@     got restricted __be16 [usertype] @@
-   drivers/hid/hid-himax.c:1500:28: sparse:     expected unsigned short [usertype] y_res
-   drivers/hid/hid-himax.c:1500:28: sparse:     got restricted __be16 [usertype]
->> drivers/hid/hid-himax.c:1501:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] x_res @@     got restricted __be16 [usertype] @@
-   drivers/hid/hid-himax.c:1501:28: sparse:     expected unsigned short [usertype] x_res
-   drivers/hid/hid-himax.c:1501:28: sparse:     got restricted __be16 [usertype]
-   drivers/hid/hid-himax.c:1622:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] *[assigned] word @@
-   drivers/hid/hid-himax.c:1622:57: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1622:57: sparse:     got unsigned int [usertype] *[assigned] word
-   drivers/hid/hid-himax.c:1624:61: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] *[assigned] word @@
-   drivers/hid/hid-himax.c:1624:61: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1624:61: sparse:     got unsigned int [usertype] *[assigned] word
-   drivers/hid/hid-himax.c:1758:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be16 const [usertype] *p @@     got unsigned short [usertype] * @@
-   drivers/hid/hid-himax.c:1758:31: sparse:     expected restricted __be16 const [usertype] *p
-   drivers/hid/hid-himax.c:1758:31: sparse:     got unsigned short [usertype] *
-   drivers/hid/hid-himax.c:1759:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be16 const [usertype] *p @@     got unsigned short [usertype] * @@
-   drivers/hid/hid-himax.c:1759:31: sparse:     expected restricted __be16 const [usertype] *p
-   drivers/hid/hid-himax.c:1759:31: sparse:     got unsigned short [usertype] *
-   drivers/hid/hid-himax.c:1860:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:1860:26: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:1860:26: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:1971:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:1971:44: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1971:44: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:1972:41: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:1972:41: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1972:41: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:1979:52: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:1979:52: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1979:52: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:1980:49: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:1980:49: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1980:49: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:1981:50: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:1981:50: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:1981:50: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:2035:60: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:2035:60: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:2035:60: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:2108:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:2108:26: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:2108:26: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:2491:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:2491:35: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:2491:35: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:2496:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int [usertype] * @@
-   drivers/hid/hid-himax.c:2496:47: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/hid/hid-himax.c:2496:47: sparse:     got unsigned int [usertype] *
-   drivers/hid/hid-himax.c:2502:46: sparse: sparse: cast to restricted __le32
-   drivers/hid/hid-himax.c:2692:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:2692:41: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:2692:41: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:3524:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3526:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3528:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3530:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3532:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3534:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3536:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3538:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3540:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3542:17: sparse: sparse: cast to restricted __le16
-   drivers/hid/hid-himax.c:3686:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:3686:28: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:3686:28: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c:3688:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dword @@     got restricted __le32 [usertype] @@
-   drivers/hid/hid-himax.c:3688:28: sparse:     expected unsigned int [usertype] dword
-   drivers/hid/hid-himax.c:3688:28: sparse:     got restricted __le32 [usertype]
-   drivers/hid/hid-himax.c: note: in included file (through include/drm/drm_panel.h, drivers/hid/hid-himax.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +1494 drivers/hid/hid-himax.c
+>> net/tipc/socket.c:2719: warning: Function parameter or struct member 'arg' not described in 'tipc_accept'
+>> net/tipc/socket.c:2719: warning: Excess function parameter 'flags' description in 'tipc_accept'
+>> net/tipc/socket.c:2719: warning: Excess function parameter 'kern' description in 'tipc_accept'
 
-  1476	
-  1477	/**
-  1478	 * himax_hid_update_info() - Update hid info
-  1479	 * @ts: Himax touch screen data
-  1480	 *
-  1481	 * This function is used to update the hid info from firmware image and IC data
-  1482	 * for hidraw ioctl to get the hid info. Which tell user space tool the touch
-  1483	 * information and how to update the firmware at runtime.The firmware update
-  1484	 * mapping tells user space tool how to update the firmware, it separates into
-  1485	 * bl part and main part. The bl part is used to update the bootloader, and runs
-  1486	 * only once. Which suits the need to update firmware through SPI. So we give
-  1487	 * bin_start_offset 0, and unit_sz as the size of firmware image in KB.
-  1488	 *
-  1489	 * Return: None
-  1490	 */
-  1491	static void himax_hid_update_info(struct himax_ts_data *ts)
-  1492	{
-  1493		memcpy(&ts->hid_info.fw_bin_desc, &ts->fw_bin_desc, sizeof(struct himax_bin_desc));
-> 1494		ts->hid_info.vid = cpu_to_be16(ts->hid_desc.vendor_id);
-> 1495		ts->hid_info.pid = cpu_to_be16(ts->hid_desc.product_id);
-  1496		ts->hid_info.cfg_version = ts->ic_data.vendor_touch_cfg_ver;
-  1497		ts->hid_info.disp_version = ts->ic_data.vendor_display_cfg_ver;
-  1498		ts->hid_info.rx = ts->ic_data.rx_num;
-  1499		ts->hid_info.tx = ts->ic_data.tx_num;
-> 1500		ts->hid_info.y_res = cpu_to_be16(ts->ic_data.y_res);
-> 1501		ts->hid_info.x_res = cpu_to_be16(ts->ic_data.x_res);
-  1502		ts->hid_info.pt_num = ts->ic_data.max_point;
-  1503		ts->hid_info.mkey_num = ts->ic_data.button_num;
-  1504		/* firmware table parameters, use only bl part. */
-  1505		ts->hid_info.bl_mapping.cmd = HIMAX_HID_FW_UPDATE_BL_CMD;
-  1506		ts->hid_info.bl_mapping.bin_start_offset = 0;
-  1507		ts->hid_info.bl_mapping.unit_sz = ts->ic_data.bl_size / 1024;
-  1508	}
-  1509	
+
+vim +2719 net/tipc/socket.c
+
+6398e23cdb1d80 Ying Xue                 2014-01-17  2707  
+b97bf3fd8f6a16 Per Liden                2006-01-02  2708  /**
+247f0f3c3176c5 Ying Xue                 2014-02-18  2709   * tipc_accept - wait for connection request
+b97bf3fd8f6a16 Per Liden                2006-01-02  2710   * @sock: listening socket
+d8141208b032ea Andrew Lunn              2020-07-13  2711   * @new_sock: new socket that is to be connected
+b97bf3fd8f6a16 Per Liden                2006-01-02  2712   * @flags: file-related flags associated with socket
+f172f4b81aea89 Randy Dunlap             2020-11-29  2713   * @kern: caused by kernel or by userspace?
+b97bf3fd8f6a16 Per Liden                2006-01-02  2714   *
+637b77fdca5c5e Randy Dunlap             2020-11-29  2715   * Return: 0 on success, errno otherwise
+b97bf3fd8f6a16 Per Liden                2006-01-02  2716   */
+11129a54ba8306 Jens Axboe               2024-05-09  2717  static int tipc_accept(struct socket *sock, struct socket *new_sock,
+11129a54ba8306 Jens Axboe               2024-05-09  2718  		       struct proto_accept_arg *arg)
+b97bf3fd8f6a16 Per Liden                2006-01-02 @2719  {
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2720  	struct sock *new_sk, *sk = sock->sk;
+301bae56f21295 Jon Paul Maloy           2014-08-22  2721  	struct tipc_sock *new_tsock;
+f8dd60de194817 Xin Long                 2021-07-22  2722  	struct msghdr m = {NULL,};
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2723  	struct tipc_msg *msg;
+f8dd60de194817 Xin Long                 2021-07-22  2724  	struct sk_buff *buf;
+6398e23cdb1d80 Ying Xue                 2014-01-17  2725  	long timeo;
+0c3141e910eaaa Allan Stephens           2008-04-15  2726  	int res;
+b97bf3fd8f6a16 Per Liden                2006-01-02  2727  
+0c3141e910eaaa Allan Stephens           2008-04-15  2728  	lock_sock(sk);
+b97bf3fd8f6a16 Per Liden                2006-01-02  2729  
+0c288c86928e50 Parthasarathy Bhuvaragan 2016-11-01  2730  	if (sk->sk_state != TIPC_LISTEN) {
+0c3141e910eaaa Allan Stephens           2008-04-15  2731  		res = -EINVAL;
+0c3141e910eaaa Allan Stephens           2008-04-15  2732  		goto exit;
+0c3141e910eaaa Allan Stephens           2008-04-15  2733  	}
+11129a54ba8306 Jens Axboe               2024-05-09  2734  	timeo = sock_rcvtimeo(sk, arg->flags & O_NONBLOCK);
+6398e23cdb1d80 Ying Xue                 2014-01-17  2735  	res = tipc_wait_for_accept(sock, timeo);
+0c3141e910eaaa Allan Stephens           2008-04-15  2736  	if (res)
+b97bf3fd8f6a16 Per Liden                2006-01-02  2737  		goto exit;
+b97bf3fd8f6a16 Per Liden                2006-01-02  2738  
+0c3141e910eaaa Allan Stephens           2008-04-15  2739  	buf = skb_peek(&sk->sk_receive_queue);
+0c3141e910eaaa Allan Stephens           2008-04-15  2740  
+11129a54ba8306 Jens Axboe               2024-05-09  2741  	res = tipc_sk_create(sock_net(sock->sk), new_sock, 0, arg->kern);
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2742  	if (res)
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2743  		goto exit;
+fdd75ea8df370f Stephen Smalley          2015-07-07  2744  	security_sk_clone(sock->sk, new_sock->sk);
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2745  
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2746  	new_sk = new_sock->sk;
+301bae56f21295 Jon Paul Maloy           2014-08-22  2747  	new_tsock = tipc_sk(new_sk);
+0fef8f205f6f4c Paul Gortmaker           2012-12-04  2748  	msg = buf_msg(buf);
+0c3141e910eaaa Allan Stephens           2008-04-15  2749  
+258f8667a29d72 Ying Xue                 2012-12-03  2750  	/* we lock on new_sk; but lockdep sees the lock on sk */
+258f8667a29d72 Ying Xue                 2012-12-03  2751  	lock_sock_nested(new_sk, SINGLE_DEPTH_NESTING);
+0c3141e910eaaa Allan Stephens           2008-04-15  2752  
+0c3141e910eaaa Allan Stephens           2008-04-15  2753  	/*
+0c3141e910eaaa Allan Stephens           2008-04-15  2754  	 * Reject any stray messages received by new socket
+0c3141e910eaaa Allan Stephens           2008-04-15  2755  	 * before the socket lock was taken (very, very unlikely)
+0c3141e910eaaa Allan Stephens           2008-04-15  2756  	 */
+49afb806cb650d Tuong Lien               2020-01-08  2757  	tsk_rej_rx_queue(new_sk, TIPC_ERR_NO_PORT);
+0c3141e910eaaa Allan Stephens           2008-04-15  2758  
+0c3141e910eaaa Allan Stephens           2008-04-15  2759  	/* Connect new socket to it's peer */
+301bae56f21295 Jon Paul Maloy           2014-08-22  2760  	tipc_sk_finish_conn(new_tsock, msg_origport(msg), msg_orignode(msg));
+b97bf3fd8f6a16 Per Liden                2006-01-02  2761  
+095ae612530c94 Christoph Hellwig        2020-05-28  2762  	tsk_set_importance(new_sk, msg_importance(msg));
+b97bf3fd8f6a16 Per Liden                2006-01-02  2763  	if (msg_named(msg)) {
+14623e005a1e74 Jon Maloy                2021-06-02  2764  		new_tsock->conn_addrtype = TIPC_SERVICE_ADDR;
+14623e005a1e74 Jon Maloy                2021-06-02  2765  		msg_set_nametype(&new_tsock->phdr, msg_nametype(msg));
+14623e005a1e74 Jon Maloy                2021-06-02  2766  		msg_set_nameinst(&new_tsock->phdr, msg_nameinst(msg));
+b97bf3fd8f6a16 Per Liden                2006-01-02  2767  	}
+b97bf3fd8f6a16 Per Liden                2006-01-02  2768  
+b97bf3fd8f6a16 Per Liden                2006-01-02  2769  	/*
+f8dd60de194817 Xin Long                 2021-07-22  2770  	 * Respond to 'SYN-' by discarding it & returning 'ACK'.
+f8dd60de194817 Xin Long                 2021-07-22  2771  	 * Respond to 'SYN+' by queuing it on new socket & returning 'ACK'.
+b97bf3fd8f6a16 Per Liden                2006-01-02  2772  	 */
+b97bf3fd8f6a16 Per Liden                2006-01-02  2773  	if (!msg_data_sz(msg)) {
+2e84c60b77e4dd Jon Paul Maloy           2014-08-22  2774  		tsk_advance_rx_queue(sk);
+b97bf3fd8f6a16 Per Liden                2006-01-02  2775  	} else {
+0c3141e910eaaa Allan Stephens           2008-04-15  2776  		__skb_dequeue(&sk->sk_receive_queue);
+0c3141e910eaaa Allan Stephens           2008-04-15  2777  		__skb_queue_head(&new_sk->sk_receive_queue, buf);
+aba79f332f46ca Ying Xue                 2013-01-20  2778  		skb_set_owner_r(buf, new_sk);
+b97bf3fd8f6a16 Per Liden                2006-01-02  2779  	}
+11a4d6f67cf558 Tung Nguyen              2023-02-14  2780  	iov_iter_kvec(&m.msg_iter, ITER_SOURCE, NULL, 0, 0);
+f8dd60de194817 Xin Long                 2021-07-22  2781  	__tipc_sendstream(new_sock, &m, 0);
+0c3141e910eaaa Allan Stephens           2008-04-15  2782  	release_sock(new_sk);
+b97bf3fd8f6a16 Per Liden                2006-01-02  2783  exit:
+0c3141e910eaaa Allan Stephens           2008-04-15  2784  	release_sock(sk);
+b97bf3fd8f6a16 Per Liden                2006-01-02  2785  	return res;
+b97bf3fd8f6a16 Per Liden                2006-01-02  2786  }
+b97bf3fd8f6a16 Per Liden                2006-01-02  2787  
+
+:::::: The code at line 2719 was first introduced by commit
+:::::: b97bf3fd8f6a16966d4f18983b2c40993ff937d4 [TIPC] Initial merge
+
+:::::: TO: Per Liden <per.liden@nospam.ericsson.com>
+:::::: CC: David S. Miller <davem@sunset.davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
