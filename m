@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EE912D219
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 14:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0266714B08C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 14:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715350519; cv=none; b=cWnmLCCAH8e2shjbW5WaR08axkctE5zj/yiEEtR0EJ1YGc+9bqHFPWloCjfUpzX/Yucp2ikbnf8UxcgCqF3tlULdJeBvYrKh0dyb2SRij02VK0wO2LTgXEn6lXIufpgpUDveALcjwyDHtmDnqEpx8+IyMEaK4/GZwS+sEGgUiY0=
+	t=1715352381; cv=none; b=WYqkYBHb207ouWHy3SL/1ZPpsgk1HdPI64mxYYp5K77nmLEAVx8EszVnK8p6H3XUHg+Qi32dneOpyijzontaVsVzMdAwkOI8pKCYHUa+0hcXvegYcVInvUQPjoVE+uAjWtbOH+x5wXbRB5PekScJRedJTZDB/NW02K74uEVuc+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715350519; c=relaxed/simple;
-	bh=tqJpXy9cWEMDhtShvea8LDZFBxxa5IE6ZjHogfm3dkM=;
+	s=arc-20240116; t=1715352381; c=relaxed/simple;
+	bh=2enKvBpTEoM39ltg9DnuifzxQEf3NS9w3cQjco4H6dg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a+Sp5CUvO1iHlB0WNePH0iVlCIsTf2l3/sJY15ceXzcxBB9UZo47bnha+BRwPj1+l8HrbXbitTKgVVpmzMk+j25jyKgZMkEtwOCmi2MDQAx1bDirCngjCy5Egr5rb9CpceernD+iVxJvX0oc9jiO58FzHH/sbKkw3rCjSuzdBNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eiqsD3ig; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=HB1jFnnlgJjRpVfIxTdnhyJg96Ha+qC+GhixMoSPmMDBWa+vdvQNcCXR2vfKeCYIbhUjGioEXzvO9ok1OaxtnVrDAp62YXxIa3NQYMMDobrUPzS5W/SSnjZRCtMLKmRG1YsZTc5od5g3abQoRFop76l9b5s8x//mqA0qi0MErwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/LOXBzg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiqsD3ig"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/LOXBzg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715350517; x=1746886517;
+  t=1715352379; x=1746888379;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tqJpXy9cWEMDhtShvea8LDZFBxxa5IE6ZjHogfm3dkM=;
-  b=eiqsD3igvSDuBswSNFwImG00viPEvzvjWAWFanFNnRe9+odgsXr8TQdy
-   CgOYD4e73bIJCSuxsZqvE1r4KN/QmOO8dz/nmd/+yav5N0kIyaEjrcsCf
-   hsDhdD7TE2JM6AGxsOgBN1fbAuRc/JqBzBO6VeMdhsQvz6bOyeccmYihB
-   WyiRL4UK1XnDZJV/Ld7TdesNz6p+GyrAviBUiI9pApMV9Qs0e1a+1PDks
-   VbllL0IadNYSSXTsnd7KesW4iy/3/1kidgZoJtgzta6h86MAjys62rDSw
-   Ctut7fkTk9gSNsF+mPjqvyOvtay8TXIEOa4lNDRrTG1j/F9RW9a5L7ory
-   g==;
-X-CSE-ConnectionGUID: VyNrh3s1RVCEtMUBfR+XCw==
-X-CSE-MsgGUID: YjYQx8FnSi6Qai2xnPR8fA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22731210"
+  bh=2enKvBpTEoM39ltg9DnuifzxQEf3NS9w3cQjco4H6dg=;
+  b=f/LOXBzgVdrJcp1LcL9w/P9yYXMa+h6QcQn+7pDveYerj847t0bkZ/Xi
+   m5E2GNf5uJ2Pb++3QOUxrspTRJsdT9tJ5ALK6eXid6E455s0GnX96TvEz
+   nwWszIf6IKj3LKXo7gSxWNNkFiU+7H7dUOytqDr5SoqC8UooT4Ww6SOQf
+   32QlIJ6Oq3jPDOO0YDcjKTeUaEaxI0AAzz1pbTjijEQTUKyxhPp4lUwr7
+   PMQpvg2M5bIm7Vv0S/vinEQvJ5GRpMkzQFOlO3e0+lspczR6n1wZeVTUx
+   4LRvI03gjHNXApO1P5GKYdpYqrY3OTKoV79pV4bdz4elji68SOydCGIe1
+   A==;
+X-CSE-ConnectionGUID: 7X5yQ3myTuuy4LXnHWzZcw==
+X-CSE-MsgGUID: 5uYQjIgdQZGRH+3PaIMnjQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11498416"
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="22731210"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 07:15:17 -0700
-X-CSE-ConnectionGUID: wT13tqjVTuK9hkynnDOfLg==
-X-CSE-MsgGUID: tHtdi4slTUKWUAxlLvOSpg==
+   d="scan'208";a="11498416"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 07:46:18 -0700
+X-CSE-ConnectionGUID: 940X7bQPTMKBgJ3EOjdRnA==
+X-CSE-MsgGUID: kXcqnEKnRVuYyVRqlizuxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="29687626"
+   d="scan'208";a="30190528"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 May 2024 07:15:15 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 May 2024 07:46:17 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5R1l-0006Ex-1l;
-	Fri, 10 May 2024 14:15:13 +0000
-Date: Fri, 10 May 2024 22:14:31 +0800
+	id 1s5RVm-0006GJ-1l;
+	Fri, 10 May 2024 14:46:14 +0000
+Date: Fri, 10 May 2024 22:45:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18554/22394]
- drivers/net/ethernet/netswift/ngbe/.tmp_ngbe_phy.o: warning: objtool:
- missing symbol for section .text
-Message-ID: <202405102228.PBZNkwU1-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 14777/22394]
+ drivers/scsi/huawei/hifc/hifc_portmng.o: warning: objtool: missing symbol
+ for section .text
+Message-ID: <202405102258.1OIgsP3m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,97 +64,133 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   f35cd2565c44b31298a14d8e033e94bfed1b0e1c
-commit: 206f9c11a8c8b0197da5a26859d96d2ed65f5757 [18554/22394] net: ngbe: Add Netswift Giga NIC driver
-config: x86_64-buildonly-randconfig-001-20240510 (https://download.01.org/0day-ci/archive/20240510/202405102228.PBZNkwU1-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405102228.PBZNkwU1-lkp@intel.com/reproduce)
+head:   a786a35ec1aeb84a5ff258956854c2eaebec12b7
+commit: 7fc993d55d1b54ae40e29dfac825a18d04d644c6 [14777/22394] scsi/hifc: add hifc driver FC service module
+config: x86_64-buildonly-randconfig-004-20240510 (https://download.01.org/0day-ci/archive/20240510/202405102258.1OIgsP3m-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405102258.1OIgsP3m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405102228.PBZNkwU1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405102258.1OIgsP3m-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sctp.h:57,
-                    from drivers/net/ethernet/netswift/ngbe/ngbe.h:28,
-                    from drivers/net/ethernet/netswift/ngbe/ngbe_phy.h:22,
-                    from drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:19:
-   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
-     390 | } __attribute__((packed, aligned(4)));
+   In file included from drivers/scsi/huawei/hifc/hifc_portmng.c:6:
+   In file included from drivers/scsi/huawei/hifc/hifc_module.h:10:
+   In file included from drivers/scsi/huawei/hifc/unf_common.h:9:
+   In file included from drivers/scsi/huawei/hifc/unf_scsi_common.h:10:
+   In file included from drivers/scsi/huawei/hifc/hifc_knl_adp.h:30:
+   In file included from include/scsi/scsi_host.h:12:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/huawei/hifc/hifc_portmng.c:570:5: warning: no previous prototype for function 'hifc_dfx_get_rxtx_error_state' [-Wmissing-prototypes]
+     570 | int hifc_dfx_get_rxtx_error_state(void *v_hba, void *v_buff_out)
+         |     ^
+   drivers/scsi/huawei/hifc/hifc_portmng.c:570:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     570 | int hifc_dfx_get_rxtx_error_state(void *v_hba, void *v_buff_out)
          | ^
-   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
-     719 | } __attribute__((packed, aligned(4)));
+         | static 
+   drivers/scsi/huawei/hifc/hifc_portmng.c:1118:14: warning: no previous prototype for function 'hifc_port_info' [-Wmissing-prototypes]
+    1118 | unsigned int hifc_port_info(struct unf_hinicam_pkg *v_input)
+         |              ^
+   drivers/scsi/huawei/hifc/hifc_portmng.c:1118:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1118 | unsigned int hifc_port_info(struct unf_hinicam_pkg *v_input)
          | ^
-   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
-     718 |         struct sockaddr_storage sspp_addr;
-         |                                 ^~~~~~~~~
-   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
-     732 | } __attribute__((packed, aligned(4)));
+         | static 
+   3 warnings generated.
+>> drivers/scsi/huawei/hifc/hifc_portmng.o: warning: objtool: missing symbol for section .text
+--
+   In file included from drivers/scsi/huawei/hifc/hifc_cmdq.c:21:
+   In file included from drivers/scsi/huawei/hifc/hifc_knl_adp.h:30:
+   In file included from include/scsi/scsi_host.h:12:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/huawei/hifc/hifc_cmdq.c:1316:5: warning: no previous prototype for function 'hifc_set_cmdq_ctxts' [-Wmissing-prototypes]
+    1316 | int hifc_set_cmdq_ctxts(struct hifc_hwdev *hwdev)
+         |     ^
+   drivers/scsi/huawei/hifc/hifc_cmdq.c:1316:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1316 | int hifc_set_cmdq_ctxts(struct hifc_hwdev *hwdev)
          | ^
-   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
-     731 |         struct sockaddr_storage ssp_addr;
-         |                                 ^~~~~~~~
-   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
-     783 | } __attribute__((packed, aligned(4)));
+         | static 
+   2 warnings generated.
+>> drivers/scsi/huawei/hifc/hifc_cmdq.o: warning: objtool: missing symbol for section .text
+--
+   In file included from drivers/scsi/huawei/hifc/unf_event.c:8:
+   In file included from drivers/scsi/huawei/hifc/unf_common.h:9:
+   In file included from drivers/scsi/huawei/hifc/unf_scsi_common.h:10:
+   In file included from drivers/scsi/huawei/hifc/hifc_knl_adp.h:30:
+   In file included from include/scsi/scsi_host.h:12:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/huawei/hifc/unf_event.c:18:14: warning: no previous prototype for function 'unf_init_event_msg' [-Wmissing-prototypes]
+      18 | unsigned int unf_init_event_msg(struct unf_lport_s *v_lport)
+         |              ^
+   drivers/scsi/huawei/hifc/unf_event.c:18:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      18 | unsigned int unf_init_event_msg(struct unf_lport_s *v_lport)
          | ^
-   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
-     775 |         struct sockaddr_storage spp_address;
-         |                                 ^~~~~~~~~~~
-   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
-     896 | } __attribute__((packed, aligned(4)));
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:69:6: warning: no previous prototype for function 'unf_init_event_node' [-Wmissing-prototypes]
+      69 | void unf_init_event_node(struct unf_cm_event_report *v_event_node)
+         |      ^
+   drivers/scsi/huawei/hifc/unf_event.c:69:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      69 | void unf_init_event_node(struct unf_cm_event_report *v_event_node)
          | ^
-   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
-     890 |         struct sockaddr_storage spinfo_address;
-         |                                 ^~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe.h: In function 'ngbe_misc_isb':
-   drivers/net/ethernet/netswift/ngbe/ngbe.h:764:13: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     764 |         u32 cur_diff = 0;
-         |             ^~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c: At top level:
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:30:6: warning: no previous prototype for 'ngbe_check_reset_blocked' [-Wmissing-prototypes]
-      30 | bool ngbe_check_reset_blocked(struct ngbe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:47:5: warning: no previous prototype for 'ngbe_phy_read_reg' [-Wmissing-prototypes]
-      47 | s32 ngbe_phy_read_reg(struct ngbe_hw *hw,
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:70:5: warning: no previous prototype for 'ngbe_phy_write_reg' [-Wmissing-prototypes]
-      70 | s32 ngbe_phy_write_reg(struct ngbe_hw *hw,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:89:5: warning: no previous prototype for 'ngbe_check_internal_phy_id' [-Wmissing-prototypes]
-      89 | s32 ngbe_check_internal_phy_id(struct ngbe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:269:5: warning: no previous prototype for 'ngbe_check_mdi_phy_id' [-Wmissing-prototypes]
-     269 | s32 ngbe_check_mdi_phy_id(struct ngbe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:300:6: warning: no previous prototype for 'ngbe_validate_phy_addr' [-Wmissing-prototypes]
-     300 | bool ngbe_validate_phy_addr(struct ngbe_hw *hw, u32 phy_addr)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:316:5: warning: no previous prototype for 'ngbe_check_yt_phy_id' [-Wmissing-prototypes]
-     316 | s32 ngbe_check_yt_phy_id(struct ngbe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:1037:5: warning: no previous prototype for 'ngbe_phy_get_advertised_pause' [-Wmissing-prototypes]
-    1037 | s32 ngbe_phy_get_advertised_pause(struct ngbe_hw *hw, u8 *pause_bit)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:1074:5: warning: no previous prototype for 'ngbe_phy_get_lp_advertised_pause' [-Wmissing-prototypes]
-    1074 | s32 ngbe_phy_get_lp_advertised_pause(struct ngbe_hw *hw, u8 *pause_bit)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:1119:5: warning: no previous prototype for 'ngbe_phy_set_pause_advertisement' [-Wmissing-prototypes]
-    1119 | s32 ngbe_phy_set_pause_advertisement(struct ngbe_hw *hw, u16 pause_bit)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:1167:5: warning: no previous prototype for 'ngbe_phy_setup' [-Wmissing-prototypes]
-    1167 | s32 ngbe_phy_setup(struct ngbe_hw *hw)
-         |     ^~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c: In function 'ngbe_phy_get_lp_advertised_pause':
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:1082:30: warning: 'value' may be used uninitialized [-Wmaybe-uninitialized]
-    1082 |         value = (value >> 5) & 0x1;
-         |                 ~~~~~~~~~~~~~^~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:1076:13: note: 'value' declared here
-    1076 |         u16 value;
-         |             ^~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_phy.c:123: warning: Function parameter or member 'device_type' not described in 'ngbe_phy_read_reg_mdi'
->> drivers/net/ethernet/netswift/ngbe/.tmp_ngbe_phy.o: warning: objtool: missing symbol for section .text
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:85:29: warning: no previous prototype for function 'unf_get_free_event_node' [-Wmissing-prototypes]
+      85 | struct unf_cm_event_report *unf_get_free_event_node(void *v_lport)
+         |                             ^
+   drivers/scsi/huawei/hifc/unf_event.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      85 | struct unf_cm_event_report *unf_get_free_event_node(void *v_lport)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:128:6: warning: no previous prototype for function 'unf_check_event_mgr_status' [-Wmissing-prototypes]
+     128 | void unf_check_event_mgr_status(struct unf_event_mgr *v_event_mgr)
+         |      ^
+   drivers/scsi/huawei/hifc/unf_event.c:128:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     128 | void unf_check_event_mgr_status(struct unf_event_mgr *v_event_mgr)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:142:6: warning: no previous prototype for function 'unf_release_event' [-Wmissing-prototypes]
+     142 | void unf_release_event(void *v_lport, void *v_event_node)
+         |      ^
+   drivers/scsi/huawei/hifc/unf_event.c:142:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     142 | void unf_release_event(void *v_lport, void *v_event_node)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:166:6: warning: no previous prototype for function 'unf_post_event' [-Wmissing-prototypes]
+     166 | void unf_post_event(void *v_lport, void *v_event_node)
+         |      ^
+   drivers/scsi/huawei/hifc/unf_event.c:166:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     166 | void unf_post_event(void *v_lport, void *v_event_node)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:249:6: warning: no previous prototype for function 'unf_wait_event_mgr_complete' [-Wmissing-prototypes]
+     249 | void unf_wait_event_mgr_complete(struct unf_event_mgr *v_event_mgr)
+         |      ^
+   drivers/scsi/huawei/hifc/unf_event.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     249 | void unf_wait_event_mgr_complete(struct unf_event_mgr *v_event_mgr)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/unf_event.c:355:6: warning: no previous prototype for function 'unf_release_global_event' [-Wmissing-prototypes]
+     355 | void unf_release_global_event(void *v_event_node)
+         |      ^
+   drivers/scsi/huawei/hifc/unf_event.c:355:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     355 | void unf_release_global_event(void *v_event_node)
+         | ^
+         | static 
+   9 warnings generated.
+>> drivers/scsi/huawei/hifc/unf_event.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
