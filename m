@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E94101E3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 16:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B06179A7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 17:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715359172; cv=none; b=GIKotbB+4I99lOWJW09QjIdQBLY0u+4DcnOfdRiQ5W8807taaGefxcZk6F2wrtcJkmb1IRzITNMHSiISWrPypdkB5K+4HzPWIY+CpFb4QE5N1g7JfREvMlK5m1ixbzjQMWHvQK52TVC0ONFnUtDEcXM0M0bJJTqghYu5xUwjjmo=
+	t=1715360969; cv=none; b=YiaV0cM+Doqk72wLZAtq2D8gUE8uci+7IBMTlEqrr3XH9b+fqXtY7Q++SCT08e0e8wttE4YrI+2j8Noll2m5BZXk3DOY3m2ZyNx3AmjQddCLdqfSAZpQxdpfFqGufULWJxC2iRRAa60KJCBOtmias+Uks1J/0p+3Fx1mrkKQOjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715359172; c=relaxed/simple;
-	bh=6T4PIybZnxsOMFSVESmXLaf6eKK6yNTJ/KiEr3YLEDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GIBKyQCE19o3umAl/c5n6lPfP8YXWrFRBkJMR/m5bFFTPkhumtMB2XNQic0KQQAMCSDYC5AQDn9KGA+FJ66ut5ojY6mRpBtUC2SLxWs4B6oh5uuuh8zVzbOlIhUQBHqHQRN5AhCu8dzwmCm3IcWPzOAQzoJNWUXQe3x4xKFdqsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0ahp2wq; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1715360969; c=relaxed/simple;
+	bh=qSTaOA+Y7IeRNxGNDOeKkRpF7oBKmwmi5GT5xSEmXdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aU39wZz0DEr3YGluQqRQ5e7lvjN+kWsZiPYpJQlNQeJ7B1z0l6GAMsXlbjrzSgyrBXVDxwK+yqwTbHK8p29stoX8858IeHnfjDYdchFl0qOBwpeki1TgynvgQxvbAmgy8Ju5ghYoaNsOgc9jvXO55sby7RT2YvbpSX8Il8aBo0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZyWs0du; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0ahp2wq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZyWs0du"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715359171; x=1746895171;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6T4PIybZnxsOMFSVESmXLaf6eKK6yNTJ/KiEr3YLEDE=;
-  b=h0ahp2wqPK0tYPmHLZXWGMt/M12CLsUqrgCWVowzXIezkjsclJra/EnJ
-   +oA9xIxcUcTvhQpYiuPn7Yo+DyzYqKBu5LqkaQ3SB3FAIb1yzsgpto0cB
-   oD/lyfW7wMVe5q6O6ltfdAzgttOdQmf/7AHwP56CxZGD2AuFxDzgfPA8y
-   BrvI74134nnRi4DpAlw/47SvO5/I0Pl3ah5q+LNq8GhWjfmARb6IC7ZvZ
-   st+dzrW2+ZKr/bT27flLG7AXdssO4OlgPHt7t04E+A97nDWz3NTkJKXLS
-   5F6yd18IsqWY39P/8gmBW442/X7Kleht6UME8WNNcEL4jTNIcGFROwfG9
+  t=1715360968; x=1746896968;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qSTaOA+Y7IeRNxGNDOeKkRpF7oBKmwmi5GT5xSEmXdk=;
+  b=AZyWs0duprVgW7GRl1RI+tVLFvprOTHTxHZILzEWSsRO28qZ9uzs2OcO
+   U+xWw1hbD1OsjcT+mR90ONVkoNvch+vARu8euE4Dgm5qxORanwN2ZG3QZ
+   U3opN/dbRfSaeCRqTCahVAMd5Hp1R5zatH3ZrOy6Yw4uNZXs4UYzOR4n8
+   4ZEq8eOpVay516QFU2hk6BxnbAcbJzxP81hLVP+5vbJGiKwuIrukXU9Vg
+   HAJOqKe0FdRidfFXYF3w9ygeuZI1RDDlhzGeZn2zmfFuu4vvJqqxZi6dh
+   lqR7cL1rE6BPQ34GreMtsu4dxI98m1vr8IwlxizIWRphK18jn77IbaH2L
    w==;
-X-CSE-ConnectionGUID: fveuEBdISEuTusovpYe0Ug==
-X-CSE-MsgGUID: zHa+0exmTHS4m3DWn8Wnfw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11477760"
+X-CSE-ConnectionGUID: u6RSnhmqR6m/vvFW8WzsqQ==
+X-CSE-MsgGUID: Oo+NOHNsRjeMM0n6bUPuwQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11513343"
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="11477760"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 09:39:22 -0700
-X-CSE-ConnectionGUID: x1c96DtxRcq2NQ7/A5rQBA==
-X-CSE-MsgGUID: FewB5RcAS+KxdnYe9SBbTw==
+   d="scan'208";a="11513343"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 10:09:27 -0700
+X-CSE-ConnectionGUID: F0qyHsW1SoOTvyONG6EWRQ==
+X-CSE-MsgGUID: DH7RKwmcQzq2ZdGdLdoaqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="29622162"
+   d="scan'208";a="34438249"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 May 2024 09:39:21 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 May 2024 10:09:23 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5THC-0006MR-28;
-	Fri, 10 May 2024 16:39:18 +0000
-Date: Sat, 11 May 2024 00:38:20 +0800
+	id 1s5TkG-0006PL-3B;
+	Fri, 10 May 2024 17:09:20 +0000
+Date: Sat, 11 May 2024 01:09:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 2935/22394] net/netfilter/xt_TEE.o:
- warning: objtool: missing symbol for section .exit.text
-Message-ID: <202405110005.f8e8EhFW-lkp@intel.com>
+To: "D. Wythe" <alibuda@linux.alibaba.com>, kgraul@linux.ibm.com,
+	wenjia@linux.ibm.com, jaka@linux.ibm.com, wintera@linux.ibm.com,
+	guwen@linux.alibaba.com
+Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
+	netdev@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-rdma@vger.kernel.org, tonylu@linux.alibaba.com,
+	pabeni@redhat.com, edumazet@google.com
+Subject: Re: [PATCH net-next 2/2] net/smc: Introduce IPPROTO_SMC
+Message-ID: <202405110124.GxQs28cK-lkp@intel.com>
+References: <1715314333-107290-3-git-send-email-alibuda@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +67,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1715314333-107290-3-git-send-email-alibuda@linux.alibaba.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a786a35ec1aeb84a5ff258956854c2eaebec12b7
-commit: 4868e78c935a8da49eb80e1af8710d2a1ad27624 [2935/22394] netfilter: xt_TEE: fix wrong interface selection
-config: x86_64-buildonly-randconfig-004-20240509 (https://download.01.org/0day-ci/archive/20240511/202405110005.f8e8EhFW-lkp@intel.com/config)
+Hi Wythe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/net-smc-refatoring-initialization-of-smc-sock/20240510-121442
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1715314333-107290-3-git-send-email-alibuda%40linux.alibaba.com
+patch subject: [PATCH net-next 2/2] net/smc: Introduce IPPROTO_SMC
+config: i386-buildonly-randconfig-002-20240510 (https://download.01.org/0day-ci/archive/20240511/202405110124.GxQs28cK-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110005.f8e8EhFW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110124.GxQs28cK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405110005.f8e8EhFW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405110124.GxQs28cK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/netfilter/xt_TEE.o: warning: objtool: missing symbol for section .exit.text
+   net/smc/af_smc.c: In function 'smc_init':
+>> net/smc/af_smc.c:3710:1: warning: label 'out_inet_prot' defined but not used [-Wunused-label]
+    out_inet_prot:
+    ^~~~~~~~~~~~~
+
+
+vim +/out_inet_prot +3710 net/smc/af_smc.c
+
+  3707	
+  3708		static_branch_enable(&tcp_have_smc);
+  3709		return 0;
+> 3710	out_inet_prot:
+  3711		inet_unregister_protosw(&smc_inet_protosw);
+  3712		proto_unregister(&smc_inet_prot);
+  3713	out_ulp:
+  3714		tcp_unregister_ulp(&smc_ulp_ops);
+  3715	out_lo:
+  3716		smc_loopback_exit();
+  3717	out_ib:
+  3718		smc_ib_unregister_client();
+  3719	out_sock:
+  3720		sock_unregister(PF_SMC);
+  3721	out_proto6:
+  3722		proto_unregister(&smc_proto6);
+  3723	out_proto:
+  3724		proto_unregister(&smc_proto);
+  3725	out_core:
+  3726		smc_core_exit();
+  3727	out_alloc_wqs:
+  3728		destroy_workqueue(smc_close_wq);
+  3729	out_alloc_hs_wq:
+  3730		destroy_workqueue(smc_hs_wq);
+  3731	out_alloc_tcp_ls_wq:
+  3732		destroy_workqueue(smc_tcp_ls_wq);
+  3733	out_pnet:
+  3734		smc_pnet_exit();
+  3735	out_nl:
+  3736		smc_nl_exit();
+  3737	out_ism:
+  3738		smc_clc_exit();
+  3739		smc_ism_exit();
+  3740	out_pernet_subsys_stat:
+  3741		unregister_pernet_subsys(&smc_net_stat_ops);
+  3742	out_pernet_subsys:
+  3743		unregister_pernet_subsys(&smc_net_ops);
+  3744	
+  3745		return rc;
+  3746	}
+  3747	
 
 -- 
 0-DAY CI Kernel Test Service
