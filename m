@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4B32030A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 19:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3FA4F881
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 20:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715370994; cv=none; b=L4GFGvpX3rq5VIFWM0ZbNldiWyOKhzEpRvsFG3+FUibySzPbkgD4GpBB2KR88wcF7r2XDRu7QzqOjT876pIr/7pQCGY2k7RDjKQmOg9+0DNTYxyek8NCNlZ+iUlTOyYoWguRPvd13tKxlDTC6PP/vM7F/gvp/sxCre82+NUR8Sc=
+	t=1715373454; cv=none; b=k6E3+mfQemlJ8tVdGkljijtTJHK92ceIaO6PlJJ6b4EXWz/D6PYq+ZOfPE+UCssSVQgihd1U0eJEwArmDfisfaHC0iVUyw1QIyjVDFfEAjc/BNXAQKcear+U9FBHoqjKv7HVSDWG8o1FWY+LKZLOrn9Gjf77ebqSn73+kDh6JsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715370994; c=relaxed/simple;
-	bh=GZ+A3xQ49l3QNKobbXQFZYhQX9ollFjiZNImOlB1WHE=;
+	s=arc-20240116; t=1715373454; c=relaxed/simple;
+	bh=5QeR9EnivGuex1ZRrWJkamTawpP6E4a5dW/fwkOUBhQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TsuPOnhHEbAQmSgSn77IGXK5u2FXDwXBrCGCRYL9GShBk4gJxI3iNHU0D2AttlIr+erSeJv0mAuHzeJLoPQBb6kJiC4ZNwWqKR1mfmVcBdFIl6X9AP+TE2I6fg0SM9ryRDP8BXqSbyHKDqJwwgApJPtC7LSsvpCE1D07sFj8xlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcxSkk06; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=VutLLqM0ciEOkMSsQKgdRtrmBkCPrfR8EoiooTQ/eJdBinA+bP/ubOl/k92SgAc80NXlzQAo2yqRn2R6xo4kQ6RHcMhOeeccfgBRNZOZHJLpjh7U673DbylwDpsgeg/Qz0aYAZoVtgX4i/d8ZvvnP7xGJoeWjsrouzZDIsBt7qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HkCXC+5Z; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcxSkk06"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkCXC+5Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715370992; x=1746906992;
+  t=1715373453; x=1746909453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GZ+A3xQ49l3QNKobbXQFZYhQX9ollFjiZNImOlB1WHE=;
-  b=LcxSkk06//CDjNOPIBA3Fzh9OmLtbYFAIGNeCg0eLwV1OTXI56tiUh4L
-   r6EvvaJSjMsyxXU7vWIOISU3eVBBSirjY6m6dshKG467ZC0upN3bD8jvQ
-   +K9K4tmvTVCUVygv/mUnyfx1iUfvCJ/1P3XkF7E7u6rQE2S+orEEOPaGX
-   b2JrFo3GQRJ/qzLW60JRtzGXm3N8FPH4Ha+9AUZ5+uQaPGX7f88O7dd+h
-   vuzKfKgmJQFXKNRGqV427XAujt0V9f7IT9GX65sPCZfepbRbXh3pEJe6t
-   ClMcylYimGzMSrfVSU7C6LbzC0eyo+lY7U2xRnlhZYV+uq6YqAdT/z+hq
-   g==;
-X-CSE-ConnectionGUID: hpAT2dujReOPo9hyNqHykw==
-X-CSE-MsgGUID: +DizzfTXQOOPZbFNLI7TjQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="33882411"
+  bh=5QeR9EnivGuex1ZRrWJkamTawpP6E4a5dW/fwkOUBhQ=;
+  b=HkCXC+5ZXIh6dN+1kapYZh1XVQs7BYcH176mpjg53TzyIYZxQJbkzJYA
+   owJ411uEl8ez7bWuOVRVBHxAKmwIeiiS8Az/zUSCz4xwGghlkX9yfqhUa
+   3lLSa40BLPRV7Yxucu3Wa/JmV7AL6rqZFdY1zj25Hbu4qk6200F41aveM
+   1nsrEShUE+BVJYuz82UR8To/2BEhBJzsjMhFFUOgvVPzQ4uBzjcQTqnvn
+   3vugoF/O/STIBvG7Z27xIMglrXOCBV2gh50L711x4GOFG5QmQ+80jqXBZ
+   sDIcqYXNBTyeKXefTt3uoFguv/IWPk8XiPpyucJRcpdGWeXlGSGQq3dsm
+   A==;
+X-CSE-ConnectionGUID: enf2pfMiTPSbjJ9XSQFdUQ==
+X-CSE-MsgGUID: Br7Ldc58S7aoXnep1NIGmw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11209821"
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="33882411"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 12:56:31 -0700
-X-CSE-ConnectionGUID: enpziz0HQUSzl0zpC7ct0w==
-X-CSE-MsgGUID: cRpDkz42Qg+p45Zy2YQXCw==
+   d="scan'208";a="11209821"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 13:37:32 -0700
+X-CSE-ConnectionGUID: Hc+ffktbQVilhd2WmokswA==
+X-CSE-MsgGUID: 9QLQqzaZRwuW4cCta+0L4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="34249218"
+   d="scan'208";a="34402308"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 May 2024 12:56:29 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 May 2024 13:37:30 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5WLz-0006Wp-0J;
-	Fri, 10 May 2024 19:56:27 +0000
-Date: Sat, 11 May 2024 03:55:43 +0800
+	id 1s5Wzf-0006Xr-2r;
+	Fri, 10 May 2024 20:37:27 +0000
+Date: Sat, 11 May 2024 04:36:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:secure-concat.v4 20/20]
- drivers/nvme/target/fabrics-cmd.c:213:25: error: 'struct nvmet_sq' has no
- member named 'tls_key'
-Message-ID: <202405110327.Q7FhhWrD-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [usb:usb-testing 5/12]
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:113:46: error: passing
+ argument 1 of 'devm_drm_dp_hpd_bridge_add' from incompatible pointer type
+Message-ID: <202405110428.TMCfb1Ut-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +66,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v4
-head:   8986008182ed104f529376181e6cfd13efa627e2
-commit: 8986008182ed104f529376181e6cfd13efa627e2 [20/20] nvmet-tcp: support secure channel concatenation
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240511/202405110327.Q7FhhWrD-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110327.Q7FhhWrD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   344f74cf531d90245e1296b3ffbaa7df99dd18f6
+commit: 718b36a7b49acbba36546371db2d235271ceb06c [5/12] usb: typec: qcom-pmic-typec: split HPD bridge alloc and registration
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240511/202405110428.TMCfb1Ut-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110428.TMCfb1Ut-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405110327.Q7FhhWrD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405110428.TMCfb1Ut-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/loongarch/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from drivers/nvme/target/fabrics-cmd.c:7:
-   drivers/nvme/target/fabrics-cmd.c: In function 'nvmet_connect_result':
->> drivers/nvme/target/fabrics-cmd.c:213:25: error: 'struct nvmet_sq' has no member named 'tls_key'
-     213 |                  req->sq->tls_key ? key_serial(req->sq->tls_key) : 0);
-         |                         ^~
-   include/linux/printk.h:429:33: note: in definition of macro 'printk_index_wrap'
-     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:587:9: note: in expansion of macro 'no_printk'
-     587 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   drivers/nvme/target/fabrics-cmd.c:210:9: note: in expansion of macro 'pr_debug'
-     210 |         pr_debug("%s: ctrl %d qid %d should %sauthenticate, tls psk %08x\n",
-         |         ^~~~~~~~
-   drivers/nvme/target/fabrics-cmd.c:213:55: error: 'struct nvmet_sq' has no member named 'tls_key'
-     213 |                  req->sq->tls_key ? key_serial(req->sq->tls_key) : 0);
-         |                                                       ^~
-   include/linux/printk.h:429:33: note: in definition of macro 'printk_index_wrap'
-     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:587:9: note: in expansion of macro 'no_printk'
-     587 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   drivers/nvme/target/fabrics-cmd.c:210:9: note: in expansion of macro 'pr_debug'
-     210 |         pr_debug("%s: ctrl %d qid %d should %sauthenticate, tls psk %08x\n",
-         |         ^~~~~~~~
---
-   In file included from drivers/nvme/target/tcp.c:13:
-   include/linux/nvme-keyring.h: In function 'nvme_tls_psk_refresh':
-   include/linux/nvme-keyring.h:23:16: warning: returning 'int' from a function with return type 'struct key *' makes pointer from integer without a cast [-Wint-conversion]
-      23 |         return -ENOTSUPP;
-         |                ^
-   drivers/nvme/target/tcp.c: In function 'nvmet_tcp_release_queue_work':
->> drivers/nvme/target/tcp.c:1609:27: error: 'struct nvmet_sq' has no member named 'tls_key'
-    1609 |         if (queue->nvme_sq.tls_key)
-         |                           ^
-   drivers/nvme/target/tcp.c:1610:39: error: 'struct nvmet_sq' has no member named 'tls_key'
-    1610 |                 key_put(queue->nvme_sq.tls_key);
-         |                                       ^
-   include/linux/nvme-keyring.h: At top level:
-   include/linux/nvme-keyring.h:20:20: warning: 'nvme_tls_psk_refresh' defined but not used [-Wunused-function]
-      20 | static struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
-         |                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c: In function 'qcom_pmic_typec_probe':
+>> drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:113:46: error: passing argument 1 of 'devm_drm_dp_hpd_bridge_add' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     113 |         ret = devm_drm_dp_hpd_bridge_add(tcpm->dev, bridge_dev);
+         |                                          ~~~~^~~~~
+         |                                              |
+         |                                              struct device *
+   In file included from drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:21:
+   include/drm/bridge/aux-bridge.h:36:71: note: expected 'struct auxiliary_device *' but argument is of type 'struct device *'
+      36 | static inline int devm_drm_dp_hpd_bridge_add(struct auxiliary_device *adev)
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c:113:15: error: too many arguments to function 'devm_drm_dp_hpd_bridge_add'
+     113 |         ret = devm_drm_dp_hpd_bridge_add(tcpm->dev, bridge_dev);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/bridge/aux-bridge.h:36:19: note: declared here
+      36 | static inline int devm_drm_dp_hpd_bridge_add(struct auxiliary_device *adev)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +213 drivers/nvme/target/fabrics-cmd.c
+vim +/devm_drm_dp_hpd_bridge_add +113 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
 
-   201	
-   202	static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
-   203	{
-   204		bool needs_auth = nvmet_has_auth(ctrl, req);
-   205	
-   206		/* Do not authenticate I/O queues for secure concatenation */
-   207		if (ctrl->concat && req->sq->qid)
-   208			needs_auth = false;
-   209	
-   210		pr_debug("%s: ctrl %d qid %d should %sauthenticate, tls psk %08x\n",
-   211			 __func__, ctrl->cntlid, req->sq->qid,
-   212			 needs_auth ? "" : "not ",
- > 213			 req->sq->tls_key ? key_serial(req->sq->tls_key) : 0);
-   214		return (u32)ctrl->cntlid |
-   215			(needs_auth ? NVME_CONNECT_AUTHREQ_ATR : 0);
-   216	}
-   217	
+    36	
+    37	static int qcom_pmic_typec_probe(struct platform_device *pdev)
+    38	{
+    39		struct pmic_typec *tcpm;
+    40		struct device *dev = &pdev->dev;
+    41		struct device_node *np = dev->of_node;
+    42		const struct pmic_typec_resources *res;
+    43		struct regmap *regmap;
+    44		struct auxiliary_device *bridge_dev;
+    45		u32 base;
+    46		int ret;
+    47	
+    48		res = of_device_get_match_data(dev);
+    49		if (!res)
+    50			return -ENODEV;
+    51	
+    52		tcpm = devm_kzalloc(dev, sizeof(*tcpm), GFP_KERNEL);
+    53		if (!tcpm)
+    54			return -ENOMEM;
+    55	
+    56		tcpm->dev = dev;
+    57		tcpm->tcpc.init = qcom_pmic_typec_init;
+    58	
+    59		regmap = dev_get_regmap(dev->parent, NULL);
+    60		if (!regmap) {
+    61			dev_err(dev, "Failed to get regmap\n");
+    62			return -ENODEV;
+    63		}
+    64	
+    65		ret = of_property_read_u32_index(np, "reg", 0, &base);
+    66		if (ret)
+    67			return ret;
+    68	
+    69		ret = qcom_pmic_typec_port_probe(pdev, tcpm,
+    70						 res->port_res, regmap, base);
+    71		if (ret)
+    72			return ret;
+    73	
+    74		if (res->pdphy_res) {
+    75			ret = of_property_read_u32_index(np, "reg", 1, &base);
+    76			if (ret)
+    77				return ret;
+    78	
+    79			ret = qcom_pmic_typec_pdphy_probe(pdev, tcpm,
+    80							  res->pdphy_res, regmap, base);
+    81			if (ret)
+    82				return ret;
+    83		} else {
+    84			ret = qcom_pmic_typec_pdphy_stub_probe(pdev, tcpm);
+    85			if (ret)
+    86				return ret;
+    87		}
+    88	
+    89		platform_set_drvdata(pdev, tcpm);
+    90	
+    91		tcpm->tcpc.fwnode = device_get_named_child_node(tcpm->dev, "connector");
+    92		if (!tcpm->tcpc.fwnode)
+    93			return -EINVAL;
+    94	
+    95		bridge_dev = devm_drm_dp_hpd_bridge_alloc(tcpm->dev, to_of_node(tcpm->tcpc.fwnode));
+    96		if (IS_ERR(bridge_dev))
+    97			return PTR_ERR(bridge_dev);
+    98	
+    99		tcpm->tcpm_port = tcpm_register_port(tcpm->dev, &tcpm->tcpc);
+   100		if (IS_ERR(tcpm->tcpm_port)) {
+   101			ret = PTR_ERR(tcpm->tcpm_port);
+   102			goto fwnode_remove;
+   103		}
+   104	
+   105		ret = tcpm->port_start(tcpm, tcpm->tcpm_port);
+   106		if (ret)
+   107			goto port_unregister;
+   108	
+   109		ret = tcpm->pdphy_start(tcpm, tcpm->tcpm_port);
+   110		if (ret)
+   111			goto port_stop;
+   112	
+ > 113		ret = devm_drm_dp_hpd_bridge_add(tcpm->dev, bridge_dev);
+   114		if (ret)
+   115			goto pdphy_stop;
+   116	
+   117		return 0;
+   118	
+   119	pdphy_stop:
+   120		tcpm->pdphy_stop(tcpm);
+   121	port_stop:
+   122		tcpm->port_stop(tcpm);
+   123	port_unregister:
+   124		tcpm_unregister_port(tcpm->tcpm_port);
+   125	fwnode_remove:
+   126		fwnode_remove_software_node(tcpm->tcpc.fwnode);
+   127	
+   128		return ret;
+   129	}
+   130	
 
 -- 
 0-DAY CI Kernel Test Service
