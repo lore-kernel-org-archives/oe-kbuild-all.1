@@ -1,171 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE924F215;
-	Sat, 11 May 2024 13:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D09551C4F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 13:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715433859; cv=none; b=nVHP3UcECNLIL9PgKIQV8nRoXJrstWmGETPvlqGe95LD78vhbty9Iwa/wobavgPJHkvUJm4AOEFzEfzSN+eYPv/5VNDEv6c2aDbAAczge/0E7udd/2rNnlJlOXVngzBRFTvjEODldw8YPDWwqlo1Y71e1Mg2srsDk+dSNPWbKDE=
+	t=1715435532; cv=none; b=DnLtyE71aOnq9z2FhsSG+hpyi51gfb3m4WQDoPVFJBx2oY0wOn60wUIgiqisg9BCH4U0Ici3sE9zVKgkwWRXjol1PodkFWYusM9i6Sx0C9qV0G9Rthao6tUrkVa9dWumY/yggS57V1Pr5YLnI3vdUfSnMRTqv6OOPpGassuvEBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715433859; c=relaxed/simple;
-	bh=Xrlw0oGa7Uta+Pm0CJdhz3+7zevLAlbX5wu/5DJwqNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i0f593TQscByPS3nex+iWUKvhI0RHhLB0X7GGMBehofNRBLx5L4ewidnl9m0nidvul0SOBb4taeNQkZX732lpYlOHz+GmQpH3Lwjcz331X1+Zf99m7qD8RFKLp7T8EstL0S4Lr9o0Z2H6juE4CucjnYNooLltXupWzcaLEtI7TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zlwsak/L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715435532; c=relaxed/simple;
+	bh=yzRr5T6OIf5V2vCtwkoAyUiwvUN7EugSShA8pqFt7yY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C2XJU8W56Kz6Rf1dPBFWpc+uKHI/g36NGhypSvzdg04jfEAqfhK5IneYmBhgbGNkJxWNmSeZ7+MBA/D5AJLHu55ALAq8ytYVoCrAhrgbSjNGXcF4CPIL4BAU21k3Rfcb/7ruE/JF/7Qxpkt7BRMP4pBUEIYqw3N7ffw9vEwMf7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf1i0AQ5; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zlwsak/L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6FC7C2BBFC;
-	Sat, 11 May 2024 13:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715433859;
-	bh=Xrlw0oGa7Uta+Pm0CJdhz3+7zevLAlbX5wu/5DJwqNo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Zlwsak/L6dz9YdFX3x7JpYIimBMxdKe9xIwLENuXmpDFzS6F+u4a0BM6Qs7o8byQV
-	 gHFF97NwYVDTTTSYsKHyEjXAzoFo4iqn4YG1M9elLzQYruJLjRgs8QIJhVvjDE8jaq
-	 8udsORsqmy33UVAzpEAmQiHo4aM0rH7vwhbRu9wmkUH9Qu9BOqgIHs1t9z1hIdksAn
-	 OFwxjhOjZLkUdClvzD6hsmx7pIqtgcp7skDO6jOrM/n3xRZu/3uXJ/6WAzMcdySsVD
-	 rmT7N7lW75paKcUoiK63aM18f92WoS6wgbrC9xLatBrJkbfwVF2z/P0I4+z7h0l7xC
-	 HkCNuTqXAyfcA==
-Date: Sat, 11 May 2024 14:24:07 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, robh@kernel.org, nuno.sa@analog.com,
- oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 8/8] drivers: iio: imu: Add support for adis1657x
- family
-Message-ID: <20240511142407.2401c6a1@jic23-huawei>
-In-Reply-To: <202405110735.khNaHnAJ-lkp@intel.com>
-References: <20240508131310.880479-9-ramona.bolboaca13@gmail.com>
-	<202405110735.khNaHnAJ-lkp@intel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf1i0AQ5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715435530; x=1746971530;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yzRr5T6OIf5V2vCtwkoAyUiwvUN7EugSShA8pqFt7yY=;
+  b=Zf1i0AQ5yoqR7jxC5Ef5JlLDEHxfAEW2l5D5vyHukw66pFT+EIzg36hg
+   k8Nyl+8s70Yig7x3kDrBUaszyqORrDPcLaYL9SZjyfnw+V+oMinbSKqE/
+   speDdjUFAZaJz5skbEKCmEWaWftfOp0ipfokkAMZjhJQi9aG0gz6ETYmd
+   j78U1sPUSvAeKvEQBNTjzAtZQJFXO2G6E7gLB3iXehIMnAEv5y17qm4Co
+   zA+qC5bFhk6qJCKdMP3Gr7s4vWRTRc9FjEdHIGUAfOvJlmJUmfRDiS+SP
+   7otR8HOpQWE7+/Hk98NB4GW0H7OsUuo5d6fZesSl8NywLJ637OJKHoC3p
+   Q==;
+X-CSE-ConnectionGUID: 2ANOfB5DSOSg59/w7ewkug==
+X-CSE-MsgGUID: hR9czVyXQCaTeJqI9iSypA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="28914650"
+X-IronPort-AV: E=Sophos;i="6.08,154,1712646000"; 
+   d="scan'208";a="28914650"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 06:52:10 -0700
+X-CSE-ConnectionGUID: leK/JP3iS56BaiRcKrmBgg==
+X-CSE-MsgGUID: 1K2JibUyRLq0G70t6kJZ7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,154,1712646000"; 
+   d="scan'208";a="53096877"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 11 May 2024 06:52:10 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s5n8w-0007SN-1x;
+	Sat, 11 May 2024 13:52:06 +0000
+Date: Sat, 11 May 2024 21:51:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/misc-patches 10/13] task_iter.c:undefined reference to
+ `init_net'
+Message-ID: <202405112106.sVqaTssd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 11 May 2024 07:24:05 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/cilium/linux.git pr/misc-patches
+head:   3c68876290b3daed7a2766d683c73bbb4fa5b3d1
+commit: 32d03d460ba261b39cb694e6140d84f2f67c3f8d [10/13] bpf: kfunc for init netns
+config: i386-buildonly-randconfig-003-20240511 (https://download.01.org/0day-ci/archive/20240511/202405112106.sVqaTssd-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405112106.sVqaTssd-lkp@intel.com/reproduce)
 
-> Hi Ramona,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on jic23-iio/togreg]
-> [cannot apply to linus/master v6.9-rc7 next-20240510]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240508-211559
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> patch link:    https://lore.kernel.org/r/20240508131310.880479-9-ramona.bolboaca13%40gmail.com
-> patch subject: [PATCH v2 8/8] drivers: iio: imu: Add support for adis1657x family
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240511/202405110735.khNaHnAJ-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110735.khNaHnAJ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405110735.khNaHnAJ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/iio/imu/adis16475.c:16:
->    include/linux/iio/imu/adis.h:530:60: warning: 'struct iio_dev_attr' declared inside parameter list will not be visible outside of this definition or declaration
->      530 |                                               const struct iio_dev_attr **buffer_attrs);
->          |                                                            ^~~~~~~~~~~~
->    drivers/iio/imu/adis16475.c: In function 'adis16475_probe':
-> >> drivers/iio/imu/adis16475.c:1959:69: error: passing argument 5 of 'devm_adis_setup_buffer_and_trigger_with_attrs' from incompatible pointer type [-Werror=incompatible-pointer-types]  
->     1959 |                                                                     adis16475_fifo_attributes);
->          |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
->          |                                                                     |
->          |                                                                     const struct attribute **
->    include/linux/iio/imu/adis.h:530:75: note: expected 'const struct iio_dev_attr **' but argument is of type 'const struct attribute **'
->      530 |                                               const struct iio_dev_attr **buffer_attrs);
->          |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-> 
-> 
-This does need to include linux/iio/sysfs.h
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405112106.sVqaTssd-lkp@intel.com/
 
-> vim +/devm_adis_setup_buffer_and_trigger_with_attrs +1959 drivers/iio/imu/adis16475.c
-> 
->   1912	
->   1913	
->   1914	static int adis16475_probe(struct spi_device *spi)
->   1915	{
->   1916		struct iio_dev *indio_dev;
->   1917		struct adis16475 *st;
->   1918		int ret;
->   1919	
->   1920		indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
->   1921		if (!indio_dev)
->   1922			return -ENOMEM;
->   1923	
->   1924		st = iio_priv(indio_dev);
->   1925	
->   1926		st->info = spi_get_device_match_data(spi);
->   1927		if (!st->info)
->   1928			return -EINVAL;
->   1929	
->   1930		ret = adis_init(&st->adis, indio_dev, spi, &st->info->adis_data);
->   1931		if (ret)
->   1932			return ret;
->   1933	
->   1934		indio_dev->name = st->info->name;
->   1935		indio_dev->channels = st->info->channels;
->   1936		indio_dev->num_channels = st->info->num_channels;
->   1937		if (st->info->flags & ADIS16475_HAS_FIFO)
->   1938			indio_dev->info = &adis16575_info;
->   1939		else
->   1940			indio_dev->info = &adis16475_info;
->   1941		indio_dev->modes = INDIO_DIRECT_MODE;
->   1942	
->   1943		ret = __adis_initial_startup(&st->adis);
->   1944		if (ret)
->   1945			return ret;
->   1946	
->   1947		ret = adis16475_config_irq_pin(st);
->   1948		if (ret)
->   1949			return ret;
->   1950	
->   1951		ret = adis16475_config_sync_mode(st);
->   1952		if (ret)
->   1953			return ret;
->   1954	
->   1955		if (st->info->flags & ADIS16475_HAS_FIFO) {
->   1956			ret = devm_adis_setup_buffer_and_trigger_with_attrs(&st->adis, indio_dev,
->   1957									    adis16475_trigger_handler_with_fifo,
->   1958									    &adis16475_buffer_ops,
-> > 1959									    adis16475_fifo_attributes);  
->   1960			if (ret)
->   1961				return ret;
->   1962			/* Update overflow behavior to always overwrite the oldest sample. */
->   1963			ret = adis_update_bits(&st->adis, ADIS16475_REG_FIFO_CTRL,
->   1964					       ADIS16575_OVERFLOW_MASK, (u16)ADIS16575_OVERWRITE_OLDEST);
->   1965		} else {
->   1966			ret = devm_adis_setup_buffer_and_trigger(&st->adis, indio_dev,
->   1967								 adis16475_trigger_handler);
->   1968		}
->   1969		if (ret)
->   1970			return ret;
->   1971	
->   1972		ret = devm_iio_device_register(&spi->dev, indio_dev);
->   1973		if (ret)
->   1974			return ret;
->   1975	
->   1976		adis16475_debugfs_init(indio_dev);
->   1977	
->   1978		return 0;
->   1979	}
->   1980	
-> 
+All errors (new ones prefixed by >>):
 
+   ld: kernel/bpf/task_iter.o: in function `bpf_iter_net_new':
+   task_iter.c:(.text+0x1779): undefined reference to `net_namespace_list'
+   ld: task_iter.c:(.text+0x177e): undefined reference to `net_namespace_list'
+   ld: task_iter.c:(.text+0x17ab): undefined reference to `net_namespace_list'
+   ld: kernel/bpf/task_iter.o: in function `bpf_init_net':
+>> task_iter.c:(.text+0x1872): undefined reference to `init_net'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
