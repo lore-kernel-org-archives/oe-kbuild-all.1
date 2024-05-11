@@ -1,87 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ED850275
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 13:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5315D51034;
+	Sat, 11 May 2024 13:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715433611; cv=none; b=gzGZEML4c/Rtqm0hlDzF5Ok2zHDuQOm0NrRWG2/r9G8rYUIewGmQv0/nOW7ffYkGgM1uLg8qFiwvUJo7ZNREvpS7cCmt0H8Zie8XlQuEsPmCJA+jM6x1sfUrmokfh9rKEOslk2jbF6i4E2Zm3bq0UZvEHNOZnDreEUZGxJSAMJU=
+	t=1715433784; cv=none; b=bRSktxDUwBXUghLW5OruANTyHQ60GNyBbZS9lzXdTVXNYxahjLWtelZxsmZtiXTTW+1gNYIkqYxfZflb1cUACyIg2W3jVdxcm8cPSYFR+wnb8CRyuvSObYDFKlzlLLYERjDQIIUc/ZnP9rCtM7u7vvU47BgVN2NV92w0yC9X7lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715433611; c=relaxed/simple;
-	bh=K9e7CGMRNiwYwLpoZvPadE9hQ5NIkzNn0htkS/G5b84=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y8xYJEJqef4S00GljufEehnfFxvxpQOGh5gi1gD0gdlvAWff/ZibFtGZUMmFlryy7+zyOpP0K6Mo9QfN95907eddrc4aAsXAtTNOgY3CuiNjTe67+Ya929ghE3JjxnnWKz34ND6yEaE2ubD5pOiDfFLwTMHzgq4y2GS0eGBr7RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I02cSKKb; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715433784; c=relaxed/simple;
+	bh=nMMGfSK4wOZIKca9fxpU6gUwCMQgGMZfXqeXKxACGhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mhQP0Dur90OgQGl6k3rdKsFUezMGkKfgAi7a2bIXwQKmNxZ8mG85FU+xgxjwbfCdPAKOhJmXlkN7Yo06XAAVH257JHXycD/I9zbN8iCobA24IusZHjhi1v2ZJgjewxOD+nMsco6TU5TEIGnvhGNy3EMtCNUUIrRq9BVoOr9xlfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXtmD/zk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I02cSKKb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715433610; x=1746969610;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K9e7CGMRNiwYwLpoZvPadE9hQ5NIkzNn0htkS/G5b84=;
-  b=I02cSKKbKSu4kcT5Hu+5RCNSCuBTg6M4uSqbZeMEhpNxpQsvV+LvG05I
-   7jdGdCAQB+Y4Hjsy2rJ0Z9SS5okqiJISyA/mMr89Yjavv76TiAv/YxkgV
-   WNX91p/XEaehU614wjAJurAFTzr8PSHKHujExMP17seL1S8gfQfO51EnY
-   /lQRJkm0AWvOFqI5IrAWS6VbbzicsluUwYTM3VUutSg6MA3spLU3qZvS0
-   VZD38g3GwAOEGS8xiyWQ2yeIzuCMfWUyDPPUQ7cCkYW9EJwuKnJH9vmrp
-   P8J6URsgsK5PeTes+o9TXVrAHR84rSruTwhQ7LxZtUVn90Ww0SDzvD0bt
-   Q==;
-X-CSE-ConnectionGUID: SW9Q/TJKTSuA9VQg5nW8Qw==
-X-CSE-MsgGUID: uS0JdqxORIqY0M3eOdXjYg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="14370623"
-X-IronPort-AV: E=Sophos;i="6.08,154,1712646000"; 
-   d="scan'208";a="14370623"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 06:20:09 -0700
-X-CSE-ConnectionGUID: cz3JUcKEQqOJWArRG1YvtQ==
-X-CSE-MsgGUID: wv2PsVeeShyL4H1MbL02EQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,154,1712646000"; 
-   d="scan'208";a="29866115"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 May 2024 06:20:07 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s5mdx-0007R5-2V;
-	Sat, 11 May 2024 13:20:05 +0000
-Date: Sat, 11 May 2024 21:19:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [drm-misc:drm-misc-next 7/10] omap_gem.c:undefined reference to
- `vmf_insert_mixed'
-Message-ID: <202405112139.ccwvjn0U-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXtmD/zk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E783C2BBFC;
+	Sat, 11 May 2024 13:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715433783;
+	bh=nMMGfSK4wOZIKca9fxpU6gUwCMQgGMZfXqeXKxACGhU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JXtmD/zkf7sWXZqSKrL10bz6muqF3rOATCIjQXqKOe3+n5W0Y2Bmymxb0s3s84Ou+
+	 X8aTx3RM8taxKbPO1Jt9nuLp7y9hKR+DyjexbQpt6eeueJJnROtK7QQx1CFuCk+F/y
+	 vtyv0YvQ07Po7fUPVQUkkQ0uNdAPBWR6GoUiDd4X+lzuRr0DYT6cygLHHMTudthDjg
+	 xIxkGeTE6zZgQyTnt8hyKpAT7p7NzSd/k+E3mND0BNteLVWIc0nr0b65DeMrE+DbN6
+	 LNvbeVt6YUKCgIKzxq5ktPyOrI/xJZh/HnvFdYYu0SN6bG8BQUz0XdtqUvPZ0QAwLI
+	 NZwZH4lgghmNQ==
+Date: Sat, 11 May 2024 14:22:52 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh@kernel.org, nuno.sa@analog.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 4/8] iio: imu: adis_buffer: Add buffer setup API with
+ buffer attributes
+Message-ID: <20240511142252.4c3b11f0@jic23-huawei>
+In-Reply-To: <202405110642.5PmTepVs-lkp@intel.com>
+References: <20240508131310.880479-5-ramona.bolboaca13@gmail.com>
+	<202405110642.5PmTepVs-lkp@intel.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   11cdc8f2bde4bc548da6f995556c4b7183431088
-commit: dc6fcaaba5a5411237d042a26c4d46689f3346bb [7/10] drm/omap: Allow build with COMPILE_TEST=y
-config: arm-randconfig-004-20240511 (https://download.01.org/0day-ci/archive/20240511/202405112139.ccwvjn0U-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405112139.ccwvjn0U-lkp@intel.com/reproduce)
+On Sat, 11 May 2024 06:21:53 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405112139.ccwvjn0U-lkp@intel.com/
+> Hi Ramona,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on jic23-iio/togreg]
+> [also build test WARNING on linus/master v6.9-rc7 next-20240510]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240508-211559
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20240508131310.880479-5-ramona.bolboaca13%40gmail.com
+> patch subject: [PATCH v2 4/8] iio: imu: adis_buffer: Add buffer setup API with buffer attributes
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240511/202405110642.5PmTepVs-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110642.5PmTepVs-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405110642.5PmTepVs-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from drivers/iio/imu/adis16400.c:24:
+> >> include/linux/iio/imu/adis.h:530:60: warning: 'struct iio_dev_attr' declared inside parameter list will not be visible outside of this definition or declaration  
+>      530 |                                               const struct iio_dev_attr **buffer_attrs);
+>          |                                                            ^~~~~~~~~~~~
+> 
+> 
+> vim +530 include/linux/iio/imu/adis.h
+> 
+>    524	
+>    525	int
+>    526	devm_adis_setup_buffer_and_trigger_with_attrs(struct adis *adis,
+>    527						      struct iio_dev *indio_dev,
+>    528						      irq_handler_t trigger_handler,
+>    529						      const struct iio_buffer_setup_ops *ops,
+>  > 530						      const struct iio_dev_attr **buffer_attrs);  
+>    531	
+> 
+Forwards declaration needed.   I don't think we'd want to include linux/iio/sysfs.h in here so
+struct iio_dev_attr; before this is the cleanest solution
 
-All errors (new ones prefixed by >>):
+Jonathan
 
-   arm-linux-gnueabi-ld: drivers/gpu/drm/omapdrm/omap_gem.o: in function `omap_gem_fault_2d':
->> omap_gem.c:(.text+0x4c0): undefined reference to `vmf_insert_mixed'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/omapdrm/omap_gem.o: in function `omap_gem_fault':
-   omap_gem.c:(.text+0x99a): undefined reference to `vmf_insert_mixed'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
