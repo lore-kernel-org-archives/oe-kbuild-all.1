@@ -1,84 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5714E1CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 05:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485BB2CCBE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 06:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715405456; cv=none; b=NAgvakbGDr7bMaWIGv7KGoDaWOL8boAI6CrTdKI2OWeN2HCyuYyXbDdBy4o2xFd1reNE2nvuUz/3L5gm1NX4/fydI3y+4BKYsY9eIjYKZYpca3V7hVvX0zKi138PEWlxYjHPuUlDIpGjRj7tjUmVnTPCunDRHCXZwx3M9ANcINA=
+	t=1715407373; cv=none; b=QhO6fL9j15enr6driB9GnpeFK3RR5jiP4SB6U1MetvFQagNAtmxvZcctwKLWjcXfHivr7lCafRWo5/M2bihiO55CjDx/7yZYneK2ety43lIvvxf7cAHfC9FRtYfzaE1/VWoR/lz19dJKrOmguanSKg51kM7zOnJCMjBvwyi3HaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715405456; c=relaxed/simple;
-	bh=aVTegNBZGaPui6n2vYEVbQIlKFLd1L4KktWcgbuTfcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=firxPscAERTcjQHyL0NfUYePxjRGezRYOqh2sos7YagiXSs35Z5Q022l41BqWv4qHhkVXQKXiEEAIPzgKgOm1Xs0PZcHETWAOgbvfh53n5i8Vho+aybaTnAn0odOov+i7jpSTuC96zigleM0SqxWBVGrbe2RaPj9TbQ59ikwuHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TmoohX+5; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1715407373; c=relaxed/simple;
+	bh=4vL7RbyOXf9fAbj4nVVYvb4W578g0cYttPbpB1l/6ts=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oKgl0WmOynggd/wQPpNgzvXfE62qKPVAPPDi88f2VEMEt8r2vSuu4HMyKo88bc8Fu4dvHLNc+Ajyp1VMVwNh9U77mmFDYJr89Ar90NXd1maATm3iNr1LeTnN3+goOA2dkudQXTZkmQeez+9EQf954QfDzCZT/qay/0xvLiHtmO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/WM7CND; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TmoohX+5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/WM7CND"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715405455; x=1746941455;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aVTegNBZGaPui6n2vYEVbQIlKFLd1L4KktWcgbuTfcI=;
-  b=TmoohX+5eeULjZRonvUoiYjnBfdn6mAEk7gisZ0vjaqWxqV/dSt1F/vL
-   Eyrf53VgTj8/JNjrkzbZnSQqJgW27z4VWgO7hEnilhzNLjXt7RZRX/5Wu
-   M4HJEJo4zsq8PVBVGZorTKM76teDnhNzqROyDHTaJ53u167WS5B+90YtG
-   +SF7gWKWDPaDVbuAPXP+V5Br5tyz+gzw1NTmZJfqxkKLmOipiZYYJePbJ
-   OyzU/fk9ypAXe4CjFBSZeXUapg6tAzJ+NuRW7/2HEy2t1zWFz0VfuVxx6
-   v7KxTTTL3Uk7ip9a1+GMe/JWb2ytPBbFoCP6mNpg3R/Mk3xehfiALUmGe
-   Q==;
-X-CSE-ConnectionGUID: s9Rrs3ctT6y5DCCIXutVCg==
-X-CSE-MsgGUID: Tun7cyw+SSyRwVUnNwIceQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11627150"
+  t=1715407371; x=1746943371;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4vL7RbyOXf9fAbj4nVVYvb4W578g0cYttPbpB1l/6ts=;
+  b=N/WM7CNDiFPV9TQ8NxUMWSvdZOvngzN4V7qR8Mj/Xu2piolRFN87cPsM
+   h6w2OJHWpuoKFcODpyueQ/v0FeyvGQ9Y/Ky4pP0kuWqZGdbJ4Rn9nM4yo
+   nW9XqRmH4uMSTNIP0bRhFkz1Pf5lT/vdnfpI0szMe9kCxXI60+Spj3REP
+   B+fBzKD+fukGSreFUrzDCxMQN+qOleuHPjFssnGV+lQONSQhJ5NgSVOXZ
+   Spt+jMkn8V/JIIY/4MOvxWK7h403zhwv30Zwr/Mg+SAyS5RZIG5VEuI/H
+   SqDgSu0FotsBUUjzu+3/Zrj3JJzTn+3QO4BwUaxRnz9imKyo8tCc0RnAs
+   g==;
+X-CSE-ConnectionGUID: ucaxd4DBQIaGCWs5h+Ujvg==
+X-CSE-MsgGUID: 5kiqA6t+R36s0NYLPyvS+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="22815103"
 X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="11627150"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 22:30:54 -0700
-X-CSE-ConnectionGUID: tVETFOLpQxuQthrtSsacmw==
-X-CSE-MsgGUID: AuYp6v0gQ4K4qn4M8e24OQ==
+   d="scan'208";a="22815103"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 23:02:51 -0700
+X-CSE-ConnectionGUID: lNeA1R1oR7e0j6v93Cm0Kg==
+X-CSE-MsgGUID: N2KBqp3VRsK1d1ivsSAzwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="34347205"
+   d="scan'208";a="61007823"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 May 2024 22:30:48 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 May 2024 23:02:49 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5fJl-0006yf-2D;
-	Sat, 11 May 2024 05:30:45 +0000
-Date: Sat, 11 May 2024 13:30:01 +0800
+	id 1s5fok-00070f-2g;
+	Sat, 11 May 2024 06:02:46 +0000
+Date: Sat, 11 May 2024 14:02:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxwell Bland <mbland@motorola.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Zi Shen Lim <zlim.lnx@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Maxwell Bland <mbland@motorola.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Ryo Takakura <takakura@valinux.co.jp>,
-	James Morse <james.morse@arm.com>,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v5 1/2] mm: allow dynamic vmalloc range restrictions
-Message-ID: <202405111325.7IRuG4ZE-lkp@intel.com>
-References: <ozcyvkcdqhxhlg3sjz3s4odt7ejiwx2cctgb7sdx6jbardui37@al6uvt4yx5nt>
+To: kernel@openeuler.org, laokz <laokz@foxmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7640/9508] kernel/livepatch/core.c:216:13:
+ warning: no previous prototype for 'arch_klp_skip_resolve'
+Message-ID: <202405111327.wFY69R0L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,131 +61,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ozcyvkcdqhxhlg3sjz3s4odt7ejiwx2cctgb7sdx6jbardui37@al6uvt4yx5nt>
 
-Hi Maxwell,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ee5b455b0adae9ecafb38b174c648c48f2a3c1a5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Bland/arm64-mm-code-and-data-allocation-partitioning/20240510-022822
-base:   ee5b455b0adae9ecafb38b174c648c48f2a3c1a5
-patch link:    https://lore.kernel.org/r/ozcyvkcdqhxhlg3sjz3s4odt7ejiwx2cctgb7sdx6jbardui37%40al6uvt4yx5nt
-patch subject: [PATCH v5 1/2] mm: allow dynamic vmalloc range restrictions
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240511/202405111325.7IRuG4ZE-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111325.7IRuG4ZE-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   0238904492b29dfc7715e7783eff8011b916ddac
+commit: b8f3220637be1736c165c289c634f27841ac4e01 [7640/9508] livepatch: add arch hook before doing klp_resolve_symbols
+config: x86_64-randconfig-013-20240511 (https://download.01.org/0day-ci/archive/20240511/202405111327.wFY69R0L-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111327.wFY69R0L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405111325.7IRuG4ZE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405111327.wFY69R0L-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   or1k-linux-ld: init/do_mounts.o: in function `arch_init_checked_vmap_ranges':
->> do_mounts.c:(.init.text+0x53c): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: init/do_mounts_initrd.o: in function `arch_init_checked_vmap_ranges':
-   do_mounts_initrd.c:(.init.text+0x100): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: init/initramfs.o: in function `arch_init_checked_vmap_ranges':
-   initramfs.c:(.init.text+0x13b4): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: init/init_task.o: in function `arch_init_checked_vmap_ranges':
-   init_task.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/setup.o: in function `arch_init_checked_vmap_ranges':
-   setup.c:(.init.text+0x6c): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/or32_ksyms.o: in function `arch_init_checked_vmap_ranges':
-   or32_ksyms.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/process.o: in function `arch_init_checked_vmap_ranges':
-   process.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/dma.o: in function `arch_init_checked_vmap_ranges':
-   dma.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/traps.o: in function `arch_init_checked_vmap_ranges':
-   traps.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/time.o: in function `arch_init_checked_vmap_ranges':
-   time.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/irq.o: in function `arch_init_checked_vmap_ranges':
-   irq.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/signal.o: in function `arch_init_checked_vmap_ranges':
-   signal.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/kernel/sys_call_table.o: in function `arch_init_checked_vmap_ranges':
-   sys_call_table.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/mm/fault.o: in function `arch_init_checked_vmap_ranges':
-   fault.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/mm/init.o: in function `arch_init_checked_vmap_ranges':
-   init.c:(.init.text+0x21c): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: arch/openrisc/mm/ioremap.o: in function `arch_init_checked_vmap_ranges':
-   ioremap.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/fork.o: in function `arch_init_checked_vmap_ranges':
-   fork.c:(.init.text+0x40): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/exec_domain.o: in function `arch_init_checked_vmap_ranges':
-   exec_domain.c:(.init.text+0x44): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/panic.o: in function `arch_init_checked_vmap_ranges':
-   panic.c:(.init.text+0x204): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/cpu.o: in function `arch_init_checked_vmap_ranges':
-   cpu.c:(.init.text+0xb0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/exit.o: in function `arch_init_checked_vmap_ranges':
-   exit.c:(.init.text+0x84): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/softirq.o: in function `arch_init_checked_vmap_ranges':
-   softirq.c:(.init.text+0x8c): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/resource.o: in function `arch_init_checked_vmap_ranges':
-   resource.c:(.init.text+0x2dc): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/sysctl.o: in function `arch_init_checked_vmap_ranges':
-   sysctl.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/capability.o: in function `arch_init_checked_vmap_ranges':
-   capability.c:(.init.text+0x2c): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/ptrace.o: in function `arch_init_checked_vmap_ranges':
-   ptrace.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/user.o: in function `arch_init_checked_vmap_ranges':
-   user.c:(.init.text+0xb0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/signal.o: in function `arch_init_checked_vmap_ranges':
-   signal.c:(.init.text+0x84): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/sys.o: in function `arch_init_checked_vmap_ranges':
-   sys.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/umh.o: in function `arch_init_checked_vmap_ranges':
-   umh.c:(.init.text+0x48): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/workqueue.o: in function `arch_init_checked_vmap_ranges':
-   workqueue.c:(.init.text+0x7e8): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/pid.o: in function `arch_init_checked_vmap_ranges':
-   pid.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/task_work.o: in function `arch_init_checked_vmap_ranges':
-   task_work.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/extable.o: in function `arch_init_checked_vmap_ranges':
-   extable.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/params.o: in function `arch_init_checked_vmap_ranges':
-   params.c:(.init.text+0x444): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/kthread.o: in function `arch_init_checked_vmap_ranges':
-   kthread.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/nsproxy.o: in function `arch_init_checked_vmap_ranges':
-   nsproxy.c:(.init.text+0x48): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/notifier.o: in function `arch_init_checked_vmap_ranges':
-   notifier.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/ksysfs.o: in function `arch_init_checked_vmap_ranges':
-   ksysfs.c:(.init.text+0xe0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/cred.o: in function `arch_init_checked_vmap_ranges':
-   cred.c:(.init.text+0x44): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/reboot.o: in function `arch_init_checked_vmap_ranges':
-   reboot.c:(.init.text+0x2c0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/ucount.o: in function `arch_init_checked_vmap_ranges':
-   ucount.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/ksyms_common.o: in function `arch_init_checked_vmap_ranges':
-   ksyms_common.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/groups.o: in function `arch_init_checked_vmap_ranges':
-   groups.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/sched/core.o: in function `arch_init_checked_vmap_ranges':
-   core.c:(.init.text+0x44): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/sched/fair.o: in function `arch_init_checked_vmap_ranges':
-   fair.c:(.init.text+0xbc): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/sched/build_policy.o: in function `arch_init_checked_vmap_ranges':
-   build_policy.c:(.init.text+0x90): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/sched/build_utility.o: in function `arch_init_checked_vmap_ranges':
-   build_utility.c:(.init.text+0x44): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/locking/mutex.o: in function `arch_init_checked_vmap_ranges':
-   mutex.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/locking/semaphore.o: in function `arch_init_checked_vmap_ranges':
-   semaphore.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
-   or1k-linux-ld: kernel/power/qos.o: in function `arch_init_checked_vmap_ranges':
-   qos.c:(.init.text+0x0): multiple definition of `arch_init_checked_vmap_ranges'; init/main.o:main.c:(.init.text+0xa54): first defined here
+   kernel/livepatch/core.c:97:12: warning: no previous prototype for 'arch_klp_init_func' [-Wmissing-prototypes]
+      97 | int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+         |            ^~~~~~~~~~~~~~~~~~
+>> kernel/livepatch/core.c:216:13: warning: no previous prototype for 'arch_klp_skip_resolve' [-Wmissing-prototypes]
+     216 | bool __weak arch_klp_skip_resolve(unsigned int type)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:1767:12: warning: no previous prototype for 'arch_klp_check_activeness_func' [-Wmissing-prototypes]
+    1767 | int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:2022:14: warning: no previous prototype for 'arch_klp_mem_alloc' [-Wmissing-prototypes]
+    2022 | void __weak *arch_klp_mem_alloc(size_t size)
+         |              ^~~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:2027:13: warning: no previous prototype for 'arch_klp_mem_free' [-Wmissing-prototypes]
+    2027 | void __weak arch_klp_mem_free(void *mem)
+         |             ^~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:2063:13: warning: no previous prototype for 'arch_klp_set_brk_func' [-Wmissing-prototypes]
+    2063 | void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
+   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
+   Selected by [m]:
+   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
+
+
+vim +/arch_klp_skip_resolve +216 kernel/livepatch/core.c
+
+    96	
+  > 97	int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+    98	{
+    99		return 0;
+   100	}
+   101	#endif /* CONFIG_LIVEPATCH_FTRACE */
+   102	
+   103	static bool klp_initialized(void)
+   104	{
+   105		return !!klp_root_kobj;
+   106	}
+   107	
+   108	#ifdef CONFIG_LIVEPATCH_FTRACE
+   109	static struct klp_func *klp_find_func(struct klp_object *obj,
+   110					      struct klp_func *old_func)
+   111	{
+   112		struct klp_func *func;
+   113	
+   114		klp_for_each_func(obj, func) {
+   115			if ((strcmp(old_func->old_name, func->old_name) == 0) &&
+   116			    (old_func->old_sympos == func->old_sympos)) {
+   117				return func;
+   118			}
+   119		}
+   120	
+   121		return NULL;
+   122	}
+   123	
+   124	static struct klp_object *klp_find_object(struct klp_patch *patch,
+   125						  struct klp_object *old_obj)
+   126	{
+   127		struct klp_object *obj;
+   128	
+   129		klp_for_each_object(patch, obj) {
+   130			if (klp_is_module(old_obj)) {
+   131				if (klp_is_module(obj) &&
+   132				    strcmp(old_obj->name, obj->name) == 0) {
+   133					return obj;
+   134				}
+   135			} else if (!klp_is_module(obj)) {
+   136				return obj;
+   137			}
+   138		}
+   139	
+   140		return NULL;
+   141	}
+   142	#endif /* CONFIG_LIVEPATCH_FTRACE */
+   143	
+   144	struct klp_find_arg {
+   145		const char *name;
+   146		unsigned long addr;
+   147		unsigned long count;
+   148		unsigned long pos;
+   149	};
+   150	
+   151	static int klp_match_callback(void *data, unsigned long addr)
+   152	{
+   153		struct klp_find_arg *args = data;
+   154	
+   155		args->addr = addr;
+   156		args->count++;
+   157	
+   158		/*
+   159		 * Finish the search when the symbol is found for the desired position
+   160		 * or the position is not defined for a non-unique symbol.
+   161		 */
+   162		if ((args->pos && (args->count == args->pos)) ||
+   163		    (!args->pos && (args->count > 1)))
+   164			return 1;
+   165	
+   166		return 0;
+   167	}
+   168	
+   169	static int klp_find_callback(void *data, const char *name, unsigned long addr)
+   170	{
+   171		struct klp_find_arg *args = data;
+   172	
+   173		if (strcmp(args->name, name))
+   174			return 0;
+   175	
+   176		return klp_match_callback(data, addr);
+   177	}
+   178	
+   179	static int klp_find_object_symbol(const char *objname, const char *name,
+   180					  unsigned long sympos, unsigned long *addr)
+   181	{
+   182		struct klp_find_arg args = {
+   183			.name = name,
+   184			.addr = 0,
+   185			.count = 0,
+   186			.pos = sympos,
+   187		};
+   188	
+   189		if (objname)
+   190			module_kallsyms_on_each_symbol(objname, klp_find_callback, &args);
+   191		else
+   192			kallsyms_on_each_match_symbol(klp_match_callback, name, &args);
+   193	
+   194		/*
+   195		 * Ensure an address was found. If sympos is 0, ensure symbol is unique;
+   196		 * otherwise ensure the symbol position count matches sympos.
+   197		 */
+   198		if (args.addr == 0)
+   199			pr_err("symbol '%s' not found in symbol table\n", name);
+   200		else if (args.count > 1 && sympos == 0) {
+   201			pr_err("unresolvable ambiguity for symbol '%s' in object '%s'\n",
+   202			       name, objname);
+   203		} else if (sympos != args.count && sympos > 0) {
+   204			pr_err("symbol position %lu for symbol '%s' in object '%s' not found\n",
+   205			       sympos, name, objname ? objname : "vmlinux");
+   206		} else {
+   207			*addr = args.addr;
+   208			return 0;
+   209		}
+   210	
+   211		*addr = 0;
+   212		return -EINVAL;
+   213	}
+   214	
+   215	#ifdef CONFIG_LIVEPATCH_WO_FTRACE
+ > 216	bool __weak arch_klp_skip_resolve(unsigned int type)
+   217	{
+   218		return false;
+   219	}
+   220	#endif
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
