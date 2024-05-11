@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA4610A2B;
-	Sat, 11 May 2024 10:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192C91078B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 10:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715422384; cv=none; b=H4w7ivOnVqg5uxU19ykdsqvDWitq8ONIKyMumpUgpFWoE2ItfB8pbnRh9OOXWpGc/syTwLejNng831zyd/QjUMYB53FUUnLHgulT9ASNdAOsfmtY3JtsY+IyS6KdBFji+XVzFQpkWNx+6XiRpIOSVOaxknZbEnF3PwFr8B6QFbU=
+	t=1715422986; cv=none; b=dRgf0NB1kF3F21oE7BlmzYHAo9anr8T3FNUSeLgCcFPrn6br8Wc02kTnOCthL/xmO0BAj+o1VAn6wUdPDJa0MGK2/Wm0OGVbF7JndftuKflLdK19uO83xV/FZxIT4hUR1yra/BsniBK/f5h4yt3r+FpW9ibgGUmzYqQKZVqveP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715422384; c=relaxed/simple;
-	bh=X9lQ1i8RpWuTDiej6FewivbHJv1S+ML018lXXyggYd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d9qqHccNTUyO/zDl2ACXgINW25TyArGRcr8Tz5dQpZtmS8ckl/Qh5mLelrbcv0MUrpfu2iEEP0lmD1ITsaFWsfn2HX81P6UrdnPVjBIfiyd1u2MKs104v7wOV5W5Q6e+ScQjbOnvY6bvCO8gcTSLij3zR4wXmk7tE1FSPCcvpzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYYorBf7; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1715422986; c=relaxed/simple;
+	bh=jUBuHP5F8jcadyyNnBo/6ZJJazFUfPZJ5Ckc8Xjt1HY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GF2Ny5DVh9XvoT/EFXKXQWX3WGZYf3S0INrumhwgpw+eh63WlG8Qghd+KOdbbobENIDWhhxBDo/vrh2hUQrlSuSvLeY2qMCp0U3E4pguW1H5CGckkGk8437eg2GX6k7nzwtwP/HCz2GLXPjQdh5MI1OnwdlIvKfiYiKCqDh3PLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHVD2L9R; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYYorBf7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHVD2L9R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715422383; x=1746958383;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X9lQ1i8RpWuTDiej6FewivbHJv1S+ML018lXXyggYd8=;
-  b=LYYorBf7+iFEsJIx5NUV+7YM4N5mBdZiUp4oJBNcm7+p8XMiyZycUhJR
-   SxHQ4gvBIeXDo0ezjTQpWDwxrtpewL6oSdspPBFDvDFNL4SKXV+kxdvhS
-   /1V+cBAnetRNvmb4SFYG7Ndy+AwEeGmgEj0Ms8+ImvkFKNxIJfbEPecUL
-   mlRcOo7sEaNBEQAqS5Axdi32RB8ioqqqmJgrshjL3HI8md7CYLjTgD32T
-   mBAYwU4vL9mfzOa+6eNcfsnPQSoeesuVRPlfK8NCf+v9jfnhB/V18qvrx
-   83HUBda7jTy8opWkbt+ZEAZRUivaSILkorZm+7rS718rUQF2oPm4kz2Yu
-   Q==;
-X-CSE-ConnectionGUID: c9lFlwwaRaujsMPidYILGA==
-X-CSE-MsgGUID: JpGG3iK/REarfv7FfjjZbQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11545196"
+  t=1715422982; x=1746958982;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jUBuHP5F8jcadyyNnBo/6ZJJazFUfPZJ5Ckc8Xjt1HY=;
+  b=GHVD2L9RmRhGd9KVOTXO5U76yJ1g0AF2BFyUmk0lNYmtFCT07vah3IQ5
+   P7BwLx8Qt7JKC6FErx0LmyeMDnornARjggdIcDNIsUqJPG+Smi9pE/5cG
+   Zl64tazvtHLwOIGgDmJIAGWBJCQ4rIDgQbZdT89+VFzjEfFC7h7gNWcF9
+   UcgBhOEDjXAZtiMHCON+sjUJpgVLsfxqX2yvgiM7uhBjuEAnCe06w53rC
+   QXxd0ClcdyRHxld1WFo5LHjNvJsyEUh+r6IT+WCoF0O5VtUviLadFRWOy
+   GFHdkprwbub+wJFIbml9E2nUGXqFcU0Ma752pnLbgeML4DYUlaxn9dOo0
+   g==;
+X-CSE-ConnectionGUID: 6KF7oTRLTB2CcN0CLYqFsQ==
+X-CSE-MsgGUID: rKIAjy9JT+m7yqxYBgTM0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="15249630"
 X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="11545196"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 03:13:02 -0700
-X-CSE-ConnectionGUID: 1HetjDiuTgyfZxyT8d00Vw==
-X-CSE-MsgGUID: 959m47TSSFiOZo/J85m2ig==
+   d="scan'208";a="15249630"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 03:23:02 -0700
+X-CSE-ConnectionGUID: oBhTmOaNT6mMFeBvSHoOOA==
+X-CSE-MsgGUID: IKHuyoxkTrWmzGu4aspgvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="29727685"
+   d="scan'208";a="29944550"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 May 2024 03:12:59 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 May 2024 03:22:59 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5jir-0007E7-0M;
-	Sat, 11 May 2024 10:12:57 +0000
-Date: Sat, 11 May 2024 18:12:39 +0800
+	id 1s5jsX-0007Ez-1x;
+	Sat, 11 May 2024 10:22:57 +0000
+Date: Sat, 11 May 2024 18:22:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kousik Sanagavarapu <five231003@gmail.com>, Nishanth Menon <nm@ti.com>,
-	Santosh Shilimkar <ssantosh@kernel.org>,
-	Julia Lawall <julia.lawall@inria.fr>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Kousik Sanagavarapu <five231003@gmail.com>
-Subject: Re: [PATCH 2/3] soc: ti: knav_qmss_queue: do device_node auto cleanup
-Message-ID: <202405111846.3m9z398l-lkp@intel.com>
-References: <20240510071432.62913-3-five231003@gmail.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Simon Horman <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: [morimoto:renesas-bsp/v6.1.90-2024-05-09 597/604]
+ drivers/net/ethernet/renesas/rswitch.c:1807:38: error: implicit declaration
+ of function 'clk_get_rate'
+Message-ID: <202405111810.eB7Bxcw8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,251 +64,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510071432.62913-3-five231003@gmail.com>
 
-Hi Kousik,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on soc/for-next linus/master v6.9-rc7 next-20240510]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kousik-Sanagavarapu/soc-ti-pruss-do-device_node-auto-cleanup/20240510-151656
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20240510071432.62913-3-five231003%40gmail.com
-patch subject: [PATCH 2/3] soc: ti: knav_qmss_queue: do device_node auto cleanup
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240511/202405111846.3m9z398l-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111846.3m9z398l-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.90-2024-05-09
+head:   9dcc7c4d1e870ab0e3bbf05bdc7eb271ddef057d
+commit: 857c8f33e1b10d27251b58342781e19b9ec9b678 [597/604] net: ethernet: renesas: rcar_gen4_ptp: Get clock increment from clock rate
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240511/202405111810.eB7Bxcw8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111810.eB7Bxcw8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405111846.3m9z398l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405111810.eB7Bxcw8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/ti/knav_qmss_queue.c:1853:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1840:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1835:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1831:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1822:4: error: cannot jump from this goto statement to its label
-                           goto err;
-                           ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1826:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *queue_pools __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1818:4: error: cannot jump from this goto statement to its label
-                           goto err;
-                           ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1826:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *queue_pools __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1810:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1826:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *queue_pools __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1813:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *pdsps __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1806:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1826:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *queue_pools __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1813:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *pdsps __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1795:3: error: cannot jump from this goto statement to its label
-                   goto err;
-                   ^
-   drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *regions __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1826:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *queue_pools __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1813:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *pdsps __free(device_node) =
-                               ^
-   drivers/soc/ti/knav_qmss_queue.c:1801:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           struct device_node *qmgrs __free(device_node) =
-                               ^
-   9 errors generated.
+   drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_init':
+>> drivers/net/ethernet/renesas/rswitch.c:1807:38: error: implicit declaration of function 'clk_get_rate' [-Werror=implicit-function-declaration]
+    1807 |                                      clk_get_rate(priv->clk));
+         |                                      ^~~~~~~~~~~~
+>> drivers/net/ethernet/renesas/rswitch.c:1807:55: error: 'struct rswitch_private' has no member named 'clk'
+    1807 |                                      clk_get_rate(priv->clk));
+         |                                                       ^~
+   cc1: some warnings being treated as errors
 
 
-vim +1853 drivers/soc/ti/knav_qmss_queue.c
+vim +/clk_get_rate +1807 drivers/net/ethernet/renesas/rswitch.c
 
-350601b4f7ab45 Murali Karicheri    2018-04-17  1754  
-41f93af900a20d Sandeep Nair        2014-02-28  1755  static int knav_queue_probe(struct platform_device *pdev)
-41f93af900a20d Sandeep Nair        2014-02-28  1756  {
-41f93af900a20d Sandeep Nair        2014-02-28  1757  	struct device_node *node = pdev->dev.of_node;
-41f93af900a20d Sandeep Nair        2014-02-28  1758  	struct device *dev = &pdev->dev;
-41f93af900a20d Sandeep Nair        2014-02-28  1759  	u32 temp[2];
-41f93af900a20d Sandeep Nair        2014-02-28  1760  	int ret;
-41f93af900a20d Sandeep Nair        2014-02-28  1761  
-41f93af900a20d Sandeep Nair        2014-02-28  1762  	if (!node) {
-41f93af900a20d Sandeep Nair        2014-02-28  1763  		dev_err(dev, "device tree info unavailable\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1764  		return -ENODEV;
-41f93af900a20d Sandeep Nair        2014-02-28  1765  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1766  
-41f93af900a20d Sandeep Nair        2014-02-28  1767  	kdev = devm_kzalloc(dev, sizeof(struct knav_device), GFP_KERNEL);
-41f93af900a20d Sandeep Nair        2014-02-28  1768  	if (!kdev) {
-41f93af900a20d Sandeep Nair        2014-02-28  1769  		dev_err(dev, "memory allocation failed\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1770  		return -ENOMEM;
-41f93af900a20d Sandeep Nair        2014-02-28  1771  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1772  
-50c01a942b2874 Rob Herring         2023-10-09  1773  	if (device_get_match_data(dev))
-350601b4f7ab45 Murali Karicheri    2018-04-17  1774  		kdev->version = QMSS_66AK2G;
-350601b4f7ab45 Murali Karicheri    2018-04-17  1775  
-41f93af900a20d Sandeep Nair        2014-02-28  1776  	platform_set_drvdata(pdev, kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1777  	kdev->dev = dev;
-41f93af900a20d Sandeep Nair        2014-02-28  1778  	INIT_LIST_HEAD(&kdev->queue_ranges);
-41f93af900a20d Sandeep Nair        2014-02-28  1779  	INIT_LIST_HEAD(&kdev->qmgrs);
-41f93af900a20d Sandeep Nair        2014-02-28  1780  	INIT_LIST_HEAD(&kdev->pools);
-41f93af900a20d Sandeep Nair        2014-02-28  1781  	INIT_LIST_HEAD(&kdev->regions);
-41f93af900a20d Sandeep Nair        2014-02-28  1782  	INIT_LIST_HEAD(&kdev->pdsps);
-41f93af900a20d Sandeep Nair        2014-02-28  1783  
-41f93af900a20d Sandeep Nair        2014-02-28  1784  	pm_runtime_enable(&pdev->dev);
-12eeb74925da70 Minghao Chi         2022-04-18  1785  	ret = pm_runtime_resume_and_get(&pdev->dev);
-41f93af900a20d Sandeep Nair        2014-02-28  1786  	if (ret < 0) {
-e961c0f19450fd Zhang Qilong        2022-11-08  1787  		pm_runtime_disable(&pdev->dev);
-41f93af900a20d Sandeep Nair        2014-02-28  1788  		dev_err(dev, "Failed to enable QMSS\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1789  		return ret;
-41f93af900a20d Sandeep Nair        2014-02-28  1790  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1791  
-41f93af900a20d Sandeep Nair        2014-02-28  1792  	if (of_property_read_u32_array(node, "queue-range", temp, 2)) {
-41f93af900a20d Sandeep Nair        2014-02-28  1793  		dev_err(dev, "queue-range not specified\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1794  		ret = -ENODEV;
-41f93af900a20d Sandeep Nair        2014-02-28  1795  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1796  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1797  	kdev->base_id    = temp[0];
-41f93af900a20d Sandeep Nair        2014-02-28  1798  	kdev->num_queues = temp[1];
-41f93af900a20d Sandeep Nair        2014-02-28  1799  
-41f93af900a20d Sandeep Nair        2014-02-28  1800  	/* Initialize queue managers using device tree configuration */
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1801  	struct device_node *qmgrs __free(device_node) =
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1802  			of_get_child_by_name(node, "qmgrs");
-41f93af900a20d Sandeep Nair        2014-02-28  1803  	if (!qmgrs) {
-41f93af900a20d Sandeep Nair        2014-02-28  1804  		dev_err(dev, "queue manager info not specified\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1805  		ret = -ENODEV;
-41f93af900a20d Sandeep Nair        2014-02-28  1806  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1807  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1808  	ret = knav_queue_init_qmgrs(kdev, qmgrs);
-41f93af900a20d Sandeep Nair        2014-02-28  1809  	if (ret)
-41f93af900a20d Sandeep Nair        2014-02-28  1810  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1811  
-41f93af900a20d Sandeep Nair        2014-02-28  1812  	/* get pdsp configuration values from device tree */
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1813  	struct device_node *pdsps __free(device_node) =
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1814  			of_get_child_by_name(node, "pdsps");
-41f93af900a20d Sandeep Nair        2014-02-28  1815  	if (pdsps) {
-41f93af900a20d Sandeep Nair        2014-02-28  1816  		ret = knav_queue_init_pdsps(kdev, pdsps);
-41f93af900a20d Sandeep Nair        2014-02-28  1817  		if (ret)
-41f93af900a20d Sandeep Nair        2014-02-28  1818  			goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1819  
-41f93af900a20d Sandeep Nair        2014-02-28  1820  		ret = knav_queue_start_pdsps(kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1821  		if (ret)
-41f93af900a20d Sandeep Nair        2014-02-28  1822  			goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1823  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1824  
-41f93af900a20d Sandeep Nair        2014-02-28  1825  	/* get usable queue range values from device tree */
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1826  	struct device_node *queue_pools __free(device_node) =
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1827  			of_get_child_by_name(node, "queue-pools");
-41f93af900a20d Sandeep Nair        2014-02-28  1828  	if (!queue_pools) {
-41f93af900a20d Sandeep Nair        2014-02-28  1829  		dev_err(dev, "queue-pools not specified\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1830  		ret = -ENODEV;
-41f93af900a20d Sandeep Nair        2014-02-28  1831  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1832  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1833  	ret = knav_setup_queue_pools(kdev, queue_pools);
-41f93af900a20d Sandeep Nair        2014-02-28  1834  	if (ret)
-41f93af900a20d Sandeep Nair        2014-02-28  1835  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1836  
-41f93af900a20d Sandeep Nair        2014-02-28  1837  	ret = knav_get_link_ram(kdev, "linkram0", &kdev->link_rams[0]);
-41f93af900a20d Sandeep Nair        2014-02-28  1838  	if (ret) {
-41f93af900a20d Sandeep Nair        2014-02-28  1839  		dev_err(kdev->dev, "could not setup linking ram\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1840  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1841  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1842  
-41f93af900a20d Sandeep Nair        2014-02-28  1843  	ret = knav_get_link_ram(kdev, "linkram1", &kdev->link_rams[1]);
-41f93af900a20d Sandeep Nair        2014-02-28  1844  	if (ret) {
-41f93af900a20d Sandeep Nair        2014-02-28  1845  		/*
-41f93af900a20d Sandeep Nair        2014-02-28  1846  		 * nothing really, we have one linking ram already, so we just
-41f93af900a20d Sandeep Nair        2014-02-28  1847  		 * live within our means
-41f93af900a20d Sandeep Nair        2014-02-28  1848  		 */
-41f93af900a20d Sandeep Nair        2014-02-28  1849  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1850  
-41f93af900a20d Sandeep Nair        2014-02-28  1851  	ret = knav_queue_setup_link_ram(kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1852  	if (ret)
-41f93af900a20d Sandeep Nair        2014-02-28 @1853  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1854  
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1855  	struct device_node *regions __free(device_node) =
-10e6f93cca367b Kousik Sanagavarapu 2024-05-10  1856  			of_get_child_by_name(node, "descriptor-regions");
-41f93af900a20d Sandeep Nair        2014-02-28  1857  	if (!regions) {
-41f93af900a20d Sandeep Nair        2014-02-28  1858  		dev_err(dev, "descriptor-regions not specified\n");
-4cba398f37f868 Zhihao Cheng        2020-11-21  1859  		ret = -ENODEV;
-41f93af900a20d Sandeep Nair        2014-02-28  1860  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1861  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1862  	ret = knav_queue_setup_regions(kdev, regions);
-41f93af900a20d Sandeep Nair        2014-02-28  1863  	if (ret)
-41f93af900a20d Sandeep Nair        2014-02-28  1864  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1865  
-41f93af900a20d Sandeep Nair        2014-02-28  1866  	ret = knav_queue_init_queues(kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1867  	if (ret < 0) {
-41f93af900a20d Sandeep Nair        2014-02-28  1868  		dev_err(dev, "hwqueue initialization failed\n");
-41f93af900a20d Sandeep Nair        2014-02-28  1869  		goto err;
-41f93af900a20d Sandeep Nair        2014-02-28  1870  	}
-41f93af900a20d Sandeep Nair        2014-02-28  1871  
-41f93af900a20d Sandeep Nair        2014-02-28  1872  	debugfs_create_file("qmss", S_IFREG | S_IRUGO, NULL, NULL,
-74e0e43a09cea3 Qinglang Miao       2020-09-20  1873  			    &knav_queue_debug_fops);
-a2dd6877b43ef1 Murali Karicheri    2018-04-17  1874  	device_ready = true;
-41f93af900a20d Sandeep Nair        2014-02-28  1875  	return 0;
-41f93af900a20d Sandeep Nair        2014-02-28  1876  
-41f93af900a20d Sandeep Nair        2014-02-28  1877  err:
-41f93af900a20d Sandeep Nair        2014-02-28  1878  	knav_queue_stop_pdsps(kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1879  	knav_queue_free_regions(kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1880  	knav_free_queue_ranges(kdev);
-41f93af900a20d Sandeep Nair        2014-02-28  1881  	pm_runtime_put_sync(&pdev->dev);
-41f93af900a20d Sandeep Nair        2014-02-28  1882  	pm_runtime_disable(&pdev->dev);
-41f93af900a20d Sandeep Nair        2014-02-28  1883  	return ret;
-41f93af900a20d Sandeep Nair        2014-02-28  1884  }
-41f93af900a20d Sandeep Nair        2014-02-28  1885  
+  1764	
+  1765	static int rswitch_init(struct rswitch_private *priv)
+  1766	{
+  1767		int i, err;
+  1768	
+  1769		for (i = 0; i < RSWITCH_NUM_PORTS; i++)
+  1770			rswitch_etha_init(priv, i);
+  1771	
+  1772		rswitch_clock_enable(priv);
+  1773		for (i = 0; i < RSWITCH_NUM_PORTS; i++)
+  1774			rswitch_etha_read_mac_address(&priv->etha[i]);
+  1775	
+  1776		rswitch_reset(priv);
+  1777	
+  1778		rswitch_clock_enable(priv);
+  1779		rswitch_top_init(priv);
+  1780		err = rswitch_bpool_config(priv);
+  1781		if (err < 0)
+  1782			return err;
+  1783	
+  1784		err = rswitch_gwca_linkfix_alloc(priv);
+  1785		if (err < 0)
+  1786			return -ENOMEM;
+  1787	
+  1788		err = rswitch_gwca_ts_queue_alloc(priv);
+  1789		if (err < 0)
+  1790			goto err_ts_queue_alloc;
+  1791	
+  1792		rswitch_gwca_ts_queue_fill(priv, 0, TS_RING_SIZE);
+  1793		INIT_LIST_HEAD(&priv->gwca.ts_info_list);
+  1794	
+  1795		for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
+  1796			err = rswitch_device_alloc(priv, i);
+  1797			if (err < 0) {
+  1798				for (i--; i >= 0; i--)
+  1799					rswitch_device_free(priv, i);
+  1800				goto err_device_alloc;
+  1801			}
+  1802		}
+  1803	
+  1804		rswitch_fwd_init(priv);
+  1805	
+  1806		err = rcar_gen4_ptp_register(priv->ptp_priv, RCAR_GEN4_PTP_REG_LAYOUT,
+> 1807					     clk_get_rate(priv->clk));
+  1808		if (err < 0)
+  1809			goto err_ptp_register;
+  1810	
+  1811		err = rswitch_gwca_request_irqs(priv);
+  1812		if (err < 0)
+  1813			goto err_gwca_request_irq;
+  1814	
+  1815		err = rswitch_gwca_ts_request_irqs(priv);
+  1816		if (err < 0)
+  1817			goto err_gwca_ts_request_irq;
+  1818	
+  1819		err = rswitch_gwca_hw_init(priv);
+  1820		if (err < 0)
+  1821			goto err_gwca_hw_init;
+  1822	
+  1823		err = rswitch_ether_port_init_all(priv);
+  1824		if (err)
+  1825			goto err_ether_port_init_all;
+  1826	
+  1827		rswitch_for_each_enabled_port(priv, i) {
+  1828			err = register_netdev(priv->rdev[i]->ndev);
+  1829			if (err) {
+  1830				rswitch_for_each_enabled_port_continue_reverse(priv, i)
+  1831					unregister_netdev(priv->rdev[i]->ndev);
+  1832				goto err_register_netdev;
+  1833			}
+  1834		}
+  1835	
+  1836		rswitch_for_each_enabled_port(priv, i)
+  1837			netdev_info(priv->rdev[i]->ndev, "MAC address %pM\n",
+  1838				    priv->rdev[i]->ndev->dev_addr);
+  1839	
+  1840		return 0;
+  1841	
+  1842	err_register_netdev:
+  1843		rswitch_ether_port_deinit_all(priv);
+  1844	
+  1845	err_ether_port_init_all:
+  1846		rswitch_gwca_hw_deinit(priv);
+  1847	
+  1848	err_gwca_hw_init:
+  1849	err_gwca_ts_request_irq:
+  1850	err_gwca_request_irq:
+  1851		rcar_gen4_ptp_unregister(priv->ptp_priv);
+  1852	
+  1853	err_ptp_register:
+  1854		for (i = 0; i < RSWITCH_NUM_PORTS; i++)
+  1855			rswitch_device_free(priv, i);
+  1856	
+  1857	err_device_alloc:
+  1858		rswitch_gwca_ts_queue_free(priv);
+  1859	
+  1860	err_ts_queue_alloc:
+  1861		rswitch_gwca_linkfix_free(priv);
+  1862	
+  1863		return err;
+  1864	}
+  1865	
 
 -- 
 0-DAY CI Kernel Test Service
