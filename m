@@ -1,216 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F1D208A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 02:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715396011; cv=fail; b=Z2qd6zSWl+sDVvkHDuBv4Ji8sK2czGLar2lKcAd3UnLnyZk111hqMLXkHO5aVxTCF/IJhlIBoX/ziLHX7FIvlnpictVcA95xhkulvJRDp/xiMjyyFhdoXMekkTwxhlYXyqWQaMo+hEhbskfFVCUv6rjhejHDePBhmg6ATryODhs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715396011; c=relaxed/simple;
-	bh=eeubMadPFO8qQAwDJM2D55AzCgS938eFs+ccovkHBdg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QPdtk+AL+1xEa0TTznICqRcqNHgmQ7sX7aLffSsd5Rl7ivx/nJCf8jkrZxsabWVecNngPOV4mE73PtMLTiRErpi4Lpt1PRdMa66oem0ot4v+uBlCXDINv/GHd5RBRUpBQEvZ0oEm/CPPrFpipq2GtboM8eqIc6pvRhSN2jD0AEI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dxmq5oQf; arc=fail smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6D12C6AF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 May 2024 03:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715398488; cv=none; b=R4924dl9N9UgX95ZSz7Sy6R9k5HUqfu4gsFvQ34oab39A0f6K+wxyEv2MEVJrV41WcPYNP5VZA5BtqT27/1q0TTh1a0k/g0Ban1Q5MNxgiIm1Qlk/Gf7LTbfsSgJ/BPQYqGqoU19iT71XimWSeOFmg/fddHzL8wiND6SspBhMAs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715398488; c=relaxed/simple;
+	bh=gBGm25tgUCT7VmbsTy31/+KZ5QSCnI0T/xb7i7C21KU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bGQcbn/Wiv2U9oorZdNt1YTu2dUlfUvQL1jRrD5irSzBeiwbUUhUGbQIs6bmesypKGbknnr/Sla+4poeGhvKcS6wVl1N1wFEUGaSpJ0Ihek7OOPYYv8VZ/jz+Flu0NAh4cBBbELifu6bHjBXk4oekekPuWjpoUbFQ+rUFkTI2WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VafKBjNq; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dxmq5oQf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VafKBjNq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715396009; x=1746932009;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=eeubMadPFO8qQAwDJM2D55AzCgS938eFs+ccovkHBdg=;
-  b=Dxmq5oQfFjkGFehA+qqf88BtJM5F0GEu3IcYFADNRl0BMvIFagY+jsn0
-   QK+c+q+Gdl/UUtI/B+lg+z/ts6qCddMTULHPlK1gJ3zFvKu7ohQlkmYHz
-   /5Ds/7m0CeLOJen3VHIkA6pPMNAjgLoVt9nQ6Tg+mqvL6zuXHx70g2iHb
-   ForeGUnq36At/cbZSIR1f4TwjvMO14L46fvA0jUIET+iUn0SB6K4PuClI
-   2hl4dmnXyewSA2L0n6OQ1Knt69gg7Pyl8DRQfUic43kxJHupCeGDWj6PY
-   bz+19Ah1yQXilUQFPx2bxCGX1wwzIOzKIhAqvPQ9JnRF0an7qqHJvNFQO
+  t=1715398486; x=1746934486;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gBGm25tgUCT7VmbsTy31/+KZ5QSCnI0T/xb7i7C21KU=;
+  b=VafKBjNqyhqG7thTTuGvBtMqa8upYPsGBE9whXe8TkdVYuk6jgqhv7vI
+   V7AnkrwwMa8NREL+ZtwsjpCEYcANWGtNdP4pKKg+7KbfdXNv0PbYNjvp9
+   gK9fST18bl5x5gJk6/fB8Zz9l+l4t8F56iJxg7Th9DNZRidcgWSTIAwbG
+   DillxBmkC4zn3EEKeZV7mgh6bj9AX7BypPheJnIygkNNGc5k91JaaQYbX
+   nj9ldnQAv8spwUfTOkFwLAnGcRgyl+01Jz+CGCgiymaiVEmHk0VXJSpsx
+   wp8sobIzDr1P7AXh7i30DGVk97Mp2qHHJiwV/PnwD9SHHJtmvZBLDZyIP
    w==;
-X-CSE-ConnectionGUID: 2D1U4T1rR5ySoERM1Gk/Jw==
-X-CSE-MsgGUID: enWQbTcIR0OIBcfo3sfPvQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11253138"
+X-CSE-ConnectionGUID: Pmccof4FQgWue8thrU3d/A==
+X-CSE-MsgGUID: 1+mf6sAuRlWS1tfpwvPXpQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11266104"
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="11253138"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 19:53:28 -0700
-X-CSE-ConnectionGUID: 8MzaikyzSNGY8xe4S3K8bw==
-X-CSE-MsgGUID: g153mAOIRFahFhwfjV+kOQ==
+   d="scan'208";a="11266104"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 20:34:45 -0700
+X-CSE-ConnectionGUID: +pHNdeewRiWVr0idaBGKGQ==
+X-CSE-MsgGUID: 7jwZSSzOR/aNon2Z6PGBwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="34318723"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 May 2024 19:53:27 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 10 May 2024 19:53:27 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 10 May 2024 19:53:27 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 10 May 2024 19:53:27 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 10 May 2024 19:53:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AwPWKH3AWi84/klrK64r1TLRl//3eF6S+JBpthBc4DOsaPuG8NWfOMHsijyDZhTkiBOIvEE90Nd0Nyt888crAS7tksIsQdDkMzYRqf5qPKRsM4K1jYjflhzAO7SfO7tNi7qBIbYRUUq/cUZ/hQIYSSINPbu7WyTktWEs3P+Ngi93Gp9QY4vy6ipNd9ClTe8ugkekD5jmSOy2GCDWXbP4GPl2hjFoHfKiYLjY1ecP+SwPlrOznDZ62aN6+OTgwJ98wdwXA1lifVe4+cmdn6IeSrKo7iL8XQZhDqvNHHBTfrIhx/AR9ToHaSaFGncoqHuDL4FWalAML+cfUosDNE/7rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MUptCJnlhO/+gBIlk1ZkHzhEUibd3SS78iY4ZcQJl4E=;
- b=KwRcd2kwfpy/EGBcMBCVRX3n6hVb+OfZm0uLA5N8Owf3UYqsAC+WTSnkSL6PpGI57i8J/gl1T6jcngSanqIcawv/RggCqptNV71Ye3U1UQ3Dvfib+4R5akUVzS/6zAE/q6TNIbXR9OPZQI69tiCwfe8J8zR/pvXGk1a38iT2v231cF+JQQ8iyuRJW2E8nwSgxGBjMHyYIkziL+zz2/opCLEoLwcXFhnkQiGDy4KOvNPIuwyiZy6UAg2hdMYQhKMEUwEXhKRbNEWT6yB5gK5//WJT1ha7IEix/hPqFCub1owzX9sh6Vvcp7SNZntulQWzGivAIxwOOMRHL1ZbFC+9Ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by MW4PR11MB5869.namprd11.prod.outlook.com (2603:10b6:303:168::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.49; Sat, 11 May
- 2024 02:53:25 +0000
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45]) by SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45%5]) with mapi id 15.20.7544.049; Sat, 11 May 2024
- 02:53:25 +0000
-Date: Sat, 11 May 2024 10:53:23 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-CC: kernel test robot <lkp@intel.com>, Frederic Weisbecker
-	<frederic@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Boqun Feng <boqun.feng@gmail.com>, "Joel
- Fernandes (Google)" <joel@joelfernandes.org>
-Subject: Re: ERROR: modpost: vmlinux: local symbol
- 'rcu_set_jiffies_lazy_flush' was exported
-Message-ID: <Zj7do9o265Rrm1HD@yujie-X299>
-References: <202405110230.vcpgN5vz-lkp@intel.com>
- <965221ae-620a-497a-9a80-5725e3fe3f7b@paulmck-laptop>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <965221ae-620a-497a-9a80-5725e3fe3f7b@paulmck-laptop>
-X-ClientProxiedBy: SI2PR06CA0007.apcprd06.prod.outlook.com
- (2603:1096:4:186::9) To SA1PR11MB8393.namprd11.prod.outlook.com
- (2603:10b6:806:373::21)
+   d="scan'208";a="29922960"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 10 May 2024 20:34:44 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s5dVR-0006sd-1N;
+	Sat, 11 May 2024 03:34:41 +0000
+Date: Sat, 11 May 2024 11:34:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 3/7]
+ drivers/thermal/mediatek/virtual_temp.c:106:30: warning: variable 'tzdev'
+ set but not used
+Message-ID: <202405111124.gXgwFCai-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|MW4PR11MB5869:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8fdee99a-031c-4a10-cc50-08dc716586f6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?6Gt9v0xSTGfQoiJxAneKRi3CMmzA40j+GGJFerGsuK8gLohp+nka3XjSRDNn?=
- =?us-ascii?Q?IWySwGr1aESth6gnAIvdZsK5OKZM/eHHSRGrTc2htdukLcykOy8T9WcSMQHh?=
- =?us-ascii?Q?WsUTXhucnDMcWYzNzfzmbWAvXejcFNRU2YOnZLnQ1Ej0hPLbuSADL337557/?=
- =?us-ascii?Q?IRE3hmb3JmvSCcGjBJrOJbkk5EwXB5OTfASaYbJt1OSOCy2DTTD1/L+f0HLw?=
- =?us-ascii?Q?0sVe6e2oZ18LmZVYbYMueBXJzFs0kVcCxZrjDNE1h0yAPTrCTxR4F0djyTN/?=
- =?us-ascii?Q?+JksQSeQsqtwPfblSZHKLg3w9CBFnNS/akb9nmNr+qxcxyQtDtqqOhWtjI/N?=
- =?us-ascii?Q?oqei6vN6uloiF6VbptFnOXDbPCqwv7BY13YP5XhI0QPF6Bdiis3EVaIN1+12?=
- =?us-ascii?Q?SozWulLVL1OkzSBs1KajG6lt9Anm+5q8tHJDCsNQoPON5HRT9ufwmoLh3tRe?=
- =?us-ascii?Q?Lk6qAsM1RkhEPJ95SU0OQvuuDmCLnEh+9bzOGiqlFjtkhbgfuM5RHQ3dC8oG?=
- =?us-ascii?Q?Mwo7hInmMMGrQBCr4M9idSjx+hCpkvryLG2ZBxd71gdN3MJI1b/wENe9gags?=
- =?us-ascii?Q?AYi47K7NW8h1BJa5TZv65lZpquOc55Eyr/kLO9n7oClRcPehBrLtB9Y9wq7+?=
- =?us-ascii?Q?uCHPSE6fpZrRFrSzrcReqb4MSMB5J2NpgeyGhQ/h1gqRK0cZ06sY+QqCS1bD?=
- =?us-ascii?Q?yq6k8Z9trEHRX3FeYW7gHsDf4l8dznjfdvz97ZKFCM7xUUjhhUcpoobvw39C?=
- =?us-ascii?Q?oikQ7AbBvJMi51iwbS+FzokaKN0ZFQk9g7PJqyRxBmHSM6sZ40b63ocIwjo0?=
- =?us-ascii?Q?kdLtJMYQsegIz84xaENc6z8/nLiOl07vD6AN/0tfapHgPpl7vpHN3cV7cP39?=
- =?us-ascii?Q?qX7IAkZ5WQnSjnV1LW+81v3n4C2HMsV6RVZIhms321e7IhZfJPlgzrNtJ9NX?=
- =?us-ascii?Q?qI/r7Kfy52NlJvg59HiqlLFKPt6wu+Rsc0Urn5SqviiUPNQBkUnely170NTd?=
- =?us-ascii?Q?pxmNHpJ+FTnRriu19t0YFRpJuR2RfKG8bYMeMJ8dF1y6xvA3Aa0j1mwrGxjS?=
- =?us-ascii?Q?pHQYor1cLKbiPkEvnEfWBiQ8upg4kuGG9jskWuBIahrJ85shPdobB0/xhFEY?=
- =?us-ascii?Q?iz7YPgj+4MaHgQ/ixgsNU11+lPFCxrlvS+YvdcZLfgctl1Vb0grCPEto+M+U?=
- =?us-ascii?Q?SIw3SrSK6VsBR2AcdeHvGHEhhJN8XfsOZcFw0NPVOlLRd/YTZtfOqWCQFho?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZGa0n3oMPPQpPXDFckawJUntct0uYcwRAMHFsmGAOvoLLYATTgxujgwMOghq?=
- =?us-ascii?Q?OOJzZ4tpMKjpqf2pbpWD8Qx8j761izCwQV63DoyByAA4eYl8Z4dU3UTjRtGt?=
- =?us-ascii?Q?ahx9IKgMLWHNbrQvQJnQ4jsoAx1X4VIzM3ZISOOm6+56zXJg9zGsONkHOmCk?=
- =?us-ascii?Q?0f02Ez/HQzaazRC4vvYyzOEKt0rMzjZAMoEKgPGf5hwtuZi7KrL9kV/TYPPe?=
- =?us-ascii?Q?mcWCXOfUo6N0/8Gn5+s6iLcdJxuhb6bNZIUgf7qwj3pj+D9k0bd4/GKCuY6J?=
- =?us-ascii?Q?RI1afMLrGXw9RSUH7f5Vc4iclfGBWlPa7RlCARq+fmxS9Uza03ZzK1ekAHBp?=
- =?us-ascii?Q?gveuTqVmkuVrxvhJehRhRBTwOhKqIUTKw57xEtlYX+SxdPv/z3OKCzVilii9?=
- =?us-ascii?Q?IwgTXmsLdKzsVgYuv5Eh//Eo4TUbvW0Ft2liRJ79PhroKP3jcfnCTU/59i23?=
- =?us-ascii?Q?NSnBtzPRjPpF2FiTP7EOSZ6iUG2Upb9EqME0zqSDlno174pHoLFXEfekA6R4?=
- =?us-ascii?Q?XYWB/PcpeAmzoFuE67ETJ2L0h6WZhbJefetb1fQfOUsF20c2asru7pVzxJ9P?=
- =?us-ascii?Q?n+BdLio/FcvKM69ZNe570T61Ah1R2GwlHynHiB/7MZEfoAgpxASWCPIeLTNa?=
- =?us-ascii?Q?wfgT5u4CW+uBH+sZRg/sw0WBO2XheYpObuZkjobwJcZjoBVxLMfpq5CKAJGX?=
- =?us-ascii?Q?IVB+FoGnGV0LSKretiQZ03mGVHdToEqbQqJq9V3k2Bvh8g8zOl+fGPEJRGy4?=
- =?us-ascii?Q?lRbTy4cz7UWC1wrf2D0jtbSt9K8hzI1mqcIdnXsAZLg8hjTsKGd6sT/dsu+e?=
- =?us-ascii?Q?y9fHuFHluceWMZ38kmBc2tabMaL3qinM6xfQEuefq4P7nMiwewZOCnLjs4Fc?=
- =?us-ascii?Q?Wf6ZcaiaqYoxfqje1yW9yr6WEDr/IlCdAWYnkOtme5bSLawUbdReLtHXkEpi?=
- =?us-ascii?Q?tfeC08wZCTx1f3YEqKWxmhBwZgn71yVO9FU3bpyVvb0tUAZyCjavOYso9eys?=
- =?us-ascii?Q?oJLZzuc1GSK7aWY7XoZSs0UXbtj9OfcQ2lvyiIH9iwDs3VsKqaY2SlmirBIV?=
- =?us-ascii?Q?W8ENu6rZ9AErkakls8iBGi59IeYNkrbQP7C9LcEoPpR1iqUzy3co21WeKaLP?=
- =?us-ascii?Q?1/BN56nxtwMJ8gzgdu/OxQtlMfT4TPpbT8fO64LZhTQ6K2UmN24cmj1CQppy?=
- =?us-ascii?Q?hHMhZEh9SoDQJ1ezN2QERZMrLB+W7+VR3LNjashjHChPn5rH0MtM9ZCH578+?=
- =?us-ascii?Q?zKAXOtipjYIRiTBDfJNel5wZJ4JIn+Lcl9oFo27tTspRyJBIOb//3S6jymxz?=
- =?us-ascii?Q?Y+8LcCdOlfhaaKxO2HtMHV9PDJg8gS4PtJmUkb1ZNrDB7HzsDcnFDuLREMqS?=
- =?us-ascii?Q?asyGUOc8MFdPiA0cGv7C+wDI9GcW03u3+HCWf2CTUbqUJDZb0X4huAh43uzg?=
- =?us-ascii?Q?y30SN9NZl5yr70f1DGYcetQiOhG6YzQX41qG/QPp6hd4lfLb/v44X55plpl6?=
- =?us-ascii?Q?GHXdYwR5VmaprEfpt+PADDDwF4CGxLHZIK/SAOwHUBUWlB2USFAFbJ9Uk6m4?=
- =?us-ascii?Q?ecykzhqDUp6NrJ+d5yW2vHehicyVwljxm9jDi2pC?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fdee99a-031c-4a10-cc50-08dc716586f6
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2024 02:53:25.0600
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eELOCU3KCv4ibE+Nwna/PUU0FrqH298QhLLi2BGkptMWE9nE6nUjib2y2gfEoLXAAf8aiRtsdAYogwENsaZnDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5869
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, May 10, 2024 at 12:09:02PM -0700, Paul E. McKenney wrote:
-> On Sat, May 11, 2024 at 02:53:06AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   f4345f05c0dfc73c617e66f3b809edb8ddd41075
-> > commit: 499d7e7e83d25fcf0fa1a8c0be6857a84cbf6a4a rcu: Rename jiffies_till_flush to jiffies_lazy_flush
-> > date:   3 months ago
-> > config: riscv-randconfig-r021-20230817 (https://download.01.org/0day-ci/archive/20240511/202405110230.vcpgN5vz-lkp@intel.com/config)
-> > compiler: riscv32-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110230.vcpgN5vz-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202405110230.vcpgN5vz-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > >> ERROR: modpost: vmlinux: local symbol 'rcu_set_jiffies_lazy_flush' was exported
-> > >> ERROR: modpost: vmlinux: local symbol 'rcu_get_jiffies_lazy_flush' was exported
-> 
-> These do not look to me to be local:
-> 
-> 	void rcu_set_jiffies_lazy_flush(unsigned long jif)
-> 	{
-> 		jiffies_lazy_flush = jif;
-> 	}
-> 	EXPORT_SYMBOL(rcu_set_jiffies_lazy_flush);
-> 
-> 	unsigned long rcu_get_jiffies_lazy_flush(void)
-> 	{
-> 		return jiffies_lazy_flush;
-> 	}
-> 	EXPORT_SYMBOL(rcu_get_jiffies_lazy_flush);
-> 
-> What am I missing here?
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   be2316332e1aa5884f17dc26e73b61ca3f960d57
+commit: 3b0aa3dc4bf66a721b79c7e5879979db3b120925 [3/7] CHROMIUM: thermal: mediatek: Add virtual temp driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240511/202405111124.gXgwFCai-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111124.gXgwFCai-lkp@intel.com/reproduce)
 
-Sorry this is a false positive. We will fix the bot to handle
-this case correctly. 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405111124.gXgwFCai-lkp@intel.com/
 
-Thanks,
-Yujie
+All warnings (new ones prefixed by >>):
+
+>> drivers/thermal/mediatek/virtual_temp.c:106:30: warning: variable 'tzdev' set but not used [-Wunused-but-set-variable]
+     106 |         struct thermal_zone_device *tzdev;
+         |                                     ^
+   1 warning generated.
+
+
+vim +/tzdev +106 drivers/thermal/mediatek/virtual_temp.c
+
+   102	
+   103	static int vtemp_probe(struct platform_device *pdev)
+   104	{
+   105		struct device *dev = &pdev->dev;
+ > 106		struct thermal_zone_device *tzdev;
+   107	
+   108		tzd_cpu_little1 = thermal_zone_get_zone_by_name("cpu_little1");
+   109		tzd_cpu_little2 = thermal_zone_get_zone_by_name("cpu_little2");
+   110		tzd_cpu_little3 = thermal_zone_get_zone_by_name("cpu_little3");
+   111		tzd_cpu_little4 = thermal_zone_get_zone_by_name("cpu_little4");
+   112		tzd_cpu_big0 = thermal_zone_get_zone_by_name("cpu_big0");
+   113		tzd_cpu_big1 = thermal_zone_get_zone_by_name("cpu_big1");
+   114		tzd_apu = thermal_zone_get_zone_by_name("apu");
+   115		tzd_gpu1 = thermal_zone_get_zone_by_name("gpu1");
+   116		tzd_gpu2 = thermal_zone_get_zone_by_name("gpu2");
+   117		tzd_soc1 = thermal_zone_get_zone_by_name("soc1");
+   118		tzd_soc2 = thermal_zone_get_zone_by_name("soc2");
+   119		tzd_soc3 = thermal_zone_get_zone_by_name("soc3");
+   120		tzd_cam1 = thermal_zone_get_zone_by_name("cam1");
+   121		tzd_cam2 = thermal_zone_get_zone_by_name("cam2");
+   122	
+   123		tzdev = devm_thermal_of_zone_register(dev, 0,
+   124				NULL, &vtemp_ops);
+   125		return 0;
+   126	}
+   127	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
