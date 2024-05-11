@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093D0171E76
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 May 2024 23:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979A210F4;
+	Sat, 11 May 2024 00:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715383482; cv=none; b=liBJ7Tgu57ZQ1fA2BLadA16JimReDXfrn6TJkfJfoI+F4uzqyOofJCXDIgB8heUfQAS0HCOjPiGwgqvB16fpgmbax0hDTt3XyGIOS+ur3zJysqHq0RA5HV6CPlMxMc3Emg4pybCTaUH+RDZjFmwByK0G1cnFf/WQevUBY5/io7w=
+	t=1715388402; cv=none; b=qowe23AE4y3XcWCH5ebk4O32xPdbV5RHYo33M9iZjQkUSazWagLGMOZthGz34JqEHODDMKuEQJ/+n5sBBTxLyVIy4PAmIVZSi3T2r9FEiqz24MibXRd1J3jrufVWPtAVoUedNHann0ht/nk9851KTuCjIPA8cja+DICQ/Zp5X3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715383482; c=relaxed/simple;
-	bh=CFfTjMpZwa0nTJjNm3L4qTZeh/Pp/1mtOQRR2uaqwLY=;
+	s=arc-20240116; t=1715388402; c=relaxed/simple;
+	bh=u1zRObv83MG4t5lkib9kDVrQ6dUbWjXdhDPS1LJXm9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TLGNPtw41gcHOh1O9i5PXGPULnVhLKgrzjlvMj6I3Ovx8WhpMH7pRBSVtumTHIo2VHJzflYCch0+ex8OLyvCSbjO5TsuHveZbKWxth6tnBVW0KjZj14FYAp0CYcF8QCpqY5BL30FSa0sd5sy6MHFUR15SDWo/L00IbKz2CmXHQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0L6mQVa; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=cd/kv26fmaST5yBLiRsF3GtIv24pJCP4WrHNWbgtAEW9EnDfPLz4ABjkxRSecGdxiZRvn0RfG7QaNlvh2uaOIPDFtliblKr6N/CB29Pj/eCa9dQHpPqDYwFlCuGdyGIxPBnY6l+ak2bOMFDoyY2dJwBd+CKdLf06PPdleRm4TuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fl907q28; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0L6mQVa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fl907q28"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715383480; x=1746919480;
+  t=1715388401; x=1746924401;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CFfTjMpZwa0nTJjNm3L4qTZeh/Pp/1mtOQRR2uaqwLY=;
-  b=U0L6mQVaCCOKzmQCMd8xVvGsZeuzUFmwWX7V40rK9FhwSq6UYnlHH4by
-   Wumk08dJw1ToVFYNwk/mXxvdrWSn6njdddj2ykjN2IGz40+9LRN2aZr8Q
-   CUW9/wb4LSUxqfB+lcPMl5xtCpkUzjrjoA4PhLwHnmF5pmr4at/TmNKOE
-   gm32gusainoBE+mmSAB6RlssVnbTZ5GIksnyWU9TWOsvFojj9drVWkbch
-   f2l7tnNKf0eGHkeKcbV6beAVc5J/1Y+POPpZGr+YluQgchxZJiDds1BqC
-   m+p5s9Npm0Efa88wFFTtue1J2Vm5Sd0yY6jYx0qvXZ2Q2blsfMyDNkL/e
-   A==;
-X-CSE-ConnectionGUID: r3Nm9lMGTOOLw0h2mXBQbA==
-X-CSE-MsgGUID: 4faU+QkzR4mM6fTuoZASgQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="21989389"
+  bh=u1zRObv83MG4t5lkib9kDVrQ6dUbWjXdhDPS1LJXm9Y=;
+  b=fl907q28G1gUMDhL5MGAM75mJbscG9k5XcVn+m9fIZFrWuca+wyCmz++
+   POdkWJyYPE17mpuSV35PSwhvbVkzgXCReIUU3Sv1dqLZpBh5rSiV+BWoH
+   AGVG8aW8Rs9nSRzBtTYVTl4ZRX07tNzK06Qje3lX3N3TTSPfezp5j8pY/
+   LsXBxdYxDWf8HoICLnuCUybw2c5g9WJDO/ubQ5zNRXwl+T+TMx4B+B+tX
+   ltIJlwpyrjGECtnErsAJD6Wwhz98rwHWrPa0nGg2PZdI8YdklF5eReJ+F
+   WfnSYaonb4tdKQ3D6whRCmen/psLmIrXpFhFMQ+d/yOGIyDZ3V1OQ9gFO
+   w==;
+X-CSE-ConnectionGUID: Rk4rv3QaQP+hefKyR2Z06A==
+X-CSE-MsgGUID: h2Op6pa/Q8aAXETZSpW6zw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11227619"
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="21989389"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 16:24:40 -0700
-X-CSE-ConnectionGUID: L3apfB/vTXaRnwBwnTOBXQ==
-X-CSE-MsgGUID: gakXD4PAS+a2Mv8trbS/MA==
+   d="scan'208";a="11227619"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 17:46:40 -0700
+X-CSE-ConnectionGUID: qznoM9lGQ2u6gCfMf9dgXg==
+X-CSE-MsgGUID: iIBZXyM4QySzRb31HuPNsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="34633389"
+   d="scan'208";a="34454540"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 May 2024 16:24:37 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 May 2024 17:46:39 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5ZbO-0006fr-0T;
-	Fri, 10 May 2024 23:24:34 +0000
-Date: Sat, 11 May 2024 07:24:05 +0800
+	id 1s5asm-0006kF-1W;
+	Sat, 11 May 2024 00:46:36 +0000
+Date: Sat, 11 May 2024 08:46:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh@kernel.org, nuno.sa@analog.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Subject: Re: [PATCH v2 8/8] drivers: iio: imu: Add support for adis1657x
- family
-Message-ID: <202405110735.khNaHnAJ-lkp@intel.com>
-References: <20240508131310.880479-9-ramona.bolboaca13@gmail.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 3/7] drm/i915: Compute CMRR and calculate vtotal
+Message-ID: <202405110834.fRP3Ivmx-lkp@intel.com>
+References: <20240509075833.1858363-4-mitulkumar.ajitkumar.golani@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,120 +62,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240508131310.880479-9-ramona.bolboaca13@gmail.com>
+In-Reply-To: <20240509075833.1858363-4-mitulkumar.ajitkumar.golani@intel.com>
 
-Hi Ramona,
+Hi Mitul,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on jic23-iio/togreg]
-[cannot apply to linus/master v6.9-rc7 next-20240510]
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on next-20240510]
+[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc7]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240508-211559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240508131310.880479-9-ramona.bolboaca13%40gmail.com
-patch subject: [PATCH v2 8/8] drivers: iio: imu: Add support for adis1657x family
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240511/202405110735.khNaHnAJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110735.khNaHnAJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-i915-Define-and-compute-Transcoder-CMRR-registers/20240509-160819
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240509075833.1858363-4-mitulkumar.ajitkumar.golani%40intel.com
+patch subject: [PATCH v8 3/7] drm/i915: Compute CMRR and calculate vtotal
+config: arm-randconfig-001-20240511 (https://download.01.org/0day-ci/archive/20240511/202405110834.fRP3Ivmx-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405110834.fRP3Ivmx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405110735.khNaHnAJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405110834.fRP3Ivmx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iio/imu/adis16475.c:16:
-   include/linux/iio/imu/adis.h:530:60: warning: 'struct iio_dev_attr' declared inside parameter list will not be visible outside of this definition or declaration
-     530 |                                               const struct iio_dev_attr **buffer_attrs);
-         |                                                            ^~~~~~~~~~~~
-   drivers/iio/imu/adis16475.c: In function 'adis16475_probe':
->> drivers/iio/imu/adis16475.c:1959:69: error: passing argument 5 of 'devm_adis_setup_buffer_and_trigger_with_attrs' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1959 |                                                                     adis16475_fifo_attributes);
-         |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                                     |
-         |                                                                     const struct attribute **
-   include/linux/iio/imu/adis.h:530:75: note: expected 'const struct iio_dev_attr **' but argument is of type 'const struct attribute **'
-     530 |                                               const struct iio_dev_attr **buffer_attrs);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/i915/display/intel_vrr.c:7:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/i915/display/intel_vrr.c:160:28: error: comparison of distinct pointer types ('typeof ((adjusted_pixel_rate)) *' (aka 'long long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Werror,-Wcompare-distinct-pointer-types]
+     160 |         crtc_state->cmrr.cmrr_m = do_div(adjusted_pixel_rate, crtc_state->cmrr.cmrr_n);
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+   2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM_XE [=m] && DRM_XE [=m]=m
 
 
-vim +/devm_adis_setup_buffer_and_trigger_with_attrs +1959 drivers/iio/imu/adis16475.c
+vim +160 drivers/gpu/drm/i915/display/intel_vrr.c
 
-  1912	
-  1913	
-  1914	static int adis16475_probe(struct spi_device *spi)
-  1915	{
-  1916		struct iio_dev *indio_dev;
-  1917		struct adis16475 *st;
-  1918		int ret;
-  1919	
-  1920		indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-  1921		if (!indio_dev)
-  1922			return -ENOMEM;
-  1923	
-  1924		st = iio_priv(indio_dev);
-  1925	
-  1926		st->info = spi_get_device_match_data(spi);
-  1927		if (!st->info)
-  1928			return -EINVAL;
-  1929	
-  1930		ret = adis_init(&st->adis, indio_dev, spi, &st->info->adis_data);
-  1931		if (ret)
-  1932			return ret;
-  1933	
-  1934		indio_dev->name = st->info->name;
-  1935		indio_dev->channels = st->info->channels;
-  1936		indio_dev->num_channels = st->info->num_channels;
-  1937		if (st->info->flags & ADIS16475_HAS_FIFO)
-  1938			indio_dev->info = &adis16575_info;
-  1939		else
-  1940			indio_dev->info = &adis16475_info;
-  1941		indio_dev->modes = INDIO_DIRECT_MODE;
-  1942	
-  1943		ret = __adis_initial_startup(&st->adis);
-  1944		if (ret)
-  1945			return ret;
-  1946	
-  1947		ret = adis16475_config_irq_pin(st);
-  1948		if (ret)
-  1949			return ret;
-  1950	
-  1951		ret = adis16475_config_sync_mode(st);
-  1952		if (ret)
-  1953			return ret;
-  1954	
-  1955		if (st->info->flags & ADIS16475_HAS_FIFO) {
-  1956			ret = devm_adis_setup_buffer_and_trigger_with_attrs(&st->adis, indio_dev,
-  1957									    adis16475_trigger_handler_with_fifo,
-  1958									    &adis16475_buffer_ops,
-> 1959									    adis16475_fifo_attributes);
-  1960			if (ret)
-  1961				return ret;
-  1962			/* Update overflow behavior to always overwrite the oldest sample. */
-  1963			ret = adis_update_bits(&st->adis, ADIS16475_REG_FIFO_CTRL,
-  1964					       ADIS16575_OVERFLOW_MASK, (u16)ADIS16575_OVERWRITE_OLDEST);
-  1965		} else {
-  1966			ret = devm_adis_setup_buffer_and_trigger(&st->adis, indio_dev,
-  1967								 adis16475_trigger_handler);
-  1968		}
-  1969		if (ret)
-  1970			return ret;
-  1971	
-  1972		ret = devm_iio_device_register(&spi->dev, indio_dev);
-  1973		if (ret)
-  1974			return ret;
-  1975	
-  1976		adis16475_debugfs_init(indio_dev);
-  1977	
-  1978		return 0;
-  1979	}
-  1980	
+   134	
+   135	static unsigned int
+   136	cmrr_get_vtotal(struct intel_crtc_state *crtc_state)
+   137	{
+   138		int multiplier_m = 1, multiplier_n = 1, vtotal;
+   139		int actual_refresh_rate, desired_refresh_rate;
+   140		long long actual_pixel_rate, adjusted_pixel_rate, pixel_clock_per_line;
+   141		struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+   142	
+   143		pixel_clock_per_line =
+   144			adjusted_mode->crtc_clock * 1000 / adjusted_mode->crtc_htotal;
+   145		actual_refresh_rate =
+   146			pixel_clock_per_line * FIXED_POINT_PRECISION / adjusted_mode->crtc_vtotal;
+   147		desired_refresh_rate = drm_mode_vrefresh(adjusted_mode);
+   148		actual_pixel_rate = actual_refresh_rate * adjusted_mode->crtc_vtotal;
+   149		actual_pixel_rate =
+   150			(actual_pixel_rate * adjusted_mode->crtc_htotal) / FIXED_POINT_PRECISION;
+   151	
+   152		multiplier_m = 1001;
+   153		multiplier_n = 1000;
+   154	
+   155		crtc_state->cmrr.cmrr_n =
+   156			((desired_refresh_rate * adjusted_mode->crtc_htotal * multiplier_n) / multiplier_m);
+   157		crtc_state->cmrr.cmrr_n *= multiplier_n;
+   158		vtotal = (actual_pixel_rate * multiplier_n) / crtc_state->cmrr.cmrr_n;
+   159		adjusted_pixel_rate = actual_pixel_rate * multiplier_m;
+ > 160		crtc_state->cmrr.cmrr_m = do_div(adjusted_pixel_rate, crtc_state->cmrr.cmrr_n);
+   161	
+   162		return vtotal;
+   163	}
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
