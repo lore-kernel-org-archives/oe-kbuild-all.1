@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381C16FDC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 21:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C3A54F8C;
+	Sun, 12 May 2024 22:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715550162; cv=none; b=YNBGhlLIu38HLRD/9VZIdSZs/FoQ/6MkJGJdEc1MvpPKe7FpvZtrM/wcWHYho8QU0y0MAumrF1L7dsEskLqi8pL5hxpisk+4LvPS5/oi8P6+IHKfYM2452DIJdLVp1Zefg0ctb35HwmfIUWTEHfpIiWWYTLuil4Wt08Yj/w05gs=
+	t=1715552693; cv=none; b=bOG3heLdOKDPRkiUuZevZDF0Nvh68DTcpi/nA4nxwXM7Cjjpd2OpoQJBsAAu/OldaH1ucwDB2SPOwb2c9WnxMPR4oukgrbiUwN0NC6D2oYSxSWX42qbYQ812KlhvLlkJ2J6i7uflkL1wpv0LetisBtEg+vj1d38CMhorhm2mxvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715550162; c=relaxed/simple;
-	bh=GegXgwzVJhPkAZSeayDMDHcceGbbQ2PLQmQg3R5SUEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y688EfMJHPUSoJoKLpgy87jcW5vG5IcxtUB7Y75KljhUtjYpFoCzYd5J0cEBNEqR4ZpjgHh3wZByIMUWm/xGpW25yjyYsadk61tqib0pgVM6vk+4o2xHItOViF2eNSO/7PhXatnZsWSbIbsKlT6q77NCOR52ko8xMQL8u34v09E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdIbP5rI; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1715552693; c=relaxed/simple;
+	bh=3C4Tsvi8zQ8/WgqGGbU/HP9bh5KBCx36pvVCbqCn/0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rcTYm2ALRNwKV5k/+B/xiKoyS5sHbPSwr8KmH4KCGq/CJS592sUG7A5wkF95FZgR8p2Y3O1OeTLcC3gwexwMVNI/AC2k4uKkUC5r+fhCDqck+lJLFIHFF1SArjHMPJ4VKRtFdupz2SpxZAfjNUNa+xytEX2O3e8vX3kKY//Is2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXNYfd9s; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdIbP5rI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXNYfd9s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715550160; x=1747086160;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GegXgwzVJhPkAZSeayDMDHcceGbbQ2PLQmQg3R5SUEQ=;
-  b=ZdIbP5rIJS3maYjOmGri7qVvj6Z8/DOeIWaM1EoL2Xa6iVj1x+J0tyCS
-   bVLBb+DWFTeUaDybvik2zvHQy3eLb97mXmgp0/H2JZsKdt5gdNsWziJrN
-   J4gJ/zQQYAh2lKP2DeDFSTRCMTfljLqsQt/heRTm5mEBPqHYpiZw2JPKY
-   H6pQQ8SCP3D1jjaHhE3ihou9XFd324sLMM+6zVOOKqk0sYhyoJwuojxf1
-   Vh1Xl1n+nhE16WcFsXdmmJrEn5IWB8exd51Cz4GqVnEYBgBU5HRgG92v8
-   ItX3EX/+T1m0syn3vOFOjgHqZRkkYqHvEfU+tHRMtIpWS9gMAL7+A5Xyc
-   w==;
-X-CSE-ConnectionGUID: HniEpaZxQVmY9jiPNPxGSg==
-X-CSE-MsgGUID: bJZAiIqBSxmkyzb1dm5lzA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="28989301"
-X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; 
-   d="scan'208";a="28989301"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 14:42:39 -0700
-X-CSE-ConnectionGUID: xssJ4sMGSkmDXqfCYNvKPw==
-X-CSE-MsgGUID: qr/sHLokQ3ac6l1s3BtUpQ==
+  t=1715552690; x=1747088690;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3C4Tsvi8zQ8/WgqGGbU/HP9bh5KBCx36pvVCbqCn/0w=;
+  b=iXNYfd9szR6wC9iYsMiXt9fJjmM0e6OJ83iQ3+wF+UayFCuYxFqfLOoJ
+   iY0BEPC1rqcru37GJWeKahbd9NqFNoydvhFcylCZWbr/Ru+NKCTxl6BoW
+   d6vz7s4AXSRciHY/8VLxzyihM+ZKOKk9ITF2w7hEt2Bj6a6TFtLeVmhoe
+   j0r6slEZXe1v5W6G7rrQzLJKqVqqev6mrt6NqmcfblfEttFvfNcDMFne6
+   FGnXWg/UxdA8q4XUZVs1wJ/Lwhom9ehqSQFqhTOgC+mMlMPZ4B1tHiVrp
+   NoDUjGOI/wMSYg6svVXCQSiDDAKFEFmJH7kA5OumxxaqNFZTTm5qwARwf
+   Q==;
+X-CSE-ConnectionGUID: FBfRaJq5RrSNXXAYThx1ug==
+X-CSE-MsgGUID: hlcj+dJLT1KA3JBVQdxGoA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11328007"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
+   d="scan'208";a="11328007"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 15:24:49 -0700
+X-CSE-ConnectionGUID: IKZ0fXjETquK9VRyvxP70g==
+X-CSE-MsgGUID: v+CBfvrHRqO8IEHv9CUAeA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; 
-   d="scan'208";a="30106654"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
+   d="scan'208";a="30717284"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 May 2024 14:42:39 -0700
+  by orviesa008.jf.intel.com with ESMTP; 12 May 2024 15:24:46 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6Gxn-00099P-3B;
-	Sun, 12 May 2024 21:42:35 +0000
-Date: Mon, 13 May 2024 05:41:57 +0800
+	id 1s6HcZ-0009Fn-29;
+	Sun, 12 May 2024 22:24:43 +0000
+Date: Mon, 13 May 2024 06:24:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Hutchings <bwh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.4.y-st-rt 25/22961] versioncheck:
- ./drivers/misc/hwlat_detector.c: 51 linux/version.h not needed.
-Message-ID: <202405130533.k6hOzZe7-lkp@intel.com>
+To: Kiarash Hajian <kiarash8112hajian@gmail.com>,
+	Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Kiarash Hajian <kiarash8112hajian@gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/msm/a6xx: request memory region
+Message-ID: <202405130618.N7QKeg94-lkp@intel.com>
+References: <20240512-msm-adreno-memory-region-v3-2-0a728ad45010@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,64 +71,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240512-msm-adreno-memory-region-v3-2-0a728ad45010@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rt
-head:   9addf64126a0035adf546b88a6519e544b3c0f16
-commit: a16bf8e1849ac581cab474ff35f95174bf282cba [25/22961] hwlatdetect.patch
-reproduce: (https://download.01.org/0day-ci/archive/20240513/202405130533.k6hOzZe7-lkp@intel.com/reproduce)
+Hi Kiarash,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on cf87f46fd34d6c19283d9625a7822f20d90b64a4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiarash-Hajian/drm-msm-a6xx-request-memory-region/20240512-135215
+base:   cf87f46fd34d6c19283d9625a7822f20d90b64a4
+patch link:    https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-2-0a728ad45010%40gmail.com
+patch subject: [PATCH v3 2/2] drm/msm/a6xx: request memory region
+config: i386-buildonly-randconfig-001-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130618.N7QKeg94-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130618.N7QKeg94-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405130533.k6hOzZe7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130618.N7QKeg94-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wno-missing-prototypes -Wno-missing-declarations -Wno-override-init -Wtautological-compare -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict W=1 --keep-going HOSTCC=gcc-7 CC=gcc-7 -j32 ARCH=x86_64 versioncheck
-   scripts/kconfig/conf  --silentoldconfig Kconfig
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./Documentation/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 37 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 33 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 19 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 34 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 23 linux/version.h not needed.
-   ./drivers/media/usb/cx231xx/cx231xx-cards.c: 1816: need linux/version.h
-   ./drivers/media/usb/dvb-usb-v2/dvb_usb_core.c: 1123: need linux/version.h
-   ./drivers/media/usb/dvb-usb/dvb-usb-dvb.c: 341: need linux/version.h
-   ./drivers/media/usb/siano/smsusb.c: 717: need linux/version.h
->> ./drivers/misc/hwlat_detector.c: 51 linux/version.h not needed.
-   ./drivers/mtd/nand/brcmnand/brcmnand.c: 14 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/cn66xx_device.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/cn68xx_device.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/lio_ethtool.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/lio_main.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/octeon_console.c: 26 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/octeon_device.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/octeon_droq.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/octeon_mem_ops.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/octeon_network.h: 29 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/octeon_nic.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/request_manager.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/cavium/liquidio/response_manager.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qed/qed_l2.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qed/qed_main.c: 13 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 12 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 9 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 11 linux/version.h not needed.
-   ./drivers/net/ethernet/qualcomm/qca_7k.c: 30 linux/version.h not needed.
-   ./drivers/net/ethernet/synopsys/dwc_eth_qos.c: 49 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/mediatek/mt7601u/main.c: 18 linux/version.h not needed.
-   ./drivers/staging/sm750fb/sm750_hw.c: 1 linux/version.h not needed.
-   ./drivers/staging/wilc1000/linux_wlan.c: 26 linux/version.h not needed.
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1605:8: error: use of undeclared label 'err_mmio'
+    1605 |                 goto err_mmio;
+         |                      ^
+   1 error generated.
+
+
+vim +/err_mmio +1605 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+
+c11fa1204fe940 Akhil P Oommen 2023-01-02  1582  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1583  int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+5a903a44a98471 Konrad Dybcio  2023-06-16  1584  {
+5a903a44a98471 Konrad Dybcio  2023-06-16  1585  	struct platform_device *pdev = of_find_device_by_node(node);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1586  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1587  	int ret;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1588  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1589  	if (!pdev)
+5a903a44a98471 Konrad Dybcio  2023-06-16  1590  		return -ENODEV;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1591  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1592  	gmu->dev = &pdev->dev;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1593  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1594  	of_dma_configure(gmu->dev, node, true);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1595  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1596  	pm_runtime_enable(gmu->dev);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1597  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1598  	/* Mark legacy for manual SPTPRAC control */
+5a903a44a98471 Konrad Dybcio  2023-06-16  1599  	gmu->legacy = true;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1600  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1601  	/* Map the GMU registers */
+5a903a44a98471 Konrad Dybcio  2023-06-16  1602  	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
+5a903a44a98471 Konrad Dybcio  2023-06-16  1603  	if (IS_ERR(gmu->mmio)) {
+5a903a44a98471 Konrad Dybcio  2023-06-16  1604  		ret = PTR_ERR(gmu->mmio);
+5a903a44a98471 Konrad Dybcio  2023-06-16 @1605  		goto err_mmio;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1606  	}
+5a903a44a98471 Konrad Dybcio  2023-06-16  1607  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1608  	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
+5a903a44a98471 Konrad Dybcio  2023-06-16  1609  	if (IS_ERR(gmu->cxpd)) {
+5a903a44a98471 Konrad Dybcio  2023-06-16  1610  		ret = PTR_ERR(gmu->cxpd);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1611  		goto err_mmio;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1612  	}
+5a903a44a98471 Konrad Dybcio  2023-06-16  1613  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1614  	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
+5a903a44a98471 Konrad Dybcio  2023-06-16  1615  		ret = -ENODEV;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1616  		goto detach_cxpd;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1617  	}
+5a903a44a98471 Konrad Dybcio  2023-06-16  1618  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1619  	init_completion(&gmu->pd_gate);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1620  	complete_all(&gmu->pd_gate);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1621  	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1622  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1623  	/* Get a link to the GX power domain to reset the GPU */
+5a903a44a98471 Konrad Dybcio  2023-06-16  1624  	gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
+5a903a44a98471 Konrad Dybcio  2023-06-16  1625  	if (IS_ERR(gmu->gxpd)) {
+5a903a44a98471 Konrad Dybcio  2023-06-16  1626  		ret = PTR_ERR(gmu->gxpd);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1627  	}
+5a903a44a98471 Konrad Dybcio  2023-06-16  1628  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1629  	gmu->initialized = true;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1630  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1631  	return 0;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1632  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1633  detach_cxpd:
+5a903a44a98471 Konrad Dybcio  2023-06-16  1634  	dev_pm_domain_detach(gmu->cxpd, false);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1635  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1636  	/* Drop reference taken in of_find_device_by_node */
+5a903a44a98471 Konrad Dybcio  2023-06-16  1637  	put_device(gmu->dev);
+5a903a44a98471 Konrad Dybcio  2023-06-16  1638  
+5a903a44a98471 Konrad Dybcio  2023-06-16  1639  	return ret;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1640  }
+5a903a44a98471 Konrad Dybcio  2023-06-16  1641  
 
 -- 
 0-DAY CI Kernel Test Service
