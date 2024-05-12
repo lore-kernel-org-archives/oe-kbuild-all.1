@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B284058ADB;
-	Sun, 12 May 2024 23:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7003233
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 23:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715555926; cv=none; b=GAZPCnb4bGw0jTYFS55EoYvgurD2UwDtO47w5Xj/JKhGq1+1mq/HqBHqMoXScHYrHdeP4QqyLgVTfAGUO7D5swZcYKnS77MrW7Xp8JadoA+WuoVN7DcZOh70lIYmwkd5XSl+0MGc3Van7otR9oXCQznUxbda1RAg0mTIp4olAWk=
+	t=1715556526; cv=none; b=ehTzVt2/54P8ahUPgECVIMbQxSOxPScsVJZTwYVAgNSGOwzVKPR+eiE0eiHSqfE74ya0UrJquoVgYgK9yyxanQLDVgN6UsjxftM7mYpMolQz6STmf70AJiWfRY3TjVSOjZkyLC53NrHv8LSLNcF5n5r/fIIojQK3pmhJ594Vo3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715555926; c=relaxed/simple;
-	bh=fzck0haix2xbIN3u2whvsy6Qxz7xvRas8Fs3C4bIKCg=;
+	s=arc-20240116; t=1715556526; c=relaxed/simple;
+	bh=E0nN8H3Pb6/XhK+fQUHxaT13GFRomGucb0tieTr+pbc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=obV8Z6JHFWVn9k2eJrd4YQV7mFIhNHCFOQ9owIDW4uoNSxDl6UB+cZrJgUifXnk6UTvuAVXUerFgHuup5+rhb1QA2NO8ZJXJE+9SA+fKWlnfKJPlzXzzypYfJDA0sQFzkrnfUtgZ990yEfn05Zd2nMeYppROQFmurJFzmQ1+Pxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NyItYSGA; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=VNxLTwo5gHd8E6Uu5rZzx6p7msgKCivDUMRrAmhTVuCa/0wDC76ogX3b62shpenyVBDNtZVnmH5fS2XS9IZFqeMVthIrVugK16SyGyjf2pQsghTGkCkA8JyXzDDWOYjS6Si30vVq9t9+vcNLutmEwC60JfdMliysVD5ljpJAG9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lH9GqPqt; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NyItYSGA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lH9GqPqt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715555925; x=1747091925;
+  t=1715556524; x=1747092524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fzck0haix2xbIN3u2whvsy6Qxz7xvRas8Fs3C4bIKCg=;
-  b=NyItYSGArNCQRHvoYyfn0eOd26axOq4i3oDZ7YUFlB51A4UPbcOU/bL7
-   Ggm3Ox/xO7QW+scLvbmVM9oJ3jKnGgwu5s1rpDS5r/B70niP23e8WUAAc
-   Qo5pRm6FrRcK5m4obYSf+lUb8nekwdRljGr2JNtvSZxMgRHKIGFKv4dPq
-   4SiqjKMkts2POCVGFhhoWPPeQ0/HfN9H1uR+zCku5+Gv0HmklKiFuSGxT
-   uX1S7JHqGBrRcR4qT10sMQgakaxTPuwsJZnQhS/VdPRCJGP5CVagj0N5H
-   ecZR/fr05EVJujCz094RAcAqv2DLKOlTQUBMLYy/FEJ7vEMkOsSs3P86/
-   A==;
-X-CSE-ConnectionGUID: AT3NxKQeSdmcEi2MTFSNuA==
-X-CSE-MsgGUID: wRkgn7iFQTq7iRLt7XK7fg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22624624"
+  bh=E0nN8H3Pb6/XhK+fQUHxaT13GFRomGucb0tieTr+pbc=;
+  b=lH9GqPqtyGHDMvq0ViJqWpGVid5jYKjWJDkuqFnd032YjyfRZ5lHlV+C
+   clh4edNzE6qyJtDqZkaT2dcQQsGCfNF13E2uzWMx9+Q2i4BLIDgarcREJ
+   8keyv8tyJeUnvQqA3qDOL94TaLgQEe+0ZBXkhgqWD+Nawg+OaOmrsAuBM
+   G5cxIRx5qUjpGaFTUBshptPetIUu7o1EZU+o5rqGPK3JI8kx9mxm5K682
+   etje4xqPrMcS8Zqh6U9E6zQnEu9UTxRm1cqLgaXYYxjRfoEaAkFpC4ffr
+   JzBSeU3ukLw35ZFazzeHelsANKNGiBGig7Et75D9J89wGhdrfhbiwMJOv
+   w==;
+X-CSE-ConnectionGUID: sDq81Dw6SoORTJ6Apqob5Q==
+X-CSE-MsgGUID: a1zBYzQlQfujmPCwmp6Jug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11633302"
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="22624624"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 16:18:44 -0700
-X-CSE-ConnectionGUID: wGmqb6umTG2SeG2/67iWyA==
-X-CSE-MsgGUID: phINNd9sS2KlaVF52zu7mw==
+   d="scan'208";a="11633302"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 16:28:44 -0700
+X-CSE-ConnectionGUID: w51foNSySwS10xBu0Tifgw==
+X-CSE-MsgGUID: tWJ9e8XRQ0yiECzRIaYvWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="30239271"
+   d="scan'208";a="34677797"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 May 2024 16:18:42 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 12 May 2024 16:28:43 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6ISm-0009Hp-1k;
-	Sun, 12 May 2024 23:18:40 +0000
-Date: Mon, 13 May 2024 07:17:28 +0800
+	id 1s6IcS-0009IB-2e;
+	Sun, 12 May 2024 23:28:40 +0000
+Date: Mon, 13 May 2024 07:27:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-tbl-6.9 46/46]
- arch/arm64/include/asm/vdso/compat_gettimeofday.h:27:31: error: use of
- undeclared identifier '__NR_compat32_gettimeofday'
-Message-ID: <202405130739.4E0Jd9gx-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.9-netnext 17/17]
+ drivers/net/ethernet/mediatek/mtk_ppe_offload.c:640:5: error: conflicting
+ types for 'mtk_eth_offload_init'; have 'int(struct mtk_eth *)'
+Message-ID: <202405130737.F7f2KWfk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,185 +63,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.9
-head:   e0d7a2fe9b74052a280531e773ebaba59e2d523f
-commit: e0d7a2fe9b74052a280531e773ebaba59e2d523f [46/46] arm64: use generic syscall table generation rules
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240513/202405130739.4E0Jd9gx-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130739.4E0Jd9gx-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-netnext
+head:   9469b2a45f7e136361cc2a3ff84b2689e7517611
+commit: 9469b2a45f7e136361cc2a3ff84b2689e7517611 [17/17] net: ethernet: mtk_eth_soc: ppe: add support for multiple PPEs
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240513/202405130737.F7f2KWfk-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130737.F7f2KWfk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405130739.4E0Jd9gx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130737.F7f2KWfk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   unifdef: usr/include/asm-generic/unistd.h.tmp: 7: unterminated char literal
-   unifdef: output may be truncated
-   make[3]: *** [scripts/Makefile.headersinst:63: usr/include/asm-generic/unistd.h] Error 1
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   make[3]: Target '__headers' not remade because of errors.
-   make[2]: *** [Makefile:1293: headers] Error 2
-   In file included from arch/arm64/kernel/asm-offsets.c:10:
-   In file included from include/linux/arm_sdei.h:8:
-   In file included from include/acpi/ghes.h:5:
-   In file included from include/acpi/apei.h:9:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
-   In file included from <built-in>:3:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:149:
->> arch/arm64/include/asm/vdso/compat_gettimeofday.h:27:31: error: use of undeclared identifier '__NR_compat32_gettimeofday'
-      27 |         register long nr asm("r7") = __NR_compat32_gettimeofday;
-         |                                      ^
->> arch/arm64/include/asm/vdso/compat_gettimeofday.h:44:31: error: use of undeclared identifier '__NR_compat32_clock_gettime64'
-      44 |         register long nr asm("r7") = __NR_compat32_clock_gettime64;
-         |                                      ^
->> arch/arm64/include/asm/vdso/compat_gettimeofday.h:61:31: error: use of undeclared identifier '__NR_compat32_clock_gettime'
-      61 |         register long nr asm("r7") = __NR_compat32_clock_gettime;
-         |                                      ^
->> arch/arm64/include/asm/vdso/compat_gettimeofday.h:78:31: error: use of undeclared identifier '__NR_compat32_clock_getres_time64'
-      78 |         register long nr asm("r7") = __NR_compat32_clock_getres_time64;
-         |                                      ^
->> arch/arm64/include/asm/vdso/compat_gettimeofday.h:95:31: error: use of undeclared identifier '__NR_compat32_clock_getres'
-      95 |         register long nr asm("r7") = __NR_compat32_clock_getres;
-         |                                      ^
-   5 errors generated.
-   make[3]: *** [arch/arm64/kernel/vdso32/Makefile:146: arch/arm64/kernel/vdso32/vgettimeofday.o] Error 1
-   make[3]: Target 'arch/arm64/kernel/vdso32/vdso.so' not remade because of errors.
-   make[2]: *** [arch/arm64/Makefile:199: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/net/ethernet/mediatek/mtk_ppe_offload.c:640:5: error: conflicting types for 'mtk_eth_offload_init'; have 'int(struct mtk_eth *)'
+     640 | int mtk_eth_offload_init(struct mtk_eth *eth)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mediatek/mtk_ppe_offload.c:13:
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1540:5: note: previous declaration of 'mtk_eth_offload_init' with type 'int(struct mtk_eth *, u8)' {aka 'int(struct mtk_eth *, unsigned char)'}
+    1540 | int mtk_eth_offload_init(struct mtk_eth *eth, u8 id);
+         |     ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__NR_compat32_gettimeofday +27 arch/arm64/include/asm/vdso/compat_gettimeofday.h
+vim +640 drivers/net/ethernet/mediatek/mtk_ppe_offload.c
 
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   19  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   20  static __always_inline
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   21  int gettimeofday_fallback(struct __kernel_old_timeval *_tv,
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   22  			  struct timezone *_tz)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   23  {
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   24  	register struct timezone *tz asm("r1") = _tz;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   25  	register struct __kernel_old_timeval *tv asm("r0") = _tv;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   26  	register long ret asm ("r0");
-56921b57d82d74 Arnd Bergmann     2024-05-08  @27  	register long nr asm("r7") = __NR_compat32_gettimeofday;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   28  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   29  	asm volatile(
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   30  	"	swi #0\n"
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   31  	: "=r" (ret)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   32  	: "r" (tv), "r" (tz), "r" (nr)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   33  	: "memory");
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   34  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   35  	return ret;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   36  }
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   37  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   38  static __always_inline
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   39  long clock_gettime_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   40  {
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   41  	register struct __kernel_timespec *ts asm("r1") = _ts;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   42  	register clockid_t clkid asm("r0") = _clkid;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   43  	register long ret asm ("r0");
-56921b57d82d74 Arnd Bergmann     2024-05-08  @44  	register long nr asm("r7") = __NR_compat32_clock_gettime64;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   45  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   46  	asm volatile(
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   47  	"	swi #0\n"
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   48  	: "=r" (ret)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   49  	: "r" (clkid), "r" (ts), "r" (nr)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   50  	: "memory");
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   51  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   52  	return ret;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   53  }
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   54  
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   55  static __always_inline
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   56  long clock_gettime32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   57  {
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   58  	register struct old_timespec32 *ts asm("r1") = _ts;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   59  	register clockid_t clkid asm("r0") = _clkid;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   60  	register long ret asm ("r0");
-56921b57d82d74 Arnd Bergmann     2024-05-08  @61  	register long nr asm("r7") = __NR_compat32_clock_gettime;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   62  
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   63  	asm volatile(
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   64  	"	swi #0\n"
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   65  	: "=r" (ret)
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   66  	: "r" (clkid), "r" (ts), "r" (nr)
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   67  	: "memory");
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   68  
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   69  	return ret;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   70  }
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   71  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   72  static __always_inline
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   73  int clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   74  {
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   75  	register struct __kernel_timespec *ts asm("r1") = _ts;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   76  	register clockid_t clkid asm("r0") = _clkid;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   77  	register long ret asm ("r0");
-56921b57d82d74 Arnd Bergmann     2024-05-08  @78  	register long nr asm("r7") = __NR_compat32_clock_getres_time64;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   79  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   80  	asm volatile(
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   81  	"       swi #0\n"
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   82  	: "=r" (ret)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   83  	: "r" (clkid), "r" (ts), "r" (nr)
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   84  	: "memory");
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   85  
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   86  	return ret;
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   87  }
-a7f71a2c8903f8 Vincenzo Frascino 2019-06-21   88  
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   89  static __always_inline
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   90  int clock_getres32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   91  {
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   92  	register struct old_timespec32 *ts asm("r1") = _ts;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   93  	register clockid_t clkid asm("r0") = _clkid;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   94  	register long ret asm ("r0");
-56921b57d82d74 Arnd Bergmann     2024-05-08  @95  	register long nr asm("r7") = __NR_compat32_clock_getres;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   96  
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   97  	asm volatile(
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   98  	"       swi #0\n"
-33a58980ff3cc5 Thomas Gleixner   2019-07-28   99  	: "=r" (ret)
-33a58980ff3cc5 Thomas Gleixner   2019-07-28  100  	: "r" (clkid), "r" (ts), "r" (nr)
-33a58980ff3cc5 Thomas Gleixner   2019-07-28  101  	: "memory");
-33a58980ff3cc5 Thomas Gleixner   2019-07-28  102  
-33a58980ff3cc5 Thomas Gleixner   2019-07-28  103  	return ret;
-33a58980ff3cc5 Thomas Gleixner   2019-07-28  104  }
-33a58980ff3cc5 Thomas Gleixner   2019-07-28  105  
+502e84e2382d92 Felix Fietkau 2021-03-24  639  
+502e84e2382d92 Felix Fietkau 2021-03-24 @640  int mtk_eth_offload_init(struct mtk_eth *eth)
 
-:::::: The code at line 27 was first introduced by commit
-:::::: 56921b57d82d74e6e7433932f8b33a52ca7e6977 arm64: rework compat syscall macros
+:::::: The code at line 640 was first introduced by commit
+:::::: 502e84e2382d92654a2ecbc52cdbdb5a11cdcec7 net: ethernet: mtk_eth_soc: add flow offloading support
 
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+:::::: TO: Felix Fietkau <nbd@nbd.name>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
