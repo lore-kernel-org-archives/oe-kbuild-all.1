@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C3A54F8C;
-	Sun, 12 May 2024 22:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0FF58ABF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 23:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715552693; cv=none; b=bOG3heLdOKDPRkiUuZevZDF0Nvh68DTcpi/nA4nxwXM7Cjjpd2OpoQJBsAAu/OldaH1ucwDB2SPOwb2c9WnxMPR4oukgrbiUwN0NC6D2oYSxSWX42qbYQ812KlhvLlkJ2J6i7uflkL1wpv0LetisBtEg+vj1d38CMhorhm2mxvI=
+	t=1715555219; cv=none; b=UnHUooCV34Ju5QAaRP/NVDTN6FcF41MSAKv3SBsDRPazaH3RiRb4W9ZwqiNtCqhdVxS+oKV/qq0vTLX/UWVrsXXSBjcYfMcLCvia6ePVmNuKC4NbokCRWkGIQgO4bC05olHHlqMNhT4G8iKrJjNElX6RKFY0l5rvMx4gS9jHUsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715552693; c=relaxed/simple;
-	bh=3C4Tsvi8zQ8/WgqGGbU/HP9bh5KBCx36pvVCbqCn/0w=;
+	s=arc-20240116; t=1715555219; c=relaxed/simple;
+	bh=iIroH5Y9NmxigOjMGmDqMn7BK8xc09nKaScH6g5IsMc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rcTYm2ALRNwKV5k/+B/xiKoyS5sHbPSwr8KmH4KCGq/CJS592sUG7A5wkF95FZgR8p2Y3O1OeTLcC3gwexwMVNI/AC2k4uKkUC5r+fhCDqck+lJLFIHFF1SArjHMPJ4VKRtFdupz2SpxZAfjNUNa+xytEX2O3e8vX3kKY//Is2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXNYfd9s; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHiqr0ugGAppVLpynQi0HH9fWEmFAb95OVGwkkP0wCk88KbcYpSMCeaLRf98SVQj6agAgA5CpMUQVlyYBVl1JONfeTcqWB6AtjNtFOZmbgNVqwDRIAwFq9oznt4iqti+qdqq9GAR3ZyyyCJcduplej9D0wY0Qnk5qMJUE16IHIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPGdXFyu; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXNYfd9s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPGdXFyu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715552690; x=1747088690;
+  t=1715555217; x=1747091217;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3C4Tsvi8zQ8/WgqGGbU/HP9bh5KBCx36pvVCbqCn/0w=;
-  b=iXNYfd9szR6wC9iYsMiXt9fJjmM0e6OJ83iQ3+wF+UayFCuYxFqfLOoJ
-   iY0BEPC1rqcru37GJWeKahbd9NqFNoydvhFcylCZWbr/Ru+NKCTxl6BoW
-   d6vz7s4AXSRciHY/8VLxzyihM+ZKOKk9ITF2w7hEt2Bj6a6TFtLeVmhoe
-   j0r6slEZXe1v5W6G7rrQzLJKqVqqev6mrt6NqmcfblfEttFvfNcDMFne6
-   FGnXWg/UxdA8q4XUZVs1wJ/Lwhom9ehqSQFqhTOgC+mMlMPZ4B1tHiVrp
-   NoDUjGOI/wMSYg6svVXCQSiDDAKFEFmJH7kA5OumxxaqNFZTTm5qwARwf
-   Q==;
-X-CSE-ConnectionGUID: FBfRaJq5RrSNXXAYThx1ug==
-X-CSE-MsgGUID: hlcj+dJLT1KA3JBVQdxGoA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11328007"
+  bh=iIroH5Y9NmxigOjMGmDqMn7BK8xc09nKaScH6g5IsMc=;
+  b=gPGdXFyu2tswU4E8dmK4r3/alwPuz10mMd5OZTTwRX5Y483AmaKb1CEV
+   nji5A/EFwA47rlf58Ob/rsRvhuQncgVjtJXa+WHACcxYuMSx3q9BwZ09T
+   RoP5Qt87aO02ZJOE9CABK7IWYmZGYFEZJsJuuc/6CD6X2avP19fNhOqfx
+   50zapSCIOBFW0aW5cekUmRvSKbiUx11CoXAZuZrO+b1kDgghz1CdmkUKt
+   XCg5ZwXvGJ4jfGbNiZTHlR9cWJjVc3IJllSWuPlZmBbeC0pkQxo1ClH2E
+   gcSBSRzG12w5wyGhTzuOl1eXwqw9dS3VkQ+6QpKKelswMTY+VCwh/KNv2
+   g==;
+X-CSE-ConnectionGUID: nqhahxmOT/K4fzBV4nQ1Mg==
+X-CSE-MsgGUID: PCzVM/lgTAeMLqCt4fJ8AA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="15286300"
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="11328007"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 15:24:49 -0700
-X-CSE-ConnectionGUID: IKZ0fXjETquK9VRyvxP70g==
-X-CSE-MsgGUID: v+CBfvrHRqO8IEHv9CUAeA==
+   d="scan'208";a="15286300"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 16:06:56 -0700
+X-CSE-ConnectionGUID: Hi4M41MxT7CnFoyyZkt3fQ==
+X-CSE-MsgGUID: ikHENWtfSTW23qyf6SLTyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="30717284"
+   d="scan'208";a="53390460"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 May 2024 15:24:46 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 May 2024 16:06:53 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6HcZ-0009Fn-29;
-	Sun, 12 May 2024 22:24:43 +0000
-Date: Mon, 13 May 2024 06:24:00 +0800
+	id 1s6IHL-0009H1-13;
+	Sun, 12 May 2024 23:06:51 +0000
+Date: Mon, 13 May 2024 07:06:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kiarash Hajian <kiarash8112hajian@gmail.com>,
 	Rob Clark <robdclark@gmail.com>,
@@ -56,12 +56,12 @@ To: Kiarash Hajian <kiarash8112hajian@gmail.com>,
 	Sean Paul <sean@poorly.run>,
 	Marijn Suijten <marijn.suijten@somainline.org>,
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	Kiarash Hajian <kiarash8112hajian@gmail.com>
 Subject: Re: [PATCH v3 2/2] drm/msm/a6xx: request memory region
-Message-ID: <202405130618.N7QKeg94-lkp@intel.com>
+Message-ID: <202405130628.7LSM1hPA-lkp@intel.com>
 References: <20240512-msm-adreno-memory-region-v3-2-0a728ad45010@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,24 +83,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kiarash-Hajian/drm-msm-a6
 base:   cf87f46fd34d6c19283d9625a7822f20d90b64a4
 patch link:    https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-2-0a728ad45010%40gmail.com
 patch subject: [PATCH v3 2/2] drm/msm/a6xx: request memory region
-config: i386-buildonly-randconfig-001-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130618.N7QKeg94-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130618.N7QKeg94-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130628.7LSM1hPA-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130628.7LSM1hPA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405130618.N7QKeg94-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130628.7LSM1hPA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1605:8: error: use of undeclared label 'err_mmio'
-    1605 |                 goto err_mmio;
-         |                      ^
-   1 error generated.
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c: In function 'a6xx_gmu_wrapper_init':
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1611:17: error: label 'err_mmio' used but not defined
+    1611 |                 goto err_mmio;
+         |                 ^~~~
 
 
-vim +/err_mmio +1605 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+vim +/err_mmio +1611 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 
 c11fa1204fe940 Akhil P Oommen 2023-01-02  1582  
 5a903a44a98471 Konrad Dybcio  2023-06-16  1583  int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
@@ -125,13 +125,13 @@ c11fa1204fe940 Akhil P Oommen 2023-01-02  1582
 5a903a44a98471 Konrad Dybcio  2023-06-16  1602  	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
 5a903a44a98471 Konrad Dybcio  2023-06-16  1603  	if (IS_ERR(gmu->mmio)) {
 5a903a44a98471 Konrad Dybcio  2023-06-16  1604  		ret = PTR_ERR(gmu->mmio);
-5a903a44a98471 Konrad Dybcio  2023-06-16 @1605  		goto err_mmio;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1605  		goto err_mmio;
 5a903a44a98471 Konrad Dybcio  2023-06-16  1606  	}
 5a903a44a98471 Konrad Dybcio  2023-06-16  1607  
 5a903a44a98471 Konrad Dybcio  2023-06-16  1608  	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
 5a903a44a98471 Konrad Dybcio  2023-06-16  1609  	if (IS_ERR(gmu->cxpd)) {
 5a903a44a98471 Konrad Dybcio  2023-06-16  1610  		ret = PTR_ERR(gmu->cxpd);
-5a903a44a98471 Konrad Dybcio  2023-06-16  1611  		goto err_mmio;
+5a903a44a98471 Konrad Dybcio  2023-06-16 @1611  		goto err_mmio;
 5a903a44a98471 Konrad Dybcio  2023-06-16  1612  	}
 5a903a44a98471 Konrad Dybcio  2023-06-16  1613  
 5a903a44a98471 Konrad Dybcio  2023-06-16  1614  	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
