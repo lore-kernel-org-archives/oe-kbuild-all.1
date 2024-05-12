@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFD120B20
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 17:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771292AF09
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 17:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715535084; cv=none; b=Lz+prbtkiLu7YeeE5Pwp98OwpNb3YXVY2p+wiIt7+aOOnx+S1ngN32aqiNIqLTyS0ERcanrvhMUbmlpveH4iRQrnN6G1hsJGsrF8L5AXBiqEWrMgaOgp5l1E/+bYuCnK1kogI78VJIfz2bvPhakLCuKBh6dra3pK6P56lp7xzi4=
+	t=1715536329; cv=none; b=uqdmCEvsKi7I9ZqYgd9lIQwegtvdPqKK5wGm3s+CjOrlKXUfF87hIRuiRC45eenuZcxK9w1Tthf7XJdWDoO2Ugfoa5YjmGK7qGf4Uf3ODzFP/4+rK3TKVDlb1FlIefnrvW3i6bStvpXHX3Vucz/6aWBJnPF3LC/04rwsV3tIJQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715535084; c=relaxed/simple;
-	bh=AgkHYaTFSE/uCNf/g1C4cmNLYS+3QeGmBp0gnsYOVro=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nWX54Y3NhjltfvKlWWm0G1HCmkuxitztj/MOIfTZrGphhYI54++qHk3kNaXXemvxQx1mycb+EabjJFJeVY25Rcd19EGeHwI0Dgbh6Q+vSU6vYvpaXQ+KxMAGHKwxbvy7ywL6bQOJKZMrX8Jg5uAPr4lX/3Hth+qEctvgHeAl8GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEFSKZ4n; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1715536329; c=relaxed/simple;
+	bh=bE0CCVeH5nNdWOoghl2oxlkKIdUC+GGfUa1T1yy0+S0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZSfrhUjrc37Hivug00A5UfdGSZyzpmk1RUkPAnZE9AStwLncaWZSrnF7U6cWostrEpA4Z9WCfNNlax+QrlMmygWEDQbS+d+Si8KZOwX/eCums+TTDpVAP793fAphMVpFS2zRT1L0cutUag68cgpuZXEfrvi4RjY3MticKkKOpb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSlyGTD0; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEFSKZ4n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSlyGTD0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715535083; x=1747071083;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AgkHYaTFSE/uCNf/g1C4cmNLYS+3QeGmBp0gnsYOVro=;
-  b=kEFSKZ4nDNtdQCl7SuDq1HHdw03Mq1j940aI7bJoHvs+5DJo6Rucd7Ca
-   xI8I/GvOEHlaY5mV0B/sxR1jmwt82ZxedJddKiKUubO7MwnMnhG2wNd3p
-   G/TrP0gEdV3QtStQeb1sZ+nz+NxswrO2U0NV2ROS70NoOd5rkiCsyt33Y
-   0xax/b+53+ziQtEukEvWOo+hqpsi+/1/EGqsXRR92IsTraZs7m/o6Fb1o
-   aKBBsuhGcTswvLk16YN+xok4N978v40/OYrgsoBpOawUy6eOVuuY544O/
-   a2rCn4HmWlWmZ3fljFwj0i2EtdfIy2NMnwRdkAyjaI561Lnz9jiPBlbyp
-   g==;
-X-CSE-ConnectionGUID: B/oSNxf1Q1usiq53uuxveg==
-X-CSE-MsgGUID: zlHVWJh6SCqhpIfcnDjxRw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11596021"
+  t=1715536327; x=1747072327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bE0CCVeH5nNdWOoghl2oxlkKIdUC+GGfUa1T1yy0+S0=;
+  b=OSlyGTD0ydWvtfrzjDO2fM/ew6O+5dSrkCkBgBEOXZUIiFsfvhhiHzkR
+   Cfo6hW/QFK1Pjr3YnAvhuzDx+wJ8Chh83Ba6hCHdlqxxkeh2j0gG39oOo
+   JEKZRiF8f5+/cyVAqiA/T3BXW24LK7j3sLlgx5O2JHzGuHJf/b/wkipBL
+   yKRjTKr+SPCrca3sK8zI5IYir92jQAcvom6p7Q8jcHIX7fC+0K6DUnaSC
+   gIe/8yXHj+5mSLqRt1m3oEKDChdUAwwse6zO8xxl7Qaq+VOcACK/I4TKK
+   6nUlZf5hW/mRlk0AoYqWVJyCrHd4th7yMyf+YQAhEM67LWkPWwwM01JPm
+   w==;
+X-CSE-ConnectionGUID: eUVi30U3RqqnrxhRwpbVEQ==
+X-CSE-MsgGUID: fMOKmwQ6SXq4u8V1LDmKZg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11687847"
 X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; 
-   d="scan'208";a="11596021"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 10:31:22 -0700
-X-CSE-ConnectionGUID: S+ayZQvhQ3uH3PB1Uj0FrQ==
-X-CSE-MsgGUID: O4XjdBnjRNOlEf+LuPws2Q==
+   d="scan'208";a="11687847"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 10:52:06 -0700
+X-CSE-ConnectionGUID: vJLdLRUiQ4i0LJQ7rUddeQ==
+X-CSE-MsgGUID: xWb0F1b5TfmeugCaBjaPCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; 
-   d="scan'208";a="30145120"
+   d="scan'208";a="34799617"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 May 2024 10:31:04 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 May 2024 10:52:04 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6D2L-0008n9-1z;
-	Sun, 12 May 2024 17:31:01 +0000
-Date: Mon, 13 May 2024 01:30:15 +0800
+	id 1s6DMg-0008nr-0L;
+	Sun, 12 May 2024 17:52:02 +0000
+Date: Mon, 13 May 2024 01:51:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pratyush Yadav <p.yadav@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-rt-linux-6.1.y-cicd 323/382]
- drivers/spi/spi-cadence-quadspi.c:393:undefined reference to
- `spi_mem_exec_op'
-Message-ID: <202405130129.sfnIKI9Q-lkp@intel.com>
+To: Dan Aloni <dan.aloni@vastdata.com>, chuck.lever@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH] rpcrdma: don't decref EP if a ESTABLISHED did not happen
+Message-ID: <202405130122.S5dgt6et-lkp@intel.com>
+References: <20240505124910.1877325-1-dan.aloni@vastdata.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +62,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240505124910.1877325-1-dan.aloni@vastdata.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   36746b42badc0d5707b84ccc34c5ea166c9573b2
-commit: 4535fc8cd288f5c537ff9b8abe0e3131a0ebcc98 [323/382] spi: cadence-qspi: Tune PHY to allow running at higher frequencies
-config: x86_64-randconfig-001-20240512 (https://download.01.org/0day-ci/archive/20240513/202405130129.sfnIKI9Q-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130129.sfnIKI9Q-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.9-rc7 next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Aloni/rpcrdma-don-t-decref-EP-if-a-ESTABLISHED-did-not-happen/20240505-205016
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20240505124910.1877325-1-dan.aloni%40vastdata.com
+patch subject: [PATCH] rpcrdma: don't decref EP if a ESTABLISHED did not happen
+config: parisc-randconfig-r081-20240512 (https://download.01.org/0day-ci/archive/20240513/202405130122.S5dgt6et-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405130129.sfnIKI9Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130122.S5dgt6et-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+net/sunrpc/xprtrdma/verbs.c:254 rpcrdma_cm_event_handler() warn: inconsistent indenting
 
-   ld: vmlinux.o: in function `cqspi_phy_check_pattern':
->> drivers/spi/spi-cadence-quadspi.c:393:(.text+0x133318e): undefined reference to `spi_mem_exec_op'
+vim +254 net/sunrpc/xprtrdma/verbs.c
 
-
-vim +393 drivers/spi/spi-cadence-quadspi.c
-
-   377	
-   378	static int cqspi_phy_check_pattern(struct cqspi_flash_pdata *f_pdata,
-   379					   struct spi_mem *mem)
-   380	{
-   381		struct spi_mem_op op = f_pdata->phy_read_op;
-   382		u8 *read_data;
-   383		unsigned int size = sizeof(phy_tuning_pattern);
-   384		int ret;
-   385	
-   386		read_data = kmalloc(size, GFP_KERNEL);
-   387		if (!read_data)
-   388			return -ENOMEM;
-   389	
-   390		op.data.buf.in = read_data;
-   391		op.data.nbytes = size;
-   392	
- > 393		ret = spi_mem_exec_op(mem, &op);
-   394		if (ret)
-   395			goto out;
-   396	
-   397		if (memcmp(read_data, phy_tuning_pattern,
-   398			   ARRAY_SIZE(phy_tuning_pattern))) {
-   399			ret = -EAGAIN;
-   400			goto out;
-   401		}
-   402	
-   403		ret = 0;
-   404	
-   405	out:
-   406		kfree(read_data);
-   407		return ret;
-   408	}
-   409	
+87cfb9a0c85ce4 Chuck Lever         2016-09-15  213  
+ae38288eb73c52 Chuck Lever         2018-10-01  214  /**
+ae38288eb73c52 Chuck Lever         2018-10-01  215   * rpcrdma_cm_event_handler - Handle RDMA CM events
+ae38288eb73c52 Chuck Lever         2018-10-01  216   * @id: rdma_cm_id on which an event has occurred
+ae38288eb73c52 Chuck Lever         2018-10-01  217   * @event: details of the event
+ae38288eb73c52 Chuck Lever         2018-10-01  218   *
+ae38288eb73c52 Chuck Lever         2018-10-01  219   * Called with @id's mutex held. Returns 1 if caller should
+ae38288eb73c52 Chuck Lever         2018-10-01  220   * destroy @id, otherwise 0.
+ae38288eb73c52 Chuck Lever         2018-10-01  221   */
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  222  static int
+ae38288eb73c52 Chuck Lever         2018-10-01  223  rpcrdma_cm_event_handler(struct rdma_cm_id *id, struct rdma_cm_event *event)
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  224  {
+745b734c9bb805 Chuck Lever         2020-02-21  225  	struct sockaddr *sap = (struct sockaddr *)&id->route.addr.dst_addr;
+e28ce90083f032 Chuck Lever         2020-02-21  226  	struct rpcrdma_ep *ep = id->context;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  227  
+ae38288eb73c52 Chuck Lever         2018-10-01  228  	might_sleep();
+ae38288eb73c52 Chuck Lever         2018-10-01  229  
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  230  	switch (event->event) {
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  231  	case RDMA_CM_EVENT_ADDR_RESOLVED:
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  232  	case RDMA_CM_EVENT_ROUTE_RESOLVED:
+93aa8e0a9de80e Chuck Lever         2020-02-21  233  		ep->re_async_rc = 0;
+93aa8e0a9de80e Chuck Lever         2020-02-21  234  		complete(&ep->re_done);
+316a616e788658 Chuck Lever         2018-10-01  235  		return 0;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  236  	case RDMA_CM_EVENT_ADDR_ERROR:
+93aa8e0a9de80e Chuck Lever         2020-02-21  237  		ep->re_async_rc = -EPROTO;
+93aa8e0a9de80e Chuck Lever         2020-02-21  238  		complete(&ep->re_done);
+316a616e788658 Chuck Lever         2018-10-01  239  		return 0;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  240  	case RDMA_CM_EVENT_ROUTE_ERROR:
+93aa8e0a9de80e Chuck Lever         2020-02-21  241  		ep->re_async_rc = -ENETUNREACH;
+93aa8e0a9de80e Chuck Lever         2020-02-21  242  		complete(&ep->re_done);
+316a616e788658 Chuck Lever         2018-10-01  243  		return 0;
+bebd031866caa4 Chuck Lever         2017-04-11  244  	case RDMA_CM_EVENT_DEVICE_REMOVAL:
+745b734c9bb805 Chuck Lever         2020-02-21  245  		pr_info("rpcrdma: removing device %s for %pISpc\n",
+745b734c9bb805 Chuck Lever         2020-02-21  246  			ep->re_id->device->name, sap);
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  247  		fallthrough;
+e28ce90083f032 Chuck Lever         2020-02-21  248  	case RDMA_CM_EVENT_ADDR_CHANGE:
+93aa8e0a9de80e Chuck Lever         2020-02-21  249  		ep->re_connect_status = -ENODEV;
+e28ce90083f032 Chuck Lever         2020-02-21  250  		goto disconnected;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  251  	case RDMA_CM_EVENT_ESTABLISHED:
+2acc5cae292355 Chuck Lever         2020-06-15  252  		rpcrdma_ep_get(ep);
+c58f2c9a4198e3 Dan Aloni           2024-05-05  253                 ep->re_connect_ref = true;
+93aa8e0a9de80e Chuck Lever         2020-02-21 @254  		ep->re_connect_status = 1;
+745b734c9bb805 Chuck Lever         2020-02-21  255  		rpcrdma_update_cm_private(ep, &event->param.conn);
+745b734c9bb805 Chuck Lever         2020-02-21  256  		trace_xprtrdma_inline_thresh(ep);
+93aa8e0a9de80e Chuck Lever         2020-02-21  257  		wake_up_all(&ep->re_connect_wait);
+31e62d25b5b815 Chuck Lever         2018-10-01  258  		break;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  259  	case RDMA_CM_EVENT_CONNECT_ERROR:
+93aa8e0a9de80e Chuck Lever         2020-02-21  260  		ep->re_connect_status = -ENOTCONN;
+af667527b0e349 Chuck Lever         2020-06-27  261  		goto wake_connect_worker;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  262  	case RDMA_CM_EVENT_UNREACHABLE:
+93aa8e0a9de80e Chuck Lever         2020-02-21  263  		ep->re_connect_status = -ENETUNREACH;
+af667527b0e349 Chuck Lever         2020-06-27  264  		goto wake_connect_worker;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  265  	case RDMA_CM_EVENT_REJECTED:
+93aa8e0a9de80e Chuck Lever         2020-02-21  266  		ep->re_connect_status = -ECONNREFUSED;
+0a90487bf7182c Chuck Lever         2017-02-08  267  		if (event->status == IB_CM_REJ_STALE_CONN)
+4cf44be6f1e86d Chuck Lever         2020-06-27  268  			ep->re_connect_status = -ENOTCONN;
+af667527b0e349 Chuck Lever         2020-06-27  269  wake_connect_worker:
+af667527b0e349 Chuck Lever         2020-06-27  270  		wake_up_all(&ep->re_connect_wait);
+af667527b0e349 Chuck Lever         2020-06-27  271  		return 0;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  272  	case RDMA_CM_EVENT_DISCONNECTED:
+93aa8e0a9de80e Chuck Lever         2020-02-21  273  		ep->re_connect_status = -ECONNABORTED;
+31e62d25b5b815 Chuck Lever         2018-10-01  274  disconnected:
+c487eb7d8e4157 Chuck Lever         2020-06-15  275  		rpcrdma_force_disconnect(ep);
+c58f2c9a4198e3 Dan Aloni           2024-05-05  276  		if (ep->re_connect_ref)
+2acc5cae292355 Chuck Lever         2020-06-15  277  			return rpcrdma_ep_put(ep);
+c58f2c9a4198e3 Dan Aloni           2024-05-05  278  		return 0;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  279  	default:
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  280  		break;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  281  	}
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  282  
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  283  	return 0;
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  284  }
+c56c65fb67d646 \"Talpey, Thomas\   2007-09-10  285  
 
 -- 
 0-DAY CI Kernel Test Service
