@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519598C13
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 06:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CEFE56C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 May 2024 06:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715496168; cv=none; b=SC8pAzxuyWEl1/u0JS23236k/oFxNP8MR6RT4gbXPZKJkbcngIVDp8Zc2/uySRSxI3JRD3kolDMAMFN54PGhHezm8+Ke/CVOaaJ0ZEAZls2+L8ATKCDkt5wC+DwUc1DMEFatwv32A8r2c/bFma9qNhNWMdx9sxP7uklo67gb0PI=
+	t=1715496765; cv=none; b=fqDke5sTiFX1XmUzyx5A4tDv1DrNcql8bMpfuOSPxzdSusNiAsaeqXEAlB/2uN0JmNvzVt87vzyxPOTp7qkeaM2pKLqCgBLge0gMEJiVJIXrf0Yrr11p2/Yp3ryYz5Y2cPDiCYQ+2jfVcWmSuljaxgXS3beUamMECwb1swmgCR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715496168; c=relaxed/simple;
-	bh=+5feRetd2Dm0gh0KcxyZbso+ozxrDsdDIBZlK/llpfs=;
+	s=arc-20240116; t=1715496765; c=relaxed/simple;
+	bh=E15T5RCJKzz20S2I9UZNXD7S+8FVt5utlpTe5+NWjbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZgSwwa7EhqdlwsIa63BslOBGdN+lT2vNPjxYEb4Xu4G68IM8A8gnGhn6dUN9mG7tSLJjWv4//+7OGadmh1TFLvttf5NMu/HSqCNvZCiBa+cN21DoY39Z8XplkprAk1BK3x5aYJvPqeVTn+ciqJndRzu3144qBnlUkhKzO1BtjEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpXDrpVa; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=emI6Hetipq4YKU4KDS+2qYxKicWs4jFs7P3FzuI4DykhJnKgcsfZZdiCwpNTqDjRhQ1gQljYFSnPfDXCb0Cc/54v04fQgxpFhLG9H7VAB1DWK3udDkDoBddJrzOko2reE9o+NDW0MIs85hzqXrP5ECFhvQOTtEPcKLtLO+qoBw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/kd7kVp; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpXDrpVa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/kd7kVp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715496166; x=1747032166;
+  t=1715496764; x=1747032764;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+5feRetd2Dm0gh0KcxyZbso+ozxrDsdDIBZlK/llpfs=;
-  b=YpXDrpVaaGTdip5KyTbgd/U1/GNmeZCJdStXNxHrms8ibbawZmmzLG/h
-   wg8DJSqibAkyhhembbgQT3jDF9oOQoA1UySwCPdkydmYuwRie7Q/Bj8He
-   93t2nG9OcV1nAWGufs3Y+Dpiwrdfg2bZQDn18kfGG1HoEDcXw8tv21Sjx
-   mu06wNKKWuzHGDqeV+q0+SSpLePVvy+2ks2R+z/2REgC8S37QsOAllAus
-   7FNI0+F0frput36k5X4ki8u5HX4XsoXF/jlfvL0dZ8XGVlgd7iho9SfSc
-   sdOCJRMId7XGeqc2mLlrOdFGTETQU3SLt6+U8biwmDyz8lNr+9ugC18/l
-   Q==;
-X-CSE-ConnectionGUID: oIGvkV4LQ3qKRH1IYNhw2g==
-X-CSE-MsgGUID: f491V4scRiS0dBsL7e7hLg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="11487220"
+  bh=E15T5RCJKzz20S2I9UZNXD7S+8FVt5utlpTe5+NWjbU=;
+  b=g/kd7kVpCyVVs3cOUgtH0YnwD09bKR803DcoOs4EnL/VCtwT9WSOJ4Oo
+   MFfvKkmQ1N3lNEMmP/dUynN/6gJ3Z4XsbGbTj1pLJ41UyJBVuO0lrS6Kj
+   ZN8BI6CrNxEMuHLCvvoiir1sb7qcmNLLlWsBVVCQH+I4YPzzxqys9tB6p
+   O11v2j4hSpAt6btlP05sduYDCxuBW4QVRtPhSbgSytCTvv8hKyucvorvE
+   6uGIYVDVl36bGftSCK83Hd5Latn2drjT0lthM8003kS/B13fCkv/b9Vb/
+   48N2ZfZB4afgRXTu7Y+/4PD/4VnEfF/nwKP7VnziO3tLzu0juA39uBMQT
+   A==;
+X-CSE-ConnectionGUID: 0X4DocNLRUyv3G9NS8biqQ==
+X-CSE-MsgGUID: v9jP0vfGSx6KCZmofIESfQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="15259725"
 X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="11487220"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 23:42:46 -0700
-X-CSE-ConnectionGUID: gfdO4aQlSneNaN+c9irxTg==
-X-CSE-MsgGUID: AUfXvpcPSROm49ksxCqFlg==
+   d="scan'208";a="15259725"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 23:52:43 -0700
+X-CSE-ConnectionGUID: 4NuYV5brRJilZwBzLt/t7w==
+X-CSE-MsgGUID: 7Mvd5pWUQNKqYBObQuKzrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="60866146"
+   d="scan'208";a="30003443"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 May 2024 23:42:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 11 May 2024 23:52:43 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s62uu-0008Fr-0c;
-	Sun, 12 May 2024 06:42:40 +0000
-Date: Sun, 12 May 2024 14:41:54 +0800
+	id 1s634a-0008Gm-21;
+	Sun, 12 May 2024 06:52:40 +0000
+Date: Sun, 12 May 2024 14:52:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Asahi Lina <lina@asahilina.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 6582/6591] arch/x86/kernel/head64.c:382:12:
- warning: no previous prototype for function
- 'early_clflush_bss_decrypted_section'
-Message-ID: <202405121442.lPkiL6yk-lkp@intel.com>
+Subject: [asahilinux:gpu/rust-wip 166/177] drivers/gpu/drm/drm_gpuvm.c:2680:
+ warning: Function parameter or struct member 'priv' not described in
+ 'drm_gpuvm_bo_unmap'
+Message-ID: <202405121415.Yqr5yYRX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,82 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   af8a5753e476c40851cc338e3ac6aa2d962d05a1
-commit: a232fa20af9767823243e08b945dbd150a280769 [6582/6591] x86/head/64: Flush caches for .bss..decrypted section after CR3 switches to early_top_pgt
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240512/202405121442.lPkiL6yk-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240512/202405121442.lPkiL6yk-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux gpu/rust-wip
+head:   1213cf25cd551a6dc57b5be9df35ccb955f0ab59
+commit: 436416207fac1011fc79899107b63858640e7489 [166/177] drm/gpuvm: Add drm_gpuvm_bo_unmap()
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240512/202405121415.Yqr5yYRX-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240512/202405121415.Yqr5yYRX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405121442.lPkiL6yk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405121415.Yqr5yYRX-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the asmlinkage attribute
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/head64.c:382:12: warning: no previous prototype for function 'early_clflush_bss_decrypted_section' [-Wmissing-prototypes]
-     382 | void __ref early_clflush_bss_decrypted_section(void)
-         |            ^
-   arch/x86/kernel/head64.c:382:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     382 | void __ref early_clflush_bss_decrypted_section(void)
-         | ^
-         | static 
-   1 warning generated.
+>> drivers/gpu/drm/drm_gpuvm.c:2680: warning: Function parameter or struct member 'priv' not described in 'drm_gpuvm_bo_unmap'
 
 
-vim +/early_clflush_bss_decrypted_section +382 arch/x86/kernel/head64.c
+vim +2680 drivers/gpu/drm/drm_gpuvm.c
 
-   381	
- > 382	void __ref early_clflush_bss_decrypted_section(void)
-   383	{
-   384		unsigned long vaddr, vaddr_end;
-   385		char *cl, *start, *end;
-   386	
-   387		/* Only allow bsp flush these caches and the bsp must at early boot stage */
-   388		if (bsp_flush_bss_decrypted_section_handled)
-   389			return;
-   390	
-   391		if (read_cr3_pa() != __pa_nodebug(early_top_pgt))
-   392			return;
-   393	
-   394		/* Only Hygon CSV guest should do the clflush */
-   395		if (!__should_do_clflush())
-   396			goto handled;
-   397	
-   398		/*
-   399		 * The memory region of .bss..decrypted section maybe mapped
-   400		 * with encryption in earlier stage. If the correspond stale
-   401		 * caches lives in earlier stage were not flushed before we
-   402		 * access that memory region, then Linux will crash later
-   403		 * because the stale caches will pollute the memory. So we
-   404		 * need flush the caches with encrypted mapping before we
-   405		 * access .bss..decrypted section.
-   406		 *
-   407		 * The function __startup_64() have already filled the
-   408		 * encrypted mapping for .bss..decrypted section, use that
-   409		 * mapping here.
-   410		 */
-   411		vaddr = (unsigned long)__start_bss_decrypted -
-   412					__START_KERNEL_map + phys_base;
-   413		vaddr_end = (unsigned long)__end_bss_decrypted -
-   414					__START_KERNEL_map + phys_base;
-   415	
-   416		/* Hardcode cl-size to 64 at this stage. */
-   417		start = (char *)(vaddr & ~63);
-   418		end   = (char *)((vaddr_end + 63) & ~63);
-   419	
-   420		asm volatile("mfence" : : : "memory");
-   421		for (cl = start; cl != end; cl += 64)
-   422			clflush(cl);
-   423		asm volatile("mfence" : : : "memory");
-   424	
-   425	handled:
-   426		bsp_flush_bss_decrypted_section_handled = true;
-   427	}
-   428	#endif
-   429	
+  2666	
+  2667	/**
+  2668	 * drm_gpuvm_bo_unmap() - unmaps a GEM
+  2669	 * @vm_bo: the &drm_gpuvm_bo abstraction
+  2670	 *
+  2671	 * This function calls the unmap callback for every GPUVA attached to a GEM.
+  2672	 *
+  2673	 * It is the callers responsibility to protect the GEMs GPUVA list against
+  2674	 * concurrent access using the GEMs dma_resv lock.
+  2675	 *
+  2676	 * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+  2677	 */
+  2678	int
+  2679	drm_gpuvm_bo_unmap(struct drm_gpuvm_bo *vm_bo, void *priv)
+> 2680	{
+  2681		struct drm_gpuva_op *op;
+  2682		int ret;
+  2683	
+  2684		if (unlikely(!vm_bo->vm))
+  2685			return -EINVAL;
+  2686	
+  2687		const struct drm_gpuvm_ops *vm_ops = vm_bo->vm->ops;
+  2688	
+  2689		if (unlikely(!(vm_ops && vm_ops->sm_step_unmap)))
+  2690			return -EINVAL;
+  2691	
+  2692		struct drm_gpuva_ops *ops = drm_gpuvm_bo_unmap_ops_create(vm_bo);
+  2693	        if (IS_ERR(ops))
+  2694	                return PTR_ERR(ops);
+  2695	
+  2696		drm_gpuva_for_each_op(op, ops) {
+  2697			drm_WARN_ON(vm_bo->vm->drm, op->op != DRM_GPUVA_OP_UNMAP);
+  2698	
+  2699			ret = op_unmap_cb(vm_ops, priv, op->unmap.va, false);
+  2700			if (ret)
+  2701				goto cleanup;
+  2702		}
+  2703	
+  2704	cleanup:
+  2705		drm_gpuva_ops_free(vm_bo->vm, ops);
+  2706		return ret;
+  2707	}
+  2708	EXPORT_SYMBOL_GPL(drm_gpuvm_bo_unmap);
+  2709	
 
 -- 
 0-DAY CI Kernel Test Service
