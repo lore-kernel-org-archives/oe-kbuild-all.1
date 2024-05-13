@@ -1,84 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F53B823DE;
-	Mon, 13 May 2024 21:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38CD83CD3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 21:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715634846; cv=none; b=roggMKPzZC9GgzG9OjegEYwLoIaE6iqKsfDFVPZ5WhCKLhQhYD6mbAan3cM9qU2M2x9sZbErfn97DYewqMarP9e6pOzMj9pxRsgciXYZSPgE7LrbyYJHrFFp5k0EMI0HsLtiqw+eigbGwddiCwQgtDMlzO3boECruMKAw+3QMTs=
+	t=1715637360; cv=none; b=kB0fcX5yi8zFLBbsu7d3xAKiN4Bl2oqs0qzFRhHHv4CK8HvJzZA66U6hs5xzU9ayu+rGTT0tSj8CA59bf23tSmZR+PCqjVHOcxNJ4s5Lr0aiN6/BWgFebT9jig8MoNas4Txqt9FxkO/YrSI6T7YFnMfbCM07Xg6LG70vnqPu+nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715634846; c=relaxed/simple;
-	bh=E1uuvaghrSReazGwqHun9+V8fVcgzEF8XlyjgajDGXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jcsSIb5hl22ca4zH3hbnJINjiq5sJCIPkyZuL4iTmPF/tUFw3yH+03PWIN/j6H6ZFBWbQflGtx6NUcTtcW8wIpL9O619HUgql0I50ivVarCAfR/irki9URkaE/AUlM3ZKnQ529PuO0sRPCakifOzYTK6k/N6t7ArS8LWcFi30fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOKStWhc; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1715637360; c=relaxed/simple;
+	bh=+q4aC9aBs3fCSbDVh6YqOfw/NGgHwoAcdFij/yBFFjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m+dcc3VepdXnB8sIDzTqnOig7DiP+B27kRXouSGxeXae8yPr3UPgRWP2n5G9qYXcrfxQnsepC1JSdOFPwDdTnYkzs9lLLYMfMWq40QY9MMutNIq1b8kehBxl5LDjqZYJWWsUCKUi3WEW6+uMfDvpmQw64HO5Qn40kXHVLsbAr2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0nMBnMR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOKStWhc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0nMBnMR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715634843; x=1747170843;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E1uuvaghrSReazGwqHun9+V8fVcgzEF8XlyjgajDGXs=;
-  b=TOKStWhcVi8sHWA/ZhNunwA9EJkLSkawf0pOp9h/BC6ddV93NfBv/utc
-   ilubASD+fHhqDsyshF2hbhVrdvVJYtrP7qb5KeKUnPe06z6VDjvgoppva
-   NGR0Z8ptuWO39PmA5b3HYuafPN/CX8RBAuwLkVfZ5thu7+cO+bw7cK0mF
-   fqlDD2OY4f3chiycIgJoWOSUIaxnzZASG3oWJkWe7dYedfIt53j4cukh8
-   I8pzCPnWV74gPFf95X/svsSfvbELPj2F+2d2uIw0DJN15TjZX/Kgaxi+5
-   sTJzLd+L7U9+hnnl7Akp1RfTRwzHZM1N6y4q40XMHO9O+G3S9cFc7poZr
+  t=1715637359; x=1747173359;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+q4aC9aBs3fCSbDVh6YqOfw/NGgHwoAcdFij/yBFFjw=;
+  b=H0nMBnMRqMSw2f9AP//KhHOqlwQn+dotckQJwtw6SwvptmAAeMotkTwB
+   wKdGPmkJTHBms4qWY+s5AScynVmzk8Gim1k08LpDaGjK3WdQONW7p7hZk
+   ETXljyxsxmIldGdN+f56yzmIyDWUw9pPUo5MopQwDkvb+vM9WNAqBoydT
+   IJ2yPzZ5VDSOo2hPAPqOQnks1urqM0vU85LjEe3KR5rmlHEJHXQ73Z3Sn
+   lWG/MgEZ22pLoObkyKvXUjpX1sRw764d0tLZON4VW5OHWrdM8G3a+kbLf
+   esh3XQy9/J7xTXhR0HthpPQSOzIn8FwtyrZxIAZmiWvjU7B+QTmMVm1/7
    w==;
-X-CSE-ConnectionGUID: zvqxQYR4T6iMzwPPqGjtjg==
-X-CSE-MsgGUID: P1fD32tARP+/pSMa2C+3Pw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="36969977"
+X-CSE-ConnectionGUID: n7HUZHWnRjy+TYswDJRUKQ==
+X-CSE-MsgGUID: bm/Et7iTRSydtXXLqQe6Ng==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11416691"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="36969977"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 14:14:02 -0700
-X-CSE-ConnectionGUID: 9QLpOo6JRiSHs1VUV9L7tg==
-X-CSE-MsgGUID: PYjTIi1RQj2KhTLsdMpLNg==
+   d="scan'208";a="11416691"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 14:55:58 -0700
+X-CSE-ConnectionGUID: 4XwgD2aCTZGP46BcyfNneA==
+X-CSE-MsgGUID: K7+9RYWaRl6pKt8+yryz2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="30407013"
+   d="scan'208";a="34970937"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 May 2024 14:13:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 13 May 2024 14:55:56 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6czZ-000AiB-0D;
-	Mon, 13 May 2024 21:13:53 +0000
-Date: Tue, 14 May 2024 05:13:51 +0800
+	id 1s6deD-000AjH-2U;
+	Mon, 13 May 2024 21:55:53 +0000
+Date: Tue, 14 May 2024 05:55:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Hindborg <nmi@metaspace.dk>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Damien Le Moal <Damien.LeMoal@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Greg KH <greg@kroah.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yexuan Yang <1182282462@bupt.edu.cn>,
-	Sergio =?iso-8859-1?Q?Gonz=E1lez?= Collado <sergio.collado@gmail.com>,
-	Joel Granados <j.granados@samsung.com>,
-	"Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Niklas Cassel <Niklas.Cassel@wdc.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Conor Dooley <conor@kernel.org>,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Subject: Re: [PATCH 1/3] rust: block: introduce `kernel::block::mq` module
-Message-ID: <202405140410.Pg9JrkDO-lkp@intel.com>
-References: <20240512183950.1982353-2-nmi@metaspace.dk>
+To: Murali Karicheri <m-karicheri2@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Ravi Gunasekaran <r-gunasekaran@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 2/5] net/hsr/hsr_device.c:502:3-4:
+ Unneeded semicolon
+Message-ID: <202405140507.hbovyy3s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,39 +64,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240512183950.1982353-2-nmi@metaspace.dk>
 
-Hi Andreas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fec50db7033ea478773b159e0e2efb135270e3b7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Hindborg/rust-block-introduce-kernel-block-mq-module/20240513-024107
-base:   fec50db7033ea478773b159e0e2efb135270e3b7
-patch link:    https://lore.kernel.org/r/20240512183950.1982353-2-nmi%40metaspace.dk
-patch subject: [PATCH 1/3] rust: block: introduce `kernel::block::mq` module
-config: x86_64-buildonly-randconfig-004-20240514 (https://download.01.org/0day-ci/archive/20240514/202405140410.Pg9JrkDO-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405140410.Pg9JrkDO-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   36746b42badc0d5707b84ccc34c5ea166c9573b2
+commit: 7c2c6221d29ba79f1333ef18be4296f0ad542556 [2/5] net: hsr: Add VLAN CTAG filter support
+config: x86_64-randconfig-101-20240513 (https://download.01.org/0day-ci/archive/20240514/202405140507.hbovyy3s-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405140410.Pg9JrkDO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405140507.hbovyy3s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> net/hsr/hsr_device.c:502:3-4: Unneeded semicolon
+   net/hsr/hsr_device.c:526:3-4: Unneeded semicolon
 
->> warning: method `to_blk_status` is never used
-   --> rust/kernel/error.rs:133:19
-   |
-   97  | impl Error {
-   | ---------- method in this implementation
-   ...
-   133 |     pub(crate) fn to_blk_status(self) -> bindings::blk_status_t {
-   |                   ^^^^^^^^^^^^^
-   |
-   = note: `#[warn(dead_code)]` on by default
+vim +502 net/hsr/hsr_device.c
+
+   469	
+   470	static int hsr_ndo_vlan_rx_add_vid(struct net_device *dev,
+   471					   __be16 proto, u16 vid)
+   472	{
+   473		struct hsr_port *port;
+   474		struct hsr_priv *hsr;
+   475		int ret = 0;
+   476	
+   477		hsr = netdev_priv(dev);
+   478	
+   479		hsr_for_each_port(hsr, port) {
+   480			if (port->type == HSR_PT_MASTER)
+   481				continue;
+   482	
+   483			ret = vlan_vid_add(port->dev, proto, vid);
+   484			switch (port->type) {
+   485			case HSR_PT_SLAVE_A:
+   486				if (ret) {
+   487					netdev_err(dev, "add vid failed for Slave-A\n");
+   488					return ret;
+   489				}
+   490				break;
+   491	
+   492			case HSR_PT_SLAVE_B:
+   493				if (ret) {
+   494					/* clean up Slave-A */
+   495					netdev_err(dev, "add vid failed for Slave-B\n");
+   496					vlan_vid_del(port->dev, proto, vid);
+   497					return ret;
+   498				}
+   499				break;
+   500			default:
+   501				break;
+ > 502			};
+   503		}
+   504	
+   505		return 0;
+   506	}
+   507	
 
 -- 
 0-DAY CI Kernel Test Service
