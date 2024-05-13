@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E7A55E4C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 04:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7AA1E493
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 05:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715573640; cv=none; b=S0D6IIC2qvVQ7ThPXcSZBXQg0fs+RD7nJpdm1uhe3THgnNXBtgwuS14EF7xbdG8vjR3n6kmywRR+6PlDgxePTHBId2wbfQoNasvyeI1e7J0Kv0Q3XGyKMlEkKogYiF1KkajGkjOYIdEnxKF8R4/tjFQJW3thvjxBWLtUvHCEMwI=
+	t=1715576701; cv=none; b=Ff1jheRjx2Ta22LAV9EICuKje30lVzHCSw6l7dzcl0fhhJUp0G6fQVLdEam6bvqu1VGLuXFbr3rRe5/fdaOrYQFP5AQKe7LfaclKf04bzPa+UgsOndAxEmPzsJc96xsruwWFBqUaIzqae6YdA1kX04Yvm3e7bWQGRpUZFz391W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715573640; c=relaxed/simple;
-	bh=nugiBY6SlmhT0yk7C9sUdurNNo1nkkxAgABxh5SXCsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ofBzOqah5m1NHaMg6YoTZBnmTrQGyAJJupj+AVFjKSIG1hR3iZ/gHD7a8wGTvFMIL12T/V6CeJODOaupESL0eA6mfrQfxR9UHHIXunjxHggzM9XY5hf4JYTy858vLMKyZTShQ/Xhe4wxhDPBJUhDDdN7QktVcAta4SZOoaKyQV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YjcrKpZ7; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1715576701; c=relaxed/simple;
+	bh=mWdYiIxAsD/ctnkVDDJ2lk2EfECMlRM2mUFTPSLRnGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qrXWhden+YXWnFe/dmU97IGnFgot7KJI1buAlPe/8EE/brkdU67yvd6Ta4l5c3+mTCVFFsoBY+Mn+dck7E9DsRaWclaINXn/SPHU7NZhME404ShVyK3HcRbP1K2JRGdcARihWRyBk1+vn6Abt6rG+iGBhDJ+C8OgppwOsiRbWAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nW5klho4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YjcrKpZ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nW5klho4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715573638; x=1747109638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nugiBY6SlmhT0yk7C9sUdurNNo1nkkxAgABxh5SXCsQ=;
-  b=YjcrKpZ7qU9ZB9Hmrz519DQ8IcqZSryFn4MEXw9EcJvCRbVp/8649MmQ
-   Nzrqt9PSiiiXv1BYERQhOcvPxBh7uABhKXAC2O6br+koT7cVRzQvugttC
-   tdyg54Pa786YPPYbbu53L1SzQbl8C8kU0I2xSdhjnBB78CfKd5CyAlXM6
-   MvqNdJtyIgigAyLolms2rAeEFvsdbWUqYfj+oJMr/vrUswlmjOI0txVpC
-   63X5+YWnxgZa+4WNR1qN/qq2LaKO+atf9T2PaTj5Z5vfppt2Rnm6dB/MO
-   QKcVzBvP/Iv6D+q/BHEyfoshwE7MTJt+9P2S1KqjJvMVQF2pMa0AozcOj
-   A==;
-X-CSE-ConnectionGUID: OzKBvYo/TLqCBRTDLigUWQ==
-X-CSE-MsgGUID: LSk1n86kR6uLAEgXJfS01A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="34000104"
+  t=1715576700; x=1747112700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mWdYiIxAsD/ctnkVDDJ2lk2EfECMlRM2mUFTPSLRnGc=;
+  b=nW5klho4AaYGsUrkj+nlZj0wY5p0gBAZN+BGR+RUknDdaMY8cSTk44h0
+   hxw45Y9zpN8aKm3KiDW9ydchMNNLyPHC+ZB0QSmei91HtbtOTDR5vIckp
+   GsJAG6niEpiTCXiWFQOTvlRB8LBOKvIETD8RfN5V8wqb79I94UR0z6csO
+   4PhHM7RtpgyycjX0/QZ03tTxp3PdFwiGYR/a74qqO0UINQjZv0kIMCVut
+   EVaP7MkfmVCSEqIBIAa1N6p6KLGtQ5uNxfqF/9NnuIZ3fGh2IvYg0mZV4
+   Y0U2ko4eW6PIthgwZdJx2D8WIMHbiQuyegZp3Dy9mrVt3d4/ausbc/r0t
+   g==;
+X-CSE-ConnectionGUID: 4rw5KVpESZKZpxkZ0Q3OFg==
+X-CSE-MsgGUID: PXtq+rl/RW+tx33hajPKHg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="15303756"
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="34000104"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 21:13:57 -0700
-X-CSE-ConnectionGUID: MdsCp5I9STOdurmc1GZNVA==
-X-CSE-MsgGUID: l0pVCy2dQIKgrfEszzjaeg==
+   d="scan'208";a="15303756"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 22:04:59 -0700
+X-CSE-ConnectionGUID: GGxcW+7cQK6hPBM5h3TZsw==
+X-CSE-MsgGUID: SUjFBu+uR/mF6Tv+f0ubDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="34629638"
+   d="scan'208";a="34774698"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 May 2024 21:13:56 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 12 May 2024 22:04:58 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6N4T-0009Xb-2c;
-	Mon, 13 May 2024 04:13:53 +0000
-Date: Mon, 13 May 2024 12:13:44 +0800
+	id 1s6Nrs-0009Z9-0T;
+	Mon, 13 May 2024 05:04:56 +0000
+Date: Mon, 13 May 2024 13:04:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC net-next 2/6] net: stmmac: remove pcs_ctrl_ane()
- method and associated code
-Message-ID: <202405131156.MvTAH7ji-lkp@intel.com>
-References: <E1s6C4O-00Ck6O-9D@rmk-PC.armlinux.org.uk>
+Subject: [chrome-os:chromeos-6.1 101/106] kismet: WARNING: unmet direct
+ dependencies detected for VIDEO_V4L2_SUBDEV_API when selected by
+ VIDEO_MTK_ISP_71_IMGSYS
+Message-ID: <202405131257.4SaGrQze-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1s6C4O-00Ck6O-9D@rmk-PC.armlinux.org.uk>
 
-Hi Russell,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-remove-pcs_ctrl_ane-method-and-associated-code/20240513-003120
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1s6C4O-00Ck6O-9D%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH RFC net-next 2/6] net: stmmac: remove pcs_ctrl_ane() method and associated code
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240513/202405131156.MvTAH7ji-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405131156.MvTAH7ji-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   4caca2e86338fb0028244f751f859824629b3f21
+commit: 35d65c4423bf525d557b423789c0c3f3c41fa92c [101/106] CHROMIUM: media: platform: mediatek: isp: add IMGSYS driver
+config: i386-kismet-CONFIG_VIDEO_V4L2_SUBDEV_API-CONFIG_VIDEO_MTK_ISP_71_IMGSYS-0-0 (https://download.01.org/0day-ci/archive/20240513/202405131257.4SaGrQze-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240513/202405131257.4SaGrQze-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405131156.MvTAH7ji-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405131257.4SaGrQze-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c: In function 'ethqos_configure_sgmii':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c:628:17: error: implicit declaration of function 'stmmac_pcs_ctrl_ane'; did you mean 'stmmac_pcs_rane'? [-Werror=implicit-function-declaration]
-     628 |                 stmmac_pcs_ctrl_ane(priv, priv->ioaddr, 0, 0, 0);
-         |                 ^~~~~~~~~~~~~~~~~~~
-         |                 stmmac_pcs_rane
-   cc1: some warnings being treated as errors
-
-
-vim +628 drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-
-a7c30e62d4b895 Vinod Koul          2019-01-21  607  
-981d947bcd382c Sneh Shah           2023-12-12  608  /* On interface toggle MAC registers gets reset.
-981d947bcd382c Sneh Shah           2023-12-12  609   * Configure MAC block for SGMII on ethernet phy link up
-981d947bcd382c Sneh Shah           2023-12-12  610   */
-463120c31c58bb Bartosz Golaszewski 2023-06-19  611  static int ethqos_configure_sgmii(struct qcom_ethqos *ethqos)
-463120c31c58bb Bartosz Golaszewski 2023-06-19  612  {
-a818bd12538c14 Sneh Shah           2024-02-20  613  	struct net_device *dev = platform_get_drvdata(ethqos->pdev);
-a818bd12538c14 Sneh Shah           2024-02-20  614  	struct stmmac_priv *priv = netdev_priv(dev);
-463120c31c58bb Bartosz Golaszewski 2023-06-19  615  	int val;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  616  
-463120c31c58bb Bartosz Golaszewski 2023-06-19  617  	val = readl(ethqos->mac_base + MAC_CTRL_REG);
-463120c31c58bb Bartosz Golaszewski 2023-06-19  618  
-463120c31c58bb Bartosz Golaszewski 2023-06-19  619  	switch (ethqos->speed) {
-a818bd12538c14 Sneh Shah           2024-02-20  620  	case SPEED_2500:
-a818bd12538c14 Sneh Shah           2024-02-20  621  		val &= ~ETHQOS_MAC_CTRL_PORT_SEL;
-a818bd12538c14 Sneh Shah           2024-02-20  622  		rgmii_updatel(ethqos, RGMII_CONFIG2_RGMII_CLK_SEL_CFG,
-a818bd12538c14 Sneh Shah           2024-02-20  623  			      RGMII_CONFIG2_RGMII_CLK_SEL_CFG,
-a818bd12538c14 Sneh Shah           2024-02-20  624  			      RGMII_IO_MACRO_CONFIG2);
-a818bd12538c14 Sneh Shah           2024-02-20  625  		if (ethqos->serdes_speed != SPEED_2500)
-a818bd12538c14 Sneh Shah           2024-02-20  626  			phy_set_speed(ethqos->serdes_phy, SPEED_2500);
-a818bd12538c14 Sneh Shah           2024-02-20  627  		ethqos->serdes_speed = SPEED_2500;
-a818bd12538c14 Sneh Shah           2024-02-20 @628  		stmmac_pcs_ctrl_ane(priv, priv->ioaddr, 0, 0, 0);
-a818bd12538c14 Sneh Shah           2024-02-20  629  		break;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  630  	case SPEED_1000:
-463120c31c58bb Bartosz Golaszewski 2023-06-19  631  		val &= ~ETHQOS_MAC_CTRL_PORT_SEL;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  632  		rgmii_updatel(ethqos, RGMII_CONFIG2_RGMII_CLK_SEL_CFG,
-463120c31c58bb Bartosz Golaszewski 2023-06-19  633  			      RGMII_CONFIG2_RGMII_CLK_SEL_CFG,
-463120c31c58bb Bartosz Golaszewski 2023-06-19  634  			      RGMII_IO_MACRO_CONFIG2);
-a818bd12538c14 Sneh Shah           2024-02-20  635  		if (ethqos->serdes_speed != SPEED_1000)
-a818bd12538c14 Sneh Shah           2024-02-20  636  			phy_set_speed(ethqos->serdes_phy, SPEED_1000);
-a818bd12538c14 Sneh Shah           2024-02-20  637  		ethqos->serdes_speed = SPEED_1000;
-a818bd12538c14 Sneh Shah           2024-02-20  638  		stmmac_pcs_ctrl_ane(priv, priv->ioaddr, 1, 0, 0);
-463120c31c58bb Bartosz Golaszewski 2023-06-19  639  		break;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  640  	case SPEED_100:
-463120c31c58bb Bartosz Golaszewski 2023-06-19  641  		val |= ETHQOS_MAC_CTRL_PORT_SEL | ETHQOS_MAC_CTRL_SPEED_MODE;
-a818bd12538c14 Sneh Shah           2024-02-20  642  		if (ethqos->serdes_speed != SPEED_1000)
-a818bd12538c14 Sneh Shah           2024-02-20  643  			phy_set_speed(ethqos->serdes_phy, SPEED_1000);
-a818bd12538c14 Sneh Shah           2024-02-20  644  		ethqos->serdes_speed = SPEED_1000;
-a818bd12538c14 Sneh Shah           2024-02-20  645  		stmmac_pcs_ctrl_ane(priv, priv->ioaddr, 1, 0, 0);
-463120c31c58bb Bartosz Golaszewski 2023-06-19  646  		break;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  647  	case SPEED_10:
-463120c31c58bb Bartosz Golaszewski 2023-06-19  648  		val |= ETHQOS_MAC_CTRL_PORT_SEL;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  649  		val &= ~ETHQOS_MAC_CTRL_SPEED_MODE;
-981d947bcd382c Sneh Shah           2023-12-12  650  		rgmii_updatel(ethqos, RGMII_CONFIG_SGMII_CLK_DVDR,
-981d947bcd382c Sneh Shah           2023-12-12  651  			      FIELD_PREP(RGMII_CONFIG_SGMII_CLK_DVDR,
-981d947bcd382c Sneh Shah           2023-12-12  652  					 SGMII_10M_RX_CLK_DVDR),
-981d947bcd382c Sneh Shah           2023-12-12  653  			      RGMII_IO_MACRO_CONFIG);
-a818bd12538c14 Sneh Shah           2024-02-20  654  		if (ethqos->serdes_speed != SPEED_1000)
-a818bd12538c14 Sneh Shah           2024-02-20  655  			phy_set_speed(ethqos->serdes_phy, ethqos->speed);
-a818bd12538c14 Sneh Shah           2024-02-20  656  		ethqos->serdes_speed = SPEED_1000;
-a818bd12538c14 Sneh Shah           2024-02-20  657  		stmmac_pcs_ctrl_ane(priv, priv->ioaddr, 1, 0, 0);
-463120c31c58bb Bartosz Golaszewski 2023-06-19  658  		break;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  659  	}
-463120c31c58bb Bartosz Golaszewski 2023-06-19  660  
-463120c31c58bb Bartosz Golaszewski 2023-06-19  661  	writel(val, ethqos->mac_base + MAC_CTRL_REG);
-463120c31c58bb Bartosz Golaszewski 2023-06-19  662  
-463120c31c58bb Bartosz Golaszewski 2023-06-19  663  	return val;
-463120c31c58bb Bartosz Golaszewski 2023-06-19  664  }
-463120c31c58bb Bartosz Golaszewski 2023-06-19  665  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API when selected by VIDEO_MTK_ISP_71_IMGSYS
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+     Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+     Selected by [y]:
+     - VIDEO_MTK_ISP_71_IMGSYS [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && MTK_CMDQ [=y] && REMOTEPROC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
