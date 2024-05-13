@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92AF20310
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 17:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A94B208CB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 17:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715620968; cv=none; b=stUKVFiupcEen6C0fCx/mkDf9qQNV2Z7f5uGM183UgHR0NU1moBKRVF+LPu3zAzRrDRbLftdVJMjT7P+EL8NoSh1odfjNoDHS2NajiwK2f4S2uECAuGgD1rHTQPOLEuiMLVbN0IjLlW3yYn7DLpGegmwVNJNFaZW1oO1X/VJ+pM=
+	t=1715620970; cv=none; b=h2Y9h7cGD/5j778E6eVMI6jDpyB/cii+74E8ni4jOm4edcDHLxsrDP98zMME/SkO6d0zqAYCoC57IBBru3c7ispfrSKL8gscXBzyd1VkbW1mBtUfjuG6xDbHDiLFIKBNURZf8W0OrAIAw+22RLX0dydXCZidC58uDqy8MCpkPTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715620968; c=relaxed/simple;
-	bh=hhAevIxF78TlsJGDyCDYMb4+x31KcyF3xUFpG2vehMU=;
+	s=arc-20240116; t=1715620970; c=relaxed/simple;
+	bh=rAAQCBGPTTzLd1XOwSpdngTVz40sTYcprrcxi6SPO0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eKHG5kPighnaYAobko/92BN/iKo/g9zd2oX2ycD33V+kj4e2S5p6e/XY9mT92tKbELAVE3df0zhJmL9s4u93XqJAQErTXUNNh9g+tJGPt/KBhoSR/AAE8NcOP4emnAko5B4TpiRhjmlweB/7DzpCbRVIISRZoqBVCnx7zcur1tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ky26FSCg; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=thyA9PF82EV0nqhJ8Qv/IusRc4OClhRzmFY8sV78wD53MDIlrOIPits+EXYz7K7U3hPwSZkpZMfQfoI2kE5xwoAKM4bV7N1kJYMJUrw7QEp+KZrhhm1X6/r/5VdyGB0JdFQ4+mYoMaHCdYeyfYYe+dzPBRtJ5TpzEmgRHOboMKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PycUVfad; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ky26FSCg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PycUVfad"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715620967; x=1747156967;
+  t=1715620969; x=1747156969;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=hhAevIxF78TlsJGDyCDYMb4+x31KcyF3xUFpG2vehMU=;
-  b=Ky26FSCg7fZ4OXJb6MlKEf4zwN5KdJZ31h9y4nE0yg2Z8CI466tq7+Fs
-   +qsS/vCitwlDIgQk/07+9NxordcVHJUfv4NCmeWhz54pInsiLYNj4CQS6
-   IhUF0Qx9z20wZIMQP+01pdUicOgOxELATseoWiJpI0LaCUrCDIzFYudRH
-   vMD4ux/2WJfLvvTXSzW0uaENMcRN9lopAT8Or35zyrIT+krpCEq3J4R5h
-   dXPKbON0eb04VHyTMrdPqQVzl7v9de7wF4ytUtK7UruJwQrFw1CPiSUlq
-   fTsxQR77NcfO+IO9ShDIU/0Gssu8n5boPyPTMskyAiCbCEz+kipIQ4Xvh
+  bh=rAAQCBGPTTzLd1XOwSpdngTVz40sTYcprrcxi6SPO0Y=;
+  b=PycUVfadjHNhROo2+akRZ0RYOHeaZWlGNPuphX+Ev7BTynSCu100yO+O
+   6RzKSqmfmubFjSSvcLX+X9y95Zi1k/f0sruI+p05jcMboid7Bjuw/wpbE
+   P4JiOtqVA8JyVl5vSkAvLC74Mv9RtvDs6PNy71LXX5UxD2FqJLwYHMmF3
+   T9vRF0SDFSynSP6+4qjolOKZhtU0NzB6mhOqllcPYzhCPl+A+0CcsCWZD
+   2QzcnEW7ZMqPAbZbRwZU6jznMJqNLW6/Wo8de3X71DwMUZse9fOpQZ0XQ
+   XlF0JfGHvIo4839WiiAMtw1KV9xPHfkT5lx+o3D7xnodQVRlAv2FSmnH/
    A==;
-X-CSE-ConnectionGUID: ofA6SgJ/RV2hzuEzIUTFBA==
-X-CSE-MsgGUID: /lcWlmRnTQiqEB2L1txUYQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11744064"
+X-CSE-ConnectionGUID: piXW/t/4SZeiu0zB44P5RQ==
+X-CSE-MsgGUID: BdcRKrxNSD+c544Jdy1ABw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11744066"
 X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="11744064"
+   d="scan'208";a="11744066"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 10:22:46 -0700
-X-CSE-ConnectionGUID: n6CoKeY+TfOqTiCi3Ovh4Q==
-X-CSE-MsgGUID: IJyVl9F+RbOLhhq8Z8SvGA==
+X-CSE-ConnectionGUID: bbxQ648HTuiWpYUFl1WCAg==
+X-CSE-MsgGUID: v9JLYQisSUK8eaWH6IfNTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="30960549"
+   d="scan'208";a="30960550"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 13 May 2024 10:22:45 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6ZNq-000AUR-1Q;
+	id 1s6ZNq-000AUN-1G;
 	Mon, 13 May 2024 17:22:42 +0000
-Date: Tue, 14 May 2024 01:21:48 +0800
+Date: Tue, 14 May 2024 01:21:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Wolfram Sang <wsa-dev@sang-engineering.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wsa:i2c/for-next 3/5] drivers/power/supply/sbs-manager.c:361:52:
- error: too many arguments to function call, expected 3, have 4
-Message-ID: <202405140151.TNNIaSUm-lkp@intel.com>
+Subject: [wsa:i2c/for-next 3/5] drivers/power/supply/sbs-manager.c:361:31:
+ error: too many arguments to function 'i2c_mux_add_adapter'
+Message-ID: <202405140120.JCgghAp8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,29 +67,28 @@ Content-Transfer-Encoding: 8bit
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
 head:   d76accc8f0f1c99edb2c0776874a2a8ea3719415
 commit: fec1982d70721c0062758861fec7e4e9d1103fb6 [3/5] i2c: mux: Remove class argument from i2c_mux_add_adapter()
-config: i386-buildonly-randconfig-002-20240513 (https://download.01.org/0day-ci/archive/20240514/202405140151.TNNIaSUm-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405140151.TNNIaSUm-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20240513 (https://download.01.org/0day-ci/archive/20240514/202405140120.JCgghAp8-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405140120.JCgghAp8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405140151.TNNIaSUm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405140120.JCgghAp8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/power/supply/sbs-manager.c:361:52: error: too many arguments to function call, expected 3, have 4
+   drivers/power/supply/sbs-manager.c: In function 'sbsm_probe':
+>> drivers/power/supply/sbs-manager.c:361:31: error: too many arguments to function 'i2c_mux_add_adapter'
      361 |                         ret = i2c_mux_add_adapter(data->muxc, 0, i + 1, 0);
-         |                               ~~~~~~~~~~~~~~~~~~~                       ^
-   include/linux/i2c-mux.h:58:5: note: 'i2c_mux_add_adapter' declared here
+         |                               ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/power/supply/sbs-manager.c:19:
+   include/linux/i2c-mux.h:58:5: note: declared here
       58 | int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
-         |     ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-      59 |                         u32 force_nr, u32 chan_id);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+         |     ^~~~~~~~~~~~~~~~~~~
 
 
-vim +361 drivers/power/supply/sbs-manager.c
+vim +/i2c_mux_add_adapter +361 drivers/power/supply/sbs-manager.c
 
 814ddbd9ec0b93 Sebastian Reichel    2021-03-09  317  
 02d1a40141a7b9 Uwe Kleine-König     2022-11-18  318  static int sbsm_probe(struct i2c_client *client)
