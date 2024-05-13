@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96763BB30
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 19:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1577C79B7E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 20:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715630335; cv=none; b=ZXbIkyQnxmMYZyDn1X9e3tIjxfWbSquDGJTAITM5LigvmtQlXv5kMMUBJ0yhG/TROIBmCe8fBstRasQnURLynF4Jbi6kI1E81FpnHW9qaUsFcapwjBEXT3d/jcxZZHbrbqGuhGkD1UU/fS+ymBLoGeC+fPJRXR8PdHbLCmvf6r0=
+	t=1715630999; cv=none; b=Y/OjMtwp4w9kipW9qWN8diJtyM68razXcqOBORQZfUwHxV9QIwGDWjZdFN9BY+xTWr21xCDbFLBtEw3vfRC1UMNH3gviUJJ/em4vYW2gw+gXuOA9PciHW+8Z/DcOYdMfh2hYm6Vy5e6bYd2GNxJM32Ky96ufle+Ro1qEa7j4hLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715630335; c=relaxed/simple;
-	bh=BLPDP1Gs5px4pdIBZeo3EcatOEdX30LBF10HP53HO08=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pqH1Ij+Hs7EwrRP16DXpgfqudHO560MtUbCGY4vujh4UsQYG95HoXoO8+RTWTGR1U4TObqdbec0Cm/gdyJKxdqrek8BIE0pZqULqVoX4GPDmu/qlJP8h6Vf8cFuGu6Ys+f25Z6Cd808dLgrsrIZRPOnrNL2z5HPTebHOj5+qh5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gq0W4hHe; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1715630999; c=relaxed/simple;
+	bh=5srbF7A/r6ZZVZ38QlSzulTr02juUo3FmLj9M76HhZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OnSfGxi9rIVGQUmwL2NMeDjnD7hvH1GQ5eJ4FV5kkVsBKCqpNXiNNkqxwyCHkvR1Cisxx5qGCJe0OlKpWhAN0Z/s/rT93QYbJpRxqZQpCDThQ1/zAvkSmNj1auH9GlDjjaCqRli2EQ1sEqZ+mVwNo/5mohcVUF8b8hsQcnHYiCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvsk0Kjm; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gq0W4hHe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvsk0Kjm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715630334; x=1747166334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BLPDP1Gs5px4pdIBZeo3EcatOEdX30LBF10HP53HO08=;
-  b=Gq0W4hHevO8V+Cn6WBR8nZHtvn074EkQHDHWrVRMdgSjMtV/P54CBw3H
-   d1DpVMFmDYj6qeWAgJ9pyu4XvnIoYxahnpkb9VZkjUZo6CwDJ3fh0VDwy
-   NSAJguspJbvyV0MTZhjJivqXnhEePxVEJm/cF9FIeCJT3fdRYokyA06lE
-   gmWsXwkr8axvm7YFEJtTm5KRf+suhGt5iKcnP8hf2ED9uvEdOTXmSrP/0
-   BSumUAau7i63SPHr31nPVoTRzRaJZihXIeWe85KMkeTeEIiNyhThfgoXs
-   d65lGPbO1fGhTkBiY6oyOUg5F68RQEeiInIzh0/PSgFpygkA9vXjPje3j
-   A==;
-X-CSE-ConnectionGUID: dpcRifRGT7qzvW6f2+AUtg==
-X-CSE-MsgGUID: p4OKoQ8gTSqh9As/oG7yiw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11798375"
+  t=1715630998; x=1747166998;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5srbF7A/r6ZZVZ38QlSzulTr02juUo3FmLj9M76HhZ8=;
+  b=mvsk0KjmLA8fgXx5JvqX52VVbAuMSkhC4k+84nOO6Va+L8AzycnryfsV
+   VnooiIrWjAX9YJtNNs8RvYVbTVWT1h+xOScc2eQU/zT+tB2n2CpfVcZ81
+   Uun7kxF1wmCghtYEo6kfg7owRc7fMjx4qvcy/4Kp1xKp3sQBqHRg+YWx5
+   7AgX1ypzbhQT7fKPOI2CkWROo1tJWPrfYIsG6MFRBQg6l588V88vGh+ba
+   NC/E7hBY1tVE/CDet+KCYvHfeWtfiYMHiJ8Q1XteUsfcvT9JmNsSM9Nc4
+   QxdevDI53P+srAe+TD0xCET/RT9jzgrTRRsKLaSJX2lGVhuk5WDUBPuvF
+   Q==;
+X-CSE-ConnectionGUID: iMkrrS67QHy6RZgE+VBZ/Q==
+X-CSE-MsgGUID: qXly/QMoQYOfJfrc3BG+yA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="14530859"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="11798375"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 12:58:53 -0700
-X-CSE-ConnectionGUID: jbhKqnV/SCGN0pbZUNW8/A==
-X-CSE-MsgGUID: alSsJzyjSTKyjjuIGzgKqw==
+   d="scan'208";a="14530859"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 13:09:57 -0700
+X-CSE-ConnectionGUID: +aadTLrMRYyEcp7OimqdlQ==
+X-CSE-MsgGUID: zFsui8dvRbKCxU0Ftvz+/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="34990388"
+   d="scan'208";a="61266228"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 May 2024 12:58:51 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 May 2024 13:09:55 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6bow-000AfH-0k;
-	Mon, 13 May 2024 19:58:50 +0000
-Date: Tue, 14 May 2024 03:58:45 +0800
+	id 1s6bzb-000Afp-1j;
+	Mon, 13 May 2024 20:09:51 +0000
+Date: Tue, 14 May 2024 04:09:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xu Yan <xuyan1481@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21365/22424]
- drivers/media/platform/phytium-jpeg/phytium_jpeg_core.c:1301:5-11:
- inconsistent IS_ERR and PTR_ERR on line 1303.
-Message-ID: <202405140308.WGE9RFya-lkp@intel.com>
+To: Lyndon Sanche <lsanche@lyndeno.ca>
+Cc: oe-kbuild-all@lists.linux.dev, mario.limonciello@amd.com,
+	pali@kernel.org, W_Armin@gmx.de,
+	srinivas.pandruvada@linux.intel.com,
+	Matthew Garrett <mjg59@srcf.ucam.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dell.Client.Kernel@dell.com
+Subject: Re: [PATCH v2] platform/x86: dell-laptop: Implement platform_profile
+Message-ID: <202405140348.Wz7gOmdP-lkp@intel.com>
+References: <20240426020448.10862-1-lsanche@lyndeno.ca>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +69,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240426020448.10862-1-lsanche@lyndeno.ca>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   819e21d7b3e4610b4f9d6531b4fcd61ad2e9770a
-commit: a773f33429ed6187436dd27117f3cc74a65a5344 [21365/22424] jpeg: Add a Phytium JPEG Engine driver
-config: arm64-randconfig-r051-20240514 (https://download.01.org/0day-ci/archive/20240514/202405140308.WGE9RFya-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
+Hi Lyndon,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.9 next-20240513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lyndon-Sanche/platform-x86-dell-laptop-Implement-platform_profile/20240511-144534
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240426020448.10862-1-lsanche%40lyndeno.ca
+patch subject: [PATCH v2] platform/x86: dell-laptop: Implement platform_profile
+config: i386-randconfig-005-20240513 (https://download.01.org/0day-ci/archive/20240514/202405140348.Wz7gOmdP-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405140348.Wz7gOmdP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405140308.WGE9RFya-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405140348.Wz7gOmdP-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/platform/phytium-jpeg/phytium_jpeg_core.c:1301:5-11: inconsistent IS_ERR and PTR_ERR on line 1303.
-   drivers/media/platform/phytium-jpeg/phytium_jpeg_core.c:1308:5-11: inconsistent IS_ERR and PTR_ERR on line 1310.
+All errors (new ones prefixed by >>):
 
-vim +1301 drivers/media/platform/phytium-jpeg/phytium_jpeg_core.c
+   ld: drivers/platform/x86/dell/dell-laptop.o: in function `thermal_init':
+>> drivers/platform/x86/dell/dell-laptop.c:2404:(.text+0x21a3): undefined reference to `platform_profile_register'
+   ld: drivers/platform/x86/dell/dell-laptop.o: in function `thermal_cleanup':
+>> drivers/platform/x86/dell/dell-laptop.c:2412:(.text+0x21cc): undefined reference to `platform_profile_remove'
+>> ld: drivers/platform/x86/dell/dell-laptop.c:2412:(.init.text+0xb44): undefined reference to `platform_profile_remove'
+>> ld: drivers/platform/x86/dell/dell-laptop.c:2412:(.exit.text+0x7c): undefined reference to `platform_profile_remove'
 
-  1279	
-  1280	static int phytium_jpeg_probe(struct platform_device *pdev)
-  1281	{
-  1282		struct phytium_jpeg_dev *jpeg_dev;
-  1283		const struct of_device_id *match;
-  1284		const struct phytium_jpeg_config *config;
-  1285		struct resource *res;
-  1286		int ret;
-  1287	
-  1288		jpeg_dev = devm_kzalloc(&pdev->dev, sizeof(*jpeg_dev), GFP_KERNEL);
-  1289		if (jpeg_dev == NULL)
-  1290			return -ENOMEM;
-  1291	
-  1292		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-  1293		jpeg_dev->base_addr = devm_ioremap_resource(&pdev->dev, res);
-  1294		if (IS_ERR(jpeg_dev->base_addr)) {
-  1295			dev_err(jpeg_dev->dev, "Failed to ioremap.\n");
-  1296			return PTR_ERR(jpeg_dev->base_addr);
-  1297		}
-  1298	
-  1299		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-  1300		jpeg_dev->timer30_addr = devm_ioremap_resource(&pdev->dev, res);
-> 1301		if (IS_ERR(jpeg_dev->base_addr)) {
-  1302			dev_err(jpeg_dev->dev, "Failed to parse timer30.\n");
-> 1303			return PTR_ERR(jpeg_dev->timer30_addr);
-  1304		}
-  1305	
-  1306		res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
-  1307		jpeg_dev->timer31_addr = devm_ioremap_resource(&pdev->dev, res);
-  1308		if (IS_ERR(jpeg_dev->base_addr)) {
-  1309			dev_err(jpeg_dev->dev, "Failed to parse timer30.\n");
-  1310			return PTR_ERR(jpeg_dev->timer31_addr);
-  1311		}
-  1312		match = of_match_node(phytium_jpeg_match, pdev->dev.of_node);
-  1313		if (match == NULL) {
-  1314			dev_err(jpeg_dev->dev, "Failed to match.\n");
-  1315			return -EINVAL;
-  1316		}
-  1317	
-  1318		config = match->data;
-  1319		jpeg_dev->comp_size_read = config->comp_size_read;
-  1320	
-  1321		jpeg_dev->frame_rate = 30;
-  1322		jpeg_dev->dev = &pdev->dev;
-  1323		spin_lock_init(&jpeg_dev->hw_lock);
-  1324		mutex_init(&jpeg_dev->video_lock);
-  1325		init_waitqueue_head(&jpeg_dev->wait);
-  1326		INIT_DELAYED_WORK(&jpeg_dev->res_work, phytium_jpeg_resolution_work);
-  1327		INIT_LIST_HEAD(&jpeg_dev->buffers);
-  1328	
-  1329		ret = phytium_jpeg_init(jpeg_dev);
-  1330		if (ret != 0) {
-  1331			dev_err(jpeg_dev->dev, "Failed to initialize the JPEG engine.\n");
-  1332			return ret;
-  1333		}
-  1334	
-  1335		ret = phytium_jpeg_setup_video(jpeg_dev);
-  1336	
-  1337		return ret;
-  1338	}
-  1339	
+
+vim +2404 drivers/platform/x86/dell/dell-laptop.c
+
+  2377	
+  2378	int thermal_init(void)
+  2379	{
+  2380		int ret;
+  2381		int supported_modes;
+  2382	
+  2383		ret = thermal_get_supported_modes(&supported_modes);
+  2384	
+  2385		if (ret || !supported_modes)
+  2386			return 0;
+  2387	
+  2388		thermal_handler = kzalloc(sizeof(*thermal_handler), GFP_KERNEL);
+  2389		if (!thermal_handler)
+  2390			return -ENOMEM;
+  2391		thermal_handler->profile_get = thermal_platform_profile_get;
+  2392		thermal_handler->profile_set = thermal_platform_profile_set;
+  2393	
+  2394		if ((supported_modes >> DELL_QUIET) & 1)
+  2395			set_bit(PLATFORM_PROFILE_QUIET, thermal_handler->choices);
+  2396		if ((supported_modes >> DELL_COOL_BOTTOM) & 1)
+  2397			set_bit(PLATFORM_PROFILE_COOL, thermal_handler->choices);
+  2398		if ((supported_modes >> DELL_BALANCED) & 1)
+  2399			set_bit(PLATFORM_PROFILE_BALANCED, thermal_handler->choices);
+  2400		if ((supported_modes >> DELL_PERFORMANCE) & 1)
+  2401			set_bit(PLATFORM_PROFILE_PERFORMANCE, thermal_handler->choices);
+  2402	
+  2403		// Clean up but do not fail
+> 2404		if (platform_profile_register(thermal_handler))
+  2405			kfree(thermal_handler);
+  2406	
+  2407		return 0;
+  2408	}
+  2409	
+  2410	void thermal_cleanup(void)
+  2411	{
+> 2412		platform_profile_remove();
+  2413		kfree(thermal_handler);
+  2414	}
+  2415	
 
 -- 
 0-DAY CI Kernel Test Service
