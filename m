@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF241D559
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 23:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279B3129E7F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 23:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715643666; cv=none; b=b+0EicotZLRYeqJPm+Rlic+4656K1+CsBTf+NtW1XzvlgCp3aP1PQphm81GixuCVLLsGGzuCPw5HVJHphgqX/fV76Oj2imdht6elI09xwxUcBfynIcmUIX5etkyPqTRp3j3lCvBMvQyqyUPCI5s+x8dh0TjVJkM1Tc/t73e9d3s=
+	t=1715644266; cv=none; b=E7dmGgIz7VyOovE8TIMSTQQgSIC3wFmjMSqvj5uFCU/ZMz9p7a5MxgooBNvI5mZB2Pnh7IAPSRb9ICXutqqbtNcUet410DBiTtQG8WQe8ALzdOW4NLq0pDcYAHqjvfNaDKQgCs5BV7s2IY82OiSTW6XKaM/b9/FDnSK9t/K4Q+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715643666; c=relaxed/simple;
-	bh=TfWLdkwPYDBzWbv61MXZTfFH0gQ9dE/COO8Daqvh1sw=;
+	s=arc-20240116; t=1715644266; c=relaxed/simple;
+	bh=8k7wY0dIyy5/im7vf9wz7CejUYZadSeVLOyq35oenu0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lTUuf4ZuRpw0vIBVAIJ70cGVPhcDeDD/GK1eK3jpYW0yemR8/Kx6cEtY8P9ka5tB0HAtyRr6Q9p5Qog7Z4yeRdpPHIWhJ9uJbZYHByK2LtlwSiJ/CdXdRNa1z8Js6IE/RM/rOaythUE27521votZfJpAE7Yo9UbO3IJZ3KTewMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0uUs7jl; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=UFIWXUEHqR89Vue/bOz2pFp+/Dw2mmLhd6g8EtC4gxpi827Bnzb2nomh5ql6yJrJBMAN2a6/No54fM4o88HuO/E2F6upAkQTWOHGooN4cDhQVOdNhvK8kro9quhBiRlX8iheo3viDEUc6ko9ymVAQcik/7iUeRBZR83FRCaIdY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjkzpoSI; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0uUs7jl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjkzpoSI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715643663; x=1747179663;
+  t=1715644264; x=1747180264;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TfWLdkwPYDBzWbv61MXZTfFH0gQ9dE/COO8Daqvh1sw=;
-  b=K0uUs7jlikB/m3oiXfEvwOkKj94rfHoZSGtKORgnGFQ/Ub8UJ9W+Jlnf
-   fP1r1L2I3PY4SZqWvk2lrJBxpmPMqVANV/4ars8sOA+ZZLde5FuBbxVJY
-   /ayGbF/YJJIzOEcbH/gYOchTdT6LYs7rmakYzKn2Xmpoeqq/PFz06W4Pg
-   xSXa5xbZUGfxuCUNyPB1nT5IA+Eb39is7mQfnlvKDvG3JsHcmaf2PeI2y
-   46jvoMsbur3HT4KkkdOnVNZJ81RlniVpxluqMJUHsAFrHBkYwEb53bps7
-   8eT2ttz9cuLD0r6qzUhNNQY7/51eXzGpfUjRYY6CQALNpphPr+kICnlIt
-   g==;
-X-CSE-ConnectionGUID: xGEQ/LFlRKyjbE26LrGDWQ==
-X-CSE-MsgGUID: 8DmlaFooRAueOqVry2Pfkg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="34116210"
+  bh=8k7wY0dIyy5/im7vf9wz7CejUYZadSeVLOyq35oenu0=;
+  b=LjkzpoSIFECDZ4ftKkZZVDFLiDUjLUQNTQP0IaMgAc1O8aI+QDCoQc0K
+   GMAE6QblmYZyQLEeLJth3FxP1Jgxw71Olr+nlAVYoXj6gHOHpz47Cuuh3
+   Qu6RO4Ki+aZRUQu9dlvXSBIQEKLxIo5TX+AZeAiTIBu1GRZh7+Dd3p7ZY
+   UIzpEi0qKxKnhKxrfENlnXa9F/n0KG2VyWdSzOArzhH/r4VtOk4U0976f
+   V9TOe1pzXCX46+yhMgWuN5nm/d6h+kiuTb6jcQfGQK8utZDX3h6jVc+3x
+   l5pqgZUAdqPP5IRX87/tZuI8ukvI66yrwkWAaLXaAQwzlq70f8hbT+KHl
+   Q==;
+X-CSE-ConnectionGUID: 5Qbpku21SYqCbd5k+QNszg==
+X-CSE-MsgGUID: 1P8IP90lQyeirlqrJhYqbw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="29093949"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="34116210"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 16:41:03 -0700
-X-CSE-ConnectionGUID: wHaTGeS2S0eETsrOHyK/3w==
-X-CSE-MsgGUID: Q3sOCypySK6KFjm0/3utVw==
+   d="scan'208";a="29093949"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 16:51:03 -0700
+X-CSE-ConnectionGUID: SX6aCGhPTHuCKaVvAbrmLA==
+X-CSE-MsgGUID: N0lPQVPlSMeeWOzne2Q0Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="53692072"
+   d="scan'208";a="30497746"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 May 2024 16:41:00 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 May 2024 16:51:01 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6fHu-000Anf-0G;
-	Mon, 13 May 2024 23:40:58 +0000
-Date: Tue, 14 May 2024 07:40:08 +0800
+	id 1s6fRa-000Ao7-1C;
+	Mon, 13 May 2024 23:50:58 +0000
+Date: Tue, 14 May 2024 07:50:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: matthew.gerlach@linux.intel.com, bhelgaas@google.com,
-	lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: Re: [PATCH v5] dt-bindings: PCI: altera: Convert to YAML
-Message-ID: <202405140709.5BmKZtT7-lkp@intel.com>
-References: <20240513205913.313592-1-matthew.gerlach@linux.intel.com>
+To: Gustavo Silva <gustavograzs@gmail.com>, jic23@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, lars@metafoo.de, christophe.jaillet@wanadoo.fr,
+	gerald.loacker@wolfvision.net, devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] iio: chemical: ens160: add triggered buffer support
+Message-ID: <202405140721.LuiSHRvx-lkp@intel.com>
+References: <20240512210444.30824-5-gustavograzs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +65,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240513205913.313592-1-matthew.gerlach@linux.intel.com>
+In-Reply-To: <20240512210444.30824-5-gustavograzs@gmail.com>
 
-Hi,
+Hi Gustavo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.9 next-20240513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 084eeee1d8da6b4712719264b01cb27b41307f54]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/matthew-gerlach-linux-intel-com/dt-bindings-PCI-altera-Convert-to-YAML/20240514-050049
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240513205913.313592-1-matthew.gerlach%40linux.intel.com
-patch subject: [PATCH v5] dt-bindings: PCI: altera: Convert to YAML
-reproduce: (https://download.01.org/0day-ci/archive/20240514/202405140709.5BmKZtT7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gustavo-Silva/dt-bindings-vendor-prefixes-add-ScioSense/20240513-050745
+base:   084eeee1d8da6b4712719264b01cb27b41307f54
+patch link:    https://lore.kernel.org/r/20240512210444.30824-5-gustavograzs%40gmail.com
+patch subject: [PATCH 4/6] iio: chemical: ens160: add triggered buffer support
+config: arc-randconfig-r123-20240514 (https://download.01.org/0day-ci/archive/20240514/202405140721.LuiSHRvx-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240514/202405140721.LuiSHRvx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405140709.5BmKZtT7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405140721.LuiSHRvx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/chemical/ens160_core.c:250:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [addressable] [usertype] val @@
+   drivers/iio/chemical/ens160_core.c:250:39: sparse:     expected unsigned short
+   drivers/iio/chemical/ens160_core.c:250:39: sparse:     got restricted __le16 [addressable] [usertype] val
+   drivers/iio/chemical/ens160_core.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pci/altera-pcie.txt
-   Using alabaster theme
+vim +250 drivers/iio/chemical/ens160_core.c
+
+   232	
+   233	static irqreturn_t ens160_trigger_handler(int irq, void *p)
+   234	{
+   235		struct iio_poll_func *pf = p;
+   236		struct iio_dev *indio_dev = pf->indio_dev;
+   237		struct ens160_data *data = iio_priv(indio_dev);
+   238		__le16 val;
+   239		int ret, i, j = 0;
+   240	
+   241		mutex_lock(&data->mutex);
+   242	
+   243		for_each_set_bit(i, indio_dev->active_scan_mask,
+   244				 indio_dev->masklength) {
+   245			ret = regmap_bulk_read(data->regmap,
+   246					       ENS160_REG_DATA_TVOC + 2 * i, &val, 2U);
+   247			if (ret)
+   248				goto err;
+   249	
+ > 250			data->scan.chans[j++] = val;
+   251		}
+   252	
+   253		iio_push_to_buffers_with_timestamp(indio_dev, &data->scan,
+   254						   pf->timestamp);
+   255	err:
+   256		mutex_unlock(&data->mutex);
+   257		iio_trigger_notify_done(indio_dev->trig);
+   258	
+   259		return IRQ_HANDLED;
+   260	}
+   261	
 
 -- 
 0-DAY CI Kernel Test Service
