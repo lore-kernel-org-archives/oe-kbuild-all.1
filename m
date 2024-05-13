@@ -1,394 +1,276 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2161DE541
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 01:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715564462; cv=fail; b=pptX5Os5t3z2DVrRbzWH7tGvkfbuXKfXNzQ9D+JzPzxpCGA4lXd+4/fPcTZqIuAKGL4Q0Eo6Cf8gG4TkqEL9Yz7vHvdK5xHrRKR7E39tyewZ/H0kyVljVxV9pTOUgjX15uWtklA5S8ojaExy78PNy3ZTVG0hWZoz1JtOUBEeTQM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715564462; c=relaxed/simple;
-	bh=R58OV7UGBIOhNXBc3iGn04eZyWEb1iSeygTbbmEhtlc=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=al+v5ilEUTak0DHQeUjXz+kTONeXYHlOfVKmLq1F8IWdurIMF6mjFqRrIOFbc3yongYjdFPu1vqUauE7EGOUFnD9TfFWdcDLSXKDHoNTiGjA7guX0WNOSE6SPsNAqRRljj1C041RPizfrbYJknhOA1LvzLzdxroYP42GS+msEzc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZeXaYFU; arc=fail smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF5B19470;
+	Mon, 13 May 2024 02:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715566511; cv=none; b=suIUIqc8MS7hteMCe8HlKgi5l80RVUkeavBsKQAtxiQEB/T0pdMXqUaGG1ktEXzxVhY5QvHRxvCJxNtEOVjxbGXvb93FdYOmTWZWggvmFFVjeEY658S0xgOArwYJwomsmnobjO7zybkSdc+JZ809WiK0GjbQszsn8xJrs9GO4ZQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715566511; c=relaxed/simple;
+	bh=0VAOcaO47ViYN0bE4o2MNcHqcHxmHC8zeryv8HizuaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnX1q/ZQE5sZnf2RgzXCw5L4GO0x+fWDuX21w/60zCVKLlHpBnYau5ZKjAYK81zZnTr8ljJMmGK6O5975IpnK4djZXM/8hG4ulpLnQ7y7eiaPM4Y3UVAaA+UJAOo0THco4aYyNz8THx/WgsMGcyH+lQJ6RNE6SyPvdojI2FqPWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayjDv5ct; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZeXaYFU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayjDv5ct"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715564460; x=1747100460;
-  h=date:from:to:cc:subject:message-id:
-   content-transfer-encoding:mime-version;
-  bh=R58OV7UGBIOhNXBc3iGn04eZyWEb1iSeygTbbmEhtlc=;
-  b=UZeXaYFU47b+AnBPni7NusGcxagl3BF/ms+d257utVdsfwNhqkgKbWkW
-   k12Wcl9CmEj05QQKI29NiN5Ryprk+5CD0ge7ZhA2fa6scy9ZLKpcMZm8/
-   DSI5TjpqN5RQB+xgL10Zj9QFzy+KhSo/F/kL1ZkMiYBESHORPAeNbxita
-   GWaJGjgncN42aCXrbL0t7jKMbmDzID3no20wne/T/i3dUZ6bMWq7T6GxP
-   EyvhItHpOp/JJGgUQ2HMeMNNdMLAHmfo7lZhh6eg74shHPvt15HigMxX4
-   KsAsZUTdzb1rdJx88P5DqfUdxuF+G1ydm2nUXzUvUDVziz+Ns3PTr5zIs
-   g==;
-X-CSE-ConnectionGUID: XXZftDw5ShyIQriIKl0FHA==
-X-CSE-MsgGUID: /kwbkQrqQGS0oP9BqnjnbQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="33992542"
+  t=1715566510; x=1747102510;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0VAOcaO47ViYN0bE4o2MNcHqcHxmHC8zeryv8HizuaA=;
+  b=ayjDv5ctxKLBgRhYKkQccXx9KgFlNYDWbep57w8+rglCtZNK5z8BG58d
+   ldsxKXGj1wXdWnu1s8VAUbBqTCHuInTtItOzS50VdwCMAd4Hp2cLWqptd
+   vT5V17uhqalC/k3f8q5jYW0837q8NcIGRbWJMlWU3wgAULrpwuygYJQh3
+   NKxBNH43oc67v8WwV4dvpsc261kI1igylOmb6PZ/gmlseis2GOmue6iqI
+   6KtybdUneKtHqU4F0wu5nfPKK7qEujASerAtr9CZdmEPvWN5aD8yP+ESA
+   xoPYjR6tzehku+shsfI+pHw17epywuVQNaTLy25gucLRhgz3qtoKosQ2h
+   A==;
+X-CSE-ConnectionGUID: dA7m7bNoTPyKdfj02MZnwQ==
+X-CSE-MsgGUID: w4DM8+CgTQGyc+8XN3U6cA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11336592"
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="33992542"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 18:40:59 -0700
-X-CSE-ConnectionGUID: 6OReDJhiRaiKNskkCpCD3w==
-X-CSE-MsgGUID: FXY0Q11OReK4bvaGL8BIuQ==
+   d="scan'208";a="11336592"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 19:15:09 -0700
+X-CSE-ConnectionGUID: x+dHR9TqReyTglgKWezljw==
+X-CSE-MsgGUID: ZJXzqTgfRGeK6QDn7kbW9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="30746838"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 May 2024 18:40:59 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 12 May 2024 18:40:58 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 12 May 2024 18:40:58 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 12 May 2024 18:40:58 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 12 May 2024 18:40:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lG7GEGBKWLHtFYDJaY+w248xckAqsjLthrjyABUXhHKgckEHzd9D1CiD91ULpjjmcdGofqm8xYaZA6c0L6hXakkzWB9GKmdhJVoQEUL8TnNzfLi/Bdmqw5AYvT5rGv0jzE9PGNL0ggjordz9PEzH47ERGi4W2mPlri+5WFrmm3IxtumWsJ7GAzaIHiBcQ9VuI3CHyXfv+CFN9nJE3ghyKTqRD3h4mR1F/x7vlzl9IRMVXmkmoSWNX0YR1sqTe4AyKiECUj5U8cbg73f+Q4jcCABK/fkMpG/KxtBdyTfcbUFa7pMi3NpFBaDlBMRtfOgZGbvqDwMBa2Mq74GqXQk/mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6ru/G0clLCu9BpcdeyvdvSapiufTOxI+SICoYkdbH9E=;
- b=Bk/xe/VaGgoYGkT72fKSGhfAHx6WJJQwyv720BJuoCqxqspWqtHrMJ8OhigzB/mhk2aN9dFlFvextg6p5U3YKkY7dAYNP/WVX501gyl0uULu1BKE80P5JLDAq+ausB276BWaBvqI3jetVLhQbX2/yzPEILVJjZ+UwQl04rB+0J+VvZuoiNroDq2QDpYGB9SmkaBhT6BhRRt+cZUlTqvUtzMPd6VhthF0/V0brWn5qLXFownO25IW+Lc0dtf9skVFwiTvYk8ptlR9mWcy3nTSpQVDFSmCQpQw8Aovl72XNGubHyh1Qmad2RkTENk+9dr9vwN9oTMG6zapJBy87bLwtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by PH7PR11MB6772.namprd11.prod.outlook.com (2603:10b6:510:1b6::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
- 2024 01:40:55 +0000
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45]) by SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45%5]) with mapi id 15.20.7544.052; Mon, 13 May 2024
- 01:40:55 +0000
-Date: Mon, 13 May 2024 09:40:52 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Edward Liaw <edliaw@google.com>
-CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
-	<linux-mm@kvack.org>, Shuah Khan <skhan@linuxfoundation.org>, "Muhammad Usama
- Anjum" <usama.anjum@collabora.com>, Mark Brown <broonie@kernel.org>, "John
- Hubbard" <jhubbard@nvidia.com>
-Subject: [linux-next:master 12023/12533] ./../kselftest_harness.h:54:15:
- error: expected parameter declarator
-Message-ID: <202405130312.R5mxIDyQ-lkp@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0043.apcprd02.prod.outlook.com
- (2603:1096:4:196::12) To SA1PR11MB8393.namprd11.prod.outlook.com
- (2603:10b6:806:373::21)
+   d="scan'208";a="34870413"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 12 May 2024 19:15:04 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s6LDR-0009P1-1Y;
+	Mon, 13 May 2024 02:15:01 +0000
+Date: Mon, 13 May 2024 10:14:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	gregkh@linuxfoundation.org, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	johannes@sipsolutions.net, philipp.g.hortmann@gmail.com,
+	tdavies@darkphysics.net, garyrookard@fastmail.org,
+	straube.linux@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH 1/3] lib80211: Handle const struct lib80211_crypto_ops in
+ lib80211
+Message-ID: <202405130949.5EW85uAq-lkp@intel.com>
+References: <d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|PH7PR11MB6772:EE_
-X-MS-Office365-Filtering-Correlation-Id: 782917ab-4614-43fd-1984-08dc72edbb45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?RBuU6choaLSPUlxZ++cVyMuGLNQZxX0LhBbDYZ7wHft0EBiV5EtC37eYCp?=
- =?iso-8859-1?Q?jeXx6KkU+FcXMCkcU86uP7Y7n8wLuJ85sj3SaL1x5iSIgCPGm7Z33TkddQ?=
- =?iso-8859-1?Q?sWLh8ruVVJ+r9YlZVrZ+8LmcRhgDaM6MEclZuv4VwzbAv3nrRz+mMEaeex?=
- =?iso-8859-1?Q?n7580FjITqW4v3EzPG6ZEGhFfTxLV/QGAzlmdP8UrJhl/BSye2afqlHND3?=
- =?iso-8859-1?Q?mLMwG3rTlEpzdxeyHux5CDbJsSMwRvIl2rwcU3gbykZZ2AVoDGduXAySum?=
- =?iso-8859-1?Q?E/l9Em9kEgxwyHtF9TYCnZ1hzmP49gIDT+/U8A+WPOwOw4Dc972VDIFyqw?=
- =?iso-8859-1?Q?gelEjxbw1igOjJzIm72uxgjLH5FELe6e2/iu4BQ6AxblZ9PiZHFbvPa3uf?=
- =?iso-8859-1?Q?eypaIVO3zvTIhVaBqPPJjZehyK8Ovb1zJHwCnkNb882VtTn6tWF9KWOd09?=
- =?iso-8859-1?Q?lUZzmUb1qxgPs5wIWswd0tGPoO6Y/C65whUSE/bJJQXWcKgRNadwg0h3ds?=
- =?iso-8859-1?Q?siLfWP887Pe+HJhtNQbo91aeOtuVTwVi2H+q2+Z2YpBU5MvhQFGCR5CGwV?=
- =?iso-8859-1?Q?WK5qUJlBFpT7qo3G2TTOh0Ffw9SSqvMibdiUXXWT8KTbR8G94gepxMOzG1?=
- =?iso-8859-1?Q?XQapjx42VPe5VE9lpBfHXO7jDWfnUIUXmDP80u0WA06LtWbFG/Osi0ihHg?=
- =?iso-8859-1?Q?HET+3VlqhKx6GqV9G99n5elsEyvMl1V0tjrxfItb74scCgMNFLIUmsSVUS?=
- =?iso-8859-1?Q?hOPLHhD5LLH5NxERtl4CtSCNyOiEvGVbPG2YBv4pbRU7yZ1KWmYGknxEwW?=
- =?iso-8859-1?Q?FNLuT5XZXpTUvbM5WMdgZt9Rcx90VeueKGRyvT1uzKL4JDff2duhGxjYrl?=
- =?iso-8859-1?Q?88PJN1k0dz2cFyAQh9StahQxHAtLuadWJbqzGLROBnKm/CVK4oLnT7VAYk?=
- =?iso-8859-1?Q?Kvtz/fgmcRdp7y7OMT6ZpCQLqNSQ/zGTdsubER/l4mVIet7JGLwv8D+2hJ?=
- =?iso-8859-1?Q?Efztxeah+I27tYxCOFG+0/CPpLOsH6VsNA3KD6Q4debOiNdewcGrNKx7IS?=
- =?iso-8859-1?Q?3mkao95jCAvBywXX/OHCgtuZYw3VANATckAzJo80iNRpBT1XHjvTptI6Ww?=
- =?iso-8859-1?Q?NqKiRsJ4EMfCxkOz8n3hWe73+sHnySxZ5BeT6g/Iz13r2IbVVxXMd+m/s7?=
- =?iso-8859-1?Q?3UnyKh1mgFmi6OkSE+ZPisAYDweTvAmrCA2yBQ7GHXoBrf1ejeyZZMuRrZ?=
- =?iso-8859-1?Q?K9fx5zUdYkf4iy2a/q537DjabsHmX9o37TafYsEdk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?bjtv/LLR6ffUsCyX3zDnCP5cvPqbTxNIhAZdGQPDh1ASwOWs3dnPpqchFW?=
- =?iso-8859-1?Q?Y4r3Si9PaEA+bKKOUvXrmvl7N35zhKkzXPvnUBrsnSHESbTZFWEjN11a/W?=
- =?iso-8859-1?Q?vkCQFPfWyO1gcf5ALfGl6kIShG+jYdJukUjJeNwrHjJjzn5ldkOFBxw1YS?=
- =?iso-8859-1?Q?lVnMUQ39RjDwsTrOooMRFPjJrfO0nOSJuiecOI6nodDrm41h2u31S1/QF8?=
- =?iso-8859-1?Q?XQQNe8zHtoWAaxv9JUiiwEnDfS2K3NgtTfT4ZXcBQugQbOecL8TgFavWWY?=
- =?iso-8859-1?Q?FHyUlHi4dtP+dClQ74armZEriFUyJa76P++QeuUuR4DuaL7qsDAYmjQM9b?=
- =?iso-8859-1?Q?2N7PdWR4+PCuCHMGl2SHJlWzL4G0DO8BYraVvhKUOnD508rEXiJaGcy/PU?=
- =?iso-8859-1?Q?t8Q5zto6sr0JtksX2/H7/WBkbh1m2/2o/+buwpLv7oyB3nFRIyegO4oS1w?=
- =?iso-8859-1?Q?4nc7SeWApDaaVnAVdUCTDS4ViKNf9zRDxOeGic6T0WjUkAGmnXbMhd09Fr?=
- =?iso-8859-1?Q?dr+xzr77FB/Qeyu5zdAew2Pun8ne6zZavoZCDL2eC1SvVuBNw6rkdh0kMY?=
- =?iso-8859-1?Q?4KHVsRlRX0hhg3AKVZFDxxP4nFfx1+eXWE5MiFbNJQyDTsbvwqekbw2f2y?=
- =?iso-8859-1?Q?xTYEn/2em4E1nLAu0xXNC58M4McCNPD0QwE3zDq5D1TWcV0PYEHEIq3ore?=
- =?iso-8859-1?Q?p79EIs6RXovDgLq+UycHWrbV+TTL2pfLAaHbAziRKETAAx62HJ0yWT1HAZ?=
- =?iso-8859-1?Q?o+u0BZZ0rNxII3oq4Q02dNJFhaiQJnCyHrg2ExtyekEFeen6OM4GBEyj4U?=
- =?iso-8859-1?Q?+RYJPasVEpz7yvgs7TuxIN7d+EavmWmawGQYWN8rN9lzbAcUroJrGTr+J2?=
- =?iso-8859-1?Q?RGdPOvDtRWCnjol63cZwFpROSd+WcAA6DYU6KIqmXZxNPZ5xwIrP2EcBus?=
- =?iso-8859-1?Q?zJ2fJGMNhudeHBSAfGeWbknKcRen5lpXDg3DbCWGYVEO+Rkdz05hPJcsIc?=
- =?iso-8859-1?Q?w/XSY5vtWuCkouQtpwY437AXLbdlnRlHE/+CkbC261BTYAB+GXKdYDZWcr?=
- =?iso-8859-1?Q?dboHIp9wRni+pqnLPDcXActgXZDSTKvTO1vfmTOyS2LAX2wCQiU+Ci0VRY?=
- =?iso-8859-1?Q?YD+nQ7mIXz/IV1KXzrieBupSfl4M9v/dy+EfF1GqpV8sWISDhebAPqo60f?=
- =?iso-8859-1?Q?Axmnz9h5iOW0t/dgDSnrI3vwwTnxCFtPURA6reLMG9AkeUCJoBDng03mFg?=
- =?iso-8859-1?Q?T4RLj27woRz3mn/JmqUicwabpN4C4/fO6qMFLLKyplkKzLUX7s+fyG+Hso?=
- =?iso-8859-1?Q?hUqDmWq+t+MBBFFead0QH7RExA3GWSFulTtxIhIv/ug7znQMGYSrGCNJwv?=
- =?iso-8859-1?Q?xDwpigOEN+HVrbYPxByTbLJfZlxWJq581XBEZPaMxOUFGrXL7uoWdrE7iS?=
- =?iso-8859-1?Q?5XWS3yfwXe2AcrM+3oS9ASIOCob8x9HdlITrcnjCZhfDd2IUKv896cxWTD?=
- =?iso-8859-1?Q?KWEztLm1+1Ywe015LJQlnyNbMleLd9JkwCTrIkWAOLYUP+aqEZx7pUGiZD?=
- =?iso-8859-1?Q?C5tNTOoGU+sOI0hYs5er3DNfPGymjJXG7i4W3XGOUtLjLwy6Wq7QpZ7NZu?=
- =?iso-8859-1?Q?z6CF1Pj5KLxV/DivyPq9AklEdjCW5kDj9Q?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 782917ab-4614-43fd-1984-08dc72edbb45
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 01:40:55.7415
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pRAdGsBDMCRGnKAxGmZxK5qodM8RkbZ+gNyBkHgE2a3UhufKK+oLzUpiSGtygmcbpRBjrR1Vb9foH3loAbx50g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6772
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet@wanadoo.fr>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   75fa778d74b786a1608d55d655d42b480a6fa8bd
-commit: daef47b89efd0b745e8478d69a3ad724bd8b4dc6 [12023/12533] selftests: Compile kselftest headers with -D_GNU_SOURCE
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Christophe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on staging/staging-next staging/staging-linus wireless-next/main wireless/main linus/master v6.9 next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/lib80211-Handle-const-struct-lib80211_crypto_ops-in-lib80211/20240512-003642
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet%40wanadoo.fr
+patch subject: [PATCH 1/3] lib80211: Handle const struct lib80211_crypto_ops in lib80211
+config: csky-randconfig-r132-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130949.5EW85uAq-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240513/202405130949.5EW85uAq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202405130312.R5mxIDyQ-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130949.5EW85uAq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct lib80211_crypto_ops *ops @@     got struct lib80211_crypto_ops const * @@
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: sparse:     expected struct lib80211_crypto_ops *ops
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: sparse:     got struct lib80211_crypto_ops const *
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct lib80211_crypto_ops *ops @@     got struct lib80211_crypto_ops const * @@
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: sparse:     expected struct lib80211_crypto_ops *ops
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: sparse:     got struct lib80211_crypto_ops const *
 
-   In file included from hid_bpf.c:5:
->> ./../kselftest_harness.h:54:15: error: expected parameter declarator
-      54 | static_assert(0, "kselftest harness requires _GNU_SOURCE to be defined");
-         |               ^
->> ./../kselftest_harness.h:54:15: error: expected ')'
-   ./../kselftest_harness.h:54:14: note: to match this '('
-      54 | static_assert(0, "kselftest harness requires _GNU_SOURCE to be defined");
-         |              ^
->> ./../kselftest_harness.h:54:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-      54 | static_assert(0, "kselftest harness requires _GNU_SOURCE to be defined");
-         | ^
-         | int
-   3 errors generated.
---
->> reuseport_bpf_cpu.c:15:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-      15 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> reuseport_bpf_numa.c:7:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       7 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> reuseport_dualstack.c:14:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-      14 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> tls.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> tun.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> tap.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> so_incoming_cpu.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> nettest.c:7:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       7 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> psock_fanout.c:30:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-      30 | #define _GNU_SOURCE             /* for sched_setaffinity */
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> msg_zerocopy.c:28:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-      28 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> test_cachestat.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> test_execve.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3.c:5:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       5 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3_clear_sighand.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3_set_tid.c:9:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       9 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3_cap_checkpoint_restore.c:11:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-      11 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> close_range_test.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> udmabuf.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> devpts_pts.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> dnotify_test.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE     /* needed to get the defines */
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> binderfs_test.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
+vim +587 drivers/net/wireless/intel/ipw2x00/libipw_wx.c
 
-
-vim +54 tools/testing/selftests/hid/./../kselftest_harness.h
-
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  52  
-e80068be21824e tools/testing/selftests/kselftest_harness.h    Kees Cook      2020-06-22  53  #ifndef _GNU_SOURCE
-daef47b89efd0b tools/testing/selftests/kselftest_harness.h    Edward Liaw    2024-05-07 @54  static_assert(0, "kselftest harness requires _GNU_SOURCE to be defined");
-e80068be21824e tools/testing/selftests/kselftest_harness.h    Kees Cook      2020-06-22  55  #endif
-369130b63178e0 tools/testing/selftests/kselftest_harness.h    Mickaël Salaün 2017-08-07  56  #include <asm/types.h>
-65177e47d3035c tools/testing/selftests/kselftest_harness.h    Jakub Kicinski 2023-01-25  57  #include <ctype.h>
-369130b63178e0 tools/testing/selftests/kselftest_harness.h    Mickaël Salaün 2017-08-07  58  #include <errno.h>
-369130b63178e0 tools/testing/selftests/kselftest_harness.h    Mickaël Salaün 2017-08-07  59  #include <stdbool.h>
-b5bb6d3068eabb tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-12-10  60  #include <stdint.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  61  #include <stdio.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  62  #include <stdlib.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  63  #include <string.h>
-0ef67a888375b0 tools/testing/selftests/kselftest_harness.h    Kees Cook      2020-06-22  64  #include <sys/mman.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  65  #include <sys/types.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  66  #include <sys/wait.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  67  #include <unistd.h>
-63e6b2a42342c3 tools/testing/selftests/kselftest_harness.h    Kees Cook      2022-03-24  68  #include <setjmp.h>
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook      2015-06-16  69  
+b453872c35cfcb net/ieee80211/ieee80211_wx.c                   Jeff Garzik        2005-05-12  501  
+b0a4e7d8a291de drivers/net/wireless/ipw2x00/libipw_wx.c       John W. Linville   2009-08-20  502  int libipw_wx_set_encodeext(struct libipw_device *ieee,
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  503  			       struct iw_request_info *info,
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  504  			       union iwreq_data *wrqu, char *extra)
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  505  {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  506  	struct net_device *dev = ieee->dev;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  507  	struct iw_point *encoding = &wrqu->encoding;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  508  	struct iw_encode_ext *ext = (struct iw_encode_ext *)extra;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  509  	int i, idx, ret = 0;
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  510  	int group_key = 0;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  511  	const char *alg, *module;
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  512  	struct lib80211_crypto_ops *ops;
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  513  	struct lib80211_crypt_data **crypt;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  514  
+b0a4e7d8a291de drivers/net/wireless/ipw2x00/libipw_wx.c       John W. Linville   2009-08-20  515  	struct libipw_security sec = {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  516  		.flags = 0,
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  517  	};
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  518  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  519  	idx = encoding->flags & IW_ENCODE_INDEX;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  520  	if (idx) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  521  		if (idx < 1 || idx > WEP_KEYS)
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  522  			return -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  523  		idx--;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  524  	} else
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  525  		idx = ieee->crypt_info.tx_keyidx;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  526  
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  527  	if (ext->ext_flags & IW_ENCODE_EXT_GROUP_KEY) {
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  528  		crypt = &ieee->crypt_info.crypt[idx];
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  529  		group_key = 1;
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  530  	} else {
+e189277a3f1cbb net/ieee80211/ieee80211_wx.c                   Volker Braun       2005-10-24  531  		/* some Cisco APs use idx>0 for unicast in dynamic WEP */
+e189277a3f1cbb net/ieee80211/ieee80211_wx.c                   Volker Braun       2005-10-24  532  		if (idx != 0 && ext->alg != IW_ENCODE_ALG_WEP)
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  533  			return -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  534  		if (ieee->iw_mode == IW_MODE_INFRA)
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  535  			crypt = &ieee->crypt_info.crypt[idx];
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  536  		else
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  537  			return -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  538  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  539  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  540  	sec.flags |= SEC_ENABLED | SEC_ENCRYPT;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  541  	if ((encoding->flags & IW_ENCODE_DISABLED) ||
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  542  	    ext->alg == IW_ENCODE_ALG_NONE) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  543  		if (*crypt)
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  544  			lib80211_crypt_delayed_deinit(&ieee->crypt_info, crypt);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  545  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  546  		for (i = 0; i < WEP_KEYS; i++)
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  547  			if (ieee->crypt_info.crypt[i] != NULL)
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  548  				break;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  549  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  550  		if (i == WEP_KEYS) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  551  			sec.enabled = 0;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  552  			sec.encrypt = 0;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  553  			sec.level = SEC_LEVEL_0;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  554  			sec.flags |= SEC_LEVEL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  555  		}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  556  		goto done;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  557  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  558  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  559  	sec.enabled = 1;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  560  	sec.encrypt = 1;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  561  
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  562  	if (group_key ? !ieee->host_mc_decrypt :
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  563  	    !(ieee->host_encrypt || ieee->host_decrypt ||
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  564  	      ieee->host_encrypt_msdu))
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  565  		goto skip_host_crypt;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  566  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  567  	switch (ext->alg) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  568  	case IW_ENCODE_ALG_WEP:
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  569  		alg = "WEP";
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  570  		module = "lib80211_crypt_wep";
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  571  		break;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  572  	case IW_ENCODE_ALG_TKIP:
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  573  		alg = "TKIP";
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  574  		module = "lib80211_crypt_tkip";
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  575  		break;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  576  	case IW_ENCODE_ALG_CCMP:
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  577  		alg = "CCMP";
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  578  		module = "lib80211_crypt_ccmp";
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  579  		break;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  580  	default:
+b0a4e7d8a291de drivers/net/wireless/ipw2x00/libipw_wx.c       John W. Linville   2009-08-20  581  		LIBIPW_DEBUG_WX("%s: unknown crypto alg %d\n",
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  582  				   dev->name, ext->alg);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  583  		ret = -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  584  		goto done;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  585  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  586  
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29 @587  	ops = lib80211_get_crypto_ops(alg);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  588  	if (ops == NULL) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  589  		request_module(module);
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  590  		ops = lib80211_get_crypto_ops(alg);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  591  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  592  	if (ops == NULL) {
+b0a4e7d8a291de drivers/net/wireless/ipw2x00/libipw_wx.c       John W. Linville   2009-08-20  593  		LIBIPW_DEBUG_WX("%s: unknown crypto alg %d\n",
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  594  				   dev->name, ext->alg);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  595  		ret = -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  596  		goto done;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  597  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  598  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  599  	if (*crypt == NULL || (*crypt)->ops != ops) {
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  600  		struct lib80211_crypt_data *new_crypt;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  601  
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  602  		lib80211_crypt_delayed_deinit(&ieee->crypt_info, crypt);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  603  
+0da974f4f303a6 net/ieee80211/ieee80211_wx.c                   Panagiotis Issaris 2006-07-21  604  		new_crypt = kzalloc(sizeof(*new_crypt), GFP_KERNEL);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  605  		if (new_crypt == NULL) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  606  			ret = -ENOMEM;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  607  			goto done;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  608  		}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  609  		new_crypt->ops = ops;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  610  		if (new_crypt->ops && try_module_get(new_crypt->ops->owner))
+6eb6edf04acd09 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-22  611  			new_crypt->priv = new_crypt->ops->init(idx);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  612  		if (new_crypt->priv == NULL) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  613  			kfree(new_crypt);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  614  			ret = -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  615  			goto done;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  616  		}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  617  		*crypt = new_crypt;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  618  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  619  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  620  	if (ext->key_len > 0 && (*crypt)->ops->set_key &&
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  621  	    (*crypt)->ops->set_key(ext->key, ext->key_len, ext->rx_seq,
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  622  				   (*crypt)->priv) < 0) {
+b0a4e7d8a291de drivers/net/wireless/ipw2x00/libipw_wx.c       John W. Linville   2009-08-20  623  		LIBIPW_DEBUG_WX("%s: key setting failed\n", dev->name);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  624  		ret = -EINVAL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  625  		goto done;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  626  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  627  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  628        skip_host_crypt:
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  629  	if (ext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY) {
+274bfb8dc5ffa1 net/ieee80211/ieee80211_wx.c                   John W. Linville   2008-10-29  630  		ieee->crypt_info.tx_keyidx = idx;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  631  		sec.active_key = idx;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  632  		sec.flags |= SEC_ACTIVE_KEY;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  633  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  634  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  635  	if (ext->alg != IW_ENCODE_ALG_NONE) {
+260a9ad9446723 drivers/net/wireless/intel/ipw2x00/libipw_wx.c Dan Carpenter      2021-04-14  636  		int key_len = clamp_val(ext->key_len, 0, SCM_KEY_LEN);
+260a9ad9446723 drivers/net/wireless/intel/ipw2x00/libipw_wx.c Dan Carpenter      2021-04-14  637  
+260a9ad9446723 drivers/net/wireless/intel/ipw2x00/libipw_wx.c Dan Carpenter      2021-04-14  638  		memcpy(sec.keys[idx], ext->key, key_len);
+260a9ad9446723 drivers/net/wireless/intel/ipw2x00/libipw_wx.c Dan Carpenter      2021-04-14  639  		sec.key_sizes[idx] = key_len;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  640  		sec.flags |= (1 << idx);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  641  		if (ext->alg == IW_ENCODE_ALG_WEP) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  642  			sec.encode_alg[idx] = SEC_ALG_WEP;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  643  			sec.flags |= SEC_LEVEL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  644  			sec.level = SEC_LEVEL_1;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  645  		} else if (ext->alg == IW_ENCODE_ALG_TKIP) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  646  			sec.encode_alg[idx] = SEC_ALG_TKIP;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  647  			sec.flags |= SEC_LEVEL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  648  			sec.level = SEC_LEVEL_2;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  649  		} else if (ext->alg == IW_ENCODE_ALG_CCMP) {
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  650  			sec.encode_alg[idx] = SEC_ALG_CCMP;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  651  			sec.flags |= SEC_LEVEL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  652  			sec.level = SEC_LEVEL_3;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  653  		}
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  654  		/* Don't set sec level for group keys. */
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  655  		if (group_key)
+ccd0fda3a6d918 net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  656  			sec.flags &= ~SEC_LEVEL;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  657  	}
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  658        done:
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  659  	if (ieee->set_security)
+3fc7bc8ea792b4 drivers/net/wireless/ipw2x00/libipw_wx.c       Paul Bolle         2012-09-21  660  		ieee->set_security(dev, &sec);
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  661  
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  662  	return ret;
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  663  }
+e0d369d1d969fc net/ieee80211/ieee80211_wx.c                   James Ketrenos     2005-09-21  664  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
