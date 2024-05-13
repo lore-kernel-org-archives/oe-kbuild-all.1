@@ -1,127 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860966AC0;
-	Mon, 13 May 2024 15:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45B6539C;
+	Mon, 13 May 2024 15:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715613537; cv=none; b=iBbd1cK2fAiEauOJs4W6XIh/5G9oCDkMYFBTEDjyV4oEtg5QY2b8/YdCQAi7+A7jQAR8HQ1gklEKSZGkO8Y1PTiOUSil3mPCxQH6n8bvjfRjYR/Ike0hZsuMFOT/2+WNZmJb3amB5rjCRBpGyl//uvqCr5Fx86+11CaOU4Us2qs=
+	t=1715613854; cv=none; b=QIX/XiB+tFzJ6o7I9dD5GRw0K0bnOSmF9p7SmSp8Uw01fLW5f5RHAu6kwIgRMty9qW+PaPFnuju//yDmaRZbVg6kyaLJWporyV38+Hy6dnKRrbPeU4fRoDPparRJo3YR9VzO6qX+OTFQJZJdBwGy6zWzu7Ym5oKgHD/fwnfoQRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715613537; c=relaxed/simple;
-	bh=56FIH33ASa4B4yIKs3CG1FH5+Gkw0BL/r+GY/ouYjDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ojxj6VeITkFM/3RORqacAxy1gWlXKYsRqJA/9lhr7m/KEe84xdYGZ03JBOzsytiloC9T7zpsZl46vHAlhcMRZxMa1ozrUHvJsiOaGNWdlnRCymj0skddhDeaiuPoU9PIPmOq5IhRdKxcAe0DsOZEzQCgTUgez6p8ZusakSjUdbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IVnUG81K; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715613854; c=relaxed/simple;
+	bh=BcO42AIw8mo5P5+wktc4jRATWiDSkrrN2JRiiYqFvsY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sz8u4Kph+eBiPB5edoA2Y04Es+HsNo4VOl8V7Cq9l5t1+Lmi1HNiWhy3hoDd5UBVg2YYw3vFRd8iwiryQoA+2MHGe/y9GtH77WGRHNnGhyJuIdByuwSWruw8okz3jwjue+w8dXaMTAzdx8TbIB4N7NljCRXeAnHXrk1pm4JFK24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GhLdQ2Ug; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IVnUG81K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715613535; x=1747149535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=56FIH33ASa4B4yIKs3CG1FH5+Gkw0BL/r+GY/ouYjDk=;
-  b=IVnUG81KLUC7DtWpCpOotjznVso+wTkTZnW0ezFeqazB8GASzKZp20Ng
-   mg+z78AbgkrlnRRb3cbHZEpIVQnF8znIQ5msbXWPzxJ+lmMFs3nAcXaz2
-   QFXZf0uieEsjSt9zAPPNkg1aiPzgT7CbJXzCeKrVEPqv9mQucOYrGvgWr
-   G5z2LlttYB12OqgqL/8RBdydJHAT57fX1ZzHEHbQSWiExJeVAP8BBnN11
-   55nSCFpxcpy2WQSA8WJq+n0+r6U8XRUsOHU/OQa8yWywIZNLorxsNN67B
-   xOSgQIUbZ4e1/KHr0Ut8VBX46VhTX1C+S2B5txc3bvyPl6B9wDXUA47ME
-   Q==;
-X-CSE-ConnectionGUID: uxUAtbjmSReYH/gqNHOK+Q==
-X-CSE-MsgGUID: MPGAxjijQjOI7oK5QA+Twg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="15373290"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="15373290"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 08:17:43 -0700
-X-CSE-ConnectionGUID: ogWHM4urS4awQp3N7pB5BQ==
-X-CSE-MsgGUID: 7+g/1Bs0SwKy35Wa2zFAWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="35240082"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 May 2024 08:17:41 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s6XQn-000APT-36;
-	Mon, 13 May 2024 15:17:37 +0000
-Date: Mon, 13 May 2024 23:16:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	nouveau@lists.freedesktop.org, dakr@redhat.com
-Subject: Re: [PATCH] nouveau/firmware: using dma non-coherent interfaces for
- fw loading.
-Message-ID: <202405132205.FVKltMCq-lkp@intel.com>
-References: <20240513064350.1050994-1-airlied@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GhLdQ2Ug"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CE8EC113CC;
+	Mon, 13 May 2024 15:24:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715613854;
+	bh=BcO42AIw8mo5P5+wktc4jRATWiDSkrrN2JRiiYqFvsY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GhLdQ2UgHNg7HTNWnyl+NvUzvPP6xLJjBMtuUDcho6j8QcOEoF6R8Fbpn8vATJ5Iz
+	 Efe+ErQ4NNcOW9rWGw//opXPmcxvxsk3d8QiTMo4cDuxbPZ6D67YCKBbWlOI/a8OsT
+	 CjzotsSbWCL2Zp0E8Jdb7rh48vhD/XSvn6IBIZUCJNXZlbHWS14JkakvQqwq0n2pgt
+	 bSJWIhPceV2HtyWfWd1tLHJwsaWcXNJB4BNClG872N1wtmPxQ0DJsfHgTnLKGZgoGX
+	 ZvX5S52kZdHaJliMixWlJ3G8zBq3M3ZHNiEdbCDEcwfCpAUoQSqUh3qXau+aBeHktt
+	 B2IVquzfMxEmA==
+Date: Mon, 13 May 2024 08:24:12 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Jason
+  Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Brett
+  Creeley <bcreeley@amd.com>, Ratheesh Kannoth <rkannoth@marvell.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>, Jonathan 
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul 
+ Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
+ <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com, donald.hunter@gmail.com, netdev@vger.kernel.org,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim
+ profile management
+Message-ID: <20240513082412.2a27f965@kernel.org>
+In-Reply-To: <1715611933.2264705-1-hengqi@linux.alibaba.com>
+References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
+	<20240509044747.101237-3-hengqi@linux.alibaba.com>
+	<202405100654.5PbLQXnL-lkp@intel.com>
+	<1715531818.6973832-3-hengqi@linux.alibaba.com>
+	<20240513072249.7b0513b0@kernel.org>
+	<1715611933.2264705-1-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240513064350.1050994-1-airlied@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Dave,
+On Mon, 13 May 2024 22:52:13 +0800 Heng Qi wrote:
+> > > So I think we should declare "CONFIG_PROVE_LOCKING depends on CONFIG_NET".
+> > > How do you think?  
+> > 
+> > Doesn't sound right, `can we instead make building lib/dim/net_dim.c  
+> 
+> Why? IIUC, the reason is that if CONFIG_NET is not set to Y, the net/core
+> directory will not be compiled, so the lockdep_rtnl_is_held symbol is not
+> present.
 
-kernel test robot noticed the following build errors:
+Maybe I don't understand what you;re proposing. 
+Show an actual diff please.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.9 next-20240513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > dependent on CONFIG_NET? Untested but I'm thinking something like:
+> > 
+> > diff --git a/lib/dim/Makefile b/lib/dim/Makefile
+> > index c4cc4026c451..c02c306e2975 100644
+> > --- a/lib/dim/Makefile
+> > +++ b/lib/dim/Makefile
+> > @@ -4,4 +4,8 @@
+> >  
+> >  obj-$(CONFIG_DIMLIB) += dimlib.o
+> >  
+> > -dimlib-objs := dim.o net_dim.o rdma_dim.o
+> > +dimlib-objs := dim.o rdma_dim.o
+> > +
+> > +ifeq ($(CONFIG_NET),y)
+> > +dimlib-objs += net_dim.o
+> > +endif  
+> 
+> 1. This is unlikely to work if the kernel is configured as[1]:
+> 
+> [1] kernel configuration
+> CONFIG_NET=n, CONFIG_ETHTOOL_NETLINK=n, CONFIG_PROVE_LOCKING=y,
+> (CONFIG_FSL_MC_DPIO=y && CONFIG_FSL_MC_BUS=y) select CONFIG_DIMLIB=y.
+> 
+> 
+> Then, because CONFIG_NET is not enabled, so there is no net_dim.o,
+> the following warning appears:
+> 
+> ld.lld: error: undefined symbol: net_dim_get_rx_moderation
+> referenced by dpio-service.c
+> drivers/soc/fsl/dpio/dpio-service.o:(dpaa2_io_dim_work) in archive vmlinux.a
+> 
+> ld.lld: error: undefined symbol: net_dim
+> referenced by dpio-service.c
+> drivers/soc/fsl/dpio/dpio-service.o:(dpaa2_io_update_net_dim) in archive vmlinux.a
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-firmware-using-dma-non-coherent-interfaces-for-fw-loading/20240513-144435
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240513064350.1050994-1-airlied%40gmail.com
-patch subject: [PATCH] nouveau/firmware: using dma non-coherent interfaces for fw loading.
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240513/202405132205.FVKltMCq-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405132205.FVKltMCq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405132205.FVKltMCq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/nouveau/nvkm/core/firmware.c:242:12: error: incompatible pointer types passing 'u64 *' (aka 'unsigned long long *') to parameter of type 'dma_addr_t *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
-                                                   len, &fw->phys,
-                                                        ^~~~~~~~~
-   include/linux/dma-mapping.h:321:15: note: passing argument to parameter 'dma_handle' here
-                   dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-                               ^
-   1 error generated.
-
-
-vim +242 drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-
-   224	
-   225	int
-   226	nvkm_firmware_ctor(const struct nvkm_firmware_func *func, const char *name,
-   227			   struct nvkm_device *device, const void *src, int len, struct nvkm_firmware *fw)
-   228	{
-   229		fw->func = func;
-   230		fw->name = name;
-   231		fw->device = device;
-   232		fw->len = len;
-   233	
-   234		switch (fw->func->type) {
-   235		case NVKM_FIRMWARE_IMG_RAM:
-   236			fw->img = kmemdup(src, fw->len, GFP_KERNEL);
-   237			break;
-   238		case NVKM_FIRMWARE_IMG_DMA: {
-   239			len = ALIGN(fw->len, PAGE_SIZE);
-   240	
-   241			fw->img = dma_alloc_noncoherent(fw->device->dev,
- > 242							len, &fw->phys,
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Simple, dpio-service should depend on NET if it wants NET_DIM
