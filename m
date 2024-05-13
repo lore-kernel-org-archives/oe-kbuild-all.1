@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9829F1487F1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 09:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EB72E3E0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 11:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715592273; cv=none; b=QfciiggdtyG5FX9RKS9TxZua9WYIOl/A8jf86vO4zoq43Zjnhr8Vduo2WdWL4iZXSfcDRN3Ma7M3Rjnyb77YBH5aQcaWnNI3M1WNumwJFqcbz/YR2DRyiD/KE+DdfHcjGMCvlcTWUv7bw8Yrp/LNvJia/v3qAEt6/t9oJ+4rHtk=
+	t=1715600250; cv=none; b=gMQAWdyfE+73SOcCxJSSUH4C42HLWz3tWlarlE8R4q5Wztio9KzVqQy08jNhDEfN1xbSW3o2DIr27GpmxOgnoKmkKbrb5u5DaLp1PQKVs1X5yU5ArSnQzxkrpODWF4BRyu0OZSYPcMuzDlFb0UccDetYT0UBpSO4QBikimDy+f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715592273; c=relaxed/simple;
-	bh=J5cAD1c2dKYqVqNzS7rC6uInUn5qXdgtIdX9/3QDl08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2SDAUm/zE95/55MKy9DdpGkFrmIHy3KUNSB9+W/5VeiAWZKEG1WSzJhs67x728ul0W6pqX1cCUnUivifLF7WjPOqYV/Q07zi0+u6F8RdY8Qor+FO365PZnRPnO+5jWA3ds+KJ94uW4U790VVMs9K+dvwig8cqA9r2p/SXYqqQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c0TsL4fj; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1715600250; c=relaxed/simple;
+	bh=OMTY4tU5Tkb4Avzz1uBqm+e1kvjJHoPw2fzjxf4aCX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bhp0lcljheH3Xgn8Lcryve3RxdMd9yWeM9bFG+NNpvUZdOHoR361D9kwfsqReZgl3jaMoSAeLEo8NHVz7UD1xVt7/FEeBAOZPqugmC7P3vvnLfOFgYiMtYwdmAJojOzzX7Xd4MRXNH/Kw5/kz1z1DT/JRclVyEXgkQ3YQMa/JuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLno4sKr; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c0TsL4fj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLno4sKr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715592271; x=1747128271;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J5cAD1c2dKYqVqNzS7rC6uInUn5qXdgtIdX9/3QDl08=;
-  b=c0TsL4fjSig7XSh5NhjVZJXkgUKNRVTRM3u5LQc3FQtauKuwIbc6AxVn
-   oFcrRzk1yS0kuAe4bJPciBjqAFdcGj6gZbEg4cMVobrjxKz+sxywVKZKs
-   cBXQYQumRdTOiiZZV4mvUR8nN9CQZKulT781GkbgQELRZqK8A4NrnTPLT
-   IABDojf8rz3eGcqGyPa0Yjk9dlu3AsuEU6+5VcxJZ7zDzcfgsOXp3G4ya
-   10grwPJCYuNpukYQuN+aIO+4P0fUqkKNk/IXt2F34eu513pce0996VI/I
-   5qq/YIfr+ZnEHCrSAe5CPMqvBtv4PdcnkeS5y53P6Nzas+F3PW8ma01SP
-   w==;
-X-CSE-ConnectionGUID: hytf8TUIR86MJuDGMklOpg==
-X-CSE-MsgGUID: AsscaBtlTHSuT+AqkP6lDA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11339124"
+  t=1715600248; x=1747136248;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OMTY4tU5Tkb4Avzz1uBqm+e1kvjJHoPw2fzjxf4aCX8=;
+  b=bLno4sKrTfdBqPUofzexipLj9KAawjQSv80SZ0JQ62MHs3JrCyNs8d67
+   It0aMDPK+KDobLjmPxLxVk++ZPIfbsD/ijqrx3nQf3YXZaGA3jOfpNvss
+   Uzy2CVBlhkZOPbUSbJMeN8ryzF9vSV+MntpBz80Tuvum7aZouoPcKoptC
+   2Q/59NZ8ZIhQJiT4SgS+B+FZoTK0ibb2vocBPD3JPceQwT/LKzqC5O54Q
+   kQxt0ze+n/iVunArL87Wl08AcuvM3doRomCki5LY/N01t0yfwgSP5W4z7
+   KO/G44xfJNXxSIaZyMZEWV26fdP9uEhLY4r6TpqATN5M9HYPZm9YWRRQU
+   g==;
+X-CSE-ConnectionGUID: nUbfx/pdRSOC5H1oi47tjA==
+X-CSE-MsgGUID: mCAiZuYeS1q2qlVZr6Z8bA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11705574"
 X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="11339124"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 02:24:29 -0700
-X-CSE-ConnectionGUID: joNydMbdRNu7zZAnZp8+8A==
-X-CSE-MsgGUID: jw73td0CQkKXUpdFJwDqWA==
+   d="scan'208";a="11705574"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 04:37:27 -0700
+X-CSE-ConnectionGUID: FbG+HGFBR6KoAWku0fiOTQ==
+X-CSE-MsgGUID: uGCpookQTSSELi9Rzr4FRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="34789983"
+   d="scan'208";a="30267189"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 May 2024 02:24:15 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 May 2024 04:37:26 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6Rum-0009p5-2A;
-	Mon, 13 May 2024 09:24:12 +0000
-Date: Mon, 13 May 2024 17:23:20 +0800
+	id 1s6Tzg-000A5d-0I;
+	Mon, 13 May 2024 11:37:24 +0000
+Date: Mon, 13 May 2024 19:37:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-	dakr@redhat.com
-Subject: Re: [PATCH] nouveau/firmware: using dma non-coherent interfaces for
- fw loading.
-Message-ID: <202405131724.YtoCSRmy-lkp@intel.com>
-References: <20240513064350.1050994-1-airlied@gmail.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 29/33] mm/damon/acma.c:146:16: error: too few
+ arguments to function 'damon_new_scheme'
+Message-ID: <202405131909.nfNoXnZ4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,73 +61,299 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240513064350.1050994-1-airlied@gmail.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.9 next-20240513]
-[cannot apply to drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-firmware-using-dma-non-coherent-interfaces-for-fw-loading/20240513-144435
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240513064350.1050994-1-airlied%40gmail.com
-patch subject: [PATCH] nouveau/firmware: using dma non-coherent interfaces for fw loading.
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240513/202405131724.YtoCSRmy-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405131724.YtoCSRmy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   8babfaa14bfc8f45e2c3d093952ab737fd0db1d5
+commit: 1465b25a340a8aa09800ddcf3d4aef185ea6c84c [29/33] mm/damon: add the initial part of access/contiguity-aware memory auto-scaling module
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240513/202405131909.nfNoXnZ4-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405131909.nfNoXnZ4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405131724.YtoCSRmy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405131909.nfNoXnZ4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvkm/core/firmware.c: In function 'nvkm_firmware_ctor':
->> drivers/gpu/drm/nouveau/nvkm/core/firmware.c:242:54: error: passing argument 3 of 'dma_alloc_noncoherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     242 |                                                 len, &fw->phys,
-         |                                                      ^~~~~~~~~
-         |                                                      |
-         |                                                      u64 * {aka long long unsigned int *}
-   In file included from include/linux/pci.h:2693,
-                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/core/firmware.c:22:
-   include/linux/dma-mapping.h:321:29: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     321 |                 dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-         |                 ~~~~~~~~~~~~^~~~~~~~~~
+   mm/damon/acma.c: In function 'damon_acma_new_scheme':
+>> mm/damon/acma.c:146:16: error: too few arguments to function 'damon_new_scheme'
+     146 |         return damon_new_scheme(
+         |                ^~~~~~~~~~~~~~~~
+   In file included from mm/damon/acma.c:19:
+   include/linux/damon.h:770:15: note: declared here
+     770 | struct damos *damon_new_scheme(struct damos_access_pattern *pattern,
+         |               ^~~~~~~~~~~~~~~~
+   mm/damon/acma.c: At top level:
+>> mm/damon/acma.c:169:17: error: unknown type name 'damos_quota_goal_metric'
+     169 |                 damos_quota_goal_metric goal_metric)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c: In function 'damon_acma_new_reclaim_scheme':
+>> mm/damon/acma.c:193:15: error: implicit declaration of function 'damon_acma_set_scheme_quota'; did you mean 'damon_acma_new_scheme'? [-Werror=implicit-function-declaration]
+     193 |         err = damon_acma_set_scheme_quota(scheme, old,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               damon_acma_new_scheme
+   mm/damon/acma.c: In function 'damon_acma_apply_parameters':
+   mm/damon/acma.c:206:34: warning: unused variable 'goal' [-Wunused-variable]
+     206 |         struct damos_quota_goal *goal;
+         |                                  ^~~~
+   mm/damon/acma.c: In function 'damon_acma_after_aggregation':
+>> mm/damon/acma.c:303:22: error: 'DAMOS_LRU_RECLAIM' undeclared (first use in this function); did you mean 'DAMOS_LRU_DEPRIO'?
+     303 |                 case DAMOS_LRU_RECLAIM:
+         |                      ^~~~~~~~~~~~~~~~~
+         |                      DAMOS_LRU_DEPRIO
+   mm/damon/acma.c:303:22: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/damon/acma.c:313:12: error: invalid storage class for function 'damon_acma_after_wmarks_check'
+     313 | static int damon_acma_after_wmarks_check(struct damon_ctx *c)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/damon/acma.c:318:19: error: invalid storage class for function 'damon_acma_init'
+     318 | static int __init damon_acma_init(void)
+         |                   ^~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/alpha/include/asm/bug.h:23,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/alpha/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/cgroup.h:12,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/damon.h:11:
+>> mm/damon/acma.c:335:13: error: initializer element is not constant
+     335 | module_init(damon_acma_init);
+         |             ^~~~~~~~~~~~~~~
+   include/linux/init.h:270:55: note: in definition of macro '____define_initcall'
+     270 |                 __attribute__((__section__(__sec))) = fn;
+         |                                                       ^~
+   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
+     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
+     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
+     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
+     316 | #define __initcall(fn) device_initcall(fn)
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
+      88 | #define module_init(x)  __initcall(x);
+         |                         ^~~~~~~~~~
+   mm/damon/acma.c:335:1: note: in expansion of macro 'module_init'
+     335 | module_init(damon_acma_init);
+         | ^~~~~~~~~~~
+>> mm/damon/acma.c:335:1: error: expected declaration or statement at end of input
+   mm/damon/acma.c: In function 'damon_acma_new_scheme':
+   mm/damon/acma.c:155:1: warning: control reaches end of non-void function [-Wreturn-type]
+     155 | }
+         | ^
+   mm/damon/acma.c: At top level:
+   mm/damon/acma.c:157:13: warning: 'damon_acma_copy_quota_status' defined but not used [-Wunused-function]
+     157 | static void damon_acma_copy_quota_status(struct damos_quota *dst,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/dma_alloc_noncoherent +242 drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+vim +/damon_new_scheme +146 mm/damon/acma.c
 
-   224	
-   225	int
-   226	nvkm_firmware_ctor(const struct nvkm_firmware_func *func, const char *name,
-   227			   struct nvkm_device *device, const void *src, int len, struct nvkm_firmware *fw)
-   228	{
-   229		fw->func = func;
-   230		fw->name = name;
-   231		fw->device = device;
-   232		fw->len = len;
-   233	
-   234		switch (fw->func->type) {
-   235		case NVKM_FIRMWARE_IMG_RAM:
-   236			fw->img = kmemdup(src, fw->len, GFP_KERNEL);
-   237			break;
-   238		case NVKM_FIRMWARE_IMG_DMA: {
-   239			len = ALIGN(fw->len, PAGE_SIZE);
+   140	
+   141	static struct damos *damon_acma_new_scheme(
+   142			struct damos_access_pattern *pattern, enum damos_action action)
+   143	{
+   144		struct damos_quota quota = damon_acma_quota;
+   145	
+ > 146		return damon_new_scheme(
+   147				pattern,
+   148				action,
+   149				/* work for every second */
+   150				1000000,
+   151				/* under the quota. */
+   152				&quota,
+   153				/* (De)activate this according to the watermarks. */
+   154				&damon_acma_wmarks);
+   155	}
+   156	
+   157	static void damon_acma_copy_quota_status(struct damos_quota *dst,
+   158			struct damos_quota *src)
+   159	{
+   160		dst->total_charged_sz = src->total_charged_sz;
+   161		dst->total_charged_ns = src->total_charged_ns;
+   162		dst->charged_sz = src->charged_sz;
+   163		dst->charged_from = src->charged_from;
+   164		dst->charge_target_from = src->charge_target_from;
+   165		dst->charge_addr_from = src->charge_addr_from;
+   166	}
+   167	
+   168	static int damon_acma_set_scheme_quota(struct damos *scheme, struct damos *old,
+ > 169			damos_quota_goal_metric goal_metric)
+   170	{
+   171		if (old)
+   172			damon_acma_copy_quota_status(&scheme->quota, &old->quota);
+   173		goal = damos_new_quota_goal(goal_metric, quota_mem_pressure_us);
+   174		if (!goal)
+   175			return -ENOMEM;
+   176		damos_add_quota_goal(&scheme->quota, goal);
+   177		return 0;
+   178	}
+   179	
+   180	/*
+   181	 * Reclaim cold pages on entire physical address space
+   182	 */
+   183	static struct damos *damon_acma_new_reclaim_scheme(struct damos *old)
+   184	{
+   185		struct damos_access_pattern pattern = damon_acma_stub_pattern;
+   186		struct damos *scheme;
+   187		int err;
+   188	
+   189		pattern.max_nr_accesses = 0;
+   190		scheme = damon_acma_new_scheme(&pattern, DAMOS_PAGEOUT);
+   191		if (!scheme)
+   192			return NULL;
+ > 193		err = damon_acma_set_scheme_quota(scheme, old,
+   194				DAMOS_QUOTA_SOME_MEM_PSI_US);
+   195		if (err) {
+   196			damon_destroy_scheme(scheme);
+   197			return NULL;
+   198		}
+   199		return scheme;
+   200	}
+   201	
+   202	static int damon_acma_apply_parameters(void)
+   203	{
+   204		struct damos *scheme, *reclaim_scheme;
+   205		struct damos *old_reclaim_scheme = NULL;
+   206		struct damos_quota_goal *goal;
+   207		int err = 0;
+   208	
+   209		err = damon_set_attrs(ctx, &damon_acma_mon_attrs);
+   210		if (err)
+   211			return err;
+   212	
+   213		damon_for_each_scheme(scheme, ctx)
+   214			old_reclaim_scheme = scheme;
+   215	
+   216		reclaim_scheme = damon_acma_new_reclaim_scheme(old_reclaim_scheme);
+   217		if (!reclaim_scheme)
+   218			return -ENOMEM;
+   219		damon_set_schemes(ctx, &reclaim_scheme, 1);
+   220	
+   221		return damon_set_region_biggest_system_ram_default(target,
+   222						&monitor_region_start,
+   223						&monitor_region_end);
+   224	}
+   225	
+   226	static int damon_acma_turn(bool on)
+   227	{
+   228		int err;
+   229	
+   230		if (!on) {
+   231			err = damon_stop(&ctx, 1);
+   232			if (!err)
+   233				kdamond_pid = -1;
+   234			return err;
+   235		}
+   236	
+   237		err = damon_acma_apply_parameters();
+   238		if (err)
+   239			return err;
    240	
-   241			fw->img = dma_alloc_noncoherent(fw->device->dev,
- > 242							len, &fw->phys,
+   241		err = damon_start(&ctx, 1, true);
+   242		if (err)
+   243			return err;
+   244		kdamond_pid = ctx->kdamond->pid;
+   245		return 0;
+   246	}
+   247	
+   248	static int damon_acma_enabled_store(const char *val,
+   249			const struct kernel_param *kp)
+   250	{
+   251		bool is_enabled = enabled;
+   252		bool enable;
+   253		int err;
+   254	
+   255		err = kstrtobool(val, &enable);
+   256		if (err)
+   257			return err;
+   258	
+   259		if (is_enabled == enable)
+   260			return 0;
+   261	
+   262		/* Called before init function.  The function will handle this. */
+   263		if (!ctx)
+   264			goto set_param_out;
+   265	
+   266		err = damon_acma_turn(enable);
+   267		if (err)
+   268			return err;
+   269	
+   270	set_param_out:
+   271		enabled = enable;
+   272		return err;
+   273	}
+   274	
+   275	static const struct kernel_param_ops enabled_param_ops = {
+   276		.set = damon_acma_enabled_store,
+   277		.get = param_get_bool,
+   278	};
+   279	
+   280	module_param_cb(enabled, &enabled_param_ops, &enabled, 0600);
+   281	MODULE_PARM_DESC(enabled,
+   282		"Enable or disable DAMON_ACMA (default: disabled)");
+   283	
+   284	static int damon_acma_handle_commit_inputs(void)
+   285	{
+   286		int err;
+   287	
+   288		if (!commit_inputs)
+   289			return 0;
+   290	
+   291		err = damon_acma_apply_parameters();
+   292		commit_inputs = false;
+   293		return err;
+   294	}
+   295	
+   296	static int damon_acma_after_aggregation(struct damon_ctx *c)
+   297	{
+   298		struct damos *s;
+   299	
+   300		/* update the stats parameter */
+   301		damon_for_each_scheme(s, c) {
+   302			switch (s->action) {
+ > 303			case DAMOS_LRU_RECLAIM:
+   304				damon_acma_reclaim_stat = s->stat;
+   305				break;
+   306			default:
+   307				break;
+   308		}
+   309	
+   310		return damon_acma_handle_commit_inputs();
+   311	}
+   312	
+ > 313	static int damon_acma_after_wmarks_check(struct damon_ctx *c)
+   314	{
+   315		return damon_acma_handle_commit_inputs();
+   316	}
+   317	
+ > 318	static int __init damon_acma_init(void)
+   319	{
+   320		int err = damon_modules_new_paddr_ctx_target(&ctx, &target);
+   321	
+   322		if (err)
+   323			return err;
+   324	
+   325		ctx->callback.after_wmarks_check = damon_acma_after_wmarks_check;
+   326		ctx->callback.after_aggregation = damon_acma_after_aggregation;
+   327	
+   328		/* 'enabled' has set before this function, probably via command line */
+   329		if (enabled)
+   330			err = damon_acma_turn(true);
+   331	
+   332		return err;
+   333	}
+   334	
+ > 335	module_init(damon_acma_init);
 
 -- 
 0-DAY CI Kernel Test Service
