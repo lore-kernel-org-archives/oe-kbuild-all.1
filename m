@@ -1,92 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3837153BC0;
-	Mon, 13 May 2024 14:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756DB17C9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 May 2024 14:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715610172; cv=none; b=tcO0eNFsUinYc/lzWail3KRMttre6haCGe1GYLBeuFYvl2Y05oam0AIzU8gJckg64wExLiMpH5nVvI7IVIq5CXzbAgBtZW/4kBTxu5/eEgp8j6Kbm/GQ0OqlT2N/TfkxGqNLuyz0viMCQ9AF6Af+bmkzFU7KSU1Ha1B4wD3M7XY=
+	t=1715611056; cv=none; b=E4HzLAALbWkNCb7GcM8GXg4auRgFRkSu37o6xzy4a8gIlzpithjmXhgr/Fr/ln9EBFIBH+NaOXFznStKKdPjqPGlXP1J0wJrXwuf0JgjTg35+h50d8o4b+logUR5omaryjc/qonEHa+O0Qe8HPJEPGK7wm1jkWsp5NwlM+zAySQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715610172; c=relaxed/simple;
-	bh=tI/WvQv46AJugXtuNIipq8toujNOpRvVaAr7krEGAnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ELjeg1ptSJYglhTrLYBbbNUDGxDtYrlfph+QgCig6O54Yf8P18oDDVo3W77lcwR7FKSDtBZP8g3wQBa9TsOrkvMzGt7frw/LjauWOmbcEJ9bH6PKo/EoQL7J5rdJSK6LLKbZpt376SkKR4sEp9Ajs4JXO2K1MoBAbB9iKW230SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpFbeQBA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715611056; c=relaxed/simple;
+	bh=yF8iscflAu+MzTK+twhhojAwgHm31zWYJw8suwnA/Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=NbAzqakhhdC+GOfmeyK02huIRqTZl/pmhevim8YCzmmq5dVw/K1bA1Hp/KqkzvrCji7hmhBbHVZ7Vx2Eyha9dBnwpdy6g69VFsCLMYc0JoU2GnCFHozBJpB5gEvB97prG45cn4BHrVnjOdae6jIBWuVH7oOVR8zlQvqdK9CTlJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqUVsDD0; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpFbeQBA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 498C4C4AF16;
-	Mon, 13 May 2024 14:22:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715610171;
-	bh=tI/WvQv46AJugXtuNIipq8toujNOpRvVaAr7krEGAnI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MpFbeQBA5dmJRcc8KkY9woVXu4e6RFP1wuGqPDI/UFeb8VGMy9Rhm2gxGSxP47VrW
-	 LK2BGQqqY3MhZLT1P3WXQISPRCqQaGHem2z3aCDhZKf5JMWGdNrg943mosK7hXDhCP
-	 /jraukPs7LRGbQwH/iWA8I9GM+TOtkP7ylmDUSdy5KUnQZWs+BdcTYKvkljpiUeKwp
-	 P5IzxWZEsW05YsWlfVKXqOAUD2YM7iCQ+T0z8kbbRjHHY4AyIq4fSq5VweynkrTPY9
-	 np161T+Nin8f5+nAgd5+oKunYx/YqDeWPi/+cHcqaWOYduFlKd1OOBbaoz0TYYzTbQ
-	 U/odJW3UbdhQg==
-Date: Mon, 13 May 2024 07:22:49 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Heng Qi <hengqi@linux.alibaba.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Jason
- Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Brett
- Creeley <bcreeley@amd.com>, Ratheesh Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
- Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
- <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com, donald.hunter@gmail.com, netdev@vger.kernel.org,
- virtualization@lists.linux.dev
-Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim
- profile management
-Message-ID: <20240513072249.7b0513b0@kernel.org>
-In-Reply-To: <1715531818.6973832-3-hengqi@linux.alibaba.com>
-References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
-	<20240509044747.101237-3-hengqi@linux.alibaba.com>
-	<202405100654.5PbLQXnL-lkp@intel.com>
-	<1715531818.6973832-3-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqUVsDD0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715611054; x=1747147054;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=yF8iscflAu+MzTK+twhhojAwgHm31zWYJw8suwnA/Kg=;
+  b=hqUVsDD0FHD4I4EjoJUuRfW16+cSy86Ot9Y5DZ8myGfuFRUpj5+hljHQ
+   B66A5QoRn4XtxuKubm3uWSCEPwAbr7g6AG6LsHiHnp/BLCOsJVJIBvpqf
+   q5n+d7dvbE5yVj1iBwxP1crAIRwAUeeRG7LGVqRQPoaGJr6xbvj38EjXr
+   pXGuP7mHcrkWV4n3EhprK1S4W9G4ewCHmUbAeWb/Iq/XMz5ba2SeJIOgI
+   +1XHQb6Ww1up2hzV+ggqbzoK09Ywhggze2ZE+CKjiAFs0paOenEb5ilBH
+   G4tQhjYH43MaO/UVcDKSxbuJ9JBr1ztkV5yhNCRRpyGnE2vOtUJ3vEMMI
+   w==;
+X-CSE-ConnectionGUID: wG3jOHojTpepLsVUcHTaww==
+X-CSE-MsgGUID: muhYkhD4SR6HNNs0wOahKg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11493144"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="11493144"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 07:37:34 -0700
+X-CSE-ConnectionGUID: LkxqN1VmSPGGHf2lp3Fc/g==
+X-CSE-MsgGUID: R+XYKfzZTlihJlxcWqQvTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="30422399"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 13 May 2024 07:37:33 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s6Wny-000AB5-1Y;
+	Mon, 13 May 2024 14:37:30 +0000
+Date: Mon, 13 May 2024 22:36:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiasheng Jiang <jiashengjiangcool@outlook.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] drm/i915: Fix memory leak by correcting cache object
+ name in error handler
+Message-ID: <ZkIlhlw2DvHUmx_K@974e639ab07c>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BYAPR03MB4168C6D020B750EAF8021731ADE22@BYAPR03MB4168.namprd03.prod.outlook.com>
 
-On Mon, 13 May 2024 00:36:58 +0800 Heng Qi wrote:
-> This failed use case seems to come from this series triggering a problem that
-> has not been triggered historically, namely lockdep_rtnl_is_held() is not called
-> in an environment where CONFIG_NET is not configured and CONFIG_PROVE_LOCKING is
-> configured:
->   If CONFIG_PROVE_LOCKING is configured as Y and CONFIG_NET is n, then
->   lockdep_rtnl_is_held is in an undefined state at this time.
-> 
-> So I think we should declare "CONFIG_PROVE_LOCKING depends on CONFIG_NET".
-> How do you think?
+Hi,
 
-Doesn't sound right, can we instead make building lib/dim/net_dim.c
-dependent on CONFIG_NET? Untested but I'm thinking something like:
+Thanks for your patch.
 
-diff --git a/lib/dim/Makefile b/lib/dim/Makefile
-index c4cc4026c451..c02c306e2975 100644
---- a/lib/dim/Makefile
-+++ b/lib/dim/Makefile
-@@ -4,4 +4,8 @@
- 
- obj-$(CONFIG_DIMLIB) += dimlib.o
- 
--dimlib-objs := dim.o net_dim.o rdma_dim.o
-+dimlib-objs := dim.o rdma_dim.o
-+
-+ifeq ($(CONFIG_NET),y)
-+dimlib-objs += net_dim.o
-+endif
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] drm/i915: Fix memory leak by correcting cache object name in error handler
+Link: https://lore.kernel.org/stable/BYAPR03MB4168C6D020B750EAF8021731ADE22%40BYAPR03MB4168.namprd03.prod.outlook.com
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
 
