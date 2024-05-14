@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6AD145350
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 14:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AD5144D0B;
+	Tue, 14 May 2024 14:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715696632; cv=none; b=fsE+xKcRyki/oXyV9+n2NwLp0Z2Ob5Hvvbdlw4FiuW/M8GvKa0gAKtDiEhQUsGsndLNGqL+fD0qAmcBPUmG3m5h8yHkQ+AMWdbAD9Gf7Kj6Ci65zv2LUm5h4m3NbiwKU9ht4i9HtuClkBtEsYtQaZxqBRISVhZxmKN8RGpB0ft4=
+	t=1715696693; cv=none; b=d73ASNcofzPWQr4QLcAGQ1O+Gfm/rhnaJAwdYtIPgJoE1kqsL7naX0ZmmkmpvzfJGP5+1P9deyRP9ocDHQdUSc0Rj23wio/uMwDwI5bY2MA1J+zq1vomNmvNhBiumCiuqm/BBSKXBtmF/8hTnvjus5h7+M3JmC6EAcKEceOJm2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715696632; c=relaxed/simple;
-	bh=oBXcOW7KeOZBiK6tHMtXvTl/BB7AuvNpsTEXHv/fbJE=;
+	s=arc-20240116; t=1715696693; c=relaxed/simple;
+	bh=oHRcjP/qGNYm2SUj62olasMA6DBTIu37vwX6cjv9TU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t90Ej49gIwQXNe1lUo9jCw3jMVOrbPvsauDTLZVJ3ur8McxZO+l5Q6S0zAuwfyFSR5jhbkz7fQEkxsnUu7d33ym51Lf7gtVkZR06zIRKcUqz0E4DpGSMhQIFd2IcqBsDD40yU6pWqprHRmb6OupzBZsK4OBStzbjOQhp+UEXLL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i0PeG9u6; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=VNQy0G5hIHFWAlpf3Og9MVgLBVDdIm1SMdaBao8NoB3Mfi2vGIAUmIT9mCYn/92QYOaSij8kwqnnW0mEUWNXwh6KILeWZfr1Bm98pHYEsTalFLl3g+ASYoukSDnYDS3cWEYSiFhTIcL4tTgolRf+mO/txwkRUODBHT9VnUYe2tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBQzZ/uZ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0PeG9u6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBQzZ/uZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715696631; x=1747232631;
+  t=1715696691; x=1747232691;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oBXcOW7KeOZBiK6tHMtXvTl/BB7AuvNpsTEXHv/fbJE=;
-  b=i0PeG9u6OKbHNcNaFyFif+mwUEa/ysJGYtzpOP/DwkUnnVME3847J2tH
-   rwrHgOnUSAqIgLUB8MNe9+tQuvskF5c9QKM9PSE7URJrAHnGQ5fuTHh+m
-   qCfZ0mE8yt1BjWvqoKXhos2BAMPQGf3jFShXOXohIJ3bVrPuw18oFDncC
-   6JVJeg+IZYOQuSCunPthYPdQ9wJI5kUPGEhy77BbY7hdDma2DhsnKZ4fG
-   +Fk7MPT8XzCO0gGyu4/cpidOJ5jWrYCcNLJUTgvBHoHJmQSx7CRMqo30E
-   /gT9+Uz0fLbQ+gT8S7OLiiEg0H+96PNNvvuYTqJyQ/68+hyRSqdONaav+
-   Q==;
-X-CSE-ConnectionGUID: 2eMgUw8qT/2q9T3APHU21g==
-X-CSE-MsgGUID: EYqKsOLcTlG7rHTXL49kCw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="34196764"
+  bh=oHRcjP/qGNYm2SUj62olasMA6DBTIu37vwX6cjv9TU8=;
+  b=DBQzZ/uZRJ83x55CmyxUXv7DqA7KADEkwq02CTqNT3VCXDXlaFWK8ODN
+   77UxZ9+egXxmwjBmLjvdaZj2ueyqFxjptMIBt+B3KtjBRXRJGNnQTKcha
+   RnrZZZ2Idn0QW/wCoD1wRsUYYJ/NvRkd8UMsfhvAWA/rSGrtJnhrgaGGr
+   H3pjQ6lCtzJeuyAtmWkrGVAsNisFGgK4uBhWdj6uv2R/kF3SvlISrHu/u
+   Ok+zYN6fYQY101oyTZZvDCaxHW6cttTgbksA+EBwnilD7EzvR6mPwLpih
+   IpnGZG7LBqa7djAGTIQ/6HdCXBFL3+eEGKGkXGgaLxq1LB7MMjlDTG8eH
+   A==;
+X-CSE-ConnectionGUID: ohOrTe1JQpuUjYU2MGDOXg==
+X-CSE-MsgGUID: lHsjI6s1T12XLkjiGlIALg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11534019"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="34196764"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 07:23:50 -0700
-X-CSE-ConnectionGUID: 4fNLjXEsRqOxQ7xse5f/vg==
-X-CSE-MsgGUID: 888ezxt+QoKOTIy6JKzFYA==
+   d="scan'208";a="11534019"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 07:24:50 -0700
+X-CSE-ConnectionGUID: XIiszI1NSTahSlHnwkHR0g==
+X-CSE-MsgGUID: CBwyhdfiTDSpApOs0uYWig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="35460115"
+   d="scan'208";a="31258409"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 May 2024 07:23:49 -0700
+  by orviesa007.jf.intel.com with ESMTP; 14 May 2024 07:24:49 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6t4E-000BWd-2L;
-	Tue, 14 May 2024 14:23:46 +0000
-Date: Tue, 14 May 2024 22:23:46 +0800
+	id 1s6t5C-000BWh-2S;
+	Tue, 14 May 2024 14:24:46 +0000
+Date: Tue, 14 May 2024 22:23:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH] power: supply: sbs-manager: Remove class argument from
  i2c_mux_add_adapter()
-Message-ID: <202405142135.RneBfIx8-lkp@intel.com>
+Message-ID: <202405142129.XXshSQa5-lkp@intel.com>
 References: <20240513201400.16589-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,28 +80,83 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/power-supply
 base:   v6.9
 patch link:    https://lore.kernel.org/r/20240513201400.16589-2-wsa%2Brenesas%40sang-engineering.com
 patch subject: [PATCH] power: supply: sbs-manager: Remove class argument from i2c_mux_add_adapter()
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240514/202405142135.RneBfIx8-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405142135.RneBfIx8-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240514/202405142129.XXshSQa5-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405142129.XXshSQa5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405142135.RneBfIx8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405142129.XXshSQa5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/power/supply/sbs-manager.c: In function 'sbsm_probe':
->> drivers/power/supply/sbs-manager.c:361:31: error: too few arguments to function 'i2c_mux_add_adapter'
+   In file included from drivers/power/supply/sbs-manager.c:16:
+   In file included from include/linux/gpio/driver.h:8:
+   In file included from include/linux/irqchip/chained_irq.h:10:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/power/supply/sbs-manager.c:16:
+   In file included from include/linux/gpio/driver.h:8:
+   In file included from include/linux/irqchip/chained_irq.h:10:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/power/supply/sbs-manager.c:16:
+   In file included from include/linux/gpio/driver.h:8:
+   In file included from include/linux/irqchip/chained_irq.h:10:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/power/supply/sbs-manager.c:18:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/power/supply/sbs-manager.c:361:50: error: too few arguments to function call, expected 4, have 3
      361 |                         ret = i2c_mux_add_adapter(data->muxc, 0, i + 1);
-         |                               ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/power/supply/sbs-manager.c:19:
-   include/linux/i2c-mux.h:58:5: note: declared here
+         |                               ~~~~~~~~~~~~~~~~~~~                     ^
+   include/linux/i2c-mux.h:58:5: note: 'i2c_mux_add_adapter' declared here
       58 | int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
-         |     ^~~~~~~~~~~~~~~~~~~
+         |     ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+      59 |                         u32 force_nr, u32 chan_id,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~
+      60 |                         unsigned int class);
+         |                         ~~~~~~~~~~~~~~~~~~
+   7 warnings and 1 error generated.
 
 
-vim +/i2c_mux_add_adapter +361 drivers/power/supply/sbs-manager.c
+vim +361 drivers/power/supply/sbs-manager.c
 
    317	
    318	static int sbsm_probe(struct i2c_client *client)
