@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2E417F378
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 17:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEE55A0F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 17:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715707909; cv=none; b=BbEvEXHOEEq1LIIhXVJ0mcFaYa952HlMvRp6Mnoen3XCSA5rkh5BePxxLI969zrG5RwGWFjLOpCfADD7j2/PfYWEiZgcR/RP4BRmfdHCWWNYH6jxQaDTmwIfiQVv/3eNngtIZctn+Le6dTp6GfZFWBxm2xjBKvZdVcviHUAxtmM=
+	t=1715708573; cv=none; b=Lg6Fc7Y7UlchTElCJRc6VJzKO0VZA7bOfJmvTHF5HC3Eo2/OcA89V/NvM66dBoVOGOeomG8IfEi+y/yA6kV3E4habsPQjFg2agUNBIap/7Px8+IzS8hgGSr0m7swolb9/5pJ7McOR1oRGrTxpyxfk1pqOZSWp2l8cFN5fTBxcYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715707909; c=relaxed/simple;
-	bh=YFK2FXaP4x14NPsOgoW1Lk2W5/k1xVq7iRihIzb2WtE=;
+	s=arc-20240116; t=1715708573; c=relaxed/simple;
+	bh=sXWJARemTalBkS754aFMkd7WthVUU1Zim5hGkCU3NKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=snBqpVbT3Wj7JXewui58TCcGjkSqw9dzHSthhvMQtid5ZR6J7LYVh8fvRfsdMJyhhz+HK/zJ4ytvjNcueKI3AZB+SwDHIBG6sjtI8AiqHSZ0uXi5Fp/oEl9L2BbwUT7UZkVMHX0TeEFcAcn+dbbbXFdTQiDyLZUbjXWDOW4BGa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JW0UwL5f; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=EvOk0ca02EqHru/Vx8Rto4+lddgB/gM155HduNTeNehZ5oBeTdkYlv7+uguOnaoKbmB4DH4Fwa1YRZ/f6qIdstRWhduLn3F1+IiQNQPk10mHRlfbIw8ttdc9zPyzBCksxKlzA3Y5hv+AQGISdf3GbCd6+/2axPC901kB2H6U1Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZDUI0Tp; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JW0UwL5f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZDUI0Tp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715707907; x=1747243907;
+  t=1715708572; x=1747244572;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YFK2FXaP4x14NPsOgoW1Lk2W5/k1xVq7iRihIzb2WtE=;
-  b=JW0UwL5f8cdWZi4wl9UJ8wAL3tnMrWiN5kzUpgjvhx3vBKzRPJ1WuvVu
-   oxducYY0SIIft/8XjXFYhL62b9q7xvR59oouoLPzq+4i6dX48TB997H5+
-   OyGDsVMas9lxIMPcjwyuDR9LB0oBgOtVqW95pnweuuwlsfHf0ELh95KME
-   s5QiqlYp31x8KCvEJzNRxDsGD6jFP3pFGOeK3n8VxGS6yyQQn6BjdJEs0
-   ZhfWsuxCRe7FoYH+SUCNDbmVCZI5R+dWxT7sN4zYUOd8WIwwTxcc7UtJ4
-   k3N8z/4eSXoiyutUJA8nlCwOGosY0fC5qsTcOVCA7IQJKdqB5EgWK379b
-   A==;
-X-CSE-ConnectionGUID: xsnwvfLJTmy/R7PjoksBWQ==
-X-CSE-MsgGUID: gUDirsVjQ0yOEQJKszgdfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11829351"
+  bh=sXWJARemTalBkS754aFMkd7WthVUU1Zim5hGkCU3NKs=;
+  b=RZDUI0TpqMoiVo7nVrZE71i8b/OmsMSOMYEUqvVGL2gpOf0xPlEeKjmT
+   bQwpOW0+cd0+OkseHDVqd667U/MT0rHQyCFJZB7p1ZDClqT9BK65+fUkO
+   CXYQEo6BY9a9TZljU+IlNnvVS045SnLdMhJe3qLBsmm7NLcHmddqUNTyI
+   bgYmVPhtFuIsrpKiYYJnP7otRW/rlnGbSlzUj7pzRwFSLV7KabPgGmLqI
+   /tXVxdfXR43Uu83BUMp8x+5o+J2pIYZgpXaN/HeXg6vxIJ4PsXoRoCStI
+   UKzpRr9pq1w9hFrBDVgGhGtz9tDa2AZQy8xWVCW9QTTX+pHbwhm1rDqkJ
+   w==;
+X-CSE-ConnectionGUID: xwlpM4hqQpylsqki4itI3w==
+X-CSE-MsgGUID: If0mDKmJRfSpBYg4kVX1cA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="15532743"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="11829351"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 10:31:46 -0700
-X-CSE-ConnectionGUID: bra/FxyqR4aN+kgPxIGwAg==
-X-CSE-MsgGUID: eorvnzkhSIqvjQvumDSa1Q==
+   d="scan'208";a="15532743"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 10:42:51 -0700
+X-CSE-ConnectionGUID: IjxOMd2dRFeUwg7UCEb5Ag==
+X-CSE-MsgGUID: d0NUw8wvRLmFGyE7e96imA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="30733490"
+   d="scan'208";a="53979608"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 May 2024 10:31:45 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 May 2024 10:42:50 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6w06-000Bgt-0a;
-	Tue, 14 May 2024 17:31:42 +0000
-Date: Wed, 15 May 2024 01:31:20 +0800
+	id 1s6wAp-000BqL-2k;
+	Tue, 14 May 2024 17:42:47 +0000
+Date: Wed, 15 May 2024 01:42:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Goldwyn Rodrigues <rgoldwyn@suse.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 95/106]
- drivers/media/platform/mediatek/aie/mtk_aie_53.c:1804:12: warning:
- 'mtk_aie_resume' defined but not used
-Message-ID: <202405150132.kBtWlGQY-lkp@intel.com>
+Subject: [goldwynr:iomap.1 21/21] fs/btrfs/file.c:1254:12: warning:
+ 'btrfs_buffered_iomap_end' defined but not used
+Message-ID: <202405150106.xjJqKG1L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,93 +62,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   1f64c8ce89e6d5c5cf094d47ae84dbc6956094a6
-commit: 5cd0ae9700e0a1483b2fd161c7d7f120b643d953 [95/106] CHROMIUM: media: platform: mediatek: aie driver migration
-config: arm-randconfig-002-20240515 (https://download.01.org/0day-ci/archive/20240515/202405150132.kBtWlGQY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405150132.kBtWlGQY-lkp@intel.com/reproduce)
+tree:   https://github.com/goldwynr/linux iomap.1
+head:   18dabc17c9eeef85c6c8addf9fec377cfa3d685c
+commit: 18dabc17c9eeef85c6c8addf9fec377cfa3d685c [21/21] btrfs: carve out btrfs_buffered_iomap_end
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240515/202405150106.xjJqKG1L-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405150106.xjJqKG1L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405150132.kBtWlGQY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405150106.xjJqKG1L-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/mediatek/aie/mtk_aie_53.c:1804:12: warning: 'mtk_aie_resume' defined but not used [-Wunused-function]
-    1804 | static int mtk_aie_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie_53.c:1770:12: warning: 'mtk_aie_suspend' defined but not used [-Wunused-function]
-    1770 | static int mtk_aie_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
+   fs/btrfs/file.c: In function 'btrfs_buffered_write':
+   fs/btrfs/file.c:1435:58: error: 'num_pages' undeclared (first use in this function); did you mean 'dir_pages'?
+    1435 |                         btrfs_drop_pages(fs_info, pages, num_pages, pos, copied);
+         |                                                          ^~~~~~~~~
+         |                                                          dir_pages
+   fs/btrfs/file.c:1435:58: note: each undeclared identifier is reported only once for each function it appears in
+   fs/btrfs/file.c: At top level:
+>> fs/btrfs/file.c:1254:12: warning: 'btrfs_buffered_iomap_end' defined but not used [-Wunused-function]
+    1254 | static int btrfs_buffered_iomap_end(struct inode *inode, loff_t pos,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/file.c:932:21: warning: 'prepare_pages' defined but not used [-Wunused-function]
+     932 | static noinline int prepare_pages(struct inode *inode, struct page **pages,
+         |                     ^~~~~~~~~~~~~
 
 
-vim +/mtk_aie_resume +1804 drivers/media/platform/mediatek/aie/mtk_aie_53.c
+vim +/btrfs_buffered_iomap_end +1254 fs/btrfs/file.c
 
-d2e4e2025dedbc Copy Chou 2023-10-18  1769  
-d2e4e2025dedbc Copy Chou 2023-10-18 @1770  static int mtk_aie_suspend(struct device *dev)
-d2e4e2025dedbc Copy Chou 2023-10-18  1771  {
-d2e4e2025dedbc Copy Chou 2023-10-18  1772  	struct mtk_aie_dev *fd = dev_get_drvdata(dev);
-d2e4e2025dedbc Copy Chou 2023-10-18  1773  	int ret = -EINVAL, num = 0;
-d2e4e2025dedbc Copy Chou 2023-10-18  1774  
-d2e4e2025dedbc Copy Chou 2023-10-18  1775  	if (pm_runtime_suspended(dev))
-d2e4e2025dedbc Copy Chou 2023-10-18  1776  		return 0;
-d2e4e2025dedbc Copy Chou 2023-10-18  1777  
-d2e4e2025dedbc Copy Chou 2023-10-18  1778  	num = atomic_read(&fd->num_composing);
-d2e4e2025dedbc Copy Chou 2023-10-18  1779  	dev_info(dev, "%s: suspend aie job start, num(%d)\n", __func__, num);
-d2e4e2025dedbc Copy Chou 2023-10-18  1780  
-d2e4e2025dedbc Copy Chou 2023-10-18  1781  	ret = wait_event_timeout(fd->flushing_waitq,
-d2e4e2025dedbc Copy Chou 2023-10-18  1782  				 !(num = atomic_read(&fd->num_composing)),
-d2e4e2025dedbc Copy Chou 2023-10-18  1783  				 msecs_to_jiffies(MTK_FD_HW_TIMEOUT_IN_MSEC)
-d2e4e2025dedbc Copy Chou 2023-10-18  1784  		);
-d2e4e2025dedbc Copy Chou 2023-10-18  1785  	if (!ret && num) {
-d2e4e2025dedbc Copy Chou 2023-10-18  1786  		dev_dbg(dev,
-d2e4e2025dedbc Copy Chou 2023-10-18  1787  			"%s: flushing aie job timeout num %d\n",
-d2e4e2025dedbc Copy Chou 2023-10-18  1788  			__func__,
-d2e4e2025dedbc Copy Chou 2023-10-18  1789  			num
-d2e4e2025dedbc Copy Chou 2023-10-18  1790  		);
-d2e4e2025dedbc Copy Chou 2023-10-18  1791  
-d2e4e2025dedbc Copy Chou 2023-10-18  1792  		return -EBUSY;
-d2e4e2025dedbc Copy Chou 2023-10-18  1793  	}
-d2e4e2025dedbc Copy Chou 2023-10-18  1794  
-d2e4e2025dedbc Copy Chou 2023-10-18  1795  	dev_info(dev, "%s: suspend aie job end num(%d)\n", __func__, num);
-d2e4e2025dedbc Copy Chou 2023-10-18  1796  
-d2e4e2025dedbc Copy Chou 2023-10-18  1797  	ret = pm_runtime_force_suspend(dev);
-d2e4e2025dedbc Copy Chou 2023-10-18  1798  	if (ret)
-d2e4e2025dedbc Copy Chou 2023-10-18  1799  		return ret;
-d2e4e2025dedbc Copy Chou 2023-10-18  1800  
-d2e4e2025dedbc Copy Chou 2023-10-18  1801  	return 0;
-d2e4e2025dedbc Copy Chou 2023-10-18  1802  }
-d2e4e2025dedbc Copy Chou 2023-10-18  1803  
-d2e4e2025dedbc Copy Chou 2023-10-18 @1804  static int mtk_aie_resume(struct device *dev)
-d2e4e2025dedbc Copy Chou 2023-10-18  1805  {
-d2e4e2025dedbc Copy Chou 2023-10-18  1806  	int ret = -EINVAL;
-d2e4e2025dedbc Copy Chou 2023-10-18  1807  
-d2e4e2025dedbc Copy Chou 2023-10-18  1808  	dev_info(dev, "%s: resume aie job start)\n", __func__);
-d2e4e2025dedbc Copy Chou 2023-10-18  1809  
-d2e4e2025dedbc Copy Chou 2023-10-18  1810  	if (pm_runtime_suspended(dev)) {
-d2e4e2025dedbc Copy Chou 2023-10-18  1811  		dev_info(dev,
-d2e4e2025dedbc Copy Chou 2023-10-18  1812  			 "%s: pm_runtime_suspended is true, no action\n",
-d2e4e2025dedbc Copy Chou 2023-10-18  1813  			 __func__
-d2e4e2025dedbc Copy Chou 2023-10-18  1814  		);
-d2e4e2025dedbc Copy Chou 2023-10-18  1815  		return 0;
-d2e4e2025dedbc Copy Chou 2023-10-18  1816  	}
-d2e4e2025dedbc Copy Chou 2023-10-18  1817  
-d2e4e2025dedbc Copy Chou 2023-10-18  1818  	ret = pm_runtime_force_resume(dev);
-d2e4e2025dedbc Copy Chou 2023-10-18  1819  	if (ret)
-d2e4e2025dedbc Copy Chou 2023-10-18  1820  		return ret;
-d2e4e2025dedbc Copy Chou 2023-10-18  1821  
-d2e4e2025dedbc Copy Chou 2023-10-18  1822  	dev_info(dev, "%s: resume aie job end)\n", __func__);
-d2e4e2025dedbc Copy Chou 2023-10-18  1823  	return 0;
-d2e4e2025dedbc Copy Chou 2023-10-18  1824  }
-d2e4e2025dedbc Copy Chou 2023-10-18  1825  
-
-:::::: The code at line 1804 was first introduced by commit
-:::::: d2e4e2025dedbc41046b5d9f4a8a209280f328f6 CHROMIUM: media: platform: mediatek: aie: Porting Kernel 6.1
-
-:::::: TO: Copy Chou <copy.chou@mediatek.corp-partner.google.com>
-:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
+  1253	
+> 1254	static int btrfs_buffered_iomap_end(struct inode *inode, loff_t pos,
+  1255			loff_t length, ssize_t written, struct btrfs_iomap *bi)
+  1256	{
+  1257		struct btrfs_fs_info *fs_info = btrfs_sb(inode->i_sb);
+  1258		struct btrfs_inode *btrfs_inode = BTRFS_I(inode);
+  1259		loff_t block_start = round_down(pos, fs_info->sectorsize);
+  1260		loff_t block_end = round_up(pos + written, fs_info->sectorsize) - 1;
+  1261		size_t block_len = block_end + 1 - block_start;
+  1262		size_t release_bytes = 0;
+  1263		unsigned int extra_bits = 0;
+  1264		int ret = 0;
+  1265	
+  1266		if (bi->metadata_only)
+  1267			extra_bits |= EXTENT_NORESERVE;
+  1268	
+  1269		/*
+  1270		 * The pages may have already been dirty, clear out old accounting so
+  1271		 * we can set things up properly
+  1272		 */
+  1273		clear_extent_bit(&btrfs_inode->io_tree, block_start, block_end,
+  1274				EXTENT_DELALLOC | EXTENT_DO_ACCOUNTING | EXTENT_DEFRAG,
+  1275				&bi->cached_state);
+  1276	
+  1277		ret = btrfs_set_extent_delalloc(btrfs_inode, block_start, block_end,
+  1278				extra_bits, &bi->cached_state);
+  1279	
+  1280		if (bi->reserved_bytes > block_len) {
+  1281			/* release everything except the sectors we dirtied */
+  1282			release_bytes = bi->reserved_bytes - block_len;
+  1283			if (bi->metadata_only)
+  1284				btrfs_delalloc_release_metadata(BTRFS_I(inode),
+  1285						release_bytes, true);
+  1286			else
+  1287				btrfs_delalloc_release_space(BTRFS_I(inode),
+  1288						bi->data_reserved, block_end,
+  1289						release_bytes, true);
+  1290		}
+  1291	
+  1292		/*
+  1293		 * If we have not locked the extent range, because the range's
+  1294		 * start offset is >= i_size, we might still have a non-NULL
+  1295		 * cached extent state, acquired while marking the extent range
+  1296		 * as delalloc through btrfs_dirty_pages(). Therefore free any
+  1297		 * possible cached extent state to avoid a memory leak.
+  1298		 */
+  1299		if (bi->extents_locked)
+  1300			unlock_extent(&BTRFS_I(inode)->io_tree, bi->lockstart,
+  1301					bi->lockend, &bi->cached_state);
+  1302		else
+  1303			free_extent_state(bi->cached_state);
+  1304	
+  1305		btrfs_delalloc_release_extents(BTRFS_I(inode), bi->reserved_bytes);
+  1306		return ret;
+  1307	}
+  1308	
 
 -- 
 0-DAY CI Kernel Test Service
