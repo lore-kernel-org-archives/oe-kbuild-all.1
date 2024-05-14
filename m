@@ -1,173 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5697413E3E2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 10:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715683531; cv=none; b=YMEWxqy3vQECAmHNODk7tkr6c2cDlVRE/DwUvuAeeUFM8WDl+Q7frJB5SKVosL/bmMGsIUt6JKjFE7/swKTjxI8KnRbKuUQqU6A1YRxg6rHYO5AEa+Z/RDHrvijhEBWIbTHLrGxeREHU5ru/4PiObnO2THcNPtJK2WUQWbCtV38=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715683531; c=relaxed/simple;
-	bh=+LVRheM52KhRjQ18CI18gN20K6VQYfioawKyedxtoOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pt21TB6d4rSN8EKNWVXFlv9sC705Rhn31bm+qAwTw3GDPqsMAjZXgXuxQXYWrQmMhY5zR2v2TTOaN8U50XrS/VEOGv0NtDJATECk6DVFI8mHre27MGhhIUj1UbgFXGcw/B+lL/nJGV0XP79J5HutVflX2kBnOpmxQqpKNmOfaNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjASIxZc; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1603213541D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 10:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715684359; cv=fail; b=oTDJyAR5twn8kmA1ZY1QVcqaJTPwZL0CyJf8nGye//kolKjuB2ykNVr7ASiUHln79Yn88jlbOT1DZdF8TlMcDRpS4yDm03PtEjh1pZHX+J76IqIddr1F4Y2KuFPPYUc2GQWqdp6XzKm/BhZGs2256iCkzvVNV6pQ8DkdgNQOZZE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715684359; c=relaxed/simple;
+	bh=FOxBrMAifOhBRQVfVQAR+zIyMTApMA1URQko3sksSew=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GjczfCo72WlyEqA9eNCMNfN8d+wksNNl2M8BdI0aYfa9bhBrQrYwGVQOsG2uyO6WI6bbzPnA7n8OSZXeeINik6UNEQxSJb8CL0KHrZ63WXGXjlcOddknm+SAVtrwod+7/Z/2bpWoPnOmfAcc8qg47HJzKnD9dVGW7RBpDYoOqyw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NFl1MJ1F; arc=fail smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjASIxZc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFl1MJ1F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715683529; x=1747219529;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+LVRheM52KhRjQ18CI18gN20K6VQYfioawKyedxtoOw=;
-  b=SjASIxZcl/leXCft3+gLnSvVoDhYY0+4n1wWvm6NKuxX6e5Twn+rf1dX
-   c7AdleJg8XK242XdABiil0vw8Fyb+zG1nWsRN9oitZmyXPX//wUFW1fNQ
-   gmftzeZgnOziq8cn5Itbactn/qLbcgVmhsnhBwOLEh3b6THTg9xutz6Pv
-   rQNkJSDA25l1WZhvefij7i76RfGKueWNSXDdEn/yfG8YAaTMaJxr3aj7a
-   XjcojpNr7vYKW2NqIHBMHlRdK6EvQWUs6cm2kUjpbiBa9xQL+y+LaJiZd
-   YfhyyDGHFgMbIgULCM4o7OwYRwajjgZqvZR1F19UqzpPvO8gDR0AdNTp1
-   Q==;
-X-CSE-ConnectionGUID: UrNHC0ziSwGegN6gF8k5Wg==
-X-CSE-MsgGUID: ImRZqHnaRAS+9i1hkzKbUQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="34172180"
+  t=1715684356; x=1747220356;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=FOxBrMAifOhBRQVfVQAR+zIyMTApMA1URQko3sksSew=;
+  b=NFl1MJ1Fe1wSEKKszg2f8vcUfG6ORc+3b7BaQzx9f1t3dpGIGujW3KPF
+   L54dL2asTWRv+taTarCBwr9wi81Xzq0jqf2aPzdFvyKslpHANmoj+7CUP
+   rlEUrrFi5SovuEuXlURMLs2Koo/dOTpwq2VD5k3Vl8p13vHx26UWPm4r/
+   PQ/uvukvKQFscEuyhK8FfiNMN0Bmz7+B9uoaixYQU6aMGs8rI062sXDv1
+   Xke1jq4CKRBHFd+BvnAPdcjqSqC+sltQmNToQRPxxPj4XuUcitQWvCcxn
+   5ccbYS6CUCWITnhgLTL3T3jTZZvpAaa9zfUiKKLmhPX8XirNTduwpZkcC
+   w==;
+X-CSE-ConnectionGUID: NRoToBifT3m4n6mTn/mS4Q==
+X-CSE-MsgGUID: ZzTowrx+RBmnMfRp9SJ1bA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="23061806"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="34172180"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 03:45:29 -0700
-X-CSE-ConnectionGUID: 07EWG8I1Q9evOdqFpoHW3g==
-X-CSE-MsgGUID: TWd03VBUQc6f6AJGFoNshA==
+   d="scan'208";a="23061806"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 03:59:15 -0700
+X-CSE-ConnectionGUID: 67KLJS8yQky7HinYifJNtQ==
+X-CSE-MsgGUID: x+zsQNcsRN+xtfscaEKoQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="35188628"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 May 2024 03:45:27 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s6pev-000BOl-0S;
-	Tue, 14 May 2024 10:45:25 +0000
-Date: Tue, 14 May 2024 18:44:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 12913/12990]
- drivers/gpu/drm/amd/amdgpu/../display/dc/optc/dcn35/dcn35_optc.c:59:
- warning: Function parameter or struct member 'segment_width' not described
- in 'optc35_set_odm_combine'
-Message-ID: <202405141810.w4NzVd8m-lkp@intel.com>
+   d="scan'208";a="30776591"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 May 2024 03:59:15 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 14 May 2024 03:59:14 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 14 May 2024 03:59:14 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 14 May 2024 03:59:14 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 14 May 2024 03:59:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WGLPZoQH/dpuZhjsJF/SYikm/cPODwIlvE3tmpXqhBc/dJAM32cefWcB+PdugibZkK/2/gwgG506YYJQnhh+f3MaWj8bjowq7dgODTMArpogiPDS5wQgYUNDdB88xDg83gkiCLjUrgehIJrzCbAJerItLhQ/bhNciKjzm6UdOoNwbPUJue9+cMN971TXMImE7DbCoQaxqa68UXYBduELTqn2tk3lFbgxl/30QC6fnND8h2PH8KKio2AFo+5lyBswhAnGc4zcJhkjavkv3UdLYJWZfFaafI/trYNlVVg74LWuJfQP/w67zIM9Mxmk6zvhcwEc/qdJ603TliwT/5P4XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NELVv/0+RqDAKgnOBAwXDkyuR+OaSu3QZLO7fysw4Ek=;
+ b=Y9a6CTz0VmK78DVhBffpiahyWDHvZvgCVVObYTuweH6PcrgKhtqG81oo6cHHCeSv1N9Ts7EWRHe9bsg5Q91qP8WrRPN3u8ZqXXOLqcNusTV6kIbFanSak3k3tXXkJqGLjmYRz+0jXCkbSeyJ8Zp0evX//Wkbk1J45+jun6RQxx3L3aQnUcWdeiWDoZNik5k76SuUV6k6hBtoiajb/T8fEgtcv1LYXrc24SEtI+0nWF8d4EnPWq7pJrwe0IsjyhUCxZFSg/Cfrclt6t316Z7hlqsTzyA/k8/nhcgfTVJCemaq09Hv0di9v/0f6++UNIDlGr5b1UaUkHhxvbS7kNe0DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
+ by SA1PR11MB5874.namprd11.prod.outlook.com (2603:10b6:806:229::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Tue, 14 May
+ 2024 10:59:12 +0000
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::4b3b:9dbe:f68c:d808]) by DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::4b3b:9dbe:f68c:d808%4]) with mapi id 15.20.7544.052; Tue, 14 May 2024
+ 10:59:12 +0000
+Message-ID: <0555b297-5f8c-42a1-b651-e3119b1851ba@intel.com>
+Date: Tue, 14 May 2024 12:58:01 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next:main 13/66] include/linux/compiler_types.h:460:45:
+ error: call to '__compiletime_assert_654' declared with attribute error:
+ BUILD_BUG_ON failed: !IS_ALIGNED(offsetof(struct napi_gro_cb, zeroed),
+ sizeof(u32))
+To: Richard Gobert <richardbgobert@gmail.com>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<netdev@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>, Willem de Bruijn
+	<willemb@google.com>
+References: <202405141504.J6WdljEp-lkp@intel.com>
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+Content-Language: en-US
+In-Reply-To: <202405141504.J6WdljEp-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR2P278CA0022.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:46::7) To DS0PR11MB8718.namprd11.prod.outlook.com
+ (2603:10b6:8:1b9::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|SA1PR11MB5874:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5d47ea3-b13c-416a-8d69-08dc7404e33c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NkprZ0FTRjQrcnlIeXJQNkd4UWF1Z2gwVHA4RitUeitoUjR2MEJnWmp3Yks1?=
+ =?utf-8?B?Y0RVdGdGdE1zcENQVVVSOXpYSnFXdUt2Qzd6ZXMxdXlqdW0xRUVtWmZhNTJQ?=
+ =?utf-8?B?SWdvdStrS1RnNmNyeSs4cUFNMFRjRHBzaTNTZjlROW1JSCttZm1WZEovOGFx?=
+ =?utf-8?B?LzUzRExLTVlQVk9mZXNKdzlUbWE0Vy95K0IvQW14cDlzbmorUkJUZzBtWUVI?=
+ =?utf-8?B?OWQ2bTYyN2pTTlVWUk9sQ3E4TU1FaTREV1lsWk9JY3VMTGF0VUhrTW5uMW5I?=
+ =?utf-8?B?eEl4bkxSYWpuU2F3ZFRVQUlOaEpCZFdaN0RsYlZyTEJPNzNRaHNkZzJmWVQ2?=
+ =?utf-8?B?NXF3cWhWa2pVdDgxK3YrclBtTmx1VUczd0xTWUNqb2JXdllvZWZIMGpSS0FS?=
+ =?utf-8?B?Yit6WWJQb3NtRHBwK1FjdnlMdFJmL1NST0JjWDdWZEJ5WEFvNTFydWplZk9Q?=
+ =?utf-8?B?TUEyNWlFRTFPWldzT2F0dW9iSCthOGJGcWs5K2V0K016VWs1anM5V1B2MDFj?=
+ =?utf-8?B?K2FkMFlBLzljRDA5cWhIckVuRmsvVzBWUjJXWXJuNndiY2pLYkJvRWN0SjFE?=
+ =?utf-8?B?V2ZyS1NsVzIvb2tHcmhES0RxSHphV1ZTMXBYNmxzYkpLdDRENnhOZHR2NjU4?=
+ =?utf-8?B?YVg2T01YNGswdytsTXR1TnRNWXFoZWxvdllKWGUyUHZtYkRHNy9TNHJ3TUlH?=
+ =?utf-8?B?ZTNXNzlOZDlHa3VxL0dYZmx3aXIrNlRQOUIwbjU2bHlySlBpbndMQnJlUkpi?=
+ =?utf-8?B?V2I4MTBXRkNDZ2VwUEh1KzZaYTJKR3pRTUFUQ3RTdjhRb0t5MnI5OTNlRWdR?=
+ =?utf-8?B?U3hnamoyaWJ3eEx1WjJYYm8wcENmRXJBbkZrQlVYUHE0OUdMSDA4YjZiQnph?=
+ =?utf-8?B?ZDd0ajFKSHJIZ2pKTjZJdjAzK3ZrbVVYTmRuK0QzL204VHV6SkNNeDRocXJ1?=
+ =?utf-8?B?eDkwc0ZQcXZIdi9Jc2JSdlNkTlBoZmZvckNYVEdibFR4RThXSDFucGNZN1NS?=
+ =?utf-8?B?dmRrdktOU3pkWG4vU0drOEQrNlQ3SnRiOTZsdTZzZnpiREFCaEV6UEhhSXNj?=
+ =?utf-8?B?SWMrMlduZ0xGUXpqZlBUUUNuZ0NpTjRORmlkdEVNb2RlekVyOS9PZHd1cFpw?=
+ =?utf-8?B?aUdROVE5cVErQWhZanJ4K3k5dWhkUXdJZXprU1I4Vk1WemlTcXI4eVBRamVk?=
+ =?utf-8?B?VVVwL3pmMGZzbmVSV2R4WFA4bG9Yd2hudUZqZ3NWdjl4RGQ1Wmt4aE9FdDI5?=
+ =?utf-8?B?USt0QlY4TVo1R0VxUk1iUTJ6MzV1cjlYaktuVzZBNVJ6UitIL21RZlpBOW5X?=
+ =?utf-8?B?S2poQVAzd3BYTSt0TERsOFpNMVR4UXlsZXJXMVVwa1lJc2h2RmZicnZhQUNk?=
+ =?utf-8?B?MStVelVJM2xWb2pSMy94K3FHaDJ1WGdUN08yNXJkTkJoWkI3blYrZU9FZFZ6?=
+ =?utf-8?B?NEVkRXpaREcwajRVMGU5Z3JLSFY2OStiUWtwWDNNY25rK3hZMlRscmpuY0lW?=
+ =?utf-8?B?RktEWnFpMWtyVTFPcE1pMXkxeDBZSHpxV05mN2JhdnZHcW9YcUlrdjVBR1VU?=
+ =?utf-8?B?dW94SjZnTFV4YXQ0WkltVjFLN1EzM2pGNFBzb3BLKzczdUZycGdFUlA5V3J6?=
+ =?utf-8?Q?DOQSvOkSOWv7Ie3i167uruLc/G2tVaQVe7Fc335c9dag=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUROdkFyaDRCRXZSM1BJa1loSnFVYjlkODR4ZkRYZm9mZ1c2c2F5RkhBdHB2?=
+ =?utf-8?B?Ti9BTHBUbUFKY2JCajk1RzFlMXRPanVFMlMxNUdXSHZFTTZNVVdOa3VUTkQr?=
+ =?utf-8?B?enNhWkpYZU8vUUNkTmhBRVB5RU92aFJXay95MW1tUnFYeEROTktwN3Y1V1o0?=
+ =?utf-8?B?aGF1LzlLZW9GRFBZYStKa2wvb2M2OEsxMFVhZm9RYnVwcXVpeUFQaUYrTGJk?=
+ =?utf-8?B?T2xYU0VzZjlYT0ZtSTJtUEtNNDFpQVdiamNLZ01MemZTRkhSU3owVnZNcTFG?=
+ =?utf-8?B?NmVOVVNTNWRQT1Fwd09ac1VYUTU3WFpTUng0ZThodXd1TmYwL3dvdyt2SHlv?=
+ =?utf-8?B?VjA3RnpBZk1wWWZYT3llY0ZpcStIcFkwUkplTkxSalp2OGpNd01yaUs5Wlhw?=
+ =?utf-8?B?eEhvSmJpcTgxVGY3U3JEQS84c002aEpSS09EMmplbFBvTUNkam9sdTVkeVNM?=
+ =?utf-8?B?NWFVNElYSENwYmpDM0syZ0YyTUJTcjRUcUpmYXZZa3lOS3VhQVRqQXc3cU9q?=
+ =?utf-8?B?OVFrc2VNa3lSR1l3ZkZwMFRJZnQ1ZXJDdzZjUE5MTmlrNDIxREM3SmtiTUFB?=
+ =?utf-8?B?MUlMM2lKTGdPR1JFMGQ4WnU5ekxvb2ZITVUzTmswZ2FSb3p5RkxqU0xReTBh?=
+ =?utf-8?B?SXR3ZkxCWXZVT1dCQkR3alNVdkVIeGRhWCtQSU9hNmRGaXRGZGFMeVh5ZjRi?=
+ =?utf-8?B?b1UzWU5GSFFuemx6YXp6aUZ5NzBBV0JIRlROTUltVXRHSzVUUzhIR2ZEaEJK?=
+ =?utf-8?B?N3dPMy9uWkQyYVBnZWpUY2FZd1g0TXNpTHJlZFVzTnpUYjc4MHkycjFPTExv?=
+ =?utf-8?B?dVFFMHJ1VFB3WFhkN0lITXlQRkh0ZmozTDRPZVJHSXhyaGgzL0NCOGVJbklr?=
+ =?utf-8?B?VzNhSk9ZdUxhSjNzaTlTR0RNcXRQdVdDZXRuMzdBc0NLNnJMM2NpVVZBenVp?=
+ =?utf-8?B?TS9SSmo5bjNWdnp5TnRPZmltb2FNbWw3b2tXbFdLUVFYZWF4Wnl1RTBnZkY5?=
+ =?utf-8?B?MzZnOTR5SFFpRjFoeWJkL1JEVmZNNkc4VGhmMkVsaVhKL1lrL2VzbzBJbndM?=
+ =?utf-8?B?ZHFzZU9uQjkwWDZJeEM4cndTQkJlUGY5UENLTjZrRmRXNkJRdlVRcDNicUpv?=
+ =?utf-8?B?NDJCNzhkZXY3cDlybC9TRjlMYndIcS9xeUl1V0NIRTd3UUMvbWo2V0ZXUVZ5?=
+ =?utf-8?B?SXNZbllBTFJtWFZrVVJHbkNlekJJZnRmcUR0ZHEyYXRFZzdNeE9xVU13UUJ0?=
+ =?utf-8?B?TVN2Vnd1S2Y1cndPZXIwNnJ0aUxWMXh0NFlzZlZyT0hKaUhOMlp6eHYyd0V6?=
+ =?utf-8?B?YzdjTXJPcVNkVHdOWmRzWDZBSEEzODhJUmc3U2pPU1hBUGdKSCtMM2dWRG1p?=
+ =?utf-8?B?bGZSNjdmQTlSc1FHN1BKTkIrbVlaSktkcHVTSEFEeTZRODY2REpTblhWNlpj?=
+ =?utf-8?B?VWRzNmlYb3RDY0tXV3luUEF0Nmg5OStNc0F3T29rTWgvM2x0Y1BCNitVK0pw?=
+ =?utf-8?B?d003Nlh3dUsrSmwxNCtJT3BYaUZZVnRCakM2NktqZEpPbVpwOFg4cUxoWDFE?=
+ =?utf-8?B?dGxuR0JJa2FaYkJMeENmR2RMbG9ZRFYzWkIyTWFDeEtTNWhINGZFWUc1SFBX?=
+ =?utf-8?B?RzhaVkJUT0FCWHBFaHNrM1plSEJZaE05SERSYW8wbGdFTzloMS9xSjFqZmRX?=
+ =?utf-8?B?N1Y2cXJyaldHbFN3ZGxpdGRONlpIZG5CSnZyMmVSMVozc1llUHc0d2RpUTE2?=
+ =?utf-8?B?aXV1cUxTMCs0UUFlV2c3Ym1jcmU5ME43OTQzTkRnMlQzMEJwdHR5WW1vM3B5?=
+ =?utf-8?B?OUhkL0JjbzBwK0w2eC9QblZRQmlMbURNcGFSVWNKRmdDVGZFSEVrVGNtRlNj?=
+ =?utf-8?B?aGk4WTF5Smk5bzN3OXBMT1hlMnZ0Ym92ZmNTMWg0SHQ3QWNFc3B6YmdzU2p3?=
+ =?utf-8?B?bUY1eUJVV0lWdEFuaFRDV3RycnlISDdSb3Nybzh6UXlYZ1c5TEMxNndnZjJL?=
+ =?utf-8?B?RUlwRlhHZEtLK1pRU2lJUGUwUUxQMXh5bEQwWHFmeXhsZXJpZlB3QVhteHBo?=
+ =?utf-8?B?T01DUlM4ZU5FTzQ2RUVjVkl1THlFWnBGa2kzc29icGovNVBHRFFtdUlqUkUw?=
+ =?utf-8?B?SEI0c3VHSG9UWjQvbk1pVzRGRWpTdHhmUzBiMWZIdU5DZHpsZjZJUGNrcDFy?=
+ =?utf-8?B?VEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5d47ea3-b13c-416a-8d69-08dc7404e33c
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2024 10:59:12.1971
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XXcOBtxCAcRU6ulfRwtIKjlzdbZBZuIGero84vVwQDGpPVUJkIgVRmAA9KrBvbw8gbY9PfsbfxRghhNhdcbUHFNROdki1E9JUvQv5XTwjdU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5874
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   26dd54d03cd94ecc035d9e1e9fd4fc0f3ab311cf
-commit: cbc3288064a9198d81cb3b827d3adfa4a4a0b813 [12913/12990] Merge branch 'drm-next' of https://gitlab.freedesktop.org/agd5f/linux
-config: powerpc-randconfig-m041-20220831 (https://download.01.org/0day-ci/archive/20240514/202405141810.w4NzVd8m-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141810.w4NzVd8m-lkp@intel.com/reproduce)
+From: Kernel Test Robot <lkp@intel.com>
+Date: Tue, 14 May 2024 15:53:43 +0800
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405141810.w4NzVd8m-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+> head:   5c1672705a1a2389f5ad78e0fea6f08ed32d6f18
+> commit: 4b0ebbca3e1679765c06d5c466ee7f3228d4b156 [13/66] net: gro: move L3 flush checks to tcp_gro_receive and udp_gro_receive_segment
+> config: m68k-mvme16x_defconfig (https://download.01.org/0day-ci/archive/20240514/202405141504.J6WdljEp-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141504.J6WdljEp-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405141504.J6WdljEp-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from <command-line>:
+>    net/core/gro.c: In function 'dev_gro_receive':
+>>> include/linux/compiler_types.h:460:45: error: call to '__compiletime_assert_654' declared with attribute error: BUILD_BUG_ON failed: !IS_ALIGNED(offsetof(struct napi_gro_cb, zeroed), sizeof(u32))
 
-All warnings (new ones prefixed by >>):
+Hi Richard,
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/optc/dcn35/dcn35_optc.c:59: warning: Function parameter or struct member 'segment_width' not described in 'optc35_set_odm_combine'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/optc/dcn35/dcn35_optc.c:59: warning: Function parameter or struct member 'last_segment_width' not described in 'optc35_set_odm_combine'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/optc/dcn35/dcn35_optc.c:59: warning: Excess function parameter 'timing' description in 'optc35_set_odm_combine'
+In the mentioned commit, you moved some fields placed before
+napi_gro_cb::zeroed and seems like on some architectures this misplaced
+napi_gro_cb::zeroed and it's not aligned to 4 bytes there anymore.
+Since ::zeroed is used as one u32 to quickly zero the hot fields,
+it must be aligned to 4 to avoid slow unaligned accesses.
+Which means you need to move some more fields around a bit, so that its
+offset would again be aligned to 4.
 
+>      460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |                                             ^
+>    include/linux/compiler_types.h:441:25: note: in definition of macro '__compiletime_assert'
+>      441 |                         prefix ## suffix();                             \
+>          |                         ^~~~~~
+>    include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
+>      460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |         ^~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>          |                                     ^~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+>          |         ^~~~~~~~~~~~~~~~
+>    net/core/gro.c:496:9: note: in expansion of macro 'BUILD_BUG_ON'
+>      496 |         BUILD_BUG_ON(!IS_ALIGNED(offsetof(struct napi_gro_cb, zeroed),
+>          |         ^~~~~~~~~~~~
+> 
+> 
+> vim +/__compiletime_assert_654 +460 include/linux/compiler_types.h
+> 
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  446  
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  447  #define _compiletime_assert(condition, msg, prefix, suffix) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  448  	__compiletime_assert(condition, msg, prefix, suffix)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  449  
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  /**
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  451   * compiletime_assert - break build and emit msg if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  452   * @condition: a compile-time constant condition to check
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  453   * @msg:       a message to emit if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  454   *
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  455   * In tradition of POSIX assert, this macro will break the build if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  456   * supplied condition is *false*, emitting the supplied error message if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  457   * compiler has support to do so.
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  458   */
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  459  #define compiletime_assert(condition, msg) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @460  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  461  
+> 
+> :::::: The code at line 460 was first introduced by commit
+> :::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+> 
+> :::::: TO: Will Deacon <will@kernel.org>
+> :::::: CC: Will Deacon <will@kernel.org>
 
-vim +59 drivers/gpu/drm/amd/amdgpu/../display/dc/optc/dcn35/dcn35_optc.c
-
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   36  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   37  #define REG(reg)\
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   38  	optc1->tg_regs->reg
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   39  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   40  #define CTX \
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   41  	optc1->base.ctx
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   42  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   43  #undef FN
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   44  #define FN(reg_name, field_name) \
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   45  	optc1->tg_shift->field_name, optc1->tg_mask->field_name
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   46  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   47  /**
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   48   * optc35_set_odm_combine() - Enable CRTC - call ASIC Control Object to enable Timing generator.
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   49   *
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   50   * @optc: Output Pipe Timing Combine instance reference.
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   51   * @opp_id: Output Plane Processor instance ID.
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   52   * @opp_cnt: Output Plane Processor count.
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   53   * @timing: Timing parameters used to configure DCN blocks.
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   54   *
-eae369917516ff drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Srinivasan Shanmugam 2023-08-29   55   * Return: void.
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   56   */
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   57  static void optc35_set_odm_combine(struct timing_generator *optc, int *opp_id, int opp_cnt,
-f9d48a88eba547 drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c Wenjing Liu          2024-04-25   58  		int segment_width, int last_segment_width)
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  @59  {
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   60  	struct optc *optc1 = DCN10TG_FROM_TG(optc);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   61  	uint32_t memory_mask = 0;
-f9d48a88eba547 drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c Wenjing Liu          2024-04-25   62  	int h_active = segment_width * opp_cnt;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   63  	/* Each memory instance is 2048x(314x2) bits to support half line of 4096 */
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   64  	int odm_mem_count = (h_active + 2047) / 2048;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   65  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   66  	/*
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   67  	 * display <= 4k : 2 memories + 2 pipes
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   68  	 * 4k < display <= 8k : 4 memories + 2 pipes
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   69  	 * 8k < display <= 12k : 6 memories + 4 pipes
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   70  	 */
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   71  	if (opp_cnt == 4) {
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   72  		if (odm_mem_count <= 2)
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   73  			memory_mask = 0x3;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   74  		else if (odm_mem_count <= 4)
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   75  			memory_mask = 0xf;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   76  		else
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   77  			memory_mask = 0x3f;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   78  	} else {
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   79  		if (odm_mem_count <= 2)
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   80  			memory_mask = 0x1 << (opp_id[0] * 2) | 0x1 << (opp_id[1] * 2);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   81  		else if (odm_mem_count <= 4)
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   82  			memory_mask = 0x3 << (opp_id[0] * 2) | 0x3 << (opp_id[1] * 2);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   83  		else
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   84  			memory_mask = 0x77;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   85  	}
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   86  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   87  	REG_SET(OPTC_MEMORY_CONFIG, 0,
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   88  		OPTC_MEM_SEL, memory_mask);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   89  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   90  	if (opp_cnt == 2) {
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   91  		REG_SET_3(OPTC_DATA_SOURCE_SELECT, 0,
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   92  				OPTC_NUM_OF_INPUT_SEGMENT, 1,
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   93  				OPTC_SEG0_SRC_SEL, opp_id[0],
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   94  				OPTC_SEG1_SRC_SEL, opp_id[1]);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   95  	} else if (opp_cnt == 4) {
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   96  		REG_SET_5(OPTC_DATA_SOURCE_SELECT, 0,
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   97  				OPTC_NUM_OF_INPUT_SEGMENT, 3,
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   98  				OPTC_SEG0_SRC_SEL, opp_id[0],
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03   99  				OPTC_SEG1_SRC_SEL, opp_id[1],
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  100  				OPTC_SEG2_SRC_SEL, opp_id[2],
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  101  				OPTC_SEG3_SRC_SEL, opp_id[3]);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  102  	}
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  103  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  104  	REG_UPDATE(OPTC_WIDTH_CONTROL,
-f9d48a88eba547 drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c Wenjing Liu          2024-04-25  105  			OPTC_SEGMENT_WIDTH, segment_width);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  106  
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  107  	REG_UPDATE(OTG_H_TIMING_CNTL, OTG_H_TIMING_DIV_MODE, opp_cnt - 1);
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  108  	optc1->opp_count = opp_cnt;
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  109  }
-b9c96af677cbed drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c      Qingqing Zhuo        2023-08-03  110  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: b9c96af677cbed62c07272594312cc8198293a24 drm/amd/display: Add DCN35 OPTC
-
-:::::: TO: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Olek
