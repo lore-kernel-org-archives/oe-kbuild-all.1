@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EE817C77;
-	Tue, 14 May 2024 08:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FFD139D10;
+	Tue, 14 May 2024 09:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715674562; cv=none; b=AW9XCVDIw3TEjWUSr9y+Zr4PzywcjAoeHfQUGQrzxQmP4NKuxomp8+k3g14pOPAB5rtQcqgbJGF28Qbi+EocS1R6P6UykzujLa8FCRWUgO6ctssZLVm++rkcvgKzCDOAH+Ywmmxl6pBp9nvrle+BH7EtxVackGWJ0AbAOlg4d6Q=
+	t=1715680271; cv=none; b=kXF2Ekf5DrPms6DeVOIgjud3X4nxkOYQ1O5KutttFnuPfWSC2yikH83iEuh77wo8iBzgtEUr4vHjXKeQ6agd04laIQRYV0Ou1YTfw7j3dOk6fvGBP1gxRGpwCDxPI4BR2Hk+dfR0GwK4/BFNhwD+2jQins2CqRTv2EIKyUaqPtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715674562; c=relaxed/simple;
-	bh=FElbwnqrhVDqn0d12ciRbpWVx1AzDYDzRuqgRJ1e7eQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hZYtT5VhbMHhO1y8zYhicTUneMvDp2DHw0lqTyEh3aoxAutSKZAoUZYkhrlLeBXwDHlr5o4jjqOj0Lo0SDuUeZ5CCT5fWuXSJpKcqwz1j2BQrHQyCztWTQ8uomoqUOCeVeC0QqxkMKQILVUWECcwBtfAqmulZogs6e/kKap3s+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnbzO7I/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1715680271; c=relaxed/simple;
+	bh=e/7QB0ztLm37S9xPnzwJmq7yHefNqMLEqkgHjv25Txk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fDjO/AfGIs7J8ckoekObvh+QTQHVdrYQg+jsQZyDCuKEm5+OQXs/23dL3JymdBoJM2Ttnr3guoS37tb8LoBJngkmFR4loRjplTFsXKSrvxPmexw4mWb1PqGwnWXSaoTMLxzDqkvExyK8TeBJtQWyC84VULWimIyCFgUuzejk50k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NyPg14Mw; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnbzO7I/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NyPg14Mw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715674559; x=1747210559;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FElbwnqrhVDqn0d12ciRbpWVx1AzDYDzRuqgRJ1e7eQ=;
-  b=VnbzO7I/odbrZlRqm9VdTe7DNthXfAG3Bc4feNZY4NScMpTjGsV0gy5e
-   pOkANWJPbzm+lbyMmZ23gkZKFCNdbuxeCkVAPz6WiDCMri/w3oXCO0KWN
-   v7URVaeeSjTsJ9jEZjjlTJY5jEXbbGRpCRGmluQ0j3TmLgoTL576TjwG0
-   1uGWKiA8XBfzoTyxmKF5M59m0ooEPWrQeFt6sIY1k5Im1QssXn0sgB/UP
-   VTY/y5c8I9VqBW13m3TFPBhoX+/0gir8tfUyFRgYnKYgEOskaXnDmsd3n
-   Lg8ck4MWfw65RJkhiAwvAV3x9BKIrMpiRaQgddhtlMUVDpzRbp+Q7saJE
-   A==;
-X-CSE-ConnectionGUID: 90jOMQ+LTTKNpZJ+cHyyXQ==
-X-CSE-MsgGUID: FPjG4H+dS7KEmJqdu2C5wQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="23046571"
+  t=1715680270; x=1747216270;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e/7QB0ztLm37S9xPnzwJmq7yHefNqMLEqkgHjv25Txk=;
+  b=NyPg14MwjuQVMfERntWIV4uEU1DKVA1KEClxbtlnnvZepNfDTfZBPQ1F
+   dSntBSphNB141eTjwHgN5c/pu0Sm0/vxK/EjhnROV02ADZLtqV8GAs3D2
+   6Pr6dJsvXxdeveKG0G11ga791JyIKFgl1vr7vjAckxDdupqbzjkPHD3oQ
+   dTzILUcsVMHLbVZzdAMI1shBC8fJzZjBxs9P1hk67GtHvqWR9SZcqjfIZ
+   P/xZY3RXP2eOi7OwIYTsAzrWD5amr9xSjchqkUQ6IalVm2Qcb3+X5Y93m
+   cWYhycq1IFQQ5VfbdB8aIHVANR+u8OIEJV0Yy+A6mixOsWV6BAXAfa2JD
+   w==;
+X-CSE-ConnectionGUID: JOHdsuPGSY6TxC0r0iJj5A==
+X-CSE-MsgGUID: vGa7GotjTXOVRQhE+SEb0A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="15487045"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="23046571"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 01:15:59 -0700
-X-CSE-ConnectionGUID: O0B2e/EYTK2naHqRzX/zPA==
-X-CSE-MsgGUID: BdrTSX4DQtCsowv/qhiA5Q==
+   d="scan'208";a="15487045"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 02:51:09 -0700
+X-CSE-ConnectionGUID: f65id6e2QqyTh9LqZCIFTA==
+X-CSE-MsgGUID: OZNKEXkXTH+WPsWTdYZigA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="31155133"
+   d="scan'208";a="30700220"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 May 2024 01:15:53 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 May 2024 02:51:07 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6nKA-000BHD-2u;
-	Tue, 14 May 2024 08:15:50 +0000
-Date: Tue, 14 May 2024 16:15:06 +0800
+	id 1s6ooK-000BLv-2p;
+	Tue, 14 May 2024 09:51:04 +0000
+Date: Tue, 14 May 2024 17:50:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bharat Bhushan <bbhushan2@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, sgoutham@marvell.com,
-	gakula@marvell.com, sbhatta@marvell.com, hkelam@marvell.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, jerinj@marvell.com, lcherian@marvell.com,
-	richardcochran@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bharat Bhushan <bbhushan2@marvell.com>
-Subject: Re: [net-next,v2 5/8] cn10k-ipsec: Add SA add/delete support for
- outb inline ipsec
-Message-ID: <202405141559.4cP9LvuS-lkp@intel.com>
-References: <20240513105446.297451-6-bbhushan2@marvell.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 32/33] mm/damon/acma.c:62:14: error: use of
+ undeclared identifier 'max_mem'
+Message-ID: <202405141712.IN8VzCy4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,101 +61,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240513105446.297451-6-bbhushan2@marvell.com>
 
-Hi Bharat,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20240513]
-[cannot apply to linus/master horms-ipvs/master v6.9 v6.9-rc7 v6.9-rc6 v6.9]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bharat-Bhushan/octeontx2-pf-map-skb-data-as-device-writeable/20240513-185803
-base:   next-20240513
-patch link:    https://lore.kernel.org/r/20240513105446.297451-6-bbhushan2%40marvell.com
-patch subject: [net-next,v2 5/8] cn10k-ipsec: Add SA add/delete support for outb inline ipsec
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240514/202405141559.4cP9LvuS-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   8babfaa14bfc8f45e2c3d093952ab737fd0db1d5
+commit: 9c0c2a5550718fd72b4384589be3b4c470a85502 [32/33] mm/damon/acma: implement scale up feature
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240514/202405141712.IN8VzCy4-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141559.4cP9LvuS-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141712.IN8VzCy4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405141559.4cP9LvuS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405141712.IN8VzCy4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:7:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:7:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
+   In file included from mm/damon/acma.c:16:
+   In file included from include/linux/damon.h:11:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
    include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      548 |         val = __raw_readb(PCI_IOBASE + addr);
          |                           ~~~~~~~~~~ ^
    include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
          |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:7:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/damon/acma.c:16:
+   In file included from include/linux/damon.h:11:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
    include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
          |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:7:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/damon/acma.c:16:
+   In file included from include/linux/damon.h:11:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
    include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      585 |         __raw_writeb(value, PCI_IOBASE + addr);
          |                             ~~~~~~~~~~ ^
@@ -173,109 +136,124 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
          |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:681:6: warning: variable 'pf' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     681 |         if (x->xso.dir == XFRM_DEV_OFFLOAD_IN) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:721:16: note: uninitialized use occurs here
-     721 |         mutex_unlock(&pf->ipsec.lock);
-         |                       ^~
-   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:681:2: note: remove the 'if' if its condition is always false
-     681 |         if (x->xso.dir == XFRM_DEV_OFFLOAD_IN) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     682 |                 netdev_err(netdev, "xfrm inbound offload not supported\n");
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     683 |                 err = -ENODEV;
-         |                 ~~~~~~~~~~~~~~
-     684 |         } else {
-         |         ~~~~~~
-   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:674:21: note: initialize the variable 'pf' to silence this warning
-     674 |         struct otx2_nic *pf;
-         |                            ^
-         |                             = NULL
-   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:768:33: warning: unused variable 'cn10k_ipsec_xfrmdev_ops' [-Wunused-const-variable]
-     768 | static const struct xfrmdev_ops cn10k_ipsec_xfrmdev_ops = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   19 warnings generated.
+   In file included from mm/damon/acma.c:16:
+   In file included from include/linux/damon.h:11:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   mm/damon/acma.c:55:14: error: use of undeclared identifier 'min_mem'
+      55 | module_param(min_mem, ulong, 0600);
+         |              ^
+   mm/damon/acma.c:55:14: error: use of undeclared identifier 'min_mem'
+>> mm/damon/acma.c:62:14: error: use of undeclared identifier 'max_mem'
+      62 | module_param(max_mem, ulong, 0600);
+         |              ^
+>> mm/damon/acma.c:62:14: error: use of undeclared identifier 'max_mem'
+   mm/damon/acma.c:190:22: error: too few arguments to function call, expected 6, have 5
+     182 |         return damon_new_scheme(
+         |                ~~~~~~~~~~~~~~~~
+     183 |                         pattern,
+     184 |                         action,
+     185 |                         /* work for every second */
+     186 |                         1000000,
+     187 |                         /* under the quota. */
+     188 |                         &quota,
+     189 |                         /* (De)activate this according to the watermarks. */
+     190 |                         &damon_acma_wmarks);
+         |                                           ^
+   include/linux/damon.h:770:15: note: 'damon_new_scheme' declared here
+     770 | struct damos *damon_new_scheme(struct damos_access_pattern *pattern,
+         |               ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     771 |                         enum damos_action action,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
+     772 |                         unsigned long apply_interval_us,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     773 |                         struct damos_quota *quota,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     774 |                         struct damos_watermarks *wmarks,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     775 |                         int target_nid);
+         |                         ~~~~~~~~~~~~~~
+   mm/damon/acma.c:205:3: error: must use 'enum' tag to refer to type 'damos_quota_goal_metric'
+     205 |                 damos_quota_goal_metric goal_metric)
+         |                 ^
+         |                 enum 
+   mm/damon/acma.c:209:2: error: use of undeclared identifier 'goal'
+     209 |         goal = damos_new_quota_goal(goal_metric, quota_mem_pressure_us);
+         |         ^
+   mm/damon/acma.c:210:7: error: use of undeclared identifier 'goal'
+     210 |         if (!goal)
+         |              ^
+   mm/damon/acma.c:212:39: error: use of undeclared identifier 'goal'
+     212 |         damos_add_quota_goal(&scheme->quota, goal);
+         |                                              ^
+   mm/damon/acma.c:245:52: error: use of undeclared identifier 'KB'
+     245 |         start_limit = monitor_region_start + min_mem_kb * KB;
+         |                                                           ^
+   mm/damon/acma.c:248:45: error: use of undeclared identifier 'MB'
+     248 |         for (end = end_limit; end >= start_limit + SCALE_WINDOW;
+         |                                                    ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   mm/damon/acma.c:249:11: error: use of undeclared identifier 'MB'
+     249 |                         end -= SCALE_WINDOW) {
+         |                                ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   mm/damon/acma.c:250:7: error: call to undeclared function 'damon_alloced_bytes'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     250 |                 if (damon_alloced_bytes(end, end - SCALE_WINDOW)
+         |                     ^
+   mm/damon/acma.c:250:38: error: use of undeclared identifier 'MB'
+     250 |                 if (damon_alloced_bytes(end, end - SCALE_WINDOW)
+         |                                                    ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   mm/damon/acma.c:251:8: error: use of undeclared identifier 'MB'
+     251 |                                 != SCALE_WINDOW)
+         |                                    ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   mm/damon/acma.c:254:52: error: use of undeclared identifier 'MB'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                                           ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   mm/damon/acma.c:276:41: error: use of undeclared identifier 'KB'
+     276 |         end_limit = start_limit + max_mem_kb * KB;
+         |                                                ^
+   mm/damon/acma.c:279:49: error: use of undeclared identifier 'MB'
+     279 |         for (start = start_limit; start <= end_limit - SCALE_WINDOW;
+         |                                                        ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   mm/damon/acma.c:280:13: error: use of undeclared identifier 'MB'
+     280 |                         start += SCALE_WINDOW) {
+         |                                  ^
+   mm/damon/acma.c:220:29: note: expanded from macro 'SCALE_WINDOW'
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   7 warnings and 20 errors generated.
 
 
-vim +681 drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c
+vim +/max_mem +62 mm/damon/acma.c
 
-   667	
-   668	static int cn10k_ipsec_add_state(struct xfrm_state *x,
-   669					 struct netlink_ext_ack *extack)
-   670	{
-   671		struct net_device *netdev = x->xso.dev;
-   672		struct cn10k_tx_sa_s *sa_entry;
-   673		struct cpt_ctx_info_s *sa_info;
-   674		struct otx2_nic *pf;
-   675		int err;
-   676	
-   677		err = cn10k_ipsec_validate_state(x);
-   678		if (err)
-   679			return err;
-   680	
- > 681		if (x->xso.dir == XFRM_DEV_OFFLOAD_IN) {
-   682			netdev_err(netdev, "xfrm inbound offload not supported\n");
-   683			err = -ENODEV;
-   684		} else {
-   685			pf = netdev_priv(netdev);
-   686			if (!mutex_trylock(&pf->ipsec.lock)) {
-   687				netdev_err(netdev, "IPSEC device is busy\n");
-   688				return -EBUSY;
-   689			}
-   690	
-   691			if (!(pf->flags & OTX2_FLAG_INLINE_IPSEC_ENABLED)) {
-   692				netdev_err(netdev, "IPSEC not enabled/supported on device\n");
-   693				err = -ENODEV;
-   694				goto unlock;
-   695			}
-   696	
-   697			sa_entry = cn10k_outb_alloc_sa(pf);
-   698			if (!sa_entry) {
-   699				netdev_err(netdev, "SA maximum limit %x reached\n",
-   700					   CN10K_IPSEC_OUTB_MAX_SA);
-   701				err = -EBUSY;
-   702				goto unlock;
-   703			}
-   704	
-   705			cn10k_outb_prepare_sa(x, sa_entry);
-   706	
-   707			err = cn10k_outb_write_sa(pf, sa_entry);
-   708			if (err) {
-   709				netdev_err(netdev, "Error writing outbound SA\n");
-   710				cn10k_outb_free_sa(pf, sa_entry);
-   711				goto unlock;
-   712			}
-   713	
-   714			sa_info = kmalloc(sizeof(*sa_info), GFP_KERNEL);
-   715			sa_info->sa_entry = sa_entry;
-   716			sa_info->sa_iova = cn10k_outb_get_sa_iova(pf, sa_entry);
-   717			x->xso.offload_handle = (unsigned long)sa_info;
-   718		}
-   719	
-   720	unlock:
-   721		mutex_unlock(&pf->ipsec.lock);
-   722		return err;
-   723	}
-   724	
+    56	
+    57	/*
+    58	 * Maximum amount of memory to be guaranteed to the system.  In other words,
+    59	 * the upper limit of the scaling.
+    60	 */
+    61	static unsigned long max_mem_kb __read_mostly;
+  > 62	module_param(max_mem, ulong, 0600);
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
