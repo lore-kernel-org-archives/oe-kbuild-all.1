@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA5719BDC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 06:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A106610795
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 07:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715666786; cv=none; b=h549KL1fcfjrUHql6NHYIC6bNmD1VZ5kNCjD6LQ1dCPgfYmXcsb09+Zp3R7BGvyN2lw2v38T3dScHhNfRpSCf6/1z/SepbBpmynEW28qU75Mezhq42NmOsLSqnZOHlvuj5T9gsQYFwrOzW5QGVK+QQshXZNORa8M14rk5SNb9aA=
+	t=1715670628; cv=none; b=l8Y0WBPD4kzB/A8MwSVCWT80GgVlSCCbok4ONO79REGd+s+0uRObQZfUBx11H7QBWVHL5U0MkzfJHOZz5dQjKbCNhKV3d705aikxdps2M8CaQJ4ZUwlWIqoe+f4iUSh4bAOYbMbXbb1AZOB39kTmrS42vDNyjsWmPOjLXZmKCmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715666786; c=relaxed/simple;
-	bh=B2jEE5MRBGN4vduItJzzI9py6MSTJTQagyqpFawX0RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LAMHekT2O1lwt/88aoQbmT7crFLazykfwf1Ku44F/1DnzXmQYdRLWnax+IBSgH2U+fq4HrR71MNL9Prjeh0k3dKi5EMZuZMl5KDVekNfqPiJ8PljaKJ30I8qg1LrDLZGGrotC80zEGVgnqaOeq4MlL5eCEWTf67/OVVC6XJ+YWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/AkbAyY; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1715670628; c=relaxed/simple;
+	bh=zdNUasxvJx2ymttYyTXszLP8zbd0eSQT87cFGXnRuu8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EwT77IXJcw2rhdoLbNaxToBNk4jKdgNr2pIlbZMbxAmQ48mf5ZSvC7m/yzgdMF+twHUISf4kWmsN6PV16wOPK7jdN3WlWGyPFpgSeqawai/9Vi5kXEg0DXjGTyGLO1bAx+RV/iTjw08zUVFZmFZ7gToLi3oP8ispc4ZdVpAG9a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2FTA2Ds; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/AkbAyY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2FTA2Ds"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715666785; x=1747202785;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B2jEE5MRBGN4vduItJzzI9py6MSTJTQagyqpFawX0RQ=;
-  b=Q/AkbAyYjcnYrd4Y8q5Q7J9N2iTNJUMZBQEYwjGY+FpJcwDOjcuqHgLY
-   J9qDjXsCd2Ew6z40vxK4P0KdpIZxx6hquEVgPQ15SwpwhhXuvyKAq3V8x
-   wMSloxrqVDzwWHeVdwfkDHoPa5gSzYPImZqTFCd+Ke1qAa4graAnJf1+6
-   M8hXIPcRCCT+0eYhEXyvFYsjKLwKaPAIGmWyFaBsF3poQm1+MBfsgcMBV
-   jMgAG7ilkdkYrx75yu9uMLhP26AB0EDhsey9EfmyBkhk4AnvRw8jKo7pf
-   IUHmbcLBPdLVTPq/yCjniulpOL9y/chZk1i3x0u69J9/Klof2lAI2BYkL
+  t=1715670627; x=1747206627;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zdNUasxvJx2ymttYyTXszLP8zbd0eSQT87cFGXnRuu8=;
+  b=C2FTA2DsCTC+EfeHkrpwCwWQqC/yLmlUN4Hi3MIG0/tb4pU11A+iW9dZ
+   4BttdP28dJlFcHGaLILBnNbBW+m5QgsRMHRknQLfwLcsMm9w4TFzsofY5
+   4MareU1u0QvNrw/fdyuQ+qGmvX4Qgf9tH3JFea9h7KmwDALRQPs5SsT0g
+   VOerXv86n+sK+zGbNHqDS7jcyNnt6p5h8JC/I+kNTJNihtizhJg8etRf9
+   TblV858V3B2O7jQXYAUz3w6gKC83dt26Dw4+ZdQAgdT9rueYs3qIYKFdc
+   A7i1C2D64fjpWe2zMV3A17W7OlvtIBkWefk5z02dNwz0A/dpAc0nEKBvw
    A==;
-X-CSE-ConnectionGUID: cJC81RwZSdK77PDVwGYJ1A==
-X-CSE-MsgGUID: mXHt7wA1Syi+eDmwxrLFyg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="22229655"
+X-CSE-ConnectionGUID: mfm5R40mTaCGiQGSTR6WMA==
+X-CSE-MsgGUID: 8k8nqjx2Rk23rRjB2WGGgw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="23039887"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="22229655"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 23:06:24 -0700
-X-CSE-ConnectionGUID: 72ZkUZ9jREO1b5P0fnnomg==
-X-CSE-MsgGUID: n0TGnlXqR0O0WKonONXbPw==
+   d="scan'208";a="23039887"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 00:10:26 -0700
+X-CSE-ConnectionGUID: yByfDjycSuy9TW0L2BpcbA==
+X-CSE-MsgGUID: zGLPV32cQqC5arFh/tkN2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="35268822"
+   d="scan'208";a="30540229"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 May 2024 23:06:23 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 May 2024 00:10:24 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6lIq-000BBM-02;
-	Tue, 14 May 2024 06:06:20 +0000
-Date: Tue, 14 May 2024 14:05:46 +0800
+	id 1s6mIn-000BDb-2l;
+	Tue, 14 May 2024 07:10:21 +0000
+Date: Tue, 14 May 2024 15:09:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [linux-next:master 8353/12793]
- drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.o: warning:
- objtool: map_partition_power_domain_id() falls through to next function
- get_instance()
-Message-ID: <202405141321.RQmskiTj-lkp@intel.com>
+To: Richard Genoud <richard.genoud@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, Esteban Blanc <eblanc@baylibre.com>,
+	linux-rtc@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: Re: [PATCH] rtc: tps6594: Add power management support
+Message-ID: <202405141408.o5jSp8nU-lkp@intel.com>
+References: <20240513162942.68484-1-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,22 +66,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240513162942.68484-1-richard.genoud@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6ba6c795dc73c22ce2c86006f17c4aa802db2a60
-commit: 9d1d36268f3d8276aefd1fad4e0a415dc8c36edd [8353/12793] platform/x86: ISST: Support partitioned systems
-config: x86_64-randconfig-101-20240514 (https://download.01.org/0day-ci/archive/20240514/202405141321.RQmskiTj-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141321.RQmskiTj-lkp@intel.com/reproduce)
+Hi Richard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.9 next-20240513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/rtc-tps6594-Add-power-management-support/20240514-003053
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20240513162942.68484-1-richard.genoud%40bootlin.com
+patch subject: [PATCH] rtc: tps6594: Add power management support
+config: sparc-randconfig-r081-20240514 (https://download.01.org/0day-ci/archive/20240514/202405141408.o5jSp8nU-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141408.o5jSp8nU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405141321.RQmskiTj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405141408.o5jSp8nU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.o: warning: objtool: map_partition_power_domain_id() falls through to next function get_instance()
+>> drivers/rtc/rtc-tps6594.c:471:12: warning: 'tps6594_rtc_suspend' defined but not used [-Wunused-function]
+     471 | static int tps6594_rtc_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-tps6594.c:439:12: warning: 'tps6594_rtc_resume' defined but not used [-Wunused-function]
+     439 | static int tps6594_rtc_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
+
+
+vim +/tps6594_rtc_suspend +471 drivers/rtc/rtc-tps6594.c
+
+   438	
+ > 439	static int tps6594_rtc_resume(struct device *dev)
+   440	{
+   441		struct tps6594 *tps = dev_get_drvdata(dev->parent);
+   442		struct rtc_device *rtc_dev = dev_get_drvdata(dev);
+   443		int ret;
+   444	
+   445		ret = regmap_test_bits(tps->regmap, TPS6594_REG_INT_STARTUP,
+   446				       TPS6594_BIT_RTC_INT);
+   447		if (ret < 0) {
+   448			dev_err(dev, "failed to read REG_INT_STARTUP: %d\n", ret);
+   449			goto out;
+   450		}
+   451	
+   452		if (ret > 0) {
+   453			/*
+   454			 * If the alarm bit is set, it means that the IRQ has been
+   455			 * fired. But, the kernel may not have woke up yet when it
+   456			 * happened. So, we have to clear it.
+   457			 */
+   458			ret = regmap_write(tps->regmap, TPS6594_REG_RTC_STATUS,
+   459					   TPS6594_BIT_ALARM);
+   460			if (ret < 0)
+   461				dev_err(dev, "error clearing alarm bit: %d", ret);
+   462	
+   463			rtc_update_irq(rtc_dev, 1, RTC_IRQF | RTC_AF);
+   464		}
+   465	out:
+   466		disable_irq_wake(tps->irq_rtc);
+   467	
+   468		return 0;
+   469	}
+   470	
+ > 471	static int tps6594_rtc_suspend(struct device *dev)
+   472	{
+   473		struct tps6594 *tps = dev_get_drvdata(dev->parent);
+   474	
+   475		enable_irq_wake(tps->irq_rtc);
+   476	
+   477		return 0;
+   478	}
+   479	
 
 -- 
 0-DAY CI Kernel Test Service
