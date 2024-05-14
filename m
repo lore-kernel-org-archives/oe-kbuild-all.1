@@ -1,199 +1,609 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC7817C2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 01:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715649244; cv=fail; b=tupv9DLu8dddQaPcIXRgDdZRuNmTy7mNqIOwr8hC2xuWkHhJrlOr4GYzejGHsLxzuInQRH2EvLAa/MPoVOad7FumigSFr0uJtE5gMG4wfHN++i6Do8QiBVmJPxQAtkQ5OxXenFxc5xmeho7KWms59Q0zZajVmweSG62TdZGphZg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715649244; c=relaxed/simple;
-	bh=UG9eZiCc0PJhpbBc9R87HThgsQkA0xiSLLxa0FUIYjc=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=T0/jUhmzxI23Zqr1TtWphEyZ117Rsj+kCgx1L5LFyrOREO2yjX56uigS5T60rfT6LV3JT9J4B96HmLe8vldFYw75QdwWStcUIBNU6n7flrTz3H4/q9ZCS1kZwo7NxpNXLGGb75LLlL7CVEeIhpH998hnzRVHWCtSam/74nT9vY8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHWA4vID; arc=fail smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010CA17C2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 01:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715649249; cv=none; b=RidRWB3bLpdZUyuTPdUT8gwXHzjGOBL39VTOYeIRhhsrcTKLd4oFGnJxFvbof1vfLreLavBVVlTXHMKiTwxArgLQYCB5GMnitU32YHkha+qjoHGaFfy2uBtIjnMF/WxNVHq4wcBN6G6jDS23jRjEthzn3/w+yBcIM5UdS5jfuQ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715649249; c=relaxed/simple;
+	bh=c0bLOfDJJXX/XsMChHAPv9JsszntH+VQw+RIyajv4yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vDZLx95GVchrrr2xu4ybfWwC+bqgsuG7/EOOSySQniJuZ9I7MJt49d0lf4WI4EKF40OaLnoA2UIMIIE32gYbk1z0jUGb/wM+DhSJ4uOUtlaR/ZkeyQfhgvv7Tz4eKoyrhm1PeQiAjxkcpkviFl2NW0FqlWG9MWqhGvPXQz1aZrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDnknUAl; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHWA4vID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDnknUAl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715649243; x=1747185243;
+  t=1715649246; x=1747185246;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UG9eZiCc0PJhpbBc9R87HThgsQkA0xiSLLxa0FUIYjc=;
-  b=ZHWA4vIDFGA9ywyeh6bow/2drddaGlS7j77buRokTTvEy/HsS71oWi2x
-   UrfJH2kMVM125TyF6ZILnaOoWfKgMJzAuqK3zu274I9aVytz77mNQz+eY
-   wNRiGvAknxveMhQ3Alwf2OxGqQdjMsmaqajVqB/ci93XdimJZUaZja+NW
-   S+w9G6oXyl6Rfl/9DwIXE2izqYGakGwOSkYEKbUBQBbyPCQ6IHY7EyzWv
-   UAuM2Mm4NuZTdMOR3BZ7yYICLubf2Kv06o4+9VAcURVKStjW74ApLMZKm
-   ketKAKGdiObXAfM6A24OBfMLGqOjHDXkRpap+bZB0ssPppbeS12H9Gp3M
-   w==;
-X-CSE-ConnectionGUID: sUfNJ2GCT1ipm29moS3clA==
-X-CSE-MsgGUID: Nt40rUOPRmy0YKG0Q+nLvg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11781999"
+  bh=c0bLOfDJJXX/XsMChHAPv9JsszntH+VQw+RIyajv4yU=;
+  b=HDnknUAlh0LXV9BPY9gUxQRTuaEyrfOLBOr8EGNmA6qo+uhH04JCCmMp
+   oou9AmW4MzBpiNrQ8l4kPRCzGWMM7BHVYnOFlxCiVNUqeiCutHnzOXoD9
+   iPE2SHun0vC6T6eXMsjSCJ1zMR17pckxzjzxlaETfN3Kez8iP3WaY/BWL
+   WXU62mp17U1wyyZatFMes1hM+MEV2AxRUKrDtJlaDQMfgfl4lAzV64l49
+   IivHY+rcXUHc64ROIWMD/jSoyWLMebWSVbE7tsi3D5ZUiXUSt9bjgLWGR
+   eGHiwQxh4Pm7GNfZmEmDcnN1S+r3zLFI/X/kpIlAj4wgWHQyZxXiH3zum
+   A==;
+X-CSE-ConnectionGUID: frogrcFjSvmNXw2PPVQrJQ==
+X-CSE-MsgGUID: jVS9UZeiToyKQ1Oe5SGMnw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11730964"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="11781999"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 18:14:02 -0700
-X-CSE-ConnectionGUID: D3n9kez3R4+b6VW0YOYPxQ==
-X-CSE-MsgGUID: LLMvlpIyRB6uok1Ba88v2A==
+   d="scan'208";a="11730964"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 18:14:05 -0700
+X-CSE-ConnectionGUID: YJUPhZgOSGm6/k1iOQpq3Q==
+X-CSE-MsgGUID: 5hBPHKKDTg+/1wLNtCxClw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="30636576"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 May 2024 18:14:03 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 13 May 2024 18:14:01 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 13 May 2024 18:14:01 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 13 May 2024 18:14:01 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 13 May 2024 18:14:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PMKfYWcuduf3JW9AoX6AJ+mrX1qQu6KvNNx7UKvdGaHuhxVzbbDViWy8L3I2Zl2QHtl63jCohRMjSglozjshNKiXPxR4BruIFHOtp3ZJdMJTxD2oSbq0/+Jf4P4byIbV1up/OluIvlc8gegLfu8TbGR6PrUUMkQgGggQo33Q/Rdujv8t0dReSpQvHgYA0sgs9iRfnnfjFpWI7UNrpKrGIE+UfxV77UCkYpDkdKeymY5wK87g0quNMoLGqSTGdlXmu1He5r68L5Y0p1uIeoECcOwSWdGSubyJbDeDUXWfzK7bPwJZUTxoRcc2ELG50STsmIOOHMH8ABtt2GHTJVg/5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RczO3Upc3BC2NQsV+jXpujk57EHT0mVeT8NLnxiDbf4=;
- b=Gu3RsJOBIzuLRkbHNYIgeOfKC++iFzol/6YMoP6tP8bDUw89EKoSpiJ8vNZc3H/PjvNx3ylNn8V9Qkw9je8jicDGgDOb0ln7R6e0iUo4DhqQZ77BJB57aHOuzkZz7Tqq6e/2oshpYM8cbc78nTIzaYzdt/2i6WRVow1peTc5s439mwtEaZY9c3nqKapmrC9LnMnBY63txo0erVyqSYOHNA138o6yv15o8shIaROhrJN/SBptcvaKCRP2gM6ufyYQH4FhPJgzpxa8i64u8u/674j3BBg7F4lika0OAvst9h2zQJyPQ2wN1C+gJ/e5Bgn74WMKy1PJYhNrByC8MUCGwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by MW4PR11MB6740.namprd11.prod.outlook.com (2603:10b6:303:209::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Tue, 14 May
- 2024 01:13:59 +0000
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45]) by SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45%5]) with mapi id 15.20.7544.052; Tue, 14 May 2024
- 01:13:59 +0000
-Date: Tue, 14 May 2024 09:13:58 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Ben Hutchings <bwh@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [cip:b-4.4-st52-rt49 231/395] kernel/rcu/tree.c: linux/delay.h is
- included more than once.
-Message-ID: <202405131926.EpWnrMxy-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR03CA0105.apcprd03.prod.outlook.com
- (2603:1096:4:7c::33) To SA1PR11MB8393.namprd11.prod.outlook.com
- (2603:10b6:806:373::21)
+   d="scan'208";a="30491281"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 13 May 2024 18:14:03 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s6gjx-000Arv-28;
+	Tue, 14 May 2024 01:14:01 +0000
+Date: Tue, 14 May 2024 09:13:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 32/33] mm/damon/acma.c:62:14: error: 'max_mem'
+ undeclared; did you mean 'max_mem_kb'?
+Message-ID: <202405140938.2KcwHEzV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|MW4PR11MB6740:EE_
-X-MS-Office365-Filtering-Correlation-Id: f599e770-5db3-4943-d918-08dc73b32238
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+o+2aaipt1nfzhYFyylPOgGMpgtCWN2MVsL5H7+/mQHDS5TGCmOQHvHR5P6V?=
- =?us-ascii?Q?jlmGc8QPbRapQQEe2kCbGK6LJRLTZMMTlqO0GkJkJ6CTZ9TuY27FFclyJ3Ho?=
- =?us-ascii?Q?AB1Q2yOHr4VQpYKWZe2Dl99z0D1cXorOTvSbwLyy4plpeDaUTnq82xKX3UuE?=
- =?us-ascii?Q?BikJUjLgFJpvQGbu8jIRT2nOVnkk9Wi2evwUwU6HyF+IlQktXTt7GGMvjODV?=
- =?us-ascii?Q?5rY4eb2IN9sDWmQEdf72CKwkriCYANPcWHBQDyYxP7mZRftFyJTKcnxkYsWe?=
- =?us-ascii?Q?jI24uH/4i9JkoM9bXczvtTYm13uxozbY+l5kV2rzNH1JtdN3KRsW+q4cnr5h?=
- =?us-ascii?Q?OZoddM/WHnH86ibOVr4QhMEEUBadeoe4wcjGhH99lTLHq6mldBX+/HACNanE?=
- =?us-ascii?Q?aRCdqI4bwYkp17L/f9KhbCknXdg+jITvn/1JQB3iekNEuc11+d3TJvlxs8E6?=
- =?us-ascii?Q?Shl30XJJq3jh/PLUu/1OczD9NTzwbfcm55xSlhJ7EGj42iI1UxpvDQkjMXEd?=
- =?us-ascii?Q?s5WZGJiB9mNMtRorKEmFWThe7vEE8mvXrXOTsQzGIeiqZz4g6gh8pVZtuBvI?=
- =?us-ascii?Q?c+fGA7FU9IEf07pubHlz/ZZXZkI80krzt1MbZ/GmzBdioDba/XvqMy9VQqvk?=
- =?us-ascii?Q?06tOcb0kVMZHayFC0o8mS5Kh+F3csrXe+wu9WQg8LVT2aVP3MwR8+f1npLUX?=
- =?us-ascii?Q?7kwBpGb3QyZet5UhsmSNU5kfHj4OMVVtquMa+YL31/rUbDlRmSPMeIZOp6SH?=
- =?us-ascii?Q?9/YekEA3VHE0vntSCMDvQ45MEhpJ7dDb9Iw095D0kDoXfxVcp3hIcpY68OdN?=
- =?us-ascii?Q?pRIUrK0ZF7mGoMJAuEBKZT9XxhuR8il4jT/4R3RrQFco+kSCdN5WAwmVaLtN?=
- =?us-ascii?Q?sn+52v/LrQO+w0aGnyEOCH7s153sUFpUJzAHU/NopQPEy6LdA+Cx9K7W5cir?=
- =?us-ascii?Q?g9ODFzXv347cLjGnYI7Gnh5MNkbq4eDCUPaBAbydPX5aToO/D/ys2kb8Qt3T?=
- =?us-ascii?Q?hRHA+YOUKOUMFg46YitHNn7d9lE2PK/bZ4fH1P9HCtjlxqk0gvC8+uGZFoiI?=
- =?us-ascii?Q?x8YJhHJOr5m0GdZXJcijMa10cxWObydc3q+RCpoQBZ+MUzUySzzaW1Kep9O0?=
- =?us-ascii?Q?uF+xG641OPFgj4VbXoe52QjodK3HvV/o+Ib/tQW4sVHcGd38E3zMg5aeRr9d?=
- =?us-ascii?Q?BD6nIpGwFJ3rplP6RkHkJVvP1amDsK+ZXPqycGbQ7oAxr82HxXhG3WyNTOE?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j8PbLbe3NbiE9dvNIUXlJAxl9oBYuVv3X2Uvi3ASZ8DskIyzuPRJjnvtxbT6?=
- =?us-ascii?Q?AGJ/0vPVqm7upuMDreyY/i9iTB94MDHF+RdnsvHIEB+Idtmt1iecPgk69ht8?=
- =?us-ascii?Q?mrUEUyqyNkEy71+j2AN1xAbOMyEB3qKnnBPqJAf1oZnLH9wOf5mH82KdhZYk?=
- =?us-ascii?Q?kE+9mV2uC0nlSgLIa15so7ajV3cDq/jtUe/S7yXHJt99Ng2yU/3Fa0Eqlock?=
- =?us-ascii?Q?DmKQ6JejkfB9GiEr8Gnfr9KWJou7Q0dX0EHyaSM7mBER+k5h60TvwAiK3AeQ?=
- =?us-ascii?Q?6aSxtEqV6gdkjPYZyQoXlyDsbZWvNDcb38l40fCbGUR5hUS3iUE7mQAceNNs?=
- =?us-ascii?Q?FigeyL1f16xw5QUpyw2sbqSXe90gHIrAPV9W7Pa/qRgHKo2XIJKe95lLSlF+?=
- =?us-ascii?Q?+bH8YrjO04lA4wqgY9+bvbP6e5H3Q72v8GduSuQwXvpCR1uJNjUalDAKHlDo?=
- =?us-ascii?Q?aNE4Nc8tY56WijS9Ij5rBCGA2sSopKXNKW/n4o6KBov4ZMTKKopwuHhzNURU?=
- =?us-ascii?Q?n/VvriIm6BYovE6/wm2c45CQ+upAUH5QmxGh+AxZcKoPPNi4Z8oPudybOP5Y?=
- =?us-ascii?Q?4pA6d/fIW7V1vKMlIf3Pl7ExCNoKoYTnHErEfeNZHCnvR5mzrUjvn3KcfcnW?=
- =?us-ascii?Q?eGeIs5gEjp6yicq5FpmLRbXCu1sa6Dju4ji7wIpSQ/9wrXqJ5YWZ+MBeqL/r?=
- =?us-ascii?Q?a1FTtTlgjLJW4Pkopf2ciyKwvwQww6LlJILUVEouBwTYFR5xkvWFy4WmJZEE?=
- =?us-ascii?Q?iDgYJaroSvfd2DiKY8Xd7n/AcTY+bLFSA+5isF02d1xBR+eNFX/LcwMKvj89?=
- =?us-ascii?Q?1gK/10yj8+S3M2xWhzNLKtc8KA30iMkH4u6f+cJ/+/JVGffgb3gf6J63uHUf?=
- =?us-ascii?Q?2yJp7Z9nSOoPV9Mdvj65qIbkNvHLGIiYWP7yZvvYTEIkSgUN76sNWWDh19PG?=
- =?us-ascii?Q?mKoJPA23ncwOuQ/dF3mf/jlOkux8Iqak3fMHtB3PpSdLINNIkRnktoMn3unc?=
- =?us-ascii?Q?PdTn9qC3CoKSynxjs+1AyTH2bruut4nOYf26LBVrlfqmlUAufk6W7VJPl2L6?=
- =?us-ascii?Q?Z5+6QAsBJsFzOE49y7l6RQCD+1rLQSkdTPoGpfdx1IGBwVy28RyJTn/avU02?=
- =?us-ascii?Q?+hve667+7ukNkQfcEXNL41/UAY+SkGZPLLHbhSNFY7WPavlOV7IYmnIC+i73?=
- =?us-ascii?Q?yGI8EM710QAtLJsIJeXsLrJm5nvSx3OZjcINjkcbW16oKBft7zTmFupLLXmY?=
- =?us-ascii?Q?fSprESwt8gSNwMJ7N/WPdJ0JXRR8akjDOkzN1GTcnY4QiRy6/wQH8rNbmW2l?=
- =?us-ascii?Q?dx2ojUnPiSR6xh52uBYxVgdX+FrJy+Wgy7Jk9mK/cHeitSG/QqiiFP4kcQzp?=
- =?us-ascii?Q?Dk63Pii+1RdTiY2orzbBzD8Mmv7/rIDn93Bdow8MZncxT9XnX62E2qcKekUi?=
- =?us-ascii?Q?vnbJJp+i9M+p1GKmISoQvMxP7Xura4YG6mBYe3N1UUk3xCp/JCigdd3A9phq?=
- =?us-ascii?Q?6uQwcn9pGqJuipJ3iitaTfEbFADTs3C0VhHPQXqVDYsGCz8iaQ1iWq6gv9/a?=
- =?us-ascii?Q?SvLdVk7UvG7FpKXSMy/237BUI1jVK5PA9+DcaA3R?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f599e770-5db3-4943-d918-08dc73b32238
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2024 01:13:59.0953
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lzOpOJzac+tfvCSIrDm203VQay3S6Iq4qIoCIIXN8UKyIJI/Dcnowt22naVHas0xf8jmwUbpIV8LOXcZJajG3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6740
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git b-4.4-st52-rt49
-head:   4c5fde95daea7696fb9556a4dc7fd77e7b407a1f
-commit: 3c902f7f74c6a9cf8e92589883bab325b42814aa [231/395] rcu: Eliminate softirq processing from rcutree
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   8babfaa14bfc8f45e2c3d093952ab737fd0db1d5
+commit: 9c0c2a5550718fd72b4384589be3b4c470a85502 [32/33] mm/damon/acma: implement scale up feature
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240514/202405140938.2KcwHEzV-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405140938.2KcwHEzV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202405131926.EpWnrMxy-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405140938.2KcwHEzV-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> kernel/rcu/tree.c: linux/delay.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +54 kernel/rcu/tree.c
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/blk_types.h:11,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:23,
+                    from include/linux/damon.h:11,
+                    from mm/damon/acma.c:16:
+   mm/damon/acma.c: In function '__check_min_mem':
+   mm/damon/acma.c:55:14: error: 'min_mem' undeclared (first use in this function); did you mean 'min_mem_kb'?
+      55 | module_param(min_mem, ulong, 0600);
+         |              ^~~~~~~
+   include/linux/moduleparam.h:413:75: note: in definition of macro '__param_check'
+     413 |         static inline type __always_unused *__check_##name(void) { return(p); }
+         |                                                                           ^
+   include/linux/moduleparam.h:150:9: note: in expansion of macro 'param_check_ulong'
+     150 |         param_check_##type(name, &(value));                                \
+         |         ^~~~~~~~~~~~
+   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
+     127 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:55:1: note: in expansion of macro 'module_param'
+      55 | module_param(min_mem, ulong, 0600);
+         | ^~~~~~~~~~~~
+   mm/damon/acma.c:55:14: note: each undeclared identifier is reported only once for each function it appears in
+      55 | module_param(min_mem, ulong, 0600);
+         |              ^~~~~~~
+   include/linux/moduleparam.h:413:75: note: in definition of macro '__param_check'
+     413 |         static inline type __always_unused *__check_##name(void) { return(p); }
+         |                                                                           ^
+   include/linux/moduleparam.h:150:9: note: in expansion of macro 'param_check_ulong'
+     150 |         param_check_##type(name, &(value));                                \
+         |         ^~~~~~~~~~~~
+   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
+     127 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:55:1: note: in expansion of macro 'module_param'
+      55 | module_param(min_mem, ulong, 0600);
+         | ^~~~~~~~~~~~
+   mm/damon/acma.c: At top level:
+   mm/damon/acma.c:55:14: error: 'min_mem' undeclared here (not in a function); did you mean 'min_mem_kb'?
+      55 | module_param(min_mem, ulong, 0600);
+         |              ^~~~~~~
+   include/linux/moduleparam.h:294:61: note: in definition of macro '__module_param_call'
+     294 |             VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
+         |                                                             ^~~
+   include/linux/moduleparam.h:151:9: note: in expansion of macro 'module_param_cb'
+     151 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
+     127 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:55:1: note: in expansion of macro 'module_param'
+      55 | module_param(min_mem, ulong, 0600);
+         | ^~~~~~~~~~~~
+   mm/damon/acma.c: In function '__check_max_mem':
+>> mm/damon/acma.c:62:14: error: 'max_mem' undeclared (first use in this function); did you mean 'max_mem_kb'?
+      62 | module_param(max_mem, ulong, 0600);
+         |              ^~~~~~~
+   include/linux/moduleparam.h:413:75: note: in definition of macro '__param_check'
+     413 |         static inline type __always_unused *__check_##name(void) { return(p); }
+         |                                                                           ^
+   include/linux/moduleparam.h:150:9: note: in expansion of macro 'param_check_ulong'
+     150 |         param_check_##type(name, &(value));                                \
+         |         ^~~~~~~~~~~~
+   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
+     127 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:62:1: note: in expansion of macro 'module_param'
+      62 | module_param(max_mem, ulong, 0600);
+         | ^~~~~~~~~~~~
+   mm/damon/acma.c: At top level:
+>> mm/damon/acma.c:62:14: error: 'max_mem' undeclared here (not in a function); did you mean 'max_mem_kb'?
+      62 | module_param(max_mem, ulong, 0600);
+         |              ^~~~~~~
+   include/linux/moduleparam.h:294:61: note: in definition of macro '__module_param_call'
+     294 |             VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
+         |                                                             ^~~
+   include/linux/moduleparam.h:151:9: note: in expansion of macro 'module_param_cb'
+     151 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
+     127 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:62:1: note: in expansion of macro 'module_param'
+      62 | module_param(max_mem, ulong, 0600);
+         | ^~~~~~~~~~~~
+   mm/damon/acma.c: In function 'damon_acma_new_scheme':
+   mm/damon/acma.c:182:16: error: too few arguments to function 'damon_new_scheme'
+     182 |         return damon_new_scheme(
+         |                ^~~~~~~~~~~~~~~~
+   include/linux/damon.h:770:15: note: declared here
+     770 | struct damos *damon_new_scheme(struct damos_access_pattern *pattern,
+         |               ^~~~~~~~~~~~~~~~
+   mm/damon/acma.c: At top level:
+   mm/damon/acma.c:205:17: error: unknown type name 'damos_quota_goal_metric'
+     205 |                 damos_quota_goal_metric goal_metric)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c: In function 'damon_acma_set_scale_down_region_filter':
+   mm/damon/acma.c:245:59: error: 'KB' undeclared (first use in this function)
+     245 |         start_limit = monitor_region_start + min_mem_kb * KB;
+         |                                                           ^~
+   mm/damon/acma.c:220:32: error: 'MB' undeclared (first use in this function); did you mean 'mb'?
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^~
+   mm/damon/acma.c:248:52: note: in expansion of macro 'SCALE_WINDOW'
+     248 |         for (end = end_limit; end >= start_limit + SCALE_WINDOW;
+         |                                                    ^~~~~~~~~~~~
+   mm/damon/acma.c:250:21: error: implicit declaration of function 'damon_alloced_bytes' [-Werror=implicit-function-declaration]
+     250 |                 if (damon_alloced_bytes(end, end - SCALE_WINDOW)
+         |                     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/alpha/include/asm/bug.h:23,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/alpha/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/cgroup.h:12,
+                    from include/linux/memcontrol.h:13:
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:39:28: note: in expansion of macro '__is_signed'
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |                            ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:254:36: note: in expansion of macro 'max'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                    ^~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:40:41: note: in expansion of macro '__is_signed'
+      40 |                 __is_signed((x) + 0) == __is_signed((y) + 0) || \
+         |                                         ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:254:36: note: in expansion of macro 'max'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                    ^~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:36:53: note: in expansion of macro '__is_signed'
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |                                                     ^~~~~~~~~~~
+   include/linux/minmax.h:41:38: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                                      ^~~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:254:36: note: in expansion of macro 'max'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                    ^~~
+   include/linux/minmax.h:36:10: error: first argument to '__builtin_choose_expr' not a constant
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:41:38: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                                      ^~~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:254:36: note: in expansion of macro 'max'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                    ^~~
+   include/linux/minmax.h:39:9: error: expression in static assertion is not an integer
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |         ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:254:36: note: in expansion of macro 'max'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                    ^~~
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/sched.h:16:
+   include/linux/minmax.h:56:9: error: first argument to '__builtin_choose_expr' not a constant
+      56 |         __builtin_choose_expr(__is_constexpr((x) - (y)),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:254:36: note: in expansion of macro 'max'
+     254 |         filter->addr_range.start = max(start_limit, end - SCALE_WINDOW);
+         |                                    ^~~
+   mm/damon/acma.c: In function 'damon_acma_set_scale_up_region_filter':
+   mm/damon/acma.c:276:48: error: 'KB' undeclared (first use in this function)
+     276 |         end_limit = start_limit + max_mem_kb * KB;
+         |                                                ^~
+   mm/damon/acma.c:220:32: error: 'MB' undeclared (first use in this function); did you mean 'mb'?
+     220 | #define SCALE_WINDOW    (128 * MB)
+         |                                ^~
+   mm/damon/acma.c:279:56: note: in expansion of macro 'SCALE_WINDOW'
+     279 |         for (start = start_limit; start <= end_limit - SCALE_WINDOW;
+         |                                                        ^~~~~~~~~~~~
+>> mm/damon/acma.c:281:41: error: 'end' undeclared (first use in this function); did you mean '_end'?
+     281 |                 if (damon_alloced_bytes(end - SCALE_WINDOW))
+         |                                         ^~~
+         |                                         _end
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:39:28: note: in expansion of macro '__is_signed'
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |                            ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:285:34: note: in expansion of macro 'min'
+     285 |         filter->addr_range.end = min(end_limit, start + SCALE_WINDOW);
+         |                                  ^~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:40:41: note: in expansion of macro '__is_signed'
+      40 |                 __is_signed((x) + 0) == __is_signed((y) + 0) || \
+         |                                         ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:285:34: note: in expansion of macro 'min'
+     285 |         filter->addr_range.end = min(end_limit, start + SCALE_WINDOW);
+         |                                  ^~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:36:53: note: in expansion of macro '__is_signed'
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |                                                     ^~~~~~~~~~~
+   include/linux/minmax.h:41:38: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                                      ^~~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:285:34: note: in expansion of macro 'min'
+     285 |         filter->addr_range.end = min(end_limit, start + SCALE_WINDOW);
+         |                                  ^~~
+   include/linux/minmax.h:36:10: error: first argument to '__builtin_choose_expr' not a constant
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:41:38: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                                      ^~~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:285:34: note: in expansion of macro 'min'
+     285 |         filter->addr_range.end = min(end_limit, start + SCALE_WINDOW);
+         |                                  ^~~
+   include/linux/minmax.h:39:9: error: expression in static assertion is not an integer
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |         ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:285:34: note: in expansion of macro 'min'
+     285 |         filter->addr_range.end = min(end_limit, start + SCALE_WINDOW);
+         |                                  ^~~
+   include/linux/minmax.h:56:9: error: first argument to '__builtin_choose_expr' not a constant
+      56 |         __builtin_choose_expr(__is_constexpr((x) - (y)),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:85:25: note: in expansion of macro '__careful_cmp'
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/acma.c:285:34: note: in expansion of macro 'min'
+     285 |         filter->addr_range.end = min(end_limit, start + SCALE_WINDOW);
+         |                                  ^~~
+   mm/damon/acma.c: In function 'damon_acma_alloc_callback':
+   mm/damon/acma.c:298:16: error: implicit declaration of function 'page_report'; did you mean 'PageReported'? [-Werror=implicit-function-declaration]
+     298 |         return page_report(PHYS_PFN(addr), 1 << scale_pg_order);
+         |                ^~~~~~~~~~~
+         |                PageReported
+   In file included from include/asm-generic/memory_model.h:5,
+                    from arch/alpha/include/asm/page.h:89,
+                    from include/linux/shm.h:6,
+                    from include/linux/sched.h:23:
+   mm/damon/acma.c:298:37: error: 'addr' undeclared (first use in this function)
+     298 |         return page_report(PHYS_PFN(addr), 1 << scale_pg_order);
+         |                                     ^~~~
+   include/linux/pfn.h:22:43: note: in definition of macro 'PHYS_PFN'
+      22 | #define PHYS_PFN(x)     ((unsigned long)((x) >> PAGE_SHIFT))
+         |                                           ^
+   mm/damon/acma.c: In function 'damon_acma_new_reclaim_scheme':
+   mm/damon/acma.c:314:15: error: implicit declaration of function 'damon_acma_set_scheme_quota'; did you mean 'damon_acma_new_scheme'? [-Werror=implicit-function-declaration]
+     314 |         err = damon_acma_set_scheme_quota(scheme, old,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               damon_acma_new_scheme
+   mm/damon/acma.c: In function 'damon_acma_new_scale_down_scheme':
+   mm/damon/acma.c:332:50: error: 'DAMOS_ALLOC' undeclared (first use in this function)
+     332 |         scheme = damon_acma_new_scheme(&pattern, DAMOS_ALLOC);
+         |                                                  ^~~~~~~~~~~
+   mm/damon/acma.c:342:15: error: 'struct damos' has no member named 'alloc_order'
+     342 |         scheme->alloc_order = scale_pg_order;
+         |               ^~
+   mm/damon/acma.c:343:15: error: 'struct damos' has no member named 'alloc_callback'
+     343 |         scheme->alloc_callback = damon_acma_alloc_callback;
+         |               ^~
+   mm/damon/acma.c:344:55: error: 'scale_down_scheme' undeclared (first use in this function)
+     344 |         err = damon_acma_set_scale_down_region_filter(scale_down_scheme);
+         |                                                       ^~~~~~~~~~~~~~~~~
+   mm/damon/acma.c: In function 'damon_acma_new_scale_up_scheme':
+>> mm/damon/acma.c:361:50: error: 'DAMOS_FREE' undeclared (first use in this function)
+     361 |         scheme = damon_acma_new_scheme(&pattern, DAMOS_FREE);
+         |                                                  ^~~~~~~~~~
+>> mm/damon/acma.c:364:51: error: 'old' undeclared (first use in this function); did you mean 'ihold'?
+     364 |         err = damon_acma_set_scheme_quota(scheme, old,
+         |                                                   ^~~
+         |                                                   ihold
+>> mm/damon/acma.c:365:25: error: 'DAMOS_QUOTA_SOME_MEM_PUSI_US' undeclared (first use in this function); did you mean 'DAMOS_QUOTA_SOME_MEM_PSI_US'?
+     365 |                         DAMOS_QUOTA_SOME_MEM_PUSI_US);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         DAMOS_QUOTA_SOME_MEM_PSI_US
+   mm/damon/acma.c:370:15: error: 'struct damos' has no member named 'alloc_order'
+     370 |         scheme->alloc_order = scale_pg_order;
+         |               ^~
+   mm/damon/acma.c:371:15: error: 'struct damos' has no member named 'alloc_callback'
+     371 |         scheme->alloc_callback = NULL;
+         |               ^~
+>> mm/damon/acma.c:372:53: error: 'scale_up_scheme' undeclared (first use in this function)
+     372 |         err = damon_acma_set_scale_up_region_filter(scale_up_scheme);
+         |                                                     ^~~~~~~~~~~~~~~
+   mm/damon/acma.c:374:38: error: 'scale_down_scheme' undeclared (first use in this function)
+     374 |                 damon_destroy_scheme(scale_down_scheme);
+         |                                      ^~~~~~~~~~~~~~~~~
+   mm/damon/acma.c: In function 'damon_acma_apply_parameters':
+>> mm/damon/acma.c:418:27: error: too many arguments to function 'damon_acma_new_scale_up_scheme'
+     418 |         scale_up_scheme = damon_acma_new_scale_up_scheme(old_scale_up_scheme);
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:355:22: note: declared here
+     355 | static struct damos *damon_acma_new_scale_up_scheme(void)
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:386:34: warning: unused variable 'goal' [-Wunused-variable]
+     386 |         struct damos_quota_goal *goal;
+         |                                  ^~~~
+   mm/damon/acma.c: In function 'damon_acma_after_aggregation':
+   mm/damon/acma.c:508:22: error: 'DAMOS_LRU_RECLAIM' undeclared (first use in this function); did you mean 'DAMOS_LRU_DEPRIO'?
+     508 |                 case DAMOS_LRU_RECLAIM:
+         |                      ^~~~~~~~~~~~~~~~~
+         |                      DAMOS_LRU_DEPRIO
+   mm/damon/acma.c:511:22: error: 'DAMOS_ALLOC' undeclared (first use in this function)
+     511 |                 case DAMOS_ALLOC:
+         |                      ^~~~~~~~~~~
+   mm/damon/acma.c:514:22: error: 'DAMOS_FREE' undeclared (first use in this function)
+     514 |                 case DAMOS_FREE:
+         |                      ^~~~~~~~~~
+   mm/damon/acma.c:524:12: error: invalid storage class for function 'damon_acma_after_wmarks_check'
+     524 | static int damon_acma_after_wmarks_check(struct damon_ctx *c)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/acma.c:529:19: error: invalid storage class for function 'damon_acma_init'
+     529 | static int __init damon_acma_init(void)
+         |                   ^~~~~~~~~~~~~~~
+   mm/damon/acma.c:546:13: error: initializer element is not constant
+     546 | module_init(damon_acma_init);
+         |             ^~~~~~~~~~~~~~~
+   include/linux/init.h:270:55: note: in definition of macro '____define_initcall'
+     270 |                 __attribute__((__section__(__sec))) = fn;
+         |                                                       ^~
+   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
+     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
+     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
+     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
+     316 | #define __initcall(fn) device_initcall(fn)
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
+      88 | #define module_init(x)  __initcall(x);
+         |                         ^~~~~~~~~~
+   mm/damon/acma.c:546:1: note: in expansion of macro 'module_init'
+     546 | module_init(damon_acma_init);
+         | ^~~~~~~~~~~
+   mm/damon/acma.c:546:1: error: expected declaration or statement at end of input
+   mm/damon/acma.c: In function 'damon_acma_new_scheme':
+   mm/damon/acma.c:191:1: warning: control reaches end of non-void function [-Wreturn-type]
+     191 | }
+         | ^
+   mm/damon/acma.c: At top level:
+   mm/damon/acma.c:193:13: warning: 'damon_acma_copy_quota_status' defined but not used [-Wunused-function]
+     193 | static void damon_acma_copy_quota_status(struct damos_quota *dst,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-  > 54	#include <linux/delay.h>
-    55	#include <linux/stop_machine.h>
-    56	#include <linux/random.h>
-    57	#include <linux/trace_events.h>
-    58	#include <linux/suspend.h>
-  > 59	#include <linux/delay.h>
-    60	#include <linux/gfp.h>
-    61	#include <linux/oom.h>
-    62	#include <linux/smpboot.h>
-    63	#include "../time/tick-internal.h"
-    64	
+
+vim +62 mm/damon/acma.c
+
+    56	
+    57	/*
+    58	 * Maximum amount of memory to be guaranteed to the system.  In other words,
+    59	 * the upper limit of the scaling.
+    60	 */
+    61	static unsigned long max_mem_kb __read_mostly;
+  > 62	module_param(max_mem, ulong, 0600);
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
