@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BD72E644
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 16:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AA717F360
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 16:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715704184; cv=none; b=GlACogJ+Cida7ILulZCMElZYkCD4PAxMYIcHsH2t7KDpcrRjDCPHjt0o+SQwgSwIgdu0Qw8koGzpl85bCCPtrHS6/4ziAY6mitc79pdIs8Lp6uy5niPf1aC0C4Xw6//2+hSLtLcUb4dieP6omc+PlFPeXkcbYBvaGtbo1Kac470=
+	t=1715704185; cv=none; b=qTEEnihjTUxCoARPZ8VlzyHPq14/RFmkXIIguMu+gJvUKD0dTBnU+Jeh8ska6X+8yAqOIU2/gVGQ/vnee9TAZp+oGMdqfP8JU7LPqq0SDGFQXLHPuCSA7zLHqyVBBnolTbl6A8b6I2v/XnnbhRgzZTwnnA7tOCZO4pn4QOaomXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715704184; c=relaxed/simple;
-	bh=vMA5VMnDhj3TpXxsHkdX/jFcuLcL95QlNAU8wwO88ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iVaaXmN8/AOzXUV2PMv+ATS09OcucCIkxsr4+EEBL3kTdVdTFNiFNN4FDPk/5jMiujNgbFjWkaq+P0SIZKx0UT+pJWhvMGf5i5gFkfD/L1wAxlKex5gQGGb0k5pH3QDZ3R2X4w7xL78hqVygJjeFg1pQs8bOX7+hAf09VyALWqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwJzjqCA; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1715704185; c=relaxed/simple;
+	bh=ZUtbBWgYRd0pANlIxZoHMSqXFkm9pcMBTd/oMd9ezVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bNqMkAOMNeJl6xA+O6FiPeMy8t4Tux+cCYe2hcpvW8gKR4l+tcgm89erDPWMnMiy7fAuvrAaEwqbekJbij/DImI9NNsv7oV2GeKmTI/VA49uiPwxmZQOVCCOB7HwvGMAs6sgjdNEDIcnwbReBTSEwYe31pwBff482RdbN3JloWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwWhV/LI; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwJzjqCA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwWhV/LI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715704182; x=1747240182;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vMA5VMnDhj3TpXxsHkdX/jFcuLcL95QlNAU8wwO88ts=;
-  b=OwJzjqCAeWLC9QYfG7p7Oc+ukKBKSNuVVJQqim4ZVrIM7gR8Q3CZh4AY
-   khz78sy1IS9j3oIyTHMZAZhCahHViUIEi/FN9YAbLeMYRaf4VpJk9KG6l
-   XNy98o4mMYWKsVhyiqj5r3KNWGkZsxvtlogzMz9GgfexOqvwkGX6tysvR
-   iUltHtFz19gbBx4YyNxPBGG5epHXH7QrKV+UprryVCUwutvY1BCK5lmzY
-   Kxe04E5rqX0DNswLk5nIixZE1Yy45lhsgq/bD2GQlLtwOC6xzSiG0dLIZ
-   hzSDm4docTFHRlUfo3AnADzB4tXZzW36WQyZuLEQDX7Ihf2fQUby04qqE
-   A==;
-X-CSE-ConnectionGUID: RiPX8Vl5TseP23jkD4SCWg==
-X-CSE-MsgGUID: 0rswDGEURcCM0slD26U/OQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11867837"
+  t=1715704184; x=1747240184;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZUtbBWgYRd0pANlIxZoHMSqXFkm9pcMBTd/oMd9ezVw=;
+  b=DwWhV/LI1MUkeWmiRlKcfj+5SqMAeKLj29mOXDUmJ6xeKYR350f/oN30
+   4gn6UsiGHuXLCC60dWOL5NN0X/So8wgtoslmHD5bmQuFQ3aM0LhKzDu28
+   XAXdHicozZ/664iIviESGoLFMCVrUFuooYR3loZoLIcp5rn7dG/1EuMQV
+   oa552HI6xHSTKLG1GUOn6TJ1JTGI2gBSHdl/0EuOxITW5DkdpXHOUfS7l
+   HRSSBWOEmUDoRBgFyGPGciBufdeWpNuP45jgqDNK0eNgEBwk+CTAX+tFj
+   5tEakh27KlHqLsE0VoJw/LgQ/de4lky5iqccxXBZWoZix9KaxPYqO1gd4
+   w==;
+X-CSE-ConnectionGUID: AQLkN5MYT1irailsmByrXQ==
+X-CSE-MsgGUID: DrSU2FFZTxW2o0be5kcGJw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="15537509"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="11867837"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 09:29:41 -0700
-X-CSE-ConnectionGUID: Ul6z81wZQp+lTZnoI6sCMQ==
-X-CSE-MsgGUID: vVOynYduQXaZ0dmswUPNbg==
+   d="scan'208";a="15537509"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 09:29:43 -0700
+X-CSE-ConnectionGUID: KhRgxgDvQx+xfZT4IMviVg==
+X-CSE-MsgGUID: ZKfdsTKPScagGKYhwbTIxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="35272365"
+   d="scan'208";a="61560966"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 May 2024 09:29:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 May 2024 09:29:40 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6v21-000BcH-3B;
+	id 1s6v21-000BcF-2z;
 	Tue, 14 May 2024 16:29:37 +0000
-Date: Wed, 15 May 2024 00:29:03 +0800
+Date: Wed, 15 May 2024 00:29:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Goldwyn Rodrigues <rgoldwyn@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [goldwynr:iomap.1 20/21] fs/btrfs/file.c:1380:58: error: 'num_pages'
- undeclared; did you mean 'dir_pages'?
-Message-ID: <202405150032.3cTJYo8h-lkp@intel.com>
+To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Adam Young <admiyo@os.amperecomputing.com>
+Subject: Re: [PATCH 1/3] mctp pcc: Implement MCTP over PCC Transport
+Message-ID: <202405150032.NpUqkzOG-lkp@intel.com>
+References: <20240513173546.679061-2-admiyo@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,211 +68,254 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240513173546.679061-2-admiyo@os.amperecomputing.com>
 
-tree:   https://github.com/goldwynr/linux iomap.1
-head:   18dabc17c9eeef85c6c8addf9fec377cfa3d685c
-commit: 45eacf0a5df755882983e869171c18304be7dbfd [20/21] btrfs: carve out btrfs_buffered_iomap_begin from write path
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240515/202405150032.3cTJYo8h-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405150032.3cTJYo8h-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.9 next-20240514]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Implement-MCTP-over-PCC-Transport/20240514-013734
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240513173546.679061-2-admiyo%40os.amperecomputing.com
+patch subject: [PATCH 1/3] mctp pcc: Implement MCTP over PCC Transport
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240515/202405150032.NpUqkzOG-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405150032.NpUqkzOG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405150032.3cTJYo8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405150032.NpUqkzOG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/btrfs/file.c: In function 'btrfs_buffered_write':
->> fs/btrfs/file.c:1380:58: error: 'num_pages' undeclared (first use in this function); did you mean 'dir_pages'?
-    1380 |                         btrfs_drop_pages(fs_info, pages, num_pages, pos, copied);
-         |                                                          ^~~~~~~~~
-         |                                                          dir_pages
-   fs/btrfs/file.c:1380:58: note: each undeclared identifier is reported only once for each function it appears in
-   fs/btrfs/file.c: At top level:
->> fs/btrfs/file.c:932:21: warning: 'prepare_pages' defined but not used [-Wunused-function]
-     932 | static noinline int prepare_pages(struct inode *inode, struct page **pages,
-         |                     ^~~~~~~~~~~~~
+   In file included from drivers/net/mctp/mctp-pcc.c:17:
+   include/acpi/acpi_drivers.h:72:43: warning: 'struct acpi_pci_root' declared inside parameter list will not be visible outside of this definition or declaration
+      72 | struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root);
+         |                                           ^~~~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c: In function 'mctp_pcc_client_rx_callback':
+   drivers/net/mctp/mctp-pcc.c:96:23: warning: variable 'buf_ptr_val' set but not used [-Wunused-but-set-variable]
+      96 |         unsigned long buf_ptr_val;
+         |                       ^~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c: In function 'mctp_pcc_tx':
+   drivers/net/mctp/mctp-pcc.c:122:24: warning: variable 'buffer' set but not used [-Wunused-but-set-variable]
+     122 |         unsigned char *buffer;
+         |                        ^~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from drivers/net/mctp/mctp-pcc.c:7:
+   drivers/net/mctp/mctp-pcc.c: In function 'mctp_pcc_driver_add':
+>> drivers/net/mctp/mctp-pcc.c:287:23: error: invalid use of undefined type 'struct acpi_device'
+     287 |         dev_info(&adev->dev, "Adding mctp_pcc device for HID  %s\n", acpi_device_hid(adev));
+         |                       ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/net/mctp/mctp-pcc.c:287:9: note: in expansion of macro 'dev_info'
+     287 |         dev_info(&adev->dev, "Adding mctp_pcc device for HID  %s\n", acpi_device_hid(adev));
+         |         ^~~~~~~~
+>> drivers/net/mctp/mctp-pcc.c:287:70: error: implicit declaration of function 'acpi_device_hid'; did you mean 'acpi_device_dep'? [-Werror=implicit-function-declaration]
+     287 |         dev_info(&adev->dev, "Adding mctp_pcc device for HID  %s\n", acpi_device_hid(adev));
+         |                                                                      ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c:287:9: note: in expansion of macro 'dev_info'
+     287 |         dev_info(&adev->dev, "Adding mctp_pcc device for HID  %s\n", acpi_device_hid(adev));
+         |         ^~~~~~~~
+>> drivers/net/mctp/mctp-pcc.c:288:22: error: implicit declaration of function 'acpi_device_handle'; did you mean 'acpi_device_dep'? [-Werror=implicit-function-declaration]
+     288 |         dev_handle = acpi_device_handle(adev);
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      acpi_device_dep
+   drivers/net/mctp/mctp-pcc.c:288:20: warning: assignment to 'acpi_handle' {aka 'void *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     288 |         dev_handle = acpi_device_handle(adev);
+         |                    ^
+   drivers/net/mctp/mctp-pcc.c:293:58: error: invalid use of undefined type 'struct acpi_device'
+     293 |                 return create_mctp_pcc_netdev(adev, &adev->dev, inbox_index, outbox_index);
+         |                                                          ^~
+   drivers/net/mctp/mctp-pcc.c:295:22: error: invalid use of undefined type 'struct acpi_device'
+     295 |         dev_err(&adev->dev, "FAILURE to lookup PCC indexes from CRS");
+         |                      ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/net/mctp/mctp-pcc.c:295:9: note: in expansion of macro 'dev_err'
+     295 |         dev_err(&adev->dev, "FAILURE to lookup PCC indexes from CRS");
+         |         ^~~~~~~
+   drivers/net/mctp/mctp-pcc.c: At top level:
+>> drivers/net/mctp/mctp-pcc.c:329:15: error: variable 'mctp_pcc_driver' has initializer but incomplete type
+     329 | static struct acpi_driver mctp_pcc_driver = {
+         |               ^~~~~~~~~~~
+>> drivers/net/mctp/mctp-pcc.c:330:10: error: 'struct acpi_driver' has no member named 'name'
+     330 |         .name = "mctp_pcc",
+         |          ^~~~
+   drivers/net/mctp/mctp-pcc.c:330:17: warning: excess elements in struct initializer
+     330 |         .name = "mctp_pcc",
+         |                 ^~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c:330:17: note: (near initialization for 'mctp_pcc_driver')
+>> drivers/net/mctp/mctp-pcc.c:331:10: error: 'struct acpi_driver' has no member named 'class'
+     331 |         .class = "Unknown",
+         |          ^~~~~
+   drivers/net/mctp/mctp-pcc.c:331:18: warning: excess elements in struct initializer
+     331 |         .class = "Unknown",
+         |                  ^~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c:331:18: note: (near initialization for 'mctp_pcc_driver')
+>> drivers/net/mctp/mctp-pcc.c:332:10: error: 'struct acpi_driver' has no member named 'ids'
+     332 |         .ids = mctp_pcc_device_ids,
+         |          ^~~
+   drivers/net/mctp/mctp-pcc.c:332:16: warning: excess elements in struct initializer
+     332 |         .ids = mctp_pcc_device_ids,
+         |                ^~~~~~~~~~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c:332:16: note: (near initialization for 'mctp_pcc_driver')
+>> drivers/net/mctp/mctp-pcc.c:333:10: error: 'struct acpi_driver' has no member named 'ops'
+     333 |         .ops = {
+         |          ^~~
+>> drivers/net/mctp/mctp-pcc.c:333:16: error: extra brace group at end of initializer
+     333 |         .ops = {
+         |                ^
+   drivers/net/mctp/mctp-pcc.c:333:16: note: (near initialization for 'mctp_pcc_driver')
+   drivers/net/mctp/mctp-pcc.c:333:16: warning: excess elements in struct initializer
+   drivers/net/mctp/mctp-pcc.c:333:16: note: (near initialization for 'mctp_pcc_driver')
+>> drivers/net/mctp/mctp-pcc.c:338:10: error: 'struct acpi_driver' has no member named 'owner'
+     338 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/alpha/include/asm/bug.h:23,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/alpha/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13:
+   include/linux/init.h:182:21: warning: excess elements in struct initializer
+     182 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   drivers/net/mctp/mctp-pcc.c:338:18: note: in expansion of macro 'THIS_MODULE'
+     338 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:182:21: note: (near initialization for 'mctp_pcc_driver')
+     182 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   drivers/net/mctp/mctp-pcc.c:338:18: note: in expansion of macro 'THIS_MODULE'
+     338 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c: In function 'mctp_pcc_mod_init':
+>> drivers/net/mctp/mctp-pcc.c:348:14: error: implicit declaration of function 'acpi_bus_register_driver' [-Werror=implicit-function-declaration]
+     348 |         rc = acpi_bus_register_driver(&mctp_pcc_driver);
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c:350:80: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     350 |                 ACPI_DEBUG_PRINT((ACPI_DB_ERROR, "Error registering driver\n"));
+         |                                                                                ^
+   drivers/net/mctp/mctp-pcc.c: In function 'mctp_pcc_mod_exit':
+>> drivers/net/mctp/mctp-pcc.c:358:9: error: implicit declaration of function 'acpi_bus_unregister_driver'; did you mean 'platform_unregister_drivers'? [-Werror=implicit-function-declaration]
+     358 |         acpi_bus_unregister_driver(&mctp_pcc_driver);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         platform_unregister_drivers
+   drivers/net/mctp/mctp-pcc.c: At top level:
+>> drivers/net/mctp/mctp-pcc.c:329:27: error: storage size of 'mctp_pcc_driver' isn't known
+     329 | static struct acpi_driver mctp_pcc_driver = {
+         |                           ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1380 fs/btrfs/file.c
+vim +287 drivers/net/mctp/mctp-pcc.c
 
-45eacf0a5df755 Goldwyn Rodrigues  2024-05-10  1253  
-e4af400a9c5081 Goldwyn Rodrigues  2018-06-17  1254  static noinline ssize_t btrfs_buffered_write(struct kiocb *iocb,
-e4af400a9c5081 Goldwyn Rodrigues  2018-06-17  1255  					       struct iov_iter *i)
-39279cc3d2704c Chris Mason        2007-06-12  1256  {
-e4af400a9c5081 Goldwyn Rodrigues  2018-06-17  1257  	struct file *file = iocb->ki_filp;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1258  	loff_t pos;
-496ad9aa8ef448 Al Viro            2013-01-23  1259  	struct inode *inode = file_inode(file);
-41044b41ad2c8c David Sterba       2023-09-14  1260  	struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
-11c65dccf70be9 Josef Bacik        2010-05-23  1261  	struct page **pages = NULL;
-7ee9e4405f264e Josef Bacik        2013-06-21  1262  	u64 release_bytes = 0;
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1263  	size_t num_written = 0;
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1264  	int nrptrs;
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1265  	int ret;
-5e8b9ef30392bb Goldwyn Rodrigues  2020-09-24  1266  	loff_t old_isize = i_size_read(inode);
-c352370633400d Goldwyn Rodrigues  2020-09-24  1267  	unsigned int ilock_flags = 0;
-304e45acdb8f68 Stefan Roesch      2022-09-12  1268  	const bool nowait = (iocb->ki_flags & IOCB_NOWAIT);
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1269  	struct btrfs_iomap *bi = NULL;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1270  
-304e45acdb8f68 Stefan Roesch      2022-09-12  1271  	if (nowait)
-c352370633400d Goldwyn Rodrigues  2020-09-24  1272  		ilock_flags |= BTRFS_ILOCK_TRY;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1273  
-29b6352b1494bd David Sterba       2022-10-27  1274  	ret = btrfs_inode_lock(BTRFS_I(inode), ilock_flags);
-c352370633400d Goldwyn Rodrigues  2020-09-24  1275  	if (ret < 0)
-c352370633400d Goldwyn Rodrigues  2020-09-24  1276  		return ret;
-4b46fce23349bf Josef Bacik        2010-05-23  1277  
-c352370633400d Goldwyn Rodrigues  2020-09-24  1278  	ret = generic_write_checks(iocb, i);
-c352370633400d Goldwyn Rodrigues  2020-09-24  1279  	if (ret <= 0)
-c352370633400d Goldwyn Rodrigues  2020-09-24  1280  		goto out;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1281  
-c352370633400d Goldwyn Rodrigues  2020-09-24  1282  	ret = btrfs_write_check(iocb, i, ret);
-c352370633400d Goldwyn Rodrigues  2020-09-24  1283  	if (ret < 0)
-c352370633400d Goldwyn Rodrigues  2020-09-24  1284  		goto out;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1285  
-c352370633400d Goldwyn Rodrigues  2020-09-24  1286  	pos = iocb->ki_pos;
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1287  	nrptrs = min(DIV_ROUND_UP(iov_iter_count(i), PAGE_SIZE),
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1288  			PAGE_SIZE / (sizeof(struct page *)));
-142349f541d0bb Wu Fengguang       2011-12-16  1289  	nrptrs = min(nrptrs, current->nr_dirtied_pause - current->nr_dirtied);
-142349f541d0bb Wu Fengguang       2011-12-16  1290  	nrptrs = max(nrptrs, 8);
-31e818fe7375d6 David Sterba       2015-02-20  1291  	pages = kmalloc_array(nrptrs, sizeof(struct page *), GFP_KERNEL);
-c352370633400d Goldwyn Rodrigues  2020-09-24  1292  	if (!pages) {
-c352370633400d Goldwyn Rodrigues  2020-09-24  1293  		ret = -ENOMEM;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1294  		goto out;
-c352370633400d Goldwyn Rodrigues  2020-09-24  1295  	}
-ab93dbecfba72b Chris Mason        2009-10-01  1296  
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1297  	bi = kzalloc(sizeof(struct btrfs_iomap), GFP_NOFS);
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1298  	if (!bi) {
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1299  		ret = -ENOMEM;
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1300  		goto out;
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1301  	}
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1302  
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1303  	while (iov_iter_count(i) > 0) {
-7073017aeb98db Johannes Thumshirn 2018-12-05  1304  		size_t offset = offset_in_page(pos);
-45eacf0a5df755 Goldwyn Rodrigues  2024-05-10  1305  		size_t sector_offset = pos & (fs_info->sectorsize - 1);
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1306  		size_t write_bytes = min(iov_iter_count(i),
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1307  					 nrptrs * (size_t)PAGE_SIZE -
-8c2383c3dd2cb5 Chris Mason        2007-06-18  1308  					 offset);
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1309  		size_t dirty_pages;
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1310  		size_t copied;
-2e78c927d79333 Chandan Rajendra   2016-01-21  1311  		size_t dirty_sectors;
-2e78c927d79333 Chandan Rajendra   2016-01-21  1312  		size_t num_sectors;
-39279cc3d2704c Chris Mason        2007-06-12  1313  
-45eacf0a5df755 Goldwyn Rodrigues  2024-05-10  1314  		ret = btrfs_buffered_iomap_begin(inode, pos, write_bytes, bi);
-45eacf0a5df755 Goldwyn Rodrigues  2024-05-10  1315  		if (ret < 0)
-45eacf0a5df755 Goldwyn Rodrigues  2024-05-10  1316  			goto out;
-376cc685cb3b43 Miao Xie           2013-12-10  1317  
-ee22f0c4ec428e Zhao Lei           2016-01-06  1318  		copied = btrfs_copy_from_user(pos, write_bytes, pages, i);
-b1bf862e9dad43 Chris Mason        2011-02-28  1319  
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1320  		num_sectors = BTRFS_BYTES_TO_BLKS(fs_info, bi->reserved_bytes);
-56244ef151c3cd Chris Mason        2016-05-16  1321  		dirty_sectors = round_up(copied + sector_offset,
-0b246afa62b0cf Jeff Mahoney       2016-06-22  1322  					fs_info->sectorsize);
-0b246afa62b0cf Jeff Mahoney       2016-06-22  1323  		dirty_sectors = BTRFS_BYTES_TO_BLKS(fs_info, dirty_sectors);
-56244ef151c3cd Chris Mason        2016-05-16  1324  
-b1bf862e9dad43 Chris Mason        2011-02-28  1325  		/*
-b1bf862e9dad43 Chris Mason        2011-02-28  1326  		 * if we have trouble faulting in the pages, fall
-b1bf862e9dad43 Chris Mason        2011-02-28  1327  		 * back to one page at a time
-b1bf862e9dad43 Chris Mason        2011-02-28  1328  		 */
-b1bf862e9dad43 Chris Mason        2011-02-28  1329  		if (copied < write_bytes)
-b1bf862e9dad43 Chris Mason        2011-02-28  1330  			nrptrs = 1;
-b1bf862e9dad43 Chris Mason        2011-02-28  1331  
-b6316429af7f36 Josef Bacik        2011-09-30  1332  		if (copied == 0) {
-56244ef151c3cd Chris Mason        2016-05-16  1333  			dirty_sectors = 0;
-b1bf862e9dad43 Chris Mason        2011-02-28  1334  			dirty_pages = 0;
-b6316429af7f36 Josef Bacik        2011-09-30  1335  		} else {
-ed6078f70335f1 David Sterba       2014-06-05  1336  			dirty_pages = DIV_ROUND_UP(copied + offset,
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1337  						   PAGE_SIZE);
-b6316429af7f36 Josef Bacik        2011-09-30  1338  		}
-914ee295af418e Xin Zhong          2010-12-09  1339  
-2e78c927d79333 Chandan Rajendra   2016-01-21  1340  		if (num_sectors > dirty_sectors) {
-8b8b08cbfb9021 Chris Mason        2016-07-19  1341  			/* release everything except the sectors we dirtied */
-265fdfa6ce0a79 David Sterba       2020-07-01  1342  			release_bytes -= dirty_sectors << fs_info->sectorsize_bits;
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1343  			if (bi->metadata_only) {
-691fa059673b3b Nikolay Borisov    2017-02-20  1344  				btrfs_delalloc_release_metadata(BTRFS_I(inode),
-43b18595d6603c Qu Wenruo          2017-12-12  1345  							release_bytes, true);
-485290a734f142 Qu Wenruo          2015-10-29  1346  			} else {
-485290a734f142 Qu Wenruo          2015-10-29  1347  				u64 __pos;
-485290a734f142 Qu Wenruo          2015-10-29  1348  
-da17066c40472c Jeff Mahoney       2016-06-15  1349  				__pos = round_down(pos,
-0b246afa62b0cf Jeff Mahoney       2016-06-22  1350  						   fs_info->sectorsize) +
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1351  					(dirty_pages << PAGE_SHIFT);
-86d52921a2ba51 Nikolay Borisov    2020-06-03  1352  				btrfs_delalloc_release_space(BTRFS_I(inode),
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1353  						bi->data_reserved, __pos,
-43b18595d6603c Qu Wenruo          2017-12-12  1354  						release_bytes, true);
-914ee295af418e Xin Zhong          2010-12-09  1355  			}
-485290a734f142 Qu Wenruo          2015-10-29  1356  		}
-914ee295af418e Xin Zhong          2010-12-09  1357  
-2e78c927d79333 Chandan Rajendra   2016-01-21  1358  		release_bytes = round_up(copied + sector_offset,
-0b246afa62b0cf Jeff Mahoney       2016-06-22  1359  					fs_info->sectorsize);
-376cc685cb3b43 Miao Xie           2013-12-10  1360  
-088545f6e44260 Nikolay Borisov    2020-06-03  1361  		ret = btrfs_dirty_pages(BTRFS_I(inode), pages,
-088545f6e44260 Nikolay Borisov    2020-06-03  1362  					dirty_pages, pos, copied,
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1363  					&bi->cached_state, bi->metadata_only);
-c67d970f0ea8dc Filipe Manana      2019-09-30  1364  
-c67d970f0ea8dc Filipe Manana      2019-09-30  1365  		/*
-c67d970f0ea8dc Filipe Manana      2019-09-30  1366  		 * If we have not locked the extent range, because the range's
-c67d970f0ea8dc Filipe Manana      2019-09-30  1367  		 * start offset is >= i_size, we might still have a non-NULL
-c67d970f0ea8dc Filipe Manana      2019-09-30  1368  		 * cached extent state, acquired while marking the extent range
-c67d970f0ea8dc Filipe Manana      2019-09-30  1369  		 * as delalloc through btrfs_dirty_pages(). Therefore free any
-c67d970f0ea8dc Filipe Manana      2019-09-30  1370  		 * possible cached extent state to avoid a memory leak.
-c67d970f0ea8dc Filipe Manana      2019-09-30  1371  		 */
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1372  		if (bi->extents_locked)
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1373  			unlock_extent(&BTRFS_I(inode)->io_tree, bi->lockstart,
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1374  				      bi->lockend, &bi->cached_state);
-c67d970f0ea8dc Filipe Manana      2019-09-30  1375  		else
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1376  			free_extent_state(bi->cached_state);
-c67d970f0ea8dc Filipe Manana      2019-09-30  1377  
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1378  		btrfs_delalloc_release_extents(BTRFS_I(inode), bi->reserved_bytes);
-f1de968376340c Miao Xie           2014-01-09  1379  		if (ret) {
-e4f9434749d85a Qu Wenruo          2021-09-27 @1380  			btrfs_drop_pages(fs_info, pages, num_pages, pos, copied);
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1381  			break;
-f1de968376340c Miao Xie           2014-01-09  1382  		}
-39279cc3d2704c Chris Mason        2007-06-12  1383  
-7ee9e4405f264e Josef Bacik        2013-06-21  1384  		release_bytes = 0;
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1385  		if (bi->metadata_only)
-38d37aa9c32938 Qu Wenruo          2020-06-24  1386  			btrfs_check_nocow_unlock(BTRFS_I(inode));
-8257b2dc3c1a10 Miao Xie           2014-03-06  1387  
-e4f9434749d85a Qu Wenruo          2021-09-27  1388  		btrfs_drop_pages(fs_info, pages, num_pages, pos, copied);
-f1de968376340c Miao Xie           2014-01-09  1389  
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1390  		cond_resched();
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1391  
-914ee295af418e Xin Zhong          2010-12-09  1392  		pos += copied;
-914ee295af418e Xin Zhong          2010-12-09  1393  		num_written += copied;
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1394  	}
-39279cc3d2704c Chris Mason        2007-06-12  1395  
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1396  	kfree(pages);
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1397  
-7ee9e4405f264e Josef Bacik        2013-06-21  1398  	if (release_bytes) {
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1399  		if (bi->metadata_only) {
-38d37aa9c32938 Qu Wenruo          2020-06-24  1400  			btrfs_check_nocow_unlock(BTRFS_I(inode));
-691fa059673b3b Nikolay Borisov    2017-02-20  1401  			btrfs_delalloc_release_metadata(BTRFS_I(inode),
-43b18595d6603c Qu Wenruo          2017-12-12  1402  					release_bytes, true);
-8257b2dc3c1a10 Miao Xie           2014-03-06  1403  		} else {
-86d52921a2ba51 Nikolay Borisov    2020-06-03  1404  			btrfs_delalloc_release_space(BTRFS_I(inode),
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1405  					bi->data_reserved,
-0b246afa62b0cf Jeff Mahoney       2016-06-22  1406  					round_down(pos, fs_info->sectorsize),
-43b18595d6603c Qu Wenruo          2017-12-12  1407  					release_bytes, true);
-7ee9e4405f264e Josef Bacik        2013-06-21  1408  		}
-8257b2dc3c1a10 Miao Xie           2014-03-06  1409  	}
-7ee9e4405f264e Josef Bacik        2013-06-21  1410  
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1411  	extent_changeset_free(bi->data_reserved);
-2c0968f203d8e3 Goldwyn Rodrigues  2020-10-02  1412  	kfree(bi);
-5e8b9ef30392bb Goldwyn Rodrigues  2020-09-24  1413  	if (num_written > 0) {
-5e8b9ef30392bb Goldwyn Rodrigues  2020-09-24  1414  		pagecache_isize_extended(inode, old_isize, iocb->ki_pos);
-5e8b9ef30392bb Goldwyn Rodrigues  2020-09-24  1415  		iocb->ki_pos += num_written;
-5e8b9ef30392bb Goldwyn Rodrigues  2020-09-24  1416  	}
-c352370633400d Goldwyn Rodrigues  2020-09-24  1417  out:
-c76b47a7f03831 Goldwyn Rodrigues  2023-01-24  1418  	kfree(bi);
-e5d4d75bd3241d David Sterba       2022-10-27  1419  	btrfs_inode_unlock(BTRFS_I(inode), ilock_flags);
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1420  	return num_written ? num_written : ret;
-39279cc3d2704c Chris Mason        2007-06-12  1421  }
-d0215f3e5ebb58 Josef Bacik        2011-01-25  1422  
-
-:::::: The code at line 1380 was first introduced by commit
-:::::: e4f9434749d85aa99e7e58edce2e003951d8e8e1 btrfs: subpage: add bitmap for PageChecked flag
-
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+   278	
+   279	static int mctp_pcc_driver_add(struct acpi_device *adev)
+   280	{
+   281		int inbox_index;
+   282		int outbox_index;
+   283		acpi_handle dev_handle;
+   284		acpi_status status;
+   285		struct lookup_context context = {0, 0, 0};
+   286	
+ > 287		dev_info(&adev->dev, "Adding mctp_pcc device for HID  %s\n", acpi_device_hid(adev));
+ > 288		dev_handle = acpi_device_handle(adev);
+   289		status = acpi_walk_resources(dev_handle, "_CRS", lookup_pcct_indices, &context);
+   290		if (ACPI_SUCCESS(status)) {
+   291			inbox_index = context.inbox_index;
+   292			outbox_index = context.outbox_index;
+   293			return create_mctp_pcc_netdev(adev, &adev->dev, inbox_index, outbox_index);
+   294		}
+   295		dev_err(&adev->dev, "FAILURE to lookup PCC indexes from CRS");
+   296		return -EINVAL;
+   297	};
+   298	
+   299	/* pass in adev=NULL to remove all devices
+   300	 */
+   301	static void mctp_pcc_driver_remove(struct acpi_device *adev)
+   302	{
+   303		struct mctp_pcc_ndev *mctp_pcc_dev = NULL;
+   304		struct list_head *ptr;
+   305		struct list_head *tmp;
+   306	
+   307		list_for_each_safe(ptr, tmp, &mctp_pcc_ndevs) {
+   308			mctp_pcc_dev = list_entry(ptr, struct mctp_pcc_ndev, head);
+   309			if (!adev || mctp_pcc_dev->acpi_device == adev) {
+   310				struct net_device *ndev;
+   311	
+   312				mctp_pcc_dev->cleanup_channel(mctp_pcc_dev->out_chan);
+   313				mctp_pcc_dev->cleanup_channel(mctp_pcc_dev->in_chan);
+   314				ndev = mctp_pcc_dev->mdev.dev;
+   315				if (ndev)
+   316					mctp_unregister_netdev(ndev);
+   317				list_del(ptr);
+   318				if (adev)
+   319					break;
+   320			}
+   321		}
+   322	};
+   323	
+   324	static const struct acpi_device_id mctp_pcc_device_ids[] = {
+   325		{ "DMT0001", 0},
+   326		{ "", 0},
+   327	};
+   328	
+ > 329	static struct acpi_driver mctp_pcc_driver = {
+ > 330		.name = "mctp_pcc",
+ > 331		.class = "Unknown",
+ > 332		.ids = mctp_pcc_device_ids,
+ > 333		.ops = {
+   334			.add = mctp_pcc_driver_add,
+   335			.remove = mctp_pcc_driver_remove,
+   336			.notify = NULL,
+   337		},
+ > 338		.owner = THIS_MODULE,
+   339	
+   340	};
+   341	
+   342	static int __init mctp_pcc_mod_init(void)
+   343	{
+   344		int rc;
+   345	
+   346		pr_info("initializing MCTP over PCC\n");
+   347		INIT_LIST_HEAD(&mctp_pcc_ndevs);
+ > 348		rc = acpi_bus_register_driver(&mctp_pcc_driver);
+   349		if (rc < 0)
+   350			ACPI_DEBUG_PRINT((ACPI_DB_ERROR, "Error registering driver\n"));
+   351		return rc;
+   352	}
+   353	
+   354	static __exit void mctp_pcc_mod_exit(void)
+   355	{
+   356		pr_info("Removing MCTP over PCC transport driver\n");
+   357		mctp_pcc_driver_remove(NULL);
+ > 358		acpi_bus_unregister_driver(&mctp_pcc_driver);
+   359	}
+   360	
 
 -- 
 0-DAY CI Kernel Test Service
