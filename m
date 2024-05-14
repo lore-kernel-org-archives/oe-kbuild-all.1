@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A106610795
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 07:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13BD1D55D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 May 2024 07:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715670628; cv=none; b=l8Y0WBPD4kzB/A8MwSVCWT80GgVlSCCbok4ONO79REGd+s+0uRObQZfUBx11H7QBWVHL5U0MkzfJHOZz5dQjKbCNhKV3d705aikxdps2M8CaQJ4ZUwlWIqoe+f4iUSh4bAOYbMbXbb1AZOB39kTmrS42vDNyjsWmPOjLXZmKCmI=
+	t=1715673270; cv=none; b=fR5FOMYJl9la0Z43t+VMdHI49qntOrqz8GEQtAy+F4ovwnezwwDsT+FKFShB+2w9ok75b7IYx69mpmEW3vzdsoySwDpFOu4M0g/IgAp+EHjUdhl1aQ+FMmD2iPim8dRQtLdvjsn5BM+R6eys+h3ks6H94HklqfO6zqP/wFeubbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715670628; c=relaxed/simple;
-	bh=zdNUasxvJx2ymttYyTXszLP8zbd0eSQT87cFGXnRuu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EwT77IXJcw2rhdoLbNaxToBNk4jKdgNr2pIlbZMbxAmQ48mf5ZSvC7m/yzgdMF+twHUISf4kWmsN6PV16wOPK7jdN3WlWGyPFpgSeqawai/9Vi5kXEg0DXjGTyGLO1bAx+RV/iTjw08zUVFZmFZ7gToLi3oP8ispc4ZdVpAG9a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2FTA2Ds; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1715673270; c=relaxed/simple;
+	bh=nFV9P5PmqwN0LGDD4wRoEcVA8c0CeiBOf5pQ4B6h+wA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uT6BdJl+z4Q8eVnaYeBXqBm/mKP/XzxK99TtG6WbSjgkTijkoBpo8cHpyH7LKGtYC9oILzBQju2GetMadd6XisUU/WahOqUx0fVMh75lhuEpGms3lKLJNNgG52Uaq74/1A8FejQIwfd9Ilqx1JtncHE0O2aS5alkOMDwloMkpo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H+fk/F58; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2FTA2Ds"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H+fk/F58"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715670627; x=1747206627;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zdNUasxvJx2ymttYyTXszLP8zbd0eSQT87cFGXnRuu8=;
-  b=C2FTA2DsCTC+EfeHkrpwCwWQqC/yLmlUN4Hi3MIG0/tb4pU11A+iW9dZ
-   4BttdP28dJlFcHGaLILBnNbBW+m5QgsRMHRknQLfwLcsMm9w4TFzsofY5
-   4MareU1u0QvNrw/fdyuQ+qGmvX4Qgf9tH3JFea9h7KmwDALRQPs5SsT0g
-   VOerXv86n+sK+zGbNHqDS7jcyNnt6p5h8JC/I+kNTJNihtizhJg8etRf9
-   TblV858V3B2O7jQXYAUz3w6gKC83dt26Dw4+ZdQAgdT9rueYs3qIYKFdc
-   A7i1C2D64fjpWe2zMV3A17W7OlvtIBkWefk5z02dNwz0A/dpAc0nEKBvw
-   A==;
-X-CSE-ConnectionGUID: mfm5R40mTaCGiQGSTR6WMA==
-X-CSE-MsgGUID: 8k8nqjx2Rk23rRjB2WGGgw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="23039887"
+  t=1715673269; x=1747209269;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nFV9P5PmqwN0LGDD4wRoEcVA8c0CeiBOf5pQ4B6h+wA=;
+  b=H+fk/F58TwVFwvFyf3b2YMEyk+DHNxTSoikaTaDwekFYyEya4hIwtNjP
+   NDEHjzOKLGGYSf1bVm2BMD5zfoIb/PgIWBMm8FVbDpRHatoaPb+q6iWdH
+   EWf4/KPSLfx6Z1Ul906opaPUG+rQIRYvW2x92zc+3fJjw/4CeqEwNja73
+   E+i2wAA1km7Hi1THpZSE5pnajb2oNL554dMi5hB6shIwIRV5DHCsIUwhP
+   WMMDvJvMLthVKiOSMRRuySbEPPc4HbTezNhA+pqItgxJ+BY9+ghVgN5eT
+   VHe9VL7BAG8BTNBHisrRFCWzZ5f10TU4ZHv6cEtM7idV1dm2WZjYVojLN
+   Q==;
+X-CSE-ConnectionGUID: PHxAU2sRSGC83tnP15lKmA==
+X-CSE-MsgGUID: kImk+kIoRLqPwmh+b7wsHw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11771737"
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="23039887"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 00:10:26 -0700
-X-CSE-ConnectionGUID: yByfDjycSuy9TW0L2BpcbA==
-X-CSE-MsgGUID: zGLPV32cQqC5arFh/tkN2w==
+   d="scan'208";a="11771737"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 00:54:28 -0700
+X-CSE-ConnectionGUID: KrxyDT2JQMeQKpLGyLi0UA==
+X-CSE-MsgGUID: Gtn2NvRDTdSWzRtRa4kASQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
-   d="scan'208";a="30540229"
+   d="scan'208";a="30615008"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 May 2024 00:10:24 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 14 May 2024 00:54:26 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6mIn-000BDb-2l;
-	Tue, 14 May 2024 07:10:21 +0000
-Date: Tue, 14 May 2024 15:09:30 +0800
+	id 1s6mzQ-000BGH-1q;
+	Tue, 14 May 2024 07:54:24 +0000
+Date: Tue, 14 May 2024 15:53:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Genoud <richard.genoud@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Esteban Blanc <eblanc@baylibre.com>,
-	linux-rtc@vger.kernel.org, Lee Jones <lee@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: Re: [PATCH] rtc: tps6594: Add power management support
-Message-ID: <202405141408.o5jSp8nU-lkp@intel.com>
-References: <20240513162942.68484-1-richard.genoud@bootlin.com>
+To: Richard Gobert <richardbgobert@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Willem de Bruijn <willemb@google.com>
+Subject: [net-next:main 13/66] include/linux/compiler_types.h:460:45: error:
+ call to '__compiletime_assert_654' declared with attribute error:
+ BUILD_BUG_ON failed: !IS_ALIGNED(offsetof(struct napi_gro_cb, zeroed),
+ sizeof(u32))
+Message-ID: <202405141504.J6WdljEp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,85 +65,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240513162942.68484-1-richard.genoud@bootlin.com>
 
-Hi Richard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.9 next-20240513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/rtc-tps6594-Add-power-management-support/20240514-003053
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20240513162942.68484-1-richard.genoud%40bootlin.com
-patch subject: [PATCH] rtc: tps6594: Add power management support
-config: sparc-randconfig-r081-20240514 (https://download.01.org/0day-ci/archive/20240514/202405141408.o5jSp8nU-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141408.o5jSp8nU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+head:   5c1672705a1a2389f5ad78e0fea6f08ed32d6f18
+commit: 4b0ebbca3e1679765c06d5c466ee7f3228d4b156 [13/66] net: gro: move L3 flush checks to tcp_gro_receive and udp_gro_receive_segment
+config: m68k-mvme16x_defconfig (https://download.01.org/0day-ci/archive/20240514/202405141504.J6WdljEp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240514/202405141504.J6WdljEp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405141408.o5jSp8nU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405141504.J6WdljEp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/rtc/rtc-tps6594.c:471:12: warning: 'tps6594_rtc_suspend' defined but not used [-Wunused-function]
-     471 | static int tps6594_rtc_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~
->> drivers/rtc/rtc-tps6594.c:439:12: warning: 'tps6594_rtc_resume' defined but not used [-Wunused-function]
-     439 | static int tps6594_rtc_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   net/core/gro.c: In function 'dev_gro_receive':
+>> include/linux/compiler_types.h:460:45: error: call to '__compiletime_assert_654' declared with attribute error: BUILD_BUG_ON failed: !IS_ALIGNED(offsetof(struct napi_gro_cb, zeroed), sizeof(u32))
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:441:25: note: in definition of macro '__compiletime_assert'
+     441 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   net/core/gro.c:496:9: note: in expansion of macro 'BUILD_BUG_ON'
+     496 |         BUILD_BUG_ON(!IS_ALIGNED(offsetof(struct napi_gro_cb, zeroed),
+         |         ^~~~~~~~~~~~
 
 
-vim +/tps6594_rtc_suspend +471 drivers/rtc/rtc-tps6594.c
+vim +/__compiletime_assert_654 +460 include/linux/compiler_types.h
 
-   438	
- > 439	static int tps6594_rtc_resume(struct device *dev)
-   440	{
-   441		struct tps6594 *tps = dev_get_drvdata(dev->parent);
-   442		struct rtc_device *rtc_dev = dev_get_drvdata(dev);
-   443		int ret;
-   444	
-   445		ret = regmap_test_bits(tps->regmap, TPS6594_REG_INT_STARTUP,
-   446				       TPS6594_BIT_RTC_INT);
-   447		if (ret < 0) {
-   448			dev_err(dev, "failed to read REG_INT_STARTUP: %d\n", ret);
-   449			goto out;
-   450		}
-   451	
-   452		if (ret > 0) {
-   453			/*
-   454			 * If the alarm bit is set, it means that the IRQ has been
-   455			 * fired. But, the kernel may not have woke up yet when it
-   456			 * happened. So, we have to clear it.
-   457			 */
-   458			ret = regmap_write(tps->regmap, TPS6594_REG_RTC_STATUS,
-   459					   TPS6594_BIT_ALARM);
-   460			if (ret < 0)
-   461				dev_err(dev, "error clearing alarm bit: %d", ret);
-   462	
-   463			rtc_update_irq(rtc_dev, 1, RTC_IRQF | RTC_AF);
-   464		}
-   465	out:
-   466		disable_irq_wake(tps->irq_rtc);
-   467	
-   468		return 0;
-   469	}
-   470	
- > 471	static int tps6594_rtc_suspend(struct device *dev)
-   472	{
-   473		struct tps6594 *tps = dev_get_drvdata(dev->parent);
-   474	
-   475		enable_irq_wake(tps->irq_rtc);
-   476	
-   477		return 0;
-   478	}
-   479	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  446  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  447  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  448  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  449  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  451   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  452   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  453   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  454   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  455   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  456   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  457   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  458   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  459  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @460  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  461  
+
+:::::: The code at line 460 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
