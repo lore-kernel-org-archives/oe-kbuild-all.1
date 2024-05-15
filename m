@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6E82744C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 09:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6259B3EA7B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 10:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715767182; cv=none; b=RDP0meIC8huXGfVbbH6u/ozorXg7hic/m0BPTTX+chfZeBksDeynjY6rvbMsTChonGbU1u4zGE2wwg5zSQ84gidLaw+aXnWvNWlbKUEV2vQCQVftoYzKGYbeSg4eqVZLL3vQLiq57/M7vkgiQyF1yyWT8eLXRkX+zgV+qOYOlkE=
+	t=1715769040; cv=none; b=MkB1sIoV8phOSPpsIVbRodZiQLcbVS/sZJGmh/rMQvY0VWx3XGd/+tyyiNsszT3JoNH9AnTQxfZwXNsINxwIXqxV6/ma14vo7dHFzMfnHm+iAnMY60CeSoTlLt0ySENv8m4Cn7fmt2N9QfMElbfrTrtz1d/72bK/e1UqRSAHAFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715767182; c=relaxed/simple;
-	bh=6fSq7acfWIb+p3oiQNEiEmUcRMs/hp6EJoH9GYmxJJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TaSm44fine5ysNNXkD/sL/rAvwWCgEYL9r6QM7e4DWuQCDYEX9rpavhe49c5tf9Vis7Kr/Wpk8ku7r3W22vK3fB1l5q4g7pOsijlgHWBakdTl00WvSkn/eD+f53HBYhqnU9FqbiA7N+CufPOW4IBkd17x8nz75T9+MZWz+A20AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxRm56DV; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1715769040; c=relaxed/simple;
+	bh=XGiaSg2nqs+m8UQiy5dIP4DfJEFcextaNe1/oaqUY3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RT06MZPYJ8orlOjhXB9MkeS23NYPHsYq1zkfjDLT63kQHCemCCslTWVYw0dHqp3NDerXB2CTg8sNXj6H5cYEZ7G4wuZQwX47mA+tRgMXlD0ITaCAYPSt8bt2UO27sHO2JgoOICPkFkiWEpK+2Gqg5eq3eS5P1RoTs1QvgDn76aA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0ktx/+n; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxRm56DV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0ktx/+n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715767181; x=1747303181;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6fSq7acfWIb+p3oiQNEiEmUcRMs/hp6EJoH9GYmxJJg=;
-  b=MxRm56DVQYpQyj57/5/aL6GUjR1QQFZXYDuhlnTu1MVpBnJ94sgHCEri
-   09yrCu1a7R01ICZzMaQ7xhKpOGtp3HTNwI7NrcfNuPU9G2g7rNN4HftL1
-   ljXcDscKZILmcje76wRsAY22BPVEUJ6iEHPreDzhS60tfoaVyVRlGEYi/
-   Ge1oJywh82E41pQnKuWYyk1PpebyjfuBiRMzUvkADcQlQBxp74wsj5Khq
-   ksTVYGCE4FvZRxdE1ppCJO/4oSBBTflb27b6Ma8kVz7dvnP7PJk0Bn8da
-   MbJig2Q+bC/YRU4rGVEZ1BCrYWLCeYr9f3MWoxh8Lp3ijZre8ScqmVowF
-   g==;
-X-CSE-ConnectionGUID: uTqSwOLqRE+BB2FDg07ocA==
-X-CSE-MsgGUID: DqM8K5+QR8W/cFbeuhgRbw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11660386"
+  t=1715769040; x=1747305040;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XGiaSg2nqs+m8UQiy5dIP4DfJEFcextaNe1/oaqUY3c=;
+  b=H0ktx/+n/j/rzlHZ20TCBQP55FdD6o92mzAoKbQOQ9aniAE3qTJIVUvO
+   NXhRj6+r8rG3iKsRxVBrPXMDJ51ryGAxLOYBbHFcxkZk1+kxWRQeILXNs
+   4eE97epPqUz5GkwJ8HUvPWoNiXxyXzB1VzRHsxzAslzFaaiIw4K7lh5ta
+   9DPIZNWowGvWFSF1RXPBQ/hVdW5jX3IEEkjKrFpNX/iOtjXkdsr5O6PVa
+   xVffFE8T9F755g33tjzZ3azG84fEBik9gezg22DyN5zp/TkT4TnvU9RAR
+   som19bFDTwIqPq/r0wD0Q+H9yuz9hVn02vFK97pS1EPPiacxV8QdwRyJ+
+   A==;
+X-CSE-ConnectionGUID: Sd+rlUadRzKFRmbHvu3XAA==
+X-CSE-MsgGUID: w4nBxmcGT/SAcYKLOqggeA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="22950019"
 X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="11660386"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 02:59:40 -0700
-X-CSE-ConnectionGUID: vPp/Vu1+QXi5aI8IMSvV3Q==
-X-CSE-MsgGUID: JMieIsOwSEagVb643J50IA==
+   d="scan'208";a="22950019"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 03:30:39 -0700
+X-CSE-ConnectionGUID: cBvdbTZqQCa0Q+/WoWNPCg==
+X-CSE-MsgGUID: X+5IrPLlRzilGMeZRciy1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="30931715"
+   d="scan'208";a="31100870"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 May 2024 02:59:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 May 2024 03:30:37 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7BQ6-000ChX-36;
-	Wed, 15 May 2024 09:59:34 +0000
-Date: Wed, 15 May 2024 17:58:50 +0800
+	id 1s7Bu7-000CiZ-2A;
+	Wed, 15 May 2024 10:30:35 +0000
+Date: Wed, 15 May 2024 18:29:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ranjan Kumar <ranjan.kumar@broadcom.com>, linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, rajsekhar.chundru@broadcom.com,
-	sathya.prakash@broadcom.com, sumit.saxena@broadcom.com,
-	chandrakanth.patil@broadcom.com, prayas.patel@broadcom.com,
-	Ranjan Kumar <ranjan.kumar@broadcom.com>
-Subject: Re: [PATCH v1 1/6] mpi3mr: HDB allocation and posting for hardware
- and Firmware buffers
-Message-ID: <202405151758.7xrJz6rp-lkp@intel.com>
-References: <20240514142858.51992-2-ranjan.kumar@broadcom.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:aspeed-6.9-rebase 681/1143] drivers/bus/aspeed-ltpi.c:18:10:
+ error: call to undeclared function 'of_match_device'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202405151848.SxeHKy62-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,66 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240514142858.51992-2-ranjan.kumar@broadcom.com>
 
-Hi Ranjan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.9 next-20240515]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ranjan-Kumar/mpi3mr-HDB-allocation-and-posting-for-hardware-and-Firmware-buffers/20240514-223346
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20240514142858.51992-2-ranjan.kumar%40broadcom.com
-patch subject: [PATCH v1 1/6] mpi3mr: HDB allocation and posting for hardware and Firmware buffers
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240515/202405151758.7xrJz6rp-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405151758.7xrJz6rp-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-6.9-rebase
+head:   9bdcee91eb5d9149678acb9d066e9dafbd026721
+commit: a23db482cddedbb213330754033447f21a4faf8b [681/1143] bus: Add Aspeed LTPI bus controller driver
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240515/202405151848.SxeHKy62-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405151848.SxeHKy62-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405151758.7xrJz6rp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405151848.SxeHKy62-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/mpi3mr/mpi3mr_app.c:460: warning: Function parameter or struct member 'trigger_data' not described in 'mpi3mr_set_trigger_data_in_hdb'
->> drivers/scsi/mpi3mr/mpi3mr_app.c:460: warning: Excess function parameter 'data' description in 'mpi3mr_set_trigger_data_in_hdb'
+>> drivers/bus/aspeed-ltpi.c:18:10: error: call to undeclared function 'of_match_device'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      18 |         match = of_match_device(dev->driver->of_match_table, dev);
+         |                 ^
+>> drivers/bus/aspeed-ltpi.c:18:8: error: incompatible integer to pointer conversion assigning to 'const struct of_device_id *' from 'int' [-Wint-conversion]
+      18 |         match = of_match_device(dev->driver->of_match_table, dev);
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/aspeed-ltpi.c:20:7: error: call to undeclared function 'of_property_match_string'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      20 |                 if (of_property_match_string(np, "compatible", match->compatible) == 0)
+         |                     ^
+   3 errors generated.
 
 
-vim +460 drivers/scsi/mpi3mr/mpi3mr_app.c
+vim +/of_match_device +18 drivers/bus/aspeed-ltpi.c
 
-   443	
-   444	/**
-   445	 * mpi3mr_set_trigger_data_in_hdb - Updates HDB trigger type and
-   446	 * trigger data
-   447	 *
-   448	 * @hdb: HDB pointer
-   449	 * @type: Trigger type
-   450	 * @data: Trigger data
-   451	 * @force: Trigger overwrite flag
-   452	 *
-   453	 * Updates trigger type and trigger data based on parameter
-   454	 * passed to this function
-   455	 *
-   456	 * Return: Nothing
-   457	 */
-   458	void mpi3mr_set_trigger_data_in_hdb(struct diag_buffer_desc *hdb,
-   459		u8 type, union mpi3mr_trigger_data *trigger_data, bool force)
- > 460	{
-   461		if ((!force) && (hdb->trigger_type != MPI3MR_HDB_TRIGGER_TYPE_UNKNOWN))
-   462			return;
-   463		hdb->trigger_type = type;
-   464		if (!trigger_data)
-   465			memset(&hdb->trigger_data, 0, sizeof(*trigger_data));
-   466		else
-   467			memcpy(&hdb->trigger_data, trigger_data, sizeof(*trigger_data));
-   468	}
-   469	
+     9	
+    10	static int aspeed_ltpi_probe(struct platform_device *pdev)
+    11	{
+    12		const struct device *dev = &pdev->dev;
+    13		const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
+    14		struct device_node *np = dev->of_node;
+    15		const struct of_device_id *match;
+    16		struct clk *ltpi_clk;
+    17	
+  > 18		match = of_match_device(dev->driver->of_match_table, dev);
+    19		if (match && match->data) {
+  > 20			if (of_property_match_string(np, "compatible", match->compatible) == 0)
+    21				return 0;
+    22			else
+    23				return -ENODEV;
+    24		}
+    25	
+    26		ltpi_clk = devm_clk_get(&pdev->dev, NULL);
+    27		if (IS_ERR(ltpi_clk))
+    28			return PTR_ERR(ltpi_clk);
+    29	
+    30		clk_prepare_enable(ltpi_clk);
+    31	
+    32		if (np)
+    33			of_platform_populate(np, NULL, lookup, &pdev->dev);
+    34	
+    35		return 0;
+    36	}
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
