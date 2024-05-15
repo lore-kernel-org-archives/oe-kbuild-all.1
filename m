@@ -1,51 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B37A12A157
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 13:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6189D12C47A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 13:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715779009; cv=none; b=M90qNKCY2Z+D4bfJAuZ3SR/IGdLp2FRYjHsAqt6E5sfAzOPeqMl75Bf4BAlRYDVVrGb4lgpC1r4DptrQ/fEYOVr6AcgN1dF6uP+8VtB9XOXdYiPOUjUwUOHxMNIQb4TO9esY0dF6YzvmRq1gcC+7mgR6Qrmm37MNZbH584I62ZI=
+	t=1715779011; cv=none; b=hUvjKH49sFNoZzF6XW4JT3z5PRhxZTxf7KG4Z9ec0ostPU15fH9MdYJ3fK5Gm9H4aVwcJL1+Lww1nPFuzzDoiCyCpio+Cw5hwrIuQu4bJDzIS6ea9glTJxsRQiFpT7g6JatdIfnv7vOD7enmNnTeGFXQF04M/CH/PwPQxSyfQ1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715779009; c=relaxed/simple;
-	bh=jMhlWzNhuWJKy8fzidVruX5LiboG9ljLfiOfmMGNW9o=;
+	s=arc-20240116; t=1715779011; c=relaxed/simple;
+	bh=6Suti5BG8hbQxAoyYe7aKDviSAwS07hFSe3bf5Ox+o4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjdq3oVLVO0khZS5d2wD+BhgDEzlWDYIpepTUIIazwy77ssgWPmR1PihUA7Os2qpzDV9uI2q1McwmlWWj8jeHupAWnhAysqvvqu85c6dJxdxvlLUsI+qLbmtOcOAu2cJPDQ8g0mpCCJGeayRRrPKAsom0n68zihYq0mqRsHdjuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbkPu31u; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=HQQPHrLOFyvvjaCad8EuhDnjzwdWdcGP59cySfgf7zGkmHsK29YbK2nKlpUWYBE3ygCgLisOa/nr02pvzCzhZGAhDv7nsKcM0OB9+ZenJMW9nTpDF08aCMcPrACUSaM2FRwEwy1Sy1/dG6DlCraCvZ2YHd3i/+x5p8DfLycNsYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCBst/Yi; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbkPu31u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCBst/Yi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715779008; x=1747315008;
+  t=1715779009; x=1747315009;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jMhlWzNhuWJKy8fzidVruX5LiboG9ljLfiOfmMGNW9o=;
-  b=PbkPu31up8LYd8fSPkEEToRlvvApe+5NuF62husn7ioR+PQtr3rqPg5M
-   b5WqOA4kOhBFzLu3EhfrB5wkHyHvjNv4UoTS6PscghDUH2qxIBtVPqDnY
-   JgGRzO29CWEd77+UeyaxO1qwCIzgf00DFLj27nAveITL9lqqeClBKfHzC
-   UKtgZR9uicR3RBg1YLdauxgSpe6e7rjQ7CqH2bOMbkeu1NWwAxJcW0pev
-   /307pFpfEbocK6e8mJ+WgS1uwoHDTohWMbpQTHvN9Xh4BRcEpz3kUUjAz
-   yZ8YvoCYzNmjU5hjALQLntdi5nEBfYqPOiW6GQpemRV3det4fb/eQFr+h
-   A==;
-X-CSE-ConnectionGUID: xtoCf3kxRnW9M0sgx2Yfbw==
-X-CSE-MsgGUID: 3Mr+lpVBQrGiWyXuW9SklQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="29347551"
+  bh=6Suti5BG8hbQxAoyYe7aKDviSAwS07hFSe3bf5Ox+o4=;
+  b=RCBst/YiZoopitvIQshyXVeZo1CkxU6NSCWJb/qAhZnjkpyQQWZZk4SU
+   kuXeCAJeQDZv0JCyxG6L61NfsZLeUVv24FxhD9s2b4BVj6UDhCyih8uxc
+   thhw7DxiWXwx3AS4i/PPZFqefYnEnx/GFYBF0u5D3GfgM4fh+iIxkGWHH
+   dRrjpjsW00PIAz6qXaKMKcRwjE59kPJ3aZoe8ZARaLa5y+LoXtgdErc8k
+   30ij4LAMTjWsFXa11rp2J29LfktNFT09Y+vAzzQK24k7MItDNKQ/1Ij+4
+   bFuk/GTgCXX2SDY93o5bJeRdiOmNpXzCZ6d2XfZm69+ZANaJ83am0VcUj
+   w==;
+X-CSE-ConnectionGUID: FBYs1V4GThae6BFzGdu+OQ==
+X-CSE-MsgGUID: FxoY11JcSv+sYQSCV6Rd7Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="29347556"
 X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="29347551"
+   d="scan'208";a="29347556"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 06:16:47 -0700
-X-CSE-ConnectionGUID: rLT/UV/nSlqClPWcxeTibw==
-X-CSE-MsgGUID: 5LUJzXDmS1u/aG4xBIPx2g==
+X-CSE-ConnectionGUID: +BgsFfFWTuS6NvBr+jXxFw==
+X-CSE-MsgGUID: opRpAD/iQjGyIdcjisO4/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="31179418"
+   d="scan'208";a="31179419"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 15 May 2024 06:16:44 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7EUq-000Cqm-2e;
+	id 1s7EUq-000Cqj-2b;
 	Wed, 15 May 2024 13:16:40 +0000
 Date: Wed, 15 May 2024 21:16:23 +0800
 From: kernel test robot <lkp@intel.com>
@@ -57,7 +57,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	jack@suse.cz, yi.zhang@huawei.com, yi.zhang@huaweicloud.com,
 	chengzhihao1@huawei.com, yukuai3@huawei.com
 Subject: Re: [PATCH 1/3] iomap: pass blocksize to iomap_truncate_page()
-Message-ID: <202405152010.jZ3OhPim-lkp@intel.com>
+Message-ID: <202405152037.DjvUiyJ1-lkp@intel.com>
 References: <20240515022829.2455554-2-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,19 +83,20 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/iomap-pass-block
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
 patch link:    https://lore.kernel.org/r/20240515022829.2455554-2-yi.zhang%40huaweicloud.com
 patch subject: [PATCH 1/3] iomap: pass blocksize to iomap_truncate_page()
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240515/202405152010.jZ3OhPim-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405152010.jZ3OhPim-lkp@intel.com/reproduce)
+config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20240515/202405152037.DjvUiyJ1-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405152037.DjvUiyJ1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405152010.jZ3OhPim-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405152037.DjvUiyJ1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: fs/iomap/buffered-io.o: in function `iomap_truncate_page':
->> buffered-io.c:(.text+0x4398): undefined reference to `__moddi3'
+   xtensa-linux-ld: fs/iomap/buffered-io.o: in function `iomap_file_unshare':
+   buffered-io.c:(.text+0x1f48): undefined reference to `__moddi3'
+>> xtensa-linux-ld: buffered-io.c:(.text+0x1f57): undefined reference to `__moddi3'
 
 -- 
 0-DAY CI Kernel Test Service
