@@ -1,78 +1,112 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4468C155759
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 15:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33A7155723
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 16:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715786636; cv=none; b=U8ZBDsz79B9xb7pchj0szQlpcHPtxY0KvqcAjGHIzh6fYZnatI4sDXAKD/3V4eD3rrooePcRexVerC09sm2nQH3whDBEklx/DcKHk7MBepzofYFE/udq7NpRFuJlu68rwS5BvM+xI8houGQLW5dy8N10FG7TuL+ASAl/MN59nSI=
+	t=1715788975; cv=none; b=rUmojGVYklB2LMfqw3Tq7HCRneB6RWkULO26jFrRIbgNlqRkAbySkL46sNqgr/9aW5hyk0apdaAoMlPSy6QbYsurKURIi/pPU6aTn9vAxd62DWYcx04hu8LhdYLaZbmSue1Gv/nM6pHP4YsOo3It8nK3ZDf+ddvNoqtto9jwUS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715786636; c=relaxed/simple;
-	bh=4vNQsefI9wVjstBFUGHLWiELzNcBEQZ6OPfl0Tv1XfM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qST3FAvYmeCBLNPQcHcWlzvPhHCsZa8RzOVPpKqK+Zn/Ikgn3YlQX8Uu0NfEDG1cbyb8Kaa7ciV+6wfPirbqvZMRktXT3f3/Tj4jKv9VZrkUvwVdfJbkl/zEWloVOKziezGv75mgLLfKydrdLB7hemhNL+O9rB9gYvfNKtjlCwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Iz85YiGw; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1715788975; c=relaxed/simple;
+	bh=zxVCBe7eHacZwprYMJXU3g19lM0C4E6luINflcn67QI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GEjVQEnvezSugmLrZsnA2u5U8A3Ho0Rt0hNlqqzqG5WQVAeDFqAoqljXOt9q62IFxV7JLkJUOBmJelFrcPfzeiQ/ZGXEsXUAaMIu9OJpNpMO9Ua1n34TFsuDI8XVqtrfFX4hIcYl0yL2fIPISP1q7DutOqXOovly25h0c5TYCdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAMdgn8d; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Iz85YiGw"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2b2738ce656so5905473a91.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 08:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715786634; x=1716391434; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WWnmrR2jgRtp2pBl61PXM01ccmNjY/9pMcH4gpVeV3A=;
-        b=Iz85YiGwBXbCtixmuL1S0llNT/2hiHzqQzdyPj+28tZ7Yoqdo3/6dPSMY8HfDbHQW3
-         lusDbdWj6AE1+BvCbQGZOORgM6xc2lupc+HV+EUcXbq0hJVOz32mrxWSLzX3Pe7ChPnR
-         Ig3HRubGDdv56oym9RUEoJYHJ9lFMmA35dPdztGxZxfkfFvuLLW546fhg4yF+88RVx/Y
-         4h2/9/cM7qp7Tr3wtnUKESbhlzb1YAq1+82OjoGHebAWQh9Mt/EyIaF4npWs4Q3E1TMz
-         3u9pwrGptQOs4DrX5JLNFG+BNJvAnj3XmxiNYXcIpa+kI3yJ+XnDWHi5zI1PK7Lhxn3k
-         qYKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715786634; x=1716391434;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WWnmrR2jgRtp2pBl61PXM01ccmNjY/9pMcH4gpVeV3A=;
-        b=q27tYzWHAq7OOYQ1NFmrdKdCAjSx2UcLtzSfSeBXozv8Iuhmj6aC7eSF/jL9l9inrS
-         TC9H+rEftSly8y8BkhkV15WCZYgmdOoJRw6eBaqlTzR7+kniFzXNzNrZdryhqUhsmS/Y
-         RKZBQxpuVzUOtUcxk4mxTU8hUfL6h4LKbLNDhC+XU3vMVvFoONUsSxg0PiXjASJymRXH
-         pYu+ApX0/WicKe9ytcHpidRBO3PbI66GeTE823Vz/t1GH37gqOHUCg9tRCs8zm4fu4ee
-         q8l0eRJbsc93uRFXfGvR+UozevNAUvheMkZiS6FHT2EnEAPMJoq7I3j7o0MLsR1JiolX
-         OY0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWUGbg9q4UIG/Ov5AGMgj4KM7xYssg3TtipmAajho0/glZoS/dPa8aDEhYnhFiFuFWPl1TR3DEo8PMDth9PjClk2GaiRSLgeHnCHDKTHg==
-X-Gm-Message-State: AOJu0Ywc3M51GPEH80X4cnPMZ8ZUVbzX8wnuXOayE/rqK+gpIx1WHeNz
-	7WtLc8GH9RakQQo8RH0XwB0cIX+zTTUO4E2VJHp/7gwN09fynEpZtv6jUGGpIqplfcEwzYU2Pvl
-	shA==
-X-Google-Smtp-Source: AGHT+IFnqZqx/mgJK+s9Xm0/QHqGZU9eAGN6iIrsfdlzzK/0rpwVqzca3Bb+hArr+TUuEno+vgvd3lYqIYY=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:c243:b0:2a4:70d5:2dd9 with SMTP id
- 98e67ed59e1d1-2b6ccd887bfmr45643a91.7.1715786634412; Wed, 15 May 2024
- 08:23:54 -0700 (PDT)
-Date: Wed, 15 May 2024 08:23:52 -0700
-In-Reply-To: <202405141601.VXdtmd3C-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAMdgn8d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715788974; x=1747324974;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zxVCBe7eHacZwprYMJXU3g19lM0C4E6luINflcn67QI=;
+  b=DAMdgn8dnzYyieQi0C5X/uJ8kLPozU0gR6TBRkpd+h2oiM2wOu3MpUPq
+   tCM9Te+IzezPVPdmzOblGXKKN8g/eZAIcsBBFFnZ3OL9KiPyHRP9I6ZbV
+   Sy/Ly27/qGASDVG4ehFiC7xaGNyXOZQ/RfmaK8gYlSZpqAKrFj8GQ+B51
+   VQq/gBTNk09GhkZ8yh5+Zu3JZaghnguUbMO/UW60MdScE23xTcRpAojdY
+   LU4w/PSiTul+ECjbytGu1Ei9ZP9d+w8+clhFiFnjX5PVbeyeWvQeRze+A
+   OzedYCR4nLJQkYhjk+jPdfWltweJ+WxKZhfGhf09kSYHEKqMOLkz2Tcnx
+   Q==;
+X-CSE-ConnectionGUID: FXyTRv7sQ2aTBBRIH1ZYHg==
+X-CSE-MsgGUID: Eu2yYlAZSL6njbWpQxkAiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="23250782"
+X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
+   d="scan'208";a="23250782"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 09:02:52 -0700
+X-CSE-ConnectionGUID: ZFJV3J1pSf2jZdRvfXzqRw==
+X-CSE-MsgGUID: Ty+8ZEYQRgiy7Mwg9LYdJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
+   d="scan'208";a="31681965"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 15 May 2024 09:02:51 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s7H5c-000Czn-1b;
+	Wed, 15 May 2024 16:02:48 +0000
+Date: Thu, 16 May 2024 00:02:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: [jic23-cxl-staging:arm-numa-fixes 5/11]
+ arch/arm64/include/asm/sparsemem.h:31:36: error: redefinition of
+ 'memory_add_physaddr_to_nid'
+Message-ID: <202405152300.qcnjSGyh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202405141601.VXdtmd3C-lkp@intel.com>
-Message-ID: <ZkTG2WGnADfprMbH@google.com>
-Subject: Re: [sean-jc:x86/gnu_source 41/42] tools/testing/selftests/kvm/rseq_test.c:223:undefined
- reference to `rseq_register_current_thread'
-From: Sean Christopherson <seanjc@google.com>
-To: kernel test robot <yujie.liu@intel.com>
-Cc: Edward Liaw <edliaw@google.com>, oe-kbuild-all@lists.linux.dev, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, May 15, 2024, kernel test robot wrote:
-> Hi Edward,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://github.com/sean-jc/linux x86/gnu_source
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/cxl-staging.git arm-numa-fixes
+head:   d077bf9570e8024f6d670d5662b62778715084fc
+commit: c17c987d979cab4f0118c1d025fd0c7e096c77f1 [5/11] arm64: numa: Introduce a memory_add_physaddr_to_nid()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240515/202405152300.qcnjSGyh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405152300.qcnjSGyh-lkp@intel.com/reproduce)
 
-Ignore this Edward, this is due to a bad merge conflict resolution in a branch in
-my personal repo that I was using for review+testing.  I'll simply delete the branch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405152300.qcnjSGyh-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/page-flags-layout.h:30,
+                    from include/linux/mmzone.h:20,
+                    from include/linux/swap.h:7,
+                    from arch/arm64/mm/init.c:12:
+>> arch/arm64/include/asm/sparsemem.h:31:36: error: redefinition of 'memory_add_physaddr_to_nid'
+      31 | #define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/mm/init.c:63:5: note: in expansion of macro 'memory_add_physaddr_to_nid'
+      63 | int memory_add_physaddr_to_nid(u64 start)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/cpumask.h:17,
+                    from arch/arm64/include/asm/cpufeature.h:27,
+                    from arch/arm64/include/asm/ptrace.h:11,
+                    from arch/arm64/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/swap.h:5:
+   include/linux/numa.h:47:19: note: previous definition of 'memory_add_physaddr_to_nid' with type 'int(u64)' {aka 'int(long long unsigned int)'}
+      47 | static inline int memory_add_physaddr_to_nid(u64 start)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/memory_add_physaddr_to_nid +31 arch/arm64/include/asm/sparsemem.h
+
+    28	
+    29	#ifndef __ASSEMBLY__
+    30	extern int memory_add_physaddr_to_nid(u64 addr);
+  > 31	#define memory_add_physaddr_to_nid memory_add_physaddr_to_nid
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
