@@ -1,68 +1,60 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8150C13F44C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 14:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B103413F45C;
+	Wed, 15 May 2024 14:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715783285; cv=none; b=amUkZBbOZREyDBIUxVjyMSQz/ttXvsQ7GiAjxmpY0rfEPUkn2LQrTwW0TC5Y9tCh/zttKrtzkfOP7zBaxx+hLkOICVBW8PiGTDtQr6EU74AYjTZdoXmyjC+ARvqbxa+n+8uJpN2Hv3nwzmTEOA8aYnvC3nwoKt7lfCuTQv7M2Vw=
+	t=1715783392; cv=none; b=cWO2mzMzOFouJLAWphYOUMDr3mo4OYl1aOQiiue9Z3dd+w9R3QULUkzizc8XhqaQ/3xOJSiFzGYsRA+XrZEzwy620OppjfNg2ZlFqTnyE73TBk0Z6Da0rFAq2Wn8Qz0DWNH5sGrjMIz7uHtnKYwJbUxhL2UI5fC0xRL1VLtOvGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715783285; c=relaxed/simple;
-	bh=HG2E5ZzzY3Lbc+03GvuD+dWOrLJSMoB11TmWujlsBcQ=;
+	s=arc-20240116; t=1715783392; c=relaxed/simple;
+	bh=4aVkQKr9l0WIt7rdsf2qdZclzWVA8zoqgn9hVx4/pV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=X/VhkM6pm8aOkL3uHalvaXMC39UKWxxbp62i9KBhRA0kPPT3ZV4Qv4E6uqxo3wc4IopuURpXAfEXpBUuPI27rojEGJ6k9FO9csPjSXPf2ZYMdXCYJp11xMFIWB0KZlnE9si3s2zcqFjhX29ZGWvnJCnpZxvuL9xAQy0o5cbT55o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gZReR59d; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=tJmjy/lgh1KVLhaixAzWPD6yfVSGbFYlxGB6V+p2ZoXRn9Z8W0SGx06Avs4GWCqIQ1hqFpFXHiQK0dT27DnVSYgyIpmuMwuyyxfMFMgLSy3Qcvd0zaGrPAIIpjpsdRM7jKFCz9bnDYA5DpRtn0XrdS4ywT2qdYhn99mg84wdJD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KODpcmsQ; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gZReR59d"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-41fd5dc0480so43451225e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 07:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715783282; x=1716388082; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zpkv1XFXbjz013sYUtzM2chC9OslxeXahIcL6Fre16A=;
-        b=gZReR59dRcBAwqqmMEfYW85nX+dfKTtlhU9/mKdcxbnLuSJAL46xgPJD4f5XiLCFpa
-         ltGeBKYwmdflB4JYWSB9cnxahv6f6hdioMlD+U8vaBE/cDdmHh5ZmS0xuR00Oy+GpQ6H
-         Srl/XklP8GOhnvLorxQrRJGiorURdvLzv2Li1aiOXRM0zf3yDFwcFnAyne4kBznq7bkM
-         cvx5W0iTmntITsNVhKV+kHLMmAhKX2qtk/Gcju0767BdxQFGCsu8TUc6huboa85/rE+8
-         IIoCSJKaPs4jbW2AZIaCh9bcFpRQHton0AWe4vm73MaWZ2cElHDkbiOsIRwyxl8hYiTH
-         00nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715783282; x=1716388082;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zpkv1XFXbjz013sYUtzM2chC9OslxeXahIcL6Fre16A=;
-        b=tbraU4r2bEqG+hZh825z6dQKp9GstRMknO8UKb8BpKm5PmYKjQZFh9XHPrJ/Wkz+Py
-         1fnxxYB4WK0OoQdJq0cGmzNVFTlQQFxuVNdH72aInDA05pAUCAWRYzsG5W3E4/tIjAUn
-         SXEYX3+CLerLqhQtK/08OxpsqBF/xcgtjX/2aB2bpEqsLZuvqO03ebfOsbLSvaQlqM1K
-         Ro4ac24gb3EdwVkv29yTs2yfLjqrCr7IWLgHHSSIOmkNDYYjYY6Wp2QsUaj10TItssTW
-         WVxH4i6Csusvg1Bf8f14hC5ULFP1qukMmkAiyU5RJq20aJ6lIuJtD+zYg1Ox8sSbbCZf
-         aCcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWTKYEGx2aaSS5X4Zso5PPFI0SmEMSFkD+wqOlzbqflK4g142uNRA8jOCM7Ryqsl3NGCXxjFBOpLdNqI5QNf4PRnnqtZc7ZIo0ZQiLTuQ==
-X-Gm-Message-State: AOJu0YzzliZik1PJ5d9CVfqCRkkWPQKX71kij0DsosLW61SXtp5fadOF
-	x0EiB0lnXjp8QcEdTaiK9+jkOP3iCaTfrB74nfSZC/K6YDS9dT+nMB++Y3eM6SY=
-X-Google-Smtp-Source: AGHT+IEpa3TUE9I1rxGs398WImHaUYEZ/FcJ/c2lRyyHuQn6Pe5/4WN9tj8KS+nu2zboruPUmw5DXg==
-X-Received: by 2002:a05:600c:4689:b0:420:509:714f with SMTP id 5b1f17b1804b1-4200509728bmr104553345e9.14.1715783281672;
-        Wed, 15 May 2024 07:28:01 -0700 (PDT)
-Received: from localhost ([149.14.240.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42014f563adsm122363295e9.38.2024.05.15.07.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 07:28:01 -0700 (PDT)
-Date: Wed, 15 May 2024 16:28:00 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, srinivas.kandagatla@linaro.org,
-	broonie@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, perex@perex.cz,
-	tiwai@suse.com, alsa-devel@alsa-project.org, lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
-	neil.armstrong@linaro.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH 1/2] ASoC: codecs: lpass-macro: add helpers to get codec
- version
-Message-ID: <d77a7d51-8357-4cc0-b233-be2e18d16908@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KODpcmsQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715783391; x=1747319391;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4aVkQKr9l0WIt7rdsf2qdZclzWVA8zoqgn9hVx4/pV0=;
+  b=KODpcmsQsvHktPktPnrmh7r6oTvPSvBhOcmFaDtGzYihcU4wv2XfdHdl
+   0pihC0JjZ7ahM2VIN4Ywnyhs2BAoMvBc6BVvAqgfOCvvlYALjZVOPQvxN
+   MF4mJNvotatM8FB3CaONf6vX3sb2gadFdCM13A51vsT9Cq+dkAT82wtrp
+   BG6YISEbve/CzhIFbZWjO7B8uvC4YHK1b8xkbA+brW19AhIOiGj+mxe/0
+   LntR/nRuQ4iGTlctt/y3seNrHlhPrzJhjLyn0zj1nq3uROF+biUgj1SR0
+   1yyNy86D3XltrbFNgEgC5F/dVzdqcrmMsDVh7POHPWw2C0D8tQXzPmig9
+   A==;
+X-CSE-ConnectionGUID: uyLaOEO9Staw7MDvl8O/ag==
+X-CSE-MsgGUID: Z9LFtJMqQESt75ZTB9yT2A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="34347528"
+X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
+   d="scan'208";a="34347528"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 07:29:50 -0700
+X-CSE-ConnectionGUID: 3waoFJomQP+WNSpHq1CJYg==
+X-CSE-MsgGUID: LTQu1JZURyCp1t2zn8mVug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
+   d="scan'208";a="31665567"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 15 May 2024 07:29:47 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s7FdZ-000CvX-0L;
+	Wed, 15 May 2024 14:29:45 +0000
+Date: Wed, 15 May 2024 22:29:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 13096/13213]
+ drivers/irqchip/irq-riscv-imsic-early.c:52:47: error: too many arguments to
+ function call, expected 2, have 3
+Message-ID: <202405152211.4swEsJn5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,63 +63,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510175835.286775-2-srinivas.kandagatla@linaro.org>
 
-Hi,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/srinivas-kandagatla-linaro-org/ASoC-codecs-lpass-macro-add-helpers-to-get-codec-version/20240511-020042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240510175835.286775-2-srinivas.kandagatla%40linaro.org
-patch subject: [PATCH 1/2] ASoC: codecs: lpass-macro: add helpers to get codec version
-config: sparc-randconfig-r081-20240512 (https://download.01.org/0day-ci/archive/20240512/202405120735.qbbiUPaX-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   82d92a9a1b9ea0ea52aff27cddd05009b4edad49
+commit: f725fb3518e03b48a50a22f63c440cd04b41334a [13096/13213] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240515/202405152211.4swEsJn5-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d3455f4ddd16811401fa153298fadd2f59f6914e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405152211.4swEsJn5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405120735.qbbiUPaX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405152211.4swEsJn5-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/lpass-va-macro.c:1485 va_macro_set_lpass_codec_version() error: uninitialized symbol 'version'.
+All errors (new ones prefixed by >>):
 
-vim +/version +1485 sound/soc/codecs/lpass-va-macro.c
+   In file included from drivers/irqchip/irq-riscv-imsic-early.c:9:
+   In file included from include/linux/interrupt.h:21:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/irqchip/irq-riscv-imsic-early.c:52:47: error: too many arguments to function call, expected 2, have 3
+      52 |         riscv_ipi_set_virq_range(virq, IMSIC_NR_IPI, true);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~                     ^~~~
+   arch/riscv/include/asm/smp.h:52:6: note: 'riscv_ipi_set_virq_range' declared here
+      52 | void riscv_ipi_set_virq_range(int virq, int nr);
+         |      ^                        ~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1464  static void va_macro_set_lpass_codec_version(struct va_macro *va)
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1465  {
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1466  	int core_id_0 = 0, core_id_1 = 0, core_id_2 = 0, version;
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1467  
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1468  	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_0, &core_id_0);
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1469  	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_1, &core_id_1);
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1470  	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_2, &core_id_2);
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1471  
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1472  	if ((core_id_0 == 0x01) && (core_id_1 == 0x0F))
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1473  		version = LPASS_CODEC_VERSION_2_0;
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1474  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0E))
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1475  		version = LPASS_CODEC_VERSION_2_1;
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1476  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x50 || core_id_2 == 0x51))
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1477  		version = LPASS_CODEC_VERSION_2_5;
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1478  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x60 || core_id_2 == 0x61))
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1479  		version = LPASS_CODEC_VERSION_2_6;
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1480  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x70 || core_id_2 == 0x71))
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1481  		version = LPASS_CODEC_VERSION_2_7;
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1482  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x80 || core_id_2 == 0x81))
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1483  		version = LPASS_CODEC_VERSION_2_8;
 
-Uninitialized on else path.
+vim +52 drivers/irqchip/irq-riscv-imsic-early.c
 
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1484  
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10 @1485  	lpass_macro_set_codec_version(version);
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1486  
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1487  	dev_info(va->dev, "LPASS Codec Version %s\n",
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1488  			lpass_macro_get_codec_version_string(version));
-787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1489  }
+21a8f8a0eb35ce Anup Patel 2024-03-07  41  
+21a8f8a0eb35ce Anup Patel 2024-03-07  42  static int __init imsic_ipi_domain_init(void)
+21a8f8a0eb35ce Anup Patel 2024-03-07  43  {
+21a8f8a0eb35ce Anup Patel 2024-03-07  44  	int virq;
+21a8f8a0eb35ce Anup Patel 2024-03-07  45  
+21a8f8a0eb35ce Anup Patel 2024-03-07  46  	/* Create IMSIC IPI multiplexing */
+21a8f8a0eb35ce Anup Patel 2024-03-07  47  	virq = ipi_mux_create(IMSIC_NR_IPI, imsic_ipi_send);
+21a8f8a0eb35ce Anup Patel 2024-03-07  48  	if (virq <= 0)
+21a8f8a0eb35ce Anup Patel 2024-03-07  49  		return virq < 0 ? virq : -ENOMEM;
+21a8f8a0eb35ce Anup Patel 2024-03-07  50  
+21a8f8a0eb35ce Anup Patel 2024-03-07  51  	/* Set vIRQ range */
+21a8f8a0eb35ce Anup Patel 2024-03-07 @52  	riscv_ipi_set_virq_range(virq, IMSIC_NR_IPI, true);
+21a8f8a0eb35ce Anup Patel 2024-03-07  53  
+21a8f8a0eb35ce Anup Patel 2024-03-07  54  	/* Announce that IMSIC is providing IPIs */
+21a8f8a0eb35ce Anup Patel 2024-03-07  55  	pr_info("%pfwP: providing IPIs using interrupt %d\n", imsic->fwnode, IMSIC_IPI_ID);
+21a8f8a0eb35ce Anup Patel 2024-03-07  56  
+21a8f8a0eb35ce Anup Patel 2024-03-07  57  	return 0;
+21a8f8a0eb35ce Anup Patel 2024-03-07  58  }
+21a8f8a0eb35ce Anup Patel 2024-03-07  59  #else
+21a8f8a0eb35ce Anup Patel 2024-03-07  60  static void imsic_ipi_starting_cpu(void) { }
+21a8f8a0eb35ce Anup Patel 2024-03-07  61  static void imsic_ipi_dying_cpu(void) { }
+21a8f8a0eb35ce Anup Patel 2024-03-07  62  static int __init imsic_ipi_domain_init(void) { return 0; }
+21a8f8a0eb35ce Anup Patel 2024-03-07  63  #endif
+21a8f8a0eb35ce Anup Patel 2024-03-07  64  
+
+:::::: The code at line 52 was first introduced by commit
+:::::: 21a8f8a0eb35ceb21e2c9ddd87468bc3b5ac87c0 irqchip: Add RISC-V incoming MSI controller early driver
+
+:::::: TO: Anup Patel <apatel@ventanamicro.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
