@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C373D966
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 07:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390CA41C73
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 07:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715759434; cv=none; b=rDe+7FKa5isGtzkSkZrJfi9leciObcjnrP+wpNtm9Ji1C0ImLOQKMKCabhzTEH124g9lI6lEkzFbIjJAoAL+cjYnUexCVlaW2ggwyc9OfOr8pEf0SUQ6nQh7VWAXHeNsM4jhsqaIDCARwvIOFmB5qyGdc8B9FEyW+7TSF2/Lxmg=
+	t=1715759497; cv=none; b=smSoPY2i4gFGVB0uGIi2ClU2hO2JPGrZ+jrTipo4oVvGpS4S9SzB61Mfz/SYA16xRXQNpAB4Wab++5UsPS+8ddcOiratKul/YQ6A4EH/sn2QaY/NnJPtju+JSx9gogV6GYnPO9dtAdfXiXG6irwMtkk1y4jxKfq+PCRio2tiZbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715759434; c=relaxed/simple;
-	bh=yTs+lRB87zhkS41QCrtu6/FB+nA6/kFPQM2ac81uZbQ=;
+	s=arc-20240116; t=1715759497; c=relaxed/simple;
+	bh=dDGycgU73DCT9n+z67VaLlVi85tgmvAsdHZv6DBe8+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=G/b5ATrrKvcQKA/8W9o6e/CectD0Gxpn6CSoJFlw2Y6FXQPV4nEPS2j9I+zb+w6yQjhpVWajIYhmVZ3iqWTCi9sj6LMl74bReBhA9P2g1oeR0So536k72T4lXymVKrbrWU8o2a+Zu4ffOyGrEIFyiE8aFTS+QTHkTnxDQQ65iTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PihpBZVk; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=Cc+4ul8h36ataKeYvE55lLpB1klVguIVDEWjafefSDLBhMnm/4E1tZkt6lDo3E5KBeDScu/k62EYCnPBMglSCDnjQ+be1d0IdFa2EoAww9TekU9jaanJ4VhQZwuaUzHIiDb1lLgnYyk0n+fofG5EJj4p9m+KfcXI+ZfuHNILMqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evK3xe9t; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PihpBZVk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evK3xe9t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715759434; x=1747295434;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=yTs+lRB87zhkS41QCrtu6/FB+nA6/kFPQM2ac81uZbQ=;
-  b=PihpBZVkgsLWXZ2nw6WYkfNheZlDitpb/yKb2r3PrmAb4oU8JYx0ZBJd
-   WXNrAVYVuSIhLQ+A0G50vW8IbE2TGlBg2mVWTG8VzJp3vPWxBpXFb/otT
-   Jj4lNH5AqIlCTDq+VSyy9DsohDkZUmKY6EN4prDZ32rHiRbcvMYjTXyDU
-   xmBiOWKsUSJ+65D/v2oTjvFwpWC0W9t9FZ9h9vki0C3HdUJh/5GmMT1wH
-   C37d7IpxPLoDyTh72bsRr+yw4mNBsV/hpp8ZLMvw0A0S+yY+UEg1z7luH
-   2EJst3W111674zXSvuz4SEfTMLJdHmOGfSWhmu5AFvjK1xCtHnSyPr6zj
-   Q==;
-X-CSE-ConnectionGUID: CKiIXu6aTW+SnSqTuwesag==
-X-CSE-MsgGUID: axM6X9dnSiepnDfWo4sOpg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="14736650"
+  t=1715759496; x=1747295496;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dDGycgU73DCT9n+z67VaLlVi85tgmvAsdHZv6DBe8+Q=;
+  b=evK3xe9t/KDl9YHetOXfxlOTgOUbJfs2B+MN5usuDuzxlHgY2dgF/bvT
+   U0eZ9zen2jlyfLp/HQ+QiLHgoqbqF/1xDX6wQaAKt9XD0G9xJuVeX919Z
+   H+5a2Q8gMLCPg/cNpveugkuW3Ph7P/bilQvTWWU+8u69FQE3nEV8SWL1S
+   S587Qtj9EAngtqgq7UI18Hmfi/n3EewcnhcJulnOCIoxqBI5kEadrkpBd
+   Fkipr3HzrQraOd+QcNR+m8uZ9gzpeBSRW+B5VTrTsEHS9w4AukDizgQSW
+   FYZO0+5U1qVMwoaw0TeTm/gOfW37mD5eFfrsrtfEFXNlsRhwolEo9Ulgt
+   g==;
+X-CSE-ConnectionGUID: Ufg0WR8wRzyL5ySI3Tl5tA==
+X-CSE-MsgGUID: EIFk4za9TeKHXKbrXEdB4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="29311985"
 X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="14736650"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 00:50:33 -0700
-X-CSE-ConnectionGUID: t86D13iNQXOuZxYiMkKN7g==
-X-CSE-MsgGUID: 6iTYhYF+RuCWXPMXHvSoww==
+   d="scan'208";a="29311985"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 00:51:34 -0700
+X-CSE-ConnectionGUID: dCCS43v0QMqV4uxosEKcwA==
+X-CSE-MsgGUID: DkJ4vs3lTd6ZAF4KoZ5BNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="35518898"
+   d="scan'208";a="31056713"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 May 2024 00:50:33 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 May 2024 00:51:33 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s79PB-000Cb5-27;
-	Wed, 15 May 2024 07:50:29 +0000
-Date: Wed, 15 May 2024 15:50:03 +0800
+	id 1s79Q9-000Cb9-2D;
+	Wed, 15 May 2024 07:51:29 +0000
+Date: Wed, 15 May 2024 15:50:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yenchia Chen <yenchia.chen@mediatek.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5.15 1/2] netlink: annotate lockless accesses to
- nlk->max_recvmsg_len
-Message-ID: <ZkRpK37ncAajhx3p@974e639ab07c>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/next 25/27] net/core/page_pool.c:691:19: warning:
+ variable 'niov' set but not used
+Message-ID: <202405151524.RBc0Q1A4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +61,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240515073644.32503-2-yenchia.chen@mediatek.com>
 
-Hi,
+tree:   https://github.com/isilence/linux zcrx/next
+head:   8f99f44fc1fabf943cf0d1989f0afdff15e064e8
+commit: 26fa2c4456e3c703b1dc7d61ec32180e4e7864d6 [25/27] wip: bnxt
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240515/202405151524.RBc0Q1A4-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405151524.RBc0Q1A4-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405151524.RBc0Q1A4-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+   In file included from net/core/page_pool.c:13:
+   In file included from include/net/page_pool/helpers.h:55:
+   In file included from include/net/page_pool/types.h:7:
+   In file included from include/linux/ptr_ring.h:26:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> net/core/page_pool.c:691:19: warning: variable 'niov' set but not used [-Wunused-but-set-variable]
+     691 |                 struct net_iov *niov;
+         |                                 ^
+   2 warnings generated.
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 5.15 1/2] netlink: annotate lockless accesses to nlk->max_recvmsg_len
-Link: https://lore.kernel.org/stable/20240515073644.32503-2-yenchia.chen%40mediatek.com
 
-Please ignore this mail if the patch is not relevant for upstream.
+vim +/niov +691 net/core/page_pool.c
+
+   675	
+   676	/* Only allow direct recycling in special circumstances, into the
+   677	 * alloc side cache.  E.g. during RX-NAPI processing for XDP_DROP use-case.
+   678	 *
+   679	 * Caller must provide appropriate safe context.
+   680	 */
+   681	static bool page_pool_recycle_in_cache(netmem_ref netmem,
+   682					       struct page_pool *pool)
+   683	{
+   684		if (unlikely(pool->alloc.count == PP_ALLOC_CACHE_SIZE)) {
+   685			recycle_stat_inc(pool, cache_full);
+   686			return false;
+   687		}
+   688	
+   689		if (netmem_is_net_iov(netmem)) {
+   690			// struct io_zc_rx_buf *buf;
+ > 691			struct net_iov *niov;
+   692	
+   693			niov = netmem_to_net_iov(netmem);
+   694			// buf = container_of(niov, struct io_zc_rx_buf, niov);
+   695			// printk(KERN_INFO "----- page_pool_recycle_in_cache: recycling page, physical address: %#llx\n", (unsigned long long)page_to_phys(buf->page));
+   696		}
+   697	
+   698		/* Caller MUST have verified/know (page_ref_count(page) == 1) */
+   699		pool->alloc.cache[pool->alloc.count++] = netmem;
+   700		recycle_stat_inc(pool, cached);
+   701		return true;
+   702	}
+   703	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
