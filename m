@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9350D2E851
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 20:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4DB6FBF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 20:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715805344; cv=none; b=qrOSVEjM9IQIVkobB3WWfYbM92/FIZx+jdQlvyM1XePcdmqESP2QjyoAD+40YNzhhHee/t1I56WHUFlFoEoasQ2ORVoYVbJ6Gf4KS3X3lFumROWRalzYjZ0qj+HZ3wkBA2gWMqwGjpp8kINZ7+reSs2OEFHIl6XTmohz0GM282k=
+	t=1715805909; cv=none; b=B3z3NGu9hFgLzLtwMSHD3DKadGsgnU+8PuTBUgv8S7pl7ZHefk5QmD4mvQHWFvsGUC86NLnbLCEDqateIAdbiu8Fpb+UFVkRE/k538hsNSsuimXLVhIUvjHBPIw+wkJ+U1B2saTnx0wOgsCA6NU0NA/niPvyXCruhXSRr3Wp3Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715805344; c=relaxed/simple;
-	bh=eW8Uz35PSaLqtyicdNqTm5ERUA3tZ9VIq7IwvBSI1sU=;
+	s=arc-20240116; t=1715805909; c=relaxed/simple;
+	bh=4OXESoy/YACGWLtrjHxlGrFlpsdfR46QYCjKc0xaJfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eRTh3zffj2zFUWVobG1iVfWu4u6CZ0TmcXSENm8/1UZZKNn/jDJICZonV9if2c0yu7b1iaPdRuam0fGL66NhURMwdeRE3GkuprfR58yo//1eYzhhQW7GLD4fri5AGrTBHvvY8qPW1xUTNp79NZ4EHe7incLiMfoEpr3YyuMxL5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B53IVpu1; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=agF2KBgYLlICJsT7ZOmYaRy+BB/jwaBD8cSCldvTgQICHJlBKl0KIzIdVkR6bPBEOdo9Q6RmAgcGAQa775lw6VOzKnj406kG4zFCrIJR7A/H6+En3vPmPF1YCXGa7wvehUl0E/TwlZ/AWz+AVCrxBrsqYTemTUkEmZIkf/xE7Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzyFWSub; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B53IVpu1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzyFWSub"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715805343; x=1747341343;
+  t=1715805908; x=1747341908;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eW8Uz35PSaLqtyicdNqTm5ERUA3tZ9VIq7IwvBSI1sU=;
-  b=B53IVpu1yE3guu1/zcnBAOqbvCM4llgL6toXzWrYIhERmKudro1ar5Wf
-   m2ldINy6bElQssnp7eqlg63cGOjJ9D2OGxzUr85uLeS2gyNKysygjBtBW
-   /+81XoDbPB+4WQDxT2csAkMxbBc0H5y30fOdXatjxbsVtMmVlen7EtbJe
-   PH6GwgwVwGINLOdQzYaCUSnZbyJKk3fxE3ClmLOK5Z6IuhEcG79P2ZzHK
-   WhM+eJ6ug14592lPhh76FUmO0WMmco3ZiGuS+Sg0VJGQOt0w5OGvrhKrn
-   5QsJusB3hj1seIp0NoEqNwbfuz49LHoLSR68QHAAjzgDQeseumm01RltT
+  bh=4OXESoy/YACGWLtrjHxlGrFlpsdfR46QYCjKc0xaJfc=;
+  b=JzyFWSubV8AXZRlkV3vQ2m+nkuNmqFkY6v8bZboOhdQ+XhLwNilodz+F
+   9HmGEOzpO00lRgElMwFYQ7m+EVOGS7EYmTlZXTsy9sTvcy508XgpjKBKH
+   VkfXmvPRYKUBdhEJ1xHe3v94Fq1CiA4yNp4NS4pm2EjdjsoxTdUH2NdG/
+   DqPJhssai285cHQTskTbXJHhsxYlYuf8HVgjluy+cm3ML1oP5atgI6WL2
+   Tt5hEG+i0WHd/QPsc83vfNEWjw+hWV6144fr1CBhp46I6jyL594sjiXhT
+   poBVmXwgqn7AaS+HYYZCbmV+/1d9Rwp/D2+uZL/KiVGzdK9w9hTzV0QnG
    w==;
-X-CSE-ConnectionGUID: 4zi7pg4WQx2YesWwTS4t3A==
-X-CSE-MsgGUID: iRlDzQWzRJm4P7d5a36mQQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11715261"
+X-CSE-ConnectionGUID: a0HCg16dSGO9qMegrIfBxQ==
+X-CSE-MsgGUID: xlp57LGCTQ+5obgdiUk5Rg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22485389"
 X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
-   d="scan'208";a="11715261"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 13:35:07 -0700
-X-CSE-ConnectionGUID: 1SD6tuY7Teiir5lkGiGS5g==
-X-CSE-MsgGUID: SXan1E+kRWCu7PEGeDPpOQ==
+   d="scan'208";a="22485389"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 13:45:07 -0700
+X-CSE-ConnectionGUID: hTBD/fu0TvSm2hHrxXiYZw==
+X-CSE-MsgGUID: RS3AE3yISIW0RRzSiyFy4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
-   d="scan'208";a="62372687"
+   d="scan'208";a="35738998"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 May 2024 13:35:05 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 May 2024 13:45:05 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7LL5-000DFP-0F;
-	Wed, 15 May 2024 20:35:03 +0000
-Date: Thu, 16 May 2024 04:34:15 +0800
+	id 1s7LUl-000DFr-1L;
+	Wed, 15 May 2024 20:45:03 +0000
+Date: Thu, 16 May 2024 04:44:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 13096/13213]
- drivers/irqchip/irq-riscv-imsic-early.c:52:9: error: too many arguments to
- function 'riscv_ipi_set_virq_range'
-Message-ID: <202405160449.hGp9BveB-lkp@intel.com>
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 19669/22436]
+ kernel/sched/fair.c:6701:19: error: 'struct task_group' has no member named
+ 'se'
+Message-ID: <202405160414.7SqMuv8G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,71 +63,252 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   82d92a9a1b9ea0ea52aff27cddd05009b4edad49
-commit: f725fb3518e03b48a50a22f63c440cd04b41334a [13096/13213] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
-config: riscv-randconfig-001-20240516 (https://download.01.org/0day-ci/archive/20240516/202405160449.hGp9BveB-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405160449.hGp9BveB-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c6c0f64fb7e3a44c5ddebc0bf9dfbb71901a28e3
+commit: 70a232a564cfa99401d197708cf380398ad5e2d7 [19669/22436] sched: Adjust wakeup cpu range according CPU util dynamicly
+config: x86_64-randconfig-122-20240516 (https://download.01.org/0day-ci/archive/20240516/202405160414.7SqMuv8G-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405160414.7SqMuv8G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405160449.hGp9BveB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405160414.7SqMuv8G-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/irqchip/irq-riscv-imsic-early.c: In function 'imsic_ipi_domain_init':
->> drivers/irqchip/irq-riscv-imsic-early.c:52:9: error: too many arguments to function 'riscv_ipi_set_virq_range'
-      52 |         riscv_ipi_set_virq_range(virq, IMSIC_NR_IPI, true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/smp.h:119,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:2142,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from drivers/irqchip/irq-riscv-imsic-early.c:8:
-   arch/riscv/include/asm/smp.h:52:6: note: declared here
-      52 | void riscv_ipi_set_virq_range(int virq, int nr);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:9718:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9718:9: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9718:9: sparse:    struct sched_domain *
+   kernel/sched/fair.c:9915:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9915:15: sparse:    struct sched_domain_shared [noderef] <asn:4> *
+   kernel/sched/fair.c:9915:15: sparse:    struct sched_domain_shared *
+   kernel/sched/fair.c:9929:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9929:14: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9929:14: sparse:    struct sched_domain *
+   kernel/sched/fair.c:9938:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9938:14: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9938:14: sparse:    struct sched_domain *
+   kernel/sched/fair.c:9963:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9963:14: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9963:14: sparse:    struct sched_domain *
+   kernel/sched/fair.c:9993:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9993:14: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9993:14: sparse:    struct sched_domain *
+   kernel/sched/fair.c:5184:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/fair.c:6215:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6215:15: sparse:    struct sched_domain_shared [noderef] <asn:4> *
+   kernel/sched/fair.c:6215:15: sparse:    struct sched_domain_shared *
+   kernel/sched/fair.c:6206:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6206:15: sparse:    struct sched_domain_shared [noderef] <asn:4> *
+   kernel/sched/fair.c:6206:15: sparse:    struct sched_domain_shared *
+   kernel/sched/fair.c:6215:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6215:15: sparse:    struct sched_domain_shared [noderef] <asn:4> *
+   kernel/sched/fair.c:6215:15: sparse:    struct sched_domain_shared *
+   kernel/sched/fair.c:6206:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6206:15: sparse:    struct sched_domain_shared [noderef] <asn:4> *
+   kernel/sched/fair.c:6206:15: sparse:    struct sched_domain_shared *
+   kernel/sched/fair.c:6187:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6187:17: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:6187:17: sparse:    struct sched_domain *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/fair.c:9808:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9808:16: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9808:16: sparse:    struct sched_domain *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/fair.c:9808:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9808:16: sparse:    struct sched_domain [noderef] <asn:4> *
+   kernel/sched/fair.c:9808:16: sparse:    struct sched_domain *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/sched.h:2254:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data [noderef] <asn:4> *
+   kernel/sched/sched.h:2254:16: sparse:    struct update_util_data *
+   kernel/sched/fair.c:3675:6: warning: no previous prototype for 'sync_entity_load_avg' [-Wmissing-prototypes]
+    3675 | void sync_entity_load_avg(struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:3688:6: warning: no previous prototype for 'remove_entity_load_avg' [-Wmissing-prototypes]
+    3688 | void remove_entity_load_avg(struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/current.h:5,
+                    from include/linux/sched.h:12,
+                    from kernel/sched/sched.h:5,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c: In function 'set_task_select_cpus':
+>> kernel/sched/fair.c:6701:19: error: 'struct task_group' has no member named 'se'
+    6701 |   if (unlikely(!tg->se[cpu]))
+         |                   ^~
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x) __builtin_expect(!!(x), 0)
+         |                                          ^
+   kernel/sched/fair.c:6707:40: error: 'struct task_group' has no member named 'se'
+    6707 |    spare = (long)(capacity_of(cpu) - tg->se[cpu]->avg.util_avg);
+         |                                        ^~
+   kernel/sched/fair.c:6720:21: error: 'struct task_group' has no member named 'se'
+    6720 |   util_avg_sum += tg->se[cpu]->avg.util_avg;
+         |                     ^~
+   kernel/sched/fair.c: In function 'select_task_rq_fair':
+   kernel/sched/fair.c:6747:16: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    6747 |  unsigned long time;
+         |                ^~~~
+   kernel/sched/fair.c: In function 'pick_next_task_fair':
+   kernel/sched/fair.c:7291:16: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    7291 |  unsigned long time;
+         |                ^~~~
+   In file included from include/linux/migrate.h:6,
+                    from kernel/sched/sched.h:52,
+                    from kernel/sched/fair.c:23:
+   At top level:
+   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+--
+   kernel/sched/fair.c:3675:6: warning: no previous prototype for 'sync_entity_load_avg' [-Wmissing-prototypes]
+    3675 | void sync_entity_load_avg(struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:3688:6: warning: no previous prototype for 'remove_entity_load_avg' [-Wmissing-prototypes]
+    3688 | void remove_entity_load_avg(struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/current.h:5,
+                    from include/linux/sched.h:12,
+                    from kernel/sched/sched.h:5,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c: In function 'set_task_select_cpus':
+>> kernel/sched/fair.c:6701:19: error: 'struct task_group' has no member named 'se'
+    6701 |   if (unlikely(!tg->se[cpu]))
+         |                   ^~
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x) __builtin_expect(!!(x), 0)
+         |                                          ^
+   kernel/sched/fair.c:6707:40: error: 'struct task_group' has no member named 'se'
+    6707 |    spare = (long)(capacity_of(cpu) - tg->se[cpu]->avg.util_avg);
+         |                                        ^~
+   kernel/sched/fair.c:6720:21: error: 'struct task_group' has no member named 'se'
+    6720 |   util_avg_sum += tg->se[cpu]->avg.util_avg;
+         |                     ^~
+   kernel/sched/fair.c: In function 'select_task_rq_fair':
+   kernel/sched/fair.c:6747:16: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    6747 |  unsigned long time;
+         |                ^~~~
+   kernel/sched/fair.c: In function 'pick_next_task_fair':
+   kernel/sched/fair.c:7291:16: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    7291 |  unsigned long time;
+         |                ^~~~
+   In file included from include/linux/migrate.h:6,
+                    from kernel/sched/sched.h:52,
+                    from kernel/sched/fair.c:23:
+   At top level:
+   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
 
 
-vim +/riscv_ipi_set_virq_range +52 drivers/irqchip/irq-riscv-imsic-early.c
+vim +6701 kernel/sched/fair.c
 
-21a8f8a0eb35ce Anup Patel 2024-03-07  41  
-21a8f8a0eb35ce Anup Patel 2024-03-07  42  static int __init imsic_ipi_domain_init(void)
-21a8f8a0eb35ce Anup Patel 2024-03-07  43  {
-21a8f8a0eb35ce Anup Patel 2024-03-07  44  	int virq;
-21a8f8a0eb35ce Anup Patel 2024-03-07  45  
-21a8f8a0eb35ce Anup Patel 2024-03-07  46  	/* Create IMSIC IPI multiplexing */
-21a8f8a0eb35ce Anup Patel 2024-03-07  47  	virq = ipi_mux_create(IMSIC_NR_IPI, imsic_ipi_send);
-21a8f8a0eb35ce Anup Patel 2024-03-07  48  	if (virq <= 0)
-21a8f8a0eb35ce Anup Patel 2024-03-07  49  		return virq < 0 ? virq : -ENOMEM;
-21a8f8a0eb35ce Anup Patel 2024-03-07  50  
-21a8f8a0eb35ce Anup Patel 2024-03-07  51  	/* Set vIRQ range */
-21a8f8a0eb35ce Anup Patel 2024-03-07 @52  	riscv_ipi_set_virq_range(virq, IMSIC_NR_IPI, true);
-21a8f8a0eb35ce Anup Patel 2024-03-07  53  
-21a8f8a0eb35ce Anup Patel 2024-03-07  54  	/* Announce that IMSIC is providing IPIs */
-21a8f8a0eb35ce Anup Patel 2024-03-07  55  	pr_info("%pfwP: providing IPIs using interrupt %d\n", imsic->fwnode, IMSIC_IPI_ID);
-21a8f8a0eb35ce Anup Patel 2024-03-07  56  
-21a8f8a0eb35ce Anup Patel 2024-03-07  57  	return 0;
-21a8f8a0eb35ce Anup Patel 2024-03-07  58  }
-21a8f8a0eb35ce Anup Patel 2024-03-07  59  #else
-21a8f8a0eb35ce Anup Patel 2024-03-07  60  static void imsic_ipi_starting_cpu(void) { }
-21a8f8a0eb35ce Anup Patel 2024-03-07  61  static void imsic_ipi_dying_cpu(void) { }
-21a8f8a0eb35ce Anup Patel 2024-03-07  62  static int __init imsic_ipi_domain_init(void) { return 0; }
-21a8f8a0eb35ce Anup Patel 2024-03-07  63  #endif
-21a8f8a0eb35ce Anup Patel 2024-03-07  64  
-
-:::::: The code at line 52 was first introduced by commit
-:::::: 21a8f8a0eb35ceb21e2c9ddd87468bc3b5ac87c0 irqchip: Add RISC-V incoming MSI controller early driver
-
-:::::: TO: Anup Patel <apatel@ventanamicro.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+  6670	
+  6671	/*
+  6672	 * set_task_select_cpus: select the cpu range for task
+  6673	 * @p: the task whose available cpu range will to set
+  6674	 * @idlest_cpu: the cpu which is the idlest in prefer cpus
+  6675	 *
+  6676	 * If sum of 'util_avg' among 'preferred_cpus' lower than the percentage
+  6677	 * 'sysctl_sched_util_low_pct' of 'preferred_cpus' capacity, select
+  6678	 * 'preferred_cpus' range for task, otherwise select 'preferred_cpus' for task.
+  6679	 *
+  6680	 * The available cpu range set to p->select_cpus. Idlest cpu in preferred cpus
+  6681	 * set to @idlest_cpu, which is set to wakeup cpu when fast path wakeup cpu
+  6682	 * without p->select_cpus.
+  6683	 */
+  6684	static void set_task_select_cpus(struct task_struct *p, int *idlest_cpu,
+  6685					 int sd_flag)
+  6686	{
+  6687		unsigned long util_avg_sum = 0;
+  6688		unsigned long tg_capacity = 0;
+  6689		long min_util = INT_MIN;
+  6690		struct task_group *tg;
+  6691		long spare;
+  6692		int cpu;
+  6693	
+  6694		p->select_cpus = &p->cpus_allowed;
+  6695		if (!prefer_cpus_valid(p))
+  6696			return;
+  6697	
+  6698		rcu_read_lock();
+  6699		tg = task_group(p);
+  6700		for_each_cpu(cpu, p->prefer_cpus) {
+> 6701			if (unlikely(!tg->se[cpu]))
+  6702				continue;
+  6703	
+  6704			if (idlest_cpu && available_idle_cpu(cpu)) {
+  6705				*idlest_cpu = cpu;
+  6706			} else if (idlest_cpu) {
+  6707				spare = (long)(capacity_of(cpu) - tg->se[cpu]->avg.util_avg);
+  6708				if (spare > min_util) {
+  6709					min_util = spare;
+  6710					*idlest_cpu = cpu;
+  6711				}
+  6712			}
+  6713	
+  6714			if (available_idle_cpu(cpu)) {
+  6715				rcu_read_unlock();
+  6716				p->select_cpus = p->prefer_cpus;
+  6717				return;
+  6718			}
+  6719	
+  6720			util_avg_sum += tg->se[cpu]->avg.util_avg;
+  6721			tg_capacity += capacity_of(cpu);
+  6722		}
+  6723		rcu_read_unlock();
+  6724	
+  6725		if (tg_capacity > cpumask_weight(p->prefer_cpus) &&
+  6726		    util_avg_sum * 100 <= tg_capacity * sysctl_sched_util_low_pct) {
+  6727			p->select_cpus = p->prefer_cpus;
+  6728		}
+  6729	}
+  6730	#endif
+  6731	
 
 -- 
 0-DAY CI Kernel Test Service
