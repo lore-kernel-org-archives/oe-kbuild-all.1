@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68927482E2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 08:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDD94CB55
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 09:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715760168; cv=none; b=QZXH3Zay8TtVJEkVdEaUiUV5c8hDEsXkc2Lusiw4G2LGNSITfOpfePCjbb8Nv7oaOhN/3VNixU9Pu+RZ6j1A1jUu5buinRIMLYO5n6N0UPyufDHuXcsctZn732zPd3cxDNzJzbW1ZlgOhLGs4AGJeI4bcMy5nreX+QB45Btg0zs=
+	t=1715764367; cv=none; b=hc4ljWLAzqz8vAZwoHDBHbVi4DIHuAJrHjPeNZSpKbIQaCwIUUQKzm27EBnWOanszeZXJLmFXYcxyT2zx+bA3qekjH8LfNC4YM0n57ppJjB29VZNt+1/j6wmovQYCBveZ1KQeyNTILRuC1Rb98AWDkCGl8PoT65x4WJ/vj51Oe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715760168; c=relaxed/simple;
-	bh=+2y16YllFEbuTlxVpBtd6ND7KTuiSQc02W5vPBpNGac=;
+	s=arc-20240116; t=1715764367; c=relaxed/simple;
+	bh=4/9GuGJajK62ln1Cgzoxm9kfJbOPYOE76TLssq0WiBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OLWuRRud4ycB4hX8nnr5frkRtdTbVq5FzbRq8OsgovtFb2d3V7r41Cc9n6WxDlnCsUWcChyNzoQdvZ5AN/gqSKCc6jiIiBEhUnEzVC11MIvGti4Iz4tL+uL1eDSZHdyfH1ozC7U4FKpgvQCtL13bmZ/CbB7tQcoFyQBEKCuU8Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1+RfO2X; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=bLLsPdKRj2xkKjSA/AzaOX0NfIB8RtN1fHnauWqb8vojrQTKYddKgeoUQDLyDmq+UUwJIYQi6ykizv65w3uB7jejlH3wqUlc5H8qElgtaEy0TuFdeifhYWcemQs7zEiF6IqemO6SxHxCKI1rakzVW5W/8PjUcVQK3EFSbU9RqVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JBOFBwqv; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1+RfO2X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715760166; x=1747296166;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+2y16YllFEbuTlxVpBtd6ND7KTuiSQc02W5vPBpNGac=;
-  b=E1+RfO2X7qeOARduB/lWlI6R/ffnf5Gq0PdZQjaPrc8QHxyAj2H6dxXJ
-   esqMSHz+UaQfyMLQEaqFClrOf5wHFmiHA63+Gj8ZFvkGSVejXCul5ZrJq
-   M+rnxlqheIv3uZ+fbZqWXXJSg3Sm/dcc3q5jz0TygKDTsUUeBMhjJOZYM
-   rRzK6vnEzNWEICit4c+zvqQSp8N/+SjS8dRb83lxleZUzM0ubQeEzO6vM
-   Bvc7qsVQYdUrPRAbyB6XBK2OmVezvHSK1a/qodIVAruDE9LJwgeHRv+JK
-   Vu2MhmqtHxXlpZ4xBfNh2pDxxpV+/KjAqzW/mwY7dGDAg6H4TBHtqA9Vi
-   A==;
-X-CSE-ConnectionGUID: +HW8L+S2Sl6HGozyZdGPlw==
-X-CSE-MsgGUID: alMg2MaWR1GPuIVTHsSWhg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="23191757"
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="23191757"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 01:02:45 -0700
-X-CSE-ConnectionGUID: fmleiT/nSVeyAwzEGq6YJQ==
-X-CSE-MsgGUID: 4HL5MP9iRFCRD5Tw63kKjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; 
-   d="scan'208";a="30973398"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 May 2024 01:02:36 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s79ao-000Cbv-0e;
-	Wed, 15 May 2024 08:02:30 +0000
-Date: Wed, 15 May 2024 16:02:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhou Shuai <zhoushuai28@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3971/9610]
- drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse: sparse:
- incorrect type in argument 1 (different base types)
-Message-ID: <202405151557.G5fbOVUN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JBOFBwqv"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4200ee47de7so28520645e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 May 2024 02:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715764364; x=1716369164; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZLJ6MaE2DFoqwFNpytnmQOglGif20+pmWBjl4rnHlI4=;
+        b=JBOFBwqv6UNzTOrRU7dgbU76jXa5MCAklqu31bkPDePYTigS6HvhS+UfcsVw104QGy
+         w4h13Oy9Lc/GqeGYHsg5lIS+IIfcvLg+OdtZ6D9RannRmXAcxcD0OCscUGSdHDuYU2Uc
+         fApvVbEqTtGIUyBXZPS6aUhYwMW/tDDQwmcIvDFIGhVl9eYTBS77NjOSBC5cXCvSZdao
+         vsFQc0tARR1/NXNDHWaFnYHD+bX9gwkHdXSqFF/vJRXzREB9sQ3k3H652s+5KpHBYA2k
+         CVnR2nqN6lcqW5Q/V9EoorrIm9iaQTbV70owrF3RCRSqinNr84sbh8V+JOBzjkoEk1uE
+         lILw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715764364; x=1716369164;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZLJ6MaE2DFoqwFNpytnmQOglGif20+pmWBjl4rnHlI4=;
+        b=hZweAyA19CDs5O/+jbyizIyVBPDs6b4+HRYAhAMQB7sdMocvr95viTeCaVeQOFvK7P
+         LaRCEJhZS88NCYPjMEKWvA5GVzJpZ34abt1MMgpkulzEYQWsj2RUFUjKkn4wzsnZAmuu
+         1crtNH1MF748rsSAnxS+NQ27SRP/j5KDx1vOR7amFTrVKPEalsn+fOTOf+4gHphF2LbQ
+         nsd3VnYHe7N/wTQqjjCP2wmoQmI4A94qHkfNc8+SyZwW3Rl4oyg8z1EyxaqW/yDReozO
+         x+bbecn6MAlBaDDBJGR04sWGv8A7OIoUSNKslhX7AV8YhT5AxHgbnLVRve52HpgU5efh
+         9C5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXnyTTe3jb0bkdVaS2ISqoZklczJA/jiCAHQU3KEcDC6qfx3KmfDRIGah23qbyJPsTY392GETQaLCfDNSv/bVLddxvRTgamJP3uPMGs5Q==
+X-Gm-Message-State: AOJu0YzzeqvShtPy/HVD1qmVcD2QZ+BjTAD616jG0a0S4KAQtt5v/UwF
+	NNlvldXzQDIV8uiDDjnr8jE0E/gdpb8BuVAdxKzwhG93nBZD+1zbls19ml0q9vw=
+X-Google-Smtp-Source: AGHT+IGEa2KHmbNQaLbKQuZWN9MPKzrVilJvm2BuQQNtMvWoemXU512v52+B+6U+vQtLRz5tz1Q3bA==
+X-Received: by 2002:a05:600c:314e:b0:41b:4443:9e10 with SMTP id 5b1f17b1804b1-41feac63467mr100360905e9.29.1715764363541;
+        Wed, 15 May 2024 02:12:43 -0700 (PDT)
+Received: from localhost ([149.14.240.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce24c0sm225719355e9.17.2024.05.15.02.12.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 May 2024 02:12:42 -0700 (PDT)
+Date: Wed, 15 May 2024 11:12:38 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Goldwyn Rodrigues <rgoldwyn@suse.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [goldwynr:iomap.2 3/32] fs/iomap/buffered-io.c:426
+ iomap_read_encoded() error: we previously assumed 'ctx->ops' could be null
+ (see line 395)
+Message-ID: <fb3910cc-2691-488b-823b-7ebcb0b31a64@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +67,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7c6c7d83d2bc788cd9aef8983afa59eae25e148e
-commit: 9c1c9598010fbb9daa1e2a67d23830092fb6246a [3971/9610] net/hinic: Update Huawei Intelligent Network Card Driver: hinic
-config: arm64-randconfig-r132-20240515 (https://download.01.org/0day-ci/archive/20240515/202405151557.G5fbOVUN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240515/202405151557.G5fbOVUN-lkp@intel.com/reproduce)
+tree:   https://github.com/goldwynr/linux iomap.2
+head:   7defcedce6c031c95fa753060462301bd623163f
+commit: 1bc69b67cc4890a9f5afb4ac4f3ba3f14fb287da [3/32] iomap: Introduce IOMAP_ENCODED
+config: xtensa-randconfig-r071-20240514 (https://download.01.org/0day-ci/archive/20240515/202405150541.8zhPcUkQ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405151557.G5fbOVUN-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405150541.8zhPcUkQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
->> drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse:     expected unsigned int [usertype] value
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse:     got restricted __be32 [usertype]
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:592:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *cfg_regs_base @@     got void *cfg_reg_base @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:592:29: sparse:     expected unsigned char [noderef] [usertype] __iomem *cfg_regs_base
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:592:29: sparse:     got void *cfg_reg_base
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:593:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *intr_regs_base @@     got void *intr_reg_base @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:593:30: sparse:     expected unsigned char [noderef] [usertype] __iomem *intr_regs_base
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:593:30: sparse:     got void *intr_reg_base
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:596:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *db_base @@     got void *db_base @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:596:23: sparse:     expected unsigned char [noderef] [usertype] __iomem *db_base
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:596:23: sparse:     got void *db_base
->> drivers/net/ethernet/huawei/hinic/hinic_hwif.c:597:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *dwqe_mapping @@     got void *dwqe_mapping @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:597:28: sparse:     expected void [noderef] __iomem *dwqe_mapping
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:597:28: sparse:     got void *dwqe_mapping
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:664:64: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned int flag @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:664:64: sparse:     expected restricted gfp_t [usertype] gfp
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:664:64: sparse:     got unsigned int flag
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:679:64: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned int flag @@
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:679:64: sparse:     expected restricted gfp_t [usertype] gfp
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:679:64: sparse:     got unsigned int flag
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:984:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:984:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:984:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:984:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:984:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:984:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:993:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:993:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:993:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:993:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:993:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:993:17: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/huawei/hinic/hinic_hwif.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:245:46: sparse: sparse: self-comparison always evaluates to false
+New smatch warnings:
+fs/iomap/buffered-io.c:426 iomap_read_encoded() error: we previously assumed 'ctx->ops' could be null (see line 395)
 
-vim +46 drivers/net/ethernet/huawei/hinic/hinic_hwif.c
+vim +426 fs/iomap/buffered-io.c
 
-    42	
-    43	/* For UEFI driver, this function can only write BAR0 */
-    44	void hinic_hwif_write_reg(struct hinic_hwif *hwif, u32 reg, u32 val)
-    45	{
-  > 46		writel(cpu_to_be32(val), hwif->cfg_regs_base + reg);
-    47	}
-    48	
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  373  static loff_t
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  374  iomap_read_encoded(const struct iomap_iter *iter, struct iomap_readpage_ctx *ctx)
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  375  {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  376  	struct folio *folio;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  377  	const struct iomap *iomap = &iter->iomap;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  378  	struct address_space *mapping = iter->inode->i_mapping;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  379  	pgoff_t index = iomap->offset >> PAGE_SHIFT;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  380  	pgoff_t end_index = (iomap->offset + iomap->length + PAGE_SIZE - 1) >> PAGE_SHIFT;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  381  	pgoff_t ra_index = -1, ra_end_index = 0;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  382  	gfp_t gfp = mapping_gfp_constraint(mapping, GFP_KERNEL);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  383  	struct bio *bio;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  384  	struct bio_set *bioset;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  385  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  386  	WARN_ON(ctx->cur_folio && (ctx->cur_folio->index > end_index ||
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  387  			ctx->cur_folio->index < index));
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  388  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  389  	/* If there is already a bio in progress, submit it first */
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  390  	if (ctx->bio) {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  391  		ctx->ops->submit_io(iter->inode, ctx->bio, iter->pos, false);
+                                                                ^^^^^^^^^^
+Unchecked dereference
+
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  392  		ctx->bio = NULL;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  393  	}
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  394  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31 @395  	if (ctx->ops && ctx->ops->bio_set)
+                                                            ^^^^^^^^
+Check for NULL.  Is this necessary?
+
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  396  		bioset = ctx->ops->bio_set;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  397  	else
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  398  		bioset = &fs_bio_set;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  399  	bio = bio_alloc_bioset(iomap->bdev, end_index - index + 1,
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  400  			REQ_OP_READ, gfp, bioset);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  401  	bio->bi_iter.bi_sector = iomap_sector(iomap, iomap->offset);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  402  	bio->bi_end_io = iomap_read_end_io;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  403  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  404  	if (ctx->rac) {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  405  		ra_index = readahead_index(ctx->rac);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  406  		ra_end_index = ra_index + readahead_count(ctx->rac);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  407  	}
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  408  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  409  	while (index < end_index) {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  410  		if (ctx->cur_folio && index == ctx->cur_folio->index) {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  411  			folio = ctx->cur_folio;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  412  			ctx->cur_folio = NULL;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  413  			ctx->cur_folio_in_bio = true;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  414  		} else if (index >= ra_index && index < ra_end_index) {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  415  			do {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  416  				folio = readahead_folio(ctx->rac);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  417  			} while (folio->index < index);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  418  			ra_index = readahead_index(ctx->rac);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  419  		} else {
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  420  			folio = filemap_grab_folio(mapping, index);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  421  		}
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  422  		bio_add_folio_nofail(bio, folio, folio_size(folio), 0);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  423  		index++;
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  424  	}
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  425  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31 @426  	ctx->ops->submit_io(iter->inode, bio, iomap->offset, true);
+                                                        ^^^^^^^^^^
+Unchecked dereference
+
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  427  
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  428  	return iomap->length - (iter->pos - iomap->offset);
+1bc69b67cc4890 Goldwyn Rodrigues 2023-01-31  429  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
