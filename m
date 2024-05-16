@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BF91F19A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 23:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF7029CE4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 23:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715900695; cv=none; b=PjxU0/YO04X7NuKrv6A9coZfiDZ/bjGYkYrEve9aCiOJnAFk7ooIIwIAB3lo1jqgwpW04tjOYFpHh1g1w0kNiyJp8H+eZOzpyLbenAwA7v+2xH1tnaD3T+XcgZik6a1mesmLBScFxCm/a/Vh81yOuPSZVMPOyPL96XoqEVACObg=
+	t=1715901767; cv=none; b=ggxbkTamA4enYV9FAZGDrR++mY4xqGHfzUiYY67cu/vIK+7Q50UughRrwPB2YbQshjvvtbR/VuKEoPJwr8xK1uXMY1REE+qeS9Z2SUj8RN36F/DKor9LiG8MarQeWRKeDb3aN0g7rBb7wBclWTGPEgnYB4IObyS+PhOnz4Mox3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715900695; c=relaxed/simple;
-	bh=nh4nGr+gQ6wnevCjIVCmzspYxt6MCbloYi4F9t67PIg=;
+	s=arc-20240116; t=1715901767; c=relaxed/simple;
+	bh=G+Cs4U2ifijWaGMbXgbT9LXR6f7giXlLhHfrKpLRDNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iyGMR5G54Ij4vubjJvXd5Em7IYtxWsUugQBgwKw+n/AhczNHjKIMUzo4JCGXwIr/FXxtmlqWZYQ+s5GUuLNDNyFdojQqFaSVXqIjMP24MA6pH9AubnyXTOo8Xwl3ASoIQYufnV4FooMs2LEOyZ/m9cAhoY6WZsh7LaxSee0tVFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vj7jXEjv; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=c9m+upJH4vip/ot4/SaAhsjGa65H8V6BOl+BBLpyd4xMDW715HQ4H5Uc+x2JcEjR5dZ0L1RwvLZvpMpv24lPUoOaQuPlK+XHMC6MVDPBt5OKb1MZqnikDGdwICGXd+NKsP74tBqdsoZWlIavuWXg/SQeiOkkEJ/ffGPykpMdrAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FrampAEF; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vj7jXEjv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FrampAEF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715900693; x=1747436693;
+  t=1715901765; x=1747437765;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nh4nGr+gQ6wnevCjIVCmzspYxt6MCbloYi4F9t67PIg=;
-  b=Vj7jXEjva+EPdM5lqBvLwDq/Nqx79yO3kynUcy2fXe0np6p7P4sEW2Bd
-   sVo8KoWG0N9l3p8h+b/jERr5W8eSGLfKFhpdcV6i27ws3vXNbhmfq14DZ
-   4qFumpK8kbfO/urKBmLvxpoQSS/l0fPgqF2ha0jyIpzyFqHV7d2o6rqpX
-   n2nn0C4bmUMiGLaFFpr4PF4PtZoYKOa+fj/DQbd9zjbUQGCkEkkB0I7l1
-   TfroctM87xz+JnpcVCuhObg9g0diiSmM6Y2+QGiq2dZUFIlwaQSH/i5Gb
-   /ZukLeQN9F0KDkNqE353MHpONZWS7eVfGshfVqP0LleJx10dLYy6JLX6f
-   g==;
-X-CSE-ConnectionGUID: 6BfvzByVRF2ItHybPn/pEQ==
-X-CSE-MsgGUID: bzpd2KuDQDyySWjFYwgllQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12266911"
-X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
-   d="scan'208";a="12266911"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 16:04:52 -0700
-X-CSE-ConnectionGUID: +k415JnMQi+FptgiSeOfPw==
-X-CSE-MsgGUID: bl9Y4xyLRXy+FsAFUdig8g==
+  bh=G+Cs4U2ifijWaGMbXgbT9LXR6f7giXlLhHfrKpLRDNY=;
+  b=FrampAEFr2k34qsyzM/ivUG3GdE7GLX3PCscq45K+bHj6WoRlcUFcvb0
+   wAwADFCZSQ2knxRj46610haYUuSLR215tdAS/VIx1Cm0xcMgHhNpTcVuy
+   aofN2X5H5rnDaE1NkCvH4VLSd0jZNIH++eEXceJ8LHS4rDIxlz/wHLKYn
+   GdtNFbPebHLkwSOiRmiRIy+OMfrQHrUrXP/qMq0NqnL45lhnw7D0iVHEe
+   7WTOH0V6rkIkBRyZCnuqQbGCqxNz3SN4roLf5KleMRAslXg+KSVxvwri0
+   NcybT+v206fOBhISosz+mzJawiZ+ebj3WDKz8KOJQ/yQqsPE5Z+qrtodj
+   Q==;
+X-CSE-ConnectionGUID: duWalMBgT+Kqs8lwHWJJYg==
+X-CSE-MsgGUID: MFyACpxMQu+5sQR0Vojj0A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="15881314"
+X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
+   d="scan'208";a="15881314"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 16:22:45 -0700
+X-CSE-ConnectionGUID: x5KInBcMQBO0jb4NwJuX1A==
+X-CSE-MsgGUID: OC9ARInGR7mS+lAvK6faEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
-   d="scan'208";a="36499893"
+   d="scan'208";a="36385389"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 May 2024 16:04:45 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 May 2024 16:22:43 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7k9S-000Exl-1e;
-	Thu, 16 May 2024 23:04:42 +0000
-Date: Fri, 17 May 2024 07:03:46 +0800
+	id 1s7kQq-000Eyb-2i;
+	Thu, 16 May 2024 23:22:40 +0000
+Date: Fri, 17 May 2024 07:22:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, djwong@kernel.org, hch@infradead.org,
-	brauner@kernel.org, david@fromorbit.com, chandanbabu@kernel.org,
-	jack@suse.cz, yi.zhang@huawei.com, yi.zhang@huaweicloud.com,
-	chengzhihao1@huawei.com, yukuai3@huawei.com
-Subject: Re: [PATCH v2 1/3] iomap: pass blocksize to iomap_truncate_page()
-Message-ID: <202405170624.liC4qYj3-lkp@intel.com>
-References: <20240516073001.1066373-2-yi.zhang@huaweicloud.com>
+To: Nobuaki.Tsunashima@infineon.com, marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org
+Subject: Re: [PATCH] Bluetooth: Patch for CYW4373 hci up fail issue
+Message-ID: <202405170648.10OEk1LW-lkp@intel.com>
+References: <6267800d70ae4344acaba3486b54bc0c@infineon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,54 +63,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240516073001.1066373-2-yi.zhang@huaweicloud.com>
+In-Reply-To: <6267800d70ae4344acaba3486b54bc0c@infineon.com>
 
-Hi Zhang,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.9 next-20240516]
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v6.9 next-20240516]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/iomap-pass-blocksize-to-iomap_truncate_page/20240516-154238
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20240516073001.1066373-2-yi.zhang%40huaweicloud.com
-patch subject: [PATCH v2 1/3] iomap: pass blocksize to iomap_truncate_page()
-config: arm-randconfig-r111-20240517 (https://download.01.org/0day-ci/archive/20240517/202405170624.liC4qYj3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240517/202405170624.liC4qYj3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nobuaki-Tsunashima-infineon-com/Bluetooth-Patch-for-CYW4373-hci-up-fail-issue/20240516-131000
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/6267800d70ae4344acaba3486b54bc0c%40infineon.com
+patch subject: [PATCH] Bluetooth: Patch for CYW4373 hci up fail issue
+config: i386-randconfig-062-20240517 (https://download.01.org/0day-ci/archive/20240517/202405170648.10OEk1LW-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405170648.10OEk1LW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405170624.liC4qYj3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405170648.10OEk1LW-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/iomap/buffered-io.c:1453:28: sparse: sparse: incompatible types in comparison expression (different signedness):
-   fs/iomap/buffered-io.c:1453:28: sparse:    long long *
-   fs/iomap/buffered-io.c:1453:28: sparse:    unsigned long long [usertype] *
+>> drivers/bluetooth/btbcm.c:453:95: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct bcm_chip_version_table *entry @@     got struct bcm_chip_version_table const * @@
+   drivers/bluetooth/btbcm.c:453:95: sparse:     expected struct bcm_chip_version_table *entry
+   drivers/bluetooth/btbcm.c:453:95: sparse:     got struct bcm_chip_version_table const *
 
-vim +1453 fs/iomap/buffered-io.c
+vim +453 drivers/bluetooth/btbcm.c
 
-  1446	
-  1447	int
-  1448	iomap_truncate_page(struct inode *inode, loff_t pos, unsigned int blocksize,
-  1449			bool *did_zero, const struct iomap_ops *ops)
-  1450	{
-  1451		loff_t start = pos;
-  1452		unsigned int off = is_power_of_2(blocksize) ? (pos & (blocksize - 1)) :
-> 1453				   do_div(pos, blocksize);
-  1454	
-  1455		/* Block boundary? Nothing to do */
-  1456		if (!off)
-  1457			return 0;
-  1458		return iomap_zero_range(inode, start, blocksize - off, did_zero, ops);
-  1459	}
-  1460	EXPORT_SYMBOL_GPL(iomap_truncate_page);
-  1461	
+   440	
+   441	struct bcm_chip_version_table {
+   442		u8	chip_id;
+   443		u16 baseline;
+   444	};
+   445	#define BCM_ROMFW_BASELINE_NUM	0xFFFF
+   446	static const struct bcm_chip_version_table disable_broken_read_transmit_power_by_chip_ver[] = {
+   447		{0x87, BCM_ROMFW_BASELINE_NUM}		/* CYW4373/4373E */
+   448	};
+   449	static bool btbcm_is_disable_broken_read_tx_power_by_chip_ver(u8 chip_id, u16 baseline)
+   450	{
+   451		int i;
+   452		int table_size = sizeof(disable_broken_read_transmit_power_by_chip_ver)/sizeof(disable_broken_read_transmit_power_by_chip_ver[0]);
+ > 453		struct bcm_chip_version_table *entry = &disable_broken_read_transmit_power_by_chip_ver[0];
+   454	
+   455		for( i=0 ; i<table_size ; i++, entry++)
+   456		{
+   457			if( (chip_id == entry->chip_id) && (baseline == entry->baseline) )
+   458				return true;
+   459		}
+   460	
+   461		return false;
+   462	}
+   463	
 
 -- 
 0-DAY CI Kernel Test Service
