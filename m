@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22774282F4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 06:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A1613FD93
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 09:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715842599; cv=none; b=HREEpI+49Bhvf8YkrUwz6MnH1n6f06yOyicGJ1Oi6P8YoVjt5ZvhlQQYXJdsCJ9T4PUhqDLNG71pMU2uEVFOETVYAJm/786aUD6s71q1ngzIrcdu6aReHkrg8oN6Z1KUbCHIs/F2OG0wdORk28ekp66KX+UseQH0+/c0n22ZQzA=
+	t=1715851792; cv=none; b=ZCzOsNJUCITbhhizGEJpRWeScMt3bdf+z+mpjwmvx/S81FawUbDdfMJb+PBFyLR2r8IV6mOTSIXmlAIDY6auif+DRLpo//WyCnozQ9vLEiXIe+mzL10oGQhpb8VsRzVVzcTTREj1c8wTkLAQZXrPytwTNlBGDeaLPorJ0Jg66GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715842599; c=relaxed/simple;
-	bh=J2sozI/5C1g+9SG5l4EKXY34vm3HAMqwbZQeNJlmSkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qI3iGtirZR61VlJaAL933yU1UcGiVDOvcHAMQBcJgopAIeBZl5g0x8lcd0CLBuJd+/OGRNTHKtvkI7B8/VspY/qUDy0hRBwrs9t++etnVEv7XY3wM+70+UHQS2M6oh1r/E24hLkdyzcXZIDqOzQ/fR4X+42KWVmmOZ2UpIxF2mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FI8orxAP; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1715851792; c=relaxed/simple;
+	bh=fyPMoKUr8hXQUTOYLY56bwQPnNtvgmgWcwXXOTH/8no=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gGb0wdrequKX5R+sFzG5zT0aD7Nbh9VhtsaeMF/5npT+zlfZa57RwSGVE77e3JyyfixsbQvb7rOM7v4sn+iLLp9w9nBN4Zth7S/GHMC6fF+gwWsewe2lWTuTCzbC5AIL55p+MFJVkf8a53wnGLv6RbU7kbek9vm2+kOvDRu75M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8VtIwuC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FI8orxAP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8VtIwuC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715842598; x=1747378598;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J2sozI/5C1g+9SG5l4EKXY34vm3HAMqwbZQeNJlmSkw=;
-  b=FI8orxAPlsAnKWC8GS6ErILnsm5WwTuLEtryl7IXOuDRe20bo4/8QCAF
-   e4UBZD3Di9Ova2JWYGWhdJ06vxi+bS84oxXsohJO9ZffSywpoKevAjqZ1
-   KDbpp1xdvL23WC9J4rXUgXa74fSvIYyT3WEJ+5nLBnizCGuAOpeeXbNI6
-   +X3D8LIWbq0iqR1hea+dWinQx1/C0oAhqyXqMDGmmz9ba2IYCi8vGKuIV
-   aaDzOOcS+1jy9rrwg0RhnrGgBw385O8SHWIeLdUinsYtXR61Im5I7C19h
-   Aa9LCMbMrVYrjCmOCEMAft7zOodVFIBFEpxpw/j5udH/xQ3mlIthB3rgE
-   Q==;
-X-CSE-ConnectionGUID: Dpn4yzF6RcaXui46DRgr8g==
-X-CSE-MsgGUID: 316xYn7bRRCYBnn+b5Eldg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="34446522"
-X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="34446522"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 23:56:37 -0700
-X-CSE-ConnectionGUID: FRWmhCXLQTW8g3bmgMY7Rw==
-X-CSE-MsgGUID: nWYch3FCR5mymxrs+g9kJQ==
+  t=1715851790; x=1747387790;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fyPMoKUr8hXQUTOYLY56bwQPnNtvgmgWcwXXOTH/8no=;
+  b=B8VtIwuCr+u0nb4HwSFVybRxF3WYgAavJbEG2VJynl3yLb9M1I53jRV0
+   CxX9oNn3bkHgyVuSpIaaX18G26ktgCzy1axIABzVaoRAvg8GC6hEoLvoz
+   oiuL86AY9c21uT5Sl4Js8dkkmPA1PxsqVI0eIpPNGP6/2Mz643mKQ3quf
+   IijHxJJ7r2unSoftFKywPTaUVu345uNpLk9o9f50I6PHykDdBJDw3Z7z2
+   Do2EVDHZ6OW5YYIcCCL+36nO3TXp6omjaCs/XiMIhMHzUE5cci0Zp3ymg
+   ssJM05d+fNkF3rOohOSlRXJq2EkOQkiNxmBElpHJ7BhOMuVs6UMS3Yn8R
+   w==;
+X-CSE-ConnectionGUID: gaB2Y8NCQuqM/YR+GaOpNQ==
+X-CSE-MsgGUID: QYvDVvR6Q6aZEjDtMKvv3w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11802151"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="11802151"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 02:29:50 -0700
+X-CSE-ConnectionGUID: lVlrqO2rSK2zY85p8Hfztg==
+X-CSE-MsgGUID: KtN7ENqFQUSuD5pQvtvmIA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="68776550"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="62572897"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 May 2024 23:56:35 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 May 2024 02:29:48 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7V2W-000DlD-2O;
-	Thu, 16 May 2024 06:56:32 +0000
-Date: Thu, 16 May 2024 14:56:26 +0800
+	id 1s7XQo-000E5X-1M;
+	Thu, 16 May 2024 09:29:46 +0000
+Date: Thu, 16 May 2024 17:29:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] crypto: rsa-pkcs1pad: export rsa1_asn_lookup()
-Message-ID: <202405161409.ij6nBora-lkp@intel.com>
-References: <20240515150213.32491-1-jarkko@kernel.org>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 13225/13339]
+ arch/riscv/errata/andes/errata.c:68:45: error:
+ 'RISCV_VENDOR_EXT_ALTERNATIVES_BASE' undeclared
+Message-ID: <202405161715.aW57SJuh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +63,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240515150213.32491-1-jarkko@kernel.org>
 
-Hi Jarkko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.9 next-20240515]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/crypto-rsa-pkcs1pad-export-rsa1_asn_lookup/20240515-230406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240515150213.32491-1-jarkko%40kernel.org
-patch subject: [PATCH v2] crypto: rsa-pkcs1pad: export rsa1_asn_lookup()
-config: i386-randconfig-061-20240516 (https://download.01.org/0day-ci/archive/20240516/202405161409.ij6nBora-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161409.ij6nBora-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   dbd9e2e056d8577375ae4b31ada94f8aa3769e8a
+commit: 37235efc056ab6df9316c50f65355cfff4554bf6 [13225/13339] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
+config: riscv-randconfig-r051-20231214 (https://download.01.org/0day-ci/archive/20240516/202405161715.aW57SJuh-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161715.aW57SJuh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405161409.ij6nBora-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405161715.aW57SJuh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> crypto/rsa-pkcs1pad.c:83:32: sparse: sparse: symbol 'rsa_asn1_templates' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/rsa_asn1_templates +83 crypto/rsa-pkcs1pad.c
+   In file included from <command-line>:
+   arch/riscv/errata/andes/errata.c: In function 'andes_errata_patch_func':
+>> arch/riscv/errata/andes/errata.c:68:45: error: 'RISCV_VENDOR_EXT_ALTERNATIVES_BASE' undeclared (first use in this function)
+      68 |         BUILD_BUG_ON(ERRATA_ANDES_NUMBER >= RISCV_VENDOR_EXT_ALTERNATIVES_BASE);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:458:23: note: in definition of macro '__compiletime_assert'
+     458 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:478:9: note: in expansion of macro '_compiletime_assert'
+     478 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/errata/andes/errata.c:68:9: note: in expansion of macro 'BUILD_BUG_ON'
+      68 |         BUILD_BUG_ON(ERRATA_ANDES_NUMBER >= RISCV_VENDOR_EXT_ALTERNATIVES_BASE);
+         |         ^~~~~~~~~~~~
+   arch/riscv/errata/andes/errata.c:68:45: note: each undeclared identifier is reported only once for each function it appears in
+      68 |         BUILD_BUG_ON(ERRATA_ANDES_NUMBER >= RISCV_VENDOR_EXT_ALTERNATIVES_BASE);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:458:23: note: in definition of macro '__compiletime_assert'
+     458 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:478:9: note: in expansion of macro '_compiletime_assert'
+     478 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/errata/andes/errata.c:68:9: note: in expansion of macro 'BUILD_BUG_ON'
+      68 |         BUILD_BUG_ON(ERRATA_ANDES_NUMBER >= RISCV_VENDOR_EXT_ALTERNATIVES_BASE);
+         |         ^~~~~~~~~~~~
 
-    82	
-  > 83	const struct rsa_asn1_template rsa_asn1_templates[] = {
-    84	#define _(X) { #X, rsa_digest_info_##X, sizeof(rsa_digest_info_##X) }
-    85		_(md5),
-    86		_(sha1),
-    87		_(rmd160),
-    88		_(sha256),
-    89		_(sha384),
-    90		_(sha512),
-    91		_(sha224),
-    92	#undef _
-    93	#define _(X) { "sha3-" #X, rsa_digest_info_sha3_##X, sizeof(rsa_digest_info_sha3_##X) }
-    94		_(256),
-    95		_(384),
-    96		_(512),
-    97	#undef _
-    98		{ NULL }
-    99	};
-   100	
+
+vim +/RISCV_VENDOR_EXT_ALTERNATIVES_BASE +68 arch/riscv/errata/andes/errata.c
+
+e021ae7f5145d4 Lad Prabhakar   2023-08-18  63  
+e021ae7f5145d4 Lad Prabhakar   2023-08-18  64  void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
+e021ae7f5145d4 Lad Prabhakar   2023-08-18  65  					      unsigned long archid, unsigned long impid,
+e021ae7f5145d4 Lad Prabhakar   2023-08-18  66  					      unsigned int stage)
+e021ae7f5145d4 Lad Prabhakar   2023-08-18  67  {
+589e2fc8585098 Charlie Jenkins 2024-05-03 @68  	BUILD_BUG_ON(ERRATA_ANDES_NUMBER >= RISCV_VENDOR_EXT_ALTERNATIVES_BASE);
+
+:::::: The code at line 68 was first introduced by commit
+:::::: 589e2fc8585098e66cf5dace3806b4737edd0fd1 riscv: Convert xandespmu to use the vendor extension framework
+
+:::::: TO: Charlie Jenkins <charlie@rivosinc.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
