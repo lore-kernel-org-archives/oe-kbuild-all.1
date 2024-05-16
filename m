@@ -1,234 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E43146D5A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 13:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8DC14B974;
+	Thu, 16 May 2024 14:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715865607; cv=none; b=AZtI0/gikV00beerZX0iSr9SF1+pPpF13I+6L508F1V2xhxdl5oXG5Bqte4zLjteXDkD0S3BhOlpEgUOfsDZ1QdWjsHruIylYpLExxcATB4UfYsKFK1aAH67ZhDcYRpwrOps55Lk1Uo/VC6/w59sTbduQWUBvMZLp6vRrfh2uIk=
+	t=1715870909; cv=none; b=IwdHQxEULl4GTatuNl/AWvm5TXWH8/Gm2aVwF4SuEcSZv04Qrzu0FnPQNYiI5mZ6wjsZrn+9bP1IXpChda0cP/geEX5nJVPv+LLxnd9qamsweOuo3Q2kzSh9YzfTj0+pjV4alyxtRnk+kiwaqSbRVY2znAC36hF7gW0+9NxYF0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715865607; c=relaxed/simple;
-	bh=S/7bv2DW/RD5v55OFxWspAXUnoxf9fnBX1m+bUjyDos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZFDbudLSOW19pV1cuK3TTtMsdlv4nZYXn5MoNFUNA//DaN0jMQsXNVC1DsstKqsjLE0aQ90RFlwtAkhM6Q8JdrDAp1T1SuFRn+zDW6hX/Hp8FUlMC5ZOmEvEb/pshhgXGZ+oPXFdWuHc5fKyb13I/qU9MEYRh2l+Rot6M6vu6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CW7Q2VcR; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CW7Q2VcR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715865606; x=1747401606;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S/7bv2DW/RD5v55OFxWspAXUnoxf9fnBX1m+bUjyDos=;
-  b=CW7Q2VcRWOAmRN5zWEQk7DQbJ0ZRptJzozkBEo4FXA50iNCTTo18qno7
-   RTpU/cf2NXug4uz8oC1zssN3pAuTqLod1g+t5KUwc2GRrDBK/5h3aUbqn
-   hulSBCX20SwzrjctP5jMag56cKeWUvsE7WWs/PcxI46UjuICloSK1ZSSI
-   n2wxThwtmlVtIiOiwCvR7VjSD4nhO87qOZz8G34YCPcBzhvsOnM7NatSd
-   RwrpsODVBRQRMRPq6bmW1vVB33fgbSrgMf3Kz+LwZJzXvI8K5X6At2rOk
-   njqIaLfSXNlee7iCrXTYMjqVcWlRVuNXnOGa9myTQ8momAlqc/UmwYiwt
-   g==;
-X-CSE-ConnectionGUID: A1picas3R4KsMq+zjzlz+w==
-X-CSE-MsgGUID: 1wlrN0u+TCO9NWKXKF19bg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12087063"
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="12087063"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:20:05 -0700
-X-CSE-ConnectionGUID: GYJLNoBZRE2e5mjP1Y+xtg==
-X-CSE-MsgGUID: eLjji0ibTOy19GYkWIHYbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="35975470"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 May 2024 06:20:00 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s7b1Z-000EGh-2R;
-	Thu, 16 May 2024 13:19:57 +0000
-Date: Thu, 16 May 2024 21:19:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Gomez <da.gomez@samsung.com>,
-	"hughd@google.com" <hughd@google.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"willy@infradead.org" <willy@infradead.org>,
-	"jack@suse.cz" <jack@suse.cz>,
-	"mcgrof@kernel.org" <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-	"djwong@kernel.org" <djwong@kernel.org>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	"dagmcr@gmail.com" <dagmcr@gmail.com>,
-	"yosryahmed@google.com" <yosryahmed@google.com>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"ritesh.list@gmail.com" <ritesh.list@gmail.com>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"david@redhat.com" <david@redhat.com>,
-	"chandan.babu@oracle.com" <chandan.babu@oracle.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	Daniel Gomez <da.gomez@samsung.com>
-Subject: Re: [PATCH 07/12] shmem: check if a block is uptodate before splice
- into pipe
-Message-ID: <202405162045.kaXgB2n3-lkp@intel.com>
-References: <20240515055719.32577-8-da.gomez@samsung.com>
+	s=arc-20240116; t=1715870909; c=relaxed/simple;
+	bh=eGibcuJLfqXum3ESdm+NGKonua1wTXgzFMQgE8FqEsY=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FBy5urwP3wuF+hdmtczdPqO/Gw8tWexolOIRki3yVCHlS1FMIPkK9Gn0pAJrHL5QukQqv5s8fK2Bs7AuUYnkF0iek++ThDVh2Eu6c/q3yXfwbbkjSd3jcz3joSU1H4CtpeLgpYUJzKjQzq0IroMUHcr+bA2ra7542CyWEQuMhZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VgCYK2wGZz6J6mh;
+	Thu, 16 May 2024 22:44:53 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id D29B4140A36;
+	Thu, 16 May 2024 22:48:25 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 16 May
+ 2024 15:48:25 +0100
+Date: Thu, 16 May 2024 15:48:23 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Kousik Sanagavarapu <five231003@gmail.com>
+CC: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>,
+	Nishanth Menon <nm@ti.com>, Santosh Shilimkar <ssantosh@kernel.org>, Julia
+ Lawall <julia.lawall@inria.fr>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, Shuah Khan <skhan@linuxfoundation.org>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 2/3] soc: ti: knav_qmss_queue: do device_node auto
+ cleanup
+Message-ID: <20240516154823.00000974@Huawei.com>
+In-Reply-To: <ZkG_7wJvIjZ4ZlcV@five231003>
+References: <20240510071432.62913-3-five231003@gmail.com>
+	<202405111846.3m9z398l-lkp@intel.com>
+	<ZkCZTv0Gci3xxKtw@five231003>
+	<20240513064451.GB652533@thelio-3990X>
+	<ZkG_7wJvIjZ4ZlcV@five231003>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515055719.32577-8-da.gomez@samsung.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Hi Daniel,
+On Mon, 13 May 2024 12:53:27 +0530
+Kousik Sanagavarapu <five231003@gmail.com> wrote:
 
-kernel test robot noticed the following build errors:
+> On Sun, May 12, 2024 at 11:44:51PM -0700, Nathan Chancellor wrote:
+> > On Sun, May 12, 2024 at 03:56:22PM +0530, Kousik Sanagavarapu wrote:  
+> > > On Sat, May 11, 2024 at 06:12:39PM +0800, kernel test robot wrote:  
+> > > > Hi Kousik,
+> > > > 
+> > > > kernel test robot noticed the following build errors:
+> > > >   
+> > > 
+> > > [...]
+> > >   
+> > > > All errors (new ones prefixed by >>):
+> > > >   
+> > > > >> drivers/soc/ti/knav_qmss_queue.c:1853:3: error: cannot jump from this goto statement to its label  
+> > > >                    goto err;
+> > > >                    ^
+> > > >    drivers/soc/ti/knav_qmss_queue.c:1855:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
+> > > >            struct device_node *regions __free(device_node) =
+> > > >                                ^  
+> 
+> [...]
+> 
+> > > Seems like gcc didn't catch this when I compiled locally.  
+> > 
+> > FWIW, you may notice this as you do more conversions. The fact that GCC
+> > does not warn at all is a GCC bug as far as I am aware (i.e., clang's
+> > error is correct):
+> > 
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
+> > 
+> > which has come up in other places:
+> > 
+> > https://lore.kernel.org/20240425174732.GA270911@dev-arch.thelio-3990X/  
+> 
+> Thank you so much for these links :)
+> 
+> All my internet searches ended up at stackoverflow posts which didn't
+> even describe the problem correctly, which also lead me to write an
+> email explaining a partly erroneous solution, which is sitting in my
+> mailbox ;)
+> 
+> Thanks again, these will help a lot.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on xfs-linux/for-next brauner-vfs/vfs.all linus/master v6.9 next-20240516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Independent of all this, it's not a good idea form a readability point
+of view to mix automated and manual cleanup.  So in cases like this
+where you want to do scope based cleanup, use separate functions
+that have appropriately defined scope (or brackets for the really minor
+cases).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Gomez/splice-don-t-check-for-uptodate-if-partially-uptodate-is-impl/20240515-135925
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240515055719.32577-8-da.gomez%40samsung.com
-patch subject: [PATCH 07/12] shmem: check if a block is uptodate before splice into pipe
-config: arm-s5pv210_defconfig (https://download.01.org/0day-ci/archive/20240516/202405162045.kaXgB2n3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405162045.kaXgB2n3-lkp@intel.com/reproduce)
+Here, you may just be able to push the device_node get into
+knav_queue_setup_regions() for example.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405162045.kaXgB2n3-lkp@intel.com/
+Jonathan
 
-All errors (new ones prefixed by >>):
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
-   arm-linux-gnueabi-ld: mm/shmem.o: in function `shmem_file_splice_read':
->> mm/shmem.c:3240:(.text+0x5224): undefined reference to `__aeabi_ldivmod'
-
-
-vim +3240 mm/shmem.c
-
-  3174	
-  3175	static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
-  3176					      struct pipe_inode_info *pipe,
-  3177					      size_t len, unsigned int flags)
-  3178	{
-  3179		struct inode *inode = file_inode(in);
-  3180		struct address_space *mapping = inode->i_mapping;
-  3181		struct folio *folio = NULL;
-  3182		size_t total_spliced = 0, used, npages, n, part;
-  3183		loff_t isize;
-  3184		int error = 0;
-  3185	
-  3186		/* Work out how much data we can actually add into the pipe */
-  3187		used = pipe_occupancy(pipe->head, pipe->tail);
-  3188		npages = max_t(ssize_t, pipe->max_usage - used, 0);
-  3189		len = min_t(size_t, len, npages * PAGE_SIZE);
-  3190	
-  3191		do {
-  3192			if (*ppos >= i_size_read(inode))
-  3193				break;
-  3194	
-  3195			error = shmem_get_folio(inode, *ppos / PAGE_SIZE, &folio,
-  3196						SGP_READ);
-  3197			if (error) {
-  3198				if (error == -EINVAL)
-  3199					error = 0;
-  3200				break;
-  3201			}
-  3202			if (folio) {
-  3203				folio_unlock(folio);
-  3204	
-  3205				if (folio_test_hwpoison(folio) ||
-  3206				    (folio_test_large(folio) &&
-  3207				     folio_test_has_hwpoisoned(folio))) {
-  3208					error = -EIO;
-  3209					break;
-  3210				}
-  3211			}
-  3212	
-  3213			/*
-  3214			 * i_size must be checked after we know the pages are Uptodate.
-  3215			 *
-  3216			 * Checking i_size after the check allows us to calculate
-  3217			 * the correct value for "nr", which means the zero-filled
-  3218			 * part of the page is not copied back to userspace (unless
-  3219			 * another truncate extends the file - this is desired though).
-  3220			 */
-  3221			isize = i_size_read(inode);
-  3222			if (unlikely(*ppos >= isize))
-  3223				break;
-  3224			part = min_t(loff_t, isize - *ppos, len);
-  3225			if (folio && folio_test_large(folio) &&
-  3226			    folio_test_private(folio)) {
-  3227				unsigned long from = offset_in_folio(folio, *ppos);
-  3228				unsigned int bfirst = from >> inode->i_blkbits;
-  3229				unsigned int blast, blast_upd;
-  3230	
-  3231				len = min(folio_size(folio) - from, len);
-  3232				blast = (from + len - 1) >> inode->i_blkbits;
-  3233	
-  3234				blast_upd = sfs_get_last_block_uptodate(folio, bfirst,
-  3235									blast);
-  3236				if (blast_upd <= blast) {
-  3237					unsigned int bsize = 1 << inode->i_blkbits;
-  3238					unsigned int blks = blast_upd - bfirst + 1;
-  3239					unsigned int bbytes = blks << inode->i_blkbits;
-> 3240					unsigned int boff = (*ppos % bsize);
-  3241	
-  3242					part = min_t(loff_t, bbytes - boff, len);
-  3243				}
-  3244			}
-  3245	
-  3246			if (folio && shmem_is_block_uptodate(
-  3247					     folio, offset_in_folio(folio, *ppos) >>
-  3248							    inode->i_blkbits)) {
-  3249				/*
-  3250				 * If users can be writing to this page using arbitrary
-  3251				 * virtual addresses, take care about potential aliasing
-  3252				 * before reading the page on the kernel side.
-  3253				 */
-  3254				if (mapping_writably_mapped(mapping))
-  3255					flush_dcache_folio(folio);
-  3256				folio_mark_accessed(folio);
-  3257				/*
-  3258				 * Ok, we have the page, and it's up-to-date, so we can
-  3259				 * now splice it into the pipe.
-  3260				 */
-  3261				n = splice_folio_into_pipe(pipe, folio, *ppos, part);
-  3262				folio_put(folio);
-  3263				folio = NULL;
-  3264			} else {
-  3265				n = splice_zeropage_into_pipe(pipe, *ppos, part);
-  3266			}
-  3267	
-  3268			if (!n)
-  3269				break;
-  3270			len -= n;
-  3271			total_spliced += n;
-  3272			*ppos += n;
-  3273			in->f_ra.prev_pos = *ppos;
-  3274			if (pipe_full(pipe->head, pipe->tail, pipe->max_usage))
-  3275				break;
-  3276	
-  3277			cond_resched();
-  3278		} while (len);
-  3279	
-  3280		if (folio)
-  3281			folio_put(folio);
-  3282	
-  3283		file_accessed(in);
-  3284		return total_spliced ? total_spliced : error;
-  3285	}
-  3286	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
