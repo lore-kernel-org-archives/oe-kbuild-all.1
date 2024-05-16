@@ -1,59 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAF0143747
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 11:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EA6143898;
+	Thu, 16 May 2024 11:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715857557; cv=none; b=gm11gXQL340Qb80W1k902r7gaQdFbyPORhjTt1MLf0Dx+7TPBISAUvEzmZuEWMN65qlmnziNCMBt0q14sVP2xvQMPx6fnFydILvKqBtcTvAknbERv1rwJSju64Y/VSLhuAhzWNaxcZMstm7ML0Hphp5N/9UOyOq5rgql9OD9mhU=
+	t=1715858159; cv=none; b=pZyhHeNKYFXygVsHAiJz67/AIBFTMd9tHMOn4ba01LJC+JJwMnSPlB/aanV7fQeMthfnNLj1qAbycNcfWdQl0oYXcjtXzTFCYwFNE4U18LlyawukdjUee+F6BveQ3PfwA19fR8FyH16GoPi/DoBVYx6jp4WxxW6t4q3iVBiDApY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715857557; c=relaxed/simple;
-	bh=oecSgwWAaBbLf9uMoV2JMcbyb+nZTh4LGiIufZsakjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dTtsx4Ps6Cr2LxjPjEwQ6/r6upxPq0ZoWUdBlFWYNQBanbesmFWfGTywpQZdwNHxW+8+pieLUm4y2RZ3Bat7xf5UdQvcEjyhpDIHoP0htGrcJPaaOkAKebZg4b+zkOb+qQ45EGiNUy3uKAvMhsCsQkjCj9Yv9WDjmKlF1Y0CREQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zc/6jXuK; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1715858159; c=relaxed/simple;
+	bh=8FiDi3rSh8YbjIJWwXL4knvvjLdCTS7p5CuuEb5Phcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDPZUTe4wa3+iZwAnRPP/84EODO31ovM7iyWytQaGJShA8/PmCuK2htxvDZiWD1bnv1ksLrn3eYDZzfdWgwcl/CFe5LBFzGvu53Mqrwsex3pTJipQkbyIQZQscSPYZQW9Y9NwKC4oq9ROJ/YDOM8dUvX5or5Oggal3Naey8BBmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NW36PcXO; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zc/6jXuK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NW36PcXO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715857556; x=1747393556;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oecSgwWAaBbLf9uMoV2JMcbyb+nZTh4LGiIufZsakjY=;
-  b=Zc/6jXuKaCLZ88GuVgQRqyQTh3YYEDSIYRWlVJtQ1X9AR/uK2XEG393O
-   yRb32UcHFLG8whctnN/GZPEpY4UUZQc6sM2fKlSLi8d1QGUeBmDcQZzl4
-   7EsWs/XuxUe+HFlaIIR4QRGm5vGE3T0NFDZNaxxnod1ri3Xh9QwmqJaOH
-   qIz9eRxyJ3Th2JhrZE8VfkMIRNk5qxyQerVNBLIjoo0LZeycEifc68H5g
-   pLkLIfE7FsexZinzSTm6IpD8D3oFG9GIJxIqyk3b1WGUH0vR1Swt3Cb/1
-   qc/WDZeTVm4DwiYcblZkVOsFqREApq0bOCzXZvALrrAE1ZC+EXdHWpnPt
-   g==;
-X-CSE-ConnectionGUID: stpZWMOCR9+SH0FLRkvwJw==
-X-CSE-MsgGUID: c5NyB33PTtC+A0+Q1M53/w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22563469"
+  t=1715858157; x=1747394157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8FiDi3rSh8YbjIJWwXL4knvvjLdCTS7p5CuuEb5Phcs=;
+  b=NW36PcXOU4JL51tmC3JTqYFVuG6kbzYFCH9FXv+fRe7VbwKaKCs+dq0P
+   np7Jxgw5h2QkeWvGNhLYnkAwQQhDpIdcPBsGoi5+Zg0L7yw98i0gJQIyo
+   K59qhpT6V0gaarV+KvBI/IEWeV591tQ7/PpQY9hferJHWxPHneUItGK/L
+   TTAFW55D4d2EnTX3nB17dTPPzuwj5yNoYvoofT1okp7gfCzgFRb/a4KHV
+   VVnkTYfH14XP8V4NK8MNKv40cQtwWKwvKs5TN1INKr6axetUMgMUg+pzb
+   uSFJ3vle7KLA1own/razxIW0exDOGTeAspHojlG1NSl1ny76dxIk8OjOP
+   A==;
+X-CSE-ConnectionGUID: WuX7o7QrSX2yR1Sz4N/L/g==
+X-CSE-MsgGUID: rvgCYSJ2T6ykt3WyzfH5YA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22564321"
 X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="22563469"
+   d="scan'208";a="22564321"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 04:05:55 -0700
-X-CSE-ConnectionGUID: VyeCpRwFR86ijlEhxv5Gyw==
-X-CSE-MsgGUID: 5G7at1s4Qt2AENeiDbj/JQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 04:15:56 -0700
+X-CSE-ConnectionGUID: yHj1g9vhQvy6yBpLhbvw0g==
+X-CSE-MsgGUID: dMU429v1RKqrTvjpZ++YSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="31520113"
+   d="scan'208";a="31521944"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 May 2024 04:05:54 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 May 2024 04:15:55 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7Yvn-000EB5-1c;
-	Thu, 16 May 2024 11:05:51 +0000
-Date: Thu, 16 May 2024 19:04:57 +0800
+	id 1s7Z5T-000EBT-2h;
+	Thu, 16 May 2024 11:15:51 +0000
+Date: Thu, 16 May 2024 19:15:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 2277/21666] fs/incfs/verity.c:167
- incfs_calc_verity_digest_from_desc() warn: unsigned 'incfs_hash_alg' is
- never less than zero.
-Message-ID: <202405161800.CTOM1HyP-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH v5 1/4] media: v4l: Support passing media pad argument to
+ v4l2_get_link_freq()
+Message-ID: <202405161801.Muqsgsku-lkp@intel.com>
+References: <20240516070507.21735-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +67,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240516070507.21735-2-sakari.ailus@linux.intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   2dca19b0a7e69d92441f241b8597bee11dd0d094
-commit: ca9597811d3918855d51caf88f8e73c68fd6fe7c [2277/21666] ANDROID: Incremental fs: Add FS_IOC_ENABLE_VERITY
-config: x86_64-randconfig-161-20240516 (https://download.01.org/0day-ci/archive/20240516/202405161800.CTOM1HyP-lkp@intel.com/config)
+Hi Sakari,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8771b7f31b7fff91a998e6afdb60650d4bac59a5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Support-passing-media-pad-argument-to-v4l2_get_link_freq/20240516-150645
+base:   8771b7f31b7fff91a998e6afdb60650d4bac59a5
+patch link:    https://lore.kernel.org/r/20240516070507.21735-2-sakari.ailus%40linux.intel.com
+patch subject: [PATCH v5 1/4] media: v4l: Support passing media pad argument to v4l2_get_link_freq()
+config: i386-randconfig-006-20240516 (https://download.01.org/0day-ci/archive/20240516/202405161801.Muqsgsku-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161801.Muqsgsku-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405161800.CTOM1HyP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405161801.Muqsgsku-lkp@intel.com/
 
-smatch warnings:
-fs/incfs/verity.c:167 incfs_calc_verity_digest_from_desc() warn: unsigned 'incfs_hash_alg' is never less than zero.
-fs/incfs/verity.c:167 incfs_calc_verity_digest_from_desc() warn: error code type promoted to positive: 'incfs_hash_alg'
+All errors (new ones prefixed by >>):
 
-vim +/incfs_hash_alg +167 fs/incfs/verity.c
+>> drivers/media/v4l2-core/v4l2-common.c:510:7: error: no member named 'entity' in 'struct v4l2_subdev'
+     510 |         sd = media_entity_to_v4l2_subdev(pad->entity);
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1110:49: note: expanded from macro 'media_entity_to_v4l2_subdev'
+    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      22 |                       "pointer type mismatch in container_of()");       \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:390:74: note: expanded from macro '__same_type'
+     390 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/media/v4l2-core/v4l2-common.c:510:7: error: no member named 'entity' in 'v4l2_subdev'
+     510 |         sd = media_entity_to_v4l2_subdev(pad->entity);
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1110:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
+    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
+         |                 ^                                             ~~~~~~
+   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^              ~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^                        ~~~~~~
+>> drivers/media/v4l2-core/v4l2-common.c:510:5: error: assigning to 'struct v4l2_subdev *' from incompatible type 'void'
+     510 |         sd = media_entity_to_v4l2_subdev(pad->entity);
+         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
-   151	
-   152	/*
-   153	 * Calculate the digest of the fsverity_descriptor. The signature (if present)
-   154	 * is also checked.
-   155	 */
-   156	static struct mem_range incfs_calc_verity_digest_from_desc(
-   157						const struct inode *inode,
-   158						struct fsverity_descriptor *desc,
-   159						u8 *signature, size_t sig_size)
-   160	{
-   161		enum incfs_hash_tree_algorithm incfs_hash_alg;
-   162		struct mem_range verity_file_digest;
-   163		int err;
-   164		struct incfs_hash_alg *hash_alg;
-   165	
-   166		incfs_hash_alg = incfs_convert_fsverity_hash_alg(desc->hash_algorithm);
- > 167		if (incfs_hash_alg < 0)
-   168			return range(ERR_PTR(incfs_hash_alg), 0);
-   169	
-   170		hash_alg = incfs_get_hash_alg(incfs_hash_alg);
-   171		if (IS_ERR(hash_alg))
-   172			return range((u8 *)hash_alg, 0);
-   173	
-   174		verity_file_digest = range(kzalloc(hash_alg->digest_size, GFP_KERNEL),
-   175					   hash_alg->digest_size);
-   176		if (!verity_file_digest.data)
-   177			return range(ERR_PTR(-ENOMEM), 0);
-   178	
-   179		err = incfs_compute_file_digest(hash_alg, desc,
-   180						verity_file_digest.data);
-   181		if (err) {
-   182			pr_err("Error %d computing file digest", err);
-   183			goto out;
-   184		}
-   185		pr_debug("Computed file digest: %s:%*phN\n",
-   186			 hash_alg->name, (int) verity_file_digest.len,
-   187			 verity_file_digest.data);
-   188	
-   189		err = __fsverity_verify_signature(inode, signature, sig_size,
-   190						  verity_file_digest.data,
-   191						  desc->hash_algorithm);
-   192	out:
-   193		if (err) {
-   194			kfree(verity_file_digest.data);
-   195			verity_file_digest = range(ERR_PTR(err), 0);
-   196		}
-   197		return verity_file_digest;
-   198	}
-   199	
+
+vim +510 drivers/media/v4l2-core/v4l2-common.c
+
+   504	
+   505	s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+   506				     unsigned int div)
+   507	{
+   508		struct v4l2_subdev *sd;
+   509	
+ > 510		sd = media_entity_to_v4l2_subdev(pad->entity);
+   511		if (!sd)
+   512			return -ENODEV;
+   513	
+   514		return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+   515	}
+   516	EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+   517	
 
 -- 
 0-DAY CI Kernel Test Service
