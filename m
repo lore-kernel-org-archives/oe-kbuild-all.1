@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA311465A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 13:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394FF1465A4;
+	Thu, 16 May 2024 13:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715864402; cv=none; b=I260Pl7x7FrOTun3igUtHwUQvwfzKC45xYMaD8slYrl+dQgJSVbHfx1AUrnkYy74x9529j4ZudhxzFhPGRLKHdsxDJOwuz/sfV6gM0R6Q+/+EyRef0l8nzl9sFP6FODquZvR5Fse2RObplHJtxj+LS2s+y2g3CGbiZU59u0wWz4=
+	t=1715864404; cv=none; b=i1BT27AvebNguiIhmL5oL4ZK0/6Bdg8/Az8bky038HRSghpbfl124O2sTNR8/XvTh/dXVuVEhxWbJJ8Jhqey+tYJgrPJNkr7GoNk6shSUEP07xmd2ScTNJsB4YJDNpES6Flhwi5M6p/nKcuXfsip76EBiSseiE3bQoS4WJQwUpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715864402; c=relaxed/simple;
-	bh=/GKddSYKVeJ61JiQrXOmDp7UjBB3fy6NIyyrPqV3+i4=;
+	s=arc-20240116; t=1715864404; c=relaxed/simple;
+	bh=dJ0NAdMJFothU+MVSsRxsK17yyT8UnYRq+CRtxkPs2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GXk7S1nAP2Rm7lxIxNAqmTNvV8EE4dIiLuL+0EXKNthWrCjyvpAWpQI5uJOGSPH424oc+syquYnAhhx4df8ucz7UfGFHuAPxDyEXZG0ruipXHiiNGOAiWcI/A9m+oUtH42x9aBzAPtqltKR4BfCV9WSWxvqiMabwknL0XsB03Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chY61jnF; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=LkgTSqgnHwSSjRDSQEUJH+bVntSQ2GOMojrPdTdWFX6OL2ostC6/1cWqMiEeKsW77K4sFX6SK2u+jJEip6Nf5o9Ueh58gU6FSWUMqPDJLnJdHqjdVHJ1xwyq/2APrt9AnNMhRRK4BfqAq8XZ1+6PbaO+RNMLaUC7atlsik1vakM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvfZD0bY; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chY61jnF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvfZD0bY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1715864402; x=1747400402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/GKddSYKVeJ61JiQrXOmDp7UjBB3fy6NIyyrPqV3+i4=;
-  b=chY61jnFuRljKHrabWCOLuaPFiSQmd2bzoYj6TDY348fo54So7WGQ15P
-   6jKWYfrRbPIBDi4I5TpDwlEq4SngbWP0RnowwNxe1Jc0AL4yFFhStbura
-   Hbb5XLmPFs2PsTN1zp2g5/q3SSFuavvZHCEG3WDZCAA2q6AwTlJk0Wwg2
-   Askauf0ukYTnNUlXaxycZy3ra45f3WHx4Evi8IzdS3E/hlIAFXSGziAj6
-   QY9lKD+N/uHrM4aBiLZars47qsE/oLKkByqwyC8S3G3ySRanTIkhJwB5M
-   khdtJSm/2aWk6phbhbLb094bLJ7EBHYcApStmlJLJNNAQABXM7O4U1nV4
+  bh=dJ0NAdMJFothU+MVSsRxsK17yyT8UnYRq+CRtxkPs2Q=;
+  b=TvfZD0bYi7JbQh1VCPQS9QrlZd8PBkWHxf5WgyKLD8E7pckOGS4ilJcV
+   JymxEE1uCGGb79sSPigpI3ZbQ9yz3twjJ+p8m9xDQ234LxDmMq8q3myzw
+   AVdZQ8P1GaPk1wgPnz2cwhdpAN8vChp3rgmzwTi7UirgnBd7RH8/6ku2d
+   Zj4DqtH1dqtfLMUVJ11MY4HdxoQxwW5YBJ1YjuHKOgsouMImmK5EPHqwq
+   9RDb9pUo14szSxtlrpAaAG8T2hgLbl0rBFoEVncsb5aZlq1KCrVlA0I04
+   01lpO4wAsO2fRvjwvotm/X2ctHbhbsKwqDkx1DK+r6kX6yHl6PdY5jDp5
    A==;
-X-CSE-ConnectionGUID: qLl3blr2SWyrtiN4490jNA==
-X-CSE-MsgGUID: GYiZSgCiR8edXlyS3XVfSg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="29470807"
+X-CSE-ConnectionGUID: Q7KJpHxRT8aMzEEVPEMYag==
+X-CSE-MsgGUID: 1xXy6GvaRCGM/YCVtlKXvQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="23108457"
 X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="29470807"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:00:02 -0700
-X-CSE-ConnectionGUID: rnjt7OJMQnWhk5R/iJzyuw==
-X-CSE-MsgGUID: xsz8MzL5TrCd598JGeek+g==
+   d="scan'208";a="23108457"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:00:01 -0700
+X-CSE-ConnectionGUID: //zX3EGARB6EP7s99DIsfg==
+X-CSE-MsgGUID: jmTz8BM/Q7q82vALcJxXUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="31450468"
+   d="scan'208";a="31971828"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 May 2024 05:59:59 -0700
+  by orviesa008.jf.intel.com with ESMTP; 16 May 2024 06:00:00 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7aiC-000EFN-2w;
+	id 1s7aiC-000EFP-37;
 	Thu, 16 May 2024 12:59:56 +0000
-Date: Thu, 16 May 2024 20:59:03 +0800
+Date: Thu, 16 May 2024 20:59:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/next 25/27]
- drivers/net/ethernet/broadcom/bnxt/bnxt.c:1242:67: error: implicit
- declaration of function 'io_iov_get_page'; did you mean
- 'iov_iter_get_pages2'?
-Message-ID: <202405162009.sogTdGw5-lkp@intel.com>
+To: Borislav Petkov <bp@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: [tip:x86/urgent 1/1] arch/x86/boot/printf.c:257:3: warning:
+ unannotated fall-through between switch labels
+Message-ID: <202405162054.ryP73vy1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,147 +65,210 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zcrx/next
-head:   8f99f44fc1fabf943cf0d1989f0afdff15e064e8
-commit: 26fa2c4456e3c703b1dc7d61ec32180e4e7864d6 [25/27] wip: bnxt
-config: i386-buildonly-randconfig-004-20240516 (https://download.01.org/0day-ci/archive/20240516/202405162009.sogTdGw5-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405162009.sogTdGw5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/urgent
+head:   dd0716c2b87792ebea30864e7ad1df461d4c1525
+commit: dd0716c2b87792ebea30864e7ad1df461d4c1525 [1/1] x86/boot: Add a fallthrough annotation
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240516/202405162054.ryP73vy1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405162054.ryP73vy1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405162009.sogTdGw5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405162054.ryP73vy1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/page.h:89,
-                    from arch/x86/include/asm/processor.h:20,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/net/ethernet/broadcom/bnxt/bnxt.c:11:
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function '__bnxt_rx_agg_pages':
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:1242:67: error: implicit declaration of function 'io_iov_get_page'; did you mean 'iov_iter_get_pages2'? [-Werror=implicit-function-declaration]
-    1242 |                         phys_addr_t page_phys_addr = page_to_phys(io_iov_get_page(netmem));
-         |                                                                   ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:19:51: note: in definition of macro '__page_to_pfn'
-      19 | #define __page_to_pfn(page)     ((unsigned long)((page) - mem_map) + \
-         |                                                   ^~~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:1242:54: note: in expansion of macro 'page_to_phys'
-    1242 |                         phys_addr_t page_phys_addr = page_to_phys(io_iov_get_page(netmem));
-         |                                                      ^~~~~~~~~~~~
-   include/asm-generic/memory_model.h:19:57: error: invalid operands to binary - (have 'int' and 'struct page *')
-      19 | #define __page_to_pfn(page)     ((unsigned long)((page) - mem_map) + \
-         |                                                  ~~~~~~ ^
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   arch/x86/include/asm/io.h:156:44: note: in expansion of macro 'page_to_pfn'
-     156 | #define page_to_phys(page)    ((dma_addr_t)page_to_pfn(page) << PAGE_SHIFT)
-         |                                            ^~~~~~~~~~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:1242:54: note: in expansion of macro 'page_to_phys'
-    1242 |                         phys_addr_t page_phys_addr = page_to_phys(io_iov_get_page(netmem));
-         |                                                      ^~~~~~~~~~~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_alloc_rx_page_pool':
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:3685:47: error: 'io_uring_pp_zc_ops' undeclared (first use in this function)
-    3685 |                 pp.queue->mp_params.mp_ops = &io_uring_pp_zc_ops;
-         |                                               ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:3685:47: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> arch/x86/boot/printf.c:257:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     257 |                 case 'u':
+         |                 ^
+   arch/x86/boot/printf.c:257:3: note: insert 'break;' to avoid fall-through
+     257 |                 case 'u':
+         |                 ^
+         |                 break; 
+   1 warning generated.
 
 
-vim +1242 drivers/net/ethernet/broadcom/bnxt/bnxt.c
+vim +257 arch/x86/boot/printf.c
 
-  1197	
-  1198	static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
-  1199				       struct bnxt_cp_ring_info *cpr,
-  1200				       struct skb_shared_info *shinfo,
-  1201				       u16 idx, u32 agg_bufs, bool tpa,
-  1202				       struct xdp_buff *xdp)
-  1203	{
-  1204		struct bnxt_napi *bnapi = cpr->bnapi;
-  1205		struct pci_dev *pdev = bp->pdev;
-  1206		struct bnxt_rx_ring_info *rxr = bnapi->rx_ring;
-  1207		u16 prod = rxr->rx_agg_prod;
-  1208		u32 i, total_frag_len = 0;
-  1209		bool p5_tpa = false;
-  1210	
-  1211		if ((bp->flags & BNXT_FLAG_CHIP_P5_PLUS) && tpa)
-  1212			p5_tpa = true;
-  1213	
-  1214		for (i = 0; i < agg_bufs; i++) {
-  1215			skb_frag_t *frag = &shinfo->frags[i];
-  1216			u16 cons, frag_len;
-  1217			struct rx_agg_cmp *agg;
-  1218			struct bnxt_sw_rx_agg_bd *cons_rx_buf;
-  1219			struct page *page;
-  1220			dma_addr_t mapping;
-  1221			netmem_ref netmem;
-  1222	
-  1223			if (p5_tpa)
-  1224				agg = bnxt_get_tpa_agg_p5(bp, rxr, idx, i);
-  1225			else
-  1226				agg = bnxt_get_agg(bp, cpr, idx, i);
-  1227			cons = agg->rx_agg_cmp_opaque;
-  1228			frag_len = (le32_to_cpu(agg->rx_agg_cmp_len_flags_type) &
-  1229				    RX_AGG_CMP_LEN) >> RX_AGG_CMP_LEN_SHIFT;
-  1230	
-  1231			cons_rx_buf = &rxr->rx_agg_ring[cons];
-  1232			// NOTE: sets frag->netmem and frag->offset and frag->size
-  1233			// page is a netmem, and is net_iov if queue is 1
-  1234			// frag->netmem = page_to_netmem(page)
-  1235			skb_frag_fill_page_desc(frag, cons_rx_buf->page,
-  1236						cons_rx_buf->offset, frag_len);
-  1237			if (rxr->zc_enabled) {
-  1238				WARN_ON(!skb_frag_is_net_iov(frag));
-  1239				netmem = page_to_netmem(cons_rx_buf->page);
-  1240				printk(KERN_INFO "----- __bnxt_rx_agg_pages: adding frag=%d, total agg_bufs=%d\n", i, agg_bufs);
-  1241				// buf = container_of(netmem_to_net_iov(netmem), struct io_zc_rx_buf, niov);
-> 1242				phys_addr_t page_phys_addr = page_to_phys(io_iov_get_page(netmem));
-  1243				printk(KERN_INFO "----- __bnxt_rx_agg_pages: Page physical address: %#llx, dma_addr_t: %#lx\n", (unsigned long long)page_phys_addr, netmem_get_dma_addr(netmem));
-  1244			}
-  1245			shinfo->nr_frags = i + 1;
-  1246			__clear_bit(cons, rxr->rx_agg_bmap);
-  1247	
-  1248			/* It is possible for bnxt_alloc_rx_page() to allocate
-  1249			 * a sw_prod index that equals the cons index, so we
-  1250			 * need to clear the cons entry now.
-  1251			 */
-  1252			mapping = cons_rx_buf->mapping;
-  1253			// NOTE: page is saved here only for alloc failures
-  1254			page = cons_rx_buf->page;
-  1255			cons_rx_buf->page = NULL;
-  1256	
-  1257			if (xdp && page_is_pfmemalloc(page))
-  1258				xdp_buff_set_frag_pfmemalloc(xdp);
-  1259	
-  1260			// NOTE: realloc a page for the nulled out rx_agg_buf
-  1261			if (bnxt_alloc_rx_page(bp, rxr, prod, GFP_ATOMIC) != 0) {
-  1262				--shinfo->nr_frags;
-  1263				cons_rx_buf->page = page;
-  1264	
-  1265				/* Update prod since possibly some pages have been
-  1266				 * allocated already.
-  1267				 */
-  1268				rxr->rx_agg_prod = prod;
-  1269				bnxt_reuse_rx_agg_bufs(cpr, idx, i, agg_bufs - i, tpa);
-  1270				return 0;
-  1271			}
-  1272	
-  1273			dma_sync_single_for_cpu(&pdev->dev, mapping, BNXT_RX_PAGE_SIZE,
-  1274						bp->rx_dir);
-  1275	
-  1276			total_frag_len += frag_len;
-  1277			prod = NEXT_RX_AGG(prod);
-  1278		}
-  1279		rxr->rx_agg_prod = prod;
-  1280		return total_frag_len;
-  1281	}
-  1282	
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  112  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  113  int vsprintf(char *buf, const char *fmt, va_list args)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  114  {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  115  	int len;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  116  	unsigned long num;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  117  	int i, base;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  118  	char *str;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  119  	const char *s;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  120  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  121  	int flags;		/* flags to number() */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  122  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  123  	int field_width;	/* width of output field */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  124  	int precision;		/* min. # of digits for integers; max
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  125  				   number of chars for from string */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  126  	int qualifier;		/* 'h', 'l', or 'L' for integer fields */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  127  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  128  	for (str = buf; *fmt; ++fmt) {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  129  		if (*fmt != '%') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  130  			*str++ = *fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  131  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  132  		}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  133  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  134  		/* process flags */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  135  		flags = 0;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  136  	      repeat:
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  137  		++fmt;		/* this also skips first '%' */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  138  		switch (*fmt) {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  139  		case '-':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  140  			flags |= LEFT;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  141  			goto repeat;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  142  		case '+':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  143  			flags |= PLUS;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  144  			goto repeat;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  145  		case ' ':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  146  			flags |= SPACE;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  147  			goto repeat;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  148  		case '#':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  149  			flags |= SPECIAL;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  150  			goto repeat;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  151  		case '0':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  152  			flags |= ZEROPAD;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  153  			goto repeat;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  154  		}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  155  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  156  		/* get field width */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  157  		field_width = -1;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  158  		if (isdigit(*fmt))
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  159  			field_width = skip_atoi(&fmt);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  160  		else if (*fmt == '*') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  161  			++fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  162  			/* it's the next argument */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  163  			field_width = va_arg(args, int);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  164  			if (field_width < 0) {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  165  				field_width = -field_width;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  166  				flags |= LEFT;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  167  			}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  168  		}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  169  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  170  		/* get the precision */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  171  		precision = -1;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  172  		if (*fmt == '.') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  173  			++fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  174  			if (isdigit(*fmt))
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  175  				precision = skip_atoi(&fmt);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  176  			else if (*fmt == '*') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  177  				++fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  178  				/* it's the next argument */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  179  				precision = va_arg(args, int);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  180  			}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  181  			if (precision < 0)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  182  				precision = 0;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  183  		}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  184  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  185  		/* get the conversion qualifier */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  186  		qualifier = -1;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  187  		if (*fmt == 'h' || *fmt == 'l' || *fmt == 'L') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  188  			qualifier = *fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  189  			++fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  190  		}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  191  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  192  		/* default base */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  193  		base = 10;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  194  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  195  		switch (*fmt) {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  196  		case 'c':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  197  			if (!(flags & LEFT))
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  198  				while (--field_width > 0)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  199  					*str++ = ' ';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  200  			*str++ = (unsigned char)va_arg(args, int);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  201  			while (--field_width > 0)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  202  				*str++ = ' ';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  203  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  204  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  205  		case 's':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  206  			s = va_arg(args, char *);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  207  			len = strnlen(s, precision);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  208  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  209  			if (!(flags & LEFT))
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  210  				while (len < field_width--)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  211  					*str++ = ' ';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  212  			for (i = 0; i < len; ++i)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  213  				*str++ = *s++;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  214  			while (len < field_width--)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  215  				*str++ = ' ';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  216  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  217  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  218  		case 'p':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  219  			if (field_width == -1) {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  220  				field_width = 2 * sizeof(void *);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  221  				flags |= ZEROPAD;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  222  			}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  223  			str = number(str,
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  224  				     (unsigned long)va_arg(args, void *), 16,
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  225  				     field_width, precision, flags);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  226  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  227  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  228  		case 'n':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  229  			if (qualifier == 'l') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  230  				long *ip = va_arg(args, long *);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  231  				*ip = (str - buf);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  232  			} else {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  233  				int *ip = va_arg(args, int *);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  234  				*ip = (str - buf);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  235  			}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  236  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  237  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  238  		case '%':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  239  			*str++ = '%';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  240  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  241  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  242  			/* integer number formats - set up the flags and "break" */
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  243  		case 'o':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  244  			base = 8;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  245  			break;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  246  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  247  		case 'x':
+9b706aee7d92d6 arch/x86/boot/printf.c  Denys Vlasenko  2008-02-09  248  			flags |= SMALL;
+dd0716c2b87792 arch/x86/boot/printf.c  Borislav Petkov 2024-05-16  249  			fallthrough;
+9b706aee7d92d6 arch/x86/boot/printf.c  Denys Vlasenko  2008-02-09  250  		case 'X':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  251  			base = 16;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  252  			break;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  253  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  254  		case 'd':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  255  		case 'i':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  256  			flags |= SIGN;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11 @257  		case 'u':
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  258  			break;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  259  
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  260  		default:
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  261  			*str++ = '%';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  262  			if (*fmt)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  263  				*str++ = *fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  264  			else
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  265  				--fmt;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  266  			continue;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  267  		}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  268  		if (qualifier == 'l')
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  269  			num = va_arg(args, unsigned long);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  270  		else if (qualifier == 'h') {
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  271  			num = (unsigned short)va_arg(args, int);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  272  			if (flags & SIGN)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  273  				num = (short)num;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  274  		} else if (flags & SIGN)
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  275  			num = va_arg(args, int);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  276  		else
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  277  			num = va_arg(args, unsigned int);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  278  		str = number(str, num, base, field_width, precision, flags);
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  279  	}
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  280  	*str = '\0';
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  281  	return str - buf;
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  282  }
+1543610ad79ac4 arch/i386/boot/printf.c H. Peter Anvin  2007-07-11  283  
+
+:::::: The code at line 257 was first introduced by commit
+:::::: 1543610ad79ac4cc61c26f8a29c84e4229faa9a3 Console-writing code for the new x86 setup code
+
+:::::: TO: H. Peter Anvin <hpa@zytor.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
