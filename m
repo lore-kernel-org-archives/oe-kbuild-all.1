@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E4D7E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 00:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCB5620;
+	Thu, 16 May 2024 00:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715819781; cv=none; b=AzELUBbPqSNA3Npiv3g89q5RZAG9rF6+xEhMe13G0uFlMRYjD9ez2um3A43YZSJIEQFRrjnJ5wV6KE2h7HyiDZ7fmA0HNXuOzT5TXPYLR08Er3JbkmwCuI8iJG0ICXzfwKImPBGBNLAZ/0Ys73o1NQs5n59lHPQVQEiQH2pPv8o=
+	t=1715820438; cv=none; b=pIV8UO7jbg0+S+SWff/v1Asumk+vSBewHtilKOQ0qYkCfiUMV7JY8084R55RPk9c3EEpY9vlnSaAiDw+r/jScujst0IH63l/waSbi/BvG6Ni8oGz38Obrk6EqEfUhJupK3hx98FcbpW6FM+qCDB80AtJ2dni7pHnKkCzrBjFUlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715819781; c=relaxed/simple;
-	bh=6Mg+8xvN4a+D/lG06X8UDeZxC7PgIfzpT8AlMvxlsA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M7IP6+PGN85IkA3wnzNMaDLJXlRKSsvawKA28hcN/6WCrUzp4CowUWuMlidE5cTJwmcKp16yVpG2JH794D/iLocr5GP/N806QOYYNH+OrqTx4Tt8Ry4De4Bqjiv7NYpTLtB2srz2rOmRD3JnyJR7Hh0kR5BY5o3XYpCRXIoy/f4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avmJHgnM; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1715820438; c=relaxed/simple;
+	bh=FAKesofL6Ngpdwwt4EsAfv183zLhqXsdZ3jpultxXCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P3nJTCgB1Xxp3v2P3H1mx1FS4SQ7f+tFGtP7xmVzfiHB0L7OB/JcWl26uyxnd+WhPy8fSdAUsHbzFCffCyQ43DajD1SIyYkSLYTdezjPjkm4j2QN/IAFxbRe86KWrWoPG6lOFSXO74Tl2EGXJGUPH9dFqXIEahej29RjO4Eb+oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oC3V21ik; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avmJHgnM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oC3V21ik"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715819778; x=1747355778;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6Mg+8xvN4a+D/lG06X8UDeZxC7PgIfzpT8AlMvxlsA0=;
-  b=avmJHgnMqiWV+eBZovDGxCz+lsR4i6cxx+K+Rr77K2EgS5BNTJK0CD/e
-   +Vm4PCS3tmDcyIo+56wZInuAntQ2VHy4EIi+IL74IXkcIxLsPqtztGnPF
-   D+C/XRJCVgnu6bwtBTPf8ZXrq6YurccD/gg0zStFAqs2oMFlxODF/Bafy
-   pvU9FShEmZyHuR1wxMjcgTSUT3fSMo0i9Eq+TaG7UpccCx4lbln45d/HH
-   l7qKqhozIC3YTsZs5lUmyUT5agjEattfwSJyG8Ae60CLYw7ns9SpWft+G
-   NSg4xoYfvaVv7tgwVse5Uet+Mm8yX2GJ1bd0nsLBdSVjCqfSFeCEaVL4k
+  t=1715820437; x=1747356437;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FAKesofL6Ngpdwwt4EsAfv183zLhqXsdZ3jpultxXCM=;
+  b=oC3V21ik9HutTQJRqu6AxxooRUZ7xisMCuV49uuHD5S4FmNxc30NpqD4
+   Q/y80x7DJrIv/OhIujBpSE8MSBuPSduoTIRSoW5B9Vt4CgdgTTnm2bjQ7
+   wkiImn5KxONyY4YhIKeQIbJSzIVcHKzFNWcik4+UzN7afnBh0U4yOqH7D
+   g9WRVxI4g/MPDK0vnnhFA0oXNvtfjAhELtHMjT1IF8H8Ae9t5aF+PrZ8I
+   OWg5T8xnPW5Go8JzlTLWycqh/Qv9Qj12p1LRmhmX6uSyuPDAv+1bDnNxe
+   f1T+0+QYaO1gTAKyEC30hmur7KqY5lHzsbCXeqo6TEgZ0yXGzY6Vf5SEL
    w==;
-X-CSE-ConnectionGUID: JsRcNqivTsuVjg9ykiJeMw==
-X-CSE-MsgGUID: IfL3mFOAQqy7/9xxJ1Go6w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12065550"
+X-CSE-ConnectionGUID: E/wNyeWFRDyGlzDgDd49lg==
+X-CSE-MsgGUID: ajZYxGx2SJ+qXwxRBgT3ag==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11738383"
 X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
-   d="scan'208";a="12065550"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 17:36:16 -0700
-X-CSE-ConnectionGUID: b7DGzwP5QU6d6y8Qibit6w==
-X-CSE-MsgGUID: 3gcY7n8kRg2VkDE0IYJPIQ==
+   d="scan'208";a="11738383"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 17:47:16 -0700
+X-CSE-ConnectionGUID: mDi6h4XjQ1aR3EM9g5x4Mw==
+X-CSE-MsgGUID: KEHxCD0xRk6MAoxT9RVTWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
-   d="scan'208";a="68695404"
+   d="scan'208";a="35691975"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 May 2024 17:36:14 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 15 May 2024 17:47:14 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7P6S-000DPH-10;
-	Thu, 16 May 2024 00:36:12 +0000
-Date: Thu, 16 May 2024 08:35:56 +0800
+	id 1s7PH6-000DPf-1k;
+	Thu, 16 May 2024 00:47:12 +0000
+Date: Thu, 16 May 2024 08:46:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
-Subject: drivers/net/ethernet/smsc/smc91x.c:590:9: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202405160853.3qyaSj8w-lkp@intel.com>
+To: Mengyuan Lou <mengyuanlou@net-swift.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jiawenwu@trustnetic.com, duanqiangwen@net-swift.com,
+	Mengyuan Lou <mengyuanlou@net-swift.com>
+Subject: Re: [PATCH net-next v3 5/6] net: ngbe: add sriov function support
+Message-ID: <202405160844.t8jS88dy-lkp@intel.com>
+References: <15515521993762EE+20240515100830.32920-6-mengyuanlou@net-swift.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,128 +64,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <15515521993762EE+20240515100830.32920-6-mengyuanlou@net-swift.com>
 
-Hi Thorsten,
+Hi Mengyuan,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8c06da67d0bd3139a97f301b4aa9c482b9d4f29e
-commit: 5eefb477d21a26183bc3499aeefa991198315a2d net: smc91x: Fix m68k kernel compilation for ColdFire CPU
-date:   2 days ago
-config: m68k-randconfig-r123-20240516 (https://download.01.org/0day-ci/archive/20240516/202405160853.3qyaSj8w-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240516/202405160853.3qyaSj8w-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mengyuan-Lou/net-libwx-Add-sriov-api-for-wangxun-nics/20240515-185015
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/15515521993762EE%2B20240515100830.32920-6-mengyuanlou%40net-swift.com
+patch subject: [PATCH net-next v3 5/6] net: ngbe: add sriov function support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240516/202405160844.t8jS88dy-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405160844.t8jS88dy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405160853.3qyaSj8w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405160844.t8jS88dy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/smsc/smc91x.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *a @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/smsc/smc91x.c:590:9: sparse:     expected void *a
-   drivers/net/ethernet/smsc/smc91x.c:590:9: sparse:     got void [noderef] __iomem *
->> drivers/net/ethernet/smsc/smc91x.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *a @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/smsc/smc91x.c:590:9: sparse:     expected void *a
-   drivers/net/ethernet/smsc/smc91x.c:590:9: sparse:     got void [noderef] __iomem *
->> drivers/net/ethernet/smsc/smc91x.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *a @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/smsc/smc91x.c:590:9: sparse:     expected void *a
-   drivers/net/ethernet/smsc/smc91x.c:590:9: sparse:     got void [noderef] __iomem *
-   drivers/net/ethernet/smsc/smc91x.c:483:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *a @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/smsc/smc91x.c:483:17: sparse:     expected void *a
-   drivers/net/ethernet/smsc/smc91x.c:483:17: sparse:     got void [noderef] __iomem *
+All warnings (new ones prefixed by >>):
 
-vim +590 drivers/net/ethernet/smsc/smc91x.c
+>> drivers/net/ethernet/wangxun/libwx/wx_sriov.c:999:17: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+     999 |         if (wx->vfinfo[i].clear_to_send)
+         |                        ^
+   drivers/net/ethernet/wangxun/libwx/wx_sriov.c:992:7: note: initialize the variable 'i' to silence this warning
+     992 |         u16 i;
+         |              ^
+         |               = 0
+   drivers/net/ethernet/wangxun/libwx/wx_sriov.c:312:20: warning: unused function 'wx_ping_vf' [-Wunused-function]
+     312 | static inline void wx_ping_vf(struct wx *wx, int vf)
+         |                    ^~~~~~~~~~
+   2 warnings generated.
 
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  535  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  536  /*
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  537   * This is called to actually send a packet to the chip.
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  538   */
-7961fb1089f826 drivers/net/ethernet/smsc/smc91x.c Allen Pais       2020-09-14  539  static void smc_hardware_send_pkt(struct tasklet_struct *t)
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  540  {
-7961fb1089f826 drivers/net/ethernet/smsc/smc91x.c Allen Pais       2020-09-14  541  	struct smc_local *lp = from_tasklet(lp, t, tx_task);
-7961fb1089f826 drivers/net/ethernet/smsc/smc91x.c Allen Pais       2020-09-14  542  	struct net_device *dev = lp->dev;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  543  	void __iomem *ioaddr = lp->base;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  544  	struct sk_buff *skb;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  545  	unsigned int packet_no, len;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  546  	unsigned char *buf;
-8ff499e43c5376 drivers/net/smc91x.c               Dongdong Deng    2009-08-23  547  	unsigned long flags;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  548  
-6389aa458ed995 drivers/net/ethernet/smsc/smc91x.c Ben Boeckel      2013-11-01  549  	DBG(3, dev, "%s\n", __func__);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  550  
-8ff499e43c5376 drivers/net/smc91x.c               Dongdong Deng    2009-08-23  551  	if (!smc_special_trylock(&lp->lock, flags)) {
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  552  		netif_stop_queue(dev);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  553  		tasklet_schedule(&lp->tx_task);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  554  		return;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  555  	}
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  556  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  557  	skb = lp->pending_tx_skb;
-be83668a253149 drivers/net/smc91x.c               Nicolas Pitre    2005-06-19  558  	if (unlikely(!skb)) {
-8ff499e43c5376 drivers/net/smc91x.c               Dongdong Deng    2009-08-23  559  		smc_special_unlock(&lp->lock, flags);
-be83668a253149 drivers/net/smc91x.c               Nicolas Pitre    2005-06-19  560  		return;
-be83668a253149 drivers/net/smc91x.c               Nicolas Pitre    2005-06-19  561  	}
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  562  	lp->pending_tx_skb = NULL;
-be83668a253149 drivers/net/smc91x.c               Nicolas Pitre    2005-06-19  563  
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22  564  	packet_no = SMC_GET_AR(lp);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  565  	if (unlikely(packet_no & AR_FAILED)) {
-6389aa458ed995 drivers/net/ethernet/smsc/smc91x.c Ben Boeckel      2013-11-01  566  		netdev_err(dev, "Memory allocation failed.\n");
-09f75cd7bf1372 drivers/net/smc91x.c               Jeff Garzik      2007-10-03  567  		dev->stats.tx_errors++;
-09f75cd7bf1372 drivers/net/smc91x.c               Jeff Garzik      2007-10-03  568  		dev->stats.tx_fifo_errors++;
-8ff499e43c5376 drivers/net/smc91x.c               Dongdong Deng    2009-08-23  569  		smc_special_unlock(&lp->lock, flags);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  570  		goto done;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  571  	}
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  572  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  573  	/* point to the beginning of the packet */
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22  574  	SMC_SET_PN(lp, packet_no);
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22  575  	SMC_SET_PTR(lp, PTR_AUTOINC);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  576  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  577  	buf = skb->data;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  578  	len = skb->len;
-6389aa458ed995 drivers/net/ethernet/smsc/smc91x.c Ben Boeckel      2013-11-01  579  	DBG(2, dev, "TX PNR 0x%x LENGTH 0x%04x (%d) BUF 0x%p\n",
-6389aa458ed995 drivers/net/ethernet/smsc/smc91x.c Ben Boeckel      2013-11-01  580  	    packet_no, len, len, buf);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  581  	PRINT_PKT(buf, len);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  582  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  583  	/*
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  584  	 * Send the packet length (+6 for status words, length, and ctl.
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  585  	 * The card will pad to 64 bytes with zeroes if packet is too small.
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  586  	 */
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22  587  	SMC_PUT_PKT_HDR(lp, 0, len + 6);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  588  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  589  	/* send the actual data */
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22 @590  	SMC_PUSH_DATA(lp, buf, len & ~1);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  591  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  592  	/* Send final ctl word with the last byte if there is one */
-d09d747ae4c25a drivers/net/ethernet/smsc/smc91x.c Robert Jarzmik   2016-10-17  593  	SMC_outw(lp, ((len & 1) ? (0x2000 | buf[len - 1]) : 0), ioaddr,
-d09d747ae4c25a drivers/net/ethernet/smsc/smc91x.c Robert Jarzmik   2016-10-17  594  		 DATA_REG(lp));
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  595  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  596  	/*
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  597  	 * If THROTTLE_TX_PKTS is set, we stop the queue here. This will
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  598  	 * have the effect of having at most one packet queued for TX
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  599  	 * in the chip's memory at all time.
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  600  	 *
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  601  	 * If THROTTLE_TX_PKTS is not set then the queue is stopped only
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  602  	 * when memory allocation (MC_ALLOC) does not succeed right away.
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  603  	 */
-ea9375607f8b31 drivers/net/smc91x.c               Nicolas Pitre    2005-04-12  604  	if (THROTTLE_TX_PKTS)
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  605  		netif_stop_queue(dev);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  606  
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  607  	/* queue the packet for TX */
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22  608  	SMC_SET_MMU_CMD(lp, MC_ENQUEUE);
-8ff499e43c5376 drivers/net/smc91x.c               Dongdong Deng    2009-08-23  609  	smc_special_unlock(&lp->lock, flags);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  610  
-860e9538a9482b drivers/net/ethernet/smsc/smc91x.c Florian Westphal 2016-05-03  611  	netif_trans_update(dev);
-09f75cd7bf1372 drivers/net/smc91x.c               Jeff Garzik      2007-10-03  612  	dev->stats.tx_packets++;
-09f75cd7bf1372 drivers/net/smc91x.c               Jeff Garzik      2007-10-03  613  	dev->stats.tx_bytes += len;
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  614  
-cfdfa86536d2fb drivers/net/smc91x.c               Magnus Damm      2008-02-22  615  	SMC_ENABLE_INT(lp, IM_TX_INT | IM_TX_EMPTY_INT);
-^1da177e4c3f41 drivers/net/smc91x.c               Linus Torvalds   2005-04-16  616  
 
-:::::: The code at line 590 was first introduced by commit
-:::::: cfdfa86536d2fbc8102780ec15faea185e957d3d smc91x: pass along private data V2
+vim +/i +999 drivers/net/ethernet/wangxun/libwx/wx_sriov.c
 
-:::::: TO: Magnus Damm <magnus.damm@gmail.com>
-:::::: CC: Jeff Garzik <jeff@garzik.org>
+   988	
+   989	void wx_ping_all_vfs_with_link_status(struct wx *wx, bool link_up)
+   990	{
+   991		u32 msgbuf[2] = {0, 0};
+   992		u16 i;
+   993	
+   994		if (!wx->num_vfs)
+   995			return;
+   996		msgbuf[0] = WX_PF_NOFITY_VF_LINK_STATUS | WX_PF_CONTROL_MSG;
+   997		if (link_up)
+   998			msgbuf[1] = (wx->speed << 1) | link_up;
+ > 999		if (wx->vfinfo[i].clear_to_send)
 
 -- 
 0-DAY CI Kernel Test Service
