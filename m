@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC951D53F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 06:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22774282F4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 06:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715840197; cv=none; b=nUnMixDz2N2m3B+WV31BwT2nxuo2CtUFLyG5MYS0OlTPlJCk/yw1xaRoPfrrGb+sKZVMAXLxY98xRBthx200BNaA7pDshBOvHxb2uXUYdUotSba9OwzG93P1K8Pe1eOt637FbjAh6C0FVLLqoyqV7y1ptd1n1Zmj1wjC1S+1s0o=
+	t=1715842599; cv=none; b=HREEpI+49Bhvf8YkrUwz6MnH1n6f06yOyicGJ1Oi6P8YoVjt5ZvhlQQYXJdsCJ9T4PUhqDLNG71pMU2uEVFOETVYAJm/786aUD6s71q1ngzIrcdu6aReHkrg8oN6Z1KUbCHIs/F2OG0wdORk28ekp66KX+UseQH0+/c0n22ZQzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715840197; c=relaxed/simple;
-	bh=Yl8eButfmyDS9SA16/mNgYevzdrkGdZQBO9SJsfhqJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kEyuHe/wS4iqO/YmR1SLbPj0mWdH5vgc7ZKTPRDnfyWrpxVz7lJIRds5tE502eSpUywxFwtv0ravIId5T5jR8aSD2CxIqLgQ6YQlwKmZgEeeoMZO/vbKCqASqh+DrM4MhHf7cSEwjbyTefldce7XN/JXCqjcff8nIFQAN9UeDhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrJ36t1H; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1715842599; c=relaxed/simple;
+	bh=J2sozI/5C1g+9SG5l4EKXY34vm3HAMqwbZQeNJlmSkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qI3iGtirZR61VlJaAL933yU1UcGiVDOvcHAMQBcJgopAIeBZl5g0x8lcd0CLBuJd+/OGRNTHKtvkI7B8/VspY/qUDy0hRBwrs9t++etnVEv7XY3wM+70+UHQS2M6oh1r/E24hLkdyzcXZIDqOzQ/fR4X+42KWVmmOZ2UpIxF2mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FI8orxAP; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrJ36t1H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FI8orxAP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715840195; x=1747376195;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yl8eButfmyDS9SA16/mNgYevzdrkGdZQBO9SJsfhqJQ=;
-  b=XrJ36t1HnvqeuKvcrcFq6FKBmy9ELpvwgp16qsEvZ/lnKIyXpBNPgd+Q
-   VHZtYcQUSCD32f/YE7Fq5EmWppQStzEPRG161I4tPPzhl/L88nDj9Ax0c
-   Xzsh90mrgi8fS6jatVv9IsgorR3FlYwEYoDs3kFjuJc/w+nT06WJHZ32d
-   /N86ouzsAV5VznZ6ZoP4NImde9raVmiJUQ6ShjLSqjwtQ0jql5WjnyujE
-   bAf6HhRK2iHi+CEi7OTfe6bqeshvBzm9buZE2N9o6cEkoVU6Qu7jTcemr
-   NRJdMoiYzxeArSWCWKezk/S7xuqMUgl0yBXF67D+zH28dybaCd+CCcJO+
-   w==;
-X-CSE-ConnectionGUID: R7z4dYBKQOiOGIYqcX3ZGw==
-X-CSE-MsgGUID: zLSYLqfRQJmA0x0J3p+EPQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="29425753"
+  t=1715842598; x=1747378598;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J2sozI/5C1g+9SG5l4EKXY34vm3HAMqwbZQeNJlmSkw=;
+  b=FI8orxAPlsAnKWC8GS6ErILnsm5WwTuLEtryl7IXOuDRe20bo4/8QCAF
+   e4UBZD3Di9Ova2JWYGWhdJ06vxi+bS84oxXsohJO9ZffSywpoKevAjqZ1
+   KDbpp1xdvL23WC9J4rXUgXa74fSvIYyT3WEJ+5nLBnizCGuAOpeeXbNI6
+   +X3D8LIWbq0iqR1hea+dWinQx1/C0oAhqyXqMDGmmz9ba2IYCi8vGKuIV
+   aaDzOOcS+1jy9rrwg0RhnrGgBw385O8SHWIeLdUinsYtXR61Im5I7C19h
+   Aa9LCMbMrVYrjCmOCEMAft7zOodVFIBFEpxpw/j5udH/xQ3mlIthB3rgE
+   Q==;
+X-CSE-ConnectionGUID: Dpn4yzF6RcaXui46DRgr8g==
+X-CSE-MsgGUID: 316xYn7bRRCYBnn+b5Eldg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="34446522"
 X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="29425753"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 23:16:35 -0700
-X-CSE-ConnectionGUID: COhd9G+ERM+sLcI8LJFYzA==
-X-CSE-MsgGUID: 1pNcoLcuRm61zmHSE2kl9A==
+   d="scan'208";a="34446522"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 23:56:37 -0700
+X-CSE-ConnectionGUID: FRWmhCXLQTW8g3bmgMY7Rw==
+X-CSE-MsgGUID: nWYch3FCR5mymxrs+g9kJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="35758387"
+   d="scan'208";a="68776550"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 May 2024 23:16:33 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 May 2024 23:56:35 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7UPn-000DjQ-17;
-	Thu, 16 May 2024 06:16:31 +0000
-Date: Thu, 16 May 2024 14:15:43 +0800
+	id 1s7V2W-000DlD-2O;
+	Thu, 16 May 2024 06:56:32 +0000
+Date: Thu, 16 May 2024 14:56:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
- kallsyms_on_each_symbol: .text+0x17c): relocation R_RISCV_PCREL_HI20 out of
- range: -524478 is not in [-524288, 524287]; references kallsyms_token_index
-Message-ID: <202405161456.yVXb0c0v-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] crypto: rsa-pkcs1pad: export rsa1_asn_lookup()
+Message-ID: <202405161409.ij6nBora-lkp@intel.com>
+References: <20240515150213.32491-1-jarkko@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +62,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240515150213.32491-1-jarkko@kernel.org>
 
-Hi Masahiro,
+Hi Jarkko,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3c999d1ae3c75991902a1a7dad0cb62c2a3008b4
-commit: 3216484550610470013b7ce1c9ed272da0a74589 kbuild: use obj-y instead extra-y for objects placed at the head
-date:   1 year, 7 months ago
-config: riscv-randconfig-r063-20240515 (https://download.01.org/0day-ci/archive/20240516/202405161456.yVXb0c0v-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161456.yVXb0c0v-lkp@intel.com/reproduce)
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.9 next-20240515]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/crypto-rsa-pkcs1pad-export-rsa1_asn_lookup/20240515-230406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20240515150213.32491-1-jarkko%40kernel.org
+patch subject: [PATCH v2] crypto: rsa-pkcs1pad: export rsa1_asn_lookup()
+config: i386-randconfig-061-20240516 (https://download.01.org/0day-ci/archive/20240516/202405161409.ij6nBora-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161409.ij6nBora-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405161456.yVXb0c0v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405161409.ij6nBora-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> crypto/rsa-pkcs1pad.c:83:32: sparse: sparse: symbol 'rsa_asn1_templates' was not declared. Should it be static?
 
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x17c): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_token_index
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x184): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_token_table
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0xec): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_relative_base
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0xf8): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_offsets
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x142): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_num_syms
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x15c): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_relative_base
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x164): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x16c): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_offsets
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
+vim +/rsa_asn1_templates +83 crypto/rsa-pkcs1pad.c
+
+    82	
+  > 83	const struct rsa_asn1_template rsa_asn1_templates[] = {
+    84	#define _(X) { #X, rsa_digest_info_##X, sizeof(rsa_digest_info_##X) }
+    85		_(md5),
+    86		_(sha1),
+    87		_(rmd160),
+    88		_(sha256),
+    89		_(sha384),
+    90		_(sha512),
+    91		_(sha224),
+    92	#undef _
+    93	#define _(X) { "sha3-" #X, rsa_digest_info_sha3_##X, sizeof(rsa_digest_info_sha3_##X) }
+    94		_(256),
+    95		_(384),
+    96		_(512),
+    97	#undef _
+    98		{ NULL }
+    99	};
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
