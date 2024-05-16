@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A193719BA6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 05:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC951D53F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 06:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715838939; cv=none; b=cIpaxU/7XtlwQ58IT/HOKqxp8K90x3D3jJ11465wgm3pzOY+eY8AHke3fT+ZIPVQGlsnyz+gwhZvEJuwvL2GK4oLnyPyUu6XDPc4a9jZic9ocC0trp2jhdB1aqd7PMwom/xK9uACOwh8gfBKXbbgE0QwGgtZxScxbLKuGILz8Qg=
+	t=1715840197; cv=none; b=nUnMixDz2N2m3B+WV31BwT2nxuo2CtUFLyG5MYS0OlTPlJCk/yw1xaRoPfrrGb+sKZVMAXLxY98xRBthx200BNaA7pDshBOvHxb2uXUYdUotSba9OwzG93P1K8Pe1eOt637FbjAh6C0FVLLqoyqV7y1ptd1n1Zmj1wjC1S+1s0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715838939; c=relaxed/simple;
-	bh=R58SNveZIj3aSv3Z2D6thaQAbSttnQhJAJZ3CW/vfFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JbU3P9FgPXdDxz4FB5jY3NUOX82Y5nNc5FG+uVG6VA0FbSkmofU51MKAwxhARe+lpViQ49UoGRxvnU2YUsDlJZG46H/cqpFCvbLoD69mR5TvnF7TzJhYSKXEuy1aP+UD/SmXfAr2q99F02X/k7e6GV/z7DfUgq2iEO0HoplDYi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llxG7/7+; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1715840197; c=relaxed/simple;
+	bh=Yl8eButfmyDS9SA16/mNgYevzdrkGdZQBO9SJsfhqJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kEyuHe/wS4iqO/YmR1SLbPj0mWdH5vgc7ZKTPRDnfyWrpxVz7lJIRds5tE502eSpUywxFwtv0ravIId5T5jR8aSD2CxIqLgQ6YQlwKmZgEeeoMZO/vbKCqASqh+DrM4MhHf7cSEwjbyTefldce7XN/JXCqjcff8nIFQAN9UeDhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrJ36t1H; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llxG7/7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrJ36t1H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715838938; x=1747374938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R58SNveZIj3aSv3Z2D6thaQAbSttnQhJAJZ3CW/vfFI=;
-  b=llxG7/7+HickZWY9G7Skorj8+bDX3z3CC5uYLoeHvUZyxRr0o9dfT17V
-   sllBFHkcOHn4iLHJvnWq6s3J2VZnFU3aPO3cpwB1JD37w3hpM0MPL1Pfv
-   ZxV5et/3t4BfIT7hI2aLaWUs73GX3HHKpTLnIUlKV3P1MrAmuSmwmhscc
-   gbTAyRM3Ucmu8byDHi10kkjt5a2nhGgg+9O+jK4r+oXQI+M9S2z5RGBuW
-   ymwK27Iwd94CGZxWlKqEUOMlr7rBMydKdQWys7exk3PMIwfsd9xIai65L
-   iqVYsGvoiVyNe7JgLGQL4s+O/ihLQ13xQ0mbEjaesYBwGVlT0WTczI8bf
+  t=1715840195; x=1747376195;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Yl8eButfmyDS9SA16/mNgYevzdrkGdZQBO9SJsfhqJQ=;
+  b=XrJ36t1HnvqeuKvcrcFq6FKBmy9ELpvwgp16qsEvZ/lnKIyXpBNPgd+Q
+   VHZtYcQUSCD32f/YE7Fq5EmWppQStzEPRG161I4tPPzhl/L88nDj9Ax0c
+   Xzsh90mrgi8fS6jatVv9IsgorR3FlYwEYoDs3kFjuJc/w+nT06WJHZ32d
+   /N86ouzsAV5VznZ6ZoP4NImde9raVmiJUQ6ShjLSqjwtQ0jql5WjnyujE
+   bAf6HhRK2iHi+CEi7OTfe6bqeshvBzm9buZE2N9o6cEkoVU6Qu7jTcemr
+   NRJdMoiYzxeArSWCWKezk/S7xuqMUgl0yBXF67D+zH28dybaCd+CCcJO+
    w==;
-X-CSE-ConnectionGUID: SvuoNQWbSyywBfZIqlNMaA==
-X-CSE-MsgGUID: +5S9jZkcQuOaOfGBnDmtOw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11793742"
+X-CSE-ConnectionGUID: R7z4dYBKQOiOGIYqcX3ZGw==
+X-CSE-MsgGUID: zLSYLqfRQJmA0x0J3p+EPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="29425753"
 X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="11793742"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 22:55:37 -0700
-X-CSE-ConnectionGUID: P5KtU3vyTj62DIkhrBvbbg==
-X-CSE-MsgGUID: mRpI8vHgScSrDtXBQNQ8pw==
+   d="scan'208";a="29425753"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 23:16:35 -0700
+X-CSE-ConnectionGUID: COhd9G+ERM+sLcI8LJFYzA==
+X-CSE-MsgGUID: 1pNcoLcuRm61zmHSE2kl9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="31434644"
+   d="scan'208";a="35758387"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 May 2024 22:55:33 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 15 May 2024 23:16:33 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7U5S-000Dgt-0P;
-	Thu, 16 May 2024 05:55:30 +0000
-Date: Thu, 16 May 2024 13:55:02 +0800
+	id 1s7UPn-000DjQ-17;
+	Thu, 16 May 2024 06:16:31 +0000
+Date: Thu, 16 May 2024 14:15:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
-Message-ID: <202405161341.XBePS2s0-lkp@intel.com>
-References: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_on_each_symbol: .text+0x17c): relocation R_RISCV_PCREL_HI20 out of
+ range: -524478 is not in [-524288, 524287]; references kallsyms_token_index
+Message-ID: <202405161456.yVXb0c0v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,142 +63,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
 
-Hi Maxime,
+Hi Masahiro,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/dma-buf-heaps-Introduce-a-new-heap-for-reserved-memory/20240515-215850
-base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-patch link:    https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-7-54cbbd049511%40kernel.org
-patch subject: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20240516/202405161341.XBePS2s0-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161341.XBePS2s0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3c999d1ae3c75991902a1a7dad0cb62c2a3008b4
+commit: 3216484550610470013b7ce1c9ed272da0a74589 kbuild: use obj-y instead extra-y for objects placed at the head
+date:   1 year, 7 months ago
+config: riscv-randconfig-r063-20240515 (https://download.01.org/0day-ci/archive/20240516/202405161456.yVXb0c0v-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161456.yVXb0c0v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405161341.XBePS2s0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405161456.yVXb0c0v-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_allocate':
->> drivers/dma-buf/heaps/cma_heap.c:293:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
-     293 |                 return -EINVAL;
-         |                        ^
-   drivers/dma-buf/heaps/cma_heap.c:296:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
-     296 |                 return -EINVAL;
-         |                        ^
-   drivers/dma-buf/heaps/cma_heap.c: In function '__add_cma_heap':
-   drivers/dma-buf/heaps/cma_heap.c:386:13: error: implicit declaration of function 'of_memory_get_ecc_correction_bits' [-Werror=implicit-function-declaration]
-     386 |         if (of_memory_get_ecc_correction_bits() > 0)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +293 drivers/dma-buf/heaps/cma_heap.c
-
-   275	
-   276	static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-   277						 unsigned long len,
-   278						 unsigned long fd_flags,
-   279						 unsigned long heap_flags)
-   280	{
-   281		struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
-   282		struct cma_heap_buffer *buffer;
-   283		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-   284		size_t size = PAGE_ALIGN(len);
-   285		pgoff_t pagecount = size >> PAGE_SHIFT;
-   286		unsigned long align = get_order(size);
-   287		struct page *cma_pages;
-   288		struct dma_buf *dmabuf;
-   289		int ret = -ENOMEM;
-   290		pgoff_t pg;
-   291	
-   292		if (!cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
- > 293			return -EINVAL;
-   294	
-   295		if (cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-   296			return -EINVAL;
-   297	
-   298		buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-   299		if (!buffer)
-   300			return ERR_PTR(-ENOMEM);
-   301	
-   302		INIT_LIST_HEAD(&buffer->attachments);
-   303		mutex_init(&buffer->lock);
-   304		buffer->len = size;
-   305	
-   306		if (align > CONFIG_CMA_ALIGNMENT)
-   307			align = CONFIG_CMA_ALIGNMENT;
-   308	
-   309		cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-   310		if (!cma_pages)
-   311			goto free_buffer;
-   312	
-   313		/* Clear the cma pages */
-   314		if (PageHighMem(cma_pages)) {
-   315			unsigned long nr_clear_pages = pagecount;
-   316			struct page *page = cma_pages;
-   317	
-   318			while (nr_clear_pages > 0) {
-   319				void *vaddr = kmap_atomic(page);
-   320	
-   321				memset(vaddr, 0, PAGE_SIZE);
-   322				kunmap_atomic(vaddr);
-   323				/*
-   324				 * Avoid wasting time zeroing memory if the process
-   325				 * has been killed by by SIGKILL
-   326				 */
-   327				if (fatal_signal_pending(current))
-   328					goto free_cma;
-   329				page++;
-   330				nr_clear_pages--;
-   331			}
-   332		} else {
-   333			memset(page_address(cma_pages), 0, size);
-   334		}
-   335	
-   336		buffer->pages = kmalloc_array(pagecount, sizeof(*buffer->pages), GFP_KERNEL);
-   337		if (!buffer->pages) {
-   338			ret = -ENOMEM;
-   339			goto free_cma;
-   340		}
-   341	
-   342		for (pg = 0; pg < pagecount; pg++)
-   343			buffer->pages[pg] = &cma_pages[pg];
-   344	
-   345		buffer->cma_pages = cma_pages;
-   346		buffer->heap = cma_heap;
-   347		buffer->pagecount = pagecount;
-   348	
-   349		/* create the dmabuf */
-   350		exp_info.exp_name = dma_heap_get_name(heap);
-   351		exp_info.ops = &cma_heap_buf_ops;
-   352		exp_info.size = buffer->len;
-   353		exp_info.flags = fd_flags;
-   354		exp_info.priv = buffer;
-   355		dmabuf = dma_buf_export(&exp_info);
-   356		if (IS_ERR(dmabuf)) {
-   357			ret = PTR_ERR(dmabuf);
-   358			goto free_pages;
-   359		}
-   360		return dmabuf;
-   361	
-   362	free_pages:
-   363		kfree(buffer->pages);
-   364	free_cma:
-   365		cma_release(cma_heap->cma, cma_pages, pagecount);
-   366	free_buffer:
-   367		kfree(buffer);
-   368	
-   369		return ERR_PTR(ret);
-   370	}
-   371	
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x17c): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_token_index
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x184): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_token_table
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0xec): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_relative_base
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0xf8): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_offsets
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x142): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_num_syms
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x15c): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_relative_base
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x164): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x16c): relocation R_RISCV_PCREL_HI20 out of range: -524478 is not in [-524288, 524287]; references kallsyms_offsets
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
 
 -- 
 0-DAY CI Kernel Test Service
