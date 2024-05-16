@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCF11DFD6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 15:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7325F14D71E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 15:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715874264; cv=none; b=flRLc4Zy1yBbzYkslSBWIbXGlq4pM8VP28qXPb/zqBi6/PZDsES9wrCnnmRqxIvnOBCcrMzol9mLX2QKR8C4333Ew8wy3Kvwhvqf5qV1b1h2MOiGJ/8fjuV0W/0ypBU0UpoRm6e9Vnet/0NHErohgYOrb1NuI5obeKQfnQNdOEY=
+	t=1715874912; cv=none; b=c3kyr3V2G0flH/gbIfuQmeKQmMjm6gswBbUbo5F2UwmZB6aMAmQ6mEkS8BIEdgr6Aw8t2j/2IhIclInXeK+VJ3EJo7QrsHr5yxvRBjObibdOXn11zUNtNj50m9dz9lAmr1JXXBx/NmQKGtchv8flXU4+tqPrsqFwxcmZFzSjsxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715874264; c=relaxed/simple;
-	bh=7uEWX4xsHV4nJcV41BFoPh4Qp/fbZA6ZjCgLBPdpUak=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lG6m74Dr4284GabGz4Z/0ENB/iLA8mscuKVPA85UVaqmjNf8RRjHRRshFAasryCtFZLmRWjecbcOkDooy5r+BEzySdllUzn3N3Fa62YWb8iK/daJXEazIDs1pyKbEeri/+8qJxIsUu/yv/D+l8q5pQZXFEfCBQ6RftK17cQoQcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8Y95gVy; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1715874912; c=relaxed/simple;
+	bh=12vt83DDQ9W1vK1XXPC3vvTvH4RQzN7F1BBnruNYXew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lNfuJ+SezedCqw8kLavE2y3/LXXTfcLTbl+wW+vSh2wpTT+Ry8CZ8HrxGoR37rI5L+qw2RZgWFotGVRRc1vDuGq0ukq7jiRdxluvIEsd6wkUpowc/tNmeR61X1mJJuWflIMQyloAvX2UJCYZOkF6VZG5ZTxgZnPrlDbspZpcWqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HccA8G+Q; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8Y95gVy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HccA8G+Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715874264; x=1747410264;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7uEWX4xsHV4nJcV41BFoPh4Qp/fbZA6ZjCgLBPdpUak=;
-  b=J8Y95gVy+OqxqBAyEd7jk+0aGGdIC4/UWtU3vtnm2Esw12I7ZvWcMmMb
-   yLT6cToJwqdy4SUKtYSskrnRMfy2yTNw3Akj8Qm/4488qd4bSM0p+5cLD
-   Q8NwqC+XPa+3u0T97LC9Q7Hx2YcUFRMeMZdf0Vv9QuoRec+AlWFK33A0n
-   dBztRnbzZsbJRrVGQos2G/+7emjosEIU/Rj40Cxxg1OMALlUiVIjAg40d
-   ZYjm7L6E8K1ueE9ew0denRnWSw7smQxNP/phgJ0Dp9ZUKWFsvKqQNfG0K
-   mDQJvTLTql7a7q4yppCrso1p8Asw1eSAzFHzxlaw3J9OEoXjIC2sOdmaK
-   A==;
-X-CSE-ConnectionGUID: Eg1QOYScRDywLxH6TR+AdQ==
-X-CSE-MsgGUID: 6Oa3xggQTGCk61/9m7AAwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="15780907"
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="15780907"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 08:44:09 -0700
-X-CSE-ConnectionGUID: iN6U28A6Sz+i2cA5lyQUpA==
-X-CSE-MsgGUID: FOzq9vCVQsO8vN4tVqC/fw==
+  t=1715874910; x=1747410910;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=12vt83DDQ9W1vK1XXPC3vvTvH4RQzN7F1BBnruNYXew=;
+  b=HccA8G+QU4MZw88m94pnX/HLKpF9dZqpt8WFR17eE536nN1sFM33wAM3
+   ti6+wpPbRoB4D3qE2csWhIxI5QZd51ahMNNYy6llhboOxYFprLQkyhqZu
+   vXr6CxAMVK93mk4d2Lmcf9NmuFeM4cq3TTncRrvJ3IUWRwXhwiMN56xvR
+   AXC/2k8ci7cmTf2jYTq3CUbjRS7JEmumQem4gThxXt4CVtyHNwU8bte+l
+   kqvE4yxaZ3Q+2b8MJqQ20mk0gg/lOl/w2Mh/mrm33Jv9V0knDW4ioygS1
+   IS9ZNWgHsivgckn0MC4xp4uD+CQ9gtRRfyTH6YUgqHJVZyuphci4W5xA6
+   Q==;
+X-CSE-ConnectionGUID: pEZnAzVTTkSPHXxWrLd6Zg==
+X-CSE-MsgGUID: bin4ueNaQ26DTCHLDPfVOQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22600390"
+X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
+   d="scan'208";a="22600390"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 08:55:10 -0700
+X-CSE-ConnectionGUID: QW/JcknhS0yz25vN+Jm6Ng==
+X-CSE-MsgGUID: gTmiFC6JTV+qrfeYB3sspA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="31493407"
+X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
+   d="scan'208";a="62683601"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 May 2024 08:44:07 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 May 2024 08:55:07 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7dH2-000EPF-2r;
-	Thu, 16 May 2024 15:44:04 +0000
-Date: Thu, 16 May 2024 23:43:48 +0800
+	id 1s7dRh-000EQ7-1j;
+	Thu, 16 May 2024 15:55:05 +0000
+Date: Thu, 16 May 2024 23:54:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/rt712-quirks 10/12] ld.lld: error: undefined
- symbol: sdca_device_quirk_match
-Message-ID: <202405162305.EbnOm7Ei-lkp@intel.com>
+To: Dimitri Fedrau <dima.fedrau@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dimitri Fedrau <dima.fedrau@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] pwm: add support for NXPs high-side switch
+ MC33XS2410
+Message-ID: <202405162306.aFLe0sSZ-lkp@intel.com>
+References: <20240515112034.298116-3-dima.fedrau@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +68,182 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240515112034.298116-3-dima.fedrau@gmail.com>
 
-tree:   https://github.com/plbossart/sound sdw/rt712-quirks
-head:   667a5afcfd541df0169d7f1e3ef905e22a565472
-commit: 9fde48a258313fe16d3bf299945e441c88b462b9 [10/12] ASoC: Intel: soc-acpi: add is_device_rt712_vb() helper
-config: x86_64-randconfig-003-20240516 (https://download.01.org/0day-ci/archive/20240516/202405162305.EbnOm7Ei-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405162305.EbnOm7Ei-lkp@intel.com/reproduce)
+Hi Dimitri,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.9 next-20240516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dimitri-Fedrau/dt-bindings-pwm-add-support-for-MC33XS2410/20240515-192237
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240515112034.298116-3-dima.fedrau%40gmail.com
+patch subject: [PATCH v3 2/2] pwm: add support for NXPs high-side switch MC33XS2410
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20240516/202405162306.aFLe0sSZ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405162306.aFLe0sSZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405162305.EbnOm7Ei-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405162306.aFLe0sSZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: sdca_device_quirk_match
-   >>> referenced by soc-acpi-intel-mtl-match.c:775 (sound/soc/intel/common/soc-acpi-intel-mtl-match.c:775)
-   >>>               vmlinux.o:(is_device_rt712_vb)
+   drivers/pwm/pwm-mc33xs2410.c: In function 'mc33xs2410_xfer_regs':
+>> drivers/pwm/pwm-mc33xs2410.c:123:34: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     123 |                         val[i] = FIELD_GET(MC33XS2410_RD_DATA_MASK,
+         |                                  ^~~~~~~~~
+   drivers/pwm/pwm-mc33xs2410.c: In function 'mc33xs2410_pwm_get_freq':
+>> drivers/pwm/pwm-mc33xs2410.c:206:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     206 |         return FIELD_PREP(MC33XS2410_PWM_FREQ_STEP_MASK, step) |
+         |                ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_GET +123 drivers/pwm/pwm-mc33xs2410.c
+
+    74	
+    75	static int mc33xs2410_xfer_regs(struct spi_device *spi, bool read, u8 *reg,
+    76					u16 *val, bool *ctrl, int len)
+    77	{
+    78		struct spi_transfer t[MC33XS2410_MAX_TRANSFERS] = { { 0 } };
+    79		u8 tx[MC33XS2410_MAX_TRANSFERS * MC33XS2410_WORD_LEN];
+    80		u8 rx[MC33XS2410_MAX_TRANSFERS * MC33XS2410_WORD_LEN];
+    81		int i, ret, reg_i, val_i;
+    82	
+    83		if (!len)
+    84			return 0;
+    85	
+    86		if (read)
+    87			len++;
+    88	
+    89		if (len > MC33XS2410_MAX_TRANSFERS)
+    90			return -EINVAL;
+    91	
+    92		for (i = 0; i < len; i++) {
+    93			reg_i = i * MC33XS2410_WORD_LEN;
+    94			val_i = reg_i + 1;
+    95			if (read) {
+    96				if (i < len - 1) {
+    97					tx[reg_i] = reg[i];
+    98					tx[val_i] = ctrl[i] ? MC33XS2410_RD_CTRL : 0;
+    99					t[i].tx_buf = &tx[reg_i];
+   100				}
+   101	
+   102				if (i > 0)
+   103					t[i].rx_buf = &rx[reg_i - MC33XS2410_WORD_LEN];
+   104			} else {
+   105				tx[reg_i] = reg[i] | MC33XS2410_WR;
+   106				tx[val_i] = val[i];
+   107				t[i].tx_buf = &tx[reg_i];
+   108			}
+   109	
+   110			t[i].len = MC33XS2410_WORD_LEN;
+   111			t[i].cs_change = 1;
+   112		}
+   113	
+   114		t[len - 1].cs_change = 0;
+   115	
+   116		ret = spi_sync_transfer(spi, &t[0], len);
+   117		if (ret < 0)
+   118			return ret;
+   119	
+   120		if (read) {
+   121			for (i = 0; i < len - 1; i++) {
+   122				reg_i = i * MC33XS2410_WORD_LEN;
+ > 123				val[i] = FIELD_GET(MC33XS2410_RD_DATA_MASK,
+   124						   get_unaligned_be16(&rx[reg_i]));
+   125			}
+   126		}
+   127	
+   128		return 0;
+   129	}
+   130	
+   131	static
+   132	int mc33xs2410_write_regs(struct spi_device *spi, u8 *reg, u16 *val, int len)
+   133	{
+   134	
+   135		return mc33xs2410_xfer_regs(spi, false, reg, val, NULL, len);
+   136	}
+   137	
+   138	static int mc33xs2410_read_regs(struct spi_device *spi, u8 *reg, bool *ctrl,
+   139					u16 *val, u8 len)
+   140	{
+   141		return mc33xs2410_xfer_regs(spi, true, reg, val, ctrl, len);
+   142	}
+   143	
+   144	
+   145	static int mc33xs2410_write_reg(struct spi_device *spi, u8 reg, u16 val)
+   146	{
+   147		return mc33xs2410_write_regs(spi, &reg, &val, 1);
+   148	}
+   149	
+   150	static
+   151	int mc33xs2410_read_reg(struct spi_device *spi, u8 reg, u16 *val, bool ctrl)
+   152	{
+   153		return mc33xs2410_read_regs(spi, &reg, &ctrl, val, 1);
+   154	}
+   155	
+   156	static int mc33xs2410_read_reg_ctrl(struct spi_device *spi, u8 reg, u16 *val)
+   157	{
+   158		return mc33xs2410_read_reg(spi, reg, val, true);
+   159	}
+   160	
+   161	static
+   162	int mc33xs2410_modify_reg(struct spi_device *spi, u8 reg, u16 mask, u16 val)
+   163	{
+   164		u16 tmp;
+   165		int ret;
+   166	
+   167		ret = mc33xs2410_read_reg_ctrl(spi, reg, &tmp);
+   168		if (ret < 0)
+   169			return ret;
+   170	
+   171		tmp &= ~mask;
+   172		tmp |= val & mask;
+   173	
+   174		return mc33xs2410_write_reg(spi, reg, tmp);
+   175	}
+   176	
+   177	static u8 mc33xs2410_pwm_get_freq(u64 period)
+   178	{
+   179		u8 step, count;
+   180	
+   181		/*
+   182		 * Check if period is within the limits of each of the four frequency
+   183		 * ranges, starting with the highest frequency(lowest period). Higher
+   184		 * frequencies are represented with better resolution by the device.
+   185		 * Therefore favor frequency range with the better resolution to
+   186		 * minimize error introduced by the frequency steps.
+   187		 */
+   188	
+   189		switch (period) {
+   190		case MC33XS2410_MIN_PERIOD_STEP(3) + 1 ... MC33XS2410_MAX_PERIOD_STEP(3):
+   191			step = 3;
+   192			break;
+   193		case MC33XS2410_MAX_PERIOD_STEP(3) + 1 ... MC33XS2410_MAX_PERIOD_STEP(2):
+   194			step = 2;
+   195			break;
+   196		case MC33XS2410_MAX_PERIOD_STEP(2) + 1 ... MC33XS2410_MAX_PERIOD_STEP(1):
+   197			step = 1;
+   198			break;
+   199		case MC33XS2410_MAX_PERIOD_STEP(1) + 1 ... MC33XS2410_MAX_PERIOD_STEP(0):
+   200			step = 0;
+   201			break;
+   202		}
+   203	
+   204		count = DIV_ROUND_UP(MC33XS2410_MAX_PERIOD_STEP(step), period) - 1;
+   205	
+ > 206		return FIELD_PREP(MC33XS2410_PWM_FREQ_STEP_MASK, step) |
+   207		       FIELD_PREP(MC33XS2410_PWM_FREQ_COUNT_MASK, count);
+   208	}
+   209	
 
 -- 
 0-DAY CI Kernel Test Service
