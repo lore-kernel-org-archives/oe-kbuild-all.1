@@ -1,65 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A5438DE0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 21:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1318140367;
+	Fri, 17 May 2024 21:39:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715980474; cv=none; b=Hl52mp4gbbw9wd15+xS+0A9C5y4i6+LwzpGv8s1gg7Hbzk8+6idGpmzO4jdwTcUySgwNyZHODO21y2ou/TT1ikGQbeVjZXFjZdS0JtFfImNYXqdnULRvl2UEPSaVXyFUOz4hTxSnvlfC9nkZEg2KCsib+MdG8kdFG1cCv4bJ/GQ=
+	t=1715981988; cv=none; b=NcUziA+fbPNUwWVrxwWZZgyJRYRAmIAm5uYPiTvYwn+34uKzr3yDEu7Qv94bCWIJGoU3unYQURYavuCr/62x+QSsgPgVYwaVsS2mz3QMyTgcAq/heJk0gLivTdiXh49M00+mMOSxxfJD7kjy0hWeQlTIhUPak+a/xNe4a77LiRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715980474; c=relaxed/simple;
-	bh=PbwdGeHYEsTxVaXokH+G/Dg9Oj++01l9iIV7peZfMmY=;
+	s=arc-20240116; t=1715981988; c=relaxed/simple;
+	bh=2SS4RimWdSKvDc8cYyQUQTKo0de1Bc26jlHfZplTVjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j47fEfu6qPsuSojb1s1Cc50ZLsNttzrcdPkzGm0Z8mtDzOzYxI9Ts7i4on7xRFy4MbRsyNmGgq7jw5SPp30N8PAREA7cU+6eQIdABKPC7rLDmuKNHEd8DEsKWkCgsCvTr7mhpBb1FUhZFKtJL0rCr1pL2YzYKW4myUyAtjbdCDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gvOYwMia; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPMfTui3H4SKDFVfWjeQQjy6GFc5BCNRckx0i2UBZw9UcFZ3GVcSzLMFR5eAY2X7dEPqSn/bXL7wRp+33HeDzThctl2Vl78RIvKwGXolbK4UDNI97bP/FvqXpUlrfXFr/ChrRPZ1Igj6cKZtJ+CdEZlb3EBZZbCXn6RvONzCAsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5vEFyTp; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gvOYwMia"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5vEFyTp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715980473; x=1747516473;
+  t=1715981987; x=1747517987;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PbwdGeHYEsTxVaXokH+G/Dg9Oj++01l9iIV7peZfMmY=;
-  b=gvOYwMiaaQUNqGZQuPCCnXxyMM5WKhEWIwmkN6dIpAbQH3UkEk6dF87v
-   /h9UbvvzTH0XjHBnvmGu7GDGkZiKpvOogACn17AtpHgeYve6vrWARHWkE
-   ux7e7awP28QPttnpnYubE8kAMY5gDDTFc+KNQ4wfs/209aiFybLWbnRds
-   9qMGlml9wXIP78F8i2l4tbm/QKiy2jlvwSJlJis8hWv3Tgm25UmoJrP/W
-   0q4ayHcZptIzXFpQzxrzVQlDWq+iGVPzV3+0pGQwlikck6MPnT81muJtj
-   Vs4iQrVueq1FURqUtQlPTUw1A7AH/qO1utCJKAc6SnV/xptN0xsWpl27z
-   w==;
-X-CSE-ConnectionGUID: JN8OsP2fQCe+uPiJdpbT8w==
-X-CSE-MsgGUID: /tRXNcvJRbCtCE1z/TBVTQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12355102"
+  bh=2SS4RimWdSKvDc8cYyQUQTKo0de1Bc26jlHfZplTVjE=;
+  b=J5vEFyTpnVvnOKkJSStUGWO9PBRkSwaPrvmipmVn0vBrOKBGuZV098+k
+   u5ns1CJ+uUeK31K9Wyw+drtCwu+E9aM0xCztDcnllKt820oX2CE+7DnvV
+   5uhD3w7uJ3L4Bfks5xa8TQBI//fbze4E0ZEyxKl8RTg28XhKDaRH5JqKj
+   rklNwTKbNfbnGORcg0DuoB/uOUWWn51m/9qKmq9q2P0ItNQRamigw7x8j
+   Om9T+NkTIRmG1wW/NotRv1YkwX3UhSyoSlEZRatY1DJvOOzFLVwthlVsA
+   yKFlMeQINo/rgX3faEzXEdXPmSe4LdCVYc8ErUYYJSZcxkM7MMf5DctLT
+   g==;
+X-CSE-ConnectionGUID: 8GM9mKUTRVC68fbgr2pWsg==
+X-CSE-MsgGUID: iejt+0GFRK+J/3XkAPDFlw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12356748"
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="12355102"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 14:14:33 -0700
-X-CSE-ConnectionGUID: 2UvPJbnoQx6Lk0q/A0sJiA==
-X-CSE-MsgGUID: 4Rk2GkZ3SWiQ3BSZX0RCqQ==
+   d="scan'208";a="12356748"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 14:39:46 -0700
+X-CSE-ConnectionGUID: gkIVbgFKR4KZwf7oGFI1XQ==
+X-CSE-MsgGUID: zsKfyn7DTkeY+sy0JqMShA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="31897496"
+   d="scan'208";a="36827114"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 17 May 2024 14:14:25 -0700
+  by orviesa004.jf.intel.com with ESMTP; 17 May 2024 14:39:41 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s84rv-00018W-0T;
-	Fri, 17 May 2024 21:13:13 +0000
-Date: Sat, 18 May 2024 05:11:55 +0800
+	id 1s85Fv-00019g-0g;
+	Fri, 17 May 2024 21:37:44 +0000
+Date: Sat, 18 May 2024 05:34:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gautam Menghani <gautam@linux.ibm.com>, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	naveen.n.rao@linux.ibm.com
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Gautam Menghani <gautam@linux.ibm.com>,
-	linux-kernel@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
-	Vaibhav Jain <vaibhav@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v8] arch/powerpc/kvm: Add support for reading VPA
- counters for pseries guests
-Message-ID: <202405180535.YOmK4BgA-lkp@intel.com>
-References: <20240510104941.78410-1-gautam@linux.ibm.com>
+To: ye.xingchen@zte.com.cn, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	corbet@lwn.net, dsahern@kernel.org, ncardwell@google.com,
+	soheil@google.com, mfreemon@cloudflare.com, lixiaoyan@google.com,
+	david.laight@aculab.com, haiyangz@microsoft.com,
+	ye.xingchen@zte.com.cn, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xu.xin16@zte.com.cn, zhang.yunkai@zte.com.cn, fan.yu9@zte.com.cn
+Subject: Re: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control
+ ICMP_TIMESTAMP
+Message-ID: <202405180545.RQgwvazz-lkp@intel.com>
+References: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,42 +70,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510104941.78410-1-gautam@linux.ibm.com>
+In-Reply-To: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
 
-Hi Gautam,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on powerpc/topic/ppc-kvm]
-[also build test ERROR on powerpc/next powerpc/fixes kvm/queue mst-vhost/linux-next linus/master v6.9 next-20240517]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gautam-Menghani/arch-powerpc-kvm-Add-support-for-reading-VPA-counters-for-pseries-guests/20240510-185213
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
-patch link:    https://lore.kernel.org/r/20240510104941.78410-1-gautam%40linux.ibm.com
-patch subject: [PATCH v8] arch/powerpc/kvm: Add support for reading VPA counters for pseries guests
-config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20240518/202405180535.YOmK4BgA-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180535.YOmK4BgA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/icmp-Add-icmp_timestamp_ignore_all-to-control-ICMP_TIMESTAMP/20240517-172903
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240517172639229ec5bN7VBV7SGEHkSK5K6f%40zte.com.cn
+patch subject: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control ICMP_TIMESTAMP
+config: arm-clps711x_defconfig (https://download.01.org/0day-ci/archive/20240518/202405180545.RQgwvazz-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180545.RQgwvazz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405180535.YOmK4BgA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405180545.RQgwvazz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `__traceiter_kvmppc_vcpu_stats'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: arch/powerpc/kvm/book3s_hv_nestedv2.o: in function `do_trace_nested_cs_time':
->> book3s_hv_nestedv2.c:(.text+0x4b4): undefined reference to `__traceiter_kvmppc_vcpu_stats'
-   powerpc64-linux-ld: arch/powerpc/kvm/book3s_hv_nestedv2.o:(__jump_table+0x8): undefined reference to `__tracepoint_kvmppc_vcpu_stats'
+   In file included from net/ipv4/icmp.c:69:
+   In file included from include/linux/inet.h:42:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> net/ipv4/icmp.c:1157:16: warning: variable 'net' is uninitialized when used here [-Wuninitialized]
+    1157 |         if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
+         |                       ^~~
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   net/ipv4/icmp.c:1155:17: note: initialize the variable 'net' to silence this warning
+    1155 |         struct net *net;
+         |                        ^
+         |                         = NULL
+   2 warnings generated.
+
+
+vim +/net +1157 net/ipv4/icmp.c
+
+  1144	
+  1145	/*
+  1146	 *	Handle ICMP Timestamp requests.
+  1147	 *	RFC 1122: 3.2.2.8 MAY implement ICMP timestamp requests.
+  1148	 *		  SHOULD be in the kernel for minimum random latency.
+  1149	 *		  MUST be accurate to a few minutes.
+  1150	 *		  MUST be updated at least at 15Hz.
+  1151	 */
+  1152	static enum skb_drop_reason icmp_timestamp(struct sk_buff *skb)
+  1153	{
+  1154		struct icmp_bxm icmp_param;
+  1155		struct net *net;
+  1156	
+> 1157		if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
+  1158			return SKB_NOT_DROPPED_YET;
+  1159	
+  1160		/*
+  1161		 *	Too short.
+  1162		 */
+  1163		if (skb->len < 4)
+  1164			goto out_err;
+  1165	
+  1166		/*
+  1167		 *	Fill in the current time as ms since midnight UT:
+  1168		 */
+  1169		icmp_param.data.times[1] = inet_current_timestamp();
+  1170		icmp_param.data.times[2] = icmp_param.data.times[1];
+  1171	
+  1172		BUG_ON(skb_copy_bits(skb, 0, &icmp_param.data.times[0], 4));
+  1173	
+  1174		icmp_param.data.icmph	   = *icmp_hdr(skb);
+  1175		icmp_param.data.icmph.type = ICMP_TIMESTAMPREPLY;
+  1176		icmp_param.data.icmph.code = 0;
+  1177		icmp_param.skb		   = skb;
+  1178		icmp_param.offset	   = 0;
+  1179		icmp_param.data_len	   = 0;
+  1180		icmp_param.head_len	   = sizeof(struct icmphdr) + 12;
+  1181		icmp_reply(&icmp_param, skb);
+  1182		return SKB_NOT_DROPPED_YET;
+  1183	
+  1184	out_err:
+  1185		__ICMP_INC_STATS(dev_net(skb_dst(skb)->dev), ICMP_MIB_INERRORS);
+  1186		return SKB_DROP_REASON_PKT_TOO_SMALL;
+  1187	}
+  1188	
 
 -- 
 0-DAY CI Kernel Test Service
