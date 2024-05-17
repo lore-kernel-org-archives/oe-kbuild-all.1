@@ -1,62 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FB33D546
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 12:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68AC43AA0;
+	Fri, 17 May 2024 12:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715949548; cv=none; b=Idb0P2+C6dj6kahgwFtNjfZg3LCiGFpX2wcabtwomaqMZgcxZcfpxFQIAePdbfTxrrK0y9c2HxQZNp+Uyhava7j3nal0Vx1vKW51QcFcI0DrpcERy2Sfqywo5HjHIeFAisQD5IxpmNMWniik8MwlRHf7rbEI2i0VOHNF13mak4Y=
+	t=1715949550; cv=none; b=JD92eLOCM17pq3LJsh97RW4dieu/XyUAksEpf+TXEGHBgBT57+dswJq65tU+wnX//3qUojP0MHbN6X6clq5rnaumiaA/vgGGNmYrxcZ15lqsGvpW0PluI9LZs1WgQNNEwAvBMEYe8AJmRr4ciH28w4GChn+9su3YE/K7PJLqJ44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715949548; c=relaxed/simple;
-	bh=8oAIyzT5IW6EQpOnPPjkdRJbUW3/9dPBZ/yrgQmDBV4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZPOF03sA+2Vahz7chevbjt0LsIcAGvmuzw+oXTK/mEtVK/FjT3jPYFEv7WHuJnvsKxifOV1HOMwLcaf5ynepRnFZd5jIXFSuPb8oM5by32OJmFgN0kA02D8L92tLEIMtLGJ4s2Dtsj/uEMEsxmVzgutkmS6OZelVUaDv+tWk3wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwUKMBzh; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1715949550; c=relaxed/simple;
+	bh=BOMB8wdBtR5zMTKdb1X0/tCLTze4IC2lvXPtLc/qX1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T3yW+ZJ9JO6eJ1BZZkeLCvlsG4XddiG3OR2kdcSbz/Qv82TXkDVjZIC2X9xkUlJ5dw9melRUnJbKmQJBujiu/KY8GJTLEo+3LJrEYPap1K2vtK0aYoMiWzKXnBNLJ+H3MkuFzYw6a8pw31Qih1d4lozP0MWQCtCAoi+wYpDJyos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PP3KSs0H; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwUKMBzh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PP3KSs0H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715949547; x=1747485547;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8oAIyzT5IW6EQpOnPPjkdRJbUW3/9dPBZ/yrgQmDBV4=;
-  b=iwUKMBzhIuwZeOSqvadVDDMo+ae+XEN755kJT54S7rJdiV6dShc1V+ov
-   FyWLMXzIMHEPgZy5GIw5CkhGMfob3B30pw6UPC4HfKXEv4vMB9br6pAZN
-   I14JLsp7E1a0BOQo1UjUnuXqeHJncOyX8hWsTRzxcIrlahO1GBdwhOxE7
-   o8B74rxjWr87ou3GLmzsREjg7UkU1184fNYF7sr/+alNv+ZeirNvf87Zw
-   C+nchevxLXUl1SkpR2J1tzAC8QWy1tLX1vROloM2TefLnHsY2uEyE990g
-   vnFGeupCg0f4KDmFuFrN/8K7yuAuz5mAVghM9rl8sXvh6OdSBZW9pfMeV
+  t=1715949549; x=1747485549;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BOMB8wdBtR5zMTKdb1X0/tCLTze4IC2lvXPtLc/qX1k=;
+  b=PP3KSs0HU9V2k1IfgarVw/ZVR7CrrhLD7hzYoGQzUxp2BJsBeeu6dz5I
+   RDTkoA16uo7NGFcgUSwrTPfhBcbtubQC76InuUP7pZLvjurlIClNyf57C
+   lebekP5Bt59Sp36isp71rP82dkDMp3/Kgegk+5jrwvPjuBg98Moms8VYH
+   r9VqOVfxkbl+oEU25V0oQyoeDBAmLgDIuFZOZ4NEL4is/gSlf35iJRkt3
+   88I5ryusZAmfgha2XAoRDZCTgh35mJNkFprqM4wrjMn0MHQIDQj1LR+8Y
+   lV9RU4A+d8QzmBPFQ48azzyz/Hds/09WgYkYLa7TfuLMNWccjPik5099e
    w==;
-X-CSE-ConnectionGUID: puTvcU8LQ++1sobJ/nhOiw==
-X-CSE-MsgGUID: AIyprmPHRf+6GlX6KKOnZw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12311895"
+X-CSE-ConnectionGUID: bhC7vWNYTci9upyEc5hSpg==
+X-CSE-MsgGUID: mi54i0QKSX+Dc3SD61eT5A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12311897"
 X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="12311895"
+   d="scan'208";a="12311897"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 05:39:06 -0700
-X-CSE-ConnectionGUID: lC12+CDQRV2Vpz9eCGGVSw==
-X-CSE-MsgGUID: PXPXd/GRRo611Y+4Ra4uKg==
+X-CSE-ConnectionGUID: xSin/eagRWmk4w/QVnTxgw==
+X-CSE-MsgGUID: hAFhE6QaR0y7LOOfqMlQng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="62603991"
+   d="scan'208";a="62603985"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 17 May 2024 05:39:03 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7wrU-0000gm-0f;
+	id 1s7wrU-0000go-0k;
 	Fri, 17 May 2024 12:39:00 +0000
 Date: Fri, 17 May 2024 20:38:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 6625/6628]
- drivers/crypto/ccp/hygon/psp-dev.c:472:5: warning: no previous prototype for
- '__vpsp_do_cmd_locked'
-Message-ID: <202405172006.ebTeyrfr-lkp@intel.com>
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-spi@vger.kernel.org, broonie@kernel.org,
+	andi.shyti@kernel.org, joel@jms.id.au, alistair@popple.id.au,
+	jk@ozlabs.org, andrew@codeconstruct.com.au,
+	linux-aspeed@lists.ozlabs.org, eajames@linux.ibm.com
+Subject: Re: [PATCH v3 37/40] fsi: core: Add different types of CFAM
+Message-ID: <202405172019.j3pOURPP-lkp@intel.com>
+References: <20240516181907.3468796-38-eajames@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,109 +67,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240516181907.3468796-38-eajames@linux.ibm.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   95dac159be359bc7ba42421426462f1a96f50ee9
-commit: de722d17081287993748f63e8f34d06596eec824 [6625/6628] support tkm key isolation
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240517/202405172006.ebTeyrfr-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405172006.ebTeyrfr-lkp@intel.com/reproduce)
+Hi Eddie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on robh/for-next broonie-spi/for-next linus/master v6.9 next-20240517]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/fsi-hub-Set-master-index-to-link-number-plus-one/20240517-023205
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240516181907.3468796-38-eajames%40linux.ibm.com
+patch subject: [PATCH v3 37/40] fsi: core: Add different types of CFAM
+config: i386-buildonly-randconfig-002-20240517 (https://download.01.org/0day-ci/archive/20240517/202405172019.j3pOURPP-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405172019.j3pOURPP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405172006.ebTeyrfr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405172019.j3pOURPP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/psp-dev.c:49:10: warning: no previous prototype for 'atomic64_exchange' [-Wmissing-prototypes]
-      49 | uint64_t atomic64_exchange(volatile uint64_t *dst, uint64_t val)
-         |          ^~~~~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/psp-dev.c:63:5: warning: no previous prototype for 'psp_mutex_init' [-Wmissing-prototypes]
-      63 | int psp_mutex_init(struct psp_mutex *mutex)
-         |     ^~~~~~~~~~~~~~
->> drivers/crypto/ccp/hygon/psp-dev.c:472:5: warning: no previous prototype for '__vpsp_do_cmd_locked' [-Wmissing-prototypes]
-     472 | int __vpsp_do_cmd_locked(uint32_t vid, int cmd, void *data, int *psp_ret)
-         |     ^~~~~~~~~~~~~~~~~~~~
---
->> drivers/crypto/ccp/hygon/psp-dev.c:188: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * When the virtual machine executes the 'tkm' command,
-   drivers/crypto/ccp/hygon/psp-dev.c:213: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Upon qemu startup, this section checks whether
-   drivers/crypto/ccp/hygon/psp-dev.c:241: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Upon the virtual machine is shut down,
+>> drivers/fsi/fsi-core.c:1113:27: warning: no previous prototype for function 'fsi_get_cfam_type' [-Wmissing-prototypes]
+    1113 | const struct device_type *fsi_get_cfam_type(u32 id)
+         |                           ^
+   drivers/fsi/fsi-core.c:1113:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1113 | const struct device_type *fsi_get_cfam_type(u32 id)
+         |       ^
+         | static 
+   1 warning generated.
 
 
-vim +/__vpsp_do_cmd_locked +472 drivers/crypto/ccp/hygon/psp-dev.c
+vim +/fsi_get_cfam_type +1113 drivers/fsi/fsi-core.c
 
-   471	
- > 472	int __vpsp_do_cmd_locked(uint32_t vid, int cmd, void *data, int *psp_ret)
-   473	{
-   474		struct psp_device *psp = psp_master;
-   475		struct sev_device *sev;
-   476		phys_addr_t phys_addr;
-   477		unsigned int phys_lsb, phys_msb;
-   478		unsigned int reg, ret = 0;
-   479	
-   480		if (!psp || !psp->sev_data)
-   481			return -ENODEV;
-   482	
-   483		if (*hygon_psp_hooks.psp_dead)
-   484			return -EBUSY;
-   485	
-   486		sev = psp->sev_data;
-   487	
-   488		if (data && WARN_ON_ONCE(!virt_addr_valid(data)))
-   489			return -EINVAL;
-   490	
-   491		/* Get the physical address of the command buffer */
-   492		phys_addr = PUT_PSP_VID(__psp_pa(data), vid);
-   493		phys_lsb = data ? lower_32_bits(phys_addr) : 0;
-   494		phys_msb = data ? upper_32_bits(phys_addr) : 0;
-   495	
-   496		dev_dbg(sev->dev, "sev command id %#x buffer 0x%08x%08x timeout %us\n",
-   497			cmd, phys_msb, phys_lsb, *hygon_psp_hooks.psp_timeout);
-   498	
-   499		print_hex_dump_debug("(in):  ", DUMP_PREFIX_OFFSET, 16, 2, data,
-   500				     hygon_psp_hooks.sev_cmd_buffer_len(cmd), false);
-   501	
-   502		iowrite32(phys_lsb, sev->io_regs + sev->vdata->cmdbuff_addr_lo_reg);
-   503		iowrite32(phys_msb, sev->io_regs + sev->vdata->cmdbuff_addr_hi_reg);
-   504	
-   505		sev->int_rcvd = 0;
-   506	
-   507		reg = FIELD_PREP(SEV_CMDRESP_CMD, cmd) | SEV_CMDRESP_IOC;
-   508		iowrite32(reg, sev->io_regs + sev->vdata->cmdresp_reg);
-   509	
-   510		/* wait for command completion */
-   511		ret = hygon_psp_hooks.sev_wait_cmd_ioc(sev, &reg, *hygon_psp_hooks.psp_timeout);
-   512		if (ret) {
-   513			if (psp_ret)
-   514				*psp_ret = 0;
-   515	
-   516			dev_err(sev->dev, "sev command %#x timed out, disabling PSP\n", cmd);
-   517			*hygon_psp_hooks.psp_dead = true;
-   518	
-   519			return ret;
-   520		}
-   521	
-   522		*hygon_psp_hooks.psp_timeout = *hygon_psp_hooks.psp_cmd_timeout;
-   523	
-   524		if (psp_ret)
-   525			*psp_ret = FIELD_GET(PSP_CMDRESP_STS, reg);
-   526	
-   527		if (FIELD_GET(PSP_CMDRESP_STS, reg)) {
-   528			dev_dbg(sev->dev, "sev command %#x failed (%#010lx)\n",
-   529				cmd, FIELD_GET(PSP_CMDRESP_STS, reg));
-   530			ret = -EIO;
-   531		}
-   532	
-   533		print_hex_dump_debug("(out): ", DUMP_PREFIX_OFFSET, 16, 2, data,
-   534				     hygon_psp_hooks.sev_cmd_buffer_len(cmd), false);
-   535	
-   536		return ret;
-   537	}
-   538	
+  1112	
+> 1113	const struct device_type *fsi_get_cfam_type(u32 id)
+  1114	{
+  1115		u32 major = (id & 0xf00) >> 8;
+  1116		u32 minor = (id & 0xf0) >> 4;
+  1117	
+  1118		switch (major) {
+  1119		case 0x9:
+  1120			return &cfam_s_type;
+  1121		case 0xc:
+  1122			if (minor == 0)
+  1123				return &cfam_ody_type;
+  1124			fallthrough;
+  1125		case 0xd:
+  1126		default:
+  1127			return &cfam_type;
+  1128		}
+  1129	}
+  1130	
 
 -- 
 0-DAY CI Kernel Test Service
