@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD018479
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 15:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747CE12F584
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 15:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715959721; cv=none; b=BTNVOVnh2MY6urRMX0UIuqct1cpYy3vf+QpUqNWEd1yfgGMnrWZioL9fmEy2tYhz2PkjEyaXBDKYfw6IJcdpLD472tc187nUm+08WB8yEzwflhH8o7Kr59Dqoq9aPdA999IefYuB24oi1Q9WA8eLlarBVobhDPsRE1uYKSnKv4Y=
+	t=1715960963; cv=none; b=eogkLcxQ2sjMtCCftLl72HEsLmKLmjfm31GUkCu84XIZZT1XWFwmSED0M+dzSlRNGSEkMgrCaZHjmg/0WEUbkQ86iuyftdMUOvTyr4joSV+X37WwwpJh8CPAYA8Hm8Tg3JO1sKYqOLcRZ4Pdp2kEl1zjWR40p+evBv84O/Njdqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715959721; c=relaxed/simple;
-	bh=EAa3otoDvl6LuRbbh6koX1ce+q3bgRPeXUvurxTEeF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XPW6GZu+1X0B8wNDKs6ksL9BaTjG5KdrA3qLpzWT33i/YtNjLbYVkHxx/Hqse63NdlXe9VH4JwFPO0N4bNagdODYs5GjxXQsXNq2UME9dCl52PQfKNcKx4XAX1KhaOp/bJ3m+IynxetF7RBbbgno4KP8ogxf0CAWJDCjjDCkoLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Us9AlMZl; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1715960963; c=relaxed/simple;
+	bh=nYaui3EVpbCs7z9n+UR9+uF/xT8dwlB3DJdTf8Aj4oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KcV7Bfk/bhzcyzBNgWO89PhakLKk7tRt9OijKBNvmnxMTimatqFCPoVrBGl2hB1jFd7rF+86TCY/3KWtHM/J+Pa5RtY+ic7MYUJm1+tZg1CT4+3NifeoL9279CNmZPGV2Tgg+1WSzIu8ldWdZ040G9DYdeURuX/SpgmHeY59lY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h7AioeaS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us9AlMZl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h7AioeaS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715959720; x=1747495720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EAa3otoDvl6LuRbbh6koX1ce+q3bgRPeXUvurxTEeF8=;
-  b=Us9AlMZlema/1LBxa/lm5Q+GfY3NZwkfSjhMr2JkaPRYsg3rPP4MzVmn
-   XJrsXJ2LwIYvB3veFIdyZh276NgfBSfGBSVPKvMf615DHASChCQSZPwho
-   QcEIft2qo9pB2x2LJhIl6jlHxMqnt7Hlu7stAbxQxGa2v01dWtpGhEIOQ
-   F0c9mUqPuIQRAzIszrqHOm1n2K/0WgbNbduJRjhWB+EzPyZJanJNcyIgn
-   U+yh1krjhhB/HVwn69PudSnGmVSJWkcaHbaHmHn6Uuv5k5B5R72B+Qi6k
-   dM5nY6u1lJO/LoqY2asSgWS54xhTTccpaAw0yFnOI8wy7gLLKGtodcYys
+  t=1715960963; x=1747496963;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nYaui3EVpbCs7z9n+UR9+uF/xT8dwlB3DJdTf8Aj4oc=;
+  b=h7AioeaS+zbT//bmxNFqq6HaAGJei6ewif7RxAZQMw/+KUtnxR5U1CNU
+   tpIvMucbMxEuJqlukgj10TnG4Lk3l83rO+CuBd4msUqEazVZOUVtsqxED
+   wut+OhgM1yskvMpqpzIsni5PPtBBngj9sm+bjIOIE/saDJmgugCCFdbwU
+   yAv7jdTS188IGTFVMtqO3nkM+ftfaHF+NqGbbVpSzyjam0EXbuCk1icm2
+   Hi78kGwvTuCO9A/HgECm6P9w3eaWgKdz1fVdrVkVweOxxDl2chDnA1G1t
+   fcyN2QQWG6LlhxCpQJDfDrSMjGEoHZFarFEUhTSbdCz9HyokdX1tNZwfm
    g==;
-X-CSE-ConnectionGUID: GfAzCAFQSKuHaxeqPIgrhA==
-X-CSE-MsgGUID: tM+F6ishS9yP1KslcAleVA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12262579"
+X-CSE-ConnectionGUID: l638O9Y/Rby4mrElSvh7qQ==
+X-CSE-MsgGUID: oc6Hr+qeQHyE/5z/xNde1A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12256635"
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="12262579"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 08:28:40 -0700
-X-CSE-ConnectionGUID: bJ2aAk8yTcOMCWOTnKoZ5A==
-X-CSE-MsgGUID: lYC6ld3EQouKdULg0ER/Cw==
+   d="scan'208";a="12256635"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 08:49:22 -0700
+X-CSE-ConnectionGUID: gdfmtDVsSuSm4Pk+sKEWcA==
+X-CSE-MsgGUID: bJpcJ3KdQRypXWaRp5ZLeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="31658117"
+   d="scan'208";a="55053761"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 17 May 2024 08:28:38 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 May 2024 08:49:19 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7zVc-0000q8-0d;
-	Fri, 17 May 2024 15:28:36 +0000
-Date: Fri, 17 May 2024 23:28:05 +0800
+	id 1s7zpY-0000rx-22;
+	Fri, 17 May 2024 15:49:13 +0000
+Date: Fri, 17 May 2024 23:49:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhen Lei <thunder.leizhen@huawei.com>
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>
-Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
- kallsyms_on_each_match_symbol: .text+0x738): relocation R_RISCV_PCREL_HI20
- out of range: -524441 is not in [-524288, 524287]; references
- kallsyms_relative_base
-Message-ID: <202405172310.Wgr78VLw-lkp@intel.com>
+	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+	broonie@kernel.org, andi.shyti@kernel.org, joel@jms.id.au,
+	alistair@popple.id.au, jk@ozlabs.org, andrew@codeconstruct.com.au,
+	linux-aspeed@lists.ozlabs.org, eajames@linux.ibm.com
+Subject: Re: [PATCH v3 37/40] fsi: core: Add different types of CFAM
+Message-ID: <202405172346.olJbkgod-lkp@intel.com>
+References: <20240516181907.3468796-38-eajames@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,61 +66,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240516181907.3468796-38-eajames@linux.ibm.com>
 
-Hi Zhen,
+Hi Eddie,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea5f6ad9ad9645733b72ab53a98e719b460d36a6
-commit: 4dc533e0f2c04174e1ae4aa98e7cffc1c04b9998 kallsyms: Add helper kallsyms_on_each_match_symbol()
-date:   1 year, 6 months ago
-config: riscv-randconfig-r063-20240515 (https://download.01.org/0day-ci/archive/20240517/202405172310.Wgr78VLw-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405172310.Wgr78VLw-lkp@intel.com/reproduce)
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on linus/master v6.9 next-20240517]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/fsi-hub-Set-master-index-to-link-number-plus-one/20240517-023205
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240516181907.3468796-38-eajames%40linux.ibm.com
+patch subject: [PATCH v3 37/40] fsi: core: Add different types of CFAM
+config: x86_64-randconfig-122-20240517 (https://download.01.org/0day-ci/archive/20240517/202405172346.olJbkgod-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405172346.olJbkgod-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405172310.Wgr78VLw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405172346.olJbkgod-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/fsi/fsi-core.c:1113:26: sparse: sparse: symbol 'fsi_get_cfam_type' was not declared. Should it be static?
 
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x738): relocation R_RISCV_PCREL_HI20 out of range: -524441 is not in [-524288, 524287]; references kallsyms_relative_base
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x74a): relocation R_RISCV_PCREL_HI20 out of range: -524441 is not in [-524288, 524287]; references kallsyms_seqs_of_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x752): relocation R_RISCV_PCREL_HI20 out of range: -524441 is not in [-524288, 524287]; references kallsyms_offsets
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0xe4): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_num_syms
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x106): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_seqs_of_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x10e): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_markers
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x116): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x11e): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_token_index
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1dc): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_token_table
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
+vim +/fsi_get_cfam_type +1113 drivers/fsi/fsi-core.c
+
+  1112	
+> 1113	const struct device_type *fsi_get_cfam_type(u32 id)
+  1114	{
+  1115		u32 major = (id & 0xf00) >> 8;
+  1116		u32 minor = (id & 0xf0) >> 4;
+  1117	
+  1118		switch (major) {
+  1119		case 0x9:
+  1120			return &cfam_s_type;
+  1121		case 0xc:
+  1122			if (minor == 0)
+  1123				return &cfam_ody_type;
+  1124			fallthrough;
+  1125		case 0xd:
+  1126		default:
+  1127			return &cfam_type;
+  1128		}
+  1129	}
+  1130	
 
 -- 
 0-DAY CI Kernel Test Service
