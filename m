@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E762208F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 20:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A5438DE0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 21:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715978521; cv=none; b=ngZVXF7ilzy8gIOtsE+x7C9wFdJGGCBKJsqJRX6C/4JcDYplbr7C7b09rvpRk55Col9XGCq9D87nBpI7zC2jh8R/hgRBuKBBjo8+hdpJnh+Duc635aMG/WdzHxa90X+Azieoii1Ss51/MHqCirZwDG4BTE7rWT2ubacK7O18M9E=
+	t=1715980474; cv=none; b=Hl52mp4gbbw9wd15+xS+0A9C5y4i6+LwzpGv8s1gg7Hbzk8+6idGpmzO4jdwTcUySgwNyZHODO21y2ou/TT1ikGQbeVjZXFjZdS0JtFfImNYXqdnULRvl2UEPSaVXyFUOz4hTxSnvlfC9nkZEg2KCsib+MdG8kdFG1cCv4bJ/GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715978521; c=relaxed/simple;
-	bh=fTLlBh/SXIsodMAbJv3M2TGMj8laRiQ9ZRfXN0CjfPo=;
+	s=arc-20240116; t=1715980474; c=relaxed/simple;
+	bh=PbwdGeHYEsTxVaXokH+G/Dg9Oj++01l9iIV7peZfMmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6N2t2jH4Kqnvmd4xWiBPkxJINlQYzRJpld72PoyYPOjDGKkgMSJyGwOf7Y7xy6GSiK5yjr4Wx79LvAg5ZBAJ8a/cFBrKnrKPuEHwZ/r8nh86ODZ/A2Efgz7oHJEqZGZ78nuH48T65miq2aumFf2IA5E7MiUKC9XCgSjs34kHXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2ZTNkED; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=j47fEfu6qPsuSojb1s1Cc50ZLsNttzrcdPkzGm0Z8mtDzOzYxI9Ts7i4on7xRFy4MbRsyNmGgq7jw5SPp30N8PAREA7cU+6eQIdABKPC7rLDmuKNHEd8DEsKWkCgsCvTr7mhpBb1FUhZFKtJL0rCr1pL2YzYKW4myUyAtjbdCDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gvOYwMia; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2ZTNkED"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gvOYwMia"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715978520; x=1747514520;
+  t=1715980473; x=1747516473;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fTLlBh/SXIsodMAbJv3M2TGMj8laRiQ9ZRfXN0CjfPo=;
-  b=B2ZTNkED8EjPfee/7aw1xbZ/91ki/oxZRq+V4m+FSLQWaYJnugzFROVy
-   mynb/hmh6XY81GfHdDLPKjupk9IrQIImUsOXoMhxQKQT/Da1rHiJ47Vy0
-   njl0PYOMfl7YRfyJciPCKBkHphqJ1pedWDUL2oJzqb6ZbnHlXEa7eFquj
-   tcJhhY7KiRaLCLscLsVX31bLbnMfPnPXIbCPLEo4Hp0ebrR8HnyRn1+cI
-   hl3s0O/XA2USrkxVD49kHk9IgpD5J03n1u/DMOPCk0VIcZdakzebsCqax
-   A14muRk2PZu1afU6+X4FrE2DzuywCJGAeI97tI613MOSvHdkGkNmIzl4C
-   A==;
-X-CSE-ConnectionGUID: kw1t+AGwQmmmZ4oJiQDAcg==
-X-CSE-MsgGUID: iwr8jgDfRX+YzgoH+gQ24Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12048956"
+  bh=PbwdGeHYEsTxVaXokH+G/Dg9Oj++01l9iIV7peZfMmY=;
+  b=gvOYwMiaaQUNqGZQuPCCnXxyMM5WKhEWIwmkN6dIpAbQH3UkEk6dF87v
+   /h9UbvvzTH0XjHBnvmGu7GDGkZiKpvOogACn17AtpHgeYve6vrWARHWkE
+   ux7e7awP28QPttnpnYubE8kAMY5gDDTFc+KNQ4wfs/209aiFybLWbnRds
+   9qMGlml9wXIP78F8i2l4tbm/QKiy2jlvwSJlJis8hWv3Tgm25UmoJrP/W
+   0q4ayHcZptIzXFpQzxrzVQlDWq+iGVPzV3+0pGQwlikck6MPnT81muJtj
+   Vs4iQrVueq1FURqUtQlPTUw1A7AH/qO1utCJKAc6SnV/xptN0xsWpl27z
+   w==;
+X-CSE-ConnectionGUID: JN8OsP2fQCe+uPiJdpbT8w==
+X-CSE-MsgGUID: /tRXNcvJRbCtCE1z/TBVTQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12355102"
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="12048956"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 13:41:59 -0700
-X-CSE-ConnectionGUID: y+SjdyIaRaask8/8bfqisA==
-X-CSE-MsgGUID: ef7r0LDeSwezKkbA/3uf4w==
+   d="scan'208";a="12355102"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 14:14:33 -0700
+X-CSE-ConnectionGUID: 2UvPJbnoQx6Lk0q/A0sJiA==
+X-CSE-MsgGUID: 4Rk2GkZ3SWiQ3BSZX0RCqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="36644147"
+   d="scan'208";a="31897496"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 17 May 2024 13:41:55 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 May 2024 14:14:25 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s84Om-00017U-1u;
-	Fri, 17 May 2024 20:41:52 +0000
-Date: Sat, 18 May 2024 04:41:26 +0800
+	id 1s84rv-00018W-0T;
+	Fri, 17 May 2024 21:13:13 +0000
+Date: Sat, 18 May 2024 05:11:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-	broonie@kernel.org, andi.shyti@kernel.org, joel@jms.id.au,
-	alistair@popple.id.au, jk@ozlabs.org, andrew@codeconstruct.com.au,
-	linux-aspeed@lists.ozlabs.org, eajames@linux.ibm.com
-Subject: Re: [PATCH v3 23/40] fsi: core: Add interrupt support
-Message-ID: <202405180410.FkV8wPos-lkp@intel.com>
-References: <20240516181907.3468796-24-eajames@linux.ibm.com>
+To: Gautam Menghani <gautam@linux.ibm.com>, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	naveen.n.rao@linux.ibm.com
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Gautam Menghani <gautam@linux.ibm.com>,
+	linux-kernel@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
+	Vaibhav Jain <vaibhav@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v8] arch/powerpc/kvm: Add support for reading VPA
+ counters for pseries guests
+Message-ID: <202405180535.YOmK4BgA-lkp@intel.com>
+References: <20240510104941.78410-1-gautam@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,134 +68,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240516181907.3468796-24-eajames@linux.ibm.com>
+In-Reply-To: <20240510104941.78410-1-gautam@linux.ibm.com>
 
-Hi Eddie,
+Hi Gautam,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on robh/for-next broonie-spi/for-next linus/master v6.9 next-20240517]
+[auto build test ERROR on powerpc/topic/ppc-kvm]
+[also build test ERROR on powerpc/next powerpc/fixes kvm/queue mst-vhost/linux-next linus/master v6.9 next-20240517]
+[cannot apply to kvm/linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/fsi-hub-Set-master-index-to-link-number-plus-one/20240517-023205
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240516181907.3468796-24-eajames%40linux.ibm.com
-patch subject: [PATCH v3 23/40] fsi: core: Add interrupt support
-config: x86_64-randconfig-102-20240517 (https://download.01.org/0day-ci/archive/20240518/202405180410.FkV8wPos-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180410.FkV8wPos-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gautam-Menghani/arch-powerpc-kvm-Add-support-for-reading-VPA-counters-for-pseries-guests/20240510-185213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+patch link:    https://lore.kernel.org/r/20240510104941.78410-1-gautam%40linux.ibm.com
+patch subject: [PATCH v8] arch/powerpc/kvm: Add support for reading VPA counters for pseries guests
+config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20240518/202405180535.YOmK4BgA-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180535.YOmK4BgA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405180410.FkV8wPos-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405180535.YOmK4BgA-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/zsmalloc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
->> ERROR: modpost: "handle_irq_desc" [drivers/fsi/fsi-core.ko] undefined!
+   powerpc64-linux-ld: warning: discarding dynamic section .glink
+   powerpc64-linux-ld: warning: discarding dynamic section .plt
+   powerpc64-linux-ld: linkage table error against `__traceiter_kvmppc_vcpu_stats'
+   powerpc64-linux-ld: stubs don't match calculated size
+   powerpc64-linux-ld: can not build stubs: bad value
+   powerpc64-linux-ld: arch/powerpc/kvm/book3s_hv_nestedv2.o: in function `do_trace_nested_cs_time':
+>> book3s_hv_nestedv2.c:(.text+0x4b4): undefined reference to `__traceiter_kvmppc_vcpu_stats'
+   powerpc64-linux-ld: arch/powerpc/kvm/book3s_hv_nestedv2.o:(__jump_table+0x8): undefined reference to `__tracepoint_kvmppc_vcpu_stats'
 
 -- 
 0-DAY CI Kernel Test Service
