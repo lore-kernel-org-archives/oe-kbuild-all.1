@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281F7BA39
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 04:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAE0DDB2;
+	Fri, 17 May 2024 05:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715920014; cv=none; b=Ik/RG7TAjebAtsBtU19SpK8gfSY2apIDviR0uELosh4C9H1lEisJ/ZIyERdXV1tTqcHAVkTlD6D5MHC7/Wbyo0j4NgTiaDf39R/STiIoUseYTem7lvCxOzTOhR+XO+MtCF4eqzRyTzR+CiXiws/gkYTNy6vBDecsghUTvtFQNXk=
+	t=1715922382; cv=none; b=YCUbF5OeoX880b7Bl5Q1RyiRHCd0JOeX0JG1KMb6z0PqkuMbGrXbMwmbEcs6fGaZfvYYF02vc/gvljWQuTatPmvdwa9+W7hZypdqMn3+5KNKX4umaRVIncHfe6eWa9adOzDmcWpk6AEN2VjAV6Bh2ZJZabX6KtuN4I4jV1Bd4+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715920014; c=relaxed/simple;
-	bh=GWyXOoyKk2RnwYCSHy+P9Ba1M58+I9n6Er/ZRA9duHQ=;
+	s=arc-20240116; t=1715922382; c=relaxed/simple;
+	bh=iAeXwU+FDcTMei3N8LOX/9KrK4aB9Laf5Ujy5EX2FGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hODGiPSF+G4ravJFYapMci9OGzj+Uyh+dfBW5pamnnBYE7pJ+r/fD1xV6f5GoGgDgwUqOa7fwFHV6J6o9H8Lp1op/Y5nsalQGNuWdumERiHTeHXWwQZbiMkcSIv0CkQ3eopeL+GSo3j9Y9mucEh3sDwHlBA2xkzmfS6VHORB+W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrQGiRAJ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=br3HIByTCP/C9RMEGaixhVPvStq+cYmBSeU/wjl8bmUUvt8Rt1CjgNM/3dz/xmWYsOozRKG/LKa0fVWiERxe0a9Kg6HKktYsGdceMTk0eJC5YIqI1/sMDr+NITqhH88CHgBCZhuTeRMHa0e7Qp9ExTi8V+aGtY9iK6z1vMI9FkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftVUVrFX; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrQGiRAJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftVUVrFX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715920013; x=1747456013;
+  t=1715922381; x=1747458381;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GWyXOoyKk2RnwYCSHy+P9Ba1M58+I9n6Er/ZRA9duHQ=;
-  b=lrQGiRAJAmK08MX1AsZOif/AxLngmJureScdL2Poi+8n4e86De8A4ASy
-   gT0pLulzT9sTHk022t4LtD8ITTS9LNJCA+jxb7eWb0UOiu7RQoRqNrgWE
-   8nYxXTUvSo6goJwH3zHeEX6pSXqCf/HNIN4pXr1n3QzGW4uAM0lIHvTEj
-   C/I0oZQy9YSr4WQrWY0s2vhmmsmpK6gudWsSRp+TYC9yGG6WZnBBn4D0O
-   BvTPK65BN0SFbT4B16r0Xx1cMCW9r3LYFqtFNapNLY8YbRV5m1kLgZRWt
-   x9v/Q2feAEUmIjr5GUeN5Vh1LYSuWQnTFBtaUneSqpAe6VnaUt4+jZ4N2
-   A==;
-X-CSE-ConnectionGUID: xpAw3UpYRFCTUj2eIx4Pzw==
-X-CSE-MsgGUID: KpfnrAj5QKurzOgwzBqZMA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="29593932"
+  bh=iAeXwU+FDcTMei3N8LOX/9KrK4aB9Laf5Ujy5EX2FGo=;
+  b=ftVUVrFXidLZzewYTsBNBwqQIIyTqHzJqQF82lDYqa4AlKEwKSTvS5lv
+   FWMoEF5WitFiypsE32o0Od3CwoUlc72HSbuNdc7OF4LggnI7XImvAWksl
+   aVLI1CpruHqDaDwR0Gm8o6/Upx6RGHjhyrYaeyPkAawu5mal1WJjY4t3e
+   8pcIDNum9cMnOxeeCg/InEiMc1APK+Nnio5cCotiNJ6B91QPc8l4egShs
+   FvDjn4B7XLxaYHWdOCbdku8KkcjSPXZ3RKGMyr9H/APNsitfIM0B94Rin
+   LQF4nnABDe4scNEMuxmi0q3GCWWdfd5S7KnGaC4m4/MlsA08b27w2zOYj
+   Q==;
+X-CSE-ConnectionGUID: zeYW0oBNTfqkOYfg5JaSlw==
+X-CSE-MsgGUID: 5+0N4xC0Q5qJlQaTZIuXoQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="34592856"
 X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
-   d="scan'208";a="29593932"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 21:26:53 -0700
-X-CSE-ConnectionGUID: ToWroi0yQuSi5r5w3KhFTA==
-X-CSE-MsgGUID: v/KLNac5SYWSyeJHoSME5g==
+   d="scan'208";a="34592856"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 22:06:20 -0700
+X-CSE-ConnectionGUID: g3J3dyehStKB3UGgLDqV9w==
+X-CSE-MsgGUID: BfJyx6y1TWCjKfqqpHqoPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
-   d="scan'208";a="31485769"
+   d="scan'208";a="69129355"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 16 May 2024 21:26:51 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 May 2024 22:06:19 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7pAy-0000CZ-2g;
-	Fri, 17 May 2024 04:26:39 +0000
-Date: Fri, 17 May 2024 12:25:37 +0800
+	id 1s7pmu-0000Eo-2g;
+	Fri, 17 May 2024 05:06:03 +0000
+Date: Fri, 17 May 2024 12:56:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Abhishek Dubey <adubey@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, naveen.n.rao@linux.vnet.ibm.com,
-	mhiramat@kernel.org, npiggin@gmail.com,
-	Abhishek Dubey <adubey@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	naveen.n.rao@linux.vnet.ibm.com, mhiramat@kernel.org,
+	npiggin@gmail.com, Abhishek Dubey <adubey@linux.ibm.com>
 Subject: Re: [PATCH] PowerPC: Replace kretprobe with rethook
-Message-ID: <202405171247.spWNTdJg-lkp@intel.com>
+Message-ID: <202405171203.CasoixJG-lkp@intel.com>
 References: <20240516134646.1059114-1-adubey@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,20 +80,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Dubey/PowerPC-Re
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
 patch link:    https://lore.kernel.org/r/20240516134646.1059114-1-adubey%40linux.ibm.com
 patch subject: [PATCH] PowerPC: Replace kretprobe with rethook
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240517/202405171247.spWNTdJg-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405171247.spWNTdJg-lkp@intel.com/reproduce)
+config: powerpc-asp8347_defconfig (https://download.01.org/0day-ci/archive/20240517/202405171203.CasoixJG-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405171203.CasoixJG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405171247.spWNTdJg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405171203.CasoixJG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: arch/powerpc/kernel/stacktrace.o: in function `arch_stack_walk_reliable':
->> stacktrace.c:(.text+0x172): undefined reference to `arch_rethook_trampoline'
->> powerpc-linux-ld: stacktrace.c:(.text+0x17e): undefined reference to `arch_rethook_trampoline'
+>> ld.lld: error: undefined symbol: arch_rethook_trampoline
+   >>> referenced by stacktrace.c
+   >>>               arch/powerpc/kernel/stacktrace.o:(arch_stack_walk_reliable) in archive vmlinux.a
+   >>> referenced by stacktrace.c
+   >>>               arch/powerpc/kernel/stacktrace.o:(arch_stack_walk_reliable) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
