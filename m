@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691D071B39
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 14:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD018479
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 15:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715957197; cv=none; b=dhufUnWSJegktgZyW6dwhqQt7d7VJAjU1JfNbrKgiKj5cCkLkqabqPSXGSchVatobt+pIN6DJcGDsmUBuW7H/AmfIt9Vk/q94l6tDby170qwn2RWl95jzr2FN6wc/VUUmQaXgACXLMOMQuHKeJub08nRKoQsOhBPBBzXLRsu06E=
+	t=1715959721; cv=none; b=BTNVOVnh2MY6urRMX0UIuqct1cpYy3vf+QpUqNWEd1yfgGMnrWZioL9fmEy2tYhz2PkjEyaXBDKYfw6IJcdpLD472tc187nUm+08WB8yEzwflhH8o7Kr59Dqoq9aPdA999IefYuB24oi1Q9WA8eLlarBVobhDPsRE1uYKSnKv4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715957197; c=relaxed/simple;
-	bh=gvrf+zEhnnmjTfASj7g1U4tseq21WGEcuRC2k5OkLfg=;
+	s=arc-20240116; t=1715959721; c=relaxed/simple;
+	bh=EAa3otoDvl6LuRbbh6koX1ce+q3bgRPeXUvurxTEeF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JOjs39rowU3q30JhwzDiuuXdkZBy+jcVQEc9b2TDsgSgtOq2K3Ic7uKReSz1ro6OY1dnV/igrVTqFvGwvephvMtfxmwxLHRxM4wVASu6tSpDSEwfrcvwfDENye3LKs3vC0VPyGqr4DocW+QjClSu4v6S3qjDDXFUHw6fpFwsaUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFEymK/n; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=XPW6GZu+1X0B8wNDKs6ksL9BaTjG5KdrA3qLpzWT33i/YtNjLbYVkHxx/Hqse63NdlXe9VH4JwFPO0N4bNagdODYs5GjxXQsXNq2UME9dCl52PQfKNcKx4XAX1KhaOp/bJ3m+IynxetF7RBbbgno4KP8ogxf0CAWJDCjjDCkoLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Us9AlMZl; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFEymK/n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us9AlMZl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715957195; x=1747493195;
+  t=1715959720; x=1747495720;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gvrf+zEhnnmjTfASj7g1U4tseq21WGEcuRC2k5OkLfg=;
-  b=BFEymK/n2h4cm3zkOTruNnrZu4d8gqYwRN3wepNdYj3GCaUvGgm8ROE6
-   X5J/qm656Ti3afcRQQDDsD1PMd2TkZ4lyIII/kCmSNdriF35UmHQcuSz5
-   PKomx1GuFyTM3NhkkFUQQNzdNTPawk6KiOaNff+GkiB3gd9OC6XKUovfJ
-   EjW/wPcXJva++ha17F3seRm0ctfG2HWURbeaWF2MbDoJOpFz3QNZuXOXm
-   BvitmBD7lyKOzhBE2GJD7XvBJ8gKxiW9Mh/jWs6MSyEA+DEAZpalNBkUI
-   +bS+L1/EM1jzNTYfnw506yw0ilGUsbFflHUIyhzoB/8ImzqtcBhYXpquA
-   w==;
-X-CSE-ConnectionGUID: 9I9Gdq1YRq+59Blf7QG4fg==
-X-CSE-MsgGUID: 2ulDJ0nlTYuBMJgxVFXE4Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="11575475"
+  bh=EAa3otoDvl6LuRbbh6koX1ce+q3bgRPeXUvurxTEeF8=;
+  b=Us9AlMZlema/1LBxa/lm5Q+GfY3NZwkfSjhMr2JkaPRYsg3rPP4MzVmn
+   XJrsXJ2LwIYvB3veFIdyZh276NgfBSfGBSVPKvMf615DHASChCQSZPwho
+   QcEIft2qo9pB2x2LJhIl6jlHxMqnt7Hlu7stAbxQxGa2v01dWtpGhEIOQ
+   F0c9mUqPuIQRAzIszrqHOm1n2K/0WgbNbduJRjhWB+EzPyZJanJNcyIgn
+   U+yh1krjhhB/HVwn69PudSnGmVSJWkcaHbaHmHn6Uuv5k5B5R72B+Qi6k
+   dM5nY6u1lJO/LoqY2asSgWS54xhTTccpaAw0yFnOI8wy7gLLKGtodcYys
+   g==;
+X-CSE-ConnectionGUID: GfAzCAFQSKuHaxeqPIgrhA==
+X-CSE-MsgGUID: tM+F6ishS9yP1KslcAleVA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12262579"
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="11575475"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 07:46:35 -0700
-X-CSE-ConnectionGUID: Xfsp2xR7RWaBHjv/EDexBw==
-X-CSE-MsgGUID: lHMwePoXS9amwG/0uW8ENA==
+   d="scan'208";a="12262579"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 08:28:40 -0700
+X-CSE-ConnectionGUID: bJ2aAk8yTcOMCWOTnKoZ5A==
+X-CSE-MsgGUID: lYC6ld3EQouKdULg0ER/Cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="36384810"
+   d="scan'208";a="31658117"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 17 May 2024 07:46:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 May 2024 08:28:38 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7yqh-0000oA-19;
-	Fri, 17 May 2024 14:46:26 +0000
-Date: Fri, 17 May 2024 22:45:35 +0800
+	id 1s7zVc-0000q8-0d;
+	Fri, 17 May 2024 15:28:36 +0000
+Date: Fri, 17 May 2024 23:28:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 6626/6628]
- drivers/crypto/ccp/hygon/psp-dev.c:197:6: warning: no previous prototype for
- 'vpsp_set_default_vid_permission'
-Message-ID: <202405172217.5nZ7NMSm-lkp@intel.com>
+To: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_on_each_match_symbol: .text+0x738): relocation R_RISCV_PCREL_HI20
+ out of range: -524441 is not in [-524288, 524287]; references
+ kallsyms_relative_base
+Message-ID: <202405172310.Wgr78VLw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,48 +65,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   95dac159be359bc7ba42421426462f1a96f50ee9
-commit: 49d6d59f664cbf3c13fc0bd01b952a2e9fdbc7d2 [6626/6628] Allow VM without a configured vid to use TKM
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240517/202405172217.5nZ7NMSm-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405172217.5nZ7NMSm-lkp@intel.com/reproduce)
+Hi Zhen,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ea5f6ad9ad9645733b72ab53a98e719b460d36a6
+commit: 4dc533e0f2c04174e1ae4aa98e7cffc1c04b9998 kallsyms: Add helper kallsyms_on_each_match_symbol()
+date:   1 year, 6 months ago
+config: riscv-randconfig-r063-20240515 (https://download.01.org/0day-ci/archive/20240517/202405172310.Wgr78VLw-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405172310.Wgr78VLw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405172217.5nZ7NMSm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405172310.Wgr78VLw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/psp-dev.c:53:10: warning: no previous prototype for 'atomic64_exchange' [-Wmissing-prototypes]
-      53 | uint64_t atomic64_exchange(volatile uint64_t *dst, uint64_t val)
-         |          ^~~~~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/psp-dev.c:67:5: warning: no previous prototype for 'psp_mutex_init' [-Wmissing-prototypes]
-      67 | int psp_mutex_init(struct psp_mutex *mutex)
-         |     ^~~~~~~~~~~~~~
->> drivers/crypto/ccp/hygon/psp-dev.c:197:6: warning: no previous prototype for 'vpsp_set_default_vid_permission' [-Wmissing-prototypes]
-     197 | void vpsp_set_default_vid_permission(uint32_t is_allow)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/psp-dev.c:504:5: warning: no previous prototype for '__vpsp_do_cmd_locked' [-Wmissing-prototypes]
-     504 | int __vpsp_do_cmd_locked(uint32_t vid, int cmd, void *data, int *psp_ret)
-         |     ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/vpsp_set_default_vid_permission +197 drivers/crypto/ccp/hygon/psp-dev.c
-
-   190	
-   191	/**
-   192	 * When 'allow_default_vid' is set to 1,
-   193	 * QEMU is allowed to use 'vid 0' by default
-   194	 * in the absence of a valid 'vid' setting.
-   195	 */
-   196	uint32_t allow_default_vid = 1;
- > 197	void vpsp_set_default_vid_permission(uint32_t is_allow)
-   198	{
-   199		allow_default_vid = is_allow;
-   200	}
-   201	
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x738): relocation R_RISCV_PCREL_HI20 out of range: -524441 is not in [-524288, 524287]; references kallsyms_relative_base
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x74a): relocation R_RISCV_PCREL_HI20 out of range: -524441 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x752): relocation R_RISCV_PCREL_HI20 out of range: -524441 is not in [-524288, 524287]; references kallsyms_offsets
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0xe4): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_num_syms
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x106): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x10e): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_markers
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x116): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x11e): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_token_index
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1dc): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_token_table
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
 
 -- 
 0-DAY CI Kernel Test Service
