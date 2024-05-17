@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF7029CE4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 May 2024 23:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048EC38F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 00:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715901767; cv=none; b=ggxbkTamA4enYV9FAZGDrR++mY4xqGHfzUiYY67cu/vIK+7Q50UughRrwPB2YbQshjvvtbR/VuKEoPJwr8xK1uXMY1REE+qeS9Z2SUj8RN36F/DKor9LiG8MarQeWRKeDb3aN0g7rBb7wBclWTGPEgnYB4IObyS+PhOnz4Mox3I=
+	t=1715906032; cv=none; b=ljA2MrNERo8b7/oBE9VIdYl3qkgq0bTd6QQcstjsq55Pg5U3hs1ATd6W4V51/04klLZi0y+uWOrxFPqR5K2sibr3zQtolwIKFpxkbzjuuTLW7fBZE0fAaRmwPnGGbw+f9srKYc3fmDIBF7bWwI0WWDI16IksCMYdMJF/Zqd8esk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715901767; c=relaxed/simple;
-	bh=G+Cs4U2ifijWaGMbXgbT9LXR6f7giXlLhHfrKpLRDNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c9m+upJH4vip/ot4/SaAhsjGa65H8V6BOl+BBLpyd4xMDW715HQ4H5Uc+x2JcEjR5dZ0L1RwvLZvpMpv24lPUoOaQuPlK+XHMC6MVDPBt5OKb1MZqnikDGdwICGXd+NKsP74tBqdsoZWlIavuWXg/SQeiOkkEJ/ffGPykpMdrAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FrampAEF; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1715906032; c=relaxed/simple;
+	bh=02odN8M+YMnAb+o/2Vjq7ExPWA6LROia7YrbPhQhXk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EoYRW7MwYvOdHcVuAVP0ZvvTQ7pR1VOjnITO8LteEHgdgCnz8SCY4eK21OsUOaYhy97e/dbSdgCnlTaLdLNjmzXMUScEjW438cw1DPnmQefS2qItGgeqEr/Wp05LsLsCrjo4OVCcilaN0gZPkeYK28iYDzl08C5/DIPutEjgSD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uua/vovz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FrampAEF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uua/vovz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715901765; x=1747437765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G+Cs4U2ifijWaGMbXgbT9LXR6f7giXlLhHfrKpLRDNY=;
-  b=FrampAEFr2k34qsyzM/ivUG3GdE7GLX3PCscq45K+bHj6WoRlcUFcvb0
-   wAwADFCZSQ2knxRj46610haYUuSLR215tdAS/VIx1Cm0xcMgHhNpTcVuy
-   aofN2X5H5rnDaE1NkCvH4VLSd0jZNIH++eEXceJ8LHS4rDIxlz/wHLKYn
-   GdtNFbPebHLkwSOiRmiRIy+OMfrQHrUrXP/qMq0NqnL45lhnw7D0iVHEe
-   7WTOH0V6rkIkBRyZCnuqQbGCqxNz3SN4roLf5KleMRAslXg+KSVxvwri0
-   NcybT+v206fOBhISosz+mzJawiZ+ebj3WDKz8KOJQ/yQqsPE5Z+qrtodj
-   Q==;
-X-CSE-ConnectionGUID: duWalMBgT+Kqs8lwHWJJYg==
-X-CSE-MsgGUID: MFyACpxMQu+5sQR0Vojj0A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="15881314"
+  t=1715906030; x=1747442030;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=02odN8M+YMnAb+o/2Vjq7ExPWA6LROia7YrbPhQhXk4=;
+  b=Uua/vovzcF8R8uffY5nPm975a514ubcZxmQW/qXLypRjI3AnJUSVpoAG
+   /+rxASIpuBhFIVWkZAeYCCM2ih65zRkQ+VK6AD3w2N/xqbScrlt9dOflD
+   a2auLgRJaj4jNTdl4ZnCjFynZ5pOTVm1SC3EpbIp1b34eIbqLcvrNm3o8
+   Ri+pchqIOTKM5x+3HqPtCCtXN6Gkt6AQeHGRRfFR0Duy8kw68BkVKdXBU
+   Yie7gPibbte67yHbZOp4ud/rUh9CCs0Zql4m0ulMLoP5TCq3MdLLwG/B1
+   Gyp8DWtD+qsCXhtziIVeB6QRuOKYMZ1CKZ1VTPNd+7EcN7X0cDtnrHguE
+   w==;
+X-CSE-ConnectionGUID: 7n+7lR+VRXqzh6gg0cgWYQ==
+X-CSE-MsgGUID: ynKjq+jfRNeBpLxfamjTfQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11904380"
 X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
-   d="scan'208";a="15881314"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 16:22:45 -0700
-X-CSE-ConnectionGUID: x5KInBcMQBO0jb4NwJuX1A==
-X-CSE-MsgGUID: OC9ARInGR7mS+lAvK6faEg==
+   d="scan'208";a="11904380"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 17:33:49 -0700
+X-CSE-ConnectionGUID: XAXQ697rQh+RyDEBqb5rEw==
+X-CSE-MsgGUID: 1Qkqud0jTd2Y1uejwet65Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
-   d="scan'208";a="36385389"
+X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
+   d="scan'208";a="32037257"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 May 2024 16:22:43 -0700
+  by orviesa006.jf.intel.com with ESMTP; 16 May 2024 17:33:48 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7kQq-000Eyb-2i;
-	Thu, 16 May 2024 23:22:40 +0000
-Date: Fri, 17 May 2024 07:22:05 +0800
+	id 1s7lXd-000F2L-2I;
+	Fri, 17 May 2024 00:33:45 +0000
+Date: Fri, 17 May 2024 08:33:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuaki.Tsunashima@infineon.com, marcel@holtmann.org,
-	luiz.dentz@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org
-Subject: Re: [PATCH] Bluetooth: Patch for CYW4373 hci up fail issue
-Message-ID: <202405170648.10OEk1LW-lkp@intel.com>
-References: <6267800d70ae4344acaba3486b54bc0c@infineon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 1/1] fs/incfs/vfs.c:782:13-15:
+ WARNING: casting value returned by memory allocation function to (u8 *) is
+ useless.
+Message-ID: <202405170824.mAOIsN91-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +62,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6267800d70ae4344acaba3486b54bc0c@infineon.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v6.9 next-20240516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nobuaki-Tsunashima-infineon-com/Bluetooth-Patch-for-CYW4373-hci-up-fail-issue/20240516-131000
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/6267800d70ae4344acaba3486b54bc0c%40infineon.com
-patch subject: [PATCH] Bluetooth: Patch for CYW4373 hci up fail issue
-config: i386-randconfig-062-20240517 (https://download.01.org/0day-ci/archive/20240517/202405170648.10OEk1LW-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   2dca19b0a7e69d92441f241b8597bee11dd0d094
+commit: 2dca19b0a7e69d92441f241b8597bee11dd0d094 [1/1] ANDROID: incremental-fs: Make work with 16k pages
+config: x86_64-randconfig-104-20240517 (https://download.01.org/0day-ci/archive/20240517/202405170824.mAOIsN91-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405170648.10OEk1LW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405170648.10OEk1LW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405170824.mAOIsN91-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/bluetooth/btbcm.c:453:95: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct bcm_chip_version_table *entry @@     got struct bcm_chip_version_table const * @@
-   drivers/bluetooth/btbcm.c:453:95: sparse:     expected struct bcm_chip_version_table *entry
-   drivers/bluetooth/btbcm.c:453:95: sparse:     got struct bcm_chip_version_table const *
+cocci warnings: (new ones prefixed by >>)
+>> fs/incfs/vfs.c:782:13-15: WARNING: casting value returned by memory allocation function to (u8 *) is useless.
 
-vim +453 drivers/bluetooth/btbcm.c
+vim +782 fs/incfs/vfs.c
 
-   440	
-   441	struct bcm_chip_version_table {
-   442		u8	chip_id;
-   443		u16 baseline;
-   444	};
-   445	#define BCM_ROMFW_BASELINE_NUM	0xFFFF
-   446	static const struct bcm_chip_version_table disable_broken_read_transmit_power_by_chip_ver[] = {
-   447		{0x87, BCM_ROMFW_BASELINE_NUM}		/* CYW4373/4373E */
-   448	};
-   449	static bool btbcm_is_disable_broken_read_tx_power_by_chip_ver(u8 chip_id, u16 baseline)
-   450	{
-   451		int i;
-   452		int table_size = sizeof(disable_broken_read_transmit_power_by_chip_ver)/sizeof(disable_broken_read_transmit_power_by_chip_ver[0]);
- > 453		struct bcm_chip_version_table *entry = &disable_broken_read_transmit_power_by_chip_ver[0];
-   454	
-   455		for( i=0 ; i<table_size ; i++, entry++)
-   456		{
-   457			if( (chip_id == entry->chip_id) && (baseline == entry->baseline) )
-   458				return true;
-   459		}
-   460	
-   461		return false;
-   462	}
-   463	
+   758	
+   759	static long ioctl_fill_blocks(struct file *f, void __user *arg)
+   760	{
+   761		struct incfs_fill_blocks __user *usr_fill_blocks = arg;
+   762		struct incfs_fill_blocks fill_blocks;
+   763		struct incfs_fill_block __user *usr_fill_block_array;
+   764		struct data_file *df = get_incfs_data_file(f);
+   765		struct incfs_file_data *fd = f->private_data;
+   766		const ssize_t data_buf_size = 2 * INCFS_DATA_FILE_BLOCK_SIZE;
+   767		u8 *data_buf = NULL;
+   768		ssize_t error = 0;
+   769		int i = 0;
+   770		bool complete = false;
+   771	
+   772		if (!df)
+   773			return -EBADF;
+   774	
+   775		if (!fd || fd->fd_fill_permission != CAN_FILL)
+   776			return -EPERM;
+   777	
+   778		if (copy_from_user(&fill_blocks, usr_fill_blocks, sizeof(fill_blocks)))
+   779			return -EFAULT;
+   780	
+   781		usr_fill_block_array = u64_to_user_ptr(fill_blocks.fill_blocks);
+ > 782		data_buf = (u8 *)kzalloc(data_buf_size, GFP_NOFS);
+   783		if (!data_buf)
+   784			return -ENOMEM;
+   785	
+   786		for (i = 0; i < fill_blocks.count; i++) {
+   787			struct incfs_fill_block fill_block = {};
+   788	
+   789			if (copy_from_user(&fill_block, &usr_fill_block_array[i],
+   790					   sizeof(fill_block)) > 0) {
+   791				error = -EFAULT;
+   792				break;
+   793			}
+   794	
+   795			if (fill_block.data_len > data_buf_size) {
+   796				error = -E2BIG;
+   797				break;
+   798			}
+   799	
+   800			if (copy_from_user(data_buf, u64_to_user_ptr(fill_block.data),
+   801					   fill_block.data_len) > 0) {
+   802				error = -EFAULT;
+   803				break;
+   804			}
+   805			fill_block.data = 0; /* To make sure nobody uses it. */
+   806			if (fill_block.flags & INCFS_BLOCK_FLAGS_HASH) {
+   807				error = incfs_process_new_hash_block(df, &fill_block,
+   808								     data_buf);
+   809			} else {
+   810				error = incfs_process_new_data_block(df, &fill_block,
+   811								data_buf, &complete);
+   812			}
+   813			if (error)
+   814				break;
+   815		}
+   816	
+   817		kfree(data_buf);
+   818	
+   819		if (complete)
+   820			handle_file_completed(f, df);
+   821	
+   822		/*
+   823		 * Only report the error if no records were processed, otherwise
+   824		 * just return how many were processed successfully.
+   825		 */
+   826		if (i == 0)
+   827			return error;
+   828	
+   829		return i;
+   830	}
+   831	
 
 -- 
 0-DAY CI Kernel Test Service
