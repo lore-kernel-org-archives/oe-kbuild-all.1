@@ -1,302 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE21B38384
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 10:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAA82D044
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 11:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715942153; cv=none; b=rX7Nz3ej/rrsc+wjInaz8aqFkxvImHHYk5N5rjnaUiie8zCuB/Hbaxr7kyJYenBLvk5kAwAXNWbQD1Y+i0Q0ArOmJ9rhjN/a4nGJMJn3+KWSdYIqkLsRfru53IZ5eSeE2WttowdZL76gVzFBDngjjZ6wmIoGw5uYjOTPCFyQVUw=
+	t=1715943697; cv=none; b=SNSEw9AX9GgrnvpIdc58U8Kn0D5fr2Bk7dK1ali6x0vCAYtK2uEyA25djuy47UbdCerqKyZFBc04YlEvp35/Z1y4ukpBIr+PYyUIvzTbGy2trYalwvEdzuVKRswcCmGQXt3mkixK8a1ffs4x5KDzhqeJIKejAiMzbaXAhEB8ty0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715942153; c=relaxed/simple;
-	bh=ewPdbwzE+M1E+FOMhZUX005DTEkUZaf48GwvhwAx1bU=;
+	s=arc-20240116; t=1715943697; c=relaxed/simple;
+	bh=tVRF4RaYBVX+KzaS74RJYVtbLqfxhP6c/vZtg/ARxG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E7ukPvBMkz9Ux+YIPQdL513NlyNsUkpEnzVZikPHzMnbPQT6MN5S/oTAXsB3mFZIGUFyjcQ1Nd9IGEXfH6ksLkOA8gUq5jucrXdpaORAbj9BtjdlsisNUDfNC0xX56u9WdQIFtodZoVpPV5T7lbsJom2HW9VpK2O6GIsxfMJdqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aj6OYzhi; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=YFYQL32r15KMz8S6meKVix98oIpET7lymqp7AU4vwf/aPCsihgJ1TgH2rJ5IbwgEmpQ8wohoUuSRDfWxD5rZ5HQ1b2YmvCmP2VAMwZZ0CC6klJStnEi84bRafoppOsY//iYGHoUNJI9IZieCDwdUZwBOPxvXcQbFmUMy/+JhOrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZPIwF1yb; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aj6OYzhi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715942151; x=1747478151;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ewPdbwzE+M1E+FOMhZUX005DTEkUZaf48GwvhwAx1bU=;
-  b=aj6OYzhiRoW7ZERjWf4nDMXYLaJZZMzHTJJwLFD1IA18CjEZRqD9jvoY
-   LOe2H5oP7y1pjk9Y4HO7epQMZQ2JnY6627RCe8jLX6wmt9V1HNqXgbDOR
-   YHjTL+Mr5ZTGiIkS/Ra+CLYGnNQLc1wMoBOElDr0G6gcNgGj/Po0zn7+b
-   beJYos9YDpOOOVL6JM8z4Dbt13wAYlMcOIv5CmudheO3Yax38tMKNPyjM
-   /IWx77yU2khHaIOKvdWCxRQQ2lpP4PCY0SS4lHcER7xDzbQmp8F5S25vX
-   uRjU19FYa/Tl+4luRmulLjFs3MID9HRLcG5wLDDW3W2pArREmBIdQtmAE
-   Q==;
-X-CSE-ConnectionGUID: Eus5XQpAQS2CgxWS/r5/BA==
-X-CSE-MsgGUID: zFcnKyoISEmwnNG2GS6Vhg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22716673"
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="22716673"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 03:35:49 -0700
-X-CSE-ConnectionGUID: DDO61hA/R161O3+1VfQssQ==
-X-CSE-MsgGUID: 8t8W8LYwSJ6zAp2nK/yJog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="31769797"
-Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 May 2024 03:35:49 -0700
-Received: from kbuild by 108735ec233b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s7uwE-0000Ze-0y;
-	Fri, 17 May 2024 10:35:46 +0000
-Date: Fri, 17 May 2024 18:34:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.9/prjc 461/472] kernel/sched/alt_core.c:4207:14: error: call
- to undeclared function '__best_mask_cpu'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202405171813.gP8HoPQJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZPIwF1yb"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a5d02b45262so100012466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 04:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715943694; x=1716548494; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8VnQm4Wzd0jj3I6yb4jC8r7D5oR7hIr9rTTosx/fIZs=;
+        b=ZPIwF1yb1HlXUAW+8uCX+9jc1M/5yF3Sedf5CLaKjzcljO7cLScE1To/bH0jtjy/9x
+         9eCN0QoyNZocRVFNxFM0Tja0FbSLzK86YYO2SSEnfC3wtDafpDwciFTXbELCGcumzpE8
+         h0ZVPRc2Giz+LYTdTkCZtX2lG2x33cHDuNYOWwzB/HDiXYN8VJPDF39b8HTaYmMc5UeH
+         VQFOSAsaR183GGQmmKDqTJbi+p6EUvL/l/vNMxbT8VzN/w5B+/mCoHMATYPOEZdzXYHB
+         tot1ePQIreIsCzKh5iAh8pzHL6I7UdgLJDnmeKecNzzTCuDZMLM5ZI2FS0xX6tpEI4lV
+         u1ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715943694; x=1716548494;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8VnQm4Wzd0jj3I6yb4jC8r7D5oR7hIr9rTTosx/fIZs=;
+        b=kDbjtUfbfWHw1MXMekoYv7JxwPp9bhhw53i+wWkmjtOib8ZkDwr9UV72zqZMDjjd1T
+         2VC11j1B1vX8iQy65d1AsAJKHi1Wm6bp0XRlC41HW22xtyhLz7yW+fz76yBr8xeSEtBf
+         xwy2QAKYuvZ3GkLQJJLRTQKZbioEWtaLnVPiSV13pD/2r/9H3n5323QFvPImmld1n4Qm
+         SxPzUKVNm2IWA/aFocBJkAzyYrGJUpjplxveGl+vGHYzlj88oGB5P37C/bUhza4BeFRx
+         D543dSHhlOZk5xhaNTLzCVTf2KXmdT7mjF0S8CpVNtY3Vzox485CP2A8twoWY7qCpzj6
+         IdEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWC4xYHN99k9Fub0x8T21bz8QTPVO/Ia9DpwkrWuEobAkcz8Im170tzlK6hKycuMJVgGX5YNACmnrVmJGM19oLDp5hk67U/wiShnq9Q3w==
+X-Gm-Message-State: AOJu0Yx6xQV0GjeXH0KJLY3yabNWVfrl8kjzCx17V95foR8bXmomT4Lc
+	2LQvHNXSSrQUizLnq/jUIFEJZJ/i2jj9VEN0nX3YXrfWA7ecRFOJX0hQuQxEEGo=
+X-Google-Smtp-Source: AGHT+IGo0vF44PU8Flj2L8GcXH3uM02w5tyFNQ9qE8+bL2lhGta8EhoiS+njX2Y3R8ShLB5wWk0tPw==
+X-Received: by 2002:a17:906:8315:b0:a5a:d6c:a30b with SMTP id a640c23a62f3a-a5a2d65f265mr1511949966b.58.1715943694164;
+        Fri, 17 May 2024 04:01:34 -0700 (PDT)
+Received: from localhost ([149.14.240.163])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b01968sm1108799366b.166.2024.05.17.04.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 May 2024 04:01:33 -0700 (PDT)
+Date: Fri, 17 May 2024 13:01:31 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Hongbo Li <lihongbo22@huawei.com>,
+	richard@nod.at, anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	lihongbo22@huawei.com
+Subject: Re: [PATCH] hostfs: convert hostfs to use the new mount api
+Message-ID: <d845ba1a-2b10-4d83-a687-56406ce657c9@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240513124141.3788846-1-lihongbo22@huawei.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.9/prjc
-head:   90e00625dbe63d991978337198b3c43a1df585c9
-commit: f90f6c0ad3cb7786aa8308e4669ea037dabf7476 [461/472] sched/alt: Generic active_balance_cpu_stop()
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240517/202405171813.gP8HoPQJ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405171813.gP8HoPQJ-lkp@intel.com/reproduce)
+Hi Hongbo,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/hostfs-convert-hostfs-to-use-the-new-mount-api/20240513-204233
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+patch link:    https://lore.kernel.org/r/20240513124141.3788846-1-lihongbo22%40huawei.com
+patch subject: [PATCH] hostfs: convert hostfs to use the new mount api
+config: um-randconfig-r081-20240517 (https://download.01.org/0day-ci/archive/20240517/202405171154.21q42SWy-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d3455f4ddd16811401fa153298fadd2f59f6914e)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405171813.gP8HoPQJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405171154.21q42SWy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/hostfs/hostfs_kern.c:960 hostfs_fill_super() error: uninitialized symbol 'host_root'.
 
-   In file included from kernel/sched/alt_core.c:19:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/sched/alt_core.c:19:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/sched/alt_core.c:19:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from kernel/sched/alt_core.c:48:
-   kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
-      14 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^
-   kernel/sched/alt_sched.h:357:20: note: previous definition is here
-     357 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^
->> kernel/sched/alt_core.c:4207:14: error: call to undeclared function '__best_mask_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4207 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                            ^
-   kernel/sched/alt_core.c:4207:14: note: did you mean '__set_task_cpu'?
-   kernel/sched/alt_core.c:1514:20: note: '__set_task_cpu' declared here
-    1514 | static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
-         |                    ^
->> kernel/sched/alt_core.c:4207:44: error: use of undeclared identifier 'sched_cpu_llc_mask'; did you mean 'sched_idle_mask'?
-    4207 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                          ^~~~~~~~~~~~~~~~~~
-         |                                                          sched_idle_mask
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:263:65: note: expanded from macro 'per_cpu_ptr'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                                   ^
-   include/linux/percpu-defs.h:259:20: note: expanded from macro 'VERIFY_PERCPU_PTR'
-     259 |         __verify_pcpu_ptr(__p);                                         \
-         |                           ^
-   include/linux/percpu-defs.h:219:47: note: expanded from macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^
-   kernel/sched/alt_core.c:155:25: note: 'sched_idle_mask' declared here
-     155 | static cpumask_t *const sched_idle_mask = &sched_preempt_mask[SCHED_QUEUE_BITS - 1];
-         |                         ^
->> kernel/sched/alt_core.c:4207:44: error: use of undeclared identifier 'sched_cpu_llc_mask'; did you mean 'sched_idle_mask'?
-    4207 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                          ^~~~~~~~~~~~~~~~~~
-         |                                                          sched_idle_mask
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:263:65: note: expanded from macro 'per_cpu_ptr'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                                   ^
-   include/linux/percpu-defs.h:260:12: note: expanded from macro 'VERIFY_PERCPU_PTR'
-     260 |         (typeof(*(__p)) __kernel __force *)(__p);                       \
-         |                   ^
-   kernel/sched/alt_core.c:155:25: note: 'sched_idle_mask' declared here
-     155 | static cpumask_t *const sched_idle_mask = &sched_preempt_mask[SCHED_QUEUE_BITS - 1];
-         |                         ^
->> kernel/sched/alt_core.c:4207:44: error: use of undeclared identifier 'sched_cpu_llc_mask'; did you mean 'sched_idle_mask'?
-    4207 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                          ^~~~~~~~~~~~~~~~~~
-         |                                                          sched_idle_mask
-   include/linux/percpu-defs.h:269:43: note: expanded from macro 'per_cpu'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                                 ^
-   include/linux/percpu-defs.h:263:65: note: expanded from macro 'per_cpu_ptr'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                                   ^
-   include/linux/percpu-defs.h:260:38: note: expanded from macro 'VERIFY_PERCPU_PTR'
-     260 |         (typeof(*(__p)) __kernel __force *)(__p);                       \
-         |                                             ^
-   kernel/sched/alt_core.c:155:25: note: 'sched_idle_mask' declared here
-     155 | static cpumask_t *const sched_idle_mask = &sched_preempt_mask[SCHED_QUEUE_BITS - 1];
-         |                         ^
->> kernel/sched/alt_core.c:4208:8: error: call to undeclared function 'move_queued_task'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4208 |                 rq = move_queued_task(rq, p, dcpu);
-         |                      ^
->> kernel/sched/alt_core.c:4208:6: error: incompatible integer to pointer conversion assigning to 'struct rq *' from 'int' [-Wint-conversion]
-    4208 |                 rq = move_queued_task(rq, p, dcpu);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_core.c:4245:19: error: no member named 'active_balance_work' in 'struct rq'
-    4245 |                                     arg, &rq->active_balance_work);
-         |                                           ~~  ^
-   kernel/sched/alt_core.c:4721:2: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4721 |         hrtick_start(rq, next->time_slice);
-         |         ^
-   kernel/sched/alt_core.c:4721:2: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:272:20: note: 'hrtimer_start' declared here
-     272 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-         |                    ^
-   kernel/sched/alt_core.c:7683:47: error: use of undeclared identifier 'sched_sg_idle_mask'; did you mean 'sched_idle_mask'?
-    7683 |         struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
-         |                                                      ^~~~~~~~~~~~~~~~~~
-         |                                                      sched_idle_mask
-   kernel/sched/alt_core.c:155:25: note: 'sched_idle_mask' declared here
-     155 | static cpumask_t *const sched_idle_mask = &sched_preempt_mask[SCHED_QUEUE_BITS - 1];
-         |                         ^
-   12 warnings and 10 errors generated.
+vim +/host_root +960 fs/hostfs/hostfs_kern.c
+
+2c2593890079e8 Hongbo Li         2024-05-13  938  static int hostfs_fill_super(struct super_block *sb, struct fs_context *fc)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  939  {
+2c2593890079e8 Hongbo Li         2024-05-13  940  	struct hostfs_fs_info *fsi = sb->s_fs_info;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  941  	struct inode *root_inode;
+2c2593890079e8 Hongbo Li         2024-05-13  942  	char *host_root;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  943  	int err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  944  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  945  	sb->s_blocksize = 1024;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  946  	sb->s_blocksize_bits = 10;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  947  	sb->s_magic = HOSTFS_SUPER_MAGIC;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  948  	sb->s_op = &hostfs_sbops;
+b26d4cd385fc51 Al Viro           2013-10-25  949  	sb->s_d_op = &simple_dentry_operations;
+752fa51e4c5182 Wolfgang Illmeyer 2009-06-30  950  	sb->s_maxbytes = MAX_LFS_FILESIZE;
+ce72750f04d68a Sjoerd Simons     2021-11-05  951  	err = super_setup_bdi(sb);
+ce72750f04d68a Sjoerd Simons     2021-11-05  952  	if (err)
+74ce793bcbde5c Mickaël Salaün    2023-06-12  953  		return err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  954  
+b58c4e96192ee7 Andy Shevchenko   2020-03-20  955  	/* NULL is printed as '(null)' by printf(): avoid that. */
+2c2593890079e8 Hongbo Li         2024-05-13  956  	if (fc->source == NULL)
+2c2593890079e8 Hongbo Li         2024-05-13  957  		host_root = "";
+
+Uninitialized on else path
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  958  
+2c2593890079e8 Hongbo Li         2024-05-13  959  	fsi->host_root_path =
+2c2593890079e8 Hongbo Li         2024-05-13 @960  		kasprintf(GFP_KERNEL, "%s/%s", root_ino, host_root);
+                                                                                                         ^^^^^^^^^
 
 
-vim +/__best_mask_cpu +4207 kernel/sched/alt_core.c
-
-  4188	
-  4189	static int active_balance_cpu_stop(void *data)
-  4190	{
-  4191		struct balance_arg *arg = data;
-  4192		struct task_struct *p = arg->task;
-  4193		struct rq *rq = this_rq();
-  4194		unsigned long flags;
-  4195		cpumask_t tmp;
-  4196	
-  4197		local_irq_save(flags);
-  4198	
-  4199		raw_spin_lock(&p->pi_lock);
-  4200		raw_spin_lock(&rq->lock);
-  4201	
-  4202		arg->active = 0;
-  4203	
-  4204		if (task_on_rq_queued(p) && task_rq(p) == rq &&
-  4205		    cpumask_and(&tmp, p->cpus_ptr, arg->cpumask) &&
-  4206		    !is_migration_disabled(p)) {
-> 4207			int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-> 4208			rq = move_queued_task(rq, p, dcpu);
-  4209		}
-  4210	
-  4211		raw_spin_unlock(&rq->lock);
-  4212		raw_spin_unlock_irqrestore(&p->pi_lock, flags);
-  4213	
-  4214		return 0;
-  4215	}
-  4216	
-  4217	/* trigger_active_balance - for @cpu/@rq */
-  4218	static inline int
-  4219	trigger_active_balance(struct rq *src_rq, struct rq *rq, struct balance_arg *arg)
-  4220	{
-  4221		unsigned long flags;
-  4222		struct task_struct *p;
-  4223		int res;
-  4224	
-  4225		if (!raw_spin_trylock_irqsave(&rq->lock, flags))
-  4226			return 0;
-  4227	
-  4228		res = (1 == rq->nr_running) &&					\
-  4229		      !is_migration_disabled((p = sched_rq_first_task(rq))) &&	\
-  4230		      cpumask_intersects(p->cpus_ptr, arg->cpumask) &&		\
-  4231		      !arg->active;
-  4232		if (res) {
-  4233			arg->task = p;
-  4234	
-  4235			arg->active = 1;
-  4236		}
-  4237	
-  4238		raw_spin_unlock_irqrestore(&rq->lock, flags);
-  4239	
-  4240		if (res) {
-  4241			preempt_disable();
-  4242			raw_spin_unlock(&src_rq->lock);
-  4243	
-  4244			stop_one_cpu_nowait(cpu_of(rq), active_balance_cpu_stop,
-> 4245					    arg, &rq->active_balance_work);
-  4246	
-  4247			preempt_enable();
-  4248			raw_spin_lock(&src_rq->lock);
-  4249		}
-  4250	
-  4251		return res;
-  4252	}
-  4253	
+2c2593890079e8 Hongbo Li         2024-05-13  961  	if (fsi->host_root_path == NULL)
+74ce793bcbde5c Mickaël Salaün    2023-06-12  962  		return -ENOMEM;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
