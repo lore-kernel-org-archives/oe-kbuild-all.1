@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75E91171A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 05:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33C411C94;
+	Fri, 17 May 2024 06:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715925333; cv=none; b=e/LkRXn21mQf3NtPaL2uI54kcozhZ0VU4bOJ9nCe1BtpyJAPgHt60tHhWAywbYpfJXwgIZQxXJL1QYM3TGVsoask3VvYPOuR/D7r5YphrpKFwHA65OzhBBbS2l1Vzuz6W/v3yxZYft655wmcqnXHJY6i74qTnf7tJgfnmglZje8=
+	t=1715926873; cv=none; b=sbVscDrMlXOlpn/Y0BeGIpLo7j2RMQJ5d115KH7XFhMw0LsxgFbtFiTw0r5T95kqwGiA07eV99DGlLv5eGAwwXarg84ZljYh3ZNQxN4YBWP5LugDVdpsMSU+TL8DeLvBKWnjaATFTFGn4NxNGW4woVR27xsCMLB0JDRboxeoqaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715925333; c=relaxed/simple;
-	bh=YqE3BWStvb9uNIMxbcNHdjLQhxDoQuJlDFCqiJH5ZgI=;
+	s=arc-20240116; t=1715926873; c=relaxed/simple;
+	bh=t1n4nfRLfLMuCRqkcSA82+iq1e1pf7PDp9oYA+dSCZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GquQtDzd+O6oZJ0HE6d5mWn7s/M6WqIYadzmQaFEDIp0yM71/N/MkXXVVBZp7ZOEG1XHnd1vNX3gmZAb4w98r+Ekxqgxprh39ULWdHMg7SNdYS2Dz82cgJv/PMqQzlidHIiT/In9f28w7YQpA+wEhq9VFYcYUgHPyHurzKlHre4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCqKECc/; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=WmV3Mnw1uvywffFMcCR8/rB3f4jYMR9xsqTL1hKXOeKD9aIIBo7SW457MLTx+aBZSpnAyJgylt0Ch7qdRzZxEDtsEBxt+GNcf17xyS9fJiFbvx32GklFm0EkRshKBQ//qpUckIWmmd0k78w42ox9IohSFgGTM4D/pO3UIxEPgR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g6Avk+uq; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCqKECc/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g6Avk+uq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715925332; x=1747461332;
+  t=1715926872; x=1747462872;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YqE3BWStvb9uNIMxbcNHdjLQhxDoQuJlDFCqiJH5ZgI=;
-  b=PCqKECc/agYK21CisuksiHMyrlaF6aP0ZaP5+izQwPaNLebSkKZQ3ddv
-   mdAcrVd3sa7S/igk4aosSlIRrpQ4f7SWEF3Au7J/mjwmSWhbTv7jRfdXH
-   vGo/WOjt9ehlrZzD1WNX0Vi5We2iRxF8OB4UhM4b8TSu8DSiEPN83Q1ML
-   WoEwjDjQ/F9blz8+6Snb6EXz7LXHzNIFxgsxJuSHBPO3jCdA9fIodcnqj
-   GFDzTT9YocpghTp5sVV7iNHIcWyP3e7c48C9UW3wBicdmLN9Paipzojyk
-   lHJ8Qqvcj6DQHI4a1NyjSy1HbVVIXdVNtZtcKm9h0YCR0uFbeeUokDG/z
-   g==;
-X-CSE-ConnectionGUID: 62YGCDPnRuOy2SgGb9so6w==
-X-CSE-MsgGUID: xi+QSaNVQeKd3XQddo1W4g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11567857"
+  bh=t1n4nfRLfLMuCRqkcSA82+iq1e1pf7PDp9oYA+dSCZI=;
+  b=g6Avk+uq7XLRYSsLdZYuEsfnA2nzbeeM+SkEv2T67fl0CDH4tcaeXNR6
+   WtcfzTJTXwd+WoEr43WIz47WFvEI5mUyZMhCI1dXeR9cbc+ZykirMzjCP
+   OhqPw0Q3OKdpncKna5nUMnLi1nTm0EFuTERV5cp+GP7PrTU3zNBYgFkIY
+   EQ3/7ODsTOjgZBeCPh+EhSDdGgp4I3oY1EAxAH5GUp5dAijNGuXdo+6dY
+   hfb/k70BBaWe+7AIEIyXs/xUNv3NRD11aKfpm4J0nJJ4nVdLcTkfK1OKZ
+   616En9fbGVSKb9HolYV9H96mz4Hmoc/1UWa2hGW6d3DNe0ru+klVtPQ5x
+   A==;
+X-CSE-ConnectionGUID: xacVdfr6QpO1KXu329SzHw==
+X-CSE-MsgGUID: IeOCr0/kSLCYTvwAjpiY4A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12297785"
 X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
-   d="scan'208";a="11567857"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 22:55:31 -0700
-X-CSE-ConnectionGUID: jQD61+B+Qn6h7Oi/iQlnfg==
-X-CSE-MsgGUID: OzWH72DnQJWCLQrytcA//A==
+   d="scan'208";a="12297785"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 23:21:11 -0700
+X-CSE-ConnectionGUID: vqarB4vDT+KlSJ+ygLeTUg==
+X-CSE-MsgGUID: 87+YUjs2Rb+CPp4takqcTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,166,1712646000"; 
-   d="scan'208";a="36421681"
+   d="scan'208";a="36197809"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 16 May 2024 22:55:27 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 16 May 2024 23:21:07 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7qYg-0000IZ-1t;
-	Fri, 17 May 2024 05:55:15 +0000
-Date: Fri, 17 May 2024 13:49:41 +0800
+	id 1s7qxc-0000KO-0x;
+	Fri, 17 May 2024 06:21:02 +0000
+Date: Fri, 17 May 2024 14:20:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Hou Tao <houtao@huaweicloud.com>, netdev@vger.kernel.org,
 	Jamal Hadi Salim <jhs@mojatatu.com>,
@@ -56,10 +56,11 @@ To: Hou Tao <houtao@huaweicloud.com>, netdev@vger.kernel.org,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Davide Caratti <dcaratti@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, houtao1@huawei.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, houtao1@huawei.com
 Subject: Re: [PATCH] net/sched: unregister root_lock_key in the error path of
  qdisc_alloc()
-Message-ID: <202405171311.SyRzzQjC-lkp@intel.com>
+Message-ID: <202405171402.nix3cdP7-lkp@intel.com>
 References: <20240516133035.1050113-1-houtao@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -85,21 +86,99 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/net-sched-unregis
 base:   v6.9
 patch link:    https://lore.kernel.org/r/20240516133035.1050113-1-houtao%40huaweicloud.com
 patch subject: [PATCH] net/sched: unregister root_lock_key in the error path of qdisc_alloc()
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240517/202405171311.SyRzzQjC-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405171311.SyRzzQjC-lkp@intel.com/reproduce)
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240517/202405171402.nix3cdP7-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405171402.nix3cdP7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405171311.SyRzzQjC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405171402.nix3cdP7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/sched/sch_generic.c: In function 'qdisc_alloc':
->> net/sched/sch_generic.c:983:36: error: 'struct Qdisc' has no member named 'root_lock_key'
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/sched/sch_generic.c:983:31: error: no member named 'root_lock_key' in 'struct Qdisc'
      983 |         lockdep_unregister_key(&sch->root_lock_key);
-         |                                    ^~
+         |                                 ~~~  ^
+   12 warnings and 1 error generated.
 
 
 vim +983 net/sched/sch_generic.c
