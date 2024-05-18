@@ -1,137 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC303BE49
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 06:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51164A29;
+	Sat, 18 May 2024 08:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716014885; cv=none; b=qUBGv5Ah9nyfZl6+Fsauzs2sramK1CGc/jAVrho+sXTwjhdLR0o6pglbZkg41gCz5aHH5yn7Xipy3X1zCiusPU2tq3LY2Z0Wxhs8iNXaA3WoUnaNJdOx5McvpfYLaAAlRvVR4kZ/PkHfiRL+MsdsV3pKxGUIhQdsyBwS0gI7iPI=
+	t=1716019245; cv=none; b=cPFNLoKbrESmkJNp0iYMIhTJLL3dJb6a7zIVNKdgR9WOHQc1SH3BSvAqSUZsMm4oOFHAxy2QqOPM1bgLjUNP80pd9AwPrvMoF4ooY+pQ5qPw8NT+yBC5mi+rQAJgOkgGFyMk8CDMTgTO7Ftwwv4lQV9DE6sTDZH9azv+x84YuxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716014885; c=relaxed/simple;
-	bh=FqnqE+UrA/fKF5auAZ7YdoJp5gk2IOZmUMnphQzmxF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q40kYz0Epkd+MiUaPYqXfIf/pf0doASfUL2+pcSjIg9kqbkLBKE/OcdrGCbQXzDcvkxXjxgT289B8X9urkmuC3jcZxzWSlLpnGtvZuNiGWnVolc0h9tvL6kzFvxsVaQoNKNVM1ejZTeQhx/7Z+aQPBw6PZn7KoWa7oFHwk5n+Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYW0iaNw; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1716019245; c=relaxed/simple;
+	bh=zinhGNopBPbNKt4s1sBSH8qEcbPY2QCSiqLKtJGTCyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B3TJsruFhoJ+K6gDeAxQ083QQE/g6uPLicpbrDjnFdb+x3PzhoRM2ZoLf7gqYNB+b5e/gWm1ogWPL+l1Tcir3mS+NmUB79tEic+Hm6q291IlQ6PBwnI/bIsBuYxt9y07w6kI2elbxvsXEcRXe3zpyYDA1TNUWiHcwWF1p21F4V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Es5f8YuK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYW0iaNw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Es5f8YuK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716014884; x=1747550884;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FqnqE+UrA/fKF5auAZ7YdoJp5gk2IOZmUMnphQzmxF8=;
-  b=PYW0iaNwQztAkd3gw2pXHFxAw3cEewTMc0e5H0NE4m5AFqD0DCP19Ezb
-   3vhpVSCFbFThoFXOi3+bMgmIARgBC5JL78a5mhMhPWyRvZKS/jZildCrr
-   4KZl12vCtLR29iSfjHim3ioYH2MmOFbsnmJnuwuO3L4LlFgD+RrhSPatB
-   M4WNZ/h/l59CCNwqaipnYyga87GYHUSZ0SwTr0orXuUDUC+wKuuTD3EQM
-   QqzON8WNY3WiW4Y6rQRIS2Gqmuf8/cp6I4+Gb9TjQCMmucn0NkPL9XzUx
-   a1yvmkm3nGXdij/K6ND3fKaAuztsNNPKLasnBuuJ0NTIzae2M8YeXp4Un
+  t=1716019244; x=1747555244;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zinhGNopBPbNKt4s1sBSH8qEcbPY2QCSiqLKtJGTCyU=;
+  b=Es5f8YuKXZlgaMyffCfsXr0HdvA0GtY0ITgRz25XGppOmRD/tUkUi/X3
+   hvo9s2LG1wz2M0+1MUFW/M1j0liyVt1pcAOvlJp8oFwOR/X+2cXApb/ad
+   4QJJ845s9978A+hqHEgw+ncNEBNuzi6TvgJYwVgM9Y2ki4dwAq5tmtalb
+   03qQ2XL/TvkLEAFRgmSgjG40mstRPCfT89bYD4G4ttCtPoFtB7zG+Tjtn
+   lIf46XL03o6J8YMjYSYOfa4eplmRUZoYqM1B3oR+dSNLpaCwEXDd7VPPe
+   QmHkghpw/6BIExw8PqHZCx+pH+Cd8y2y5Bm/uOCrlxUyIKmO5knhNmgUq
    Q==;
-X-CSE-ConnectionGUID: 60OR/rTjTeahr8V/QuRTTQ==
-X-CSE-MsgGUID: c3MpH0SPTv6J/gj6kIBgVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="29717428"
+X-CSE-ConnectionGUID: 3SliURr5SO6QchQ1JCUEWQ==
+X-CSE-MsgGUID: SggTZvXISdWrF3btF4v23w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12059741"
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="29717428"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 23:48:04 -0700
-X-CSE-ConnectionGUID: Cf6NzLpSRaC16HiIPZ+7IQ==
-X-CSE-MsgGUID: GZ4fJXaAQTSnnddtE/LBFA==
+   d="scan'208";a="12059741"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 01:00:43 -0700
+X-CSE-ConnectionGUID: EGiKrHPKRqix52eWg94Q7Q==
+X-CSE-MsgGUID: YhLs+XKVTVGUx+r+G3kOIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="32037538"
+   d="scan'208";a="32448774"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 May 2024 23:48:00 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 May 2024 01:00:41 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8DrK-0001hk-1r;
-	Sat, 18 May 2024 06:47:58 +0000
-Date: Sat, 18 May 2024 14:47:01 +0800
+	id 1s8Ezd-0001m6-1y;
+	Sat, 18 May 2024 08:00:38 +0000
+Date: Sat, 18 May 2024 15:59:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh@kernel.org, nuno.sa@analog.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Subject: Re: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x
- family
-Message-ID: <202405181400.174vWAhr-lkp@intel.com>
-References: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, Janne Grunau <j@jannau.net>
+Subject: [arm-platforms:kvm-arm64/mmu-pgt 309/874]
+ drivers/tty/serial/samsung_tty.c:2085:3: warning: misleading indentation;
+ statement is not part of the previous 'if'
+Message-ID: <202405181545.QHb8P5Ei-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Ramona,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[cannot apply to linus/master v6.9 next-20240517]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240517-155051
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240517074750.87376-10-ramona.bolboaca13%40gmail.com
-patch subject: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x family
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240518/202405181400.174vWAhr-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181400.174vWAhr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/mmu-pgt
+head:   1ed29f79e7c6441ef29c25a43d7c82d91e884dcc
+commit: 05c68699aca4de1b69a49a8a6b2b80ff2956cf12 [309/874] tty: serial: samsung_tty: Support runtime PM
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240518/202405181545.QHb8P5Ei-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181545.QHb8P5Ei-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405181400.174vWAhr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405181545.QHb8P5Ei-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/imu/adis16475.c:523:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
-     523 |         &iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
-         |         ^
-   drivers/iio/imu/adis16475.c:523:9: note: (near initialization for 'adis16475_fifo_attributes[0]')
-   drivers/iio/imu/adis16475.c:524:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
-     524 |         &iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
-         |         ^
-   drivers/iio/imu/adis16475.c:524:9: note: (near initialization for 'adis16475_fifo_attributes[1]')
-   drivers/iio/imu/adis16475.c:525:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
-     525 |         &iio_dev_attr_hwfifo_watermark.dev_attr.attr,
-         |         ^
-   drivers/iio/imu/adis16475.c:525:9: note: (near initialization for 'adis16475_fifo_attributes[2]')
-   drivers/iio/imu/adis16475.c:526:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
-     526 |         &iio_dev_attr_hwfifo_enabled.dev_attr.attr,
-         |         ^
-   drivers/iio/imu/adis16475.c:526:9: note: (near initialization for 'adis16475_fifo_attributes[3]')
-   cc1: some warnings being treated as errors
+>> drivers/tty/serial/samsung_tty.c:2085:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+                   uart_remove_one_port(&s3c24xx_uart_drv, port);
+                   ^
+   drivers/tty/serial/samsung_tty.c:2083:2: note: previous statement is here
+           if (port)
+           ^
+   1 warning generated.
 
 
-vim +523 drivers/iio/imu/adis16475.c
+vim +/if +2085 drivers/tty/serial/samsung_tty.c
 
-   514	
-   515	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_min, 0);
-   516	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_max, 0);
-   517	static IIO_DEVICE_ATTR(hwfifo_watermark, 0444,
-   518			       adis16475_get_fifo_watermark, NULL, 0);
-   519	static IIO_DEVICE_ATTR(hwfifo_enabled, 0444,
-   520			       adis16475_get_fifo_enabled, NULL, 0);
-   521	
-   522	static const struct iio_dev_attr *adis16475_fifo_attributes[] = {
- > 523		&iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
-   524		&iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
-   525		&iio_dev_attr_hwfifo_watermark.dev_attr.attr,
-   526		&iio_dev_attr_hwfifo_enabled.dev_attr.attr,
-   527		NULL
-   528	};
-   529	
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2077  
+77772addc1f110 drivers/tty/serial/samsung_tty.c Uwe Kleine-König 2023-11-10  2078  static void s3c24xx_serial_remove(struct platform_device *dev)
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2079  {
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2080  	struct uart_port *port = s3c24xx_dev_to_port(&dev->dev);
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2081  	struct s3c24xx_uart_port *ourport = to_ourport(port);
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2082  
+b1617c7888476e drivers/tty/serial/samsung_tty.c Tudor Ambarus    2024-01-19  2083  	if (port)
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2084  		pm_runtime_get_sync(&dev->dev);
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03 @2085  		uart_remove_one_port(&s3c24xx_uart_drv, port);
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2086  
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2087  		clk_disable_unprepare(ourport->clk);
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2088  		if (!IS_ERR(ourport->baudclk))
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2089  			clk_disable_unprepare(ourport->baudclk);
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2090  
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2091  		pm_runtime_disable(&dev->dev);
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2092  		pm_runtime_set_suspended(&dev->dev);
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2093  		pm_runtime_put_noidle(&dev->dev);
+05c68699aca4de drivers/tty/serial/samsung_tty.c Hector Martin    2021-09-20  2094  
+6f134c3c770355 drivers/tty/serial/samsung.c     Tushar Behera    2014-01-20  2095  	uart_unregister_driver(&s3c24xx_uart_drv);
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2096  }
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks        2008-07-03  2097  
+
+:::::: The code at line 2085 was first introduced by commit
+:::::: b497549a035c2a81b71c7a27f2b00c8a16c09423 [ARM] S3C24XX: Split serial driver into core and per-cpu drivers
+
+:::::: TO: Ben Dooks <ben-linux@fluff.org>
+:::::: CC: Ben Dooks <ben-linux@fluff.org>
 
 -- 
 0-DAY CI Kernel Test Service
