@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC126AFC;
-	Sat, 18 May 2024 21:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE41679DE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 21:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716067207; cv=none; b=gnnmKV7R+7gqCtsoSSZ4TCtnVFbz378XqaURwXkGCLTTTkcQcqpuIpAuYC+O1Ts5XgteENuIB/jLa4T8OMOeOEKB4W9mqN6R6Hy6K2X1eruklewRiIQXk62QX+ul+qTi3gGGVVNADPJOj8qHwM37oqgqCTwV78oeU23nTEEGuCo=
+	t=1716067870; cv=none; b=F/M6Zvk52oS8n/IOS6Yy7ViBxiLXUo8X1L3+s9CYMunBdcD99VUF2Nllcjp6hjvB9Su3cacPZ3Y5IEk7V+G3c1UPFfaE52vG6E3nML6pvJwj4xAYz/oWKkQLWyhh/c2GITKIFIMhV75C5Hp2wzvIyhI9lkmgP8Kb5YHmdgJGH04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716067207; c=relaxed/simple;
-	bh=rBj9cZeUYAoUD9odKeNyy82c0utbn05HIdZeMtOw4ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uOJ+D5lzlhwOSOn9MtptIOHRK+O3FkFzIBHw0Qk65xKk8Co0jMRo/eGmHvcINzwizlmn7c8gXP6gS12wnCAveZxB3qItHrTzT8nB4cJRe9nC/0WLurSDMRm+sWrQsvAQEIFP+cHxcmyAwo73kLd4ep0psNb3xeNB9MiMdja/Cfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jX8FFn2X; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1716067870; c=relaxed/simple;
+	bh=YcuHLa93vOsQrMH7qC/ZJuanpLd3bFvl73b4w8gDm7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dg1s6qrCNIIicGO2yOsO7+9R+6Z/qWiEXyUs7IKb9ik4WkmOfe0BfaBFRtaLTi0mPQnggrIQRSOBa0tba5VNLw3Vo7tTVTFNouQOBmhTJxxAqU7HhwiARJBbhRcTwpqDQup6GOZHItxTxjwba8xAXhcjpUX+ngHok2GEGs9coEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZmAK/gDT; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jX8FFn2X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZmAK/gDT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716067205; x=1747603205;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rBj9cZeUYAoUD9odKeNyy82c0utbn05HIdZeMtOw4ac=;
-  b=jX8FFn2XN4pqpc3QTXoP2rCAzitUS1porHgTth6HlYM8S1SzM9DfYmKO
-   ZKeWhV+VQ0OEYp32q76HVOZK0gc2IZ/IUBtcGNa3D4ztJZw5HxjscjQcE
-   bxeSnYXJAsWXAofsdvnujJ2oUanj7HBWV4zjWZlFy1+GTmHCD1CUwdesh
-   Oa1fUQypOey3bN1S5u4+CeAabF5YZabDmcyLRGigL+3dY7C/4NqKP3CGo
-   W9vuh7MPNQ5QsnQpodd4oSnTL0ZVjD111IyBcntSapXnzyaaBeU0eiKd+
-   Qg/46t3f4m1EtjWRTpHcYySB3RF6nwe/yQMSLwx6kA/xatSq0SHbG6+Wx
-   g==;
-X-CSE-ConnectionGUID: VazooQIlQ/KYVKoE9Um0qg==
-X-CSE-MsgGUID: nE51s5LzTySiWvteOs4wGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12080871"
+  t=1716067869; x=1747603869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YcuHLa93vOsQrMH7qC/ZJuanpLd3bFvl73b4w8gDm7k=;
+  b=ZmAK/gDTHpailMxmVoa2PJV91OQV+mkZRQjKDicieJ2uozo1LWyYRprR
+   mMujaeO82Ghvs5KHueVG0nX+ViW1nznFyO+SczMaCA/kH9Y0TaeSFpe0F
+   +Z8+By0gXHBlEhpXyH5pGB07QyLbJbyK5Zp9m1lyh7St3lzz2dLsMqkVF
+   JexErG/BdBgogo0TefzWa2Lx53711GarcJcUHQnG5OUwRfDMPU8200wwt
+   mjZKLsvMok/BnzzNA5r1/7ObANMqTUYoDqdYXTSM9flMTRA1zVxyUQ/GW
+   zo1+5aEDZ8kH4Hc8HD4khcN7xQZziFoPPPGBgvQRZAB84OQylsxy1V9m4
+   A==;
+X-CSE-ConnectionGUID: Kw4STqvhSxuquHN/od+m9g==
+X-CSE-MsgGUID: 8yqkrXmESWiX7Q81RHcHeg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="37608898"
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="12080871"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 14:20:05 -0700
-X-CSE-ConnectionGUID: ckjP751USHuvYbCxa9p+SA==
-X-CSE-MsgGUID: 5f6Dyo4sRUOfPQ1G6nGfHw==
+   d="scan'208";a="37608898"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 14:31:08 -0700
+X-CSE-ConnectionGUID: sc9c9u6PRKSkFMa9ZLiDIw==
+X-CSE-MsgGUID: ovrQszmMR3mDpHLmAvxfng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="32119398"
+   d="scan'208";a="32710517"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 18 May 2024 14:20:02 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 May 2024 14:31:03 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8RTE-0002d0-0r;
-	Sat, 18 May 2024 21:20:00 +0000
-Date: Sun, 19 May 2024 05:19:29 +0800
+	id 1s8Rds-0002do-28;
+	Sat, 18 May 2024 21:31:00 +0000
+Date: Sun, 19 May 2024 05:30:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org
-Subject: [drm-misc:drm-misc-next 10/10] drivers/gpu/drm/stm/ltdc.c:494:35:
- error: unused function 'encoder_to_ltdc'
-Message-ID: <202405190539.epnOVnMx-lkp@intel.com>
+To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Qingfang Deng <dqfext@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Steven Liu <Steven.Liu@mediatek.com>,
+	"SkyLake.Huang" <skylake.huang@mediatek.com>
+Subject: Re: [PATCH net-next v2 2/5] net: phy: mediatek: Move LED and
+ read/write page helper functions into mtk phy lib
+Message-ID: <202405190537.zWJuRc1r-lkp@intel.com>
+References: <20240517102908.12079-3-SkyLake.Huang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +76,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240517102908.12079-3-SkyLake.Huang@mediatek.com>
 
-Hi Ville,
+Hi Sky,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   85cb9d603953d77de5cb311d229a79c439ff6bfb
-commit: 6597efcfc53585d5fb177b901a41b4ac2f282b99 [10/10] drm/stm: Allow build with COMPILE_TEST=y
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240519/202405190539.epnOVnMx-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190539.epnOVnMx-lkp@intel.com/reproduce)
+[auto build test ERROR on next-20240517]
+[cannot apply to net-next/main net/main linus/master v6.9 v6.9-rc7 v6.9-rc6 v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-drivers/20240517-184536
+base:   next-20240517
+patch link:    https://lore.kernel.org/r/20240517102908.12079-3-SkyLake.Huang%40mediatek.com
+patch subject: [PATCH net-next v2 2/5] net: phy: mediatek: Move LED and read/write page helper functions into mtk phy lib
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240519/202405190537.zWJuRc1r-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190537.zWJuRc1r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405190539.epnOVnMx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405190537.zWJuRc1r-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/stm/ltdc.c:494:35: error: unused function 'encoder_to_ltdc' [-Werror,-Wunused-function]
-     494 | static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
-         |                                   ^~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/encoder_to_ltdc +494 drivers/gpu/drm/stm/ltdc.c
-
-b759012c5fa761 Yannick Fertre 2017-04-14  493  
-b759012c5fa761 Yannick Fertre 2017-04-14 @494  static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
-b759012c5fa761 Yannick Fertre 2017-04-14  495  {
-b759012c5fa761 Yannick Fertre 2017-04-14  496  	return (struct ltdc_device *)enc->dev->dev_private;
-b759012c5fa761 Yannick Fertre 2017-04-14  497  }
-b759012c5fa761 Yannick Fertre 2017-04-14  498  
-
-:::::: The code at line 494 was first introduced by commit
-:::::: b759012c5fa761ee08998c80fc4ad6343c258487 drm/stm: Add STM32 LTDC driver
-
-:::::: TO: Yannick Fertre <yannick.fertre@st.com>
-:::::: CC: Eric Anholt <eric@anholt.net>
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+   mtk-ge-soc.c:(.text+0x892): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xaaa): undefined reference to `__phy_modify'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_get':
+>> mtk-ge-soc.c:(.text+0x32): undefined reference to `mtk_phy_led_hw_ctrl_get'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_set':
+>> mtk-ge-soc.c:(.text+0x64): undefined reference to `mtk_phy_led_hw_ctrl_set'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_is_supported':
+>> mtk-ge-soc.c:(.text+0x88): undefined reference to `mtk_phy_led_hw_is_supported'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_blink_set':
+>> mtk-ge-soc.c:(.text+0xe0): undefined reference to `mtk_phy_hw_led_blink_set'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0xfa): undefined reference to `mtk_phy_hw_led_on_set'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_brightness_set':
+   mtk-ge-soc.c:(.text+0x136): undefined reference to `mtk_phy_hw_led_blink_set'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x15a): undefined reference to `mtk_phy_hw_led_on_set'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_finetune':
+   mtk-ge-soc.c:(.text+0x19e): undefined reference to `phy_write_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x1ea): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x200): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x2f4): undefined reference to `phy_restore_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x30c): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_finetune':
+   mtk-ge-soc.c:(.text+0x48a): undefined reference to `phy_write_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x4c2): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x4d8): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x592): undefined reference to `phy_restore_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x5aa): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_common_finetune':
+   mtk-ge-soc.c:(.text+0x5e6): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x5fc): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x766): undefined reference to `phy_restore_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+   mtk-ge-soc.c:(.text+0x79c): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x8ac): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xa8a): undefined reference to `phy_restore_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_cycle.constprop.0':
+   mtk-ge-soc.c:(.text+0xb1e): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xb50): undefined reference to `phy_read_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_vcm_cal_sw':
+   mtk-ge-soc.c:(.text+0xc70): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_amp_fill_result.isra.0':
+   mtk-ge-soc.c:(.text+0x1016): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `rext_cal_efuse':
+   mtk-ge-soc.c:(.text+0x121e): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_efuse':
+   mtk-ge-soc.c:(.text+0x12c8): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x13e4): undefined reference to `phy_write_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_probe':
+   mtk-ge-soc.c:(.text+0x15ec): undefined reference to `devm_phy_package_join'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0x1688): undefined reference to `mtk_phy_leds_state_init'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x16ba): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_probe':
+>> mtk-ge-soc.c:(.text+0x17b4): undefined reference to `mtk_phy_leds_state_init'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7a): undefined reference to `genphy_suspend'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7e): undefined reference to `genphy_resume'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x92): undefined reference to `genphy_handle_interrupt_no_ack'
+>> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0xb2): undefined reference to `mtk_phy_read_page'
+>> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0xb6): undefined reference to `mtk_phy_write_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x18c): undefined reference to `genphy_suspend'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x190): undefined reference to `genphy_resume'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x1a4): undefined reference to `genphy_handle_interrupt_no_ack'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x1c4): undefined reference to `mtk_phy_read_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x1c8): undefined reference to `mtk_phy_write_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `phy_module_init':
+   mtk-ge-soc.c:(.init.text+0x12): undefined reference to `phy_drivers_register'
 
 -- 
 0-DAY CI Kernel Test Service
