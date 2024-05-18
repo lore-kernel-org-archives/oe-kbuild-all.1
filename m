@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3ED6FB0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 02:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A6164D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 02:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715998054; cv=none; b=tCFASL+AqOHTZxzsdj5yXdij3m3Y3kFzbj+oAI1/lQavXtqcXTzjgiY9h5r7JETmKEcKolfbmaVcUBGLIMR04J+ywSdp+Mn+vB0GVmyrR23k2frnm5YZguOXvpFtZqd9KnksGBRsa+ES4uRLSMddVJln7BYOzTwz6uQyFw3BH64=
+	t=1715998654; cv=none; b=sq+l5BGGY6cEXrhD4kJsWMOAzFA3xpbujmE86khixlON4Qc85i9WCTUThC7y9x7tBDLRPXWsKSPSv8cClzJuR76Rffv3vLtOW9WN0HunMGsr10iQJWmFi/0sWhS88NYpEq/SU5k33Kl+anfrSEnafBfMaxL5N2OzC8uZBMFTCN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715998054; c=relaxed/simple;
-	bh=Oh7sF9OjA0BSp6JAbwwufKhQSAjtCl7i1HcOwVLPdjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=re4jeVd1z44C+tE/FWGxyEr9wSiLDsDIoqRWEFnyK0laZzNLUdZHeNkQN7QLcn6bNAf4nZvCHji1C67jfYLsWvLUNKd7Md9emtYdJxNnf9D6fEDQ0D2aQYD5cI3Tx3KkU2qcc7PYC2DrcXBtbIBXZ7h/1OqcqKEerBlLy5+OyC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnMTP/g7; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1715998654; c=relaxed/simple;
+	bh=3BDlydd5i8qSZJF3bOkS5fClIP9/srFle1tq8wrUvzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e9OYZLYZz4ZkNpMno0Qs1WHasXmle3ElP4F4VfcEFjDu9UEahgYcbwmpeR8l1OUEoX49S8naQ7rCNlYjYT37IMWpfK1FI5083EPwGJsVMsMRYFyzCrVa+uwwIH+kz/udcED8q+Dl7qLkVGE3+U0hCNYqVfaGUCKHpVSde/90fPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSohQT9s; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnMTP/g7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSohQT9s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715998053; x=1747534053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Oh7sF9OjA0BSp6JAbwwufKhQSAjtCl7i1HcOwVLPdjs=;
-  b=lnMTP/g77rbkGHZWVIAvZ6yrsGkkf69uNjAEHFI8BxMVIeIKU2dmjIKo
-   pkI9Jo7eC3dNpGzg91UcOkznESn2K7xUAMIxQKU/ptaC8FlOZdRDQ8z5/
-   6CbvcY723ZcvQcd30z9dAJGoivTajS0YLDYsLZeCuDPb+eAUSMTvdIL7M
-   NW7A3pj5PDP5GOIq+wYxF/tx6ohw6g11oz0CGBMzawov2V2Eq2Me8ylki
-   nBWajxJu4YhD5UKztABvHhWMBG2/N2TK1oUFTNQe6BD6NQa5R1/0IGaLO
-   Drsd2pJ2DBuI7Zz16wid3WO0wcIwxnMBp/HH2XyRjCzs+G5fD1G5MY21k
-   A==;
-X-CSE-ConnectionGUID: 8K+oEv3SSTW95ao5dY2pPQ==
-X-CSE-MsgGUID: KvCBBwLYTfOgiFpw+bSMuA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12049163"
+  t=1715998652; x=1747534652;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3BDlydd5i8qSZJF3bOkS5fClIP9/srFle1tq8wrUvzY=;
+  b=eSohQT9stLsfw1nzdnih4vM7fZ2CTMcuqANxhuK15NFFflEkk0uvkiNC
+   fGL5hALx6tD5+T2WkLDyqDpAQ91ZuHOTr7Yt8X7M9LEKtmyaeNvCPnp5V
+   c8edv3ygoRbKOGTUTgdZzMu2bEtxRpZ87+WE6GEL8cMzg9B5dJHloajIk
+   RmCcCKO6dP2yqeYX0zD2IagY6MeW8x4LoKLdIbKyQH259hPcHf0oNnuCU
+   g7mR4BLjf4fhz+z64xzz/alaz0WmwVk42strzPc/kjUYgJ5Q8/ohdWMKm
+   3IREcjRPHfZUg04EFBTJ7Wg0N8sTUpttD9ePWt62Pv2Rbj/t3y939Fs9H
+   g==;
+X-CSE-ConnectionGUID: 9f+rf2IcQaOpHtRI5qPWDw==
+X-CSE-MsgGUID: O4VnDswXQ7q9y+PmjUrfgw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="16029605"
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="12049163"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 19:07:32 -0700
-X-CSE-ConnectionGUID: OB8/0o0zRWyy9XvXY8ofvA==
-X-CSE-MsgGUID: nqKV49kyRam4/ngQRirs2Q==
+   d="scan'208";a="16029605"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 19:17:32 -0700
+X-CSE-ConnectionGUID: /fRn1f+BT86pzEbSl+rYpQ==
+X-CSE-MsgGUID: lxNW3DJNTwGC53fo0pPsQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="32129202"
+   d="scan'208";a="32091872"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 17 May 2024 19:07:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 May 2024 19:17:30 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s89Ts-0001Wu-0d;
-	Sat, 18 May 2024 02:07:28 +0000
-Date: Sat, 18 May 2024 10:06:34 +0800
+	id 1s89dY-0001X8-1F;
+	Sat, 18 May 2024 02:17:28 +0000
+Date: Sat, 18 May 2024 10:17:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lianjie Shi <Lianjie.Shi@amd.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Lianjie Shi <Lianjie.Shi@amd.com>
-Subject: Re: [PATCH 1/1] PCI: Support VF resizable BAR
-Message-ID: <202405180954.pffoQtM9-lkp@intel.com>
-References: <20240516093334.2266599-2-Lianjie.Shi@amd.com>
+To: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_sym_address: .text+0x8): relocation R_RISCV_PCREL_HI20 out of
+ range: -524440 is not in [-524288, 524287]; references
+ kallsyms_relative_base
+Message-ID: <202405181012.4631UqkB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,69 +64,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240516093334.2266599-2-Lianjie.Shi@amd.com>
 
-Hi Lianjie,
+Hi Zhen,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on cf87f46fd34d6c19283d9625a7822f20d90b64a4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lianjie-Shi/PCI-Support-VF-resizable-BAR/20240516-173624
-base:   cf87f46fd34d6c19283d9625a7822f20d90b64a4
-patch link:    https://lore.kernel.org/r/20240516093334.2266599-2-Lianjie.Shi%40amd.com
-patch subject: [PATCH 1/1] PCI: Support VF resizable BAR
-config: i386-randconfig-014-20240518 (https://download.01.org/0day-ci/archive/20240518/202405180954.pffoQtM9-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180954.pffoQtM9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7ee332c9f12bc5b380e36919cd7d056592a7073f
+commit: 30f3bb09778de64ef9f23fb4bb5f868c4728a071 kallsyms: Add self-test facility
+date:   1 year, 6 months ago
+config: riscv-randconfig-r063-20240515 (https://download.01.org/0day-ci/archive/20240518/202405181012.4631UqkB-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181012.4631UqkB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405180954.pffoQtM9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405181012.4631UqkB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/pci/pci.o: in function `pci_restore_vf_rebar_state':
->> drivers/pci/pci.c:1895:(.text+0x3bff): undefined reference to `__udivdi3'
-
-
-vim +1895 drivers/pci/pci.c
-
-  1869	
-  1870	static void pci_restore_vf_rebar_state(struct pci_dev *pdev)
-  1871	{
-  1872	#ifdef CONFIG_PCI_IOV
-  1873		unsigned int pos, nbars, i;
-  1874		u32 ctrl;
-  1875		u16 total;
-  1876	
-  1877		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_VF_REBAR);
-  1878		if (!pos)
-  1879			return;
-  1880	
-  1881		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-  1882		nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-  1883	
-  1884		for (i = 0; i < nbars; i++, pos += 8) {
-  1885			struct resource *res;
-  1886			int bar_idx, size;
-  1887	
-  1888			pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-  1889			bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
-  1890			total = pdev->sriov->total_VFs;
-  1891			if (!total)
-  1892				return;
-  1893	
-  1894			res = pdev->resource + bar_idx + PCI_IOV_RESOURCES;
-> 1895			size = pci_rebar_bytes_to_size(resource_size(res) / total);
-  1896			ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
-  1897			ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-  1898			pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
-  1899		}
-  1900	#endif
-  1901	}
-  1902	
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_sym_address: .text+0x8): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_relative_base
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_sym_address: .text+0x12): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_offsets
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
 
 -- 
 0-DAY CI Kernel Test Service
