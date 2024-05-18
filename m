@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F22748CC7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 15:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A31245BF0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 15:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716047804; cv=none; b=aOhnmKEMWOC+Ahd/vlPj+rXKaOJ/ARYHqivZqGEWHxJMhDUeY+AZ+Zo44ujXeKjlAaYzReWB0gNzmJc/Cdx+D1Tus3Kd8F5DhSu+UcEK90AXV1++A6anM+zykChFD8JEriyuti561SEFM5gTE74LfAQCNZJWXs/snvaPJqIBMik=
+	t=1716047807; cv=none; b=JasSAuTWvx00Q5okcdg0JSZev/Cq1Ejgij1QQQdUnufBwkk96mPmGCil0s3sbF6i4iHrdeI8lTgsA6dL2ru96k7ejeniz8QgsO4Jwyyh2sjxwIVmxchsSQHfBWjDrZlYf32IinWNsOgWNxyov9dFOdqa8vAeEV6rgnzZcxDYGOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716047804; c=relaxed/simple;
-	bh=IZFOGJbQhn8jSnjVbaxO8YdTU7NYck/zGzxaO+N1e5o=;
+	s=arc-20240116; t=1716047807; c=relaxed/simple;
+	bh=nmFNSSfLdRGhI4HbdHNFOUOvqZ/mx1dEkUPDlL0eFcQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M2NdQHineivt5cZm+MwRZQitiz2iTdy82c0M8fYZ7KtGcVK699Zc1nO0JyLblW58n7Ej0Fde6l32rmtx3AJqlYXqQWbW0zLZuzLgRjfVcw3jueeOkPZuVHH7lte6uwtb2xNXMMF/3cji8wMNZN9S/iFeLuhfRlUaJF72vw5Yhm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHlGQmrY; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=frFG2f85b1iwehbAAz/u7/fTQx1Yyfi7CxvQA6KZodkLQL8OAj/GcrtKlnla9SHdL76GnW6SxC20+6vxXIx0TCAPSreXO4HE6SM87KRwgu2qf7oP6brlVj9EOiTNW9Y8UMmLmbKhzkjMIk4a14RJzfrCJ/It1eLabhwcJnXSvoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb4mnv3l; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHlGQmrY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb4mnv3l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716047803; x=1747583803;
+  t=1716047806; x=1747583806;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IZFOGJbQhn8jSnjVbaxO8YdTU7NYck/zGzxaO+N1e5o=;
-  b=QHlGQmrYul6hHZBU/42fc5pU2YFdinVQNhaBD6g16HbgC99v0yQd2yYx
-   lQcYRUzYv2Jsol0vBARUA2rFwWBYHmmsSoXrxt4U0ilEGrmqY702GRzUD
-   BStiXtofWq/pdMdShc8OgxM17jiZT0KN6P+nlaEcicCmyVjnJqc7/EAha
-   5RiePHlN4WpldLHSnG6m1FgBk0HJLULAtBHQmgHu/EisW+5l0XNgPhIaQ
-   aTA4uYg/5I2xGCGuvE4+hwj+eb0/BXsNEfWObrH42eGc7ovaWUsEMr52b
-   9HJJ9QOARc5mxpHVaDA593lAZQFFzsrt+sfyG98m2QwkHxBafP9K1zxXj
-   A==;
-X-CSE-ConnectionGUID: 2D/4j1SwSi+zzlu4IgpIpg==
-X-CSE-MsgGUID: cc/mtk8BSZSyX7KgRuXTcg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="29733826"
+  bh=nmFNSSfLdRGhI4HbdHNFOUOvqZ/mx1dEkUPDlL0eFcQ=;
+  b=Hb4mnv3ljcRGKSbM5MQy/8/qO4uOpfAw25aSSGNUQXBISZvsftMzkreG
+   D99x/N1CAWzrdVmDwlj6vLNYrHX7CkxGNOX+7pfVJdvBnrp9XhfMMKpyH
+   GT0IscsIZqtOoej444zy5KkI1FyLN5vVQPJsWibTlAd9X/A/cPQBfYXch
+   e5w0AFC8XcNE6BD/Kkkb5T3YdEFWyFnutFEilpdvNLPDCj5jmi3PoaFNz
+   6YqnXIdu4DaSLgugTcqtxkWVrjsr4eb021JzUurXnbWUwcoCf9rG3Ek88
+   S8ihSmHso+uc8Ni1I1dmUvjbyMrAn3j2q/76qeq3EWDXgWAoWfR0acRck
+   g==;
+X-CSE-ConnectionGUID: QcyIl7UNRYGbHCdDzsYIuA==
+X-CSE-MsgGUID: Ix5SKW6sTyOrPENEffpG4w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="16051329"
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="29733826"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 08:56:43 -0700
-X-CSE-ConnectionGUID: U4ptE/jLQyKa50XedV0t9Q==
-X-CSE-MsgGUID: aympyu9qQDqoGi7IEB1UHg==
+   d="scan'208";a="16051329"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 08:56:45 -0700
+X-CSE-ConnectionGUID: R2DT5I3NSwai5RgRZRpoLQ==
+X-CSE-MsgGUID: Ba1f20r6QiKgz8mI/WQr2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="36653965"
+   d="scan'208";a="36602864"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 18 May 2024 08:56:41 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 May 2024 08:56:43 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8MQH-0002LW-2d;
-	Sat, 18 May 2024 15:56:38 +0000
-Date: Sat, 18 May 2024 23:56:07 +0800
+	id 1s8MQJ-0002Lc-1Z;
+	Sat, 18 May 2024 15:56:39 +0000
+Date: Sat, 18 May 2024 23:56:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: Srujana Challa <schalla@marvell.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: [agd5f:amd-staging-drm-next 1463/1476]
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:3017: warning: Function parameter or
- struct member 'bo' not described in 'amdgpu_vm_is_bo_always_valid'
-Message-ID: <202405182334.T6je5EID-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Vamsi Attunuru <vattunuru@marvell.com>,
+	Shijith Thotton <sthotton@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>
+Subject: [linux-next:master 13118/13355] ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/vdpa/octeon_ep/octep_vdpa.ko] undefined!
+Message-ID: <202405182336.ujsVvg0v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,42 +67,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tvrtko,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   4a9fae65869eac0788a20f77d8ecd8aaf0cbb86a
-commit: 062140f0b8f011462dc8944f7fb70e5bf8b6035f [1463/1476] drm/amdgpu: Add amdgpu_bo_is_vm_bo helper
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240518/202405182334.T6je5EID-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405182334.T6je5EID-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c75962170e49f24399141276ae119e6a879f36dc
+commit: c9d853a0540291d48ab10fcf4e5a75f1f4741da9 [13118/13355] virtio: vdpa: vDPA driver for Marvell OCTEON DPU devices
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240518/202405182336.ujsVvg0v-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405182336.ujsVvg0v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405182334.T6je5EID-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405182336.ujsVvg0v-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:3017: warning: Function parameter or struct member 'bo' not described in 'amdgpu_vm_is_bo_always_valid'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:3017: warning: Excess function parameter 'abo' description in 'amdgpu_vm_is_bo_always_valid'
-
-
-vim +3017 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-
-  3006	
-  3007	/**
-  3008	 * amdgpu_vm_is_bo_always_valid - check if the BO is VM always valid
-  3009	 *
-  3010	 * @vm: VM to test against.
-  3011	 * @abo: BO to be tested.
-  3012	 *
-  3013	 * Returns true if the BO shares the dma_resv object with the root PD and is
-  3014	 * always guaranteed to be valid inside the VM.
-  3015	 */
-  3016	bool amdgpu_vm_is_bo_always_valid(struct amdgpu_vm *vm, struct amdgpu_bo *bo)
-> 3017	{
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/vdpa/octeon_ep/octep_vdpa.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
