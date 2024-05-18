@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B655544C9B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 18:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B565C79DE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 19:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716056434; cv=none; b=IUodjDMmSXyOaDcDp4i5lcocL5cQ8KTdfL03RkMbFPi0MOQoIF4jhATOU2Fqmvt/G9OPDV65aiiSRvYqagbZ0TOjvc/rLixJ3dwrgOES6X5QAzudxymuwLmGhxvBaJg8YCQkoOYRq70QmCUAGHzZD4ScBPqXNQtVBVxxcF8lCio=
+	t=1716059018; cv=none; b=RfasAiwUuW+lWD6FOyRKegKdnObc2Kst+6TIP8DZNmnn6b0ErHQEgB94ed+kzN0hXdYzzduYiqjbuq5NPtJyGa8JssD8SIIHCUJiDn7euxKolP4ZDMj2wlCYp60OwxBPw14cQp1kdezHbTUaw6Ac3JWMlQHNKQRaT8J6CW0iHJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716056434; c=relaxed/simple;
-	bh=71RabXOq6vDxowg3qtAHm2HVaMGle+7+ZRIk+BCvGj8=;
+	s=arc-20240116; t=1716059018; c=relaxed/simple;
+	bh=7rmGpkOatz4do+81lJEjQWDYuejNH0Ay1bs4H11lIbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j1o4ZmHL3zYRgx4QnCLTvYT1U9yES5gu506ypIRPm6G7Qxuveoa0nVY/zb6H1xH6mIVMUby4TbQUfWvtgWDR8AYFP/nWA8DhUwmBXM+fbic7AzrkFQmNh5lYPQAqBW8KGwJq5AwmFQAGnXWBgT1yQcKkQPdXP/zFGWXQmRIZ1dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DH7KmcMa; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=VdLQJOhuv3zbD/AupTg5G55OvO0psKUHMCuinZZ+eDWm0j+B3kcvYtTpSP3xqU+G/WIYninAzREjM3zq/sfijF4liEa5Qmj7YgbuL/iwUOgPIvI7qRl1LAgffCQHpODb9sPjQzd/lEL/p+uw97JCmJPDIusY/dZs/WvXtRxbPfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OrDDLqr3; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DH7KmcMa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OrDDLqr3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716056433; x=1747592433;
+  t=1716059016; x=1747595016;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=71RabXOq6vDxowg3qtAHm2HVaMGle+7+ZRIk+BCvGj8=;
-  b=DH7KmcMa3sqo9yWdwbnNtzK46bO02oKoMkqV7NYvqtOR00QabuJug4sd
-   mM4refaTixVj6d9FQkphA10PemARXPxYUcD51VGTbzhTXDGHMIT0VvkXc
-   KDX+ylDVZGcLUr4fuZaL0se9azKEvRDw+FCQk46TiWe+6Ybiwj/hjh1gv
-   dbwaHv/TQbiC7Lw20gOrv/2cMnTlhsRyy2aDnn4rIWzggMpLokj+Rot5c
-   v1qkIlvrxy+WeXYMVYFDG+gn7RixGRXDLPeI5ZU0Le3m7BQKCp1oK0sQ/
-   UPha8l7toviYbu4AqztayTwrhAloF4W/F9fahUTY0Gu4cRF7KNDbJsRF6
-   w==;
-X-CSE-ConnectionGUID: vTPuhzu9TMSIjfI+f2/KEg==
-X-CSE-MsgGUID: YC5/2H6xT82/uURUHsUshg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12337508"
+  bh=7rmGpkOatz4do+81lJEjQWDYuejNH0Ay1bs4H11lIbo=;
+  b=OrDDLqr3JAjJLDw76kjDEM5NvydPMk3Us0Utr2XUOSD02lQDOrQUjtS1
+   qyCEzNUWftvld7/DMb8QGqPrPQB61fKHvEsKo9mLU+6XMEPzVJNdO9SgG
+   tWhno7GUKNNf6fkLmTuU6pX47mt9pmnMggnGVzn0c7fuMG894Br/MONZX
+   6prNopQ7AP9yCBl6dY/mh542MgIJ3EB0z2AGaqnUsP/PcJfbps9yPNSnA
+   vQldzI9A+YyUBxMv0MDwHK+s5i4XIpk7SPgBv7E3BMAWGBcUAoFx46W3g
+   ca5255hG8w5f4TqhKKJIYC0tVPanmiSgbArnIE7iH/FpZHQBdnZG22xPZ
+   A==;
+X-CSE-ConnectionGUID: j+gicjmMSbOtklezErHsVw==
+X-CSE-MsgGUID: OkI69XW/SZiz7BTu1Xpotw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12075612"
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="12337508"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 11:20:32 -0700
-X-CSE-ConnectionGUID: XIbSxsbPQo2VzxIuGvKSig==
-X-CSE-MsgGUID: k4SG/OyfT8WUIPObcss+mw==
+   d="scan'208";a="12075612"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 12:03:35 -0700
+X-CSE-ConnectionGUID: LUvghvNBQFec0W5tb3HKuw==
+X-CSE-MsgGUID: 1q2z18JQSV6KxmPSeW8J6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="32687008"
+   d="scan'208";a="32533127"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 18 May 2024 11:20:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 May 2024 12:03:29 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8OfR-0002UH-1I;
-	Sat, 18 May 2024 18:20:25 +0000
-Date: Sun, 19 May 2024 02:19:34 +0800
+	id 1s8PL5-0002YC-1M;
+	Sat, 18 May 2024 19:03:27 +0000
+Date: Sun, 19 May 2024 03:02:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
@@ -66,7 +66,7 @@ Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
 	"SkyLake.Huang" <skylake.huang@mediatek.com>
 Subject: Re: [PATCH net-next v2 1/5] net: phy: mediatek: Re-organize MediaTek
  ethernet phy drivers
-Message-ID: <202405190238.VoQDfwSS-lkp@intel.com>
+Message-ID: <202405190214.zVx19jfL-lkp@intel.com>
 References: <20240517102908.12079-2-SkyLake.Huang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -92,78 +92,143 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediate
 base:   next-20240517
 patch link:    https://lore.kernel.org/r/20240517102908.12079-2-SkyLake.Huang%40mediatek.com
 patch subject: [PATCH net-next v2 1/5] net: phy: mediatek: Re-organize MediaTek ethernet phy drivers
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240519/202405190238.VoQDfwSS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190238.VoQDfwSS-lkp@intel.com/reproduce)
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20240519/202405190214.zVx19jfL-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190214.zVx19jfL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405190238.VoQDfwSS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405190214.zVx19jfL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
->> mtk-ge-soc.c:(.text+0xc5e): undefined reference to `phy_select_page'
->> m68k-linux-ld: mtk-ge-soc.c:(.text+0xe76): undefined reference to `__phy_modify'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_hw_led_on_set':
->> mtk-ge-soc.c:(.text+0xac): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_set':
->> mtk-ge-soc.c:(.text+0x1d4): undefined reference to `phy_write_mmd'
->> m68k-linux-ld: mtk-ge-soc.c:(.text+0x1fe): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x228): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_hw_led_blink_set':
-   mtk-ge-soc.c:(.text+0x29c): undefined reference to `phy_write_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_get':
-   mtk-ge-soc.c:(.text+0x3d2): undefined reference to `phy_read_mmd'
->> m68k-linux-ld: mtk-ge-soc.c:(.text+0x4c6): undefined reference to `phy_read_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mtk_socphy_write_page':
-   mtk-ge-soc.c:(.text+0x50e): undefined reference to `__mdiobus_write'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mtk_socphy_read_page':
-   mtk-ge-soc.c:(.text+0x52e): undefined reference to `__mdiobus_read'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_finetune':
-   mtk-ge-soc.c:(.text+0x56a): undefined reference to `phy_write_mmd'
->> m68k-linux-ld: mtk-ge-soc.c:(.text+0x5b6): undefined reference to `phy_select_page'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x5cc): undefined reference to `__mdiobus_write'
->> m68k-linux-ld: mtk-ge-soc.c:(.text+0x6c0): undefined reference to `phy_restore_page'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x6d8): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_finetune':
-   mtk-ge-soc.c:(.text+0x856): undefined reference to `phy_write_mmd'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x88e): undefined reference to `phy_select_page'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x8a4): undefined reference to `__mdiobus_write'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x95e): undefined reference to `phy_restore_page'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x976): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_common_finetune':
-   mtk-ge-soc.c:(.text+0x9b2): undefined reference to `phy_select_page'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x9c8): undefined reference to `__mdiobus_write'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0xb32): undefined reference to `phy_restore_page'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
-   mtk-ge-soc.c:(.text+0xb68): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0xc78): undefined reference to `__mdiobus_write'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0xe56): undefined reference to `phy_restore_page'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_cycle.constprop.0':
-   mtk-ge-soc.c:(.text+0xeea): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0xf1c): undefined reference to `phy_read_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_vcm_cal_sw':
-   mtk-ge-soc.c:(.text+0x103c): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_amp_fill_result.isra.0':
-   mtk-ge-soc.c:(.text+0x13e2): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `rext_cal_efuse':
-   mtk-ge-soc.c:(.text+0x15ea): undefined reference to `phy_modify_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_efuse':
-   mtk-ge-soc.c:(.text+0x1694): undefined reference to `phy_modify_mmd'
->> m68k-linux-ld: mtk-ge-soc.c:(.text+0x17b0): undefined reference to `phy_write_mmd'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_probe':
->> mtk-ge-soc.c:(.text+0x19b8): undefined reference to `devm_phy_package_join'
-   m68k-linux-ld: mtk-ge-soc.c:(.text+0x1a94): undefined reference to `phy_modify_mmd'
->> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7a): undefined reference to `genphy_suspend'
->> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7e): undefined reference to `genphy_resume'
->> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x92): undefined reference to `genphy_handle_interrupt_no_ack'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x18c): undefined reference to `genphy_suspend'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x190): undefined reference to `genphy_resume'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x1a4): undefined reference to `genphy_handle_interrupt_no_ack'
-   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `phy_module_init':
->> mtk-ge-soc.c:(.init.text+0x12): undefined reference to `phy_drivers_register'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mtk_socphy_write_page':
+   mtk-ge-soc.c:(.text+0x70): undefined reference to `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x70): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mtk_socphy_read_page':
+   mtk-ge-soc.c:(.text+0xa4): undefined reference to `__mdiobus_read'
+   mtk-ge-soc.c:(.text+0xa4): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_read'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_finetune':
+   mtk-ge-soc.c:(.text+0x150): undefined reference to `phy_write_mmd'
+>> mtk-ge-soc.c:(.text+0x150): relocation truncated to fit: R_NIOS2_CALL26 against `phy_write_mmd'
+>> nios2-linux-ld: mtk-ge-soc.c:(.text+0x16c): undefined reference to `phy_select_page'
+>> mtk-ge-soc.c:(.text+0x16c): relocation truncated to fit: R_NIOS2_CALL26 against `phy_select_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x180): undefined reference to `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x180): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x194): undefined reference to `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x194): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x1a8): undefined reference to `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x1a8): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x1bc): undefined reference to `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x1bc): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x1d0): undefined reference to `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x1d0): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0x1e4): more undefined references to `__mdiobus_write' follow
+   drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_finetune':
+   mtk-ge-soc.c:(.text+0x1e4): relocation truncated to fit: R_NIOS2_CALL26 against `__mdiobus_write'
+   mtk-ge-soc.c:(.text+0x1f8): additional relocation overflows omitted from the output
+>> nios2-linux-ld: mtk-ge-soc.c:(.text+0x26c): undefined reference to `phy_restore_page'
+>> nios2-linux-ld: mtk-ge-soc.c:(.text+0x288): undefined reference to `phy_modify_mmd'
+>> nios2-linux-ld: mtk-ge-soc.c:(.text+0x29c): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x2b0): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x2c4): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x2d8): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x2ec): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0x300): more undefined references to `phy_write_mmd' follow
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_finetune':
+   mtk-ge-soc.c:(.text+0x380): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x39c): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x3b0): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x3c4): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x3d8): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_finetune':
+   mtk-ge-soc.c:(.text+0x48c): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x4b0): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x4bc): undefined reference to `phy_select_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x4d0): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x4e4): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x4f8): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x50c): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x520): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0x534): more undefined references to `__mdiobus_write' follow
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_finetune':
+   mtk-ge-soc.c:(.text+0x580): undefined reference to `phy_restore_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x59c): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x5b0): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_common_finetune':
+   mtk-ge-soc.c:(.text+0x5fc): undefined reference to `phy_select_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x610): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x624): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x638): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x64c): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x660): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0x674): more undefined references to `__mdiobus_write' follow
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_common_finetune':
+   mtk-ge-soc.c:(.text+0x774): undefined reference to `phy_restore_page'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+   mtk-ge-soc.c:(.text+0x7c8): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x7e0): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x7f8): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x814): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x82c): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0x848): more undefined references to `phy_modify_mmd' follow
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+   mtk-ge-soc.c:(.text+0x8f8): undefined reference to `phy_select_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x90c): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x920): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x934): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x948): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x95c): undefined reference to `__mdiobus_write'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0x970): more undefined references to `__mdiobus_write' follow
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+   mtk-ge-soc.c:(.text+0xae8): undefined reference to `phy_restore_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xaf4): undefined reference to `phy_select_page'
+>> nios2-linux-ld: mtk-ge-soc.c:(.text+0xb08): undefined reference to `__phy_modify'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xb1c): undefined reference to `__phy_modify'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xb2c): undefined reference to `phy_restore_page'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xb44): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_cycle.constprop.0':
+   mtk-ge-soc.c:(.text+0xba0): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xbbc): undefined reference to `phy_modify_mmd'
+>> nios2-linux-ld: mtk-ge-soc.c:(.text+0xbec): undefined reference to `phy_read_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xc24): undefined reference to `phy_read_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xc54): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xc64): undefined reference to `phy_read_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_vcm_cal_sw':
+   mtk-ge-soc.c:(.text+0xd4c): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xd64): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xd80): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xdcc): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0xde4): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:mtk-ge-soc.c:(.text+0xdfc): more undefined references to `phy_modify_mmd' follow
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_efuse':
+   mtk-ge-soc.c:(.text+0x1710): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_hw_led_on_set':
+   mtk-ge-soc.c:(.text+0x1b4c): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_hw_led_blink_set':
+   mtk-ge-soc.c:(.text+0x1ca8): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_set':
+   mtk-ge-soc.c:(.text+0x1fa4): undefined reference to `phy_write_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x1fc8): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x1fec): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_get':
+   mtk-ge-soc.c:(.text+0x2070): undefined reference to `phy_read_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x20a8): undefined reference to `phy_read_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x22b8): undefined reference to `phy_read_mmd'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_probe':
+   mtk-ge-soc.c:(.text+0x2344): undefined reference to `devm_phy_package_join'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x2468): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x248c): undefined reference to `phy_modify_mmd'
+   nios2-linux-ld: mtk-ge-soc.c:(.text+0x24f4): undefined reference to `phy_modify_mmd'
+>> nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7c): undefined reference to `genphy_suspend'
+>> nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x80): undefined reference to `genphy_resume'
+>> nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x94): undefined reference to `genphy_handle_interrupt_no_ack'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x190): undefined reference to `genphy_suspend'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x194): undefined reference to `genphy_resume'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x1a8): undefined reference to `genphy_handle_interrupt_no_ack'
+   nios2-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `phy_module_init':
+   mtk-ge-soc.c:(.init.text+0x18): undefined reference to `phy_drivers_register'
 
 -- 
 0-DAY CI Kernel Test Service
