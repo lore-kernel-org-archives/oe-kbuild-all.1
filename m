@@ -1,62 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEE0383B1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 May 2024 23:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CA5624
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 00:04:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715990117; cv=none; b=ETWJa84BjrTiiWdVn3tCiSYkq6iuy/Hg3Gj/OWMQzTP081fMFDEYCHRpXxZ+5LmdVZ8jovixAz6yrYyBTHDc+3p/Vn+MXpOLRLk9kulzrGK8DblTln55WjdZbSBLG0nxHsbrW2lKj4a0SQvqRMolRL6kDpLZUe60I7LD7NeEhFQ=
+	t=1715990647; cv=none; b=j5k+uwXPaSwNer/Rqc2JUhZ5Mkulr+NpYa3QmnhNxszDRw1BtTUJjrxLHxT+SWB6qT5+N7dA2Psj0TosghPZrzchc3I1gq43if6k1UgZy9HxpGaGOtYEwJRPyXj6YjIC3Sq/KWW8BRpTXmYWJiWw9wYaWC8EGfmNQSwCbBioFec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715990117; c=relaxed/simple;
-	bh=48h09Q8k8kpxKjct4Gb0FLOSPIYrJyY0emc1Ha6evIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ag77nZuKVhsXr6/8VSJv7QDo1mT4zW+9f7mKu38wpAGKI2sRsLjojgiIiTKTHoypWWZd3bpxls2cJjFI6DgA1BZu8GRm//fdDWNT+ijKUa1+jt0zmrWuGrZw5Cb9BZThzjomki8kWXoiIcobUjw9YDunlnaJAbyuAdV0YEuu9yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qjc3tZjQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1715990647; c=relaxed/simple;
+	bh=mNACX4cmBUcEMBF+MqpDi0+x51bDvZT5KPufHJdjHzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aymTO56mLvhFaN8Orchr3SwS7Slb7cXJbCye/qIPPZHJ+5NEyrTrkCgJNuc+Olx7ZsXmtVA9ExmuAVfkhOJZnA6949wR1/z9u+LT49ZCjjKWTsmky46uk+0xHIR3YYCqnTTOT+ioh+pX6zy41euPelTcczBh1M3k4G6Usqok584=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNkGc2gM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qjc3tZjQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNkGc2gM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715990116; x=1747526116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=48h09Q8k8kpxKjct4Gb0FLOSPIYrJyY0emc1Ha6evIk=;
-  b=Qjc3tZjQs7cidrafIWJY4bSHFzArlNsCky9R4pd/4axgzxVBb3dUNR5q
-   E8zyEEqDceGQ81/V1uWfGzP1HCD7h67/bEhuioYnDpm8ts5dCZ/Lz5tsZ
-   zWTOUJfzNuL/6uNmMfd48YGSHcLyuS8Cq58rd3tfUIaMNKTYonAbTJgCk
-   jYZY+pbqeOCgeCFD2pwEt3BZzkQs/SG/lPeQHrf0hxp9Wwe3jHM1RbM7h
-   T4S8EpFDD0zjDYGxJrXqhaIQEc59zna+G245gamI1l0FMrmnmsIm1tHjB
-   GEkfSrmZCpJw1Ezjm3Jn26L6d/7t9gqTxHXbqVLLD89ZkoulU/gB0UWkB
-   w==;
-X-CSE-ConnectionGUID: OPlnFIjoQmawWsxM1qcdhQ==
-X-CSE-MsgGUID: pRjKLsPZROeGRiDKMXi2Vg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="34704385"
+  t=1715990645; x=1747526645;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mNACX4cmBUcEMBF+MqpDi0+x51bDvZT5KPufHJdjHzk=;
+  b=gNkGc2gMAGFNu8eatNj7ZL1oesi1vwgmJbXSTvm/7zJuzVfaOFlzk5PD
+   /9UTLYEnAa3DyeZa0mNBl8fLG7ikK6wR6kJRRoXucg45RwPEJDT5eqHGg
+   +Oi8bAAxn2oBs0izaIc3kJfnKuUkzzBFoVfwmtg3g03kcSlHhsBKXHDcA
+   YEkiqx+RrxaTDWnb+c8c9L3hn/79XxD2BBcf7U/mxH++1dVQc/IUmaPrt
+   tXhs0WJZzkiw+B0Ar/EW53esD/cbA+dMC/9I33kPg51rHpUbPrCnwJ4Vb
+   ODSohsnVh9z651KtHG1sj2ytXilcU5N3hAz93WxFw0VrApfGuam1p2mXB
+   g==;
+X-CSE-ConnectionGUID: NhuVa+gtQfuhAUPWOfwS0Q==
+X-CSE-MsgGUID: oeCA2xiET+aOqccwtMrSEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="34705212"
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="34704385"
+   d="scan'208";a="34705212"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 16:55:15 -0700
-X-CSE-ConnectionGUID: UmqIAfYoRya2/E9moK73HA==
-X-CSE-MsgGUID: f9t9PdaPR5+7i+AEcrp8Iw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 17:04:05 -0700
+X-CSE-ConnectionGUID: 7vqEs1kISeyvEft/IpxwKQ==
+X-CSE-MsgGUID: MPji2dZlQAWRpO0YI3XJQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="32559742"
+   d="scan'208";a="32561568"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 17 May 2024 16:55:13 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 May 2024 17:04:04 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s87Pn-0001GU-2H;
-	Fri, 17 May 2024 23:55:08 +0000
-Date: Sat, 18 May 2024 07:50:12 +0800
+	id 1s87YG-0001LW-1C;
+	Sat, 18 May 2024 00:03:53 +0000
+Date: Sat, 18 May 2024 08:00:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jitendra Vegiraju <jitendra.vegiraju@broadcom.com>,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jitendra.vegiraju@broadcom.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH, net-next, 2/2] net: stmmac: PCI driver for BCM8958X SoC
-Message-ID: <202405180744.BCWHYhmN-lkp@intel.com>
-References: <20240510000331.154486-3-jitendra.vegiraju@broadcom.com>
+To: kernel@openeuler.org, chenxiang <chenxiang66@hisilicon.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7348/9645]
+ arch/arm64/kernel/cpufeature.c:2209:50: error: use of undeclared identifier
+ 'enable_pseudo_nmi'; did you mean 'enable_percpu_nmi'?
+Message-ID: <202405180744.AsLBV6aC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,68 +62,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510000331.154486-3-jitendra.vegiraju@broadcom.com>
 
-Hi Jitendra,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.9 next-20240517]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jitendra-Vegiraju/net-stmmac-Export-dma_ops-for-reuse-in-glue-drivers/20240511-141147
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240510000331.154486-3-jitendra.vegiraju%40broadcom.com
-patch subject: [PATCH, net-next, 2/2] net: stmmac: PCI driver for BCM8958X SoC
-config: parisc-randconfig-r111-20240518 (https://download.01.org/0day-ci/archive/20240518/202405180744.BCWHYhmN-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240518/202405180744.BCWHYhmN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   82db6deaf0ed47731fce29fb698bbc9b1ff793ac
+commit: b8c8255e1d74937638bca666264404952c60395a [7348/9645] arm64: Decouple KVM from CONFIG_ARM64_NMI
+config: arm64-randconfig-r052-20240518 (https://download.01.org/0day-ci/archive/20240518/202405180744.AsLBV6aC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180744.AsLBV6aC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405180744.BCWHYhmN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405180744.AsLBV6aC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/stmicro/stmmac/dwmac-brcm.c:210:29: sparse: sparse: symbol 'dwxgmac_brcm_dma_ops' was not declared. Should it be static?
+All error/warnings (new ones prefixed by >>):
 
-vim +/dwxgmac_brcm_dma_ops +210 drivers/net/ethernet/stmicro/stmmac/dwmac-brcm.c
+   In file included from arch/arm64/kernel/cpufeature.c:67:
+   In file included from include/linux/crash_dump.h:5:
+   In file included from include/linux/kexec.h:18:
+   In file included from include/linux/crash_core.h:6:
+   In file included from include/linux/elfcore.h:11:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/arm64/kernel/cpufeature.c:2209:50: error: use of undeclared identifier 'enable_pseudo_nmi'; did you mean 'enable_percpu_nmi'?
+    2209 |         else if (IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) && enable_pseudo_nmi) {
+         |                                                         ^~~~~~~~~~~~~~~~~
+         |                                                         enable_percpu_nmi
+   include/linux/interrupt.h:240:13: note: 'enable_percpu_nmi' declared here
+     240 | extern void enable_percpu_nmi(unsigned int irq, unsigned int type);
+         |             ^
+>> arch/arm64/kernel/cpufeature.c:2209:50: warning: address of function 'enable_percpu_nmi' will always evaluate to 'true' [-Wpointer-bool-conversion]
+    2209 |         else if (IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) && enable_pseudo_nmi) {
+         |                                                      ~~ ^~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:2209:50: note: prefix with the address-of operator to silence this warning
+    2209 |         else if (IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) && enable_pseudo_nmi) {
+         |                                                         ^
+         |                                                         &
+   2 warnings and 1 error generated.
 
-   209	
- > 210	const struct stmmac_dma_ops dwxgmac_brcm_dma_ops = {
-   211		.reset = dwxgmac2_dma_reset,
-   212		.init = dwxgmac_brcm_dma_init,
-   213		.init_chan = dwxgmac2_dma_init_chan,
-   214		.init_rx_chan = dwxgmac_brcm_dma_init_rx_chan,
-   215		.init_tx_chan = dwxgmac_brcm_dma_init_tx_chan,
-   216		.axi = dwxgmac2_dma_axi,
-   217		.dump_regs = dwxgmac2_dma_dump_regs,
-   218		.dma_rx_mode = dwxgmac2_dma_rx_mode,
-   219		.dma_tx_mode = dwxgmac2_dma_tx_mode,
-   220		.enable_dma_irq = dwxgmac2_enable_dma_irq,
-   221		.disable_dma_irq = dwxgmac2_disable_dma_irq,
-   222		.start_tx = dwxgmac2_dma_start_tx,
-   223		.stop_tx = dwxgmac2_dma_stop_tx,
-   224		.start_rx = dwxgmac2_dma_start_rx,
-   225		.stop_rx = dwxgmac2_dma_stop_rx,
-   226		.dma_interrupt = dwxgmac2_dma_interrupt,
-   227		.get_hw_feature = dwxgmac2_get_hw_feature,
-   228		.rx_watchdog = dwxgmac2_rx_watchdog,
-   229		.set_rx_ring_len = dwxgmac2_set_rx_ring_len,
-   230		.set_tx_ring_len = dwxgmac2_set_tx_ring_len,
-   231		.set_rx_tail_ptr = dwxgmac2_set_rx_tail_ptr,
-   232		.set_tx_tail_ptr = dwxgmac2_set_tx_tail_ptr,
-   233		.enable_tso = dwxgmac2_enable_tso,
-   234		.qmode = dwxgmac2_qmode,
-   235		.set_bfsize = dwxgmac2_set_bfsize,
-   236		.enable_sph = dwxgmac2_enable_sph,
-   237		.enable_tbs = dwxgmac2_enable_tbs,
-   238	};
-   239	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
+
+
+vim +2209 arch/arm64/kernel/cpufeature.c
+
+  2191	
+  2192	static bool use_nmi(const struct arm64_cpu_capabilities *entry, int scope)
+  2193	{
+  2194		if (!has_cpuid_feature(entry, scope))
+  2195			return false;
+  2196	
+  2197		/*
+  2198		 * NMI support was not enabled in the kernel, but can still be
+  2199		 * used by guests. Let the world know.
+  2200		 *
+  2201		 * Having both real and pseudo NMIs enabled simultaneously is
+  2202		 * likely to cause confusion.  Since pseudo NMIs must be
+  2203		 * enabled with an explicit command line option, if the user
+  2204		 * has set that option on a system with real NMIs for some
+  2205		 * reason assume they know what they're doing.
+  2206		 */
+  2207		if (!IS_ENABLED(CONFIG_ARM64_NMI))
+  2208			pr_info("CONFIG_ARM64_NMI disabled, using NMIs for guests only\n");
+> 2209		else if (IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) && enable_pseudo_nmi) {
+  2210			pr_info("Pseudo NMI enabled, not using architected NMI\n");
+  2211			return false;
+  2212		}
+  2213	
+  2214		return true;
+  2215	}
+  2216	
 
 -- 
 0-DAY CI Kernel Test Service
