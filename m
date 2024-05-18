@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288E618E1A;
-	Sat, 18 May 2024 11:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967B71B95B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 11:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716030064; cv=none; b=Fagn1MItW5khW3Wu5TCdqal9Joh7iU/W1bz0mmpRcy6PagOgGZ6N+Vm7Z4ziIJGy6g7C2QH1Zw1M7Fh9ZO5CKMPjItPkQ67zJ/9lzY77GJziALmcWcFjbFks1slhISHmpQyncC17MWO1CZJc7+lHE2zSa96ApkAf+Q0jWzgH1kg=
+	t=1716030663; cv=none; b=HEn6ds0+U9YcRG6224L4puLS5Qdou9ojHSxfg/xt0zzfXTiLAzL3SUPqmphzqR2HUZ9UKmRFSuqoQiMhTAFORPUSPeOl3Srgf6pgQ4P1uq1NgrtVdde772fGzSn710nF8VId0nh2dGY7UiMTAb2itMgxxGSLNTE1zuTfJbl6VCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716030064; c=relaxed/simple;
-	bh=IYkSHNbOk5pFgx8fb3hLqTIA1sWMOKEj2tGHHJKWubI=;
+	s=arc-20240116; t=1716030663; c=relaxed/simple;
+	bh=40mRhQwl4ZDwZhzvOgGimjyfxJzi04d95tIq3H/adOQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q9v9O+IhGoBNcFAdUwDwWpZ5vxAeyB9y68TBs2cAByZwOQg7v1QYr0/9rU4xjOa+8odS7n0iwqmpHOaGZG9MXh8+TU825nLij0yIQDh3RlX1qak9PKcU1jcqekUvUY6GxBJmgLNO8JvJXQajp8Nf3uaB0Zex6D+N0CvxtJ60jhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igg2Ld53; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=m8xp2dmO+gX+AdOF3h0PF16fmRgtDMDqKK1rMmeTt2T2pek0vYScdMCDckBfPhpwRT9PryZiMeqtlz6ewAB7N+DR768Ve1TJqYo1YAd0sC/JBqn6TGoud1DKykJMj+uTP9uiM7G4wygEdeUoJNspp1+pNyqUYICWmBLPuGmbaeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3YxrpQ0; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igg2Ld53"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3YxrpQ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716030062; x=1747566062;
+  t=1716030661; x=1747566661;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IYkSHNbOk5pFgx8fb3hLqTIA1sWMOKEj2tGHHJKWubI=;
-  b=igg2Ld53b+lFvReFbUQwiiDQlu6mG7X/ogX68Ny0a7KoeYGlcnXynzAX
-   /+m813uNyl7+co+Vy4w0MlJL/JQDX8BbM41mohKnvgMgTdVh2IwHp5QW1
-   HvT/ND7PTj5FX5MJtASHIKRpOma2LJoCYg+r1LKLXNhYeppcOYcB1JPZV
-   CDj7d8jCajxssw2vuNS1PkGbVhmRrfBDSdUrnURcdwT0+xcErexA6r2Do
-   +9dFfLYABd0cK6r14quALAh5sepckveYchYlKe3MEKscaxUd4V9vdgEM9
-   7IyFebeDHFJm6dmoGfVYdnpPEK6foY4bo7McCSdNRBkbIan9512W34tAP
-   g==;
-X-CSE-ConnectionGUID: j7SiorBQQRC5z0CGChCRaQ==
-X-CSE-MsgGUID: /211rHG4Spq8ZltA5rbQ3g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="34725130"
+  bh=40mRhQwl4ZDwZhzvOgGimjyfxJzi04d95tIq3H/adOQ=;
+  b=I3YxrpQ0Z4Iy6/8jTDsULf1QkkJuyH/0EgEMAhPzOIvO/Q+MV5zTPI1+
+   dynWWL/tLpBWgqRvdB7Sp03AiuIgweqCbYtai/H95qXsjbd3qHciFdpZo
+   m2j+lTfaRXCXXuP79vy4BMorTi+E4g7jg7+iR1VQOqepSAIXSaq/buGhA
+   NkrJIYGpFhXlIGAq6jUOfgWYj+lXijuYlPpz6kxHsNrz7uwUhZIz3HsMj
+   UPYuCSxCBPipUrjcfvzXItnmku4FKfnJq8XdIuFIn+tGcWs51nG7C9afd
+   aY+0P5EW2RHplAcIPvjGnv/UDbATGwiaP8PiInrJAXnxxFj0/8Zllc90r
+   A==;
+X-CSE-ConnectionGUID: /ru+oQHxT1KWk/cTleFq/A==
+X-CSE-MsgGUID: tqu6DGu+RLKH5kSbTyH7ww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="23353421"
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="34725130"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 04:01:02 -0700
-X-CSE-ConnectionGUID: +Jm/iyHFS6e00adlVPVeHA==
-X-CSE-MsgGUID: VFtEGmy5TrKGn9EMpzA2WQ==
+   d="scan'208";a="23353421"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 04:11:00 -0700
+X-CSE-ConnectionGUID: Ea2wK3hkTs6Wjxta3b8qnA==
+X-CSE-MsgGUID: N5gRCf5VRKO7qQgnuoctfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="32468882"
+   d="scan'208";a="55274792"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 18 May 2024 04:00:58 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 May 2024 04:10:59 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8Ho8-00027H-1t;
-	Sat, 18 May 2024 11:00:56 +0000
-Date: Sat, 18 May 2024 19:00:25 +0800
+	id 1s8Hxo-00027u-2y;
+	Sat, 18 May 2024 11:10:56 +0000
+Date: Sat, 18 May 2024 19:10:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh@kernel.org, nuno.sa@analog.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Subject: Re: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x
- family
-Message-ID: <202405181841.ESCYTmmL-lkp@intel.com>
-References: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
+To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com,
+	zack.rusin@broadcom.com, martin.krastev@broadcom.com,
+	maaz.mombasawala@broadcom.com, Ian Forbes <ian.forbes@broadcom.com>
+Subject: Re: [PATCH v2 1/4] drm/vmwgfx: Filter modes which exceed graphics
+ memory
+Message-ID: <202405181844.pA39DlHd-lkp@intel.com>
+References: <20240517184811.25807-2-ian.forbes@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,66 +65,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
+In-Reply-To: <20240517184811.25807-2-ian.forbes@broadcom.com>
 
-Hi Ramona,
+Hi Ian,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on jic23-iio/togreg]
-[cannot apply to linus/master v6.9 next-20240517]
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.9 next-20240517]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240517-155051
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240517074750.87376-10-ramona.bolboaca13%40gmail.com
-patch subject: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x family
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240518/202405181841.ESCYTmmL-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Forbes/drm-vmwgfx-Filter-modes-which-exceed-graphics-memory/20240518-024955
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240517184811.25807-2-ian.forbes%40broadcom.com
+patch subject: [PATCH v2 1/4] drm/vmwgfx: Filter modes which exceed graphics memory
+config: i386-randconfig-141-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181844.pA39DlHd-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181841.ESCYTmmL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181844.pA39DlHd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405181841.ESCYTmmL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405181844.pA39DlHd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/imu/adis16475.c:523:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
-     523 |         &iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/adis16475.c:524:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
-     524 |         &iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/adis16475.c:525:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
-     525 |         &iio_dev_attr_hwfifo_watermark.dev_attr.attr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/adis16475.c:526:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
-     526 |         &iio_dev_attr_hwfifo_enabled.dev_attr.attr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+>> drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:47: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * llvmpipe will align the width and height of its buffers to match its
 
 
-vim +523 drivers/iio/imu/adis16475.c
+vim +47 drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
 
-   514	
-   515	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_min, 0);
-   516	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_max, 0);
-   517	static IIO_DEVICE_ATTR(hwfifo_watermark, 0444,
-   518			       adis16475_get_fifo_watermark, NULL, 0);
-   519	static IIO_DEVICE_ATTR(hwfifo_enabled, 0444,
-   520			       adis16475_get_fifo_enabled, NULL, 0);
-   521	
-   522	static const struct iio_dev_attr *adis16475_fifo_attributes[] = {
- > 523		&iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
-   524		&iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
-   525		&iio_dev_attr_hwfifo_watermark.dev_attr.attr,
-   526		&iio_dev_attr_hwfifo_enabled.dev_attr.attr,
-   527		NULL
-   528	};
-   529	
+    38	
+    39	#define vmw_crtc_to_stdu(x) \
+    40		container_of(x, struct vmw_screen_target_display_unit, base.crtc)
+    41	#define vmw_encoder_to_stdu(x) \
+    42		container_of(x, struct vmw_screen_target_display_unit, base.encoder)
+    43	#define vmw_connector_to_stdu(x) \
+    44		container_of(x, struct vmw_screen_target_display_unit, base.connector)
+    45	
+    46	/**
+  > 47	 * llvmpipe will align the width and height of its buffers to match its
+    48	 * tile size. We need to keep this in mind when exposing modes to userspace
+    49	 * so that this possible over-allocation will not exceed graphics memory.
+    50	 */
+    51	#define LLVM_PIPE_TILE_SIZE 64
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
