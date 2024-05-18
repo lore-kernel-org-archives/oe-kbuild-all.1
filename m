@@ -1,60 +1,73 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867852E3FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 18:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B655544C9B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 18:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716056432; cv=none; b=Qvu6Q5v/eHppbQuDznmEDL3H781K1s+zWXCI7jEnyJiwa38FRpdOlA7mGa590y6N9bLBImlBbhi+S1t+3inZAjZQzItN+K2uuGDGaHjGGbZbbOlPxSpZzjBGIYfq0cib6AKMhcZp6QQXJifUarWlco22itNaCaHZiM4p7gmC/0Y=
+	t=1716056434; cv=none; b=IUodjDMmSXyOaDcDp4i5lcocL5cQ8KTdfL03RkMbFPi0MOQoIF4jhATOU2Fqmvt/G9OPDV65aiiSRvYqagbZ0TOjvc/rLixJ3dwrgOES6X5QAzudxymuwLmGhxvBaJg8YCQkoOYRq70QmCUAGHzZD4ScBPqXNQtVBVxxcF8lCio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716056432; c=relaxed/simple;
-	bh=zTLlpiX4ukikI4l9vn6scBATmPAKF5aQrUXklLy8mDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z5Me/I1jVlsJT3G0uy3k2J6PYT0CDi9aBUCqA+A8zeJCsJ2+KN+M8sf3MpFfYlLcF3WyG1CUJAo6+URLmUzyVAawFK4IW9KwTjmGGk8thKbCSB5mV1xPXfhO7Dlu4IRJrZqbRV6QT8uE6pkGuo1ckMqt044ZzX/UYJEPqjelIcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkoMzxMe; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1716056434; c=relaxed/simple;
+	bh=71RabXOq6vDxowg3qtAHm2HVaMGle+7+ZRIk+BCvGj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j1o4ZmHL3zYRgx4QnCLTvYT1U9yES5gu506ypIRPm6G7Qxuveoa0nVY/zb6H1xH6mIVMUby4TbQUfWvtgWDR8AYFP/nWA8DhUwmBXM+fbic7AzrkFQmNh5lYPQAqBW8KGwJq5AwmFQAGnXWBgT1yQcKkQPdXP/zFGWXQmRIZ1dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DH7KmcMa; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkoMzxMe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DH7KmcMa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716056430; x=1747592430;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zTLlpiX4ukikI4l9vn6scBATmPAKF5aQrUXklLy8mDQ=;
-  b=OkoMzxMewihmgPrVAg5pQmjml+CIOJVzrSLZFljS1w9hxsVQnc9wKxPW
-   l/38yB1JidX1mO4PgSFkq+mm+CCPGLhChRLFFlVbjVlXk7IAOt9H6Pys5
-   RV8HffeYW0CvL1bkEGERWVka6ohPCeZpPlSsis1EB/NiVV7vNJOm5TlC+
-   QHjZtZW68p0tpLoeUm5mhOqtpnpgkqonTdx5fu+TWR/zXdSBMJWAm7U5t
-   AREP73R5knAsRlGZCZZs5TNJ51vnhI2Pd7HFyh0Dre1EDFVRZ5CT8dm8e
-   cVjliH/hE2SGY6nkjNeVeVswNQkt2YSOMHDOkTwqR8XkGU2FjRxHhu5/m
+  t=1716056433; x=1747592433;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=71RabXOq6vDxowg3qtAHm2HVaMGle+7+ZRIk+BCvGj8=;
+  b=DH7KmcMa3sqo9yWdwbnNtzK46bO02oKoMkqV7NYvqtOR00QabuJug4sd
+   mM4refaTixVj6d9FQkphA10PemARXPxYUcD51VGTbzhTXDGHMIT0VvkXc
+   KDX+ylDVZGcLUr4fuZaL0se9azKEvRDw+FCQk46TiWe+6Ybiwj/hjh1gv
+   dbwaHv/TQbiC7Lw20gOrv/2cMnTlhsRyy2aDnn4rIWzggMpLokj+Rot5c
+   v1qkIlvrxy+WeXYMVYFDG+gn7RixGRXDLPeI5ZU0Le3m7BQKCp1oK0sQ/
+   UPha8l7toviYbu4AqztayTwrhAloF4W/F9fahUTY0Gu4cRF7KNDbJsRF6
    w==;
-X-CSE-ConnectionGUID: Hbvy100IS1mb4HmqZcuIfg==
-X-CSE-MsgGUID: IYJnyOxNSlO0SbLTrnOLUg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12337506"
+X-CSE-ConnectionGUID: vTPuhzu9TMSIjfI+f2/KEg==
+X-CSE-MsgGUID: YC5/2H6xT82/uURUHsUshg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12337508"
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="12337506"
+   d="scan'208";a="12337508"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 11:20:29 -0700
-X-CSE-ConnectionGUID: S2zvM12VQ7mtvCl/+zNgAg==
-X-CSE-MsgGUID: HJNdUZvOQi+6PWqTXsHXtA==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 11:20:32 -0700
+X-CSE-ConnectionGUID: XIbSxsbPQo2VzxIuGvKSig==
+X-CSE-MsgGUID: k4SG/OyfT8WUIPObcss+mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
-   d="scan'208";a="32687004"
+   d="scan'208";a="32687008"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 18 May 2024 11:20:27 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8OfR-0002UC-1A;
+	id 1s8OfR-0002UH-1I;
 	Sat, 18 May 2024 18:20:25 +0000
-Date: Sun, 19 May 2024 02:19:33 +0800
+Date: Sun, 19 May 2024 02:19:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Berlin <dberlin@dberlin.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Janne Grunau <j@jannau.net>
-Subject: [arm-platforms:kvm-arm64/mmu-pgt 773/874]
- arch/arc/include/uapi/asm/swab.h:28:9: warning: 'txchain' is used
- uninitialized
-Message-ID: <202405190213.5s1Al3aa-lkp@intel.com>
+To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Qingfang Deng <dqfext@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Steven Liu <Steven.Liu@mediatek.com>,
+	"SkyLake.Huang" <skylake.huang@mediatek.com>
+Subject: Re: [PATCH net-next v2 1/5] net: phy: mediatek: Re-organize MediaTek
+ ethernet phy drivers
+Message-ID: <202405190238.VoQDfwSS-lkp@intel.com>
+References: <20240517102908.12079-2-SkyLake.Huang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +76,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240517102908.12079-2-SkyLake.Huang@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/mmu-pgt
-head:   1ed29f79e7c6441ef29c25a43d7c82d91e884dcc
-commit: e529bcaa17060f516d1e4f345ea460ea206317d1 [773/874] [brcmfmac] Compute number of available antennas and set it in wiphy structure.
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240519/202405190213.5s1Al3aa-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190213.5s1Al3aa-lkp@intel.com/reproduce)
+Hi Sky,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240517]
+[cannot apply to net-next/main net/main linus/master v6.9 v6.9-rc7 v6.9-rc6 v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-drivers/20240517-184536
+base:   next-20240517
+patch link:    https://lore.kernel.org/r/20240517102908.12079-2-SkyLake.Huang%40mediatek.com
+patch subject: [PATCH net-next v2 1/5] net: phy: mediatek: Re-organize MediaTek ethernet phy drivers
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240519/202405190238.VoQDfwSS-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190238.VoQDfwSS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405190213.5s1Al3aa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405190238.VoQDfwSS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/swab.h:8,
-                    from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/big_endian.h:14,
-                    from include/linux/byteorder/big_endian.h:5,
-                    from arch/arc/include/uapi/asm/byteorder.h:14,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/arc/include/asm/bitops.h:192,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:8:
-   In function '__fswab32',
-       inlined from 'brcmf_fil_iovar_int_get' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h:123:19,
-       inlined from 'brcmf_setup_wiphybands' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7359:8:
->> arch/arc/include/uapi/asm/swab.h:28:9: warning: 'txchain' is used uninitialized [-Wuninitialized]
-      28 |         __asm__(                        \
-         |         ^~~~~~~
-   include/uapi/linux/swab.h:60:16: note: in expansion of macro '__arch_swab32'
-      60 |         return __arch_swab32(val);
-         |                ^~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c: In function 'brcmf_setup_wiphybands':
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7316:13: note: 'txchain' was declared here
-    7316 |         u32 txchain;
-         |             ^~~~~~~
-
-
-vim +/txchain +28 arch/arc/include/uapi/asm/swab.h
-
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  24  
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  25  #define __arch_swab32(x)		\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  26  ({					\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  27  	unsigned int tmp = x;		\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18 @28  	__asm__(			\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  29  	"	swape	%0, %1	\n"	\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  30  	: "=r" (tmp)			\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  31  	: "r" (tmp));			\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  32  	tmp;				\
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  33  })
-ca15c8ecd588dd arch/arc/include/asm/swab.h Vineet Gupta 2013-01-18  34  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: ca15c8ecd588dda4377d18d6d27bc1e87b4177cb ARC: Checksum/byteorder/swab routines
-
-:::::: TO: Vineet Gupta <vgupta@synopsys.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+>> mtk-ge-soc.c:(.text+0xc5e): undefined reference to `phy_select_page'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0xe76): undefined reference to `__phy_modify'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_hw_led_on_set':
+>> mtk-ge-soc.c:(.text+0xac): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_set':
+>> mtk-ge-soc.c:(.text+0x1d4): undefined reference to `phy_write_mmd'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0x1fe): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x228): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_hw_led_blink_set':
+   mtk-ge-soc.c:(.text+0x29c): undefined reference to `phy_write_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_led_hw_control_get':
+   mtk-ge-soc.c:(.text+0x3d2): undefined reference to `phy_read_mmd'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0x4c6): undefined reference to `phy_read_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mtk_socphy_write_page':
+   mtk-ge-soc.c:(.text+0x50e): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mtk_socphy_read_page':
+   mtk-ge-soc.c:(.text+0x52e): undefined reference to `__mdiobus_read'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7981_phy_finetune':
+   mtk-ge-soc.c:(.text+0x56a): undefined reference to `phy_write_mmd'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0x5b6): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x5cc): undefined reference to `__mdiobus_write'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0x6c0): undefined reference to `phy_restore_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x6d8): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_finetune':
+   mtk-ge-soc.c:(.text+0x856): undefined reference to `phy_write_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x88e): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x8a4): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x95e): undefined reference to `phy_restore_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x976): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_common_finetune':
+   mtk-ge-soc.c:(.text+0x9b2): undefined reference to `phy_select_page'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x9c8): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xb32): undefined reference to `phy_restore_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt798x_phy_eee':
+   mtk-ge-soc.c:(.text+0xb68): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xc78): undefined reference to `__mdiobus_write'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xe56): undefined reference to `phy_restore_page'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_cycle.constprop.0':
+   mtk-ge-soc.c:(.text+0xeea): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0xf1c): undefined reference to `phy_read_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_vcm_cal_sw':
+   mtk-ge-soc.c:(.text+0x103c): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `tx_amp_fill_result.isra.0':
+   mtk-ge-soc.c:(.text+0x13e2): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `rext_cal_efuse':
+   mtk-ge-soc.c:(.text+0x15ea): undefined reference to `phy_modify_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `cal_efuse':
+   mtk-ge-soc.c:(.text+0x1694): undefined reference to `phy_modify_mmd'
+>> m68k-linux-ld: mtk-ge-soc.c:(.text+0x17b0): undefined reference to `phy_write_mmd'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `mt7988_phy_probe':
+>> mtk-ge-soc.c:(.text+0x19b8): undefined reference to `devm_phy_package_join'
+   m68k-linux-ld: mtk-ge-soc.c:(.text+0x1a94): undefined reference to `phy_modify_mmd'
+>> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7a): undefined reference to `genphy_suspend'
+>> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x7e): undefined reference to `genphy_resume'
+>> m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x92): undefined reference to `genphy_handle_interrupt_no_ack'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x18c): undefined reference to `genphy_suspend'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x190): undefined reference to `genphy_resume'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o:(.data+0x1a4): undefined reference to `genphy_handle_interrupt_no_ack'
+   m68k-linux-ld: drivers/net/phy/mediatek/mtk-ge-soc.o: in function `phy_module_init':
+>> mtk-ge-soc.c:(.init.text+0x12): undefined reference to `phy_drivers_register'
 
 -- 
 0-DAY CI Kernel Test Service
