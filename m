@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A6164D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 02:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58954A2D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 03:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715998654; cv=none; b=sq+l5BGGY6cEXrhD4kJsWMOAzFA3xpbujmE86khixlON4Qc85i9WCTUThC7y9x7tBDLRPXWsKSPSv8cClzJuR76Rffv3vLtOW9WN0HunMGsr10iQJWmFi/0sWhS88NYpEq/SU5k33Kl+anfrSEnafBfMaxL5N2OzC8uZBMFTCN8=
+	t=1716004371; cv=none; b=jlbM2dEW7kI8MDQsQ6R3kvizQjBokrZWB5b1ltSoKUY7sxvsxdRkYhiABoQJ9uSNbT6IJ5Y6E6UqFZ1Ia5Dsg/BNkmqe24yzILRhb8gHEMrLAsyMZ3NKwORDV8TIoMWHbTqbSuTf8dU98NoiuOiC/O7JcePn7/ZWb+akyAUYRLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715998654; c=relaxed/simple;
-	bh=3BDlydd5i8qSZJF3bOkS5fClIP9/srFle1tq8wrUvzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e9OYZLYZz4ZkNpMno0Qs1WHasXmle3ElP4F4VfcEFjDu9UEahgYcbwmpeR8l1OUEoX49S8naQ7rCNlYjYT37IMWpfK1FI5083EPwGJsVMsMRYFyzCrVa+uwwIH+kz/udcED8q+Dl7qLkVGE3+U0hCNYqVfaGUCKHpVSde/90fPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSohQT9s; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1716004371; c=relaxed/simple;
+	bh=ab6MQkKmf/FpFVjYsqm0i/fTOZrW9aKA/pnX5yb138c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=diE7103v9XEH9XIv1cuYXVoJsTs0bb9E8pOi3JT7KLIYzMkuYVRFbxMB7qq7Zljje5P6aBRADd5ArqTu/A9Ga8YkAJMSg969zvG+dG+jCEecAP6da7uJVYDyYAradKGWVegdA6bBchFRfi4jmML8WHjUJ42GwVYtjDv4u4WHDDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1nHVcrn; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSohQT9s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1nHVcrn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715998652; x=1747534652;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3BDlydd5i8qSZJF3bOkS5fClIP9/srFle1tq8wrUvzY=;
-  b=eSohQT9stLsfw1nzdnih4vM7fZ2CTMcuqANxhuK15NFFflEkk0uvkiNC
-   fGL5hALx6tD5+T2WkLDyqDpAQ91ZuHOTr7Yt8X7M9LEKtmyaeNvCPnp5V
-   c8edv3ygoRbKOGTUTgdZzMu2bEtxRpZ87+WE6GEL8cMzg9B5dJHloajIk
-   RmCcCKO6dP2yqeYX0zD2IagY6MeW8x4LoKLdIbKyQH259hPcHf0oNnuCU
-   g7mR4BLjf4fhz+z64xzz/alaz0WmwVk42strzPc/kjUYgJ5Q8/ohdWMKm
-   3IREcjRPHfZUg04EFBTJ7Wg0N8sTUpttD9ePWt62Pv2Rbj/t3y939Fs9H
+  t=1716004369; x=1747540369;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ab6MQkKmf/FpFVjYsqm0i/fTOZrW9aKA/pnX5yb138c=;
+  b=b1nHVcrn68yI7gSwlIZUXlMGie7MAMKvvGhbpYjMueDKZeem4LDueqae
+   86W+O9ODWsyen7MA3F2gPz52s/et7N4CjBLt4iMD3YUeRqC7ji0RCY8qm
+   r483WHs0oCblWOC0SDBFRn+/RAdsfg4oSwitkrKVBUy7NnIl8eW9nfhUJ
+   KR7m4ZrksWnafoamUZRETc3lKok+sKTQw0+NEf5jHXkOKA16aknRjmRuo
+   8cXj05Q6l3QPrWNUO11OGhyVOWGs4cjO2dZp9xo5IAq3xp45fKYEO5VBC
+   Zrx9C9Ow3wp90yw4tf7kyScmTqr7d6Sew5KpkXmzBdLS5XW+WdxhBpObx
    g==;
-X-CSE-ConnectionGUID: 9f+rf2IcQaOpHtRI5qPWDw==
-X-CSE-MsgGUID: O4VnDswXQ7q9y+PmjUrfgw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="16029605"
+X-CSE-ConnectionGUID: +35z8oDrSaaV7e+KWTVPoQ==
+X-CSE-MsgGUID: kkHiNAAPQAGJIy0B804cgA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="22811539"
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="16029605"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 19:17:32 -0700
-X-CSE-ConnectionGUID: /fRn1f+BT86pzEbSl+rYpQ==
-X-CSE-MsgGUID: lxNW3DJNTwGC53fo0pPsQQ==
+   d="scan'208";a="22811539"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 20:52:48 -0700
+X-CSE-ConnectionGUID: fB8ulryDSsmV9gw4qhzAQw==
+X-CSE-MsgGUID: JIKEBwkfR+Ssv7slZ8UuUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="32091872"
+   d="scan'208";a="36731169"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 17 May 2024 19:17:30 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 May 2024 20:52:45 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s89dY-0001X8-1F;
-	Sat, 18 May 2024 02:17:28 +0000
-Date: Sat, 18 May 2024 10:17:13 +0800
+	id 1s8B7h-0001bE-2F;
+	Sat, 18 May 2024 03:52:42 +0000
+Date: Sat, 18 May 2024 11:52:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>
-Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
- kallsyms_sym_address: .text+0x8): relocation R_RISCV_PCREL_HI20 out of
- range: -524440 is not in [-524288, 524287]; references
- kallsyms_relative_base
-Message-ID: <202405181012.4631UqkB-lkp@intel.com>
+To: Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andrii Kyselov <ays@melexis.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	devicetree@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Volodymyr Kharuk <vkh@melexis.com>
+Subject: Re: [PATCH v6 10/10] media: i2c: Add driver for mlx7502x ToF sensor
+Message-ID: <202405181143.nHERYo41-lkp@intel.com>
+References: <6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh@melexis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,33 +70,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh@melexis.com>
 
-Hi Zhen,
+Hi Volodymyr,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ee332c9f12bc5b380e36919cd7d056592a7073f
-commit: 30f3bb09778de64ef9f23fb4bb5f868c4728a071 kallsyms: Add self-test facility
-date:   1 year, 6 months ago
-config: riscv-randconfig-r063-20240515 (https://download.01.org/0day-ci/archive/20240518/202405181012.4631UqkB-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181012.4631UqkB-lkp@intel.com/reproduce)
+[auto build test WARNING on 8771b7f31b7fff91a998e6afdb60650d4bac59a5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-uapi-ctrls-Add-camera-trigger-controls/20240517-004536
+base:   8771b7f31b7fff91a998e6afdb60650d4bac59a5
+patch link:    https://lore.kernel.org/r/6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh%40melexis.com
+patch subject: [PATCH v6 10/10] media: i2c: Add driver for mlx7502x ToF sensor
+config: csky-randconfig-r123-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181143.nHERYo41-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240518/202405181143.nHERYo41-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405181012.4631UqkB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405181143.nHERYo41-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_sym_address: .text+0x8): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_relative_base
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_sym_address: .text+0x12): relocation R_RISCV_PCREL_HI20 out of range: -524440 is not in [-524288, 524287]; references kallsyms_offsets
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
+>> drivers/media/i2c/mlx7502x.c:480:12: warning: 'mlx7502x_read' defined but not used [-Wunused-function]
+     480 | static int mlx7502x_read(struct v4l2_subdev *sd, u16 reg, u8 *val, int val_size)
+         |            ^~~~~~~~~~~~~
+
+
+vim +/mlx7502x_read +480 drivers/media/i2c/mlx7502x.c
+
+   479	
+ > 480	static int mlx7502x_read(struct v4l2_subdev *sd, u16 reg, u8 *val, int val_size)
+   481	{
+   482		int ret;
+   483		unsigned char data_w[2];
+   484		struct i2c_client *client = v4l2_get_subdevdata(sd);
+   485	
+   486		struct i2c_msg msg[] = {
+   487			{
+   488				.addr = client->addr,
+   489				.flags = 0,
+   490				.len = 2,
+   491				.buf = data_w,
+   492			}, {
+   493				.addr = client->addr,
+   494				.flags = I2C_M_RD,
+   495				.len = val_size,
+   496				.buf = val,
+   497			}
+   498		};
+   499	
+   500		/* write reg address into first msg */
+   501		put_unaligned_be16(reg, data_w);
+   502	
+   503		/* Using transfer allows skip STOP between messages
+   504		 * so we have repeated Start here
+   505		 */
+   506		ret = i2c_transfer(client->adapter, msg, 2);
+   507	
+   508		return ret != 2 ? -EIO : 0;
+   509	}
+   510	
 
 -- 
 0-DAY CI Kernel Test Service
