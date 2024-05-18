@@ -1,190 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B34715AF1;
-	Sat, 18 May 2024 14:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269CF15AF1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 14:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716043863; cv=none; b=HymTrBNMdSRFyXmNRbZuLWLghuIPXJJno1mz40LYHdrvHqTnCbvlbhAn6GXS/SKtcag4ntaMEwkNzO0zYiiPXK4oeDN/LR5O1JfqH5qXQyNFD2DJvCjXSfzZAaOupDzxAh1JlSY4ZHxRI1NgnKZcVysUZDCXs6iANtKmaaylyGM=
+	t=1716043957; cv=none; b=lBAGyEo8ERdHv4eVkxCni/tGVPmXRrKRiYdalYkyoV8oCDQVia3X1F0KZP+dSBWO2ttkwzrwa9jJjbU2ZCiVqh/CuijTtSIcl6QBJ/ZjdA1KzJbylFdthLJ8DdlrYyxu11ovqP99ngk80PyDglJa9I1msr8bGP5de+d7PaXBYAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716043863; c=relaxed/simple;
-	bh=q5tPNws3AwDYs7kJHEm5atSYOH23N45nLi8bdhxydbM=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=rwaRPWlw4YB+2FpTi2D3HPrCXAm1IC/cO1DeoH7coUG5qcuOU7fqwTvL0rlemzAOMwezxxuCbgzq+xzRH86eJK7uWE/3bUAO6zsgm1By9tUdQmOY1pyPJH0vz6ywE0Co7VpmsFl/bqjk51Z/ARPhl7VMkaDLYpr8WNuA5QjbBec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qeoHYAmq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716043957; c=relaxed/simple;
+	bh=R3D2nPiyohV6BgyznES19OdMPwuhf6bM3drXEuGTDjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=giO/eIk6vZOk+sM05xJTOPmUPzxE+yC8iTU8a2NODCnJzMFkSfI5ckhsd6DmPcZeliKe3QmpiCZv9iFLuVLm5QYZOOlVwwOSZKtLfayBLyx3aZ0TT6Uq35IwLpNKLo/T4GGa4fr9+KXVRctJdvFaM8+0jClbRimasEYEObAW6sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFcF2NFA; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qeoHYAmq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927E9C113CC;
-	Sat, 18 May 2024 14:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716043863;
-	bh=q5tPNws3AwDYs7kJHEm5atSYOH23N45nLi8bdhxydbM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qeoHYAmq2CzcCKxH7WSJm8zlq81y5/+t9u3yI8MAYhBzxajNLCJdk9L74Ru9Y4G/m
-	 yMuMMASgpAOGEwwQwugqLs8EaDpO9iwgu4TQwEveidaxuqRyI7EMfaR3mhWsllUsA5
-	 LIWQRoRs0pdMxUTrGvk77Sqc/aMxPOTr0YMliYzKydJSo5YfNag7XwxdQa0+/fV3Gp
-	 jzBdbs51arVzJlshG6ihh8QPhekPnSfDPPfEmZ07Nv9WjlQQpmHSwXpYNAj9g4ggeI
-	 TGVPVUL763vFwkrtu+kNwlDF52KGx05XkWaAD57GWmDFmflXdGYnR1fuhAA1Iei3co
-	 7RZXR3JkJVn2w==
-Date: Sat, 18 May 2024 23:50:59 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Stephen Brennan <stephen.s.brennan@oracle.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu (Google)"
- <mhiramat@kernel.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: Re: [trace:probes/for-next 17/17] kernel/kprobes.c:1141:24: error:
- a function declaration without a prototype is deprecated in all versions of
- C
-Message-Id: <20240518235059.3c3a0065a9980e8eb09f68b4@kernel.org>
-In-Reply-To: <87eda1pjl4.fsf@oracle.com>
-References: <202405170340.eyEMhYvc-lkp@intel.com>
-	<87eda1pjl4.fsf@oracle.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFcF2NFA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716043955; x=1747579955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R3D2nPiyohV6BgyznES19OdMPwuhf6bM3drXEuGTDjM=;
+  b=oFcF2NFApGV4jtpkB4/JXSmsZbW+qCnXAP3fCOueTIgDgO14ufsLjblk
+   Jun9iSpSSDCjsmzX2LN7WHarDpHK81W9Gg8NYVdy5gkOu42FAEblFM+MY
+   CAMEPCvcnjlP84+Jq/mkR4jkrj4IYHMzc9QbnI281r0tMR/M6mcwl4nqZ
+   b5Yddxj/+aE0eZNFfcldcipKvWYvhkP1gcwiR1dyyR6ZRHvDwLmeNUCkP
+   4QX47Vnec4Ia5rlTaiZcW1Z86Sm6owefVO6L07hsRonkEv65LkpNMEYL1
+   axmUW8/Ub0LTLsfqGdX1llwz1VD5hl3ajOprL9eh7hXiAMmJ0jaldpF8X
+   Q==;
+X-CSE-ConnectionGUID: 7Sekg9ZMR+uK0rk9NMzQZQ==
+X-CSE-MsgGUID: MM47XcAdR3Oc7vgT9EQ6EA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12161222"
+X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
+   d="scan'208";a="12161222"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 07:52:35 -0700
+X-CSE-ConnectionGUID: xAp8xEnxSsejMjZVcbtHpw==
+X-CSE-MsgGUID: aZEmNoOQRJq9GheZZM731A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; 
+   d="scan'208";a="32100951"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 18 May 2024 07:52:34 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s8LQB-0002Ic-2Q;
+	Sat, 18 May 2024 14:52:28 +0000
+Date: Sat, 18 May 2024 22:51:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.9/prjc 1/2] kernel/sched/alt_core.c:97: error: unterminated
+ #else
+Message-ID: <202405182231.djCb4sm1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 16 May 2024 13:50:31 -0700
-Stephen Brennan <stephen.s.brennan@oracle.com> wrote:
+tree:   https://github.com/zen-kernel/zen-kernel 6.9/prjc
+head:   90e00625dbe63d991978337198b3c43a1df585c9
+commit: a5cf192fb67a06d43cb21229a16b58aaf671fba6 [1/2] ZEN: sched/alt: Set default timeslice to 2ms
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240518/202405182231.djCb4sm1-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405182231.djCb4sm1-lkp@intel.com/reproduce)
 
-> kernel test robot <lkp@intel.com> writes:
-> > tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace probes/for-next
-> > head:   1a7d0890dd4a502a202aaec792a6c04e6e049547
-> > commit: 1a7d0890dd4a502a202aaec792a6c04e6e049547 [17/17] kprobe/ftrace: bail out if ftrace was killed
-> > config: s390-defconfig (https://download.01.org/0day-ci/archive/20240517/202405170340.eyEMhYvc-lkp@intel.com/config)
-> > compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d3455f4ddd16811401fa153298fadd2f59f6914e)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240517/202405170340.eyEMhYvc-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202405170340.eyEMhYvc-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from kernel/kprobes.c:23:
-> >    In file included from include/linux/kprobes.h:28:
-> >    In file included from include/linux/ftrace.h:13:
-> >    In file included from include/linux/kallsyms.h:13:
-> >    In file included from include/linux/mm.h:2210:
-> >    include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-> >      508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-> >      509 |                            item];
-> >          |                            ~~~~
-> >    include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-> >      515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-> >      516 |                            NR_VM_NUMA_EVENT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-> >      522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-> >          |                               ~~~~~~~~~~~ ^ ~~~
-> >    include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-> >      527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-> >      528 |                            NR_VM_NUMA_EVENT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-> >      536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-> >      537 |                            NR_VM_NUMA_EVENT_ITEMS +
-> >          |                            ~~~~~~~~~~~~~~~~~~~~~~
-> >>> kernel/kprobes.c:1141:24: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-> >     1141 | void kprobe_ftrace_kill()
-> >          |                        ^
-> >          |                         void
-> >    5 warnings and 1 error generated.
-> 
-> This certainly reads as an error in my patch. I tried to carefully
-> include three declarations:
-> 
-> 1. CONFIG_KPROBES && CONFIG_KPROBES_ON_FTRACE (the extern decl)
-> 2. CONFIG_KPROBES && !CONFIG_KPROBES_ON_FTRACE (a static inline)
-> 3. !CONFIG_KPROBES (a static inline)
-> 
-> To double check, I actually used an ifdef visualizer[1] (written by a
-> coworker) and as far as I can see, I did this correctly...
-> 
-> When I pull probes/for-next and the 0day compiler configuration, I do
-> reproduce the build error.
-> 
-> However, I'm not 100% confident that this is a real error. I ran the
-> build with make V=1, and found the clang build command to build the
-> kernel/kprobes.c command. I replaced the "-c -o kernel/kprobes.o" with
-> "-E", so that I could simply browse the preprocessed source code. I cd
-> into the build directory and do:
-> 
-> $extremely_long_clang_command ... -E $srcdir/kernel/kprobes.o \
->     | grep kprobe_ftrace_kill
-> extern void kprobe_ftrace_kill(void);
-> void kprobe_ftrace_kill()
-> 
-> ---
-> 
-> When I do a GCC cross compile (s390x-linux-gnu-gcc) using the same
-> configuration file, with "W=1 V=1" I do see:
-> 
-> /home/stepbren/repos/linux-upstream/kernel/kprobes.c: In function ‘kprobe_ftrace_kill’:
-> /home/stepbren/repos/linux-upstream/kernel/kprobes.c:1141:6: warning: old-style function definition [-Wold-style-definition]
->  1141 | void kprobe_ftrace_kill()
->       |      ^~~~~~~~~~~~~~~~~~
-> 
-> I'm guessing that what's happening here is that Clang is categorizing
-> the old-style declaration as a different function for which there was no
-> prior declaration. When I add the "void" here, the clang error goes
-> away.
-> 
-> In any case, the warning is right, and I should have used the correct
-> declaration here. The below patch will shut this up. If there's any
-> possibility of improving the error message clang gives us here, it would
-> be appreciated though.
-> 
-> Masami, would you like me to send this to the list, or do you just want
-> to fix up the commit? My apologies for this, I should have run the "make
-> W=1" prior to submission.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405182231.djCb4sm1-lkp@intel.com/
 
-Sorry, that is my mistake to missed the issue. Linus alreay fixed the
-error (I confirmed).
-I also forgot to run W=1 build. Let me fix my process.
+All errors (new ones prefixed by >>):
 
-Thank you,
+>> kernel/sched/alt_core.c:97: error: unterminated #else
+      97 | #ifdef CONFIG_ZEN_INTERACTIVE
+         | 
 
-> 
-> Thanks,
-> Stephen
-> 
-> From 324849fd366b8d2d4367ed2cd6f74621099439e1 Mon Sep 17 00:00:00 2001
-> From: Stephen Brennan <stephen.s.brennan@oracle.com>
-> Date: Thu, 16 May 2024 13:48:32 -0700
-> Subject: [PATCH] kprobes/ftrace: fix old-style function declaration
-> 
-> Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-> ---
->  kernel/kprobes.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-> index 166ebf81dc450..4f917bdad1e11 100644
-> --- a/kernel/kprobes.c
-> +++ b/kernel/kprobes.c
-> @@ -1138,7 +1138,7 @@ static int disarm_kprobe_ftrace(struct kprobe *p)
->                 ipmodify ? &kprobe_ipmodify_enabled : &kprobe_ftrace_enabled);
->  }
-> 
-> -void kprobe_ftrace_kill()
-> +void kprobe_ftrace_kill(void)
->  {
->         kprobe_ftrace_disabled = true;
->  }
-> --
-> 2.43.0
 
+vim +97 kernel/sched/alt_core.c
+
+    92	
+    93	/*
+    94	 * Time slice
+    95	 * (default: 4 msec, units: nanoseconds)
+    96	 */
+  > 97	#ifdef CONFIG_ZEN_INTERACTIVE
+    98	unsigned int sysctl_sched_base_slice __read_mostly	= (2 << 20);
+    99	#else
+   100	unsigned int sysctl_sched_base_slice __read_mostly	= (4 << 20);
+   101	
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
