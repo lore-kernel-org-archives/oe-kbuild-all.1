@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA76179B2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 May 2024 10:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288E618E1A;
+	Sat, 18 May 2024 11:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716029462; cv=none; b=HqRVidVWiDwRysNxN5B8Lu3nbobvk+0ZKl0SJ7X0tOvZ6xAjU2KGNdC+ZO3bQg+gv2VonkMhgrjMXnKrZrnH1Ri5x7n0WYrpIrYWVmyz3bWySgzwFzfl8bdVtsibOYVJNCfwTbK5R4dk+E/K60xI7tmIIcM2KpVNZYn8VKBzYhE=
+	t=1716030064; cv=none; b=Fagn1MItW5khW3Wu5TCdqal9Joh7iU/W1bz0mmpRcy6PagOgGZ6N+Vm7Z4ziIJGy6g7C2QH1Zw1M7Fh9ZO5CKMPjItPkQ67zJ/9lzY77GJziALmcWcFjbFks1slhISHmpQyncC17MWO1CZJc7+lHE2zSa96ApkAf+Q0jWzgH1kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716029462; c=relaxed/simple;
-	bh=kZnj6CrIbU+CbH6IR7d2sTVS2P+MgCEq0mP+ETrdej4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SB3FPncVcyXV9CgjhY+rOcBnjx11FDZIdwtxZhbwmUBnPEVH1rHd4B44gxsuGn3qiJrPUr43JergCsQqZh67rU57J2fJMqthBABtYihTi/XZp+Z/QgpG9R7FXKH5dxMlo3ZuBya+LTH5W+bcqhcAdBlCmSGj7XsMCMrsu1a+Y9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMw0olMn; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1716030064; c=relaxed/simple;
+	bh=IYkSHNbOk5pFgx8fb3hLqTIA1sWMOKEj2tGHHJKWubI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q9v9O+IhGoBNcFAdUwDwWpZ5vxAeyB9y68TBs2cAByZwOQg7v1QYr0/9rU4xjOa+8odS7n0iwqmpHOaGZG9MXh8+TU825nLij0yIQDh3RlX1qak9PKcU1jcqekUvUY6GxBJmgLNO8JvJXQajp8Nf3uaB0Zex6D+N0CvxtJ60jhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igg2Ld53; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMw0olMn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igg2Ld53"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716029461; x=1747565461;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kZnj6CrIbU+CbH6IR7d2sTVS2P+MgCEq0mP+ETrdej4=;
-  b=WMw0olMn5oebq7jxcSM6RwF7PSAUFjB7R6tlEK5QGoyMJGbFbBfisr7i
-   kazP60+4UI6t2sw145+TPaAHDcCnWmtkc+HnwlXSZPA8mv0TsvHLc0bLq
-   kO0qqpV4pqKr4av+6zP0aDJPJUjlqEpqoL3SoOv+5eD7bzPNOmeGkynG5
-   pb67yOllaGliFrxsO8CAtFtTrO8YBVGpTFfexi81g0Jr89ofnLDYSStyb
-   fPb4DP/1Mci+xQtRD1ZheVoyaiE2eru0fKdE0JOI4J1ZPsegr1H2OxxtJ
-   khA+X6JKKrk1BB7hl+BU1dID/TkIv+9H65h6SlfVvhUmtWPZ+QXtvREod
-   Q==;
-X-CSE-ConnectionGUID: HO94sug3TeqKsZ/Gf/HQKQ==
-X-CSE-MsgGUID: 6ANoii0LQx+ZxqfdfhlDUw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="29732756"
+  t=1716030062; x=1747566062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IYkSHNbOk5pFgx8fb3hLqTIA1sWMOKEj2tGHHJKWubI=;
+  b=igg2Ld53b+lFvReFbUQwiiDQlu6mG7X/ogX68Ny0a7KoeYGlcnXynzAX
+   /+m813uNyl7+co+Vy4w0MlJL/JQDX8BbM41mohKnvgMgTdVh2IwHp5QW1
+   HvT/ND7PTj5FX5MJtASHIKRpOma2LJoCYg+r1LKLXNhYeppcOYcB1JPZV
+   CDj7d8jCajxssw2vuNS1PkGbVhmRrfBDSdUrnURcdwT0+xcErexA6r2Do
+   +9dFfLYABd0cK6r14quALAh5sepckveYchYlKe3MEKscaxUd4V9vdgEM9
+   7IyFebeDHFJm6dmoGfVYdnpPEK6foY4bo7McCSdNRBkbIan9512W34tAP
+   g==;
+X-CSE-ConnectionGUID: j7SiorBQQRC5z0CGChCRaQ==
+X-CSE-MsgGUID: /211rHG4Spq8ZltA5rbQ3g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="34725130"
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="29732756"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 03:51:00 -0700
-X-CSE-ConnectionGUID: v1nSMiUsSSaeJllJ7yBMPg==
-X-CSE-MsgGUID: N4mZU5qmTPGoHeCEQ8lFIg==
+   d="scan'208";a="34725130"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 04:01:02 -0700
+X-CSE-ConnectionGUID: +Jm/iyHFS6e00adlVPVeHA==
+X-CSE-MsgGUID: VFtEGmy5TrKGn9EMpzA2WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="69502139"
+   d="scan'208";a="32468882"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 May 2024 03:50:59 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 May 2024 04:00:58 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8HeS-00026m-16;
-	Sat, 18 May 2024 10:50:56 +0000
-Date: Sat, 18 May 2024 18:50:13 +0800
+	id 1s8Ho8-00027H-1t;
+	Sat, 18 May 2024 11:00:56 +0000
+Date: Sat, 18 May 2024 19:00:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Berlin <dberlin@dberlin.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Janne Grunau <j@jannau.net>
-Subject: [arm-platforms:kvm-arm64/mmu-pgt 773/874]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h:123:16: warning:
- 'txchain' is used uninitialized
-Message-ID: <202405181803.0kfJ27Ki-lkp@intel.com>
+To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
+	linux-kernel@vger.kernel.org, jic23@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	robh@kernel.org, nuno.sa@analog.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+Subject: Re: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x
+ family
+Message-ID: <202405181841.ESCYTmmL-lkp@intel.com>
+References: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +68,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/mmu-pgt
-head:   1ed29f79e7c6441ef29c25a43d7c82d91e884dcc
-commit: e529bcaa17060f516d1e4f345ea460ea206317d1 [773/874] [brcmfmac] Compute number of available antennas and set it in wiphy structure.
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240518/202405181803.0kfJ27Ki-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181803.0kfJ27Ki-lkp@intel.com/reproduce)
+Hi Ramona,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[cannot apply to linus/master v6.9 next-20240517]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240517-155051
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240517074750.87376-10-ramona.bolboaca13%40gmail.com
+patch subject: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x family
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240518/202405181841.ESCYTmmL-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181841.ESCYTmmL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405181803.0kfJ27Ki-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405181841.ESCYTmmL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:30:
-   In function 'brcmf_fil_iovar_int_get',
-       inlined from 'brcmf_setup_wiphybands' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7359:8:
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h:123:16: warning: 'txchain' is used uninitialized [-Wuninitialized]
-     123 |         __le32 data_le = cpu_to_le32(*data);
-         |                ^~~~~~~
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c: In function 'brcmf_setup_wiphybands':
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7316:13: note: 'txchain' was declared here
-    7316 |         u32 txchain;
-         |             ^~~~~~~
+>> drivers/iio/imu/adis16475.c:523:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
+     523 |         &iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/adis16475.c:524:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
+     524 |         &iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/adis16475.c:525:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
+     525 |         &iio_dev_attr_hwfifo_watermark.dev_attr.attr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/adis16475.c:526:2: error: incompatible pointer types initializing 'const struct iio_dev_attr *' with an expression of type 'struct attribute *' [-Werror,-Wincompatible-pointer-types]
+     526 |         &iio_dev_attr_hwfifo_enabled.dev_attr.attr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 
 
-vim +/txchain +123 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h
+vim +523 drivers/iio/imu/adis16475.c
 
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  108  
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  109  s32 brcmf_fil_iovar_data_set(struct brcmf_if *ifp, const char *name,
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  110  			     const void *data, u32 len);
-e7191182adc51c drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Hector Martin    2022-02-01  111  s32 brcmf_fil_iovar_data_get(struct brcmf_if *ifp, const char *name, void *data,
-81f5dcb8083077 drivers/net/wireless/brcm80211/brcmfmac/fwil.h          Hante Meuleman   2012-10-22  112  			     u32 len);
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  113  static inline
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  114  s32 brcmf_fil_iovar_int_set(struct brcmf_if *ifp, const char *name, u32 data)
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  115  {
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  116  	__le32 data_le = cpu_to_le32(data);
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  117  
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  118  	return brcmf_fil_iovar_data_set(ifp, name, &data_le, sizeof(data_le));
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  119  }
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  120  static inline
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  121  s32 brcmf_fil_iovar_int_get(struct brcmf_if *ifp, const char *name, u32 *data)
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  122  {
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03 @123  	__le32 data_le = cpu_to_le32(*data);
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  124  	s32 err;
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  125  
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  126  	err = brcmf_fil_iovar_data_get(ifp, name, &data_le, sizeof(data_le));
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  127  	if (err == 0)
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  128  		*data = le32_to_cpu(data_le);
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  129  	return err;
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  130  }
-31343230abb168 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h Arend van Spriel 2024-01-03  131  
-
-:::::: The code at line 123 was first introduced by commit
-:::::: 31343230abb1683e8afb254e6b13a7a7fd01fcac wifi: brcmfmac: export firmware interface functions
-
-:::::: TO: Arend van Spriel <arend.vanspriel@broadcom.com>
-:::::: CC: Kalle Valo <kvalo@kernel.org>
+   514	
+   515	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_min, 0);
+   516	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_max, 0);
+   517	static IIO_DEVICE_ATTR(hwfifo_watermark, 0444,
+   518			       adis16475_get_fifo_watermark, NULL, 0);
+   519	static IIO_DEVICE_ATTR(hwfifo_enabled, 0444,
+   520			       adis16475_get_fifo_enabled, NULL, 0);
+   521	
+   522	static const struct iio_dev_attr *adis16475_fifo_attributes[] = {
+ > 523		&iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
+   524		&iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
+   525		&iio_dev_attr_hwfifo_watermark.dev_attr.attr,
+   526		&iio_dev_attr_hwfifo_enabled.dev_attr.attr,
+   527		NULL
+   528	};
+   529	
 
 -- 
 0-DAY CI Kernel Test Service
