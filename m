@@ -1,141 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9617145C1C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 May 2024 17:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93396CDBA;
+	Sun, 19 May 2024 18:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716141483; cv=none; b=i152P2QEqKORB33S+sFZWIaQbSR77BdG3VhaSgscstz0gO9ixaW3GbHUwMWVlxBbKC0UX4fdDyDlKaKx8oXdd5OvUV6aSILgD0GNFpfMpgVXNP4vRzU2vu4wz5jBhm4MPGlwI6YdrFsIDTvfl1X8tEYNwt2WKJwvXEiB16hHQYU=
+	t=1716143896; cv=none; b=rFfi0KhKgYnlXPZ5HHCrsxzyHHI5z31QaY1t9iwNA6JStVMN5tD3nfkMpxLI+Iaknz39UP90aClraEFjZBDfFOFKZFeYehmxR9agRK16nDgsvrWJPFrIJHfJrOyMby4DDIZpgbmWZVwdDiLh1x0oJp+t1QA2+Ob+26J21flWCms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716141483; c=relaxed/simple;
-	bh=ZqfuvKtxoWyUPyoUyQdKOfjpNUI+NCOUWwVaQ/3kZ/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0slipIpk+2U9lqe8+Y2ytUBgIr+yS3HgXnObcuucHOk+yu9oJPC/pZHibf8OBX83AUREgJ9xkchCbp0wkQdg8owmmdd2QHGrIqQuqlQ+gyhqk7/JIwLAcmDTTRXGTpUDnMBY2iLyck7kgtbzxiC19w94kW+n6oyTlW8y5Yk6aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aiz3AkC2; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716143896; c=relaxed/simple;
+	bh=lVCcZNgsc8zO7s/yax8GQlYEW+YH4cqOMEwcZkdmLCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OyndJ/LlulFIYSBORCO+YHFHo1v7X1uKseoZED8EDdXFJCEA0K35C928vLEXstUXmwLUBpf7XgrwiiggOcmE/RzsMLe5oOL0fSYAI5nKGEx+vumPKWX/Z6Mw9gU77pAOgICgWet+8msCrrQ4DlGWmNMxOhQpArS5b29PJrqeQ28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGaYEROF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aiz3AkC2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716141480; x=1747677480;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZqfuvKtxoWyUPyoUyQdKOfjpNUI+NCOUWwVaQ/3kZ/E=;
-  b=aiz3AkC2NqAYyg9bFmZuQQ8gleCf/j2L7rGpLqdOsdtiQSS8ARo94png
-   ouTAtJfthtTCWDC0UvEwp2xa6wszUYHdHqhyUPKIyTGSXxTqpHCijJGLZ
-   Pih+0ltq+Z7oSgXpQa0KgmLCvZ7n+uvVkfYzdE/k0N8/fDP8smyt+C0sh
-   WDMvI7MDcbjBvKKRBSE+pPTTJYzhdXWdk1zvUWmuSY7ZwNo+XGw59bhH8
-   Ffy2kUOi3Ffm+uzKrcRjRV0a4qMgIGW2usFUsg523YZYwuGEbZsYNyeZ0
-   ildII+wSzGJfEO25FPH2xyNRnJL685w95VGhH2etXGgTisYB1VlIUDXdL
-   Q==;
-X-CSE-ConnectionGUID: i+W2IkttR4au5ZzyRe6qgw==
-X-CSE-MsgGUID: dalpAPTVSKS7JgZguviHig==
-X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="22936248"
-X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="22936248"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 10:58:00 -0700
-X-CSE-ConnectionGUID: 6jNpzaQFR5uhukJ9AM/VoQ==
-X-CSE-MsgGUID: zeNWjm6OQtKgrlPiiTlzcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="36723411"
-Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 19 May 2024 10:57:55 -0700
-Received: from kbuild by 108735ec233b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s8knB-00044O-1E;
-	Sun, 19 May 2024 17:57:53 +0000
-Date: Mon, 20 May 2024 01:57:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Baojun Xu <baojun.xu@ti.com>, tiwai@suse.de
-Cc: oe-kbuild-all@lists.linux.dev, robh+dt@kernel.org,
-	andriy.shevchenko@linux.intel.com, lgirdwood@gmail.com,
-	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
-	kevin-lu@ti.com, shenghao-ding@ti.com, navada@ti.com,
-	13916275206@139.com, v-po@ti.com, niranjan.hy@ti.com,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
-	baojun.xu@ti.com, broonie@kernel.org, soyer@irl.hu
-Subject: Re: [PATCH v5 1/1] ALSA: hda/tas2781: Add tas2781 hda driver based
- on SPI
-Message-ID: <202405200105.BWxmtco7-lkp@intel.com>
-References: <20240519150433.760-2-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGaYEROF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F81C32781;
+	Sun, 19 May 2024 18:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716143895;
+	bh=lVCcZNgsc8zO7s/yax8GQlYEW+YH4cqOMEwcZkdmLCo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dGaYEROFbcsOWz4dpnikAEeKk0KglCeQYp/W+CSvt4z32IW7Z+LXduDKBzcnX72gg
+	 At0ZFGT4Rtde6o2ijU6n17ZvoE9boV/fSOoAHuJVthPqzo+cjyjozyE3l9fpxT56uv
+	 b5sp41dVVQTpruGRFQntcOQFfVW/S9PYKNIJFSCf4m8c8cbOmyzTxPi+JFzKRHMvH5
+	 TFWzNGrIL7sLes9h9LjyEDlkMt2fhJuZHBKm7sEVbHt7X7ERWW77/ZGU1hIaHaPrlZ
+	 B00X6LWkGoZI3dIDCqTvuavjqUPZGhPseoK2o7uVN19Ys658+7QVCebwMDXoaSEpKF
+	 ZIRJ/eZZd7Hfg==
+Date: Sun, 19 May 2024 19:38:05 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh@kernel.org, nuno.sa@analog.com,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x
+ family
+Message-ID: <20240519193805.3bc1d842@jic23-huawei>
+In-Reply-To: <202405181400.174vWAhr-lkp@intel.com>
+References: <20240517074750.87376-10-ramona.bolboaca13@gmail.com>
+	<202405181400.174vWAhr-lkp@intel.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240519150433.760-2-baojun.xu@ti.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Baojun,
+On Sat, 18 May 2024 14:47:01 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Ramona,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on jic23-iio/togreg]
+> [cannot apply to linus/master v6.9 next-20240517]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240517-155051
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20240517074750.87376-10-ramona.bolboaca13%40gmail.com
+> patch subject: [PATCH v3 9/9] drivers: iio: imu: Add support for adis1657x family
+> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240518/202405181400.174vWAhr-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181400.174vWAhr-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405181400.174vWAhr-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/iio/imu/adis16475.c:523:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]  
+>      523 |         &iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,
+>          |         ^
+>    drivers/iio/imu/adis16475.c:523:9: note: (near initialization for 'adis16475_fifo_attributes[0]')
+>    drivers/iio/imu/adis16475.c:524:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
+>      524 |         &iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
+>          |         ^
+>    drivers/iio/imu/adis16475.c:524:9: note: (near initialization for 'adis16475_fifo_attributes[1]')
+>    drivers/iio/imu/adis16475.c:525:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
+>      525 |         &iio_dev_attr_hwfifo_watermark.dev_attr.attr,
+>          |         ^
+>    drivers/iio/imu/adis16475.c:525:9: note: (near initialization for 'adis16475_fifo_attributes[2]')
+>    drivers/iio/imu/adis16475.c:526:9: error: initialization of 'const struct iio_dev_attr *' from incompatible pointer type 'struct attribute *' [-Werror=incompatible-pointer-types]
+>      526 |         &iio_dev_attr_hwfifo_enabled.dev_attr.attr,
+>          |         ^
+>    drivers/iio/imu/adis16475.c:526:9: note: (near initialization for 'adis16475_fifo_attributes[3]')
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +523 drivers/iio/imu/adis16475.c
+> 
+>    514	
+>    515	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_min, 0);
+>    516	static IIO_DEVICE_ATTR_RO(hwfifo_watermark_max, 0);
+>    517	static IIO_DEVICE_ATTR(hwfifo_watermark, 0444,
+>    518			       adis16475_get_fifo_watermark, NULL, 0);
+>    519	static IIO_DEVICE_ATTR(hwfifo_enabled, 0444,
+>    520			       adis16475_get_fifo_enabled, NULL, 0);
+>    521	
+>    522	static const struct iio_dev_attr *adis16475_fifo_attributes[] = {
+>  > 523		&iio_dev_attr_hwfifo_watermark_min.dev_attr.attr,  
+>    524		&iio_dev_attr_hwfifo_watermark_max.dev_attr.attr,
+>    525		&iio_dev_attr_hwfifo_watermark.dev_attr.attr,
+>    526		&iio_dev_attr_hwfifo_enabled.dev_attr.attr,
+>    527		NULL
+>    528	};
+drop the dev_attr.attr parts.  This will 'work' because they are all at the start of
+the containing structure, but it should be the iio_dev_attrs as in a similar
+case here:
+https://elixir.bootlin.com/linux/latest/source/drivers/iio/accel/adxl372.c#L1009
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.9 next-20240517]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>    529	
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baojun-Xu/ALSA-hda-tas2781-Add-tas2781-hda-driver-based-on-SPI/20240519-230843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240519150433.760-2-baojun.xu%40ti.com
-patch subject: [PATCH v5 1/1] ALSA: hda/tas2781: Add tas2781 hda driver based on SPI
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240520/202405200105.BWxmtco7-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200105.BWxmtco7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405200105.BWxmtco7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   sound/pci/hda/tas2781_hda_spi.c: In function 'tas2781_runtime_suspend':
->> sound/pci/hda/tas2781_hda_spi.c:1124:16: warning: unused variable 'ret' [-Wunused-variable]
-    1124 |         int i, ret;
-         |                ^~~
->> sound/pci/hda/tas2781_hda_spi.c:1124:13: warning: unused variable 'i' [-Wunused-variable]
-    1124 |         int i, ret;
-         |             ^
-   sound/pci/hda/tas2781_hda_spi.c: In function 'tas2781_runtime_resume':
-   sound/pci/hda/tas2781_hda_spi.c:1143:16: warning: unused variable 'ret' [-Wunused-variable]
-    1143 |         int i, ret;
-         |                ^~~
-   sound/pci/hda/tas2781_hda_spi.c:1143:13: warning: unused variable 'i' [-Wunused-variable]
-    1143 |         int i, ret;
-         |             ^
-
-
-vim +/ret +1124 sound/pci/hda/tas2781_hda_spi.c
-
-  1120	
-  1121	static int tas2781_runtime_suspend(struct device *dev)
-  1122	{
-  1123		struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
-> 1124		int i, ret;
-  1125	
-  1126		guard(mutex)(&tas_hda->priv->codec_lock);
-  1127	
-  1128		if (tas_hda->priv->playback_started) {
-  1129			tasdevice_spi_tuning_switch(tas_hda->priv, 1);
-  1130			tas_hda->priv->playback_started = false;
-  1131		}
-  1132	
-  1133		tas_hda->priv->cur_book = -1;
-  1134		tas_hda->priv->cur_prog = -1;
-  1135		tas_hda->priv->cur_conf = -1;
-  1136	
-  1137		return 0;
-  1138	}
-  1139	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
