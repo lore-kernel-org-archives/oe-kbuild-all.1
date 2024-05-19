@@ -1,143 +1,85 @@
-Received: from msa.smtpout.orange.fr (out-71.smtpout.orange.fr [193.252.22.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743F8DF58
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 May 2024 12:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190D78BEA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 May 2024 12:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716122777; cv=none; b=CvVTarU2h19erIZdv65Pg13tyeJr4CTCTZrXWK+XYUQi29LAVPhjcv0hC7EpPNXGWtI78MyXBEnttHnig4XQFz4DQpl3ntwscGxUmEDz4npH+sD75xeup0Ayu40DFVIaxsg39pSbFnXbE0iORRaJjDmmWM9K0AdLsyQdUFVT3bs=
+	t=1716123457; cv=none; b=YpdNxwBCX29am2rH/3a20J90quQb1U7d3sY3haUe60HyEn2LPEtZAmDRV+ZIUe6dZV165OhRd8gkUZ614hAL9xcUocje6LM2uitlhhhGU7u/lB+zfpbPZBSK1+uZM46pEUm6Hbrz4k3kgxxzmLhqtSawXveoKtEo/PNv5vMTD7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716122777; c=relaxed/simple;
-	bh=96ddWgy+DqQkkmfLAmqY9C/dPMMuWMqOSDKoVWxeAKs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hT7r3/b+yR4UOeqJRg3K9Ysh/uhZyWkdCoCz2aSUaITSiGLviRl5f3y8xQLqpCKXJrHwkt7ZylM3YdghkWVM0Iflf9B3QqvUFWreCezAamFk3M0GnSxbA+nHs5XsUEVqJp7dHK3YhOwCrv4H/jNZQ76NQbwjwFrDxUguVa8e6Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=BZzJlsLk; arc=none smtp.client-ip=193.252.22.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1716123457; c=relaxed/simple;
+	bh=mw158NR9ZEHqfg2fW6qsGFLUb89TlfjM0S/O76NpRgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fCdadUj5UvqlOAlI9wc4BsDcWl/HgnLehS2nyTeg1ZmskJj4cfBkKKZoiU4Tm3IvYY5fSCL1OBxScqtr8xvTY0+T/UeUCbWAfrzgulYq2TgH4Y8V/R0U7H1A+9c73qiT4JbWIFoAXy/7k8jkzSTYXG1leXJ7cRJaRCrm2TpFAAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hot/TTaT; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="BZzJlsLk"
-Received: from [192.168.1.37] ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id 8fvNsas0Vml3s8fvOsAwyi; Sun, 19 May 2024 14:46:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1716122764;
-	bh=IdukyeSVMol9uozX3qDqOVLoOKjojIJiN8ffYrHylXU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=BZzJlsLkWkm524qgL4YZGWx+ntPz7Rzw0DUp9YfZpHYTMG1V/qZ1j/xA0rqb31b6D
-	 Ze1E4DqsikBm5Ill2qHE+XDEhXWC3ZFehpfiCphM3ASZMwpAAO/CIEfwIM+6x9P6Ky
-	 x6WsGkQgBOq1nHhw0PEBknAxA1z+uduyhETuzPgM3mtjxFIH+esfSPTlHY8a47SGMQ
-	 SbFz/W6Y7B139j0qJ0iTWL1RRCutlXtYtYAzuRhMi6FxijWkz0RdrpRJ5rWmCOJSgo
-	 7QFtAkzsg4qdY6XoRzEF48NImLtbHFx5GWDL1P0HpI1Sm3lFTze6XFl5jLcuLSJln6
-	 2MqonpmJnfoSw==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 19 May 2024 14:46:04 +0200
-X-ME-IP: 86.243.17.157
-Message-ID: <64403766-cc22-4dbe-b4b3-af3ad32fb9ea@wanadoo.fr>
-Date: Sun, 19 May 2024 14:45:59 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hot/TTaT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716123455; x=1747659455;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mw158NR9ZEHqfg2fW6qsGFLUb89TlfjM0S/O76NpRgA=;
+  b=Hot/TTaTrOM+YBdcr3BUQ3tKo5l2KRH7oz7/lTDxwvMcIJmJiJBM2VSE
+   sx5DwBbyvVxsIypmyhro7nZ5F8t8EZ1ZQz47ML81E3YM/yZi3rLBBQ9U+
+   JJEyP3sS6pCPOySZ75UcG91VRy276oGvPlhRlTum60cP1xa2sn02kCXMp
+   QhDHVK79TNNwEqOoZgImAN9tPqeohrkhhBhpa7wRQ4VFF87bSFpoJvRn7
+   wQe3ZTA9rvwrcVR5FlrElvjVVq1xIZrP1gxO6vvh31sTUv65Opp3OQBXj
+   lQr7Uakyo9coO4ohMKDDU336YFCLcKcPnkHUIb/xXO7EybNv1x+76MD6a
+   Q==;
+X-CSE-ConnectionGUID: 5V24/Fa3RqeXKTIaVp+ngQ==
+X-CSE-MsgGUID: nzPSuIlHTti6B1TVVm3ZJA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12099292"
+X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
+   d="scan'208";a="12099292"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 05:57:35 -0700
+X-CSE-ConnectionGUID: VgWClamCSZGUKSwoCWfKWQ==
+X-CSE-MsgGUID: DLpl1gjBSzGbgkqGpGzqMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
+   d="scan'208";a="32173767"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 19 May 2024 05:57:33 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s8g6V-0003e4-0U;
+	Sun, 19 May 2024 12:57:31 +0000
+Date: Sun, 19 May 2024 20:57:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm2_key-2 5/6] tpm2_key.c:undefined reference to
+ `look_up_OID'
+Message-ID: <202405192044.qRoS7ya0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2 net-next] libceph: Use sruct_size() in
- ceph_create_snap_context()
-To: kernel test robot <lkp@intel.com>, Ilya Dryomov <idryomov@gmail.com>,
- Xiubo Li <xiubli@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <5b7c72bdb52703bbfa5511ed500aed4babde1308.1716109606.git.christophe.jaillet@wanadoo.fr>
- <202405191909.7qhhefnu-lkp@intel.com>
-Content-Language: en-MW
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <202405191909.7qhhefnu-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Le 19/05/2024 à 13:34, kernel test robot a écrit :
-> Hi Christophe,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/libceph-Use-__counted_by-in-struct-ceph_snap_context/20240519-172142
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/5b7c72bdb52703bbfa5511ed500aed4babde1308.1716109606.git.christophe.jaillet%40wanadoo.fr
-> patch subject: [PATCH 1/2 net-next] libceph: Use sruct_size() in ceph_create_snap_context()
-> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240519/202405191909.7qhhefnu-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405191909.7qhhefnu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405191909.7qhhefnu-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     net/ceph/snapshot.c: In function 'ceph_create_snap_context':
->>> net/ceph/snapshot.c:32:25: error: implicit declaration of function 'sruct_size'; did you mean 'struct_size'? [-Werror=implicit-function-declaration]
->        32 |         snapc = kzalloc(sruct_size(snapc, snaps, snap_count), gfp_flags);
->           |                         ^~~~~~~~~~
->           |                         struct_size
->>> net/ceph/snapshot.c:32:43: error: 'snaps' undeclared (first use in this function); did you mean 'snapc'?
->        32 |         snapc = kzalloc(sruct_size(snapc, snaps, snap_count), gfp_flags);
->           |                                           ^~~~~
->           |                                           snapc
->     net/ceph/snapshot.c:32:43: note: each undeclared identifier is reported only once for each function it appears in
->     cc1: some warnings being treated as errors
-> 
-> 
-> vim +32 net/ceph/snapshot.c
-> 
->      11	
->      12	/*
->      13	 * Ceph snapshot contexts are reference counted objects, and the
->      14	 * returned structure holds a single reference.  Acquire additional
->      15	 * references with ceph_get_snap_context(), and release them with
->      16	 * ceph_put_snap_context().  When the reference count reaches zero
->      17	 * the entire structure is freed.
->      18	 */
->      19	
->      20	/*
->      21	 * Create a new ceph snapshot context large enough to hold the
->      22	 * indicated number of snapshot ids (which can be 0).  Caller has
->      23	 * to fill in snapc->seq and snapc->snaps[0..snap_count-1].
->      24	 *
->      25	 * Returns a null pointer if an error occurs.
->      26	 */
->      27	struct ceph_snap_context *ceph_create_snap_context(u32 snap_count,
->      28							gfp_t gfp_flags)
->      29	{
->      30		struct ceph_snap_context *snapc;
->      31	
->    > 32		snapc = kzalloc(sruct_size(snapc, snaps, snap_count), gfp_flags);
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2_key-2
+head:   f576cb4d2006cb2edd425432dab8bc97df63720d
+commit: 43a5881d4fd3804353c06034ce9901947e067b41 [5/6] KEYS: trusted: Migrate tpm2_key_{encode,decode}() to TPM driver
+config: loongarch-randconfig-001-20240519 (https://download.01.org/0day-ci/archive/20240519/202405192044.qRoS7ya0-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405192044.qRoS7ya0-lkp@intel.com/reproduce)
 
-Ouch!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405192044.qRoS7ya0-lkp@intel.com/
 
-this was build-tested, but I must have made a mistake when editing the 
-patch file to add the "net-next".
+All errors (new ones prefixed by >>):
 
-Sorry about that.
-I'll resend when the net-next branch will re-open.
+   loongarch64-linux-ld: drivers/char/tpm/tpm2_key.o: in function `tpm2_key_type':
+>> tpm2_key.c:(.text+0x510): undefined reference to `look_up_OID'
+>> loongarch64-linux-ld: tpm2_key.c:(.text+0x574): undefined reference to `sprint_oid'
 
-CJ
-
->      33		if (!snapc)
->      34			return NULL;
->      35	
->      36		refcount_set(&snapc->nref, 1);
->      37		snapc->num_snaps = snap_count;
->      38	
->      39		return snapc;
->      40	}
->      41	EXPORT_SYMBOL(ceph_create_snap_context);
->      42	
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
