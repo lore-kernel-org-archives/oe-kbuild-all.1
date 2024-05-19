@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97FA5482FF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 May 2024 15:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9997A1DFCB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 May 2024 17:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716133906; cv=none; b=HR0wrqgyTF7+PVY9Nv5JWp8i/1Woc+sCU1FIeonSe7EinuceEwHKOgbGoq7IotrppoZrxgIaM1ESdElE4z4n7z6Svq+U8IyXejPjEHUlpRWx4dFQSFFqt43Bhqyt+OCtqYj+8qhEifNMy/MsIxnSTgDkYKURPb0LMZRIT0eO7gA=
+	t=1716138960; cv=none; b=CEbvGcLxXP3ZdKGSkFD7hxj1MKzjn9MvtvyV19LDjkcQWXDk8+brmmOGQDFgbl8n3D7FrcYkIxxqa7ciLAM8Bem3UWMK15ZQinqiegVmpOVJUiUI2C6vkbFBiFC1qIPP4actLkxHMUHdvBfr7US1efGd2kz1ePu7K1q9zI0QixQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716133906; c=relaxed/simple;
-	bh=OJU2+0KEqJjT0mcTN+TS90DfjVkN/yGF70Dzhu1d1C8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pYrEitp48M813G+7R3M5AIIqV0s6aPXWDENbsLxExDrxfo0fzfw9CkUcKK+MV8MdM7cyYjIrCzQtZoGlOLMx6WKXwrKjhrx1PTg4r6Ra5iyODFbhBC7/ehjfMWusU6z8M1hi8ygmwKl0lOWChlNYD4L/Us821TJFIdU1QCPeV1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfP34qlk; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1716138960; c=relaxed/simple;
+	bh=avh4UAL3tymowqZ8PsD+NwycV25qlnYN+5GxzSUxlJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bfPgfd0FtTXFcUi/Cj+48lsmjyf3UY45CkZ9MzrGwXH66r8ivKsFM6q5guqQV9zNoMEIFNPOqDFVuUC7Q8aT3aQKvopsZ3HSBNiH2CG6qwNhH6uKYFpS8I9eKfGEYijEwChsQu+LL612e/j9J7f5iW0Dqw/Dt6yIw4EYSB314gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmWVBFa8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfP34qlk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmWVBFa8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716133905; x=1747669905;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OJU2+0KEqJjT0mcTN+TS90DfjVkN/yGF70Dzhu1d1C8=;
-  b=XfP34qlkFhNzcqiXqUwFBevFmNB+7XyDe54AuNbsJlaUPr3JLNImGa6H
-   LW+qKiAQBPzujRUoDSMjVOqdC0y0ErWnqK1DqEKxqKOLLRCtiQiziKcce
-   9vaqpihBEIv4r7t+mfo00CQnaV5QGFQFLmEFIQPkytlNJK3gN/WRnTgtn
-   KOcHT88yLMFkNUYoJAz8MvUHcBHWFvLyeXPUB3Kuo8XGVHtkGLGX8e8Vt
-   1qj/yRAvY5vpR9KRluM8OnjilOhjyVphxGCzgw3/dXnk4j8aarbCT9Yk/
-   12zClHj0bxKN9DQHteeoBLIW8PjdXcAYwm/tMwWoPqzgnFo0nYA3l8/Cc
-   Q==;
-X-CSE-ConnectionGUID: WhHzCy8WSBW3P4ayD2FyJg==
-X-CSE-MsgGUID: QuipPPp5THO+YmPQa5X6Ow==
-X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12132280"
+  t=1716138958; x=1747674958;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=avh4UAL3tymowqZ8PsD+NwycV25qlnYN+5GxzSUxlJM=;
+  b=lmWVBFa8p8rkDk7WgxMVNhrufn+fwsjLgRHB9/MhjNPxtomXirjWATJV
+   LjvpZCion9+VGdkkL9pO6StYetm7PMEyRjvwsx6udzUUw3U1CmVYa4F5h
+   ej6ZfmLe2StaxeV01d9BFDUgUiqZ+mZNaypLbXBiuLX3mwdL/64hfejZh
+   Va88nKFbRvyJZ2hsjNWH5xyMvf9knE+7mmHNF/gVeTyZa3YHdarcgp9UF
+   DAnZgskl0jczkHl3Ii6mvOVVgIPm22CVwueWWreWBaL4AjBuKn78EkkFl
+   i+NIqIV26psOv6YIGPA386duZ7SQd4R5zqwITUaZOTvQJkpTCYb0+YL44
+   w==;
+X-CSE-ConnectionGUID: Oq30ujszRT+Z2bGdUZaPaQ==
+X-CSE-MsgGUID: JFek7N8lTWGz6oLX0mLqLQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="16090173"
 X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="12132280"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 08:51:44 -0700
-X-CSE-ConnectionGUID: dIzKmR9VSfWBwC66lPznrw==
-X-CSE-MsgGUID: SISdgU3NR/ymvGgJTiqhzQ==
+   d="scan'208";a="16090173"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 10:15:58 -0700
+X-CSE-ConnectionGUID: xV1w0CkHRt+EncUXpdUJsQ==
+X-CSE-MsgGUID: 4Yvu+Z0jSyOEenpHX3KT2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="32442893"
+   d="scan'208";a="32144069"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 19 May 2024 08:51:43 -0700
+  by orviesa010.jf.intel.com with ESMTP; 19 May 2024 10:15:53 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8ip2-0003oM-1i;
-	Sun, 19 May 2024 15:51:40 +0000
-Date: Sun, 19 May 2024 23:51:30 +0800
+	id 1s8k8W-000435-1r;
+	Sun, 19 May 2024 17:15:52 +0000
+Date: Mon, 20 May 2024 01:14:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2_key-2 6/7] drivers/char/tpm/tpm2_key.c:50:3:
- error: a label can only be part of a statement and a declaration is not a
- statement
-Message-ID: <202405192336.XW5ecaka-lkp@intel.com>
+To: Wen Yang <wen.yang@linux.dev>, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, Wen Yang <wen.yang@linux.dev>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Dylan Yudaken <dylany@fb.com>, David Woodhouse <dwmw@amazon.co.uk>,
+	Paolo Bonzini <pbonzini@redhat.com>, Dave Young <dyoung@redhat.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] eventfd: introduce ratelimited wakeup for non-semaphore
+ eventfd
+Message-ID: <202405200111.frRQbI4n-lkp@intel.com>
+References: <20240519144124.4429-1-wen.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +68,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240519144124.4429-1-wen.yang@linux.dev>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2_key-2
-head:   fd3739a598738d788459238040fdb80b4213239a
-commit: 59fab73fe3f5c4b13ebee9ea98a64fbaf523a5fc [6/7] tpm: tpm2_key: Extend parser to TPM_LoadableKey
-config: i386-randconfig-005-20240519 (https://download.01.org/0day-ci/archive/20240519/202405192336.XW5ecaka-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405192336.XW5ecaka-lkp@intel.com/reproduce)
+Hi Wen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.9 next-20240517]
+[cannot apply to vfs-idmapping/for-next hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wen-Yang/eventfd-introduce-ratelimited-wakeup-for-non-semaphore-eventfd/20240519-224440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20240519144124.4429-1-wen.yang%40linux.dev
+patch subject: [PATCH] eventfd: introduce ratelimited wakeup for non-semaphore eventfd
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240520/202405200111.frRQbI4n-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200111.frRQbI4n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405192336.XW5ecaka-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405200111.frRQbI4n-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/char/tpm/tpm2_key.c: In function 'tpm2_key_type':
->> drivers/char/tpm/tpm2_key.c:50:3: error: a label can only be part of a statement and a declaration is not a statement
-      char buffer[50];
-      ^~~~
-
-
-vim +50 drivers/char/tpm/tpm2_key.c
-
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  34  
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  35  int tpm2_key_type(void *context, size_t hdrlen,
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  36  		  unsigned char tag,
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  37  		  const void *value, size_t vlen)
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  38  {
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  39  	enum OID oid = look_up_OID(value, vlen);
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  40  	struct tpm2_key *key = context;
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  41  
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  42  	switch (oid) {
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  43  	case OID_TPMSealedData:
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  44  		pr_info("TPMSealedData\n");
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  45  		break;
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  46  	case OID_TPMLoadableKey:
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  47  		pr_info("TPMSealedData\n");
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  48  		break;
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  49  	default:
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19 @50  		char buffer[50];
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  51  		sprint_oid(value, vlen, buffer, sizeof(buffer));
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  52  		pr_debug("Unknown OID \"%s\"\n", buffer);
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  53  		return -EINVAL;
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  54  	}
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  55  
-59fab73fe3f5c4b Jarkko Sakkinen 2024-05-19  56  	key->oid = oid;
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  57  	return 0;
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  58  }
-8c36e89d6c31b43 Jarkko Sakkinen 2024-05-19  59  
-
-:::::: The code at line 50 was first introduced by commit
-:::::: 8c36e89d6c31b433e1f3e06541eed1f687eaac81 KEYS: trusted: Migrate tpm2_key_{encode,decode}() to TPM driver
-
-:::::: TO: Jarkko Sakkinen <jarkko@kernel.org>
-:::::: CC: Jarkko Sakkinen <jarkko@kernel.org>
+   m68k-linux-ld: fs/eventfd.o: in function `eventfd_write':
+>> eventfd.c:(.text+0x998): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
