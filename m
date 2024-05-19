@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FADA5027F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 May 2024 21:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1189B23BB;
+	Sun, 19 May 2024 21:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716153498; cv=none; b=u9INKaIGC1pnS0loQpTEnVjQ1VtntNjg6hS6oLXmKdbwtnfpIC0WMaAYFZjN1qaCMwFJCp7IoYrV++/LFdgkFN4qzu0DGDnFU/GaX52cVGncv4oA1eJHnz+q2zuorJVB6eZGDFrjiOn+5Gkguh+l9uEyB2oAcxfT/L4c/ukjumM=
+	t=1716154220; cv=none; b=mzlQnRzNylaLdPt+1KEP8z3FgPA+eTP5n5Vd0gRzyJ/rXXCB96/DIZ5rz2e1BNvAMKgdIBaqPpdMYb2+A44THU/B6zmlKpFmAI7SGDR2bkYI3/dPo+lWzdE+jzJQLx++KoyJAQLBqG/7eH8qA5cbzzPN2NlsEgCTZWxotaNAPWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716153498; c=relaxed/simple;
-	bh=A8v8ftVXYdDsWNVE031nUsbr2Ww/YGTybMXOH9tQ1Io=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T8F1CRhQQaY9+qE3exXiKGhnuA09HMvsEXVN1NONrz1UbBq6qkDfTt+miGWgzoGouWJ+yyH7ADBcdfu2xukeOWGyVljPxBQPoa17ljyfJGf3cjHiqfHWCgK0i9gQoeLLNzkO98qlckTIzRQAIYdSNAkSt1q+2qWtAAxv8sJ5lnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqHZEb6l; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1716154220; c=relaxed/simple;
+	bh=JhCzOiXMH17suymuHy5UuNk2aRjcue8i6vGsriKK2M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h08uGWzk2o2LnhmOqliK6UGa7ySjxxqAtaxohrFRTU9kzPar7TjIk8qNEI+xXM2nbcDPvOJ9a7UaxdP2DhICC9eDlplUqrMH20qhw8UOJB6+qOkOZIjiEwwyeO2HeCwFKgYQY6rpJ7c6XEXcr5t9IqEEFm4mUmTcR0qjsVeGLcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vy5MdXFi; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqHZEb6l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vy5MdXFi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716153496; x=1747689496;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A8v8ftVXYdDsWNVE031nUsbr2Ww/YGTybMXOH9tQ1Io=;
-  b=gqHZEb6l+j6+LPeBEgXIY0vH1pdm+8ZAoLgZjFaGygUPweGU3y3iv5jR
-   aNsWop9G+6bjzGlA19fmIc/wi4ru7QKis6AcIcyI2Whodsm+6SK/2n1zf
-   s8CdNwjM0DeNRm/Mub10gNh0O1IjH9dpXf3XGZVlilbSa/UZVpo/lX/8O
-   Mz0cnptwWQcjXeFB/8QEKPvWSn18kmTTvEjLGUjvbEY5VqtBz60FYhiT6
-   mdX40f7vwkcW0ZxENdgyvzUOi5gnI+x4oKdkVABx0J6epOFuc3UZYjbvB
-   BZBY0ZHCGki1HCPZ8IUAL/cOYsDKQ9O11zeZetYYY8f5Z8gOvhJOpE7N+
-   A==;
-X-CSE-ConnectionGUID: UItAh0vFQ9GBrGwlJChB+g==
-X-CSE-MsgGUID: mo3pyXHYQlKP7UftKuAM+g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12391413"
+  t=1716154219; x=1747690219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JhCzOiXMH17suymuHy5UuNk2aRjcue8i6vGsriKK2M0=;
+  b=Vy5MdXFiLaOC7N4xnFkeAcUxs9pj1P3A/l0yT/WwnhaRgRBMILcDbhw4
+   spl0seCEYPc4Dg5w5I/+9Rizk7D25sh9jgwS2dx+MLUhg3KqIF3c7zRoA
+   jeKPjBoVme6gJq8v0gAaCFzuG/7+eqH+fEr8JY477Y3gvoCgZNhnfdOzD
+   ifXJTQuP2ityW9rDS1BuuIY55F+9fCfDD1rFn3O+pDRNb279Ybn+ppAZ6
+   7MEseWbTAb++GVANfZAU+blg74tIUmYntYP3bKcNS78OpI2uGd+IJN3Re
+   vQz9aHdLdXH1zRc3BoP2B/x2zO3HZSmVFAfJBGUWg9THzdS88BhZ1kPfl
+   g==;
+X-CSE-ConnectionGUID: 8yOsA+o+SMGNiAJwknjy4w==
+X-CSE-MsgGUID: TBs0A6IwT/yewejRMG0aVQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="29788061"
 X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="12391413"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 14:18:16 -0700
-X-CSE-ConnectionGUID: bZ3ikktdTzSYqoga+0tJtQ==
-X-CSE-MsgGUID: aWR0LS+MSVaEeVYiNnoY+w==
+   d="scan'208";a="29788061"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 14:30:18 -0700
+X-CSE-ConnectionGUID: uGFmu/JiRZmh64jjFICdmw==
+X-CSE-MsgGUID: XZkp08ilQuC/QJwiNCOuBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="32355542"
+   d="scan'208";a="32488997"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 May 2024 14:18:12 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 May 2024 14:30:15 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8nuz-0004BU-2c;
-	Sun, 19 May 2024 21:18:09 +0000
-Date: Mon, 20 May 2024 05:18:01 +0800
+	id 1s8o6b-0004Bg-2q;
+	Sun, 19 May 2024 21:30:12 +0000
+Date: Mon, 20 May 2024 05:29:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wen Yang <wen.yang@linux.dev>, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Wen Yang <wen.yang@linux.dev>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Dylan Yudaken <dylany@fb.com>, David Woodhouse <dwmw@amazon.co.uk>,
-	Paolo Bonzini <pbonzini@redhat.com>, Dave Young <dyoung@redhat.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] eventfd: introduce ratelimited wakeup for non-semaphore
- eventfd
-Message-ID: <202405200456.29VvtOKg-lkp@intel.com>
-References: <20240519144124.4429-1-wen.yang@linux.dev>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Peter Hutterer <peter.hutterer@who-t.net>
+Subject: [dtor-input:next 188/188] drivers/input/input.c:1489:9: warning:
+ comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int
+ *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *'))
+Message-ID: <202405200547.y7iHuRu6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,36 +64,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240519144124.4429-1-wen.yang@linux.dev>
 
-Hi Wen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.9 next-20240517]
-[cannot apply to vfs-idmapping/for-next hch-configfs/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wen-Yang/eventfd-introduce-ratelimited-wakeup-for-non-semaphore-eventfd/20240519-224440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20240519144124.4429-1-wen.yang%40linux.dev
-patch subject: [PATCH] eventfd: introduce ratelimited wakeup for non-semaphore eventfd
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240520/202405200456.29VvtOKg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200456.29VvtOKg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+head:   c1307f8a152ac69f7efb759edfb8d71b4aa228f4
+commit: c1307f8a152ac69f7efb759edfb8d71b4aa228f4 [188/188] Input: try trimming too long modalias strings
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240520/202405200547.y7iHuRu6-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200547.y7iHuRu6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405200456.29VvtOKg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405200547.y7iHuRu6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: fs/eventfd.o: in function `eventfd_write':
->> eventfd.c:(.text+0x1740): undefined reference to `__aeabi_uldivmod'
+>> drivers/input/input.c:1489:9: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+    1489 |         return min(len, PAGE_SIZE);
+         |                ^~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +1489 drivers/input/input.c
+
+  1477	
+  1478	static ssize_t input_dev_show_modalias(struct device *dev,
+  1479					       struct device_attribute *attr,
+  1480					       char *buf)
+  1481	{
+  1482		struct input_dev *id = to_input_dev(dev);
+  1483		size_t len;
+  1484	
+  1485		len = input_print_modalias(buf, PAGE_SIZE, id);
+  1486		if (len < PAGE_SIZE - 2)
+  1487			len += snprintf(buf + len, PAGE_SIZE - len, "\n");
+  1488	
+> 1489		return min(len, PAGE_SIZE);
+  1490	}
+  1491	static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
+  1492	
 
 -- 
 0-DAY CI Kernel Test Service
