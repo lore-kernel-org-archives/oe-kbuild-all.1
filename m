@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49B523759
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 22:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB4A4AEEA;
+	Mon, 20 May 2024 23:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716245998; cv=none; b=d8GxUI8NE6ayQw/3UOUMlF/UBxcBUWqzGgz4jSaoW4wfX4o+BqUy++SlOqM38QsuWBPWnSueuMtwvxCsELVYMTJdVZmA69Jhzgu32HYSVcD5SgumZ0Ak7j+5ilWGdrRfuL+p+NLIiWfiU3z07mu9cSloDqvD+Pxr/+s159tS/b0=
+	t=1716247273; cv=none; b=p35bgYYSkYZd06Tm/1Skt9xIfrf3A3Jz3nQA3e5M6roYKyfK8sqyqag5DcrlnFsceDTaCYfPLv56Lc8LVy05du8uOo0vvxzm+oYS0yYKN40rwAN4inVFJ+w2vi+8lNLFKB6zDfZq6d91qrfz5SwsMY0C3hEpG7LxvG2R0zD3f5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716245998; c=relaxed/simple;
-	bh=PYrRJF9NvQLgK0jwY1kfMR+O6Dli+P/rp0WUNz81WOs=;
+	s=arc-20240116; t=1716247273; c=relaxed/simple;
+	bh=P9B+iumN/62nlqoadXeuqxMsMM6CHqI0PQq4sbMcGLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BJDdVSoys2cbpIpxcOrGFQPVq3qdJ+nPOOWx5OxBqU21fznVFNjgR2/dpQhxjG/Zm/Dum/MdPEiyrYe1z+GqnGINtJWpaCGmIx2+EXOI133KeQaq3T/9jtegBeJ64QgCpBPvByTVtDWUt3jLcGkGr7XzEodYBD10HJKxc4UkiAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBhUO+d6; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Yi73v/1v8dnpZjBh0ZHTdh+jxg87i6uCf+Ohcxyw3Y2beIfTWOyD7kG3PAwbW7vS5Ru+updVCteacrpJW8Tv7YgaFsGQhz4sMIRh9mzxB4UGtN1tWykM6LtSGYPR47wL/LgAdB97BF8sjwcKhETG+dGbFwNBRiFahU6SwalOYQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KibVae/o; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBhUO+d6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KibVae/o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716245997; x=1747781997;
+  t=1716247272; x=1747783272;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PYrRJF9NvQLgK0jwY1kfMR+O6Dli+P/rp0WUNz81WOs=;
-  b=QBhUO+d6HTXNPZlPGoO4D3yTx0DGHFGTGFeksPNSZDj9PVSb+ImzXk7S
-   scVzkDkG4kJ2xJFZ3CCkiLSa9ilpbjjU3pt2Uq/+8sJofRB5jDcR9jLxB
-   Y2viHwH+fLUF0hLe6MX+UcYnMYRE20bFRBedFL+vSEziQc8Za/zSCRL+0
-   LgXNh5xWsnL0Wgf3nNqPSh3BDO0RFebb8DSody0RUl6PVghl6GW/NMCO3
-   q+d9Anx0wjvgMpm8mkLJ0dKSu05hM24QXHQSoPUAl/+BtISr0l6povWbl
-   L/U6cYTZgRKGL3zK7eMWmWbI/WHu/piyIoZsfDLu9onyrrOebpL7JIIe/
-   g==;
-X-CSE-ConnectionGUID: yDC2AzPGTTqo4OwQpsb4bA==
-X-CSE-MsgGUID: y2L0uvc5T0CC4b6/pUx2Pg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="11614893"
+  bh=P9B+iumN/62nlqoadXeuqxMsMM6CHqI0PQq4sbMcGLw=;
+  b=KibVae/oJpvJBFbKWwwKxRkqVf4dC8f4WhgeDqCv2bDePlOHSd1BegH2
+   5nnMurfpoyIviGOGFWytNe0tN8LaTgy1h+4C6bIPdDTdRzL9O3f91wILI
+   34xKB4RpsOH+Stuyjf/LP53N/qFTHQgKAudhf8c2PTfJmsRsCwRefZR1s
+   I6qwdWcBOuEWQtcoW1QnNH9zNikeDSGfGKHqTgMJMYoz8eXI/IblWteIy
+   snnI0PTRMOi5cp8JXvKi1NGAuAWdWrqV9+2GXH3/zvaqcyW0NxRbau+14
+   8RjV7eWadWrXJ5wnN31UY2HNpROk5Ogi/FOwAiDMra0q1HlWs+4oTZb3S
+   Q==;
+X-CSE-ConnectionGUID: ryRSbdbyQMydUQIK09OL3w==
+X-CSE-MsgGUID: 7jfOVCFFR/aShQ6u9yTERg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="16235756"
 X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="11614893"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 15:59:56 -0700
-X-CSE-ConnectionGUID: DT36GnfvQnGRoKSQ6o2ZOw==
-X-CSE-MsgGUID: zZyAO4cmRAWxFP4+jcNK1g==
+   d="scan'208";a="16235756"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 16:21:12 -0700
+X-CSE-ConnectionGUID: ooqPfSdDRfmCid3oLKYyPg==
+X-CSE-MsgGUID: gBb98V5wQJ+vY/OPPCm5NQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="37079009"
+   d="scan'208";a="37295701"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 20 May 2024 15:59:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 20 May 2024 16:21:10 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9Byz-0005Ey-19;
-	Mon, 20 May 2024 22:59:53 +0000
-Date: Tue, 21 May 2024 06:59:08 +0800
+	id 1s9CJX-0005G8-02;
+	Mon, 20 May 2024 23:21:07 +0000
+Date: Tue, 21 May 2024 07:20:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 39/44] htmldocs: Warning:
- include/uapi/linux/gunyah.h references a file that doesn't exist:
- Documentation/virt/gunyah/vm-manager.rst
-Message-ID: <202405210618.2u0D8U10-lkp@intel.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rcu:boqun-dev/hazptr 1/1] kernel/rcu/hazptr_test.c:18:8: warning:
+ incompatible integer to pointer conversion assigning to 'struct
+ callback_head *' from 'int'
+Message-ID: <202405210704.NDdG0x1S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,29 +63,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   833aa73663421306198d4b3ea83ef44087c9fe19
-commit: 296cceed084451decfd348415b1db9c833443713 [39/44] ANDROID: virt: gunyah: Add gup based demand paging support
-reproduce: (https://download.01.org/0day-ci/archive/20240521/202405210618.2u0D8U10-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git boqun-dev/hazptr
+head:   ca2ab86d71c6d322c87127363aa4b665012a0ac2
+commit: ca2ab86d71c6d322c87127363aa4b665012a0ac2 [1/1] WIP
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240521/202405210704.NDdG0x1S-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405210704.NDdG0x1S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405210618.2u0D8U10-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405210704.NDdG0x1S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
->> Warning: include/uapi/linux/gunyah.h references a file that doesn't exist: Documentation/virt/gunyah/vm-manager.rst
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/cleancache.c references a file that doesn't exist: Documentation/vm/cleancache.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
-   Using alabaster theme
+   kernel/rcu/hazptr_test.c:8:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           kfree(head);
+           ^
+   kernel/rcu/hazptr_test.c:18:10: error: implicit declaration of function 'kzalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           dummy = kzalloc(sizeof(*dummy), GFP_KERNEL);
+                   ^
+>> kernel/rcu/hazptr_test.c:18:8: warning: incompatible integer to pointer conversion assigning to 'struct callback_head *' from 'int' [-Wint-conversion]
+           dummy = kzalloc(sizeof(*dummy), GFP_KERNEL);
+                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/hazptr_test.c:19:8: warning: incompatible integer to pointer conversion assigning to 'struct callback_head *' from 'int' [-Wint-conversion]
+           other = kzalloc(sizeof(*dummy), GFP_KERNEL);
+                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 2 errors generated.
+
+
+vim +18 kernel/rcu/hazptr_test.c
+
+    10	
+    11	static void simple(void)
+    12	{
+    13		struct hazptr_context ctx;
+    14		struct callback_head *dummy, *tmp, *other;
+    15		hazptr_t *hptr;
+    16		hazptr_t *hptr2;
+    17	
+  > 18		dummy = kzalloc(sizeof(*dummy), GFP_KERNEL);
+    19		other = kzalloc(sizeof(*dummy), GFP_KERNEL);
+    20	
+    21		if (!dummy || !other) {
+    22			printk("allocation failed, skip test\n");
+    23			return;
+    24		}
+    25	
+    26		init_hazptr_context(&ctx);
+    27		hptr = hazptr_alloc(&ctx);
+    28		BUG_ON(!hptr);
+    29	
+    30		// Get a second hptr.
+    31		hptr2 = hazptr_alloc(&ctx);
+    32		BUG_ON(!hptr2);
+    33	
+    34		// No one is modifying 'dummy', protection must succeed.
+    35		BUG_ON(!__hazptr_tryprotect(hptr, (void **)&dummy, 0));
+    36	
+    37		// Simulate changing a global pointer.
+    38		tmp = dummy;
+    39		WRITE_ONCE(dummy, other);
+    40	
+    41		// Callback will run after no active readers.
+    42		printk("callback added, %px\n", tmp);
+    43		call_hazptr(tmp, simple_func);
+    44	
+    45		// Simulate changing a global pointer.
+    46		tmp = dummy;
+    47		WRITE_ONCE(dummy, other);
+    48	
+    49		// No one is modifying 'dummy', protection must succeed.
+    50		BUG_ON(!__hazptr_tryprotect(hptr2, (void **)&dummy, 0));
+    51	
+    52		// The above callback should run after this.
+    53		hazptr_clear(hptr);
+    54		printk("first reader is out\n");
+    55	
+    56		for (int i = 0; i < 10; i++)
+    57			schedule(); // yield a few times.
+    58	
+    59		printk("callback added, %px\n", tmp);
+    60		call_hazptr(tmp, simple_func);
+    61	
+    62		cleanup_hazptr_context(&ctx);
+    63		printk("no reader here\n");
+    64	
+    65		for (int i = 0; i < 10; i++)
+    66			schedule(); // yield a few times.
+    67	}
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
