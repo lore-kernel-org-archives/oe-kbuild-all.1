@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0780134404
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 12:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C30213666D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 13:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716209844; cv=none; b=Dnxt7JGhncd63Qq85JlLYDGSgEAueYZSocaZFjkZ986SXfOxB2nKrL4KWJby+YXRkP/k4mAsCquU8y3XQagSG7dptZqpMSLl9fEEFJF+leVcTrgvkzHsP/CXL7f+kghxLu622xSDNF6flsTcj4EyEkWCTgX9ffhCba4R5TPrc84=
+	t=1716211826; cv=none; b=ZiPvYk6190GXP5aQ4OG44DoCM+KERuSVBG6djjL5pogMemohk283ny2kmg6672Hqls4WqKGhKyFALFSe+FlvPpeHZFH8MrBRAq2I8RcMM+eazyZfGsqI+6HL8OcQ3u6qbY/O4ab3NN+cXdjQxeEu2WYryZY0SfBTrgRsFMAa12U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716209844; c=relaxed/simple;
-	bh=lYXNVxccHgj0zLve1ykCIDsodpCZgm2POalzqyoEOCU=;
+	s=arc-20240116; t=1716211826; c=relaxed/simple;
+	bh=MoAvfmczJHFbeDRLuB+8X/BROCnXqQrzYyoE+ofvRMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d3e/KHD1qQi74TOau2xtUU0htnAN7KU5RDUiWK0hshobWS4iP1szhizr5mUwzHk5Z97JY9jxczshXB77kuPmoQsAD6S9+DnN+r7Uxk42D1gTsnqH6WtYvmtWk+QuxUX4EHuLvpzInsKPcYY2jKeiILWnZjvESFuqQBiirfdncXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAmlSUaT; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=kvgeaHBetIxCM15pfQi7O4Qs2Lpvj+6eVMyOMxQQDsk9w+UDwZGX3d6/Dm1LquCeR2fcPC4+0BbjVWtPR1hkk0sGwMs/2KsYw3TpZ630ajI0M+A8PNRfB3N2pbt/Ek/FIrvHltNoa4iaqyNKxX63/Fc95pBNjUWsYc65jyb+FuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0F6EqIi; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAmlSUaT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0F6EqIi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716209842; x=1747745842;
+  t=1716211824; x=1747747824;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lYXNVxccHgj0zLve1ykCIDsodpCZgm2POalzqyoEOCU=;
-  b=iAmlSUaTy5URJgLGQBYv3X580uXj+tSpd6fL67C98B/7iheHtXTRm1M6
-   BTkOg110iuNlZxA+mea9jmSWpL8a0iTTNzsJDEYE2lkGkWBzOpQR27Dgy
-   +NU9ewnS8sddrOJlQncNUM4WVe574GVfRALb1gCXszRUdKkrV+R78ojTd
-   Fhd4voF6i/JjjTvXUON63R8XTV3p7Rtu5SH3Cm3BncOB4qg97oJcdPjdx
-   08s4S9v2VcFigBK58drZHQxFds5MwScqGGsYxsLtk2xER0DcwYW62vOob
-   Q0VaiKzCvLrNXgxZcZeVoSW3Gup+pkEwCgiRF6076n8OZuO4tAemL7Pc+
-   A==;
-X-CSE-ConnectionGUID: W+7hhyiKT1uwx68KX2fyng==
-X-CSE-MsgGUID: OjFX701RQQyp+Qjz8vPSlw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="23007596"
+  bh=MoAvfmczJHFbeDRLuB+8X/BROCnXqQrzYyoE+ofvRMA=;
+  b=U0F6EqIiPX6C6dhUWZvxZnNsPX6QnGSxENL4I2giL+dQNNmZjCAZwapT
+   4LWgMkM5yn4WCqgDGnKVFAUkX1TKMG2/QXeOHb4wFjZ8rKb7YPn5tqd3u
+   F8/GYlHSv7am2y5QyuJ1YvBW9YAEhSS5HQP5dg676Rjljskr01LGwVyZU
+   dOkeJ5X8TFqCPOXLuhb2V3Ii3gv5yN8CRqvB8SOMixk+61n1ML6+kY08U
+   uewo4e9LDe0+jbMI1+amOLYykLbXI4kk145+RjZ29M2+F6gJbnQZESMS/
+   ZKU2KeTSJKyTz5+ATIqMfQmTZWIpNvIwAR5gzrK79wpfqfllQoHUE2Rqk
+   Q==;
+X-CSE-ConnectionGUID: BxdweF4kTfCesJ96S0gMJQ==
+X-CSE-MsgGUID: mkKd+oa9Rr+OmxwXHKTuyg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="12136775"
 X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="23007596"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 05:57:20 -0700
-X-CSE-ConnectionGUID: OOpTo2uBTMiLhB40k3fY/A==
-X-CSE-MsgGUID: 2Zer2kwJTcK9RVJYdhgoYg==
+   d="scan'208";a="12136775"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 06:30:24 -0700
+X-CSE-ConnectionGUID: tPtWElY6TG2h6sugtlN0KA==
+X-CSE-MsgGUID: 2Pst/zrGTq+P1/Um/cSiYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="55754992"
+   d="scan'208";a="69971964"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 May 2024 05:57:19 -0700
+  by orviesa001.jf.intel.com with ESMTP; 20 May 2024 06:30:22 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s92Zn-0004rc-24;
-	Mon, 20 May 2024 12:57:15 +0000
-Date: Mon, 20 May 2024 20:56:20 +0800
+	id 1s935m-0004sO-30;
+	Mon, 20 May 2024 13:30:19 +0000
+Date: Mon, 20 May 2024 21:30:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 9639/9669] drivers/iommu/iommu.c:1141:undefined
- reference to `iova_reserve_domain_addr'
-Message-ID: <202405202025.9w8wgmwQ-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 9619/9669] kernel/dma/contiguous.c:228:13: error:
+ 'is_zhaoxin_kh40000' undeclared
+Message-ID: <202405202102.9bImbUvA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,92 +64,81 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   bb74bc369fd2ab5f41a32c4ddc2e23bc76c3c550
-commit: 40c9fc02b0564bbcbc3fc6e14f3aea3639f0afa6 [9639/9669] iommu/vt-d: Add support for detecting ACPI namespace device in RMRR
-config: x86_64-randconfig-161-20240520 (https://download.01.org/0day-ci/archive/20240520/202405202025.9w8wgmwQ-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405202025.9w8wgmwQ-lkp@intel.com/reproduce)
+commit: 4332dbb07181359cccca3ba757ef54e434fb1296 [9619/9669] Add kh40000_direct_dma_ops for KH-40000 platform
+config: x86_64-buildonly-randconfig-002-20240520 (https://download.01.org/0day-ci/archive/20240520/202405202102.9bImbUvA-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405202102.9bImbUvA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405202025.9w8wgmwQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405202102.9bImbUvA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/iommu/iommu.o: in function `iommu_create_device_direct_mappings':
->> drivers/iommu/iommu.c:1141:(.text+0x263a): undefined reference to `iova_reserve_domain_addr'
+   kernel/dma/contiguous.c: In function 'dma_contiguous_reserve':
+>> kernel/dma/contiguous.c:228:13: error: 'is_zhaoxin_kh40000' undeclared (first use in this function)
+     228 |         if (is_zhaoxin_kh40000)
+         |             ^~~~~~~~~~~~~~~~~~
+   kernel/dma/contiguous.c:228:13: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +1141 drivers/iommu/iommu.c
+vim +/is_zhaoxin_kh40000 +228 kernel/dma/contiguous.c
 
-  1085	
-  1086	static int iommu_create_device_direct_mappings(struct iommu_domain *domain,
-  1087						       struct device *dev)
-  1088	{
-  1089		struct iommu_resv_region *entry;
-  1090		struct list_head mappings;
-  1091		unsigned long pg_size;
-  1092		int ret = 0;
-  1093	
-  1094		pg_size = domain->pgsize_bitmap ? 1UL << __ffs(domain->pgsize_bitmap) : 0;
-  1095		INIT_LIST_HEAD(&mappings);
-  1096	
-  1097		if (WARN_ON_ONCE(iommu_is_dma_domain(domain) && !pg_size))
-  1098			return -EINVAL;
-  1099	
-  1100		iommu_get_resv_regions(dev, &mappings);
-  1101	
-  1102		/* We need to consider overlapping regions for different devices */
-  1103		list_for_each_entry(entry, &mappings, list) {
-  1104			dma_addr_t start, end, addr;
-  1105			size_t map_size = 0;
-  1106	
-  1107			if (entry->type == IOMMU_RESV_DIRECT)
-  1108				dev->iommu->require_direct = 1;
-  1109	
-  1110			if ((entry->type != IOMMU_RESV_DIRECT &&
-  1111			     entry->type != IOMMU_RESV_DIRECT_RELAXABLE) ||
-  1112			    !iommu_is_dma_domain(domain))
-  1113				continue;
-  1114	
-  1115			start = ALIGN(entry->start, pg_size);
-  1116			end   = ALIGN(entry->start + entry->length, pg_size);
-  1117	
-  1118			for (addr = start; addr <= end; addr += pg_size) {
-  1119				phys_addr_t phys_addr;
-  1120	
-  1121				if (addr == end)
-  1122					goto map_end;
-  1123	
-  1124				phys_addr = iommu_iova_to_phys(domain, addr);
-  1125				if (!phys_addr) {
-  1126					map_size += pg_size;
-  1127					continue;
-  1128				}
-  1129	
-  1130	map_end:
-  1131				if (map_size) {
-  1132					ret = iommu_map(domain, addr - map_size,
-  1133							addr - map_size, map_size,
-  1134							entry->prot, GFP_KERNEL);
-  1135					if (ret)
-  1136						goto out;
-  1137					map_size = 0;
-  1138				}
-  1139			}
-  1140			if (apply_zhaoxin_dmar_acpi_a_behavior())
-> 1141				iova_reserve_domain_addr(domain, start, end);
-  1142		}
-  1143	
-  1144		if (!list_empty(&mappings) && iommu_is_dma_domain(domain))
-  1145			iommu_flush_iotlb_all(domain);
-  1146	
-  1147	out:
-  1148		iommu_put_resv_regions(dev, &mappings);
-  1149	
-  1150		return ret;
-  1151	}
-  1152	
+   208	
+   209	/**
+   210	 * dma_contiguous_reserve() - reserve area(s) for contiguous memory handling
+   211	 * @limit: End address of the reserved memory (optional, 0 for any).
+   212	 *
+   213	 * This function reserves memory from early allocator. It should be
+   214	 * called by arch specific code once the early allocator (memblock or bootmem)
+   215	 * has been activated and all other subsystems have already allocated/reserved
+   216	 * memory.
+   217	 */
+   218	void __init dma_contiguous_reserve(phys_addr_t limit)
+   219	{
+   220		phys_addr_t selected_size = 0;
+   221		phys_addr_t selected_base = 0;
+   222		phys_addr_t selected_limit = limit;
+   223		bool fixed = false;
+   224	
+   225		dma_numa_cma_reserve();
+   226	
+   227	#if defined(CONFIG_X86_64) && defined(CONFIG_PCI)
+ > 228		if (is_zhaoxin_kh40000)
+   229			return;
+   230	#endif
+   231		pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
+   232	
+   233		if (size_cmdline != -1) {
+   234			selected_size = size_cmdline;
+   235			selected_base = base_cmdline;
+   236			selected_limit = min_not_zero(limit_cmdline, limit);
+   237			if (base_cmdline + size_cmdline == limit_cmdline)
+   238				fixed = true;
+   239		} else {
+   240	#ifdef CONFIG_CMA_SIZE_SEL_MBYTES
+   241			selected_size = size_bytes;
+   242	#elif defined(CONFIG_CMA_SIZE_SEL_PERCENTAGE)
+   243			selected_size = cma_early_percent_memory();
+   244	#elif defined(CONFIG_CMA_SIZE_SEL_MIN)
+   245			selected_size = min(size_bytes, cma_early_percent_memory());
+   246	#elif defined(CONFIG_CMA_SIZE_SEL_MAX)
+   247			selected_size = max(size_bytes, cma_early_percent_memory());
+   248	#endif
+   249		}
+   250	
+   251		if (selected_size && !dma_contiguous_default_area) {
+   252			pr_debug("%s: reserving %ld MiB for global area\n", __func__,
+   253				 (unsigned long)selected_size / SZ_1M);
+   254	
+   255			dma_contiguous_reserve_area(selected_size, selected_base,
+   256						    selected_limit,
+   257						    &dma_contiguous_default_area,
+   258						    fixed);
+   259		}
+   260	}
+   261	
 
 -- 
 0-DAY CI Kernel Test Service
