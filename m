@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E306220EB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 16:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD66A137742
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 16:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716222043; cv=none; b=N3W/hgkM6WIBSrT2BvNn/OOEUq6GsnDeCFd794GDPkUZGF8trOkfxzXlwveqGab2ht03Osw57Zdp9QpTxaovoiM7bexuEO+fYdKXUFH8SdUjkij3V3epTMu9DHYv055oP14EnRsfeScZvseUgYAlIiNtphaAsBOYcBd6VIagbxc=
+	t=1716222707; cv=none; b=C4a+AiaeZQhiZjUy1SjQLPgjRLLu5WiHI+j4FMVVeWiDoUuNQ2vQ+EzSfEOpbpFvG2YfOwPnTsXkIiYZfyPdYDoRhffKM2eOW5AJjr3AyktiSgB4T7NwNiAN6Z3va4NSoeMFFcdhGcAxmo2l17cCE1/RnfuOmYZH9uyyGiomWkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716222043; c=relaxed/simple;
-	bh=hpeOg6VUgN4RcS5WMngKM3bkIHckeZ7/Kx3AVkS+ep4=;
+	s=arc-20240116; t=1716222707; c=relaxed/simple;
+	bh=Dh+uJhI39asicZ2Tx302il4dLC2W4RA5ii2uGeQDU48=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QnIBcpdGiPxDpT25Bsaja7iFyZX/7COwqC7o/TAR5KWe3GjQ5OFrmsqc7NVRRiqNR0otPq3mKdgn2zVjisu0Zx+adTqvb0dN+xJJxORDpiEKV9IrC1o+ocWVp5G2fW9fpOeb7bhWOyEhrrSnJGuHFV2+5v4eKA7wgE1AjthB17A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeAnbfpR; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=UnuC9lpCWIb0TOs5kd//764PU1MRuZ3/lkqZXbXhpsgOfxii9K0BP5hLU5jx5nzGJvSpM27auZyD5Y1SNTQU+GxQh2e+vg1kRlrT5cNxpnvdk1cdvbL0viSSMAQ07mB9+FXf7uAOTe5lENFPFumLE+7W50H0IYorhdilmk0EbdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxctnJNm; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeAnbfpR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxctnJNm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716222042; x=1747758042;
+  t=1716222705; x=1747758705;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hpeOg6VUgN4RcS5WMngKM3bkIHckeZ7/Kx3AVkS+ep4=;
-  b=SeAnbfpRRJNoLUSG421dRw96XLcnLXmB10WKPvVrrwH2orYnyacSbhL4
-   NwBZadqJFv4K8PT2C/6AsHmSgoozCduCwZhR4H9sJxNgLt8WAr3WhOj+v
-   1GeFU11lsNCFlcMR+dqHrJaWWtwhHymTkGiNXCHbXfKGKGy3YK+qbhbRs
-   0EK4Xt4QBicI18u+IeYi6qYxcp/bJmRFoA76s6ryZPDmxAwced1KIKqhS
-   UET9rgIoNZ53h8IgEiTMFhT2Rt6AgcXZuY+vjTmavQZEt0SnAbBKdNWA0
-   w3o5MjY49m0+sOHCTNGFuARpVzXS/A0FORUVBP5ttaHua3x/okcxtQhDa
+  bh=Dh+uJhI39asicZ2Tx302il4dLC2W4RA5ii2uGeQDU48=;
+  b=VxctnJNm02OPeXn76ypQfT57XNCmrBbRH4EKiazNsL8+9mwgftqip2cY
+   KZOlk93W4Ji9bbsvISM+x3/psh1NnDt6U+ravy8sEhjL1lFkT3dPDkZvu
+   uu2U0Ti+DdYyMmVHu5osnT1Jkc4derX/aGfFYkDDx5hvnZcLGb7C8B0f/
+   vHdPssjb+1KvNVgoh2mFV7oRrBobKM8kn7zpk2aGuOgyfJogTtG7a0agH
+   CcoG/NvDBkLLQMysWhJVLydcdxvskLjCCudvT0tda5nbFE+dNp2D92lTN
+   rR88gwD8miLJdo/BHod5oy/Rm6cZnVokNMLrWGJuk0UDUy/+T1XjdWEPe
    Q==;
-X-CSE-ConnectionGUID: JgZHsvXyTIGnGhlluIAN1w==
-X-CSE-MsgGUID: 43Z/2NbxTbKA4jNgSV5AEw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="16191864"
+X-CSE-ConnectionGUID: 5nLTw8HAR8CNjEzL9wxoMw==
+X-CSE-MsgGUID: MNv/7cAURFGMUSbs4+PpoA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="22969503"
 X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="16191864"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 09:20:41 -0700
-X-CSE-ConnectionGUID: avUET2SDTGOq4NovXc7gUw==
-X-CSE-MsgGUID: 1MmYLBQTQfqAV3Yft61V3w==
+   d="scan'208";a="22969503"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 09:31:43 -0700
+X-CSE-ConnectionGUID: 6vd7fGjrTqmABDzbDSJZxg==
+X-CSE-MsgGUID: R3Uus9y+RPapxvAB+VAZoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="33185003"
+   d="scan'208";a="32503159"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 May 2024 09:20:40 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 May 2024 09:31:41 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s95kc-0004xA-02;
-	Mon, 20 May 2024 16:20:38 +0000
-Date: Tue, 21 May 2024 00:20:22 +0800
+	id 1s95vG-0004y9-1r;
+	Mon, 20 May 2024 16:31:38 +0000
+Date: Tue, 21 May 2024 00:31:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 13207/13491] drivers/thermal/thermal_trip.o:
- warning: objtool: unexpected relocation symbol type in
- .rela.discard.reachable
-Message-ID: <202405210004.5M02x213-lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: include/asm-generic/percpu.h:31:40: error: implicit declaration of
+ function 'raw_smp_processor_id'
+Message-ID: <202405210052.DIrMXJNz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,21 +65,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   632483ea8004edfadd035de36e1ab2c7c4f53158
-commit: 8c69a777e480174b1fdd75dab5ad584454dd6555 [13207/13491] thermal: core: Fix the handling of invalid trip points
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240521/202405210004.5M02x213-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405210004.5M02x213-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eb6a9339efeb6f3d2b5c86fdf2382cdc293eca2c
+commit: 24e44cc22aa3112082f2ee23137d048c73ca96d5 mm: percpu: enable per-cpu allocation tagging
+date:   4 weeks ago
+config: mips-randconfig-r133-20240520 (https://download.01.org/0day-ci/archive/20240521/202405210052.DIrMXJNz-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240521/202405210052.DIrMXJNz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405210004.5M02x213-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405210052.DIrMXJNz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/thermal/thermal_trip.o: warning: objtool: unexpected relocation symbol type in .rela.discard.reachable
+   In file included from include/linux/compiler_types.h:151,
+                    from <command-line>:
+   include/linux/alloc_tag.h: In function '__alloc_tag_ref_set':
+>> include/asm-generic/percpu.h:31:40: error: implicit declaration of function 'raw_smp_processor_id' [-Werror=implicit-function-declaration]
+      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
+         |                                        ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler-gcc.h:35:33: note: in definition of macro 'RELOC_HIDE'
+      35 |         (typeof(ptr)) (__ptr + (off));                                  \
+         |                                 ^~~
+   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+         |                               ^~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:31:25: note: in expansion of macro 'per_cpu_offset'
+      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
+         |                         ^~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:44:53: note: in expansion of macro '__my_cpu_offset'
+      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+         |                                                     ^~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
+     242 |         arch_raw_cpu_ptr(ptr);                                          \
+         |         ^~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:10: note: in expansion of macro 'raw_cpu_ptr'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |          ^~~~~~~~~~~
+   include/asm-generic/percpu.h:156:9: note: in expansion of macro 'raw_cpu_generic_to_op'
+     156 |         raw_cpu_generic_to_op(pcp, val, op);                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:401:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     401 | #define this_cpu_add_1(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:501:41: note: in expansion of macro 'this_cpu_add'
+     501 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/alloc_tag.h:117:9: note: in expansion of macro 'this_cpu_inc'
+     117 |         this_cpu_inc(tag->counters->calls);
+         |         ^~~~~~~~~~~~
+   In file included from include/linux/smp.h:119,
+                    from include/linux/percpu.h:8,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from include/drm/drm_util.h:35,
+                    from drivers/gpu/drm/xe/xe_device.h:12,
+                    from drivers/gpu/drm/xe/xe_bb.c:10:
+   arch/mips/include/asm/smp.h: At top level:
+>> arch/mips/include/asm/smp.h:26:19: error: static declaration of 'raw_smp_processor_id' follows non-static declaration
+      26 | static inline int raw_smp_processor_id(void)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:31:40: note: previous implicit declaration of 'raw_smp_processor_id' with type 'int()'
+      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
+         |                                        ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler-gcc.h:35:33: note: in definition of macro 'RELOC_HIDE'
+      35 |         (typeof(ptr)) (__ptr + (off));                                  \
+         |                                 ^~~
+   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+         |                               ^~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:31:25: note: in expansion of macro 'per_cpu_offset'
+      31 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
+         |                         ^~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:44:53: note: in expansion of macro '__my_cpu_offset'
+      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+         |                                                     ^~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
+     242 |         arch_raw_cpu_ptr(ptr);                                          \
+         |         ^~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:72:10: note: in expansion of macro 'raw_cpu_ptr'
+      72 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |          ^~~~~~~~~~~
+   include/asm-generic/percpu.h:156:9: note: in expansion of macro 'raw_cpu_generic_to_op'
+     156 |         raw_cpu_generic_to_op(pcp, val, op);                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:401:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     401 | #define this_cpu_add_1(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_add_1'
+     365 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:491:41: note: in expansion of macro '__pcpu_size_call'
+     491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:501:41: note: in expansion of macro 'this_cpu_add'
+     501 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   include/linux/alloc_tag.h:117:9: note: in expansion of macro 'this_cpu_inc'
+     117 |         this_cpu_inc(tag->counters->calls);
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/raw_smp_processor_id +31 include/asm-generic/percpu.h
+
+acdac87202a408 travis@sgi.com 2008-01-30  23  
+acdac87202a408 travis@sgi.com 2008-01-30  24  /*
+acdac87202a408 travis@sgi.com 2008-01-30  25   * Determine the offset for the currently active processor.
+acdac87202a408 travis@sgi.com 2008-01-30  26   * An arch may define __my_cpu_offset to provide a more effective
+acdac87202a408 travis@sgi.com 2008-01-30  27   * means of obtaining the offset to the per cpu variables of the
+acdac87202a408 travis@sgi.com 2008-01-30  28   * current processor.
+acdac87202a408 travis@sgi.com 2008-01-30  29   */
+acdac87202a408 travis@sgi.com 2008-01-30  30  #ifndef __my_cpu_offset
+acdac87202a408 travis@sgi.com 2008-01-30 @31  #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
+1e8352784abaed Hugh Dickins   2008-02-23  32  #endif
+1e8352784abaed Hugh Dickins   2008-02-23  33  #ifdef CONFIG_DEBUG_PREEMPT
+acdac87202a408 travis@sgi.com 2008-01-30  34  #define my_cpu_offset per_cpu_offset(smp_processor_id())
+acdac87202a408 travis@sgi.com 2008-01-30  35  #else
+acdac87202a408 travis@sgi.com 2008-01-30  36  #define my_cpu_offset __my_cpu_offset
+acdac87202a408 travis@sgi.com 2008-01-30  37  #endif
+acdac87202a408 travis@sgi.com 2008-01-30  38  
+
+:::::: The code at line 31 was first introduced by commit
+:::::: acdac87202a408133ee8f7985076de9d2e0dc5ab percpu: make the asm-generic/percpu.h more "generic"
+
+:::::: TO: travis@sgi.com <travis@sgi.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
