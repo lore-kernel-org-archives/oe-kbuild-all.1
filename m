@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1365E1CD3B;
-	Mon, 20 May 2024 22:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C271C13956D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 22:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716242893; cv=none; b=GjzF5F6MEZXp8gFoSNrfYTEzbpM/mUuSKwKE1JKp1dNKdEpOS4eiZrnsVhFCrVa3DKimbVUqvA7Hn6QosW8eyvVBcdj04gGY/0twTK906Cj0Aq0EYROFgiQS8fHFduVXZiWqMr3dL07kPg+JEPSKOc1MMsKh+8V9t0ve+PckhXE=
+	t=1716242999; cv=none; b=dzvYMC7ZqdurYEujOymB+DZ2sUo3Nu/k7lLmzpGmMj5Y/b2U8g7ewV7LiRI0+gwLdHlF0gzvnGoeTpjIOGHTKmr4+UNYs8wuklcKv2TlDPbE//2qWLw1b4iEQFtAM0SIh/n/qNB3tS4Ip7024VzMn0GpuoVVFMUiDLUMHhes7uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716242893; c=relaxed/simple;
-	bh=iFGZ6328HqmzBFXk0oIfQN//Y27uuiSgBm3fp6/mYxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JaIHAyzWfh11LnzKa+2VIcr11H5+5g/Z7OkZL4VW1TOxjHlEYgmH0LAdR7xFOSLs6zT/4vHnr74/qZv51bFaA5ZwS4v5kpUMWMWOESRKMFE/jf76VQjYGYwlG4f3iJ/LQNb06a882OHCfJ4KwVKwrxyVMqUGoMPrkdMCvPFekNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lV3g1yGG; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1716242999; c=relaxed/simple;
+	bh=u17HWAbfa9ptBYxJPoCHrUNpIdJdtFRrJikzEmspCPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f9Y29Fa3mZtqqh5hsA78K5NJV6hk9NtGxjpt0ti+jUDdnu9eQ5PHqGtU6UvPfx2wBnrdF7EQ3A/HVg9Zq7UjRixkdrVbgS/0jwiVCKQjdgm+Bciwjwby/tDAvowjH4rIDEMo+akCnhfD+H4WZwMCCno5qq7Nch4mQBDrTagWY6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcHDKbUj; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lV3g1yGG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcHDKbUj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716242892; x=1747778892;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iFGZ6328HqmzBFXk0oIfQN//Y27uuiSgBm3fp6/mYxE=;
-  b=lV3g1yGGJtsBcwVsH/Ru/OIg3+kthtUagBh/AWuDTenQ4gP/3fpk+KMC
-   N2wH9rdvdNZjWhl1SnP7h39D4lWxvTS/rntvMjC5vgce9UHzHvtQBM11T
-   +jQxDl87f7Bx7ptSnV9bhbU3LZagy9E5dbfLzOFQG1J1ZH82Gf0wDcV1M
-   CItftXjMjYUFYYWWeseSqHnUWeodWB6eyNy9MD4wg/26BTqRmkLhJlcQJ
-   e5JzHOge8/4vaeO+20WwlfIkgvGVwso/5luGS0e4ZTtEwmMGduUjs7Hpf
-   tfohxBcbwFZvLffsnkqh+m10BqGeL1DS3DS5kiRsvubblAHs6Cxetkt8X
-   A==;
-X-CSE-ConnectionGUID: 8lBm3BesTQ2dk4GLDm1PmA==
-X-CSE-MsgGUID: SbTIgbhCQPiDzOGcpA9OXw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="11614558"
+  t=1716242998; x=1747778998;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u17HWAbfa9ptBYxJPoCHrUNpIdJdtFRrJikzEmspCPI=;
+  b=mcHDKbUjLdDAKTyqxUCJHwE5XTGLPsCfBmcL/XiPHhH62esCWO3qPbgC
+   ffXZFoS74z4o2eTDnvdLzn1YkrOsL1GtwbTgtZvm0OTfL1EFcRWzgPZ6/
+   WO6GYN8vW64m9ddmLM4vPp9U24KdROcumLX5h+Lw85xGGHS1BO3bNXi9u
+   O4ulwHVBgom5L7nPIABucMc8XBwMxfUgSupyhYKTn7DN87IouSkI0WGcy
+   yeR8NjW7MHr5RftRHWbkpBZ9tqpbiyK+zmr81SaWiuyeeylHkojcAR+Pp
+   BgyYY2CMHiRfur4YF4iumkO8sYyJXfIb6x1LtaOp/IBKYcDRrRRqNjr4q
+   Q==;
+X-CSE-ConnectionGUID: eliXTyF+Qa64C52lsto0Yg==
+X-CSE-MsgGUID: idWuXonpTImmqiwr0YoYHw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="12577640"
 X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="11614558"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 15:08:11 -0700
-X-CSE-ConnectionGUID: UGMkWuMCQZ+C46lypG4FYQ==
-X-CSE-MsgGUID: MtVPhxsKQQmqKBVqXq7XkA==
+   d="scan'208";a="12577640"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 15:09:58 -0700
+X-CSE-ConnectionGUID: N9PpyIvHQ2ywVoN8rg0CpQ==
+X-CSE-MsgGUID: hBFMbqQBT4utr/QnMZr3mg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="37518611"
+   d="scan'208";a="37061742"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 20 May 2024 15:08:09 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 May 2024 15:09:56 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9B95-0005C0-3C;
-	Mon, 20 May 2024 22:06:45 +0000
+	id 1s9BAs-0005C2-28;
+	Mon, 20 May 2024 22:09:13 +0000
 Date: Tue, 21 May 2024 06:05:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harshad Shirwadkar <harshadshirwadkar@gmail.com>,
-	linux-ext4@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tytso@mit.edu,
-	saukad@google.com, harshads@google.com,
-	Harshad Shirwadkar <harshadshirwadkar@gmail.com>
-Subject: Re: [PATCH 04/10] ext4: rework fast commit commit path
-Message-ID: <202405210505.cGPCGQFq-lkp@intel.com>
-References: <20240520055153.136091-5-harshadshirwadkar@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-classmap-fix-8c 32/34]
+ drivers/gpu/drm/xe/display/intel_fb_bo.c:43:7: error: expected expression
+Message-ID: <202405210648.p6TPeHNf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,134 +62,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240520055153.136091-5-harshadshirwadkar@gmail.com>
 
-Hi Harshad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tytso-ext4/dev]
-[also build test ERROR on linus/master v6.9 next-20240520]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harshad-Shirwadkar/ext4-convert-i_fc_lock-to-spinlock/20240520-135501
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20240520055153.136091-5-harshadshirwadkar%40gmail.com
-patch subject: [PATCH 04/10] ext4: rework fast commit commit path
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240521/202405210505.cGPCGQFq-lkp@intel.com/config)
+tree:   https://github.com/jimc/linux.git dd-classmap-fix-8c
+head:   19c77819e39e4e7e74eef7f78bea70e004c6724c
+commit: 51b0efcbcf9a4cfe4bdd5033286e703ed1d74b87 [32/34] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240521/202405210648.p6TPeHNf-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405210505.cGPCGQFq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405210648.p6TPeHNf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405210505.cGPCGQFq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405210648.p6TPeHNf-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/nvidia_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
->> ERROR: modpost: "jbd2_journal_lock_updates_no_rsv" [fs/ext4/ext4.ko] undefined!
+   In file included from drivers/gpu/drm/xe/display/intel_fb_bo.c:8:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:9:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/display/intel_fb_bo.c:43:7: error: expected expression
+      43 |                 if (XE_IOCTL_DBG(i915, !list_empty(&bo->ttm.base.gpuva.list))) {
+         |                     ^
+   drivers/gpu/drm/xe/xe_macros.h:14:14: note: expanded from macro 'XE_IOCTL_DBG'
+      14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+         |                     ^
+   include/drm/drm_print.h:532:32: note: expanded from macro 'drm_dbg'
+     532 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^
+   include/drm/drm_print.h:514:2: note: expanded from macro 'drm_dbg_driver'
+     514 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^
+   include/drm/drm_print.h:435:2: note: expanded from macro 'drm_dev_dbg'
+     435 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^
+   include/linux/dynamic_debug.h:317:2: note: expanded from macro '_dynamic_func_call_cls'
+     317 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^
+   include/linux/dynamic_debug.h:290:58: note: expanded from macro '__dynamic_func_call_cls'
+     290 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^
+   5 warnings and 1 error generated.
+
+
+vim +43 drivers/gpu/drm/xe/display/intel_fb_bo.c
+
+44e694958b95395 Maarten Lankhorst 2023-08-17  22  
+44e694958b95395 Maarten Lankhorst 2023-08-17  23  int intel_fb_bo_framebuffer_init(struct intel_framebuffer *intel_fb,
+44e694958b95395 Maarten Lankhorst 2023-08-17  24  				 struct xe_bo *bo,
+44e694958b95395 Maarten Lankhorst 2023-08-17  25  				 struct drm_mode_fb_cmd2 *mode_cmd)
+44e694958b95395 Maarten Lankhorst 2023-08-17  26  {
+44e694958b95395 Maarten Lankhorst 2023-08-17  27  	struct drm_i915_private *i915 = to_i915(bo->ttm.base.dev);
+44e694958b95395 Maarten Lankhorst 2023-08-17  28  	int ret;
+44e694958b95395 Maarten Lankhorst 2023-08-17  29  
+44e694958b95395 Maarten Lankhorst 2023-08-17  30  	xe_bo_get(bo);
+44e694958b95395 Maarten Lankhorst 2023-08-17  31  
+44e694958b95395 Maarten Lankhorst 2023-08-17  32  	ret = ttm_bo_reserve(&bo->ttm, true, false, NULL);
+44e694958b95395 Maarten Lankhorst 2023-08-17  33  	if (ret)
+652ead9b746a63e Maarten Lankhorst 2024-04-04  34  		goto err;
+44e694958b95395 Maarten Lankhorst 2023-08-17  35  
+44e694958b95395 Maarten Lankhorst 2023-08-17  36  	if (!(bo->flags & XE_BO_SCANOUT_BIT)) {
+44e694958b95395 Maarten Lankhorst 2023-08-17  37  		/*
+44e694958b95395 Maarten Lankhorst 2023-08-17  38  		 * XE_BO_SCANOUT_BIT should ideally be set at creation, or is
+44e694958b95395 Maarten Lankhorst 2023-08-17  39  		 * automatically set when creating FB. We cannot change caching
+44e694958b95395 Maarten Lankhorst 2023-08-17  40  		 * mode when the boect is VM_BINDed, so we can only set
+44e694958b95395 Maarten Lankhorst 2023-08-17  41  		 * coherency with display when unbound.
+44e694958b95395 Maarten Lankhorst 2023-08-17  42  		 */
+44e694958b95395 Maarten Lankhorst 2023-08-17 @43  		if (XE_IOCTL_DBG(i915, !list_empty(&bo->ttm.base.gpuva.list))) {
+44e694958b95395 Maarten Lankhorst 2023-08-17  44  			ttm_bo_unreserve(&bo->ttm);
+652ead9b746a63e Maarten Lankhorst 2024-04-04  45  			ret = -EINVAL;
+652ead9b746a63e Maarten Lankhorst 2024-04-04  46  			goto err;
+44e694958b95395 Maarten Lankhorst 2023-08-17  47  		}
+44e694958b95395 Maarten Lankhorst 2023-08-17  48  		bo->flags |= XE_BO_SCANOUT_BIT;
+44e694958b95395 Maarten Lankhorst 2023-08-17  49  	}
+44e694958b95395 Maarten Lankhorst 2023-08-17  50  	ttm_bo_unreserve(&bo->ttm);
+652ead9b746a63e Maarten Lankhorst 2024-04-04  51  	return 0;
+44e694958b95395 Maarten Lankhorst 2023-08-17  52  
+652ead9b746a63e Maarten Lankhorst 2024-04-04  53  err:
+652ead9b746a63e Maarten Lankhorst 2024-04-04  54  	xe_bo_put(bo);
+44e694958b95395 Maarten Lankhorst 2023-08-17  55  	return ret;
+44e694958b95395 Maarten Lankhorst 2023-08-17  56  }
+44e694958b95395 Maarten Lankhorst 2023-08-17  57  
+
+:::::: The code at line 43 was first introduced by commit
+:::::: 44e694958b95395bd1c41508c88c8ca141bf9bd7 drm/xe/display: Implement display support
+
+:::::: TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
