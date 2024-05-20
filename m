@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A24412B73;
-	Mon, 20 May 2024 05:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564EC2FD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 07:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716181656; cv=none; b=PMeHE8GzozyPgHEbElW3Iexz/D2zfgTzEqwiq8IJnyEK2x81OdqMk8U/s3dRCY65pEagN3wMRN2OFYVVYAJYZ23wzFV1skZt7OUjo8sHOdO7+Msdw6HJ6fhjP1G5HFg5dCkzZ0AIfyvOGm0pHSNbktz909V6gTSaHqHjdrUHZ8E=
+	t=1716188481; cv=none; b=MYQA+UvpOormX7OT9h+cXwvllyHPRV+9Fs/vSHXM05YPVPWzINl8o9viWYMYbXGiE+9Y4p/3zVzGE/nJU6857ywFTqI3jZRLq9e8QMKU+AyKgsFqJhdY/anBbl5Icjkqe2Fo9IE7XcS4NMF3pgyz/kBbOdOqGpGtFZRiubRh+LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716181656; c=relaxed/simple;
-	bh=OSXJP7P5T18fydifD7V8S2biQ1kv96ZBJbbC7QlAW2w=;
+	s=arc-20240116; t=1716188481; c=relaxed/simple;
+	bh=r3hosoBK+v+vy1M1w1kgWbRXbsnd+zwS9OBJHjxF6L0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RVlCjrTKARgDrZODnJVFx8t+XaPd1IHZxG2BQ+SeSsIr22ZB7diLEg2eM8vFERFErTbnS07PvRWZBijO4J7TBp2nnkjWGpp/pX3GQMqOSPjDANYQznTpDHhwKB5KSqBKuELxE9/je8aMBMgTL17Z//X2G2Qo5gs5yBFjg+lRyi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCtjlpBy; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=QHvGVfGbSYw7gCixZKII27lrtix6kc53RrVaLTsqpaJ/AoYaBEXjY4CLrGogYpp4ktpkq6fUNjMsy6XOlhwMx2LkW3E9ioZ7MlYNwkdvqpey9peu0IuJ3vwZh5L21kQ67k7YMp5Wwn9QlUOdBgS8qsQGubHTMdM5OXKxoLoApLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDxH2Q9W; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCtjlpBy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDxH2Q9W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716181655; x=1747717655;
+  t=1716188479; x=1747724479;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OSXJP7P5T18fydifD7V8S2biQ1kv96ZBJbbC7QlAW2w=;
-  b=nCtjlpByckV34a41lxgoIIqPMOvZ92wtHAw0L/YkJBD2f+eURysPmwPp
-   hl5bZ9j4A3prqwHBMOT2JcfYc2UecuSPEYrgtT6NCAiuqGBtinHVBvgqR
-   +JiIlUuDlqpDCPow3i3WtHnfEAde7A6d+eBfrYeDw9GcoS7p4ZjDxrIZY
-   RwHW7tSk9Yit8iw6d7+TI0hJrm+E/wGfdq6MbaA/4vwDL6Gd4UCrWEGTt
-   ftmH9yx4J6t+dFFShmMYiZyiIr87PyD4FY8J9lMSAf6YDhflnicQYGPkI
-   CDoq2nWChHY+rmZBhgmXaxtKz0WXCvQBFS2hfnKtu3mWyY7r+h3+5A2oM
-   g==;
-X-CSE-ConnectionGUID: eVU/MsRzT060fVXAHgkeIA==
-X-CSE-MsgGUID: mxMZc4UPQdmemhMAKnU9dg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12161183"
+  bh=r3hosoBK+v+vy1M1w1kgWbRXbsnd+zwS9OBJHjxF6L0=;
+  b=jDxH2Q9WEZEVD3hkW3u5MZXgpAmAcPZ4r5d3jZOSObvy19goeo+fLK+Q
+   od2G7I7+O+vCzNRBU21q2q4G8/IY6bW1RsixqkLgVvP/OZpUMbheoSqa5
+   SDNTtB91Ooy65UDz000q5UIdOrOZaydQM4B5e39IQSE+1Pobj+spp7c0x
+   dZqBaULJTyPGwjRGzh7tAVsm6Agpu8a2JP1kbLRgVRqHVOjtwHN23kJZ+
+   O/yeSd4sevQ9nJGF96dkHucfXtlnjcMFT21WwGhm837d8pzEdWvwolxhu
+   +s9aTkIdwZSOjOOkwLlFYwsconNXeok3drWZjx+VqORlxi1WPNQ+7aSnP
+   A==;
+X-CSE-ConnectionGUID: knK5zlrXSA+0Qsy0ESmRjg==
+X-CSE-MsgGUID: kxOq2WFcS/SoFxShnL9UfA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="16128448"
 X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; 
-   d="scan'208";a="12161183"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 22:07:35 -0700
-X-CSE-ConnectionGUID: skTDJ7pFTe+2ftUlJMG2+w==
-X-CSE-MsgGUID: nRhzPG88TUi/V4tO2Nu0nw==
+   d="scan'208";a="16128448"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 00:01:18 -0700
+X-CSE-ConnectionGUID: YIemVuioTz6ut67H/6TmoQ==
+X-CSE-MsgGUID: WpkGEbWiQfm6E5dMocB6ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; 
-   d="scan'208";a="32566138"
+   d="scan'208";a="69870471"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 19 May 2024 22:07:33 -0700
+  by orviesa001.jf.intel.com with ESMTP; 20 May 2024 00:01:15 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8vFA-0004eF-1z;
-	Mon, 20 May 2024 05:07:29 +0000
-Date: Mon, 20 May 2024 13:07:18 +0800
+	id 1s8x1E-0004ia-1i;
+	Mon, 20 May 2024 07:01:12 +0000
+Date: Mon, 20 May 2024 15:00:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Lixu <lixu.zhang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>
-Subject: drivers/hid/intel-ish-hid/ishtp/loader.c:172:8: error: incompatible
- pointer types passing '__le64 *' (aka 'unsigned long long *') to parameter
- of type 'dma_addr_t *' (aka 'unsigned int *')
-Message-ID: <202405201313.SAStVPrT-lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 6634/6637] arch/x86/kvm/svm/csv.c:1974: warning:
+ This comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202405201437.J5s72uy0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,107 +66,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eb6a9339efeb6f3d2b5c86fdf2382cdc293eca2c
-commit: 579a267e4617d705f6c795e5e755b01f1f87eff3 HID: intel-ish-hid: Implement loading firmware from host feature
-date:   13 days ago
-config: i386-buildonly-randconfig-005-20240520 (https://download.01.org/0day-ci/archive/20240520/202405201313.SAStVPrT-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405201313.SAStVPrT-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ab414f954e57ae54df9e871de06eaa10dc57215b
+commit: bbea34c324bd47cfc9ce31c152d6f1d38e8defdd [6634/6637] KVM: SVM: CSV: Add ioctl API to unpin shared pages of CSV3 guest
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240520/202405201437.J5s72uy0-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405201437.J5s72uy0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405201313.SAStVPrT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405201437.J5s72uy0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/hid/intel-ish-hid/ishtp/loader.c:172:8: error: incompatible pointer types passing '__le64 *' (aka 'unsigned long long *') to parameter of type 'dma_addr_t *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
-     172 |                                                  &fragment->fragment_tbl[i].ddr_adrs, GFP_KERNEL);
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:429:15: note: passing argument to parameter 'dma_handle' here
-     429 |                 dma_addr_t *dma_handle, gfp_t gfp)
-         |                             ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:207:2: error: call to undeclared function 'DEFINE_RAW_FLEX'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     207 |         DEFINE_RAW_FLEX(struct loader_xfer_dma_fragment, fragment, fragment_tbl, FRAGMENT_MAX_NUM);
-         |         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:207:18: error: expected expression
-     207 |         DEFINE_RAW_FLEX(struct loader_xfer_dma_fragment, fragment, fragment_tbl, FRAGMENT_MAX_NUM);
-         |                         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:207:51: error: use of undeclared identifier 'fragment'
-     207 |         DEFINE_RAW_FLEX(struct loader_xfer_dma_fragment, fragment, fragment_tbl, FRAGMENT_MAX_NUM);
-         |                                                          ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:207:61: error: use of undeclared identifier 'fragment_tbl'
-     207 |         DEFINE_RAW_FLEX(struct loader_xfer_dma_fragment, fragment, fragment_tbl, FRAGMENT_MAX_NUM);
-         |                                                                    ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:229:2: error: use of undeclared identifier 'fragment'
-     229 |         fragment->fragment.header.command = LOADER_CMD_XFER_FRAGMENT;
-         |         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:230:2: error: use of undeclared identifier 'fragment'
-     230 |         fragment->fragment.xfer_mode = LOADER_XFER_MODE_DMA;
-         |         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:231:2: error: use of undeclared identifier 'fragment'
-     231 |         fragment->fragment.is_last = 1;
-         |         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:232:2: error: use of undeclared identifier 'fragment'
-     232 |         fragment->fragment.size = ish_fw->size;
-         |         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:236:2: error: use of undeclared identifier 'fragment'
-     236 |         fragment->fragment_cnt = DIV_ROUND_UP(ish_fw->size, fragment_size);
-         |         ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:238:37: error: use of undeclared identifier 'fragment'
-     238 |         rv = prepare_dma_bufs(dev, ish_fw, fragment, dma_bufs, fragment_size);
-         |                                            ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:258:46: error: use of undeclared identifier 'fragment'
-     258 |                                      struct_size(fragment, fragment_tbl, fragment->fragment_cnt),
-         |                                                                          ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:257:29: error: use of undeclared identifier 'fragment'
-     257 |                 rv = loader_xfer_cmd(dev, fragment,
-         |                                           ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:273:24: error: use of undeclared identifier 'fragment'
-     273 |         release_dma_bufs(dev, fragment, dma_bufs, fragment_size);
-         |                               ^
-   14 errors generated.
+>> arch/x86/kvm/svm/csv.c:1974: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    *  Return negative error code on fail,
 
 
-vim +172 drivers/hid/intel-ish-hid/ishtp/loader.c
+vim +1974 arch/x86/kvm/svm/csv.c
 
-   151	
-   152	/**
-   153	 * prepare_dma_bufs() - Prepare the DMA buffer for transferring firmware fragments
-   154	 * @dev: The ISHTP device
-   155	 * @ish_fw: The ISH firmware
-   156	 * @fragment: The ISHTP firmware fragment descriptor
-   157	 * @dma_bufs: The array of DMA fragment buffers
-   158	 * @fragment_size: The size of a single DMA fragment
-   159	 *
-   160	 * Return: 0 on success, negative error code on failure
-   161	 */
-   162	static int prepare_dma_bufs(struct ishtp_device *dev,
-   163				    const struct firmware *ish_fw,
-   164				    struct loader_xfer_dma_fragment *fragment,
-   165				    void **dma_bufs, u32 fragment_size)
-   166	{
-   167		u32 offset = 0;
-   168		int i;
-   169	
-   170		for (i = 0; i < fragment->fragment_cnt && offset < ish_fw->size; i++) {
-   171			dma_bufs[i] = dma_alloc_coherent(dev->devc, fragment_size,
- > 172							 &fragment->fragment_tbl[i].ddr_adrs, GFP_KERNEL);
-   173			if (!dma_bufs[i])
-   174				return -ENOMEM;
-   175	
-   176			fragment->fragment_tbl[i].length = clamp(ish_fw->size - offset, 0, fragment_size);
-   177			fragment->fragment_tbl[i].fw_off = offset;
-   178			memcpy(dma_bufs[i], ish_fw->data + offset, fragment->fragment_tbl[i].length);
-   179			clflush_cache_range(dma_bufs[i], fragment_size);
-   180	
-   181			offset += fragment->fragment_tbl[i].length;
-   182		}
-   183	
-   184		return 0;
-   185	}
-   186	
+  1972	
+  1973	/**
+> 1974	 *  Return negative error code on fail,
+  1975	 *  or return the number of pages unpinned successfully
+  1976	 */
+  1977	static int csv3_unpin_shared_memory(struct kvm *kvm, gpa_t gpa, u32 num_pages)
+  1978	{
+  1979		struct shared_page_block *spb;
+  1980		struct kvm_csv_info *csv;
+  1981		struct list_head *head, *pos, *q;
+  1982		struct page *page;
+  1983		gfn_t gfn;
+  1984		int unpin_cnt = 0;
+  1985		unsigned long i, j, k;
+  1986		int ret = 0;
+  1987	
+  1988		csv = &to_kvm_svm_csv(kvm)->csv_info;
+  1989		gfn = gpa_to_gfn(gpa);
+  1990	
+  1991		for (i = 0; i < num_pages; i++, gfn++) {
+  1992			mutex_lock(&csv->shared_page_block_lock);
+  1993	
+  1994			head = &csv->shared_pages_list;
+  1995			if (list_empty(head)) {
+  1996				ret = -ENOMEM;
+  1997				mutex_unlock(&csv->shared_page_block_lock);
+  1998				goto out;
+  1999			}
+  2000	
+  2001			/* remvoe the page from shared page block */
+  2002			list_for_each_safe(pos, q, head) {
+  2003				spb = list_entry(pos, struct shared_page_block, list);
+  2004				for (j = 0; j < spb->count; j++) {
+  2005					if (spb->shared_pages[j].gfn != gfn)
+  2006						continue;
+  2007	
+  2008					page = spb->shared_pages[j].page;
+  2009	
+  2010					/* delete the page, and move backward */
+  2011					for (k = j; k < spb->count - 1; k++)
+  2012						spb->shared_pages[k] = spb->shared_pages[k + 1];
+  2013	
+  2014					spb->count--;
+  2015					csv->total_shared_page_count--;
+  2016					if (spb->count == 0) {
+  2017						list_del(&spb->list);
+  2018						kfree(spb->shared_pages);
+  2019						kfree(spb);
+  2020						if (csv->cached_shared_page_block == spb)
+  2021							csv->cached_shared_page_block = NULL;
+  2022					}
+  2023					unpin_user_page(page);
+  2024					unpin_cnt++;
+  2025					goto next_page;
+  2026				}
+  2027			}
+  2028	next_page:
+  2029			mutex_unlock(&csv->shared_page_block_lock);
+  2030	
+  2031			cond_resched();
+  2032		}
+  2033	
+  2034		ret = unpin_cnt;
+  2035	out:
+  2036		return ret;
+  2037	}
+  2038	
 
 -- 
 0-DAY CI Kernel Test Service
