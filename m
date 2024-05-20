@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FF21E878
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 14:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2714D9EA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 May 2024 15:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716216391; cv=none; b=mr20LW2UzTtYPn7wI8JsG2eYMWYb7+kFUBIjxT8nMwSsg/VjiBmMale7tmNr/yvfQbAg0EaFdYy359Fh0xrIFhFBpx6XpELNi25jlazCb4pFnZGBaipf0dlWQA2Ln3v3LsehciNNMnSIUSEXqci7/+qVtjSy/RO34pvnmm0O2LI=
+	t=1716217594; cv=none; b=TKBJW3WLuUMG8cz1sVh6TE8j/pX9zEoWTFxco/xpx7FrfyGvWvwt08haQf2Djz+MakLEWUs+aZOmQOcqai+jXgzkGlTx+bfqr8GqsNrhMt5bSGg05S7b6TUPebM+UtnYyz0vDtI8tu/YBOlpTfPKdK0i+2IspoGtAPfzdNhQhHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716216391; c=relaxed/simple;
-	bh=vFfmdSaTJDGhES67w/gqQFHL71qDrO4q/NTzc+wg/i8=;
+	s=arc-20240116; t=1716217594; c=relaxed/simple;
+	bh=ch2+6bFURdAPa6CBtjTQIo8k3FjayYf/LChfcsE9Opc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G8ZcB+uGXaLtCV3MOIJSmARfhtKejzLc+e3Oe8YjN4V/FL7ng30xCI3o9Qaju+UzbkTNaToPWzFWzPOv1U6jFBpetgOpXJltYgQpMZF4RkRnDRSvMueUHzgufjGPonTYrTUbZumA7qKI/Wqs5x/lBFfkKqX1TBNDPViJ3ofn+4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWyi0aEN; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=uAe1BJWZ9V8FgpTBP0bGFKYyxtZvc6GRL/A/T3hdB0SRPrHPmw0M68bpyljFi15MY5BXZfrGJkhU8FkRwUBVeRvGPyHfc4gj/+pDymHMXVF9Pz2eN9AZc1ntE2mOI1oFiUZZc3HDq5PQOq+o7tDZI1bA4xgD+/hJXoj9O9N3E8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtkJC7gJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWyi0aEN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtkJC7gJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716216389; x=1747752389;
+  t=1716217592; x=1747753592;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vFfmdSaTJDGhES67w/gqQFHL71qDrO4q/NTzc+wg/i8=;
-  b=hWyi0aENnBI023nMuO1/BGVPScjnrbX5RPzyO/oLIeMKKfqsV77nJmrK
-   IVoWFJhBHSX/zrg0bhi/gokB8EOon06f6n6LNNrHCT+wVAM5OioWdhc75
-   aNKpR1t7lg0HW87LvaL0zkHgARItUbYfdwhye192F1rYNVY+cawkS91jb
-   Jbv9YrbahMVNuRoZIoGEaA7feVmBwhAv51c9xsDJ0t+mGHO8L6+SusoPZ
-   qQH7SEH5G6OqZFwX8S3rQPMyOMvpiVjYfRnaXDojFsRR6ruu8xuJsMkwD
-   F0nlVKRrQEWfAGpA4ge9+zy6DIfd3u/SjeFNDph1S+YRDl1wA/I7iGkCS
-   Q==;
-X-CSE-ConnectionGUID: X8H5W5T8QG2wM9QrOvzhcw==
-X-CSE-MsgGUID: ah2Ore2bTxOtGt9ywwohIA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="12524273"
+  bh=ch2+6bFURdAPa6CBtjTQIo8k3FjayYf/LChfcsE9Opc=;
+  b=FtkJC7gJHMMtxNAPjwIFsETq+p+4CJqjXlimQ3tuda5EkV6oYXYH2EWV
+   hxKBdZwURmf4QH+ewokckEEODKiEYPpBCbssKIe0SQ7IQ5j9sGl0+YG38
+   vYL4vyAgTmhgEMaNNidzFviFMTra2lf1e5wqfry+XCysahodBw0PLUsum
+   lEpgRdVbGklkOQ6NfJsGQqMD0bvib96ROU1VY0dvFawqqbDkHeCjMA2Y0
+   fLdh5oCnhYwAAQsWLYBNra5m9iWZeAanJfpRUEBefTwhe96HJ6Nccj7ob
+   ZcrQRhFsT+Q11YRrE3h10vLvpBqQ9+YnaTBM2Fo6wK/pEFg0zEVHNTxOd
+   w==;
+X-CSE-ConnectionGUID: V7ADGRL1RaWqXgA8Kn66pw==
+X-CSE-MsgGUID: dGhwkQ7IT2a/EOoj5ym19g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="23762861"
 X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="12524273"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 07:46:28 -0700
-X-CSE-ConnectionGUID: B48JMDGtRPurYae+YCixzQ==
-X-CSE-MsgGUID: vAsmEy92R1yUHTur0JzJ6A==
+   d="scan'208";a="23762861"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 08:06:31 -0700
+X-CSE-ConnectionGUID: NXqb9io6QqSJ+14Sl0FuFA==
+X-CSE-MsgGUID: fTzbraMFQ7KRfXKFzyvvRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="37087025"
+   d="scan'208";a="33134303"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 20 May 2024 07:46:27 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 May 2024 08:06:30 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s94HL-0004ud-2T;
-	Mon, 20 May 2024 14:46:21 +0000
-Date: Mon, 20 May 2024 22:45:48 +0800
+	id 1s94ap-0004vA-19;
+	Mon, 20 May 2024 15:06:27 +0000
+Date: Mon, 20 May 2024 23:06:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 9620/9669]
- arch/x86/kernel/zhaoxin_kh40000.c:348:16: error: 'struct device' has no
- member named 'dma_ops'
-Message-ID: <202405202248.hKgUtGVI-lkp@intel.com>
+To: Ethan Bitnun <etbitnun@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alvin Lee <alvin.lee2@amd.com>
+Subject: [linux-next:master 12471/13491]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:1006
+ dc_stream_get_max_flickerless_instant_vtotal_delta() warn: always true
+ condition '((stream->timing.v_total - safe_refresh_v_total) >= 0) =>
+ (0-u32max >= 0)'
+Message-ID: <202405202243.SHvS2otq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +68,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   bb74bc369fd2ab5f41a32c4ddc2e23bc76c3c550
-commit: ef20808db09987137fba30519fb94a6b12b63ee7 [9620/9669] Add kh40000_iommu_dma_ops for KH-40000 platform
-config: x86_64-buildonly-randconfig-002-20240520 (https://download.01.org/0day-ci/archive/20240520/202405202248.hKgUtGVI-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405202248.hKgUtGVI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   632483ea8004edfadd035de36e1ab2c7c4f53158
+commit: bd051aa2fcfb803b94708429970f71596a4748e4 [12471/13491] drm/amd/display: Find max flickerless instant vtotal delta
+config: x86_64-randconfig-161-20240520 (https://download.01.org/0day-ci/archive/20240520/202405202243.SHvS2otq-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405202248.hKgUtGVI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405202243.SHvS2otq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:1006 dc_stream_get_max_flickerless_instant_vtotal_delta() warn: always true condition '((stream->timing.v_total - safe_refresh_v_total) >= 0) => (0-u32max >= 0)'
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:1008 dc_stream_get_max_flickerless_instant_vtotal_delta() warn: always true condition '((safe_refresh_v_total - stream->timing.v_total) >= 0) => (0-u32max >= 0)'
 
-   arch/x86/kernel/zhaoxin_kh40000.c: In function 'kh40000_set_iommu_dma_ops':
->> arch/x86/kernel/zhaoxin_kh40000.c:348:16: error: 'struct device' has no member named 'dma_ops'
-     348 |         if (dev->dma_ops) {
-         |                ^~
-   arch/x86/kernel/zhaoxin_kh40000.c:349:36: error: 'struct device' has no member named 'dma_ops'
-     349 |                 iommu_dma_ops = dev->dma_ops;
-         |                                    ^~
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:398 dc_stream_program_cursor_position() error: we previously assumed 'stream' could be null (see line 397)
 
+vim +1006 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c
 
-vim +348 arch/x86/kernel/zhaoxin_kh40000.c
-
-   345	
-   346	void kh40000_set_iommu_dma_ops(struct device *dev)
-   347	{
- > 348		if (dev->dma_ops) {
+   985	
+   986	/*
+   987	 * Determines the max flickerless instant vtotal delta for a stream.
+   988	 * Determines vtotal increase/decrease based on the bool "increase"
+   989	 */
+   990	static unsigned int dc_stream_get_max_flickerless_instant_vtotal_delta(struct dc_stream_state *stream, bool is_gaming, bool increase)
+   991	{
+   992		if (stream->timing.v_total * stream->timing.h_total == 0)
+   993			return 0;
+   994	
+   995		int current_refresh_hz = (int)div64_s64((long long)stream->timing.pix_clk_100hz*100, stream->timing.v_total*stream->timing.h_total);
+   996	
+   997		int safe_refresh_hz = dc_stream_calculate_flickerless_refresh_rate(stream,
+   998								 dc_stream_get_brightness_millinits_from_refresh(stream, current_refresh_hz),
+   999								 current_refresh_hz,
+  1000								 is_gaming,
+  1001								 increase);
+  1002	
+  1003		int safe_refresh_v_total = (int)div64_s64((long long)stream->timing.pix_clk_100hz*100, safe_refresh_hz*stream->timing.h_total);
+  1004	
+  1005		if (increase)
+> 1006			return ((stream->timing.v_total - safe_refresh_v_total) >= 0) ? (stream->timing.v_total - safe_refresh_v_total) : 0;
+  1007	
+> 1008		return ((safe_refresh_v_total - stream->timing.v_total) >= 0) ? (safe_refresh_v_total - stream->timing.v_total) : 0;
+  1009	}
+  1010	
 
 -- 
 0-DAY CI Kernel Test Service
