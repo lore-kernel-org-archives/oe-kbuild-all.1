@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22D4148FF0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 15:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB95208AD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 15:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716306360; cv=none; b=BgL4Bn3R30wwkL4DKI3Mbi3TBYePrLlvgbb83uoKqUx5WCsdPUP7wjk+sbAvYoosyga9Y8AmelWRcvoSyhKwGImHwIO5j9nypVfYDXz/UiV6SHUg9fL0Qfcgt4PeSItsVxNmcS+7LcCOhaMHK0j0Pst91iFMCMXV45TcwVYeIv4=
+	t=1716306364; cv=none; b=cOaXMspkN4LLwUfmHOgqRN/dvi+LkoXd2req/kZ51Z0LjpLG+iMwFzbNwH6J4q4XzbROKS6SMVN8jjAhILUgg5K2tmvygtApcXKDpFfVIOdO5wxmpyPHUnpII4toUMd/6YR6XS+ewfOpFwxBBMDuZMWxSC2WducO2iOHA/wJzfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716306360; c=relaxed/simple;
-	bh=liqJmg4awMksaus77cIboXZx+K9/D9n3lhWP/+3wFf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pANb6V/qRnl+pBd+RgwCTQtIsPJj8IqHu6DebmtVeD8ydtHGdKEjBfgKSGjwhu2PrbOVp9NwoQtlgM4FGIVp3iUOsPjZdTCypxJVEAJpKaaiR8iONH9z7Mma3pSNFC5RW2wU9n08VgJRP4nFMYa8sBfGATjSmFAazuxg1paBhJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOJnHjFv; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1716306364; c=relaxed/simple;
+	bh=MOYqpIyTHcQhEowSXCmF5d6zPRCuQIn/+Gsq0JSaqfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c2XCs1lKYE46yKONl+hwpQnVtMwS7JTFBsTG3vsL93J865VQWlC/8WLzIrAoKE4TJWdC9TikNDZKf6Cqr7J4itNLP1hfRmgRtmekx5B5gdCpgSTrtVVz9fT3R6U1OmkGlDBv0mNIux1p95wOUM+i1osPdPKeennDTyg9Dyfo+WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eM63ynKe; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOJnHjFv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eM63ynKe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716306359; x=1747842359;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=liqJmg4awMksaus77cIboXZx+K9/D9n3lhWP/+3wFf8=;
-  b=iOJnHjFvi0y2gaAkwdGhnxieLJG3GdsGvOjzydrMUx5L9Lv5mN1tOa+n
-   QbzL7R9S+0fto8Otmju16+fJLYxHDFCrYWbRy9gDM3z2UWGSob2VNRVy1
-   MBdZUjKZ+s8gVUSsgVvq1eM2JgbPj+VpLaX1myXmed+dDbYN3/N+prWaf
-   qWL2zWs9cMl8jaG862mzzXn8Jn32vr13HSyDRo9oEJt3ZGUPwxAze1fqT
-   bk4DqP4T0Ejuodc/i4He5exCiSexQw0h1TZUG3lTORNWo7eCwMpWuC+wu
-   P6+XkEuLeQh7Qp2e7dkYmHv0YAE+IlCbYtL4xei1ueCDaFeM3kiPkyWzt
-   Q==;
-X-CSE-ConnectionGUID: +I2RZM+9SFaj34rLWWsNuA==
-X-CSE-MsgGUID: vQkSUdEHQgS2W5cnVCDlLg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="15459775"
+  t=1716306362; x=1747842362;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MOYqpIyTHcQhEowSXCmF5d6zPRCuQIn/+Gsq0JSaqfI=;
+  b=eM63ynKeATGuTn5VVuXeLB1yF0JQXYhXTwgUGb9JXt5SbWvErj+46BTG
+   rXuPOwqHkg4+mS1NND1L4zGUFM08+t2hRQ3bZ3cxep+dZyFw6viUOWV/z
+   OdB0q/b91Xx+wj/7JBojR0No6iX+bTO4bARNuRu0nNi8xasB+vTtWTs7W
+   pgH4iPihyV6m5WwC/FBIuyG6+SYh79ktg7rhHoesC7yYn8cC0rrisCb16
+   8BkmQvJNqrj41dSntiu1S56c2bJYCkNVHYD3cZ5L1UGHGAg7I7U7DWHRU
+   FD+rx4oVQejFu6OC44MhmG+uHUzCoeR3XepUfGfoxLmc58ECUT+MmxnvY
+   A==;
+X-CSE-ConnectionGUID: cYBmB4hPS2msg8yD8ldCoA==
+X-CSE-MsgGUID: IDq2obC7TW+vHPuqK7J2Dg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="15459793"
 X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; 
-   d="scan'208";a="15459775"
+   d="scan'208";a="15459793"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 08:45:58 -0700
-X-CSE-ConnectionGUID: Kfym+xaaTJqVmj9jwPUl8g==
-X-CSE-MsgGUID: Uebwhe30ScivEpiFSTkPBw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 08:46:02 -0700
+X-CSE-ConnectionGUID: NDMP6qFGSFq7XsAgJ6OJ3g==
+X-CSE-MsgGUID: Ldro2/GCQ6mYjf2suJvVkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; 
-   d="scan'208";a="63793458"
+   d="scan'208";a="63793459"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 21 May 2024 08:45:57 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9RgY-0000UN-1K;
+	id 1s9RgY-0000UQ-1Q;
 	Tue, 21 May 2024 15:45:54 +0000
-Date: Tue, 21 May 2024 23:44:55 +0800
+Date: Tue, 21 May 2024 23:44:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2key-v2 7/8] drivers/char/tpm/tpm2_key.c:45:3:
- error: a label can only be part of a statement and a declaration is not a
- statement
-Message-ID: <202405212342.oNdIWBCB-lkp@intel.com>
+To: Vidya Sagar <vidyas@nvidia.com>, corbet@lwn.net, bhelgaas@google.com,
+	galshalom@nvidia.com, leonro@nvidia.com, jgg@nvidia.com,
+	treding@nvidia.com, jonathanh@nvidia.com
+Cc: oe-kbuild-all@lists.linux.dev, mmoshrefjava@nvidia.com,
+	shahafs@nvidia.com, vsethi@nvidia.com, sdonthineni@nvidia.com,
+	jan@nvidia.com, tdave@nvidia.com, linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kthota@nvidia.com, mmaddireddy@nvidia.com, vidyas@nvidia.com,
+	sagar.tv@gmail.com
+Subject: Re: [PATCH V2] PCI: Extend ACS configurability
+Message-ID: <202405212300.S6fsze09-lkp@intel.com>
+References: <20240521110925.3876786-1-vidyas@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +69,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240521110925.3876786-1-vidyas@nvidia.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v2
-head:   58801dd5ac1fcc4f2397f7a86b36efa71e583033
-commit: 40825509eee50f129e051f3415ad2a5459ac05eb [7/8] tpm: tpm2_key: Extend parser to TPM_LoadableKey
-config: x86_64-buildonly-randconfig-003-20240521 (https://download.01.org/0day-ci/archive/20240521/202405212342.oNdIWBCB-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405212342.oNdIWBCB-lkp@intel.com/reproduce)
+Hi Vidya,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.9 next-20240521]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vidya-Sagar/PCI-Extend-ACS-configurability/20240521-191317
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240521110925.3876786-1-vidyas%40nvidia.com
+patch subject: [PATCH V2] PCI: Extend ACS configurability
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240521/202405212300.S6fsze09-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405212300.S6fsze09-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405212342.oNdIWBCB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405212300.S6fsze09-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/char/tpm/tpm2_key.c: In function 'tpm2_key_type':
->> drivers/char/tpm/tpm2_key.c:45:3: error: a label can only be part of a statement and a declaration is not a statement
-      45 |   char buffer[50];
-         |   ^~~~
+>> drivers/pci/pci.c:1044: warning: Function parameter or struct member 'caps' not described in 'pci_std_enable_acs'
 
 
-vim +45 drivers/char/tpm/tpm2_key.c
+vim +1044 drivers/pci/pci.c
 
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  29  
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  30  int tpm2_key_type(void *context, size_t hdrlen,
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  31  		  unsigned char tag,
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  32  		  const void *value, size_t vlen)
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  33  {
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  34  	enum OID oid = look_up_OID(value, vlen);
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  35  	struct tpm2_key *key = context;
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  36  
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  37  	switch (oid) {
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  38  	case OID_TPMSealedData:
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  39  		pr_info("TPMSealedData\n");
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  40  		break;
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  41  	case OID_TPMLoadableKey:
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  42  		pr_info("TPMLodableKey\n");
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  43  		break;
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  44  	default:
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20 @45  		char buffer[50];
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  46  		sprint_oid(value, vlen, buffer, sizeof(buffer));
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  47  		pr_debug("OID is \"%s\" which is not TPMSealedData\n",
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  48  			 buffer);
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  49  		return -EINVAL;
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  50  	}
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  51  
-40825509eee50f1 Jarkko Sakkinen 2024-05-20  52  	key->oid = oid;
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  53  	return 0;
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  54  }
-68803235ce8d4c2 Jarkko Sakkinen 2024-05-20  55  
-
-:::::: The code at line 45 was first introduced by commit
-:::::: 68803235ce8d4c2907d93ac0990194cbaec5336f KEYS: trusted: Move tpm2_key_decode() to the TPM driver
-
-:::::: TO: Jarkko Sakkinen <jarkko@kernel.org>
-:::::: CC: Jarkko Sakkinen <jarkko@kernel.org>
+cbe420361f92a31 Rajat Jain      2020-07-07  1038  
+cbe420361f92a31 Rajat Jain      2020-07-07  1039  /**
+cbe420361f92a31 Rajat Jain      2020-07-07  1040   * pci_std_enable_acs - enable ACS on devices using standard ACS capabilities
+cbe420361f92a31 Rajat Jain      2020-07-07  1041   * @dev: the PCI device
+cbe420361f92a31 Rajat Jain      2020-07-07  1042   */
+a0bcc944f0e307a Vidya Sagar     2024-05-21  1043  static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
+cbe420361f92a31 Rajat Jain      2020-07-07 @1044  {
+cbe420361f92a31 Rajat Jain      2020-07-07  1045  	/* Source Validation */
+a0bcc944f0e307a Vidya Sagar     2024-05-21  1046  	caps->ctrl |= (caps->cap & PCI_ACS_SV);
+cbe420361f92a31 Rajat Jain      2020-07-07  1047  
+cbe420361f92a31 Rajat Jain      2020-07-07  1048  	/* P2P Request Redirect */
+a0bcc944f0e307a Vidya Sagar     2024-05-21  1049  	caps->ctrl |= (caps->cap & PCI_ACS_RR);
+cbe420361f92a31 Rajat Jain      2020-07-07  1050  
+cbe420361f92a31 Rajat Jain      2020-07-07  1051  	/* P2P Completion Redirect */
+a0bcc944f0e307a Vidya Sagar     2024-05-21  1052  	caps->ctrl |= (caps->cap & PCI_ACS_CR);
+cbe420361f92a31 Rajat Jain      2020-07-07  1053  
+cbe420361f92a31 Rajat Jain      2020-07-07  1054  	/* Upstream Forwarding */
+a0bcc944f0e307a Vidya Sagar     2024-05-21  1055  	caps->ctrl |= (caps->cap & PCI_ACS_UF);
+cbe420361f92a31 Rajat Jain      2020-07-07  1056  
+7cae7849fccee81 Alex Williamson 2021-06-18  1057  	/* Enable Translation Blocking for external devices and noats */
+7cae7849fccee81 Alex Williamson 2021-06-18  1058  	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+a0bcc944f0e307a Vidya Sagar     2024-05-21  1059  		caps->ctrl |= (caps->cap & PCI_ACS_TB);
+cbe420361f92a31 Rajat Jain      2020-07-07  1060  }
+cbe420361f92a31 Rajat Jain      2020-07-07  1061  
 
 -- 
 0-DAY CI Kernel Test Service
