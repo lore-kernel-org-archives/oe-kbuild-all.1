@@ -1,66 +1,60 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4408F1F95A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 03:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C54405E6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 03:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716261649; cv=none; b=OtmjXLifkbPQDPfZxrxRP9Bcvj3tHpfIQlVUpdBdrsbcZaPiH/eclBfCfuDBZ5yvYBOSXMHzXl7/tukwB4zfnforS1m0wdrBvMUNy6c7+qG4HgWqLu/WTMLAfPK5xLGINXZ1o680Tz8XqbYChUUZQMFbf6rlRa/yJRDIfB4ebRs=
+	t=1716261870; cv=none; b=oZ+3E0KoqyljE9B4fyTtrBURmohx1+fvEAU9fTi/7LOH9HQwhWUj6E2Y3QMzZz9IaRLY9bYLf+9QUmmZRELd1HobukhV5K7Gn8W8WdNvfYpZEM8tVAKpvor0HE4pTlgoeEOsOyT1a1xMEH45c4hX5bKa/jraCxrwNTjfXxW9YTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716261649; c=relaxed/simple;
-	bh=oSid7q9yF/QER5pI2kle11hKPiIovv9NqtlhlMTkHdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WPD2VRGJePnV3EF0d42N+fX8G2i66CmTweb+M0QDiyFKXUb+hkxGcrmGNOntaEJA+6ShwkFAMU/lSWga1LkLEh/IMYoUugfn2GgcYR0bWYGOHTkCycjlaEd4ZAhzk90xEvx+1i1hgC476XEUxDee6vEjydF+wn+a94O/f9z3Wb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UBkKs+US; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1716261870; c=relaxed/simple;
+	bh=XhD+cOdFiGdcs525aKCiTE3M7UB8+t8OXiB3QK5sJ44=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mZ689SQqIvgbz0skrY5xbGohNK3WT0kU2YucHBDu3oLaCYlQRcTOIvGnMBnGDUrcQSGyhFFwdfYN6NIUyHvR729TxohB12efwKKiEb6shAFs+hCq/rPLJNQyxERattL5h7m3u15pP6fBoCSpD76M5QNJzhQozr8TOxzSbwwdmtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KR2Z1nkZ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UBkKs+US"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716261647;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bYQBu6zkfNaoqqNc//ysbuuuADju5TmrSNilJ4cHGKE=;
-	b=UBkKs+USMkX+NpcEYrm/aDN7ElqbII6EPvElVPWTmJcMtWi1fX/S9s5d/SBravWzsFMeEZ
-	HHuJdisyLy/vOPYHyMXiSPWaVJNK6Ic8bGFLULVpA40PVLUqk2Tyw4wdqziFLBBPXewC6q
-	zh+xkWZq2z7CkoxHXz3OzbkYjQpL2Js=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-527-maRvBiRFMj-o6900q3ZQgg-1; Mon,
- 20 May 2024 23:20:43 -0400
-X-MC-Unique: maRvBiRFMj-o6900q3ZQgg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D3D31C05137;
-	Tue, 21 May 2024 03:20:43 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.65])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1435B7412;
-	Tue, 21 May 2024 03:20:41 +0000 (UTC)
-Date: Tue, 21 May 2024 11:20:35 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Coiby Xu <coxu@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, kexec@lists.infradead.org,
-	oe-kbuild-all@lists.linux.dev, Ondrej Kozina <okozina@redhat.com>,
-	Milan Broz <gmazyland@gmail.com>,
-	Thomas Staudt <tstaudt@de.ibm.com>,
-	Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
-	Kairui Song <ryncsn@gmail.com>,
-	Jan Pazdziora <jpazdziora@redhat.com>,
-	Pingfan Liu <kernelfans@gmail.com>, Dave Young <dyoung@redhat.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Dave Hansen <dave.hansen@intel.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>, Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	"(open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_byb)" <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH v3 2/7] crash_dump: make dm crypt keys persist for the
- kdump kernel
-Message-ID: <ZkwSEUEW/RKFLubx@MiWiFi-R3L-srv>
-References: <20240425100434.198925-3-coxu@redhat.com>
- <202404262003.qsWvGwZU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KR2Z1nkZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716261868; x=1747797868;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XhD+cOdFiGdcs525aKCiTE3M7UB8+t8OXiB3QK5sJ44=;
+  b=KR2Z1nkZrkjiRrkFULYJb5J93ew0Q1gXf1c1+2U7q58tIrI5JvwxOBcl
+   HXeDpX8l2SZx7qSvAiYBOJWpjTJTvF3XHQSwOsdwh9sI0hC5X7iOK/cfD
+   YIDrBtGtXHHiYEtIKjlD8vhl7wgpUmvZ1pvQKsn7nnmLpj/dOEesLo2B5
+   0VIJMV7jAiDtPI75jQqhF80MCF/O/CcX2gMLrQW+rw71KN4W1S96AtDsJ
+   dw2slVaGcm54RZCo18kCZgSYzVKx+FWOT37p0/tcj6CapfgV4H16ZDyCH
+   gAQnsORShxWYiUg4fMH6l7VjjDfrg7LgSRdCxVosl8sR2yRNJvjdiTOUr
+   A==;
+X-CSE-ConnectionGUID: 6xngakY9ROii0HTlJ7AtTg==
+X-CSE-MsgGUID: KIZSMINZQp67w8buvGx4uA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="15373851"
+X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
+   d="scan'208";a="15373851"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 20:24:27 -0700
+X-CSE-ConnectionGUID: 4xEtwLa5S9WixpoSgM5zsg==
+X-CSE-MsgGUID: lt12Ff/OS1mYithGDJyo/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
+   d="scan'208";a="33355449"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 20 May 2024 20:24:25 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s9G6x-0005Um-1S;
+	Tue, 21 May 2024 03:24:23 +0000
+Date: Tue, 21 May 2024 11:23:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Iago Toral Quiroga <itoral@igalia.com>
+Subject: [drm-misc:drm-misc-next 1/6]
+ drivers/gpu/drm/v3d/v3d_performance_counters.h:118:43: warning:
+ 'v3d_v42_performance_counters' defined but not used
+Message-ID: <202405211137.hueFkLKG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,53 +63,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202404262003.qsWvGwZU-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-On 04/26/24 at 09:10pm, kernel test robot wrote:
-> Hi Coiby,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.9-rc5 next-20240426]
-> [cannot apply to tip/x86/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/kexec_file-allow-to-place-kexec_buf-randomly/20240425-180836
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240425100434.198925-3-coxu%40redhat.com
-> patch subject: [PATCH v3 2/7] crash_dump: make dm crypt keys persist for the kdump kernel
-> config: x86_64-randconfig-r113-20240426 (https://download.01.org/0day-ci/archive/20240426/202404262003.qsWvGwZU-lkp@intel.com/config)
-> compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404262003.qsWvGwZU-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   673087d8b023faf34b84e8faf63bbeea3da87bab
+commit: 3cbcbe016c31ad4fe1b7a53b325c1a36be6191f4 [1/6] drm/v3d: Add Performance Counters descriptions for V3D 4.2 and 7.1
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240521/202405211137.hueFkLKG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405211137.hueFkLKG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405211137.hueFkLKG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:14,
+                    from drivers/gpu/drm/v3d/v3d_bo.c:25:
+>> drivers/gpu/drm/v3d/v3d_performance_counters.h:118:43: warning: 'v3d_v42_performance_counters' defined but not used [-Wunused-const-variable=]
+     118 | static const struct v3d_perf_counter_desc v3d_v42_performance_counters[] = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/v3d/v3d_performance_counters.h:22:43: warning: 'v3d_v71_performance_counters' defined but not used [-Wunused-const-variable=]
+      22 | static const struct v3d_perf_counter_desc v3d_v71_performance_counters[] = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Please respond to the lkp report in time whether it's a problem or not,
-otherwise the link will be unavailable.
+vim +/v3d_v42_performance_counters +118 drivers/gpu/drm/v3d/v3d_performance_counters.h
 
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404262003.qsWvGwZU-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/crash_dump_dm_crypt.c:31:3: sparse: sparse: symbol 'keys_header' was not declared. Should it be static?
-> 
-> vim +/keys_header +31 kernel/crash_dump_dm_crypt.c
-> 
->     27	
->     28	struct keys_header {
->     29		unsigned int key_count;
->     30		struct dm_crypt_key keys[] __counted_by(key_count);
->   > 31	} *keys_header;
->     32	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+   117	
+ > 118	static const struct v3d_perf_counter_desc v3d_v42_performance_counters[] = {
+   119		{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP] Valid primitives that result in no rendered pixels, for all rendered tiles"},
+   120		{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid primitives for all rendered tiles (primitives may be counted in more than one tile)"},
+   121		{"FEP", "FEP-clipped-quads", "[FEP] Early-Z/Near/Far clipped quads"},
+   122		{"FEP", "FEP-valid-quads", "[FEP] Valid quads"},
+   123		{"TLB", "TLB-quads-not-passing-stencil-test", "[TLB] Quads with no pixels passing the stencil test"},
+   124		{"TLB", "TLB-quads-not-passing-z-and-stencil-test", "[TLB] Quads with no pixels passing the Z and stencil tests"},
+   125		{"TLB", "TLB-quads-passing-z-and-stencil-test", "[TLB] Quads with any pixels passing the Z and stencil tests"},
+   126		{"TLB", "TLB-quads-with-zero-coverage", "[TLB] Quads with all pixels having zero coverage"},
+   127		{"TLB", "TLB-quads-with-non-zero-coverage", "[TLB] Quads with any pixels having non-zero coverage"},
+   128		{"TLB", "TLB-quads-written-to-color-buffer", "[TLB] Quads with valid pixels written to colour buffer"},
+   129		{"PTB", "PTB-primitives-discarded-outside-viewport", "[PTB] Primitives discarded by being outside the viewport"},
+   130		{"PTB", "PTB-primitives-need-clipping", "[PTB] Primitives that need clipping"},
+   131		{"PTB", "PTB-primitives-discarded-reversed", "[PTB] Primitives that are discarded because they are reversed"},
+   132		{"QPU", "QPU-total-idle-clk-cycles", "[QPU] Total idle clock cycles for all QPUs"},
+   133		{"QPU", "QPU-total-active-clk-cycles-vertex-coord-shading", "[QPU] Total active clock cycles for all QPUs doing vertex/coordinate/user shading (counts only when QPU is not stalled)"},
+   134		{"QPU", "QPU-total-active-clk-cycles-fragment-shading", "[QPU] Total active clock cycles for all QPUs doing fragment shading (counts only when QPU is not stalled)"},
+   135		{"QPU", "QPU-total-clk-cycles-executing-valid-instr", "[QPU] Total clock cycles for all QPUs executing valid instructions"},
+   136		{"QPU", "QPU-total-clk-cycles-waiting-TMU", "[QPU] Total clock cycles for all QPUs stalled waiting for TMUs only (counter won't increment if QPU also stalling for another reason)"},
+   137		{"QPU", "QPU-total-clk-cycles-waiting-scoreboard", "[QPU] Total clock cycles for all QPUs stalled waiting for Scoreboard only (counter won't increment if QPU also stalling for another reason)"},
+   138		{"QPU", "QPU-total-clk-cycles-waiting-varyings", "[QPU] Total clock cycles for all QPUs stalled waiting for Varyings only (counter won't increment if QPU also stalling for another reason)"},
+   139		{"QPU", "QPU-total-instr-cache-hit", "[QPU] Total instruction cache hits for all slices"},
+   140		{"QPU", "QPU-total-instr-cache-miss", "[QPU] Total instruction cache misses for all slices"},
+   141		{"QPU", "QPU-total-uniform-cache-hit", "[QPU] Total uniforms cache hits for all slices"},
+   142		{"QPU", "QPU-total-uniform-cache-miss", "[QPU] Total uniforms cache misses for all slices"},
+   143		{"TMU", "TMU-total-text-quads-access", "[TMU] Total texture cache accesses"},
+   144		{"TMU", "TMU-total-text-cache-miss", "[TMU] Total texture cache misses (number of fetches from memory/L2cache)"},
+   145		{"VPM", "VPM-total-clk-cycles-VDW-stalled", "[VPM] Total clock cycles VDW is stalled waiting for VPM access"},
+   146		{"VPM", "VPM-total-clk-cycles-VCD-stalled", "[VPM] Total clock cycles VCD is stalled waiting for VPM access"},
+   147		{"CLE", "CLE-bin-thread-active-cycles", "[CLE] Bin thread active cycles"},
+   148		{"CLE", "CLE-render-thread-active-cycles", "[CLE] Render thread active cycles"},
+   149		{"L2T", "L2T-total-cache-hit", "[L2T] Total Level 2 cache hits"},
+   150		{"L2T", "L2T-total-cache-miss", "[L2T] Total Level 2 cache misses"},
+   151		{"CORE", "cycle-count", "[CORE] Cycle counter"},
+   152		{"QPU", "QPU-total-clk-cycles-waiting-vertex-coord-shading", "[QPU] Total stalled clock cycles for all QPUs doing vertex/coordinate/user shading"},
+   153		{"QPU", "QPU-total-clk-cycles-waiting-fragment-shading", "[QPU] Total stalled clock cycles for all QPUs doing fragment shading"},
+   154		{"PTB", "PTB-primitives-binned", "[PTB] Total primitives binned"},
+   155		{"AXI", "AXI-writes-seen-watch-0", "[AXI] Writes seen by watch 0"},
+   156		{"AXI", "AXI-reads-seen-watch-0", "[AXI] Reads seen by watch 0"},
+   157		{"AXI", "AXI-writes-stalled-seen-watch-0", "[AXI] Write stalls seen by watch 0"},
+   158		{"AXI", "AXI-reads-stalled-seen-watch-0", "[AXI] Read stalls seen by watch 0"},
+   159		{"AXI", "AXI-write-bytes-seen-watch-0", "[AXI] Total bytes written seen by watch 0"},
+   160		{"AXI", "AXI-read-bytes-seen-watch-0", "[AXI] Total bytes read seen by watch 0"},
+   161		{"AXI", "AXI-writes-seen-watch-1", "[AXI] Writes seen by watch 1"},
+   162		{"AXI", "AXI-reads-seen-watch-1", "[AXI] Reads seen by watch 1"},
+   163		{"AXI", "AXI-writes-stalled-seen-watch-1", "[AXI] Write stalls seen by watch 1"},
+   164		{"AXI", "AXI-reads-stalled-seen-watch-1", "[AXI] Read stalls seen by watch 1"},
+   165		{"AXI", "AXI-write-bytes-seen-watch-1", "[AXI] Total bytes written seen by watch 1"},
+   166		{"AXI", "AXI-read-bytes-seen-watch-1", "[AXI] Total bytes read seen by watch 1"},
+   167		{"TLB", "TLB-partial-quads-written-to-color-buffer", "[TLB] Partial quads written to the colour buffer"},
+   168		{"TMU", "TMU-total-config-access", "[TMU] Total config accesses"},
+   169		{"L2T", "L2T-no-id-stalled", "[L2T] No ID stall"},
+   170		{"L2T", "L2T-command-queue-stalled", "[L2T] Command queue full stall"},
+   171		{"L2T", "L2T-TMU-writes", "[L2T] TMU write accesses"},
+   172		{"TMU", "TMU-active-cycles", "[TMU] Active cycles"},
+   173		{"TMU", "TMU-stalled-cycles", "[TMU] Stalled cycles"},
+   174		{"CLE", "CLE-thread-active-cycles", "[CLE] Bin or render thread active cycles"},
+   175		{"L2T", "L2T-TMU-reads", "[L2T] TMU read accesses"},
+   176		{"L2T", "L2T-CLE-reads", "[L2T] CLE read accesses"},
+   177		{"L2T", "L2T-VCD-reads", "[L2T] VCD read accesses"},
+   178		{"L2T", "L2T-TMU-config-reads", "[L2T] TMU CFG read accesses"},
+   179		{"L2T", "L2T-SLC0-reads", "[L2T] SLC0 read accesses"},
+   180		{"L2T", "L2T-SLC1-reads", "[L2T] SLC1 read accesses"},
+   181		{"L2T", "L2T-SLC2-reads", "[L2T] SLC2 read accesses"},
+   182		{"L2T", "L2T-TMU-write-miss", "[L2T] TMU write misses"},
+   183		{"L2T", "L2T-TMU-read-miss", "[L2T] TMU read misses"},
+   184		{"L2T", "L2T-CLE-read-miss", "[L2T] CLE read misses"},
+   185		{"L2T", "L2T-VCD-read-miss", "[L2T] VCD read misses"},
+   186		{"L2T", "L2T-TMU-config-read-miss", "[L2T] TMU CFG read misses"},
+   187		{"L2T", "L2T-SLC0-read-miss", "[L2T] SLC0 read misses"},
+   188		{"L2T", "L2T-SLC1-read-miss", "[L2T] SLC1 read misses"},
+   189		{"L2T", "L2T-SLC2-read-miss", "[L2T] SLC2 read misses"},
+   190		{"CORE", "core-memory-writes", "[CORE] Total memory writes"},
+   191		{"L2T", "L2T-memory-writes", "[L2T] Total memory writes"},
+   192		{"PTB", "PTB-memory-writes", "[PTB] Total memory writes"},
+   193		{"TLB", "TLB-memory-writes", "[TLB] Total memory writes"},
+   194		{"CORE", "core-memory-reads", "[CORE] Total memory reads"},
+   195		{"L2T", "L2T-memory-reads", "[L2T] Total memory reads"},
+   196		{"PTB", "PTB-memory-reads", "[PTB] Total memory reads"},
+   197		{"PSE", "PSE-memory-reads", "[PSE] Total memory reads"},
+   198		{"TLB", "TLB-memory-reads", "[TLB] Total memory reads"},
+   199		{"GMP", "GMP-memory-reads", "[GMP] Total memory reads"},
+   200		{"PTB", "PTB-memory-words-writes", "[PTB] Total memory words written"},
+   201		{"TLB", "TLB-memory-words-writes", "[TLB] Total memory words written"},
+   202		{"PSE", "PSE-memory-words-reads", "[PSE] Total memory words read"},
+   203		{"TLB", "TLB-memory-words-reads", "[TLB] Total memory words read"},
+   204		{"TMU", "TMU-MRU-hits", "[TMU] Total MRU hits"},
+   205		{"CORE", "compute-active-cycles", "[CORE] Compute active cycles"},
+   206	};
+   207	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
