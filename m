@@ -1,110 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A116EB5F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 09:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A306356475;
+	Tue, 21 May 2024 10:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716284733; cv=none; b=XS0tT7rdb1MNUjzF5/UvX2f4L+v32EWx6J6YFOo6YP9u2KlSI8riTCvKkYSOlfUzaHc9UWjR1U4eZ6VCNCjBaXHqk6ru1jRCVcsul78TVuCyGsxm1ZKlfW5KBuEsttt3ifo8xh7fm06uwslf9XdzbVUvUBJTJPi7J+RoS3p6Svo=
+	t=1716285978; cv=none; b=HI4f9hfEg5LQklbr4njw6eZn0c850/LSh1cT03vuv67hNbxRNISvd2fRdnUTEVUm91Tvvlwbu7S1xJiHs+x2v4zQZuKTm6UogKUQr44BQhx68PiEl0TuPvpHxYoXxyyQ4P/23IMq9JGmXl2R+1qYiSrvHt1CI/RogDP3+Cw9UgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716284733; c=relaxed/simple;
-	bh=auUr06gKMtQJmw70SqyuisbzOZRSZGi7CZ50SSxwtvs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sbWFPjOYJgaHiCr+vmPXepleZVGIT3ZS1bWPVGf+MIW7WClzDQLzBCE9qyMrE78Dnc/Rt26nEU58ZuObR+bqFO6uD+N6GAzmRYesXOzcWGvQGEQfVP8NtNSJD9kU+ZmA4kzAHFrqlsMpUIHyMDMBZwjkCtS8Yg6OsM4cMly+rbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KD2YMljs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1716285978; c=relaxed/simple;
+	bh=ZIgwGNN0rag8Erxom7NQ1rwWDS/S6QnWCK9t2Ggg/rU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ItMWrati0s9jC1UZ3UIzLgwymhvFSKAR0izolldA4IE2IiC55VE9wwt8K51/+Nw1i2ouLTNzpT2XCGF5uIdNV1vdE5GR41yRxLOD7ichheZMaYYgiBCYNPqXFGot7NBlN0am1E+VXpzZf6V9QretKGjQ1m48AKMauNIddaC/yac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NO2Ffq6w; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KD2YMljs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716284729;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uutlqnz7GlxG5MMRoikdk+qop535bU307tyY8QMm6Qo=;
-	b=KD2YMljshv0/l6JMZ6BeRMFFWl74aYJ0/ky8YcJl4L8BvpOuipEyTPBP95ZP0k1bbFIUaA
-	lIXqm90q7zZLW2v8Y6ODfDQcMGGqugoBNCgR0V8lgAverv61EdmFpLl0hXlO3jN/AIISGw
-	ONos+vFSBVjtjkwpQxMEtCOjGcWuRCk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-355-pnuDaxaeOeilyzKY5VU4cw-1; Tue, 21 May 2024 05:45:28 -0400
-X-MC-Unique: pnuDaxaeOeilyzKY5VU4cw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a59c0ecd59cso842377366b.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 02:45:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716284727; x=1716889527;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uutlqnz7GlxG5MMRoikdk+qop535bU307tyY8QMm6Qo=;
-        b=hkVsydLGWiSky102/UZLrJ2dEswAbgiDFrKHjl3VRsxWBahLVBcfsrTZbqWQqhpIzf
-         6FJ2EAs+oz955+D8U59ziPCyZ79qc3ZedpCO5xmZ6K0satlDaFGlWXiaOPvNSQUwyWEd
-         l9W8BSrBaYrqjc2NTUMiG31GCgFkoozikOpK6j2V1d60KoZ5uAU4CGIjiZqkg03eCMyQ
-         eNmP1Ue793zf5uwEhXqVNS7o/nUAHHNmm08DwJ1Vzb6DeoD43r8Piafx03jGfFdU6+Qf
-         9joKbO2hHFa6TCjh6UBdK98R6tLMYiprgfYEypj8cA458zQudgZeoESK5ejRWmWd+Ug0
-         PrbQ==
-X-Gm-Message-State: AOJu0Yx/SlrgUXIQBroW7i6BhcLUqoSAQKFeRj5WsOQ9e3qdUO7wOLYH
-	GET9bulYtM539LEGLpyohr39iWKK4KWcB4+JQenzKuNfeY52rXrIiCYAjnVQ8yXaxFxOhb9QO6+
-	CJkMv7cMKCqWzQ/icxIIfJlOyZEOkIT9D4o9RlfaV35Lj8bRgJpUzNOjY6yHEYGw=
-X-Received: by 2002:a17:906:b7d4:b0:a5a:1bd8:b7d9 with SMTP id a640c23a62f3a-a5a2d5ccac2mr2984488966b.46.1716284727316;
-        Tue, 21 May 2024 02:45:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE15shLrDIA1bwGzpuKkQi1N9ZuJhZCcByks9Q2SL2bAm9EWYksBkA2ylT1GE1900zyIyzMcg==
-X-Received: by 2002:a17:906:b7d4:b0:a5a:1bd8:b7d9 with SMTP id a640c23a62f3a-a5a2d5ccac2mr2984487466b.46.1716284726874;
-        Tue, 21 May 2024 02:45:26 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b01631sm1589870066b.153.2024.05.21.02.45.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 May 2024 02:45:26 -0700 (PDT)
-Message-ID: <e55a1a36-8ed6-490e-b720-a25a0ad57afc@redhat.com>
-Date: Tue, 21 May 2024 11:45:25 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NO2Ffq6w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716285977; x=1747821977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZIgwGNN0rag8Erxom7NQ1rwWDS/S6QnWCK9t2Ggg/rU=;
+  b=NO2Ffq6wLwJZmbDwQ3ygWfZyQgj7qEQoAG/Vq6v4QDPcvSiXqoaI6zF+
+   NC6p5alSMfsXurA83XLnG6QfV3Pj6/uJSWKH5kViewns3cqD2AXd63n6j
+   AUxOs+Q5ps7NaccvxSXUFGLQMNSl/UWSXXuupidIzE/QEYGYSjfmYhMYN
+   bOFxaOoTWvRKr5B0ZXjfBL+S7k53VlQcTYYal5+S3uyv/JP+uQkfvwgV1
+   2W+ApNk26OFNlaCsipD15Dk0VOci+rhP1gPNhWwlmKYZnY/NNGgds5rXO
+   d4xH+rBWbZly24a48AD8UILGQYvd1nAU22m29OGZtz+sFjaXT/567wy8+
+   Q==;
+X-CSE-ConnectionGUID: POsIc4vWTBuI4kNtL4+p2Q==
+X-CSE-MsgGUID: 61f3qPvwRTm3HMJ82XA6zw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="29986463"
+X-IronPort-AV: E=Sophos;i="6.08,177,1712646000"; 
+   d="scan'208";a="29986463"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 03:06:16 -0700
+X-CSE-ConnectionGUID: OwbFUO7GQEe57k3Fu7tVCg==
+X-CSE-MsgGUID: 5Mf2tTLbRqy2h9Kf0tw2xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,177,1712646000"; 
+   d="scan'208";a="37450356"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 21 May 2024 03:06:13 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s9MNm-0006GO-2z;
+	Tue, 21 May 2024 10:06:10 +0000
+Date: Tue, 21 May 2024 18:05:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yasin Lee <yasin.lee.x@outlook.com>, jic23@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lars@metafoo.de,
+	swboyd@chromium.org, nuno.a@analog.com, andy.shevchenko@gmail.com,
+	u.kleine-koenig@pengutronix.de, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yasin.lee.x@gmail.com,
+	yasin.lee.x@outlook.com
+Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor
+ driver
+Message-ID: <202405211730.Ft1IxvLC-lkp@intel.com>
+References: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: other.c:undefined reference to `devm_led_classdev_register_ext'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-References: <202405182256.FsKBjIzG-lkp@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <202405182256.FsKBjIzG-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
 
-Hi,
+Hi Yasin,
 
-On 5/18/24 4:09 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   4b377b4868ef17b040065bd468668c707d2477a5
-> commit: 9426adb0326a87ed2fa9d010c4c18189047e0c11 platform/x86: x86-android-tablets: Create LED device for Xiaomi Pad 2 bottom bezel touch buttons
-> date:   4 days ago
-> config: i386-buildonly-randconfig-004-20240118 (https://download.01.org/0day-ci/archive/20240518/202405182256.FsKBjIzG-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405182256.FsKBjIzG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405182256.FsKBjIzG-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: drivers/platform/x86/x86-android-tablets/other.o: in function `xiaomi_mipad2_init':
->>> other.c:(.init.text+0x97): undefined reference to `devm_led_classdev_register_ext'
+kernel test robot noticed the following build errors:
 
-My bad config X86_ANDROID_TABLETS now needs a "select NEW_LEDS" + "select LEDS_CLASS"
-I'll submit a patch fixing this and include it in the first pdx86 fixes pull-request for 6.10.
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.9 next-20240521]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/Yasin-Lee/iio-proximity-hx9031as-Add-TYHX-HX9031AS-HX9023S-sensor-driver/20240515-083021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/SN7PR12MB8101EDFA7F91A59761095A28A4E72%40SN7PR12MB8101.namprd12.prod.outlook.com
+patch subject: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor driver
+config: hexagon-randconfig-001-20240521 (https://download.01.org/0day-ci/archive/20240521/202405211730.Ft1IxvLC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405211730.Ft1IxvLC-lkp@intel.com/reproduce)
 
-Hans
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405211730.Ft1IxvLC-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
 
+>> ld.lld: error: undefined symbol: __hexagon_udivdi3
+   >>> referenced by hx9031as.c
+   >>>               drivers/iio/proximity/hx9031as.o:(hx9031as_write_raw) in archive vmlinux.a
+   >>> referenced by hx9031as.c
+   >>>               drivers/iio/proximity/hx9031as.o:(hx9031as_write_raw) in archive vmlinux.a
+   >>> did you mean: __hexagon_udivsi3
+   >>> defined in: vmlinux.a(arch/hexagon/lib/udivsi3.o)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
