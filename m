@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B14149C72;
-	Tue, 21 May 2024 21:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765CD35894
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 May 2024 22:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716326010; cv=none; b=Iyhq5lKpRlH7AAdYY2aS1BUtrF3ZHeAqaV4l9aL6VWDq82fmYneuqxzC1ZEUalLy8vd1Uk+k0CsshHCNj03UsC9gy0tIJPZV5LtDwm7tF2aCVA9J+vjQidxpFzKSSnrWXjNLSvTesFJGp31oW8tkbdMmKljakwAAe0dT/EnrQiU=
+	t=1716329215; cv=none; b=tgVfFInhZ38pyPtMW9/U9EbcJYH94WkSzuje/KQSGM4QTKZ/VRvu1JfwibI02FCC2yve9sVJs6HfbpVWscWU3vaQgdArbz0LeeG0Od+8kq5ZeKcOBZZFPk5R6xsFgfQ0xgNRRG/pgsuHyaMlt7oGhCrEpBkJPKgxvcYxMx1u2eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716326010; c=relaxed/simple;
-	bh=jU/KIs1yxidfflnv5CSKB5RJvZIBfuN7UKBuEXcylFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eSLWpdgkJ8Cq3SMDJn+Xaz7vVfkRQBy4xgPWjPZxaBXVzO5WoMzYCYZ+Flx/estzVMsaIp7dZtWk1q+1oIoFr91Q3wIJS7CDI1xsja51WH0o6tXPpQOuOx3+IUYpDYDIa3aVLlqg9/V3AYgDSrmm0C0ZTYL0oLvA1PZxnncDUH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S534v9LZ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1716329215; c=relaxed/simple;
+	bh=CBV/XpEt9K4zG26mdSfZNkds/1g3EL0AEUVx8y7zZqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=InDaClLz536I2OmwSh6fJbbzoEujVwROtEuq5Tq3YWuT2tW1qd7P2ZDPtOm20BryNzcJfMnOVVA69Mzc/7UsmKeUfFp+M7wKBly8HvAXeXrOBnM/CmeU1xHpPEz8kb2o2HpVPVCmSXg9JtqyC26uVLBeQyQx1h4GO9wlZhd6eaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5bcLNe2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S534v9LZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5bcLNe2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716326007; x=1747862007;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jU/KIs1yxidfflnv5CSKB5RJvZIBfuN7UKBuEXcylFc=;
-  b=S534v9LZzdI19LJcuaOFlOJZbcIp/etuytwRQJuM89JomXgy8tYYPvQU
-   /QphiIAR9ZS2kAOQ/rEquznZqY9a0Euieo/4zWpJZpVHbafwzG+l4KvyZ
-   K6CcND5PIUvgizBNKCcecnGV4Pbise0ce0izAPrWlW7ZW/ekrpftwFT1L
-   4alWQsl5TaZDq5JgtxdBPydC3FwGrsrn2XNTzyk52E1hzRg3LatHpus/+
-   /Hu57oyhIQja7xgFiQ4yrkSqBmLbl46UupNbw5jyZQMjc26wm3Fae4IPL
-   /Qteh9JUXgTyuPz8ipMqFL6UmppiC44ngmCFsKa8Eiagn8Rzz2krrtuYM
-   g==;
-X-CSE-ConnectionGUID: ZbmP1LoiTZS41t8cXGoygw==
-X-CSE-MsgGUID: xR95fIO3SdqW0mnJq9Gaug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="12386870"
-X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; 
-   d="scan'208";a="12386870"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 14:13:26 -0700
-X-CSE-ConnectionGUID: T+/OAt9fSpiQPz7u2tDMSA==
-X-CSE-MsgGUID: cFVMG8jZRSib6lotqrC9nQ==
+  t=1716329214; x=1747865214;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CBV/XpEt9K4zG26mdSfZNkds/1g3EL0AEUVx8y7zZqM=;
+  b=Q5bcLNe2kjtx5WqrtyvV7ECLZ72Lh/oJ52ORLwrZXdNzulFhTm5/C1cH
+   JoVmZeBHPNeEx8l5YHx5ze0swV4Z0OjA+tWV/F+vgS13tGxl8k+PFCvor
+   5n51vRUbdV5Uiz9aeyOLJmIOXxgJ9lr61FkLEBRYrqsHe9Nt/TbeQA1YG
+   31KWn/h1bhfxMMf6a5AhuBwhk4pbXKLdWU9ZqjNJcZCw/58YN7ONUdg9E
+   VL4cn/htrhgGx+0cKwA3CXEkDqc3UV7mmbw7e/FyQ9BXsNCmz7/tavKN7
+   +QtCD4d3F1qCfiXHd9ru+irZ1ZcMxLq2yijilGBSt0NUork0VKJbK1HFB
+   A==;
+X-CSE-ConnectionGUID: gc6s5yO3QjeLMtkoIDjlCQ==
+X-CSE-MsgGUID: HyyOFb/iRBWo4AK4KV47nw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="12726515"
+X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
+   d="scan'208";a="12726515"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 15:06:53 -0700
+X-CSE-ConnectionGUID: z2fuDIFHScm74KZg8l6ayw==
+X-CSE-MsgGUID: aA29SDvLQzmn8uNLMly1Ow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; 
-   d="scan'208";a="32971104"
+X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
+   d="scan'208";a="33185577"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 21 May 2024 14:13:22 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 May 2024 15:06:51 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9Wmo-0000kX-2V;
-	Tue, 21 May 2024 21:13:06 +0000
-Date: Wed, 22 May 2024 05:12:07 +0800
+	id 1s9Xcz-0000mj-1k;
+	Tue, 21 May 2024 22:06:41 +0000
+Date: Wed, 22 May 2024 06:05:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dmitry.baryshkov@linaro.org, ictor.liu@nxp.com,
-	sui.jingfeng@linux.dev, aford@beaconembedded.com,
-	Adam Ford <aford173@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: adv7511:  Fix Intermittent EDID failures
-Message-ID: <202405220445.DW2U7DXR-lkp@intel.com>
-References: <20240521011614.496421-1-aford173@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 8/14] ERROR: modpost: "__divdi3"
+ [drivers/iio/proximity/hx9031as.ko] undefined!
+Message-ID: <202405220611.5KLDPgex-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,53 +62,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521011614.496421-1-aford173@gmail.com>
 
-Hi Adam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master drm-intel/for-linux-next-fixes v6.9 next-20240521]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Ford/drm-bridge-adv7511-Fix-Intermittent-EDID-failures/20240521-091841
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240521011614.496421-1-aford173%40gmail.com
-patch subject: [PATCH] drm/bridge: adv7511:  Fix Intermittent EDID failures
-config: i386-buildonly-randconfig-002-20240521 (https://download.01.org/0day-ci/archive/20240522/202405220445.DW2U7DXR-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240522/202405220445.DW2U7DXR-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   421af4626226928fe072c5cb10730ef09674e1ed
+commit: 3c22f4cfab67e9e5d8cf9c56f5ed6906ee5533eb [8/14] BACKPORT: FROMLIST: iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor driver
+config: i386-randconfig-r053-20240522 (https://download.01.org/0day-ci/archive/20240522/202405220611.5KLDPgex-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240522/202405220611.5KLDPgex-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405220445.DW2U7DXR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405220611.5KLDPgex-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:507:35: warning: variable 'cec_status' is uninitialized when used here [-Wuninitialized]
-     507 |         if (irq_status == IRQ_HANDLED || cec_status == IRQ_HANDLED)
-         |                                          ^~~~~~~~~~
-   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:472:16: note: initialize the variable 'cec_status' to silence this warning
-     472 |         int cec_status;
-         |                       ^
-         |                        = 0
-   1 warning generated.
+>> ERROR: modpost: "__divdi3" [drivers/iio/proximity/hx9031as.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/iio/proximity/hx9031as.ko] undefined!
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
+   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
+   Selected by [m]:
+   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
 
-vim +/cec_status +507 drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-
-   505	
-   506		/* If there is no IRQ to handle, exit indicating no IRQ data */
- > 507		if (irq_status == IRQ_HANDLED || cec_status == IRQ_HANDLED)
-   508			return IRQ_HANDLED;
-   509	
-   510		return IRQ_NONE;
-   511	}
-   512	
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iio/proximity/hx9031as.c:817:3-9: preceding lock on line 808
+   drivers/iio/proximity/hx9031as.c:829:3-9: preceding lock on line 808
 
 -- 
 0-DAY CI Kernel Test Service
