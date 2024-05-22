@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A5C81723
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 09:58:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031E981723
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 09:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716371942; cv=none; b=CYyp2rfASZ0I013IgS+A8VpFXTPaJwzv84/+fFV0Ef7dOWukiIoYquLP0zCic6J2gG3SPjJdcBXTMVuF/B64txogWAPhmfaTU9wM9wnGEuC/9Lk3qgbRq4T0Q7TLb5nmBrrKaxlxIJ0sZFzm/7OJMY3HP7m/FEFyLvbijlJeYmI=
+	t=1716371967; cv=none; b=iDP5OC0qafxF+cvgp/F0yE6uzub6AxUH4oMmdEmFgZ6JGcpEVTQWmtSpYiOei7EjaXUc55BC6aeTZUny/OAqEyirod9fm7WEHEFDlUs5Bj1HKSdBJk3uSXf2SEYL6uiJTe9e0zYuXbJL/TNrFmTKpxsPZms/U5oKKglsQY7avHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716371942; c=relaxed/simple;
-	bh=nr4m4tJmIyeQ/e8EI8kiEKItAPn/iQhwEOdnkvZIe74=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tzuqlZr7OLQLIm0Y9PLCWXlkn3jYzrk9kKAMJtZBb3/BvRO3dULI3c79wSZvt6e2rRlkvzLZJKccu/pK9Tqcx08PyXGKoLmWsKfFrabIHOi4W8PnFBJzJ+ok3SbdJGSxqkUKeJtfhU9n209h4mnj+A7k3sxsZHZ6Ja2INBAUdns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROwPydSr; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1716371967; c=relaxed/simple;
+	bh=ds5hqfjO3ppcdLLD5em3gS/InmNXlcYUB6MzaskcVhg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lm+B5VxNjcJgHV9oEW5edLEZ4tgk3KTQE+JinOc+SidmPuyNEJasGl82/RUlT3O4dDS1F2XGp45GTyLu0ujruBUIY/75TI9xS8JrIru9bG6yVcv2aHgVcV06mD4oeQ/W70BRRUxZz3chD5vGMDzQ6ld5T58PqBGFsOxsiD67NZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIREQYST; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROwPydSr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIREQYST"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716371940; x=1747907940;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nr4m4tJmIyeQ/e8EI8kiEKItAPn/iQhwEOdnkvZIe74=;
-  b=ROwPydSrqX9HBkWeF2nXr4iyAADyrMwtXV19h0YxDYjvxa8leud6QE/H
-   vjS3kgwbgYIuw6Nv6/tciTV5mAsrISsMXXl0WmBTnYV3EmRVeQJgtVQri
-   uPJ1nrqOCqjfCaaIOG3Ws4NB9jMfM0WGJXfLSO+Ue7KV3khAii6PNSOej
-   amnPuqFj2TZjCUuXV2Lwb/ym8Nv/iIaJZwUDW4MjWbYzlowEOcRgkLgl3
-   1iVAfxne4mZ1/5kdxSTRkRqqu+YU8IYooRjuWMxWy2hoadgApIWlcjR/b
-   ozW0u/iGFRg2ccsUYRumcpv+50z5An8m7JzryLJ1/pO939KRIVSOrhpEz
-   g==;
-X-CSE-ConnectionGUID: G3hJTPXwQ8KdMs/OUoxwBQ==
-X-CSE-MsgGUID: 7uJJXnfJTkqL4RiOUEC2mQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="16440337"
+  t=1716371966; x=1747907966;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ds5hqfjO3ppcdLLD5em3gS/InmNXlcYUB6MzaskcVhg=;
+  b=OIREQYSTXF3x/CH1+Qs5dcWFzZrkARjlXFTAgUrF3+E8sS9CFBvjBH3T
+   MveYgJ9BM+jOsnjBoKPDKH4oaTsciY1THKZRoTpX+HKrOUeNFKemt+OMi
+   AlFgeJvrSfNjTENX8PiNeAcd2twhnUi0dptnj3Br7cCCBsE4808UFp8Gh
+   1fjhtbJ+aLwZ/b8wIMdpwfE+PHa9t4uTa+XEZP/2kYDjDy39bgrP6kBY4
+   nsP9YOjLVSU7niC8LyW6eesQuLktN92MO1maspfrJ1H1piceMu/gDrw3m
+   TLsXiDMk+hPMiUtYv6jn5gsYyVjZEdgQhFx5Nn5QcF8Bl4NhjXgq0WkLJ
+   Q==;
+X-CSE-ConnectionGUID: /xsrPANxSB+w856sXWeCUQ==
+X-CSE-MsgGUID: 13sVtkcwQV2oFwY80VxRXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="16440363"
 X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="16440337"
+   d="scan'208";a="16440363"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 02:59:00 -0700
-X-CSE-ConnectionGUID: gr1PLuKrSPqgx0fpGvmumA==
-X-CSE-MsgGUID: KUJzVDoNQqS0nJDeX41wDg==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 02:59:25 -0700
+X-CSE-ConnectionGUID: Q/e0kzAaSaaWj6XUVUmDfg==
+X-CSE-MsgGUID: XUC1ghAyQDWhPQBOVksoiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="38188119"
+   d="scan'208";a="38188166"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 22 May 2024 02:58:58 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 May 2024 02:59:23 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9ik3-0001GL-0F;
-	Wed, 22 May 2024 09:58:41 +0000
-Date: Wed, 22 May 2024 17:58:03 +0800
+	id 1s9ikK-0001GN-0B;
+	Wed, 22 May 2024 09:59:07 +0000
+Date: Wed, 22 May 2024 17:58:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
+To: Elliot Berman <quic_eberman@quicinc.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:page_mapcount 3/10] fs/proc/task_mmu.c:1463:22:
- warning: unused variable 'idx'
-Message-ID: <202405221712.6XRDPiYK-lkp@intel.com>
+Subject: Re: [PATCH RFC v3 3/9] fdt-select-board: Add test tool for selecting
+ dtbs based on board-id
+Message-ID: <202405221750.MQCRvIKn-lkp@intel.com>
+References: <20240521-board-ids-v3-3-e6c71d05f4d2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,136 +63,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240521-board-ids-v3-3-e6c71d05f4d2@quicinc.com>
 
-tree:   https://github.com/davidhildenbrand/linux page_mapcount
-head:   e9e926294eff582c5f6e5a5bf09b223f68c816da
-commit: 5ed3f94b31c91afa6228ef79b9b29ac1f813339d [3/10] fs/proc/task_mmu: indicate PM_MMAP_EXCLUSIVE per subpage of PMD-mapped THPs
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240522/202405221712.6XRDPiYK-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240522/202405221712.6XRDPiYK-lkp@intel.com/reproduce)
+Hi Elliot,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e8f897f4afef0031fe618a8e94127a0934896aba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/libfdt-board-id-Implement-board-id-scoring/20240522-024327
+base:   e8f897f4afef0031fe618a8e94127a0934896aba
+patch link:    https://lore.kernel.org/r/20240521-board-ids-v3-3-e6c71d05f4d2%40quicinc.com
+patch subject: [PATCH RFC v3 3/9] fdt-select-board: Add test tool for selecting dtbs based on board-id
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240522/202405221750.MQCRvIKn-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240522/202405221750.MQCRvIKn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405221712.6XRDPiYK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405221750.MQCRvIKn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/proc/task_mmu.c: In function 'pagemap_pmd_range':
->> fs/proc/task_mmu.c:1463:22: warning: unused variable 'idx' [-Wunused-variable]
-    1463 |         unsigned int idx = (addr & ~PMD_MASK) >> PAGE_SHIFT;
+   scripts/dtc/fdt-select-board.c: In function 'main':
+>> scripts/dtc/fdt-select-board.c:119:22: warning: passing argument 1 of 'free' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     119 |                 free(fdt);
          |                      ^~~
+   In file included from scripts/dtc/fdt-select-board.c:8:
+   /usr/include/stdlib.h:687:25: note: expected 'void *' but argument is of type 'const void *'
+     687 | extern void free (void *__ptr) __THROW;
+         |                   ~~~~~~^~~~~
+--
+   scripts/dtc/fdt-select-board.c: In function 'main':
+>> scripts/dtc/fdt-select-board.c:119:22: warning: passing argument 1 of 'free' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     119 |                 free(fdt);
+         |                      ^~~
+   In file included from scripts/dtc/fdt-select-board.c:8:
+   /usr/include/stdlib.h:687:25: note: expected 'void *' but argument is of type 'const void *'
+     687 | extern void free (void *__ptr) __THROW;
+         |                   ~~~~~~^~~~~
 
 
-vim +/idx +1463 fs/proc/task_mmu.c
+vim +119 scripts/dtc/fdt-select-board.c
 
-  1459	
-  1460	static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
-  1461				     struct mm_walk *walk)
-  1462	{
-> 1463		unsigned int idx = (addr & ~PMD_MASK) >> PAGE_SHIFT;
-  1464		struct vm_area_struct *vma = walk->vma;
-  1465		struct pagemapread *pm = walk->private;
-  1466		spinlock_t *ptl;
-  1467		pte_t *pte, *orig_pte;
-  1468		int err = 0;
-  1469	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-  1470	
-  1471		ptl = pmd_trans_huge_lock(pmdp, vma);
-  1472		if (ptl) {
-  1473			u64 flags = 0, frame = 0;
-  1474			pmd_t pmd = *pmdp;
-  1475			struct page *page = NULL;
-  1476	
-  1477			if (vma->vm_flags & VM_SOFTDIRTY)
-  1478				flags |= PM_SOFT_DIRTY;
-  1479	
-  1480			if (pmd_present(pmd)) {
-  1481				page = pmd_page(pmd);
-  1482	
-  1483				flags |= PM_PRESENT;
-  1484				if (pmd_soft_dirty(pmd))
-  1485					flags |= PM_SOFT_DIRTY;
-  1486				if (pmd_uffd_wp(pmd))
-  1487					flags |= PM_UFFD_WP;
-  1488				if (pm->show_pfn)
-  1489					frame = pmd_pfn(pmd) + idx;
-  1490			}
-  1491	#ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-  1492			else if (is_swap_pmd(pmd)) {
-  1493				swp_entry_t entry = pmd_to_swp_entry(pmd);
-  1494				unsigned long offset;
-  1495	
-  1496				if (pm->show_pfn) {
-  1497					if (is_pfn_swap_entry(entry))
-  1498						offset = swp_offset_pfn(entry);
-  1499					else
-  1500						offset = swp_offset(entry);
-  1501					offset += idx;
-  1502					frame = swp_type(entry) |
-  1503						(offset << MAX_SWAPFILES_SHIFT);
-  1504				}
-  1505				flags |= PM_SWAP;
-  1506				if (pmd_swp_soft_dirty(pmd))
-  1507					flags |= PM_SOFT_DIRTY;
-  1508				if (pmd_swp_uffd_wp(pmd))
-  1509					flags |= PM_UFFD_WP;
-  1510				VM_BUG_ON(!is_pmd_migration_entry(pmd));
-  1511				page = pfn_swap_entry_to_page(entry);
-  1512			}
-  1513	#endif
-  1514	
-  1515			if (page && !PageAnon(page))
-  1516				flags |= PM_FILE;
-  1517	
-  1518			for (; addr != end; addr += PAGE_SIZE, idx++) {
-  1519				unsigned long cur_flags = flags;
-  1520				pagemap_entry_t pme;
-  1521	
-  1522				if (page && (flags & PM_PRESENT) &&
-  1523				    page_mapcount(page + idx) == 1)
-  1524					cur_flags |= PM_MMAP_EXCLUSIVE;
-  1525	
-  1526				pme = make_pme(frame, cur_flags);
-  1527				err = add_to_pagemap(&pme, pm);
-  1528				if (err)
-  1529					break;
-  1530				if (pm->show_pfn) {
-  1531					if (flags & PM_PRESENT)
-  1532						frame++;
-  1533					else if (flags & PM_SWAP)
-  1534						frame += (1 << MAX_SWAPFILES_SHIFT);
-  1535				}
-  1536			}
-  1537			spin_unlock(ptl);
-  1538			return err;
-  1539		}
-  1540	#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-  1541	
-  1542		/*
-  1543		 * We can assume that @vma always points to a valid one and @end never
-  1544		 * goes beyond vma->vm_end.
-  1545		 */
-  1546		orig_pte = pte = pte_offset_map_lock(walk->mm, pmdp, addr, &ptl);
-  1547		if (!pte) {
-  1548			walk->action = ACTION_AGAIN;
-  1549			return err;
-  1550		}
-  1551		for (; addr < end; pte++, addr += PAGE_SIZE) {
-  1552			pagemap_entry_t pme;
-  1553	
-  1554			pme = pte_to_pagemap_entry(pm, vma, addr, ptep_get(pte));
-  1555			err = add_to_pagemap(&pme, pm);
-  1556			if (err)
-  1557				break;
-  1558		}
-  1559		pte_unmap_unlock(orig_pte, ptl);
-  1560	
-  1561		cond_resched();
-  1562	
-  1563		return err;
-  1564	}
-  1565	
+    48	
+    49	int main(int argc, char *argv[])
+    50	{
+    51		int opt;
+    52		char *input_filename = NULL;
+    53		const void *fdt;
+    54		const void *ref;
+    55		int ref_node;
+    56		int max_score = -1;
+    57		const char *best_match = NULL;
+    58		struct context ctx;
+    59		int all = 0;
+    60	
+    61		while ((opt = util_getopt_long()) != EOF) {
+    62			switch (opt) {
+    63			case_USAGE_COMMON_FLAGS
+    64	
+    65			case 'a':
+    66				all = 1;
+    67				break;
+    68			case 'r':
+    69				input_filename = optarg;
+    70				break;
+    71			case 'v':
+    72				verbose = 1;
+    73				break;
+    74			}
+    75		}
+    76	
+    77		if (!input_filename)
+    78			usage("missing reference file");
+    79	
+    80		argv += optind;
+    81		argc -= optind;
+    82	
+    83		if (argc <= 0)
+    84			usage("missing candidate dtbs");
+    85	
+    86		ref = utilfdt_read(input_filename, NULL);
+    87		if (!ref) {
+    88			fprintf(stderr, "failed to read reference %s\n", input_filename);
+    89			return -1;
+    90		}
+    91	
+    92		ref_node = fdt_path_offset(ref, "/board-id");
+    93		if (ref_node < 0) {
+    94			fprintf(stderr, "reference blob doesn't have a board-id\n");
+    95			return -1;
+    96		}
+    97	
+    98		ctx.fdt = ref;
+    99		ctx.node = ref_node;
+   100	
+   101		for (; argc > 0; --argc, ++argv) {
+   102			int score;
+   103	
+   104			fdt = utilfdt_read(*argv, NULL);
+   105			if (!fdt) {
+   106				fprintf(stderr, "failed to read %s\n", *argv);
+   107				return -1;
+   108			}
+   109	
+   110			score = fdt_board_id_score(fdt, get_board_id, &ctx);
+   111			if (verbose || (score > 0 && all))
+   112				printf("%s: %d\n", *argv, score);
+   113	
+   114			if (score > max_score) {
+   115				max_score = score;
+   116				best_match = *argv;
+   117			}
+   118	
+ > 119			free(fdt);
 
 -- 
 0-DAY CI Kernel Test Service
