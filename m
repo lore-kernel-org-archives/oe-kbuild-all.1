@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5483D442F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 21:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252667CF25
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 22:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716413908; cv=none; b=kqSIQbXypkmZtrXpxlepL6259WrWwrAx09zoNe2lMz/VkXuUtGbwAGsjmuUdeMoG2wWcImF8JifwtN0am2gwAWso9NRxzDcJHluibg9L7gbTxbqVPdnWSiykUIWYtbMJXWg/hX33RtaCVzQTDeJDrSidHvmHi/pSy95SOwsr1co=
+	t=1716417092; cv=none; b=JfmWSzIQUsY5xOnbNWcvDQgKa57Q+dlEIh4qFktvzmHcM3bm0UJ6gQGbOjCQPXClQgGLSd64DXdTVat2dA0NNhpXAW9/Dj6WkLXmejhHQI4NwF23RdC9HRStuUCR7OhH/WC/Ug2jcBGV6E2sJdZLLd5Hahw09+Nyk66MC150T4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716413908; c=relaxed/simple;
-	bh=6GEHkmY1wbBtUXcKjn9u+T4mQaCXiS3b5zpulNiyTQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ay4cjlOiSzaup1Ih9t/djuclfI0PP1PrgARy9p0TTDYDLmMbh9pEKdJkYsihP4GYr/3Jy183f5DuYaaxETxh4cu/PARBwosRs0yjTOUWp91ExhCLTEX4ljJst1rAfcyQR48zugxgNuri2ojomI60JB6MRgfG+TFBpshdW3eJeZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPatDanI; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1716417092; c=relaxed/simple;
+	bh=1W1L7acCospm0rUX5FWxQM3phzR8QfqYtWmsjzBV1iY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n5TcXh1IA3hg/cQGRDlh1Ilg7ub/Ie2wM0rKO1JEsoDunGd1itw8JhnighmUgotPa5GbsXlOTL/NXslNC6sQFM2YBvewFe9TJElt97NQs58V/ZwTNyYGVTRJKhqgR/eeiUt4+DG3YPKNqNit8DfVDIszGBWA2NHc4ks2HvTBa4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csza3GX8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPatDanI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csza3GX8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716413906; x=1747949906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6GEHkmY1wbBtUXcKjn9u+T4mQaCXiS3b5zpulNiyTQg=;
-  b=KPatDanIJYg6tflNxPUyFHn90IDnhptjObFIq0uOynVbSs4SI3AwqUX0
-   RA0Rrl4aHcBXw/9J+2HSnz7tJdPcpImt0i0j7rJ1Ch1T+nWSwBpJooRqp
-   QvrRDmN8aN+gOMm63ve5gpmDsQxHWDvdqTtrajlqhRmCcSiF2THJtxYlf
-   NLWCCQyD2T4UAsrVfu6fvEraoxjHLtZmewFUZIl3YS/3jdizQNyGwIGmV
-   95MfDeKb4mdhDsSXjYSgIPh39ruSBvdTUHqE6K11wfPxWjmUwUAVYhEm5
-   I5J+2/Omb+VeBu1UHae9o9qydkg8GuU1WDEQmFkG/t6VKvE4rKA0nwY2L
-   w==;
-X-CSE-ConnectionGUID: 7E8adIxgTwmzrRgKLnQzRQ==
-X-CSE-MsgGUID: TPQhiVIhQ/qGZFFLlpHNLg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="16538411"
+  t=1716417091; x=1747953091;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1W1L7acCospm0rUX5FWxQM3phzR8QfqYtWmsjzBV1iY=;
+  b=csza3GX8bCowH1UrEnMB0wWr1+An1RiLgY74pGUap0b6muKfe3HPoVoq
+   heiaghKVJDvhuWbLZ/2Qx+6nrxLcN6jAJwA8J3F828GoEZt6721U1lJ4q
+   iLKPp0yELkz9u7xgiO1DznQQhSTrAArZP8CbSEp9HssS2aoGm5vppy3+u
+   wddFvI+AlO/JFYlubiCL36i16HTd8Ydu0MycHqtLI81vkY7OWzgdrVrdg
+   KqPBtsQnSPWvZEBiJgNfdXpjqn74lWRfRi1gzdBnYO0Z84dLhyXYxzyXv
+   rb0BOOudID23gMbEGZGAvxbb8U0BG+Iqw4RBjMyhmnw86F33LNWUpB2rK
+   Q==;
+X-CSE-ConnectionGUID: 9s9DftnYSw29YbO2zWgsBw==
+X-CSE-MsgGUID: FmEnvsq9TfmQNEhesej0aw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23270787"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="16538411"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 14:38:26 -0700
-X-CSE-ConnectionGUID: fpq6Q8SxS7CGiRWjCsm+Cw==
-X-CSE-MsgGUID: qsqnU+R2RqqziClqR/Gvqg==
+   d="scan'208";a="23270787"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 15:31:30 -0700
+X-CSE-ConnectionGUID: G5irdcCXSgyxecri599MIA==
+X-CSE-MsgGUID: iwX5NZClT4C7gT1HWu2k8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="64268527"
+   d="scan'208";a="33550283"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 22 May 2024 14:38:23 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 May 2024 15:31:23 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9tfB-00023j-0o;
-	Wed, 22 May 2024 21:38:21 +0000
-Date: Thu, 23 May 2024 05:38:12 +0800
+	id 1s9uUS-0002BN-35;
+	Wed, 22 May 2024 22:31:20 +0000
+Date: Thu, 23 May 2024 06:30:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-classmap-fix-8d 15/36] lib/dynamic_debug.c:1197:18:
- warning: extra tokens at end of #ifdef directive
-Message-ID: <202405230550.joslnyNQ-lkp@intel.com>
+To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andriy.shevchenko@linux.intel.com,
+	lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+	judyhsiao@google.com, alsa-devel@alsa-project.org, i-salazar@ti.com,
+	linux-kernel@vger.kernel.org, j-chadha@ti.com,
+	liam.r.girdwood@intel.com, bard.liao@intel.com,
+	yung-chuan.liao@linux.intel.com, dipa@ti.com, kevin-lu@ti.com,
+	yuhsuan@google.com, tiwai@suse.de, baojun.xu@ti.com, soyer@irl.hu,
+	Baojun.Xu@fpt.com, navada@ti.com, cujomalainey@google.com,
+	aanya@ti.com, nayeem.mahmud@ti.com,
+	Shenghao Ding <shenghao-ding@ti.com>
+Subject: Re: [PATCH v1] ASoc: tas2781: Add Calibration Kcontrols and tas2563
+ digtial gain for Chromebook
+Message-ID: <202405230633.Vq1CHD6e-lkp@intel.com>
+References: <20240522112942.994-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,156 +73,205 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240522112942.994-1-shenghao-ding@ti.com>
 
-tree:   https://github.com/jimc/linux.git dd-classmap-fix-8d
-head:   07a74c0e1fe9c389f87ba0cd56d5178c3e87103c
-commit: 1bc89a95b93be7bf897ed23bb5903ba2c901b9b6 [15/36] dyndbg-API: fix DECLARE_DYNDBG_CLASSMAP
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240523/202405230550.joslnyNQ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230550.joslnyNQ-lkp@intel.com/reproduce)
+Hi Shenghao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on next-20240522]
+[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoc-tas2781-Add-Calibration-Kcontrols-and-tas2563-digtial-gain-for-Chromebook/20240522-193315
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240522112942.994-1-shenghao-ding%40ti.com
+patch subject: [PATCH v1] ASoc: tas2781: Add Calibration Kcontrols and tas2563 digtial gain for Chromebook
+config: x86_64-buildonly-randconfig-002-20240523 (https://download.01.org/0day-ci/archive/20240523/202405230633.Vq1CHD6e-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230633.Vq1CHD6e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405230550.joslnyNQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230633.Vq1CHD6e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from lib/dynamic_debug.c:17:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from lib/dynamic_debug.c:38:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from lib/dynamic_debug.c:38:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from lib/dynamic_debug.c:38:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> lib/dynamic_debug.c:1197:18: warning: extra tokens at end of #ifdef directive [-Wextra-tokens]
-    1197 | #ifdef IS_ENABLED(CONFIG_MODULES)
-         |                  ^
-         |                  //
-   18 warnings generated.
---
->> lib/dynamic_debug.c:1197:18: warning: extra tokens at end of #ifdef directive [-Wextra-tokens]
-    1197 | #ifdef IS_ENABLED(CONFIG_MODULES)
-         |                  ^
-         |                  //
-   1 warning generated.
+   sound/soc/codecs/tas2781-i2c.c: In function 'tas2563_digital_gain_get':
+>> sound/soc/codecs/tas2781-i2c.c:696:31: error: 'tas2563_dvc_table' undeclared (first use in this function); did you mean 'tasklet_disable'?
+      ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
+                                  ^~~~~~~~~~~~~~~~~
+                                  tasklet_disable
+   sound/soc/codecs/tas2781-i2c.c:696:31: note: each undeclared identifier is reported only once for each function it appears in
+   sound/soc/codecs/tas2781-i2c.c: In function 'tas2563_digital_gain_put':
+   sound/soc/codecs/tas2781-i2c.c:737:29: error: 'tas2563_dvc_table' undeclared (first use in this function); did you mean 'tasklet_disable'?
+     volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
+                                ^~~~~~~~~~~~~~~~~
+                                tasklet_disable
+   In file included from sound/soc/codecs/tas2781-i2c.c:30:
+   sound/soc/codecs/tas2781-i2c.c: At top level:
+>> sound/soc/codecs/tas2781-i2c.c:790:3: error: 'tas2563_dvc_tlv' undeclared here (not in a function); did you mean 'tas2563_snd_controls'?
+      tas2563_dvc_tlv),
+      ^~~~~~~~~~~~~~~
+   include/sound/soc.h:293:12: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
+     .tlv.p = (tlv_array), \
+               ^~~~~~~~~
+>> sound/soc/codecs/tas2781-i2c.c:788:17: error: 'tas2563_dvc_table' undeclared here (not in a function); did you mean 'tas2563_snd_controls'?
+      0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
+                    ^~~~~~~~~~~~~~~~~
+   include/sound/soc.h:298:42: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
+       .rshift = xshift, .min = xmin, .max = xmax, \
+                                             ^~~~
+   sound/soc/codecs/tas2781-i2c.c:788:6: note: in expansion of macro 'ARRAY_SIZE'
+      0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
+         ^~~~~~~~~~
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+    #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+                                                      ^
+   include/sound/soc.h:298:42: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
+       .rshift = xshift, .min = xmin, .max = xmax, \
+                                             ^~~~
+   include/linux/compiler.h:237:28: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+    #define __must_be_array(a) BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+                               ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+    #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+                                                              ^~~~~~~~~~~~~~~
+   sound/soc/codecs/tas2781-i2c.c:788:6: note: in expansion of macro 'ARRAY_SIZE'
+      0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
+         ^~~~~~~~~~
 
 
-vim +1197 lib/dynamic_debug.c
+vim +696 sound/soc/codecs/tas2781-i2c.c
 
-  1193	
-  1194	static void ddebug_apply_params(const struct ddebug_class_map *cm, const char *modnm)
-  1195	{
-  1196		const struct kernel_param *kp;
-> 1197	#ifdef IS_ENABLED(CONFIG_MODULES)
-  1198		int i;
-  1199	
-  1200		if (cm->mod) {
-  1201			vpr_cm_info(cm, "loaded class:");
-  1202			/* ifdef protects the cm->mod->kp deref */
-  1203			for (i = 0, kp = cm->mod->kp; i < cm->mod->num_kp; i++, kp++)
-  1204				ddebug_match_apply_kparam(kp, cm, modnm);
-  1205		}
-  1206	#endif
-  1207		if (!cm->mod) {
-  1208			vpr_cm_info(cm, "builtin class:");
-  1209			for (kp = __start___param; kp < __stop___param; kp++)
-  1210				ddebug_match_apply_kparam(kp, cm, modnm);
-  1211		}
-  1212	}
-  1213	
+   669	
+   670	static int tas2563_digital_gain_get(
+   671		struct snd_kcontrol *kcontrol,
+   672		struct snd_ctl_elem_value *ucontrol)
+   673	{
+   674		struct soc_mixer_control *mc =
+   675			(struct soc_mixer_control *)kcontrol->private_value;
+   676		struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
+   677		struct tasdevice_priv *tas_dev = snd_soc_component_get_drvdata(codec);
+   678		unsigned int l = 0, r = mc->max;
+   679		unsigned int target, ar_mid, mid, ar_l, ar_r;
+   680		unsigned int reg = mc->reg;
+   681		unsigned char data[4];
+   682		int ret;
+   683	
+   684		mutex_lock(&tas_dev->codec_lock);
+   685		/* Read the primary device */
+   686		ret =  tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
+   687		if (ret) {
+   688			dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
+   689			goto out;
+   690		}
+   691	
+   692		target = get_unaligned_be32(&data[0]);
+   693	
+   694		while (r > 1 + l) {
+   695			mid = (l + r) / 2;
+ > 696			ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
+   697			if (target < ar_mid)
+   698				r = mid;
+   699			else
+   700				l = mid;
+   701		}
+   702	
+   703		ar_l = get_unaligned_be32(tas2563_dvc_table[l]);
+   704		ar_r = get_unaligned_be32(tas2563_dvc_table[r]);
+   705	
+   706		ucontrol->value.integer.value[0] =
+   707			abs(target - ar_l) <= abs(target - ar_r) ? l : r;
+   708	out:
+   709		mutex_unlock(&tas_dev->codec_lock);
+   710		return 0;
+   711	}
+   712	
+   713	static int tas2563_digital_gain_put(
+   714		struct snd_kcontrol *kcontrol,
+   715		struct snd_ctl_elem_value *ucontrol)
+   716	{
+   717		struct soc_mixer_control *mc =
+   718			(struct soc_mixer_control *)kcontrol->private_value;
+   719		struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
+   720		struct tasdevice_priv *tas_dev = snd_soc_component_get_drvdata(codec);
+   721		unsigned int reg = mc->reg;
+   722		unsigned int volrd, volwr;
+   723		int vol = ucontrol->value.integer.value[0];
+   724		int max = mc->max, i, ret = 1;
+   725		unsigned char data[4];
+   726	
+   727		vol = clamp(vol, 0, max);
+   728		mutex_lock(&tas_dev->codec_lock);
+   729		/* Read the primary device */
+   730		ret =  tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
+   731		if (ret) {
+   732			dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
+   733			goto out;
+   734		}
+   735	
+   736		volrd = get_unaligned_be32(&data[0]);
+   737		volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
+   738	
+   739		if (volrd == volwr) {
+   740			ret = 0;
+   741			goto out;
+   742		}
+   743	
+   744		for (i = 0; i < tas_dev->ndev; i++) {
+   745			ret = tasdevice_dev_bulk_write(tas_dev, i, reg,
+   746				(unsigned char *)tas2563_dvc_table[vol], 4);
+   747			if (ret)
+   748				dev_err(tas_dev->dev,
+   749					"%s, set digital vol error in device %d\n",
+   750					__func__, i);
+   751		}
+   752	
+   753	out:
+   754		mutex_unlock(&tas_dev->codec_lock);
+   755		return ret;
+   756	}
+   757	
+   758	static const struct snd_kcontrol_new tasdevice_snd_controls[] = {
+   759		SOC_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
+   760			tasdev_force_fwload_get, tasdev_force_fwload_put),
+   761	};
+   762	
+   763	static const struct snd_kcontrol_new tasdevice_cali_controls[] = {
+   764		SOC_SINGLE_EXT("Calibration Stop", SND_SOC_NOPM, 0, 1, 0,
+   765			tasdev_nop_get, tasdev_calib_stop_put),
+   766		SND_SOC_BYTES_EXT("Amp TF Data", 5, tasdev_tf_data_get, NULL),
+   767		SND_SOC_BYTES_EXT("Amp RE Data", 5, tasdev_re_data_get, NULL),
+   768		SND_SOC_BYTES_EXT("Amp R0 Data", 5, tasdev_r0_data_get, NULL),
+   769		SND_SOC_BYTES_EXT("Amp XMA1 Data", 5, tasdev_XMA1_data_get, NULL),
+   770		SND_SOC_BYTES_EXT("Amp XMA2 Data", 5, tasdev_XMA2_data_get, NULL),
+   771	};
+   772	
+   773	static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+   774		SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
+   775			1, 0, 20, 0, tas2781_amp_getvol,
+   776			tas2781_amp_putvol, amp_vol_tlv),
+   777		SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2781_DVC_LVL,
+   778			0, 0, 200, 1, tas2781_digital_getvol,
+   779			tas2781_digital_putvol, dvc_tlv),
+   780	};
+   781	
+   782	static const struct snd_kcontrol_new tas2781_cali_controls[] = {
+   783		SND_SOC_BYTES_EXT("Amp Latch Data", 2, tas2781_latch_reg_get, NULL),
+   784	};
+   785	
+   786	static const struct snd_kcontrol_new tas2563_snd_controls[] = {
+   787		SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2563_DVC_LVL, 0,
+ > 788			0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
+   789			tas2563_digital_gain_get, tas2563_digital_gain_put,
+ > 790			tas2563_dvc_tlv),
+   791	};
+   792	
 
 -- 
 0-DAY CI Kernel Test Service
