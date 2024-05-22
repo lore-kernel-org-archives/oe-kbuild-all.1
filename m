@@ -1,70 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252667CF25
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 22:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87483148840
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 22:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716417092; cv=none; b=JfmWSzIQUsY5xOnbNWcvDQgKa57Q+dlEIh4qFktvzmHcM3bm0UJ6gQGbOjCQPXClQgGLSd64DXdTVat2dA0NNhpXAW9/Dj6WkLXmejhHQI4NwF23RdC9HRStuUCR7OhH/WC/Ug2jcBGV6E2sJdZLLd5Hahw09+Nyk66MC150T4w=
+	t=1716417688; cv=none; b=nB09Mtph0r+L92884eqs+dneyhL8y0AlIxvlGfNDlVHOfgBKzXcwvzxRNfdnTldpoGukfoo0mpKy5eiDhq0/sYrUQJDXYGL0+dEV4ARR/Cub+Wov0BprQfwZit19vmFJnohcMM4ZU9Khvu4oJrC5wHYT5vpSEbn+TwgkXIcbjDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716417092; c=relaxed/simple;
-	bh=1W1L7acCospm0rUX5FWxQM3phzR8QfqYtWmsjzBV1iY=;
+	s=arc-20240116; t=1716417688; c=relaxed/simple;
+	bh=bx0asRUwtKcoEolvVk8oja6KOXHsb21SKBgGTFjCTXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n5TcXh1IA3hg/cQGRDlh1Ilg7ub/Ie2wM0rKO1JEsoDunGd1itw8JhnighmUgotPa5GbsXlOTL/NXslNC6sQFM2YBvewFe9TJElt97NQs58V/ZwTNyYGVTRJKhqgR/eeiUt4+DG3YPKNqNit8DfVDIszGBWA2NHc4ks2HvTBa4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csza3GX8; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=cZ3ZCx+ldtGLAsyBButwhUDB9vTQ6zD8DsFQLc7PJrtYym2LaeeJ38iaJ3CoCSGItEs9aMPPEmOlRXwOk3rp8XRGHeKAZ5PsYCWuilp8ITw5IC1yeEA4AZmzsO26b0K84Kis7XwrMnso73NOJPhBTU5XZawFw0Vt+Rva84nEF2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wf+b89vX; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csza3GX8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wf+b89vX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716417091; x=1747953091;
+  t=1716417687; x=1747953687;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1W1L7acCospm0rUX5FWxQM3phzR8QfqYtWmsjzBV1iY=;
-  b=csza3GX8bCowH1UrEnMB0wWr1+An1RiLgY74pGUap0b6muKfe3HPoVoq
-   heiaghKVJDvhuWbLZ/2Qx+6nrxLcN6jAJwA8J3F828GoEZt6721U1lJ4q
-   iLKPp0yELkz9u7xgiO1DznQQhSTrAArZP8CbSEp9HssS2aoGm5vppy3+u
-   wddFvI+AlO/JFYlubiCL36i16HTd8Ydu0MycHqtLI81vkY7OWzgdrVrdg
-   KqPBtsQnSPWvZEBiJgNfdXpjqn74lWRfRi1gzdBnYO0Z84dLhyXYxzyXv
-   rb0BOOudID23gMbEGZGAvxbb8U0BG+Iqw4RBjMyhmnw86F33LNWUpB2rK
+  bh=bx0asRUwtKcoEolvVk8oja6KOXHsb21SKBgGTFjCTXY=;
+  b=Wf+b89vXpqW4tfsTctPVn/BiTgdSzPg1DiV9/K4SdmsEtJ3VfPFX4UO4
+   D3an1KHyWywqUsTnomLJkwNORSh5PBAXwzvuWCFZJhpbmR3RXBRA8rG+O
+   +VuhjaotNGaViY7oxFt3ya2YshE4YjDHACKhwtzEWamw3dZpk6KMeLBzL
+   wvGty1ohyb/Hbj6zRRQ3OKQm8hALtnd2bQ1UEq3TbCtj3bGjI/xcdQ+Wz
+   meLNsTYBlAJs7X2h/WfzR4SJByuuFYuuT8ZG02tLoPNOarev5TGmKy0x5
+   KhmnPJdQ6uw5iNs2qr3r8Qs450Z0uw7TfsT8+q9WmIZu4Zqm6O4fRAxwp
    Q==;
-X-CSE-ConnectionGUID: 9s9DftnYSw29YbO2zWgsBw==
-X-CSE-MsgGUID: FmEnvsq9TfmQNEhesej0aw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23270787"
+X-CSE-ConnectionGUID: 0kclxOODSQyJtL8UPrAT2g==
+X-CSE-MsgGUID: PrdmNfGXSiu51LaZfKr0XA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="12933615"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="23270787"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 15:31:30 -0700
-X-CSE-ConnectionGUID: G5irdcCXSgyxecri599MIA==
-X-CSE-MsgGUID: iwX5NZClT4C7gT1HWu2k8A==
+   d="scan'208";a="12933615"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 15:41:26 -0700
+X-CSE-ConnectionGUID: pP9zSFpRSBOKkSlTuCAb7g==
+X-CSE-MsgGUID: LjhycS15SLyqmh7BrfNg4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="33550283"
+   d="scan'208";a="33344410"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 22 May 2024 15:31:23 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 May 2024 15:41:23 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9uUS-0002BN-35;
-	Wed, 22 May 2024 22:31:20 +0000
-Date: Thu, 23 May 2024 06:30:29 +0800
+	id 1s9ue9-0002Bt-0V;
+	Wed, 22 May 2024 22:41:21 +0000
+Date: Thu, 23 May 2024 06:40:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andriy.shevchenko@linux.intel.com,
-	lgirdwood@gmail.com, perex@perex.cz,
-	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
-	judyhsiao@google.com, alsa-devel@alsa-project.org, i-salazar@ti.com,
-	linux-kernel@vger.kernel.org, j-chadha@ti.com,
-	liam.r.girdwood@intel.com, bard.liao@intel.com,
-	yung-chuan.liao@linux.intel.com, dipa@ti.com, kevin-lu@ti.com,
-	yuhsuan@google.com, tiwai@suse.de, baojun.xu@ti.com, soyer@irl.hu,
-	Baojun.Xu@fpt.com, navada@ti.com, cujomalainey@google.com,
-	aanya@ti.com, nayeem.mahmud@ti.com,
-	Shenghao Ding <shenghao-ding@ti.com>
-Subject: Re: [PATCH v1] ASoc: tas2781: Add Calibration Kcontrols and tas2563
- digtial gain for Chromebook
-Message-ID: <202405230633.Vq1CHD6e-lkp@intel.com>
-References: <20240522112942.994-1-shenghao-ding@ti.com>
+To: Jaewon Kim <jaewon31.kim@samsung.com>, rppt@kernel.org, vbabka@suse.cz,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, jaewon31.kim@gmail.com,
+	Jaewon Kim <jaewon31.kim@samsung.com>
+Subject: Re: [RESEND PATCH 10/10] memblock: support memsize reusable to
+ consider as reusable
+Message-ID: <202405230627.Lbju2ReQ-lkp@intel.com>
+References: <20240521023957.2587005-11-jaewon31.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,205 +66,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522112942.994-1-shenghao-ding@ti.com>
+In-Reply-To: <20240521023957.2587005-11-jaewon31.kim@samsung.com>
 
-Hi Shenghao,
+Hi Jaewon,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on next-20240522]
-[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on robh/for-next linus/master]
+[cannot apply to rppt-memblock/for-next v6.9 next-20240522]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoc-tas2781-Add-Calibration-Kcontrols-and-tas2563-digtial-gain-for-Chromebook/20240522-193315
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240522112942.994-1-shenghao-ding%40ti.com
-patch subject: [PATCH v1] ASoc: tas2781: Add Calibration Kcontrols and tas2563 digtial gain for Chromebook
-config: x86_64-buildonly-randconfig-002-20240523 (https://download.01.org/0day-ci/archive/20240523/202405230633.Vq1CHD6e-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230633.Vq1CHD6e-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jaewon-Kim/memblock-introduce-memsize-showing-reserved-memory/20240521-104201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240521023957.2587005-11-jaewon31.kim%40samsung.com
+patch subject: [RESEND PATCH 10/10] memblock: support memsize reusable to consider as reusable
+config: parisc-randconfig-r132-20240522 (https://download.01.org/0day-ci/archive/20240523/202405230627.Lbju2ReQ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240523/202405230627.Lbju2ReQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405230633.Vq1CHD6e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230627.Lbju2ReQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   sound/soc/codecs/tas2781-i2c.c: In function 'tas2563_digital_gain_get':
->> sound/soc/codecs/tas2781-i2c.c:696:31: error: 'tas2563_dvc_table' undeclared (first use in this function); did you mean 'tasklet_disable'?
-      ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
-                                  ^~~~~~~~~~~~~~~~~
-                                  tasklet_disable
-   sound/soc/codecs/tas2781-i2c.c:696:31: note: each undeclared identifier is reported only once for each function it appears in
-   sound/soc/codecs/tas2781-i2c.c: In function 'tas2563_digital_gain_put':
-   sound/soc/codecs/tas2781-i2c.c:737:29: error: 'tas2563_dvc_table' undeclared (first use in this function); did you mean 'tasklet_disable'?
-     volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
-                                ^~~~~~~~~~~~~~~~~
-                                tasklet_disable
-   In file included from sound/soc/codecs/tas2781-i2c.c:30:
-   sound/soc/codecs/tas2781-i2c.c: At top level:
->> sound/soc/codecs/tas2781-i2c.c:790:3: error: 'tas2563_dvc_tlv' undeclared here (not in a function); did you mean 'tas2563_snd_controls'?
-      tas2563_dvc_tlv),
-      ^~~~~~~~~~~~~~~
-   include/sound/soc.h:293:12: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
-     .tlv.p = (tlv_array), \
-               ^~~~~~~~~
->> sound/soc/codecs/tas2781-i2c.c:788:17: error: 'tas2563_dvc_table' undeclared here (not in a function); did you mean 'tas2563_snd_controls'?
-      0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
-                    ^~~~~~~~~~~~~~~~~
-   include/sound/soc.h:298:42: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
-       .rshift = xshift, .min = xmin, .max = xmax, \
-                                             ^~~~
-   sound/soc/codecs/tas2781-i2c.c:788:6: note: in expansion of macro 'ARRAY_SIZE'
-      0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
-         ^~~~~~~~~~
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-    #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-                                                      ^
-   include/sound/soc.h:298:42: note: in definition of macro 'SOC_SINGLE_RANGE_EXT_TLV'
-       .rshift = xshift, .min = xmin, .max = xmax, \
-                                             ^~~~
-   include/linux/compiler.h:237:28: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-    #define __must_be_array(a) BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-                               ^~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-    #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-                                                              ^~~~~~~~~~~~~~~
-   sound/soc/codecs/tas2781-i2c.c:788:6: note: in expansion of macro 'ARRAY_SIZE'
-      0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
-         ^~~~~~~~~~
-
-
-vim +696 sound/soc/codecs/tas2781-i2c.c
-
-   669	
-   670	static int tas2563_digital_gain_get(
-   671		struct snd_kcontrol *kcontrol,
-   672		struct snd_ctl_elem_value *ucontrol)
-   673	{
-   674		struct soc_mixer_control *mc =
-   675			(struct soc_mixer_control *)kcontrol->private_value;
-   676		struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
-   677		struct tasdevice_priv *tas_dev = snd_soc_component_get_drvdata(codec);
-   678		unsigned int l = 0, r = mc->max;
-   679		unsigned int target, ar_mid, mid, ar_l, ar_r;
-   680		unsigned int reg = mc->reg;
-   681		unsigned char data[4];
-   682		int ret;
-   683	
-   684		mutex_lock(&tas_dev->codec_lock);
-   685		/* Read the primary device */
-   686		ret =  tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
-   687		if (ret) {
-   688			dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
-   689			goto out;
-   690		}
-   691	
-   692		target = get_unaligned_be32(&data[0]);
-   693	
-   694		while (r > 1 + l) {
-   695			mid = (l + r) / 2;
- > 696			ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
-   697			if (target < ar_mid)
-   698				r = mid;
-   699			else
-   700				l = mid;
-   701		}
-   702	
-   703		ar_l = get_unaligned_be32(tas2563_dvc_table[l]);
-   704		ar_r = get_unaligned_be32(tas2563_dvc_table[r]);
-   705	
-   706		ucontrol->value.integer.value[0] =
-   707			abs(target - ar_l) <= abs(target - ar_r) ? l : r;
-   708	out:
-   709		mutex_unlock(&tas_dev->codec_lock);
-   710		return 0;
-   711	}
-   712	
-   713	static int tas2563_digital_gain_put(
-   714		struct snd_kcontrol *kcontrol,
-   715		struct snd_ctl_elem_value *ucontrol)
-   716	{
-   717		struct soc_mixer_control *mc =
-   718			(struct soc_mixer_control *)kcontrol->private_value;
-   719		struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
-   720		struct tasdevice_priv *tas_dev = snd_soc_component_get_drvdata(codec);
-   721		unsigned int reg = mc->reg;
-   722		unsigned int volrd, volwr;
-   723		int vol = ucontrol->value.integer.value[0];
-   724		int max = mc->max, i, ret = 1;
-   725		unsigned char data[4];
-   726	
-   727		vol = clamp(vol, 0, max);
-   728		mutex_lock(&tas_dev->codec_lock);
-   729		/* Read the primary device */
-   730		ret =  tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
-   731		if (ret) {
-   732			dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
-   733			goto out;
-   734		}
-   735	
-   736		volrd = get_unaligned_be32(&data[0]);
-   737		volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
-   738	
-   739		if (volrd == volwr) {
-   740			ret = 0;
-   741			goto out;
-   742		}
-   743	
-   744		for (i = 0; i < tas_dev->ndev; i++) {
-   745			ret = tasdevice_dev_bulk_write(tas_dev, i, reg,
-   746				(unsigned char *)tas2563_dvc_table[vol], 4);
-   747			if (ret)
-   748				dev_err(tas_dev->dev,
-   749					"%s, set digital vol error in device %d\n",
-   750					__func__, i);
-   751		}
-   752	
-   753	out:
-   754		mutex_unlock(&tas_dev->codec_lock);
-   755		return ret;
-   756	}
-   757	
-   758	static const struct snd_kcontrol_new tasdevice_snd_controls[] = {
-   759		SOC_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
-   760			tasdev_force_fwload_get, tasdev_force_fwload_put),
-   761	};
-   762	
-   763	static const struct snd_kcontrol_new tasdevice_cali_controls[] = {
-   764		SOC_SINGLE_EXT("Calibration Stop", SND_SOC_NOPM, 0, 1, 0,
-   765			tasdev_nop_get, tasdev_calib_stop_put),
-   766		SND_SOC_BYTES_EXT("Amp TF Data", 5, tasdev_tf_data_get, NULL),
-   767		SND_SOC_BYTES_EXT("Amp RE Data", 5, tasdev_re_data_get, NULL),
-   768		SND_SOC_BYTES_EXT("Amp R0 Data", 5, tasdev_r0_data_get, NULL),
-   769		SND_SOC_BYTES_EXT("Amp XMA1 Data", 5, tasdev_XMA1_data_get, NULL),
-   770		SND_SOC_BYTES_EXT("Amp XMA2 Data", 5, tasdev_XMA2_data_get, NULL),
-   771	};
-   772	
-   773	static const struct snd_kcontrol_new tas2781_snd_controls[] = {
-   774		SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
-   775			1, 0, 20, 0, tas2781_amp_getvol,
-   776			tas2781_amp_putvol, amp_vol_tlv),
-   777		SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2781_DVC_LVL,
-   778			0, 0, 200, 1, tas2781_digital_getvol,
-   779			tas2781_digital_putvol, dvc_tlv),
-   780	};
-   781	
-   782	static const struct snd_kcontrol_new tas2781_cali_controls[] = {
-   783		SND_SOC_BYTES_EXT("Amp Latch Data", 2, tas2781_latch_reg_get, NULL),
-   784	};
-   785	
-   786	static const struct snd_kcontrol_new tas2563_snd_controls[] = {
-   787		SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2563_DVC_LVL, 0,
- > 788			0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
-   789			tas2563_digital_gain_get, tas2563_digital_gain_put,
- > 790			tas2563_dvc_tlv),
-   791	};
-   792	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_kernel_size+0xc (section: .text) -> memsize_kinit (section: .meminit.data)
+WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_kernel_size+0x10 (section: .text) -> memsize_kinit (section: .meminit.data)
+WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_kernel_size+0x18 (section: .text) -> memsize_kinit (section: .meminit.data)
+>> WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_reusable_size+0xc (section: .text) -> memsize_reusable_size (section: .meminit.data)
+WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_reusable_size+0x10 (section: .text) -> memsize_reusable_size (section: .meminit.data)
+WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_reusable_size+0x18 (section: .text) -> memsize_reusable_size (section: .meminit.data)
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/dwc/pci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-altera.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-altera-msi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ali1563.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/power/reset/piix4-poweroff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/omap_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
 
 -- 
 0-DAY CI Kernel Test Service
