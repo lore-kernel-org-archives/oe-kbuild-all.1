@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5604D823AC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 12:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2502F13D532
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 13:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716380293; cv=none; b=k9QQqm4u3Bdpj5rQDODH+Ol5Euy4zVgLkZEgJo/1UwM0GvjqJxmDkLVlS9hoWsLBjDOM28iwr6QAlijdeZfBhv9BxDr8CFsCriQfQWweAXnAaWxxmHiEernOi+sT3bLsUdAX17dVaIBRZ1l8mVOnsqw8bDnn9QtHWLfHhAmHkwA=
+	t=1716383726; cv=none; b=RvY0tSeom1zyIMEHq3lKH72gfQLgsY2Yt7vQNpltaDJ48UHxSXQGeEYMYImGOvoxRqzIbeYauxDDRmYPMhPtz4yRGRbLk24b9fAbGPy2F4d2AIpzxXO3PHF/goX82QQDyM2gOV/kkS+n+B9pObzbhTgslOhUfq70N3mVSHazdVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716380293; c=relaxed/simple;
-	bh=xLdwzoylVY4zGN1TW/ToeyibJVn4xgDRYK7Eiy11LxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FXJlFLPREeDp6FdBhvI6C0tUY+T6HSKhGXg+FlTzeL1dz5wik8NLOdLJtXpqal/iPCEvl+Zk1P5IztRqXv6XFvt77aol8xR50Zl+0qWhGI/k9GHKZJXWf2ostWxMGo97sNpQHD6gsJnGLv5sWlvgJu28rPLbFoJPAmCUXsAlOlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHUj7Mfx; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716383726; c=relaxed/simple;
+	bh=uLnhViPu3gKMuUJBRCARdTqjTRtx+rKZw7tS8gTAar0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AarhJ4H/jIUogHlk8VQ7buSN3PekqQ9S0H/xPpwqi+nLjeKhnzVYDe7+7Emrx2DldLvbwjAqw1cj6k1lsLX67/3aR1SMBjyQsLnixzzMt3hEsCIbs76AZrLQa6RQlD8bbbLrk/KqvGjiopNxQdeOWsBX8/YQksjzxoEUAUwABOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iVoG65Ty; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHUj7Mfx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716380292; x=1747916292;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xLdwzoylVY4zGN1TW/ToeyibJVn4xgDRYK7Eiy11LxI=;
-  b=UHUj7MfxCEwIFwhmJnIuAA/mLiLV/T6qSXiw/eK4ATGcwPoTqDlmGWNp
-   zyRRojFUUpQnWd4dM4m8ULirbLPXJEpgI6pA+9FU+J98I5pv/mQ3spAQD
-   RDfRVNxazk9x+EUZ/WXUsI/z1W4iG00NROLb8zJtI5qFt+evctn1Aogc8
-   d7Z2bM9N7yEnJBQu7yOReA8QEVAHk35ed6JPZj1w7nYQc9nq2j3VeK5qQ
-   MwiFozk/U0nbCBYrzvjV/zBS6mqQ7Xaf3hLJ+I5c6Pa3PBubsdB3CtRqg
-   DyGAIRtaB1MaSMVBF7J1mfB5eqFYy5IxQc4jmOFyfvOmq5S8LpJsSSCyE
-   g==;
-X-CSE-ConnectionGUID: 6/JubGYfSMSkKDeWxY3WjQ==
-X-CSE-MsgGUID: B+5Bc3zWQs+rO1b/FO31kg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="12566153"
-X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="12566153"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 05:18:09 -0700
-X-CSE-ConnectionGUID: bpQwEMMHQKGKMlXAFHydKQ==
-X-CSE-MsgGUID: ziQzHXvzTSe7DXtBIUUNkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="56515212"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 22 May 2024 05:18:07 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s9kuz-0001Wz-1I;
-	Wed, 22 May 2024 12:18:05 +0000
-Date: Wed, 22 May 2024 20:17:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vasileios Amoiridis <vassilisamir@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [jic23-iio:testing 23/29]
- drivers/iio/pressure/bmp280-core.c:2576:35: sparse: sparse: symbol
- 'bmp280_buffer_setup_ops' was not declared. Should it be static?
-Message-ID: <202405222026.cP2kdFgB-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iVoG65Ty"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716383724;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gG/nMjAoz9LDk2w+nQo6Krx4ydggfzKbEuvqJwzneL4=;
+	b=iVoG65Ty/MdN4/L6k49H4mNq77Gp8hCf+as5TZEPh3sZH77D/ytRTJyjTZRfgY63SmKvyN
+	JgzOSWn7AvL3ADlJDmQN1bTrtlZUYdqDL9sYPDIpmiveUeG88zHGA4d/VHEAksVLi/5G6S
+	pZSYJmB/Zl2VoOQqHHylPb1pLfH70X0=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-226-GfQF3paeNZylWi2WTvZvXw-1; Wed,
+ 22 May 2024 09:15:18 -0400
+X-MC-Unique: GfQF3paeNZylWi2WTvZvXw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 388D638000AB;
+	Wed, 22 May 2024 13:15:18 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.153])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 8CA2C2026D33;
+	Wed, 22 May 2024 13:15:16 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Wed, 22 May 2024 15:13:51 +0200 (CEST)
+Date: Wed, 22 May 2024 15:13:49 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
+Subject: Re: kernel/sched/isolation.c:143 housekeeping_setup() warn: always
+ true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+Message-ID: <20240522131349.GA3582@redhat.com>
+References: <202404300915.WNvfwBz3-lkp@intel.com>
+ <ZjNXAEGhAnXX20Xk@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +60,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZjNXAEGhAnXX20Xk@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   6c46802cc0c4ff878f07139f7b7b8774fd43ce3d
-commit: 5ff1aadd158d876b8c0240c02e8626d9ac6ef7aa [23/29] iio: pressure: bmp280: Add triggered buffer support
-config: openrisc-randconfig-r133-20240522 (https://download.01.org/0day-ci/archive/20240522/202405222026.cP2kdFgB-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240522/202405222026.cP2kdFgB-lkp@intel.com/reproduce)
+On 05/02, Oleg Nesterov wrote:
+>
+> I am on PTO till May 9 without my working laptop, can't even read the source code.
+> I'll return to this when I'm back. CONFIG_SMP=n I guess.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405222026.cP2kdFgB-lkp@intel.com/
+Sorry for late reply.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/pressure/bmp280-core.c:2576:35: sparse: sparse: symbol 'bmp280_buffer_setup_ops' was not declared. Should it be static?
+So smatch dislikes the
 
-vim +/bmp280_buffer_setup_ops +2576 drivers/iio/pressure/bmp280-core.c
+	first_cpu >= setup_max_cpus
 
-  2575	
-> 2576	const struct iio_buffer_setup_ops bmp280_buffer_setup_ops = {
-  2577		.preenable = bmp280_buffer_preenable,
-  2578		.postdisable = bmp280_buffer_postdisable,
-  2579	};
-  2580	
+check because setup_max_cpus is 0 without CONFIG_SMP.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I don't think it makes sense to try to avoid this warning, isolation.c should
+not be compiled without CONFIG_SMP=y, but we have
+
+	config CPU_ISOLATION
+		bool "CPU isolation"
+		depends on SMP || COMPILE_TEST
+
+and this randconfig selects COMPILE_TEST.
+
+Oleg.
+
+> On 04/30, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   98369dccd2f8e16bf4c6621053af7aa4821dcf8e
+> > commit: 257bf89d84121280904800acd25cc2c444c717ae sched/isolation: Fix boot crash when maxcpus < first housekeeping CPU
+> > date:   2 days ago
+> > config: xtensa-randconfig-r081-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300915.WNvfwBz3-lkp@intel.com/config)
+> > compiler: xtensa-linux-gcc (GCC) 13.2.0
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404300915.WNvfwBz3-lkp@intel.com/
+> > 
+> > New smatch warnings:
+> > kernel/sched/isolation.c:143 housekeeping_setup() warn: always true condition '(first_cpu >= 0) => (0-u32max >= 0)'
+> > 
+> > Old smatch warnings:
+> > arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+> > 
+> > vim +143 kernel/sched/isolation.c
+> > 
+> >    117	
+> >    118	static int __init housekeeping_setup(char *str, unsigned long flags)
+> >    119	{
+> >    120		cpumask_var_t non_housekeeping_mask, housekeeping_staging;
+> >    121		unsigned int first_cpu;
+> >    122		int err = 0;
+> >    123	
+> >    124		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK)) {
+> >    125			if (!IS_ENABLED(CONFIG_NO_HZ_FULL)) {
+> >    126				pr_warn("Housekeeping: nohz unsupported."
+> >    127					" Build with CONFIG_NO_HZ_FULL\n");
+> >    128				return 0;
+> >    129			}
+> >    130		}
+> >    131	
+> >    132		alloc_bootmem_cpumask_var(&non_housekeeping_mask);
+> >    133		if (cpulist_parse(str, non_housekeeping_mask) < 0) {
+> >    134			pr_warn("Housekeeping: nohz_full= or isolcpus= incorrect CPU range\n");
+> >    135			goto free_non_housekeeping_mask;
+> >    136		}
+> >    137	
+> >    138		alloc_bootmem_cpumask_var(&housekeeping_staging);
+> >    139		cpumask_andnot(housekeeping_staging,
+> >    140			       cpu_possible_mask, non_housekeeping_mask);
+> >    141	
+> >    142		first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
+> >  > 143		if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+> >    144			__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
+> >    145			__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
+> >    146			if (!housekeeping.flags) {
+> >    147				pr_warn("Housekeeping: must include one present CPU, "
+> >    148					"using boot CPU:%d\n", smp_processor_id());
+> >    149			}
+> >    150		}
+> >    151	
+> >    152		if (cpumask_empty(non_housekeeping_mask))
+> >    153			goto free_housekeeping_staging;
+> >    154	
+> >    155		if (!housekeeping.flags) {
+> >    156			/* First setup call ("nohz_full=" or "isolcpus=") */
+> >    157			enum hk_type type;
+> >    158	
+> >    159			for_each_set_bit(type, &flags, HK_TYPE_MAX)
+> >    160				housekeeping_setup_type(type, housekeeping_staging);
+> >    161		} else {
+> >    162			/* Second setup call ("nohz_full=" after "isolcpus=" or the reverse) */
+> >    163			enum hk_type type;
+> >    164			unsigned long iter_flags = flags & housekeeping.flags;
+> >    165	
+> >    166			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX) {
+> >    167				if (!cpumask_equal(housekeeping_staging,
+> >    168						   housekeeping.cpumasks[type])) {
+> >    169					pr_warn("Housekeeping: nohz_full= must match isolcpus=\n");
+> >    170					goto free_housekeeping_staging;
+> >    171				}
+> >    172			}
+> >    173	
+> >    174			iter_flags = flags & ~housekeeping.flags;
+> >    175	
+> >    176			for_each_set_bit(type, &iter_flags, HK_TYPE_MAX)
+> >    177				housekeeping_setup_type(type, housekeeping_staging);
+> >    178		}
+> >    179	
+> >    180		if ((flags & HK_FLAG_TICK) && !(housekeeping.flags & HK_FLAG_TICK))
+> >    181			tick_nohz_full_setup(non_housekeeping_mask);
+> >    182	
+> >    183		housekeeping.flags |= flags;
+> >    184		err = 1;
+> >    185	
+> >    186	free_housekeeping_staging:
+> >    187		free_bootmem_cpumask_var(housekeeping_staging);
+> >    188	free_non_housekeeping_mask:
+> >    189		free_bootmem_cpumask_var(non_housekeeping_mask);
+> >    190	
+> >    191		return err;
+> >    192	}
+> >    193	
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> > 
+> 
+
