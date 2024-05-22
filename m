@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5117F1BF2A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 18:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704AA142621
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 18:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716402751; cv=none; b=FdxrK+ewEx9yFqRdPdRZAtsQhbJnpXmG/e86wEz30WkKvcFGZlMLd8gSzpCAJMp4LI1KjaxlEtL0omoJTQoGqBinfVYNXcjojNh1+f2fqkS2iBqUVnwiVkPB565hR8aJHOQvFZSVy9vhd9NDvxZWhTmxXoUFnlYlrulUA82CijY=
+	t=1716404012; cv=none; b=Mk/EBUVT5As/TMdo7YMUxZ0n42pmxWrXy9X6YWQ5e3Z+mhJm4bfDOC6looQeuGV4mlqZww3UDLTLBf33S//c00sKn1ulrJ6bY5tnmdHNBfbNArqkzD4QDjkNhsKMvWhDAranUWL22kNt72DEKaOgMkYhXgvZVhrc78NiXbm+1jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716402751; c=relaxed/simple;
-	bh=CdRjMyQS77TJkxwofNWoAwek2rb2LNKl0e0yiUmVQT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uhnhbH/UDUNsHE0AC5BiC4rO2ciixPfxxNug5ZbjNAUBWMrPnihKiRUKp4yqB1DgPUZ7xHokvwjlqKuNXv8awRVkJsHJubsMKBIdIYfnwlKFukyQNXtdLefsGi1XEBTH6uos7ebz9W2cuKr1IvJiqVyg8Q2zPFZIjrBi+QOKxfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kO0bXR//; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1716404012; c=relaxed/simple;
+	bh=nbYunWi8OR9R2iqRPAXWKMva2fvTkwfpzWaR/v73GGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uX4qTK5HNCzeHoq3u5rQz3n/tT6thPanqG9A6azOBI9pd/L0hl5Neh0F6EUmOqiHOUMLRQDeW/tOh6MEytzNBznyvFJcUWXmihBLJN0EFyiLmHO7N2Q77sSQnmAgIRgaasrNjrTDv2okoiYdXaVda/zMktlzbr2lDx/Ki9sEGvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cd85MoT3; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kO0bXR//"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cd85MoT3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716402749; x=1747938749;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CdRjMyQS77TJkxwofNWoAwek2rb2LNKl0e0yiUmVQT4=;
-  b=kO0bXR//srovkTAp/JDwsxL0nRs1K5Jrn2c3FO47F+NDOY5sgGWYlgfQ
-   R+lnN8Drtkc4c0FWIezh3aBVsK4WuB0N4RGOU5mA45W+FgUqIQvVA9sDe
-   j3UEa12tVSGedeNrOWbNPVp4nnSoZb/W/Kts2cf86uP6NoKJSyqO54XLr
-   3yFVgZY5FL4hLDk0g0zOLagttBww6F+caE6Pp+9wsJzbzFSFBX73SXpC0
-   TCkQnKZh86fknvtyNmGKTjU2CNeH4IK+aYqbx2PStk0cMaFB5/suPAL6q
-   Cw1e2VE0CCW89DZuICwTxJpTvLqWfPz8e1GmIjc+0lgmdpjZ1A20670KV
-   g==;
-X-CSE-ConnectionGUID: /HQBGDODSJ6wdV5XSAVVGw==
-X-CSE-MsgGUID: S6ms7UN7REKAECAYDS3dLw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="12516007"
+  t=1716404010; x=1747940010;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nbYunWi8OR9R2iqRPAXWKMva2fvTkwfpzWaR/v73GGQ=;
+  b=Cd85MoT33YJmR0KhefJK+WhK8urqWtNUofDEegGqmriIuu5tjJ6x05Ig
+   9St4iMPQhOThENw3LOJ6wXaClAA2rJN9OpV8OvqrkcvXj9FMEIJmc933/
+   QQyftBw8lpt2HEAsPDbRLgQnmLse6KNrA7FJDHTo9TXTlF+6ivB8mXpVf
+   zqh1b6ztH21sodqXnpAr2qFp6YHuVTvjsTG31a8/21I72z2/TRThNfJ/n
+   xMXtrm2Iu6sa4yjRn3VRrqnFMde1DykduBw+nYRgJqD8VNC7SD4RK04GJ
+   eEQUNhJU4t8ig7nrzoOpjNEh36CfErmLfnlFrsewcOtlwLzDnTx4CR7Ba
+   Q==;
+X-CSE-ConnectionGUID: ntzjNQnOQoKvL1bKEZp2IQ==
+X-CSE-MsgGUID: fTa9AC8lSV2kSqTfsBFyWg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23251512"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="12516007"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 11:32:27 -0700
-X-CSE-ConnectionGUID: I0ZtVZz0RAqK1HNp4K6IRQ==
-X-CSE-MsgGUID: eTWlYOXpQf6UrhZ1AOpFrA==
+   d="scan'208";a="23251512"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 11:53:30 -0700
+X-CSE-ConnectionGUID: a0LYaufRTzykxCEQ/ghSMg==
+X-CSE-MsgGUID: o99hhHUPRN6TsMoWPZo98A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="33364412"
+   d="scan'208";a="38178482"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 22 May 2024 11:32:26 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 May 2024 11:53:27 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9qlE-0001qT-16;
-	Wed, 22 May 2024 18:32:24 +0000
-Date: Thu, 23 May 2024 02:32:14 +0800
+	id 1s9r5Y-0001rP-2Z;
+	Wed, 22 May 2024 18:53:24 +0000
+Date: Thu, 23 May 2024 02:52:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:fanotify_userns 14/14] fs/fhandle.c:184:30: error: no
- member named 'mnt_userns' in 'struct vfsmount'
-Message-ID: <202405230200.LWJV3iQ3-lkp@intel.com>
+To: Jaewon Kim <jaewon31.kim@samsung.com>, rppt@kernel.org, vbabka@suse.cz,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, jaewon31.kim@gmail.com,
+	Jaewon Kim <jaewon31.kim@samsung.com>
+Subject: Re: [RESEND PATCH 09/10] memblock: print kernel internal size
+Message-ID: <202405230254.q2SvX2V8-lkp@intel.com>
+References: <20240521023957.2587005-10-jaewon31.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +65,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240521023957.2587005-10-jaewon31.kim@samsung.com>
 
-tree:   https://github.com/amir73il/linux fanotify_userns
-head:   e830e0b8d94234d6bae5b5174021d80bf3e7d67d
-commit: e830e0b8d94234d6bae5b5174021d80bf3e7d67d [14/14] fs: allow open by file handle inside userns
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240523/202405230200.LWJV3iQ3-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230200.LWJV3iQ3-lkp@intel.com/reproduce)
+Hi Jaewon,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on robh/for-next linus/master]
+[cannot apply to rppt-memblock/for-next v6.9 next-20240522]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jaewon-Kim/memblock-introduce-memsize-showing-reserved-memory/20240521-104201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240521023957.2587005-10-jaewon31.kim%40samsung.com
+patch subject: [RESEND PATCH 09/10] memblock: print kernel internal size
+config: x86_64-randconfig-r052-20240522 (https://download.01.org/0day-ci/archive/20240523/202405230254.q2SvX2V8-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230254.q2SvX2V8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405230200.LWJV3iQ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230254.q2SvX2V8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from fs/fhandle.c:2:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:5:
-   In file included from include/linux/tracepoint.h:22:
-   In file included from include/linux/static_call.h:135:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:1970:
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/fhandle.c:184:30: error: no member named 'mnt_userns' in 'struct vfsmount'
-     184 |                 if (!ns_capable(path->mnt->mnt_userns, CAP_DAC_READ_SEARCH)) {
-         |                                 ~~~~~~~~~  ^
-   1 warning and 1 error generated.
-
-
-vim +184 fs/fhandle.c
-
-   161	
-   162	static int handle_to_path(int mountdirfd, struct file_handle __user *ufh,
-   163			   struct path *path)
-   164	{
-   165		int retval = 0;
-   166		struct file_handle f_handle;
-   167		struct file_handle *handle = NULL;
-   168		struct dentry *root = NULL;
-   169	
-   170		/*
-   171		 * With open by handle we don't look at the execute bit of the parents.
-   172		 * Ideally, we would like CAP_DAC_SEARCH but we don't have that.
-   173		 * A userns capabale user is allowed to open by handle in a filesystem
-   174		 * that was mounted in that userns. The user is also allowed to open by
-   175		 * handle in an idmapped mount, mapped to the userns, but only as long
-   176		 * as the resolved path is under the root of the idmapped mount.
-   177		 */
-   178		path->mnt = get_vfsmount_from_fd(mountdirfd);
-   179		if (IS_ERR(path->mnt)) {
-   180			return PTR_ERR(path->mnt);
-   181		}
-   182		if (!ns_capable(path->mnt->mnt_sb->s_user_ns, CAP_DAC_READ_SEARCH)) {
-   183			root = path->mnt->mnt_root;
- > 184			if (!ns_capable(path->mnt->mnt_userns, CAP_DAC_READ_SEARCH)) {
-   185				retval = -EPERM;
-   186				goto out_err;
-   187			}
-   188		}
-   189		if (copy_from_user(&f_handle, ufh, sizeof(struct file_handle))) {
-   190			retval = -EFAULT;
-   191			goto out_err;
-   192		}
-   193		if ((f_handle.handle_bytes > MAX_HANDLE_SZ) ||
-   194		    (f_handle.handle_bytes == 0)) {
-   195			retval = -EINVAL;
-   196			goto out_err;
-   197		}
-   198		handle = kmalloc(sizeof(struct file_handle) + f_handle.handle_bytes,
-   199				 GFP_KERNEL);
-   200		if (!handle) {
-   201			retval = -ENOMEM;
-   202			goto out_err;
-   203		}
-   204		/* copy the full handle */
-   205		*handle = f_handle;
-   206		if (copy_from_user(&handle->f_handle,
-   207				   &ufh->f_handle,
-   208				   f_handle.handle_bytes)) {
-   209			retval = -EFAULT;
-   210			goto out_handle;
-   211		}
-   212	
-   213		retval = do_handle_to_path(mountdirfd, handle, path, root);
-   214	
-   215	out_handle:
-   216		kfree(handle);
-   217	out_err:
-   218		if (retval)
-   219			mntput(path->mnt);
-   220	
-   221		return retval;
-   222	}
-   223	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> WARNING: modpost: vmlinux: section mismatch in reference: memblock_memsize_mod_kernel_size+0x11 (section: .text) -> memsize_memap (section: .meminit.data)
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kernel/cpu/mce/mce-inject.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/crypto/curve25519-x86_64.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/clocksource-wdtest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/resource_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/sysctl-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/hwpoison-inject.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hfs/hfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_helpers_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ref_tracker.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
 
 -- 
 0-DAY CI Kernel Test Service
