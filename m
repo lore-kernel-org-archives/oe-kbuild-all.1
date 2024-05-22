@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225CB80035;
-	Wed, 22 May 2024 10:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3748F824A1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 11:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716373911; cv=none; b=uwVp2ij/WGzO9vvSOOEHdx2vZrVh3LtV7HZiNCCnnvZV3pRBOKgsDXRGLJ/lokeYFCekYu0QUYaDfj6bf4W876xD3vp9wl5jMQLQqmUHSS7SpZ0MqdCi5h95v5h1yTCBVnDCarNi2cgVQ8rpfzD4suq/BDEHT5XUzsWMDTqU8hM=
+	t=1716377067; cv=none; b=tgvEEpFrkRVjCg/SC6FtLg1Aj6QAdPKntPhCpRFKTHc5uAGGVyW8Gimk/jdLc+WLz8797lY3jL6AAjeTEDlZ2RQVfiT2xXDxDXrc+POmS4UEAPckVsvH+ApcaLTkRB/heVuSgW4aL8J0LLxVugJzK9UQzAQWkHeqvqXK4HUJ+TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716373911; c=relaxed/simple;
-	bh=pixxe1txm31bw+ZHQswxVqU0juUldy8SEqcfjPz8Ng8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGG7NSKB+DOi58cYMZIPJJT/eNa1zbXmZXTbDr54lPAb8Qm5KEfCxbIsMs+Ja5UAnJR7uklo7O+DKyaU2CHq2bF5cQrMQfNqj8TMMmL6fsKbUd/pz8gzSWew8INSd8Xaj61lHSvuwtaBubQUzLGpbsRjpYz71B14HXp8s1hyZRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iM/St5zt; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1716377067; c=relaxed/simple;
+	bh=GTkDeMdiPhbTO9D/VY1ApDQFtM8Bjk48U8qrtPUPXdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DIBkzkZuGJcl0JNFz4E3Hit1joA3DG0QdGjGuYg0eyUxWoXuwM7FFb3Qdpz+nVqFLe2qXdEZ2xkZtVhG/tfaDh051jN+5ns/g3YRue6mzuPQMoamLBw3nFjBbYHuYBXGajJdkO393FesbX41YjuhU3oJCAzdrOLRHjNdQuYjIZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LECfevZ4; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iM/St5zt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LECfevZ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716373910; x=1747909910;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pixxe1txm31bw+ZHQswxVqU0juUldy8SEqcfjPz8Ng8=;
-  b=iM/St5zt2jME/sswHMrDLoGb8V0oeoeXYKMM8u7uEW+6TAAxdSxvaYD3
-   bD4np0hCtKkXtDSabKdQKIfUCnu8h6kPCqTP7wNgH/XPpwYPfguQ8S1x3
-   LzmT44wRxsAYcg5QCMMzVGL79ofsWSbASDdf4dlA3MfaFFvQNrAgLNFur
-   3FvKFUSsskdJzGIDZ8ekVxQKtlLn0o2ZNu1Yoa3AfRA8ybk2UVJv1ce++
-   AiB2HE1+4gQgI5TG3YH6LcROFB2l0+Xvp3Jyxuu0ECWzHv1aTi5rqb/L2
-   vzDuTxpj0s9m4cehbLpi0C4tKdlaLDYjTQWOqPKBcDMAHkAYLlL2qUyyG
-   A==;
-X-CSE-ConnectionGUID: SjBfmwxNQc+TcUAu3POxlw==
-X-CSE-MsgGUID: 31rAL/AKR/+eSJg57xFgog==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="30137425"
+  t=1716377066; x=1747913066;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GTkDeMdiPhbTO9D/VY1ApDQFtM8Bjk48U8qrtPUPXdQ=;
+  b=LECfevZ4Lwgmm5NoMxyIb+QmdIsBrLNiSgXmPAxVNh2TjfVJoye8P8Ke
+   wlIp11DhQPOXD27O2YlWMxcr5jjAMqGyNxt9THB50eBXwkwP4g5bWdhqh
+   WRo6FD1G3PWdRXeehleZrnocNhRfsNrQrTkRkioapbdwj+hRp1K/ZsmFf
+   zmJzxLvecDFqyRs75Ub3+R8sIQDMtfQpeJF2F50upTij9G+lh+Ogd4a4B
+   s66LuXKl2h5eAGeGl9eMMBF/dy7SoMS1oqsn09eXfCY3k4sgNWUsijxre
+   vOAm8gvbI/TMS/jHH2PIDBwEWFV+SgB/NynGJvpTvMRo0+vc1gOaoDYOJ
+   Q==;
+X-CSE-ConnectionGUID: U3sq3hYVQ82fc66QtYmudQ==
+X-CSE-MsgGUID: c0/rlycJQTij75UREDyO1A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="35128899"
 X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="30137425"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 03:31:49 -0700
-X-CSE-ConnectionGUID: N+yZYEobR5G8JLmpMMdHPw==
-X-CSE-MsgGUID: S798NQc2Q9ynytxpHwUuFQ==
+   d="scan'208";a="35128899"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 04:24:25 -0700
+X-CSE-ConnectionGUID: IRpZ+tzeTmuxqo9hDUrwUA==
+X-CSE-MsgGUID: bT492HfBQNOCQxO8ZoMYXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="33359137"
+   d="scan'208";a="38091110"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 May 2024 03:31:48 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 May 2024 04:24:24 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9jG1-0001I7-2l;
-	Wed, 22 May 2024 10:31:41 +0000
-Date: Wed, 22 May 2024 18:30:53 +0800
+	id 1s9k4z-0001KJ-1L;
+	Wed, 22 May 2024 11:24:21 +0000
+Date: Wed, 22 May 2024 19:23:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v3 3/9] fdt-select-board: Add test tool for selecting
- dtbs based on board-id
-Message-ID: <202405221814.0p3cU5R2-lkp@intel.com>
-References: <20240521-board-ids-v3-3-e6c71d05f4d2@quicinc.com>
+To: James Prestwood <prestwoj@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [jarkko-tpmdd:tpm2key-v4 5/5]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:273:22: warning: unused variable
+ 'offset'
+Message-ID: <202405221925.Wje4IgfU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,127 +62,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-board-ids-v3-3-e6c71d05f4d2@quicinc.com>
 
-Hi Elliot,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e8f897f4afef0031fe618a8e94127a0934896aba]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/libfdt-board-id-Implement-board-id-scoring/20240522-024327
-base:   e8f897f4afef0031fe618a8e94127a0934896aba
-patch link:    https://lore.kernel.org/r/20240521-board-ids-v3-3-e6c71d05f4d2%40quicinc.com
-patch subject: [PATCH RFC v3 3/9] fdt-select-board: Add test tool for selecting dtbs based on board-id
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240522/202405221814.0p3cU5R2-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240522/202405221814.0p3cU5R2-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v4
+head:   8d6000fe712d525bf767a9fbe7028d809adaf79e
+commit: 8d6000fe712d525bf767a9fbe7028d809adaf79e [5/5] keys: asymmetric: ASYMMETRIC_TPM2_KEY_RSA_SUBTYPE
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240522/202405221925.Wje4IgfU-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240522/202405221925.Wje4IgfU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405221814.0p3cU5R2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405221925.Wje4IgfU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> scripts/dtc/fdt-select-board.c:119:8: warning: passing 'const void *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-     119 |                 free(fdt);
-         |                      ^~~
-   /usr/include/stdlib.h:687:25: note: passing argument to parameter '__ptr' here
-     687 | extern void free (void *__ptr) __THROW;
-         |                         ^
-   1 warning generated.
---
->> scripts/dtc/fdt-select-board.c:119:8: warning: passing 'const void *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-     119 |                 free(fdt);
-         |                      ^~~
-   /usr/include/stdlib.h:687:25: note: passing argument to parameter '__ptr' here
-     687 | extern void free (void *__ptr) __THROW;
-         |                         ^
-   1 warning generated.
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning generated.
+   crypto/asymmetric_keys/tpm2_key_rsa.c: In function '__tpm2_key_rsa_decrypt':
+>> crypto/asymmetric_keys/tpm2_key_rsa.c:273:22: warning: unused variable 'offset' [-Wunused-variable]
+     273 |         unsigned int offset = 0;
+         |                      ^~~~~~
 
 
-vim +119 scripts/dtc/fdt-select-board.c
+vim +/offset +273 crypto/asymmetric_keys/tpm2_key_rsa.c
 
-    48	
-    49	int main(int argc, char *argv[])
-    50	{
-    51		int opt;
-    52		char *input_filename = NULL;
-    53		const void *fdt;
-    54		const void *ref;
-    55		int ref_node;
-    56		int max_score = -1;
-    57		const char *best_match = NULL;
-    58		struct context ctx;
-    59		int all = 0;
-    60	
-    61		while ((opt = util_getopt_long()) != EOF) {
-    62			switch (opt) {
-    63			case_USAGE_COMMON_FLAGS
-    64	
-    65			case 'a':
-    66				all = 1;
-    67				break;
-    68			case 'r':
-    69				input_filename = optarg;
-    70				break;
-    71			case 'v':
-    72				verbose = 1;
-    73				break;
-    74			}
-    75		}
-    76	
-    77		if (!input_filename)
-    78			usage("missing reference file");
-    79	
-    80		argv += optind;
-    81		argc -= optind;
-    82	
-    83		if (argc <= 0)
-    84			usage("missing candidate dtbs");
-    85	
-    86		ref = utilfdt_read(input_filename, NULL);
-    87		if (!ref) {
-    88			fprintf(stderr, "failed to read reference %s\n", input_filename);
-    89			return -1;
-    90		}
-    91	
-    92		ref_node = fdt_path_offset(ref, "/board-id");
-    93		if (ref_node < 0) {
-    94			fprintf(stderr, "reference blob doesn't have a board-id\n");
-    95			return -1;
-    96		}
-    97	
-    98		ctx.fdt = ref;
-    99		ctx.node = ref_node;
-   100	
-   101		for (; argc > 0; --argc, ++argv) {
-   102			int score;
-   103	
-   104			fdt = utilfdt_read(*argv, NULL);
-   105			if (!fdt) {
-   106				fprintf(stderr, "failed to read %s\n", *argv);
-   107				return -1;
-   108			}
-   109	
-   110			score = fdt_board_id_score(fdt, get_board_id, &ctx);
-   111			if (verbose || (score > 0 && all))
-   112				printf("%s: %d\n", *argv, score);
-   113	
-   114			if (score > max_score) {
-   115				max_score = score;
-   116				best_match = *argv;
-   117			}
-   118	
- > 119			free(fdt);
+   267	
+   268	static int __tpm2_key_rsa_decrypt(struct tpm_chip *chip,
+   269					  struct tpm2_key_rsa *key,
+   270					  struct kernel_pkey_params *params,
+   271					  const void *in, int in_len, void *out)
+   272	{
+ > 273		unsigned int offset = 0;
+   274		u32 key_handle = 0;
+   275		struct tpm_buf buf;
+   276		u16 decrypted_len;
+   277		u32 parent;
+   278		u8 *pos;
+   279		int ret;
+   280	
+   281		ret = tpm_try_get_ops(chip);
+   282		if (ret)
+   283			return ret;
+   284	
+   285		ret = tpm2_start_auth_session(chip);
+   286		if (ret)
+   287			goto err_ops;
+   288	
+   289		parent = key->key.parent;
+   290	
+   291		ret = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_LOAD);
+   292		if (ret < 0)
+   293			goto err_auth;
+   294	
+   295		tpm_buf_append_name(chip, &buf, parent, NULL);
+   296		tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_CONTINUE_SESSION |
+   297					    TPM2_SA_ENCRYPT, NULL, 0);
+   298		tpm_buf_append(&buf, key->key.blob, key->key.blob_len);
+   299		if (buf.flags & TPM_BUF_OVERFLOW) {
+   300			ret = -E2BIG;
+   301			goto err_buf;
+   302		}
+   303		tpm_buf_fill_hmac_session(chip, &buf);
+   304		ret = tpm_transmit_cmd(chip, &buf, 4, "RSA key loading");
+   305		ret = tpm_buf_check_hmac_response(chip, &buf, ret);
+   306		if (ret) {
+   307			ret = -EIO;
+   308			goto err_buf;
+   309		}
+   310		key_handle = be32_to_cpup((__be32 *)&buf.data[TPM_HEADER_SIZE]);
+   311	
+   312		tpm_buf_reset(&buf, TPM2_ST_SESSIONS, TPM2_CC_RSA_DECRYPT);
+   313		tpm_buf_append_name(chip, &buf, key_handle, NULL);
+   314		tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_DECRYPT, NULL, 0);
+   315		tpm_buf_append_u16(&buf, in_len);
+   316		tpm_buf_append(&buf, in, in_len);
+   317		tpm_buf_append_u16(&buf, TPM_ALG_NULL);
+   318		tpm_buf_append_u16(&buf, 0);
+   319		tpm_buf_fill_hmac_session(chip, &buf);
+   320		ret = tpm_transmit_cmd(chip, &buf, 4, "RSA key decrypting");
+   321		ret = tpm_buf_check_hmac_response(chip, &buf, ret);
+   322		if (ret) {
+   323			ret = -EIO;
+   324			goto err_blob;
+   325		}
+   326	
+   327		pos = buf.data + TPM_HEADER_SIZE + 4;
+   328		decrypted_len = be16_to_cpup((__be16 *)pos);
+   329		pos += 2;
+   330	
+   331		if (params->out_len < decrypted_len) {
+   332			ret = -EMSGSIZE;
+   333			goto err_blob;
+   334		}
+   335	
+   336		memcpy(out, pos, decrypted_len);
+   337		ret = decrypted_len;
+   338	
+   339	err_blob:
+   340		tpm2_flush_context(chip, key_handle);
+   341	
+   342	err_buf:
+   343		tpm_buf_destroy(&buf);
+   344	
+   345	err_auth:
+   346		if (ret < 0)
+   347			tpm2_end_auth_session(chip);
+   348	
+   349	err_ops:
+   350		tpm_put_ops(chip);
+   351		return ret;
+   352	}
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
