@@ -1,68 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632C7141991
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 18:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEEB13D88D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 18:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716401554; cv=none; b=ha80cCH8dNBrEvjSpVZz2VbbnkyxhlkBSpd4HtP5KS38MHHGOLN0lOWApUtAd3YZt7Ez1jTkGWRZ7zDG6028uepy0mhvsYtn3uaUebtwnc64pk9cB4VfD5LnZRGeXUEJSgjBTb7D8cfXNeqqL18YxRT8r0dS6pcUgYcwCI4y2GA=
+	t=1716402150; cv=none; b=OLYT5xaHuK6UdeQc1UGTN1I7IoaX6vjKpopsX540jgYCxir5aRUcAv7gsg7kmowIV9qwTr1J9j7PUYePKtqj8Aa447nkmbg/PW9sn20U3gVD6pHiBUUBUsanYNDoSHXJPGfM5qsHXWZACtMuEEd8//3iOyqJRCXh7B7paOzkGTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716401554; c=relaxed/simple;
-	bh=P8JmmA0EqNGVqZirp7HNAbnnpaWqE/5cpMWAbpIhSVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/hlr4xdqcrr4u1LmJiBp/f5kVp4zCIneKDG5HRP+Ycx+fd1uO4fCcjBM6DamdJY6Y0MklrcLc3I8nT54UMPiifjTkpSUPdAExrjjpSJmqJ2ID+GDRoTIdKhOSN5GTRpo8lreNcyteyEB2uSQOmmFfvQymifH3U0r/HHLcNm+CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5P1If5I; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1716402150; c=relaxed/simple;
+	bh=crFgTVwvSx2rgnwHbdacsZak6cnC23Bz1JfvD9u4dNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V+0XsfaTjjGJeTa8+ifePSf3b12j80Ty7tI49AslWQ2D97QQ8SupXhovY3RnSb1mKq+QoFfprcGBsF7ZsIoI8PigG4RVF5cJEiO87ZajefYSCOGfqhkyIdFh8STR/VzZFJRe+sAy/rjDO8G1scDHjES5O+pW0bm7sg/ORQ9Xo4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ph1dIPWj; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5P1If5I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ph1dIPWj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716401551; x=1747937551;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P8JmmA0EqNGVqZirp7HNAbnnpaWqE/5cpMWAbpIhSVs=;
-  b=k5P1If5IffUmzPvaMxqYBfFMunx+0dU1ms+slGsdeaeqEMCK/CeyPp6S
-   YTLTyPwiEH4VDsN3vfy7glQADx+XsyCutQzEiWNdz2/W9UJ63WmcUWq99
-   ds974e9agZG2V7LX3LV784sgNo6IGbzqP1D/Ct2tRD5srh/zkkNEgQzA6
-   f7125lJJw/SIeD7u/VWbNYaq6s8rJHzqq560NYQuDfi7tcCcNWnIdxkfT
-   F88J+UGLzmB4No0+Cgx75txVOwKsb0opa9d/gf50RQsKeEdjsfcUIDxFs
-   +CCqBR8e/vuAqnq3Woc47rg1t8RF9hNqsxS2LtKaVAmJITWD2dgBbPkjF
+  t=1716402148; x=1747938148;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=crFgTVwvSx2rgnwHbdacsZak6cnC23Bz1JfvD9u4dNQ=;
+  b=Ph1dIPWjQQutodPLd1s/r7ExS6fLwNNM79EylRvBCF4JaS2rCamNIKrn
+   xALyT2qyNZHx+UnOYOr5iPbapndDcxaSq0/bXRv63GLzOcuOOtceWAyLe
+   X3LS8lZcTmXWtzKfM/7uvaiHFrRpwip3RO0VdGZnTDF3g9vKB5B3O7JNn
+   chFEN2IJLoFHIR6tExFhZuG+trEEQygqSOEy+k3BZUkHc/P94oMaTQdE8
+   EgMhXEGV39Y5Dg3XiKJtGjJd5KGkn4HegpKbkEENAojZ5sHybwnz/KqlI
+   hM3GfAvWRQpUsuz19BLEIuP5qEGXHmun0tdNIPTrpt9VbLXD2Em5apnuW
    g==;
-X-CSE-ConnectionGUID: TYMeVLSQT6C1roLy841C0g==
-X-CSE-MsgGUID: PitjyWWeQe6RtDO1HoARCA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23812912"
+X-CSE-ConnectionGUID: bbjske3VTbC8SnnlGk0rvA==
+X-CSE-MsgGUID: E53u7mWhQPKY5BQK/ykeRg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23814203"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="23812912"
+   d="scan'208";a="23814203"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 11:12:31 -0700
-X-CSE-ConnectionGUID: 5FNYXQyhRl+eTYgPJUt6yA==
-X-CSE-MsgGUID: vSxxeIEkQUaBmK4vADCXFQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 11:22:28 -0700
+X-CSE-ConnectionGUID: M90pHdCiRSee2D2awSagxw==
+X-CSE-MsgGUID: g84cAGa4TKSyK2paTscA6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="33378007"
+   d="scan'208";a="33381855"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 May 2024 11:12:26 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 May 2024 11:22:26 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9qRr-0001q1-2m;
-	Wed, 22 May 2024 18:12:23 +0000
-Date: Thu, 23 May 2024 02:11:30 +0800
+	id 1s9qbY-0001q9-0L;
+	Wed, 22 May 2024 18:22:24 +0000
+Date: Thu, 23 May 2024 02:21:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaojian Du <Xiaojian.Du@amd.com>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-	daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
-	pawan.kumar.gupta@linux.intel.com, sandipan.das@amd.com,
-	kai.huang@intel.com, perry.yuan@amd.com, x86@kernel.org,
-	ray.huang@amd.com, rafael@kernel.org,
-	Xiaojian Du <Xiaojian.Du@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 2/2] cpufreq: amd-pstate: change cpu freq transition
- delay for some models
-Message-ID: <202405230126.Ww25ogId-lkp@intel.com>
-References: <b2c8fb2da41f9fb21f095f67d99cbdbd0aa34091.1716356681.git.Xiaojian.Du@amd.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fanotify_userns 14/14] fs/fhandle.c:184:42: error: 'struct
+ vfsmount' has no member named 'mnt_userns'
+Message-ID: <202405230231.Cj5CS9Kd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,61 +61,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b2c8fb2da41f9fb21f095f67d99cbdbd0aa34091.1716356681.git.Xiaojian.Du@amd.com>
 
-Hi Xiaojian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/master]
-[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master next-20240522]
-[cannot apply to tip/x86/core tip/auto-latest v6.9]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaojian-Du/cpufreq-amd-pstate-change-cpu-freq-transition-delay-for-some-models/20240522-135241
-base:   tip/master
-patch link:    https://lore.kernel.org/r/b2c8fb2da41f9fb21f095f67d99cbdbd0aa34091.1716356681.git.Xiaojian.Du%40amd.com
-patch subject: [PATCH v2 2/2] cpufreq: amd-pstate: change cpu freq transition delay for some models
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240523/202405230126.Ww25ogId-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230126.Ww25ogId-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fanotify_userns
+head:   e830e0b8d94234d6bae5b5174021d80bf3e7d67d
+commit: e830e0b8d94234d6bae5b5174021d80bf3e7d67d [14/14] fs: allow open by file handle inside userns
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240523/202405230231.Cj5CS9Kd-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230231.Cj5CS9Kd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405230126.Ww25ogId-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230231.Cj5CS9Kd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/cpufreq/amd-pstate.c: In function 'amd_pstate_get_transition_delay_us':
->> drivers/cpufreq/amd-pstate.c:821:12: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
-     821 |         if (transition_delay_ns == CPUFREQ_ETERNAL)
-         |            ^
+   fs/fhandle.c: In function 'handle_to_path':
+>> fs/fhandle.c:184:42: error: 'struct vfsmount' has no member named 'mnt_userns'
+     184 |                 if (!ns_capable(path->mnt->mnt_userns, CAP_DAC_READ_SEARCH)) {
+         |                                          ^~
 
 
-vim +/else +821 drivers/cpufreq/amd-pstate.c
+vim +184 fs/fhandle.c
 
-e571a5e2068ef5 Meng Li     2024-01-19  811  
-5131a3ca3518d7 Perry Yuan  2024-04-30  812  /*
-069a2bb8c48c43 Perry Yuan  2024-04-25  813   * Get pstate transition delay time from ACPI tables that firmware set
-069a2bb8c48c43 Perry Yuan  2024-04-25  814   * instead of using hardcode value directly.
-069a2bb8c48c43 Perry Yuan  2024-04-25  815   */
-069a2bb8c48c43 Perry Yuan  2024-04-25  816  static u32 amd_pstate_get_transition_delay_us(unsigned int cpu)
-069a2bb8c48c43 Perry Yuan  2024-04-25  817  {
-069a2bb8c48c43 Perry Yuan  2024-04-25  818  	u32 transition_delay_ns;
-069a2bb8c48c43 Perry Yuan  2024-04-25  819  
-069a2bb8c48c43 Perry Yuan  2024-04-25  820  	transition_delay_ns = cppc_get_transition_latency(cpu);
-069a2bb8c48c43 Perry Yuan  2024-04-25 @821  	if (transition_delay_ns == CPUFREQ_ETERNAL)
-be020c2c1f8622 Xiaojian Du 2024-05-22  822  		if (cpu_feature_enabled(X86_FEATURE_FAST_CPPC))
-be020c2c1f8622 Xiaojian Du 2024-05-22  823  			return AMD_PSTATE_FAST_CPPC_TRANSITION_DELAY;
-be020c2c1f8622 Xiaojian Du 2024-05-22  824  		else
-069a2bb8c48c43 Perry Yuan  2024-04-25  825  			return AMD_PSTATE_TRANSITION_DELAY;
-069a2bb8c48c43 Perry Yuan  2024-04-25  826  
-069a2bb8c48c43 Perry Yuan  2024-04-25  827  	return transition_delay_ns / NSEC_PER_USEC;
-069a2bb8c48c43 Perry Yuan  2024-04-25  828  }
-069a2bb8c48c43 Perry Yuan  2024-04-25  829  
+   161	
+   162	static int handle_to_path(int mountdirfd, struct file_handle __user *ufh,
+   163			   struct path *path)
+   164	{
+   165		int retval = 0;
+   166		struct file_handle f_handle;
+   167		struct file_handle *handle = NULL;
+   168		struct dentry *root = NULL;
+   169	
+   170		/*
+   171		 * With open by handle we don't look at the execute bit of the parents.
+   172		 * Ideally, we would like CAP_DAC_SEARCH but we don't have that.
+   173		 * A userns capabale user is allowed to open by handle in a filesystem
+   174		 * that was mounted in that userns. The user is also allowed to open by
+   175		 * handle in an idmapped mount, mapped to the userns, but only as long
+   176		 * as the resolved path is under the root of the idmapped mount.
+   177		 */
+   178		path->mnt = get_vfsmount_from_fd(mountdirfd);
+   179		if (IS_ERR(path->mnt)) {
+   180			return PTR_ERR(path->mnt);
+   181		}
+   182		if (!ns_capable(path->mnt->mnt_sb->s_user_ns, CAP_DAC_READ_SEARCH)) {
+   183			root = path->mnt->mnt_root;
+ > 184			if (!ns_capable(path->mnt->mnt_userns, CAP_DAC_READ_SEARCH)) {
+   185				retval = -EPERM;
+   186				goto out_err;
+   187			}
+   188		}
+   189		if (copy_from_user(&f_handle, ufh, sizeof(struct file_handle))) {
+   190			retval = -EFAULT;
+   191			goto out_err;
+   192		}
+   193		if ((f_handle.handle_bytes > MAX_HANDLE_SZ) ||
+   194		    (f_handle.handle_bytes == 0)) {
+   195			retval = -EINVAL;
+   196			goto out_err;
+   197		}
+   198		handle = kmalloc(sizeof(struct file_handle) + f_handle.handle_bytes,
+   199				 GFP_KERNEL);
+   200		if (!handle) {
+   201			retval = -ENOMEM;
+   202			goto out_err;
+   203		}
+   204		/* copy the full handle */
+   205		*handle = f_handle;
+   206		if (copy_from_user(&handle->f_handle,
+   207				   &ufh->f_handle,
+   208				   f_handle.handle_bytes)) {
+   209			retval = -EFAULT;
+   210			goto out_handle;
+   211		}
+   212	
+   213		retval = do_handle_to_path(mountdirfd, handle, path, root);
+   214	
+   215	out_handle:
+   216		kfree(handle);
+   217	out_err:
+   218		if (retval)
+   219			mntput(path->mnt);
+   220	
+   221		return retval;
+   222	}
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
