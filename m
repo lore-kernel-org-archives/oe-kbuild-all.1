@@ -1,43 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3AF8F6D;
-	Wed, 22 May 2024 14:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5D01C6A8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 15:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716388292; cv=none; b=mvbBumpfLbGi5tKSkTHVEkVE+ygpvWbqEZ8ZJh+n3XSQ0vPRJ1m5ZkT4pCGU8dZopHC5SVljDf7VhFZHkxx+x9jp8qIqlfFEYPLChhLpqxJ7N0uXG0wB3w/dNjPuGTUMw5kdtfANK2SKCb7znLtPKcvWmgAEBrc4Lg1EK+bnbVU=
+	t=1716390384; cv=none; b=fhFji1IYakqf6qB+t6HIzNX4mNU9mtS+w609tFRb85ypTf4e2gqOn7EQpjrJr+djQdRRJ6UtVBR+ZV5s1pwmw2bz1ig6ETimB8OtlHfNjrgTxZTgfT9ChXSthShJMQT6dhXvOdkBFQYiOFvq/HTkvKfsjTLdMdfXeNN71Mh+SWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716388292; c=relaxed/simple;
-	bh=caxlHLkLA7Kyl2xhI0wkWw8AtvfOM+yyH8wCjBO9scI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C37/EIN0ROr4gD3SqHp3WwD6dk8RNkssNk0b7lyZIJPl9po+xHNrf23SDUXx1i22jeGVmZcVDuEoolB5KYC/7fOxs49HQPeyZFWLkP2HF7+aA5JO/tQmuTB+E+SsJI8DYP+DiIfLCG8sEu8k95GCnOo3mnouOPS6AL29dTOsKPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J9pkbY/o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716390384; c=relaxed/simple;
+	bh=qv0FoQjoCwEfgMkQVSH/WXa2+aVacXHUSQDy3m2KIU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pdirMB1Bg8Y7ydPrZ40eRA2Ah1xcjnVEXiWRP8PBPSZgABItcRp9WY14FKjtrFLY1vGCCIpShF4FoJyWyV2IQeQvScIi3DrX04sabzvsIm6/jJIV4Z+lgvWQAeajP0HNrZBIUU85IAWepnuPb8GKXHnL8+dPl+zUgKfhTf6AY9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2euVCne; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J9pkbY/o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88564C2BBFC;
-	Wed, 22 May 2024 14:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716388290;
-	bh=caxlHLkLA7Kyl2xhI0wkWw8AtvfOM+yyH8wCjBO9scI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J9pkbY/oQCevl7mOH3JJXSgFZZOrwY2EaiGTjT8Qvv42x3YKAakriYSPEhSm7/KqX
-	 05892MJl4SjdKnQ5Z8EygCt+PzSVMSLX1ThcbkbQy2Thj0ibC6PxwSuS4xeDSYHrYQ
-	 2d1HSVKTf4d5DvLDe0hqNcp9+dCb4GCcYr92NOht2cTMFClds7a2SfDhgwPdB9EE7G
-	 Mw49zWiygkpLHxgM2eEXsf797PqZb10QM3kAaW6l7R0S7mBde/SbVRXaBh7V6PKhH5
-	 YPSxlvClXZXKD1wcVZue7IpXSclgliHTDcvRlCrR7vDdXSUYLZ/zK7+P/djy4uGwAd
-	 8gNRRpFg7CiMQ==
-Date: Wed, 22 May 2024 09:31:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: skseofh@gmail.com
-Cc: lkp@intel.com, daero_le.lee@samsung.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, rppt@kernel.org,
-	saravanak@google.com
-Subject: Re: [PATCH v2] of: of_reserved_mem: clean-up reserved memory with
- no-map
-Message-ID: <20240522143129.GA3244910-robh@kernel.org>
-References: <202405011208.qsZQwChO-lkp@intel.com>
- <20240501132359.488616-1-skseofh@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2euVCne"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716390383; x=1747926383;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qv0FoQjoCwEfgMkQVSH/WXa2+aVacXHUSQDy3m2KIU4=;
+  b=n2euVCneJmklC4ipVnZXkxTfD2sWatcE3/RKZBcNSie2vwoOWGGoLljX
+   YOfI6uz6+UQbAy+gX9nWq5YGruSHuLAHWSzqSMH5gGA1+vcDE+ROYsWPs
+   3q4qTjMZKUdVkX8EXvllVQj00lU307z6EGdvaIwEFyhNb9+Vk6JRJntbq
+   rKtj8Jg//3DWa26VvrtHpGZRm42mo+XSXEvPwdFv9IaFEJQ3y7kMNGNFt
+   IdPQrEOSvBFNB2iQE2xuOgziRTSW1cRWVS7pKkq6MLecymtVyVTDZ1p2v
+   MPsiZ+TfTXhq0dSR2BKiqHJTJzMkdbOUwpZ3Hax5koK5kWskAbNyumaIG
+   g==;
+X-CSE-ConnectionGUID: eBCc2XT4Qx2hf49B7mEl8A==
+X-CSE-MsgGUID: sdgWXpgFTkCWEQdEo39B2w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="11647658"
+X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
+   d="scan'208";a="11647658"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 08:06:22 -0700
+X-CSE-ConnectionGUID: byC7jGm3Tqi5b1v82Ld6Xg==
+X-CSE-MsgGUID: ARlKyOfxQUiWaKr6PoEzyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
+   d="scan'208";a="37797515"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 22 May 2024 08:06:20 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s9nXe-0001fV-1f;
+	Wed, 22 May 2024 15:06:12 +0000
+Date: Wed, 22 May 2024 23:05:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shahab Vahedi <shahab@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: arch/arc/net/bpf_jit.h:42:15: sparse: sparse: marked inline, but
+ without a definition
+Message-ID: <202405222314.UG5F2NHn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,50 +63,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501132359.488616-1-skseofh@gmail.com>
 
-On Wed, May 01, 2024 at 10:23:59PM +0900, skseofh@gmail.com wrote:
-> From: Daero Lee <daero_le.lee@samsung.com>
-> 
-> In early_init_dt_reserve_memory we only add memory w/o no-map flag to
-> memblock.reserved. But we need to add memory w/ no-map flag to
-> memblock.reserved, because NOMAP and memblock.reserved are semantically
-> different.
-> 
-> Signed-off-by: Daero Lee <daero_le.lee@samsung.com>
-> ---
->  drivers/of/of_reserved_mem.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/of/of_reserved_mem.c b/drivers/of/of_reserved_mem.c
-> index 8236ecae2953..d00a17a9cebc 100644
-> --- a/drivers/of/of_reserved_mem.c
-> +++ b/drivers/of/of_reserved_mem.c
-> @@ -81,6 +81,7 @@ static void __init fdt_reserved_mem_save_node(unsigned long node, const char *un
->  static int __init early_init_dt_reserve_memory(phys_addr_t base,
->  					       phys_addr_t size, bool nomap)
->  {
-> +	int err = 0;
->  	if (nomap) {
->  		/*
->  		 * If the memory is already reserved (by another region), we
-> @@ -91,7 +92,10 @@ static int __init early_init_dt_reserve_memory(phys_addr_t base,
->  		    memblock_is_region_reserved(base, size))
->  			return -EBUSY;
->  
-> -		return memblock_mark_nomap(base, size);
-> +
-> +		err = memblock_mark_nomap(base, size);
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   29c73fc794c83505066ee6db893b2a83ac5fac63
+commit: f122668ddcce450c2585f0be4bf4478d6fd6176b ARC: Add eBPF JIT support
+date:   10 days ago
+config: arc-randconfig-r133-20240522 (https://download.01.org/0day-ci/archive/20240522/202405222314.UG5F2NHn-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240522/202405222314.UG5F2NHn-lkp@intel.com/reproduce)
 
-The last time this was touched, it was to make the handling aligned with 
-EFI memory map handling. Is that still going to be the case with this 
-change? Or does EFI memory map handling have the same issue?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405222314.UG5F2NHn-lkp@intel.com/
 
-> +		if (err)
-> +			return err;
->  	}
->  	return memblock_reserve(base, size);
->  }
-> -- 
-> 2.25.1
-> 
+sparse warnings: (new ones prefixed by >>)
+   arch/arc/net/bpf_jit_core.c: note: in included file:
+>> arch/arc/net/bpf_jit.h:42:15: sparse: sparse: marked inline, but without a definition
+--
+>> arch/arc/net/bpf_jit_arcv2.c:2238:17: sparse: sparse: statement expected after case label
+   arch/arc/net/bpf_jit_arcv2.c:2256:17: sparse: sparse: statement expected after case label
+   arch/arc/net/bpf_jit_arcv2.c:2872:9: sparse: sparse: statement expected after case label
+>> arch/arc/net/bpf_jit_arcv2.c:65:10: sparse: sparse: symbol 'bpf2arc' was not declared. Should it be static?
+>> arch/arc/net/bpf_jit_arcv2.c:2536:3: sparse: sparse: symbol 'arcv2_64_jccs' was not declared. Should it be static?
+>> arch/arc/net/bpf_jit_arcv2.c:2886:10: sparse: sparse: symbol 'arcv2_32_jmps' was not declared. Should it be static?
+
+vim +42 arch/arc/net/bpf_jit.h
+
+    39	
+    40	/************** Functions that the back-end must provide **************/
+    41	/* Extension for 32-bit operations. */
+  > 42	inline u8 zext(u8 *buf, u8 rd);
+    43	/***** Moves *****/
+    44	u8 mov_r32(u8 *buf, u8 rd, u8 rs, u8 sign_ext);
+    45	u8 mov_r32_i32(u8 *buf, u8 reg, s32 imm);
+    46	u8 mov_r64(u8 *buf, u8 rd, u8 rs, u8 sign_ext);
+    47	u8 mov_r64_i32(u8 *buf, u8 reg, s32 imm);
+    48	u8 mov_r64_i64(u8 *buf, u8 reg, u32 lo, u32 hi);
+    49	/***** Loads and stores *****/
+    50	u8 load_r(u8 *buf, u8 rd, u8 rs, s16 off, u8 size, bool sign_ext);
+    51	u8 store_r(u8 *buf, u8 rd, u8 rs, s16 off, u8 size);
+    52	u8 store_i(u8 *buf, s32 imm, u8 rd, s16 off, u8 size);
+    53	/***** Addition *****/
+    54	u8 add_r32(u8 *buf, u8 rd, u8 rs);
+    55	u8 add_r32_i32(u8 *buf, u8 rd, s32 imm);
+    56	u8 add_r64(u8 *buf, u8 rd, u8 rs);
+    57	u8 add_r64_i32(u8 *buf, u8 rd, s32 imm);
+    58	/***** Subtraction *****/
+    59	u8 sub_r32(u8 *buf, u8 rd, u8 rs);
+    60	u8 sub_r32_i32(u8 *buf, u8 rd, s32 imm);
+    61	u8 sub_r64(u8 *buf, u8 rd, u8 rs);
+    62	u8 sub_r64_i32(u8 *buf, u8 rd, s32 imm);
+    63	/***** Multiplication *****/
+    64	u8 mul_r32(u8 *buf, u8 rd, u8 rs);
+    65	u8 mul_r32_i32(u8 *buf, u8 rd, s32 imm);
+    66	u8 mul_r64(u8 *buf, u8 rd, u8 rs);
+    67	u8 mul_r64_i32(u8 *buf, u8 rd, s32 imm);
+    68	/***** Division *****/
+    69	u8 div_r32(u8 *buf, u8 rd, u8 rs, bool sign_ext);
+    70	u8 div_r32_i32(u8 *buf, u8 rd, s32 imm, bool sign_ext);
+    71	/***** Remainder *****/
+    72	u8 mod_r32(u8 *buf, u8 rd, u8 rs, bool sign_ext);
+    73	u8 mod_r32_i32(u8 *buf, u8 rd, s32 imm, bool sign_ext);
+    74	/***** Bitwise AND *****/
+    75	u8 and_r32(u8 *buf, u8 rd, u8 rs);
+    76	u8 and_r32_i32(u8 *buf, u8 rd, s32 imm);
+    77	u8 and_r64(u8 *buf, u8 rd, u8 rs);
+    78	u8 and_r64_i32(u8 *buf, u8 rd, s32 imm);
+    79	/***** Bitwise OR *****/
+    80	u8 or_r32(u8 *buf, u8 rd, u8 rs);
+    81	u8 or_r32_i32(u8 *buf, u8 rd, s32 imm);
+    82	u8 or_r64(u8 *buf, u8 rd, u8 rs);
+    83	u8 or_r64_i32(u8 *buf, u8 rd, s32 imm);
+    84	/***** Bitwise XOR *****/
+    85	u8 xor_r32(u8 *buf, u8 rd, u8 rs);
+    86	u8 xor_r32_i32(u8 *buf, u8 rd, s32 imm);
+    87	u8 xor_r64(u8 *buf, u8 rd, u8 rs);
+    88	u8 xor_r64_i32(u8 *buf, u8 rd, s32 imm);
+    89	/***** Bitwise Negate *****/
+    90	u8 neg_r32(u8 *buf, u8 r);
+    91	u8 neg_r64(u8 *buf, u8 r);
+    92	/***** Bitwise left shift *****/
+    93	u8 lsh_r32(u8 *buf, u8 rd, u8 rs);
+    94	u8 lsh_r32_i32(u8 *buf, u8 rd, u8 imm);
+    95	u8 lsh_r64(u8 *buf, u8 rd, u8 rs);
+    96	u8 lsh_r64_i32(u8 *buf, u8 rd, s32 imm);
+    97	/***** Bitwise right shift (logical) *****/
+    98	u8 rsh_r32(u8 *buf, u8 rd, u8 rs);
+    99	u8 rsh_r32_i32(u8 *buf, u8 rd, u8 imm);
+   100	u8 rsh_r64(u8 *buf, u8 rd, u8 rs);
+   101	u8 rsh_r64_i32(u8 *buf, u8 rd, s32 imm);
+   102	/***** Bitwise right shift (arithmetic) *****/
+   103	u8 arsh_r32(u8 *buf, u8 rd, u8 rs);
+   104	u8 arsh_r32_i32(u8 *buf, u8 rd, u8 imm);
+   105	u8 arsh_r64(u8 *buf, u8 rd, u8 rs);
+   106	u8 arsh_r64_i32(u8 *buf, u8 rd, s32 imm);
+   107	/***** Frame related *****/
+   108	u32 mask_for_used_regs(u8 bpf_reg, bool is_call);
+   109	u8 arc_prologue(u8 *buf, u32 usage, u16 frame_size);
+   110	u8 arc_epilogue(u8 *buf, u32 usage, u16 frame_size);
+   111	/***** Jumps *****/
+   112	/*
+   113	 * Different sorts of conditions (ARC enum as opposed to BPF_*).
+   114	 *
+   115	 * Do not change the order of enums here. ARC_CC_SLE+1 is used
+   116	 * to determine the number of JCCs.
+   117	 */
+   118	enum ARC_CC {
+   119		ARC_CC_UGT = 0,		/* unsigned >  */
+   120		ARC_CC_UGE,		/* unsigned >= */
+   121		ARC_CC_ULT,		/* unsigned <  */
+   122		ARC_CC_ULE,		/* unsigned <= */
+   123		ARC_CC_SGT,		/*   signed >  */
+   124		ARC_CC_SGE,		/*   signed >= */
+   125		ARC_CC_SLT,		/*   signed <  */
+   126		ARC_CC_SLE,		/*   signed <= */
+   127		ARC_CC_AL,		/* always      */
+   128		ARC_CC_EQ,		/*          == */
+   129		ARC_CC_NE,		/*          != */
+   130		ARC_CC_SET,		/* test        */
+   131		ARC_CC_LAST
+   132	};
+   133	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
