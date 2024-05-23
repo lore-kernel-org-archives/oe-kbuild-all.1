@@ -1,65 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0777513BC38
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 13:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DE414A4E9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 13:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716469218; cv=none; b=YcFrfGc/FZFlYRC/FpFvw9yMp4ATj7bLrnhtDR3Bf5cam325/JxMKhsAJClr2hyNaGf74Lbt7wox6zkdMTo4i/bF8LaXYyXUN4Hb+GTzSoAoDa2kO+UUn//uoPfwdX8v/NMWP7iAvMkuHPYZfboGYRjqV09BUbLtXaseEzMWz/c=
+	t=1716470086; cv=none; b=UxOAJz6geZAqTEG1agPA8xQCK+xfwtnIqv3kcPFs336T1Ht3yz7RTZgPruVnsAq5x9dsJGWYZNVKlpe+XqihD7Apy47vyCmXW7U8HTwdukWyx8VkOSlmKao9ur6ZR3ALXmESR4jyi52QsX4iFCXa9HkXf2dkG2HbkcFlsymqGeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716469218; c=relaxed/simple;
-	bh=eECP6Yl5qljboD/2npHrTM8NDdSUI8g6M2Vy1RhPVZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdwwoMox2rTDs1AuIwwMAKA36NKmaFJbS3Try0bPHJZib+WfPz8PMcm0EDWM7GHtNEWuOzYM8fbGxetpc6ujtfwQTpZmW6Xz+C5MRHZYPnXKNl0LM1HEhOfF3xmyqn+/vgjcagPr1/b2tClnCIXcwnv45igDmwC60d18EaeSJAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ex7ZT8su; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716470086; c=relaxed/simple;
+	bh=nK1mhMR5sp2HGvlXVhonM9F6WZxXA/qiREN8Rf6H+4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Ypw1fyYB7GICbjS5o1oBNeq5FziAHiYQLiEdSZ3V+gEsAspGG8ASoChs+QhXVrzgBo5uO3MiFTd9rUguCWxcsWAWa5O0bX7F0FimewM4NMo2gY1sziG6lF8uiZaiI7OZT/FzWcj7DSSfggOVgekAWczxbowNQbBIAh/bm7HV8Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U/2+YSZB; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ex7ZT8su"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716469216; x=1748005216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eECP6Yl5qljboD/2npHrTM8NDdSUI8g6M2Vy1RhPVZE=;
-  b=ex7ZT8suH1KUXxVWaU2ygBrpTTtdB8c1hIGnFYRDwN7oWWaxy2QaBpxj
-   JcWKndYoW14cqZNchl+kAUOhkvFcZKixR7wIVijwd5zhAWaccaysgmrRi
-   RAZdjnrFKubuY7SwLcH33onAzRjM3X26jVnNn+ibn/O8p9zQBKQA6mW/7
-   IMjpDKabJtmr4FvMUt3FX/ran1/5zr6m1vv9+oercY+lKwZ5pT8O/9xzD
-   FwZ+HtayGf3kfyWnOg1jkUVjQXt+ERenj+dWEIWBlyhB1+U3wW+w0lvWs
-   SIgZbI2kUgP/Cab5ctvUHPrNNucO+uHp6i+iR3tRwpTnKVSe58UWAvjPk
-   w==;
-X-CSE-ConnectionGUID: kzufXvpGTnGNeIh+NgDa1w==
-X-CSE-MsgGUID: +CYeGpkYSQCga620qHZ8TA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="24190303"
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="24190303"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 06:00:14 -0700
-X-CSE-ConnectionGUID: ac2UTFdsSCia8fxsvOVeTA==
-X-CSE-MsgGUID: HShjLEaxRAO6Nkal5VRSwQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="38056657"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 May 2024 06:00:11 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sA83F-0002sv-0B;
-	Thu, 23 May 2024 13:00:09 +0000
-Date: Thu, 23 May 2024 20:59:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>, rfoss@kernel.org,
-	todor.too@gmail.com, bryan.odonoghue@linaro.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	quic_hariramp@quicinc.com
-Subject: Re: [PATCH v4 6/8] media: qcom: camss: Split testgen, RDI and RX for
- CSID 170
-Message-ID: <202405232059.8lLokYw2-lkp@intel.com>
-References: <20240522154659.510-7-quic_grosikop@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U/2+YSZB"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-420180b58c3so55800475e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 06:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716470083; x=1717074883; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SWD7CtUtkqXIzQoWrQh8FoeaevQYrYwYHAnr/5q6xaI=;
+        b=U/2+YSZBQiRbEFw1Zgo264Eio7s9MKmdMF76VGL1p7sqot30TYVVLtjXDCbv922A2c
+         UCxujT8Uyf2uX8bqg1yRRgltBdG7WD3XZ3JAInGjb7wiJVey5LTMFCDu479zfxljuh6x
+         98UBX5xO5etIM2XLgQi5s651CNWuU2jVXBh1oUwdBSZ3pTtZUMtxTqRFU35e8a4mz3G2
+         jL50o8dI02LwPfqIK+VSyivNuDhqOX4wFuCQak6v0DipMSoPzVOQ13NJH8K3rxhMGYtD
+         5HKxhAUCAjG5OO2HwHJspkbjSZ+6+C3JtEEOMmvntVXYLtI7FkLs7KLOSDqDYqwdqwI4
+         hebA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716470083; x=1717074883;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SWD7CtUtkqXIzQoWrQh8FoeaevQYrYwYHAnr/5q6xaI=;
+        b=h12D27O0v3NcA3wHEbAkilmT0oFgIZaihAwD35SJ+/3blRh7VBVHp7wmYQGnHJS8Dh
+         /qZzymJ3U9adtSvkrjjJGcrOQ7bgcBVQzpYMMvNsJySp+0hn7mFjl8ykh4aV8rwC20Up
+         ZrBEFV9bs7mtZrJrCyFUd8UrrqZ86ObSz6Sjdpm3hLUnWf1Q19Q2p2H8dOB00iAG8uud
+         aEEzeS85J2nXvu5bARe0Nt1IG2MeJHHL4hVsBo39RwOWugYyY3UGA/4tdD0lIIYtl8+T
+         LSr9QHT/4q65rNMLvsZg8FW1gLQeoPddCMAyK4qfsMHNENvpsTArQiILWQC9JhmmhrZI
+         sSqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWODZapjka0WdaHSn6k1HweU3l6WYqp5iwoAzvp9GG22rhF1vddn4lZRIw+ohvEgaceu1C0cc8SbD2jlix7uADuhM+g9C9QW3pZBYD3sQ==
+X-Gm-Message-State: AOJu0YxxnaQMm92491q8HrxY4UvYYxxkVqLtG0edYDHPu8PogbVXt55f
+	FttuMSBYXSe/oiSxv9s0HszfnKUWzuNIdSojR/3Rv4dQIyMd9/lvpcv4p5oGsMY=
+X-Google-Smtp-Source: AGHT+IFNQhgHCdHm4dC36MCqGkdYxgUj5wdX9du2Ncve17vPZJB8anwVgsBR/V0kkOoTM/uM20yPew==
+X-Received: by 2002:adf:ec07:0:b0:354:f24f:aa4b with SMTP id ffacd0b85a97d-354f24fab45mr2710505f8f.3.1716470082525;
+        Thu, 23 May 2024 06:14:42 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baad037sm36523640f8f.71.2024.05.23.06.14.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 06:14:41 -0700 (PDT)
+Date: Thu, 23 May 2024 16:14:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Volodymyr Kharuk <vkh@melexis.com>,
+	linux-media@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andrii Kyselov <ays@melexis.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	devicetree@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Volodymyr Kharuk <vkh@melexis.com>
+Subject: Re: [PATCH v6 10/10] media: i2c: Add driver for mlx7502x ToF sensor
+Message-ID: <5a14400e-97e6-47a0-bac5-0e4c4db9b8d5@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,118 +75,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522154659.510-7-quic_grosikop@quicinc.com>
+In-Reply-To: <6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh@melexis.com>
 
-Hi Gjorgji,
+Hi Volodymyr,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master next-20240523]
-[cannot apply to v6.9]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gjorgji-Rosikopulos/media-qcom-camss-Add-per-sub-device-type-resources/20240522-235220
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240522154659.510-7-quic_grosikop%40quicinc.com
-patch subject: [PATCH v4 6/8] media: qcom: camss: Split testgen, RDI and RX for CSID 170
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240523/202405232059.8lLokYw2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405232059.8lLokYw2-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-uapi-ctrls-Add-camera-trigger-controls/20240517-004536
+base:   8771b7f31b7fff91a998e6afdb60650d4bac59a5
+patch link:    https://lore.kernel.org/r/6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh%40melexis.com
+patch subject: [PATCH v6 10/10] media: i2c: Add driver for mlx7502x ToF sensor
+config: mips-randconfig-r071-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181557.HpbDJU4b-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405232059.8lLokYw2-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405181557.HpbDJU4b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/media/i2c/mlx7502x.c:664 mlx7502x_runtime_resume() warn: 'sensor->xclk' from clk_prepare_enable() not released on lines: 664.
+drivers/media/i2c/mlx7502x.c:1586 mlx7502x_link_freq_init() error: buffer overflow 'link_freq' 6 <= 6 (assuming for loop doesn't break)
 
-   drivers/media/platform/qcom/camss/camss-csid-gen2.c: In function '__csid_configure_rdi_stream':
->> drivers/media/platform/qcom/camss/camss-csid-gen2.c:265:13: warning: variable 'phy_sel' set but not used [-Wunused-but-set-variable]
-     265 |         u32 phy_sel = 0;
-         |             ^~~~~~~
+vim +664 drivers/media/i2c/mlx7502x.c
 
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  620  static int __maybe_unused mlx7502x_runtime_resume(struct device *dev)
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  621  {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  622  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  623  	struct mlx7502x *sensor = to_mlx7502x(sd);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  624  	int ret;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  625  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  626  	gpiod_set_value_cansleep(sensor->reset, 0);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  627  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  628  	ret = regulator_bulk_enable(MLX7502X_NUM_SUPPLIES, sensor->supplies);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  629  	if (ret) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  630  		dev_err(sensor->dev, "failed to enable supply: %d\n", ret);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  631  		return ret;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  632  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  633  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  634  	ret = clk_prepare_enable(sensor->xclk);
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vim +/phy_sel +265 drivers/media/platform/qcom/camss/camss-csid-gen2.c
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  635  	if (ret) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  636  		dev_err(sensor->dev, "failed to enable external clock: %d\n",
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  637  			ret);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  638  		goto fail_clk;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  639  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  640  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  641  	gpiod_set_value_cansleep(sensor->reset, 1);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  642  	msleep(MLX7502X_RESET_DELAY_MS);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  643  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  644  	dev_dbg(sensor->dev, "power on\n");
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  645  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  646  	ret = mlx7502x_write_regval(sd, mlx7502x_common_init_cfg,
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  647  				    ARRAY_SIZE(mlx7502x_common_init_cfg));
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  648  	if (ret < 0) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  649  		dev_err(sensor->dev, "failed to write init_cfg\n");
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  650  		goto fail_clk;
 
-   260	
-   261	static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 vc)
-   262	{
-   263		struct csid_testgen_config *tg = &csid->testgen;
-   264		u32 val;
- > 265		u32 phy_sel = 0;
-   266		/* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, Pad 2 -> RDI1, etc. */
-   267		struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
-   268		const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
-   269									   csid->res->formats->nformats,
-   270									   input_format->code);
-   271	
-   272		if (!tg->enabled)
-   273			phy_sel = csid->phy.csiphy_id;
-   274	
-   275		/*
-   276		 * DT_ID is a two bit bitfield that is concatenated with
-   277		 * the four least significant bits of the five bit VC
-   278		 * bitfield to generate an internal CID value.
-   279		 *
-   280		 * CSID_RDI_CFG0(vc)
-   281		 * DT_ID : 28:27
-   282		 * VC    : 26:22
-   283		 * DT    : 21:16
-   284		 *
-   285		 * CID   : VC 3:0 << 2 | DT_ID 1:0
-   286		 */
-   287		u8 dt_id = vc & 0x03;
-   288	
-   289		val = 1 << RDI_CFG0_BYTE_CNTR_EN;
-   290		val |= 1 << RDI_CFG0_FORMAT_MEASURE_EN;
-   291		val |= 1 << RDI_CFG0_TIMESTAMP_EN;
-   292		/* note: for non-RDI path, this should be format->decode_format */
-   293		val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
-   294		val |= format->data_type << RDI_CFG0_DATA_TYPE;
-   295		val |= vc << RDI_CFG0_VIRTUAL_CHANNEL;
-   296		val |= dt_id << RDI_CFG0_DT_ID;
-   297		writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
-   298	
-   299		/* CSID_TIMESTAMP_STB_POST_IRQ */
-   300		val = 2 << RDI_CFG1_TIMESTAMP_STB_SEL;
-   301		writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
-   302	
-   303		val = 1;
-   304		writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PERIOD(vc));
-   305	
-   306		val = 0;
-   307		writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PATTERN(vc));
-   308	
-   309		val = 1;
-   310		writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
-   311	
-   312		val = 0;
-   313		writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
-   314	
-   315		val = 1;
-   316		writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PERIOD(vc));
-   317	
-   318		val = 0;
-   319		writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PATTERN(vc));
-   320	
-   321		val = 1;
-   322		writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PERIOD(vc));
-   323	
-   324		val = 0;
-   325		writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PATTERN(vc));
-   326	
-   327		val = 0;
-   328		writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
-   329	
-   330		val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
-   331		val |=  enable << RDI_CFG0_ENABLE;
-   332		writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
-   333	}
-   334	
+Don't we need to disable the xclk on this path?
+
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  651  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  652  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  653  	ret = mlx7502x_write_regval(sd, sensor->cur_desc->init_cfg,
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  654  				    sensor->cur_desc->init_cfg_size);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  655  	if (ret < 0) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  656  		dev_err(sensor->dev, "failed to write sensor specific init_cfg\n");
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  657  		goto fail_clk;
+
+And here.
+
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  658  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  659  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  660  	return 0;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  661  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  662  fail_clk:
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  663  	regulator_bulk_disable(MLX7502X_NUM_SUPPLIES, sensor->supplies);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16 @664  	return ret;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  665  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
