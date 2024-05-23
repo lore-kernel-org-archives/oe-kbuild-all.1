@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60B114B95B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 14:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E7012B171
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 14:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716474218; cv=none; b=Tl3PWen8CO15f9xO4ZndLPLFxnBD4F8qIyQNeS7aE5gZ1slMjSXCCimTTauOrpe94/NWHx4P6zROUQZffhNAYtLdXHp7grubJ0+3B1zC4ew77+LtrUwgljX36mAV6zLSYIh6nrBlRD+jJsgKLWIk54QND5Reihv1yCi2iefr3Vo=
+	t=1716475226; cv=none; b=sgJsc8itXXZJZdZgv3T8KwoLQGN5uCgb9I9I7mv8cCiPNh48hyxyTJ23hwcyz8Nk2MVsnyEXwm4XIMoDNFA3TQvNWvSBCns29etEMUhHy+tHNEcq2NQFPUdHXmY513wZzQk9lbTvh7GXaez//bC7EKtVWBBN2Pv22m6IoHx19XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716474218; c=relaxed/simple;
-	bh=4VzasgoIp8iJLru273gUC7Xd/2sk70oHQiDhBedMMCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hw734akSy5D4uUPZ93H7Hagd4NStoV7YhPzaCCc9sriAXmn7P1cmSmFCfj2F/jvx66i06aLpDijVPt5o2dkzaKRLyJDuP8gt2WjNlwTjODEd8rU5MkIQQ0viVUCgMwB6mtrCtupKHihuVeaVbsCA+OIBsRMRPB71kzKsUn2F1Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bD1ekbqg; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716475226; c=relaxed/simple;
+	bh=/EhI5SV+eLkKHn6JuRJDB8qmUsH9QFiZWAcZwM5kl8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=lqa9PUBEzlNPD7lkbPmApULUybPSo26hwXT+DUuEK1tRc7GS9COSMdVDq9StLC29Z82onPpj9zYdskORbOuDlKggSMNOD5HmgElMBIGui1OnFwbnkCs2+3lDwbFKPataEtnw7G6GLGiaPqjEtNBziEfMj33qD+wPFyYTR4Pz/bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qV6GPmFV; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bD1ekbqg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716474216; x=1748010216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4VzasgoIp8iJLru273gUC7Xd/2sk70oHQiDhBedMMCg=;
-  b=bD1ekbqgzVpQXZb5h1UWVtDp7Opuh5hRBBX8N91vPvC211NKp8qDWsr3
-   U0/WBCqQvfmzP7+ETOl2+E/Y6ZNGlIzstRj9UblFRNMB+pZ+/WnzRfC5g
-   V8FQOoJBuWwdwjOpH4C7vL1XX0B0LoUUK8SZki4o5xkNKIxUqd6KAoak/
-   d9E6drf+Sejys+xEZMfCgEa8hj5h3Zlds3GfNYsF8bJAa0MEFmDjVCcrg
-   j4B54vgl4ETvRllbKZZKPvQ8elEjH0iLnKNFikm75uLfnZ2LomeR40TeR
-   bwwcmMuRCCVxZtPDYvIdb0wErcWhms/XQkiwE8j6gMjOEKpgUGsPV93Dg
-   A==;
-X-CSE-ConnectionGUID: WhHsMNftTOyYMiHpYXm19w==
-X-CSE-MsgGUID: VJeXsmAMSq2VLaB1Zj1ytA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12970415"
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="12970415"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 07:23:36 -0700
-X-CSE-ConnectionGUID: M0o0v+VlStSju+7ngdqoRQ==
-X-CSE-MsgGUID: gX6pI8JsQOCgJtA9p4Gcfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="38463983"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 23 May 2024 07:23:34 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sA9Lu-0002yb-2g;
-	Thu, 23 May 2024 14:23:30 +0000
-Date: Thu, 23 May 2024 22:22:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/2] bpf: add CHECKSUM_COMPLETE to bpf test progs
-Message-ID: <202405232220.e9PuO2yW-lkp@intel.com>
-References: <20240522145712.3523593-1-vadfed@meta.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qV6GPmFV"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4200ee47de7so54597505e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 07:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716475221; x=1717080021; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntcN9UG8LCLRsIiP82LMaVuIkwbqeFlgR40LbwJ887I=;
+        b=qV6GPmFVVgTFmEUZ9Ljw/GAYHTOLkodzOj2rE/fivSqhUwPfLkKlZfC1YZ26WGhD2f
+         4RjESp198PZ5CiN3L4pMMmqFWCFKFc8nEpyMD3gR95zqfb11ZwdL1dtjqZSq0DiAMTSU
+         87IqzI3x9NX0fQFd667wDAvCwDv/wKPfVs4Cp3dUF4bBAXvpxBvkGQBJxr8D+qgL3FZU
+         oukTEYmF08OM33pcfdQAErbY6S0jkt0oV6tfsVGd7GgmpwKE6aaq0KoNs8mUcTYCT8Vl
+         fUI+jgMXnHFAwD/wWdb21lPTfP4eFGLVW8z5u0hr65NaFNGulT2dSQc0YvNQmSVYcpyS
+         tzYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716475221; x=1717080021;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ntcN9UG8LCLRsIiP82LMaVuIkwbqeFlgR40LbwJ887I=;
+        b=rYlN6HmNGaOesksk4nyLxqwWiMZ/t3k8rcKTHCExcZMohVptfcWuOBvwQKFDPgWHAW
+         2DQwzWPZQ4OrHBQRjj5cLelrgVBuI9g4CCQcHeHTzBMitATKQ9X2Lp2pIxSpF2iVVDLV
+         GMUL9wAfzpT04HMUR4zMspUnF73X3jb1wzKEqMUBQNdG3XuKB/S4M1KG8B0yiFQRF6WC
+         U20QYbmkSUx4Ad7OyxhjNNObjQSpuxxDnu6PaCv3+suMC16cRJl+0F8H7g5H+buOaMV1
+         cU6WdewzJL/qLCw+EG8ATtnvH7DyKdBba62LQV/IRsAk9vJTEYHRgwP2w/oBn6MyrjFQ
+         6Ymg==
+X-Forwarded-Encrypted: i=1; AJvYcCUXDfwU+2mYBW8avbpMhZai/QzCxIx725RxmKFXWJJucPboojlXMFvHzDrM/2r5Rz3DGel7NZKv2nk12ksll1rsaODT777zx4GsrKB9ZA==
+X-Gm-Message-State: AOJu0Yxtv9Hjwqe2lOLkpZzD1KFD6xYFbBfKbiQXQ07fP8SDpLle13cQ
+	E4lsHkvzp8j9VE0f4gGrFd4q3iskrK2ICLIqQ8Pp3c6OrqztRuxejeCLi5UgxqM=
+X-Google-Smtp-Source: AGHT+IElJxY9dqC1eLWDsF5oZGyvKHUVkCA4vyOJY3Vj6h3bD/viIGXHTHOqCpe+gJLvs8lAkOFo3w==
+X-Received: by 2002:a7b:cb44:0:b0:41a:1d3a:3fc1 with SMTP id 5b1f17b1804b1-420fd2d8443mr40254095e9.3.1716475221044;
+        Thu, 23 May 2024 07:40:21 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100fb2205sm27214235e9.42.2024.05.23.07.40.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 07:40:19 -0700 (PDT)
+Date: Thu, 23 May 2024 17:40:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Harshad Shirwadkar <harshadshirwadkar@gmail.com>,
+	linux-ext4@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, tytso@mit.edu,
+	saukad@google.com, harshads@google.com,
+	Harshad Shirwadkar <harshadshirwadkar@gmail.com>
+Subject: Re: [PATCH 09/10] ext4: temporarily elevate commit thread priority
+Message-ID: <00111762-dd9a-4274-8893-770d1f92d1ff@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,192 +69,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522145712.3523593-1-vadfed@meta.com>
+In-Reply-To: <20240520055153.136091-10-harshadshirwadkar@gmail.com>
 
-Hi Vadim,
+Hi Harshad,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/selftests-bpf-validate-CHECKSUM_COMPLETE-option/20240522-225856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240522145712.3523593-1-vadfed%40meta.com
-patch subject: [PATCH bpf-next 1/2] bpf: add CHECKSUM_COMPLETE to bpf test progs
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240523/202405232220.e9PuO2yW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405232220.e9PuO2yW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Harshad-Shirwadkar/ext4-convert-i_fc_lock-to-spinlock/20240520-135501
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20240520055153.136091-10-harshadshirwadkar%40gmail.com
+patch subject: [PATCH 09/10] ext4: temporarily elevate commit thread priority
+config: i386-randconfig-141-20240520 (https://download.01.org/0day-ci/archive/20240521/202405210026.5LpHV4Sn-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405232220.e9PuO2yW-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405210026.5LpHV4Sn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/ext4/fast_commit.c:1280 ext4_fc_commit() error: uninitialized symbol 'old_ioprio'.
 
-   net/bpf/test_run.c: In function 'bpf_prog_test_run_skb':
->> net/bpf/test_run.c:978:17: warning: unused variable 'sum' [-Wunused-variable]
-     978 |         __sum16 sum;
-         |                 ^~~
+vim +/old_ioprio +1280 fs/ext4/fast_commit.c
 
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1200  int ext4_fc_commit(journal_t *journal, tid_t commit_tid)
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1201  {
+c30365b90ab26f Yu Zhe             2022-04-01  1202  	struct super_block *sb = journal->j_private;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1203  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1204  	int nblks = 0, ret, bsize = journal->j_blocksize;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1205  	int subtid = atomic_read(&sbi->s_fc_subtid);
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1206  	int status = EXT4_FC_STATUS_OK, fc_bufs_before = 0;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1207  	ktime_t start_time, commit_time;
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1208  	int old_ioprio, journal_ioprio;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1209  
+7f142440847480 Ritesh Harjani     2022-03-12  1210  	if (!test_opt2(sb, JOURNAL_FAST_COMMIT))
+7f142440847480 Ritesh Harjani     2022-03-12  1211  		return jbd2_complete_transaction(journal, commit_tid);
+7f142440847480 Ritesh Harjani     2022-03-12  1212  
+5641ace54471cb Ritesh Harjani     2022-03-12  1213  	trace_ext4_fc_commit_start(sb, commit_tid);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1214  
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1215  	start_time = ktime_get();
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1216  
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1217  restart_fc:
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1218  	ret = jbd2_fc_begin_commit(journal, commit_tid);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1219  	if (ret == -EALREADY) {
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1220  		/* There was an ongoing commit, check if we need to restart */
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1221  		if (atomic_read(&sbi->s_fc_subtid) <= subtid &&
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1222  			commit_tid > journal->j_commit_sequence)
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1223  			goto restart_fc;
+d9bf099cb980d6 Ritesh Harjani     2022-03-12  1224  		ext4_fc_update_stats(sb, EXT4_FC_STATUS_SKIPPED, 0, 0,
+d9bf099cb980d6 Ritesh Harjani     2022-03-12  1225  				commit_tid);
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1226  		return 0;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1227  	} else if (ret) {
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1228  		/*
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1229  		 * Commit couldn't start. Just update stats and perform a
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1230  		 * full commit.
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1231  		 */
+d9bf099cb980d6 Ritesh Harjani     2022-03-12  1232  		ext4_fc_update_stats(sb, EXT4_FC_STATUS_FAILED, 0, 0,
+d9bf099cb980d6 Ritesh Harjani     2022-03-12  1233  				commit_tid);
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1234  		return jbd2_complete_transaction(journal, commit_tid);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1235  	}
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1236  
+7bbbe241ec7ce0 Harshad Shirwadkar 2021-12-23  1237  	/*
+7bbbe241ec7ce0 Harshad Shirwadkar 2021-12-23  1238  	 * After establishing journal barrier via jbd2_fc_begin_commit(), check
+7bbbe241ec7ce0 Harshad Shirwadkar 2021-12-23  1239  	 * if we are fast commit ineligible.
+7bbbe241ec7ce0 Harshad Shirwadkar 2021-12-23  1240  	 */
+7bbbe241ec7ce0 Harshad Shirwadkar 2021-12-23  1241  	if (ext4_test_mount_flag(sb, EXT4_MF_FC_INELIGIBLE)) {
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1242  		status = EXT4_FC_STATUS_INELIGIBLE;
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1243  		goto fallback;
 
-vim +/sum +978 net/bpf/test_run.c
+old_ioprio not initialized.
 
-   963	
-   964	int bpf_prog_test_run_skb(struct bpf_prog *prog, const union bpf_attr *kattr,
-   965				  union bpf_attr __user *uattr)
-   966	{
-   967		bool is_l2 = false, is_direct_pkt_access = false;
-   968		struct net *net = current->nsproxy->net_ns;
-   969		struct net_device *dev = net->loopback_dev;
-   970		u32 size = kattr->test.data_size_in;
-   971		u32 repeat = kattr->test.repeat;
-   972		struct __sk_buff *ctx = NULL;
-   973		u32 retval, duration;
-   974		int hh_len = ETH_HLEN;
-   975		struct sk_buff *skb;
-   976		struct sock *sk;
-   977		__wsum csum;
- > 978		__sum16 sum;
-   979		void *data;
-   980		int ret;
-   981	
-   982		if ((kattr->test.flags & ~BPF_F_TEST_SKB_CHECKSUM_COMPLETE) ||
-   983		    kattr->test.cpu || kattr->test.batch_size)
-   984			return -EINVAL;
-   985	
-   986		data = bpf_test_init(kattr, kattr->test.data_size_in,
-   987				     size, NET_SKB_PAD + NET_IP_ALIGN,
-   988				     SKB_DATA_ALIGN(sizeof(struct skb_shared_info)));
-   989		if (IS_ERR(data))
-   990			return PTR_ERR(data);
-   991	
-   992		ctx = bpf_ctx_init(kattr, sizeof(struct __sk_buff));
-   993		if (IS_ERR(ctx)) {
-   994			kfree(data);
-   995			return PTR_ERR(ctx);
-   996		}
-   997	
-   998		switch (prog->type) {
-   999		case BPF_PROG_TYPE_SCHED_CLS:
-  1000		case BPF_PROG_TYPE_SCHED_ACT:
-  1001			is_l2 = true;
-  1002			fallthrough;
-  1003		case BPF_PROG_TYPE_LWT_IN:
-  1004		case BPF_PROG_TYPE_LWT_OUT:
-  1005		case BPF_PROG_TYPE_LWT_XMIT:
-  1006			is_direct_pkt_access = true;
-  1007			break;
-  1008		default:
-  1009			break;
-  1010		}
-  1011	
-  1012		sk = sk_alloc(net, AF_UNSPEC, GFP_USER, &bpf_dummy_proto, 1);
-  1013		if (!sk) {
-  1014			kfree(data);
-  1015			kfree(ctx);
-  1016			return -ENOMEM;
-  1017		}
-  1018		sock_init_data(NULL, sk);
-  1019	
-  1020		skb = slab_build_skb(data);
-  1021		if (!skb) {
-  1022			kfree(data);
-  1023			kfree(ctx);
-  1024			sk_free(sk);
-  1025			return -ENOMEM;
-  1026		}
-  1027		skb->sk = sk;
-  1028	
-  1029		skb_reserve(skb, NET_SKB_PAD + NET_IP_ALIGN);
-  1030		__skb_put(skb, size);
-  1031	
-  1032		if (kattr->test.flags & BPF_F_TEST_SKB_CHECKSUM_COMPLETE) {
-  1033			skb->csum = skb_checksum(skb, 0, skb->len, 0);
-  1034			skb->ip_summed = CHECKSUM_COMPLETE;
-  1035		}
-  1036	
-  1037		if (ctx && ctx->ifindex > 1) {
-  1038			dev = dev_get_by_index(net, ctx->ifindex);
-  1039			if (!dev) {
-  1040				ret = -ENODEV;
-  1041				goto out;
-  1042			}
-  1043		}
-  1044		skb->protocol = eth_type_trans(skb, dev);
-  1045		skb_reset_network_header(skb);
-  1046	
-  1047		switch (skb->protocol) {
-  1048		case htons(ETH_P_IP):
-  1049			sk->sk_family = AF_INET;
-  1050			if (sizeof(struct iphdr) <= skb_headlen(skb)) {
-  1051				sk->sk_rcv_saddr = ip_hdr(skb)->saddr;
-  1052				sk->sk_daddr = ip_hdr(skb)->daddr;
-  1053			}
-  1054			break;
-  1055	#if IS_ENABLED(CONFIG_IPV6)
-  1056		case htons(ETH_P_IPV6):
-  1057			sk->sk_family = AF_INET6;
-  1058			if (sizeof(struct ipv6hdr) <= skb_headlen(skb)) {
-  1059				sk->sk_v6_rcv_saddr = ipv6_hdr(skb)->saddr;
-  1060				sk->sk_v6_daddr = ipv6_hdr(skb)->daddr;
-  1061			}
-  1062			break;
-  1063	#endif
-  1064		default:
-  1065			break;
-  1066		}
-  1067	
-  1068		if (is_l2)
-  1069			__skb_push(skb, hh_len);
-  1070		if (is_direct_pkt_access)
-  1071			bpf_compute_data_pointers(skb);
-  1072		ret = convert___skb_to_skb(skb, ctx);
-  1073		if (ret)
-  1074			goto out;
-  1075		ret = bpf_test_run(prog, skb, repeat, &retval, &duration, false);
-  1076		if (ret)
-  1077			goto out;
-  1078		if (!is_l2) {
-  1079			if (skb_headroom(skb) < hh_len) {
-  1080				int nhead = HH_DATA_ALIGN(hh_len - skb_headroom(skb));
-  1081	
-  1082				if (pskb_expand_head(skb, nhead, 0, GFP_USER)) {
-  1083					ret = -ENOMEM;
-  1084					goto out;
-  1085				}
-  1086			}
-  1087			memset(__skb_push(skb, hh_len), 0, hh_len);
-  1088		}
-  1089		convert_skb_to___skb(skb, ctx);
-  1090	
-  1091		if (kattr->test.flags & BPF_F_TEST_SKB_CHECKSUM_COMPLETE) {
-  1092			csum = skb_checksum(skb, 0, skb->len, 0);
-  1093			if (skb->csum != csum) {
-  1094				ret = -EINVAL;
-  1095				goto out;
-  1096			}
-  1097		}
-  1098	
-  1099		size = skb->len;
-  1100		/* bpf program can never convert linear skb to non-linear */
-  1101		if (WARN_ON_ONCE(skb_is_nonlinear(skb)))
-  1102			size = skb_headlen(skb);
-  1103		ret = bpf_test_finish(kattr, uattr, skb->data, NULL, size, retval,
-  1104				      duration);
-  1105		if (!ret)
-  1106			ret = bpf_ctx_finish(kattr, uattr, ctx,
-  1107					     sizeof(struct __sk_buff));
-  1108	out:
-  1109		if (dev && dev != net->loopback_dev)
-  1110			dev_put(dev);
-  1111		kfree_skb(skb);
-  1112		sk_free(sk);
-  1113		kfree(ctx);
-  1114		return ret;
-  1115	}
-  1116	
+7bbbe241ec7ce0 Harshad Shirwadkar 2021-12-23  1244  	}
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1245  
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1246  	/*
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1247  	 * Now that we know that this thread is going to do a fast commit,
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1248  	 * elevate the priority to match that of the journal thread.
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1249  	 */
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1250  	if (journal->j_task->io_context)
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1251  		journal_ioprio = sbi->s_journal->j_task->io_context->ioprio;
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1252  	else
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1253  		journal_ioprio = EXT4_DEF_JOURNAL_IOPRIO;
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1254  	old_ioprio = get_current_ioprio();
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1255  	set_task_ioprio(current, journal_ioprio);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1256  	fc_bufs_before = (sbi->s_fc_bytes + bsize - 1) / bsize;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1257  	ret = ext4_fc_perform_commit(journal);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1258  	if (ret < 0) {
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1259  		status = EXT4_FC_STATUS_FAILED;
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1260  		goto fallback;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1261  	}
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1262  	nblks = (sbi->s_fc_bytes + bsize - 1) / bsize - fc_bufs_before;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1263  	ret = jbd2_fc_wait_bufs(journal, nblks);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1264  	if (ret < 0) {
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1265  		status = EXT4_FC_STATUS_FAILED;
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1266  		goto fallback;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1267  	}
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1268  	atomic_inc(&sbi->s_fc_subtid);
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1269  	ret = jbd2_fc_end_commit(journal);
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20  1270  	set_task_ioprio(current, old_ioprio);
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1271  	/*
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1272  	 * weight the commit time higher than the average time so we
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1273  	 * don't react too strongly to vast changes in the commit time
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1274  	 */
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1275  	commit_time = ktime_to_ns(ktime_sub(ktime_get(), start_time));
+d9bf099cb980d6 Ritesh Harjani     2022-03-12  1276  	ext4_fc_update_stats(sb, status, commit_time, nblks, commit_tid);
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1277  	return ret;
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1278  
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1279  fallback:
+c3b2c196d67585 Harshad Shirwadkar 2024-05-20 @1280  	set_task_ioprio(current, old_ioprio);
+                                                                                 ^^^^^^^^^^
+Uninitialized
+
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1281  	ret = jbd2_fc_end_commit_fallback(journal);
+d9bf099cb980d6 Ritesh Harjani     2022-03-12  1282  	ext4_fc_update_stats(sb, status, 0, 0, commit_tid);
+0915e464cb2746 Harshad Shirwadkar 2021-12-23  1283  	return ret;
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  1284  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
