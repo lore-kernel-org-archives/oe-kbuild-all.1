@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A5176F17;
-	Thu, 23 May 2024 22:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD3884A36
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 22:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716502727; cv=none; b=rAsnw6HGfuKO84A0xTgyyNzvTb9Zn8dHYID/kjHb7poGYWnKL6GMmuvY9MMTaiEy05fx21NR4DX+VfqNAINlevclixJdAlD0Mxrpo9gzD5m57yVAN4lXzC4vRac6ojlEAgWX9f9aQRTQ57+LfZetsc5CTzvNSbvFd/vAD8mysPk=
+	t=1716504537; cv=none; b=VbhmcQHJ5kQ/XYxUkn/7SIrpPRUOfrCeyYR8OetCNhuBpY2QSbeWs/P7/a/YXgqrBc+6qVtoZysCRxQUCfuW8PXFyu6avO1W9KxQCDo21xT27VfRpysQOOm1JnlIDG8XvWNXt8ndDViJW4X1LzyKbOZ5WfeEFT8Qsms6wrySPx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716502727; c=relaxed/simple;
-	bh=1NaIoGRUhnN6xYMOU6GSlsoHT9TyOUpfTCPyfZr+ldw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z8twpdiKqy7Fxsvz5pPDbFOGxXu8u6mC8xrKlQOfmhEqLhu1DKxBLtwY+Z+reNf2NShPEiUKyAZ63xkxgkZ5wRXWSwwHYjko1kH3/prVor/uJ0ZuB2KilU2KMxRB1zhFnFcb1nVXnZ1ZHM/6Apoo+41uT71QGuWN8LIQhP4vDMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPIpX5yG; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1716504537; c=relaxed/simple;
+	bh=qsX7T6TNeCWxtC73uYx4+Y0M9wwyBKi0rKeNgH8XJ2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RF0HC1Iaw6ShdM54Tk38dnLxTEGhnWcl/zBLNg9g/ZWlQd2uqJG5s/7Iou6r85JC8S9nuFvw4T6SuwpzOWCyqSl5UcfUp+mB5rdQTtVi4V2Wr6N2UXZ7gk91yhPFfzFwJr/rBfEdzqkuU94jxtuWQxGowEIJcFwPaoohlL6pyFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iuPIVDUT; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPIpX5yG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iuPIVDUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716502725; x=1748038725;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1NaIoGRUhnN6xYMOU6GSlsoHT9TyOUpfTCPyfZr+ldw=;
-  b=RPIpX5yG1H0aVvXAf5bYmtGuf+EYoQwnXmMYln0lB4NwzoCyRIYgxe6i
-   dD9nGQlRLbktTHujCHDqgxPfi6gSxAgeHRqSZfSzAPJ/ZzoO4u1p/nUqc
-   Fl/Yp05KWwWficvvzu4y4zuEoOuElodRYanYr+FLss+a8rufr5Yygi1RC
-   L0B78g9AWPnQXYv1WTdad3RpADobbTb1V5tmGGvVY5bArRL7pXQPaHCqT
-   XxRTHT4/+rU3jy8mCiqZ0wy7+v7dmPUWEagaBzDtJM3iYgwNZ/kGKDsJm
-   +uIl95uuIEfJtHtb85vow7Thn/uklvt8VvE/jrKFyBXRNLukezGpEbBsJ
-   g==;
-X-CSE-ConnectionGUID: AXhsPwquRhuix5e3HaScSg==
-X-CSE-MsgGUID: S87G2VX+SDmdT7R/HJF4Iw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="38238843"
+  t=1716504536; x=1748040536;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qsX7T6TNeCWxtC73uYx4+Y0M9wwyBKi0rKeNgH8XJ2Y=;
+  b=iuPIVDUTVTa7WyRLUG7pcUjc2avsnT3eoEm3p0JR1u2y2D0HUVZJ/QMw
+   y2bqDkhJ/nQbYenCThZb8ay1Nq9tDSB8fE50Vnxd6KWXUjFa2KL0KKkj0
+   MTtuT/FUw6SCD4v94YVcLC+w3O5+I8bPVwQSgktz6138xRsOz6MHXFXkj
+   J1Z9EBfyS+V+hf37ja/fstPNChFqiTa2cg33bvROvJrqJNSJHQK+4MHa8
+   jIK8Pj6ahNp09MczUCK+ReCfS+YIh8emsacuhGyh5u9hlPdpAXyhBYWj0
+   YawbkDBbZPxxYrHBhoAFp12A04uwET1rY+Og+Up+GKAr50AIfyRE/NHh8
+   w==;
+X-CSE-ConnectionGUID: 3PJfHwTHQDucj+YqrHS/ZQ==
+X-CSE-MsgGUID: +E6dYF9eQS2YZeCuJ1DIuA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12976812"
 X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="38238843"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 15:18:44 -0700
-X-CSE-ConnectionGUID: 8bcP8lf1R3WRQCBr8yIoaA==
-X-CSE-MsgGUID: ewHfpK7hRvi7w0A1/Gu0IA==
+   d="scan'208";a="12976812"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 15:48:55 -0700
+X-CSE-ConnectionGUID: V/mEecQKQcWFcaxPSx9FTw==
+X-CSE-MsgGUID: +LcLLkFWTfu2pQ98pNB34g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="38668287"
+   d="scan'208";a="33806851"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 23 May 2024 15:18:42 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 May 2024 15:48:52 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAGlj-0003Zv-2o;
-	Thu, 23 May 2024 22:18:39 +0000
-Date: Fri, 24 May 2024 06:17:44 +0800
+	id 1sAHEw-0003az-0y;
+	Thu, 23 May 2024 22:48:50 +0000
+Date: Fri, 24 May 2024 06:48:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/4] LoongArch: smp: Add all CPUs enabled by fdt to NUMA
- node 0
-Message-ID: <202405240627.5Ey7vV8v-lkp@intel.com>
-References: <20240521-loongarch-booting-fixes-v1-2-659c201c0370@flygoat.com>
+To: David Gstir <david@sigma-star.at>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Subject: security/keys/trusted-keys/trusted_dcp.c:206:24: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202405240610.fj53EK0q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,76 +64,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-loongarch-booting-fixes-v1-2-659c201c0370@flygoat.com>
 
-Hi Jiaxun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 124cfbcd6d185d4f50be02d5f5afe61578916773]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/LoongArch-Fix-built-in-DTB-detection/20240522-041534
-base:   124cfbcd6d185d4f50be02d5f5afe61578916773
-patch link:    https://lore.kernel.org/r/20240521-loongarch-booting-fixes-v1-2-659c201c0370%40flygoat.com
-patch subject: [PATCH 2/4] LoongArch: smp: Add all CPUs enabled by fdt to NUMA node 0
-config: loongarch-randconfig-001-20240524 (https://download.01.org/0day-ci/archive/20240524/202405240627.5Ey7vV8v-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405240627.5Ey7vV8v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6d69b6c12fce479fde7bc06f686212451688a102
+commit: 2e8a0f40a39cc253002f21c54e1b5b995e5ec510 KEYS: trusted: Introduce NXP DCP-backed trusted keys
+date:   2 weeks ago
+config: arm-randconfig-r112-20240524 (https://download.01.org/0day-ci/archive/20240524/202405240610.fj53EK0q-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240524/202405240610.fj53EK0q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405240627.5Ey7vV8v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405240610.fj53EK0q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/keys/trusted-keys/trusted_dcp.c:206:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] payload_len @@     got unsigned int @@
+   security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:     expected restricted __le32 [usertype] payload_len
+   security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:     got unsigned int
 
-   arch/loongarch/kernel/smp.c: In function 'fdt_smp_setup':
->> arch/loongarch/kernel/smp.c:287:17: error: implicit declaration of function 'set_cpuid_to_node'; did you mean 'set_cpu_numa_node'? [-Werror=implicit-function-declaration]
-     287 |                 set_cpuid_to_node(cpuid, 0);
-         |                 ^~~~~~~~~~~~~~~~~
-         |                 set_cpu_numa_node
-   cc1: some warnings being treated as errors
+vim +206 security/keys/trusted-keys/trusted_dcp.c
 
-
-vim +287 arch/loongarch/kernel/smp.c
-
-   259	
-   260	static void __init fdt_smp_setup(void)
-   261	{
-   262	#ifdef CONFIG_OF
-   263		unsigned int cpu, cpuid;
-   264		struct device_node *node = NULL;
-   265	
-   266		for_each_of_cpu_node(node) {
-   267			if (!of_device_is_available(node))
-   268				continue;
-   269	
-   270			cpuid = of_get_cpu_hwid(node, 0);
-   271			if (cpuid >= nr_cpu_ids)
-   272				continue;
-   273	
-   274			if (cpuid == loongson_sysconf.boot_cpu_id) {
-   275				cpu = 0;
-   276			} else {
-   277				cpu = cpumask_next_zero(-1, cpu_present_mask);
-   278			}
-   279	
-   280			num_processors++;
-   281			set_cpu_possible(cpu, true);
-   282			set_cpu_present(cpu, true);
-   283			__cpu_number_map[cpuid] = cpu;
-   284			__cpu_logical_map[cpu] = cpuid;
-   285	
-   286			early_numa_add_cpu(cpu, 0);
- > 287			set_cpuid_to_node(cpuid, 0);
-   288			numa_add_cpu(cpu);
-   289		}
-   290	
-   291		loongson_sysconf.nr_cpus = num_processors;
-   292		set_bit(0, loongson_sysconf.cores_io_master);
-   293	#endif
-   294	}
-   295	
+   179	
+   180	static int trusted_dcp_seal(struct trusted_key_payload *p, char *datablob)
+   181	{
+   182		struct dcp_blob_fmt *b = (struct dcp_blob_fmt *)p->blob;
+   183		int blen, ret;
+   184	
+   185		blen = calc_blob_len(p->key_len);
+   186		if (blen > MAX_BLOB_SIZE)
+   187			return -E2BIG;
+   188	
+   189		b->fmt_version = DCP_BLOB_VERSION;
+   190		get_random_bytes(b->nonce, AES_KEYSIZE_128);
+   191		get_random_bytes(b->blob_key, AES_KEYSIZE_128);
+   192	
+   193		ret = do_aead_crypto(p->key, b->payload, p->key_len, b->blob_key,
+   194				     b->nonce, true);
+   195		if (ret) {
+   196			pr_err("Unable to encrypt blob payload: %i\n", ret);
+   197			return ret;
+   198		}
+   199	
+   200		ret = encrypt_blob_key(b->blob_key);
+   201		if (ret) {
+   202			pr_err("Unable to encrypt blob key: %i\n", ret);
+   203			return ret;
+   204		}
+   205	
+ > 206		b->payload_len = get_unaligned_le32(&p->key_len);
+   207		p->blob_len = blen;
+   208		return 0;
+   209	}
+   210	
 
 -- 
 0-DAY CI Kernel Test Service
