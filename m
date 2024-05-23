@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1B9146D4D;
-	Wed, 22 May 2024 23:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1B080C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 00:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716422055; cv=none; b=pMfRKKdp0jw/kaykTw823QI4/BixVhcDS5NoWdooCExPKm6FDPQoBcv516LSOhmcm3R4b6rNB3EEF4wRY4eRR8A1NgJjH9XM8+9SXn/zmFRUtL0HO+GMfrEwwuJtCViiAjNCeer1ovIDheq1TJ1XO4QOrbHhnLPmssrHN8wQvgo=
+	t=1716424478; cv=none; b=d71AAqASQYTzjnce35sVKyLRxbKNxa3vPKThJOrdTLQNi0g/RwSkZymoJ79oz9rAaFiZztE2EI8rNcni0KQ6ZwfpBVvX0mGBz3cfjSj75OcIJpihE4wuUHohpYD1Y2ePCe4D7Wcmnl2t4mjXm8tmn+wVsos205eQAKu5jwvGXoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716422055; c=relaxed/simple;
-	bh=zfFjpPAadQiJDf/TeNREBUHKQa6hrMS2H08VQGFIwwE=;
+	s=arc-20240116; t=1716424478; c=relaxed/simple;
+	bh=wlmiNa4yixIHq02Pa+8n0/U3cxlS65UlbQLYeMK4uZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFVoBMHHBjg1EPhbYbWcBaeZnmX65VPADVUksscffTitZY3yWFcG/gZ5ZZLqnxdIExXzazPCnvWecvS3Fq5lMkf7OMhJD8jTh0zexbbT4x3W+f0ABWwEWILqx7nidpuQ8mmpTmxxYtJbrZPAVEDFQNdlaRp7P+sAs/wGFj2lArc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeZ8VhY4; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=FUR35PR03i1oL8E2xGDHSLaddSIBr3X3Us0Qh2UqsdHua/fNwbGyzQgtVx/NYzokovKVzTfr8Zs/+6BHVDa1vqdj+gxbLvIC1ThLpfDeer4Uiw01qMc3JoOBXpww5jfJtqMCp5rNeycinSmnCKwvHKEYOkW1mBew8uian+nrpqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPnBMwPB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeZ8VhY4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPnBMwPB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716422053; x=1747958053;
+  t=1716424477; x=1747960477;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zfFjpPAadQiJDf/TeNREBUHKQa6hrMS2H08VQGFIwwE=;
-  b=ZeZ8VhY4cZOEEKYvW3z38LB+uz+5pki/rdfF58UqXnB2kDrdp9b6iWuy
-   ONThAHzn25fOfQyz+xvVkeB3OJmvoORixRSu5u/5PyGE/3WQc1Ut7OtpF
-   rT37i03AjzVZR1ISCCmYGmehZbdVUA484IDQna/p4RbYBwoAr0Y/zvd/c
-   difHtPdlnLXr7A97Q/fIfJu45zM1BX2PzRyGrMoEq76yuAzbNfPFslges
-   Bkb2sK5V7zpxxrSiyg2bfNFxjxCMCBYvi8yHmjY0pdlC6tSsdJX8cbBy7
-   09LSvYVLVgBC8G8lThD0mdqk4BVkTQsAn0n8uUNYawtb3coSZbhEdNtQ8
-   g==;
-X-CSE-ConnectionGUID: URlC9FLEQQCC3iveQDhPuA==
-X-CSE-MsgGUID: vrDgjZuxSqKlMgHKllqwEQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="38089925"
+  bh=wlmiNa4yixIHq02Pa+8n0/U3cxlS65UlbQLYeMK4uZY=;
+  b=XPnBMwPBjLZoifnq2F2wOB1il63ofof5BvNOwOD3yn29rmHUgkQVxs4R
+   JcBtPo+7Egr+5q+bl1WKbx0KIucA6ryiwquboOWU+nFu6fYeJF51chNia
+   fXtVl/9oeaCrjJlwBJylcxCi8XvaGWrWOcwL/POscxD0N4jTwoBm+Hwxy
+   YcQXHUKgjY5+s3jHTgwdAxQ7uDtTpLo/wmBVIxAnw+SjPJTSUpLZfk2ok
+   yHucv616a4lnfVK6jo+FQRyOIp2G5MKY/5HWi4dcK2rtoKh2ykigJCzxa
+   iB+lqidwZNfCUZzoBrvA+PS1mUeGwdBkPI7er5dwRkF+1QUzKYJsw3VT3
+   w==;
+X-CSE-ConnectionGUID: D6ld4e74TgqtaZS/XNFywg==
+X-CSE-MsgGUID: EdWhSQT/Soy6AgTf/OxM+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="12888569"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="38089925"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 16:54:13 -0700
-X-CSE-ConnectionGUID: CXeuInAmReKhLlFBPgJtsA==
-X-CSE-MsgGUID: 1pDku+9rQMOVuyKBk+irjA==
+   d="scan'208";a="12888569"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 17:34:36 -0700
+X-CSE-ConnectionGUID: 22O9Hw7ORXevWs+RCus2tA==
+X-CSE-MsgGUID: lIAMabroRnizz0TmLSDxTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="70866539"
+   d="scan'208";a="38441829"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 May 2024 16:54:12 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 May 2024 17:34:31 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9vmb-0002G5-10;
-	Wed, 22 May 2024 23:54:09 +0000
-Date: Thu, 23 May 2024 07:53:17 +0800
+	id 1s9wPb-0002I9-24;
+	Thu, 23 May 2024 00:34:27 +0000
+Date: Thu, 23 May 2024 08:34:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harshitha Prem <quic_hprem@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 8/8] wifi: ath12k: move ath12k_hw from per soc to group
-Message-ID: <202405230757.dDsk7F8w-lkp@intel.com>
-References: <20240522095439.2596989-9-quic_hprem@quicinc.com>
+To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andriy.shevchenko@linux.intel.com,
+	lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+	judyhsiao@google.com, alsa-devel@alsa-project.org, i-salazar@ti.com,
+	linux-kernel@vger.kernel.org, j-chadha@ti.com,
+	liam.r.girdwood@intel.com, bard.liao@intel.com,
+	yung-chuan.liao@linux.intel.com, dipa@ti.com, kevin-lu@ti.com,
+	yuhsuan@google.com, tiwai@suse.de, baojun.xu@ti.com, soyer@irl.hu,
+	Baojun.Xu@fpt.com, navada@ti.com, cujomalainey@google.com,
+	aanya@ti.com, nayeem.mahmud@ti.com,
+	Shenghao Ding <shenghao-ding@ti.com>
+Subject: Re: [PATCH v1] ASoc: tas2781: Add Calibration Kcontrols and tas2563
+ digtial gain for Chromebook
+Message-ID: <202405230838.bJI1Z9EJ-lkp@intel.com>
+References: <20240522112942.994-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,86 +73,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522095439.2596989-9-quic_hprem@quicinc.com>
+In-Reply-To: <20240522112942.994-1-shenghao-ding@ti.com>
 
-Hi Harshitha,
+Hi Shenghao,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 429eeef2ed089af1b3aa1983ec00a7591166be27]
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on next-20240522]
+[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Harshitha-Prem/wifi-ath12k-Refactor-core-start-api/20240522-175804
-base:   429eeef2ed089af1b3aa1983ec00a7591166be27
-patch link:    https://lore.kernel.org/r/20240522095439.2596989-9-quic_hprem%40quicinc.com
-patch subject: [PATCH v5 8/8] wifi: ath12k: move ath12k_hw from per soc to group
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240523/202405230757.dDsk7F8w-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230757.dDsk7F8w-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoc-tas2781-Add-Calibration-Kcontrols-and-tas2563-digtial-gain-for-Chromebook/20240522-193315
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240522112942.994-1-shenghao-ding%40ti.com
+patch subject: [PATCH v1] ASoc: tas2781: Add Calibration Kcontrols and tas2563 digtial gain for Chromebook
+config: mips-randconfig-r081-20240523 (https://download.01.org/0day-ci/archive/20240523/202405230838.bJI1Z9EJ-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230838.bJI1Z9EJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405230757.dDsk7F8w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230838.bJI1Z9EJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/ath/ath12k/mac.c:9217:11: warning: variable 'ab' is uninitialized when used here [-Wuninitialized]
-    9217 |         ah->ab = ab;
-         |                  ^~
-   drivers/net/wireless/ath/ath12k/mac.c:9204:24: note: initialize the variable 'ab' to silence this warning
-    9204 |         struct ath12k_base *ab;
-         |                               ^
-         |                                = NULL
-   1 warning generated.
+>> sound/soc/codecs/tas2781-i2c.c:696:31: error: use of undeclared identifier 'tas2563_dvc_table'
+                   ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
+                                               ^
+   sound/soc/codecs/tas2781-i2c.c:703:28: error: use of undeclared identifier 'tas2563_dvc_table'
+           ar_l = get_unaligned_be32(tas2563_dvc_table[l]);
+                                     ^
+   sound/soc/codecs/tas2781-i2c.c:704:28: error: use of undeclared identifier 'tas2563_dvc_table'
+           ar_r = get_unaligned_be32(tas2563_dvc_table[r]);
+                                     ^
+   sound/soc/codecs/tas2781-i2c.c:737:29: error: use of undeclared identifier 'tas2563_dvc_table'
+           volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
+                                      ^
+   sound/soc/codecs/tas2781-i2c.c:746:21: error: use of undeclared identifier 'tas2563_dvc_table'
+                           (unsigned char *)tas2563_dvc_table[vol], 4);
+                                            ^
+>> sound/soc/codecs/tas2781-i2c.c:790:3: error: use of undeclared identifier 'tas2563_dvc_tlv'
+                   tas2563_dvc_tlv),
+                   ^
+   sound/soc/codecs/tas2781-i2c.c:788:17: error: use of undeclared identifier 'tas2563_dvc_table'
+                   0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
+                                 ^
+   sound/soc/codecs/tas2781-i2c.c:788:17: error: use of undeclared identifier 'tas2563_dvc_table'
+   sound/soc/codecs/tas2781-i2c.c:788:17: error: use of undeclared identifier 'tas2563_dvc_table'
+   sound/soc/codecs/tas2781-i2c.c:1433:4: error: invalid application of 'sizeof' to an incomplete type 'const struct snd_kcontrol_new[]'
+                           ARRAY_SIZE(tas2563_snd_controls));
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+   #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+                                  ^~~~~
+   10 errors generated.
 
 
-vim +/ab +9217 drivers/net/wireless/ath/ath12k/mac.c
+vim +/tas2563_dvc_table +696 sound/soc/codecs/tas2781-i2c.c
 
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9197  
-31c9fd320b69d4 Karthikeyan Periyasamy 2024-05-22  9198  static struct ath12k_hw *ath12k_mac_hw_allocate(struct ath12k_hw_group *ag,
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9199  						struct ath12k_pdev_map *pdev_map,
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9200  						u8 num_pdev_map)
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9201  {
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9202  	struct ieee80211_hw *hw;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9203  	struct ath12k *ar;
-31c9fd320b69d4 Karthikeyan Periyasamy 2024-05-22  9204  	struct ath12k_base *ab;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9205  	struct ath12k_pdev *pdev;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9206  	struct ath12k_hw *ah;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9207  	int i;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9208  	u8 pdev_idx;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9209  
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9210  	hw = ieee80211_alloc_hw(struct_size(ah, radio, num_pdev_map),
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9211  				&ath12k_ops);
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9212  	if (!hw)
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9213  		return NULL;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9214  
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9215  	ah = ath12k_hw_to_ah(hw);
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9216  	ah->hw = hw;
-9b4e5caaf5905e Karthikeyan Periyasamy 2024-05-03 @9217  	ah->ab = ab;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9218  	ah->num_radio = num_pdev_map;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9219  
-acaa84009fade2 Karthikeyan Periyasamy 2024-05-03  9220  	mutex_init(&ah->hw_mutex);
-acaa84009fade2 Karthikeyan Periyasamy 2024-05-03  9221  
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9222  	for (i = 0; i < num_pdev_map; i++) {
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9223  		ab = pdev_map[i].ab;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9224  		pdev_idx = pdev_map[i].pdev_idx;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9225  		pdev = &ab->pdevs[pdev_idx];
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9226  
-ba12f08f316746 Karthikeyan Periyasamy 2024-04-09  9227  		ar = ath12k_ah_to_ar(ah, i);
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9228  		ar->ah = ah;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9229  		ar->ab = ab;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9230  		ar->hw_link_id = i;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9231  		ar->pdev = pdev;
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9232  		ar->pdev_idx = pdev_idx;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9233  		pdev->ar = ar;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9234  
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9235  		ath12k_mac_setup(ar);
-31c9fd320b69d4 Karthikeyan Periyasamy 2024-05-22  9236  		ath12k_dp_pdev_pre_alloc(ar);
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9237  	}
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9238  
-6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9239  	return ah;
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9240  }
-8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9241  
+   669	
+   670	static int tas2563_digital_gain_get(
+   671		struct snd_kcontrol *kcontrol,
+   672		struct snd_ctl_elem_value *ucontrol)
+   673	{
+   674		struct soc_mixer_control *mc =
+   675			(struct soc_mixer_control *)kcontrol->private_value;
+   676		struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
+   677		struct tasdevice_priv *tas_dev = snd_soc_component_get_drvdata(codec);
+   678		unsigned int l = 0, r = mc->max;
+   679		unsigned int target, ar_mid, mid, ar_l, ar_r;
+   680		unsigned int reg = mc->reg;
+   681		unsigned char data[4];
+   682		int ret;
+   683	
+   684		mutex_lock(&tas_dev->codec_lock);
+   685		/* Read the primary device */
+   686		ret =  tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
+   687		if (ret) {
+   688			dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
+   689			goto out;
+   690		}
+   691	
+   692		target = get_unaligned_be32(&data[0]);
+   693	
+   694		while (r > 1 + l) {
+   695			mid = (l + r) / 2;
+ > 696			ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
+   697			if (target < ar_mid)
+   698				r = mid;
+   699			else
+   700				l = mid;
+   701		}
+   702	
+   703		ar_l = get_unaligned_be32(tas2563_dvc_table[l]);
+   704		ar_r = get_unaligned_be32(tas2563_dvc_table[r]);
+   705	
+   706		ucontrol->value.integer.value[0] =
+   707			abs(target - ar_l) <= abs(target - ar_r) ? l : r;
+   708	out:
+   709		mutex_unlock(&tas_dev->codec_lock);
+   710		return 0;
+   711	}
+   712	
+   713	static int tas2563_digital_gain_put(
+   714		struct snd_kcontrol *kcontrol,
+   715		struct snd_ctl_elem_value *ucontrol)
+   716	{
+   717		struct soc_mixer_control *mc =
+   718			(struct soc_mixer_control *)kcontrol->private_value;
+   719		struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
+   720		struct tasdevice_priv *tas_dev = snd_soc_component_get_drvdata(codec);
+   721		unsigned int reg = mc->reg;
+   722		unsigned int volrd, volwr;
+   723		int vol = ucontrol->value.integer.value[0];
+   724		int max = mc->max, i, ret = 1;
+   725		unsigned char data[4];
+   726	
+   727		vol = clamp(vol, 0, max);
+   728		mutex_lock(&tas_dev->codec_lock);
+   729		/* Read the primary device */
+   730		ret =  tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
+   731		if (ret) {
+   732			dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
+   733			goto out;
+   734		}
+   735	
+   736		volrd = get_unaligned_be32(&data[0]);
+   737		volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
+   738	
+   739		if (volrd == volwr) {
+   740			ret = 0;
+   741			goto out;
+   742		}
+   743	
+   744		for (i = 0; i < tas_dev->ndev; i++) {
+   745			ret = tasdevice_dev_bulk_write(tas_dev, i, reg,
+   746				(unsigned char *)tas2563_dvc_table[vol], 4);
+   747			if (ret)
+   748				dev_err(tas_dev->dev,
+   749					"%s, set digital vol error in device %d\n",
+   750					__func__, i);
+   751		}
+   752	
+   753	out:
+   754		mutex_unlock(&tas_dev->codec_lock);
+   755		return ret;
+   756	}
+   757	
+   758	static const struct snd_kcontrol_new tasdevice_snd_controls[] = {
+   759		SOC_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
+   760			tasdev_force_fwload_get, tasdev_force_fwload_put),
+   761	};
+   762	
+   763	static const struct snd_kcontrol_new tasdevice_cali_controls[] = {
+   764		SOC_SINGLE_EXT("Calibration Stop", SND_SOC_NOPM, 0, 1, 0,
+   765			tasdev_nop_get, tasdev_calib_stop_put),
+   766		SND_SOC_BYTES_EXT("Amp TF Data", 5, tasdev_tf_data_get, NULL),
+   767		SND_SOC_BYTES_EXT("Amp RE Data", 5, tasdev_re_data_get, NULL),
+   768		SND_SOC_BYTES_EXT("Amp R0 Data", 5, tasdev_r0_data_get, NULL),
+   769		SND_SOC_BYTES_EXT("Amp XMA1 Data", 5, tasdev_XMA1_data_get, NULL),
+   770		SND_SOC_BYTES_EXT("Amp XMA2 Data", 5, tasdev_XMA2_data_get, NULL),
+   771	};
+   772	
+   773	static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+   774		SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
+   775			1, 0, 20, 0, tas2781_amp_getvol,
+   776			tas2781_amp_putvol, amp_vol_tlv),
+   777		SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2781_DVC_LVL,
+   778			0, 0, 200, 1, tas2781_digital_getvol,
+   779			tas2781_digital_putvol, dvc_tlv),
+   780	};
+   781	
+   782	static const struct snd_kcontrol_new tas2781_cali_controls[] = {
+   783		SND_SOC_BYTES_EXT("Amp Latch Data", 2, tas2781_latch_reg_get, NULL),
+   784	};
+   785	
+   786	static const struct snd_kcontrol_new tas2563_snd_controls[] = {
+   787		SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2563_DVC_LVL, 0,
+   788			0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
+   789			tas2563_digital_gain_get, tas2563_digital_gain_put,
+ > 790			tas2563_dvc_tlv),
+   791	};
+   792	
 
 -- 
 0-DAY CI Kernel Test Service
