@@ -1,64 +1,59 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C761D545
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 13:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EAF14A627
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 14:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716470890; cv=none; b=akUvt/MydCVL6RlXXfGQ0mhbOG+N0vrRusWkj+7cEjKR6hRme3FqHeVYGC/iUEPbcoFOKRNgci8GYte0To/NHUGcA19cvKfRgy8bJGrLucACj5AD7dxP8n1yfX5qVQbmKOAKEcH8dz+MAyzBf8LBjbu38NFvYvjnZKbkh70keN4=
+	t=1716473005; cv=none; b=gl192Pl2qq9hRPun/MfiXeuVrpgASGH/eAakcP9AKSOW/BvjdwBGlRtYQ5obqdy1q5O5ed7mziDxKS4AGfr0WHEgVWUo1xFn00FxiUEy/WgDuw9tx6Va8huQTt58nb4taIWFGpPacJ8rmYr4RFQnxF4O16tKXOKO/y3X3dUCIL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716470890; c=relaxed/simple;
-	bh=OsyEEvO5c5YHM3i6ZcLgdCTDaFlkI++LVXVJFersoxI=;
+	s=arc-20240116; t=1716473005; c=relaxed/simple;
+	bh=jxBKTzoJOVyEA32cE+YGMZK++whGJj6vvOgzMyjakoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QgJJcVuwU8vSh4FyKqX/y7LEso277qK+sKga55BPNYeRuOPx0QmzXvrbZu/zBGN6VPDDHX1JvvAcEr8gkHrImyICvxyCc6afqhW18RJRw87yur6HaYlUWInMk3N/T9eUGxTboz9fu79rJzKHqYpsl16GBdNcuj0fh1XvdpIX9MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jidO9ANp; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Qy4N6Y3zdVCEilNcQ0QLvd7if9G8Gy/JSYqbTdGoVddmNTF4bbKujIylHUgJkpV3H0BptWOCCvodzS5Ri5HIV9qDCvp21RGRfrOf4creB6NaXLyGrxvtmrZk9Ny+YSOvaUcfghuvS6tDiGh58SX6HRd9JM9ghlYkGxS4DGfJHsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7SzhgsT; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jidO9ANp"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-420180b5922so23752485e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 06:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716470887; x=1717075687; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9onqK5G4XLWVfLiGvFA7YZtXYJ3jtp3yhfKNp17CWZQ=;
-        b=jidO9ANproHPLNEAQnSs0FcQH3WMhqZREKyjEhhYoX8dkAEKPkup+4f80Yb9zd/wXn
-         zD/9TmLEbxqzozDClsdyOHla7onilStArX1BM0dnFEH+riIRz679U8pV0EnNYYutFOOp
-         MHGcQ7wurDyuXyq74pS1sitC854dB+OSCMBGxTebHLop1AHvJbTtMNkamedoa8YTNcPz
-         5RqK4AfnUc0BFcbPvDgnG+sjrd2WC5fsPb3qVu2M2I6e28aHFntkipwK+zgVKOFu6WKe
-         nbcB11zT+Qj9oloVxam78l33J6zPEi3g80IrT6dO/Aylww0lMKZYPhHbf5HsO6r/P7O+
-         2Cug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716470887; x=1717075687;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9onqK5G4XLWVfLiGvFA7YZtXYJ3jtp3yhfKNp17CWZQ=;
-        b=I8B9JLbXxzkuR7etLsfiNvpTmyzH6TheZu9X8Bktqx7MyUkJrHG0nv4YebC/fr1stM
-         C5zuf5QE0Pry0M7nu0WeOfaV4Kta/46tPL2JFe30G1+LpdH/jJpWr2oKpIVLfyC3Go60
-         leT1BtiW+GTFv61c7LW4OaqjUU9KibiG1u6lJc2duxFWcQEGOVycwC25JO5HdoGS44pz
-         rW8f2DaU5m/I3VCTFSrxnGwATXMHGaEA9TNGHVQejhckhPfEF+vBB+e13WyfL7k0MEZe
-         rqkxfUURWF3dWf+neoE9lrVkihmacGKKmCRqYUunV82Xai34+AEZttqpTJFu9NdtjoEG
-         UtJg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1LVMkdzY1iwkq2NgRDG62YClXQRJYBT9bwQ02KaBvv3vCDerPrN4hxdyB74GuONmKbYdIY0MnekjbjNMHXAbX4RvqG5RD0UN5qhZTng==
-X-Gm-Message-State: AOJu0Yz5s1RKq6ULxTAiUutFwJnW51DK9zym/i97AsJAsUFSqfjaI4UT
-	wb/cuiq0iXsdJqJpjHGJRMpgJmkc/iBMUcH34iVHz23kKO4K+V3aCKqLbvid+kM=
-X-Google-Smtp-Source: AGHT+IHsa9ltR/5PKi6AzATYpKTsjfjgjyU78GvUAqF4Vdwrz3pGgMGhevEBakesA9LpXvMiyH3pog==
-X-Received: by 2002:a1c:770f:0:b0:41b:f116:8868 with SMTP id 5b1f17b1804b1-420fd311f08mr50313335e9.12.1716470886771;
-        Thu, 23 May 2024 06:28:06 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100fad965sm25502915e9.34.2024.05.23.06.28.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 06:28:06 -0700 (PDT)
-Date: Thu, 23 May 2024 16:28:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 10171/13355] drivers/dma/mcf-edma-main.c:116
- mcf_edma_irq_init() warn: 'res->start' from request_irq() not released on
- lines: 88,93,98,105,113.
-Message-ID: <246121cc-e807-4ff1-a3a1-ef43b7c27471@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7SzhgsT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716473002; x=1748009002;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jxBKTzoJOVyEA32cE+YGMZK++whGJj6vvOgzMyjakoY=;
+  b=J7SzhgsTOmqbuXKcCC4f6XTxNt1nfIv6N+t+gUAtkd6nsQKMa/xrSi5d
+   JO06pymV/zRLb1FIKtsXf0v55PkFaTTNbyriNVjy+Q4LAIT8KiB91Phlv
+   3zeutQa+pB7QiTXW3tRx2QmM+8ZexGttYywMn/h7Ggx2uL65JzpzlRUWQ
+   Y/YBSIpPx+H5wmj+hoJY2A4+EetTJ99CjXYtRJ8HWXb0bSJXZjMgmw7XN
+   zyv0Blpozr8X/sDoDifUBeOyB3S1C1uz4PbXgMduzXiVgj/zHQ5FJiUZI
+   v8Vk0RvNHLBZvTSNfSa4tiYyOioNmsSEP+1JaegA6+4jN2IXQ/YyDEqz0
+   A==;
+X-CSE-ConnectionGUID: rgbmSX3ET2Oq6DZrxdSNtA==
+X-CSE-MsgGUID: H7Qivi2kTZyJXkj4wyuJ4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="24201703"
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="24201703"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 07:03:14 -0700
+X-CSE-ConnectionGUID: ntJ1y5dDSbuxoHApWddrqw==
+X-CSE-MsgGUID: dObKMKDbSwmrqc9kclILPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="38074404"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 23 May 2024 07:03:13 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sA92E-0002xn-2Z;
+	Thu, 23 May 2024 14:03:10 +0000
+Date: Thu, 23 May 2024 22:02:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ tracing_gen_ctx+0x64 (section: .text.unlikely) -> initcall_level_names
+ (section: .init.data)
+Message-ID: <202405232113.H66VwtsE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,72 +63,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c75962170e49f24399141276ae119e6a879f36dc
-commit: 3f2282931f00c4c9c5057bb02f46778ba64ff625 [10171/13355] dmaengine: fsl-edma: use _Generic to handle difference type
-config: csky-randconfig-r081-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181756.tJmMmyWW-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
+Hi Masahiro,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c760b3725e52403dc1b28644fb09c47a83cacea6
+commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
+date:   10 months ago
+config: xtensa-randconfig-r121-20240523 (https://download.01.org/0day-ci/archive/20240523/202405232113.H66VwtsE-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240523/202405232113.H66VwtsE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405181756.tJmMmyWW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405232113.H66VwtsE-lkp@intel.com/
 
-New smatch warnings:
-drivers/dma/mcf-edma-main.c:116 mcf_edma_irq_init() warn: 'res->start' from request_irq() not released on lines: 88,93,98,105,113.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +116 drivers/dma/mcf-edma-main.c
-
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   74  static int mcf_edma_irq_init(struct platform_device *pdev,
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   75  				struct fsl_edma_engine *mcf_edma)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   76  {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   77  	int ret = 0, i;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   78  	struct resource *res;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   79  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   80  	res = platform_get_resource_byname(pdev,
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   81  				IORESOURCE_IRQ, "edma-tx-00-15");
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   82  	if (!res)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   83  		return -1;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   84  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   85  	for (ret = 0, i = res->start; i <= res->end; ++i)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   86  		ret |= request_irq(i, mcf_edma_tx_handler, 0, "eDMA", mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   87  	if (ret)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   88  		return ret;
-
-This function has no cleanup.
-
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   89  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   90  	res = platform_get_resource_byname(pdev,
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   91  			IORESOURCE_IRQ, "edma-tx-16-55");
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   92  	if (!res)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   93  		return -1;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   94  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   95  	for (ret = 0, i = res->start; i <= res->end; ++i)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   96  		ret |= request_irq(i, mcf_edma_tx_handler, 0, "eDMA", mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   97  	if (ret)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   98  		return ret;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19   99  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  100  	ret = platform_get_irq_byname(pdev, "edma-tx-56-63");
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  101  	if (ret != -ENXIO) {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  102  		ret = request_irq(ret, mcf_edma_tx_handler,
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  103  				  0, "eDMA", mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  104  		if (ret)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  105  			return ret;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  106  	}
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  107  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  108  	ret = platform_get_irq_byname(pdev, "edma-err");
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  109  	if (ret != -ENXIO) {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  110  		ret = request_irq(ret, mcf_edma_err_handler,
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  111  				  0, "eDMA", mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  112  		if (ret)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  113  			return ret;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  114  	}
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  115  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19 @116  	return 0;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  117  }
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x4c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> WARNING: modpost: vmlinux: section mismatch in reference: tracing_gen_ctx+0x64 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
