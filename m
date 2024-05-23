@@ -1,119 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBD212B159;
-	Thu, 23 May 2024 04:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36D039AF9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 05:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716439142; cv=none; b=Ly9FqmqhTBlfELbznnJs04ah0dcMUhUXPfq8Z222XM6HpwY2xutcpYGi8iDlpmQfVtwl6WHd/L13XukqST1Mro/Wyeq3TS5OpUn4lQUf1nwKNzTMLDZRJpgRf+vGrlei1Qn2AbmSmwf5FeZXEv5+M6slXArtxf5r6ROjqgZyA8k=
+	t=1716442525; cv=none; b=iXgLCykN8ENMsy7opZbFVyaz6UJG9P0wMWcmndzjFZHfz+3XNXnrD4tansEoniDRhwLUEwfUGTVSAYJ/9G2d5XFmSqFwWayf+1VHNS5QfY1C8k7IBzJKWlHNger3ZebiB6KOUYtQ94oNjk5RCxJhNfO8ufdM+CYPVUrrQFtvJA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716439142; c=relaxed/simple;
-	bh=pasGcSWoeKJOH4rGpXF4luseHwee+VNIn+nYF88RALs=;
+	s=arc-20240116; t=1716442525; c=relaxed/simple;
+	bh=9MSePypnN2x7tkFIRXGJk1Lfzb+uoHj4i2u0JdsvilY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+TQ6MDn01lJaAYcjFL7sXTREScb26/bWXZH/Dhe7tE0cTYmrRqWoODxvV1qvBrfxIhDD6tVucodOQOCEMOo+WUbaMKvc6Pm2JKjyWdwckO/IXSr6m61hP40s382ywQVZRzesk0F++rXmvjLlTn/Lwb1ucBPoGyLu9aeYqr6zqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YnQjvLcQ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type:Content-Disposition; b=nUhUDPyPquDMBD4nIhOIf5dN2Gz+P0rXgtFxwGBG6tdvRkW/dbmhTQzIQ3HYePEwzQVS0cJo3K8L27Np2+e2K5bvGo3hMtLqJUKLCvcRwSyUnyq+YKSQB8WqVEzmhbPxmJL6uIn4tPuG4WnfVysZ0OuAIbDxLkd6LwRAAJwOieM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SIvdscyF; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YnQjvLcQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716439139; x=1747975139;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pasGcSWoeKJOH4rGpXF4luseHwee+VNIn+nYF88RALs=;
-  b=YnQjvLcQeqR2M97coLec2/Koo5ph7iFzyZDCZLMzvniC72bd2V09M2Yn
-   t8mqruQuVdoHupV8sr3fzPLzHrpb3yaUTkq2dMnG9w5ea5cufkLTCua1x
-   D7YJ7qS3rFnTP6TvnM/P7qU/fv+jIMW1atPRtUIWl5WhKIu0kl4KAEgTH
-   qdSSeIgGAZY4GyyVX9QbkmzbPFetEA8Ov9jvyzEXUWItJ4z4O0bMsVIMC
-   rVUxvyDFH5Y1bGShMdVnulCHSz8H0HRDqhFdW1/bt69t0qv+Xsuha2rwc
-   Nn56KvWrrLkRmoACDH12zOg7foIDrtbBFVisgGaZ+wNyvvWFcSXQS9fVS
-   w==;
-X-CSE-ConnectionGUID: wnmJMaJ3QQ6fC7f0+AxXnw==
-X-CSE-MsgGUID: 1RjI354gTbGT6h3x1DVpBg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="12564132"
-X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="12564132"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 21:38:58 -0700
-X-CSE-ConnectionGUID: qPGFOeH2RWSTGIHPcy5JvA==
-X-CSE-MsgGUID: da48y4KIRZyLlv1VKqSBbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="33366860"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 May 2024 21:38:56 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sA0E9-0002SP-1d;
-	Thu, 23 May 2024 04:38:53 +0000
-Date: Thu, 23 May 2024 12:37:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Radu Sabau <radu.sabau@analog.com>
-Subject: Re: [PATCH 1/2] drivers: hwmon: max31827: Add PEC support
-Message-ID: <202405231257.IOuSANzt-lkp@intel.com>
-References: <20240522123923.22320-2-radu.sabau@analog.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SIvdscyF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716442522;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NkVYYwuuRqZJhdNUMtbXmkO5vXRSiVRryfoV8WYL+q0=;
+	b=SIvdscyFaILxGXEyuu1JCY7UOqHNzhieo51A2/FSTa/VmrLxDwHYh3axwa/ctdaRxOOfif
+	ygnelhKvd+v+FRDBRNTZj5xILZVbDBceBaVsinhCjwmH7CsJsUM8E4+mfFXefAten1nKV6
+	gGuF8tXluqUAIdXF86w0sIIekhEgOXQ=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-443-r_43QCReMOa6QcpI3Sol3w-1; Thu, 23 May 2024 01:35:18 -0400
+X-MC-Unique: r_43QCReMOa6QcpI3Sol3w-1
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-3c9a9449072so951222b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 May 2024 22:35:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716442518; x=1717047318;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NkVYYwuuRqZJhdNUMtbXmkO5vXRSiVRryfoV8WYL+q0=;
+        b=IOQhpa39WiLV+2SM6zR36wcfW97XXTxtDFU8ekVrpFORPsILYKB/oILq8yBpVPOO1A
+         Ust17WP7SHkeXGchnUNAZIErT5J16QiqIHO4eV6e+dsCOUuecoSV/rBp7D/sbfk8y9JS
+         bju1PX89F9I+p8FuGo6AKAf2QN3zvjKsK0QY50UooTLQUiubTWi5jvHGy+bPutuV+oOF
+         91AFxeGHA8O/3UjSejSLkESBNGurPXKY0goM9kogF91USN1/SBmIn6Cl9D5hBO7qldzX
+         3c+CbrdQOHa3840KF+oOJpSV6citFWZEhKgQypDZ6BWiUEHjGiWi7u8SpwPlyDy21Mf4
+         qKZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXc/tB5iQqxW6TLaeWE4EYXHP/omFU5n4ujK6QJTb0EBqjWzE8pv/fu/CMG9aFQiY7kUf7VC/u7sSvwsKmkQfd85vhlSQMLJzxdyivBsw==
+X-Gm-Message-State: AOJu0Ywze1F2Jn5H6355HravyTUoBtN2hIDJqlfTcABfguS5x5GRraf/
+	YYy4Ag2a6L3Ev2e+8IbFN6dhraorzhObnOjiU4QqN3j7Fpr3CodvRCuozCG+BCzowLftMTsLD8W
+	FWLSH5Wct4GVc5R8820oV3MvP+Ot6odAg1jgYiAhD1So7V9pehS3NEIqnIGEltKs=
+X-Received: by 2002:a05:6808:1cf:b0:3c9:924c:8304 with SMTP id 5614622812f47-3cdabd20d70mr3851744b6e.0.1716442517752;
+        Wed, 22 May 2024 22:35:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHU9TCM4OePsLNJcyJGxLImpn1NPmzuyatA+WiPDO4CMkcIyNbE/3eCPkgw29C+PBMkQ6fM4w==
+X-Received: by 2002:a05:6808:1cf:b0:3c9:924c:8304 with SMTP id 5614622812f47-3cdabd20d70mr3851705b6e.0.1716442516284;
+        Wed, 22 May 2024 22:35:16 -0700 (PDT)
+Received: from localhost ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2b2d767sm23300983b3a.186.2024.05.22.22.35.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 May 2024 22:35:15 -0700 (PDT)
+Date: Thu, 23 May 2024 13:34:23 +0800
+From: Coiby Xu <coxu@redhat.com>
+To: Baoquan He <bhe@redhat.com>, kernel test robot <lkp@intel.com>
+Cc: kexec@lists.infradead.org, oe-kbuild-all@lists.linux.dev, 
+	Ondrej Kozina <okozina@redhat.com>, Milan Broz <gmazyland@gmail.com>, 
+	Thomas Staudt <tstaudt@de.ibm.com>, Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>, 
+	Kairui Song <ryncsn@gmail.com>, Jan Pazdziora <jpazdziora@redhat.com>, 
+	Pingfan Liu <kernelfans@gmail.com>, Dave Young <dyoung@redhat.com>, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, Dave Hansen <dave.hansen@intel.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	"(open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_byb)" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH v3 2/7] crash_dump: make dm crypt keys persist for the
+ kdump kernel
+Message-ID: <xnsvk5wlfuxomr3aayz6essyzgofux5orj366cizh5525ygbbx@tpdunjmf53m7>
+References: <20240425100434.198925-3-coxu@redhat.com>
+ <202404262003.qsWvGwZU-lkp@intel.com>
+ <ZkwSEUEW/RKFLubx@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <ZkwSEUEW/RKFLubx@MiWiFi-R3L-srv>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20240522123923.22320-2-radu.sabau@analog.com>
 
-Hi Radu,
+On Tue, May 21, 2024 at 11:20:35AM +0800, Baoquan He wrote:
+>On 04/26/24 at 09:10pm, kernel test robot wrote:
+>> Hi Coiby,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on linus/master]
+>> [also build test WARNING on v6.9-rc5 next-20240426]
+>> [cannot apply to tip/x86/core]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/kexec_file-allow-to-place-kexec_buf-randomly/20240425-180836
+>> base:   linus/master
+>> patch link:    https://lore.kernel.org/r/20240425100434.198925-3-coxu%40redhat.com
+>> patch subject: [PATCH v3 2/7] crash_dump: make dm crypt keys persist for the kdump kernel
+>> config: x86_64-randconfig-r113-20240426 (https://download.01.org/0day-ci/archive/20240426/202404262003.qsWvGwZU-lkp@intel.com/config)
+>> compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404262003.qsWvGwZU-lkp@intel.com/reproduce)
+>
+>
+>Please respond to the lkp report in time whether it's a problem or not,
+>otherwise the link will be unavailable.
 
-kernel test robot noticed the following build errors:
+Thanks for the reminder! I've fixed the reported problem in v4.
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.9 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202404262003.qsWvGwZU-lkp@intel.com/
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>> >> kernel/crash_dump_dm_crypt.c:31:3: sparse: sparse: symbol 'keys_header' was not declared. Should it be static?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau/drivers-hwmon-max31827-Add-PEC-support/20240523-004248
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240522123923.22320-2-radu.sabau%40analog.com
-patch subject: [PATCH 1/2] drivers: hwmon: max31827: Add PEC support
-config: i386-buildonly-randconfig-003-20240523 (https://download.01.org/0day-ci/archive/20240523/202405231257.IOuSANzt-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231257.IOuSANzt-lkp@intel.com/reproduce)
+Yes, symbol 'keys_header' should be static! Thanks for the report!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405231257.IOuSANzt-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/hwmon/max31827.c:727:3: error: field designator 'probe_new' does not refer to any field in type 'struct i2c_driver'
-     727 |         .probe_new = max31827_probe,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +727 drivers/hwmon/max31827.c
-
-   720	
-   721	static struct i2c_driver max31827_driver = {
-   722		.class = I2C_CLASS_HWMON,
-   723		.driver = {
-   724			.name = "max31827",
-   725			.of_match_table = max31827_of_match,
-   726		},
- > 727		.probe_new = max31827_probe,
-   728		.id_table = max31827_i2c_ids,
-   729	};
-   730	module_i2c_driver(max31827_driver);
-   731	
+>>
+>> vim +/keys_header +31 kernel/crash_dump_dm_crypt.c
+>>
+>>     27	
+>>     28	struct keys_header {
+>>     29		unsigned int key_count;
+>>     30		struct dm_crypt_key keys[] __counted_by(key_count);
+>>   > 31	} *keys_header;
+>>     32	
+>>
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+>>
+>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Coiby
+
