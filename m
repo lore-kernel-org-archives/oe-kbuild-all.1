@@ -1,65 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DE71474AD;
-	Thu, 23 May 2024 11:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B565213B7AA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 12:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716463534; cv=none; b=ldx0DVeZlSwCYUaGKZJkHcIRJaAe5eu9QD1ow7D03pRo1da21DThkyadsV5m58Uqyk9C3anGmXf8l4Q1V/l6NrjbBI1GLHHEmxKDXq01BZ+0FrMoIjwt4KaAOmZF7GhWISJhbils8H2jXPgV1ohIbNTX2wfCieFwNqsCHhKwFgY=
+	t=1716467440; cv=none; b=R/5KjsaUep38T2QU/QfzlVUsqaTHIe5ETZEdXsAG0FpGk24WR+oFUoekwBx2Kyao2oKFUmi29QIq8uDmbFjt1Nw4uHl3wWN9lUv4BeD1oTLMTWpyzxwmpDsojY+C9IVMhtbHYVhcYbNwbGLC6Q80VMwyp0bWJkruLf7HyippjdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716463534; c=relaxed/simple;
-	bh=5d7gBEEtqgoJFSVtfgG8pmQVA8NzkEGPyrNimcZ2liU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihJc0wJBcE7llNx4o8DX2e0WhkqqX/yuB2Ui+KiaYdiFJkhHLFsD6itpED6vN8wQRKesRf8WenW+CmeEiM8quPIMnK/ltKTdwBppktMUN3UAGmndOo7RK71fTaryqWrrR5aECFHx3HI+jIqgGrWldtYe2TPSD1mQ9PwRkXnRBOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfio/S6P; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716467440; c=relaxed/simple;
+	bh=Bjz/ig/gLbIXoRDfEEu5wQSlFToKNYmRgh2HDGqS07I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UGlK57MkZyF38G/GbokeRgbgBbHVZYoKytVm8okfaa22DxQT8FaJAKuB5hjuxA5THq00mavot9JToScz19UA5rRdUnW6/dY7V/05BWNUSo4Y82lU3v2GKUVgukD5q/h1CooOC4uS3eFNlqOgT6HHEUA6g/rLYeacKSBJO28dsDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f0ovOkFM; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfio/S6P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716463533; x=1747999533;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5d7gBEEtqgoJFSVtfgG8pmQVA8NzkEGPyrNimcZ2liU=;
-  b=jfio/S6PIcu9JkH3mDP0a7pPnmSd3miLMKaYgEp/ki03dSwt6RXbnF2b
-   kYtra7HIcCxAe7j32thP/XAua8oFNOPGDPXKI8AMMI76OMMoQubNWpyGS
-   M/xkVfJveqyMNGexrxwHyJhvyMFnCtx/sx/EoUqMqC2fMrwZMyejsIuFP
-   DsMwhVP75tvbyyYpnvM4gZ5nbb6PCmKfQCgcEV6T14wpYKZX8yN9yFlKs
-   +CqptCEOZgDJuYEKEbQQ4QlCjrhTTsl62uyjfRd+Jstr0QxFZmjiD1EpI
-   Be4Dq+es/RoX9A+wo3jCikOh9mYiiHy9RFVUYIlpYcOL2onxolfFtJXDb
-   Q==;
-X-CSE-ConnectionGUID: c2+8exVzQVO/9DVL+JEXUw==
-X-CSE-MsgGUID: czeUqEDfSdaU0Tmm/RU4Rw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="24180433"
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="24180433"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 04:25:32 -0700
-X-CSE-ConnectionGUID: 8ziTzgasTdCrAFe7Ed/iOA==
-X-CSE-MsgGUID: YLt+ERgsR5mmtUZRDeKyWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="56870927"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 May 2024 04:25:30 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sA6Zb-0002mn-37;
-	Thu, 23 May 2024 11:25:27 +0000
-Date: Thu, 23 May 2024 19:24:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Abel Vesa <abel.vesa@linaro.org>, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH] spmi: pmic-arb: Pass the correct of_node to
- irq_domain_add_tree
-Message-ID: <202405231902.xK5xVGdb-lkp@intel.com>
-References: <20240522-topic-spmi_multi_master_irqfix-v1-1-f7098b9c8804@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f0ovOkFM"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42016c8db2aso18363105e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 05:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716467437; x=1717072237; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sxpjAXqiH/+EfsCOuAq8y02ih0xRop+9c4sjd7YvDrY=;
+        b=f0ovOkFM+vFKI1UtCR4lZK+lmN9C8dNQ+uX7QX7rWxZg721w8dU84/JrSwFtd9D8Q+
+         BhOnRLFlaL6spwVcQ6WbVQSVNb2Mw19gyhKUGhgqAFQSTtxpMRRrF7cCfILFHhU0Pysq
+         2ohpt+Fa0c9CRsrjqNRSLMxkspwCBRe+0zfpI4ctSPmJtTGXABf3R028qzASAMZGiIWa
+         rnUzBtAIIXR+x4lYSNE6pj5RlZEqAA2XpeByi+o+XFyULcFqwBcUntVDwceyn/lZeFql
+         bWnNYIdBVTRvWpyg+dbNP4UbaM4m6B9bbXxGgvGMJ07OmlJC0gYWlOYlMpPqsn1sSj59
+         JA9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716467437; x=1717072237;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sxpjAXqiH/+EfsCOuAq8y02ih0xRop+9c4sjd7YvDrY=;
+        b=ZK7vYoVtEpIm8RPJuJMaC8YLskPKafuw2T9ZklA5ATLTM8tjZscLm35257Sa3cG23G
+         gn0BEWp9rkJoM6dUC+NrY9vse8FAMTxVzpg+rvUMTMYQvddE+QaOorWtH3GgEPGFNSkE
+         Bq2q0fkHIsUuEIj0vFRYZSRrWpKojbIuo8QmCoufiEzNBoml8TQfJ4OtciN9n+CVuPlc
+         DsMI2H3U0kibUVnHs4zKgIBiMKu+ArlYfU2lV8PfvLW5u9ouvtp884rYx9zgiHmEAOrq
+         RscmDRf+2FJHWHhsnsELjY3OdFifUauxJoSGyNnl+Sv3wHlIX8UJ9LJvPsE/K/5J0y9M
+         sV9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ/TG/+4xmfnaq1gbsUv+i7FQb3OcQ92NjanbnFn5x2ZLfePRDmOV6rmTA1yOjlCGScAmcXmAkfedSH6TYEJhEliOAe4GypyXneGWNdw==
+X-Gm-Message-State: AOJu0YyDQHT5VqzbK49aU6vCPLrKOgx+i4e4LtnXmFnU6OnvZ/32LY9F
+	UjcSDdeUgUuYOjL01JdDpUVgcEDZTZtMC0/gd5JYBiK7JOX5fZOyef9YtCySLC0=
+X-Google-Smtp-Source: AGHT+IHsPYPK5nLhbLq8ov1G8vIMZXbft1sDAvZ24WiHuV5r2ypulRQGNKivfF6NhXredx7u8RAeDg==
+X-Received: by 2002:a05:600c:1c15:b0:418:5ed2:5aa6 with SMTP id 5b1f17b1804b1-420fd34d36bmr38811025e9.31.1716467436686;
+        Thu, 23 May 2024 05:30:36 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100f7c047sm24088605e9.26.2024.05.23.05.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 05:30:36 -0700 (PDT)
+Date: Thu, 23 May 2024 15:30:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kiran K <kiran.k@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Chandrashekar <chandrashekar.devegowda@intel.com>
+Subject: drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn:
+ variable dereferenced before check 'data' (see line 380)
+Message-ID: <7446b314-53f8-4ec7-9ff7-ae47defc43fb@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,140 +68,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522-topic-spmi_multi_master_irqfix-v1-1-f7098b9c8804@linaro.org>
 
-Hi Konrad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8314289a8d50a4e05d8ece1ae0445a3b57bb4d3b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/spmi-pmic-arb-Pass-the-correct-of_node-to-irq_domain_add_tree/20240522-194023
-base:   8314289a8d50a4e05d8ece1ae0445a3b57bb4d3b
-patch link:    https://lore.kernel.org/r/20240522-topic-spmi_multi_master_irqfix-v1-1-f7098b9c8804%40linaro.org
-patch subject: [PATCH] spmi: pmic-arb: Pass the correct of_node to irq_domain_add_tree
-config: arm64-randconfig-001-20240523 (https://download.01.org/0day-ci/archive/20240523/202405231902.xK5xVGdb-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231902.xK5xVGdb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ea5f6ad9ad9645733b72ab53a98e719b460d36a6
+commit: 6e65a09f927566f257322358d429b267548473eb Bluetooth: btintel_pcie: Add *setup* function to download firmware
+config: alpha-randconfig-r081-20240516 (https://download.01.org/0day-ci/archive/20240517/202405170424.97VIwnBn-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405231902.xK5xVGdb-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405170424.97VIwnBn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn: variable dereferenced before check 'data' (see line 380)
 
->> drivers/spmi/spmi-pmic-arb.c:1740:42: error: passing 'const struct irq_domain_ops' to parameter of incompatible type 'const struct irq_domain_ops *'; take the address with &
-    1740 |         bus->domain = irq_domain_add_tree(node, pmic_arb_irq_domain_ops, bus);
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                                 &
-   include/linux/irqdomain.h:369:36: note: passing argument to parameter 'ops' here
-     369 |                                          const struct irq_domain_ops *ops,
-         |                                                                       ^
-   1 error generated.
+vim +/data +386 drivers/bluetooth/btintel_pcie.c
 
+6e65a09f927566 Kiran K          2024-05-07  371  static int btintel_pcie_recv_frame(struct btintel_pcie_data *data,
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  372  				       struct sk_buff *skb)
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  373  {
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  374  	int ret;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  375  	u8 pkt_type;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  376  	u16 plen;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  377  	u32 pcie_pkt_type;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  378  	struct sk_buff *new_skb;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  379  	void *pdata;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @380  	struct hci_dev *hdev = data->hdev;
+                                                                               ^^^^^^^^^^
+data dereferenced
 
-vim +1740 drivers/spmi/spmi-pmic-arb.c
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  381  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  382  	spin_lock(&data->hci_rx_lock);
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  383  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  384  	/* The first 4 bytes indicates the Intel PCIe specific packet type */
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  385  	pdata = skb_pull_data(skb, BTINTEL_PCIE_HCI_TYPE_LEN);
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @386  	if (!data) {
+                                                            ^^^^^
+Presumably this was supposed to check "pdata".
 
-  1663	
-  1664	static int spmi_pmic_arb_bus_init(struct platform_device *pdev,
-  1665					  struct device_node *node,
-  1666					  struct spmi_pmic_arb *pmic_arb)
-  1667	{
-  1668		int bus_index = pmic_arb->buses_available;
-  1669		struct spmi_pmic_arb_bus *bus;
-  1670		struct device *dev = &pdev->dev;
-  1671		struct spmi_controller *ctrl;
-  1672		void __iomem *intr;
-  1673		void __iomem *cnfg;
-  1674		int index, ret;
-  1675		int irq;
-  1676	
-  1677		ctrl = devm_spmi_controller_alloc(dev, sizeof(*bus));
-  1678		if (IS_ERR(ctrl))
-  1679			return PTR_ERR(ctrl);
-  1680	
-  1681		ctrl->cmd = pmic_arb_cmd;
-  1682		ctrl->read_cmd = pmic_arb_read_cmd;
-  1683		ctrl->write_cmd = pmic_arb_write_cmd;
-  1684	
-  1685		bus = spmi_controller_get_drvdata(ctrl);
-  1686	
-  1687		pmic_arb->buses[bus_index] = bus;
-  1688	
-  1689		raw_spin_lock_init(&bus->lock);
-  1690	
-  1691		bus->ppid_to_apid = devm_kcalloc(dev, PMIC_ARB_MAX_PPID,
-  1692						 sizeof(*bus->ppid_to_apid),
-  1693						 GFP_KERNEL);
-  1694		if (!bus->ppid_to_apid)
-  1695			return -ENOMEM;
-  1696	
-  1697		bus->apid_data = devm_kcalloc(dev, pmic_arb->max_periphs,
-  1698					      sizeof(*bus->apid_data),
-  1699					      GFP_KERNEL);
-  1700		if (!bus->apid_data)
-  1701			return -ENOMEM;
-  1702	
-  1703		index = of_property_match_string(node, "reg-names", "cnfg");
-  1704		if (index < 0) {
-  1705			dev_err(dev, "cnfg reg region missing");
-  1706			return -EINVAL;
-  1707		}
-  1708	
-  1709		cnfg = devm_of_iomap(dev, node, index, NULL);
-  1710		if (IS_ERR(cnfg))
-  1711			return PTR_ERR(cnfg);
-  1712	
-  1713		index = of_property_match_string(node, "reg-names", "intr");
-  1714		if (index < 0) {
-  1715			dev_err(dev, "intr reg region missing");
-  1716			return -EINVAL;
-  1717		}
-  1718	
-  1719		intr = devm_of_iomap(dev, node, index, NULL);
-  1720		if (IS_ERR(intr))
-  1721			return PTR_ERR(intr);
-  1722	
-  1723		irq = of_irq_get_byname(node, "periph_irq");
-  1724		if (irq <= 0)
-  1725			return irq ?: -ENXIO;
-  1726	
-  1727		bus->pmic_arb = pmic_arb;
-  1728		bus->intr = intr;
-  1729		bus->cnfg = cnfg;
-  1730		bus->irq = irq;
-  1731		bus->spmic = ctrl;
-  1732		bus->id = bus_index;
-  1733	
-  1734		ret = pmic_arb->ver_ops->init_apid(bus, bus_index);
-  1735		if (ret)
-  1736			return ret;
-  1737	
-  1738		dev_dbg(&pdev->dev, "adding irq domain for bus %d\n", bus_index);
-  1739	
-> 1740		bus->domain = irq_domain_add_tree(node, pmic_arb_irq_domain_ops, bus);
-  1741		if (!bus->domain) {
-  1742			dev_err(&pdev->dev, "unable to create irq_domain\n");
-  1743			return -ENOMEM;
-  1744		}
-  1745	
-  1746		irq_set_chained_handler_and_data(bus->irq,
-  1747						 pmic_arb_chained_irq, bus);
-  1748	
-  1749		ctrl->dev.of_node = node;
-  1750		dev_set_name(&ctrl->dev, "spmi-%d", bus_index);
-  1751	
-  1752		ret = devm_spmi_controller_add(dev, ctrl);
-  1753		if (ret)
-  1754			return ret;
-  1755	
-  1756		pmic_arb->buses_available++;
-  1757	
-  1758		return 0;
-  1759	}
-  1760	
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  387  		bt_dev_err(hdev, "Corrupted packet received");
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  388  		ret = -EILSEQ;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  389  		goto exit_error;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  390  	}
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  391  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  392  	pcie_pkt_type = get_unaligned_le32(pdata);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
