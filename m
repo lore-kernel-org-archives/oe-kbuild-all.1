@@ -1,59 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381C713A88D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 05:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0836713A889
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 05:43:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716442981; cv=none; b=aCUi7XUaUATMwnc1tDFBfjOpEP/+zh/F2NKUcmog0wDuNOx1a7l6KVBGrTWw3PVScG8uliWa2o8WRQrQhFaXq7mF8YBDPb12dsiXoecWNTqarRNnTmm8a/M0gF1iztty8XBdulcMDlJtWimyUx+mXfWc4zlJYaZct+QKDePzPc0=
+	t=1716442982; cv=none; b=kGO8PX2GOy0Rrb6BlfPwTnb7b+MxqyuSkkuCRXNDeiFjZ+p2UlMlWnGBRbtXdoEDf/eoCiaEvVA6dHTMOlDOWRi3IIgZRxqhkfIVIRTJbwV86TnD5tJx8AGgmOSZupQeGlo6WvGc938Ekk56CYYBGHz1DRoblKzbzWL/vM2ru/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716442981; c=relaxed/simple;
-	bh=fTEJUXXFUgUvi6P15qkHSyb2pJiX25SDxXYekFIb2+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MXeNTu2lBsRp0opKNhaKevXMfwXx+Nm+05h3f0mybEqU8Wzlan01OmrNakhYIdsk1awawSRd0u5KM/t1riFUqhOBLZU54mkASPCzswiWF8DJ4K7fvEbXiuyFooU5XOqwGpa91pKIzr4BoeEqyWXOr8WmzJ68q3m7eqVAehzjrBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awnn/6pl; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1716442982; c=relaxed/simple;
+	bh=88s1vpCBMF+dlHmUmW30fyJu3maxb0biFJmEDoIHHXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/PqP5Ql/v5Ojj3QbC/AY5TTdYpRWOTeiYAffacYxfYtfYasIPNMPGQY86nk53mUTx/9nTja7R2Yax4CpssEg05pz9gPpImBrid3kdPzv8rXdsfNJoqzIT25rT/8ph4ln/MnDkhlfffu+meiZ43311bvadpPvlTZZQl5ChzAJoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEBGB5gk; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awnn/6pl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEBGB5gk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716442979; x=1747978979;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fTEJUXXFUgUvi6P15qkHSyb2pJiX25SDxXYekFIb2+s=;
-  b=awnn/6plAOC/lhh+66FJ4NYRNAGwmfH/MGZ6Emw/uj2RyIoLN/mbxzu5
-   91B+dHs24fo/cmaaLyRj+0bAYX/jXlePYnPShTNJoMfXoep0fQx2Lse+a
-   6QHM/v95Y5/yN49kG0OG7i7UArKrHPQScK6qPwgWWsELDGKT7z9iH/JHt
-   4/GEBDoDSJe0jAvKqJgyLmQQZzRiIhrWlpAYWI5ckcRf4OD9MxjUwxh3R
-   PvQulz6kZxqCyIEgfqZYv9g3C/MKtLTOy90WHrzEi3xKH4dAN7mLFaPKq
-   UuZSd27t3MQemmLcEH2kBAkdGhMcqMFj1vkt6zLiEZHQ0Ds0qpgpCo7Hr
-   A==;
-X-CSE-ConnectionGUID: mLxzXgtSRxOph484fMEObw==
-X-CSE-MsgGUID: PS0y0kAURJSd9KX6/lOwMw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23400263"
+  t=1716442981; x=1747978981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=88s1vpCBMF+dlHmUmW30fyJu3maxb0biFJmEDoIHHXE=;
+  b=DEBGB5gk05MymSyyC0brQ7yBRE/qZZVtUZrrNLnnhh5EQx2+gD07z+rw
+   5vL3OQFWJYJ9uder5+XCbw+xBWPdjxipVfXqU5erb9Q4+EtuoSzDkaYum
+   I6VztsoUsxH7WMIH4cXkllH4Ctar1ROxshMQekMNKZvdELb3KFkDBFY4w
+   Sp8S2lwTISBUqDEwkYPR6k9IZ9qTnagePIdI0pUTiNYJyq3dzYUN4YJYs
+   XpkF9p8cEHSizlu0OwMz6I2otAi7eeBVuaDEO05uLiFWl4ZsgpppY7LHD
+   Dgxn64uMkT8dYyebUxWPvUIOrPm/PHgRzIVffVoifNCenRJvnG8GcgxQ7
+   Q==;
+X-CSE-ConnectionGUID: nkBP2CPqT4y9MhhVW8Gfag==
+X-CSE-MsgGUID: x2velXqvTG2kYSoIwsWYXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23400267"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="23400263"
+   d="scan'208";a="23400267"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 22:42:58 -0700
-X-CSE-ConnectionGUID: mCPUr8uoT+6iiQGM88utTg==
-X-CSE-MsgGUID: 4p1kpkS8QHW3aORIWI49Ow==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 22:43:00 -0700
+X-CSE-ConnectionGUID: O9DTBlLPQL+d/szWuxD61A==
+X-CSE-MsgGUID: UR22QgijQdCddE0wgZ7BIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="38126758"
+   d="scan'208";a="38126761"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by fmviesa004.fm.intel.com with ESMTP; 22 May 2024 22:42:57 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sA1E7-0002Uv-0j;
+	id 1sA1E7-0002Ux-0n;
 	Thu, 23 May 2024 05:42:55 +0000
-Date: Thu, 23 May 2024 13:42:43 +0800
+Date: Thu, 23 May 2024 13:42:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 9705/9710]
- drivers/irqchip/irq-loongson-eiointc.c:378:58: error:
- 'NODES_PER_FLATMODE_NODE' undeclared
-Message-ID: <202405231321.wKWdnTl4-lkp@intel.com>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+	steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Subject: Re: [PATCH] net: usb: smsc95xx: configure external LEDs function for
+ EVB-LAN8670-USB
+Message-ID: <202405231332.bBXpW9Bj-lkp@intel.com>
+References: <20240522140817.409936-1-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +68,236 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240522140817.409936-1-Parthiban.Veerasooran@microchip.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c542a3e5830d4d587bcc2b51a185b671a6c64853
-commit: 30affb08c584efdc07b3c68015b5902ea02ec86a [9705/9710] irqchip/loongson-eiointc: fix gsi register error
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240523/202405231321.wKWdnTl4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231321.wKWdnTl4-lkp@intel.com/reproduce)
+Hi Parthiban,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 4b377b4868ef17b040065bd468668c707d2477a5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Parthiban-Veerasooran/net-usb-smsc95xx-configure-external-LEDs-function-for-EVB-LAN8670-USB/20240522-221645
+base:   4b377b4868ef17b040065bd468668c707d2477a5
+patch link:    https://lore.kernel.org/r/20240522140817.409936-1-Parthiban.Veerasooran%40microchip.com
+patch subject: [PATCH] net: usb: smsc95xx: configure external LEDs function for EVB-LAN8670-USB
+config: i386-randconfig-062-20240523 (https://download.01.org/0day-ci/archive/20240523/202405231332.bBXpW9Bj-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231332.bBXpW9Bj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405231321.wKWdnTl4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405231332.bBXpW9Bj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/usb/smsc95xx.c:1017:34: sparse: sparse: restricted __le16 degrades to integer
+   drivers/net/usb/smsc95xx.c:1018:34: sparse: sparse: restricted __le16 degrades to integer
 
-   drivers/irqchip/irq-loongson-eiointc.c:357:12: warning: no previous prototype for 'pch_pic_parse_madt' [-Wmissing-prototypes]
-     357 | int __init pch_pic_parse_madt(union acpi_subtable_headers *header,
-         |            ^~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongson-eiointc.c:370:12: warning: no previous prototype for 'pch_msi_parse_madt' [-Wmissing-prototypes]
-     370 | int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
-         |            ^~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongson-eiointc.c: In function 'pch_msi_parse_madt':
->> drivers/irqchip/irq-loongson-eiointc.c:378:58: error: 'NODES_PER_FLATMODE_NODE' undeclared (first use in this function)
-     378 |                 node = eiointc_priv[nr_pics - 1]->node / NODES_PER_FLATMODE_NODE;
-         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongson-eiointc.c:378:58: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/irqchip/irq-loongson-eiointc.c: In function 'eiointc_acpi_init':
-   drivers/irqchip/irq-loongson-eiointc.c:481:45: error: 'NODES_PER_FLATMODE_NODE' undeclared (first use in this function)
-     481 |                 node = acpi_eiointc->node / NODES_PER_FLATMODE_NODE;
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+vim +1017 drivers/net/usb/smsc95xx.c
 
-
-vim +/NODES_PER_FLATMODE_NODE +378 drivers/irqchip/irq-loongson-eiointc.c
-
-   369	
-   370	int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
-   371						const unsigned long end)
-   372	{
-   373		struct irq_domain *parent;
-   374		struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
-   375		int node;
-   376	
-   377		if (cpu_has_flatmode)
- > 378			node = eiointc_priv[nr_pics - 1]->node / NODES_PER_FLATMODE_NODE;
-   379		else
-   380			node = eiointc_priv[nr_pics - 1]->node;
-   381	
-   382		parent = acpi_get_vec_parent(node, msi_group);
-   383	
-   384		if (parent)
-   385			return pch_msi_acpi_init(parent, pchmsi_entry);
-   386	
-   387		return 0;
-   388	}
-   389	
+   878	
+   879	static int smsc95xx_reset(struct usbnet *dev)
+   880	{
+   881		struct smsc95xx_priv *pdata = dev->driver_priv;
+   882		u32 read_buf, write_buf, burst_cap;
+   883		int ret = 0, timeout;
+   884	
+   885		netif_dbg(dev, ifup, dev->net, "entering smsc95xx_reset\n");
+   886	
+   887		ret = smsc95xx_write_reg(dev, HW_CFG, HW_CFG_LRST_);
+   888		if (ret < 0)
+   889			return ret;
+   890	
+   891		timeout = 0;
+   892		do {
+   893			msleep(10);
+   894			ret = smsc95xx_read_reg(dev, HW_CFG, &read_buf);
+   895			if (ret < 0)
+   896				return ret;
+   897			timeout++;
+   898		} while ((read_buf & HW_CFG_LRST_) && (timeout < 100));
+   899	
+   900		if (timeout >= 100) {
+   901			netdev_warn(dev->net, "timeout waiting for completion of Lite Reset\n");
+   902			return -ETIMEDOUT;
+   903		}
+   904	
+   905		ret = smsc95xx_set_mac_address(dev);
+   906		if (ret < 0)
+   907			return ret;
+   908	
+   909		netif_dbg(dev, ifup, dev->net, "MAC Address: %pM\n",
+   910			  dev->net->dev_addr);
+   911	
+   912		ret = smsc95xx_read_reg(dev, HW_CFG, &read_buf);
+   913		if (ret < 0)
+   914			return ret;
+   915	
+   916		netif_dbg(dev, ifup, dev->net, "Read Value from HW_CFG : 0x%08x\n",
+   917			  read_buf);
+   918	
+   919		read_buf |= HW_CFG_BIR_;
+   920	
+   921		ret = smsc95xx_write_reg(dev, HW_CFG, read_buf);
+   922		if (ret < 0)
+   923			return ret;
+   924	
+   925		ret = smsc95xx_read_reg(dev, HW_CFG, &read_buf);
+   926		if (ret < 0)
+   927			return ret;
+   928	
+   929		netif_dbg(dev, ifup, dev->net,
+   930			  "Read Value from HW_CFG after writing HW_CFG_BIR_: 0x%08x\n",
+   931			  read_buf);
+   932	
+   933		if (!turbo_mode) {
+   934			burst_cap = 0;
+   935			dev->rx_urb_size = MAX_SINGLE_PACKET_SIZE;
+   936		} else if (dev->udev->speed == USB_SPEED_HIGH) {
+   937			burst_cap = DEFAULT_HS_BURST_CAP_SIZE / HS_USB_PKT_SIZE;
+   938			dev->rx_urb_size = DEFAULT_HS_BURST_CAP_SIZE;
+   939		} else {
+   940			burst_cap = DEFAULT_FS_BURST_CAP_SIZE / FS_USB_PKT_SIZE;
+   941			dev->rx_urb_size = DEFAULT_FS_BURST_CAP_SIZE;
+   942		}
+   943	
+   944		netif_dbg(dev, ifup, dev->net, "rx_urb_size=%ld\n",
+   945			  (ulong)dev->rx_urb_size);
+   946	
+   947		ret = smsc95xx_write_reg(dev, BURST_CAP, burst_cap);
+   948		if (ret < 0)
+   949			return ret;
+   950	
+   951		ret = smsc95xx_read_reg(dev, BURST_CAP, &read_buf);
+   952		if (ret < 0)
+   953			return ret;
+   954	
+   955		netif_dbg(dev, ifup, dev->net,
+   956			  "Read Value from BURST_CAP after writing: 0x%08x\n",
+   957			  read_buf);
+   958	
+   959		ret = smsc95xx_write_reg(dev, BULK_IN_DLY, DEFAULT_BULK_IN_DELAY);
+   960		if (ret < 0)
+   961			return ret;
+   962	
+   963		ret = smsc95xx_read_reg(dev, BULK_IN_DLY, &read_buf);
+   964		if (ret < 0)
+   965			return ret;
+   966	
+   967		netif_dbg(dev, ifup, dev->net,
+   968			  "Read Value from BULK_IN_DLY after writing: 0x%08x\n",
+   969			  read_buf);
+   970	
+   971		ret = smsc95xx_read_reg(dev, HW_CFG, &read_buf);
+   972		if (ret < 0)
+   973			return ret;
+   974	
+   975		netif_dbg(dev, ifup, dev->net, "Read Value from HW_CFG: 0x%08x\n",
+   976			  read_buf);
+   977	
+   978		if (turbo_mode)
+   979			read_buf |= (HW_CFG_MEF_ | HW_CFG_BCE_);
+   980	
+   981		read_buf &= ~HW_CFG_RXDOFF_;
+   982	
+   983		/* set Rx data offset=2, Make IP header aligns on word boundary. */
+   984		read_buf |= NET_IP_ALIGN << 9;
+   985	
+   986		ret = smsc95xx_write_reg(dev, HW_CFG, read_buf);
+   987		if (ret < 0)
+   988			return ret;
+   989	
+   990		ret = smsc95xx_read_reg(dev, HW_CFG, &read_buf);
+   991		if (ret < 0)
+   992			return ret;
+   993	
+   994		netif_dbg(dev, ifup, dev->net,
+   995			  "Read Value from HW_CFG after writing: 0x%08x\n", read_buf);
+   996	
+   997		ret = smsc95xx_write_reg(dev, INT_STS, INT_STS_CLEAR_ALL_);
+   998		if (ret < 0)
+   999			return ret;
+  1000	
+  1001		ret = smsc95xx_read_reg(dev, ID_REV, &read_buf);
+  1002		if (ret < 0)
+  1003			return ret;
+  1004		netif_dbg(dev, ifup, dev->net, "ID_REV = 0x%08x\n", read_buf);
+  1005	
+  1006		/* Configure GPIO pins as LED outputs */
+  1007		write_buf = LED_GPIO_CFG_SPD_LED | LED_GPIO_CFG_LNK_LED |
+  1008			LED_GPIO_CFG_FDX_LED;
+  1009	
+  1010		/* Set LED Select (LED_SEL) bit for the external LED pins functionality
+  1011		 * in the Microchip's EVB-LAN8670-USB 10BASE-T1S Ethernet device which
+  1012		 * uses the below LED function.
+  1013		 * nSPD_LED -> Speed Indicator
+  1014		 * nLNKA_LED -> Link Indicator
+  1015		 * nFDX_LED -> Activity Indicator
+  1016		 */
+> 1017		if (dev->udev->descriptor.idVendor == 0x184F &&
+  1018		    dev->udev->descriptor.idProduct == 0x0051)
+  1019			write_buf |= LED_GPIO_CFG_LED_SEL;
+  1020	
+  1021		ret = smsc95xx_write_reg(dev, LED_GPIO_CFG, write_buf);
+  1022		if (ret < 0)
+  1023			return ret;
+  1024	
+  1025		/* Init Tx */
+  1026		ret = smsc95xx_write_reg(dev, FLOW, 0);
+  1027		if (ret < 0)
+  1028			return ret;
+  1029	
+  1030		ret = smsc95xx_write_reg(dev, AFC_CFG, AFC_CFG_DEFAULT);
+  1031		if (ret < 0)
+  1032			return ret;
+  1033	
+  1034		/* Don't need mac_cr_lock during initialisation */
+  1035		ret = smsc95xx_read_reg(dev, MAC_CR, &pdata->mac_cr);
+  1036		if (ret < 0)
+  1037			return ret;
+  1038	
+  1039		/* Init Rx */
+  1040		/* Set Vlan */
+  1041		ret = smsc95xx_write_reg(dev, VLAN1, (u32)ETH_P_8021Q);
+  1042		if (ret < 0)
+  1043			return ret;
+  1044	
+  1045		/* Enable or disable checksum offload engines */
+  1046		ret = smsc95xx_set_features(dev->net, dev->net->features);
+  1047		if (ret < 0) {
+  1048			netdev_warn(dev->net, "Failed to set checksum offload features\n");
+  1049			return ret;
+  1050		}
+  1051	
+  1052		smsc95xx_set_multicast(dev->net);
+  1053	
+  1054		ret = smsc95xx_read_reg(dev, INT_EP_CTL, &read_buf);
+  1055		if (ret < 0)
+  1056			return ret;
+  1057	
+  1058		/* enable PHY interrupts */
+  1059		read_buf |= INT_EP_CTL_PHY_INT_;
+  1060	
+  1061		ret = smsc95xx_write_reg(dev, INT_EP_CTL, read_buf);
+  1062		if (ret < 0)
+  1063			return ret;
+  1064	
+  1065		ret = smsc95xx_start_tx_path(dev);
+  1066		if (ret < 0) {
+  1067			netdev_warn(dev->net, "Failed to start TX path\n");
+  1068			return ret;
+  1069		}
+  1070	
+  1071		ret = smsc95xx_start_rx_path(dev);
+  1072		if (ret < 0) {
+  1073			netdev_warn(dev->net, "Failed to start RX path\n");
+  1074			return ret;
+  1075		}
+  1076	
+  1077		netif_dbg(dev, ifup, dev->net, "smsc95xx_reset, return 0\n");
+  1078		return 0;
+  1079	}
+  1080	
 
 -- 
 0-DAY CI Kernel Test Service
