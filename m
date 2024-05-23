@@ -1,62 +1,60 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DFA1879
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 14:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5448B641
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 15:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716475656; cv=none; b=huMCho7UCj3DirJoo9iBzyaD6ZJPaEqWBXpKetT7xY+HiVvyF7deeK1GOvjDI5W0s3L+0MBb0ZPlhWRoaaGOuL0cx6kqKl0fJ84hVhD9FUnNklC/NlpLD4+9GDXrH8IDbEsP9DXxMKpIqy5htYOgHHbADWgcxfh63WXO1mfhoho=
+	t=1716476807; cv=none; b=gEvWy9XCiyoC/yNBCAGMubpQgx94tK8UkFNiPEWabxEYZCJZnzvFxU1Ypt++Fl2FOiuZJiE7Y3UBVmwgdCIIUHWaEMtFwJ59K9sUSqz7w5N3oCfEbfb5dwNLj7+e3dlnkABi7nlvbijJvPIfaaEuylj3MuPJNThdoiuICLQkc5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716475656; c=relaxed/simple;
-	bh=b1l6USnY+R7KOOqh9JqzGwwny16vwNBuXqnjCPkRoMs=;
+	s=arc-20240116; t=1716476807; c=relaxed/simple;
+	bh=W+Pf1QDTAUCcce5+lSvdZ2wjOuQTZawv22poU8K0s78=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=iQmTjC8HLhdTcrZX1U+9P32qwC69olducE49CHlenk10i0m0etEkR8MMTA9GTvvlYKP18m3jbcUc/1i1qIE4O0ZPMpzSNv93Ut3owCuLzemIsl+mgfs6uQ7/W4C5VLgW7/jo8ShGoUfyTq1g+ZMlSbFYWmzPhvmY4cZMeqlYprE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GZRt/RV5; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=m3qtNj+q1xjx/Hh0VXM7xf0yRnBn12L6Zb9dzt1b5VVdlC4u5joKaGjRDW4nss36Nz1EkUGb6SKcpAGJcyh8xgz+qGg0n27q4zfTzzOYF1kXebJRzPtn+BzQ7rrOSfLQiT6h/+OMcy1c5ngSztm2Go37ZALFFrTHscnHgzld3to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WPI/XOzu; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GZRt/RV5"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4200ee78f34so19255705e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 07:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716475653; x=1717080453; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BIKCBr/JTBTMmR/LzHvL/9eeEKI/QpQAofYG+DZTe60=;
-        b=GZRt/RV5nrZkB1mxcsqN2mC1TYJeC2G5grmVW2Be7WqmB4YwLY7eD/KqjB1yKroxu8
-         LgELUFVCe4ufwPrRgXiCeeHO7YrrTeT0JULvk7Sczv3Gs/cPA8jqRmG482SoYNJwVjdl
-         McouihIDkNBBWpWwb+Q/h1mZgk07p9t1a1s4FClYPEz5z1uvey9b2//AZeWchEE8lgzE
-         63McqQWAoJq+nTmxGApuaerAFhBZK4haT5+nXw7wD90MDtEtoxIXyuUCt1qIOlwZsCfI
-         NjLb4kxtio19riaBaQNOYIHO84tzMPLroGb9/vSv3dLtJ/fFSdvizU2TqSI9Bl7SsnkZ
-         DlIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716475653; x=1717080453;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BIKCBr/JTBTMmR/LzHvL/9eeEKI/QpQAofYG+DZTe60=;
-        b=FgENT1OLgNSL1eXg/BfoRsfc0Y31DHeAgfAtFI0kLaZNc5yyCTJ/sevZiTNUciOJC+
-         My+9EAnbIO7/IJKymmG5+7NvnwSRqCe4E0I56CWSkfHzCnVQIiBmc+xSLHk2zBThkG7d
-         FFrT/FfvS/YWM9T0UgRK91nfMQ+egnGPdx0TEzBgmviEuraoOJ8hVpoIYuB5BBn4EYyO
-         VLer6135jZ04ofQIcSFH9XtGYP4uX6GLNSVY2dP8eoXq/pXVMx7+qxaP+twEFq5Y3P1T
-         sTu2rF7nrH5UJdACIB8d+KJ/OqJzs3UhUDHw/3lP8mgiLlwBQ26V2dJ5Kt2awAeVnF6V
-         2YPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvHulzUjSvtG0fpdEH6hlP5uiNDXToxaaMdYI7o9G1OcPDmXh8rcnqIaPX0l7MZqQrQ7RWZ/28rHe2CKGeb8GycFIvq40uQCM47pevzA==
-X-Gm-Message-State: AOJu0Yzevj7kwB3/Dsdw47MyS9KExNvYlI91C86sZ1MzftSZ81j21ZGA
-	6GlJR5pDcuMgG8Vx4GWTn19MrCj7oYQ8OEI43kN1mFjtaHpguy5e8ZYeosAfKfg=
-X-Google-Smtp-Source: AGHT+IFyFbuN37ASGbffygEMVXUbvdO2cQyG6k0iwBCDmjVo8cw7/71y2eeu5ulLaPcEBcyCnZ2e/g==
-X-Received: by 2002:a5d:4386:0:b0:354:f550:8363 with SMTP id ffacd0b85a97d-354f5508616mr2509556f8f.34.1716475652467;
-        Thu, 23 May 2024 07:47:32 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-354cab20062sm9095666f8f.117.2024.05.23.07.47.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 07:47:31 -0700 (PDT)
-Date: Thu, 23 May 2024 17:47:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aleksa Sarai <cyphar@cyphar.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC] fhandle: expose u64 mount id to name_to_handle_at(2)
-Message-ID: <01718884-e9a1-4dc8-994a-4839ce3f8a0e@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPI/XOzu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716476805; x=1748012805;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W+Pf1QDTAUCcce5+lSvdZ2wjOuQTZawv22poU8K0s78=;
+  b=WPI/XOzuv6VQLpmqOEF9a9ZvTrZpw5psLcQUYzL8RqjCa8qdHhI+IlFI
+   7Uarket8t9kQgNjWmQhDspROqpzF0bNtjc9LUDhZlNH+vA9U7SOn0t9ow
+   bmhc+nEDjIlGuPzm+uBKJccownTLaumcYcStmrI1FNoFpRNFdBc8UthcU
+   jdkTDiQ7v5J3U/69iXcTNOXfsYTAVh9Ts9B2ai1WYGI8EePZA+YHzTEs7
+   IsYH6qu/3r9XAhYxsx6H26+cxg/7g6xfZHxxxYXgY4SCCCW896mHDelD+
+   BQWIpUwmXMJsRPgj7Se4Sxb8Z3r6Wc2wecUszofLMflFQYfQOloCmrcRO
+   A==;
+X-CSE-ConnectionGUID: 1IPTmUO1RMaBy1tme4RDvQ==
+X-CSE-MsgGUID: Dv+C/F5zQqefl+cr5Xjs6w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="24209993"
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="24209993"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 08:05:58 -0700
+X-CSE-ConnectionGUID: P5cEzI9vQvirZo4gdnd4lw==
+X-CSE-MsgGUID: HhNJpDaLRWqYH7pv9w5KRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="38473594"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 23 May 2024 08:05:58 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sAA0x-0002zf-0r;
+	Thu, 23 May 2024 15:05:55 +0000
+Date: Thu, 23 May 2024 23:05:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kairui Song <kasong@tencent.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 34/107] fs/ceph/dir.o: warning: objtool:
+ unexpected relocation symbol type in .rela.discard.unreachable
+Message-ID: <202405232254.fWfccLnU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,106 +63,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240520-exportfs-u64-mount-id-v1-1-f55fd9215b8e@cyphar.com>
 
-Hi Aleksa,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Sarai/fhandle-expose-u64-mount-id-to-name_to_handle_at-2/20240521-053815
-base:   584bbf439d0fa83d728ec49f3a38c581bdc828b4
-patch link:    https://lore.kernel.org/r/20240520-exportfs-u64-mount-id-v1-1-f55fd9215b8e%40cyphar.com
-patch subject: [PATCH RFC] fhandle: expose u64 mount id to name_to_handle_at(2)
-config: x86_64-randconfig-161-20240521 (https://download.01.org/0day-ci/archive/20240521/202405211900.ZcYOJf1E-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   c65920c76a977c2b73c3a8b03b4c0c00cc1285ed
+commit: fb15800c8fd6bccfe20bdfd761b997c07a8be26d [34/107] ceph: drop usage of page_index
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240523/202405232254.fWfccLnU-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405232254.fWfccLnU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405211900.ZcYOJf1E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405232254.fWfccLnU-lkp@intel.com/
 
-smatch warnings:
-fs/fhandle.c:84 do_sys_name_to_handle() warn: maybe return -EFAULT instead of the bytes remaining?
+All warnings (new ones prefixed by >>):
 
-vim +84 fs/fhandle.c
-
-6ccaaf59c335a8 Al Viro             2022-08-04  17  static long do_sys_name_to_handle(const struct path *path,
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  18  				  struct file_handle __user *ufh,
-1702d25fd14170 Aleksa Sarai        2024-05-20  19  				  void __user *mnt_id, bool unique_mntid,
-1702d25fd14170 Aleksa Sarai        2024-05-20  20  				  int fh_flags)
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  21  {
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  22  	long retval;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  23  	struct file_handle f_handle;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  24  	int handle_dwords, handle_bytes;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  25  	struct file_handle *handle = NULL;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  26  
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  27  	/*
-96b2b072ee62be Amir Goldstein      2023-05-02  28  	 * We need to make sure whether the file system support decoding of
-96b2b072ee62be Amir Goldstein      2023-05-02  29  	 * the file handle if decodeable file handle was requested.
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  30  	 */
-66c62769bcf6aa Amir Goldstein      2023-10-23  31  	if (!exportfs_can_encode_fh(path->dentry->d_sb->s_export_op, fh_flags))
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  32  		return -EOPNOTSUPP;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  33  
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  34  	if (copy_from_user(&f_handle, ufh, sizeof(struct file_handle)))
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  35  		return -EFAULT;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  36  
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  37  	if (f_handle.handle_bytes > MAX_HANDLE_SZ)
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  38  		return -EINVAL;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  39  
-68d6f4f3fbd9b1 Gustavo A. R. Silva 2024-03-25  40  	handle = kzalloc(struct_size(handle, f_handle, f_handle.handle_bytes),
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  41  			 GFP_KERNEL);
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  42  	if (!handle)
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  43  		return -ENOMEM;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  44  
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  45  	/* convert handle size to multiple of sizeof(u32) */
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  46  	handle_dwords = f_handle.handle_bytes >> 2;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  47  
-96b2b072ee62be Amir Goldstein      2023-05-02  48  	/* we ask for a non connectable maybe decodeable file handle */
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  49  	retval = exportfs_encode_fh(path->dentry,
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  50  				    (struct fid *)handle->f_handle,
-96b2b072ee62be Amir Goldstein      2023-05-02  51  				    &handle_dwords, fh_flags);
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  52  	handle->handle_type = retval;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  53  	/* convert handle size to bytes */
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  54  	handle_bytes = handle_dwords * sizeof(u32);
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  55  	handle->handle_bytes = handle_bytes;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  56  	if ((handle->handle_bytes > f_handle.handle_bytes) ||
-7cdafe6cc4a6ee Amir Goldstein      2023-05-24  57  	    (retval == FILEID_INVALID) || (retval < 0)) {
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  58  		/* As per old exportfs_encode_fh documentation
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  59  		 * we could return ENOSPC to indicate overflow
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  60  		 * But file system returned 255 always. So handle
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  61  		 * both the values
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  62  		 */
-7cdafe6cc4a6ee Amir Goldstein      2023-05-24  63  		if (retval == FILEID_INVALID || retval == -ENOSPC)
-7cdafe6cc4a6ee Amir Goldstein      2023-05-24  64  			retval = -EOVERFLOW;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  65  		/*
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  66  		 * set the handle size to zero so we copy only
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  67  		 * non variable part of the file_handle
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  68  		 */
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  69  		handle_bytes = 0;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  70  	} else
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  71  		retval = 0;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  72  	/* copy the mount id */
-1702d25fd14170 Aleksa Sarai        2024-05-20  73  	if (unique_mntid)
-1702d25fd14170 Aleksa Sarai        2024-05-20  74  		retval = put_user(real_mount(path->mnt)->mnt_id_unique,
-1702d25fd14170 Aleksa Sarai        2024-05-20  75  				  (u64 __user *) mnt_id);
-1702d25fd14170 Aleksa Sarai        2024-05-20  76  	else
-1702d25fd14170 Aleksa Sarai        2024-05-20  77  		retval = put_user(real_mount(path->mnt)->mnt_id,
-1702d25fd14170 Aleksa Sarai        2024-05-20  78  				  (int __user *) mnt_id);
-1702d25fd14170 Aleksa Sarai        2024-05-20  79  	/* copy the handle */
-1702d25fd14170 Aleksa Sarai        2024-05-20  80  	if (!retval)
-1702d25fd14170 Aleksa Sarai        2024-05-20  81  		retval = copy_to_user(ufh, handle,
-1702d25fd14170 Aleksa Sarai        2024-05-20  82  				struct_size(handle, f_handle, handle_bytes));
-
-copy_to_user() doesn't return error codes, it returns the number of
-bytes that were NOT copied.
-
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  83  	kfree(handle);
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29 @84  	return retval;
-990d6c2d7aee92 Aneesh Kumar K.V    2011-01-29  85  }
+>> fs/ceph/dir.o: warning: objtool: unexpected relocation symbol type in .rela.discard.unreachable
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
