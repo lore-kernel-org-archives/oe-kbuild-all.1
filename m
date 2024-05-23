@@ -1,65 +1,60 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B565213B7AA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 12:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C7013B7AB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 12:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716467440; cv=none; b=R/5KjsaUep38T2QU/QfzlVUsqaTHIe5ETZEdXsAG0FpGk24WR+oFUoekwBx2Kyao2oKFUmi29QIq8uDmbFjt1Nw4uHl3wWN9lUv4BeD1oTLMTWpyzxwmpDsojY+C9IVMhtbHYVhcYbNwbGLC6Q80VMwyp0bWJkruLf7HyippjdI=
+	t=1716467945; cv=none; b=HmH3YQrSugk5WWldrXhEhZPmh88eOenpYooh0u8FeJ+d+homzWahZVvw/kkxpvAlrrorO2c22tm/7U5JnVP0XfpJDixuX1WJMeAXgDs4gdPcaU48YKfrLl1h40fA8hPDc+Sdqm0V+VWP+phliaimZ77WV0QWyJ6hxoqIzJSHrAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716467440; c=relaxed/simple;
-	bh=Bjz/ig/gLbIXoRDfEEu5wQSlFToKNYmRgh2HDGqS07I=;
+	s=arc-20240116; t=1716467945; c=relaxed/simple;
+	bh=e6uQgq35Ua9LCa6zr27q9SoepucmquOgODuFixJAMjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UGlK57MkZyF38G/GbokeRgbgBbHVZYoKytVm8okfaa22DxQT8FaJAKuB5hjuxA5THq00mavot9JToScz19UA5rRdUnW6/dY7V/05BWNUSo4Y82lU3v2GKUVgukD5q/h1CooOC4uS3eFNlqOgT6HHEUA6g/rLYeacKSBJO28dsDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f0ovOkFM; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=vDlYsoQGLrVUt2EIeQXUXZ0zbP9v6ig9SQy/807dyTWo7H2ST13L1qiopkyn/FQWiU0FxNjH2tB4LcpmuyNVZewSEmjktUNc/xWIdg24zhY+QFMqDv4bC+Inh5MuKjpVoVVhjfXgWw39v2zvGfD9c6i+BvIhSKveOWcWG35sLJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6sSKWOl; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f0ovOkFM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42016c8db2aso18363105e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 05:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716467437; x=1717072237; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sxpjAXqiH/+EfsCOuAq8y02ih0xRop+9c4sjd7YvDrY=;
-        b=f0ovOkFM+vFKI1UtCR4lZK+lmN9C8dNQ+uX7QX7rWxZg721w8dU84/JrSwFtd9D8Q+
-         BhOnRLFlaL6spwVcQ6WbVQSVNb2Mw19gyhKUGhgqAFQSTtxpMRRrF7cCfILFHhU0Pysq
-         2ohpt+Fa0c9CRsrjqNRSLMxkspwCBRe+0zfpI4ctSPmJtTGXABf3R028qzASAMZGiIWa
-         rnUzBtAIIXR+x4lYSNE6pj5RlZEqAA2XpeByi+o+XFyULcFqwBcUntVDwceyn/lZeFql
-         bWnNYIdBVTRvWpyg+dbNP4UbaM4m6B9bbXxGgvGMJ07OmlJC0gYWlOYlMpPqsn1sSj59
-         JA9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716467437; x=1717072237;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sxpjAXqiH/+EfsCOuAq8y02ih0xRop+9c4sjd7YvDrY=;
-        b=ZK7vYoVtEpIm8RPJuJMaC8YLskPKafuw2T9ZklA5ATLTM8tjZscLm35257Sa3cG23G
-         gn0BEWp9rkJoM6dUC+NrY9vse8FAMTxVzpg+rvUMTMYQvddE+QaOorWtH3GgEPGFNSkE
-         Bq2q0fkHIsUuEIj0vFRYZSRrWpKojbIuo8QmCoufiEzNBoml8TQfJ4OtciN9n+CVuPlc
-         DsMI2H3U0kibUVnHs4zKgIBiMKu+ArlYfU2lV8PfvLW5u9ouvtp884rYx9zgiHmEAOrq
-         RscmDRf+2FJHWHhsnsELjY3OdFifUauxJoSGyNnl+Sv3wHlIX8UJ9LJvPsE/K/5J0y9M
-         sV9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ/TG/+4xmfnaq1gbsUv+i7FQb3OcQ92NjanbnFn5x2ZLfePRDmOV6rmTA1yOjlCGScAmcXmAkfedSH6TYEJhEliOAe4GypyXneGWNdw==
-X-Gm-Message-State: AOJu0YyDQHT5VqzbK49aU6vCPLrKOgx+i4e4LtnXmFnU6OnvZ/32LY9F
-	UjcSDdeUgUuYOjL01JdDpUVgcEDZTZtMC0/gd5JYBiK7JOX5fZOyef9YtCySLC0=
-X-Google-Smtp-Source: AGHT+IHsPYPK5nLhbLq8ov1G8vIMZXbft1sDAvZ24WiHuV5r2ypulRQGNKivfF6NhXredx7u8RAeDg==
-X-Received: by 2002:a05:600c:1c15:b0:418:5ed2:5aa6 with SMTP id 5b1f17b1804b1-420fd34d36bmr38811025e9.31.1716467436686;
-        Thu, 23 May 2024 05:30:36 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100f7c047sm24088605e9.26.2024.05.23.05.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 05:30:36 -0700 (PDT)
-Date: Thu, 23 May 2024 15:30:32 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kiran K <kiran.k@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Chandrashekar <chandrashekar.devegowda@intel.com>
-Subject: drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn:
- variable dereferenced before check 'data' (see line 380)
-Message-ID: <7446b314-53f8-4ec7-9ff7-ae47defc43fb@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6sSKWOl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716467943; x=1748003943;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e6uQgq35Ua9LCa6zr27q9SoepucmquOgODuFixJAMjo=;
+  b=m6sSKWOl1TSXXopc7dgEm+ufXjc2RcGu2+OfKRPIhT3EI79yGKWDMBbs
+   wuVlos11q04yc4VumvKHCNm+CmoNS+DZclpGqjIaxFCXYPXrnVq3tRlFA
+   cFuVVlQBjSzXzDouRXy2xauNjgKuUFSZtdjVq6LlS80xExgbubyLuzR73
+   z2lgzMRAO/DiotyLH4tzBZVFmlIHZiB1VXmvR4W64kMhj3stv0zfhwITc
+   rdLQtLeaOGA7CwuA7Md5c8bw9Gmc0jG0JfsQ1U79S3GFfuBn4zehXcT9v
+   /y5NyB2/G+DQYEY91efP5iNX3QPNhT42WVBGmQ90Hn2uGjNiefq0h4UVl
+   A==;
+X-CSE-ConnectionGUID: JYAZuIHOSGiWkQB4+CBF4g==
+X-CSE-MsgGUID: 09uTc4dATwGUBcFakJXKGg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="16608175"
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="16608175"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 05:39:03 -0700
+X-CSE-ConnectionGUID: xsdXPQ5ZQB+K1yy09yjong==
+X-CSE-MsgGUID: l8xcq6BVQB+qnibTGrcRQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="33666837"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 23 May 2024 05:39:00 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sA7il-0002q1-1P;
+	Thu, 23 May 2024 12:38:59 +0000
+Date: Thu, 23 May 2024 20:38:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:page_mapcount_reset 3/6]
+ include/linux/compiler_types.h:478:45: error: call to
+ '__compiletime_assert_549' declared with attribute error: BUILD_BUG_ON
+ failed: PAGE_SIZE & ~0xffff
+Message-ID: <202405232021.CUydlPJZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,53 +64,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea5f6ad9ad9645733b72ab53a98e719b460d36a6
-commit: 6e65a09f927566f257322358d429b267548473eb Bluetooth: btintel_pcie: Add *setup* function to download firmware
-config: alpha-randconfig-r081-20240516 (https://download.01.org/0day-ci/archive/20240517/202405170424.97VIwnBn-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
+tree:   https://github.com/davidhildenbrand/linux page_mapcount_reset
+head:   c5a6ba264f8723b5aeff739139ae17a9d259d73c
+commit: 6b6d701fc4ccebcd7bdadc24dfb045e4f7f0940c [3/6] mm/zsmalloc: use a proper page type
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240523/202405232021.CUydlPJZ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405232021.CUydlPJZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405170424.97VIwnBn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405232021.CUydlPJZ-lkp@intel.com/
 
-smatch warnings:
-drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn: variable dereferenced before check 'data' (see line 380)
+All errors (new ones prefixed by >>):
 
-vim +/data +386 drivers/bluetooth/btintel_pcie.c
+   In file included from <command-line>:
+   In function 'set_first_obj_offset',
+       inlined from 'init_zspage' at mm/zsmalloc.c:888:3,
+       inlined from 'alloc_zspage' at mm/zsmalloc.c:991:2:
+>> include/linux/compiler_types.h:478:45: error: call to '__compiletime_assert_549' declared with attribute error: BUILD_BUG_ON failed: PAGE_SIZE & ~0xffff
+     478 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:459:25: note: in definition of macro '__compiletime_assert'
+     459 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:478:9: note: in expansion of macro '_compiletime_assert'
+     478 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:466:9: note: in expansion of macro 'BUILD_BUG_ON'
+     466 |         BUILD_BUG_ON(PAGE_SIZE & ~0xffff);
+         |         ^~~~~~~~~~~~
+   In function 'set_first_obj_offset',
+       inlined from 'replace_sub_page' at mm/zsmalloc.c:1737:2,
+       inlined from 'zs_page_migrate' at mm/zsmalloc.c:1817:2:
+>> include/linux/compiler_types.h:478:45: error: call to '__compiletime_assert_549' declared with attribute error: BUILD_BUG_ON failed: PAGE_SIZE & ~0xffff
+     478 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:459:25: note: in definition of macro '__compiletime_assert'
+     459 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:478:9: note: in expansion of macro '_compiletime_assert'
+     478 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:466:9: note: in expansion of macro 'BUILD_BUG_ON'
+     466 |         BUILD_BUG_ON(PAGE_SIZE & ~0xffff);
+         |         ^~~~~~~~~~~~
 
-6e65a09f927566 Kiran K          2024-05-07  371  static int btintel_pcie_recv_frame(struct btintel_pcie_data *data,
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  372  				       struct sk_buff *skb)
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  373  {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  374  	int ret;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  375  	u8 pkt_type;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  376  	u16 plen;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  377  	u32 pcie_pkt_type;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  378  	struct sk_buff *new_skb;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  379  	void *pdata;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @380  	struct hci_dev *hdev = data->hdev;
-                                                                               ^^^^^^^^^^
-data dereferenced
 
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  381  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  382  	spin_lock(&data->hci_rx_lock);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  383  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  384  	/* The first 4 bytes indicates the Intel PCIe specific packet type */
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  385  	pdata = skb_pull_data(skb, BTINTEL_PCIE_HCI_TYPE_LEN);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @386  	if (!data) {
-                                                            ^^^^^
-Presumably this was supposed to check "pdata".
+vim +/__compiletime_assert_549 +478 include/linux/compiler_types.h
 
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  387  		bt_dev_err(hdev, "Corrupted packet received");
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  388  		ret = -EILSEQ;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  389  		goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  390  	}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  391  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  392  	pcie_pkt_type = get_unaligned_le32(pdata);
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  464  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  465  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  466  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  467  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  468  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  469   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  470   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  471   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  472   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  473   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  474   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  475   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  476   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  477  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @478  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  479  
+
+:::::: The code at line 478 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
