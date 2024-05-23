@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BAA13CA8C;
-	Thu, 23 May 2024 07:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA36412AAF0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 08:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716451009; cv=none; b=LoiUmjssUTXIM85CAeGMa0hjFvicxrd5bafA+kBtEtS5n/fDpe+GVx+GH8bp9k8ERfXEZPDGg7Pp0blw76+WOPGdrFEYTdbM0MNwBQjelHJ1R/liQbsL+R1vNdNvD3SnLxznU5q3GV1oXRRXJA9jFM+uCwEWrzsSfdSUsDnrnzc=
+	t=1716451207; cv=none; b=XjOezfj7ZkAcDzvWxQ0kjNJUnH1OwHiLo1zy/uZrQ60vnlyI4ZYpJaZC0/m02Y/YuEu6FFw+TcaUadHtGIMiNRJOIQ/881F6iaeXTEkXm4HgQfcms3fpYXyyVIMrirvDYvxmX/lEdNJ0cuP78KbdJ9eqXtckaCGEoV/04gj8vnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716451009; c=relaxed/simple;
-	bh=HnQA4616BfyWRJAEIaaLhQ3+e2n20ryeUsttVbM1oz8=;
+	s=arc-20240116; t=1716451207; c=relaxed/simple;
+	bh=qGZMzdVI4j7TnwcHA2l53kkBoQCtzdt0JkQYFGFoF4E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lrAADrDpudicgtZH/RoVmOEgQj56Dl9jhVhP7k3ngHFxr9WOpLxpb5bs3mgjHgy4/HGawwCTsK8Pq1kOVqBtxkbl8EyzOxmR+uWo9MG/cekg3VI8KV4b2wSAOzC48IOQVPo25tz/Vw3TvBy8kTsQ05Vj1frZPbCLwomBbr3Yuf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k4a5Eghn; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=F7NTfokXuavC8jg2u41vNLf5Gkxr0xv85l6ju4T2O3sPNv7LBLHXyHlhkc4pEEUXw/8b5wPZttRK/X80XmKEyOHTsTxYoqXDG0NcEAnGwv14A+CxOhzNyvZ35CpOKXFbhePmAjaXOgrQ3IMaiQeV8elxsmjGDWgKMexBaQ2VjfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/3Qn/mL; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k4a5Eghn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/3Qn/mL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716451008; x=1747987008;
+  t=1716451205; x=1747987205;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HnQA4616BfyWRJAEIaaLhQ3+e2n20ryeUsttVbM1oz8=;
-  b=k4a5Eghnjd7C5ECk4+4EySg7XOVFJ+my47BbtKPbPPnKnxW+y6awmnT4
-   2JIJESBssLuzWWAmTMutWmxunLzQ9pAYPDO9oT5OMwxIOi6RkCANAUwl4
-   IxP5pesPRPG2rxtuKNTmFaELvL+VKD6fQKRNN3iVfMI/4PoKYV/RZI3JT
-   JnlPZXWnZzNB8kgMcfYPZ+d0BzW5GY/QTPTjh4MhxLrk37E1IkxO3qtcb
-   qUXlM747ysOXwC0jhjaSa5hZF5twiQ7T1H+/jgF2L1KFJQO/jWSDioyo7
-   YKCBXShWlrTxkBTxLDBmao8SyJJEI8+wuXguDq7M7QN0/2SyMNq6ONvo6
-   w==;
-X-CSE-ConnectionGUID: G18RW3esQlSVM1+Tc1JQIQ==
-X-CSE-MsgGUID: zIHkeGnNSAKqcXs+WxFsTw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23883801"
+  bh=qGZMzdVI4j7TnwcHA2l53kkBoQCtzdt0JkQYFGFoF4E=;
+  b=c/3Qn/mLqlabEfcj65ETDUYkSgrfpIYZYuY3iPfGtRnrbT6J/tfaM1Kj
+   L911So7wOrGLETnUpB7/tPKbV86l3v2ct+mSU2adLM+i9jB46GQWEsj3y
+   lELGGyvSnxMX4dGPN1OUhSNoiJt9fu61icnNzKsE+iCOcKZ140/GO8dkr
+   QU8KEtvDxU/3uiZJQLOpsvpNX7ooG939FcDDnTsdwEfO/O/HOj1YHXUYy
+   iPKOWlXjUqCzDMR+YZTAPTDezap8LRw12YVcB9jz/PflWDqY86SV4SPnE
+   1rySp32l+jDGnOxXrVvUuYkB5n/uPdMTNlKPMD0gfpWRce+mR+gIiCaQA
+   Q==;
+X-CSE-ConnectionGUID: MSq3VKTJT22L5baGTX5mQA==
+X-CSE-MsgGUID: 5HxzG64dQoyf6U4L1mJfNw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="16589473"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="23883801"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 00:56:47 -0700
-X-CSE-ConnectionGUID: muzJf0ZJRx2LST6JK6G+fQ==
-X-CSE-MsgGUID: 5pj/eDYgSByFXGkqWOz0Jw==
+   d="scan'208";a="16589473"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 01:00:05 -0700
+X-CSE-ConnectionGUID: K1at0U1NQFyA3WmVjfB9Bw==
+X-CSE-MsgGUID: WuyLR+wkT5KqpKS7gPE2vQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="64421859"
+   d="scan'208";a="34187368"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 23 May 2024 00:56:45 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 May 2024 01:00:04 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sA3JN-0002b4-0d;
-	Thu, 23 May 2024 07:56:34 +0000
-Date: Thu, 23 May 2024 15:51:37 +0800
+	id 1sA3Jo-0002bH-1V;
+	Thu, 23 May 2024 07:57:01 +0000
+Date: Thu, 23 May 2024 15:50:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: James Prestwood <prestwoj@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
 Subject: [jarkko-tpmdd:tpm2key-v3 7/7]
- crypto/asymmetric_keys/tpm2_key_rsa.c:360:1: warning: unused label
- 'err_auth'
-Message-ID: <202405231543.2UgLiw4L-lkp@intel.com>
+ crypto/asymmetric_keys/tpm2_key_rsa.c:360:1: warning: label 'err_auth'
+ defined but not used
+Message-ID: <202405231542.NYBUAOf9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,86 +66,24 @@ Content-Disposition: inline
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v3
 head:   9e82832aa16a3b33db19220c360342be336b77d2
 commit: 9e82832aa16a3b33db19220c360342be336b77d2 [7/7] keys: asymmetric: ASYMMETRIC_TPM2_KEY_RSA_SUBTYPE
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240523/202405231543.2UgLiw4L-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231543.2UgLiw4L-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240523/202405231542.NYBUAOf9-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231542.NYBUAOf9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405231543.2UgLiw4L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405231542.NYBUAOf9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   crypto/asymmetric_keys/tpm2_key_rsa.c:284:15: warning: unused variable 'offset' [-Wunused-variable]
+   crypto/asymmetric_keys/tpm2_key_rsa.c: In function '__tpm2_key_rsa_decrypt':
+>> crypto/asymmetric_keys/tpm2_key_rsa.c:360:1: warning: label 'err_auth' defined but not used [-Wunused-label]
+     360 | err_auth:
+         | ^~~~~~~~
+   crypto/asymmetric_keys/tpm2_key_rsa.c:284:22: warning: unused variable 'offset' [-Wunused-variable]
      284 |         unsigned int offset = 0;
          |                      ^~~~~~
->> crypto/asymmetric_keys/tpm2_key_rsa.c:360:1: warning: unused label 'err_auth' [-Wunused-label]
-     360 | err_auth:
-         | ^~~~~~~~~
-   9 warnings generated.
 
 
 vim +/err_auth +360 crypto/asymmetric_keys/tpm2_key_rsa.c
