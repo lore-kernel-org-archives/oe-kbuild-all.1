@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F8B54FA9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 10:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322A613C9DC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 10:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716458944; cv=none; b=kmZTXbr9XyIS06PV9XJkvzTwvNvNgswKT7w8vNV2CATmwB87/QrX1ZHtBX7ZDj8ckMWv8EeU32fBfpMMZ13wbrVztbjjIX0RkCwS92z/4fBu3/aCgFwIhXgo0xUqDL7Rznvau6Y8lE1cjLmYxH578AWKUnEAxvO7SM3917krvzQ=
+	t=1716459586; cv=none; b=OaZXVI1r6EbpSalxcOFnSQcSFFVzT0HI5wOWtRoWUIsoeis/ohzBHa/x5IybgPzFPkLmYh6fXnI+ZYiKsKlJ1G23Xphd12s8T0Y5VyG/5FQzLW72B8bp3v8n1nbp+GuEDi1jPIMOjKKGkZsIwO9tTkpmNTcbphS4/Oy9EdsLX+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716458944; c=relaxed/simple;
-	bh=cRvgnopSvHuyo7S5+mFu2V6jpNbioLHzrbU88U4unFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WyRVJTbwnL32lFDI15zAtJxGdliv84EeHFbLE6jcBxuQxM+3tueoN5QVS3ucdZoGDWcu5JWK9zepH0LD50QaBWAQkpMGJygCvJhpI+7E/B8ZemIYBiiPVwBLMdjb1ykWtjEWjMPvERY4GmspO9ysCKjBLwyeEbaeSwrZQc6Loro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mEsy0Dfj; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1716459586; c=relaxed/simple;
+	bh=N4LEMgC7ZouVgBmNHgbKIroD3zqM4XwKXUsvc7ER1Zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9zx0miGxUSbgERSso8GKp/xufpLXujDOgNowRnmEJRjVx9juK0gR8yzvxoCPfpivSppenlhijuvY+UPyrUoMHDpLjvG8kVt8aRalArij6gmgmLCZ6JDs98W746/J9NKWOVicMxYUuZYIVk+mxZbptq0wJ7V+dR3nROBcvCNSSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oKRxmt/e; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mEsy0Dfj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oKRxmt/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716458943; x=1747994943;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cRvgnopSvHuyo7S5+mFu2V6jpNbioLHzrbU88U4unFs=;
-  b=mEsy0DfjQq4qxrtzf6yku1G7ZXVFhZknXdWU8UV4vx4UAs8pKtzEzhSK
-   hnF6YiC4FJp+lVeE/iF5GdJx6B2fBsN26t6K9AXEADwdLwxVS4puyjkf3
-   KnNJkm5gOp1Kjj7OwbXd9alyfjJBXLc8Pg0bYEF6mmb2W0es/446wsV2j
-   kJn/26yEzjGsRgn1MbLx1VGzgamuXItPQ8PQehcmrYlItuKRUG8S+H8I3
-   r3czuIPY5SyNgB1BqG7NZXJQ9/CuKjqJubhfh9QQA/LvmL7YFXu1+v7fM
-   4i/xBGTIrpYnx81IqN2a3UfqlOiceT4EN6naJGT2LdDb/GO9jghH5IZSI
-   Q==;
-X-CSE-ConnectionGUID: BzMhaECwSsOjAlm4LQpndQ==
-X-CSE-MsgGUID: 829iVM3LT0uUlpuNuMxFPA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="23898283"
+  t=1716459584; x=1747995584;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N4LEMgC7ZouVgBmNHgbKIroD3zqM4XwKXUsvc7ER1Zc=;
+  b=oKRxmt/eM4TcHL7BzUh5b1eZUlSelmBd/6H48IbP1MEFUbT6D/H2Amrc
+   5Rg1Xuk+P9PUqjNUXLieyz4tHplOsQsgh+4Qdqsg4clrmgAl5vtfsjz/R
+   thBpd1i/uM8s/C3aPoxkZnYsE6z+ZWnrmSLZ2nRSN9sm0er0mWWOFkT/z
+   Ok2YBRXi0JqjU3Q6mRrQY/UusqmhgBKoJjvWPmDx7XmcBHz/DOdepZFor
+   F2zWY9Kfil/Z90wgpqBGeyWQuoZtSufVJHW4U7E8h/qEYi+vLcemNsTcn
+   WOke3MwuZrnfWo+fq3jpuwcula7oJGtsyit4ZDp45A91cVzDB8AVAJ10u
+   w==;
+X-CSE-ConnectionGUID: bgEV+idQQMi0CqPhP3hTbw==
+X-CSE-MsgGUID: Ac0tiiyIQ1SfKBmLIxN96w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="16555085"
 X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="23898283"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 03:09:02 -0700
-X-CSE-ConnectionGUID: IZoTNUtTT4SFHHy+k+cOIA==
-X-CSE-MsgGUID: ZVz69UgRQIqFH6xkJgYH4w==
+   d="scan'208";a="16555085"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 03:19:44 -0700
+X-CSE-ConnectionGUID: LxSOPhMoThm4T6BxahFjBg==
+X-CSE-MsgGUID: Dr8/8z2ZSOabTu1S86sDgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="38011553"
+   d="scan'208";a="38450817"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 May 2024 03:09:01 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 May 2024 03:19:42 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sA5Na-0002hh-2j;
-	Thu, 23 May 2024 10:08:58 +0000
-Date: Thu, 23 May 2024 18:07:58 +0800
+	id 1sA5Xq-0002il-26;
+	Thu, 23 May 2024 10:19:37 +0000
+Date: Thu, 23 May 2024 18:19:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Barry Song <v-songbaohua@oppo.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: include/linux/huge_mm.h:285:undefined reference to `mthp_stats'
-Message-ID: <202405231728.tCAogiSI-lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Abel Vesa <abel.vesa@linaro.org>, linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH] spmi: pmic-arb: Pass the correct of_node to
+ irq_domain_add_tree
+Message-ID: <202405231834.Xi3hn3rT-lkp@intel.com>
+References: <20240522-topic-spmi_multi_master_irqfix-v1-1-f7098b9c8804@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +67,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240522-topic-spmi_multi_master_irqfix-v1-1-f7098b9c8804@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c760b3725e52403dc1b28644fb09c47a83cacea6
-commit: ec33687c674934dfefd782a8ffd58370b080b503 mm: add per-order mTHP anon_fault_alloc and anon_fault_fallback counters
-date:   2 weeks ago
-config: s390-randconfig-r005-20230226 (https://download.01.org/0day-ci/archive/20240523/202405231728.tCAogiSI-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231728.tCAogiSI-lkp@intel.com/reproduce)
+Hi Konrad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8314289a8d50a4e05d8ece1ae0445a3b57bb4d3b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/spmi-pmic-arb-Pass-the-correct-of_node-to-irq_domain_add_tree/20240522-194023
+base:   8314289a8d50a4e05d8ece1ae0445a3b57bb4d3b
+patch link:    https://lore.kernel.org/r/20240522-topic-spmi_multi_master_irqfix-v1-1-f7098b9c8804%40linaro.org
+patch subject: [PATCH] spmi: pmic-arb: Pass the correct of_node to irq_domain_add_tree
+config: arm-randconfig-002-20240523 (https://download.01.org/0day-ci/archive/20240523/202405231834.Xi3hn3rT-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231834.Xi3hn3rT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405231728.tCAogiSI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405231834.Xi3hn3rT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   s390-linux-ld: mm/memory.o: in function `count_mthp_stat':
->> include/linux/huge_mm.h:285:(.text+0x191c): undefined reference to `mthp_stats'
-   s390-linux-ld: mm/huge_memory.o:(.rodata+0x10): undefined reference to `mthp_stats'
+   drivers/spmi/spmi-pmic-arb.c: In function 'spmi_pmic_arb_bus_init':
+>> drivers/spmi/spmi-pmic-arb.c:1740:49: error: incompatible type for argument 2 of 'irq_domain_add_tree'
+    1740 |         bus->domain = irq_domain_add_tree(node, pmic_arb_irq_domain_ops, bus);
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                 |
+         |                                                 struct irq_domain_ops
+   In file included from drivers/spmi/spmi-pmic-arb.c:11:
+   include/linux/irqdomain.h:369:71: note: expected 'const struct irq_domain_ops *' but argument is of type 'struct irq_domain_ops'
+     369 |                                          const struct irq_domain_ops *ops,
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +285 include/linux/huge_mm.h
+vim +/irq_domain_add_tree +1740 drivers/spmi/spmi-pmic-arb.c
 
-   279	
-   280	static inline void count_mthp_stat(int order, enum mthp_stat_item item)
-   281	{
-   282		if (order <= 0 || order > PMD_ORDER)
-   283			return;
-   284	
- > 285		this_cpu_inc(mthp_stats.stats[order][item]);
-   286	}
-   287	
+  1663	
+  1664	static int spmi_pmic_arb_bus_init(struct platform_device *pdev,
+  1665					  struct device_node *node,
+  1666					  struct spmi_pmic_arb *pmic_arb)
+  1667	{
+  1668		int bus_index = pmic_arb->buses_available;
+  1669		struct spmi_pmic_arb_bus *bus;
+  1670		struct device *dev = &pdev->dev;
+  1671		struct spmi_controller *ctrl;
+  1672		void __iomem *intr;
+  1673		void __iomem *cnfg;
+  1674		int index, ret;
+  1675		int irq;
+  1676	
+  1677		ctrl = devm_spmi_controller_alloc(dev, sizeof(*bus));
+  1678		if (IS_ERR(ctrl))
+  1679			return PTR_ERR(ctrl);
+  1680	
+  1681		ctrl->cmd = pmic_arb_cmd;
+  1682		ctrl->read_cmd = pmic_arb_read_cmd;
+  1683		ctrl->write_cmd = pmic_arb_write_cmd;
+  1684	
+  1685		bus = spmi_controller_get_drvdata(ctrl);
+  1686	
+  1687		pmic_arb->buses[bus_index] = bus;
+  1688	
+  1689		raw_spin_lock_init(&bus->lock);
+  1690	
+  1691		bus->ppid_to_apid = devm_kcalloc(dev, PMIC_ARB_MAX_PPID,
+  1692						 sizeof(*bus->ppid_to_apid),
+  1693						 GFP_KERNEL);
+  1694		if (!bus->ppid_to_apid)
+  1695			return -ENOMEM;
+  1696	
+  1697		bus->apid_data = devm_kcalloc(dev, pmic_arb->max_periphs,
+  1698					      sizeof(*bus->apid_data),
+  1699					      GFP_KERNEL);
+  1700		if (!bus->apid_data)
+  1701			return -ENOMEM;
+  1702	
+  1703		index = of_property_match_string(node, "reg-names", "cnfg");
+  1704		if (index < 0) {
+  1705			dev_err(dev, "cnfg reg region missing");
+  1706			return -EINVAL;
+  1707		}
+  1708	
+  1709		cnfg = devm_of_iomap(dev, node, index, NULL);
+  1710		if (IS_ERR(cnfg))
+  1711			return PTR_ERR(cnfg);
+  1712	
+  1713		index = of_property_match_string(node, "reg-names", "intr");
+  1714		if (index < 0) {
+  1715			dev_err(dev, "intr reg region missing");
+  1716			return -EINVAL;
+  1717		}
+  1718	
+  1719		intr = devm_of_iomap(dev, node, index, NULL);
+  1720		if (IS_ERR(intr))
+  1721			return PTR_ERR(intr);
+  1722	
+  1723		irq = of_irq_get_byname(node, "periph_irq");
+  1724		if (irq <= 0)
+  1725			return irq ?: -ENXIO;
+  1726	
+  1727		bus->pmic_arb = pmic_arb;
+  1728		bus->intr = intr;
+  1729		bus->cnfg = cnfg;
+  1730		bus->irq = irq;
+  1731		bus->spmic = ctrl;
+  1732		bus->id = bus_index;
+  1733	
+  1734		ret = pmic_arb->ver_ops->init_apid(bus, bus_index);
+  1735		if (ret)
+  1736			return ret;
+  1737	
+  1738		dev_dbg(&pdev->dev, "adding irq domain for bus %d\n", bus_index);
+  1739	
+> 1740		bus->domain = irq_domain_add_tree(node, pmic_arb_irq_domain_ops, bus);
+  1741		if (!bus->domain) {
+  1742			dev_err(&pdev->dev, "unable to create irq_domain\n");
+  1743			return -ENOMEM;
+  1744		}
+  1745	
+  1746		irq_set_chained_handler_and_data(bus->irq,
+  1747						 pmic_arb_chained_irq, bus);
+  1748	
+  1749		ctrl->dev.of_node = node;
+  1750		dev_set_name(&ctrl->dev, "spmi-%d", bus_index);
+  1751	
+  1752		ret = devm_spmi_controller_add(dev, ctrl);
+  1753		if (ret)
+  1754			return ret;
+  1755	
+  1756		pmic_arb->buses_available++;
+  1757	
+  1758		return 0;
+  1759	}
+  1760	
 
 -- 
 0-DAY CI Kernel Test Service
