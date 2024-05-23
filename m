@@ -1,214 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A3C13BAFE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 08:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716452681; cv=fail; b=dDz3/TKS00DJXXVsAmo9vklWb5HriSi8CdULi1WeAFbCMXdLSAUKsMwNrXXrj9h8AFHfTi9GjA+aaeZ53aX/6IEyxrMBxtRUfTw7ICRR8IQd/weh8gtPhjNJqcdvJtLnw+IozuGdmjdBW3brofgRt6x9mvOJMedxSOzhdWFsLv8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716452681; c=relaxed/simple;
-	bh=1GCF53pMln03iAGjiI1Bn42n2dRR3UBqzZb11OaUNwM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lxbiE9W0yf1PTrlwQ2KJerugQyLLScgteXLx06BR+KWL+uDgAmXEbtqNztlknNukZK0hxw/vUQEf9QnOqEe89IY1+SaAJma524BG7iBMFqdOzzh3Os4Sy1cSZIqPQIFHWs5bqRzNktgiB9HYfxN5yOMFwLAEB9o61O5npuQ0NR4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApMKsh+c; arc=fail smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38D45101A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 08:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716454555; cv=none; b=O5uII0sGGSaHcxsUoD5ogZX/3nouP8BfDaAmmBtXT8uSLfJ/+Qj4qThDJK7CUm4d+/vob5U2pYJOzik8CJMwZubGUv12AVscBVeOqjl1UJNlMwD0CA9ZvYrtE2BpCVPSJ8K8Lik5GSAKwbKuy3DMM9hYX7CleJrXQcGRuhaPt+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716454555; c=relaxed/simple;
+	bh=25CcG6eu7njXOf5qRUnFeO6ep8b78Wh+lTqcyrNNiwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XqC5nwocIX6TPptIN8rxiDVFwq4KLv647aGcv34FC3lgPKu3Pdk1L+OSJIMP0pNaWr530SxQXI5blJdBV20k11dG35ICgZ8YX9ZbZHoNswLb8ziFdQVrWeig503nNj1iGm4krEr4jERaw/6kJ2OaloA2IzGNY4XWRjjhoxqB23I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONsQwtno; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApMKsh+c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONsQwtno"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716452680; x=1747988680;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=1GCF53pMln03iAGjiI1Bn42n2dRR3UBqzZb11OaUNwM=;
-  b=ApMKsh+cry7rr90NILWrbN7QB6HJjUmKrRJtws6e+cFHEY1qYX2VGzxe
-   se77BxFuc80cgiF3Gms719KIUrm1WCbVvS2ekbjXOmdT4vxpxtMHNfxfl
-   uVNYFlDZRLmdlivYDFY+A2aj+aa0vQ8WSdf+duNXSVSVNVBXrryXz1lOf
-   dFWF1R7zaFCCQ79khly7nA9HexlNSjOjoQtgKlb48DzcBpukhdrIeF2aE
-   GtsVC3M+0ZIwK4d102i91vHvGUVSC3AMhgU0Lan63OC1djJjXOKQCXA3I
-   4YYlfrrGIw6AXP2M+dFaOLIBwo5h1ETxDRmLfzPuWiryXRLePSNDs/rU1
+  t=1716454553; x=1747990553;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=25CcG6eu7njXOf5qRUnFeO6ep8b78Wh+lTqcyrNNiwk=;
+  b=ONsQwtnoY8tAhXqilSOsni255CNc5EwAN0U6+qefng9vcH5ms+JhSHYa
+   8hAuXsc5IGc/CJmZJlU+uOU4MQO4h6yTGbATHCn12SLVfz8R/h/NCVIID
+   MbeJcIn04GPi9dB09ygfUXJ/ix4YcLqFOp42y2dNrOueUgrfR3SUSPWpv
+   KkvtY2UwAXa39n6bWKnhWxCCnLfkLh9cf5i6w4qdlmWKED9vNjie0kECE
+   zo86MfJ7PzGFthfLd8Vb55JiIky0rqDurc+cgyZtb8Xf1blT51z2mYKSF
+   Q6lW5/TXU3Fqb7A8I676rRcHn3dHhNWDs7iQRs6PBB8BAc3rxs+g+Ud96
    A==;
-X-CSE-ConnectionGUID: 2kF9wejmRReGlcqtwotHsw==
-X-CSE-MsgGUID: uxBqbRHzRo6oplgYGsjdqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="35264756"
+X-CSE-ConnectionGUID: NC8yU/IZSuGTVeoUbdRZog==
+X-CSE-MsgGUID: Lois9yTbRVi1fMCYwSKbRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="16546034"
 X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="35264756"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 01:24:38 -0700
-X-CSE-ConnectionGUID: sckBQaj6QGmrA5EUes6erA==
-X-CSE-MsgGUID: 0zCY1eNGQX2NPTCdsE/ZVQ==
+   d="scan'208";a="16546034"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 01:55:53 -0700
+X-CSE-ConnectionGUID: tJNc193qRlKXOZh5f2rSfw==
+X-CSE-MsgGUID: iJSz/j5ARWaWAj4xkp93oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="38367718"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 May 2024 01:24:35 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 23 May 2024 01:24:34 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 23 May 2024 01:24:34 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 23 May 2024 01:24:34 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 23 May 2024 01:24:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MsNZ0boagil9vYWWla5Td/FSyt6Jv5PAYDGLQW4J6sw1q/DscXDXL/JrKkoVlmG1d/fUlTXTE821OY8evgCNoRu7zG0bj+vcbP+tE1mhYoHFTXUtT5Y0GQ+Y1CMRRcLwCEVqCcUbvJrdMRSrDB+TEvwpTXBQFDeJ33vSrzoPzN4x2M2pWw71DV3EpCNArVQBc7mqdHrTw3ELZZ4LuBYxZYDBR0grE4tCvI+/PsqEAFmAqXXDS/vHwHC7i6B36L4NHaVoNoflYO9z9tPdsjKPYx5cTs5xFXHBZD9maFH45P3dia+/7MKXVLPNChsEFWhv8I9p8UgHM0/sPEjyQhp1/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ydxzvR+oPqK1HmNSrq+gVjnR1hTU7Qw3j7y/AtYI8ac=;
- b=JgxsuHrIzUkZP9OPwz2eEhsVi5rWf6X3lwDHRLv8nLQs3RjsV9Pd2VzOJnjsNKpKkMsWUMR/sJ/Zv7D9BbRQCS/iSLNahIgm1W5W54yYv4dcJYS1tthIUoykaxoM5HI4yItzkMCQn9/U5/n7Jl83AMFfVOpwzytnJNgsTtOhxCwaEh5C4cJvBK8T+wE6ZoiP5NCtpcfhqLpJvbuXXxRpmsHL4g5Ckfvae5cz+hCbccCgu0/u54Kam982TzKSosy16h96atIIqcvFyyldtt9ZvSGX6cRMKdX1MtStijCIll+gB+VhLJHjMZsPWK+N1MDBXoOaWsxeteYNV7sbbbSElA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by CYXPR11MB8711.namprd11.prod.outlook.com (2603:10b6:930:d7::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Thu, 23 May
- 2024 08:24:31 +0000
-Received: from SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45]) by SA1PR11MB8393.namprd11.prod.outlook.com
- ([fe80::1835:328e:6bb5:3a45%6]) with mapi id 15.20.7611.016; Thu, 23 May 2024
- 08:24:31 +0000
-Date: Thu, 23 May 2024 16:16:12 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Michael Ellerman <mpe@ellerman.id.au>
-CC: kernel test robot <lkp@intel.com>, Gautam Menghani <gautam@linux.ibm.com>,
-	<stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH] arch/powerpc/kvm: Fix doorbell emulation by adding DPDES
- support
-Message-ID: <Zk77TDyJ1nqlnZ+B@yujie-X299>
-References: <Zk2tjEcFtINQhCag@9ce27862b6d0>
- <87msoh2shc.fsf@mail.lhotse>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87msoh2shc.fsf@mail.lhotse>
-X-ClientProxiedBy: SGBP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::32)
- To SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
+   d="scan'208";a="38426065"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 23 May 2024 01:55:50 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sA4El-0002eN-2M;
+	Thu, 23 May 2024 08:55:47 +0000
+Date: Thu, 23 May 2024 16:54:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kairui Song <kasong@tencent.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Huang, Ying" <ying.huang@intel.com>
+Subject: [akpm-mm:mm-unstable 41/107] fs/f2fs/data.c:2060:28: error: call to
+ undeclared function 'page_index'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202405231654.kL0A7Y39-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB8393:EE_|CYXPR11MB8711:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0b87ac9-4e0b-4e79-4307-08dc7b01c572
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fy3fHdLTGpivVSZMmKWzVhPr+8N02OmInQFlFzI1cxXj7iGz9anGS9m0iR+v?=
- =?us-ascii?Q?QZmpB44Zv5lGcPycZCt6SKqU9oL1ak/JdLb8dofvl/dEbizuUq0vVndwdVKh?=
- =?us-ascii?Q?hhX/bGTAzwsYDLM4HV25kJv0hEdlRRR5akoFMVzUzRZC9BZTN8b29r8q0y1y?=
- =?us-ascii?Q?AT2bxpjXPFWKX2utdItIvmYYv5SCqINq0/uH2TTZ1OM1PGLhAxIH3DogXCFY?=
- =?us-ascii?Q?8F+GO3wUd3hoeQWei0bzxJK76UIocuFdVVgVkx6XuJdlgIi9BMmxOUilvIcl?=
- =?us-ascii?Q?YjVKPO5PWLRV1Xyy6wVrVidYtijs6QbTX42PN50qWEW4JREVHDZcYW1SnsdP?=
- =?us-ascii?Q?QMI+VF10nPIAP10LXVEsZ+2oh0n5qBUguxI3EgRJQW/XS7gR+zY3/lIc6vLV?=
- =?us-ascii?Q?/XQRyoHlOg6NvDnq7yJ5CYyNyFsQ8B9WUeiAJYfXcdZWLtsz+/V9ql2Kd2sj?=
- =?us-ascii?Q?S6/LGE8tfxdeoPXFw+qlYT1/nN3H1DT9WPf5/lhlHC6zfP+RWE1kPosl3+uz?=
- =?us-ascii?Q?Um53/J61Tk12rbO7XWPC2zfeoHGzdom25Q4mS0SnCvJd+5c+ietkleDgOry5?=
- =?us-ascii?Q?TKdCzGrJbyA7agLCIbPGe01l3uh/79HxxodGGuD0Cc38r0K438K1AEqQTU3C?=
- =?us-ascii?Q?UWYt7KDFtQhCseBn091gnGqeo8CA+EXpfiZXFvLxhw9RDmlXYk/mSekZ3ZIv?=
- =?us-ascii?Q?qdxrPD6TGyVpOJzbdWn7XjYmvX9BRygueRwHHEpqbuaGXuItSYP0qYxNwnhW?=
- =?us-ascii?Q?ts13sLnIEHxoz0xu3iJOknOTYwQOJGsGhMF4hSeGYYsh9y0wJZ6JqgYKDdS7?=
- =?us-ascii?Q?LzbZzlRDlICiVCRkEIYkbUILPGYZlkQbDgLYWl2Ejc3u90o1w9lYixRA/f0g?=
- =?us-ascii?Q?W4nXDbKpfLIR+lZkfeSAo4UXt7ZPXmPaJ5yqOfNCI7UbLqSw7imkHC5tte2h?=
- =?us-ascii?Q?I8Cu/iFuPGZy6RypcXZAoO3BxUQFOeQRS5oF7eh0BrsIBhWhWVskQQeMyffl?=
- =?us-ascii?Q?l8q0aN2zfT6MFTy43dmqjDJ1mXIJVYP6LXGABQW/f7hvXGcAs11/52XFscqO?=
- =?us-ascii?Q?1ZAVO1RubBmVz5A2CG9gR+47G3D2XAq1DR7Tioqgj0yi0FidR9DAGXDct6On?=
- =?us-ascii?Q?oseuTS5/6nZaPcEPPFznNociuF3nloVPSOrdluyRhuLQZUQ8YgSkdJNDsRUC?=
- =?us-ascii?Q?QUTBZW5vHkhLR30AdL2vGKamjNXAamcgSo+g52DlG9mhWqbfYUF03FBQapk?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rySNFiPdOMdGNCp84Zp/HXQv69Ug7Ofcp0dDL0qOjjZwg8jjS2uvb8ZHiAlU?=
- =?us-ascii?Q?lwGUFAox5/mt8N0t2LI7M6VaTsl/KAeJeM/ybS8UsjhXHK+X/GhFOtc8NwAf?=
- =?us-ascii?Q?ydX93Wfivqo5Vngm9DkdRHheaShCK9zYMRulcgyCfIZzkB8OXxIZv5K9isWK?=
- =?us-ascii?Q?dqe//o6e3QEDa/DQDaSffipp2usGNGXM+vda8CdVOMAUiYwjPO5UTJzae/A6?=
- =?us-ascii?Q?uvi3ERjIVykJ5NQmUsxa8xOMBufwiutxv4kdSijyTVpFj/ZTVvm4oC3076dh?=
- =?us-ascii?Q?6A5zpOsJ8+3P776OSIj59OtPqAIp6YHoK848uTYvo3lJ17hdzlsE3Q1qB1Bd?=
- =?us-ascii?Q?k9yNrddH7Mzk6tTXAHS9x+uC0hpImSgmziWHFs5IcIT7zCBMGPxfVbOxcy22?=
- =?us-ascii?Q?HJCMhYIUh3br8W0MDs9xm8n/Uqv02MxF21wwYxmxmFazsjccST4lMdbmhONv?=
- =?us-ascii?Q?gkJByxWqyjI7OaYoEIwXUSHbxwusfjEbLePtgzB1KM5H0lfWvv9q4psnKNfV?=
- =?us-ascii?Q?qJymxdse4PqE1WIxfseVo6O95Z59gkzP5iWqHD6o6bLlaDqIj+/D2OvsJrgC?=
- =?us-ascii?Q?tRPdWC+vu8G6OCcpX39Dn3lqrrZtDu54tNBp+SuaNy+eS2GR1vkGJzYVTOjP?=
- =?us-ascii?Q?LbSUMhk7sK00qfwSlmEEU0ayvP8njzylU4hg8vfLGL5KprxA7myVAUbI9wJs?=
- =?us-ascii?Q?AX3r6rMQxc0/Or/0Rbme3Mbsp83pHEweCNa5P3In+NtD9tKbHeUnGWJLvoKH?=
- =?us-ascii?Q?BsfTnbqeBf+Vry5WNMXY59wetkTT1XmNrYMLwdmJ4CFvCpHorOy7sGOAxbwo?=
- =?us-ascii?Q?Rq9x02CmfBJiDje1VDQ6/JS76UQIOojaVNfLtiMHH/WsLOlOTS/PpHP+XjfU?=
- =?us-ascii?Q?63nI9UIVhfohc3/7tcV2FAcHreoHb55GhnwlfNedaM32HqnuZFP2uFcGtUbL?=
- =?us-ascii?Q?Vsl/d717ankhK3NdLNVpp0JnR7GnsmiYnJCjouyN1WBOmkRhIQvYQl7c2OBh?=
- =?us-ascii?Q?UWyvQjwvh7vJdF3+xROJ57DE6C+r5hO0beDX4nHNFX9D1eqS8ykfgT3nJL/9?=
- =?us-ascii?Q?7MzSFS//X0kH0LWKrSpMSZm4FzNzapHoQg6NJedOTumYEb1DvYSY+lYy4Pp4?=
- =?us-ascii?Q?YeA0Gr/kep0qq2jYXoZBzT1Pa5oDpnxZxXZ7NcTtYVGm0W2YuDjZI773CJYe?=
- =?us-ascii?Q?mJPDOFPH5Vtw/guqGTQbckOdkS8o+BvoO2REavVFGr1EnIWnnZNd++f9xwV0?=
- =?us-ascii?Q?zBMSMgnzNtoKpyGb1jWtoc+/NU7+jKsOIoi4StGV1gQoJOrqgOog3GlRUU6s?=
- =?us-ascii?Q?fF0xGUR1GuRPV8ENhK+4T5+C3eO4cD7SK8Usm9Iag47doVnQW7eOew6ZYQmv?=
- =?us-ascii?Q?uQyXC7S4/fMxVqSuBZ6VHxkg2gFpoGaR9XH6E+pJJB23G6uIGHJOoc/5ioyi?=
- =?us-ascii?Q?vsM+tDPaWh2TEvUl2Ie/Hl0+amYHgmMZ+Lt1iBWGHdrcxy63x/Y8ezvwJod3?=
- =?us-ascii?Q?SIYEYei8tYcuDATotJTwIK3gYpwl3tIoYq5clN/muCfkscLVdo1sZhdzAgrX?=
- =?us-ascii?Q?OwWjrPWKJpuFT6YBbrrrz8Ge4fEMEd7psxfiK8bK?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0b87ac9-4e0b-4e79-4307-08dc7b01c572
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2024 08:24:31.8767
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JmwALeavFRVcwfQ8+D5e0g6NXxNH/d4xMxzn4LZh6jpOYDQp1r2hNn2wlhtX+8kXGomLfvek1nDQtdmmK8obCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8711
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, May 23, 2024 at 12:05:03PM +1000, Michael Ellerman wrote:
-> kernel test robot <lkp@intel.com> writes:
-> > Hi,
-> >
-> > Thanks for your patch.
-> 
-> I found this report confusing.
-> 
-> It seems like it's saying a patch with "Fixes: ..." *must* include a
-> "Cc: stable" tag, but that is wrong, it's up to the developer to decide.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   c65920c76a977c2b73c3a8b03b4c0c00cc1285ed
+commit: ca2b437e3fdab3a172e554095d9402113d2262a8 [41/107] mm: drop page_index and simplify folio_index
+config: mips-randconfig-r081-20240523 (https://download.01.org/0day-ci/archive/20240523/202405231654.kL0A7Y39-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405231654.kL0A7Y39-lkp@intel.com/reproduce)
 
-We actually wish to notify that to have a patch automatically picked up
-for stable inclusion, it should add a "CC: stable" tag, regardless of
-whether it is a "Fixes:" patch or not.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405231654.kL0A7Y39-lkp@intel.com/
 
-Sorry for any confusion. We will consider improving the wording.
+All errors (new ones prefixed by >>):
 
-Thanks,
-Yujie
+>> fs/f2fs/data.c:2060:28: error: call to undeclared function 'page_index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           block_in_file = (sector_t)page_index(page);
+                                     ^
+   fs/f2fs/data.c:2060:28: note: did you mean 'pte_index'?
+   include/linux/pgtable.h:67:29: note: 'pte_index' declared here
+   static inline unsigned long pte_index(unsigned long address)
+                               ^
+   1 error generated.
 
-> 
-> What it's trying to say is that the patch was Cc'ed via mail to
-> stable@vger.kernel.org and that is not the correct way to request stable
-> inclusion.
-> 
-> So can I suggest the report begins with something like:
-> 
->   Your patch was Cc'ed via mail to stable@vger.kernel.org but that is
->   not the correct way to requestion stable inclusion, the correct method
->   is ....
-> 
-> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> >
-> > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-> >
-> > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> > Subject: [PATCH] arch/powerpc/kvm: Fix doorbell emulation by adding DPDES support
-> > Link: https://lore.kernel.org/stable/20240522082838.121769-1-gautam%40linux.ibm.com
-> 
-> 
-> cheers
-> 
+
+vim +/page_index +2060 fs/f2fs/data.c
+
+95ae251fe82838 Eric Biggers       2019-07-22  2044  
+2df0ab045784a1 Chao Yu            2019-03-25  2045  static int f2fs_read_single_page(struct inode *inode, struct page *page,
+2df0ab045784a1 Chao Yu            2019-03-25  2046  					unsigned nr_pages,
+2df0ab045784a1 Chao Yu            2019-03-25  2047  					struct f2fs_map_blocks *map,
+2df0ab045784a1 Chao Yu            2019-03-25  2048  					struct bio **bio_ret,
+2df0ab045784a1 Chao Yu            2019-03-25  2049  					sector_t *last_block_in_bio,
+2df0ab045784a1 Chao Yu            2019-03-25  2050  					bool is_readahead)
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2051  {
+2df0ab045784a1 Chao Yu            2019-03-25  2052  	struct bio *bio = *bio_ret;
+43b9d4b4d91c02 Jaegeuk Kim        2020-11-24  2053  	const unsigned blocksize = blks_to_bytes(inode, 1);
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2054  	sector_t block_in_file;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2055  	sector_t last_block;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2056  	sector_t last_block_in_file;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2057  	sector_t block_nr;
+2df0ab045784a1 Chao Yu            2019-03-25  2058  	int ret = 0;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2059  
+4969c06a0d83c9 Jaegeuk Kim        2019-07-01 @2060  	block_in_file = (sector_t)page_index(page);
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2061  	last_block = block_in_file + nr_pages;
+43b9d4b4d91c02 Jaegeuk Kim        2020-11-24  2062  	last_block_in_file = bytes_to_blks(inode,
+43b9d4b4d91c02 Jaegeuk Kim        2020-11-24  2063  			f2fs_readpage_limit(inode) + blocksize - 1);
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2064  	if (last_block > last_block_in_file)
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2065  		last_block = last_block_in_file;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2066  
+86109c9064daf2 Chao Yu            2019-03-07  2067  	/* just zeroing out page which is beyond EOF */
+86109c9064daf2 Chao Yu            2019-03-07  2068  	if (block_in_file >= last_block)
+86109c9064daf2 Chao Yu            2019-03-07  2069  		goto zero_out;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2070  	/*
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2071  	 * Map blocks using the previous result first.
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2072  	 */
+2df0ab045784a1 Chao Yu            2019-03-25  2073  	if ((map->m_flags & F2FS_MAP_MAPPED) &&
+2df0ab045784a1 Chao Yu            2019-03-25  2074  			block_in_file > map->m_lblk &&
+2df0ab045784a1 Chao Yu            2019-03-25  2075  			block_in_file < (map->m_lblk + map->m_len))
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2076  		goto got_it;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2077  
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2078  	/*
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2079  	 * Then do more f2fs_map_blocks() calls until we are
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2080  	 * done with this page.
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2081  	 */
+2df0ab045784a1 Chao Yu            2019-03-25  2082  	map->m_lblk = block_in_file;
+2df0ab045784a1 Chao Yu            2019-03-25  2083  	map->m_len = last_block - block_in_file;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2084  
+cd8fc5226bef3a Christoph Hellwig  2022-11-28  2085  	ret = f2fs_map_blocks(inode, map, F2FS_GET_BLOCK_DEFAULT);
+2df0ab045784a1 Chao Yu            2019-03-25  2086  	if (ret)
+2df0ab045784a1 Chao Yu            2019-03-25  2087  		goto out;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2088  got_it:
+2df0ab045784a1 Chao Yu            2019-03-25  2089  	if ((map->m_flags & F2FS_MAP_MAPPED)) {
+2df0ab045784a1 Chao Yu            2019-03-25  2090  		block_nr = map->m_pblk + block_in_file - map->m_lblk;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2091  		SetPageMappedToDisk(page);
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2092  
+c9b60788fc760d Chao Yu            2018-08-01  2093  		if (!f2fs_is_valid_blkaddr(F2FS_I_SB(inode), block_nr,
+93770ab7a6e963 Chao Yu            2019-04-15  2094  						DATA_GENERIC_ENHANCE_READ)) {
+10f966bbf521bb Chao Yu            2019-06-20  2095  			ret = -EFSCORRUPTED;
+2df0ab045784a1 Chao Yu            2019-03-25  2096  			goto out;
+2df0ab045784a1 Chao Yu            2019-03-25  2097  		}
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2098  	} else {
+86109c9064daf2 Chao Yu            2019-03-07  2099  zero_out:
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2100  		zero_user_segment(page, 0, PAGE_SIZE);
+95ae251fe82838 Eric Biggers       2019-07-22  2101  		if (f2fs_need_verity(inode, page->index) &&
+95ae251fe82838 Eric Biggers       2019-07-22  2102  		    !fsverity_verify_page(page)) {
+95ae251fe82838 Eric Biggers       2019-07-22  2103  			ret = -EIO;
+95ae251fe82838 Eric Biggers       2019-07-22  2104  			goto out;
+95ae251fe82838 Eric Biggers       2019-07-22  2105  		}
+237c0790e54020 Jaegeuk Kim        2016-06-30  2106  		if (!PageUptodate(page))
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2107  			SetPageUptodate(page);
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2108  		unlock_page(page);
+2df0ab045784a1 Chao Yu            2019-03-25  2109  		goto out;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2110  	}
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2111  
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2112  	/*
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2113  	 * This page will go to BIO.  Do we need to send this
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2114  	 * BIO off first?
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2115  	 */
+27aacd28ea3b89 Satya Tangirala    2020-07-02  2116  	if (bio && (!page_is_mergeable(F2FS_I_SB(inode), bio,
+27aacd28ea3b89 Satya Tangirala    2020-07-02  2117  				       *last_block_in_bio, block_nr) ||
+27aacd28ea3b89 Satya Tangirala    2020-07-02  2118  		    !f2fs_crypt_mergeable_bio(bio, inode, page->index, NULL))) {
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2119  submit_and_realloc:
+bc29835a9d4860 Christoph Hellwig  2022-11-28  2120  		f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2121  		bio = NULL;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2122  	}
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2123  	if (bio == NULL) {
+e2e59414aae2c8 Jaegeuk Kim        2018-06-21  2124  		bio = f2fs_grab_read_bio(inode, block_nr, nr_pages,
+0683728adab251 Chao Yu            2020-02-18  2125  				is_readahead ? REQ_RAHEAD : 0, page->index,
+7f59b277f79e8a Eric Biggers       2021-01-04  2126  				false);
+1d353eb7e43853 Jaegeuk Kim        2016-07-12  2127  		if (IS_ERR(bio)) {
+2df0ab045784a1 Chao Yu            2019-03-25  2128  			ret = PTR_ERR(bio);
+1d353eb7e43853 Jaegeuk Kim        2016-07-12  2129  			bio = NULL;
+2df0ab045784a1 Chao Yu            2019-03-25  2130  			goto out;
+4375a33664de17 Jaegeuk Kim        2015-04-23  2131  		}
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2132  	}
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2133  
+0ded69f632bb71 Jaegeuk Kim        2018-08-22  2134  	/*
+0ded69f632bb71 Jaegeuk Kim        2018-08-22  2135  	 * If the page is under writeback, we need to wait for
+0ded69f632bb71 Jaegeuk Kim        2018-08-22  2136  	 * its completion to see the correct decrypted data.
+0ded69f632bb71 Jaegeuk Kim        2018-08-22  2137  	 */
+0ded69f632bb71 Jaegeuk Kim        2018-08-22  2138  	f2fs_wait_on_block_writeback(inode, block_nr);
+0ded69f632bb71 Jaegeuk Kim        2018-08-22  2139  
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2140  	if (bio_add_page(bio, page, blocksize, 0) < blocksize)
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2141  		goto submit_and_realloc;
+f1e8866016b53b Jaegeuk Kim        2015-04-09  2142  
+5f9abab42b60e6 Jaegeuk Kim        2018-10-16  2143  	inc_page_count(F2FS_I_SB(inode), F2FS_RD_DATA);
+34a23525601a16 Chao Yu            2022-08-20  2144  	f2fs_update_iostat(F2FS_I_SB(inode), NULL, FS_DATA_READ_IO,
+34a23525601a16 Chao Yu            2022-08-20  2145  							F2FS_BLKSIZE);
+2df0ab045784a1 Chao Yu            2019-03-25  2146  	*last_block_in_bio = block_nr;
+2df0ab045784a1 Chao Yu            2019-03-25  2147  out:
+2df0ab045784a1 Chao Yu            2019-03-25  2148  	*bio_ret = bio;
+2df0ab045784a1 Chao Yu            2019-03-25  2149  	return ret;
+2df0ab045784a1 Chao Yu            2019-03-25  2150  }
+2df0ab045784a1 Chao Yu            2019-03-25  2151  
+
+:::::: The code at line 2060 was first introduced by commit
+:::::: 4969c06a0d83c9c3dc50b8efcdc8eeedfce896f6 f2fs: support swap file w/ DIO
+
+:::::: TO: Jaegeuk Kim <jaegeuk@kernel.org>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
