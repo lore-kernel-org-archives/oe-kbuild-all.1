@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6711878
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 01:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9727B187F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 May 2024 01:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716427654; cv=none; b=s6Sl8GQ1nZBeY/rl7pQT/ETjNZtRattxPtsUNKATLJEaIMZLSM8WfQfVM/AXrw/EbKif9hUYzfaAKA4LQL6VU+Yd3bN22N56f4a5o5cTgzYTjuN2JDNcZY9BaB03m6Ed3jEVQH14BLv0IooJLZqI3JhSBG5sVwEongdJkV1WTsk=
+	t=1716427655; cv=none; b=emhe587sU29YYOHFcYerIWfgTF+2GS3u6PjUfn8TXeTDBcr9WZniJjFdRxSYymbLb2jYMY9heqGJcjbtbe9qr4LxbLE6cyB21I1QsjE2GX2BKatiArwrr8XZdFZPUDEFTRIQ5jM4F1L2gHJLCB278WCKmdaPhys6fA6NDG0+tDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716427654; c=relaxed/simple;
-	bh=9mChbEGRCGXdHjBBTVfRrJk/w9wYP+YI5HNJxfvG214=;
+	s=arc-20240116; t=1716427655; c=relaxed/simple;
+	bh=gP6mZchGnRcBPPCl64YGZjtTtoXmQ7Joujf+lM4ucXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kgv9YYdF1YyA0d3J6nFaCGkzq+n+moCwXfScxWrSmJrEc2mZFzDny812MNrVsLgcmfijnmcuQ5dW++KakLMCpMLo6ZLe5rEY+HhPq6RYS3MsiK5pVFfwSKrBaBDUbXqp26/jAnJOnvH7oIZIlV9DBanIQX0iAR72ZGVP9SG82Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+ngSQIC; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=rQL8A5lZF2VsNaaWJqCyh512h8odnQOG+lIKiif7hVGS8GdPPAA0Ars7qjQI+Ch4Ot5+hJZ/6gJamABov0puYZwFgDPPeURvWK3J3iYx2kqJZe5fPY/o2JE4fE9K7dl+/hqpTL3kQW3KL0cBnF115YCUP4NFOgq9KggMGEDEAD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcNLzS54; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+ngSQIC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcNLzS54"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716427652; x=1747963652;
+  t=1716427654; x=1747963654;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9mChbEGRCGXdHjBBTVfRrJk/w9wYP+YI5HNJxfvG214=;
-  b=L+ngSQICtumFZTzBBdGuDq9PmP3u+OScqZZXYwqkjMYvbsBLCh6WmtsW
-   Da5smvxmeTQQUz1kvESG6FyFD05k63qNJQJlu3qbb1/lBdJsSEsFkNPQj
-   fWqY3S7Z6RureiqrQz1ExPMcITf8bCGZhNEBjpV5LdU4DTUW/QjBeQsMT
-   VqFVPTTijZTc7xzd/+8ljbksdRP2oxYCi32G2w5fIudhBaAG89p0Fm/+N
-   c9TCvDF/ZKa5cefl77rVFQQjOFxG9aRHR85kFHygrzczly2gme0mxbV4b
-   5SNICwloBvPtJBHeQJeqq+lsSQLdcRrabJH9xaJF/hMHW0R+LaLv0pMRA
-   A==;
-X-CSE-ConnectionGUID: Q9Nqis7bSJOljMZYt7UYQw==
-X-CSE-MsgGUID: N7foHtF+QdqsGYuNzfzUQQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="12566082"
+  bh=gP6mZchGnRcBPPCl64YGZjtTtoXmQ7Joujf+lM4ucXg=;
+  b=dcNLzS54cMzOMxrII2MonJUTiXLvHLxO5qvWG9Ess8PcHQh5NTGmbmKs
+   hkRxJyzarnV6vX7KvXUavHqnlNHBSujbhIvBrpMWuOt2bLQNGmPPX/BPq
+   hY8XaXStHw3UhZSpOYKGjOQ+LXPNWCihmi4WjXVQbgLQh9We/pnqF7PAJ
+   GvWaZHpcsXS/BlFQnl9NO+f103KiE4lYFURqUureOihVlSjw4wi7eLRow
+   ia9gCCvLA1n3i2If0PDIzGJ1F7X+s7betUKPAL0uqsxYZG5gr1Tr4sT3R
+   QMowob2yGVM1oYFiUv8NRtBSjBBYDl7FvaUamxBqGY6EtUgibCWRYXRAS
+   w==;
+X-CSE-ConnectionGUID: FGaWtry5RPymjToJ5Eg6+A==
+X-CSE-MsgGUID: sEXeD8vvQaKpfEsSyj29Kw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="30247186"
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="12566082"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 18:27:32 -0700
-X-CSE-ConnectionGUID: bieC52YKTJa9EeQbz4FZvg==
-X-CSE-MsgGUID: BWZaop1SSf6sDfKtM5oxEA==
+   d="scan'208";a="30247186"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 18:27:33 -0700
+X-CSE-ConnectionGUID: Y4mumLR/R6K6wycpL3aEuQ==
+X-CSE-MsgGUID: kQZKPJyMTQSrj+hp7+JgcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
-   d="scan'208";a="70892702"
+   d="scan'208";a="38327022"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 May 2024 18:27:31 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 May 2024 18:27:31 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9xEu-0002JZ-20;
+	id 1s9xEu-0002Jb-24;
 	Thu, 23 May 2024 01:27:28 +0000
-Date: Thu, 23 May 2024 09:27:01 +0800
+Date: Thu, 23 May 2024 09:27:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hao Chen <970353908@qq.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 9677/9706]
- arch/arm64/kernel/cpufeature.c:2129:13: warning: unused variable
- 'enable_pseudo_nmi'
-Message-ID: <202405230925.19JMExYE-lkp@intel.com>
+To: Tanmay Shah <tanmay.shah@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Saeed Nowshadi <saeed.nowshadi@amd.com>
+Subject: drivers/mailbox/zynqmp-ipi-mailbox.c:914:15: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202405230902.aIsI0MHh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +64,155 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   b51533d469099a915373a13041776b93b232ff65
-commit: c6ce2becb89528f83c1ad3c0607ad05baecebc0a [9677/9706] arm64/cpufeature: Fix pseudo nmi identifier undeclaration complilation error
-config: arm64-randconfig-001-20240523 (https://download.01.org/0day-ci/archive/20240523/202405230925.19JMExYE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de7e71ef8bed222dd144d8878091ecb6d5dfd208
+commit: 6ffb1635341bec50fa9540ae7827d1e5d75ae0b0 mailbox: zynqmp: handle SGI for shared IPI
+date:   3 days ago
+config: arm64-randconfig-r132-20240523 (https://download.01.org/0day-ci/archive/20240523/202405230902.aIsI0MHh-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230925.19JMExYE-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240523/202405230902.aIsI0MHh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405230925.19JMExYE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230902.aIsI0MHh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:914:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct zynqmp_ipi_pdata [noderef] __percpu *pdata @@     got void * @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:914:15: sparse:     expected struct zynqmp_ipi_pdata [noderef] __percpu *pdata
+   drivers/mailbox/zynqmp-ipi-mailbox.c:914:15: sparse:     got void *
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:921:56: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected unsigned int [usertype] *out_value @@     got unsigned int [noderef] __percpu * @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:921:56: sparse:     expected unsigned int [usertype] *out_value
+   drivers/mailbox/zynqmp-ipi-mailbox.c:921:56: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:936:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct zynqmp_ipi_mbox *mbox @@     got struct zynqmp_ipi_mbox [noderef] __percpu * @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:936:14: sparse:     expected struct zynqmp_ipi_mbox *mbox
+   drivers/mailbox/zynqmp-ipi-mailbox.c:936:14: sparse:     got struct zynqmp_ipi_mbox [noderef] __percpu *
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:940:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct zynqmp_ipi_pdata *pdata @@     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:940:29: sparse:     expected struct zynqmp_ipi_pdata *pdata
+   drivers/mailbox/zynqmp-ipi-mailbox.c:940:29: sparse:     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:964:60: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct zynqmp_ipi_pdata *pdata @@     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:964:60: sparse:     expected struct zynqmp_ipi_pdata *pdata
+   drivers/mailbox/zynqmp-ipi-mailbox.c:964:60: sparse:     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:974:68: sparse: sparse: incorrect type in argument 6 (different address spaces) @@     expected void *dev_id @@     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:974:68: sparse:     expected void *dev_id
+   drivers/mailbox/zynqmp-ipi-mailbox.c:974:68: sparse:     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:983:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *data @@     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:983:36: sparse:     expected void *data
+   drivers/mailbox/zynqmp-ipi-mailbox.c:983:36: sparse:     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata
+   drivers/mailbox/zynqmp-ipi-mailbox.c:987:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct zynqmp_ipi_pdata *pdata @@     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata @@
+   drivers/mailbox/zynqmp-ipi-mailbox.c:987:32: sparse:     expected struct zynqmp_ipi_pdata *pdata
+   drivers/mailbox/zynqmp-ipi-mailbox.c:987:32: sparse:     got struct zynqmp_ipi_pdata [noderef] __percpu *pdata
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:918:9: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:934:9: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:963:17: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:964:48: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:972:17: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:973:45: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:973:45: sparse: sparse: dereference of noderef expression
+   drivers/mailbox/zynqmp-ipi-mailbox.c:978:17: sparse: sparse: dereference of noderef expression
 
-   In file included from arch/arm64/kernel/cpufeature.c:67:
-   In file included from include/linux/crash_dump.h:5:
-   In file included from include/linux/kexec.h:18:
-   In file included from include/linux/crash_core.h:6:
-   In file included from include/linux/elfcore.h:11:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2234:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/cpufeature.c:2129:13: warning: unused variable 'enable_pseudo_nmi' [-Wunused-variable]
-    2129 | static bool enable_pseudo_nmi;
-         |             ^~~~~~~~~~~~~~~~~
-   5 warnings generated.
+vim +914 drivers/mailbox/zynqmp-ipi-mailbox.c
 
+4981b82ba2ff87 Wendy Liang        2019-02-21  897  
+4981b82ba2ff87 Wendy Liang        2019-02-21  898  static int zynqmp_ipi_probe(struct platform_device *pdev)
+4981b82ba2ff87 Wendy Liang        2019-02-21  899  {
+4981b82ba2ff87 Wendy Liang        2019-02-21  900  	struct device *dev = &pdev->dev;
+4981b82ba2ff87 Wendy Liang        2019-02-21  901  	struct device_node *nc, *np = pdev->dev.of_node;
+6ffb1635341bec Tanmay Shah        2024-05-03  902  	struct zynqmp_ipi_pdata __percpu *pdata;
+6ffb1635341bec Tanmay Shah        2024-05-03  903  	struct of_phandle_args out_irq;
+4981b82ba2ff87 Wendy Liang        2019-02-21  904  	struct zynqmp_ipi_mbox *mbox;
+4981b82ba2ff87 Wendy Liang        2019-02-21  905  	int num_mboxes, ret = -EINVAL;
+41bcf30100c521 Ben Levinsky       2024-04-10  906  	setup_ipi_fn ipi_fn;
+4981b82ba2ff87 Wendy Liang        2019-02-21  907  
+f72f805e72882c Tanmay Shah        2023-03-10  908  	num_mboxes = of_get_available_child_count(np);
+f72f805e72882c Tanmay Shah        2023-03-10  909  	if (num_mboxes == 0) {
+f72f805e72882c Tanmay Shah        2023-03-10  910  		dev_err(dev, "mailbox nodes not available\n");
+f72f805e72882c Tanmay Shah        2023-03-10  911  		return -EINVAL;
+f72f805e72882c Tanmay Shah        2023-03-10  912  	}
+f72f805e72882c Tanmay Shah        2023-03-10  913  
+043f85ce81cb17 Christophe JAILLET 2022-11-20 @914  	pdata = devm_kzalloc(dev, struct_size(pdata, ipi_mboxes, num_mboxes),
+4981b82ba2ff87 Wendy Liang        2019-02-21  915  			     GFP_KERNEL);
+4981b82ba2ff87 Wendy Liang        2019-02-21  916  	if (!pdata)
+4981b82ba2ff87 Wendy Liang        2019-02-21  917  		return -ENOMEM;
+4981b82ba2ff87 Wendy Liang        2019-02-21 @918  	pdata->dev = dev;
+4981b82ba2ff87 Wendy Liang        2019-02-21  919  
+4981b82ba2ff87 Wendy Liang        2019-02-21  920  	/* Get the IPI local agents ID */
+4981b82ba2ff87 Wendy Liang        2019-02-21 @921  	ret = of_property_read_u32(np, "xlnx,ipi-id", &pdata->local_id);
+4981b82ba2ff87 Wendy Liang        2019-02-21  922  	if (ret < 0) {
+4981b82ba2ff87 Wendy Liang        2019-02-21  923  		dev_err(dev, "No IPI local ID is specified.\n");
+4981b82ba2ff87 Wendy Liang        2019-02-21  924  		return ret;
+4981b82ba2ff87 Wendy Liang        2019-02-21  925  	}
+4981b82ba2ff87 Wendy Liang        2019-02-21  926  
+41bcf30100c521 Ben Levinsky       2024-04-10  927  	ipi_fn = (setup_ipi_fn)device_get_match_data(&pdev->dev);
+41bcf30100c521 Ben Levinsky       2024-04-10  928  	if (!ipi_fn) {
+41bcf30100c521 Ben Levinsky       2024-04-10  929  		dev_err(dev,
+41bcf30100c521 Ben Levinsky       2024-04-10  930  			"Mbox Compatible String is missing IPI Setup fn.\n");
+41bcf30100c521 Ben Levinsky       2024-04-10  931  		return -ENODEV;
+41bcf30100c521 Ben Levinsky       2024-04-10  932  	}
+41bcf30100c521 Ben Levinsky       2024-04-10  933  
+4981b82ba2ff87 Wendy Liang        2019-02-21  934  	pdata->num_mboxes = num_mboxes;
+4981b82ba2ff87 Wendy Liang        2019-02-21  935  
+4981b82ba2ff87 Wendy Liang        2019-02-21 @936  	mbox = pdata->ipi_mboxes;
+41bcf30100c521 Ben Levinsky       2024-04-10  937  	mbox->setup_ipi_fn = ipi_fn;
+41bcf30100c521 Ben Levinsky       2024-04-10  938  
+4981b82ba2ff87 Wendy Liang        2019-02-21  939  	for_each_available_child_of_node(np, nc) {
+4981b82ba2ff87 Wendy Liang        2019-02-21 @940  		mbox->pdata = pdata;
+4981b82ba2ff87 Wendy Liang        2019-02-21  941  		ret = zynqmp_ipi_mbox_probe(mbox, nc);
+4981b82ba2ff87 Wendy Liang        2019-02-21  942  		if (ret) {
+2453128847ca1e Wang Qing          2021-12-13  943  			of_node_put(nc);
+4981b82ba2ff87 Wendy Liang        2019-02-21  944  			dev_err(dev, "failed to probe subdev.\n");
+4981b82ba2ff87 Wendy Liang        2019-02-21  945  			ret = -EINVAL;
+4981b82ba2ff87 Wendy Liang        2019-02-21  946  			goto free_mbox_dev;
+4981b82ba2ff87 Wendy Liang        2019-02-21  947  		}
+4981b82ba2ff87 Wendy Liang        2019-02-21  948  		mbox++;
+4981b82ba2ff87 Wendy Liang        2019-02-21  949  	}
+4981b82ba2ff87 Wendy Liang        2019-02-21  950  
+6ffb1635341bec Tanmay Shah        2024-05-03  951  	ret = of_irq_parse_one(dev_of_node(dev), 0, &out_irq);
+6ffb1635341bec Tanmay Shah        2024-05-03  952  	if (ret < 0) {
+6ffb1635341bec Tanmay Shah        2024-05-03  953  		dev_err(dev, "failed to parse interrupts\n");
+6ffb1635341bec Tanmay Shah        2024-05-03  954  		goto free_mbox_dev;
+6ffb1635341bec Tanmay Shah        2024-05-03  955  	}
+6ffb1635341bec Tanmay Shah        2024-05-03  956  	ret = out_irq.args[1];
+6ffb1635341bec Tanmay Shah        2024-05-03  957  
+6ffb1635341bec Tanmay Shah        2024-05-03  958  	/*
+6ffb1635341bec Tanmay Shah        2024-05-03  959  	 * If Interrupt number is in SGI range, then request SGI else request
+6ffb1635341bec Tanmay Shah        2024-05-03  960  	 * IPI system IRQ.
+6ffb1635341bec Tanmay Shah        2024-05-03  961  	 */
+6ffb1635341bec Tanmay Shah        2024-05-03  962  	if (ret < MAX_SGI) {
+6ffb1635341bec Tanmay Shah        2024-05-03  963  		pdata->irq = ret;
+6ffb1635341bec Tanmay Shah        2024-05-03 @964  		ret = xlnx_mbox_init_sgi(pdev, pdata->irq, pdata);
+6ffb1635341bec Tanmay Shah        2024-05-03  965  		if (ret)
+6ffb1635341bec Tanmay Shah        2024-05-03  966  			goto free_mbox_dev;
+6ffb1635341bec Tanmay Shah        2024-05-03  967  	} else {
+4981b82ba2ff87 Wendy Liang        2019-02-21  968  		ret = platform_get_irq(pdev, 0);
+ec32481b1669ad Markus Elfring     2020-04-05  969  		if (ret < 0)
+4981b82ba2ff87 Wendy Liang        2019-02-21  970  			goto free_mbox_dev;
+ec32481b1669ad Markus Elfring     2020-04-05  971  
+4981b82ba2ff87 Wendy Liang        2019-02-21  972  		pdata->irq = ret;
+4981b82ba2ff87 Wendy Liang        2019-02-21  973  		ret = devm_request_irq(dev, pdata->irq, zynqmp_ipi_interrupt,
+4981b82ba2ff87 Wendy Liang        2019-02-21 @974  				       IRQF_SHARED, dev_name(dev), pdata);
+6ffb1635341bec Tanmay Shah        2024-05-03  975  	}
+6ffb1635341bec Tanmay Shah        2024-05-03  976  
+4981b82ba2ff87 Wendy Liang        2019-02-21  977  	if (ret) {
+4981b82ba2ff87 Wendy Liang        2019-02-21  978  		dev_err(dev, "IRQ %d is not requested successfully.\n",
+4981b82ba2ff87 Wendy Liang        2019-02-21  979  			pdata->irq);
+4981b82ba2ff87 Wendy Liang        2019-02-21  980  		goto free_mbox_dev;
+4981b82ba2ff87 Wendy Liang        2019-02-21  981  	}
+4981b82ba2ff87 Wendy Liang        2019-02-21  982  
+4981b82ba2ff87 Wendy Liang        2019-02-21 @983  	platform_set_drvdata(pdev, pdata);
+4981b82ba2ff87 Wendy Liang        2019-02-21  984  	return ret;
+4981b82ba2ff87 Wendy Liang        2019-02-21  985  
+4981b82ba2ff87 Wendy Liang        2019-02-21  986  free_mbox_dev:
+4981b82ba2ff87 Wendy Liang        2019-02-21  987  	zynqmp_ipi_free_mboxes(pdata);
+4981b82ba2ff87 Wendy Liang        2019-02-21  988  	return ret;
+4981b82ba2ff87 Wendy Liang        2019-02-21  989  }
+4981b82ba2ff87 Wendy Liang        2019-02-21  990  
 
-vim +/enable_pseudo_nmi +2129 arch/arm64/kernel/cpufeature.c
+:::::: The code at line 914 was first introduced by commit
+:::::: 043f85ce81cb1714e14d31c322c5646513dde3fb mailbox: zynq: Switch to flexible array to simplify code
 
-3e6c69a058deaa Mark Brown     2019-12-09  2127  
-f72387e1f8bc99 Mark Brown     2022-11-03  2128  #if IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) || IS_ENABLED(CONFIG_ARM64_NMI)
-bc3c03ccb4641f Julien Thierry 2019-01-31 @2129  static bool enable_pseudo_nmi;
-f72387e1f8bc99 Mark Brown     2022-11-03  2130  #endif
-bc3c03ccb4641f Julien Thierry 2019-01-31  2131  
-
-:::::: The code at line 2129 was first introduced by commit
-:::::: bc3c03ccb4641fb940b27a0d369431876923a8fe arm64: Enable the support of pseudo-NMIs
-
-:::::: TO: Julien Thierry <julien.thierry@arm.com>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+:::::: TO: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+:::::: CC: Jassi Brar <jaswinder.singh@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
