@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEB43D549
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 04:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D797C8625C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 05:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716526294; cv=none; b=JstotQMaLvGFxiN0Rg6mH+ywcj/PyHptzmAZSUO/75qlWAWebgTTcnJDJuf+YZx9qK3hEgneQTWQHY/w/X2UAIlHFw0ubBLeeDCqOLRobGGNMIyEg1kNqrZOM5ivhxmSFCgp2glIlPT//VTjtPNQNqAp7mo+d4w9ETEx90a44ko=
+	t=1716530074; cv=none; b=d4FIVKasalPBjr8KM1u0BUpysTXIwgGOczd5MNxHKBmLn9h5CF/2ikGO+leuhM+rgZMWJlSMAxvzdZhFEbmQRDse4wy28yOr+pEVJmOHkljEbRfMFNaVBy7p94a1Y4ISjhIh0+Qgz0gQlObe1NY2Hb9kg3ScYUjthzRrWDaXluU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716526294; c=relaxed/simple;
-	bh=OTmvvccWEV0TPB+X9NG0orPtzzzvtKP77XixEqETaEA=;
+	s=arc-20240116; t=1716530074; c=relaxed/simple;
+	bh=wR8rUQACo/Q4pIO6BcwJTj40/z8mHALtyajLOOSORS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uvXlO6DsuZliC+KmNmIVqS9qNjEBzIMagsueTbppZvrsZisnXchyiB28jAMqI4/AhtIEnR+IjAh31OyOmdfgLzGO7VrZXVXBMdcwkBwugtlOWNZaYdY0JBVwV9nKmleKn3MU9BejeXrMK9GPvHWZwsoTHmwDj/q8xSv0dTKGdYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikU/pau5; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=oNiAeYSJvC7Q0YK4ycVVm9SnoXhaWGO/HVe+Hp9ePCgl1pWkO/qv99D18JF/bNOnLo+oDnfA+Lc2g9AQGTa0WPFGknZ4IzeM5DksQFV1ZdGnhDwZ+cqG/7FJl16xeKsCc7ZyaP5a1qPoUpKVdKESmEUU6NzePIhT9thewNxAtF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQUq88SS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikU/pau5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQUq88SS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716526292; x=1748062292;
+  t=1716530072; x=1748066072;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OTmvvccWEV0TPB+X9NG0orPtzzzvtKP77XixEqETaEA=;
-  b=ikU/pau5w7WFP4GIADD/iCwl2jqrkDaT4n0YJ9dvt9w3b71tqJ7j/+Vx
-   niDQ7gXMD3QgkBPXZbanAieqfJpna/tGbfR7WuUmfNSmotCThbkkD0dAF
-   oCrpz6W8Fxzbg23lmBBZn12cAt2tHwnhv3Z98g+pvVXKaDyYwqQHvGZz6
-   hXBt9oW4B8S5MTRYclYgFak/PVHP9EYOmywv+Jge4Ur/CWvrn9cuMkZm9
-   jsR9PfjdN1KcgWHtzioXtj0fgYYbVlyQsG8fP0hTbanYhY97ezTRA8GYz
-   rIbfQw7M9swKEvmpZ7oBB3RWSrsm182uBZevNHGjHabO6/IDI7nSim1HN
+  bh=wR8rUQACo/Q4pIO6BcwJTj40/z8mHALtyajLOOSORS8=;
+  b=mQUq88SSrxtcQ9/dfaAJhdKkWKa0iyAfrkRMOsntiMAkc5qeBUpMwaYk
+   c7K14ozWwmqCxOh8zAspLhOlYEjv+YapNsT4FMyBVhgPTVC6VPV2w/ULI
+   VJ0DkQV8JNy/rA3/Tzii/BjSvQnOLi2WG845Zr7G78OaI4aLz7CXl2m3Q
+   t9YwQR/8DPf2L6mtF2KVjSyb1T4AV3lbLIPBxHBBUrPTDevsfk0+O7MdT
+   rAr51nJfpx8FKTUNm2LbOHqk++uZjMkLv+6LQiPgElB4KkPDjLR06R8w3
+   feebhGlpV7BcgeATW/E25Uy4iPOCulXEsYHDEO2leIXzspbiAgdzNX7mA
    w==;
-X-CSE-ConnectionGUID: nsPaF1HBSHGJnK657BXHSg==
-X-CSE-MsgGUID: TUYSuDEISVqYHBLkYWkv+w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="30390919"
+X-CSE-ConnectionGUID: SX6b4hYrQQqJSrATzT1Ung==
+X-CSE-MsgGUID: vWbVYJMZQmaE+0bokV7Frw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="13079016"
 X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; 
-   d="scan'208";a="30390919"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 21:51:31 -0700
-X-CSE-ConnectionGUID: V1VVi4sbQ/6gnTFSxyRrJg==
-X-CSE-MsgGUID: Rs4K0R47Q+GWsc/+iqmRmw==
+   d="scan'208";a="13079016"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 22:54:32 -0700
+X-CSE-ConnectionGUID: lXZLfJuYSUWYrD/CVMvlAA==
+X-CSE-MsgGUID: J8lFF2VeRnmMBbSpa8FSPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; 
-   d="scan'208";a="33912619"
+   d="scan'208";a="38481817"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 23 May 2024 21:51:29 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 May 2024 22:54:30 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAMtr-0003sj-3B;
-	Fri, 24 May 2024 04:51:27 +0000
-Date: Fri, 24 May 2024 12:51:06 +0800
+	id 1sANsp-0003w5-25;
+	Fri, 24 May 2024 05:54:27 +0000
+Date: Fri, 24 May 2024 13:53:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:page_mapcount_reset 3/6] kismet: WARNING: unmet
- direct dependencies detected for ZSMALLOC when selected by ZRAM
-Message-ID: <202405241252.TtFWV5RE-lkp@intel.com>
+To: Alexander Egorenkov <egorenar@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>
+Subject: arch/s390/kernel/ipl.c:1973 sys_vmcmd_on_reboot_store() warn:
+ unsigned 'len' is never less than zero.
+Message-ID: <202405241351.CnSo0Sim-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +64,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davidhildenbrand/linux page_mapcount_reset
-head:   b29f783f826072cb553ec89a95bb1393c96af139
-commit: 6b6d701fc4ccebcd7bdadc24dfb045e4f7f0940c [3/6] mm/zsmalloc: use a proper page type
-config: hexagon-kismet-CONFIG_ZSMALLOC-CONFIG_ZRAM-0-0 (https://download.01.org/0day-ci/archive/20240524/202405241252.TtFWV5RE-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240524/202405241252.TtFWV5RE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6d69b6c12fce479fde7bc06f686212451688a102
+commit: 247576bf624a200b9d4dba6126e760af0d5ebe0e s390/ipl: Do not accept z/VM CP diag X'008' cmds longer than max length
+date:   9 days ago
+config: s390-randconfig-r081-20240524 (https://download.01.org/0day-ci/archive/20240524/202405241351.CnSo0Sim-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405241252.TtFWV5RE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405241351.CnSo0Sim-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ZSMALLOC when selected by ZRAM
-   WARNING: unmet direct dependencies detected for ZSMALLOC
-     Depends on [n]: MMU [=y] && PAGE_SIZE_LESS_THAN_256KB [=n]
-     Selected by [y]:
-     - ZRAM [=y] && BLK_DEV [=y] && BLOCK [=y] && SYSFS [=y] && MMU [=y] && (CRYPTO_LZO [=n] || CRYPTO_ZSTD [=n] || CRYPTO_LZ4 [=y] || CRYPTO_LZ4HC [=n] || CRYPTO_842 [=n])
+smatch warnings:
+arch/s390/kernel/ipl.c:1973 sys_vmcmd_on_reboot_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1974 sys_vmcmd_on_panic_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1975 sys_vmcmd_on_halt_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1976 sys_vmcmd_on_poff_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1977 sys_vmcmd_on_restart_store() warn: unsigned 'len' is never less than zero.
+
+vim +/len +1973 arch/s390/kernel/ipl.c
+
+99ca4e582d4a40 Michael Holzheu 2008-01-26  1972  
+99ca4e582d4a40 Michael Holzheu 2008-01-26 @1973  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_reboot, "%s\n", "%s\n", vmcmd_on_reboot);
+99ca4e582d4a40 Michael Holzheu 2008-01-26 @1974  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_panic, "%s\n", "%s\n", vmcmd_on_panic);
+99ca4e582d4a40 Michael Holzheu 2008-01-26 @1975  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_halt, "%s\n", "%s\n", vmcmd_on_halt);
+99ca4e582d4a40 Michael Holzheu 2008-01-26 @1976  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_poff, "%s\n", "%s\n", vmcmd_on_poff);
+7dd6b3343fdc19 Michael Holzheu 2011-08-03 @1977  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_restart, "%s\n", "%s\n", vmcmd_on_restart);
+99ca4e582d4a40 Michael Holzheu 2008-01-26  1978  
+
+:::::: The code at line 1973 was first introduced by commit
+:::::: 99ca4e582d4a4088969681efff97be44d98421a1 [S390] kernel: Shutdown Actions Interface
+
+:::::: TO: Michael Holzheu <holzheu@de.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
