@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2BA85277;
-	Fri, 24 May 2024 09:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0D6EB4B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 09:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716543771; cv=none; b=QuJDAKfXAQFWqsUVZIKyGHvq2SVWOH5wvNUrmA+IJo9I0FH4We49amCyBXYUkthOdfMnB5QvNjYc/3w72b3uXMbXD6uTi2ze/kUNX9Wrhd0obzZ6+jhN1Fq4wmSFQwYRfklQgEJ9th8qRYker7c41AAL26fkHbC8as6Uop24924=
+	t=1716544296; cv=none; b=hbOKc75J2jxr0KySsll6EITQ5AcmVxsWs4z0lPwU9pqT6KWV45TvFd7VT/YSZKwNcQtEAjvQ3s58IUxAp3N4gTJZqnNg4+X0/IWC84OfSlWJP2qLvQRMCxEqnbY+a8bm2z+oO+E9ON9iiJY3y733mq9m3cms4lSa13gj782ShXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716543771; c=relaxed/simple;
-	bh=EE0Mfcd6ewSc6+WFz6f+/FGp9UJiVN+BC87M0MwSeQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uHvrCmQQpe2tgPozGwUiTCqgyxxQUAfqaB7ZNylJtH+VYy/gl+wz83W5fYoMoQdX+LJnegK/WXJ43Ej/31zd9z86cCXXMfAdliUr0PfB9b6Pzal31a9c0g03WzEjSwHaVcims2JTBNvjVqyaP6zk3I99G2RfZmc0xdqX4SBpWPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cig1fQcP; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1716544296; c=relaxed/simple;
+	bh=iVFTnp54TgEiyy0ujTh8oDJm+RgVjJihfNKTwvLoJos=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ULqaNCOngiEO7DfuoONnpQMMT6HPee/0zykpO1DMK37oht4JOeVcvQEPOSJUsH8PvVbGECGVW9nP7XdSFoFmCiUq8qGFxaE4ShBuCDmtw68MSsH6U5lZl1pGIVp/YDPL3C2Qlo1CRdU0RSB3gU+3PPdIdWZgGFnADwhU7VZQq64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FL15vnzZ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cig1fQcP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FL15vnzZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716543770; x=1748079770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EE0Mfcd6ewSc6+WFz6f+/FGp9UJiVN+BC87M0MwSeQw=;
-  b=cig1fQcPRSNTPHgx9jtyIKj3mjnvxQsOySXAgWtyWqoFLZHK1kLBpeM3
-   +Hoy8J4HcVgzP4zKWkcYDBVOJueFPot9IZwD+E6pJBi2UTBBz331SfuUL
-   AE1rkJKmK7gnMOXopAdtUZGgpUY3S5Mxg0QPT58469IfSoGoHsRBon1Mh
-   HT3jtLOaaLBapWov63G4FmCLdGMdVDeMINUb9Zw4Yrh8f96aISz0ob3rT
-   zNC55qcGvnZsS1jwcc9OefnC6Z58sI5UacYG/F5GGAsHPfNSUXsBemTfx
-   9agf0+xkO3hSrns8IXWt3jM/pbzlNgkp7xJQbK1xrAlFn8oySZq+AzyMy
+  t=1716544295; x=1748080295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iVFTnp54TgEiyy0ujTh8oDJm+RgVjJihfNKTwvLoJos=;
+  b=FL15vnzZu9aC3EoCfRx51q55QjGGlX5EvAEc0Jz3q5YvJK4e0qTIzjrD
+   xnKuZZX0VcNVgiZdw8rFmy/QioPlm0V+nXox2mBz/p0SQdi/c9g/MbiIX
+   8i8D20jGWGxasuYWjLGrv4Jb7yIQyq4UZ/9zlV1H4ZSF+HwaHGNRYeo+0
+   XjFqD2Yp7bXffglPNDR/kHBmReJfrLBQAue66Auu4yfA2W7GjE/4BA7z/
+   GT1ZFEshK8eojhkDOaOpoQfls86aI9bJ3APKtKtPavn6NB8ivIgPNPnH/
+   7AoG2MKBRM4R3KmN+Y8p8CzKrapV1DlquSdw2N6LaTftLRIzFdwIvo2Ns
    A==;
-X-CSE-ConnectionGUID: Hn5P6LqgQDm1z0+fAgeyUg==
-X-CSE-MsgGUID: 0sfh6jFqRbyzddnhjvL9JA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12763457"
+X-CSE-ConnectionGUID: bQ5iIvorStu4VtQdBzSFjA==
+X-CSE-MsgGUID: odW6EIqUQryK5wsRyrnMgg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="16705184"
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="12763457"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 02:42:49 -0700
-X-CSE-ConnectionGUID: znjdwd8bQf2TBiM/HicIRA==
-X-CSE-MsgGUID: RL2Xng9gQBqLZzgS6kTPcw==
+   d="scan'208";a="16705184"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 02:51:34 -0700
+X-CSE-ConnectionGUID: AGIpG6v9Q3myYmTg4HCvTA==
+X-CSE-MsgGUID: 3LVlhnicQ9Wh6JSxtavzNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="33887417"
+   d="scan'208";a="38410623"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 24 May 2024 02:42:45 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 May 2024 02:51:32 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sARRP-0004SB-12;
-	Fri, 24 May 2024 09:42:30 +0000
-Date: Fri, 24 May 2024 17:38:13 +0800
+	id 1sARZc-0004TB-39;
+	Fri, 24 May 2024 09:51:10 +0000
+Date: Fri, 24 May 2024 17:50:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH] xhci: Remove dead code in xhci_move_dequeue_past_td()
-Message-ID: <202405241753.Idenkg7C-lkp@intel.com>
-References: <20240524-xhci-deadcode-v1-1-a4453a756e0f@marcan.st>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/next 13/14] drivers/net/veth.c:822:10: error: call to
+ undeclared function 'io_iov_get_page'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202405241710.gozeVXPs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,155 +62,299 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240524-xhci-deadcode-v1-1-a4453a756e0f@marcan.st>
 
-Hi Hector,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hector-Martin/xhci-Remove-dead-code-in-xhci_move_dequeue_past_td/20240524-151544
-base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-patch link:    https://lore.kernel.org/r/20240524-xhci-deadcode-v1-1-a4453a756e0f%40marcan.st
-patch subject: [PATCH] xhci: Remove dead code in xhci_move_dequeue_past_td()
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240524/202405241753.Idenkg7C-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241753.Idenkg7C-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zcrx/next
+head:   9b5718278c90658985f5d335dff91dd589b3d4c7
+commit: 83b53b75f5f938c3c6e4f9905220baa53e63e11e [13/14] veth: add support for io_uring zc rx
+config: i386-randconfig-141-20240523 (https://download.01.org/0day-ci/archive/20240524/202405241710.gozeVXPs-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241710.gozeVXPs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405241753.Idenkg7C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405241710.gozeVXPs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/usb/host/xhci-ring.c:55:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/usb/host/xhci-ring.c:695:1: warning: unused label 'deq_found' [-Wunused-label]
-     695 | deq_found:
-         | ^~~~~~~~~~
-   2 warnings generated.
+>> drivers/net/veth.c:822:10: error: call to undeclared function 'io_iov_get_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     822 |                 page = io_iov_get_page(netmem);
+         |                        ^
+>> drivers/net/veth.c:822:8: error: incompatible integer to pointer conversion assigning to 'struct page *' from 'int' [-Wint-conversion]
+     822 |                 page = io_iov_get_page(netmem);
+         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/veth.c:995:34: error: use of undeclared identifier 'io_uring_pp_zc_ops'
+     995 |                         if (rq->page_pool->mp_ops == &io_uring_pp_zc_ops) {
+         |                                                       ^
+   drivers/net/veth.c:1060:61: warning: declaration of 'struct io_zc_rx_ifq' will not be visible outside of this function [-Wvisibility]
+    1060 | static int veth_create_page_pool(struct veth_rq *rq, struct io_zc_rx_ifq *ifq)
+         |                                                             ^
+   drivers/net/veth.c:1071:30: error: use of undeclared identifier 'io_uring_pp_zc_ops'
+    1071 |                 rq->rq.mp_params.mp_ops = &io_uring_pp_zc_ops;
+         |                                            ^
+   drivers/net/veth.c:1150:7: warning: variable 'nr' set but not used [-Wunused-but-set-variable]
+    1150 |                 int nr = 0;
+         |                     ^
+   2 warnings and 4 errors generated.
 
 
-vim +/deq_found +695 drivers/usb/host/xhci-ring.c
+vim +/io_iov_get_page +822 drivers/net/veth.c
 
-e6b20121c6d5d1 Mathias Nyman 2017-06-02  633  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  634  static int xhci_move_dequeue_past_td(struct xhci_hcd *xhci,
-d1dbfb942c33bf Mathias Nyman 2021-01-29  635  				unsigned int slot_id, unsigned int ep_index,
-d1dbfb942c33bf Mathias Nyman 2021-01-29  636  				unsigned int stream_id, struct xhci_td *td)
-d1dbfb942c33bf Mathias Nyman 2021-01-29  637  {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  638  	struct xhci_virt_device *dev = xhci->devs[slot_id];
-d1dbfb942c33bf Mathias Nyman 2021-01-29  639  	struct xhci_virt_ep *ep = &dev->eps[ep_index];
-d1dbfb942c33bf Mathias Nyman 2021-01-29  640  	struct xhci_ring *ep_ring;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  641  	struct xhci_command *cmd;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  642  	struct xhci_segment *new_seg;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  643  	union xhci_trb *new_deq;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  644  	int new_cycle;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  645  	dma_addr_t addr;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  646  	u64 hw_dequeue;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  647  	bool cycle_found = false;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  648  	bool td_last_trb_found = false;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  649  	u32 trb_sct = 0;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  650  	int ret;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  651  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  652  	ep_ring = xhci_triad_to_transfer_ring(xhci, slot_id,
-d1dbfb942c33bf Mathias Nyman 2021-01-29  653  			ep_index, stream_id);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  654  	if (!ep_ring) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  655  		xhci_warn(xhci, "WARN can't find new dequeue, invalid stream ID %u\n",
-d1dbfb942c33bf Mathias Nyman 2021-01-29  656  			  stream_id);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  657  		return -ENODEV;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  658  	}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  659  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  660  	hw_dequeue = xhci_get_hw_deq(xhci, dev, ep_index, stream_id);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  661  	new_seg = ep_ring->deq_seg;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  662  	new_deq = ep_ring->dequeue;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  663  	new_cycle = hw_dequeue & 0x1;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  664  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  665  	/*
-d1dbfb942c33bf Mathias Nyman 2021-01-29  666  	 * We want to find the pointer, segment and cycle state of the new trb
-d1dbfb942c33bf Mathias Nyman 2021-01-29  667  	 * (the one after current TD's last_trb). We know the cycle state at
-d1dbfb942c33bf Mathias Nyman 2021-01-29  668  	 * hw_dequeue, so walk the ring until both hw_dequeue and last_trb are
-d1dbfb942c33bf Mathias Nyman 2021-01-29  669  	 * found.
-d1dbfb942c33bf Mathias Nyman 2021-01-29  670  	 */
-d1dbfb942c33bf Mathias Nyman 2021-01-29  671  	do {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  672  		if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_deq)
-d1dbfb942c33bf Mathias Nyman 2021-01-29  673  		    == (dma_addr_t)(hw_dequeue & ~0xf)) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  674  			cycle_found = true;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  675  			if (td_last_trb_found)
-d1dbfb942c33bf Mathias Nyman 2021-01-29  676  				break;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  677  		}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  678  		if (new_deq == td->last_trb)
-d1dbfb942c33bf Mathias Nyman 2021-01-29  679  			td_last_trb_found = true;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  680  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  681  		if (cycle_found && trb_is_link(new_deq) &&
-d1dbfb942c33bf Mathias Nyman 2021-01-29  682  		    link_trb_toggles_cycle(new_deq))
-d1dbfb942c33bf Mathias Nyman 2021-01-29  683  			new_cycle ^= 0x1;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  684  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  685  		next_trb(xhci, ep_ring, &new_seg, &new_deq);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  686  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  687  		/* Search wrapped around, bail out */
-d1dbfb942c33bf Mathias Nyman 2021-01-29  688  		if (new_deq == ep->ring->dequeue) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  689  			xhci_err(xhci, "Error: Failed finding new dequeue state\n");
-d1dbfb942c33bf Mathias Nyman 2021-01-29  690  			return -EINVAL;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  691  		}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  692  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  693  	} while (!cycle_found || !td_last_trb_found);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  694  
-d1dbfb942c33bf Mathias Nyman 2021-01-29 @695  deq_found:
-d1dbfb942c33bf Mathias Nyman 2021-01-29  696  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  697  	/* Don't update the ring cycle state for the producer (us). */
-d1dbfb942c33bf Mathias Nyman 2021-01-29  698  	addr = xhci_trb_virt_to_dma(new_seg, new_deq);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  699  	if (addr == 0) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  700  		xhci_warn(xhci, "Can't find dma of new dequeue ptr\n");
-d1dbfb942c33bf Mathias Nyman 2021-01-29  701  		xhci_warn(xhci, "deq seg = %p, deq ptr = %p\n", new_seg, new_deq);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  702  		return -EINVAL;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  703  	}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  704  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  705  	if ((ep->ep_state & SET_DEQ_PENDING)) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  706  		xhci_warn(xhci, "Set TR Deq already pending, don't submit for 0x%pad\n",
-d1dbfb942c33bf Mathias Nyman 2021-01-29  707  			  &addr);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  708  		return -EBUSY;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  709  	}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  710  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  711  	/* This function gets called from contexts where it cannot sleep */
-d1dbfb942c33bf Mathias Nyman 2021-01-29  712  	cmd = xhci_alloc_command(xhci, false, GFP_ATOMIC);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  713  	if (!cmd) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  714  		xhci_warn(xhci, "Can't alloc Set TR Deq cmd 0x%pad\n", &addr);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  715  		return -ENOMEM;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  716  	}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  717  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  718  	if (stream_id)
-d1dbfb942c33bf Mathias Nyman 2021-01-29  719  		trb_sct = SCT_FOR_TRB(SCT_PRI_TR);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  720  	ret = queue_command(xhci, cmd,
-d1dbfb942c33bf Mathias Nyman 2021-01-29  721  		lower_32_bits(addr) | trb_sct | new_cycle,
-d1dbfb942c33bf Mathias Nyman 2021-01-29  722  		upper_32_bits(addr),
-d1dbfb942c33bf Mathias Nyman 2021-01-29  723  		STREAM_ID_FOR_TRB(stream_id), SLOT_ID_FOR_TRB(slot_id) |
-d1dbfb942c33bf Mathias Nyman 2021-01-29  724  		EP_ID_FOR_TRB(ep_index) | TRB_TYPE(TRB_SET_DEQ), false);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  725  	if (ret < 0) {
-d1dbfb942c33bf Mathias Nyman 2021-01-29  726  		xhci_free_command(xhci, cmd);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  727  		return ret;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  728  	}
-d1dbfb942c33bf Mathias Nyman 2021-01-29  729  	ep->queued_deq_seg = new_seg;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  730  	ep->queued_deq_ptr = new_deq;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  731  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  732  	xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-d1dbfb942c33bf Mathias Nyman 2021-01-29  733  		       "Set TR Deq ptr 0x%llx, cycle %u\n", addr, new_cycle);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  734  
-d1dbfb942c33bf Mathias Nyman 2021-01-29  735  	/* Stop the TD queueing code from ringing the doorbell until
-d1dbfb942c33bf Mathias Nyman 2021-01-29  736  	 * this command completes.  The HC won't set the dequeue pointer
-d1dbfb942c33bf Mathias Nyman 2021-01-29  737  	 * if the ring is running, and ringing the doorbell starts the
-d1dbfb942c33bf Mathias Nyman 2021-01-29  738  	 * ring running.
-d1dbfb942c33bf Mathias Nyman 2021-01-29  739  	 */
-d1dbfb942c33bf Mathias Nyman 2021-01-29  740  	ep->ep_state |= SET_DEQ_PENDING;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  741  	xhci_ring_cmd_db(xhci);
-d1dbfb942c33bf Mathias Nyman 2021-01-29  742  	return 0;
-d1dbfb942c33bf Mathias Nyman 2021-01-29  743  }
-d1dbfb942c33bf Mathias Nyman 2021-01-29  744  
+   771	
+   772	static noinline struct sk_buff *veth_iou_rcv_skb(struct veth_rq *rq,
+   773						struct sk_buff *skb)
+   774	{
+   775		struct sk_buff *nskb;
+   776		u32 size, len, off, max_head_size;
+   777		struct page *page;
+   778		int ret, i, head_off;
+   779		void *vaddr;
+   780	
+   781		/* Testing only, randomly send normal pages to test copy fallback */
+   782		if (ktime_get_ns() % 16 == 0)
+   783			return skb;
+   784	
+   785		skb_prepare_for_gro(skb);
+   786		max_head_size = skb_headlen(skb);
+   787	
+   788		rcu_read_lock();
+   789		nskb = napi_alloc_skb(&rq->xdp_napi, max_head_size);
+   790		if (!nskb)
+   791			goto drop;
+   792	
+   793		skb_copy_header(nskb, skb);
+   794		skb_mark_for_recycle(nskb);
+   795	
+   796		size = max_head_size;
+   797		if (skb_copy_bits(skb, 0, nskb->data, size)) {
+   798		consume_skb(nskb);
+   799			goto drop;
+   800		}
+   801		skb_put(nskb, size);
+   802		head_off = skb_headroom(nskb) - skb_headroom(skb);
+   803		skb_headers_offset_update(nskb, head_off);
+   804	
+   805		/* Allocate paged area of new skb */
+   806		off = size;
+   807		len = skb->len - off;
+   808	
+   809		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
+   810			netmem_ref netmem;
+   811	
+   812			netmem = page_pool_alloc_netmem(rq->page_pool, GFP_ATOMIC | __GFP_NOWARN);
+   813			if (!netmem) {
+   814				consume_skb(nskb);
+   815				goto drop;
+   816			}
+   817			if (WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
+   818				consume_skb(nskb);
+   819				goto drop;
+   820			}
+   821	
+ > 822			page = io_iov_get_page(netmem);
+   823			if (WARN_ON_ONCE(!page))
+   824				goto drop;
+   825	
+   826			size = min_t(u32, len, PAGE_SIZE);
+   827			skb_add_rx_frag_netmem(nskb, i, netmem, 0, size, PAGE_SIZE);
+   828	
+   829			vaddr = kmap_atomic(page);
+   830			ret = skb_copy_bits(skb, off, vaddr, size);
+   831			kunmap_atomic(vaddr);
+   832	
+   833			if (ret) {
+   834				consume_skb(nskb);
+   835				goto drop;
+   836			}
+   837			len -= size;
+   838			off += size;
+   839		}
+   840		rcu_read_unlock();
+   841	
+   842		consume_skb(skb);
+   843		skb = nskb;
+   844		return skb;
+   845	drop:
+   846		rcu_read_unlock();
+   847		kfree_skb(skb);
+   848		return NULL;
+   849	}
+   850	
+   851	
+   852	static struct sk_buff *veth_xdp_rcv_skb(struct veth_rq *rq,
+   853						struct sk_buff *skb,
+   854						struct veth_xdp_tx_bq *bq,
+   855						struct veth_stats *stats)
+   856	{
+   857		void *orig_data, *orig_data_end;
+   858		struct bpf_prog *xdp_prog;
+   859		struct veth_xdp_buff vxbuf;
+   860		struct xdp_buff *xdp = &vxbuf.xdp;
+   861		u32 act, metalen;
+   862		int off;
+   863	
+   864		skb_prepare_for_gro(skb);
+   865	
+   866		rcu_read_lock();
+   867		xdp_prog = rcu_dereference(rq->xdp_prog);
+   868		if (unlikely(!xdp_prog)) {
+   869			rcu_read_unlock();
+   870			goto out;
+   871		}
+   872	
+   873		__skb_push(skb, skb->data - skb_mac_header(skb));
+   874		if (veth_convert_skb_to_xdp_buff(rq, xdp, &skb))
+   875			goto drop;
+   876		vxbuf.skb = skb;
+   877	
+   878		orig_data = xdp->data;
+   879		orig_data_end = xdp->data_end;
+   880	
+   881		act = bpf_prog_run_xdp(xdp_prog, xdp);
+   882	
+   883		switch (act) {
+   884		case XDP_PASS:
+   885			break;
+   886		case XDP_TX:
+   887			veth_xdp_get(xdp);
+   888			consume_skb(skb);
+   889			xdp->rxq->mem = rq->xdp_mem;
+   890			if (unlikely(veth_xdp_tx(rq, xdp, bq) < 0)) {
+   891				trace_xdp_exception(rq->dev, xdp_prog, act);
+   892				stats->rx_drops++;
+   893				goto err_xdp;
+   894			}
+   895			stats->xdp_tx++;
+   896			rcu_read_unlock();
+   897			goto xdp_xmit;
+   898		case XDP_REDIRECT:
+   899			veth_xdp_get(xdp);
+   900			consume_skb(skb);
+   901			xdp->rxq->mem = rq->xdp_mem;
+   902			if (xdp_do_redirect(rq->dev, xdp, xdp_prog)) {
+   903				stats->rx_drops++;
+   904				goto err_xdp;
+   905			}
+   906			stats->xdp_redirect++;
+   907			rcu_read_unlock();
+   908			goto xdp_xmit;
+   909		default:
+   910			bpf_warn_invalid_xdp_action(rq->dev, xdp_prog, act);
+   911			fallthrough;
+   912		case XDP_ABORTED:
+   913			trace_xdp_exception(rq->dev, xdp_prog, act);
+   914			fallthrough;
+   915		case XDP_DROP:
+   916			stats->xdp_drops++;
+   917			goto xdp_drop;
+   918		}
+   919		rcu_read_unlock();
+   920	
+   921		/* check if bpf_xdp_adjust_head was used */
+   922		off = orig_data - xdp->data;
+   923		if (off > 0)
+   924			__skb_push(skb, off);
+   925		else if (off < 0)
+   926			__skb_pull(skb, -off);
+   927	
+   928		skb_reset_mac_header(skb);
+   929	
+   930		/* check if bpf_xdp_adjust_tail was used */
+   931		off = xdp->data_end - orig_data_end;
+   932		if (off != 0)
+   933			__skb_put(skb, off); /* positive on grow, negative on shrink */
+   934	
+   935		/* XDP frag metadata (e.g. nr_frags) are updated in eBPF helpers
+   936		 * (e.g. bpf_xdp_adjust_tail), we need to update data_len here.
+   937		 */
+   938		if (xdp_buff_has_frags(xdp))
+   939			skb->data_len = skb_shinfo(skb)->xdp_frags_size;
+   940		else
+   941			skb->data_len = 0;
+   942	
+   943		skb->protocol = eth_type_trans(skb, rq->dev);
+   944	
+   945		metalen = xdp->data - xdp->data_meta;
+   946		if (metalen)
+   947			skb_metadata_set(skb, metalen);
+   948	out:
+   949		return skb;
+   950	drop:
+   951		stats->rx_drops++;
+   952	xdp_drop:
+   953		rcu_read_unlock();
+   954		kfree_skb(skb);
+   955		return NULL;
+   956	err_xdp:
+   957		rcu_read_unlock();
+   958		xdp_return_buff(xdp);
+   959	xdp_xmit:
+   960		return NULL;
+   961	}
+   962	
+   963	static int veth_xdp_rcv(struct veth_rq *rq, int budget,
+   964				struct veth_xdp_tx_bq *bq,
+   965				struct veth_stats *stats)
+   966	{
+   967		int i, done = 0, n_xdpf = 0;
+   968		void *xdpf[VETH_XDP_BATCH];
+   969	
+   970		for (i = 0; i < budget; i++) {
+   971			void *ptr = __ptr_ring_consume(&rq->xdp_ring);
+   972	
+   973			if (!ptr)
+   974				break;
+   975	
+   976			if (veth_is_xdp_frame(ptr)) {
+   977				/* ndo_xdp_xmit */
+   978				struct xdp_frame *frame = veth_ptr_to_xdp(ptr);
+   979	
+   980				stats->xdp_bytes += xdp_get_frame_len(frame);
+   981				frame = veth_xdp_rcv_one(rq, frame, bq, stats);
+   982				if (frame) {
+   983					/* XDP_PASS */
+   984					xdpf[n_xdpf++] = frame;
+   985					if (n_xdpf == VETH_XDP_BATCH) {
+   986						veth_xdp_rcv_bulk_skb(rq, xdpf, n_xdpf,
+   987								      bq, stats);
+   988						n_xdpf = 0;
+   989					}
+   990				}
+   991			} else {
+   992				/* ndo_start_xmit */
+   993				struct sk_buff *skb = ptr;
+   994	
+ > 995				if (rq->page_pool->mp_ops == &io_uring_pp_zc_ops) {
+   996					skb = veth_iou_rcv_skb(rq, skb);
+   997				} else {
+   998					stats->xdp_bytes += skb->len;
+   999					skb = veth_xdp_rcv_skb(rq, skb, bq, stats);
+  1000				}
+  1001	
+  1002				if (skb) {
+  1003					if (skb_shared(skb) || skb_unclone(skb, GFP_ATOMIC))
+  1004						netif_receive_skb(skb);
+  1005					else
+  1006						napi_gro_receive(&rq->xdp_napi, skb);
+  1007				}
+  1008			}
+  1009			done++;
+  1010		}
+  1011	
+  1012		if (n_xdpf)
+  1013			veth_xdp_rcv_bulk_skb(rq, xdpf, n_xdpf, bq, stats);
+  1014	
+  1015		u64_stats_update_begin(&rq->stats.syncp);
+  1016		rq->stats.vs.xdp_redirect += stats->xdp_redirect;
+  1017		rq->stats.vs.xdp_bytes += stats->xdp_bytes;
+  1018		rq->stats.vs.xdp_drops += stats->xdp_drops;
+  1019		rq->stats.vs.rx_drops += stats->rx_drops;
+  1020		rq->stats.vs.xdp_packets += done;
+  1021		u64_stats_update_end(&rq->stats.syncp);
+  1022	
+  1023		return done;
+  1024	}
+  1025	
 
 -- 
 0-DAY CI Kernel Test Service
