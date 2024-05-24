@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F2F6FE16
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 20:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFA85EE80;
+	Fri, 24 May 2024 21:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716582320; cv=none; b=YPsYG8wRjKOC0WsLjmqKBSDPcd1YweR8jWFxOGND2tXWHZ+no/R3Lxm45sAiJy1mpZa6sKPszzeemNBeQNgrEt0c6iWYOTQkYxFDNZRAw7IFsRuiMsLcTJjCwxnRyfYhr28pGW+Oe1lMdI0U/5EKsdfZzv/erlaKPYq85wIKDTQ=
+	t=1716584776; cv=none; b=O30kziHRHdzfhRMWJzFsJBCxY5m7xAlahb9hU0trR8A3NtX0dEt75AL7peaLbpFkTx2VTDG0EeVgPBg8kpBiRzwb6q7xRQhnGblJILKkPn8YvHD/BD2BiaHWxyn2nlXNomKlV9zNXYaM95h9WwPMe0lENsc/onLPTlioR8fyGas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716582320; c=relaxed/simple;
-	bh=N60imoZMBnLS23fSq0Hjar4yZ8wEBbLazETbtrkv+Ks=;
+	s=arc-20240116; t=1716584776; c=relaxed/simple;
+	bh=i2FYvQ/BuCKRsKhUyvuotfGtwF1qiSXoUMR8uyOnvAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DCncnqQR9dfL3giLva/ioIyQSoCQ8EnPX81nSxJBU9VwvoUvo6x/NFnBbcuA8VjKrAQ3GYj1X32Swjt5Oot7hdBR+wy/Mr7KoGqIqoi7M0sb3J/3vitgheW1NVYJcBHfnaAKx+Jnu1ublmXOB9/caV1aXVpWznQfK//bp5Ix4Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVc0g2sp; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=S1tFBpcOcpaFygPZGcjE8ZY7xfNM+b2kcugJKgE6lOgAI+C4wZI/OLSiEJXMpHNvZ5/Ed8MgOb7OY/2V3ez5XOAmDz7upYFbw1ZQcClboiPS79Z9oJUvdRgBPVwt0YA8/mrH1VAEDM36GUA/a7y5w7rkQYCJ5HNY08NEWxfbbmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGsQVoaz; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVc0g2sp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGsQVoaz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716582319; x=1748118319;
+  t=1716584775; x=1748120775;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=N60imoZMBnLS23fSq0Hjar4yZ8wEBbLazETbtrkv+Ks=;
-  b=ZVc0g2spJQwDD6sL1+hRriJkz89fdChT39Fz+SvnzxIcQrPfHa+NtpYv
-   vJI9sBd/J2elWD+UD1F2sWIpVzKs4higQvch/sfn/ex/e1F/i5alZATFa
-   8RfeKoL11edsebpBYsj42pZyTwDPJT2xR1NEPA+gnsFiPm7G1xer8e2ha
-   0MbD/5GbnvH7UC4/3F/5nl1unFxCE1v6N8lH/KC6PMGUPRRb66rz89MMb
-   9VnNtR939WFuUwmqlG2NCzRhSwpQs/SQxSZ7J47kufZeYUUWzwHq0F74x
-   NXx9Gm5L53GUJpBoaUQbC8kxs52MyEgD2itp9tPmmmPIzkWfsAifVe54T
+  bh=i2FYvQ/BuCKRsKhUyvuotfGtwF1qiSXoUMR8uyOnvAg=;
+  b=mGsQVoazfreoJ4VR+jVsWh/U0L5a0weCmoOf0jNA4VmQ6mj7tGiDckFV
+   wYOC8SZSBmHFSXbp9zu3xznKZK7P91ntdMXeFdXm45dh4wyA4JoB/iqqc
+   N5U+JUblgIcAZbnp6NG1DNBIXNc/p/9Bb05KthJQHjizCtQ3lxiMNSnZv
+   X+SlyozcuJcSTzm44/6Rfs/vbI8FwtzyifS023UFnhjMBQwcR/BlKKbP4
+   64BpmiP/ZdEd3bAEF3D6fKdMryf6rjC6vGK3PBdrKYZIAU4j/+vnvqEJE
+   kHOnSE5FzUZ1hYZ6jo6YrF8UTBZJGDtJHjic+DIzty0v4CYen4szU2nvP
    w==;
-X-CSE-ConnectionGUID: pGjDsCy8RNu/Q3rRpAeVtQ==
-X-CSE-MsgGUID: eDaLszZbToaHFMJ6t6HvNA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23580581"
+X-CSE-ConnectionGUID: Hl44pn1YRBesWrWE7B5FTw==
+X-CSE-MsgGUID: FmOaFwZdQduxMV2lTgVpQw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23546280"
 X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="23580581"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 13:25:18 -0700
-X-CSE-ConnectionGUID: b240/P9xS3igwcOpmEmkXg==
-X-CSE-MsgGUID: oLt0tMaeTne9J7GljLev2Q==
+   d="scan'208";a="23546280"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 14:06:14 -0700
+X-CSE-ConnectionGUID: dg0+kzl/TTiFuWKJa05m+Q==
+X-CSE-MsgGUID: bBCnSzmmQreu0Xqb9a7bkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="34631108"
+   d="scan'208";a="34112530"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 24 May 2024 13:25:17 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 24 May 2024 14:06:10 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAbTU-0005tB-1l;
-	Fri, 24 May 2024 20:25:13 +0000
-Date: Sat, 25 May 2024 04:24:12 +0800
+	id 1sAc6x-0005ul-1D;
+	Fri, 24 May 2024 21:06:00 +0000
+Date: Sat, 25 May 2024 05:05:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v9 1/8] drm/i915: Define and compute Transcoder CMRR
- registers
-Message-ID: <202405250452.oOr8GbJS-lkp@intel.com>
-References: <20240524102432.2499104-2-mitulkumar.ajitkumar.golani@intel.com>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>,
+	linux-fsdevel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com,
+	inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org,
+	Adrian Ratiu <adrian.ratiu@collabora.com>,
+	Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v4 1/2] proc: pass file instead of inode to proc_mem_open
+Message-ID: <202405250413.EENbErWw-lkp@intel.com>
+References: <20240524192858.3206-1-adrian.ratiu@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +70,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240524102432.2499104-2-mitulkumar.ajitkumar.golani@intel.com>
+In-Reply-To: <20240524192858.3206-1-adrian.ratiu@collabora.com>
 
-Hi Mitul,
+Hi Adrian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-tip/drm-tip next-20240523]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.9]
+[auto build test ERROR on kees/for-next/pstore]
+[also build test ERROR on kees/for-next/kspp linus/master v6.9 next-20240523]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-i915-Define-and-compute-Transcoder-CMRR-registers/20240524-183131
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240524102432.2499104-2-mitulkumar.ajitkumar.golani%40intel.com
-patch subject: [PATCH v9 1/8] drm/i915: Define and compute Transcoder CMRR registers
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240525/202405250452.oOr8GbJS-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250452.oOr8GbJS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Ratiu/proc-restrict-proc-pid-mem/20240525-033201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+patch link:    https://lore.kernel.org/r/20240524192858.3206-1-adrian.ratiu%40collabora.com
+patch subject: [PATCH v4 1/2] proc: pass file instead of inode to proc_mem_open
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240525/202405250413.EENbErWw-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250413.EENbErWw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405250452.oOr8GbJS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405250413.EENbErWw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_vrr.c:12:10: fatal error: intel_vrr_reg.h: No such file or directory
-      12 | #include "intel_vrr_reg.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from fs/proc/task_nommu.c:3:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/proc/task_nommu.c:262:27: error: incompatible pointer types passing 'struct inode *' to parameter of type 'struct file *' [-Werror,-Wincompatible-pointer-types]
+     262 |         priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
+         |                                  ^~~~~
+   fs/proc/internal.h:298:46: note: passing argument to parameter 'file' here
+     298 | struct mm_struct *proc_mem_open(struct file *file, unsigned int mode);
+         |                                              ^
+   1 warning and 1 error generated.
 
 
-vim +12 drivers/gpu/drm/i915/display/intel_vrr.c
+vim +262 fs/proc/task_nommu.c
 
-  > 12	#include "intel_vrr_reg.h"
-    13	#include "intel_dp.h"
-    14	
+b76437579d1344 Siddhesh Poyarekar 2012-03-21  251  
+b76437579d1344 Siddhesh Poyarekar 2012-03-21  252  static int maps_open(struct inode *inode, struct file *file,
+b76437579d1344 Siddhesh Poyarekar 2012-03-21  253  		     const struct seq_operations *ops)
+662795deb854b3 Eric W. Biederman  2006-06-26  254  {
+dbf8685c8e2140 David Howells      2006-09-27  255  	struct proc_maps_private *priv;
+dbf8685c8e2140 David Howells      2006-09-27  256  
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  257  	priv = __seq_open_private(file, ops, sizeof(*priv));
+ce34fddb5bafb4 Oleg Nesterov      2014-10-09  258  	if (!priv)
+ce34fddb5bafb4 Oleg Nesterov      2014-10-09  259  		return -ENOMEM;
+ce34fddb5bafb4 Oleg Nesterov      2014-10-09  260  
+2c03376d2db005 Oleg Nesterov      2014-10-09  261  	priv->inode = inode;
+27692cd56e2aa6 Oleg Nesterov      2014-10-09 @262  	priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  263  	if (IS_ERR(priv->mm)) {
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  264  		int err = PTR_ERR(priv->mm);
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  265  
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  266  		seq_release_private(inode, file);
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  267  		return err;
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  268  	}
+27692cd56e2aa6 Oleg Nesterov      2014-10-09  269  
+ce34fddb5bafb4 Oleg Nesterov      2014-10-09  270  	return 0;
+662795deb854b3 Eric W. Biederman  2006-06-26  271  }
+662795deb854b3 Eric W. Biederman  2006-06-26  272  
 
 -- 
 0-DAY CI Kernel Test Service
