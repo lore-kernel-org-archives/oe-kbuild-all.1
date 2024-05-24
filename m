@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B604F83A09
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 09:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2BA85277;
+	Fri, 24 May 2024 09:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716543695; cv=none; b=k7V+ZqkqGDL5GreMKyigpLkCvKrHZdaM5eOe5E4MNNPnYkpw8dbm95gnSSxOseDqeXmcUuUsPmpXtgDtm7XCN+zx1LDtxQFk+BG8tuhUct3g/NkWznRw3Y6Kmd9aZY7bcJK4PI+s58u+ciF8dlpbfrgfVswjdQR0wPhl6ZT73tg=
+	t=1716543771; cv=none; b=QuJDAKfXAQFWqsUVZIKyGHvq2SVWOH5wvNUrmA+IJo9I0FH4We49amCyBXYUkthOdfMnB5QvNjYc/3w72b3uXMbXD6uTi2ze/kUNX9Wrhd0obzZ6+jhN1Fq4wmSFQwYRfklQgEJ9th8qRYker7c41AAL26fkHbC8as6Uop24924=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716543695; c=relaxed/simple;
-	bh=39w3Dm4QhyNhUgbhI9dPrvSHAukw4/tLKmL24sL5jAE=;
+	s=arc-20240116; t=1716543771; c=relaxed/simple;
+	bh=EE0Mfcd6ewSc6+WFz6f+/FGp9UJiVN+BC87M0MwSeQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qMIMFAnLSDpo3A9IndGcHC1DVAC8fD5xQRoDcMCif3YVDQHrUe0UmCIOpdwy9IeXmV7uCqG+6Y9WgDoZeUTD9q02qI13TiVAMG8DDwpYYHIJbteJPyOXHyRBbeHljocdX+F3q1ufSKyOHHrxnLWQfkC1dTRRuLg++etdO4V/jiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFV56/EB; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=uHvrCmQQpe2tgPozGwUiTCqgyxxQUAfqaB7ZNylJtH+VYy/gl+wz83W5fYoMoQdX+LJnegK/WXJ43Ej/31zd9z86cCXXMfAdliUr0PfB9b6Pzal31a9c0g03WzEjSwHaVcims2JTBNvjVqyaP6zk3I99G2RfZmc0xdqX4SBpWPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cig1fQcP; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFV56/EB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cig1fQcP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716543694; x=1748079694;
+  t=1716543770; x=1748079770;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=39w3Dm4QhyNhUgbhI9dPrvSHAukw4/tLKmL24sL5jAE=;
-  b=lFV56/EBBAo3p7zwBKBVDtfAZgEOutzRbQ9w8UkVjmyl9ygGJnDCfwcm
-   AlURKc3XNIQSHCHTi8ZDe+50YKCjp4xQVkgHFkZbU4Tb4DUL63DTf4w51
-   kSf8zvllggMh/TaQKo2PkGv+qAEZ1J8K8xQHXIMMVUMbdvtNSYHH7YrF7
-   j9WtWf1d8H041CX+rhPJva4FEF599/2zU5yyvX3Tw3zigHd/RpqVS0+Md
-   iz6snwk0F/g25oWsn8uuCwWn1WvgNThLhQH/gzKbF4UfvEYD+6K5+lyeW
-   nvshcdK4kaZflk8Imzu8xYFsCjH2F2oR3bIQfb2i1usINp1Gybw75Rf1k
-   w==;
-X-CSE-ConnectionGUID: tFJ8cvQ8TWCnuT5GWdU6JA==
-X-CSE-MsgGUID: uTs9CS+FRBGZKYI9PNqFhA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="16704579"
+  bh=EE0Mfcd6ewSc6+WFz6f+/FGp9UJiVN+BC87M0MwSeQw=;
+  b=cig1fQcPRSNTPHgx9jtyIKj3mjnvxQsOySXAgWtyWqoFLZHK1kLBpeM3
+   +Hoy8J4HcVgzP4zKWkcYDBVOJueFPot9IZwD+E6pJBi2UTBBz331SfuUL
+   AE1rkJKmK7gnMOXopAdtUZGgpUY3S5Mxg0QPT58469IfSoGoHsRBon1Mh
+   HT3jtLOaaLBapWov63G4FmCLdGMdVDeMINUb9Zw4Yrh8f96aISz0ob3rT
+   zNC55qcGvnZsS1jwcc9OefnC6Z58sI5UacYG/F5GGAsHPfNSUXsBemTfx
+   9agf0+xkO3hSrns8IXWt3jM/pbzlNgkp7xJQbK1xrAlFn8oySZq+AzyMy
+   A==;
+X-CSE-ConnectionGUID: Hn5P6LqgQDm1z0+fAgeyUg==
+X-CSE-MsgGUID: 0sfh6jFqRbyzddnhjvL9JA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12763457"
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="16704579"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 02:41:34 -0700
-X-CSE-ConnectionGUID: gfXoh0qORkiEKxlQAaslTQ==
-X-CSE-MsgGUID: MzTrzmzlQXy8A4KSwHlilQ==
+   d="scan'208";a="12763457"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 02:42:49 -0700
+X-CSE-ConnectionGUID: znjdwd8bQf2TBiM/HicIRA==
+X-CSE-MsgGUID: RL2Xng9gQBqLZzgS6kTPcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="38409841"
+   d="scan'208";a="33887417"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 24 May 2024 02:41:31 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 May 2024 02:42:45 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sARQQ-0004Rw-2X;
-	Fri, 24 May 2024 09:41:24 +0000
-Date: Fri, 24 May 2024 17:39:33 +0800
+	id 1sARRP-0004SB-12;
+	Fri, 24 May 2024 09:42:30 +0000
+Date: Fri, 24 May 2024 17:38:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Hector Martin <marcan@marcan.st>,
 	Mathias Nyman <mathias.nyman@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
 Subject: Re: [PATCH] xhci: Remove dead code in xhci_move_dequeue_past_td()
-Message-ID: <202405241706.h0PyUQfL-lkp@intel.com>
+Message-ID: <202405241753.Idenkg7C-lkp@intel.com>
 References: <20240524-xhci-deadcode-v1-1-a4453a756e0f@marcan.st>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -77,21 +78,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Hector-Martin/xhci-Remove
 base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
 patch link:    https://lore.kernel.org/r/20240524-xhci-deadcode-v1-1-a4453a756e0f%40marcan.st
 patch subject: [PATCH] xhci: Remove dead code in xhci_move_dequeue_past_td()
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240524/202405241706.h0PyUQfL-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241706.h0PyUQfL-lkp@intel.com/reproduce)
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240524/202405241753.Idenkg7C-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241753.Idenkg7C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405241706.h0PyUQfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405241753.Idenkg7C-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/usb/host/xhci-ring.c: In function 'xhci_move_dequeue_past_td':
->> drivers/usb/host/xhci-ring.c:695:1: warning: label 'deq_found' defined but not used [-Wunused-label]
+   In file included from drivers/usb/host/xhci-ring.c:55:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/usb/host/xhci-ring.c:695:1: warning: unused label 'deq_found' [-Wunused-label]
      695 | deq_found:
-         | ^~~~~~~~~
+         | ^~~~~~~~~~
+   2 warnings generated.
 
 
 vim +/deq_found +695 drivers/usb/host/xhci-ring.c
