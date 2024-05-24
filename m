@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D797C8625C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 05:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F08F38DE5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 06:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716530074; cv=none; b=d4FIVKasalPBjr8KM1u0BUpysTXIwgGOczd5MNxHKBmLn9h5CF/2ikGO+leuhM+rgZMWJlSMAxvzdZhFEbmQRDse4wy28yOr+pEVJmOHkljEbRfMFNaVBy7p94a1Y4ISjhIh0+Qgz0gQlObe1NY2Hb9kg3ScYUjthzRrWDaXluU=
+	t=1716531933; cv=none; b=q7JYJd6RL8fe56oySx2XcFrNMuSsO1MfV4pwbAk5QYfuxErLNe7dYYwrWQ20MHb/tQXTTF7Ho973KwLdwLEgdfcmwElD2z35IjA/luHuSSLKeDfqSPS+57BNUKkR5sRlngmogAzEJG4YtU8t1P7PXLd7Hhh+LfWSzierxP1277I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716530074; c=relaxed/simple;
-	bh=wR8rUQACo/Q4pIO6BcwJTj40/z8mHALtyajLOOSORS8=;
+	s=arc-20240116; t=1716531933; c=relaxed/simple;
+	bh=K1dWnbRB7DLAumJMqQCpbv44ZS3RgNNIWt9igErc37o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oNiAeYSJvC7Q0YK4ycVVm9SnoXhaWGO/HVe+Hp9ePCgl1pWkO/qv99D18JF/bNOnLo+oDnfA+Lc2g9AQGTa0WPFGknZ4IzeM5DksQFV1ZdGnhDwZ+cqG/7FJl16xeKsCc7ZyaP5a1qPoUpKVdKESmEUU6NzePIhT9thewNxAtF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQUq88SS; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=E0wftDGUePTJ3juoPVddcDax+zvKGI9Qnw8zYOhuefi7hqdklndJHZIppIuexxH3QvJQlIjsuZU3vUNkho224wbdvaOh5Pc6GvL3EC8AQlmIPC/LmEt1J+nOEaWDDian76NT5UWp1v0i+d5U2AHfVxIAV5Iuf4E2AW4xb17JVCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caPyL0ZD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQUq88SS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caPyL0ZD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716530072; x=1748066072;
+  t=1716531932; x=1748067932;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wR8rUQACo/Q4pIO6BcwJTj40/z8mHALtyajLOOSORS8=;
-  b=mQUq88SSrxtcQ9/dfaAJhdKkWKa0iyAfrkRMOsntiMAkc5qeBUpMwaYk
-   c7K14ozWwmqCxOh8zAspLhOlYEjv+YapNsT4FMyBVhgPTVC6VPV2w/ULI
-   VJ0DkQV8JNy/rA3/Tzii/BjSvQnOLi2WG845Zr7G78OaI4aLz7CXl2m3Q
-   t9YwQR/8DPf2L6mtF2KVjSyb1T4AV3lbLIPBxHBBUrPTDevsfk0+O7MdT
-   rAr51nJfpx8FKTUNm2LbOHqk++uZjMkLv+6LQiPgElB4KkPDjLR06R8w3
-   feebhGlpV7BcgeATW/E25Uy4iPOCulXEsYHDEO2leIXzspbiAgdzNX7mA
-   w==;
-X-CSE-ConnectionGUID: SX6b4hYrQQqJSrATzT1Ung==
-X-CSE-MsgGUID: vWbVYJMZQmaE+0bokV7Frw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="13079016"
+  bh=K1dWnbRB7DLAumJMqQCpbv44ZS3RgNNIWt9igErc37o=;
+  b=caPyL0ZDn9pSx/kqR5/2/0tTX6fC4ry87G0eU4RBVtfXYeXYI6cVlNx+
+   WHOWjB0GYuir1ZPGaOGUWyB5/5huxBfNoBnG1HgrDROkqSxJCgcmzI1Gk
+   cg6rUZ+iy8y9jSvEufhJ7eLsP5rRNP6NBaiLNDdVN2zJJIjVKu6NhZRIn
+   h0QZGTLtfrKlN3Pd7TIIDacog2m8/l+0iKRoFUXZ0UJMlTSXIvGworllv
+   gJGm8HzZkHXtCD2FcwlEIW/RZK07Kwg/X6lKztSGOeo/Z+wF/oYieQuZ2
+   qx1XOjfUrgib2y86+q/6IIa2ShSNaeaZneYXB5j8BGayfVQcZCow0A1WP
+   Q==;
+X-CSE-ConnectionGUID: hsX4ojO3Rt+vFlwDIP6BPA==
+X-CSE-MsgGUID: 5SsdOe2oRmGTmI6LDsxTBQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="23502828"
 X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; 
-   d="scan'208";a="13079016"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 22:54:32 -0700
-X-CSE-ConnectionGUID: lXZLfJuYSUWYrD/CVMvlAA==
-X-CSE-MsgGUID: J8lFF2VeRnmMBbSpa8FSPA==
+   d="scan'208";a="23502828"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 23:25:32 -0700
+X-CSE-ConnectionGUID: T7tm/7hXRpGIAUzF5WpDWw==
+X-CSE-MsgGUID: h1YDqMASTqmsQlbtdG2Eww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; 
-   d="scan'208";a="38481817"
+   d="scan'208";a="38331785"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 23 May 2024 22:54:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 May 2024 23:25:30 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sANsp-0003w5-25;
-	Fri, 24 May 2024 05:54:27 +0000
-Date: Fri, 24 May 2024 13:53:35 +0800
+	id 1sAOMq-0003x7-0Q;
+	Fri, 24 May 2024 06:25:28 +0000
+Date: Fri, 24 May 2024 14:24:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Egorenkov <egorenar@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>
-Subject: arch/s390/kernel/ipl.c:1973 sys_vmcmd_on_reboot_store() warn:
- unsigned 'len' is never less than zero.
-Message-ID: <202405241351.CnSo0Sim-lkp@intel.com>
+To: Boris Burkov <boris@bur.io>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: [kdave-btrfs-devel:misc-next 58/67] fs/btrfs/space-info.o: warning:
+ objtool: unexpected relocation symbol type in .rela.discard.unreachable
+Message-ID: <202405241457.EXK2T1FD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,40 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6d69b6c12fce479fde7bc06f686212451688a102
-commit: 247576bf624a200b9d4dba6126e760af0d5ebe0e s390/ipl: Do not accept z/VM CP diag X'008' cmds longer than max length
-date:   9 days ago
-config: s390-randconfig-r081-20240524 (https://download.01.org/0day-ci/archive/20240524/202405241351.CnSo0Sim-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   87432b1fbf96ce1a101d2f2eba02257ff559f829
+commit: aa07e8b0f1975875cfa65c7eaa3ca859a93a60a8 [58/67] btrfs: prevent pathological periodic reclaim loops
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240524/202405241457.EXK2T1FD-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241457.EXK2T1FD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405241351.CnSo0Sim-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405241457.EXK2T1FD-lkp@intel.com/
 
-smatch warnings:
-arch/s390/kernel/ipl.c:1973 sys_vmcmd_on_reboot_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1974 sys_vmcmd_on_panic_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1975 sys_vmcmd_on_halt_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1976 sys_vmcmd_on_poff_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1977 sys_vmcmd_on_restart_store() warn: unsigned 'len' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +/len +1973 arch/s390/kernel/ipl.c
-
-99ca4e582d4a40 Michael Holzheu 2008-01-26  1972  
-99ca4e582d4a40 Michael Holzheu 2008-01-26 @1973  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_reboot, "%s\n", "%s\n", vmcmd_on_reboot);
-99ca4e582d4a40 Michael Holzheu 2008-01-26 @1974  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_panic, "%s\n", "%s\n", vmcmd_on_panic);
-99ca4e582d4a40 Michael Holzheu 2008-01-26 @1975  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_halt, "%s\n", "%s\n", vmcmd_on_halt);
-99ca4e582d4a40 Michael Holzheu 2008-01-26 @1976  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_poff, "%s\n", "%s\n", vmcmd_on_poff);
-7dd6b3343fdc19 Michael Holzheu 2011-08-03 @1977  DEFINE_IPL_ATTR_STR_RW(vmcmd, on_restart, "%s\n", "%s\n", vmcmd_on_restart);
-99ca4e582d4a40 Michael Holzheu 2008-01-26  1978  
-
-:::::: The code at line 1973 was first introduced by commit
-:::::: 99ca4e582d4a4088969681efff97be44d98421a1 [S390] kernel: Shutdown Actions Interface
-
-:::::: TO: Michael Holzheu <holzheu@de.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+>> fs/btrfs/space-info.o: warning: objtool: unexpected relocation symbol type in .rela.discard.unreachable
 
 -- 
 0-DAY CI Kernel Test Service
