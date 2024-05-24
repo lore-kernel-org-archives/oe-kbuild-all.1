@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27861E52C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 15:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B420A1E892
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 15:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716565136; cv=none; b=D9/6LoQbnrZFYd4EgGR3689pvXa3OgkFrMZqX/L6ul/C19dWbChKjsE8e2ub4N7U89GnE+2WCgA5ZtfqRlJMpTbdFeqLwqYpaQ5zOeXspiNl/FSBDTDclMN4RZkVnNEt5AQu68KoM6ykOZ1QLH6+qoyPkkNPCT2Jno7r1v0YQDE=
+	t=1716565137; cv=none; b=mkTDD2UXElK9T3vddEUI4XHMXjtAOoc/o9y2TK060xa0hFQKAR8anXmivUBsLGxnSTqqmQ6x05bGgSdBZZGtzjyauQhHWis0nRzo0+ecuYm9ekV8W/SQUtMt6XYn8F+IeqD4S+eqIVh+lY5LTFeau2Tfobc+ado7NxFznU+WTbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716565136; c=relaxed/simple;
-	bh=kYk06SxX57CYC24SFVq+/H0DxgP9yHPpH/MdNtWtWQo=;
+	s=arc-20240116; t=1716565137; c=relaxed/simple;
+	bh=b61opTK1KH6YtwVDrcPwkZAAgbYNEUe/PC2nBmuKlCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0nr9CrYNc6bjJcheXJwsQhVpQJeT768ZcaVz3uRP/z/iFaoPWapPo63Vf6g3igAHfthkMAox8hJtCM6JJYA0Di4p1dvqp/Jhb/KrQZ5VK4NMtx9qLfWTmEal3zL6hOhCgt2g2IRvUGeiru5vb62sFySqWpda75cdoJZT+tkdOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSQF2Jj/; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=RBP10RJVlvnPF3rXtyR8vyVdp49lxDDuKuUWJLqfs+i9o3IFIXFS/8K/BpxbYvW8WqX69+hO+YJdNPr+52WmBy8+I4WdCWyR4NYfPCN+710MFS4tIxLRSjvNkTq3oSnTs/rr/pbexvAZogzGaFTnysSWCDW6TIYfs/ZZetynUIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nms4ibFr; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSQF2Jj/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nms4ibFr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716565131; x=1748101131;
+  t=1716565135; x=1748101135;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kYk06SxX57CYC24SFVq+/H0DxgP9yHPpH/MdNtWtWQo=;
-  b=nSQF2Jj/saQi5gQ2IJ/qpMjARgGijdZheTKKQJmp+uWMyhBqfnjKUYPh
-   n73Y5f6q2cCVOFtjemPj5Hue4QY61cvfJd9BLIlhV40kuEgx6uqPi2O8S
-   GyUxgk2kKE5bZrTxu53+Q+g+YfZBNNubtZe76iKHl1AhWqukIPanaeQQj
-   uLMoDbTdNnpXWgO2XStYopF3PbZTH5XLL66Fyay6D8bA5XyScZUMUvour
-   3oZ0s73noyvrATGHQClsgXr/zO6tc7QGpCOQqAfQtQfhZXGWEwk3dcnLX
-   SaMl9GOl498qL6gg2u8jc4a2A3H++2KmumNFZkk+knBSlH4yYEGdb077C
-   g==;
-X-CSE-ConnectionGUID: LyYvYwh9To2+9IaejXftXQ==
-X-CSE-MsgGUID: WsqakfX2TCaM+UfZclk6gA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23612198"
+  bh=b61opTK1KH6YtwVDrcPwkZAAgbYNEUe/PC2nBmuKlCI=;
+  b=Nms4ibFr6ybbtHZ46gdBbagoKWNJMe26G7g5GJ2aUazsjEVOMNm7MJHU
+   N88mr44OlkfW+9861vSEJQnCAjwKfaaJBFI2c0+Rzfpvjf04Q+eTy103v
+   spArXFvq8jMrmjrGToI90o06sGaIS37Mqd7tbnT6cA7I048sv06RrUB6H
+   2Qc62vIIX2kH5LxIHdNoqn0lzcaPxs8wDa8G1/Cb2PM4JjTyuPkSAajcn
+   2LvsA15aE1NjE4y94u4lYHp/N1mhmDGn921/a6GVIVw+8e5EphbgcWV5p
+   OfyCYNJXgKhxOhJM+j3y8XZip0NM1UVEPo+1meC1saKcZZCc7WJtCZ9Pl
+   Q==;
+X-CSE-ConnectionGUID: UyDC6Bw6S628HsydNxOqnA==
+X-CSE-MsgGUID: UFhF8lpWR8GK4b8SsXQ2GA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="13123820"
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="23612198"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 08:38:51 -0700
-X-CSE-ConnectionGUID: F4JE8hhoSwWV0nyvY4TIjA==
-X-CSE-MsgGUID: zZgUHyDDRDu5sL5pedVkXA==
+   d="scan'208";a="13123820"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 08:38:54 -0700
+X-CSE-ConnectionGUID: wvym/ZEfS8+RgCtzWB+GLw==
+X-CSE-MsgGUID: g29Fv+IYS/uEGWljXqgvhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="38486302"
+   d="scan'208";a="34649446"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 24 May 2024 08:38:50 -0700
+  by orviesa007.jf.intel.com with ESMTP; 24 May 2024 08:38:51 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAX0K-0005Yr-1K;
+	id 1sAX0K-0005Yl-13;
 	Fri, 24 May 2024 15:38:48 +0000
-Date: Fri, 24 May 2024 23:38:33 +0800
+Date: Fri, 24 May 2024 23:38:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miaohe Lin <linmiaohe@huawei.com>, akpm@linux-foundation.org,
-	tony.luck@intel.com, bp@alien8.de
-Cc: oe-kbuild-all@lists.linux.dev, nao.horiguchi@gmail.com,
-	linmiaohe@huawei.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Subject: Re: [PATCH 07/13] mm/memory-failure: remove unneeded
- hwpoison_filter() variant
-Message-ID: <202405242320.8nUwcaQN-lkp@intel.com>
-References: <20240524091310.1430048-8-linmiaohe@huawei.com>
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+	dmitry.baryshkov@linaro.org, jthies@google.com, bleung@chromium.org,
+	abhishekpandit@chromium.org, saranya.gopal@intel.com, lk@c--e.de,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pmalani@chromium.org
+Cc: oe-kbuild-all@lists.linux.dev, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Subject: Re: [PATCH 2/2] usb: typec: ucsi: Enable UCSI v2.0 notifications
+Message-ID: <202405242300.OetIYSh1-lkp@intel.com>
+References: <20240524105837.15342-3-diogo.ivo@tecnico.ulisboa.pt>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,39 +67,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240524091310.1430048-8-linmiaohe@huawei.com>
+In-Reply-To: <20240524105837.15342-3-diogo.ivo@tecnico.ulisboa.pt>
 
-Hi Miaohe,
+Hi Diogo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master next-20240523]
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master next-20240523]
 [cannot apply to v6.9]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Miaohe-Lin/mm-memory-failure-simplify-put_ref_page/20240524-171903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240524091310.1430048-8-linmiaohe%40huawei.com
-patch subject: [PATCH 07/13] mm/memory-failure: remove unneeded hwpoison_filter() variant
-config: i386-buildonly-randconfig-003-20240524 (https://download.01.org/0day-ci/archive/20240524/202405242320.8nUwcaQN-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405242320.8nUwcaQN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Diogo-Ivo/usb-typec-ucsi-Add-new-capability-bits/20240524-190924
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240524105837.15342-3-diogo.ivo%40tecnico.ulisboa.pt
+patch subject: [PATCH 2/2] usb: typec: ucsi: Enable UCSI v2.0 notifications
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240524/202405242300.OetIYSh1-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405242300.OetIYSh1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405242320.8nUwcaQN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405242300.OetIYSh1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: mm/memory-failure.o: in function `memory_failure':
->> memory-failure.c:(.text+0x2635): undefined reference to `hwpoison_filter'
->> ld: memory-failure.c:(.text+0x283d): undefined reference to `hwpoison_filter'
-   ld: mm/memory-failure.o: in function `soft_offline_page':
-   memory-failure.c:(.text+0x2e12): undefined reference to `hwpoison_filter'
+   drivers/usb/typec/ucsi/ucsi.c: In function 'ucsi_get_supported_notifications':
+>> drivers/usb/typec/ucsi/ucsi.c:1686:17: error: 'UCSI_ENABLE_NTFY_SINK_PATH_STS_CHANGE' undeclared (first use in this function); did you mean 'UCSI_ENABLE_NTFY_EXT_PWR_SRC_CHANGE'?
+    1686 |         ntfy |= UCSI_ENABLE_NTFY_SINK_PATH_STS_CHANGE;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 UCSI_ENABLE_NTFY_EXT_PWR_SRC_CHANGE
+   drivers/usb/typec/ucsi/ucsi.c:1686:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/usb/typec/ucsi/ucsi.c:1689:25: error: 'UCSI_ENABLE_NTFY_ATTENTION' undeclared (first use in this function); did you mean 'UCSI_ENABLE_NTFY_ERROR'?
+    1689 |                 ntfy |= UCSI_ENABLE_NTFY_ATTENTION;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         UCSI_ENABLE_NTFY_ERROR
+>> drivers/usb/typec/ucsi/ucsi.c:1692:25: error: 'UCSI_ENABLE_NTFY_LPM_FW_UPDATE_REQ' undeclared (first use in this function)
+    1692 |                 ntfy |= UCSI_ENABLE_NTFY_LPM_FW_UPDATE_REQ;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/typec/ucsi/ucsi.c:1695:25: error: 'UCSI_ENABLE_NTFY_SECURITY_REQ_PARTNER' undeclared (first use in this function)
+    1695 |                 ntfy |= UCSI_ENABLE_NTFY_SECURITY_REQ_PARTNER;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/typec/ucsi/ucsi.c:1698:25: error: 'UCSI_ENABLE_NTFY_SET_RETIMER_MODE' undeclared (first use in this function); did you mean 'UCSI_CAP_SET_RETIMER_MODE'?
+    1698 |                 ntfy |= UCSI_ENABLE_NTFY_SET_RETIMER_MODE;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         UCSI_CAP_SET_RETIMER_MODE
+
+
+vim +1686 drivers/usb/typec/ucsi/ucsi.c
+
+  1664	
+  1665	static u64 ucsi_get_supported_notifications(struct ucsi *ucsi)
+  1666	{
+  1667		u16 features = ucsi->cap.features;
+  1668		u64 ntfy = UCSI_ENABLE_NTFY_ALL;
+  1669	
+  1670		if (!(features & UCSI_CAP_ALT_MODE_DETAILS))
+  1671			ntfy &= ~UCSI_ENABLE_NTFY_CAM_CHANGE;
+  1672	
+  1673		if (!(features & UCSI_CAP_PDO_DETAILS))
+  1674			ntfy &= ~(UCSI_ENABLE_NTFY_PWR_LEVEL_CHANGE |
+  1675				  UCSI_ENABLE_NTFY_CAP_CHANGE);
+  1676	
+  1677		if (!(features & UCSI_CAP_EXT_SUPPLY_NOTIFICATIONS))
+  1678			ntfy &= ~UCSI_ENABLE_NTFY_EXT_PWR_SRC_CHANGE;
+  1679	
+  1680		if (!(features & UCSI_CAP_PD_RESET))
+  1681			ntfy &= ~UCSI_ENABLE_NTFY_PD_RESET_COMPLETE;
+  1682	
+  1683		if (ucsi->version <= UCSI_VERSION_1_2)
+  1684			return ntfy;
+  1685	
+> 1686		ntfy |= UCSI_ENABLE_NTFY_SINK_PATH_STS_CHANGE;
+  1687	
+  1688		if (features & UCSI_CAP_GET_ATTENTION_VDO)
+> 1689			ntfy |= UCSI_ENABLE_NTFY_ATTENTION;
+  1690	
+  1691		if (features & UCSI_CAP_FW_UPDATE_REQUEST)
+> 1692			ntfy |= UCSI_ENABLE_NTFY_LPM_FW_UPDATE_REQ;
+  1693	
+  1694		if (features & UCSI_CAP_SECURITY_REQUEST)
+> 1695			ntfy |= UCSI_ENABLE_NTFY_SECURITY_REQ_PARTNER;
+  1696	
+  1697		if (features & UCSI_CAP_SET_RETIMER_MODE)
+> 1698			ntfy |= UCSI_ENABLE_NTFY_SET_RETIMER_MODE;
+  1699	
+  1700		return ntfy;
+  1701	}
+  1702	
 
 -- 
 0-DAY CI Kernel Test Service
