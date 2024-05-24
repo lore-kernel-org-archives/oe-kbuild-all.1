@@ -1,70 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9EF12B7D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 03:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196981EF01;
+	Fri, 24 May 2024 03:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716520720; cv=none; b=sbChnlvTdu0xTgJb/dztdiLrGJm70Cu5NyQxHyOQ9wiR4vqGeIU5HklT5fqkGUV8rrwzry3K3RZob2QsOfGj2J+mQMIjnpekYIMZHLRl02bZnIzFDxqEA/NMNsICUFZaIgU7maM+yVbLPAKt2JMS+qUAtlwYuMVTz52zc89QFAg=
+	t=1716521321; cv=none; b=P2af0e7//VtyIigym7WEaZbsRhGX0Krw5pVk9e7FBA9Aikxmnn80eMwodMLf/+s33PwMjSOTTlRHomGVYWSrxbrccIr71ziidvYqyHViuDrtMT6A4f0EebM+y3lSe35n69sMCpQBv6ih3grBI8vWgPySBxjowPOCZHmH+IUhRjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716520720; c=relaxed/simple;
-	bh=CmwkT08Wml58wAZ0fufhXC4LR6Vf2WvUoVrYuKBhHUY=;
+	s=arc-20240116; t=1716521321; c=relaxed/simple;
+	bh=BmHxPvxy7A16jb2AYJ8QAISuGgdPP6gUOqwmVG0jhKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hz+d9k3RlYuAste8VSi3CjhA/rBQndgoM9w6YqPXicyCzS4OybmQzL9cF9he0nBOMVI5XXHyRt3QdIw+B+7VUJcGINhHDuM1cOzhiejKfeHfkMl7mih2jtH27VObLrWyojMP0tN54Mv1L4z/uYNiSp5dPv+qLiUtAJuPxdxQWVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T51WUl3v; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLvZAx+5ouyMGWLW7xn7qew1ZQ3ze2I4ysyK61Bs9Vh0To5wneVist5kL+37CuzYq6+OMSDOKCrNoiBWhohsZ50k/LQ5l1XZuUSLYYKhuGEmhWWcYAq2bjMyxRt99BIr0mJPyqMmW0nVnC8/v5oxg+AMHd8EapXiNrCNAEKV8l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IyrW24+b; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T51WUl3v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyrW24+b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716520719; x=1748056719;
+  t=1716521321; x=1748057321;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CmwkT08Wml58wAZ0fufhXC4LR6Vf2WvUoVrYuKBhHUY=;
-  b=T51WUl3vBrkeSpLYwIdFQz5oAIS1ZZ5XA41+fO6lwBOzR6MUPMV1BGeH
-   TGbcA3ifXBZYxR6erBZ4/CB+hBRR02wOpJfjE9fskfR43JkYQ69nU1v6Q
-   4CThAPLFUnuKM8xFOZ62+b8G2Wykz4xC3l4oHBh/pkd62x9ifdjg/BWJ/
-   SIxnmGtYHtFkYihj4nY3/e7rEjsFs0Z5LPrKr9zPIDxHriBkcpN9SSKHU
-   PiX+5uuU3vQQLBZYEknlo/4g9qnU/tt7AOXGfEPEO5coONfY2pZI+p5yy
-   slVCIIa2PUobRp1WVie3vhcvvddj6wbFLKpWvyOGZNijQ1FE0qZXa+793
-   w==;
-X-CSE-ConnectionGUID: 0iWZosz5TnW65BUHndPDWA==
-X-CSE-MsgGUID: 5mMaHkz0SG2RxKAxq9Dfkg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12997734"
+  bh=BmHxPvxy7A16jb2AYJ8QAISuGgdPP6gUOqwmVG0jhKQ=;
+  b=IyrW24+bBOi0DgUQCVPonuGSCA80PxeuT/nJ8IJYgyE1lTKcX/EKQYUA
+   M50IC22lbb1v31wzGg5SPuXfgWux9jqfYqzmAT0buEZXehm+j1HgQxQ98
+   G72yrrYvJw6nGF7cx+GoC46ky7IosLb6w7EwLP3pfphpGSTsHllUtrIvQ
+   RmLh43YKTNHaR+AfzK3CeamDY8M4VRG5iQeCY+0UVbgG9wVemIPR0JHMU
+   4RvZFNHIhimRSwA2wFfwiPn9DqVUb4UrgsIGi8dLe81bd+sMBwEvWyBC2
+   IZhH6HqDdHFMTVpLSuZnD+QqVf9pvWXzB1Kt1mcwmsNonFuvjtELQKPOD
+   A==;
+X-CSE-ConnectionGUID: H8v4OWLMQaGUw0pmupcLkg==
+X-CSE-MsgGUID: XM/Uw4x7RxOIuqJUha7WDA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="35398329"
 X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; 
-   d="scan'208";a="12997734"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 20:18:14 -0700
-X-CSE-ConnectionGUID: 8rBYzwWGRWyGrPd9329P8w==
-X-CSE-MsgGUID: dyWvMqt8QVSPk+xJ1pnCjA==
+   d="scan'208";a="35398329"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 20:28:40 -0700
+X-CSE-ConnectionGUID: gY/CM6FATPai6/GBbCwYiw==
+X-CSE-MsgGUID: vmi/9T6/RKm+fon72EZqig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; 
-   d="scan'208";a="34487139"
+   d="scan'208";a="65093228"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 23 May 2024 20:18:08 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 23 May 2024 20:28:35 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sALRH-0003ml-0P;
-	Fri, 24 May 2024 03:17:55 +0000
-Date: Fri, 24 May 2024 11:17:08 +0800
+	id 1sALbb-0003n3-2n;
+	Fri, 24 May 2024 03:28:32 +0000
+Date: Fri, 24 May 2024 11:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Coiby Xu <coxu@redhat.com>, kexec@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Ondrej Kozina <okozina@redhat.com>,
-	Milan Broz <gmazyland@gmail.com>,
-	Thomas Staudt <tstaudt@de.ibm.com>,
-	Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
-	Kairui Song <ryncsn@gmail.com>,
-	Jan Pazdziora <jpazdziora@redhat.com>,
-	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Dave Hansen <dave.hansen@intel.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>
-Subject: Re: [PATCH v4 3/7] crash_dump: store dm keys in kdump reserved memory
-Message-ID: <202405241012.KlmCbp77-lkp@intel.com>
-References: <20240523050451.788754-4-coxu@redhat.com>
+To: Kim Seer Paller <kimseer.paller@analog.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dimitri Fedrau <dima.fedrau@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Subject: Re: [PATCH v2 5/5] iio: dac: ltc2664: Add driver for LTC2664 and
+ LTC2672
+Message-ID: <202405241141.kYcxrSem-lkp@intel.com>
+References: <20240523031909.19427-6-kimseer.paller@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,137 +75,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240523050451.788754-4-coxu@redhat.com>
+In-Reply-To: <20240523031909.19427-6-kimseer.paller@analog.com>
 
-Hi Coiby,
+Hi Kim,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on de7e71ef8bed222dd144d8878091ecb6d5dfd208]
+[auto build test WARNING on 827dca3129708a8465bde90c86c2e3c38e62dd4f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/kexec_file-allow-to-place-kexec_buf-randomly/20240523-130727
-base:   de7e71ef8bed222dd144d8878091ecb6d5dfd208
-patch link:    https://lore.kernel.org/r/20240523050451.788754-4-coxu%40redhat.com
-patch subject: [PATCH v4 3/7] crash_dump: store dm keys in kdump reserved memory
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240524/202405241012.KlmCbp77-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241012.KlmCbp77-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kim-Seer-Paller/iio-ABI-Generalize-ABI-documentation-for-DAC/20240523-112246
+base:   827dca3129708a8465bde90c86c2e3c38e62dd4f
+patch link:    https://lore.kernel.org/r/20240523031909.19427-6-kimseer.paller%40analog.com
+patch subject: [PATCH v2 5/5] iio: dac: ltc2664: Add driver for LTC2664 and LTC2672
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240524/202405241141.kYcxrSem-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241141.kYcxrSem-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405241012.KlmCbp77-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405241141.kYcxrSem-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/crash_dump_dm_crypt.c: In function 'crash_load_dm_crypt_keys':
->> kernel/crash_dump_dm_crypt.c:158:16: error: variable 'kbuf' has initializer but incomplete type
-     158 |         struct kexec_buf kbuf = {
-         |                ^~~~~~~~~
->> kernel/crash_dump_dm_crypt.c:159:18: error: 'struct kexec_buf' has no member named 'image'
-     159 |                 .image = image,
-         |                  ^~~~~
-   kernel/crash_dump_dm_crypt.c:159:26: warning: excess elements in struct initializer
-     159 |                 .image = image,
-         |                          ^~~~~
-   kernel/crash_dump_dm_crypt.c:159:26: note: (near initialization for 'kbuf')
->> kernel/crash_dump_dm_crypt.c:160:18: error: 'struct kexec_buf' has no member named 'buf_min'
-     160 |                 .buf_min = 0,
-         |                  ^~~~~~~
-   kernel/crash_dump_dm_crypt.c:160:28: warning: excess elements in struct initializer
-     160 |                 .buf_min = 0,
-         |                            ^
-   kernel/crash_dump_dm_crypt.c:160:28: note: (near initialization for 'kbuf')
->> kernel/crash_dump_dm_crypt.c:161:18: error: 'struct kexec_buf' has no member named 'buf_max'
-     161 |                 .buf_max = ULONG_MAX,
-         |                  ^~~~~~~
-   In file included from include/linux/limits.h:7,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rbtree.h:24,
-                    from include/linux/key.h:15,
-                    from kernel/crash_dump_dm_crypt.c:2:
-   include/vdso/limits.h:13:25: warning: excess elements in struct initializer
-      13 | #define ULONG_MAX       (~0UL)
-         |                         ^
-   kernel/crash_dump_dm_crypt.c:161:28: note: in expansion of macro 'ULONG_MAX'
-     161 |                 .buf_max = ULONG_MAX,
-         |                            ^~~~~~~~~
-   include/vdso/limits.h:13:25: note: (near initialization for 'kbuf')
-      13 | #define ULONG_MAX       (~0UL)
-         |                         ^
-   kernel/crash_dump_dm_crypt.c:161:28: note: in expansion of macro 'ULONG_MAX'
-     161 |                 .buf_max = ULONG_MAX,
-         |                            ^~~~~~~~~
->> kernel/crash_dump_dm_crypt.c:162:18: error: 'struct kexec_buf' has no member named 'top_down'
-     162 |                 .top_down = false,
-         |                  ^~~~~~~~
-   kernel/crash_dump_dm_crypt.c:162:29: warning: excess elements in struct initializer
-     162 |                 .top_down = false,
-         |                             ^~~~~
-   kernel/crash_dump_dm_crypt.c:162:29: note: (near initialization for 'kbuf')
->> kernel/crash_dump_dm_crypt.c:163:18: error: 'struct kexec_buf' has no member named 'random'
-     163 |                 .random = true,
-         |                  ^~~~~~
-   kernel/crash_dump_dm_crypt.c:163:27: warning: excess elements in struct initializer
-     163 |                 .random = true,
-         |                           ^~~~
-   kernel/crash_dump_dm_crypt.c:163:27: note: (near initialization for 'kbuf')
->> kernel/crash_dump_dm_crypt.c:158:26: error: storage size of 'kbuf' isn't known
-     158 |         struct kexec_buf kbuf = {
-         |                          ^~~~
->> kernel/crash_dump_dm_crypt.c:187:20: error: 'KEXEC_BUF_MEM_UNKNOWN' undeclared (first use in this function)
-     187 |         kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:187:20: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/crash_dump_dm_crypt.c:188:13: error: implicit declaration of function 'kexec_add_buffer' [-Werror=implicit-function-declaration]
-     188 |         r = kexec_add_buffer(&kbuf);
-         |             ^~~~~~~~~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:158:26: warning: unused variable 'kbuf' [-Wunused-variable]
-     158 |         struct kexec_buf kbuf = {
-         |                          ^~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/iio/dac/ltc2664.c:20:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/dac/ltc2664.c:627:8: warning: variable 'span' is uninitialized when used here [-Wuninitialized]
+     627 |                         if (span < 0)
+         |                             ^~~~
+   drivers/iio/dac/ltc2664.c:563:15: note: initialize the variable 'span' to silence this warning
+     563 |         int ret, span;
+         |                      ^
+         |                       = 0
+   6 warnings generated.
 
 
-vim +/kbuf +158 kernel/crash_dump_dm_crypt.c
+vim +/span +627 drivers/iio/dac/ltc2664.c
 
-   155	
-   156	int crash_load_dm_crypt_keys(struct kimage *image)
-   157	{
- > 158		struct kexec_buf kbuf = {
- > 159			.image = image,
- > 160			.buf_min = 0,
- > 161			.buf_max = ULONG_MAX,
- > 162			.top_down = false,
- > 163			.random = true,
-   164		};
-   165	
-   166		int r;
-   167	
-   168		if (state == FRESH)
-   169			return 0;
-   170	
-   171		if (key_count != keys_header->key_count) {
-   172			pr_err("Only record %u keys (%u in total)\n", key_count,
-   173			       keys_header->key_count);
-   174			return -EINVAL;
-   175		}
-   176	
-   177		image->dm_crypt_keys_addr = 0;
-   178		r = build_keys_header();
-   179		if (r)
-   180			return r;
-   181	
-   182		kbuf.buffer = keys_header;
-   183		kbuf.bufsz = keys_header_size;
-   184	
-   185		kbuf.memsz = kbuf.bufsz;
-   186		kbuf.buf_align = ELF_CORE_HEADER_ALIGN;
- > 187		kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
- > 188		r = kexec_add_buffer(&kbuf);
+   557	
+   558	static int ltc2664_channel_config(struct ltc2664_state *st)
+   559	{
+   560		const struct ltc2664_chip_info *chip_info = st->chip_info;
+   561		struct device *dev = &st->spi->dev;
+   562		u32 reg, tmp[2], mspan;
+   563		int ret, span;
+   564	
+   565		mspan = LTC2664_MSPAN_SOFTSPAN;
+   566		ret = device_property_read_u32(dev, "adi,manual-span-operation-config",
+   567					       &mspan);
+   568		if (!ret) {
+   569			if (!chip_info->manual_span_support)
+   570				return dev_err_probe(dev, -EINVAL,
+   571				       "adi,manual-span-operation-config not supported\n");
+   572	
+   573			if (mspan > ARRAY_SIZE(ltc2664_mspan_lut))
+   574				return dev_err_probe(dev, -EINVAL,
+   575				       "adi,manual-span-operation-config not in range\n");
+   576		}
+   577	
+   578		st->rfsadj = 20000;
+   579		ret = device_property_read_u32(dev, "adi,rfsadj-ohms", &st->rfsadj);
+   580		if (!ret) {
+   581			if (!chip_info->rfsadj_support)
+   582				return dev_err_probe(dev, -EINVAL,
+   583						     "adi,rfsadj-ohms not supported\n");
+   584	
+   585			if (st->rfsadj < 19000 || st->rfsadj > 41000)
+   586				return dev_err_probe(dev, -EINVAL,
+   587						     "adi,rfsadj-ohms not in range\n");
+   588		}
+   589	
+   590		device_for_each_child_node_scoped(dev, child) {
+   591			struct ltc2664_chan *chan;
+   592	
+   593			ret = fwnode_property_read_u32(child, "reg", &reg);
+   594			if (ret)
+   595				return dev_err_probe(dev, ret,
+   596						     "Failed to get reg property\n");
+   597	
+   598			if (reg >= chip_info->num_channels)
+   599				return dev_err_probe(dev, -EINVAL,
+   600						     "reg bigger than: %d\n",
+   601						     chip_info->num_channels);
+   602	
+   603			chan = &st->channels[reg];
+   604	
+   605			if (fwnode_property_read_bool(child, "adi,toggle-mode")) {
+   606				chan->toggle_chan = true;
+   607				/* assume sw toggle ABI */
+   608				st->iio_channels[reg].ext_info = ltc2664_toggle_sym_ext_info;
+   609				/*
+   610				 * Clear IIO_CHAN_INFO_RAW bit as toggle channels expose
+   611				 * out_voltage/current_raw{0|1} files.
+   612				 */
+   613				__clear_bit(IIO_CHAN_INFO_RAW,
+   614					    &st->iio_channels[reg].info_mask_separate);
+   615			}
+   616	
+   617			chan->raw[0] = ltc2664_mspan_lut[mspan][1];
+   618			chan->raw[1] = ltc2664_mspan_lut[mspan][1];
+   619	
+   620			chan->span = ltc2664_mspan_lut[mspan][0];
+   621	
+   622			ret = fwnode_property_read_u32_array(child, "adi,output-range-microvolt",
+   623							     tmp, ARRAY_SIZE(tmp));
+   624			if (!ret && mspan == LTC2664_MSPAN_SOFTSPAN) {
+   625				chan->span = ltc2664_set_span(st, tmp[0] / 1000,
+   626							      tmp[1] / 1000, reg);
+ > 627				if (span < 0)
+   628					return dev_err_probe(dev, span,
+   629							     "Failed to set span\n");
+   630	
+   631			}
+   632	
+   633			ret = fwnode_property_read_u32(child,
+   634						       "adi,output-range-microamp",
+   635						       &tmp[0]);
+   636			if (!ret) {
+   637				chan->span = ltc2664_set_span(st, 0, tmp[0] / 1000, reg);
+   638				if (span < 0)
+   639					return dev_err_probe(dev, span,
+   640							     "Failed to set span\n");
+   641			}
+   642		}
+   643	
+   644		return 0;
+   645	}
+   646	
 
 -- 
 0-DAY CI Kernel Test Service
