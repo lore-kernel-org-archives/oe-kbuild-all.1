@@ -1,139 +1,115 @@
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1BF823D0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 21:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.40.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3567C29403;
+	Fri, 24 May 2024 21:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716584822; cv=none; b=ma51TinZbZ5jTFqRlOqh3nlQtzGyUDrhmOes7uPGNlk48KA42wJLRAhZb7k/QdvKQ4iEveuj8QCSMNoK2Bnnoe1lgv7jaSEKsvCmIudTm95QgFnvCBnaln6bK/mIkC/4udbWCm1LkOPtq2+cHlt+aVoKQ78GOcjr9VDXQ4nNL8I=
+	t=1716585874; cv=none; b=A7dyG3eQwYOf34gRO0cLJs2kro/L1zXPlN/2cnAcewFP8+6tbjhznJRFiYBP0guoAqzPT/QVDTv0MPcWGDqhezJJNPbigsjmGwdG+Xlv8z0HwSjW35t3FAqZf1fYke2sypJarIr9GjvlTaV1eZR6jU9ioganLrRDhVP4RnwHjfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716584822; c=relaxed/simple;
-	bh=Sz6ZUVRXx17p9MUniuhApiR8QthQCg38UlEL+WVHPBM=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=TEVHO9KvEwWNsWrrhG2uDvd00Gh58plbg9PJ30co0ippe30tigxe3ejqJr1oMx+/oRWiiohoh2YOu+kQ5ocFB61RBj7k/JlIQJ5M+6PQNcp4TObSOGKyIj3hyUNfCdIC2VxVeSBK3h+oZuXt2iSNXUxmvs7IEffj8Fi9enPFHds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=195.201.40.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id A555962348A5;
-	Fri, 24 May 2024 23:06:56 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id TY85XimMHdoO; Fri, 24 May 2024 23:06:56 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id EEDA96195FD9;
-	Fri, 24 May 2024 23:06:55 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hq2mlyIH99_G; Fri, 24 May 2024 23:06:55 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id CD1CE6195FCC;
-	Fri, 24 May 2024 23:06:55 +0200 (CEST)
-Date: Fri, 24 May 2024 23:06:55 +0200 (CEST)
-From: Richard Weinberger <richard@nod.at>
-To: kernel test robot <lkp@intel.com>
-Cc: david <david@sigma-star.at>, oe-kbuild-all <oe-kbuild-all@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, 
-	david oberhollenzer <david.oberhollenzer@sigma-star.at>
-Message-ID: <1855855000.144805.1716584815663.JavaMail.zimbra@nod.at>
-In-Reply-To: <202405240610.fj53EK0q-lkp@intel.com>
-References: <202405240610.fj53EK0q-lkp@intel.com>
-Subject: Re: security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:
- sparse: incorrect type in assignment (different base types)
+	s=arc-20240116; t=1716585874; c=relaxed/simple;
+	bh=ZVPg8EMx0Yr6yPElmIUEkpUwH0oSsvKTxevOdlxBNxI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=hGjJoxDDAwHD0L0O4BO2v2Xx5NXB0kmQ2rX8Jxvxbr68St37cSnCd3q7RzcYirGX45OCUvV/jnEc/3Ae+h1hqCs5hhXSONdcJmZP2wrGC090L4UBSORBojHOXo6rXoy5IKv/ZLIzIGxLhRdmAU9DHD0nrUafC3QMXnVSfiasDRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6J1ClIK; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6J1ClIK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B325CC2BBFC;
+	Fri, 24 May 2024 21:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716585874;
+	bh=ZVPg8EMx0Yr6yPElmIUEkpUwH0oSsvKTxevOdlxBNxI=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=F6J1ClIK/S5O+G6GhHyDpJt5o5KL5E+VS3FheUVROo53UdlMEojNnYsSStUS+R9yw
+	 UC10CcHcy0pjGU+ivFhvQO4ikOXqQjNQzHipPspVJt3Z1wrImN5HYKu6xzR8xcAloy
+	 FMfZ6hF9CTEtrod8mQIi4T6qleSicQFYxkqtgkCkT6poqYTs2aWmMqXdh4vNOw8J3p
+	 cqzbYAZjCc2cjHtbc/O9LS9VPL4IuUih1ysCu0pEklQ0KScMHaVksP6hMQwe2u/uC6
+	 Nzi/GBYWD2h6VWw05InFZsKFZYGEBEbGTojIrUBfB3EVYsgmVtfYNQ+dGTMkoZmHi7
+	 Y7KKqD8fC2LCg==
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
-Thread-Topic: security/keys/trusted-keys/trusted_dcp.c:206:24: sparse: sparse: incorrect type in assignment (different base types)
-Thread-Index: CtnofoC0Fpa85+mbFcGqHZ2NTw79OQ==
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 25 May 2024 00:24:30 +0300
+Message-Id: <D1I6WMDSLOW0.2RS18E7T61X9A@kernel.org>
+Cc: "david" <david@sigma-star.at>, "oe-kbuild-all"
+ <oe-kbuild-all@lists.linux.dev>, "linux-kernel"
+ <linux-kernel@vger.kernel.org>, "david oberhollenzer"
+ <david.oberhollenzer@sigma-star.at>
+Subject: Re: security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:
+ sparse: incorrect type in assignment (different base types)
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Richard Weinberger" <richard@nod.at>, "kernel test robot"
+ <lkp@intel.com>
+X-Mailer: aerc 0.17.0
+References: <202405240610.fj53EK0q-lkp@intel.com>
+ <1855855000.144805.1716584815663.JavaMail.zimbra@nod.at>
+In-Reply-To: <1855855000.144805.1716584815663.JavaMail.zimbra@nod.at>
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "kernel test robot" <lkp@intel.com>
-> An: "david" <david@sigma-star.at>
-> CC: "oe-kbuild-all" <oe-kbuild-all@lists.linux.dev>, "linux-kernel" <linu=
-x-kernel@vger.kernel.org>, "Jarkko Sakkinen"
-> <jarkko@kernel.org>, "richard" <richard@nod.at>, "david oberhollenzer" <d=
-avid.oberhollenzer@sigma-star.at>
-> Gesendet: Freitag, 24. Mai 2024 00:48:26
-> Betreff: security/keys/trusted-keys/trusted_dcp.c:206:24: sparse: sparse:=
- incorrect type in assignment (different base
-> types)
-
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t
-> master
-> head:   6d69b6c12fce479fde7bc06f686212451688a102
-> commit: 2e8a0f40a39cc253002f21c54e1b5b995e5ec510 KEYS: trusted: Introduce=
- NXP
-> DCP-backed trusted keys
-> date:   2 weeks ago
-> config: arm-randconfig-r112-20240524
-> (https://download.01.org/0day-ci/archive/20240524/202405240610.fj53EK0q-l=
-kp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce:
-> (https://download.01.org/0day-ci/archive/20240524/202405240610.fj53EK0q-l=
-kp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes:
->| https://lore.kernel.org/oe-kbuild-all/202405240610.fj53EK0q-lkp@intel.co=
-m/
->=20
-> sparse warnings: (new ones prefixed by >>)
->>> security/keys/trusted-keys/trusted_dcp.c:206:24: sparse: sparse: incorr=
-ect type
->>> in assignment (different base types) @@     expected restricted __le32
->>> [usertype] payload_len @@     got unsigned int @@
->   security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:     expected r=
-estricted
->   __le32 [usertype] payload_len
->   security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:     got unsign=
-ed int
->=20
-> vim +206 security/keys/trusted-keys/trusted_dcp.c
->=20
->   179
->   180=09static int trusted_dcp_seal(struct trusted_key_payload *p, char *=
+On Sat May 25, 2024 at 12:06 AM EEST, Richard Weinberger wrote:
+> >| Reported-by: kernel test robot <lkp@intel.com>
+> >| Closes:
+> >| https://lore.kernel.org/oe-kbuild-all/202405240610.fj53EK0q-lkp@intel.=
+com/
+> >=20
+> > sparse warnings: (new ones prefixed by >>)
+> >>> security/keys/trusted-keys/trusted_dcp.c:206:24: sparse: sparse: inco=
+rrect type
+> >>> in assignment (different base types) @@     expected restricted __le3=
+2
+> >>> [usertype] payload_len @@     got unsigned int @@
+> >   security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:     expected=
+ restricted
+> >   __le32 [usertype] payload_len
+> >   security/keys/trusted-keys/trusted_dcp.c:206:24: sparse:     got unsi=
+gned int
+> >=20
+> > vim +206 security/keys/trusted-keys/trusted_dcp.c
+> >=20
+> >   179
+> >   180	static int trusted_dcp_seal(struct trusted_key_payload *p, char *=
 datablob)
->   181=09{
->   182=09=09struct dcp_blob_fmt *b =3D (struct dcp_blob_fmt *)p->blob;
->   183=09=09int blen, ret;
->   184
->   185=09=09blen =3D calc_blob_len(p->key_len);
->   186=09=09if (blen > MAX_BLOB_SIZE)
->   187=09=09=09return -E2BIG;
->   188
->   189=09=09b->fmt_version =3D DCP_BLOB_VERSION;
->   190=09=09get_random_bytes(b->nonce, AES_KEYSIZE_128);
->   191=09=09get_random_bytes(b->blob_key, AES_KEYSIZE_128);
->   192
->   193=09=09ret =3D do_aead_crypto(p->key, b->payload, p->key_len, b->blob=
-_key,
->   194=09=09=09=09     b->nonce, true);
->   195=09=09if (ret) {
->   196=09=09=09pr_err("Unable to encrypt blob payload: %i\n", ret);
->   197=09=09=09return ret;
->   198=09=09}
->   199
->   200=09=09ret =3D encrypt_blob_key(b->blob_key);
->   201=09=09if (ret) {
->   202=09=09=09pr_err("Unable to encrypt blob key: %i\n", ret);
->   203=09=09=09return ret;
->   204=09=09}
->   205
-> > 206=09=09b->payload_len =3D get_unaligned_le32(&p->key_len);
+> >   181	{
+> >   182		struct dcp_blob_fmt *b =3D (struct dcp_blob_fmt *)p->blob;
+> >   183		int blen, ret;
+> >   184
+> >   185		blen =3D calc_blob_len(p->key_len);
+> >   186		if (blen > MAX_BLOB_SIZE)
+> >   187			return -E2BIG;
+> >   188
+> >   189		b->fmt_version =3D DCP_BLOB_VERSION;
+> >   190		get_random_bytes(b->nonce, AES_KEYSIZE_128);
+> >   191		get_random_bytes(b->blob_key, AES_KEYSIZE_128);
+> >   192
+> >   193		ret =3D do_aead_crypto(p->key, b->payload, p->key_len, b->blob_k=
+ey,
+> >   194				     b->nonce, true);
+> >   195		if (ret) {
+> >   196			pr_err("Unable to encrypt blob payload: %i\n", ret);
+> >   197			return ret;
+> >   198		}
+> >   199
+> >   200		ret =3D encrypt_blob_key(b->blob_key);
+> >   201		if (ret) {
+> >   202			pr_err("Unable to encrypt blob key: %i\n", ret);
+> >   203			return ret;
+> >   204		}
+> >   205
+> > > 206		b->payload_len =3D get_unaligned_le32(&p->key_len);
+>
+> I think this should be a put_unaligned_le32(p->key_len, &b->payload_len).
 
-I think this should be a put_unaligned_le32(p->key_len, &b->payload_len).
+Please send then fix, reasoning of that, and finally:
 
-Thanks,
-//richard
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202405240610.fj53EK0q-lkp@int=
+el.com/
+
+> Thanks,
+> //richard
+
+BR, Jarkko
