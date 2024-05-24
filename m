@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF3812C485;
-	Fri, 24 May 2024 16:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B3712EBD5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 16:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716566442; cv=none; b=uIwUsWk8ADgKpQTeUDWSTXYckfXSMxPttdYFHIwdOZx6dJ3RKCtPRjebmx80ktMjMEc8d4v2xVo9WW1JXEcZCZZpg31jyTM4yGtU2F6jsdT/fxSVdoJ+vJ2WHYPA/+2Scd9H2OfmPN7hhB06YABy8h0hnSDwR47JMzTBd1DGVHs=
+	t=1716568279; cv=none; b=pnm8ciei16ratbiDww8nnwauico7VuMLpQL+ajAVNverpMumAitfbEnDqDGbiqzBF+L21tqXyFutOVE8jmaLZwVSeFwI79oQPLw96YBSuesA3+0tW/OY5LgJK7fLSVBha9CJYgNVE15o2rRjGFfgxnOXL83w3rfxg1qMyw71ed0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716566442; c=relaxed/simple;
-	bh=T8k4JUAyIss4mH/x5Ih9z9QbzZGW9lVW9BB5nG2P8/g=;
+	s=arc-20240116; t=1716568279; c=relaxed/simple;
+	bh=RFjtk09xe0yHk1E4yvGWEYj9G5ODA2IAg2iUhelc5oY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nVkockE0Ry1qIkRcm+igKGGUVPvAwTdYMRYYr8Ahf6HGnqAfxud09p2wshsry+KWTyxAns2Q2WkQ4izBrOkTCWZfHVL7XzvRaqD6DfxLy0dPBWWEyTLG7UajMuyoQ8pB7giRAMjyw4oalFWBJF52ayMwwh8xv+vSTUrOBIjiLww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sun/aGHR; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Ckosvr7b6GhEjgP4rBNkqdvmPyCrO6tRMzsHhSpz9fECnO1KZjD2536dWug49adllKORPrCpqXlMEH+XqXU68ckbM4g9lwHLHLgydGbJRpnfkAYQTD3wd3xFU9dN5/LDcdXswRti2oTO6nTCAZgUdaYdd5pMVh0WRpqu4nr7gcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heoY+UR9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sun/aGHR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heoY+UR9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716566440; x=1748102440;
+  t=1716568278; x=1748104278;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T8k4JUAyIss4mH/x5Ih9z9QbzZGW9lVW9BB5nG2P8/g=;
-  b=Sun/aGHRwxzvHIGPbKgnEpJlQCDonVGf0AaY7Dd1virs6dEOAdVr7+I/
-   xqAYt5lqpgEn4saR4tExP/8m8XgBpnUlpOI2w2xIoEc4z50U3khg+YX7T
-   x6bE7PxWstmK6j2cK2KfuatBtzVT5LAdmTueDoKFICMIEs2kSYXTYnNyn
-   QH+wEdCDlya11p4kjAK4+DNNA1Dhn5dDXNpyu8mHlZBrsINnCaJlrBoSY
-   HdVj2yC/PKwziml3xTs0tZyDX1pgPNGj2hrFA+cyCYa8glyBZ+7Rd1Ioq
-   e5NCkBlxSomiL9wVV/U5KQGDLGVH5x0gX9RpecrPrkEGlpnLGYZlcdabg
-   w==;
-X-CSE-ConnectionGUID: l6PgQgRBRiirHAUyfV2mNA==
-X-CSE-MsgGUID: qxi0tzKYSDmqjy1NEgWsbA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="24363223"
+  bh=RFjtk09xe0yHk1E4yvGWEYj9G5ODA2IAg2iUhelc5oY=;
+  b=heoY+UR9VRw+gOGi87UorM5YpbuOBJSXI0Dn7vmLXYFO3KnXlXRyLsP1
+   KhPEF57NiYbTi+6HB5KP7WEop+s9LwSVUzb3N/QsKWMtsaGKFjH3a12jW
+   S91ABU1IZ0ws3BiO0DpyeK1+ZjUO8UlT8gT/9JgWRovK//0qhiokAx2DQ
+   bATuV+5tGfgisHnmDdiFTwHH0Ct3B/SF0FsG0XzoTHM8ilGms2fs4l7Q1
+   afG3eDrDI4aDR1rFS6hNK47aAR1mgP+4QCFdVYWrLXZ1NaH+rydgnu0Dx
+   zFFfDmPBTnY9PCfVDEiVwaZtt7Bg3LShjeKRFihl+6rL3SfYqeAWYpRNa
+   A==;
+X-CSE-ConnectionGUID: 5MeHo7VoRU6VM0TGfXws4Q==
+X-CSE-MsgGUID: juJvQWpITuK974MZFYaC+g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="16789032"
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="24363223"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 09:00:26 -0700
-X-CSE-ConnectionGUID: 9UiUdGBkTIO1Nw5p55+FAA==
-X-CSE-MsgGUID: L/BhBCdtSAWSXJEX1bhKKw==
+   d="scan'208";a="16789032"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 09:31:17 -0700
+X-CSE-ConnectionGUID: dktpo60MQby9JsCZJf5c+Q==
+X-CSE-MsgGUID: jidQz21ISZqzgmd5GinJHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
-   d="scan'208";a="34074543"
+   d="scan'208";a="34175107"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 24 May 2024 09:00:25 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 May 2024 09:31:16 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAXLC-0005a4-2p;
-	Fri, 24 May 2024 16:00:22 +0000
-Date: Fri, 24 May 2024 23:59:44 +0800
+	id 1sAXp4-0005ez-08;
+	Fri, 24 May 2024 16:31:14 +0000
+Date: Sat, 25 May 2024 00:30:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Sterba <dsterba@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [kdave-btrfs-devel:dev/param-const 48/48] fs/btrfs/super.c:667:34:
- error: passing 'const struct btrfs_fs_info *' to parameter of type 'struct
- btrfs_fs_info *' discards qualifiers
-Message-ID: <202405242326.Wami9vM6-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kdave-btrfs-devel:dev/param-const 48/48] fs/btrfs/super.c:667:41:
+ warning: passing argument 1 of 'btrfs_check_mountopts_zoned' discards
+ 'const' qualifier from pointer target type
+Message-ID: <202405250010.UW7X5MH5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +66,25 @@ Content-Disposition: inline
 tree:   https://github.com/kdave/btrfs-devel.git dev/param-const
 head:   96da40206d7e27b71b58cca6209a17a61acff478
 commit: 96da40206d7e27b71b58cca6209a17a61acff478 [48/48] constify parameters where it's ok
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240524/202405242326.Wami9vM6-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405242326.Wami9vM6-lkp@intel.com/reproduce)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240525/202405250010.UW7X5MH5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250010.UW7X5MH5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405242326.Wami9vM6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405250010.UW7X5MH5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/btrfs/super.c:6:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/riscv/include/asm/cacheflush.h:9:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/btrfs/super.c:667:34: error: passing 'const struct btrfs_fs_info *' to parameter of type 'struct btrfs_fs_info *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+   fs/btrfs/super.c: In function 'btrfs_check_options':
+>> fs/btrfs/super.c:667:41: warning: passing argument 1 of 'btrfs_check_mountopts_zoned' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
      667 |         if (btrfs_check_mountopts_zoned(info, mount_opt))
          |                                         ^~~~
-   fs/btrfs/zoned.h:132:69: note: passing argument to parameter 'info' here
+   In file included from fs/btrfs/super.c:47:
+   fs/btrfs/zoned.h:132:69: note: expected 'struct btrfs_fs_info *' but argument is of type 'const struct btrfs_fs_info *'
      132 | static inline int btrfs_check_mountopts_zoned(struct btrfs_fs_info *info,
-         |                                                                     ^
-   1 warning and 1 error generated.
+         |                                               ~~~~~~~~~~~~~~~~~~~~~~^~~~
 
 
 vim +667 fs/btrfs/super.c
