@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFA85EE80;
-	Fri, 24 May 2024 21:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDF43C47C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 21:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716584776; cv=none; b=O30kziHRHdzfhRMWJzFsJBCxY5m7xAlahb9hU0trR8A3NtX0dEt75AL7peaLbpFkTx2VTDG0EeVgPBg8kpBiRzwb6q7xRQhnGblJILKkPn8YvHD/BD2BiaHWxyn2nlXNomKlV9zNXYaM95h9WwPMe0lENsc/onLPTlioR8fyGas=
+	t=1716584783; cv=none; b=ndL0QdYlrGNX/N1XgeWkUQl7/pWAXiFZzsgZij52KtDDXLr3A/1IlDfIjM0ZsQM1/+plQEvOL76DlA9t3o80/WR5qwKQh5FAHlGdatEWFCcpxGP5dzeLuVJrnu6EVJG+IGe1srKBQJoscCM1g9S8DKzCsYjKqqcQMQUhDECUxC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716584776; c=relaxed/simple;
-	bh=i2FYvQ/BuCKRsKhUyvuotfGtwF1qiSXoUMR8uyOnvAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S1tFBpcOcpaFygPZGcjE8ZY7xfNM+b2kcugJKgE6lOgAI+C4wZI/OLSiEJXMpHNvZ5/Ed8MgOb7OY/2V3ez5XOAmDz7upYFbw1ZQcClboiPS79Z9oJUvdRgBPVwt0YA8/mrH1VAEDM36GUA/a7y5w7rkQYCJ5HNY08NEWxfbbmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGsQVoaz; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1716584783; c=relaxed/simple;
+	bh=CjGfBB22iphYI1f5ANj9jaGrrd9D1ujwfhyN44NDopE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ihu/+Eg4zBub2ghGjeHwj1foHfpzs/MKNbxp/LYMmxxnFGVvQljY8QZve+B+ZJCK5g39la6XrOebrblIDU4w6rJJf4spLpbzhp2MciLKY5qNeOD6Y+mlkPEfurnn+ssnIm1AHDNJo5FANVjLHfia3JjhpZkTqJSk11yQ2HVVshc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bND0tYQL; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGsQVoaz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bND0tYQL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716584775; x=1748120775;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i2FYvQ/BuCKRsKhUyvuotfGtwF1qiSXoUMR8uyOnvAg=;
-  b=mGsQVoazfreoJ4VR+jVsWh/U0L5a0weCmoOf0jNA4VmQ6mj7tGiDckFV
-   wYOC8SZSBmHFSXbp9zu3xznKZK7P91ntdMXeFdXm45dh4wyA4JoB/iqqc
-   N5U+JUblgIcAZbnp6NG1DNBIXNc/p/9Bb05KthJQHjizCtQ3lxiMNSnZv
-   X+SlyozcuJcSTzm44/6Rfs/vbI8FwtzyifS023UFnhjMBQwcR/BlKKbP4
-   64BpmiP/ZdEd3bAEF3D6fKdMryf6rjC6vGK3PBdrKYZIAU4j/+vnvqEJE
-   kHOnSE5FzUZ1hYZ6jo6YrF8UTBZJGDtJHjic+DIzty0v4CYen4szU2nvP
-   w==;
-X-CSE-ConnectionGUID: Hl44pn1YRBesWrWE7B5FTw==
-X-CSE-MsgGUID: FmOaFwZdQduxMV2lTgVpQw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23546280"
+  t=1716584782; x=1748120782;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CjGfBB22iphYI1f5ANj9jaGrrd9D1ujwfhyN44NDopE=;
+  b=bND0tYQLZGl38aKt14rE5bACUdmfX89nwcJX5HWGf9DTfIhzkuM1UL+l
+   IRTrqPwJS2yloik6tO1lCpTPAv/3zg9eDvv9e6Q5bpPOJRHhIsA8D5SlU
+   XhGL3ugWk5NZh0ePWhUh7GQqDsyAJqpHIlE7te91ZFRL7715+hCkDYZpo
+   1qs3ZSrpOea7QuKcxY1EtFVdjwrI5ZzAYMZ0si88R83NBInvkpnTopsbA
+   J/aTs7CtUTGFKEVUcma1Mr51o+ap19Z14X3ZWijxJfMMo7SUFh4P6aaQJ
+   bcQZAiN+4MGWhpFnDh0n/j2+b5SqQkE3NXTA+Dsk/0tBo+fCvdQAS2xH1
+   g==;
+X-CSE-ConnectionGUID: 7U9/VjYJSMiex9rruU+IfQ==
+X-CSE-MsgGUID: Es3Kv70NQVKVDENjVqvU/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="11686856"
 X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="23546280"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 14:06:14 -0700
-X-CSE-ConnectionGUID: dg0+kzl/TTiFuWKJa05m+Q==
-X-CSE-MsgGUID: bBCnSzmmQreu0Xqb9a7bkQ==
+   d="scan'208";a="11686856"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 14:06:22 -0700
+X-CSE-ConnectionGUID: go8+cP5ZRXqGVRmEwmy+OQ==
+X-CSE-MsgGUID: Kyz3W/pRSeCDDR5roNaDSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="34112530"
+   d="scan'208";a="34232213"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 24 May 2024 14:06:10 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 May 2024 14:06:20 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAc6x-0005ul-1D;
-	Fri, 24 May 2024 21:06:00 +0000
-Date: Sat, 25 May 2024 05:05:28 +0800
+	id 1sAc75-0005un-1V;
+	Fri, 24 May 2024 21:06:11 +0000
+Date: Sat, 25 May 2024 05:05:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>,
-	linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com,
-	inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org,
-	Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 1/2] proc: pass file instead of inode to proc_mem_open
-Message-ID: <202405250413.EENbErWw-lkp@intel.com>
-References: <20240524192858.3206-1-adrian.ratiu@collabora.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>
+Subject: [dlech:iio-add-ext-scan-type-and-ad3780 12/16]
+ drivers/iio/adc/ad7380.c:488: warning: Function parameter or struct member
+ 'ratio' not described in 'check_osr'
+Message-ID: <202405250516.toBHIVrU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,71 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240524192858.3206-1-adrian.ratiu@collabora.com>
 
-Hi Adrian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kees/for-next/pstore]
-[also build test ERROR on kees/for-next/kspp linus/master v6.9 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Ratiu/proc-restrict-proc-pid-mem/20240525-033201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
-patch link:    https://lore.kernel.org/r/20240524192858.3206-1-adrian.ratiu%40collabora.com
-patch subject: [PATCH v4 1/2] proc: pass file instead of inode to proc_mem_open
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240525/202405250413.EENbErWw-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250413.EENbErWw-lkp@intel.com/reproduce)
+tree:   https://github.com/dlech/linux iio-add-ext-scan-type-and-ad3780
+head:   c0a613b1805b6ef1c8f24ca4ecff9ed854a885f8
+commit: 0cb0769301d1d72f72e3bcb4ceb437879aec6c86 [12/16] iio: adc: ad7380: add oversampling support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240525/202405250516.toBHIVrU-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250516.toBHIVrU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405250413.EENbErWw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405250516.toBHIVrU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/proc/task_nommu.c:3:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/proc/task_nommu.c:262:27: error: incompatible pointer types passing 'struct inode *' to parameter of type 'struct file *' [-Werror,-Wincompatible-pointer-types]
-     262 |         priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
-         |                                  ^~~~~
-   fs/proc/internal.h:298:46: note: passing argument to parameter 'file' here
-     298 | struct mm_struct *proc_mem_open(struct file *file, unsigned int mode);
-         |                                              ^
-   1 warning and 1 error generated.
+>> drivers/iio/adc/ad7380.c:488: warning: Function parameter or struct member 'ratio' not described in 'check_osr'
 
 
-vim +262 fs/proc/task_nommu.c
+vim +488 drivers/iio/adc/ad7380.c
 
-b76437579d1344 Siddhesh Poyarekar 2012-03-21  251  
-b76437579d1344 Siddhesh Poyarekar 2012-03-21  252  static int maps_open(struct inode *inode, struct file *file,
-b76437579d1344 Siddhesh Poyarekar 2012-03-21  253  		     const struct seq_operations *ops)
-662795deb854b3 Eric W. Biederman  2006-06-26  254  {
-dbf8685c8e2140 David Howells      2006-09-27  255  	struct proc_maps_private *priv;
-dbf8685c8e2140 David Howells      2006-09-27  256  
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  257  	priv = __seq_open_private(file, ops, sizeof(*priv));
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  258  	if (!priv)
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  259  		return -ENOMEM;
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  260  
-2c03376d2db005 Oleg Nesterov      2014-10-09  261  	priv->inode = inode;
-27692cd56e2aa6 Oleg Nesterov      2014-10-09 @262  	priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  263  	if (IS_ERR(priv->mm)) {
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  264  		int err = PTR_ERR(priv->mm);
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  265  
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  266  		seq_release_private(inode, file);
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  267  		return err;
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  268  	}
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  269  
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  270  	return 0;
-662795deb854b3 Eric W. Biederman  2006-06-26  271  }
-662795deb854b3 Eric W. Biederman  2006-06-26  272  
+   476	
+   477	/**
+   478	 * check_osr - Check the oversampling ratio
+   479	 * @available_ratio: available ratios's array
+   480	 * @size: size of the available_ratio array
+   481	 * ratio: ratio to check
+   482	 *
+   483	 * Check if ratio is present in @available_ratio. Check for exact match.
+   484	 * @available_ratio is an array of the available ratios (depending on the oversampling mode).
+   485	 * The indices must correspond with the bit value expected by the chip.
+   486	 */
+   487	static inline int check_osr(const int *available_ratio, int size, int ratio)
+ > 488	{
+   489		int i;
+   490	
+   491		for (i = 0; i < size; i++) {
+   492			if (ratio == available_ratio[i])
+   493				return i;
+   494		}
+   495	
+   496		return -EINVAL;
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
