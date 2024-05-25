@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2E11862
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 02:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627D115C9;
+	Sat, 25 May 2024 02:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716604765; cv=none; b=EBdawMiY4FY42I0uWPs+lWsnT0WFZZ+fVkyQx3rqOplitlRhM1n3XmryZNjDmxxv0WhianE39Z3Hab0IRGW3QZw0BJyP8wgMHy5ZH/DRQE2zy1Umzp/2bttVqTPGgI4CEyXi4Gb4hZ9A83A/YNGy/WNmpVo9cnGQNbkLjiKqvuA=
+	t=1716604766; cv=none; b=XVppyj0q3zWl6qjBa3ijGHLS8Y8a0Wec4znzvanduTeCakSTCF7ADOGw/Fzb/YnmkFet3EGKjH3JWRaKskOKo9a1XHHr5D56csDP2LIeHUdDYEtV9y2MMDtgk09H+ZTC2MH7Pumiwq18dYCkSZMCAEVRDSWv/6NVBAtAh9+1ZvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716604765; c=relaxed/simple;
-	bh=rkOH6L+W7aZnSSaSuMD+3YpBPBhp6pBQvLG8T6pSwuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdSgFc6trsLB9ubFfl5i6uRSxMOfuI9saB4aZKXhUhaHh7Y3WS/OD1ZItTYodUoSaUvR51qjY+HQXOXWSPR3BGL9EeipVkGGYj/DXWMIo4rPrQci8AAXuzY2JckTkFs2tPxyy2vDUzpEanwWVBaBrNdV0imWG7qXXwEYFJyR/vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HzB1IYI6; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1716604766; c=relaxed/simple;
+	bh=iuqX6BdRUTDa0FjlTIl7ac0cMbwDA2wZzH+x3PjT4Qs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BHQVPcOF8VOjqF9bFsGfWMx5kPUaH3qrg4vWKK7xu2qgA3xM3/rZQXoLI0azuzYRCaU3XsZ/HsJwy0XYLz6B3JGvnGyfYGG1ubOMk5SPIhylScNyUGop1jJ0Z77tOnN++yvXtqC1NNPyYWlcpQn0kjX3d642nNbDYtQSRilZkGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=miwSA8ZP; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HzB1IYI6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miwSA8ZP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716604763; x=1748140763;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rkOH6L+W7aZnSSaSuMD+3YpBPBhp6pBQvLG8T6pSwuM=;
-  b=HzB1IYI6dShtXSwpzD2dvU+GAzg8XbWXUN5kfzNO1XvigUH5CxoXyfXA
-   zWJgN0dbsM8bnSyl1SiFBQLdzJNwya/UiZcqYTyDihzXVEfKjVIWnmMMw
-   u5WGmyndDFgxcPCYef7i9fUTCdDHBKUzZ4SdJkUe5q34cRqk8cGRdH0L4
-   RBcWAYhtrsxOBgEMgFvyhMbLqCn9GwAgQCMstol/06B5cFJIYsUJcGKy/
-   rJEi0uMz1NWnxx/OHhFxzq8UQjuNTVsWBXaKB9LBdYm9wD9ArMrMrwU7B
-   oDqcy3CjSgS2FhA7Q94XSxxRLkUGTdZfwWHdaLXRgSyXhsVLoZKg8FyAM
-   Q==;
-X-CSE-ConnectionGUID: YXHmBVSQSyepoG51C3FjyQ==
-X-CSE-MsgGUID: zJA3glFyQfWRXYDvg63fJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="30528693"
+  t=1716604764; x=1748140764;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iuqX6BdRUTDa0FjlTIl7ac0cMbwDA2wZzH+x3PjT4Qs=;
+  b=miwSA8ZPDukxtv2SPrumkJN9qaZCKJM51IGD+6Yakw6awnWUtk1cjnb8
+   rjN6ugs1RFnN4H/12r4v2WeUyRoYvWv/+4zpi1ubaMNPLu0lsjQM2HF7e
+   PC6fv05jEVPpWMLieV3A8Ww9GZAMlW2vXtbQIi9v8JhSFQrskSuAena6d
+   +k+ySuHdxWSO74ahrTl2TrewF0VYV8RrbW45FwSkIq/E0EeC8jGDHFkfB
+   1KPxjEHYd5RgPuCDFaJg8xjpXyu9vfsBL1KByVBUcmH0IzE2GCPLCjAE5
+   RN4eHrHEmfX8fODt0vgZKG1XFwQ8jozsFJhYx0uoWD70tZMkv6l2KwpmT
+   g==;
+X-CSE-ConnectionGUID: iaWm3qDTQwin6P71Vn5+nw==
+X-CSE-MsgGUID: DI9IRxL7QLOoNa3aDCShZA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23599098"
 X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="30528693"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 19:39:22 -0700
-X-CSE-ConnectionGUID: NZrcuIz0SDGNS4WCv5LMJQ==
-X-CSE-MsgGUID: PRuO5gB3SiCkY3R4WW3hnw==
+   d="scan'208";a="23599098"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 19:39:21 -0700
+X-CSE-ConnectionGUID: ZaOClT0DQjKoZtE+9QRbBg==
+X-CSE-MsgGUID: cBlV+JG/T/ShkCBbWG/c3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="39181932"
+   d="scan'208";a="39053539"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 24 May 2024 19:39:20 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 May 2024 19:39:21 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAhJV-0006Nn-1W;
+	id 1sAhJV-0006Np-1a;
 	Sat, 25 May 2024 02:39:17 +0000
-Date: Sat, 25 May 2024 10:39:09 +0800
+Date: Sat, 25 May 2024 10:39:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miaohe Lin <linmiaohe@huawei.com>, akpm@linux-foundation.org,
-	tony.luck@intel.com, bp@alien8.de
-Cc: oe-kbuild-all@lists.linux.dev, nao.horiguchi@gmail.com,
-	linmiaohe@huawei.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Subject: Re: [PATCH 10/13] mm/memory-failure: move some function declarations
- into internal.h
-Message-ID: <202405251049.hxjwX7zO-lkp@intel.com>
-References: <20240524091310.1430048-11-linmiaohe@huawei.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-diff 2/2] kernel/fork.c:2815:9: warning:
+ incompatible integer to pointer conversion assigning to 'int *' from 'int'
+Message-ID: <202405251037.WDBJpiSc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,77 +61,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240524091310.1430048-11-linmiaohe@huawei.com>
 
-Hi Miaohe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master next-20240523]
-[cannot apply to v6.9]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miaohe-Lin/mm-memory-failure-simplify-put_ref_page/20240524-171903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240524091310.1430048-11-linmiaohe%40huawei.com
-patch subject: [PATCH 10/13] mm/memory-failure: move some function declarations into internal.h
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240525/202405251049.hxjwX7zO-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405251049.hxjwX7zO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
+head:   745009dc796e56fc87e911138d801679ecd3576e
+commit: 745009dc796e56fc87e911138d801679ecd3576e [2/2] test
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240525/202405251037.WDBJpiSc-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405251037.WDBJpiSc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405251049.hxjwX7zO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405251037.WDBJpiSc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/vfio/vfio_iommu_spapr_tce.c: In function 'tce_page_is_contained':
->> drivers/vfio/vfio_iommu_spapr_tce.c:195:16: error: implicit declaration of function 'page_shift'; did you mean 'page_size'? [-Werror=implicit-function-declaration]
-     195 |         return page_shift(compound_head(page)) >= it_page_shift;
-         |                ^~~~~~~~~~
-         |                page_size
-   cc1: some warnings being treated as errors
+   kernel/fork.c:2815:11: error: implicit declaration of function 'klp_shadow_get_or_alloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
+                    ^
+>> kernel/fork.c:2815:9: warning: incompatible integer to pointer conversion assigning to 'int *' from 'int' [-Wint-conversion]
+           newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
+                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 --
-   arch/powerpc/mm/book3s64/iommu_api.c: In function 'mm_iommu_do_alloc':
->> arch/powerpc/mm/book3s64/iommu_api.c:155:45: error: implicit declaration of function 'page_shift'; did you mean 'page_size'? [-Werror=implicit-function-declaration]
-     155 |                                 pageshift = page_shift(compound_head(page));
-         |                                             ^~~~~~~~~~
-         |                                             page_size
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/ibm/ehea/ehea_qmr.c: In function 'ehea_is_hugepage':
->> drivers/net/ethernet/ibm/ehea/ehea_qmr.c:676:13: error: implicit declaration of function 'page_shift'; did you mean 'page_size'? [-Werror=implicit-function-declaration]
-     676 |         if (page_shift(pfn_to_page(pfn)) != EHEA_HUGEPAGESHIFT)
-         |             ^~~~~~~~~~
-         |             page_size
-   cc1: some warnings being treated as errors
+   fs/proc/array.c:408:11: error: implicit declaration of function 'klp_shadow_get' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           newpid = klp_shadow_get(p, 0);
+                    ^
+>> fs/proc/array.c:408:9: warning: incompatible integer to pointer conversion assigning to 'int *' from 'int' [-Wint-conversion]
+           newpid = klp_shadow_get(p, 0);
+                  ^ ~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +195 drivers/vfio/vfio_iommu_spapr_tce.c
+vim +2815 kernel/fork.c
 
-2157e7b82f3b81 Alexey Kardashevskiy    2015-06-05  179  
-c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  180  static bool tce_page_is_contained(struct mm_struct *mm, unsigned long hpa,
-94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23  181) 		unsigned int it_page_shift)
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  182  {
-c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  183  	struct page *page;
-c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  184  	unsigned long size = 0;
-c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  185  
-94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23  186) 	if (mm_iommu_is_devmem(mm, hpa, it_page_shift, &size))
-94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23  187) 		return size == (1UL << it_page_shift);
-c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  188  
-c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  189  	page = pfn_to_page(hpa >> PAGE_SHIFT);
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  190  	/*
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  191  	 * Check that the TCE table granularity is not bigger than the size of
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  192  	 * a page we just found. Otherwise the hardware can get access to
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  193  	 * a bigger memory chunk that it should.
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  194  	 */
-94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23 @195) 	return page_shift(compound_head(page)) >= it_page_shift;
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  196  }
-e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  197  
+  2756	
+  2757	/*
+  2758	 *  Ok, this is the main fork-routine.
+  2759	 *
+  2760	 * It copies the process, and if successful kick-starts
+  2761	 * it and waits for it to finish using the VM if required.
+  2762	 *
+  2763	 * args->exit_signal is expected to be checked for sanity by the caller.
+  2764	 */
+  2765	#include <linux/livepatch.h>
+  2766	pid_t kernel_clone(struct kernel_clone_args *args)
+  2767	{
+  2768		u64 clone_flags = args->flags;
+  2769		struct completion vfork;
+  2770		struct pid *pid;
+  2771		struct task_struct *p;
+  2772		int trace = 0;
+  2773		pid_t nr;
+  2774		int *newpid;
+  2775		static int ctr = 0;
+  2776	
+  2777		/*
+  2778		 * For legacy clone() calls, CLONE_PIDFD uses the parent_tid argument
+  2779		 * to return the pidfd. Hence, CLONE_PIDFD and CLONE_PARENT_SETTID are
+  2780		 * mutually exclusive. With clone3() CLONE_PIDFD has grown a separate
+  2781		 * field in struct clone_args and it still doesn't make sense to have
+  2782		 * them both point at the same memory location. Performing this check
+  2783		 * here has the advantage that we don't need to have a separate helper
+  2784		 * to check for legacy clone().
+  2785		 */
+  2786		if ((clone_flags & CLONE_PIDFD) &&
+  2787		    (clone_flags & CLONE_PARENT_SETTID) &&
+  2788		    (args->pidfd == args->parent_tid))
+  2789			return -EINVAL;
+  2790	
+  2791		/*
+  2792		 * Determine whether and which event to report to ptracer.  When
+  2793		 * called from kernel_thread or CLONE_UNTRACED is explicitly
+  2794		 * requested, no event is reported; otherwise, report if the event
+  2795		 * for the type of forking is enabled.
+  2796		 */
+  2797		if (!(clone_flags & CLONE_UNTRACED)) {
+  2798			if (clone_flags & CLONE_VFORK)
+  2799				trace = PTRACE_EVENT_VFORK;
+  2800			else if (args->exit_signal != SIGCHLD)
+  2801				trace = PTRACE_EVENT_CLONE;
+  2802			else
+  2803				trace = PTRACE_EVENT_FORK;
+  2804	
+  2805			if (likely(!ptrace_event_enabled(current, trace)))
+  2806				trace = 0;
+  2807		}
+  2808	
+  2809		p = copy_process(NULL, trace, NUMA_NO_NODE, args);
+  2810		add_latent_entropy();
+  2811	
+  2812		if (IS_ERR(p))
+  2813			return PTR_ERR(p);
+  2814	
+> 2815		newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
+  2816						 NULL, NULL);
+  2817		if (newpid)
+  2818			*newpid = ctr++;
+  2819	
+  2820		/*
+  2821		 * Do this prior waking up the new thread - the thread pointer
+  2822		 * might get invalid after that point, if the thread exits quickly.
+  2823		 */
+  2824		trace_sched_process_fork(current, p);
+  2825	
+  2826		pid = get_task_pid(p, PIDTYPE_PID);
+  2827		nr = pid_vnr(pid);
+  2828	
+  2829		if (clone_flags & CLONE_PARENT_SETTID)
+  2830			put_user(nr, args->parent_tid);
+  2831	
+  2832		if (clone_flags & CLONE_VFORK) {
+  2833			p->vfork_done = &vfork;
+  2834			init_completion(&vfork);
+  2835			get_task_struct(p);
+  2836		}
+  2837	
+  2838		if (IS_ENABLED(CONFIG_LRU_GEN_WALKS_MMU) && !(clone_flags & CLONE_VM)) {
+  2839			/* lock the task to synchronize with memcg migration */
+  2840			task_lock(p);
+  2841			lru_gen_add_mm(p->mm);
+  2842			task_unlock(p);
+  2843		}
+  2844	
+  2845		wake_up_new_task(p);
+  2846	
+  2847		/* forking complete and child started to run, tell ptracer */
+  2848		if (unlikely(trace))
+  2849			ptrace_event_pid(trace, pid);
+  2850	
+  2851		if (clone_flags & CLONE_VFORK) {
+  2852			if (!wait_for_vfork_done(p, &vfork))
+  2853				ptrace_event_pid(PTRACE_EVENT_VFORK_DONE, pid);
+  2854		}
+  2855	
+  2856		put_pid(pid);
+  2857		return nr;
+  2858	}
+  2859	
 
 -- 
 0-DAY CI Kernel Test Service
