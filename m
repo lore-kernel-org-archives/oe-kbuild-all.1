@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E610631
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 01:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F3010F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 01:46:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716601584; cv=none; b=ctBvBI0Jjr5C5jmCTxxpYNgAOeZI9qUMGxL2ygkKj0i20NQFEnCnS8d96u2PdP/J0iK/nI7MlsR0ns2tW5uy+dBprl2aqyPdAuNBQkpbz2dCovNA+5YsCtKHu/t8e562BM1IMa5jWOnsjx8D3i4VqvTlxvbB8IPG9SlzNgRhSkc=
+	t=1716601586; cv=none; b=RN1d1wJ0WtXXudUvhXdbXkoOmxnGDwqfU9r1FbDpguRj0QxbI255B4Ob/oda7Ysb+sniYt0f2yAEa1N+zX3HKUpY5JjGi/dOD23ubZ2GZUwgtoGNhpyna764FilU6ACFAM08eUB6UUKuBkleE+19xlk9Dl0SMX1o/OZtg7Tj/NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716601584; c=relaxed/simple;
-	bh=VUwC4hmFRWP8+UsWLqNH+uqwtk8xi4PKtgDUou+vYNw=;
+	s=arc-20240116; t=1716601586; c=relaxed/simple;
+	bh=vsDoex8Gvus+B9CGCwimKeFeciZvU2d0U21ZTc8wnIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NP13cqGQvJlAu/sa9A4NlM+1hdCPUrgV5xyYrQZfpo/RA1DX0sZe59h0UhzZSWpbfoz/dB9DkrVBAojuvg5qt+dpgA8rjFqWcG2zVQ0SGtlSiR/soVXUAMCO8yWqCFMKZH/Ri/V5sZj6mucsVVcOAW5LbSsdRcpsPnNltqWhFdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjUA684G; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=FC0cInvEuv2a4j4fzwjUOExzV4gRdJ7jqSwHsqHQhI/nZvNMKx+GPdylvhRrBA2Q5Q/64Ijv5Hdt/mmLR1lTErvK1rB2wyM9VynzymAs7vJ3FEE85foDUI/WQIuYUsYdbOSXIRGT+DSF70GioIqgpPRPPlroLNDU8Rcuas/C17c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+tDpDpG; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjUA684G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+tDpDpG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716601582; x=1748137582;
+  t=1716601584; x=1748137584;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VUwC4hmFRWP8+UsWLqNH+uqwtk8xi4PKtgDUou+vYNw=;
-  b=IjUA684GK3w0pAlt1J9Sd48VXJQwpRri49bQbvB3MTX4FjqncXF9eSKp
-   Dgi+AlIYvNfubYhHISZgIUN+iCAyW6P81jS9+T6za0riq8X7MX7QPjJd/
-   0Z4EAXG7Hc81kMRrsZfHuh5Jnb0CTZ/+9HQWMF4PxFirLc8ufOn7HshCJ
-   r6WLY35lTQwNQK9xjSllWm40jhtRbdNdU82DSWl7U3uBrdRZMxdR84UC9
-   azmMSx/+XmPOBGcX1i0LQb4t9b9JxoK9VrLyrVJVsfEVL6T+FPWI9zipe
-   LjT5NxH09GpM77SiD/NYkCOQvRQKk5DJa8tX5iEHfARWtmesBVDa5Vx7Z
-   g==;
-X-CSE-ConnectionGUID: WVVKpiEQRQ2E8n0laAlQvQ==
-X-CSE-MsgGUID: HCQ5I/pGS4OH1SnIJ4cMqA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="30509865"
+  bh=vsDoex8Gvus+B9CGCwimKeFeciZvU2d0U21ZTc8wnIc=;
+  b=Q+tDpDpGbLS94VjQOpbTjtUZySRpTnTLvH0pLAhrkil1hBPh9dQWrcrv
+   tpXO9CM/eEIdQV1Pcl4JHh2Jbw38TEs4L+MK3FJzXgccrmlerikMuOvS6
+   JlYZ+bOEIMvY1w1Ahl6gZBc3D0V5mD9uRIUBd6DDmIm9SwXPMInUyhwzD
+   gqbJS4f5NpdkNNN+CxADZ4u0puVzuHVxZemjlU1xY1u5mmbybHz1AQ+VC
+   /PEu1xO6uwwf4+eQGyz1dAMK4N7CeAWRXqg+coUUwNifOArNZTK3jVi0B
+   ND5wfqS0hmZJQtDnIQD6QnR7KVqIwDuE8izHn8ye1KRYLHsgdg8EbB9fd
+   w==;
+X-CSE-ConnectionGUID: m+N3B9soSEi/ERbEpowG6g==
+X-CSE-MsgGUID: ajVNhHZKQCCcbBh6ErEuaw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="30509864"
 X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="30509865"
+   d="scan'208";a="30509864"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 18:46:18 -0700
-X-CSE-ConnectionGUID: RTYT4I2lQwG4LJ4/No8Wpw==
-X-CSE-MsgGUID: w3RwosvtR42l7WDCEBA1BA==
+X-CSE-ConnectionGUID: bnepzXa9S+aqz4U1brhIaQ==
+X-CSE-MsgGUID: dcS5noeuSdywT5bLonzyug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="39175033"
+   d="scan'208";a="39175032"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by orviesa004.jf.intel.com with ESMTP; 24 May 2024 18:46:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAgUB-0006K5-0j;
+	id 1sAgUB-0006K3-0e;
 	Sat, 25 May 2024 01:46:15 +0000
-Date: Sat, 25 May 2024 09:45:46 +0800
+Date: Sat, 25 May 2024 09:45:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-diff 1/2] versioncheck: ./fs/kpatch-syscall.h:
- 252: need linux/version.h
-Message-ID: <202405250907.sbbbMYOy-lkp@intel.com>
+Subject: [jpoimboe:objtool-diff 2/2] fs/kpatch-macros.h:54:11: fatal error:
+ kpatch.h: No such file or directory
+Message-ID: <202405250910.MEZEIATv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,37 +64,75 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
 head:   745009dc796e56fc87e911138d801679ecd3576e
-commit: 8603978b6c309a0184ea26eb1cc822f889ec4654 [1/2] todo
-reproduce: (https://download.01.org/0day-ci/archive/20240525/202405250907.sbbbMYOy-lkp@intel.com/reproduce)
+commit: 745009dc796e56fc87e911138d801679ecd3576e [2/2] test
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240525/202405250910.MEZEIATv-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250910.MEZEIATv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405250907.sbbbMYOy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405250910.MEZEIATv-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.76.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
->> ./fs/kpatch-syscall.h: 252: need linux/version.h
->> ./kernel/kpatch-syscall.h: 256: need linux/version.h
->> ./net/ipv6/kpatch-syscall.h: 252: need linux/version.h
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 410: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All error/warnings (new ones prefixed by >>):
+
+   In file included from fs/aio.c:54:
+>> fs/kpatch-macros.h:54:11: fatal error: kpatch.h: No such file or directory
+      54 | # include "kpatch.h"
+         |           ^~~~~~~~~~
+   compilation terminated.
+--
+   kernel/fork.c: In function 'kernel_clone':
+>> kernel/fork.c:2815:18: error: implicit declaration of function 'klp_shadow_get_or_alloc' [-Werror=implicit-function-declaration]
+    2815 |         newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/fork.c:2815:16: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2815 |         newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
+         |                ^
+   cc1: some warnings being treated as errors
+--
+   kernel/exit.c: In function 'do_exit':
+>> kernel/exit.c:882:9: error: implicit declaration of function 'klp_shadow_free' [-Werror=implicit-function-declaration]
+     882 |         klp_shadow_free(tsk, 0, NULL);
+         |         ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from kernel/kpatch-syscall.h:4,
+                    from kernel/sys.c:1307:
+>> kernel/kpatch-macros.h:54:11: fatal error: kpatch.h: No such file or directory
+      54 | # include "kpatch.h"
+         |           ^~~~~~~~~~
+   compilation terminated.
+--
+>> drivers/tty/n_tty.c:2350: warning: expecting prototype for n_tty_write(). Prototype was for kpatch_n_tty_write() instead
+--
+   fs/proc/array.c: In function 'task_context_switch_counts':
+>> fs/proc/array.c:408:18: error: implicit declaration of function 'klp_shadow_get' [-Werror=implicit-function-declaration]
+     408 |         newpid = klp_shadow_get(p, 0);
+         |                  ^~~~~~~~~~~~~~
+>> fs/proc/array.c:408:16: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     408 |         newpid = klp_shadow_get(p, 0);
+         |                ^
+   cc1: some warnings being treated as errors
+
+
+vim +54 fs/kpatch-macros.h
+
+8603978b6c309a Josh Poimboeuf 2024-03-23  49  
+8603978b6c309a Josh Poimboeuf 2024-03-23  50  #ifdef HAS_LIVEPATCH_CALLBACKS
+8603978b6c309a Josh Poimboeuf 2024-03-23  51  # include <linux/livepatch.h>
+8603978b6c309a Josh Poimboeuf 2024-03-23  52  typedef struct klp_object patch_object;
+8603978b6c309a Josh Poimboeuf 2024-03-23  53  #else
+8603978b6c309a Josh Poimboeuf 2024-03-23 @54  # include "kpatch.h"
+8603978b6c309a Josh Poimboeuf 2024-03-23  55  typedef struct kpatch_object patch_object;
+8603978b6c309a Josh Poimboeuf 2024-03-23  56  #endif /* HAS_LIVEPATCH_CALLBACKS */
+8603978b6c309a Josh Poimboeuf 2024-03-23  57  
+
+:::::: The code at line 54 was first introduced by commit
+:::::: 8603978b6c309a0184ea26eb1cc822f889ec4654 todo
+
+:::::: TO: Josh Poimboeuf <jpoimboe@kernel.org>
+:::::: CC: Josh Poimboeuf <jpoimboe@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
