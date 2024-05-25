@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07B3B652
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 20:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C084D2F2F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 21:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716669781; cv=none; b=qGU+y6fnjhHBYwI3sZUcDUGxltRl9o8F0axtS+aOzDiHaRCYRqE6x+Ai4g1XEn0lObN8Z4bhgLoqzr1J0rhrxhM9ffl9p6TQkDqn+J1fe5YHXLmMUb2CDct8oUbE1LgRCPgdgd7o6bYMdgDeuBEz0WEkDjcS/SU5QYE0SE36nF8=
+	t=1716671044; cv=none; b=aHr5erxl5QeGhQ1/ptHAx7imv57bagDGi7aaR39abdTfr2zOrZPjuZhW9iRZ2lM43QeR6ULHi9hlMvjenQBOTRK/Qi+wMJd/gajQ6POmEHRsWcgF1/Iis5DBHfZUJz2OWGHxV7LNRH/WfNJYb0XK1lt5FSdJsr9LnW3GHh621+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716669781; c=relaxed/simple;
-	bh=EEKfYgTh4onrCGiGrfQrMwdJ3Qa098V89ig8My7ybhw=;
+	s=arc-20240116; t=1716671044; c=relaxed/simple;
+	bh=7a0cgGyRUyaA6jd44Vw8EXx4gX9wBdQQ8QmOu5WExR0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BJcSCZser1mI1CvYfqET8hO3QKcjkjfXNTVVQNeKBqnLiCK4vYFyiVCMznTX5/tYsCIEQ0Rjj5SrUxaERo5+aPtDFEk9TC5gPCdv7d3Tozh3XOTBm/DHaqzvkGxjxwg1ctLrgRYxI6Kp1YqMH3oQN7qtbhAKpJeDpWdEeMGoQKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BqQLt0eE; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=lLEPnnZgW5sOe7kQRrgzeksfa4DkolALg/zJAf4QRRR0pqOB0W30j4NymfI9vAi4qyNjaZ4NqxGeHSxSoZbhqx++eFhv6J6A+lGT1P42ignosYTsA3Gpwl5Gh8OoKvBHIBjhpoK+cHxCboAWD75RFOp+W6HbabTvnyIENpLESKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTlZ5tyH; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqQLt0eE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTlZ5tyH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716669780; x=1748205780;
+  t=1716671042; x=1748207042;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EEKfYgTh4onrCGiGrfQrMwdJ3Qa098V89ig8My7ybhw=;
-  b=BqQLt0eE6agpkgdfj8513gnw8qhUTkzzP+VAXU+YwMmsQJRi+TtDYqm2
-   9iIRZEA4e46Dt4DcII2FNaX6oClcVXxGqeDA+I7ZgUaTYHEPwFYE7D2OE
-   2Pkd5nu4W0g2brXbNYtFrfqVRENnucKs3ic59YJirLixfkhlV6vOmHUPJ
-   Nvf63iSSiHdzxNqy6eGA+NOg1guB5Wisqdm2X9Jo4pamlHQI6c3xHxouI
-   A0u3KxmazIZI+WZetFh2O/KnKBQCGmL1KqBSEWxtfGPUm/X57SsWuW+sT
-   RZMiH7u3JR4lGq1KiI3FvXLtqT77mF9blc+uOusUc+UYshi/on4q7z2CU
-   w==;
-X-CSE-ConnectionGUID: OecqbQ70Stq+DHOh8tlk/Q==
-X-CSE-MsgGUID: JomHYxTbRJOF+TRtx+HyVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="12847497"
+  bh=7a0cgGyRUyaA6jd44Vw8EXx4gX9wBdQQ8QmOu5WExR0=;
+  b=JTlZ5tyHHNPAuEvQ8+kVHTMKSYGFk66lwfiQKqb7nQmu6q1aIQ2q0A4x
+   Y8ThSYSvcn8+7/2wIq3Jz1Lhqy1PkuF9jIZ1DlbB9uhnF2q0Hv0kA1+oo
+   hhgTjd8tsODNYirun2LQkckshHFMe3XSQRYudygmuebhpcmVYXnRcCmwN
+   ZjXjPSGfE3FFgQtvxrrTQ6OTkqfcVqsFcliqbpgH2yfjOJXtfF4Tdjz3X
+   ktTh6M7YGSkJN/eILpFva1H3ErcY/+O5MipWnETRQeAGOBz6frE1uZo7U
+   3SeJqcXqf/PBa6sT4zN3lExUiwQb5i1osVxOEHbvfPkuMVeQsIlpCBkG4
+   A==;
+X-CSE-ConnectionGUID: 1JyvKBbQSjmtTHrJDmNMCw==
+X-CSE-MsgGUID: 32dyAVMtTYeJ31Sm09S8+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="23592523"
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="12847497"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 13:42:59 -0700
-X-CSE-ConnectionGUID: q65nBIoOR12RguTI1hPF0w==
-X-CSE-MsgGUID: 7BZpJjXrTrWzsYcemSGIPg==
+   d="scan'208";a="23592523"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 14:04:01 -0700
+X-CSE-ConnectionGUID: R7Tq8hNoROe344HDjYJOnw==
+X-CSE-MsgGUID: jpbQGZYGSo6riq4gjDLB2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="34439617"
+   d="scan'208";a="34239878"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 25 May 2024 13:42:58 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 May 2024 14:04:01 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAyEB-0007ON-1a;
-	Sat, 25 May 2024 20:42:55 +0000
-Date: Sun, 26 May 2024 04:42:52 +0800
+	id 1sAyYX-0007Pb-2M;
+	Sat, 25 May 2024 21:03:57 +0000
+Date: Sun, 26 May 2024 05:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask-types 1/3] arch/s390/kernel/smp.c:749:17: error:
- 'else' without a previous 'if'
-Message-ID: <202405260448.8ysnV5Y7-lkp@intel.com>
+To: James Prestwood <prestwoj@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [jarkko-tpmdd:tpm2key-v6 7/8]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:591:13: warning: variable 'alg' set
+ but not used
+Message-ID: <202405260540.gGFO0Lf4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +63,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux cpumask-types
-head:   04d10bebce942cfc9871eca228852a351b276a06
-commit: d5eb3dc501e35703d699513beb178aa90ce49a13 [1/3] cpumask: introduce assign_cpu() macro
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405260448.8ysnV5Y7-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260448.8ysnV5Y7-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v6
+head:   d68aa6486fd8c27b17a28484c3da8724ebfc26cf
+commit: 89db40264dffec84747b770d7ba79f893ef48f4b [7/8] keys: asymmetric: tpm2_key_rsa
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405260540.gGFO0Lf4-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260540.gGFO0Lf4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405260448.8ysnV5Y7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405260540.gGFO0Lf4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/s390/kernel/smp.c: In function 'smp_add_core':
->> arch/s390/kernel/smp.c:749:17: error: 'else' without a previous 'if'
-     749 |                 else
-         |                 ^~~~
+   crypto/asymmetric_keys/tpm2_key_rsa.c: In function '__tpm2_key_rsa_preparse':
+>> crypto/asymmetric_keys/tpm2_key_rsa.c:591:13: warning: variable 'alg' set but not used [-Wunused-but-set-variable]
+     591 |         u16 alg;
+         |             ^~~
+   crypto/asymmetric_keys/tpm2_key_rsa.c:589:13: warning: variable 'attr' set but not used [-Wunused-but-set-variable]
+     589 |         u32 attr;
+         |             ^~~~
 
 
-vim +749 arch/s390/kernel/smp.c
+vim +/alg +591 crypto/asymmetric_keys/tpm2_key_rsa.c
 
-8b646bd759086f Martin Schwidefsky 2012-03-11  723  
-72a81ad9d6d62d Heiko Carstens     2019-11-17  724  static int smp_add_core(struct sclp_core_entry *core, cpumask_t *avail,
-72a81ad9d6d62d Heiko Carstens     2019-11-17  725  			bool configured, bool early)
-08d07968277cd8 Heiko Carstens     2008-01-26  726  {
-8b646bd759086f Martin Schwidefsky 2012-03-11  727  	struct pcpu *pcpu;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  728  	int cpu, nr, i;
-10ad34bc76dfbc Martin Schwidefsky 2015-01-14  729  	u16 address;
-08d07968277cd8 Heiko Carstens     2008-01-26  730  
-8b646bd759086f Martin Schwidefsky 2012-03-11  731  	nr = 0;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  732  	if (sclp.has_core_type && core->type != boot_core_type)
-72a81ad9d6d62d Heiko Carstens     2019-11-17  733  		return nr;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  734  	cpu = cpumask_first(avail);
-72a81ad9d6d62d Heiko Carstens     2019-11-17  735  	address = core->core_id << smp_cpu_mt_shift;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  736  	for (i = 0; (i <= smp_cpu_mtid) && (cpu < nr_cpu_ids); i++) {
-72a81ad9d6d62d Heiko Carstens     2019-11-17  737  		if (pcpu_find_address(cpu_present_mask, address + i))
-8b646bd759086f Martin Schwidefsky 2012-03-11  738  			continue;
-8b646bd759086f Martin Schwidefsky 2012-03-11  739  		pcpu = pcpu_devices + cpu;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  740  		pcpu->address = address + i;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  741  		if (configured)
-72a81ad9d6d62d Heiko Carstens     2019-11-17  742  			pcpu->state = CPU_STATE_CONFIGURED;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  743  		else
-72a81ad9d6d62d Heiko Carstens     2019-11-17  744  			pcpu->state = CPU_STATE_STANDBY;
-50ab9a9a60fc83 Heiko Carstens     2012-09-04  745  		smp_cpu_set_polarization(cpu, POLARIZATION_UNKNOWN);
-8b646bd759086f Martin Schwidefsky 2012-03-11  746  		set_cpu_present(cpu, true);
-72a81ad9d6d62d Heiko Carstens     2019-11-17  747  		if (!early && smp_add_present_cpu(cpu) != 0)
-8b646bd759086f Martin Schwidefsky 2012-03-11  748  			set_cpu_present(cpu, false);
-08d07968277cd8 Heiko Carstens     2008-01-26 @749  		else
-8b646bd759086f Martin Schwidefsky 2012-03-11  750  			nr++;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  751  		cpumask_clear_cpu(cpu, avail);
-72a81ad9d6d62d Heiko Carstens     2019-11-17  752  		cpu = cpumask_next(cpu, avail);
-72a81ad9d6d62d Heiko Carstens     2019-11-17  753  	}
-72a81ad9d6d62d Heiko Carstens     2019-11-17  754  	return nr;
-72a81ad9d6d62d Heiko Carstens     2019-11-17  755  }
-72a81ad9d6d62d Heiko Carstens     2019-11-17  756  
-
-:::::: The code at line 749 was first introduced by commit
-:::::: 08d07968277cd898c88bf12b7720d89c02c4f139 [S390] Standby cpu activation/deactivation.
-
-:::::: TO: Heiko Carstens <heiko.carstens@de.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+   582	
+   583	static int __tpm2_key_rsa_preparse(struct tpm2_key *key)
+   584	{
+   585		struct tpm2_rsa_parms parms;
+   586		struct tpm_buf buf;
+   587		off_t offset = 2;
+   588		u16 policy_len;
+   589		u32 attr;
+   590		u16 type;
+ > 591		u16 alg;
+   592	
+   593		buf.flags = TPM_BUF_TPM2B;
+   594		buf.length = key->pub_len;
+   595		buf.data = (void *)key->pub;
+   596	
+   597		if (get_unaligned_be16(key->pub) != buf.length - 2)
+   598			return -EBADMSG;
+   599	
+   600		type = tpm_buf_read_u16(&buf, &offset);
+   601		if (type != TPM_ALG_RSA)
+   602			return -EBADMSG;
+   603	
+   604		alg = tpm_buf_read_u16(&buf, &offset);
+   605		attr = tpm_buf_read_u32(&buf, &offset);
+   606		policy_len = tpm_buf_read_u16(&buf, &offset);
+   607		offset += policy_len;
+   608	
+   609		if ((offset + sizeof(parms)) > buf.length)
+   610			return -EBADMSG;
+   611	
+   612		parms.symmetric = tpm_buf_read_u16(&buf, &offset);
+   613		parms.scheme = tpm_buf_read_u16(&buf, &offset);
+   614		parms.key_bits = tpm_buf_read_u16(&buf, &offset);
+   615		parms.exponent = tpm_buf_read_u32(&buf, &offset);
+   616	
+   617		if (parms.symmetric != TPM_ALG_NULL)
+   618			return -EBADMSG;
+   619	
+   620		if (parms.scheme != TPM_ALG_NULL)
+   621			return -EBADMSG;
+   622	
+   623		if (parms.key_bits != 2048 &&
+   624		    parms.key_bits != 3072 &&
+   625		    parms.key_bits != 4096)
+   626			return -EBADMSG;
+   627	
+   628		parms.exponent = tpm_buf_read_u32(&buf, &offset);
+   629		if (parms.exponent != 0x00000000 && parms.exponent !=  0x00010001)
+   630			return -EBADMSG;
+   631	
+   632		/* Sanity check, expected never happen: */
+   633		return buf.flags & TPM_BUF_BOUNDARY_ERROR ? -EIO : 0;
+   634	}
+   635	
 
 -- 
 0-DAY CI Kernel Test Service
