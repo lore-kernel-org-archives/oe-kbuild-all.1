@@ -1,139 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F3010F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 01:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D77910F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 01:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716601586; cv=none; b=RN1d1wJ0WtXXudUvhXdbXkoOmxnGDwqfU9r1FbDpguRj0QxbI255B4Ob/oda7Ysb+sniYt0f2yAEa1N+zX3HKUpY5JjGi/dOD23ubZ2GZUwgtoGNhpyna764FilU6ACFAM08eUB6UUKuBkleE+19xlk9Dl0SMX1o/OZtg7Tj/NQ=
+	t=1716601941; cv=none; b=hdS/z4H1oLt60VJefLYPNg93+jpMs6xCO3GHsrwTtDJCdjZcgDVWqhRNf7lxKsHp0GJL2GkzDm0iGoARQEQBV8KvUOdJD3rNH+asifAx+mmCnyoGrgYu5XzbzMoPBGT11azOqant520VeCIeIznnovvizOkwkBT0jDjSnAZO3QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716601586; c=relaxed/simple;
-	bh=vsDoex8Gvus+B9CGCwimKeFeciZvU2d0U21ZTc8wnIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FC0cInvEuv2a4j4fzwjUOExzV4gRdJ7jqSwHsqHQhI/nZvNMKx+GPdylvhRrBA2Q5Q/64Ijv5Hdt/mmLR1lTErvK1rB2wyM9VynzymAs7vJ3FEE85foDUI/WQIuYUsYdbOSXIRGT+DSF70GioIqgpPRPPlroLNDU8Rcuas/C17c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+tDpDpG; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+tDpDpG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716601584; x=1748137584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vsDoex8Gvus+B9CGCwimKeFeciZvU2d0U21ZTc8wnIc=;
-  b=Q+tDpDpGbLS94VjQOpbTjtUZySRpTnTLvH0pLAhrkil1hBPh9dQWrcrv
-   tpXO9CM/eEIdQV1Pcl4JHh2Jbw38TEs4L+MK3FJzXgccrmlerikMuOvS6
-   JlYZ+bOEIMvY1w1Ahl6gZBc3D0V5mD9uRIUBd6DDmIm9SwXPMInUyhwzD
-   gqbJS4f5NpdkNNN+CxADZ4u0puVzuHVxZemjlU1xY1u5mmbybHz1AQ+VC
-   /PEu1xO6uwwf4+eQGyz1dAMK4N7CeAWRXqg+coUUwNifOArNZTK3jVi0B
-   ND5wfqS0hmZJQtDnIQD6QnR7KVqIwDuE8izHn8ye1KRYLHsgdg8EbB9fd
-   w==;
-X-CSE-ConnectionGUID: m+N3B9soSEi/ERbEpowG6g==
-X-CSE-MsgGUID: ajVNhHZKQCCcbBh6ErEuaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="30509864"
-X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="30509864"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 18:46:18 -0700
-X-CSE-ConnectionGUID: bnepzXa9S+aqz4U1brhIaQ==
-X-CSE-MsgGUID: dcS5noeuSdywT5bLonzyug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="39175032"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 24 May 2024 18:46:17 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sAgUB-0006K3-0e;
-	Sat, 25 May 2024 01:46:15 +0000
-Date: Sat, 25 May 2024 09:45:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-diff 2/2] fs/kpatch-macros.h:54:11: fatal error:
- kpatch.h: No such file or directory
-Message-ID: <202405250910.MEZEIATv-lkp@intel.com>
+	s=arc-20240116; t=1716601941; c=relaxed/simple;
+	bh=awSIA+3nw6YEa7ya8Rz4WrVm5yoMZPTaf7PQQisCJ58=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=oObeLI6KcmK5BNx5Xpgp0PVTEEleTOqFIy3gnFGwIYKjIXQeUTegwRJGJF0e3cyWOXDkpNcftxZynXEV4DWOnsX1CM+aVIGZIkHfYAcyZtqxV5oAkABVkUb4CaLYYq33EX1m3kZhVz02P5oYYIaBkPDyQPtR/9EFdfAmKvccDyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VmPvQ0tBkzwPcM;
+	Sat, 25 May 2024 09:48:34 +0800 (CST)
+Received: from canpemm500002.china.huawei.com (unknown [7.192.104.244])
+	by mail.maildlp.com (Postfix) with ESMTPS id C6AE6180A9F;
+	Sat, 25 May 2024 09:52:15 +0800 (CST)
+Received: from [10.173.135.154] (10.173.135.154) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sat, 25 May 2024 09:52:15 +0800
+Subject: Re: [PATCH 07/13] mm/memory-failure: remove unneeded
+ hwpoison_filter() variant
+To: kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <nao.horiguchi@gmail.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, <akpm@linux-foundation.org>,
+	<tony.luck@intel.com>, <bp@alien8.de>
+References: <20240524091310.1430048-8-linmiaohe@huawei.com>
+ <202405242336.o1NEOrln-lkp@intel.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <c7e30692-2e53-e212-dfef-f2539528a0f3@huawei.com>
+Date: Sat, 25 May 2024 09:52:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202405242336.o1NEOrln-lkp@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500002.china.huawei.com (7.192.104.244)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
-head:   745009dc796e56fc87e911138d801679ecd3576e
-commit: 745009dc796e56fc87e911138d801679ecd3576e [2/2] test
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240525/202405250910.MEZEIATv-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250910.MEZEIATv-lkp@intel.com/reproduce)
+On 2024/5/24 23:59, kernel test robot wrote:
+> Hi Miaohe,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> [also build test ERROR on linus/master next-20240523]
+> [cannot apply to v6.9]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Miaohe-Lin/mm-memory-failure-simplify-put_ref_page/20240524-171903
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240524091310.1430048-8-linmiaohe%40huawei.com
+> patch subject: [PATCH 07/13] mm/memory-failure: remove unneeded hwpoison_filter() variant
+> config: i386-randconfig-005-20240524 (https://download.01.org/0day-ci/archive/20240524/202405242336.o1NEOrln-lkp@intel.com/config)
+> compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405242336.o1NEOrln-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405242336.o1NEOrln-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: mm/memory-failure.o: in function `try_memory_failure_hugetlb':
+>>> mm/memory-failure.c:2098:(.text+0x28a8): undefined reference to `hwpoison_filter'
+>    ld: mm/memory-failure.o: in function `memory_failure':
+>    mm/memory-failure.c:2321:(.text+0x2a98): undefined reference to `hwpoison_filter'
+>    ld: mm/memory-failure.o: in function `soft_offline_page':
+>    mm/memory-failure.c:2841:(.text+0x3217): undefined reference to `hwpoison_filter'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405250910.MEZEIATv-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from fs/aio.c:54:
->> fs/kpatch-macros.h:54:11: fatal error: kpatch.h: No such file or directory
-      54 | # include "kpatch.h"
-         |           ^~~~~~~~~~
-   compilation terminated.
---
-   kernel/fork.c: In function 'kernel_clone':
->> kernel/fork.c:2815:18: error: implicit declaration of function 'klp_shadow_get_or_alloc' [-Werror=implicit-function-declaration]
-    2815 |         newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/fork.c:2815:16: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2815 |         newpid = klp_shadow_get_or_alloc(p, 0, sizeof(*newpid), GFP_KERNEL,
-         |                ^
-   cc1: some warnings being treated as errors
---
-   kernel/exit.c: In function 'do_exit':
->> kernel/exit.c:882:9: error: implicit declaration of function 'klp_shadow_free' [-Werror=implicit-function-declaration]
-     882 |         klp_shadow_free(tsk, 0, NULL);
-         |         ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from kernel/kpatch-syscall.h:4,
-                    from kernel/sys.c:1307:
->> kernel/kpatch-macros.h:54:11: fatal error: kpatch.h: No such file or directory
-      54 | # include "kpatch.h"
-         |           ^~~~~~~~~~
-   compilation terminated.
---
->> drivers/tty/n_tty.c:2350: warning: expecting prototype for n_tty_write(). Prototype was for kpatch_n_tty_write() instead
---
-   fs/proc/array.c: In function 'task_context_switch_counts':
->> fs/proc/array.c:408:18: error: implicit declaration of function 'klp_shadow_get' [-Werror=implicit-function-declaration]
-     408 |         newpid = klp_shadow_get(p, 0);
-         |                  ^~~~~~~~~~~~~~
->> fs/proc/array.c:408:16: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     408 |         newpid = klp_shadow_get(p, 0);
-         |                ^
-   cc1: some warnings being treated as errors
-
-
-vim +54 fs/kpatch-macros.h
-
-8603978b6c309a Josh Poimboeuf 2024-03-23  49  
-8603978b6c309a Josh Poimboeuf 2024-03-23  50  #ifdef HAS_LIVEPATCH_CALLBACKS
-8603978b6c309a Josh Poimboeuf 2024-03-23  51  # include <linux/livepatch.h>
-8603978b6c309a Josh Poimboeuf 2024-03-23  52  typedef struct klp_object patch_object;
-8603978b6c309a Josh Poimboeuf 2024-03-23  53  #else
-8603978b6c309a Josh Poimboeuf 2024-03-23 @54  # include "kpatch.h"
-8603978b6c309a Josh Poimboeuf 2024-03-23  55  typedef struct kpatch_object patch_object;
-8603978b6c309a Josh Poimboeuf 2024-03-23  56  #endif /* HAS_LIVEPATCH_CALLBACKS */
-8603978b6c309a Josh Poimboeuf 2024-03-23  57  
-
-:::::: The code at line 54 was first introduced by commit
-:::::: 8603978b6c309a0184ea26eb1cc822f889ec4654 todo
-
-:::::: TO: Josh Poimboeuf <jpoimboe@kernel.org>
-:::::: CC: Josh Poimboeuf <jpoimboe@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for building and reporting. I will fix this in next version.
+Thanks.
+.
