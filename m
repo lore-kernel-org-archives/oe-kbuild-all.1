@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E5F15A4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 02:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2E11862
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 02:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716604764; cv=none; b=p7xYUl5+e4JY38mguO/FKTavkpFqCvKgg2+VnMaWwD1dlPAEeRWEr0WiABSr0NStqXGcABz8Wr3trVuX28lPBHBPoJA5JsXp05zbRZH06ldI4SJHrunIlbxk2zObV0u6045+UdiElG6bOTwKI13dRtAMF42v4IHQnPL11ddFdto=
+	t=1716604765; cv=none; b=EBdawMiY4FY42I0uWPs+lWsnT0WFZZ+fVkyQx3rqOplitlRhM1n3XmryZNjDmxxv0WhianE39Z3Hab0IRGW3QZw0BJyP8wgMHy5ZH/DRQE2zy1Umzp/2bttVqTPGgI4CEyXi4Gb4hZ9A83A/YNGy/WNmpVo9cnGQNbkLjiKqvuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716604764; c=relaxed/simple;
-	bh=tx+fk3IAsT85pYcBb5/wkH/n0aBx1PY5fO+4LVZwutA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aatiz8zDfLvMjrUV+TM5SHklxcQ4yURvsoLiRwp8AbugXx3I/51NYnq7FiBqjA2k/XV5DJhbCbCU5SNWwOyYbfWcT131VneMc3mGHMgv7i5iSyfLtje2asoFLf8Mt281XZhstYxkD8aVUTW9JN4mVWOe6pyozjGLSacXS3dnK2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgSoFXo7; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1716604765; c=relaxed/simple;
+	bh=rkOH6L+W7aZnSSaSuMD+3YpBPBhp6pBQvLG8T6pSwuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CdSgFc6trsLB9ubFfl5i6uRSxMOfuI9saB4aZKXhUhaHh7Y3WS/OD1ZItTYodUoSaUvR51qjY+HQXOXWSPR3BGL9EeipVkGGYj/DXWMIo4rPrQci8AAXuzY2JckTkFs2tPxyy2vDUzpEanwWVBaBrNdV0imWG7qXXwEYFJyR/vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HzB1IYI6; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgSoFXo7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HzB1IYI6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716604762; x=1748140762;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tx+fk3IAsT85pYcBb5/wkH/n0aBx1PY5fO+4LVZwutA=;
-  b=HgSoFXo7bDM8/AJ3y9doYUoGmZBsfLj1QYJ4iAfAejqLk4x0b8jxFhse
-   mAwR1F8BTuK/6YNcKbUXKQTJqyEQf4PkOge2BaeEMlqpVBjW40+vknv8C
-   7LasK6REGvAOcv5oNk0hdO/W8uzirsFHayCj7OWS8rZkC9dDB+vS0wLeE
-   yEvg3vZO58c8dPVhgkHALqhzOyzak7AclXZb+n6NYWw5/AyhxMo8lZH3J
-   reHNLOOgbwgzi1t7DB+tMUpryAOn8z6hCywmIN8L2EDMg2pC3vjYO8Ph3
-   mSL00uylAyRkb4lMQ9WI5ct5viIYdhXlWWQBeZfYWnBfPpDbDZktZxtHC
-   w==;
-X-CSE-ConnectionGUID: JqW1INoxTMKDcyUAP0YIZA==
-X-CSE-MsgGUID: a2p+/8uGRre17UAFJ976eg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23599096"
+  t=1716604763; x=1748140763;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rkOH6L+W7aZnSSaSuMD+3YpBPBhp6pBQvLG8T6pSwuM=;
+  b=HzB1IYI6dShtXSwpzD2dvU+GAzg8XbWXUN5kfzNO1XvigUH5CxoXyfXA
+   zWJgN0dbsM8bnSyl1SiFBQLdzJNwya/UiZcqYTyDihzXVEfKjVIWnmMMw
+   u5WGmyndDFgxcPCYef7i9fUTCdDHBKUzZ4SdJkUe5q34cRqk8cGRdH0L4
+   RBcWAYhtrsxOBgEMgFvyhMbLqCn9GwAgQCMstol/06B5cFJIYsUJcGKy/
+   rJEi0uMz1NWnxx/OHhFxzq8UQjuNTVsWBXaKB9LBdYm9wD9ArMrMrwU7B
+   oDqcy3CjSgS2FhA7Q94XSxxRLkUGTdZfwWHdaLXRgSyXhsVLoZKg8FyAM
+   Q==;
+X-CSE-ConnectionGUID: YXHmBVSQSyepoG51C3FjyQ==
+X-CSE-MsgGUID: zJA3glFyQfWRXYDvg63fJg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="30528693"
 X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="23599096"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 19:39:21 -0700
-X-CSE-ConnectionGUID: WKOwjijlR1u6izYOx3KIXQ==
-X-CSE-MsgGUID: Jm8S49P7Qx6rxpdiZem1Rw==
+   d="scan'208";a="30528693"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 19:39:22 -0700
+X-CSE-ConnectionGUID: NZrcuIz0SDGNS4WCv5LMJQ==
+X-CSE-MsgGUID: PRuO5gB3SiCkY3R4WW3hnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="39053538"
+   d="scan'208";a="39181932"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 24 May 2024 19:39:21 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 May 2024 19:39:20 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAhJV-0006Nr-1e;
+	id 1sAhJV-0006Nn-1W;
 	Sat, 25 May 2024 02:39:17 +0000
-Date: Sat, 25 May 2024 10:39:10 +0800
+Date: Sat, 25 May 2024 10:39:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2key-v6 8/8]
- crypto/asymmetric_keys/tpm2_key_ecdsa.c:76:33: error: 'key_ecdsa'
- undeclared; did you mean 'key_ecc'?
-Message-ID: <202405251023.BdgQh2Pb-lkp@intel.com>
+To: Miaohe Lin <linmiaohe@huawei.com>, akpm@linux-foundation.org,
+	tony.luck@intel.com, bp@alien8.de
+Cc: oe-kbuild-all@lists.linux.dev, nao.horiguchi@gmail.com,
+	linmiaohe@huawei.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
+Subject: Re: [PATCH 10/13] mm/memory-failure: move some function declarations
+ into internal.h
+Message-ID: <202405251049.hxjwX7zO-lkp@intel.com>
+References: <20240524091310.1430048-11-linmiaohe@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,116 +66,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240524091310.1430048-11-linmiaohe@huawei.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v6
-head:   a3a5d9adc5a9192e99dccaadf05fe70c5ef56971
-commit: a3a5d9adc5a9192e99dccaadf05fe70c5ef56971 [8/8] keys: asymmetric: tpm2_key_ecdsa
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240525/202405251023.BdgQh2Pb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405251023.BdgQh2Pb-lkp@intel.com/reproduce)
+Hi Miaohe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master next-20240523]
+[cannot apply to v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miaohe-Lin/mm-memory-failure-simplify-put_ref_page/20240524-171903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240524091310.1430048-11-linmiaohe%40huawei.com
+patch subject: [PATCH 10/13] mm/memory-failure: move some function declarations into internal.h
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240525/202405251049.hxjwX7zO-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405251049.hxjwX7zO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405251023.BdgQh2Pb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405251049.hxjwX7zO-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c: In function 'tpm2_key_ecdsa_preparse':
->> crypto/asymmetric_keys/tpm2_key_ecdsa.c:76:33: error: 'key_ecdsa' undeclared (first use in this function); did you mean 'key_ecc'?
-      76 |         struct tpm2_key *key = &key_ecdsa->key;
-         |                                 ^~~~~~~~~
-         |                                 key_ecc
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c:76:33: note: each undeclared identifier is reported only once for each function it appears in
->> crypto/asymmetric_keys/tpm2_key_ecdsa.c:134:15: error: implicit declaration of function 'tpm_buf_read'; did you mean 'tpm_pcr_read'? [-Werror=implicit-function-declaration]
-     134 |         ret = tpm_buf_read(&buf, &offset, x_size, key_ecc);
-         |               ^~~~~~~~~~~~
-         |               tpm_pcr_read
->> crypto/asymmetric_keys/tpm2_key_ecdsa.c:90:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      90 |         int ret;
-         |             ^~~
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c:83:13: warning: variable 'name_alg' set but not used [-Wunused-but-set-variable]
-      83 |         u16 name_alg;
-         |             ^~~~~~~~
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c:78:13: warning: variable 'object_attributes' set but not used [-Wunused-but-set-variable]
-      78 |         u32 object_attributes;
-         |             ^~~~~~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_spapr_tce.c: In function 'tce_page_is_contained':
+>> drivers/vfio/vfio_iommu_spapr_tce.c:195:16: error: implicit declaration of function 'page_shift'; did you mean 'page_size'? [-Werror=implicit-function-declaration]
+     195 |         return page_shift(compound_head(page)) >= it_page_shift;
+         |                ^~~~~~~~~~
+         |                page_size
+   cc1: some warnings being treated as errors
+--
+   arch/powerpc/mm/book3s64/iommu_api.c: In function 'mm_iommu_do_alloc':
+>> arch/powerpc/mm/book3s64/iommu_api.c:155:45: error: implicit declaration of function 'page_shift'; did you mean 'page_size'? [-Werror=implicit-function-declaration]
+     155 |                                 pageshift = page_shift(compound_head(page));
+         |                                             ^~~~~~~~~~
+         |                                             page_size
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/ibm/ehea/ehea_qmr.c: In function 'ehea_is_hugepage':
+>> drivers/net/ethernet/ibm/ehea/ehea_qmr.c:676:13: error: implicit declaration of function 'page_shift'; did you mean 'page_size'? [-Werror=implicit-function-declaration]
+     676 |         if (page_shift(pfn_to_page(pfn)) != EHEA_HUGEPAGESHIFT)
+         |             ^~~~~~~~~~
+         |             page_size
    cc1: some warnings being treated as errors
 
 
-vim +76 crypto/asymmetric_keys/tpm2_key_ecdsa.c
+vim +195 drivers/vfio/vfio_iommu_spapr_tce.c
 
-    73	
-    74	static int tpm2_key_ecdsa_preparse(struct tpm2_key_ecc *key_ecc)
-    75	{
-  > 76		struct tpm2_key *key = &key_ecdsa->key;
-    77		u16 pub_len = get_unaligned_be16(key->pub);
-    78		u32 object_attributes;
-    79		u16 auth_policy_len;
-    80		struct tpm_buf buf;
-    81		off_t offset = 2;
-    82		u16 symmetric;
-    83		u16 name_alg;
-    84		u16 scheme;
-    85		u16 x_size;
-    86		u16 y_size;
-    87		u16 type;
-    88		u16 ecc;
-    89		u16 kdf;
-  > 90		int ret;
-    91	
-    92		buf.flags = TPM_BUF_TPM2B;
-    93		buf.length = key->pub_len;
-    94		buf.data = (void *)key->pub;
-    95	
-    96		if (pub_len != buf.length - 2)
-    97			return -EBADMSG;
-    98	
-    99		/* TPMT_PUBLIC */
-   100		type = tpm_buf_read_u16(&buf, &offset);
-   101		if (type != TPM_ALG_ECC)
-   102			return -EBADMSG;
-   103	
-   104		name_alg = tpm_buf_read_u16(&buf, &offset);
-   105		object_attributes = tpm_buf_read_u32(&buf, &offset);
-   106	
-   107		auth_policy_len = tpm_buf_read_u16(&buf, &offset);
-   108		/* Asymmetric keys do not support options string: */
-   109		if (auth_policy_len != 0)
-   110			return -EBADMSG;
-   111	
-   112		/* TPMS_ECC_PARMS */
-   113		symmetric = tpm_buf_read_u16(&buf, &offset);
-   114		if (symmetric != TPM_ALG_NULL)
-   115			return -EBADMSG;
-   116	
-   117		scheme = tpm_buf_read_u16(&buf, &offset);
-   118		if (scheme != TPM_ALG_NULL)
-   119			return -EBADMSG;
-   120	
-   121		ecc = tpm_buf_read_u16(&buf, &offset);
-   122		if (ecc != TPM2_ECC_NIST_P256 &&  ecc != TPM2_ECC_NIST_P384 &&
-   123		    ecc != TPM2_ECC_NIST_P521)
-   124			return -EBADMSG;
-   125	
-   126		kdf = tpm_buf_read_u16(&buf, &offset);
-   127		if (kdf != TPM_ALG_NULL)
-   128			return -EBADMSG;
-   129	
-   130		/* TPMS_ECC_POINT */
-   131		x_size = tpm_buf_read_u16(&buf, &offset);
-   132		if (x_size > ECC_MAX_DIGITS)
-   133			return -EBADMSG;
- > 134		ret = tpm_buf_read(&buf, &offset, x_size, key_ecc);
-   135	
-   136		y_size = tpm_buf_read_u16(&buf, &offset);
-   137		if (y_size > ECC_MAX_DIGITS)
-   138			return -EBADMSG;
-   139		ret = tpm_buf_read(&buf, &offset, y_size, key_ecc);
-   140	
-   141		return buf.flags & TPM_BUF_BOUNDARY_ERROR ? -EIO : 0;
-   142	}
-   143	
+2157e7b82f3b81 Alexey Kardashevskiy    2015-06-05  179  
+c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  180  static bool tce_page_is_contained(struct mm_struct *mm, unsigned long hpa,
+94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23  181) 		unsigned int it_page_shift)
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  182  {
+c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  183  	struct page *page;
+c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  184  	unsigned long size = 0;
+c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  185  
+94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23  186) 	if (mm_iommu_is_devmem(mm, hpa, it_page_shift, &size))
+94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23  187) 		return size == (1UL << it_page_shift);
+c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  188  
+c10c21efa4bcca Alexey Kardashevskiy    2018-12-19  189  	page = pfn_to_page(hpa >> PAGE_SHIFT);
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  190  	/*
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  191  	 * Check that the TCE table granularity is not bigger than the size of
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  192  	 * a page we just found. Otherwise the hardware can get access to
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  193  	 * a bigger memory chunk that it should.
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  194  	 */
+94ad9338109fe9 Matthew Wilcox (Oracle  2019-09-23 @195) 	return page_shift(compound_head(page)) >= it_page_shift;
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  196  }
+e432bc7e15d802 Alexey Kardashevskiy    2015-06-05  197  
 
 -- 
 0-DAY CI Kernel Test Service
