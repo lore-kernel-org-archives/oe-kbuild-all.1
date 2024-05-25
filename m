@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A825C5F3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 May 2024 23:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF5D391
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 00:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716594716; cv=none; b=j4/YZ/rdRASfSkhNtcdKoBm7bQt991AQ1JzCikMml3tFyLOLmJRXNggIWnouZIwpY+yicZGUIJq7mi8GsINiWnMClfO3IP+E20jRjRe31WZ87SxuVt3PjmpnXMaGOVsw60e+C99pGHKNNyos9fuTt7sZO+8gMyn3eBawUwlRoCA=
+	t=1716596577; cv=none; b=g8ybMB/zKpHX4XjzAKVyjoQBmC9yj23pXOcumtIrk+s/j3lMbzb/urhwCbE1A2CiyWLB/uybsN2UV3VtjOq4HnkI03apfToqLmKLymOjQ012FauiB/RKl0BM+wrwR/ErwXv6bnk4f7zWzV+NcAZtJO/8MfxU3sb/VjWYOrlg3lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716594716; c=relaxed/simple;
-	bh=slUGVXzE8eGH+1xOAEIRndp11Y6yAeI8Oi2pMQd6DhI=;
+	s=arc-20240116; t=1716596577; c=relaxed/simple;
+	bh=ONZwBm6LCG0CzcZyt/cgk0vmUQFJ5wGj6IQkAPruz/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BCY15lL32EepqSVbRGurAcsffKLofMRPvorlPZqoXtDaMbQjXDFkrXHVPE47f0k9EwbOe9suMWhmYDtunUuzVYQcBjs4NywWN/mc5Sn/TGC9qWZkyiCg26AW6zscUKK0WXmQJCh3y9D3fifx1XzRUMxKb3eb/sHxalrN/hsSI7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CfZMWSpy; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=CCKrIDX+lUjRdV2L+3xg0ttvAKzKscEdwhblZJVGPpCt0AGmJSkPGjKZZp8KGrioitsJUoqrlo1hKIqMe7ivvrxNBgkP3GUpNdeAo7L4r7IUJowThQexrUQnXntgE8uTAL/vz+xXZBmvNmPQ78g9Oa+S+VDZaIlQBBHmsO/3fVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i0gIGOCU; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CfZMWSpy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0gIGOCU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716594714; x=1748130714;
+  t=1716596575; x=1748132575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=slUGVXzE8eGH+1xOAEIRndp11Y6yAeI8Oi2pMQd6DhI=;
-  b=CfZMWSpyQXCXADsKxTCLWncgkhhXTLR6A76grdiTz8Ki6/46PjRSFgo9
-   dH4or2m+bVi2eKl+EzDO+4CQD1Wu1/ThGvNEE6zMOBsILcQNsPXLfXMDn
-   MoWoUFTjWLy+cQ0lHyZnFKKvYC8pcTGD+iLoCBh00YYlq4uJsRpvtPfT9
-   vZPelfUhjXRWDqbakzgqGivvUnGWdyWBNfllC+Y3ywpbftZ6S2kl09/+j
-   Rq+doy178p5Ilsxx36JmNkDaXc+N3MeRfwgoQg3OzOl2bADzG3lXLwYso
-   xLOu3nZTGwHO/lRjnRInA767Qf7RXISWB0oWepORARNtPs4Z5c+JQftNw
-   A==;
-X-CSE-ConnectionGUID: F/BveDqGQ2a6J9TzQpR2Og==
-X-CSE-MsgGUID: VfG0n9dxS3G3QlkGV3ZXjw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="12771338"
-X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="12771338"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 16:51:54 -0700
-X-CSE-ConnectionGUID: wcLjbRtxQaWqbk/SYb3nMQ==
-X-CSE-MsgGUID: ZttNLpEUQCiWcM3EV/ZxSA==
+  bh=ONZwBm6LCG0CzcZyt/cgk0vmUQFJ5wGj6IQkAPruz/Q=;
+  b=i0gIGOCU5UwuTytCG/vTl1qa3Qrd5ig8H9Exl0tv3jBetutvQK3FW4LM
+   MV6+FWSgcBef1MuYnOZrGhuXEdGzUa2Ug6XNYiH9GLlsSzkucTlS1WlNE
+   fRF8s4OlJ/d3zg9CKAa1DQ5nGF2NC2bXjpDhNRk2UFHMuK4aTEZn0UOVr
+   ari17TjATjCBmgRPjInfkYH09sy7C4lvw/0C7ysp7ni1SVziWZ9V4UTvZ
+   sQ5M7BIplAlAnXJfA6bTNV9BvfBoMJcePZe5EP0b89odgU4nj9qoDmXJp
+   KBHx8Rzzwd38SaKHn/LdyhKE+/MFHvv90EMpayMusC+dWpg71aJwKFBxT
+   g==;
+X-CSE-ConnectionGUID: 5KB9MLMzRDO7OH0IahmgKg==
+X-CSE-MsgGUID: G2LdRCd9TGav2G0G6WqPJw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="13109718"
+X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
+   d="scan'208";a="13109718"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 17:22:54 -0700
+X-CSE-ConnectionGUID: +NjJeDMoT0G8kAdFYyFiKg==
+X-CSE-MsgGUID: 90b8R4Y4SH2kkyskJVukvQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="71581863"
+X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
+   d="scan'208";a="57395026"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 24 May 2024 16:51:53 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 May 2024 17:22:53 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAehP-000623-1P;
-	Fri, 24 May 2024 23:51:48 +0000
-Date: Sat, 25 May 2024 07:51:04 +0800
+	id 1sAfBT-00062J-19;
+	Sat, 25 May 2024 00:22:51 +0000
+Date: Sat, 25 May 2024 08:21:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: [pci:controller/qcom 12/12]
- drivers/pci/controller/dwc/pcie-qcom-ep.c:658:17: error: implicit
- declaration of function 'dw_pcie_ep_linkdown'; did you mean
- 'dw_pcie_ep_linkup'?
-Message-ID: <202405250716.lpmrTGyQ-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:page_mapcount_reset 3/6] ld:
+ drivers/block/zram/zram_drv.c:1132:undefined reference to `zs_pool_stats'
+Message-ID: <202405250804.TfdZUbxP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,78 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/qcom
-head:   1b36cee89f5f82bd04538b231e4261ed517ae174
-commit: 1b36cee89f5f82bd04538b231e4261ed517ae174 [12/12] PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240525/202405250716.lpmrTGyQ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250716.lpmrTGyQ-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux page_mapcount_reset
+head:   bb934c8e0dd03840e2d3335f1df8bd00d317e782
+commit: e628075773dea3e7c8f270ad9a0699bb36216a50 [3/6] mm/zsmalloc: use a proper page type
+config: i386-randconfig-005-20240525 (https://download.01.org/0day-ci/archive/20240525/202405250804.TfdZUbxP-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250804.TfdZUbxP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405250716.lpmrTGyQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405250804.TfdZUbxP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-qcom-ep.c: In function 'qcom_pcie_ep_global_irq_thread':
->> drivers/pci/controller/dwc/pcie-qcom-ep.c:658:17: error: implicit declaration of function 'dw_pcie_ep_linkdown'; did you mean 'dw_pcie_ep_linkup'? [-Werror=implicit-function-declaration]
-     658 |                 dw_pcie_ep_linkdown(&pci->ep);
-         |                 ^~~~~~~~~~~~~~~~~~~
-         |                 dw_pcie_ep_linkup
-   cc1: some warnings being treated as errors
-
-
-vim +658 drivers/pci/controller/dwc/pcie-qcom-ep.c
-
-   641	
-   642	/* TODO: Notify clients about PCIe state change */
-   643	static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
-   644	{
-   645		struct qcom_pcie_ep *pcie_ep = data;
-   646		struct dw_pcie *pci = &pcie_ep->pci;
-   647		struct device *dev = pci->dev;
-   648		u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
-   649		u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
-   650		u32 dstate, val;
-   651	
-   652		writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
-   653		status &= mask;
-   654	
-   655		if (FIELD_GET(PARF_INT_ALL_LINK_DOWN, status)) {
-   656			dev_dbg(dev, "Received Linkdown event\n");
-   657			pcie_ep->link_status = QCOM_PCIE_EP_LINK_DOWN;
- > 658			dw_pcie_ep_linkdown(&pci->ep);
-   659		} else if (FIELD_GET(PARF_INT_ALL_BME, status)) {
-   660			dev_dbg(dev, "Received BME event. Link is enabled!\n");
-   661			pcie_ep->link_status = QCOM_PCIE_EP_LINK_ENABLED;
-   662			qcom_pcie_ep_icc_update(pcie_ep);
-   663			pci_epc_bme_notify(pci->ep.epc);
-   664		} else if (FIELD_GET(PARF_INT_ALL_PM_TURNOFF, status)) {
-   665			dev_dbg(dev, "Received PM Turn-off event! Entering L23\n");
-   666			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
-   667			val |= PARF_PM_CTRL_READY_ENTR_L23;
-   668			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
-   669		} else if (FIELD_GET(PARF_INT_ALL_DSTATE_CHANGE, status)) {
-   670			dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
-   671						   DBI_CON_STATUS_POWER_STATE_MASK;
-   672			dev_dbg(dev, "Received D%d state event\n", dstate);
-   673			if (dstate == 3) {
-   674				val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
-   675				val |= PARF_PM_CTRL_REQ_EXIT_L1;
-   676				writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
-   677			}
-   678		} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
-   679			dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
-   680			dw_pcie_ep_linkup(&pci->ep);
-   681			pcie_ep->link_status = QCOM_PCIE_EP_LINK_UP;
-   682		} else {
-   683			dev_err(dev, "Received unknown event: %d\n", status);
-   684		}
-   685	
-   686		return IRQ_HANDLED;
-   687	}
-   688	
+   ld: drivers/block/zram/zram_drv.o: in function `zram_free_page':
+   drivers/block/zram/zram_drv.c:1277:(.text+0x9e): undefined reference to `zs_free'
+   ld: drivers/block/zram/zram_drv.o: in function `mm_stat_show':
+   drivers/block/zram/zram_drv.c:1131:(.text+0x3a6): undefined reference to `zs_get_total_pages'
+>> ld: drivers/block/zram/zram_drv.c:1132:(.text+0x3ba): undefined reference to `zs_pool_stats'
+   ld: drivers/block/zram/zram_drv.o: in function `mem_used_max_store':
+   drivers/block/zram/zram_drv.c:279:(.text+0x424): undefined reference to `zs_get_total_pages'
+   ld: drivers/block/zram/zram_drv.o: in function `compact_store':
+   drivers/block/zram/zram_drv.c:1095:(.text+0x4ce): undefined reference to `zs_compact'
+   ld: drivers/block/zram/zram_drv.o: in function `zram_meta_alloc':
+   drivers/block/zram/zram_drv.c:1221:(.text+0x57a): undefined reference to `zs_create_pool'
+   ld: drivers/block/zram/zram_drv.o: in function `zram_meta_free':
+   drivers/block/zram/zram_drv.c:1208:(.text+0x684): undefined reference to `zs_destroy_pool'
+   ld: drivers/block/zram/zram_drv.o: in function `zram_meta_alloc':
+>> drivers/block/zram/zram_drv.c:1228:(.text+0x699): undefined reference to `zs_huge_class_size'
+   ld: drivers/block/zram/zram_drv.o: in function `zram_meta_free':
+   drivers/block/zram/zram_drv.c:1208:(.text+0xbc4): undefined reference to `zs_destroy_pool'
+   ld: drivers/block/zram/zram_drv.o: in function `zram_read_from_zspool':
+   drivers/block/zram/zram_drv.c:1322:(.text+0x11be): undefined reference to `zs_map_object'
+>> ld: drivers/block/zram/zram_drv.c:1334:(.text+0x11f4): undefined reference to `zs_unmap_object'
+>> ld: drivers/block/zram/zram_drv.c:1322:(.text+0x135a): undefined reference to `zs_map_object'
+   ld: drivers/block/zram/zram_drv.o: in function `zram_write_page':
+   drivers/block/zram/zram_drv.c:1469:(.text+0x15eb): undefined reference to `zs_get_total_pages'
+   ld: drivers/block/zram/zram_drv.c:1478:(.text+0x1621): undefined reference to `zs_map_object'
+   ld: drivers/block/zram/zram_drv.c:1488:(.text+0x165e): undefined reference to `zs_unmap_object'
+>> ld: drivers/block/zram/zram_drv.c:1423:(.text+0x17d8): undefined reference to `zs_free'
+>> ld: drivers/block/zram/zram_drv.c:1443:(.text+0x17ec): undefined reference to `zs_malloc'
+   ld: drivers/block/zram/zram_drv.c:1451:(.text+0x1821): undefined reference to `zs_malloc'
+   ld: drivers/block/zram/zram_drv.c:1474:(.text+0x1870): undefined reference to `zs_free'
 
 -- 
 0-DAY CI Kernel Test Service
