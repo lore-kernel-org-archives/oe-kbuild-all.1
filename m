@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6201311182
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 May 2024 23:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAB12C69A;
+	Sat, 25 May 2024 23:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716678070; cv=none; b=TClV2Z3+Vs8mbUFvgzQ/YcA3o9i/+jyOo7687zFu0CoNEZk/hhXIuK2JoIDn2XVmKeGoKRBexqQYBqTq6SKCAJ400s3Hh91LjqM6ggOwb/cmpbmG3i8SkoDNicK8bNzm7cQr3tqAJdYMlPFV9M+XU6OOSTGbJDvFvp2HF3dN/Io=
+	t=1716678740; cv=none; b=d3isxI7AJVNq24s6to/PXNtcGt6uwL7WBsujgtEz/KVl9IJEyEMBCJvbg9Qi2n9BsMNyHwZwaYae5nY5kwQQ0yrcnsdItwvuq7BXChg28CKvMk1i3Y9jqJKMuNUBUVfuuVtBxvIOlABoOzJK2PqRoMCEZP97ijFBqIBVHXpPa/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716678070; c=relaxed/simple;
-	bh=oOCFkkm20kOKs8yOEzYiW2PUiW0mS/ndNHsooJweSkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCyuQ7Ghj+MM1dvLoggh6CWsqlwZaqDZ5nEYZScZYezs9RsRfxHYJvHFUIlFXYCTWqoKusxEfc0pn+q+RuEZ94cu4XYH8CNBUZVgjCWUFqpYQhHlLqbqMU3J6iOmjtyOUSbbq00kvWIeD6jAXftEnBdyXqLe0tpZR815XR8J5XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hk/+v+N7; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1716678740; c=relaxed/simple;
+	bh=75glpFOhw/7cyRJjauXDPBAYr3QfTCVtXpIkvD69TiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L9xYB4holWvjfIujzH4X8tjoAUzzw6xRMiMDYBQIxSdxDSIB1vXNxh/tG+G+Z8IybXyembYoHfmpRXGXQ1lXW39VXg/OaCGDPdPNt8oiXS28t/P9Iq9WMLV4z4RW7TChza49pmL8+A4Eod17tnfN7lfbcAYkBMyL5QaJZyMmxm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nLQQ6cgK; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hk/+v+N7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nLQQ6cgK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716678068; x=1748214068;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oOCFkkm20kOKs8yOEzYiW2PUiW0mS/ndNHsooJweSkU=;
-  b=Hk/+v+N79lG0dXFV8Nf5Ex9PNfEwkOCKHk/uf1FFU7TBz9Mky1yIpfLx
-   v2IR2mRcL4eTVKfXIv8hiYwJqX0sgj+iyyu6x/wK08IuWn1jkFlZsLD10
-   McayhZExZiqF9Cgm5FJI9NYa1Ba2n4GA8WaRbCU4Z9S3Nzzl031ECYl7Z
-   CXFKXn84Fr1/4TSx9+S20p12OQeiGSxRcr9NlZziH8PdL4ZTrf8zoUIWE
-   JujB4hjShi+aSunZNPpX+qbYzaUU/OfuUVIgnjvA0OS7+WXMqUVfD/LbZ
-   BIeKuxNqOFtJO2CWWhGF3rWBT96MyJq1+nXD0fAxxaE/AMiqaN3rsneKE
-   A==;
-X-CSE-ConnectionGUID: M9K6lNUrQK23863cqccaBA==
-X-CSE-MsgGUID: 61JLfCJbS7ilLpIPgoNreA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="30557647"
+  t=1716678739; x=1748214739;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=75glpFOhw/7cyRJjauXDPBAYr3QfTCVtXpIkvD69TiY=;
+  b=nLQQ6cgKtAR0QZwnC2K2OOhSY8X9XkxwzGWcMuGScABdD5p5dz+MxnKW
+   BNEimJKzkYrLXADFKRBZFfMWK3SSZLoCYRnmCz0T/b/qEwVik/XL01xPJ
+   R4qtYw0syBGTddKzqd/BION6WFzVGmJRz9DQziQazTalfq1fWQTugqjro
+   IIWSYa6SkgWfO6s43YPD1AFf8k2WyPJFKtViWaDTmKrbIs4UvPKLaFYuq
+   Oz0Vtp8uIzSKrlj5UF4X89L8iCmO+8B1bee+YuU8FdiJ+2r8coSOGRQ/E
+   ezjXsI5v/wWV22IDhFfmIugkoaMPHf/QQxqM1nCLY77BBSoOcLAOT6MUZ
+   g==;
+X-CSE-ConnectionGUID: LlW2JUtNSJ2R4rYjuve8Kg==
+X-CSE-MsgGUID: XlRc9eJXTZGs/razWieiVA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="23630221"
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="30557647"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 16:01:08 -0700
-X-CSE-ConnectionGUID: 2MCU28CNR3SByl3Mz/BfSA==
-X-CSE-MsgGUID: X9uSWWsoRIy2AgZEIebn7w==
+   d="scan'208";a="23630221"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 16:12:18 -0700
+X-CSE-ConnectionGUID: viTfTIV5TMihNZDAakA6Ig==
+X-CSE-MsgGUID: jHllbbTNQcagxdtDpkXxCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="34283215"
+   d="scan'208";a="34458533"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 25 May 2024 16:01:05 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 May 2024 16:12:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sB0Nq-0007Vb-2p;
-	Sat, 25 May 2024 23:01:02 +0000
-Date: Sun, 26 May 2024 07:00:58 +0800
+	id 1sB0YV-0007Vn-02;
+	Sat, 25 May 2024 23:12:12 +0000
+Date: Sun, 26 May 2024 07:11:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thorsten Blum <thorsten.blum@toblux.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: Re: [PATCH] x86/asm/bitops: Change function return types from long
- to int
-Message-ID: <202405260651.QCsLIzXc-lkp@intel.com>
-References: <20240525174448.174824-2-thorsten.blum@toblux.com>
+To: James Prestwood <prestwoj@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [jarkko-tpmdd:tpm2key-v6 7/8]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:646:10: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202405260700.cpGs7Far-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,112 +63,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240525174448.174824-2-thorsten.blum@toblux.com>
 
-Hi Thorsten,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0b32d436c015d5a88b3368405e3d8fe82f195a54]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thorsten-Blum/x86-asm-bitops-Change-function-return-types-from-long-to-int/20240526-014828
-base:   0b32d436c015d5a88b3368405e3d8fe82f195a54
-patch link:    https://lore.kernel.org/r/20240525174448.174824-2-thorsten.blum%40toblux.com
-patch subject: [PATCH] x86/asm/bitops: Change function return types from long to int
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240526/202405260651.QCsLIzXc-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260651.QCsLIzXc-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v6
+head:   aaca9ec010dd34be09499bbf1bcec969b56c560b
+commit: 89db40264dffec84747b770d7ba79f893ef48f4b [7/8] keys: asymmetric: tpm2_key_rsa
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405260700.cpGs7Far-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260700.cpGs7Far-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405260651.QCsLIzXc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405260700.cpGs7Far-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:573,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:6,
-                    from include/linux/string.h:374,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/processor.h:20,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/devcoredump.h:8,
-                    from sound/soc/intel/catpt/dsp.c:8:
-   sound/soc/intel/catpt/dsp.c: In function 'catpt_dsp_set_srampge':
->> sound/soc/intel/catpt/dsp.c:181:44: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'u32' {aka 'unsigned int'} [-Wformat=]
-     181 |                         dev_dbg(cdev->dev, "sanitize block %ld: off 0x%08x\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   sound/soc/intel/catpt/dsp.c:181:25: note: in expansion of macro 'dev_dbg'
-     181 |                         dev_dbg(cdev->dev, "sanitize block %ld: off 0x%08x\n",
-         |                         ^~~~~~~
-   sound/soc/intel/catpt/dsp.c:181:62: note: format string is defined here
-     181 |                         dev_dbg(cdev->dev, "sanitize block %ld: off 0x%08x\n",
-         |                                                            ~~^
-         |                                                              |
-         |                                                              long int
-         |                                                            %d
+   crypto/asymmetric_keys/tpm2_key_rsa.c:589:6: warning: variable 'attr' set but not used [-Wunused-but-set-variable]
+     589 |         u32 attr;
+         |             ^
+   crypto/asymmetric_keys/tpm2_key_rsa.c:591:6: warning: variable 'alg' set but not used [-Wunused-but-set-variable]
+     591 |         u16 alg;
+         |             ^
+>> crypto/asymmetric_keys/tpm2_key_rsa.c:646:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     646 |                 return ret;
+         |                        ^~~
+   crypto/asymmetric_keys/tpm2_key_rsa.c:642:9: note: initialize the variable 'ret' to silence this warning
+     642 |         int ret;
+         |                ^
+         |                 = 0
+   3 warnings generated.
 
 
-vim +181 sound/soc/intel/catpt/dsp.c
+vim +/ret +646 crypto/asymmetric_keys/tpm2_key_rsa.c
 
-64b9b1b005743a Cezary Rojewski 2020-09-29  153  
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  154  static void catpt_dsp_set_srampge(struct catpt_dev *cdev, struct resource *sram,
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  155  				  unsigned long mask, unsigned long new)
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  156  {
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  157  	unsigned long old;
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  158  	u32 off = sram->start;
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  159  	u32 b = __ffs(mask);
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  160  
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  161  	old = catpt_readl_pci(cdev, VDRTCTL0) & mask;
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  162  	dev_dbg(cdev->dev, "SRAMPGE [0x%08lx] 0x%08lx -> 0x%08lx",
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  163  		mask, old, new);
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  164  
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  165  	if (old == new)
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  166  		return;
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  167  
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  168  	catpt_updatel_pci(cdev, VDRTCTL0, mask, new);
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  169  	/* wait for SRAM power gating to propagate */
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  170  	udelay(60);
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  171  
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  172  	/*
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  173  	 * Dummy read as the very first access after block enable
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  174  	 * to prevent byte loss in future operations.
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  175  	 */
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  176  	for_each_clear_bit_from(b, &new, fls_long(mask)) {
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  177  		u8 buf[4];
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  178  
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  179  		/* newly enabled: new bit=0 while old bit=1 */
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  180  		if (test_bit(b, &old)) {
-ba202a7bc3da05 Cezary Rojewski 2020-09-29 @181  			dev_dbg(cdev->dev, "sanitize block %ld: off 0x%08x\n",
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  182  				b - __ffs(mask), off);
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  183  			memcpy_fromio(buf, cdev->lpe_ba + off, sizeof(buf));
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  184  		}
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  185  		off += CATPT_MEMBLOCK_SIZE;
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  186  	}
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  187  }
-ba202a7bc3da05 Cezary Rojewski 2020-09-29  188  
+   635	
+   636	/*
+   637	 * Attempt to parse a data blob for a key as a TPM private key blob.
+   638	 */
+   639	static int tpm2_key_rsa_preparse(struct key_preparsed_payload *prep)
+   640	{
+   641		struct tpm2_key *key;
+   642		int ret;
+   643	
+   644		key = tpm2_key_decode(prep->data, prep->datalen);
+   645		if (IS_ERR(key))
+ > 646			return ret;
+   647	
+   648		if (key->oid != OID_TPMLoadableKey) {
+   649			kfree(key);
+   650			return -EBADMSG;
+   651		}
+   652	
+   653		ret = __tpm2_key_rsa_preparse(key);
+   654		if (ret < 0) {
+   655			kfree(key);
+   656			return ret;
+   657		}
+   658	
+   659		prep->payload.data[asym_subtype] = &tpm2_key_rsa_subtype;
+   660		prep->payload.data[asym_key_ids] = NULL;
+   661		prep->payload.data[asym_crypto] = key;
+   662		prep->payload.data[asym_auth] = NULL;
+   663		prep->quotalen = 100;
+   664		return 0;
+   665	}
+   666	
 
 -- 
 0-DAY CI Kernel Test Service
