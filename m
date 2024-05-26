@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D111A2C1E;
-	Sun, 26 May 2024 06:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5002F29
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 07:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716705339; cv=none; b=Z212Ir5pDGvvyZJC+ZiPWCwX78ZUGwA65Odhgt5rg55mxr6udKuP7vsyOpysYob9gDha42hVMNpwY9iOa94E3ykdBtLcFdKr+GVBWE2ZFq/9q3PpA/Y/w9GiLlhx4t37qebGTwdQOAMsiBtPk2qrd/R999yu53iJsMFDFuhy424=
+	t=1716706913; cv=none; b=DG/KkoOJNFf480ArQCQWe69T5yqtxRUtECpOYdvQSAnfQGlaDcm48YDCouKqoIKgk3q86AsSAHlSVkmAx0qByht+A8JFyQ7E+laZ7ouSJMBm/1ePmEagV+8l/rL+rH3c9qpaBqFmU/JPw0ZwZiQE1o0Q/Jx0B/fJu7gmTMJk66o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716705339; c=relaxed/simple;
-	bh=GJ+aQb13J/ksxrMGkA8y4xTV21YGlAN+PlJRWexhFF0=;
+	s=arc-20240116; t=1716706913; c=relaxed/simple;
+	bh=4Udb0ur1I7s0kPCCd7GrXuoTbugPIXmBoCjemklLs98=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PtBDDXe7rL2der3f7wcQu0BE1LRUmGxk0TjBZk/4DHQ0FVfvzbO2FrVo3uOPTXXmphFiltDF3ecB+0s93BF0OaZPZHJZu1LZxNLtKN+WX4Wd011OBJouTcOd7z+ZobeZTtmYaZ49tEdQGQn7RNTT0B99XDHLHMA+RzUwu9oevsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMkyaanC; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=biVPlifjjHrTAef4ZJVQqonl0J3+OdQA826OU06sWOjEqP1z+7xeY44PfGxRNqV8zt2bqNaZnYbDUuxYROy4dVIEUNtxX+mKZUEsF+W6un41qAv4el5mzsX39UrD2leOmVfDutWFT7QeT9+i+xemwcWkVz7/UbeSBOiRQ8vMdtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQo6+JUR; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMkyaanC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQo6+JUR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716705338; x=1748241338;
+  t=1716706911; x=1748242911;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GJ+aQb13J/ksxrMGkA8y4xTV21YGlAN+PlJRWexhFF0=;
-  b=VMkyaanCnxSI7TwnuEWHwku6hSG3ADD5ERiZrvhVRtZRjW8VXpUzm3jn
-   gmr7h6THIyJlNBVHYU72zRPL+021xcLCpV0kV/wzo+ERz5ck5aCBpbDdU
-   VBDlXL2n23BPFrDzOTD2mKFKFQbcUL5m3Prwl1J2ccJTO+DRv/1g7I8oD
-   X4JYpJXoZOYCTQD0KQaqByEb9hpiSdzof/ft7K91Lg1rPFmJQFRCUFs65
-   HzigWk5yv1p4jCivIiOcrv6N01iM9uBIJklAtmFArnDQUG+TUpFXrfanX
-   qB0/Q4j6hzoSF2juPFeHrfaN21fNhhyouxkLTbeh+xRn4T4Bi7WQPrnGl
-   w==;
-X-CSE-ConnectionGUID: j5HX7bG2QFOeyInFuMZUlA==
-X-CSE-MsgGUID: nCYai24ETkCpzGzRqh68/w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="16827684"
+  bh=4Udb0ur1I7s0kPCCd7GrXuoTbugPIXmBoCjemklLs98=;
+  b=HQo6+JURyIR4PHJPO/y+IToMAzD1A4jXTJqaOptzjzjmKG6QKNLIh0Qm
+   mouNdW6tFEVtLwsT5Vu84gnOp1h5HxWIrhARYIZYyDpqvPKL11yoXl4Ao
+   yC6DWOFNT+1vjia7DOnCF6Et3Hl3maWM6os/M38PkJAiiD7Pi0gDPGOIX
+   7HtUsWkzYeyIERjOg32Ep0RqsCNBq+3LWWVhFeG4Vvs4SQmpvCK6Ic3rX
+   sgxiXMpOxIL7idhOsDuaN7x5cYjhkEWsuVC/p+JQWxciUEU26Zid49zLW
+   +B8qyzaFBagzisBKHBa2JPsg65Cb/rnEWOHEX0ZWzmrCZWfBxGB9Q5wYS
+   A==;
+X-CSE-ConnectionGUID: RGr3fgGeRcymL3Awx2kE4g==
+X-CSE-MsgGUID: 2J98QCS8Qf+Gz400Gr3uzQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="16870179"
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="16827684"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 23:35:37 -0700
-X-CSE-ConnectionGUID: ZPFya3k5T32YEj2ihH7bqg==
-X-CSE-MsgGUID: vd5YY370QIer0YpFNKM8Ng==
+   d="scan'208";a="16870179"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 00:01:50 -0700
+X-CSE-ConnectionGUID: 7Ery2+xtRFyvWvSK//zrqw==
+X-CSE-MsgGUID: +Zi57um6QUWVOwnmFDE61Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="34342898"
+   d="scan'208";a="34923882"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 25 May 2024 23:35:35 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 May 2024 00:01:41 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sB7Tb-0007od-0H;
-	Sun, 26 May 2024 06:35:32 +0000
-Date: Sun, 26 May 2024 14:34:34 +0800
+	id 1sB7sw-0007px-1X;
+	Sun, 26 May 2024 07:01:38 +0000
+Date: Sun, 26 May 2024 14:58:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	James Prestwood <prestwoj@gmail.com>
-Subject: [jarkko-tpmdd:tpm2key-v6 6/7]
- crypto/asymmetric_keys/tpm2_key_rsa.c:610:34: warning: result of comparison
- of constant 65537 with expression of type '__u16' (aka 'unsigned short') is
- always true
-Message-ID: <202405261400.f2qXL4kf-lkp@intel.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 15452/22498]
+ drivers/net/ethernet/netswift/txgbe/txgbe_main.o: warning: objtool: missing
+ symbol for section .init.text
+Message-ID: <202405261446.vSg0xorn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,134 +63,178 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v6
-head:   53809f171bd0e87446a5fecde95476c08606a215
-commit: ba6cf4498068851af553834fa3a0e8f1408d65c6 [6/7] keys: asymmetric: tpm2_key_rsa
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405261400.f2qXL4kf-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405261400.f2qXL4kf-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4ba26291c36f420273a2546b25d2c0db3115d226
+commit: e9f0b33ca1fa178f87823d17762a4d2f9296efd1 [15452/22498] net: txgbe: Add support for Netswift 10G NIC
+config: x86_64-buildonly-randconfig-003-20240525 (https://download.01.org/0day-ci/archive/20240526/202405261446.vSg0xorn-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405261446.vSg0xorn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405261400.f2qXL4kf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405261446.vSg0xorn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:16:
-   In file included from include/keys/trusted-type.h:12:
-   In file included from include/linux/tpm.h:24:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> crypto/asymmetric_keys/tpm2_key_rsa.c:610:34: warning: result of comparison of constant 65537 with expression of type '__u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-     610 |             be16_to_cpu(parms.exponent) != 0x00010001)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~
-   crypto/asymmetric_keys/tpm2_key_rsa.c:626:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     626 |                 return ret;
-         |                        ^~~
-   crypto/asymmetric_keys/tpm2_key_rsa.c:622:9: note: initialize the variable 'ret' to silence this warning
-     622 |         int ret;
-         |                ^
-         |                 = 0
-   9 warnings generated.
-
-
-vim +610 crypto/asymmetric_keys/tpm2_key_rsa.c
-
-   579	
-   580	static int __tpm2_key_rsa_preparse(struct tpm2_key *key)
-   581	{
-   582		off_t offset = sizeof(key->desc) + tpm2_key_policy_size(key) + 2;
-   583		struct tpm2_rsa_parms parms;
-   584		u8 *pub = tpm2_key_pub(key);
-   585	
-   586		if (tpm2_key_type(key) != TPM_ALG_RSA)
-   587			return -EBADMSG;
-   588	
-   589		if (tpm2_key_policy_size(key) != 0)
-   590			return -EBADMSG;
-   591	
-   592		if (offset + sizeof(parms) > tpm2_key_pub_len(key))
-   593			return -EBADMSG;
-   594	
-   595		memcpy(&parms, &pub[offset], sizeof(parms));
-   596		offset += sizeof(parms);
-   597	
-   598		if (be16_to_cpu(parms.symmetric) != TPM_ALG_NULL)
-   599			return -EBADMSG;
-   600	
-   601		if (be16_to_cpu(parms.scheme) != TPM_ALG_NULL)
-   602			return -EBADMSG;
-   603	
-   604		if (be16_to_cpu(parms.key_bits) != 2048 &&
-   605		    be16_to_cpu(parms.key_bits) != 3072 &&
-   606		    be16_to_cpu(parms.key_bits) != 4096)
-   607			return -EBADMSG;
-   608	
-   609		if (be16_to_cpu(parms.exponent) != 0x00000000 &&
- > 610		    be16_to_cpu(parms.exponent) != 0x00010001)
-   611			return -EBADMSG;
-   612	
-   613		return 0;
-   614	}
-   615	
+   In file included from include/linux/sctp.h:57,
+                    from drivers/net/ethernet/netswift/txgbe/txgbe.h:28,
+                    from drivers/net/ethernet/netswift/txgbe/txgbe_main.c:45:
+   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
+     390 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
+     719 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
+     718 |         struct sockaddr_storage sspp_addr;
+         |                                 ^~~~~~~~~
+   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
+     732 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
+     731 |         struct sockaddr_storage ssp_addr;
+         |                                 ^~~~~~~~
+   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
+     783 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
+     775 |         struct sockaddr_storage spp_address;
+         |                                 ^~~~~~~~~~~
+   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
+     896 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
+     890 |         struct sockaddr_storage spinfo_address;
+         |                                 ^~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe.h: In function 'txgbe_misc_isb':
+   drivers/net/ethernet/netswift/txgbe/txgbe.h:871:13: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     871 |         u32 cur_diff = 0;
+         |             ^~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c: At top level:
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:170:6: warning: no previous prototype for 'txgbe_service_event_schedule' [-Wmissing-prototypes]
+     170 | void txgbe_service_event_schedule(struct txgbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c: In function 'txgbe_tx_timeout':
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:433:14: warning: variable 'real_tx_hang' set but not used [-Wunused-but-set-variable]
+     433 |         bool real_tx_hang = false;
+         |              ^~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c: At top level:
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:2634:6: warning: no previous prototype for 'txgbe_disable_tx_queue' [-Wmissing-prototypes]
+    2634 | void txgbe_disable_tx_queue(struct txgbe_adapter *adapter,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:3299:5: warning: no previous prototype for 'txgbe_add_cloud_switcher' [-Wmissing-prototypes]
+    3299 | int txgbe_add_cloud_switcher(struct txgbe_adapter *adapter, u32 key, u16 pool)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:3315:5: warning: no previous prototype for 'txgbe_del_cloud_switcher' [-Wmissing-prototypes]
+    3315 | int txgbe_del_cloud_switcher(struct txgbe_adapter *adapter, u32 key, u16 pool)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:3667:6: warning: no previous prototype for 'txgbe_configure_isb' [-Wmissing-prototypes]
+    3667 | void txgbe_configure_isb(struct txgbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:3677:6: warning: no previous prototype for 'txgbe_configure_port' [-Wmissing-prototypes]
+    3677 | void txgbe_configure_port(struct txgbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:4219:6: warning: no previous prototype for 'txgbe_disable_device' [-Wmissing-prototypes]
+    4219 | void txgbe_disable_device(struct txgbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:4315:5: warning: no previous prototype for 'txgbe_init_shared_code' [-Wmissing-prototypes]
+    4315 | s32 txgbe_init_shared_code(struct txgbe_hw *hw)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:6697:5: warning: no previous prototype for 'txgbe_skb_pad_nonzero' [-Wmissing-prototypes]
+    6697 | int txgbe_skb_pad_nonzero(struct sk_buff *skb, int pad)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:257: warning: Function parameter or member 'quiet' not described in 'txgbe_read_reg'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:1802: warning: Function parameter or member 'queues' not described in 'txgbe_irq_enable'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:1802: warning: Function parameter or member 'flush' not described in 'txgbe_irq_enable'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:2246: warning: Function parameter or member 'adapter' not described in 'txgbe_configure_msi_and_legacy'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:2766: warning: Function parameter or member 'adapter' not described in 'txgbe_configure_bridge_mode'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:3279: warning: Function parameter or member 'pool' not described in 'txgbe_write_uc_addr_list'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:4333: warning: cannot understand function prototype: 'const u32 def_rss_key[10] = '
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5242: warning: Function parameter or member 'adapter' not described in 'txgbe_fdir_reinit_subtask'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5284: warning: Function parameter or member 'adapter' not described in 'txgbe_check_hang_subtask'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5307: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_update_link'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5391: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_link_is_up'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5437: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_link_is_down'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5510: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_flush_tx'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5531: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_subtask'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5570: warning: Function parameter or member 'adapter' not described in 'txgbe_sfp_detection_subtask'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5641: warning: Function parameter or member 'adapter' not described in 'txgbe_sfp_link_config_subtask'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5725: warning: Function parameter or member 't' not described in 'txgbe_service_timer'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:5725: warning: Excess function parameter 'data' description in 'txgbe_service_timer'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:6921: warning: Function parameter or member 'dev' not described in 'txgbe_add_sanmac_netdev'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:6921: warning: Excess function parameter 'netdev' description in 'txgbe_add_sanmac_netdev'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:6946: warning: Function parameter or member 'dev' not described in 'txgbe_del_sanmac_netdev'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:6946: warning: Excess function parameter 'netdev' description in 'txgbe_del_sanmac_netdev'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:7041: warning: Function parameter or member 'dev' not described in 'txgbe_setup_tc'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:7041: warning: Excess function parameter 'netdev' description in 'txgbe_setup_tc'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:7469: warning: Excess function parameter 'device_id' description in 'txgbe_wol_supported'
+   drivers/net/ethernet/netswift/txgbe/txgbe_main.c:7469: warning: Excess function parameter 'subdev_id' description in 'txgbe_wol_supported'
+>> drivers/net/ethernet/netswift/txgbe/txgbe_main.o: warning: objtool: missing symbol for section .init.text
+--
+   In file included from include/linux/sctp.h:57,
+                    from drivers/net/ethernet/netswift/txgbe/txgbe.h:28,
+                    from drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:25:
+   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
+     390 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
+     719 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
+     718 |         struct sockaddr_storage sspp_addr;
+         |                                 ^~~~~~~~~
+   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
+     732 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
+     731 |         struct sockaddr_storage ssp_addr;
+         |                                 ^~~~~~~~
+   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
+     783 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
+     775 |         struct sockaddr_storage spp_address;
+         |                                 ^~~~~~~~~~~
+   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
+     896 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
+     890 |         struct sockaddr_storage spinfo_address;
+         |                                 ^~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe.h: In function 'txgbe_misc_isb':
+   drivers/net/ethernet/netswift/txgbe/txgbe.h:871:13: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     871 |         u32 cur_diff = 0;
+         |             ^~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c: At top level:
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:132:5: warning: no previous prototype for 'txgbe_poll_for_msg' [-Wmissing-prototypes]
+     132 | int txgbe_poll_for_msg(struct txgbe_hw *hw, u16 mbx_id)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:162:5: warning: no previous prototype for 'txgbe_poll_for_ack' [-Wmissing-prototypes]
+     162 | int txgbe_poll_for_ack(struct txgbe_hw *hw, u16 mbx_id)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:185:5: warning: no previous prototype for 'txgbe_check_for_bit_pf' [-Wmissing-prototypes]
+     185 | int txgbe_check_for_bit_pf(struct txgbe_hw *hw, u32 mask, int index)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:205:5: warning: no previous prototype for 'txgbe_check_for_msg_pf' [-Wmissing-prototypes]
+     205 | int txgbe_check_for_msg_pf(struct txgbe_hw *hw, u16 vf)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:227:5: warning: no previous prototype for 'txgbe_check_for_ack_pf' [-Wmissing-prototypes]
+     227 | int txgbe_check_for_ack_pf(struct txgbe_hw *hw, u16 vf)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:249:5: warning: no previous prototype for 'txgbe_check_for_rst_pf' [-Wmissing-prototypes]
+     249 | int txgbe_check_for_rst_pf(struct txgbe_hw *hw, u16 vf)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:274:5: warning: no previous prototype for 'txgbe_obtain_mbx_lock_pf' [-Wmissing-prototypes]
+     274 | int txgbe_obtain_mbx_lock_pf(struct txgbe_hw *hw, u16 vf)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:303:5: warning: no previous prototype for 'txgbe_write_mbx_pf' [-Wmissing-prototypes]
+     303 | int txgbe_write_mbx_pf(struct txgbe_hw *hw, u32 *msg, u16 size,
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:346:5: warning: no previous prototype for 'txgbe_read_mbx_pf' [-Wmissing-prototypes]
+     346 | int txgbe_read_mbx_pf(struct txgbe_hw *hw, u32 *msg, u16 size,
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/netswift/txgbe/txgbe_mbx.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
