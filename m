@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B657BA2D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 08:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0338AB672
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 09:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716713801; cv=none; b=pHm3LPV9AwuoOaIkgTT4tug5S645y4OhDJc+wMPEaLMS5CAD+tW5RQkNgTDroCgPIEgHtmI9ADOpMELS7hHlkKtnsUUEnrBWcVB5cte5OnlL39Szrd5LARfCDzVCHpfDWbxFGJWPbh4IvyYOM97SsgeCtkSNMZ4+N8ibl1CWJ7A=
+	t=1716714402; cv=none; b=Ij0ys8ELeE4rudpPpD2HnbmjyAtdFLRZJJME0Gi/8b1acT5soM7mcvWxR+rfSdRFnUNZGD7Xc85ZzFSntJTC/sEyjeZEZFu46+8Ff4NkxjeyJxeoTk1QdgJdf3zm6dQi4GMLLIp7xqH2ddm5kkxSGjy+saWaXrtydk62MY7VLLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716713801; c=relaxed/simple;
-	bh=a3Z2lIyQHv6RVR13FbDdXSavIt5v6Q8PcXicKfBLD54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ETrlg6v7nQxA/5GCIpBt/7Vsjh50I1Lto0YmL6tpvUuvQqGIq+q0cCjCk2S4oJnT5Dz3zexw3Pps9WgonROdZ9cJGV8LfLMKUxq9MVGTjSsRenr7oBY9kqyvPnXtcbpgZ0XGq3tyfE962LXOvxWvPFMwncHQfusWDSyWyLQtUfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMTk+WaS; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1716714402; c=relaxed/simple;
+	bh=6q5hqEbbvnTZCkhT42Um0mfV4qDX6yYGXTWa6QV6CMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OqmI+bedLpjxVQLHEDO4WPlPnNfbNzPPalr5eC2TXCIiP31ywlqEDrS1PQnbWR8m6Mk5wPR7UoYyShgh0gZzoxsFUdbFcsUiFGQUun7ntX4da9UiP4uEXkibgjk+zSBrGEa/Qv7gPnfXHHuEcSdLBu3WxF72FlCHE6cnjQRumck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GlEA7D0j; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMTk+WaS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GlEA7D0j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716713800; x=1748249800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a3Z2lIyQHv6RVR13FbDdXSavIt5v6Q8PcXicKfBLD54=;
-  b=AMTk+WaS+lx52NOG2he2wZy2WO/8HsDlPQA3hNZOMLHU2nk8NrNwLkd+
-   cNV/4B6ClBFNPDYe55dwg6WqHmdiwQ0RZ3omphSD+KGCDpRWfWFjcYV3m
-   l9tNntBCLA8+1pWZSoqCEiwADyiLVGP3eEqrQmXLn8ZTweL+CulfOU1SM
-   40Mos+fWCqn1+ELDgtq+pi7WwjDJ7G6Vl+ZPbAYAyiKPxGaDj9L5pZPO5
-   Mw7nO+UbIHHDZdso8gfXgIDaZSspPt57bquN+iUPVPQ9KoDwhLCyp7Sng
-   nBc1Il1GM7Y6nPqXj6lyj3p3Ruobp+NjMyXDLN3Q5IHdTVMCn5BhOjyYA
-   g==;
-X-CSE-ConnectionGUID: GSUQ4+DFRrycQXeAjxaQgg==
-X-CSE-MsgGUID: dAq1mE/eRDehj6C4LiWTkg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="12820565"
+  t=1716714401; x=1748250401;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6q5hqEbbvnTZCkhT42Um0mfV4qDX6yYGXTWa6QV6CMU=;
+  b=GlEA7D0jsRZio6SUcQnsgzAKuDQAiuigToD8wJyv4OVxBIBY4blNHu28
+   5sHQN3zb12PMcXaiHGjbRw+oenREeUMI4jCP67QpsBHc09xWvGQyVFLBv
+   rMBZFMw18ebSSKCKUG3j0uLK+ANmwW8j+0v7GFJuIb0+POdsXvAhzGLOC
+   7VcDO75xudeXBjLGyRbB2pbve+7Ut+4bzb1/wUNSZInbs7qWNYqwmI7LB
+   2at1ZwKO/tw5obFSTiYAeyvNsYscavk0W/FZcv90wH3fJfkBYC4AzKD9+
+   YXubxONYGGfCBoWvhbCm9aJ3mpFx9tUFRXOQ4rPjhAxt4ziXk2h4UCEJv
+   A==;
+X-CSE-ConnectionGUID: CoR8juqfT9qancW4WJlrnw==
+X-CSE-MsgGUID: IUZJIQpAQrq4eSbwKjX4Ow==
+X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="13265337"
 X-IronPort-AV: E=Sophos;i="6.08,190,1712646000"; 
-   d="scan'208";a="12820565"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 01:56:39 -0700
-X-CSE-ConnectionGUID: y4bDb+1VT5+gMyZdUzGv2w==
-X-CSE-MsgGUID: LwOk/7U5T9aptSILfyuosw==
+   d="scan'208";a="13265337"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 02:06:40 -0700
+X-CSE-ConnectionGUID: TdgD+Um9TQStnJChkStOkQ==
+X-CSE-MsgGUID: pKJrXE7VRt2l0y38zzkLNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,190,1712646000"; 
-   d="scan'208";a="34534036"
+   d="scan'208";a="39441373"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 May 2024 01:56:37 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 May 2024 02:06:39 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sB9g9-0007vt-1A;
-	Sun, 26 May 2024 08:56:33 +0000
-Date: Sun, 26 May 2024 16:55:42 +0800
+	id 1sB9ps-0007w6-12;
+	Sun, 26 May 2024 09:06:36 +0000
+Date: Sun, 26 May 2024 17:06:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof =?utf-8?Q?Ol=C4=99dzki?= <ole@ans.pl>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hannes Reinecke <hare@suse.de>,
-	IDE/ATA development list <linux-ide@vger.kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ata: libata: restore visibility of important messages
-Message-ID: <202405261642.ya8nqExt-lkp@intel.com>
-References: <a116c331-530e-4d45-a32c-37c57542724a@ans.pl>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 12103/13737]
+ arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse: sparse:
+ incompatible types in comparison expression (different address spaces):
+Message-ID: <202405261716.tWWnavqi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,116 +63,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a116c331-530e-4d45-a32c-37c57542724a@ans.pl>
 
-Hi Krzysztof,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.9 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Ol-dzki/ata-libata-restore-visibility-of-important-messages/20240526-144120
-base:   linus/master
-patch link:    https://lore.kernel.org/r/a116c331-530e-4d45-a32c-37c57542724a%40ans.pl
-patch subject: [PATCH] ata: libata: restore visibility of important messages
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240526/202405261642.ya8nqExt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405261642.ya8nqExt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3689b0ef08b70e4e03b82ebd37730a03a672853a
+commit: 17573fd971f9e31ddee420eca8359ceff87e9e51 [12103/13737] KVM: guest_memfd: extract __kvm_gmem_get_pfn()
+config: x86_64-randconfig-121-20240526 (https://download.01.org/0day-ci/archive/20240526/202405261716.tWWnavqi-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405261716.tWWnavqi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405261642.ya8nqExt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405261716.tWWnavqi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse:    struct file *
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse:    struct file [noderef] __rcu *
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:121:17: sparse: sparse: context imbalance in 'kvm_gmem_invalidate_begin' - different lock contexts for basic block
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     expected struct file **f
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     got struct file [noderef] __rcu **
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     expected struct file **f
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     got struct file [noderef] __rcu **
 
-   drivers/ata/libata-core.c: In function 'ata_dev_config_ncq.constprop':
->> drivers/ata/libata-core.c:2345:74: warning: 'NCQ (not used - known buggy ...' directive output truncated writing 48 bytes into a region of size 32 [-Wformat-truncation=]
-    2345 |                 snprintf(desc, desc_sz, "NCQ (not used - known buggy device/host adapter)");
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:2345:17: note: 'snprintf' output 49 bytes into a destination of size 32
-    2345 |                 snprintf(desc, desc_sz, "NCQ (not used - known buggy device/host adapter)");
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:2339:74: warning: 'NCQ (not used - known buggy ...' directive output truncated writing 35 bytes into a region of size 32 [-Wformat-truncation=]
-    2339 |                 snprintf(desc, desc_sz, "NCQ (not used - known buggy device)");
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/ata/libata-core.c:2339:17: note: 'snprintf' output 36 bytes into a destination of size 32
-    2339 |                 snprintf(desc, desc_sz, "NCQ (not used - known buggy device)");
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +540 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
 
-
-vim +2345 drivers/ata/libata-core.c
-
-  2323	
-  2324	static int ata_dev_config_ncq(struct ata_device *dev,
-  2325				       char *desc, size_t desc_sz)
-  2326	{
-  2327		struct ata_port *ap = dev->link->ap;
-  2328		int hdepth = 0, ddepth = ata_id_queue_depth(dev->id);
-  2329		unsigned int err_mask;
-  2330		char *aa_desc = "";
-  2331	
-  2332		if (!ata_id_has_ncq(dev->id)) {
-  2333			desc[0] = '\0';
-  2334			return 0;
-  2335		}
-  2336		if (!IS_ENABLED(CONFIG_SATA_HOST))
-  2337			return 0;
-  2338		if (dev->horkage & ATA_HORKAGE_NONCQ) {
-  2339			snprintf(desc, desc_sz, "NCQ (not used - known buggy device)");
-  2340			return 0;
-  2341		}
-  2342	
-  2343		if (dev->horkage & ATA_HORKAGE_NO_NCQ_ON_ATI &&
-  2344		    ata_dev_check_adapter(dev, PCI_VENDOR_ID_ATI)) {
-> 2345			snprintf(desc, desc_sz, "NCQ (not used - known buggy device/host adapter)");
-  2346			return 0;
-  2347		}
-  2348	
-  2349		if (ap->flags & ATA_FLAG_NCQ) {
-  2350			hdepth = min(ap->scsi_host->can_queue, ATA_MAX_QUEUE);
-  2351			dev->flags |= ATA_DFLAG_NCQ;
-  2352		}
-  2353	
-  2354		if (!(dev->horkage & ATA_HORKAGE_BROKEN_FPDMA_AA) &&
-  2355			(ap->flags & ATA_FLAG_FPDMA_AA) &&
-  2356			ata_id_has_fpdma_aa(dev->id)) {
-  2357			err_mask = ata_dev_set_feature(dev, SETFEATURES_SATA_ENABLE,
-  2358				SATA_FPDMA_AA);
-  2359			if (err_mask) {
-  2360				ata_dev_err(dev,
-  2361					    "failed to enable AA (error_mask=0x%x)\n",
-  2362					    err_mask);
-  2363				if (err_mask != AC_ERR_DEV) {
-  2364					dev->horkage |= ATA_HORKAGE_BROKEN_FPDMA_AA;
-  2365					return -EIO;
-  2366				}
-  2367			} else
-  2368				aa_desc = ", AA";
-  2369		}
-  2370	
-  2371		if (hdepth >= ddepth)
-  2372			snprintf(desc, desc_sz, "NCQ (depth %d)%s", ddepth, aa_desc);
-  2373		else
-  2374			snprintf(desc, desc_sz, "NCQ (depth %d/%d)%s", hdepth,
-  2375				ddepth, aa_desc);
-  2376	
-  2377		if ((ap->flags & ATA_FLAG_FPDMA_AUX)) {
-  2378			if (ata_id_has_ncq_send_and_recv(dev->id))
-  2379				ata_dev_config_ncq_send_recv(dev);
-  2380			if (ata_id_has_ncq_non_data(dev->id))
-  2381				ata_dev_config_ncq_non_data(dev);
-  2382			if (ata_id_has_ncq_prio(dev->id))
-  2383				ata_dev_config_ncq_prio(dev);
-  2384		}
-  2385	
-  2386		return 0;
-  2387	}
-  2388	
+   530	
+   531	static int __kvm_gmem_get_pfn(struct file *file, struct kvm_memory_slot *slot,
+   532			       gfn_t gfn, kvm_pfn_t *pfn, int *max_order, bool prepare)
+   533	{
+   534		pgoff_t index = gfn - slot->base_gfn + slot->gmem.pgoff;
+   535		struct kvm_gmem *gmem = file->private_data;
+   536		struct folio *folio;
+   537		struct page *page;
+   538		int r;
+   539	
+ > 540		if (file != slot->gmem.file) {
+   541			WARN_ON_ONCE(slot->gmem.file);
+   542			return -EFAULT;
+   543		}
+   544	
+   545		gmem = file->private_data;
+   546		if (xa_load(&gmem->bindings, index) != slot) {
+   547			WARN_ON_ONCE(xa_load(&gmem->bindings, index));
+   548			return -EIO;
+   549		}
+   550	
+   551		folio = kvm_gmem_get_folio(file_inode(file), index, prepare);
+   552		if (IS_ERR(folio))
+   553			return PTR_ERR(folio);
+   554	
+   555		if (folio_test_hwpoison(folio)) {
+   556			r = -EHWPOISON;
+   557			goto out_unlock;
+   558		}
+   559	
+   560		page = folio_file_page(folio, index);
+   561	
+   562		*pfn = page_to_pfn(page);
+   563		if (max_order)
+   564			*max_order = 0;
+   565	
+   566		r = 0;
+   567	
+   568	out_unlock:
+   569		folio_unlock(folio);
+   570	
+   571		return r;
+   572	}
+   573	
 
 -- 
 0-DAY CI Kernel Test Service
