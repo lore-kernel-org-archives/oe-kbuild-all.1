@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B854C399
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 01:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5D1818
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 02:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716686195; cv=none; b=choRgpNpxTU+wWD7d88EuOldkSwKAFtLAJViiiJ/pGYY9Kje0AMY+ojk8RUF6y56H6k2Kva2WWdeaI4cyW1/7dcF2tA2o0WgHKWUDH9tTflyXpmXYbPZA8A3SkB/BkHxPUa468kjoZ/gpYMoeXZXCxTFjB+4NEzio61Nm3OLG60=
+	t=1716688840; cv=none; b=hQ87BruC+KlCI8gpuBkTtkwtsJqvIOxkAr6QBWRH00kYCF2RasFAQPGjOmpalSD+e1kIcmYIPDulcCrBDLXwi6Mljwvisc5WFCXHpB7U1SSwc/cT7H8qnj0JAtlU8zfOLh54s+5OHCIQer5kFKjpFP/kitCcAhUtxJ7DR/4R4TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716686195; c=relaxed/simple;
-	bh=2nx713LkhU9iqJ2uiXGYTGHsr83/QaaeKwXnfYcIkH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L7GeZAKZ7ZkZfoBESUl5fgy92B5djAjxbDKHdiMIrT2NDfGXYJDvj1K90gX8gaA7k9+1spzKQtk+NJELOvukGtWpKoQfK2n4QNRYm3+ex/1SkB87/fxyrVZU7cjy3bXS1DkkSgByU0Z4OPyzYYiyBplptQ8EdM2HE2sFGdUIAO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YUMsHxmW; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1716688840; c=relaxed/simple;
+	bh=CzcVNZjWSshoEFL81VKFzrkOMmouWtgwix9NhZydeTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L+xFf0AutU35ruOTSYrExXJCb9IMO/AIbzD3WK2YnBggeZmhG1K2xa3/XRFwOpi2D5F0+kQPrpFI5DgMf7XUrxdkwH4CH9s3vlXYE7x8hxnRdAP65x0pjjULAjnEf2A03iMOrx0jwABxE1hqavXzbX1Fi+pa8Hb2jt4DxtiNFKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxdMoxRz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YUMsHxmW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxdMoxRz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716686193; x=1748222193;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2nx713LkhU9iqJ2uiXGYTGHsr83/QaaeKwXnfYcIkH0=;
-  b=YUMsHxmW8BfQPd2wtdvPl8klkrZPDOZIDpxwCToOVxkcT1y0BRXxtps9
-   2n2WRnqIzbNs9mx47AtLJXtvbx3YsiqqqzWQsRKs9MzJzCwSCRYWsTh+0
-   wwvvxHFeBuLhHtMPxB8SiC7BZh2mznwiHaqH8/2XLWmrNXgGV5VSQIWja
-   idTQqb52nR5EedRQL5dyjdyRoQMQJBjvFKfxJcptS3Jy4D9uJt0P6BE3N
-   I1V2P3j5L9WRouDoQQfy/NHVJuqMyDY3mAcj7vat9AbvlQSn91TQVjL1M
-   rmW9DjnEh9r4JqkwDWbH2iStuo7Mj9zyV26ZHYbiglplkCA/ZvxeZYXog
-   Q==;
-X-CSE-ConnectionGUID: z7SQDTjbTyyJiW2jCvh0kQ==
-X-CSE-MsgGUID: LtdDpo2NSvqeCK1bOkr3Cg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="16862951"
+  t=1716688838; x=1748224838;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CzcVNZjWSshoEFL81VKFzrkOMmouWtgwix9NhZydeTI=;
+  b=VxdMoxRz92gshTyPJq1I4JjAYf5ezusgQWSy2PB5cFf4Wuq5Qe4ySG8R
+   b06yFUm88BKzxT4xCFIXD/9ByfhAjXOxggTa7+0loXiGWRAMLL2JFTC02
+   phmBPDGzcM/BvZ9e2gULNQ1r5vtqtPVVIDiSPbV03iDdI0j+BQKiSTQF+
+   hlukmo4evdHcpXTbkm96xp9LTuumO44/+4m3aTyK6pnfQwT5DwijECGcj
+   IUQ3a0avL4cdSPK0t4nKgpWVHurAhu/rx+GKM3DyWa5ABIxV/7X02IrtG
+   vDA3f8ljX/NppGuuJD5oPNP4tc6BF24ImfIEQ4jg6oPWkMkx/IUzga6b1
+   g==;
+X-CSE-ConnectionGUID: fI5dGweMS1auYJalOb02NA==
+X-CSE-MsgGUID: xN2Hy0DmTceAa8dxX58msw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="23633384"
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="16862951"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 18:16:32 -0700
-X-CSE-ConnectionGUID: XG5OCxWpTnaBmSxZXw7W4A==
-X-CSE-MsgGUID: f96xzrFsQvya5sXWlLek/Q==
+   d="scan'208";a="23633384"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 19:00:37 -0700
+X-CSE-ConnectionGUID: 8bgepjOfSp2uABOKzPJRSg==
+X-CSE-MsgGUID: qqwx/AslRHOoP6sn78rbyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; 
-   d="scan'208";a="65619732"
+   d="scan'208";a="39375336"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 25 May 2024 18:16:31 -0700
+  by orviesa004.jf.intel.com with ESMTP; 25 May 2024 19:00:33 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sB2Uu-0007bj-2o;
-	Sun, 26 May 2024 01:16:28 +0000
-Date: Sun, 26 May 2024 09:16:25 +0800
+	id 1sB3BW-0007df-0g;
+	Sun, 26 May 2024 02:00:30 +0000
+Date: Sun, 26 May 2024 09:59:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask-types 1/4] include/linux/sched.h:20:10: fatal error:
- linux/ilog2.h: No such file or directory
-Message-ID: <202405260913.UUoF3OO7-lkp@intel.com>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
+	Jason-ch Chen <jason-ch.chen@mediatek.com>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	Singo Chang <singo.chang@mediatek.com>,
+	Nancy Lin <nancy.lin@mediatek.com>,
+	Shawn Sung <shawn.sung@mediatek.com>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v6 6/8] mailbox: mediatek: Add CMDQ secure mailbox driver
+Message-ID: <202405260953.uzQ4Rwg2-lkp@intel.com>
+References: <20240525230810.24623-7-jason-jh.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,72 +76,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240525230810.24623-7-jason-jh.lin@mediatek.com>
 
-tree:   https://github.com/norov/linux cpumask-types
-head:   f9eb385f19529076f66670016ea0e71fa420f3a7
-commit: 65dc15af995c9867bdc62cc614265e1e00ea6896 [1/4] ilog2
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405260913.UUoF3OO7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260913.UUoF3OO7-lkp@intel.com/reproduce)
+Hi Jason-JH.Lin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20240523]
+[cannot apply to robh/for-next krzk-dt/for-next fujitsu-integration/mailbox-for-next v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/dt-bindings-gce-mt8195-Add-CMDQ_SYNC_TOKEN_SECURE_THR_EOF-event-id/20240526-071102
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240525230810.24623-7-jason-jh.lin%40mediatek.com
+patch subject: [PATCH v6 6/8] mailbox: mediatek: Add CMDQ secure mailbox driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405260953.uzQ4Rwg2-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260953.uzQ4Rwg2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405260913.UUoF3OO7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405260953.uzQ4Rwg2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/alpha/kernel/asm-offsets.c:10:
->> include/linux/sched.h:20:10: fatal error: linux/ilog2.h: No such file or directory
-      20 | #include <linux/ilog2.h>
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
-   make[3]: *** [scripts/Makefile.build:117: arch/alpha/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/mailbox/mtk-cmdq-sec-mailbox.c: In function 'cmdq_sec_task_exec_work':
+>> drivers/mailbox/mtk-cmdq-sec-mailbox.c:619:31: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+     619 |         struct cmdq_sec_data *data;
+         |                               ^~~~
 
 
-vim +20 include/linux/sched.h
+vim +/data +619 drivers/mailbox/mtk-cmdq-sec-mailbox.c
 
-    17	
-    18	#include <linux/cache.h>
-    19	#include <linux/irqflags_types.h>
-  > 20	#include <linux/ilog2.h>
-    21	#include <linux/smp_types.h>
-    22	#include <linux/pid_types.h>
-    23	#include <linux/sem_types.h>
-    24	#include <linux/shm.h>
-    25	#include <linux/kmsan_types.h>
-    26	#include <linux/mutex_types.h>
-    27	#include <linux/plist_types.h>
-    28	#include <linux/hrtimer_types.h>
-    29	#include <linux/timer_types.h>
-    30	#include <linux/seccomp_types.h>
-    31	#include <linux/nodemask_types.h>
-    32	#include <linux/refcount_types.h>
-    33	#include <linux/resource.h>
-    34	#include <linux/latencytop.h>
-    35	#include <linux/sched/prio.h>
-    36	#include <linux/sched/types.h>
-    37	#include <linux/signal_types.h>
-    38	#include <linux/syscall_user_dispatch_types.h>
-    39	#include <linux/mm_types_task.h>
-    40	#include <linux/task_io_accounting.h>
-    41	#include <linux/posix-timers_types.h>
-    42	#include <linux/restart_block.h>
-    43	#include <uapi/linux/rseq.h>
-    44	#include <linux/seqlock_types.h>
-    45	#include <linux/kcsan.h>
-    46	#include <linux/rv.h>
-    47	#include <linux/livepatch_sched.h>
-    48	#include <linux/uidgid_types.h>
-    49	#include <asm/kmap_size.h>
-    50	
+   611	
+   612	static void cmdq_sec_task_exec_work(struct work_struct *work_item)
+   613	{
+   614		struct cmdq_sec_task *sec_task = container_of(work_item,
+   615							      struct cmdq_sec_task, exec_work);
+   616		struct cmdq_sec_thread *sec_thread = container_of(sec_task->task.thread,
+   617								 struct cmdq_sec_thread, thread);
+   618		struct cmdq_sec *cmdq = container_of(sec_thread->dev, struct cmdq_sec, dev);
+ > 619		struct cmdq_sec_data *data;
+   620		unsigned long flags;
+   621		int err;
+   622	
+   623		dev_dbg(&cmdq->dev, "%s gce:%#lx sec_task:%p pkt:%p thread:%u",
+   624			__func__, (unsigned long)cmdq->base_pa,
+   625			sec_task, sec_task->task.pkt, sec_thread->idx);
+   626	
+   627		if (!sec_task->task.pkt->sec_data) {
+   628			dev_err(&cmdq->dev, "pkt:%p without sec_data", sec_task->task.pkt);
+   629			return;
+   630		}
+   631		data = (struct cmdq_sec_data *)sec_task->task.pkt->sec_data;
+   632	
+   633		mutex_lock(&cmdq->exec_lock);
+   634	
+   635		spin_lock_irqsave(&sec_thread->thread.chan->lock, flags);
+   636		if (!sec_thread->task_cnt) {
+   637			mod_timer(&sec_thread->timeout, jiffies +
+   638				  msecs_to_jiffies(sec_thread->timeout_ms));
+   639			sec_thread->wait_cookie = 1;
+   640			sec_thread->next_cookie = 1;
+   641			sec_thread->task_cnt = 0;
+   642			__raw_writel(0, (void __iomem *)cmdq->shared_mem->va +
+   643				     CMDQ_SEC_SHARED_THR_CNT_OFFSET + sec_thread->idx * sizeof(u32));
+   644		}
+   645	
+   646		sec_task->reset_exec = sec_thread->task_cnt ? false : true;
+   647		sec_task->wait_cookie = sec_thread->next_cookie;
+   648		sec_thread->next_cookie = (sec_thread->next_cookie + 1) % CMDQ_MAX_COOKIE_VALUE;
+   649		list_add_tail(&sec_task->task.list_entry, &sec_thread->thread.task_busy_list);
+   650		sec_thread->task_cnt += 1;
+   651		spin_unlock_irqrestore(&sec_thread->thread.chan->lock, flags);
+   652		sec_task->trigger = sched_clock();
+   653	
+   654		if (!atomic_cmpxchg(&cmdq_path_res, 0, 1)) {
+   655			err = cmdq_sec_task_submit(cmdq, NULL, CMD_CMDQ_IWC_PATH_RES_ALLOCATE,
+   656						   CMDQ_INVALID_THREAD);
+   657			if (err) {
+   658				atomic_set(&cmdq_path_res, 0);
+   659				goto task_end;
+   660			}
+   661		}
+   662	
+   663		if (sec_thread->task_cnt > CMDQ_MAX_TASK_IN_SECURE_THREAD) {
+   664			dev_err(&cmdq->dev, "task_cnt:%u cannot more than %u sec_task:%p thread:%u",
+   665				sec_thread->task_cnt, CMDQ_MAX_TASK_IN_SECURE_THREAD,
+   666				sec_task, sec_thread->idx);
+   667			err = -EMSGSIZE;
+   668			goto task_end;
+   669		}
+   670	
+   671		err = cmdq_sec_task_submit(cmdq, sec_task, CMD_CMDQ_IWC_SUBMIT_TASK,
+   672					   sec_thread->idx);
+   673		if (err)
+   674			dev_err(&cmdq->dev, "cmdq_sec_task_submit err:%d sec_task:%p thread:%u",
+   675				err, sec_task, sec_thread->idx);
+   676	
+   677	task_end:
+   678		if (err) {
+   679			struct cmdq_cb_data cb_data;
+   680	
+   681			cb_data.sta = err;
+   682			cb_data.pkt = sec_task->task.pkt;
+   683			mbox_chan_received_data(sec_thread->thread.chan, &cb_data);
+   684	
+   685			spin_lock_irqsave(&sec_thread->thread.chan->lock, flags);
+   686			if (!sec_thread->task_cnt)
+   687				dev_err(&cmdq->dev, "thread:%u task_cnt:%u cannot below zero",
+   688					sec_thread->idx, sec_thread->task_cnt);
+   689			else
+   690				sec_thread->task_cnt -= 1;
+   691	
+   692			sec_thread->next_cookie = (sec_thread->next_cookie - 1 +
+   693				CMDQ_MAX_COOKIE_VALUE) % CMDQ_MAX_COOKIE_VALUE;
+   694			list_del(&sec_task->task.list_entry);
+   695			dev_dbg(&cmdq->dev, "gce:%#lx err:%d sec_task:%p pkt:%p",
+   696				(unsigned long)cmdq->base_pa, err, sec_task, sec_task->task.pkt);
+   697			dev_dbg(&cmdq->dev, "thread:%u task_cnt:%u wait_cookie:%u next_cookie:%u",
+   698				sec_thread->idx, sec_thread->task_cnt,
+   699				sec_thread->wait_cookie, sec_thread->next_cookie);
+   700			spin_unlock_irqrestore(&sec_thread->thread.chan->lock, flags);
+   701	
+   702			kfree(sec_task);
+   703		}
+   704	
+   705		mutex_unlock(&cmdq->exec_lock);
+   706	}
+   707	
 
 -- 
 0-DAY CI Kernel Test Service
