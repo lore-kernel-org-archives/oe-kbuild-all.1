@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AF517C60
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 15:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4A17730;
+	Sun, 26 May 2024 16:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716738951; cv=none; b=KJW1XySVan7Loy8uyXYBhPSMPSvBOXC5FLCpb0REWr/Y0IhPwPs5sb9jVljfPGk4DtibBrEulT93JFZyZbWEeDOjmNJeW7D5EOa4zLwbAO76E3RQFsSQklmFqQKQIGDTlqr0oQL2eghRaSjktJI1D7HY4PxEzXU5SXqjGaQ1x0U=
+	t=1716739551; cv=none; b=PgqC6/0mUN4MDn0uVNrRANHF95lmnpgHkluRHtCI1QJEppss+oKcz/xPRbKLMBI/mc4Syjlwkwbp4a51CeaF+Eq43HFESwvyk8CGlHFAwdr2GMGT0Uz9YGNpSzNyUlFXbD6krKO8mzbJhl74PBS0uB09PLQPzFa70z4M+pH9wIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716738951; c=relaxed/simple;
-	bh=Bq3IEN5ZAsNA3ZcFMwlv9XsG7wM6Tx4mmWaBCFXHMEM=;
+	s=arc-20240116; t=1716739551; c=relaxed/simple;
+	bh=mif/vMqIDh6FminA4nV/Y4rw8Hb8hr1kW0sI6Y9V3hA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ox+lpENMFdrKbRF6Y4cd9t4U3oVqt28z2AxOsy3/cPRg4kOmkvXDJdim+Kx+F7+feel7NOLgTI2txDSeRlUoGpkdnDUgQ9ZV/fyQBiybiNxuwBqZRuIopMLq83tSBmSmbtoDHUezprs1GXuMSBYgf+ohd5TwDeAoPQQXAT0lRBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ElJa4iuj; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=TGKxNbrYVx+gFBB9HzZFzjwMixF+wa2FIsf5Qao4Ywcq7G7gIL5O8lsddcu+QquagJno7PGSX3wUY00EaSyLJSE/qIfPTvMSth8fPAAs9Jj2nyre682F9P8WsBZTj9BEgy4Uca2IGAgXunZxKOtrxqVXO6ljZm1hS1P2U1gsxsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moW1Maro; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ElJa4iuj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moW1Maro"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716738948; x=1748274948;
+  t=1716739549; x=1748275549;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Bq3IEN5ZAsNA3ZcFMwlv9XsG7wM6Tx4mmWaBCFXHMEM=;
-  b=ElJa4iujg2HfRnwZb8FsqEXUByZZfCd7V6/kIK0jbQcGAfITJWCAKvFs
-   Ayf1YVuqsRU2JhP3/OyqNSzcLKb4eCZod/hArYWbZVXi1cDRF9At7ORLP
-   xwyiL+SqCaoBvLqRQbtZ0MPgDRtwMFeuwE09+7GJ55IVSewBCH0uXnwTL
-   xW5ZFarP06cMCw4B/lq/K/jfR9D1gfvdtetljCzhxOozvZB5DxcS1muqF
-   2slJe0PQbBPiv7fhgBZXzKU4G/j05IJ53YrUTEghRa9l2KIlr6qXPHile
-   RTki6F95aPG6K9ibNRPFXKQ8A7GqyT5Q9Xvfh0BfnUkFmAcIxe9F2mBtH
-   A==;
-X-CSE-ConnectionGUID: fpOhh1luTw+jEdxEVaKIvA==
-X-CSE-MsgGUID: rW63C6wjSl6Jm35kMxAqug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="30568015"
+  bh=mif/vMqIDh6FminA4nV/Y4rw8Hb8hr1kW0sI6Y9V3hA=;
+  b=moW1MaroJAOmDrr69Xmxx1e4SOly+2z6LnDEAueCC6+dTucxmiHBb7Q4
+   0oaZFJb5I2R52yaHXqM0T1QSEl4g4yazhL2RWdxQo6KUYIGs+SFkq29zA
+   0w7SkFyn93z4wNw0SvHxuqK1q+0RSaLc6WJ2U7oepHzPgRx176M0UAX7B
+   Kjh74oqcYA1G8+YD3WZ0O2krwyZtqbQ77dMaYlYsO377HPGlq9rqkQdTC
+   XsPTpt3G3AfXRUkFIzWPQVi18RTvCz89FpQYDNtOiynh2VPn5HO6nNQsP
+   omHA/8SBxouqzyn9q8jQkpV0X1JJn/ocWYV0/9IujtXzJ9T+jsHdjkbLm
+   Q==;
+X-CSE-ConnectionGUID: PsWJmrUMQ/OZCqaUeTaqTA==
+X-CSE-MsgGUID: U2oxbgoxR6me8uDsA85v7w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="16845894"
 X-IronPort-AV: E=Sophos;i="6.08,190,1712646000"; 
-   d="scan'208";a="30568015"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 08:55:48 -0700
-X-CSE-ConnectionGUID: Xb5JmSwTSk+0qAZcEGWUfw==
-X-CSE-MsgGUID: fwo7z//uQ3qMtYnhEHQCbw==
+   d="scan'208";a="16845894"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 09:05:48 -0700
+X-CSE-ConnectionGUID: uRV4F06BSwiqDPCckvwC6Q==
+X-CSE-MsgGUID: TpvThkNNR1iiuEhk+w0vkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,190,1712646000"; 
-   d="scan'208";a="39369135"
+   d="scan'208";a="34413876"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 26 May 2024 08:55:46 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 May 2024 09:05:48 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBGDo-00089b-1N;
-	Sun, 26 May 2024 15:55:44 +0000
-Date: Sun, 26 May 2024 23:54:57 +0800
+	id 1sBGNU-0008A9-2L;
+	Sun, 26 May 2024 16:05:44 +0000
+Date: Mon, 27 May 2024 00:05:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH v3 03/16] mm: Provide mm_struct and address to
  huge_ptep_get()
-Message-ID: <202405262330.hcZ1FJiO-lkp@intel.com>
+Message-ID: <202405262352.N5XmCPBz-lkp@intel.com>
 References: <fbba60d762faad40ebb959bf9517c5c22301f69e.1716714720.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,252 +81,236 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
 patch link:    https://lore.kernel.org/r/fbba60d762faad40ebb959bf9517c5c22301f69e.1716714720.git.christophe.leroy%40csgroup.eu
 patch subject: [RFC PATCH v3 03/16] mm: Provide mm_struct and address to huge_ptep_get()
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240526/202405262330.hcZ1FJiO-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405262330.hcZ1FJiO-lkp@intel.com/reproduce)
+config: i386-randconfig-003-20240526 (https://download.01.org/0day-ci/archive/20240526/202405262352.N5XmCPBz-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405262352.N5XmCPBz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405262330.hcZ1FJiO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405262352.N5XmCPBz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/hugetlb.c: In function 'hugetlb_mfill_atomic_pte':
->> mm/hugetlb.c:6692:50: error: 'mm' undeclared (first use in this function); did you mean 'tm'?
+>> mm/hugetlb.c:6532:42: error: too many arguments to function call, expected 2, have 3
+    6532 |                         migration_entry_wait_huge(vma, haddr, ptep);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~             ^~~~
+   include/linux/swapops.h:361:20: note: 'migration_entry_wait_huge' declared here
+     361 | static inline void migration_entry_wait_huge(struct vm_area_struct *vma,
+         |                    ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     362 |                                         pte_t *pte) { }
+         |                                         ~~~~~~~~~~
+   mm/hugetlb.c:6692:36: error: use of undeclared identifier 'mm'
     6692 |                 if (!huge_pte_none(huge_ptep_get(mm, dst_addr, dst_pte))) {
-         |                                                  ^~
-         |                                                  tm
-   mm/hugetlb.c:6692:50: note: each undeclared identifier is reported only once for each function it appears in
+         |                                                  ^
+   mm/hugetlb.c:6829:42: error: use of undeclared identifier 'mm'
+    6829 |         if (!huge_pte_none_mostly(huge_ptep_get(mm, dst_addr, dst_pte)))
+         |                                                 ^
+   3 errors generated.
 
 
-vim +6692 mm/hugetlb.c
+vim +6532 mm/hugetlb.c
 
-  6661	
-  6662	/*
-  6663	 * Used by userfaultfd UFFDIO_* ioctls. Based on userfaultfd's mfill_atomic_pte
-  6664	 * with modifications for hugetlb pages.
-  6665	 */
-  6666	int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
-  6667				     struct vm_area_struct *dst_vma,
-  6668				     unsigned long dst_addr,
-  6669				     unsigned long src_addr,
-  6670				     uffd_flags_t flags,
-  6671				     struct folio **foliop)
-  6672	{
-  6673		struct mm_struct *dst_mm = dst_vma->vm_mm;
-  6674		bool is_continue = uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE);
-  6675		bool wp_enabled = (flags & MFILL_ATOMIC_WP);
-  6676		struct hstate *h = hstate_vma(dst_vma);
-  6677		struct address_space *mapping = dst_vma->vm_file->f_mapping;
-  6678		pgoff_t idx = vma_hugecache_offset(h, dst_vma, dst_addr);
-  6679		unsigned long size;
-  6680		int vm_shared = dst_vma->vm_flags & VM_SHARED;
-  6681		pte_t _dst_pte;
-  6682		spinlock_t *ptl;
-  6683		int ret = -ENOMEM;
-  6684		struct folio *folio;
-  6685		int writable;
-  6686		bool folio_in_pagecache = false;
-  6687	
-  6688		if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
-  6689			ptl = huge_pte_lock(h, dst_mm, dst_pte);
-  6690	
-  6691			/* Don't overwrite any existing PTEs (even markers) */
-> 6692			if (!huge_pte_none(huge_ptep_get(mm, dst_addr, dst_pte))) {
-  6693				spin_unlock(ptl);
-  6694				return -EEXIST;
-  6695			}
-  6696	
-  6697			_dst_pte = make_pte_marker(PTE_MARKER_POISONED);
-  6698			set_huge_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte,
-  6699					huge_page_size(h));
-  6700	
-  6701			/* No need to invalidate - it was non-present before */
-  6702			update_mmu_cache(dst_vma, dst_addr, dst_pte);
-  6703	
-  6704			spin_unlock(ptl);
-  6705			return 0;
-  6706		}
-  6707	
-  6708		if (is_continue) {
-  6709			ret = -EFAULT;
-  6710			folio = filemap_lock_hugetlb_folio(h, mapping, idx);
-  6711			if (IS_ERR(folio))
-  6712				goto out;
-  6713			folio_in_pagecache = true;
-  6714		} else if (!*foliop) {
-  6715			/* If a folio already exists, then it's UFFDIO_COPY for
-  6716			 * a non-missing case. Return -EEXIST.
-  6717			 */
-  6718			if (vm_shared &&
-  6719			    hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
-  6720				ret = -EEXIST;
-  6721				goto out;
-  6722			}
-  6723	
-  6724			folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
-  6725			if (IS_ERR(folio)) {
-  6726				ret = -ENOMEM;
-  6727				goto out;
-  6728			}
-  6729	
-  6730			ret = copy_folio_from_user(folio, (const void __user *) src_addr,
-  6731						   false);
-  6732	
-  6733			/* fallback to copy_from_user outside mmap_lock */
-  6734			if (unlikely(ret)) {
-  6735				ret = -ENOENT;
-  6736				/* Free the allocated folio which may have
-  6737				 * consumed a reservation.
-  6738				 */
-  6739				restore_reserve_on_error(h, dst_vma, dst_addr, folio);
-  6740				folio_put(folio);
-  6741	
-  6742				/* Allocate a temporary folio to hold the copied
-  6743				 * contents.
-  6744				 */
-  6745				folio = alloc_hugetlb_folio_vma(h, dst_vma, dst_addr);
-  6746				if (!folio) {
-  6747					ret = -ENOMEM;
-  6748					goto out;
-  6749				}
-  6750				*foliop = folio;
-  6751				/* Set the outparam foliop and return to the caller to
-  6752				 * copy the contents outside the lock. Don't free the
-  6753				 * folio.
-  6754				 */
-  6755				goto out;
-  6756			}
-  6757		} else {
-  6758			if (vm_shared &&
-  6759			    hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
-  6760				folio_put(*foliop);
-  6761				ret = -EEXIST;
-  6762				*foliop = NULL;
-  6763				goto out;
-  6764			}
-  6765	
-  6766			folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
-  6767			if (IS_ERR(folio)) {
-  6768				folio_put(*foliop);
-  6769				ret = -ENOMEM;
-  6770				*foliop = NULL;
-  6771				goto out;
-  6772			}
-  6773			ret = copy_user_large_folio(folio, *foliop, dst_addr, dst_vma);
-  6774			folio_put(*foliop);
-  6775			*foliop = NULL;
-  6776			if (ret) {
-  6777				folio_put(folio);
-  6778				goto out;
-  6779			}
-  6780		}
-  6781	
-  6782		/*
-  6783		 * If we just allocated a new page, we need a memory barrier to ensure
-  6784		 * that preceding stores to the page become visible before the
-  6785		 * set_pte_at() write. The memory barrier inside __folio_mark_uptodate
-  6786		 * is what we need.
-  6787		 *
-  6788		 * In the case where we have not allocated a new page (is_continue),
-  6789		 * the page must already be uptodate. UFFDIO_CONTINUE already includes
-  6790		 * an earlier smp_wmb() to ensure that prior stores will be visible
-  6791		 * before the set_pte_at() write.
-  6792		 */
-  6793		if (!is_continue)
-  6794			__folio_mark_uptodate(folio);
-  6795		else
-  6796			WARN_ON_ONCE(!folio_test_uptodate(folio));
-  6797	
-  6798		/* Add shared, newly allocated pages to the page cache. */
-  6799		if (vm_shared && !is_continue) {
-  6800			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  6801			ret = -EFAULT;
-  6802			if (idx >= size)
-  6803				goto out_release_nounlock;
-  6804	
-  6805			/*
-  6806			 * Serialization between remove_inode_hugepages() and
-  6807			 * hugetlb_add_to_page_cache() below happens through the
-  6808			 * hugetlb_fault_mutex_table that here must be hold by
-  6809			 * the caller.
-  6810			 */
-  6811			ret = hugetlb_add_to_page_cache(folio, mapping, idx);
-  6812			if (ret)
-  6813				goto out_release_nounlock;
-  6814			folio_in_pagecache = true;
-  6815		}
-  6816	
-  6817		ptl = huge_pte_lock(h, dst_mm, dst_pte);
-  6818	
-  6819		ret = -EIO;
-  6820		if (folio_test_hwpoison(folio))
-  6821			goto out_release_unlock;
-  6822	
-  6823		/*
-  6824		 * We allow to overwrite a pte marker: consider when both MISSING|WP
-  6825		 * registered, we firstly wr-protect a none pte which has no page cache
-  6826		 * page backing it, then access the page.
-  6827		 */
-  6828		ret = -EEXIST;
-  6829		if (!huge_pte_none_mostly(huge_ptep_get(mm, dst_addr, dst_pte)))
-  6830			goto out_release_unlock;
-  6831	
-  6832		if (folio_in_pagecache)
-  6833			hugetlb_add_file_rmap(folio);
-  6834		else
-  6835			hugetlb_add_new_anon_rmap(folio, dst_vma, dst_addr);
-  6836	
-  6837		/*
-  6838		 * For either: (1) CONTINUE on a non-shared VMA, or (2) UFFDIO_COPY
-  6839		 * with wp flag set, don't set pte write bit.
-  6840		 */
-  6841		if (wp_enabled || (is_continue && !vm_shared))
-  6842			writable = 0;
-  6843		else
-  6844			writable = dst_vma->vm_flags & VM_WRITE;
-  6845	
-  6846		_dst_pte = make_huge_pte(dst_vma, &folio->page, writable);
-  6847		/*
-  6848		 * Always mark UFFDIO_COPY page dirty; note that this may not be
-  6849		 * extremely important for hugetlbfs for now since swapping is not
-  6850		 * supported, but we should still be clear in that this page cannot be
-  6851		 * thrown away at will, even if write bit not set.
-  6852		 */
-  6853		_dst_pte = huge_pte_mkdirty(_dst_pte);
-  6854		_dst_pte = pte_mkyoung(_dst_pte);
-  6855	
-  6856		if (wp_enabled)
-  6857			_dst_pte = huge_pte_mkuffd_wp(_dst_pte);
-  6858	
-  6859		set_huge_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte, huge_page_size(h));
-  6860	
-  6861		hugetlb_count_add(pages_per_huge_page(h), dst_mm);
-  6862	
-  6863		/* No need to invalidate - it was non-present before */
-  6864		update_mmu_cache(dst_vma, dst_addr, dst_pte);
-  6865	
-  6866		spin_unlock(ptl);
-  6867		if (!is_continue)
-  6868			folio_set_hugetlb_migratable(folio);
-  6869		if (vm_shared || is_continue)
-  6870			folio_unlock(folio);
-  6871		ret = 0;
-  6872	out:
-  6873		return ret;
-  6874	out_release_unlock:
-  6875		spin_unlock(ptl);
-  6876		if (vm_shared || is_continue)
-  6877			folio_unlock(folio);
-  6878	out_release_nounlock:
-  6879		if (!folio_in_pagecache)
-  6880			restore_reserve_on_error(h, dst_vma, dst_addr, folio);
-  6881		folio_put(folio);
-  6882		goto out;
-  6883	}
-  6884	#endif /* CONFIG_USERFAULTFD */
-  6885	
+  6441	
+  6442	vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+  6443				unsigned long address, unsigned int flags)
+  6444	{
+  6445		pte_t *ptep, entry;
+  6446		spinlock_t *ptl;
+  6447		vm_fault_t ret;
+  6448		u32 hash;
+  6449		struct folio *folio = NULL;
+  6450		struct folio *pagecache_folio = NULL;
+  6451		struct hstate *h = hstate_vma(vma);
+  6452		struct address_space *mapping;
+  6453		int need_wait_lock = 0;
+  6454		unsigned long haddr = address & huge_page_mask(h);
+  6455		struct vm_fault vmf = {
+  6456			.vma = vma,
+  6457			.address = haddr,
+  6458			.real_address = address,
+  6459			.flags = flags,
+  6460			.pgoff = vma_hugecache_offset(h, vma, haddr),
+  6461			/* TODO: Track hugetlb faults using vm_fault */
+  6462	
+  6463			/*
+  6464			 * Some fields may not be initialized, be careful as it may
+  6465			 * be hard to debug if called functions make assumptions
+  6466			 */
+  6467		};
+  6468	
+  6469		/*
+  6470		 * Serialize hugepage allocation and instantiation, so that we don't
+  6471		 * get spurious allocation failures if two CPUs race to instantiate
+  6472		 * the same page in the page cache.
+  6473		 */
+  6474		mapping = vma->vm_file->f_mapping;
+  6475		hash = hugetlb_fault_mutex_hash(mapping, vmf.pgoff);
+  6476		mutex_lock(&hugetlb_fault_mutex_table[hash]);
+  6477	
+  6478		/*
+  6479		 * Acquire vma lock before calling huge_pte_alloc and hold
+  6480		 * until finished with ptep.  This prevents huge_pmd_unshare from
+  6481		 * being called elsewhere and making the ptep no longer valid.
+  6482		 */
+  6483		hugetlb_vma_lock_read(vma);
+  6484		ptep = huge_pte_alloc(mm, vma, haddr, huge_page_size(h));
+  6485		if (!ptep) {
+  6486			hugetlb_vma_unlock_read(vma);
+  6487			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+  6488			return VM_FAULT_OOM;
+  6489		}
+  6490	
+  6491		entry = huge_ptep_get(mm, address, ptep);
+  6492		if (huge_pte_none_mostly(entry)) {
+  6493			if (is_pte_marker(entry)) {
+  6494				pte_marker marker =
+  6495					pte_marker_get(pte_to_swp_entry(entry));
+  6496	
+  6497				if (marker & PTE_MARKER_POISONED) {
+  6498					ret = VM_FAULT_HWPOISON_LARGE;
+  6499					goto out_mutex;
+  6500				}
+  6501			}
+  6502	
+  6503			/*
+  6504			 * Other PTE markers should be handled the same way as none PTE.
+  6505			 *
+  6506			 * hugetlb_no_page will drop vma lock and hugetlb fault
+  6507			 * mutex internally, which make us return immediately.
+  6508			 */
+  6509			return hugetlb_no_page(mm, vma, mapping, vmf.pgoff, address,
+  6510						ptep, entry, flags, &vmf);
+  6511		}
+  6512	
+  6513		ret = 0;
+  6514	
+  6515		/*
+  6516		 * entry could be a migration/hwpoison entry at this point, so this
+  6517		 * check prevents the kernel from going below assuming that we have
+  6518		 * an active hugepage in pagecache. This goto expects the 2nd page
+  6519		 * fault, and is_hugetlb_entry_(migration|hwpoisoned) check will
+  6520		 * properly handle it.
+  6521		 */
+  6522		if (!pte_present(entry)) {
+  6523			if (unlikely(is_hugetlb_entry_migration(entry))) {
+  6524				/*
+  6525				 * Release the hugetlb fault lock now, but retain
+  6526				 * the vma lock, because it is needed to guard the
+  6527				 * huge_pte_lockptr() later in
+  6528				 * migration_entry_wait_huge(). The vma lock will
+  6529				 * be released there.
+  6530				 */
+  6531				mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+> 6532				migration_entry_wait_huge(vma, haddr, ptep);
+  6533				return 0;
+  6534			} else if (unlikely(is_hugetlb_entry_hwpoisoned(entry)))
+  6535				ret = VM_FAULT_HWPOISON_LARGE |
+  6536				    VM_FAULT_SET_HINDEX(hstate_index(h));
+  6537			goto out_mutex;
+  6538		}
+  6539	
+  6540		/*
+  6541		 * If we are going to COW/unshare the mapping later, we examine the
+  6542		 * pending reservations for this page now. This will ensure that any
+  6543		 * allocations necessary to record that reservation occur outside the
+  6544		 * spinlock. Also lookup the pagecache page now as it is used to
+  6545		 * determine if a reservation has been consumed.
+  6546		 */
+  6547		if ((flags & (FAULT_FLAG_WRITE|FAULT_FLAG_UNSHARE)) &&
+  6548		    !(vma->vm_flags & VM_MAYSHARE) && !huge_pte_write(entry)) {
+  6549			if (vma_needs_reservation(h, vma, haddr) < 0) {
+  6550				ret = VM_FAULT_OOM;
+  6551				goto out_mutex;
+  6552			}
+  6553			/* Just decrements count, does not deallocate */
+  6554			vma_end_reservation(h, vma, haddr);
+  6555	
+  6556			pagecache_folio = filemap_lock_hugetlb_folio(h, mapping,
+  6557								     vmf.pgoff);
+  6558			if (IS_ERR(pagecache_folio))
+  6559				pagecache_folio = NULL;
+  6560		}
+  6561	
+  6562		ptl = huge_pte_lock(h, mm, ptep);
+  6563	
+  6564		/* Check for a racing update before calling hugetlb_wp() */
+  6565		if (unlikely(!pte_same(entry, huge_ptep_get(mm, address, ptep))))
+  6566			goto out_ptl;
+  6567	
+  6568		/* Handle userfault-wp first, before trying to lock more pages */
+  6569		if (userfaultfd_wp(vma) && huge_pte_uffd_wp(huge_ptep_get(mm, address, ptep)) &&
+  6570		    (flags & FAULT_FLAG_WRITE) && !huge_pte_write(entry)) {
+  6571			if (!userfaultfd_wp_async(vma)) {
+  6572				spin_unlock(ptl);
+  6573				if (pagecache_folio) {
+  6574					folio_unlock(pagecache_folio);
+  6575					folio_put(pagecache_folio);
+  6576				}
+  6577				hugetlb_vma_unlock_read(vma);
+  6578				mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+  6579				return handle_userfault(&vmf, VM_UFFD_WP);
+  6580			}
+  6581	
+  6582			entry = huge_pte_clear_uffd_wp(entry);
+  6583			set_huge_pte_at(mm, haddr, ptep, entry,
+  6584					huge_page_size(hstate_vma(vma)));
+  6585			/* Fallthrough to CoW */
+  6586		}
+  6587	
+  6588		/*
+  6589		 * hugetlb_wp() requires page locks of pte_page(entry) and
+  6590		 * pagecache_folio, so here we need take the former one
+  6591		 * when folio != pagecache_folio or !pagecache_folio.
+  6592		 */
+  6593		folio = page_folio(pte_page(entry));
+  6594		if (folio != pagecache_folio)
+  6595			if (!folio_trylock(folio)) {
+  6596				need_wait_lock = 1;
+  6597				goto out_ptl;
+  6598			}
+  6599	
+  6600		folio_get(folio);
+  6601	
+  6602		if (flags & (FAULT_FLAG_WRITE|FAULT_FLAG_UNSHARE)) {
+  6603			if (!huge_pte_write(entry)) {
+  6604				ret = hugetlb_wp(mm, vma, address, ptep, flags,
+  6605						 pagecache_folio, ptl, &vmf);
+  6606				goto out_put_page;
+  6607			} else if (likely(flags & FAULT_FLAG_WRITE)) {
+  6608				entry = huge_pte_mkdirty(entry);
+  6609			}
+  6610		}
+  6611		entry = pte_mkyoung(entry);
+  6612		if (huge_ptep_set_access_flags(vma, haddr, ptep, entry,
+  6613							flags & FAULT_FLAG_WRITE))
+  6614			update_mmu_cache(vma, haddr, ptep);
+  6615	out_put_page:
+  6616		if (folio != pagecache_folio)
+  6617			folio_unlock(folio);
+  6618		folio_put(folio);
+  6619	out_ptl:
+  6620		spin_unlock(ptl);
+  6621	
+  6622		if (pagecache_folio) {
+  6623			folio_unlock(pagecache_folio);
+  6624			folio_put(pagecache_folio);
+  6625		}
+  6626	out_mutex:
+  6627		hugetlb_vma_unlock_read(vma);
+  6628		mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+  6629		/*
+  6630		 * Generally it's safe to hold refcount during waiting page lock. But
+  6631		 * here we just wait to defer the next page fault to avoid busy loop and
+  6632		 * the page is not used after unlocked before returning from the current
+  6633		 * page fault. So we are safe from accessing freed page, even if we wait
+  6634		 * here without taking refcount.
+  6635		 */
+  6636		if (need_wait_lock)
+  6637			folio_wait_locked(folio);
+  6638		return ret;
+  6639	}
+  6640	
 
 -- 
 0-DAY CI Kernel Test Service
