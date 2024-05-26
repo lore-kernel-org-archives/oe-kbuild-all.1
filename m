@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE7F12AAE6;
-	Sun, 26 May 2024 21:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFEE1DFD8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 May 2024 22:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716760075; cv=none; b=pNlCLg5LgpzGZHqpDkmAhYyKO+LzBrNswYswnA1EPF/fS8P/atR/Mz67eyzgNTWQ12r7BavH3v9s4xBFGRKtGEmtdifeFyD3JhN2yd8ovsI/mKFGLi8T7L/NjFX8uHZw7ZMOnUHI5qTEKuSKySo4h+Y67dLgWtryEfkyHSK/VGs=
+	t=1716763918; cv=none; b=BQZ4kW149m/san5HGR0cVDEQIcXmfJot/CVc7A5eWnhrdaR9AVFi3Urp0v2D9Ycu8e+LDE9kEx/cdNVSmgTBGOgNCMC3hpXYESw1EzlLfD3+qfgQrmrkorvfMSUdZKddILdnbK47Clhrw69xaSdNlnc7gGxFjYRHCAfvo0ZotzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716760075; c=relaxed/simple;
-	bh=Wo7KosZhQwFSNB62TPZn511Lp0+CXG/OzbrDd8xxMbA=;
+	s=arc-20240116; t=1716763918; c=relaxed/simple;
+	bh=UclcTLmc4F8GRkY9JdlonJd4S/LyrUxaLmDI4IZtvGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XZQlimgnDwqlGWpvA8S4z/19rk7Rq1wv+gjkO7mGNf15FNmH8C0YjGr9heMya//Vyk+lSM831p7qDVHUkbDmIpr/6HiwQuURwRS4QjreXdINhFGaKuuc6ZrQkgxLRjqS/0r7sV3epVBSKTWP8f2/wGBwtsdPXiGmKp5K1zn0PLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mOmBRc5K; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=BJky3tAkx7+ZL3KwkOlJjmk04ApFJeS634UgY5QicpXy9DpBc/XjvGX8qEJjQfvRJNHi578E+l61+nm1PVo9HRM9OHtW65wITZss6vYwBnUIz0ulCEoX+GLT1S4clon1QW620fjCNbct2a6DLZiDJzYf3x8r8RER+8BoBDZtfus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nr078pD3; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mOmBRc5K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nr078pD3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716760074; x=1748296074;
+  t=1716763916; x=1748299916;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wo7KosZhQwFSNB62TPZn511Lp0+CXG/OzbrDd8xxMbA=;
-  b=mOmBRc5KPPo+LOcCPy9xwgG+vhIgCqhaGzOb9txMhsAGuUflu2olqJ/O
-   DyaBfm+FnPBYPK14CLBNKJ+3JKDRIpHZZ+bad1iKd3idTPgJ++R2FSfmj
-   7wkoT003ioEHtgOKft4O39ollJpf+FBfc6d7O0liKzjS/pBlDyBiWB7SO
-   IiJW18FfLgEG3cY1oqco52VouIA+e+TBsw6JBDKZgT1y/szc/beGhfzob
-   MaNiClJn/ZR0k/TtH/ePpLHSsWBByyIkQ53gZ2h2a9hzKC3JYX7iuUctt
-   ALlzh/1JB5M0gS1G/Pp/FLMk9bpXQMuU//oGdQnFSCmeGov0mikG8eHW5
-   w==;
-X-CSE-ConnectionGUID: HvGoojiPSUOQi9icb+Ry0g==
-X-CSE-MsgGUID: C47oLA8xT5aCUwatBV+WHQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="13251622"
+  bh=UclcTLmc4F8GRkY9JdlonJd4S/LyrUxaLmDI4IZtvGU=;
+  b=Nr078pD3PxEdNJu1YjziDh8uN0YQQcH6P2eM2ALN5bleUaEAGZr2qcD4
+   MuaN9UxA/bEaZp9PFqx/7sTqRQhHL34OLG8F9gmgCbcQjRCX2yLlyWBiO
+   3dy4gPT2vIMyf2Mqrvhj1UbY7oewURs9aWyNpj7MnrYZmHEG0Bh5+SZBQ
+   XEF10AwrKRx6emWGRm7f36+Kdi+4WZn2Yq9uoj7ljjx82rG9NeBqOa57G
+   IKM26r9hDOXaVXcLblibIlP5voJ0Z2m2zXiWXpMEXGzuvmBzpi9QGicOT
+   SEXlxUA2pb2BSgHiAK4ETjylS6Fy0T9Q+E6h4JOYwHjVA4UeXcq+LpaxA
+   g==;
+X-CSE-ConnectionGUID: jwQ92RaWQlaJWISwPlOFug==
+X-CSE-MsgGUID: Oyw/StewQCmqUpnj5/maiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="16900049"
 X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="13251622"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 14:47:53 -0700
-X-CSE-ConnectionGUID: Vh5PVpElSo2pXzeXC0jRrw==
-X-CSE-MsgGUID: ufeJsivtR7qpEIp8648Qvg==
+   d="scan'208";a="16900049"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 15:51:56 -0700
+X-CSE-ConnectionGUID: 589wVklLRXqLjJHWTVnZvA==
+X-CSE-MsgGUID: 5PQHxvK1SX6F53a8sYlvEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="39408845"
+   d="scan'208";a="71972013"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 26 May 2024 14:47:51 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 May 2024 15:51:55 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBLiW-0008fr-0z;
-	Sun, 26 May 2024 21:47:48 +0000
-Date: Mon, 27 May 2024 05:46:51 +0800
+	id 1sBMi4-0008oZ-2I;
+	Sun, 26 May 2024 22:51:32 +0000
+Date: Mon, 27 May 2024 06:51:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: [pci:endpoint 8/12] ld.lld: error: undefined symbol:
- pci_epc_deinit_notify
-Message-ID: <202405270544.yKgcokbA-lkp@intel.com>
+To: kernel@openeuler.org, Hui Tang <tanghui20@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 29946/30000] kismet: WARNING: unmet direct
+ dependencies detected for TASK_PLACEMENT_BY_CPU_RANGE when selected by
+ BPF_SCHED
+Message-ID: <202405270631.OoFg4keN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,23 +63,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git endpoint
-head:   5c172f7afc887f2cd383a125cc7fd98d921fe10f
-commit: f94f2844f28c968364af8543414fbea9c8b3005d [8/12] PCI: endpoint: Introduce 'epc_deinit' event and notify the EPF drivers
-config: arm64-randconfig-002-20240526 (https://download.01.org/0day-ci/archive/20240527/202405270544.yKgcokbA-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240527/202405270544.yKgcokbA-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   f300accff5478c6324a1c31d0337bc28dda75ba9
+commit: f23e7844132b626800d06e42d09e2ffe241c51cc [29946/30000] sched: Introduce CONFIG_TASK_PLACEMENT_BY_CPU_RANGE
+config: arm64-kismet-CONFIG_TASK_PLACEMENT_BY_CPU_RANGE-CONFIG_BPF_SCHED-0-0 (https://download.01.org/0day-ci/archive/20240527/202405270631.OoFg4keN-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240527/202405270631.OoFg4keN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405270544.yKgcokbA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405270631.OoFg4keN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: pci_epc_deinit_notify
-   >>> referenced by pcie-tegra194.c
-   >>>               drivers/pci/controller/dwc/pcie-tegra194.o:(pex_ep_event_pex_rst_assert) in archive vmlinux.a
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for TASK_PLACEMENT_BY_CPU_RANGE when selected by BPF_SCHED
+   WARNING: unmet direct dependencies detected for TASK_PLACEMENT_BY_CPU_RANGE
+     Depends on [n]: CGROUPS [=n]
+     Selected by [y]:
+     - BPF_SCHED [=y] && BPF_EVENTS [=y] && BPF_SYSCALL [=y]
 
 -- 
 0-DAY CI Kernel Test Service
