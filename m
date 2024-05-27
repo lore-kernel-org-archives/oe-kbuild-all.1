@@ -1,84 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43E51078F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 06:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DB324B34
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 07:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716791752; cv=none; b=dzh4dc2NW9XrDFoLTkF6zfwCVmfdrmo9f2n7mQXbOLaiu9fCszYpJCNVUhjTMqqz9maa0RXMe0W87FJW06pO5XyKwckbPzeA/2wnbLdMk+z7DCRJEai1D2yGTCGIplIo/u2kZRUEECXthqoGLqYDnTuXhMO860axo17fmlDZ7xQ=
+	t=1716794451; cv=none; b=pQYdx6eO9fD9GgwP3pBV6tKU5YUQ23DrZgkm6FNWOA5k8fw/ZteXWXa5GoO7OoMGoiXI0lMWCymwT0F/QWaDHC3ojJdzjbd23gNX+GTRVCuWWMbPfG6ehoFNQjXT+U/tauhSrzCf00R5QwZzy4J/9+ZNvnvYRxuRuR0qHELU5yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716791752; c=relaxed/simple;
-	bh=0IGPEcpuNCgmpD89NY4lsMzsyLe8/reayBUbmnP4HWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=d4sj6UMwndjvuM7YbZiZIY0oMiOKbIE7+bW4LcZtCfVXWVXHyZ5DGCyYRvRYxTglOfBVDTOmnwqxtkLvIGDH3/WrDSltgfvicSBf4VHMkRLobvfAaZ/wIxPsGsIyedyeZyrhujEwFYN3DGYQEUcw2ll0is4xsONGaod5bwxHuh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPgPkgmP; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716794451; c=relaxed/simple;
+	bh=J0CF/Zxx2OfDURCNT5Vg/Q1tEIrJciZjXwO7iuS8cqg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j/ky8lEgAWF6lDB2Kn9vhIaZehLcPJlcF0IIm4YnsuYbVUK+nPXxfjrQ1W3gbKRjWmn+zXl/JuNABQmFYPTXznEkeBD9nQ6fUkFy/fLfTKtWm8ijoT4mdQ93tK1BrEicAxIy5S2zIj/QJEHTdzCF9Bg1kiaq54bIIAYbA4AjfPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=PkjdCO2+; arc=none smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPgPkgmP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716791751; x=1748327751;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=0IGPEcpuNCgmpD89NY4lsMzsyLe8/reayBUbmnP4HWM=;
-  b=gPgPkgmPof6nEW5jHHvSYV6vCrFg8HR8qkpvBv4XtjOWzVlswXb11Aai
-   lz9V2N2G6JRbk1L7ahimHF3oeFZeezuUH3EMb0uCjSGEwyWm+elW831pO
-   kCTWIKImwdduCiFIukPylYsxwfWKtchLj0C3k0XQS6cW3YLVsRq8qUN8j
-   LsL+kNqYjAfqh+mf5NQ+fwKCYn0M5lViWC1maqpAkhUaKBEIVnmB30pu8
-   bckyb2eOyVZdMnbP0Q2ELFsAPDqKAmbpc2o/s0/GoNj8tQojUFTeBj1gU
-   XOuN6yzjsy6y6pZBtmKe7eUXj4yCG4HU1RDfdbn94S/5FwD+MukT1kyb8
-   g==;
-X-CSE-ConnectionGUID: Z3kU8B/aTHiqW9uLFo9BxA==
-X-CSE-MsgGUID: RMJ8sP3gRJqQJO6wz4BJ5A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="12932105"
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="12932105"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 23:35:50 -0700
-X-CSE-ConnectionGUID: hRieDhjvTpmDdyL4Gk5GZw==
-X-CSE-MsgGUID: EQU+SIoqSPaQJk0pX8RWPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="39625108"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 26 May 2024 23:35:50 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sBTxJ-0009XJ-1d;
-	Mon, 27 May 2024 06:35:41 +0000
-Date: Mon, 27 May 2024 14:34:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chengen Du <chengen.du@canonical.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] af_packet: Handle outgoing VLAN packets without
- hardware offloading
-Message-ID: <ZlQphdQLcOnGhCIR@64dafc7c46f7>
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="PkjdCO2+"
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 805653F594
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 07:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1716794446;
+	bh=J0CF/Zxx2OfDURCNT5Vg/Q1tEIrJciZjXwO7iuS8cqg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=PkjdCO2++3k9B/QGzG7oPgvj2tJy2EZryRX8nL4lv/PqFocZU6j5lyGGBpX+bRlc1
+	 bcug8gilaodT0WXcWCcL+JDotB50OxzCoytvljqZ5bWgNflsjXuqopNLNoYfVPAjHi
+	 q3VRDWvKbYdzn6C1o49imkq/lfBGx/GbOVUdUcXELz35E1y1ckGCurV69mBCo4AVxe
+	 yhKSGhgEepx10r3LPF75b5l949mEMxV5kmjBybnq6umoGw+jD/JOlwNFwb97af85FF
+	 Y3CnXLBL1x+2BS8Yg5ilQjHlGOf/mAyF9/yNSRgDDrU+mFWrE4JURNHvtLOQKXkGeL
+	 byTwQDf2Dz5Rg==
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a62471564a0so174377066b.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 00:20:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716794446; x=1717399246;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J0CF/Zxx2OfDURCNT5Vg/Q1tEIrJciZjXwO7iuS8cqg=;
+        b=CpiOI+CrX8aeg8hVIYCKm82K4AnEg85AQI8OggAORvdWgFFskuk1SAqB93wnmaH/71
+         NUFnvVGhcmxoE6wjOLSSeLxftwdgnmE5csoTAJBck+iphlHVVgMoVvq3FPeI6RGLaUbf
+         hu7bSTp6u22PN3P5miT0usT7hPMQ2cAQDcDnVXA28GGlXahCb3IvN2e1K4qtuGoJ469v
+         rs9rMe888GCbnqRPMC1JNQiMccbxvOJNhGn+sUFY2Cxk4yhwropViMvMVSslrrsG6VjE
+         kS+ZuQqJv1K3SY1RQRPC+5ha/RkTERJmUmgTB7/R/LA+tfTVwnw/Kno9kgjaMzcMdqp/
+         YPIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQVsJTE6mfaEkzRmnMfjwDYKoAOpcH+NzYvGsjQyrrp0JqsI3m1oyF5LViOCYJPyIGDY8PlgaDWATCqaXA49XpL/d4crAoaYn3v743EQ==
+X-Gm-Message-State: AOJu0YzknWxrZs//ak6AGsFUYEGw1nF4L80IYIi1x+gKMBu2AFXrxJK2
+	btqAWUg9IV5604g9RhEMoD293Nj8InqfR5NGfSH30TFHtEjWWuJeBPuTJZ23kSQp38i594W6t3Y
+	+KypcrL+PvRaV3lgpMbSOs8+cj3S5FHLVYBSBM+mVW9NkWXj5EzrnBR6bl0k56dpBPpEGPgbT2r
+	VBbtiUKCsCbECuBW6Gzi+OaSDEZ3KGYYaN2l1UuBpKivtMVDTta3LRXA==
+X-Received: by 2002:a17:906:63ca:b0:a59:a9c5:e73b with SMTP id a640c23a62f3a-a62647ce012mr498321666b.46.1716794446012;
+        Mon, 27 May 2024 00:20:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHmw4VLWA0a24bjxblJSe5WRMYJ+9EroDGbosYsLw3G7eBxuW2EV0oOhmhXEwowPtjDctpJYo/2PbocToxCG2o=
+X-Received: by 2002:a17:906:63ca:b0:a59:a9c5:e73b with SMTP id
+ a640c23a62f3a-a62647ce012mr498320266b.46.1716794445611; Mon, 27 May 2024
+ 00:20:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240527063136.159616-1-chengen.du@canonical.com>
+References: <20240527063136.159616-1-chengen.du@canonical.com> <ZlQphdQLcOnGhCIR@64dafc7c46f7>
+In-Reply-To: <ZlQphdQLcOnGhCIR@64dafc7c46f7>
+From: Chengen Du <chengen.du@canonical.com>
+Date: Mon, 27 May 2024 15:20:34 +0800
+Message-ID: <CAPza5qcffDNUL+HXf0g2Kf2U9_nqsrbAaEwCf5gS7c5CH4c8dQ@mail.gmail.com>
+Subject: Re: [PATCH v2] af_packet: Handle outgoing VLAN packets without
+ hardware offloading
+To: kernel test robot <lkp@intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi All,
 
-Thanks for your patch.
+I apologize for the mistake in this patch's commit message; it should
+not have been sent to the stable tree directly.
+I will send another patch.
+Please kindly disregard this one.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+Best regards,
+Chengen Du
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] af_packet: Handle outgoing VLAN packets without hardware offloading
-Link: https://lore.kernel.org/stable/20240527063136.159616-1-chengen.du%40canonical.com
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+On Mon, May 27, 2024 at 2:35=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> Thanks for your patch.
+>
+> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+>
+> The check is based on https://www.kernel.org/doc/html/latest/process/stab=
+le-kernel-rules.html#option-1
+>
+> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to ha=
+ve the patch automatically included in the stable tree.
+> Subject: [PATCH v2] af_packet: Handle outgoing VLAN packets without hardw=
+are offloading
+> Link: https://lore.kernel.org/stable/20240527063136.159616-1-chengen.du%4=
+0canonical.com
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+>
+>
