@@ -1,113 +1,329 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DB324B34
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 07:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D2D200A9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 07:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716794451; cv=none; b=pQYdx6eO9fD9GgwP3pBV6tKU5YUQ23DrZgkm6FNWOA5k8fw/ZteXWXa5GoO7OoMGoiXI0lMWCymwT0F/QWaDHC3ojJdzjbd23gNX+GTRVCuWWMbPfG6ehoFNQjXT+U/tauhSrzCf00R5QwZzy4J/9+ZNvnvYRxuRuR0qHELU5yI=
+	t=1716794781; cv=none; b=qo0TsS6Lha0GjsXBJTd9XX6Fq5aXvBB/whi7u+eB7bm4PRRzH/yaUR07ZWHbSe1+CCyYezTeDilfBFftMkfBMDntjOswCAcLWDzuWJn8GSElgLmk4P8LACBPfgbcne2CfN7dgwOuKvxYzicvlngjL932KMke1qSrzsJuvlMf8q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716794451; c=relaxed/simple;
-	bh=J0CF/Zxx2OfDURCNT5Vg/Q1tEIrJciZjXwO7iuS8cqg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j/ky8lEgAWF6lDB2Kn9vhIaZehLcPJlcF0IIm4YnsuYbVUK+nPXxfjrQ1W3gbKRjWmn+zXl/JuNABQmFYPTXznEkeBD9nQ6fUkFy/fLfTKtWm8ijoT4mdQ93tK1BrEicAxIy5S2zIj/QJEHTdzCF9Bg1kiaq54bIIAYbA4AjfPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=PkjdCO2+; arc=none smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1716794781; c=relaxed/simple;
+	bh=8916VmssQGHKQshF2zn6ew7yqQmlXvWJ3MglMuteg7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=i+B+EyiZb1VFVvcPsXO745b+m4lyN0T2Z6UInF9n2nJ+VttQxJiU+PryyJ252mkyUQWxwgZPbWqhJN2kB+vQMZ9hjAcmyHNCdbpE+WfnGFggO0xVnniQHjZmj9Pjok4L1Fv5yC76/cQX5uVaWCq+wio4ji69Sn5vEz4d0+vdcrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RRErgCGx; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="PkjdCO2+"
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 805653F594
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 07:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1716794446;
-	bh=J0CF/Zxx2OfDURCNT5Vg/Q1tEIrJciZjXwO7iuS8cqg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=PkjdCO2++3k9B/QGzG7oPgvj2tJy2EZryRX8nL4lv/PqFocZU6j5lyGGBpX+bRlc1
-	 bcug8gilaodT0WXcWCcL+JDotB50OxzCoytvljqZ5bWgNflsjXuqopNLNoYfVPAjHi
-	 q3VRDWvKbYdzn6C1o49imkq/lfBGx/GbOVUdUcXELz35E1y1ckGCurV69mBCo4AVxe
-	 yhKSGhgEepx10r3LPF75b5l949mEMxV5kmjBybnq6umoGw+jD/JOlwNFwb97af85FF
-	 Y3CnXLBL1x+2BS8Yg5ilQjHlGOf/mAyF9/yNSRgDDrU+mFWrE4JURNHvtLOQKXkGeL
-	 byTwQDf2Dz5Rg==
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a62471564a0so174377066b.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 00:20:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RRErgCGx"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5295f012748so3230069e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 00:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716794776; x=1717399576; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jmrsWZg+Yotg0WP36pE1NqEk0vnknAfbxNJ31heypG8=;
+        b=RRErgCGxT1YxEzurX/kRDOtN5YKkN5IoqOyW1a0u431c5sIHcvfx/3cKW9MRUP+F6o
+         1Wc8Bw9/eYR8TWhliCrua2XvRI1YENJ25oVMB3/ny29FNnS4univarzEYhG+okcTQNKQ
+         jixl9fDGOBd38CHHMZOL42bcQDRVnhqTmQt2ySbYcRDcWf4UrW35sAUxXlVxWCfohHUM
+         Jd900GRUPmOvN+YrBrYy1NjD4mLtfGbUVXvaNZk0l+s29e0QqDDBJOd2cPTxrOuntQ0Z
+         ztPJEIcbqv7EspaxtyJNRYcj0sw747ujAYtGgBNWNAue9uWmWPGJ03aWry4vOeRycJmQ
+         6ZQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716794446; x=1717399246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J0CF/Zxx2OfDURCNT5Vg/Q1tEIrJciZjXwO7iuS8cqg=;
-        b=CpiOI+CrX8aeg8hVIYCKm82K4AnEg85AQI8OggAORvdWgFFskuk1SAqB93wnmaH/71
-         NUFnvVGhcmxoE6wjOLSSeLxftwdgnmE5csoTAJBck+iphlHVVgMoVvq3FPeI6RGLaUbf
-         hu7bSTp6u22PN3P5miT0usT7hPMQ2cAQDcDnVXA28GGlXahCb3IvN2e1K4qtuGoJ469v
-         rs9rMe888GCbnqRPMC1JNQiMccbxvOJNhGn+sUFY2Cxk4yhwropViMvMVSslrrsG6VjE
-         kS+ZuQqJv1K3SY1RQRPC+5ha/RkTERJmUmgTB7/R/LA+tfTVwnw/Kno9kgjaMzcMdqp/
-         YPIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQVsJTE6mfaEkzRmnMfjwDYKoAOpcH+NzYvGsjQyrrp0JqsI3m1oyF5LViOCYJPyIGDY8PlgaDWATCqaXA49XpL/d4crAoaYn3v743EQ==
-X-Gm-Message-State: AOJu0YzknWxrZs//ak6AGsFUYEGw1nF4L80IYIi1x+gKMBu2AFXrxJK2
-	btqAWUg9IV5604g9RhEMoD293Nj8InqfR5NGfSH30TFHtEjWWuJeBPuTJZ23kSQp38i594W6t3Y
-	+KypcrL+PvRaV3lgpMbSOs8+cj3S5FHLVYBSBM+mVW9NkWXj5EzrnBR6bl0k56dpBPpEGPgbT2r
-	VBbtiUKCsCbECuBW6Gzi+OaSDEZ3KGYYaN2l1UuBpKivtMVDTta3LRXA==
-X-Received: by 2002:a17:906:63ca:b0:a59:a9c5:e73b with SMTP id a640c23a62f3a-a62647ce012mr498321666b.46.1716794446012;
-        Mon, 27 May 2024 00:20:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHmw4VLWA0a24bjxblJSe5WRMYJ+9EroDGbosYsLw3G7eBxuW2EV0oOhmhXEwowPtjDctpJYo/2PbocToxCG2o=
-X-Received: by 2002:a17:906:63ca:b0:a59:a9c5:e73b with SMTP id
- a640c23a62f3a-a62647ce012mr498320266b.46.1716794445611; Mon, 27 May 2024
- 00:20:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716794776; x=1717399576;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jmrsWZg+Yotg0WP36pE1NqEk0vnknAfbxNJ31heypG8=;
+        b=HS2X6vMfdD1qQzZyhL3XH+mTsLW0asZWZHiotcmZ1TOAA/YcG10ALV8B1Ny377BuZ1
+         rf2S7RrAL772zLzvCDSLHu/RfMR70TfMagPEYUI27wonLd+PAhD77iZGoRgpGRBHJ215
+         4iRsqyjURAYKv9dAhUQ6PQgUT4AG71ks/Ub51LH1vErBJtcrUCvYXzuJdLVMlV2yJn8X
+         wtE+rycTijusz1wi3I5+oW9OuSItbKOrl7KyDxG74xopnOI3C/k5/QmJFBid0N8bw0pT
+         1HbODVwmbIyen2G2ige7Yr+ty6CapPbnvQsxKqj6i/6LZP519y8chhN+EgZP1NKSUhEm
+         JNoA==
+X-Forwarded-Encrypted: i=1; AJvYcCW20D5nMyc7V1L3YNNjlkDrav9pan2UZNCVpjg7k6DldOvhHhFvRocA0pMVpr5Y89b3jF4E4uYL38UlV+Tcu8VAgEOFhXzWXmd+fMf9bA==
+X-Gm-Message-State: AOJu0YwfwzO3kRrnJfSF/YowuBfqvpcYO3jAMQzDYi8WZU7scJnWzyYY
+	9pBeXzVB+zvr2Bp2YdGuydbRvtFU3UBUWDUreE+y4WArcKYzm0waIRqA0p9y4Vo=
+X-Google-Smtp-Source: AGHT+IHeSS7LcNl5KXYJiWDLtwb5jtbsR++iKOhh1ZE4rB2LgNw3qajBZuOsFlNEFQ+uYaEQ3uruFg==
+X-Received: by 2002:a19:6407:0:b0:51d:a78e:9036 with SMTP id 2adb3069b0e04-52966f8f8acmr4807141e87.69.1716794776182;
+        Mon, 27 May 2024 00:26:16 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c81734csm457664966b.45.2024.05.27.00.26.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 May 2024 00:26:15 -0700 (PDT)
+Date: Mon, 27 May 2024 10:26:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	bpf@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@kernel.org, memxor@gmail.com,
+	eddyz87@gmail.com, kernel-team@fb.com
+Subject: Re: [PATCH v3 bpf-next 1/2] bpf: Relax precision marking in open
+ coded iters and may_goto loop.
+Message-ID: <91453e3f-66b0-4927-a756-bd18f9e6bf05@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240527063136.159616-1-chengen.du@canonical.com> <ZlQphdQLcOnGhCIR@64dafc7c46f7>
-In-Reply-To: <ZlQphdQLcOnGhCIR@64dafc7c46f7>
-From: Chengen Du <chengen.du@canonical.com>
-Date: Mon, 27 May 2024 15:20:34 +0800
-Message-ID: <CAPza5qcffDNUL+HXf0g2Kf2U9_nqsrbAaEwCf5gS7c5CH4c8dQ@mail.gmail.com>
-Subject: Re: [PATCH v2] af_packet: Handle outgoing VLAN packets without
- hardware offloading
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240525031156.13545-1-alexei.starovoitov@gmail.com>
 
-Hi All,
+Hi Alexei,
 
-I apologize for the mistake in this patch's commit message; it should
-not have been sent to the stable tree directly.
-I will send another patch.
-Please kindly disregard this one.
+kernel test robot noticed the following build warnings:
 
-Best regards,
-Chengen Du
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/selftests-bpf-Remove-i-zero-workaround-and-add-new-tests/20240525-111247
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240525031156.13545-1-alexei.starovoitov%40gmail.com
+patch subject: [PATCH v3 bpf-next 1/2] bpf: Relax precision marking in open coded iters and may_goto loop.
+config: nios2-randconfig-r071-20240526 (https://download.01.org/0day-ci/archive/20240526/202405260726.0H6QiGNy-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
 
-On Mon, May 27, 2024 at 2:35=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi,
->
-> Thanks for your patch.
->
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
->
-> The check is based on https://www.kernel.org/doc/html/latest/process/stab=
-le-kernel-rules.html#option-1
->
-> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to ha=
-ve the patch automatically included in the stable tree.
-> Subject: [PATCH v2] af_packet: Handle outgoing VLAN packets without hardw=
-are offloading
-> Link: https://lore.kernel.org/stable/20240527063136.159616-1-chengen.du%4=
-0canonical.com
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
->
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405260726.0H6QiGNy-lkp@intel.com/
+
+New smatch warnings:
+kernel/bpf/verifier.c:15315 check_cond_jmp_op() error: uninitialized symbol 'other_dst_reg'.
+
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
+
+vim +/other_dst_reg +15315 kernel/bpf/verifier.c
+
+58e2af8b3a6b58 Jakub Kicinski     2016-09-21  15108  static int check_cond_jmp_op(struct bpf_verifier_env *env,
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15109  			     struct bpf_insn *insn, int *insn_idx)
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15110  {
+f4d7e40a5b7157 Alexei Starovoitov 2017-12-14  15111  	struct bpf_verifier_state *this_branch = env->cur_state;
+f4d7e40a5b7157 Alexei Starovoitov 2017-12-14  15112  	struct bpf_verifier_state *other_branch;
+f4d7e40a5b7157 Alexei Starovoitov 2017-12-14  15113  	struct bpf_reg_state *regs = this_branch->frame[this_branch->curframe]->regs;
+fb8d251ee2a6bf Alexei Starovoitov 2019-06-15  15114  	struct bpf_reg_state *dst_reg, *other_branch_regs, *src_reg = NULL;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15115  	struct bpf_reg_state *eq_branch_regs, *other_dst_reg, *other_src_reg = NULL;
+c31534267c180f Andrii Nakryiko    2023-11-01  15116  	struct bpf_reg_state fake_reg = {};
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15117  	u8 opcode = BPF_OP(insn->code);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15118  	bool is_jmp32, ignore_pred;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15119  	bool has_src_reg = false;
+fb8d251ee2a6bf Alexei Starovoitov 2019-06-15  15120  	int pred = -1;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15121  	int err;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15122  
+092ed0968bb648 Jiong Wang         2019-01-26  15123  	/* Only conditional jumps are expected to reach here. */
+011832b97b311b Alexei Starovoitov 2024-03-05  15124  	if (opcode == BPF_JA || opcode > BPF_JCOND) {
+092ed0968bb648 Jiong Wang         2019-01-26  15125  		verbose(env, "invalid BPF_JMP/JMP32 opcode %x\n", opcode);
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15126  		return -EINVAL;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15127  	}
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15128  
+011832b97b311b Alexei Starovoitov 2024-03-05  15129  	if (opcode == BPF_JCOND) {
+011832b97b311b Alexei Starovoitov 2024-03-05  15130  		struct bpf_verifier_state *cur_st = env->cur_state, *queued_st, *prev_st;
+011832b97b311b Alexei Starovoitov 2024-03-05  15131  		int idx = *insn_idx;
+011832b97b311b Alexei Starovoitov 2024-03-05  15132  
+011832b97b311b Alexei Starovoitov 2024-03-05  15133  		if (insn->code != (BPF_JMP | BPF_JCOND) ||
+011832b97b311b Alexei Starovoitov 2024-03-05  15134  		    insn->src_reg != BPF_MAY_GOTO ||
+011832b97b311b Alexei Starovoitov 2024-03-05  15135  		    insn->dst_reg || insn->imm || insn->off == 0) {
+011832b97b311b Alexei Starovoitov 2024-03-05  15136  			verbose(env, "invalid may_goto off %d imm %d\n",
+011832b97b311b Alexei Starovoitov 2024-03-05  15137  				insn->off, insn->imm);
+011832b97b311b Alexei Starovoitov 2024-03-05  15138  			return -EINVAL;
+011832b97b311b Alexei Starovoitov 2024-03-05  15139  		}
+011832b97b311b Alexei Starovoitov 2024-03-05  15140  		prev_st = find_prev_entry(env, cur_st->parent, idx);
+011832b97b311b Alexei Starovoitov 2024-03-05  15141  
+011832b97b311b Alexei Starovoitov 2024-03-05  15142  		/* branch out 'fallthrough' insn as a new state to explore */
+011832b97b311b Alexei Starovoitov 2024-03-05  15143  		queued_st = push_stack(env, idx + 1, idx, false);
+011832b97b311b Alexei Starovoitov 2024-03-05  15144  		if (!queued_st)
+011832b97b311b Alexei Starovoitov 2024-03-05  15145  			return -ENOMEM;
+011832b97b311b Alexei Starovoitov 2024-03-05  15146  
+011832b97b311b Alexei Starovoitov 2024-03-05  15147  		queued_st->may_goto_depth++;
+011832b97b311b Alexei Starovoitov 2024-03-05  15148  		if (prev_st)
+011832b97b311b Alexei Starovoitov 2024-03-05  15149  			widen_imprecise_scalars(env, prev_st, queued_st);
+011832b97b311b Alexei Starovoitov 2024-03-05  15150  		*insn_idx += insn->off;
+011832b97b311b Alexei Starovoitov 2024-03-05  15151  		return 0;
+011832b97b311b Alexei Starovoitov 2024-03-05  15152  	}
+011832b97b311b Alexei Starovoitov 2024-03-05  15153  
+d75e30dddf7344 Yafang Shao        2023-08-23  15154  	/* check src2 operand */
+d75e30dddf7344 Yafang Shao        2023-08-23  15155  	err = check_reg_arg(env, insn->dst_reg, SRC_OP);
+d75e30dddf7344 Yafang Shao        2023-08-23  15156  	if (err)
+d75e30dddf7344 Yafang Shao        2023-08-23  15157  		return err;
+d75e30dddf7344 Yafang Shao        2023-08-23  15158  
+d75e30dddf7344 Yafang Shao        2023-08-23  15159  	dst_reg = &regs[insn->dst_reg];
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15160  	if (BPF_SRC(insn->code) == BPF_X) {
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15161  		if (insn->imm != 0) {
+092ed0968bb648 Jiong Wang         2019-01-26  15162  			verbose(env, "BPF_JMP/JMP32 uses reserved fields\n");
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15163  			return -EINVAL;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15164  		}
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15165  
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15166  		/* check src1 operand */
+dc503a8ad98474 Edward Cree        2017-08-15  15167  		err = check_reg_arg(env, insn->src_reg, SRC_OP);
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15168  		if (err)
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15169  			return err;
+1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15170  
+689049426b9d3b Alexei Starovoitov 2024-05-24  15171  		has_src_reg = true;
+d75e30dddf7344 Yafang Shao        2023-08-23  15172  		src_reg = &regs[insn->src_reg];
+d75e30dddf7344 Yafang Shao        2023-08-23  15173  		if (!(reg_is_pkt_pointer_any(dst_reg) && reg_is_pkt_pointer_any(src_reg)) &&
+d75e30dddf7344 Yafang Shao        2023-08-23  15174  		    is_pointer_value(env, insn->src_reg)) {
+61bd5218eef349 Jakub Kicinski     2017-10-09  15175  			verbose(env, "R%d pointer comparison prohibited\n",
+1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15176  				insn->src_reg);
+1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15177  			return -EACCES;
+1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15178  		}
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15179  	} else {
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15180  		if (insn->src_reg != BPF_REG_0) {
+092ed0968bb648 Jiong Wang         2019-01-26  15181  			verbose(env, "BPF_JMP/JMP32 uses reserved fields\n");
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15182  			return -EINVAL;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15183  		}
+c31534267c180f Andrii Nakryiko    2023-11-01  15184  		src_reg = &fake_reg;
+c31534267c180f Andrii Nakryiko    2023-11-01  15185  		src_reg->type = SCALAR_VALUE;
+c31534267c180f Andrii Nakryiko    2023-11-01  15186  		__mark_reg_known(src_reg, insn->imm);
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15187  	}
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15188  
+092ed0968bb648 Jiong Wang         2019-01-26  15189  	is_jmp32 = BPF_CLASS(insn->code) == BPF_JMP32;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15190  	if (dst_reg->type != SCALAR_VALUE || src_reg->type != SCALAR_VALUE)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15191  		ignore_pred = false;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15192  	/*
+689049426b9d3b Alexei Starovoitov 2024-05-24  15193  	 * Compilers often optimize loop exit condition to equality, so
+689049426b9d3b Alexei Starovoitov 2024-05-24  15194  	 *      for (i = 0; i < 100; i++) arr[i] = 1
+689049426b9d3b Alexei Starovoitov 2024-05-24  15195  	 * becomes
+689049426b9d3b Alexei Starovoitov 2024-05-24  15196  	 *      for (i = 0; i != 100; i++) arr[1] = 1
+689049426b9d3b Alexei Starovoitov 2024-05-24  15197  	 * Hence treat != and == conditions specially in the verifier.
+689049426b9d3b Alexei Starovoitov 2024-05-24  15198  	 * Widen only not-predicted branch and keep predict branch as is. Example:
+689049426b9d3b Alexei Starovoitov 2024-05-24  15199  	 *    r1 = 0
+689049426b9d3b Alexei Starovoitov 2024-05-24  15200  	 *    goto L1
+689049426b9d3b Alexei Starovoitov 2024-05-24  15201  	 * L2:
+689049426b9d3b Alexei Starovoitov 2024-05-24  15202  	 *    arr[r1] = 1
+689049426b9d3b Alexei Starovoitov 2024-05-24  15203  	 *    r1++
+689049426b9d3b Alexei Starovoitov 2024-05-24  15204  	 * L1:
+689049426b9d3b Alexei Starovoitov 2024-05-24  15205  	 *    if r1 != 100 goto L2
+689049426b9d3b Alexei Starovoitov 2024-05-24  15206  	 *    fallthrough: r1=100 after widening
+689049426b9d3b Alexei Starovoitov 2024-05-24  15207  	 *    other_branch: r1 stays as-is (0, 1, 2, ..)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15208  	 *
+689049426b9d3b Alexei Starovoitov 2024-05-24  15209  	 *  Also recognize the case where both LHS and RHS are constant and
+689049426b9d3b Alexei Starovoitov 2024-05-24  15210  	 *  equal to each other. In this case don't widen at all and take the
+689049426b9d3b Alexei Starovoitov 2024-05-24  15211  	 *  predicted path. This key heuristic allows the verifier detect loop
+689049426b9d3b Alexei Starovoitov 2024-05-24  15212  	 *  end condition and 'for (i = 0; i != 100; i++)' is validated just
+689049426b9d3b Alexei Starovoitov 2024-05-24  15213  	 *  like bounded loop.
+689049426b9d3b Alexei Starovoitov 2024-05-24  15214  	 */
+689049426b9d3b Alexei Starovoitov 2024-05-24  15215  	else if (is_reg_const(dst_reg, is_jmp32) && is_reg_const(src_reg, is_jmp32) &&
+689049426b9d3b Alexei Starovoitov 2024-05-24  15216  	    reg_const_value(dst_reg, is_jmp32) == reg_const_value(src_reg, is_jmp32))
+689049426b9d3b Alexei Starovoitov 2024-05-24  15217  		ignore_pred = false;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15218  	else
+689049426b9d3b Alexei Starovoitov 2024-05-24  15219  		ignore_pred = (get_loop_entry(this_branch) ||
+689049426b9d3b Alexei Starovoitov 2024-05-24  15220  			       this_branch->may_goto_depth) &&
+689049426b9d3b Alexei Starovoitov 2024-05-24  15221  				/* Gate widen_reg() logic */
+689049426b9d3b Alexei Starovoitov 2024-05-24  15222  				env->bpf_capable;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15223  
+c31534267c180f Andrii Nakryiko    2023-11-01  15224  	pred = is_branch_taken(dst_reg, src_reg, opcode, is_jmp32);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15225  	if (pred >= 0 && !ignore_pred) {
+cac616db39c207 John Fastabend     2020-05-21  15226  		/* If we get here with a dst_reg pointer type it is because
+cac616db39c207 John Fastabend     2020-05-21  15227  		 * above is_branch_taken() special cased the 0 comparison.
+cac616db39c207 John Fastabend     2020-05-21  15228  		 */
+cac616db39c207 John Fastabend     2020-05-21  15229  		if (!__is_pointer_value(false, dst_reg))
+b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15230  			err = mark_chain_precision(env, insn->dst_reg);
+6d94e741a8ff81 Alexei Starovoitov 2020-11-10  15231  		if (BPF_SRC(insn->code) == BPF_X && !err &&
+6d94e741a8ff81 Alexei Starovoitov 2020-11-10  15232  		    !__is_pointer_value(false, src_reg))
+b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15233  			err = mark_chain_precision(env, insn->src_reg);
+b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15234  		if (err)
+b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15235  			return err;
+b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15236  	}
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15237  
+689049426b9d3b Alexei Starovoitov 2024-05-24  15238  	if (pred < 0 || ignore_pred) {
+689049426b9d3b Alexei Starovoitov 2024-05-24  15239  		other_branch = push_stack(env, *insn_idx + insn->off + 1, *insn_idx,
+689049426b9d3b Alexei Starovoitov 2024-05-24  15240  					  false);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15241  		if (!other_branch)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15242  			return -EFAULT;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15243  		other_branch_regs = other_branch->frame[other_branch->curframe]->regs;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15244  		other_dst_reg = &other_branch_regs[insn->dst_reg];
+689049426b9d3b Alexei Starovoitov 2024-05-24  15245  		if (has_src_reg)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15246  			other_src_reg = &other_branch_regs[insn->src_reg];
+689049426b9d3b Alexei Starovoitov 2024-05-24  15247  	}
+
+other_dst_reg not set on else path.
+
+689049426b9d3b Alexei Starovoitov 2024-05-24  15248  
+4f7b3e82589e0d Alexei Starovoitov 2018-12-03  15249  	if (pred == 1) {
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15250  		/* Only follow the goto, ignore fall-through. If needed, push
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15251  		 * the fall-through branch for simulation under speculative
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15252  		 * execution.
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15253  		 */
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15254  		if (!env->bypass_spec_v1 &&
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15255  		    !sanitize_speculative_path(env, insn, *insn_idx + 1,
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15256  					       *insn_idx))
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15257  			return -EFAULT;
+1a8a315f008a58 Andrii Nakryiko    2023-10-11  15258  		if (env->log.level & BPF_LOG_LEVEL)
+1a8a315f008a58 Andrii Nakryiko    2023-10-11  15259  			print_insn_state(env, this_branch->frame[this_branch->curframe]);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15260  		if (ignore_pred) {
+689049426b9d3b Alexei Starovoitov 2024-05-24  15261  			/* dst and src regs are scalars. Widen them */
+689049426b9d3b Alexei Starovoitov 2024-05-24  15262  			widen_reg(dst_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15263  			if (has_src_reg)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15264  				widen_reg(src_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15265  			/*
+689049426b9d3b Alexei Starovoitov 2024-05-24  15266  			 * Widen other branch only if not comparing for equlity.
+689049426b9d3b Alexei Starovoitov 2024-05-24  15267  			 * Example:
+689049426b9d3b Alexei Starovoitov 2024-05-24  15268  			 *   r1 = 1
+689049426b9d3b Alexei Starovoitov 2024-05-24  15269  			 *   if (r1 < 100)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15270  			 * will produce
+689049426b9d3b Alexei Starovoitov 2024-05-24  15271  			 *   [0, 99] and [100, UMAX] after widening and reg_set_min_max().
+689049426b9d3b Alexei Starovoitov 2024-05-24  15272  			 *
+689049426b9d3b Alexei Starovoitov 2024-05-24  15273  			 *   r1 = 1
+689049426b9d3b Alexei Starovoitov 2024-05-24  15274  			 *   if (r1 == 100)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15275  			 * will produce
+689049426b9d3b Alexei Starovoitov 2024-05-24  15276  			 *    [1] and [100] after widening in other_branch and reg_set_min_max().
+689049426b9d3b Alexei Starovoitov 2024-05-24  15277  			 */
+689049426b9d3b Alexei Starovoitov 2024-05-24  15278  			if (opcode != BPF_JEQ && opcode != BPF_JNE) {
+689049426b9d3b Alexei Starovoitov 2024-05-24  15279  				widen_reg(other_dst_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15280  				if (has_src_reg)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15281  					widen_reg(other_src_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15282  			}
+689049426b9d3b Alexei Starovoitov 2024-05-24  15283  		} else {
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15284  			*insn_idx += insn->off;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15285  			return 0;
+689049426b9d3b Alexei Starovoitov 2024-05-24  15286  		}
+4f7b3e82589e0d Alexei Starovoitov 2018-12-03  15287  	} else if (pred == 0) {
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15288  		/* Only follow the fall-through branch, since that's where the
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15289  		 * program will go. If needed, push the goto branch for
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15290  		 * simulation under speculative execution.
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15291  		 */
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15292  		if (!env->bypass_spec_v1 &&
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15293  		    !sanitize_speculative_path(env, insn,
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15294  					       *insn_idx + insn->off + 1,
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15295  					       *insn_idx))
+9183671af6dbf6 Daniel Borkmann    2021-05-28  15296  			return -EFAULT;
+1a8a315f008a58 Andrii Nakryiko    2023-10-11  15297  		if (env->log.level & BPF_LOG_LEVEL)
+1a8a315f008a58 Andrii Nakryiko    2023-10-11  15298  			print_insn_state(env, this_branch->frame[this_branch->curframe]);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15299  		if (ignore_pred) {
+689049426b9d3b Alexei Starovoitov 2024-05-24  15300  			if (opcode != BPF_JEQ && opcode != BPF_JNE) {
+689049426b9d3b Alexei Starovoitov 2024-05-24  15301  				widen_reg(dst_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15302  				if (has_src_reg)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15303  					widen_reg(src_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15304  			}
+689049426b9d3b Alexei Starovoitov 2024-05-24  15305  			widen_reg(other_dst_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15306  			if (has_src_reg)
+689049426b9d3b Alexei Starovoitov 2024-05-24  15307  				widen_reg(other_src_reg);
+689049426b9d3b Alexei Starovoitov 2024-05-24  15308  		} else {
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15309  			return 0;
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15310  		}
+689049426b9d3b Alexei Starovoitov 2024-05-24  15311  	}
+17a5267067f3c3 Alexei Starovoitov 2014-09-26  15312  
+484611357c19f9 Josef Bacik        2016-09-28  15313  	if (BPF_SRC(insn->code) == BPF_X) {
+5f99f312bd3bed Andrii Nakryiko    2023-11-11  15314  		err = reg_set_min_max(env,
+689049426b9d3b Alexei Starovoitov 2024-05-24 @15315  				      other_dst_reg, other_src_reg,
+                                                                                      ^^^^^^^^^^^^^
+
+4621202adc5bc0 Andrii Nakryiko    2023-11-01  15316  				      dst_reg, src_reg, opcode, is_jmp32);
+4621202adc5bc0 Andrii Nakryiko    2023-11-01  15317  	} else /* BPF_SRC(insn->code) == BPF_K */ {
+5f99f312bd3bed Andrii Nakryiko    2023-11-11  15318  		err = reg_set_min_max(env,
+689049426b9d3b Alexei Starovoitov 2024-05-24  15319  				      other_dst_reg,
+                                                                                      ^^^^^^^^^^^^^
+Passed to reg_set_min_max() without being initialized.
+
+4621202adc5bc0 Andrii Nakryiko    2023-11-01  15320  				      src_reg /* fake one */,
+4621202adc5bc0 Andrii Nakryiko    2023-11-01  15321  				      dst_reg, src_reg /* same fake one */,
+3f50f132d8400e John Fastabend     2020-03-30  15322  				      opcode, is_jmp32);
+484611357c19f9 Josef Bacik        2016-09-28  15323  	}
+5f99f312bd3bed Andrii Nakryiko    2023-11-11  15324  	if (err)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
