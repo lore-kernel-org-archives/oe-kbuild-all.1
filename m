@@ -1,181 +1,106 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C95647F69
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 07:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668933A260
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 08:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716796104; cv=none; b=LCWtxRJXSTdARG618DDmxVGDiXvsZABPWOS3Al6Nw5Hc3t3c96/UVA4D5jr8HAgGDJ/8tP/HnnR41k85djwLN8u+kisKVXoWk1n4iMsDF1g/ykiIEv/kbJNc04dEbjOoaCWiv0xVpCuvddExwv4TxcHYp0DrL2X3mLqj1HHTfDA=
+	t=1716797664; cv=none; b=IZ0qWp0vkMh7wRaUlk/Iaffwz+mzKMc7LAPGYAeVT4fRnmk5vtYf3L29EpwoNWVaAuaKx7CmT5iNlzksdousWyBfhfBL/tfwivHNQ9UjTpj26uhELNrqdSTQjVYld43AnLcDStq7ttTOZ63Fz/pgIJLMzw/kMtxlAuHaQOpk6Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716796104; c=relaxed/simple;
-	bh=snHEB08XY5JQn621PObDnGVEpGYE4z2PihmqwwfM3ZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gHYMMo8JOOfRshZh6q2Y9J7kaD5Lg45y+biKXcevdA5eRVNVpDHCHHEH5NVrAHoxSmhMq0y81ns+z6Gqwq+eKIPFk1pySVxSZh1kwWnfeQ18MoxhPG3ViyaBsgj/QNJfyDPhu7LaD0OwgUdEBeBOkD8irUMpepLO4J8fNFtDNAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wfGPN5Pj; arc=none smtp.client-ip=209.85.167.47
+	s=arc-20240116; t=1716797664; c=relaxed/simple;
+	bh=nwYaraCxggBDKnVnYzLQQW0XR3XO/+s4UMrvkMG2ZYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YB9vERkcud0xwkCs7tyD/3cga2+TNA70D+JuiIpFt2+SHhQBQ8yyf3RB3Wh42UOBmq9Eh6U8qWGpvOoz4TWN2IIAHZC2SapfUis+nyxH3SXh/GE/NdXJDIior6RJHiNqZAascbF+TDNXhb8rcFncJeAxwl3LUWsQEqSABoszTEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qsdRHj7I; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfGPN5Pj"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5241b49c0daso8975947e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 00:48:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qsdRHj7I"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a6267639e86so331855866b.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 01:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716796100; x=1717400900; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G0F8xDz21HTi5SrFsLB+iyLzGOKVclLkyve6qrrpHP8=;
-        b=wfGPN5Pj++AaujkKZ8wgQBoEy3VNpU89FjdJIqLLRCabSSPgcDOx5odTLp4AzTBui/
-         TwfAfX7CftTqsxYtMVC432ZgWrU6DI8fNJxkJfLW8LgDVxyJSpAGsNKJG7JFIoh0wJl8
-         6lEbGOAV5IKQVHbLxZmlrp1Ma+HTeHg3YMjvIu4XUmShC3Gb4SYp3eaRCtC+IUnCRiBU
-         wTbj2eWQ8Egojh6j/4qHmctPO3GGk/Xv6y2MKvkSP+ld/njxWB6scwANZW74x7hY8OGl
-         u+uX1r38HlX9AtDeQf7gJdgWyqYPfzOgnREmRsNfx+Fk2wDGhCgkJ/ZvRPYfRK5uEkoJ
-         JKOg==
+        d=linaro.org; s=google; t=1716797661; x=1717402461; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2gOfFJLDZFM1NLZoeu2fRwYilxYpWgEWWcHQQR/WPKs=;
+        b=qsdRHj7IG7Fb5yufxOipTMCMjGvPzK9jXUXn1ADHEuNRQPDoYXkr4/YyWB3EMaQSFi
+         adlWXpJsbQlPzWTUrpu914RSJAFQF2rlWOt0VptmKERQaosWjdu3ghSx/80N1lZ57OpB
+         IvAxrryGF8B8SJEtUVB45UYs/3OlLmIwg8wFAACsNPgsW7DYIdLmM2YZoUxA3AP5q1tl
+         vzSqfH73m67qr/G3Jf0cmBktQt4i/8aZIFtyHWwIdX0hd2D7kghS/Oc0/SsxI5HPFr8D
+         4P+Y1/nPXbbCsfwtQkv9N9kQ13qH+VXhjiMRoB3BekXjwG+nhFfUmnlJW1z3ErPkzimT
+         GLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716796100; x=1717400900;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1716797661; x=1717402461;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G0F8xDz21HTi5SrFsLB+iyLzGOKVclLkyve6qrrpHP8=;
-        b=JGLMN5xDxxt8jMLwBGwXvYdGxnI5nxPN8xhLwn18dev65YkO2GBoBdxH84v5HSyJED
-         Cfd3CrnSZe4rtW2+48zgmDcM37w/rx4XcIdUO2TvCP72P8l/9zjV6OXkBLt24hQwdnZK
-         i/LtggwjO6ywAlN/cjYH7ZwO4zzb0GXfzOK7g1VqTimtjXo1KO0D8xuNQDrxOYDvbRT7
-         /430pGJbr4TRNy11711TESQBSI7bY+krw6A4C9YHgeS+MaWHEnkuLpcnYcGnSu2kCau+
-         lw8htjzX1eTbJvyGUI9r7A2TzKHuN5MZwjcsZoqQqBbuzLkNxQqOk/7z+T/wBhRGfZ6Q
-         iUFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVuGdVksWOEOerpRZ8PKEf0bFQJ9JR+Qy1aaJHke8kaIWFs6g4B+Y5ponxf1yrKe3G6friStJM3SorR8oCTQKp7cdyeMv+kQKKcC5EBTA==
-X-Gm-Message-State: AOJu0YwgGKFTpKXy+gTJmlSIgqr2qBcDRt5Nq1w6n5K79oKNdFQI7N4T
-	UtrkQiIBEsu9IbimJ4hdKLnIU0XEk1Z0fLWRS6WPCgmTwCymaf9lmmpmXZ8XBu4=
-X-Google-Smtp-Source: AGHT+IH4t/IBOf/Ew7gwWEo6+jgoCpj8r+bvyE+lZiUzS0bhtYDCCBlqMIU+yWaaueZRRxr5Vu1LEA==
-X-Received: by 2002:a05:6512:10cc:b0:523:7f19:cb44 with SMTP id 2adb3069b0e04-52965198b94mr7303495e87.29.1716796100209;
-        Mon, 27 May 2024 00:48:20 -0700 (PDT)
+        bh=2gOfFJLDZFM1NLZoeu2fRwYilxYpWgEWWcHQQR/WPKs=;
+        b=FmpXR0Ma2l46m0ZmJmaHri+QvXT8UcejLy7N8u/a16Tg4fHu5TDruYgw8CWiHl3AAr
+         h6jropanLykjaDX2/hA4uNlGLCQc2Y/kX524sXxDK9Knue4ZBGdbAn23aL+6Ma4bbmj6
+         MpGWYQwEo1t9bjwpThrpYt7hawLUOVhtsFeprC1w0m0gdeTBddsnbrVFXRFfqWn6Xzi0
+         uko3+/aMBBCLnXdltzEausXI6Y2z1hmAia/IzxRwO5K5aaFmtLhV81466k2MA6L4tu47
+         mjzD6AJpZJ3njK9V20FR8ReUXCKp4gKiwdwN320jxSnkGuqo38IQdHiQi7Z4KGJ+hlZi
+         SpaA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0ETL9+8lG/dWZlFgAEKuME8t4n22jRDTuUqvJBppiERcXDJ+jHilB2CL3fqcumfMY0DcGeWKDmYCmedUq+Iv2I7ckjf6pDjlLwjQbMw==
+X-Gm-Message-State: AOJu0YyFo0sFw6m0JjacheHmYYLykR228rVY63eT7tcsXgNewJTaNBMX
+	kS8x96inMLmLbmYF1/xfQoKpfx6sZsWF1YBqZIqroKVmsjfsTp0YlsmZYxPEvGE=
+X-Google-Smtp-Source: AGHT+IHYnL+hf/PaVRs5w2cBRVnHz4XxYlxeikqwWQlJyhXrjPG34g7ILif/Bx2s4uuxLU41DeUKtQ==
+X-Received: by 2002:a17:906:7f15:b0:a62:e9c:f621 with SMTP id a640c23a62f3a-a6265148c46mr601649666b.58.1716797660675;
+        Mon, 27 May 2024 01:14:20 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda48e6sm458737266b.203.2024.05.27.00.48.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8dcbdsm472629966b.175.2024.05.27.01.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 00:48:19 -0700 (PDT)
-Date: Mon, 27 May 2024 10:48:15 +0300
+        Mon, 27 May 2024 01:14:20 -0700 (PDT)
+Date: Mon, 27 May 2024 11:14:16 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Gstir <david@sigma-star.at>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Subject: drivers/crypto/mxs-dcp.c:292 mxs_dcp_run_aes() error: uninitialized
- symbol 'key_phys'.
-Message-ID: <129493f0-211f-408f-8435-2e6fead3f07b@moroto.mountain>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
+	jic23@kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	lars@metafoo.de, swboyd@chromium.org, nuno.a@analog.com,
+	u.kleine-koenig@pengutronix.de, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yasin.lee.x@gmail.com
+Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor
+ driver
+Message-ID: <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
+References: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
+ <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
+ <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c13320499ba0efd93174ef6462ae8a7a2933f6e7
-commit: 3d16af0b4cfac4b2c3b238e2ec37b38c2f316978 crypto: mxs-dcp: Add support for hardware-bound keys
-config: arm-randconfig-r071-20240524 (https://download.01.org/0day-ci/archive/20240527/202405270146.Y9tPoil8-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
+On Sat, May 25, 2024 at 05:00:59PM +0300, Andy Shevchenko wrote:
+> On Thu, May 23, 2024 at 3:42 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
+> 
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_data_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1112       char buf[BUF_SIZE] = {0};
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1113       char *p = buf;
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1114       int ii = 0;
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1115
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1116       hx9031as_sample();
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1117       for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10 @1118               p += snprintf(p, PAGE_SIZE, "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
+> >                                                                          ^^^^^^^^^
+> 
+> 
+> > Also use scnprintf() instead of snprintf() unless you need to check the
+> > results.
+> 
+> This is incorrect advice. You should recommend sysfs_emit() /
+> sysfs_emit_at() in this kind of case.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405270146.Y9tPoil8-lkp@intel.com/
+No, this is not sysfs code.  It's debugfs.  The API is completely
+different.
 
-smatch warnings:
-drivers/crypto/mxs-dcp.c:292 mxs_dcp_run_aes() error: uninitialized symbol 'key_phys'.
-
-vim +/key_phys +292 drivers/crypto/mxs-dcp.c
-
-2021abaa00da64a Marek Vasut    2014-01-14  225  static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
-9acb3247e0e1d94 Ard Biesheuvel 2019-11-09  226  			   struct skcipher_request *req, int init)
-15b59e7c3733f90 Marek Vasut    2013-12-10  227  {
-df6313d707e575a Sean Anderson  2021-07-01  228  	dma_addr_t key_phys, src_phys, dst_phys;
-15b59e7c3733f90 Marek Vasut    2013-12-10  229  	struct dcp *sdcp = global_sdcp;
-15b59e7c3733f90 Marek Vasut    2013-12-10  230  	struct dcp_dma_desc *desc = &sdcp->coh->desc[actx->chan];
-9acb3247e0e1d94 Ard Biesheuvel 2019-11-09  231  	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
-3d16af0b4cfac4b David Gstir    2024-04-03  232  	bool key_referenced = actx->key_referenced;
-15b59e7c3733f90 Marek Vasut    2013-12-10  233  	int ret;
-15b59e7c3733f90 Marek Vasut    2013-12-10  234  
-3d16af0b4cfac4b David Gstir    2024-04-03  235  	if (!key_referenced) {
-df6313d707e575a Sean Anderson  2021-07-01  236  		key_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_key,
-df6313d707e575a Sean Anderson  2021-07-01  237  					  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  238  		ret = dma_mapping_error(sdcp->dev, key_phys);
-df6313d707e575a Sean Anderson  2021-07-01  239  		if (ret)
-df6313d707e575a Sean Anderson  2021-07-01  240  			return ret;
-3d16af0b4cfac4b David Gstir    2024-04-03  241  	}
-
-key_phys not initialized on else path.
-
-df6313d707e575a Sean Anderson  2021-07-01  242  
-df6313d707e575a Sean Anderson  2021-07-01  243  	src_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_in_buf,
-15b59e7c3733f90 Marek Vasut    2013-12-10  244  				  DCP_BUF_SZ, DMA_TO_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  245  	ret = dma_mapping_error(sdcp->dev, src_phys);
-df6313d707e575a Sean Anderson  2021-07-01  246  	if (ret)
-df6313d707e575a Sean Anderson  2021-07-01  247  		goto err_src;
-df6313d707e575a Sean Anderson  2021-07-01  248  
-df6313d707e575a Sean Anderson  2021-07-01  249  	dst_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_out_buf,
-15b59e7c3733f90 Marek Vasut    2013-12-10  250  				  DCP_BUF_SZ, DMA_FROM_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  251  	ret = dma_mapping_error(sdcp->dev, dst_phys);
-df6313d707e575a Sean Anderson  2021-07-01  252  	if (ret)
-df6313d707e575a Sean Anderson  2021-07-01  253  		goto err_dst;
-15b59e7c3733f90 Marek Vasut    2013-12-10  254  
-fadd7a6e616b89c Radu Solea     2018-10-02  255  	if (actx->fill % AES_BLOCK_SIZE) {
-fadd7a6e616b89c Radu Solea     2018-10-02  256  		dev_err(sdcp->dev, "Invalid block size!\n");
-fadd7a6e616b89c Radu Solea     2018-10-02  257  		ret = -EINVAL;
-fadd7a6e616b89c Radu Solea     2018-10-02  258  		goto aes_done_run;
-fadd7a6e616b89c Radu Solea     2018-10-02  259  	}
-fadd7a6e616b89c Radu Solea     2018-10-02  260  
-15b59e7c3733f90 Marek Vasut    2013-12-10  261  	/* Fill in the DMA descriptor. */
-15b59e7c3733f90 Marek Vasut    2013-12-10  262  	desc->control0 = MXS_DCP_CONTROL0_DECR_SEMAPHORE |
-15b59e7c3733f90 Marek Vasut    2013-12-10  263  		    MXS_DCP_CONTROL0_INTERRUPT |
-15b59e7c3733f90 Marek Vasut    2013-12-10  264  		    MXS_DCP_CONTROL0_ENABLE_CIPHER;
-15b59e7c3733f90 Marek Vasut    2013-12-10  265  
-3d16af0b4cfac4b David Gstir    2024-04-03  266  	if (key_referenced)
-3d16af0b4cfac4b David Gstir    2024-04-03  267  		/* Set OTP key bit to select the key via KEY_SELECT. */
-3d16af0b4cfac4b David Gstir    2024-04-03  268  		desc->control0 |= MXS_DCP_CONTROL0_OTP_KEY;
-3d16af0b4cfac4b David Gstir    2024-04-03  269  	else
-15b59e7c3733f90 Marek Vasut    2013-12-10  270  		/* Payload contains the key. */
-15b59e7c3733f90 Marek Vasut    2013-12-10  271  		desc->control0 |= MXS_DCP_CONTROL0_PAYLOAD_KEY;
-15b59e7c3733f90 Marek Vasut    2013-12-10  272  
-2021abaa00da64a Marek Vasut    2014-01-14  273  	if (rctx->enc)
-15b59e7c3733f90 Marek Vasut    2013-12-10  274  		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_ENCRYPT;
-15b59e7c3733f90 Marek Vasut    2013-12-10  275  	if (init)
-15b59e7c3733f90 Marek Vasut    2013-12-10  276  		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_INIT;
-15b59e7c3733f90 Marek Vasut    2013-12-10  277  
-15b59e7c3733f90 Marek Vasut    2013-12-10  278  	desc->control1 = MXS_DCP_CONTROL1_CIPHER_SELECT_AES128;
-15b59e7c3733f90 Marek Vasut    2013-12-10  279  
-2021abaa00da64a Marek Vasut    2014-01-14  280  	if (rctx->ecb)
-15b59e7c3733f90 Marek Vasut    2013-12-10  281  		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_ECB;
-15b59e7c3733f90 Marek Vasut    2013-12-10  282  	else
-15b59e7c3733f90 Marek Vasut    2013-12-10  283  		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_CBC;
-15b59e7c3733f90 Marek Vasut    2013-12-10  284  
-3d16af0b4cfac4b David Gstir    2024-04-03  285  	if (key_referenced)
-3d16af0b4cfac4b David Gstir    2024-04-03  286  		desc->control1 |= sdcp->coh->aes_key[0] << MXS_DCP_CONTROL1_KEY_SELECT_SHIFT;
-3d16af0b4cfac4b David Gstir    2024-04-03  287  
-15b59e7c3733f90 Marek Vasut    2013-12-10  288  	desc->next_cmd_addr = 0;
-15b59e7c3733f90 Marek Vasut    2013-12-10  289  	desc->source = src_phys;
-15b59e7c3733f90 Marek Vasut    2013-12-10  290  	desc->destination = dst_phys;
-15b59e7c3733f90 Marek Vasut    2013-12-10  291  	desc->size = actx->fill;
-15b59e7c3733f90 Marek Vasut    2013-12-10 @292  	desc->payload = key_phys;
-                                                                        ^^^^^^^^
-Uninitialized.
-
-15b59e7c3733f90 Marek Vasut    2013-12-10  293  	desc->status = 0;
-15b59e7c3733f90 Marek Vasut    2013-12-10  294  
-15b59e7c3733f90 Marek Vasut    2013-12-10  295  	ret = mxs_dcp_start_dma(actx);
-15b59e7c3733f90 Marek Vasut    2013-12-10  296  
-fadd7a6e616b89c Radu Solea     2018-10-02  297  aes_done_run:
-df6313d707e575a Sean Anderson  2021-07-01  298  	dma_unmap_single(sdcp->dev, dst_phys, DCP_BUF_SZ, DMA_FROM_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  299  err_dst:
-df6313d707e575a Sean Anderson  2021-07-01  300  	dma_unmap_single(sdcp->dev, src_phys, DCP_BUF_SZ, DMA_TO_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  301  err_src:
-3d16af0b4cfac4b David Gstir    2024-04-03  302  	if (!key_referenced)
-15b59e7c3733f90 Marek Vasut    2013-12-10  303  		dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
-15b59e7c3733f90 Marek Vasut    2013-12-10  304  				 DMA_TO_DEVICE);
-15b59e7c3733f90 Marek Vasut    2013-12-10  305  	return ret;
-15b59e7c3733f90 Marek Vasut    2013-12-10  306  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+regards,
+dan carpenter
