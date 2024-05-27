@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D021DDC9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 18:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4554817E8FC;
+	Mon, 27 May 2024 19:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716833416; cv=none; b=W+U2IgjIYpJtgmppuCMe9iPsCOxCfbhOxB3DCBNPKIB2nJZwCUQpUo7SysyTa1mV7hSc9H/T7u6Q76deQJnDu+YFqBMAvCjuhtJ5CHWJOCf9laFXxqoCYj0ca/VaJGzZ/YlWRknO8AxqlGvDL0GEoeUcmv54POdyVk22G3MaqRk=
+	t=1716838972; cv=none; b=RiyGNxjle+s8qIvyEyUpxBI7FSyYviWmbrEmla2WCQiPTcMtFy3hUTlmhRkieOh0yTjlOI8Jn4i8c4FKz35lVxe6SUDvZKnHa6dsm5t48pTeueRbqAnfbwK36vHsC0yWJsh24imPSKJhoSadSG6EzA3+EdlMwE/yZGCb/R3MgJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716833416; c=relaxed/simple;
-	bh=txFnjIOk8NIMk3iXNU/OmAPnJUVbLNNWfUipGuM7lGk=;
+	s=arc-20240116; t=1716838972; c=relaxed/simple;
+	bh=X3GDXPn1m/8V1r4YKNbqtXRVUrJs+Sh/0PSSVCqYAKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p1nApOVpOYqan+COuAQnyjnvg/q9aHXPePQVMuoj2sMHiWY6ajM7jKVcVsD8O0BzU6VaI7a0XmBIJ+J5vgdDdswknaj9q2I3mMDb9yRnketK0hOLVhg7D53PplGvhOhM0O8aH5dtCUTM1ENitIcs0qvdaaS01+pB7wCsZAVunG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+tEkcQ7; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=N8cLGy82KBdqikDsTcOkWUGSJNW/tU8HHBxqI2Oy+nfkHOBbo3o3Nb8DwTkXNZNJfkWHRTl8UK4bEbwqTPHOdGcK+DQj6vjG+nazxFgUaLMnwKEMkn/MihjCS1rSEd/LCYxBMselElhIVTgsAu/Iqyu3ZsGV08ByNBTyJK74zkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+Y7M/ay; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+tEkcQ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+Y7M/ay"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716833414; x=1748369414;
+  t=1716838970; x=1748374970;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=txFnjIOk8NIMk3iXNU/OmAPnJUVbLNNWfUipGuM7lGk=;
-  b=f+tEkcQ7E8fghnFE54waB6t9W9wGm/jrFV8s8NvG+SCnvP9e1DRt96Dj
-   5K1jRgGxmUVRhLQOS9NFrV1o3XYmjPgTxAaabO809NCYmwHusn/3dyblX
-   Bqw30u6WeBuyXN8Mlgby5ozVY/lMzw01YrBnk93q601oEus4pMmLfgikb
-   kjcZLaF207aIm6lWZIu4IubDudvGwDwoI3jaB3SIfnP3ko+aTNtjysBIT
-   ofkgnTIsLc/4mbfL4qcbZ4rf36frg8K3TjSkEjXQJJEm+F2OeEsC3bLWf
-   8DUjZblb2fPkA27Vx1CMBgGFG8ToJON0TNDgzm37XbbqmuANb4gTVHkii
-   Q==;
-X-CSE-ConnectionGUID: 7B3gf/SVSCeWG9zorXDudw==
-X-CSE-MsgGUID: I3xBWcGuSxS0qkNkz7trGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30687788"
+  bh=X3GDXPn1m/8V1r4YKNbqtXRVUrJs+Sh/0PSSVCqYAKM=;
+  b=Y+Y7M/ayanhrcFG5USiy7/FuMpungyZMp48IzENwrxIEqBKAzA0XBPb9
+   swHhHKORAnxO7TVqQbSg0sN+hpfJgePmS+A0p8Ik2MDuTHMG4C08KAJln
+   4h+lGmKhSpbXbV5V01CajILwo5uObfT588cBSE1ZgvReIutV5YZiGMSEx
+   FpXpUihghtzgc2JuqsKoPXN+fFNaQpNuucXGwK2g7ZNlP7qpEUUV7b9lv
+   HROB5qAumZ0Fh8BwoucHKGqyVsSMHQ6/yepOthygr/srbE95KwwIwsiGX
+   sFGhoSBhty9Eau6uZsG0kITvPbatrAuD/ZB6G3kwiTaglsFqn5cvistTs
+   w==;
+X-CSE-ConnectionGUID: IEUohWSWSd2sjUbJNa2Vtw==
+X-CSE-MsgGUID: zjQppDYdTiShkNO+2OOiOQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="38550843"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="30687788"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 11:10:13 -0700
-X-CSE-ConnectionGUID: OcKcnugsTp6BmsQWX+zvVQ==
-X-CSE-MsgGUID: QxNJG0z+Qh6A4BnJGzryAg==
+   d="scan'208";a="38550843"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:42:48 -0700
+X-CSE-ConnectionGUID: GOGv4u6ERxSCDI1HBpEXLQ==
+X-CSE-MsgGUID: ue9PvyLCQrS627xIdd6RTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="34805485"
+   d="scan'208";a="39679291"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 May 2024 11:10:12 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 May 2024 12:42:47 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBenE-000Az9-13;
-	Mon, 27 May 2024 18:10:10 +0000
-Date: Tue, 28 May 2024 02:08:06 +0800
+	id 1sBgF1-000B24-2O;
+	Mon, 27 May 2024 19:42:43 +0000
+Date: Tue, 28 May 2024 03:41:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_acpi_b2_v6_610_rc1_full /54]
- drivers/tty/serial/8250/8250_platform.c:202:37: error: implicit declaration
- of function 'devm_ioremap'
-Message-ID: <202405280220.f0zHBllE-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_acpi_b2_v6_610_rc1_full 52/54]
+ drivers/tty/serial/8250/8250_platform.c:202:23: error: call to undeclared
+ function 'devm_ioremap'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202405280316.IjfpQEYc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,27 +66,26 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v6_610_rc1_full
-head:   13e1f10998ff5fe93a40fde35d93d4fb3a3d1c16
-commit: b46a331e996d877983f97d4636e86d9c608bb69b [/54] serial: 8250_platform: Enable generic 16550A platform devices
-config: i386-buildonly-randconfig-001-20240527 (https://download.01.org/0day-ci/archive/20240528/202405280220.f0zHBllE-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280220.f0zHBllE-lkp@intel.com/reproduce)
+head:   0bdb7caa1b23db090f1bdef3c214c52136374124
+commit: b46a331e996d877983f97d4636e86d9c608bb69b [52/54] serial: 8250_platform: Enable generic 16550A platform devices
+config: i386-buildonly-randconfig-003-20240528 (https://download.01.org/0day-ci/archive/20240528/202405280316.IjfpQEYc-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280316.IjfpQEYc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405280220.f0zHBllE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405280316.IjfpQEYc-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_platform.c: In function 'serial8250_platform_probe':
->> drivers/tty/serial/8250/8250_platform.c:202:37: error: implicit declaration of function 'devm_ioremap' [-Werror=implicit-function-declaration]
+>> drivers/tty/serial/8250/8250_platform.c:202:23: error: call to undeclared function 'devm_ioremap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      202 |                 uart.port.membase = devm_ioremap(dev, uart.port.mapbase, uart.port.mapsize);
-         |                                     ^~~~~~~~~~~~
->> drivers/tty/serial/8250/8250_platform.c:202:35: warning: assignment to 'unsigned char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+         |                                     ^
+>> drivers/tty/serial/8250/8250_platform.c:202:21: error: incompatible integer to pointer conversion assigning to 'unsigned char *' from 'int' [-Wint-conversion]
      202 |                 uart.port.membase = devm_ioremap(dev, uart.port.mapbase, uart.port.mapsize);
-         |                                   ^
-   cc1: some warnings being treated as errors
+         |                                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
 vim +/devm_ioremap +202 drivers/tty/serial/8250/8250_platform.c
