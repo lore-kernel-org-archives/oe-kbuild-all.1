@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3166615E5A8;
-	Mon, 27 May 2024 20:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF182481C4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 21:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716840179; cv=none; b=LKz4MkX4ipELWoXdoq+QI9dbZvnI+gh8+bYaYg1u8eztvF4+vGaBxj/+Plm3lYDNwYdX16RqPWlbg7DyY9mc7uCwECsZb1tb+CL92jpBYurIHCRRM2tZBPbZcl6/h0WDsU9KO6QXz1ybRk2urXrpiNyWD1PC+WZQV/KPlsfvgrw=
+	t=1716845267; cv=none; b=VGnIIGubfe8x9/rHcPL7vGVAz7SpaQdZd1p5RGT+N3LjGItIAjPJQefYepQgRkZGWLcMY4e1puMLhOzag8b7c1+t9od6D9s9Lk/94fUpCoHORYRA/Ao/ZfbgbqWW3PQit+soTDRsQANoCYYa+3laH+AOcZ/yAtyXsTt2aFGepOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716840179; c=relaxed/simple;
-	bh=cal7mG0qUZDbQaDkg8S5M7WXgm8vuqmTCMSvfQjBd84=;
+	s=arc-20240116; t=1716845267; c=relaxed/simple;
+	bh=kKNRY+YP8kCCWuROR3Y2Rq1iZ9fwcc9cA2di5uwor7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CIbO9v95+qI3xJ0QultGXonORvAYGJcAimgiljm0vZ+w6OfHnbg1kttXlfugS1kaLtL9tWfkPfj9Wb2CGI3j6a4oanGMoCzE02kix99ZOsNGh0xC9rrMnZBH/WfboTTMJp673eJ0X4Vuty6QAJCN0gYEOMMHLHnlYUO1cOA7aIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HttzYzSD; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=q4B5n1peem+0EEeQI8bDXUiGn2BhZ3GcGbxA3l32pVZwUA2X1PnA3qzrWC0VVF6Owl/oHQYJVc3ZaDSnGVBZyC4B+SvsgvWTw0NvFiKpPTYCZrowlOuUZAQ3jujU0neqvbBCNY159ugQdWtES6hdwDQ9VjgbzPmXnJr61QdBRiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDQwvjO7; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HttzYzSD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDQwvjO7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716840177; x=1748376177;
+  t=1716845265; x=1748381265;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cal7mG0qUZDbQaDkg8S5M7WXgm8vuqmTCMSvfQjBd84=;
-  b=HttzYzSD2+JV+JpxljWFkW0rMJySdd0Un7/bY+Uq2JOGK1CE9Ue7nOr4
-   dBK5EDBT85xqsS4HUnfEvZ99ar8WCSom+5OtH5cCv5RBsnQp1com0iY5B
-   7iaMBU0U0pvrmJ5RiiLzWKaHOjv24B4b6D/OoxAX/Juq+Hx1GCrUzXuif
-   NEMykNxnKIy8UzPa2vJJRcVRzI5z2iHOBL6fbT2d8Q+8o6mmD5udeXhMu
-   ErV05LgefSSYymbHVIn9R670BJrqxA5H+udAgDwoasJHFncQF2ENFSxd3
-   S6qCg13PHvh7jl7mFqf307SDnabLmEZcnuRCWlSacOT84S5YYJ+7+yz47
-   g==;
-X-CSE-ConnectionGUID: 9JtH54ufSkW2AgkoEhNyAw==
-X-CSE-MsgGUID: oNGtuRzbSaekIx2fiQBtkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="38551855"
+  bh=kKNRY+YP8kCCWuROR3Y2Rq1iZ9fwcc9cA2di5uwor7A=;
+  b=PDQwvjO7khB63mqKNHjSMRUqzaX1RqLfQxebUxoU6bDuc8CN7bLNmURq
+   HaTh1+az5T4JGMdZVusZHPHNBfVQXHSLNa0XoxMebItrf2OaKIiGJ9HUr
+   Oayw9DcwjFgOU03lLHioHHlCQql62CM9+aEjIvAKRU4riMOIUBDlvZCJ4
+   1EdD2Ij5xYbe4HAe+eFNyiSfpHLD3/Excucw7O8W+DBYQ7lSZeMfRi9AT
+   ByLHM8PwK/hWIgMNaTe7Js1IrUQHh5sSDAz2F0XNlhKzCKrNSBAZGz1ev
+   qtm2T6BfYrrWJcHTvgGUdxKsDqf91r7e2PDJ6QApiwRZvCEtIULbDD+0J
+   Q==;
+X-CSE-ConnectionGUID: ieKqDGJBTYiwAw3O7r5jKw==
+X-CSE-MsgGUID: g5S9IjRbTP2Zz8S2FeAPtg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13043776"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="38551855"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 13:02:56 -0700
-X-CSE-ConnectionGUID: OvQQXpLfRQuX6VE8i4kLfQ==
-X-CSE-MsgGUID: 7hyXouXUT0eYX5P46h8/3w==
+   d="scan'208";a="13043776"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 14:27:45 -0700
+X-CSE-ConnectionGUID: x0BNfgmdTy2o1bwtKHYRnw==
+X-CSE-MsgGUID: f+NtVH/QQCiwy6O5TzLdvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="34737795"
+   d="scan'208";a="39847732"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 27 May 2024 13:02:55 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 May 2024 14:27:45 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBgYV-000B2t-36;
-	Mon, 27 May 2024 20:02:52 +0000
-Date: Tue, 28 May 2024 04:02:40 +0800
+	id 1sBhsb-000B79-2T;
+	Mon, 27 May 2024 21:27:41 +0000
+Date: Tue, 28 May 2024 05:27:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Matthew Sakai <msakai@redhat.com>
-Subject: drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
-Message-ID: <202405280322.DuFLX7rb-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:DONTTEST-pcp-locking-bench 1/4] lib/slub_kunit.c:9:10: fatal
+ error: asm/tsc.h: No such file or directory
+Message-ID: <202405280528.3NUldrBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +62,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mike,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2bfcfd584ff5ccc8bb7acde19b42570414bf880b
-commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
-date:   3 months ago
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240528/202405280322.DuFLX7rb-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280322.DuFLX7rb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git DONTTEST-pcp-locking-bench
+head:   95b2f070fc4eb7b92d528f64395c5306dc993c50
+commit: aefcca2d0875add24036512e1f45bb9da89989c0 [1/4] slub_kunit: hack in a stupid locking/atomics microbenchmark
+config: m68k-apollo_defconfig (https://download.01.org/0day-ci/archive/20240528/202405280528.3NUldrBg-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280528.3NUldrBg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405280322.DuFLX7rb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405280528.3NUldrBg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
-   drivers/md/dm-vdo/int-map.c:105: warning: Function parameter or struct member 'bucket_count' not described in 'int_map'
-   drivers/md/dm-vdo/int-map.c:330: warning: Function parameter or struct member '__always_unused' not described in 'search_hop_list'
-   drivers/md/dm-vdo/int-map.c:330: warning: Excess function parameter 'map' description in 'search_hop_list'
-   drivers/md/dm-vdo/int-map.c:461: warning: Function parameter or struct member '__always_unused' not described in 'move_empty_bucket'
-   drivers/md/dm-vdo/int-map.c:461: warning: Excess function parameter 'map' description in 'move_empty_bucket'
+>> lib/slub_kunit.c:9:10: fatal error: asm/tsc.h: No such file or directory
+       9 | #include <asm/tsc.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
 
 
-vim +87 drivers/md/dm-vdo/int-map.c
+vim +9 lib/slub_kunit.c
 
-cc46b9554b3f6d Matthew Sakai 2023-11-16  66  
-cc46b9554b3f6d Matthew Sakai 2023-11-16  67  /**
-cc46b9554b3f6d Matthew Sakai 2023-11-16  68   * struct bucket - hash bucket
-cc46b9554b3f6d Matthew Sakai 2023-11-16  69   *
-cc46b9554b3f6d Matthew Sakai 2023-11-16  70   * Buckets are packed together to reduce memory usage and improve cache efficiency. It would be
-cc46b9554b3f6d Matthew Sakai 2023-11-16  71   * tempting to encode the hop offsets separately and maintain alignment of key/value pairs, but
-cc46b9554b3f6d Matthew Sakai 2023-11-16  72   * it's crucial to keep the hop fields near the buckets that they use them so they'll tend to share
-cc46b9554b3f6d Matthew Sakai 2023-11-16  73   * cache lines.
-cc46b9554b3f6d Matthew Sakai 2023-11-16  74   */
-cc46b9554b3f6d Matthew Sakai 2023-11-16  75  struct __packed bucket {
-cc46b9554b3f6d Matthew Sakai 2023-11-16  76  	/**
-cc46b9554b3f6d Matthew Sakai 2023-11-16  77  	 * @first_hop: The biased offset of the first entry in the hop list of the neighborhood
-cc46b9554b3f6d Matthew Sakai 2023-11-16  78  	 *             that hashes to this bucket.
-cc46b9554b3f6d Matthew Sakai 2023-11-16  79  	 */
-cc46b9554b3f6d Matthew Sakai 2023-11-16  80  	u8 first_hop;
-cc46b9554b3f6d Matthew Sakai 2023-11-16  81  	/** @next_hop: The biased offset of the next bucket in the hop list. */
-cc46b9554b3f6d Matthew Sakai 2023-11-16  82  	u8 next_hop;
-cc46b9554b3f6d Matthew Sakai 2023-11-16  83  	/** @key: The key stored in this bucket. */
-cc46b9554b3f6d Matthew Sakai 2023-11-16  84  	u64 key;
-cc46b9554b3f6d Matthew Sakai 2023-11-16  85  	/** @value: The value stored in this bucket (NULL if empty). */
-cc46b9554b3f6d Matthew Sakai 2023-11-16  86  	void *value;
-cc46b9554b3f6d Matthew Sakai 2023-11-16 @87  };
-cc46b9554b3f6d Matthew Sakai 2023-11-16  88  
-
-:::::: The code at line 87 was first introduced by commit
-:::::: cc46b9554b3f6d2f09b1111386b2706e5b4f56c8 dm vdo: add basic hash map data structures
-
-:::::: TO: Matthew Sakai <msakai@redhat.com>
-:::::: CC: Mike Snitzer <snitzer@kernel.org>
+   > 9	#include <asm/tsc.h>
+    10	#include "../mm/slab.h"
+    11	
 
 -- 
 0-DAY CI Kernel Test Service
