@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D3A199EA4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 14:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3A217E8E0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 15:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716819388; cv=none; b=sIUwtUHA4ePkLFOGbzwyLc3bpkZ870I22VfdB0cE564pGcSyEnYpVR129MogXRvqTK8t5n6pvXsk8oCrmdedBnX+B1/gEZrzIjRiKzkWcdkr8isoUuX+9dYbPicQs8goDmq2gkgNsz9XjWgnh1AUMrBKZpo2uxIW4bEtPR+POFA=
+	t=1716824277; cv=none; b=Le0XDqxfYb/28g5mw+xU9SP0oaYeL9PjkqKYdjm+dS7kwugMFWajHflBcK2O+EWIcdaryaLfmaMKogvC2TtPFiiWj3/PtIi1d9dU/UVkducB6suNQuP4RtTEf+fBb6Kj8dvfACmShY28EcssSeYPd0a1DdEEpNn5O7X3Q4pd7ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716819388; c=relaxed/simple;
-	bh=VFvSK0X7xixLKMLbqKS+OfK1mmKSifUugFzw+8djFlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e2giOqrySKoIX4HKe2ZOVylkCUT5tLEGI/H8LJ/fkvwzzYxxknba+Zg7SF4ytc1quo5+cW3qbGtcL4p9kjk9FmzPMHNF9xFTvOBZ/6rzU9nTeQtf0tLWJCq4RWFS0lcjeKpMu9amq++nj+C2e0OctoKFHTpGWkTnsaj57KAN/Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkoR12Y9; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1716824277; c=relaxed/simple;
+	bh=1FHv8VqjTK+OQiuHJUmQHzqF2Yzw88THTiswU3Z+Hu4=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=biBbE/6ko7o9HBKUVy4DdByLhHXdNP4IpdNWDPgqEEPVI2JVKWQUKirQP294CuKeb+lJF/AEkadBro2dOH23uk1vITadhnEXkn0dQeZCA+5/pmAJ9v+ymmIzPypO21nubjxFyeYH9SqCqBnjPG5foeoAe3zO9NaTljbWzpmzzWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TXEariW8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkoR12Y9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXEariW8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716819386; x=1748355386;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VFvSK0X7xixLKMLbqKS+OfK1mmKSifUugFzw+8djFlA=;
-  b=DkoR12Y9KbujVHGAT2kLfWPyyp6IipVwKviGBMLz6YT+VfMpQRdhdEvf
-   gPDv8RswEFEx/HWbUJtNPf0gNy8QVP6bcvqQkuosBpuF7zaps6DmOWjzK
-   ZSXc1DFae7dgg7Fd3V+NmqHvti6kvJe2+EW1blx7PYAX6xTexqQpFIhZU
-   AcxR5wA99+baRVEdrognjhusSzJGWXB+gpYcVwmKgP9SxBhf0gIG7H3ni
-   qRH1+1/gmVfsHDnEimaMo0RCTc0Gi4XXcer/kx3+wP0Ii1wh5yVBF6vEr
-   5KJ2Omk9IHccnRUCWrmdJFuAYe2LNIUVmHq0SNxMUyjxngFVBciCyQX9p
-   g==;
-X-CSE-ConnectionGUID: 7bMWgglfRxCe5dfmT9VZtQ==
-X-CSE-MsgGUID: imBgl8ooRiqeNL8CtkWflQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="16932674"
+  t=1716824275; x=1748360275;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=1FHv8VqjTK+OQiuHJUmQHzqF2Yzw88THTiswU3Z+Hu4=;
+  b=TXEariW821Nl+Xjwddnwqka/zLcneG7X0rxIX93uz2VtgXZ68ymdg5Ly
+   xHC3A1Yz3QvYfKDiNe+hw0K5iBTivoTdBAz9JDKEfoJtBb2oTxrUAGXDM
+   cV01mvKzNSdBuU+dtPd8A/9VmX7fsbBWJsui53jv/tAMsEUlDoUvck9Cf
+   cRCByHbpps4OGnb4oSrUJGiwTv8TpMeBC9v9bcDRZliclXAtDKVcq9HdZ
+   E/Tgk1ZS2okNlXxk0XuoWq1/afdH8k9VtbHUtLkdzpq/N6AEyhLMJMdSl
+   U08s3U+5fFPKkZbpFdaVqaOZMU8WSAYMisu6JFh1rwocc0n1dbmSMG0k4
+   A==;
+X-CSE-ConnectionGUID: kR04i2rnQHq0wjgW6WYhdw==
+X-CSE-MsgGUID: 1ljQZGBNSgC5uXIpWQIdow==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="16103321"
 X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="16932674"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 07:16:26 -0700
-X-CSE-ConnectionGUID: eSfEot+VQre+USYQZBBDGA==
-X-CSE-MsgGUID: Ln/iK9B4SKicsQkru9EyQQ==
+   d="scan'208";a="16103321"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 08:37:55 -0700
+X-CSE-ConnectionGUID: rnhvKdY+RAGcX+08y8ASGg==
+X-CSE-MsgGUID: AhzGe1mfRVyhOixuFB+PTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="39571852"
+   d="scan'208";a="39199054"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 27 May 2024 07:16:25 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 27 May 2024 08:37:53 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBb9C-000ASg-2T;
-	Mon, 27 May 2024 14:16:22 +0000
-Date: Mon, 27 May 2024 22:13:56 +0800
+	id 1sBcQ3-000An9-1w;
+	Mon, 27 May 2024 15:37:51 +0000
+Date: Mon, 27 May 2024 23:37:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_acpi_b2_v6_610_rc1_full 45/54]
- arch/riscv/include/asm/irq.h:58:16: error: 'INVALID_CONTEXT' undeclared
-Message-ID: <202405272258.7UxLS4zX-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: drivers/md/dm-vdo/int-map.c:85: error: Cannot parse struct or union!
+Message-ID: <202405272334.ExNaB8F6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,63 +61,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v6_610_rc1_full
-head:   13e1f10998ff5fe93a40fde35d93d4fb3a3d1c16
-commit: b7918161d2483fc1a822cbdc62994e934be8ca38 [45/54] irqchip/riscv-intc: Add ACPI support for AIA
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240527/202405272258.7UxLS4zX-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240527/202405272258.7UxLS4zX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+commit: 0d21364c6e8dc1f62c34bbc49d49935c8b01844c Merge drm/drm-next into drm-misc-next
+date:   8 weeks ago
+config: sparc64-allyesconfig (https://download.01.org/0day-ci/archive/20240527/202405272334.ExNaB8F6-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240527/202405272334.ExNaB8F6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405272258.7UxLS4zX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405272334.ExNaB8F6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/irq.h:23,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/riscv/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from arch/riscv/kernel/asm-offsets.c:12:
->> arch/riscv/include/asm/irq.h:51:15: warning: no previous prototype for 'acpi_get_ext_intc_parent_hartid' [-Wmissing-prototypes]
-      51 | unsigned long acpi_get_ext_intc_parent_hartid(unsigned int plic_id, unsigned int ctxt_idx)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/irq.h: In function 'acpi_get_plic_nr_contexts':
->> arch/riscv/include/asm/irq.h:58:16: error: 'INVALID_CONTEXT' undeclared (first use in this function)
-      58 |         return INVALID_CONTEXT;
-         |                ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/irq.h:58:16: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/include/asm/irq.h: In function 'acpi_get_plic_context':
-   arch/riscv/include/asm/irq.h:63:16: error: 'INVALID_CONTEXT' undeclared (first use in this function)
-      63 |         return INVALID_CONTEXT;
-         |                ^~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:117: arch/riscv/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/md/dm-vdo/int-map.c:85: error: Cannot parse struct or union!
+   drivers/md/dm-vdo/int-map.c:103: warning: Function parameter or struct member 'bucket_count' not described in 'int_map'
+   drivers/md/dm-vdo/int-map.c:328: warning: Function parameter or struct member '__always_unused' not described in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:328: warning: Excess function parameter 'map' description in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:459: warning: Function parameter or struct member '__always_unused' not described in 'move_empty_bucket'
+   drivers/md/dm-vdo/int-map.c:459: warning: Excess function parameter 'map' description in 'move_empty_bucket'
 
 
-vim +/INVALID_CONTEXT +58 arch/riscv/include/asm/irq.h
+vim +85 drivers/md/dm-vdo/int-map.c
 
-    50	
-  > 51	unsigned long acpi_get_ext_intc_parent_hartid(unsigned int plic_id, unsigned int ctxt_idx)
-    52	{
-    53		return INVALID_HARTID;
-    54	}
-    55	
-    56	static inline unsigned int acpi_get_plic_nr_contexts(unsigned int plic_id)
-    57	{
-  > 58		return INVALID_CONTEXT;
-    59	}
-    60	
+cc46b9554b3f6d Matthew Sakai 2023-11-16  64  
+cc46b9554b3f6d Matthew Sakai 2023-11-16  65  /**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  66   * struct bucket - hash bucket
+cc46b9554b3f6d Matthew Sakai 2023-11-16  67   *
+cc46b9554b3f6d Matthew Sakai 2023-11-16  68   * Buckets are packed together to reduce memory usage and improve cache efficiency. It would be
+cc46b9554b3f6d Matthew Sakai 2023-11-16  69   * tempting to encode the hop offsets separately and maintain alignment of key/value pairs, but
+cc46b9554b3f6d Matthew Sakai 2023-11-16  70   * it's crucial to keep the hop fields near the buckets that they use them so they'll tend to share
+cc46b9554b3f6d Matthew Sakai 2023-11-16  71   * cache lines.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  72   */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  73  struct __packed bucket {
+cc46b9554b3f6d Matthew Sakai 2023-11-16  74  	/**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  75  	 * @first_hop: The biased offset of the first entry in the hop list of the neighborhood
+cc46b9554b3f6d Matthew Sakai 2023-11-16  76  	 *             that hashes to this bucket.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  77  	 */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  78  	u8 first_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  79  	/** @next_hop: The biased offset of the next bucket in the hop list. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  80  	u8 next_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  81  	/** @key: The key stored in this bucket. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  82  	u64 key;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  83  	/** @value: The value stored in this bucket (NULL if empty). */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  84  	void *value;
+cc46b9554b3f6d Matthew Sakai 2023-11-16 @85  };
+cc46b9554b3f6d Matthew Sakai 2023-11-16  86  
+
+:::::: The code at line 85 was first introduced by commit
+:::::: cc46b9554b3f6d2f09b1111386b2706e5b4f56c8 dm vdo: add basic hash map data structures
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
