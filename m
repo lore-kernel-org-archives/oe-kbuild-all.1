@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF182481C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 21:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542EA167260
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 21:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716845267; cv=none; b=VGnIIGubfe8x9/rHcPL7vGVAz7SpaQdZd1p5RGT+N3LjGItIAjPJQefYepQgRkZGWLcMY4e1puMLhOzag8b7c1+t9od6D9s9Lk/94fUpCoHORYRA/Ao/ZfbgbqWW3PQit+soTDRsQANoCYYa+3laH+AOcZ/yAtyXsTt2aFGepOs=
+	t=1716845928; cv=none; b=NOGeztsNBwun/6neZPTbQiANJatDTuSlbbi6esnzR2gXJtss0ztMa0OaJkYuwS0y4qU9meQ/RDBVWyRM4xzqFZ6Y/SCX5EyeGRdTM1FInLRP8TiYC1k3WcmCxIVtx+3k8SA3pMfVO3axXtfXXHWEnyCTF/QrrRzrqB06P4ZoAm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716845267; c=relaxed/simple;
-	bh=kKNRY+YP8kCCWuROR3Y2Rq1iZ9fwcc9cA2di5uwor7A=;
+	s=arc-20240116; t=1716845928; c=relaxed/simple;
+	bh=sBaL+lBurkA8qqcakQUZMX2YptebSyPCWu+/5hXS4cw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q4B5n1peem+0EEeQI8bDXUiGn2BhZ3GcGbxA3l32pVZwUA2X1PnA3qzrWC0VVF6Owl/oHQYJVc3ZaDSnGVBZyC4B+SvsgvWTw0NvFiKpPTYCZrowlOuUZAQ3jujU0neqvbBCNY159ugQdWtES6hdwDQ9VjgbzPmXnJr61QdBRiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDQwvjO7; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=RP9ix4l1jR2obS4wMX2THwKBcw4ZiN0qhMFghUQUO5bVIQgeFv1XH604LFeDezVunemGc7MLLEaGQHWcP2WFOBnF18DkJoOUMZklFKtxaVUY1GgTjwP6E02a/fpYsYkL6NfiR8VK3dTWrSWtZIwJ15sDL7tmZWZsxwKrE6N8e0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnrQjo8/; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDQwvjO7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnrQjo8/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716845265; x=1748381265;
+  t=1716845927; x=1748381927;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kKNRY+YP8kCCWuROR3Y2Rq1iZ9fwcc9cA2di5uwor7A=;
-  b=PDQwvjO7khB63mqKNHjSMRUqzaX1RqLfQxebUxoU6bDuc8CN7bLNmURq
-   HaTh1+az5T4JGMdZVusZHPHNBfVQXHSLNa0XoxMebItrf2OaKIiGJ9HUr
-   Oayw9DcwjFgOU03lLHioHHlCQql62CM9+aEjIvAKRU4riMOIUBDlvZCJ4
-   1EdD2Ij5xYbe4HAe+eFNyiSfpHLD3/Excucw7O8W+DBYQ7lSZeMfRi9AT
-   ByLHM8PwK/hWIgMNaTe7Js1IrUQHh5sSDAz2F0XNlhKzCKrNSBAZGz1ev
-   qtm2T6BfYrrWJcHTvgGUdxKsDqf91r7e2PDJ6QApiwRZvCEtIULbDD+0J
-   Q==;
-X-CSE-ConnectionGUID: ieKqDGJBTYiwAw3O7r5jKw==
-X-CSE-MsgGUID: g5S9IjRbTP2Zz8S2FeAPtg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13043776"
+  bh=sBaL+lBurkA8qqcakQUZMX2YptebSyPCWu+/5hXS4cw=;
+  b=FnrQjo8/QspyIkN5tKwbFDQfrxGksdMoT3Es5SvR3hwfFMcE2ro8Oiil
+   hcv3cRV0xZEJtgtfacnzA4rkNoMsdrVClpHEGHPHWgYY1mIO8ehs0WJ24
+   /HjwZpN1KRXhuWu8yHkoo46SiuQ8GzHEN/AK95D7Aqip08vPoPsK4mJxD
+   fLsEoBrYwG7mLqp0yKvbIEXS2uXG37Gw35rns1dSTDLnm1qZDmuVeTkO+
+   djeZvdovv3c5AHYEesfn6w9B5rs0HGszrdLv91gucmV5yR0ZInHUnIeTx
+   corhWy4ulaoFdxRB1VtVC7TDn6oj7G67/Si9knNmUSrr5OocSm9DmOuZ7
+   g==;
+X-CSE-ConnectionGUID: +FfCPS0ESmqF+aRauHejLA==
+X-CSE-MsgGUID: Wb4GxvA0TRCX84kr7b3ECw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="35687948"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="13043776"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 14:27:45 -0700
-X-CSE-ConnectionGUID: x0BNfgmdTy2o1bwtKHYRnw==
-X-CSE-MsgGUID: f+NtVH/QQCiwy6O5TzLdvQ==
+   d="scan'208";a="35687948"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 14:38:45 -0700
+X-CSE-ConnectionGUID: dKVAsre3RsumzjFsUlc1AQ==
+X-CSE-MsgGUID: KA1Wq9UEThWACDXUJYjkcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="39847732"
+   d="scan'208";a="58046167"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 May 2024 14:27:45 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 May 2024 14:38:44 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBhsb-000B79-2T;
-	Mon, 27 May 2024 21:27:41 +0000
-Date: Tue, 28 May 2024 05:27:00 +0800
+	id 1sBi3G-000B7z-0H;
+	Mon, 27 May 2024 21:38:42 +0000
+Date: Tue, 28 May 2024 05:38:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:DONTTEST-pcp-locking-bench 1/4] lib/slub_kunit.c:9:10: fatal
- error: asm/tsc.h: No such file or directory
-Message-ID: <202405280528.3NUldrBg-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.1 2/3]
+ drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c:754:20:
+ warning: variable 'ctrl' set but not used
+Message-ID: <202405280504.RNaYGW4o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +64,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git DONTTEST-pcp-locking-bench
-head:   95b2f070fc4eb7b92d528f64395c5306dc993c50
-commit: aefcca2d0875add24036512e1f45bb9da89989c0 [1/4] slub_kunit: hack in a stupid locking/atomics microbenchmark
-config: m68k-apollo_defconfig (https://download.01.org/0day-ci/archive/20240528/202405280528.3NUldrBg-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280528.3NUldrBg-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   360fee4d8c80ae9a6cc9cddb55afd71f73c842d6
+commit: 181862f67e4b1d1c98bdfcdb473a895ca5990ae3 [2/3] CHROMIUM: media: mediatek: vcodec: Add CID controls to get secure handle and set secure mode
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240528/202405280504.RNaYGW4o-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280504.RNaYGW4o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405280528.3NUldrBg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405280504.RNaYGW4o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/slub_kunit.c:9:10: fatal error: asm/tsc.h: No such file or directory
-       9 | #include <asm/tsc.h>
-         |          ^~~~~~~~~~~
-   compilation terminated.
+>> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c:754:20: warning: variable 'ctrl' set but not used [-Wunused-but-set-variable]
+     754 |         struct v4l2_ctrl *ctrl;
+         |                           ^
+   1 warning generated.
 
 
-vim +9 lib/slub_kunit.c
+vim +/ctrl +754 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
 
-   > 9	#include <asm/tsc.h>
-    10	#include "../mm/slab.h"
-    11	
+   750	
+   751	static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
+   752	{
+   753		unsigned int i;
+ > 754		struct v4l2_ctrl *ctrl;
+   755	
+   756		v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 2);
+   757		if (ctx->ctrl_hdl.error) {
+   758			mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed\n");
+   759			return ctx->ctrl_hdl.error;
+   760		}
+   761	
+   762		for (i = 0; i < NUM_CTRLS; i++) {
+   763			struct v4l2_ctrl_config cfg = mtk_stateless_controls[i].cfg;
+   764			cfg.ops = &mtk_vcodec_dec_ctrl_ops;
+   765	
+   766			mtk_vcodec_dec_reset_controls(&cfg, ctx);
+   767			v4l2_ctrl_new_custom(&ctx->ctrl_hdl, &cfg, NULL);
+   768			if (ctx->ctrl_hdl.error) {
+   769				mtk_v4l2_vdec_err(ctx, "Adding control %d failed %d", i,
+   770						  ctx->ctrl_hdl.error);
+   771				return ctx->ctrl_hdl.error;
+   772			}
+   773		}
+   774	
+   775		ctrl = v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ctrl_ops,
+   776					 V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE, 0, 65535, 1 , 0);
+   777		ctrl = v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ctrl_ops,
+   778					 V4L2_CID_MPEG_MTK_SET_SECURE_MODE, 0, 65535, 1 , 0);
+   779	
+   780		v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
+   781	
+   782		return 0;
+   783	}
+   784	
 
 -- 
 0-DAY CI Kernel Test Service
