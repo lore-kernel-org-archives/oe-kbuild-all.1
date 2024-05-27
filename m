@@ -1,60 +1,63 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668933A260
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 08:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9712D743
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 08:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716797664; cv=none; b=IZ0qWp0vkMh7wRaUlk/Iaffwz+mzKMc7LAPGYAeVT4fRnmk5vtYf3L29EpwoNWVaAuaKx7CmT5iNlzksdousWyBfhfBL/tfwivHNQ9UjTpj26uhELNrqdSTQjVYld43AnLcDStq7ttTOZ63Fz/pgIJLMzw/kMtxlAuHaQOpk6Qg=
+	t=1716799866; cv=none; b=bBFW6cgqddNpRuoSY2QYPfczndc4SW3Pbno/tgbULzypzng+ggYcvMZRUmsCmNbV1VI5E7NxC+tIVmA3P5lOZYXT+X/yLeq27kL1i3g8ZLmfaZqfpu6wV6Jth1eQL37ld3XH0/bG9J40oJOgikn/9+DBTqbiXjXASVKszn9GV+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716797664; c=relaxed/simple;
-	bh=nwYaraCxggBDKnVnYzLQQW0XR3XO/+s4UMrvkMG2ZYI=;
+	s=arc-20240116; t=1716799866; c=relaxed/simple;
+	bh=VWIWAz/C36z3ejzKqZpM6Ta9/KsBCD/qHV4r6Ufeiwk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YB9vERkcud0xwkCs7tyD/3cga2+TNA70D+JuiIpFt2+SHhQBQ8yyf3RB3Wh42UOBmq9Eh6U8qWGpvOoz4TWN2IIAHZC2SapfUis+nyxH3SXh/GE/NdXJDIior6RJHiNqZAascbF+TDNXhb8rcFncJeAxwl3LUWsQEqSABoszTEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qsdRHj7I; arc=none smtp.client-ip=209.85.218.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=qn5jZe6DNcZMnzhrpJWsV0OfB9zDfE4xUj8DDAsRQ3CX8vzXyc9H4H2d5RB8uL6jPxgdjsXzye7FpyEoyY5RkoV9egToULvgCSoSsltRZUk2kQ2wKxHWVtjGOM8aQ+o/i/p6WYT5coB9Mqisg8XLMsmByWi0O0AYNEvDuYDk+gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hb04v4+S; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qsdRHj7I"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a6267639e86so331855866b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 01:14:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hb04v4+S"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a5dcb5a0db4so1041757166b.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 01:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716797661; x=1717402461; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1716799863; x=1717404663; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2gOfFJLDZFM1NLZoeu2fRwYilxYpWgEWWcHQQR/WPKs=;
-        b=qsdRHj7IG7Fb5yufxOipTMCMjGvPzK9jXUXn1ADHEuNRQPDoYXkr4/YyWB3EMaQSFi
-         adlWXpJsbQlPzWTUrpu914RSJAFQF2rlWOt0VptmKERQaosWjdu3ghSx/80N1lZ57OpB
-         IvAxrryGF8B8SJEtUVB45UYs/3OlLmIwg8wFAACsNPgsW7DYIdLmM2YZoUxA3AP5q1tl
-         vzSqfH73m67qr/G3Jf0cmBktQt4i/8aZIFtyHWwIdX0hd2D7kghS/Oc0/SsxI5HPFr8D
-         4P+Y1/nPXbbCsfwtQkv9N9kQ13qH+VXhjiMRoB3BekXjwG+nhFfUmnlJW1z3ErPkzimT
-         GLbw==
+        bh=IngHvuVJ+qy5kq3ZL0tayX0b+UVqjmY0nRoaAshOXto=;
+        b=hb04v4+S/wHknv+S0mkF65GQyOPZkMHkTfHb4GRHIOkP7fMt1MJhV+wJ9xsbSBT26P
+         JN1Mq23q4Gtl6WS6TJDJaK0GtkV1aakIBtbjBaO4rT69+UtFm6g2cMt7bduiBE5HtlsO
+         ztGdyoBNcdmlDCbkIvjjNSHzkDW9xHGyZhyaS/+q2GkbWBjnYtjC8GE6/Uk2NCQjWum9
+         2TDrWGOlZG9CRkvOFUL9Y2m/nYkgiL8zcotkndxuPgR17Y5WZb9Eo32TBmW14NX0KGzM
+         nUnAhbM1m6w+9eNlwOGboshSVKVAEcTOjn8cvEcsSDQXntYmsFPyyQWX0dx59Yg7xjKa
+         NFHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716797661; x=1717402461;
+        d=1e100.net; s=20230601; t=1716799863; x=1717404663;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2gOfFJLDZFM1NLZoeu2fRwYilxYpWgEWWcHQQR/WPKs=;
-        b=FmpXR0Ma2l46m0ZmJmaHri+QvXT8UcejLy7N8u/a16Tg4fHu5TDruYgw8CWiHl3AAr
-         h6jropanLykjaDX2/hA4uNlGLCQc2Y/kX524sXxDK9Knue4ZBGdbAn23aL+6Ma4bbmj6
-         MpGWYQwEo1t9bjwpThrpYt7hawLUOVhtsFeprC1w0m0gdeTBddsnbrVFXRFfqWn6Xzi0
-         uko3+/aMBBCLnXdltzEausXI6Y2z1hmAia/IzxRwO5K5aaFmtLhV81466k2MA6L4tu47
-         mjzD6AJpZJ3njK9V20FR8ReUXCKp4gKiwdwN320jxSnkGuqo38IQdHiQi7Z4KGJ+hlZi
-         SpaA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0ETL9+8lG/dWZlFgAEKuME8t4n22jRDTuUqvJBppiERcXDJ+jHilB2CL3fqcumfMY0DcGeWKDmYCmedUq+Iv2I7ckjf6pDjlLwjQbMw==
-X-Gm-Message-State: AOJu0YyFo0sFw6m0JjacheHmYYLykR228rVY63eT7tcsXgNewJTaNBMX
-	kS8x96inMLmLbmYF1/xfQoKpfx6sZsWF1YBqZIqroKVmsjfsTp0YlsmZYxPEvGE=
-X-Google-Smtp-Source: AGHT+IHYnL+hf/PaVRs5w2cBRVnHz4XxYlxeikqwWQlJyhXrjPG34g7ILif/Bx2s4uuxLU41DeUKtQ==
-X-Received: by 2002:a17:906:7f15:b0:a62:e9c:f621 with SMTP id a640c23a62f3a-a6265148c46mr601649666b.58.1716797660675;
-        Mon, 27 May 2024 01:14:20 -0700 (PDT)
+        bh=IngHvuVJ+qy5kq3ZL0tayX0b+UVqjmY0nRoaAshOXto=;
+        b=noIM5TF+izmU5mc2asQQoX9Yerv0an7wDuN9eMAHVvF6/K37XthJJrHN6L0ujc9+M6
+         okDQHkOL1MZuf9J8Jhxk7k6X1jS9H8VY2LB6eU+Yfa3Ch9zBWEQR3utx865ttdTZ7Mup
+         2ChgJAGib70m/RAeqnEjUxhmVAEf3/WbLFC6qnAQcr0xBmTZzdZGVFT8x6I75y8s+nEo
+         OePjy9DZI0ngJwiprZP2sYYL6dNnwuTKjIfrDEpDRd2JLiwOk5bRUvHgrdDfRl8/hwOr
+         azFK503r5AWd6WYQVxmbtCjF/hVcUnIZp/kuKNO0PQn672dokfN3iZxX+ipyJOMiURyt
+         IKmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmgpExwmxmrJLkp9qjMIAwscOge5gIq05T00y6EAFxBHEnJCZfWQfrp/i2TG7yko7Lgonbbsa6tqzLi++zIe85Sf9p00XCnnNRHH8ItA==
+X-Gm-Message-State: AOJu0YxhuRnOtC8hq7IEm9oRotTn4vf96s8gEvsvSCdGa7/JlELypEjl
+	iS08MX5JWEA82wVV5IIH7eNcA5uNJufokkyUFGEeIcQ54/7f6HNtNdSiDYggsRY=
+X-Google-Smtp-Source: AGHT+IGCA1HNlfKaJ/l7+h/ehh9h7+FLYF0FcNG522umKz/7ymLJE0wk2XH+LOhyNYPx0n/gIfzzKg==
+X-Received: by 2002:a17:906:f353:b0:a55:9dec:355f with SMTP id a640c23a62f3a-a626511604fmr475369266b.70.1716799863000;
+        Mon, 27 May 2024 01:51:03 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8dcbdsm472629966b.175.2024.05.27.01.14.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc519f5sm471282566b.98.2024.05.27.01.51.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 01:14:20 -0700 (PDT)
-Date: Mon, 27 May 2024 11:14:16 +0300
+        Mon, 27 May 2024 01:51:02 -0700 (PDT)
+Date: Mon, 27 May 2024 11:50:58 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
 	jic23@kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	lars@metafoo.de, swboyd@chromium.org, nuno.a@analog.com,
@@ -62,10 +65,11 @@ Cc: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
 	linux-kernel@vger.kernel.org, yasin.lee.x@gmail.com
 Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor
  driver
-Message-ID: <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
+Message-ID: <16a63a13-4c98-4eea-82b7-68213bff61bc@moroto.mountain>
 References: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
  <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
  <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
+ <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,32 +79,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
+In-Reply-To: <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
 
-On Sat, May 25, 2024 at 05:00:59PM +0300, Andy Shevchenko wrote:
-> On Thu, May 23, 2024 at 3:42 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> 
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_data_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1112       char buf[BUF_SIZE] = {0};
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1113       char *p = buf;
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1114       int ii = 0;
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1115
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1116       hx9031as_sample();
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1117       for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
-> > 5e5a419c9407f6 Yasin Lee 2024-05-10 @1118               p += snprintf(p, PAGE_SIZE, "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
-> >                                                                          ^^^^^^^^^
-> 
-> 
-> > Also use scnprintf() instead of snprintf() unless you need to check the
-> > results.
-> 
-> This is incorrect advice. You should recommend sysfs_emit() /
-> sysfs_emit_at() in this kind of case.
+Mauro, Hans,
 
-No, this is not sysfs code.  It's debugfs.  The API is completely
-different.
+The debugfs code in drivers/media/common/siano/smsdvb-debugfs.c is
+completely broken.  No one has tested it since Dec 2022.  Can we just
+remove it?
+
+On Mon, May 27, 2024 at 11:14:16AM +0300, Dan Carpenter wrote:
+> On Sat, May 25, 2024 at 05:00:59PM +0300, Andy Shevchenko wrote:
+> > On Thu, May 23, 2024 at 3:42 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > 
+> > 
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_data_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1112       char buf[BUF_SIZE] = {0};
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1113       char *p = buf;
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1114       int ii = 0;
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1115
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1116       hx9031as_sample();
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1117       for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
+> > > 5e5a419c9407f6 Yasin Lee 2024-05-10 @1118               p += snprintf(p, PAGE_SIZE, "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
+> > >                                                                          ^^^^^^^^^
+> > 
+> > 
+> > > Also use scnprintf() instead of snprintf() unless you need to check the
+> > > results.
+> > 
+> > This is incorrect advice. You should recommend sysfs_emit() /
+> > sysfs_emit_at() in this kind of case.
+> 
+> No, this is not sysfs code.  It's debugfs.  The API is completely
+> different.
+
+I was going to say that if you find yourself calling sysfs_emit_at()
+then you're already in trouble because sysfs is supposed to be one thing
+per file.
+
+But then I searched and we call it almost 1000 times.
+
+The first caller I looked at was drivers/media/common/siano/smsdvb-debugfs.c
+from commit 2f7d0c94396e ("media: siano: Convert to use sysfs_emit_at()
+API") which changes debugfs code to use sysfs_emit().  And it so clearly
+has never been tested because debug_data->stats_data does not point to
+the start of a page.  sysfs_emit() will refuse to print anything unless
+it's given a pointer to the start of a page.  Ugh...
 
 regards,
 dan carpenter
+
