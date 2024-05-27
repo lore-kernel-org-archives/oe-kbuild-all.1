@@ -1,58 +1,57 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9712D743
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 08:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F1E1A2C36
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 09:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716799866; cv=none; b=bBFW6cgqddNpRuoSY2QYPfczndc4SW3Pbno/tgbULzypzng+ggYcvMZRUmsCmNbV1VI5E7NxC+tIVmA3P5lOZYXT+X/yLeq27kL1i3g8ZLmfaZqfpu6wV6Jth1eQL37ld3XH0/bG9J40oJOgikn/9+DBTqbiXjXASVKszn9GV+A=
+	t=1716800869; cv=none; b=CjZ8ctHdEzrCeEHGXla5aKrlAqoYtuIMkrANEjjONzv9Lqe4KfS+0/dM7k0W8seD6uA8+X1zTVnbM+4I/cizmwq+OZnrcm+wFrSlI6/cLQeWrKFb0NhAm4DL2tt4ObAYNeFvtyeMOafJUaR7YbFWbTuE8fxzttLYZDei//UXwrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716799866; c=relaxed/simple;
-	bh=VWIWAz/C36z3ejzKqZpM6Ta9/KsBCD/qHV4r6Ufeiwk=;
+	s=arc-20240116; t=1716800869; c=relaxed/simple;
+	bh=a1Vl1rci3lVc+qkTZXlXSNM3HyM20lhqxxNM6JEBPyE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qn5jZe6DNcZMnzhrpJWsV0OfB9zDfE4xUj8DDAsRQ3CX8vzXyc9H4H2d5RB8uL6jPxgdjsXzye7FpyEoyY5RkoV9egToULvgCSoSsltRZUk2kQ2wKxHWVtjGOM8aQ+o/i/p6WYT5coB9Mqisg8XLMsmByWi0O0AYNEvDuYDk+gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hb04v4+S; arc=none smtp.client-ip=209.85.218.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOzfahxd5Y+ZsIu28+qdTDnsf0X6tXAeLkkuwuTF32BmRqlUoyn+51IAh2t6wjJobnZLR0zzBkByrO9jbhIWo1WIkD7btXY+Y20MztPnZMGIzsIPFPYODFp36xtGMP3WF8YPtP/8JcxeLt+zLex4ncg2k7CFD1irBBUbKMEEYRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x9zAvf0S; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hb04v4+S"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a5dcb5a0db4so1041757166b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 01:51:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x9zAvf0S"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5789733769dso2498809a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 02:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716799863; x=1717404663; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IngHvuVJ+qy5kq3ZL0tayX0b+UVqjmY0nRoaAshOXto=;
-        b=hb04v4+S/wHknv+S0mkF65GQyOPZkMHkTfHb4GRHIOkP7fMt1MJhV+wJ9xsbSBT26P
-         JN1Mq23q4Gtl6WS6TJDJaK0GtkV1aakIBtbjBaO4rT69+UtFm6g2cMt7bduiBE5HtlsO
-         ztGdyoBNcdmlDCbkIvjjNSHzkDW9xHGyZhyaS/+q2GkbWBjnYtjC8GE6/Uk2NCQjWum9
-         2TDrWGOlZG9CRkvOFUL9Y2m/nYkgiL8zcotkndxuPgR17Y5WZb9Eo32TBmW14NX0KGzM
-         nUnAhbM1m6w+9eNlwOGboshSVKVAEcTOjn8cvEcsSDQXntYmsFPyyQWX0dx59Yg7xjKa
-         NFHQ==
+        d=linaro.org; s=google; t=1716800866; x=1717405666; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=a1Vl1rci3lVc+qkTZXlXSNM3HyM20lhqxxNM6JEBPyE=;
+        b=x9zAvf0SXu1lcH4EPaA4SbIvJ8kw6PMRzayNt9GcSMGYEGSc00ERrIq5BksVJh2m8K
+         VAJbJvAydlUMwLPzhRr1mmlnYIq0ETAcL7T7GGLzKgpPsZVLueak3W1mq+VM2yfZGmKa
+         JkVziMz1vX5jgqV/EQddHvrBErBQRMDA8OYdgnEQadjvG/kh4urDJZmaxznMN1BYM9o3
+         tz9vt2Me9M9jajP0vNYqQImcGm2IW1gG4ZTTl9THQ7UhZ3Kmp5R9uoqFKqgmtgnKXQRx
+         wfsdCJWdudfgMC81a47912VZDjBzLXcevvFE8VY56yRAjYJfbUCL9Gm6887U5Ufreb8d
+         frYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716799863; x=1717404663;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IngHvuVJ+qy5kq3ZL0tayX0b+UVqjmY0nRoaAshOXto=;
-        b=noIM5TF+izmU5mc2asQQoX9Yerv0an7wDuN9eMAHVvF6/K37XthJJrHN6L0ujc9+M6
-         okDQHkOL1MZuf9J8Jhxk7k6X1jS9H8VY2LB6eU+Yfa3Ch9zBWEQR3utx865ttdTZ7Mup
-         2ChgJAGib70m/RAeqnEjUxhmVAEf3/WbLFC6qnAQcr0xBmTZzdZGVFT8x6I75y8s+nEo
-         OePjy9DZI0ngJwiprZP2sYYL6dNnwuTKjIfrDEpDRd2JLiwOk5bRUvHgrdDfRl8/hwOr
-         azFK503r5AWd6WYQVxmbtCjF/hVcUnIZp/kuKNO0PQn672dokfN3iZxX+ipyJOMiURyt
-         IKmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmgpExwmxmrJLkp9qjMIAwscOge5gIq05T00y6EAFxBHEnJCZfWQfrp/i2TG7yko7Lgonbbsa6tqzLi++zIe85Sf9p00XCnnNRHH8ItA==
-X-Gm-Message-State: AOJu0YxhuRnOtC8hq7IEm9oRotTn4vf96s8gEvsvSCdGa7/JlELypEjl
-	iS08MX5JWEA82wVV5IIH7eNcA5uNJufokkyUFGEeIcQ54/7f6HNtNdSiDYggsRY=
-X-Google-Smtp-Source: AGHT+IGCA1HNlfKaJ/l7+h/ehh9h7+FLYF0FcNG522umKz/7ymLJE0wk2XH+LOhyNYPx0n/gIfzzKg==
-X-Received: by 2002:a17:906:f353:b0:a55:9dec:355f with SMTP id a640c23a62f3a-a626511604fmr475369266b.70.1716799863000;
-        Mon, 27 May 2024 01:51:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716800866; x=1717405666;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a1Vl1rci3lVc+qkTZXlXSNM3HyM20lhqxxNM6JEBPyE=;
+        b=d4kWDv0vaE6SLyJXcBePDXcwIPLjih58QWRBW6+bR3pCw9Li7dPrpJo+Hyuw9htsfZ
+         rOiT9CyQ5pAzANJcbmjNVlzl4TRxTekU8+pangxHsHi4jvW9KfvDdIejGlRcVes/oAWw
+         rda4XGX7WL53BdnPxjXns6QAvxYP8Y/oKpcDgKVrelJj4G67FoXJzcijAPM6YWaX4ehJ
+         B6ctpjolpRKAJDIaB5U6IQa1QwhBJ6bSDVpiYPISopwefSJBsP21/LYTv8rLR7ynUub4
+         qQ+kdAu+TyGlZMizxejjzS/NvtUFs1U8KxCzlNCuyhLLtu+nhMZHZPFgizw3QSCrz4LE
+         z/FA==
+X-Forwarded-Encrypted: i=1; AJvYcCWW7VoxEICzAXCi6YY+ZvnMYzsLtu6Q/tLN/zPimDBh6tTKOAyzjn0AlwIg9IBDwZGYTnogFqdzFAhpBlJQZSs+KfGyQkyjseQ3qiZtKQ==
+X-Gm-Message-State: AOJu0YzSMsH4EZpZ2f5vlzbZLCYIkgMwXDYE0xf07FNtQ8tiKKDKV/JZ
+	v3Jch0595U/qhNaP/aTuMdfp8N+HKexFgGh6T6ZpW7sE9GVbj0cqZZOvE+5OKH8=
+X-Google-Smtp-Source: AGHT+IF7OcaPLruFbCjuG1bWRANJbFK+TLfQ4b7xj1bJIFQqh4jWRuxYVX51Rrq+jAKwgb46l39rYw==
+X-Received: by 2002:a17:906:2a89:b0:a59:c944:de4 with SMTP id a640c23a62f3a-a62616df6b5mr808475566b.2.1716800866283;
+        Mon, 27 May 2024 02:07:46 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc519f5sm471282566b.98.2024.05.27.01.51.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a62de917c6bsm167617166b.194.2024.05.27.02.07.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 01:51:02 -0700 (PDT)
-Date: Mon, 27 May 2024 11:50:58 +0300
+        Mon, 27 May 2024 02:07:46 -0700 (PDT)
+Date: Mon, 27 May 2024 12:07:42 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>,
 	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -65,66 +64,24 @@ Cc: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
 	linux-kernel@vger.kernel.org, yasin.lee.x@gmail.com
 Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor
  driver
-Message-ID: <16a63a13-4c98-4eea-82b7-68213bff61bc@moroto.mountain>
+Message-ID: <494eacc4-c406-4288-9f7f-85a69add7c6f@moroto.mountain>
 References: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
  <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
  <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
  <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
+ <16a63a13-4c98-4eea-82b7-68213bff61bc@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
+In-Reply-To: <16a63a13-4c98-4eea-82b7-68213bff61bc@moroto.mountain>
 
-Mauro, Hans,
-
-The debugfs code in drivers/media/common/siano/smsdvb-debugfs.c is
-completely broken.  No one has tested it since Dec 2022.  Can we just
-remove it?
-
-On Mon, May 27, 2024 at 11:14:16AM +0300, Dan Carpenter wrote:
-> On Sat, May 25, 2024 at 05:00:59PM +0300, Andy Shevchenko wrote:
-> > On Thu, May 23, 2024 at 3:42 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > 
-> > 
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_data_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1112       char buf[BUF_SIZE] = {0};
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1113       char *p = buf;
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1114       int ii = 0;
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1115
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1116       hx9031as_sample();
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10  1117       for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
-> > > 5e5a419c9407f6 Yasin Lee 2024-05-10 @1118               p += snprintf(p, PAGE_SIZE, "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
-> > >                                                                          ^^^^^^^^^
-> > 
-> > 
-> > > Also use scnprintf() instead of snprintf() unless you need to check the
-> > > results.
-> > 
-> > This is incorrect advice. You should recommend sysfs_emit() /
-> > sysfs_emit_at() in this kind of case.
-> 
-> No, this is not sysfs code.  It's debugfs.  The API is completely
-> different.
-
-I was going to say that if you find yourself calling sysfs_emit_at()
-then you're already in trouble because sysfs is supposed to be one thing
-per file.
-
-But then I searched and we call it almost 1000 times.
-
-The first caller I looked at was drivers/media/common/siano/smsdvb-debugfs.c
-from commit 2f7d0c94396e ("media: siano: Convert to use sysfs_emit_at()
-API") which changes debugfs code to use sysfs_emit().  And it so clearly
-has never been tested because debug_data->stats_data does not point to
-the start of a page.  sysfs_emit() will refuse to print anything unless
-it's given a pointer to the start of a page.  Ugh...
+I've looked through a large sample of other callers and they're okay.
+The bug seems to not be so prevalent as I feared.
 
 regards,
 dan carpenter
