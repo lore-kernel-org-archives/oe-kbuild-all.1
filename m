@@ -1,298 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0DF16B739;
-	Tue, 28 May 2024 10:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EC416D4E3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 12:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716893396; cv=none; b=XFIX0GjsbqYCs2GRxjHiU85CcKViSph18oJUYKhBn1RW+7QnvKbKHSRVDxsbua6c9LbMwTFLSrz0pVeSULkVcjFnwXRZQaRWIJNeWy7UC+bSBRk2g2yAcy02E5Emk+Et05IXLdljj/9pBqP5WzsKixoC69/BZC89FVg4Q5Ru+ng=
+	t=1716898974; cv=none; b=HGabd7ykBMSVp2S96egeZ6+XczJPMsQHQ7eUrq4klhgu6+ObyGrgoYqywr0RR3GOjDRi/ho5qEYG4ffpdn65eHhNhVWbs3UkgMpAlskA91zs3Rrvfx9BgYWYPgFQk+PLkhcApQxwPz/wKgbynE2i5KLVBb+mnE3bSGbPe3B5gfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716893396; c=relaxed/simple;
-	bh=NQVyfvT3+xs9K7aV7Kae69b9wNOZIjylKNJp7S42FZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uyBEHJabB3S0bKFtwRx1yv90tVAOAh/5fzGgHztUNRvjHzQEh6mE1biEcw1ZlTLwQ8Ip5DbZnE+aqWFcms6/OKaKv3EuQu3VNMjfrRJYnLIe8y7ahS8Cnu2iK/vKW1rSYuceNacoYLI2N/a56fzZjJ5htNiH/eyBnj+yy4vyPB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUoSGQ9B; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1716898974; c=relaxed/simple;
+	bh=KjKbFlMb+jJc1eeLU4kns7MHmvkZGq7XLqQ26l4Xvxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=avb4dt48OMSvAX+Oh8Pd3xavYNstNpTU71/o6jKxVIj6q9RkRe41lJSm902HkTuguNYzsM9qeLsyFZFbgzkqHksXn/ApmWEVeXHRG0kt7uHVcvTtzJxLmZ8cVeSzOh2UtmFo64+pMN9g2ZPIqvhE2kFGVuod737jLn3HHTjZfiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVspQ7WN; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUoSGQ9B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVspQ7WN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716893395; x=1748429395;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=NQVyfvT3+xs9K7aV7Kae69b9wNOZIjylKNJp7S42FZI=;
-  b=nUoSGQ9BXqkSSwcRIogsydBjm98evyoFuh2p+Lel9saaFuSyZUJ1fbSg
-   10GxeHkaK2crnu7NVv7Y82vbMQabklmVe9W0ZC0R8BSGGRpgO4b+I8E5G
-   DPmXc8cxFkkhZmd3pJ+VzC/84giEzoQlrpdDhTobfqycwebkvG0fuH/Ky
-   z5RxKI/q5PpPBsSnhKnvzx5qvd6P9IAzNxlCnNjUcDSWIY1OelpBm/RV9
-   hKdWo/Pb2vtbRlhUfLQcS+d242a1hjcQXmeZ2rTuljGBcCHfa+ewqdRL2
-   Z3XJgT7jMomC14Z/Ci+2EVPG7qvORfmAbHbOvz9Gb8v/OqkAP6z0v73Zj
-   Q==;
-X-CSE-ConnectionGUID: Oj12f+9CRMGgFcA8YT7mHw==
-X-CSE-MsgGUID: sTYVwO9bR5iCh9oxCeXqiw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11725370"
+  t=1716898972; x=1748434972;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KjKbFlMb+jJc1eeLU4kns7MHmvkZGq7XLqQ26l4Xvxw=;
+  b=TVspQ7WNuIl2B+CdpFQD/leQ0PteqKK+mJl/yMH5w3qspC3HgMBmrD90
+   sLLl3C1knxNsZJIZfZDify9vQj2yX0Xcr2MWFUQ88RzeL7xeeg1Dx+lgL
+   7xscB2s6w2ctfuIKIGMGqwlrNmDUGBwRjgR0ZCU/EGGhDfJxLbZzB9Vhv
+   obJQ6CaDXtm0Li+LDkJp9ntqbIs+sP3mBFXLun0B8FFqzXXZE+EYbjIdC
+   lIk0WkdmyMV05REpT9vXtLkCneOMa2UETQAHzNda/IsrHRC1LELJuuA23
+   WYOXe5h7Jx2Qbr0hOr/JUHVGiYWRiCbhlQbOi5fwPX/UZoaz0GBCks5sM
+   w==;
+X-CSE-ConnectionGUID: BZgT/yiWTmmEKvh60LpgFQ==
+X-CSE-MsgGUID: G31AgV61RY2k6VDEiDaSkg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="17029190"
 X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; 
-   d="scan'208";a="11725370"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 03:49:53 -0700
-X-CSE-ConnectionGUID: 14RiTfsJTm+8sEamLaprsg==
-X-CSE-MsgGUID: FXrMOLJTSli166LS5KVPDw==
+   d="scan'208";a="17029190"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 05:22:50 -0700
+X-CSE-ConnectionGUID: odPOU+1tT4eHOFFvbTZ1MQ==
+X-CSE-MsgGUID: /Rw084JcRcqTnz4fvXatjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; 
-   d="scan'208";a="39999188"
+   d="scan'208";a="35077969"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 03:49:49 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 May 2024 05:22:49 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBuOo-000C4Z-0d;
-	Tue, 28 May 2024 10:49:46 +0000
-Date: Tue, 28 May 2024 18:49:20 +0800
+	id 1sBvqo-000CAZ-1i;
+	Tue, 28 May 2024 12:22:46 +0000
+Date: Tue, 28 May 2024 20:22:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li zeming <zeming@nfschina.com>, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Li zeming <zeming@nfschina.com>
-Subject: Re: [PATCH] sched: core: =?utf-8?Q?Remove_?=
- =?utf-8?B?dW5uZWNlc3Nhcnkg4oCYTlVMTOKAmQ==?= values from core_rq
-Message-ID: <202405281844.8oxr5i5s-lkp@intel.com>
-References: <20240528071446.59197-1-zeming@nfschina.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [linux-next:master 1849/2075]
+ drivers/mtd/nand/raw/mxc_nand.c:1479:26: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202405282036.maEDO54Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240528071446.59197-1-zeming@nfschina.com>
 
-Hi Li,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on peterz-queue/sched/core linus/master v6.10-rc1 next-20240528]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-zeming/sched-core-Remove-unnecessary-NULL-values-from-core_rq/20240528-152109
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20240528071446.59197-1-zeming%40nfschina.com
-patch subject: [PATCH] sched: core: Remove unnecessary ‘NULL’ values from core_rq
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240528/202405281844.8oxr5i5s-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405281844.8oxr5i5s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6dc544b66971c7f9909ff038b62149105272d26a
+commit: 2ba9d29c44cc046b46c275d654fa946a0781a540 [1849/2075] mtd: nand: mxc_nand: support software ECC
+config: nios2-randconfig-r133-20240528 (https://download.01.org/0day-ci/archive/20240528/202405282036.maEDO54Q-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240528/202405282036.maEDO54Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405281844.8oxr5i5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405282036.maEDO54Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mtd/nand/raw/mxc_nand.c:1479:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned short [noderef] [usertype] __iomem *t @@     got void *buf @@
+   drivers/mtd/nand/raw/mxc_nand.c:1479:26: sparse:     expected unsigned short [noderef] [usertype] __iomem *t
+   drivers/mtd/nand/raw/mxc_nand.c:1479:26: sparse:     got void *buf
+>> drivers/mtd/nand/raw/mxc_nand.c:1516:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *buf @@     got void [noderef] __iomem * @@
+   drivers/mtd/nand/raw/mxc_nand.c:1516:65: sparse:     expected void *buf
+   drivers/mtd/nand/raw/mxc_nand.c:1516:65: sparse:     got void [noderef] __iomem *
+   drivers/mtd/nand/raw/mxc_nand.c:1527:87: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *buf @@     got void [noderef] __iomem * @@
+   drivers/mtd/nand/raw/mxc_nand.c:1527:87: sparse:     expected void *buf
+   drivers/mtd/nand/raw/mxc_nand.c:1527:87: sparse:     got void [noderef] __iomem *
 
-   In file included from kernel/sched/core.c:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/core.c:34:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from kernel/sched/core.c:34:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from kernel/sched/core.c:34:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> kernel/sched/core.c:6288:2: warning: variable 'core_rq' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-    6288 |         for_each_cpu(t, smt_mask) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cpumask.h:300:2: note: expanded from macro 'for_each_cpu'
-     300 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/find.h:586:18: note: expanded from macro 'for_each_set_bit'
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:6295:20: note: uninitialized use occurs here
-    6295 |         if (WARN_ON_ONCE(!core_rq)) /* impossible */
-         |                           ^~~~~~~
-   include/asm-generic/bug.h:111:25: note: expanded from macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   kernel/sched/core.c:6288:2: note: remove the condition if it is always true
-    6288 |         for_each_cpu(t, smt_mask) {
-         |         ^
-   include/linux/cpumask.h:300:2: note: expanded from macro 'for_each_cpu'
-     300 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |         ^
-   include/linux/find.h:586:18: note: expanded from macro 'for_each_set_bit'
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                         ^
-   kernel/sched/core.c:6272:39: note: initialize the variable 'core_rq' to silence this warning
-    6272 |         struct rq *rq = cpu_rq(cpu), *core_rq;
-         |                                              ^
-         |                                               = NULL
-   kernel/sched/core.c:6225:1: warning: unused function 'class_core_lock_lock_ptr' [-Wunused-function]
-    6225 | DEFINE_LOCK_GUARD_1(core_lock, int,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6226 |                     sched_core_lock(*_T->lock, &_T->flags),
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6227 |                     sched_core_unlock(*_T->lock, &_T->flags),
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6228 |                     unsigned long flags)
-         |                     ~~~~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:232:65: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
-     232 | #define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)          \
-         |                                                                         ^
-     233 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:209:21: note: expanded from macro '\
-   __DEFINE_UNLOCK_GUARD'
-     209 | static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)     \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:76:1: note: expanded from here
-      76 | class_core_lock_lock_ptr
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
-   19 warnings generated.
+vim +1479 drivers/mtd/nand/raw/mxc_nand.c
 
-
-vim +6288 kernel/sched/core.c
-
-3c474b3239f12f Peter Zijlstra 2021-08-19  6268  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6269  static void sched_core_cpu_deactivate(unsigned int cpu)
-3c474b3239f12f Peter Zijlstra 2021-08-19  6270  {
-3c474b3239f12f Peter Zijlstra 2021-08-19  6271  	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
-ca27ccef75e13e Li zeming      2024-05-28  6272  	struct rq *rq = cpu_rq(cpu), *core_rq;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6273  	int t;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6274  
-7170509cadbb76 Peter Zijlstra 2023-08-01  6275  	guard(core_lock)(&cpu);
-3c474b3239f12f Peter Zijlstra 2021-08-19  6276  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6277  	/* if we're the last man standing, nothing to do */
-3c474b3239f12f Peter Zijlstra 2021-08-19  6278  	if (cpumask_weight(smt_mask) == 1) {
-3c474b3239f12f Peter Zijlstra 2021-08-19  6279  		WARN_ON_ONCE(rq->core != rq);
-7170509cadbb76 Peter Zijlstra 2023-08-01  6280  		return;
-9edeaea1bc4523 Peter Zijlstra 2020-11-17  6281  	}
-3c474b3239f12f Peter Zijlstra 2021-08-19  6282  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6283  	/* if we're not the leader, nothing to do */
-3c474b3239f12f Peter Zijlstra 2021-08-19  6284  	if (rq->core != rq)
-7170509cadbb76 Peter Zijlstra 2023-08-01  6285  		return;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6286  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6287  	/* find a new leader */
-3c474b3239f12f Peter Zijlstra 2021-08-19 @6288  	for_each_cpu(t, smt_mask) {
-3c474b3239f12f Peter Zijlstra 2021-08-19  6289  		if (t == cpu)
-3c474b3239f12f Peter Zijlstra 2021-08-19  6290  			continue;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6291  		core_rq = cpu_rq(t);
-3c474b3239f12f Peter Zijlstra 2021-08-19  6292  		break;
-9edeaea1bc4523 Peter Zijlstra 2020-11-17  6293  	}
-3c474b3239f12f Peter Zijlstra 2021-08-19  6294  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6295  	if (WARN_ON_ONCE(!core_rq)) /* impossible */
-7170509cadbb76 Peter Zijlstra 2023-08-01  6296  		return;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6297  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6298  	/* copy the shared state to the new leader */
-3c474b3239f12f Peter Zijlstra 2021-08-19  6299  	core_rq->core_task_seq             = rq->core_task_seq;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6300  	core_rq->core_pick_seq             = rq->core_pick_seq;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6301  	core_rq->core_cookie               = rq->core_cookie;
-4feee7d12603de Josh Don       2021-10-18  6302  	core_rq->core_forceidle_count      = rq->core_forceidle_count;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6303  	core_rq->core_forceidle_seq        = rq->core_forceidle_seq;
-4feee7d12603de Josh Don       2021-10-18  6304  	core_rq->core_forceidle_occupation = rq->core_forceidle_occupation;
-4feee7d12603de Josh Don       2021-10-18  6305  
-4feee7d12603de Josh Don       2021-10-18  6306  	/*
-4feee7d12603de Josh Don       2021-10-18  6307  	 * Accounting edge for forced idle is handled in pick_next_task().
-4feee7d12603de Josh Don       2021-10-18  6308  	 * Don't need another one here, since the hotplug thread shouldn't
-4feee7d12603de Josh Don       2021-10-18  6309  	 * have a cookie.
-4feee7d12603de Josh Don       2021-10-18  6310  	 */
-4feee7d12603de Josh Don       2021-10-18  6311  	core_rq->core_forceidle_start = 0;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6312  
-3c474b3239f12f Peter Zijlstra 2021-08-19  6313  	/* install new leader */
-3c474b3239f12f Peter Zijlstra 2021-08-19  6314  	for_each_cpu(t, smt_mask) {
-3c474b3239f12f Peter Zijlstra 2021-08-19  6315  		rq = cpu_rq(t);
-3c474b3239f12f Peter Zijlstra 2021-08-19  6316  		rq->core = core_rq;
-3c474b3239f12f Peter Zijlstra 2021-08-19  6317  	}
-3c474b3239f12f Peter Zijlstra 2021-08-19  6318  }
-3c474b3239f12f Peter Zijlstra 2021-08-19  6319  
+  1476	
+  1477	static void memff16_toio(void *buf, int n)
+  1478	{
+> 1479		__iomem u16 *t = buf;
+  1480		int i;
+  1481	
+  1482		for (i = 0; i < (n >> 1); i++)
+  1483			__raw_writew(0xffff, t++);
+  1484	}
+  1485	
+  1486	static void copy_page_to_sram(struct mtd_info *mtd, const void *buf, int buf_len)
+  1487	{
+  1488		struct nand_chip *this = mtd_to_nand(mtd);
+  1489		struct mxc_nand_host *host = nand_get_controller_data(this);
+  1490		unsigned int no_subpages = mtd->writesize / 512;
+  1491		int oob_per_subpage, i;
+  1492	
+  1493		oob_per_subpage = (mtd->oobsize / no_subpages) & ~1;
+  1494	
+  1495		/*
+  1496		 * During a page write the i.MX NAND controller will read 512b from
+  1497		 * main_area0 SRAM, then oob_per_subpage bytes from spare0 SRAM, then
+  1498		 * 512b from main_area1 SRAM and so on until the full page is written.
+  1499		 * For software ECC we want to have a 1:1 mapping between the raw page
+  1500		 * data on the NAND chip and the view of the NAND core. This is
+  1501		 * necessary to make the NAND_CMD_RNDOUT read the data it expects.
+  1502		 * To accomplish this we have to write the data in the order the controller
+  1503		 * reads it. This is reversed in copy_page_from_sram() below.
+  1504		 *
+  1505		 * buf_len can either be the full page including the OOB or user data only.
+  1506		 * When it's user data only make sure that we fill up the rest of the
+  1507		 * SRAM with 0xff.
+  1508		 */
+  1509		for (i = 0; i < no_subpages; i++) {
+  1510			int now = min(buf_len, 512);
+  1511	
+  1512			if (now)
+  1513				memcpy16_toio(host->main_area0 + i * 512, buf, now);
+  1514	
+  1515			if (now < 512)
+> 1516				memff16_toio(host->main_area0 + i * 512 + now, 512 - now);
+  1517	
+  1518			buf += 512;
+  1519			buf_len -= now;
+  1520	
+  1521			now = min(buf_len, oob_per_subpage);
+  1522			if (now)
+  1523				memcpy16_toio(host->spare0 + i * host->devtype_data->spare_len,
+  1524					      buf, now);
+  1525	
+  1526			if (now < oob_per_subpage)
+  1527				memff16_toio(host->spare0 + i * host->devtype_data->spare_len + now,
+  1528					     oob_per_subpage - now);
+  1529	
+  1530			buf += oob_per_subpage;
+  1531			buf_len -= now;
+  1532		}
+  1533	}
+  1534	
 
 -- 
 0-DAY CI Kernel Test Service
