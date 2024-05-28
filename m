@@ -1,65 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5656F17798C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 19:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC5110A3E;
+	Tue, 28 May 2024 20:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716926017; cv=none; b=nspGcGvtJl2munFMfxrF3g1sq146vBJwLz+SE83Z+YqKiKPozp6Ypi3a3Z7Rhi6ph0e5j5rBM93GnsnLdmgNhiPIZmK2ZTon6PhWqd3n7ORffGP+AfVOyyeuhqoOWcwzKKSEm4J4kQNjk31KhQlv9Wuov7s8iWZZI6R32T2Eo+4=
+	t=1716927038; cv=none; b=Do1bsbweOpgmjD3M8HfJp4veL5F56oCOO58sxhg/zDN3GiKz6ErgcMqkBUl/neROLG4pIyT0HS2uMVoeRDFSvRwEEqfmERzlEkcnHF2ypPjnSHOc8d3lCD5J9JJ7e0SsgST2hGIzGehQ0Qi3Wlyi6F29kO4mat0vY+KtydSQPkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716926017; c=relaxed/simple;
-	bh=2GDLW8mBju1o4uG0m5oGOiGTXqNYk//TNfdjYbjVCC0=;
+	s=arc-20240116; t=1716927038; c=relaxed/simple;
+	bh=wcGkh7aaZpA1PpmJUQSL6WGUvY81nBPmII61R5pfMVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RwurQwQdyTsd9XhS0VaWJn3edlmPmUmUDn4h9IjuomtpBNt9qxp1UTXgpyELKxJ0n/m/DuvLOINzmHEdXK/1n2Rz/qN1DMAAyZR7VSkX0vV85yUwOFSjmh24AFkNbdPCCZC6AxqRo6jpjQkgmFyzrIfdzw7kxkrkntDS7FEn82A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ca9Ni0tG; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DCX6gBi5cnM4lA8EVlPW4XiPi+RhMEzPjY6lSBnqg7umzO88LeUJphROFPupb2bTpTOXvX+ab0agSnAjrPE35/hgiEujuBN+cEpqh3mrlwJo8eZsIN+izJfQ59xXUalnXa+03rijfSSkEhu3XcXKCvL8jK3qgDNdmf9bw8P5y6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IR3bI3Ch; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ca9Ni0tG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716926016; x=1748462016;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2GDLW8mBju1o4uG0m5oGOiGTXqNYk//TNfdjYbjVCC0=;
-  b=Ca9Ni0tGuPXLUhL2u5d8Xlb1z4tGVsJDC83DG9uoIrNYwryUTGIykm09
-   68bWzp5NzLL8a8OCmfiss4Nxx09ROAcve+1i08QG8M4eHiEaq182xmwN4
-   xiQSQDRghkNxqpdepSB1DR+Vwhg5Inaw7vTAOn2V4hTMM1+mEhxkkOBTk
-   N6YustHOs93GPJ1iupqu1FHwQ7KqC8Nbk6hJ6gwbIITfaT51TgzOs3Yia
-   k1I1p5bQA+oEyt5WJ16ciFwDo7m+w0lxkK4M7QLcYEQ79Ypu8DWytQait
-   3HTNbi0TdONSvaOx9l2nP7mK6iGSuHLGTOjfumelzLfYpdVyWOCt0rwv/
-   A==;
-X-CSE-ConnectionGUID: vSytnPSKTcKOahQ1OnwbGw==
-X-CSE-MsgGUID: BUSbvHA3Sa+xiVvnctwfKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="38680920"
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="38680920"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 12:53:33 -0700
-X-CSE-ConnectionGUID: TbU7bDAvS9WqN0SZ/Fi57Q==
-X-CSE-MsgGUID: HAEOm8hlQN+2e4GC485Nog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="66372826"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 May 2024 12:53:31 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sC2sx-000ChX-0X;
-	Tue, 28 May 2024 19:53:27 +0000
-Date: Wed, 29 May 2024 03:52:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	larysa.zaremba@intel.com, netdev@vger.kernel.org,
-	michal.kubiak@intel.com, anthony.l.nguyen@intel.com,
-	magnus.karlsson@intel.com
-Subject: Re: [Intel-wired-lan] [PATCH iwl-net 08/11] ice: xsk: fix txq
- interrupt mapping
-Message-ID: <202405290301.TKfQE09f-lkp@intel.com>
-References: <20240528131429.3012910-9-maciej.fijalkowski@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IR3bI3Ch"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B0BC3277B;
+	Tue, 28 May 2024 20:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716927037;
+	bh=wcGkh7aaZpA1PpmJUQSL6WGUvY81nBPmII61R5pfMVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IR3bI3ChcIZ7nAeSIVKvI+2v2WRLsiEYzACZlaCw52p0zcay5cxQkUcgN2i0EMclX
+	 /qkR3NN+JuF4Tlmmpo+coCDlxayPwQTmfXeqod4Da8FPnvrWlbNUmBx3IA8McVzSZv
+	 nsgdGQ0Q4Mt0FkPWLc8xYeVyV0KpUJr1xfv7t7oyHWQ0mlJgShuodFRgIz8QpP62PM
+	 O6tqUmdjd+GKKOlJtcIC091IPoe/EXYEtRIbdsFPswREGxRUUaU2lEDWhnG/ZUk9y4
+	 lMRXGw+ulpOM29E2XzbMvPkgU/ucu/OQyeAv5BJj//p3Bj0Z7OReGazSkxRgzAE5CX
+	 ro1/jt3CWj/cg==
+Date: Tue, 28 May 2024 13:10:35 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Jeff Layton <jlayton@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [jlayton:mgtime 4/5] fs/inode.c:73:15: error: '__section__'
+ attribute only applies to functions, global variables, Objective-C methods,
+ and Objective-C properties
+Message-ID: <20240528201035.GA2680415@thelio-3990X>
+References: <202405281321.aRVc7usN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,71 +44,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528131429.3012910-9-maciej.fijalkowski@intel.com>
+In-Reply-To: <202405281321.aRVc7usN-lkp@intel.com>
 
-Hi Maciej,
+On Tue, May 28, 2024 at 01:22:40PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
+> head:   05aa6b03b8c3451d4aac5fb47e9e99c6e00ee304
+> commit: 05ca0fa7e195e028694f41de279dec33ada93d21 [4/5] fs: add infrastructure for multigrain timestamps
+> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240528/202405281321.aRVc7usN-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405281321.aRVc7usN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405281321.aRVc7usN-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> fs/inode.c:73:15: error: '__section__' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
+>       73 | static struct __cacheline_aligned_in_smp ctime_floor_val ctime_floor;
+>          |               ^
 
-kernel test robot noticed the following build warnings:
+The message is slightly obtuse but this attribute shouldn't be splitting
+the type, otherwise it is parsed as a type attribute.
 
-[auto build test WARNING on tnguy-net-queue/dev-queue]
+  static struct ctime_floor_val ctime_floor __cacheline_aligned_in_smp;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/ice-respect-netif-readiness-in-AF_XDP-ZC-related-ndo-s/20240528-211914
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20240528131429.3012910-9-maciej.fijalkowski%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-net 08/11] ice: xsk: fix txq interrupt mapping
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240529/202405290301.TKfQE09f-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290301.TKfQE09f-lkp@intel.com/reproduce)
+or
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290301.TKfQE09f-lkp@intel.com/
+  static __cacheline_aligned_in_smp struct ctime_floor_val ctime_floor;
 
-All warnings (new ones prefixed by >>):
+should work.
 
->> drivers/net/ethernet/intel/ice/ice_xsk.c:117: warning: Function parameter or struct member 'qid' not described in 'ice_qvec_cfg_msix'
-   drivers/net/ethernet/intel/ice/ice_xsk.c:479: warning: Function parameter or struct member 'xsk_pool' not described in '__ice_alloc_rx_bufs_zc'
-   drivers/net/ethernet/intel/ice/ice_xsk.c:528: warning: Function parameter or struct member 'xsk_pool' not described in 'ice_alloc_rx_bufs_zc'
-   drivers/net/ethernet/intel/ice/ice_xsk.c:983: warning: Function parameter or struct member 'xsk_pool' not described in 'ice_xmit_pkt'
-   drivers/net/ethernet/intel/ice/ice_xsk.c:1008: warning: Function parameter or struct member 'xsk_pool' not described in 'ice_xmit_pkt_batch'
-   drivers/net/ethernet/intel/ice/ice_xsk.c:1041: warning: Function parameter or struct member 'xsk_pool' not described in 'ice_fill_tx_hw_ring'
-
-
-vim +117 drivers/net/ethernet/intel/ice/ice_xsk.c
-
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  109  
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  110  /**
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  111   * ice_qvec_cfg_msix - Enable IRQ for given queue vector
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  112   * @vsi: the VSI that contains queue vector
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  113   * @q_vector: queue vector
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  114   */
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  115  static void
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  116  ice_qvec_cfg_msix(struct ice_vsi *vsi, struct ice_q_vector *q_vector, u16 qid)
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04 @117  {
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  118  	u16 reg_idx = q_vector->reg_idx;
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  119  	struct ice_pf *pf = vsi->back;
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  120  	struct ice_hw *hw = &pf->hw;
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  121  	int q, _qid = qid;
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  122  
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  123  	ice_cfg_itr(hw, q_vector);
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  124  
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  125  	for (q = 0; q < q_vector->num_ring_tx; q++) {
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  126  		ice_cfg_txq_interrupt(vsi, _qid, reg_idx, q_vector->tx.itr_idx);
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  127  		_qid++;
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  128  	}
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  129  
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  130  	_qid = qid;
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  131  
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  132  	for (q = 0; q < q_vector->num_ring_rx; q++) {
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  133  		ice_cfg_rxq_interrupt(vsi, _qid, reg_idx, q_vector->rx.itr_idx);
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  134  		_qid++;
-d77176d15a1b0ed Maciej Fijalkowski     2024-05-28  135  	}
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  136  
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  137  	ice_flush(hw);
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  138  }
-2d4238f55697221 Krzysztof Kazimierczak 2019-11-04  139  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    include/linux/cache.h:60:36: note: expanded from macro '__cacheline_aligned_in_smp'
+>       60 | #define __cacheline_aligned_in_smp __cacheline_aligned
+>          |                                    ^
+>    include/linux/cache.h:55:4: note: expanded from macro '__cacheline_aligned'
+>       55 |                  __section__(".data..cacheline_aligned")))
+>          |                  ^
+>    fs/inode.c:73:15: warning: attribute declaration must precede definition [-Wignored-attributes]
+>    include/linux/cache.h:60:36: note: expanded from macro '__cacheline_aligned_in_smp'
+>       60 | #define __cacheline_aligned_in_smp __cacheline_aligned
+>          |                                    ^
+>    include/linux/cache.h:54:18: note: expanded from macro '__cacheline_aligned'
+>       54 |   __attribute__((__aligned__(SMP_CACHE_BYTES),                  \
+>          |                  ^
+>    fs/inode.c:64:8: note: previous definition is here
+>       64 | struct ctime_floor_val {
+>          |        ^
+>    1 warning and 1 error generated.
+> 
+> 
+> vim +/__section__ +73 fs/inode.c
+> 
+>     62	
+>     63	/* Floor value for all ctime stamps */
+>     64	struct ctime_floor_val {
+>     65		union {
+>     66			struct {
+>     67				ktime_t	coarse;
+>     68				ktime_t	floor;
+>     69			};
+>     70			u128	full;
+>     71		};
+>     72	};
+>   > 73	static struct __cacheline_aligned_in_smp ctime_floor_val ctime_floor;
+>     74	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
