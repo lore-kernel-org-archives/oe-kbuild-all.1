@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7458D4E1D1;
-	Tue, 28 May 2024 05:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E14DF6B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 06:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716875832; cv=none; b=gh9Rw8PAiLs/UL1uxi+94LNxftPEF+HWP369G2hRMvr82x/mTt+/NyUM9ZYXv0M02wR4kAi4/T8mf9Wr0WmtebLrqOUppNlP50Rcdy+WhoU8EZKeBy8e/DH/BZAPiTMswG8Llso29cwOft9LYQs4iXh9osstSGZrs56GVvCUl38=
+	t=1716876389; cv=none; b=slyjpk4iLMr53vrXREgET1YcMl0TBqZaL8SYDqgCs1gozKNOCTwmVFKobdJIr9TcWA55WkOAw8yNaI61Hw/cAK4ODyxPvYbbDAHnQUv+77CovbIJrdz7V66d/5aI3yBPA4LkD3X1L06d+O7v03hwKkEg3XMdEma8bE3ZsWxMmLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716875832; c=relaxed/simple;
-	bh=Bl+tumTtb0zxbmKykSJ4o8iUkXEuJqbF/T0H8qlo9Bc=;
+	s=arc-20240116; t=1716876389; c=relaxed/simple;
+	bh=+wDb0hViySGzAJkfQnJZc+AXxAi3/1xTmay1Zy7Q7vk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jfSJ8DwUCdZiSJlRf/iA6Vvyo8g4hqUAzTBWxDEImkALOVk9fLr4eucoteYMhSG4G2jFfJVLtR92qLfTmjmNc2ogNgXdo6xsIntmFVW88aGHTxxjyexHNg/IC2V825m4UgjgktumPv9ZWxXAO1lx/Q5eF/+pui3auRWmWbGldSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ta2Is1nM; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=BM2O/XVa8MgWyPq3HAwSMiCkDr30XqY5i0Y9fLbbFVwj0mnAkA6UvKKWYmhtEHP5YDce9+SmwNBPYc9q9DDjq7xMbINT2jSTTMrxpEXOgSUEX8qVigAummADnndd9drYVb98yU80srqsGCudeBgeI1ZrrHwETVjawo+fypVv2KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1B5EVtR; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ta2Is1nM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1B5EVtR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716875830; x=1748411830;
+  t=1716876387; x=1748412387;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bl+tumTtb0zxbmKykSJ4o8iUkXEuJqbF/T0H8qlo9Bc=;
-  b=Ta2Is1nMcHRFMLdrAcTENRcV1mWFVd8zluuSZ/xSBa8RWC6AyMpcamEJ
-   b3KKSrrr18b8zF2euTbKNi+psOmToh7UuggPTk38SCVHDLQXkwslhKnCA
-   QyzLVSysRUOMUNnO0dYRMl2GrDAWphLGsleMIKRYSwE1dQKdgEO3gjJUj
-   0TcEKtDxouGNUiTtcXm07BAlBn8DBkDWNAWDVjHVudR7x/h32CIVW1RcB
-   xuTAu5PJOl6Dy12wHwL4bz5KrzAHfPGTLyq2QSosjCECUhNMP5zQuLHUC
-   SK9Aq6JzZkeGW9Mc2oxoRJcphhNhlAwYXeaFp8MzZhNXX0b64IDKLutx5
-   A==;
-X-CSE-ConnectionGUID: a37rUWTbRoGBgx7ycs9bEg==
-X-CSE-MsgGUID: bGZ8yH8iTUW1y940pMvuBQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="38581315"
+  bh=+wDb0hViySGzAJkfQnJZc+AXxAi3/1xTmay1Zy7Q7vk=;
+  b=O1B5EVtRwUkfNcKls7Pqf57cjeQsaitHHk9tEgkCXARDXip6hxlAr58x
+   ovMU+DTCoG+d2MZIsWgxmoT8zQHZgJONBKYKZy8wWPyqQCcPDRgyf93YB
+   k+QGHBAwr7DEYJ5+z9VB01tXgONMkH/U9NCYgvvKCt3xZBtmQyzx5PnXb
+   AKhX9iCCetoBWG7f3cg0ImWNPZAPCn/Qw5+NBQy5oDihI4iUWjGPN2CHs
+   uW08HGEv4ImRW5DQSnPvmyaIpqmqlOlHPaMsK5kFNM+pHv2DvU4U88MDS
+   M0oVI0sNIEqo9F7aXHZQienB72i8J6dRg6DI/R117buonJiVzhu8xy+zU
+   w==;
+X-CSE-ConnectionGUID: 5hUcPl5aTM+B4mYDgjA7KA==
+X-CSE-MsgGUID: Bwav4rJ1SMW5/O8JUI7MpA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13147897"
 X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="38581315"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 22:57:09 -0700
-X-CSE-ConnectionGUID: GTo8Wx+6QZO+YHjp0bqgVQ==
-X-CSE-MsgGUID: XgkZf6RkSnazzXefKziFnw==
+   d="scan'208";a="13147897"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 23:06:27 -0700
+X-CSE-ConnectionGUID: V3F9sgd6SEqsmepnP8Diew==
+X-CSE-MsgGUID: kVSMYu1hQf2uyIrvoJ/O2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="39753500"
+   d="scan'208";a="34877075"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 27 May 2024 22:57:08 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 27 May 2024 23:06:25 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBppP-000Blb-0r;
-	Tue, 28 May 2024 05:56:58 +0000
-Date: Tue, 28 May 2024 13:55:27 +0800
+	id 1sBpyZ-000BmJ-0R;
+	Tue, 28 May 2024 06:06:23 +0000
+Date: Tue, 28 May 2024 14:06:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jarkko-tpmdd:tpm2key-v6 7/7]
- crypto/asymmetric_keys/tpm2_key_ecdsa.c:247:13: error: 'u8 *' (aka 'unsigned
- char *') and 'void *' are not pointers to compatible types
-Message-ID: <202405281325.ntObrFj5-lkp@intel.com>
+ crypto/asymmetric_keys/tpm2_key_ecdsa.c:247:20: error: invalid operands to
+ binary - (have 'u8 *' {aka 'unsigned char *'} and 'void *')
+Message-ID: <202405281432.g5mXeFzp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,60 +66,21 @@ Content-Disposition: inline
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v6
 head:   dc964eb239038a9c46b80b57e5113138949a6c0c
 commit: dc964eb239038a9c46b80b57e5113138949a6c0c [7/7] keys: asymmetric: Add tpm2_key_ecdsa
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240528/202405281325.ntObrFj5-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405281325.ntObrFj5-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240528/202405281432.g5mXeFzp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405281432.g5mXeFzp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405281325.ntObrFj5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405281432.g5mXeFzp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:20:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:20:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:20:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:20:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> crypto/asymmetric_keys/tpm2_key_ecdsa.c:247:13: error: 'u8 *' (aka 'unsigned char *') and 'void *' are not pointers to compatible types
+   crypto/asymmetric_keys/tpm2_key_ecdsa.c: In function 'tpm2_key_ecdsa_sign':
+>> crypto/asymmetric_keys/tpm2_key_ecdsa.c:247:20: error: invalid operands to binary - (have 'u8 *' {aka 'unsigned char *'} and 'void *')
      247 |         return ptr - out;
-         |                ~~~ ^ ~~~
-   7 warnings and 1 error generated.
+         |                    ^
 
 
 vim +247 crypto/asymmetric_keys/tpm2_key_ecdsa.c
