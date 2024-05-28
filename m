@@ -1,62 +1,64 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E342905
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 08:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0DF16B739;
+	Tue, 28 May 2024 10:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716885091; cv=none; b=tCUZ6hhaaLnDmiqozWdrExXlo/Q1GPGy/6VvmSmAH4H430a95Bg5kK9LfjTp2C1DHteT1M00KdsyoxE95wopPpEHbDtgZXjL4WcIsFPGF9Kct+T3HxvcvsrieYLuLi4O7SQB85BO5D/7mvu2ypRVjVlrb3UJWe5GxvZ/QGUKUT0=
+	t=1716893396; cv=none; b=XFIX0GjsbqYCs2GRxjHiU85CcKViSph18oJUYKhBn1RW+7QnvKbKHSRVDxsbua6c9LbMwTFLSrz0pVeSULkVcjFnwXRZQaRWIJNeWy7UC+bSBRk2g2yAcy02E5Emk+Et05IXLdljj/9pBqP5WzsKixoC69/BZC89FVg4Q5Ru+ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716885091; c=relaxed/simple;
-	bh=hRzdef8XPLYeBwzz7zJIIYKKUt4ERd3kLt9PrHJbryQ=;
+	s=arc-20240116; t=1716893396; c=relaxed/simple;
+	bh=NQVyfvT3+xs9K7aV7Kae69b9wNOZIjylKNJp7S42FZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yq7I2IY8yTpA6IvNXbjggBSShLu8D1FiK4LH45FaKSio/oa+slCF+gAcKIoPxGij2Bkw/iVkWEF4KHM4ihPrTSn6o6FxDGpa2vCzaZMrnpNTheMr8udbLEI23MvtfCOUteaZ2H9N0K1N5QHXwexbhAbhx9ifg3uIX/Ck3mFSuhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=A4kZU28X; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyBEHJabB3S0bKFtwRx1yv90tVAOAh/5fzGgHztUNRvjHzQEh6mE1biEcw1ZlTLwQ8Ip5DbZnE+aqWFcms6/OKaKv3EuQu3VNMjfrRJYnLIe8y7ahS8Cnu2iK/vKW1rSYuceNacoYLI2N/a56fzZjJ5htNiH/eyBnj+yy4vyPB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUoSGQ9B; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="A4kZU28X"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D27ED40E01E8;
-	Tue, 28 May 2024 08:31:25 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id TeMqPknJFoUL; Tue, 28 May 2024 08:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1716885081; bh=GAaJd03aDIcqO1Y7rC4jWoQ69Bx1utbBKzL99Q7ytoo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A4kZU28X0sDRe712qfVx/qWxWhfVPxwRHaMIZKuHLCr95DTS/o4REZfQ4KPnKIvId
-	 1PPLMPkJsPHqj4r2Asd0Z8hwf54GIUEYFc+VwCKam7HtYgVVqnq2X1KRfwDRrpScwQ
-	 tpeStrIPUdtzmF3/IK4T7EzX+UAl42+BDCY/G2Dz6pTJ5GwdWiFmtdXq2jp6PegwrK
-	 oZAVoDzYWofB975QBa93INSe5WCaAsJjXnJzmcjsZGJWNxNOuOOY/THyePywOE8IeQ
-	 y/VmZ3CLivAbSwGTDLzzFk0ID3Vau8Im1lq28fGe1rr4aVGtn6d/Yiznu71c++wR5Z
-	 UJvmMbQYJgUl6UAqHm0LHUiIrXPxbgkFC/kDl+we3GKuDLUe31/Gm+TnbNbngHwgaz
-	 8QFSD3N96JkvrB9szIF+VJgCS8Dzn/anwY0YPWALXtma0GMb2pf7nSkefaio/WL8zE
-	 spJoLJx7biuwd+33pKsK4H1uQB4WiBwlDBwyoD8GDBmGstpvMBiZ+v+pq7SBNhtpYW
-	 fe8V3MdgkC2WXlx7chJu11G2vZENn+HTl9aG+xwcRit/r6Ewg5e+uPZJsU6sTM14TB
-	 deawA+7gwX+p8PSmprv4njOFBfwYWBdRcIkEZDHVsXSBQr/OkCo4DrXJICkdxKgXXh
-	 GsmZUJB+lvApJL+765+qEXyg=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B927440E016A;
-	Tue, 28 May 2024 08:31:14 +0000 (UTC)
-Date: Tue, 28 May 2024 10:31:13 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Nuno Sa <nuno.sa@analog.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dragos Bogdan <dragos.bogdan@analog.com>,
-	lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [linux-next:master 6544/8170] ERROR: modpost:
- "__spi_register_driver" [drivers/iio/dac/ad9739a.ko] undefined!
-Message-ID: <20240528083113.GAZlWWUdcO_TZX3VsV@fat_crate.local>
-References: <202404250156.2PQRWmex-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUoSGQ9B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716893395; x=1748429395;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=NQVyfvT3+xs9K7aV7Kae69b9wNOZIjylKNJp7S42FZI=;
+  b=nUoSGQ9BXqkSSwcRIogsydBjm98evyoFuh2p+Lel9saaFuSyZUJ1fbSg
+   10GxeHkaK2crnu7NVv7Y82vbMQabklmVe9W0ZC0R8BSGGRpgO4b+I8E5G
+   DPmXc8cxFkkhZmd3pJ+VzC/84giEzoQlrpdDhTobfqycwebkvG0fuH/Ky
+   z5RxKI/q5PpPBsSnhKnvzx5qvd6P9IAzNxlCnNjUcDSWIY1OelpBm/RV9
+   hKdWo/Pb2vtbRlhUfLQcS+d242a1hjcQXmeZ2rTuljGBcCHfa+ewqdRL2
+   Z3XJgT7jMomC14Z/Ci+2EVPG7qvORfmAbHbOvz9Gb8v/OqkAP6z0v73Zj
+   Q==;
+X-CSE-ConnectionGUID: Oj12f+9CRMGgFcA8YT7mHw==
+X-CSE-MsgGUID: sTYVwO9bR5iCh9oxCeXqiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11725370"
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; 
+   d="scan'208";a="11725370"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 03:49:53 -0700
+X-CSE-ConnectionGUID: 14RiTfsJTm+8sEamLaprsg==
+X-CSE-MsgGUID: FXrMOLJTSli166LS5KVPDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; 
+   d="scan'208";a="39999188"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 03:49:49 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sBuOo-000C4Z-0d;
+	Tue, 28 May 2024 10:49:46 +0000
+Date: Tue, 28 May 2024 18:49:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li zeming <zeming@nfschina.com>, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Li zeming <zeming@nfschina.com>
+Subject: Re: [PATCH] sched: core: =?utf-8?Q?Remove_?=
+ =?utf-8?B?dW5uZWNlc3Nhcnkg4oCYTlVMTOKAmQ==?= values from core_rq
+Message-ID: <202405281844.8oxr5i5s-lkp@intel.com>
+References: <20240528071446.59197-1-zeming@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,69 +67,233 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202404250156.2PQRWmex-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240528071446.59197-1-zeming@nfschina.com>
 
-+ lkml.
+Hi Li,
 
-On Thu, Apr 25, 2024 at 01:48:56AM +0800, kernel test robot wrote:
-> Hi Nuno,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
-> commit: e77603d5468b9093c111a998a86604e21a9e7f48 [6544/8170] iio: dac: support the ad9739a RF DAC
-> config: csky-randconfig-002-20240424 (https://download.01.org/0day-ci/archive/20240425/202404250156.2PQRWmex-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240425/202404250156.2PQRWmex-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404250156.2PQRWmex-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
+kernel test robot noticed the following build warnings:
 
-...
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on peterz-queue/sched/core linus/master v6.10-rc1 next-20240528]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-> >> ERROR: modpost: "spi_write_then_read" [drivers/base/regmap/regmap-spi.ko] undefined!
-> >> ERROR: modpost: "spi_sync" [drivers/base/regmap/regmap-spi.ko] undefined!
-> >> ERROR: modpost: "spi_async" [drivers/base/regmap/regmap-spi.ko] undefined!
-> >> ERROR: modpost: "__spi_register_driver" [drivers/iio/dac/ad9739a.ko] undefined!
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for REGMAP_SPI
->    Depends on [n]: SPI [=n]
->    Selected by [m]:
->    - AD9739A [=m] && IIO [=m] && (SPI [=n] || COMPILE_TEST [=y])
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-zeming/sched-core-Remove-unnecessary-NULL-values-from-core_rq/20240528-152109
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20240528071446.59197-1-zeming%40nfschina.com
+patch subject: [PATCH] sched: core: Remove unnecessary ‘NULL’ values from core_rq
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240528/202405281844.8oxr5i5s-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405281844.8oxr5i5s-lkp@intel.com/reproduce)
 
-this thing fires now upstream too, in my build tests:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405281844.8oxr5i5s-lkp@intel.com/
 
-WARNING: unmet direct dependencies detected for REGMAP_SPI
-  Depends on [n]: SPI [=n]
-  Selected by [m]:
-  - AD9739A [=m] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+All warnings (new ones prefixed by >>):
 
-WARNING: unmet direct dependencies detected for REGMAP_SPI
-  Depends on [n]: SPI [=n]
-  Selected by [m]:
-  - AD9739A [=m] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+   In file included from kernel/sched/core.c:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/core.c:34:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from kernel/sched/core.c:34:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from kernel/sched/core.c:34:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> kernel/sched/core.c:6288:2: warning: variable 'core_rq' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+    6288 |         for_each_cpu(t, smt_mask) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cpumask.h:300:2: note: expanded from macro 'for_each_cpu'
+     300 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/find.h:586:18: note: expanded from macro 'for_each_set_bit'
+     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6295:20: note: uninitialized use occurs here
+    6295 |         if (WARN_ON_ONCE(!core_rq)) /* impossible */
+         |                           ^~~~~~~
+   include/asm-generic/bug.h:111:25: note: expanded from macro 'WARN_ON_ONCE'
+     111 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   kernel/sched/core.c:6288:2: note: remove the condition if it is always true
+    6288 |         for_each_cpu(t, smt_mask) {
+         |         ^
+   include/linux/cpumask.h:300:2: note: expanded from macro 'for_each_cpu'
+     300 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
+         |         ^
+   include/linux/find.h:586:18: note: expanded from macro 'for_each_set_bit'
+     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                         ^
+   kernel/sched/core.c:6272:39: note: initialize the variable 'core_rq' to silence this warning
+    6272 |         struct rq *rq = cpu_rq(cpu), *core_rq;
+         |                                              ^
+         |                                               = NULL
+   kernel/sched/core.c:6225:1: warning: unused function 'class_core_lock_lock_ptr' [-Wunused-function]
+    6225 | DEFINE_LOCK_GUARD_1(core_lock, int,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6226 |                     sched_core_lock(*_T->lock, &_T->flags),
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6227 |                     sched_core_unlock(*_T->lock, &_T->flags),
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6228 |                     unsigned long flags)
+         |                     ~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:232:65: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
+     232 | #define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)          \
+         |                                                                         ^
+     233 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:209:21: note: expanded from macro '\
+   __DEFINE_UNLOCK_GUARD'
+     209 | static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)     \
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:76:1: note: expanded from here
+      76 | class_core_lock_lock_ptr
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   19 warnings generated.
 
-WARNING: unmet direct dependencies detected for REGMAP_SPI
-  Depends on [n]: SPI [=n]
-  Selected by [m]:
-  - AD9739A [=m] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
-ERROR: modpost: "spi_sync" [drivers/base/regmap/regmap-spi.ko] undefined!
-ERROR: modpost: "spi_async" [drivers/base/regmap/regmap-spi.ko] undefined!
-ERROR: modpost: "spi_write_then_read" [drivers/base/regmap/regmap-spi.ko] undefined!
-ERROR: modpost: "__spi_register_driver" [drivers/iio/dac/ad9739a.ko] undefined!
-make[2]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
-make[1]: *** [/home/amd/bpetkov/kernel/linux/Makefile:1886: modpost] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
+
+vim +6288 kernel/sched/core.c
+
+3c474b3239f12f Peter Zijlstra 2021-08-19  6268  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6269  static void sched_core_cpu_deactivate(unsigned int cpu)
+3c474b3239f12f Peter Zijlstra 2021-08-19  6270  {
+3c474b3239f12f Peter Zijlstra 2021-08-19  6271  	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
+ca27ccef75e13e Li zeming      2024-05-28  6272  	struct rq *rq = cpu_rq(cpu), *core_rq;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6273  	int t;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6274  
+7170509cadbb76 Peter Zijlstra 2023-08-01  6275  	guard(core_lock)(&cpu);
+3c474b3239f12f Peter Zijlstra 2021-08-19  6276  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6277  	/* if we're the last man standing, nothing to do */
+3c474b3239f12f Peter Zijlstra 2021-08-19  6278  	if (cpumask_weight(smt_mask) == 1) {
+3c474b3239f12f Peter Zijlstra 2021-08-19  6279  		WARN_ON_ONCE(rq->core != rq);
+7170509cadbb76 Peter Zijlstra 2023-08-01  6280  		return;
+9edeaea1bc4523 Peter Zijlstra 2020-11-17  6281  	}
+3c474b3239f12f Peter Zijlstra 2021-08-19  6282  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6283  	/* if we're not the leader, nothing to do */
+3c474b3239f12f Peter Zijlstra 2021-08-19  6284  	if (rq->core != rq)
+7170509cadbb76 Peter Zijlstra 2023-08-01  6285  		return;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6286  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6287  	/* find a new leader */
+3c474b3239f12f Peter Zijlstra 2021-08-19 @6288  	for_each_cpu(t, smt_mask) {
+3c474b3239f12f Peter Zijlstra 2021-08-19  6289  		if (t == cpu)
+3c474b3239f12f Peter Zijlstra 2021-08-19  6290  			continue;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6291  		core_rq = cpu_rq(t);
+3c474b3239f12f Peter Zijlstra 2021-08-19  6292  		break;
+9edeaea1bc4523 Peter Zijlstra 2020-11-17  6293  	}
+3c474b3239f12f Peter Zijlstra 2021-08-19  6294  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6295  	if (WARN_ON_ONCE(!core_rq)) /* impossible */
+7170509cadbb76 Peter Zijlstra 2023-08-01  6296  		return;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6297  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6298  	/* copy the shared state to the new leader */
+3c474b3239f12f Peter Zijlstra 2021-08-19  6299  	core_rq->core_task_seq             = rq->core_task_seq;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6300  	core_rq->core_pick_seq             = rq->core_pick_seq;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6301  	core_rq->core_cookie               = rq->core_cookie;
+4feee7d12603de Josh Don       2021-10-18  6302  	core_rq->core_forceidle_count      = rq->core_forceidle_count;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6303  	core_rq->core_forceidle_seq        = rq->core_forceidle_seq;
+4feee7d12603de Josh Don       2021-10-18  6304  	core_rq->core_forceidle_occupation = rq->core_forceidle_occupation;
+4feee7d12603de Josh Don       2021-10-18  6305  
+4feee7d12603de Josh Don       2021-10-18  6306  	/*
+4feee7d12603de Josh Don       2021-10-18  6307  	 * Accounting edge for forced idle is handled in pick_next_task().
+4feee7d12603de Josh Don       2021-10-18  6308  	 * Don't need another one here, since the hotplug thread shouldn't
+4feee7d12603de Josh Don       2021-10-18  6309  	 * have a cookie.
+4feee7d12603de Josh Don       2021-10-18  6310  	 */
+4feee7d12603de Josh Don       2021-10-18  6311  	core_rq->core_forceidle_start = 0;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6312  
+3c474b3239f12f Peter Zijlstra 2021-08-19  6313  	/* install new leader */
+3c474b3239f12f Peter Zijlstra 2021-08-19  6314  	for_each_cpu(t, smt_mask) {
+3c474b3239f12f Peter Zijlstra 2021-08-19  6315  		rq = cpu_rq(t);
+3c474b3239f12f Peter Zijlstra 2021-08-19  6316  		rq->core = core_rq;
+3c474b3239f12f Peter Zijlstra 2021-08-19  6317  	}
+3c474b3239f12f Peter Zijlstra 2021-08-19  6318  }
+3c474b3239f12f Peter Zijlstra 2021-08-19  6319  
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
