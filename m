@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3407C2563
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 18:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87972CA6B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 19:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716922139; cv=none; b=CXXwCt+YQ+yn1vI7LRtvVNqr7G+7iW2THaF89orxp9QxNUj84EZXuwFUkstdhvCeAhX30nUz8ueyUpEwdBi4E4zZ+RsSjTzYoJ4lU3OC1rT6q9viCUBY3023G22n4kwErFVdg2RZsHyj4XWrr61IZCas8akeAmb8S/lBMWfA9tc=
+	t=1716924079; cv=none; b=NE2A/vHlWUEOjPDeT10IHMJe09sB95IML6diGFMK2j3XNljtc2WLk4TJ7hBd0L3UB9nf3o9e1DjPiSxnQquS0sVpxlXMO9gIC11YMQKD6CABUsoX2HJpEx1bd50G/lGrSrgLNozpp0G1tBfEjJyWcfkl0jU6xkvlxfij6djmCfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716922139; c=relaxed/simple;
-	bh=55VsRLtb8ErN2ls5GjyxauYkp/xcWUnZZ3ABknV+/Vc=;
+	s=arc-20240116; t=1716924079; c=relaxed/simple;
+	bh=1go40UN7lZSs0IgXdV4yzHYBmO0tby9ey+VyQUwrsx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=czuB47rYAAraZBLmCh4LzBgz409taNKCO5f0wWRx1ZHmcDy3s/kwKywUrqePjSL/qv7wRTroAM3f5nYxF/g7St/Wgsj1hJkad93OBbHyzfFDvj6y3qq5MFQcj3LWRFgGturuMEEkAokjpLaYsWWd408qy8g0nzJxCUS7dnT1WxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b7C/Ho1U; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=OpwDNwMxojXUuDMT9gsBwxa3vR/cLIVZqhl8ZAPkjv49VPg53UTQngcq4vOlAGJgGvAW9bwPEA+4SWS1piDA4p5huF/8+/bKLEya34akZtxX20V8lAafwkJUKnFKWhu/6AIb0AaHNLWBo3LpUi5PYBgPYdZArrK9a+2VvzYtgIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDt/ik4e; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b7C/Ho1U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDt/ik4e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716922138; x=1748458138;
+  t=1716924077; x=1748460077;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=55VsRLtb8ErN2ls5GjyxauYkp/xcWUnZZ3ABknV+/Vc=;
-  b=b7C/Ho1UZ/RLrvLEoRGB6vNYHR7IfZC62xG8OY31DX2FAPoorMOQixKZ
-   gEsIZaWl9yT7Yee6tN+7Rk5YFEOnrm04WYe596DdphpVOM2HJ6ESyg5fV
-   9/eEv/Tswl7jr/UgESGJP/dIRKkYo0OQ1LFskZBcN7V/HUvJS3Pb8e7cW
-   vcJ5LVAo366I8uHS9vgpKFYK/dPIb+O1PLdjDwR0QOxqUz3kmqVc7uHoh
-   lnGxIkNfl0G1XG7/NfdGH0ktWUvq0mIvbZj0w2TpfenCx5AJsdTZycmtP
-   3u5R294QzeVnVqvdT5ScKPRokru5uTeFBWLwyCj9uHaODgCBbJ+dm758s
-   Q==;
-X-CSE-ConnectionGUID: ZteZS587TB2w5ihpxXBiPg==
-X-CSE-MsgGUID: 7Qxq63cJSHWiPXgz6hpFtQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11734906"
+  bh=1go40UN7lZSs0IgXdV4yzHYBmO0tby9ey+VyQUwrsx8=;
+  b=PDt/ik4eB7+2txxZDzOM0MhNuz6q+VDvqkz4xopTwMbAYy6D/GhzbRhq
+   yL5p2t8kwvkl3dgqyZFK10A6yXJCk7pRDsWRwbYB8j6RXeYs+/MMqt/EL
+   f2FXofqOM9ekwG7GOkxBzZ2T7VpnlfF2+WGF6IbaztNCk/ploP2pA8heV
+   GH2oJ52N5AROexaSGJwU8t438kf0hQz27WdcyBHPGQ1SjJFEuCGYbmx1T
+   9bOGb27nOpb/CniMt2+cxfgToLsCkkZaYIrBleLz5Ltv+QYNFEn8oghaR
+   LT0VGvla79RLjYhJ7mOE5Kh3QPIWPqwMiwaE0T1Tg/GoJvhx9f5EkyKwe
+   A==;
+X-CSE-ConnectionGUID: U22xQgztR3unEGxnTiSwvA==
+X-CSE-MsgGUID: iahC3YdaSLGAdfyvsBZYsw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13424065"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="11734906"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 11:48:58 -0700
-X-CSE-ConnectionGUID: hZ1427gsSWejoJrpdMRdfQ==
-X-CSE-MsgGUID: 4BkGEWXUR8a6C4lWV+lgKA==
+   d="scan'208";a="13424065"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 12:21:16 -0700
+X-CSE-ConnectionGUID: d7Mm9nnqR+2Nae5lilu1dw==
+X-CSE-MsgGUID: BE6EkL6rS5Wdp1/oJGeZMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="40035430"
+   d="scan'208";a="39996663"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 28 May 2024 11:48:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 May 2024 12:21:15 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC1sT-000CdN-0x;
-	Tue, 28 May 2024 18:48:53 +0000
-Date: Wed, 29 May 2024 02:48:31 +0800
+	id 1sC2Nj-000Cfb-3D;
+	Tue, 28 May 2024 19:21:11 +0000
+Date: Wed, 29 May 2024 03:20:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2024.05.21a 44/53] update.c:undefined reference to
- `__bad_cmpxchg'
-Message-ID: <202405290221.CXfSkR3b-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 5/8]
+ drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or
+ member 'dp_tee_priv' not described in 'dp_tee_op_send'
+Message-ID: <202405290324.pHimnXJw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,30 +64,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.05.21a
-head:   17284125a3f17be817e917b23511c99aea8fee81
-commit: 8b1964fedb0484ccda5a7e20f37ace2ebdcd1cf5 [44/53] rcu-tasks: Remove open-coded one-byte cmpxchg() emulation
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240529/202405290221.CXfSkR3b-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   1e89f939625e2eb24758a511aafb0911d2f04e53
+commit: f3d25943c1d4020b0ad7f3049b57cc70ba462af7 [5/8] FROMLIST: Subject: [PATCH] drm/mediatek/dp: Add tee client application for HDCP
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405290324.pHimnXJw-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290221.CXfSkR3b-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290324.pHimnXJw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290221.CXfSkR3b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290324.pHimnXJw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: kernel/rcu/update.o: in function `rcu_trc_cmpxchg_need_qs':
->> update.c:(.text+0x51e8): undefined reference to `__bad_cmpxchg'
-   arm-linux-gnueabi-ld: kernel/rcu/update.o: in function `trc_read_check_handler':
-   update.c:(.text+0x5250): undefined reference to `__bad_cmpxchg'
-   arm-linux-gnueabi-ld: kernel/rcu/update.o: in function `rcu_read_unlock_trace_special':
-   update.c:(.text+0x8170): undefined reference to `__bad_cmpxchg'
-   arm-linux-gnueabi-ld: kernel/rcu/update.o: in function `trc_inspect_reader':
-   update.c:(.text+0x86c0): undefined reference to `__bad_cmpxchg'
->> arm-linux-gnueabi-ld: update.c:(.text+0x86ec): undefined reference to `__bad_cmpxchg'
-   arm-linux-gnueabi-ld: kernel/rcu/update.o:update.c:(.text+0x8a6c): more undefined references to `__bad_cmpxchg' follow
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or member 'dp_tee_priv' not described in 'dp_tee_op_send'
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or member 'cmd_id' not described in 'dp_tee_op_send'
+
+
+vim +34 drivers/gpu/drm/mediatek/tlc_dp_hdcp.c
+
+    13	
+    14	/*
+    15	 * TA_FTPM_UUID: 99975014-3c7c-54ea-8487-a80d215ea92c
+    16	 *
+    17	 * Randomly generated, and must correspond to the GUID on the TA side.
+    18	 * Defined here in the reference implementation:
+    19	 * https://github.com/microsoft/ms-tpm-20-ref/blob/master/Samples/ARM32-FirmwareTPM/optee_ta/fTPM/include/fTPM.h#L42
+    20	 */
+    21	static const uuid_t dp_ta_uuid =
+    22		UUID_INIT(0x99975014, 0x3c7c, 0x54ea,
+    23			  0x84, 0x87, 0xa8, 0x0d, 0x21, 0x5e, 0xa9, 0x2c);
+    24	
+    25	/**
+    26	 * dp_tee_op_send() - send dp commands through the TEE shared memory.
+    27	 * @len:	the number of bytes to send.
+    28	 *
+    29	 * Return:
+    30	 *	In case of success, returns 0.
+    31	 *	On failure, -errno
+    32	 */
+    33	static int dp_tee_op_send(struct dp_tee_private *dp_tee_priv, size_t len, u32 cmd_id)
+  > 34	{
+    35		int rc;
+    36		u8 *temp_buf;
+    37		struct tee_ioctl_invoke_arg transceive_args;
+    38		struct tee_param command_params[4];
+    39		struct tee_shm *shm = dp_tee_priv->shm;
+    40	
+    41		if (len > MAX_COMMAND_SIZE) {
+    42			TLCERR("%s: len=%zd exceeds MAX_COMMAND_SIZE supported by dp TA\n", __func__, len);
+    43			return -EIO;
+    44		}
+    45	
+    46		memset(&transceive_args, 0, sizeof(transceive_args));
+    47		memset(command_params, 0, sizeof(command_params));
+    48		dp_tee_priv->resp_len = 0;
+    49	
+    50		/* Invoke FTPM_OPTEE_TA_SUBMIT_COMMAND function of dp TA */
+    51		transceive_args = (struct tee_ioctl_invoke_arg) {
+    52			.func = cmd_id,
+    53			.session = dp_tee_priv->session,
+    54			.num_params = 4,
+    55		};
+    56	
+    57		/* Fill FTPM_OPTEE_TA_SUBMIT_COMMAND parameters */
+    58		command_params[0] = (struct tee_param) {
+    59			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT,
+    60			.u.memref = {
+    61				.shm = shm,
+    62				.size = len,
+    63				.shm_offs = 0,
+    64			},
+    65		};
+    66	
+    67		command_params[1] = (struct tee_param) {
+    68			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT,
+    69			.u.memref = {
+    70				.shm = shm,
+    71				.size = MAX_RESPONSE_SIZE,
+    72				.shm_offs = MAX_COMMAND_SIZE,
+    73			},
+    74		};
+    75	
+    76		rc = tee_client_invoke_func(dp_tee_priv->ctx, &transceive_args, command_params);
+    77		if (rc < 0 || transceive_args.ret != 0) {
+    78			TLCERR("%s: invoke error: 0x%x\n", __func__, transceive_args.ret);
+    79			return (rc < 0) ? rc : transceive_args.ret;
+    80		}
+    81	
+    82		temp_buf = tee_shm_get_va(shm, command_params[1].u.memref.shm_offs);
+    83		if (IS_ERR(temp_buf)) {
+    84			TLCERR("%s: tee_shm_get_va failed for receive\n", __func__);
+    85			return PTR_ERR(temp_buf);
+    86		}
+    87	
+    88		/* Sanity checks look good, cache the response */
+    89		memcpy(dp_tee_priv->resp_buf, temp_buf, MAX_RESPONSE_SIZE / 2);
+    90		dp_tee_priv->resp_len = MAX_RESPONSE_SIZE / 2;
+    91	
+    92		return 0;
+    93	}
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
