@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA2713E032
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 22:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE2313D8BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 22:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716934799; cv=none; b=Wltao41ilST1u5PMkS9awNfYmg8y6qx2LE3d31CvqKhPYfn53hx1QHCo9mxN8cYHgK+pdiZMaDMLU1DyKcbW5lz5c7V/6nYbHsN3t8vMKDRY17vcLbRvSaK+ihx4aZH/5iZnLiBpMUdcRvOugjergbKD+3GEwVoaIpzzFSKm1/E=
+	t=1716936679; cv=none; b=Y2ksgg+tjbUE41HtfhIHwduoLGshYrCwqLH6YuIJ/B6PUvts8BUqdMMUYaYoE5rGgb8z8W6zoixtd8ew5IfbVXHkQapjMGdNQ12vX88Bzj3iQ66OOIpdOWQuIKaSPXhkmof3VCSi+BgJ7+AfQI+jAH4tqzBor1Bbba89PfI5lI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716934799; c=relaxed/simple;
-	bh=YHNnKhDBl7U6bA5Lo49KueOTpVAW/UhJjT4JAywJ714=;
+	s=arc-20240116; t=1716936679; c=relaxed/simple;
+	bh=vuJUpsEIJqnYER1EtTahkKITjs5S/RW8AKcQAArHP6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tu3qyj7+AotTlkKnzQADv41hvknqPMoX6EFKvV9X2VcvBhZ3KhJG95H5Zm4PV4h4M4GMAwrKd+pqzwwhgTjEmC8L6sC47f8kX+7KVIFoVkqGzIUnmiTfrC1ZQO1rfAkgZYaBwkojO3Gh20I5sa8W6i83QIfyG57rnfCVZudjPi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaJiJGds; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Uc7mvte8JtYL9g5oD15j3RhOOAfUWyPjna/8pWY8zBt85SLTQBTzEnkgSf1s1qRxjRonjOAYiRJ0n0aMQImDznVs/hjWRNiTEX4WCiewX7rosCN4+QAAbZBukP2d1AcfggSJ7vkmqvOsMSzIgSYvVQ9BFZnUdTDAztZltMur3Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FvaaFGnb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaJiJGds"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FvaaFGnb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716934799; x=1748470799;
+  t=1716936679; x=1748472679;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YHNnKhDBl7U6bA5Lo49KueOTpVAW/UhJjT4JAywJ714=;
-  b=iaJiJGdsjcvr2YP8Z8HrvuZG4PW7Un1r3nh0fVW1xgMtYv+RixDzAoJT
-   RY5UQX5ytwTcr0dRh7RVJRd9YKK5wgFJJargB+RR94rSnGvEwZOmD56Iq
-   utkaW5lHQOVId8rUR54jhc64tYNCS+eqCTj2HqlRTY3FV9LVEheR7sACa
-   4nV+MNuW6J2/G0+AWU55618FTVLPUVN70SN8Ta5MumUzQTgXpJ3n9yHVW
-   u7dM6L4dUQGG3A5dBJNwAWrMEhGDbS/6MOQri0vAf/xMvKwFZz3xafESO
-   t9+IDO+XHaa/1hLmxhvMqTpN8usTFM39ZdJyHSqf17Zob+GFlAcCpAv4D
-   w==;
-X-CSE-ConnectionGUID: 6r4N9XaQQKiMqCPL45uFqA==
-X-CSE-MsgGUID: 7VrxTpqPSN6ZbPimlsn4rw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30812121"
+  bh=vuJUpsEIJqnYER1EtTahkKITjs5S/RW8AKcQAArHP6E=;
+  b=FvaaFGnbVkKlFAo0ffKKlXGYYG6kHB0lm/nUBTJc+kHg73YO4Rn9t+d4
+   TALO1GQaE7Jq0l6/iDu+3e52NkwTw2iL89g83IP7ApDzn85pk9pPazm4+
+   2eh8//8WEck2Lz3EdyvUgQD4fmBL1WMyGu66ysu+RQ0hXSNoMHGWnvGbB
+   jVCekyM0Wkedcxwha7zWcmvNY/J0Vh1o4/ryp5qzSLjS9/8iE3UGHWcxx
+   L68G48aD1pNj+H95oD3z+QreQ2DwrKhOp9pYgCA+XVBc8mYknOM3MdatE
+   Cxc/FWlfl2w2B79tH1gqzwpjomFaCw42fMac3wGPxwxMshMC9CYYf+jna
+   Q==;
+X-CSE-ConnectionGUID: Ywe1SiAPRAaZBA11GD1TMA==
+X-CSE-MsgGUID: ObCjvk3jQa+IBFAJYWUtaA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13497090"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="30812121"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 15:19:58 -0700
-X-CSE-ConnectionGUID: jrNcMNMLRy24gWvK2CDhdA==
-X-CSE-MsgGUID: qoXJdFzqRbOUM2oJvZgIhg==
+   d="scan'208";a="13497090"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 15:51:17 -0700
+X-CSE-ConnectionGUID: x2iob1ykQ8CFYi9k28pSJw==
+X-CSE-MsgGUID: RktVTFGESKahDkQPUB6XSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="40090690"
+   d="scan'208";a="40047014"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 28 May 2024 15:19:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 May 2024 15:50:57 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC5Ag-000CoV-1R;
-	Tue, 28 May 2024 22:19:54 +0000
-Date: Wed, 29 May 2024 06:19:36 +0800
+	id 1sC5eh-000Cpv-0k;
+	Tue, 28 May 2024 22:50:55 +0000
+Date: Wed, 29 May 2024 06:50:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:page_frag_cache_v5 11/13] kernel/exit.o: warning:
- objtool: __ex_table+0x0: special: can't find orig instruction
-Message-ID: <202405290629.oaN9XxEz-lkp@intel.com>
+Subject: [l1k:mariusz-npem 3/3] drivers/pci/npem.c:363:23: sparse: sparse:
+ symbol 'dsm_ops' was not declared. Should it be static?
+Message-ID: <202405290643.bDL3GC4x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +62,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gestionlin/linux.git page_frag_cache_v5
-head:   5fe53a7c019262862519bf2365207b2caf7773cf
-commit: eb68d59203696da1dd122ad0eaecdb3afe821f3e [11/13] net: replace page_frag with page_frag_cache
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290629.oaN9XxEz-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290629.oaN9XxEz-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux mariusz-npem
+head:   2fb114bf74eff73c83383cbd1d481584053cb8cd
+commit: 2fb114bf74eff73c83383cbd1d481584053cb8cd [3/3] PCI/NPEM: Add _DSM PCIe SSD status LED management
+config: x86_64-randconfig-123-20240528 (https://download.01.org/0day-ci/archive/20240529/202405290643.bDL3GC4x-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290643.bDL3GC4x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290629.oaN9XxEz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290643.bDL3GC4x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/npem.c:229:23: sparse: sparse: symbol 'npem_ops' was not declared. Should it be static?
+>> drivers/pci/npem.c:363:23: sparse: sparse: symbol 'dsm_ops' was not declared. Should it be static?
 
->> kernel/exit.o: warning: objtool: __ex_table+0x0: special: can't find orig instruction
+vim +/dsm_ops +363 drivers/pci/npem.c
 
-
-objdump-func vmlinux.o __ex_table:
+   362	
+ > 363	const struct npem_ops dsm_ops = {
+   364		.inds = dsm_indications,
+   365		.get_active_indications = dsm_get_active_indications,
+   366		.set_active_indications = dsm_set_active_indications,
+   367	};
+   368	
 
 -- 
 0-DAY CI Kernel Test Service
