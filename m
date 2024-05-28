@@ -1,62 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE8F22089
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 23:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F044613F45B;
+	Tue, 28 May 2024 23:42:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716939777; cv=none; b=UKOWaqJsCaxNuu/dYDdjF9zcDQ971Avx5v6rpqAf/CwsPA6q5alD1GJb9dHzmj9kEkIKszD3s2vwl53K10aMeBi0veLUq6GSBnoTtU2AXGQlE8os1nuJABKyRzroZoDiKqD3LXBgbndda1z6pGMEZIbycejWgq4eE6+lppTDATA=
+	t=1716939779; cv=none; b=mR5sqwnGs4Qjvktg8kYpErvCNhxD8sJ9TcSUlRoOK/ln5rZnCgDEgMleOzl8VxGbz5r4SLcY8UyrQBrHUmV+wpWtsRbqvufCYBFGmVjL1NQ1IMnChJlMpLWlp4EBo9vJVJ61w/12y77ZlFNPDBH0d+Q6yVLPNlX2wiI1ONAXn4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716939777; c=relaxed/simple;
-	bh=H7Aq7SkYqkg/33RZpajXoaZxlAVoWB5QrkHq25KdXWY=;
+	s=arc-20240116; t=1716939779; c=relaxed/simple;
+	bh=KcjPY5SJnd0eiA9+BlsLrswqW7Klqo/AjPPcGTCEdHc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GmldeX4TBx8PKTPu0ZYi+JwPixcEU/NdDkE74Y8kaUk/JelU7nzMyV+kMp9v7E7Jnn7ERJ/28QOQdUlb0BgG3MhfDTqXWxWavLtL+ZNaXfe21BhlZG1YZm2SDlXuJ+rIatPjYB4izhrQnsHxbhYHFjDlC7mCUwm+a/AW0fgLFmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcFRG66l; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=cClQFmNPCJ78bnDjSXKXuSWdWYnwB+OfkSQ/HrNloRaGhAfvOKv2yLftw4R6nFhypBVMOauGSzWC5paz8f8vmGyNdq1hBzahghIRKdNwiLsIKXLZt5wtUpvIFzPbzJsbNewmlHxG2M+6g0qV2pjwQ7Kcp66kos2C071ma8Th1sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEbiRLDa; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcFRG66l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEbiRLDa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716939774; x=1748475774;
+  t=1716939778; x=1748475778;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=H7Aq7SkYqkg/33RZpajXoaZxlAVoWB5QrkHq25KdXWY=;
-  b=YcFRG66lgqmdFeBsialWOrH6A6LER2UlmENzbh+uHh6ckQGih6rBpiRF
-   HXaTvM8QMkUL+Tak26kmLV8qvJnrAvnMUQpORrIXLFxKWfEsrOgCEqpt4
-   kyi7x1FU6uouAIRP63R+Pab8KGfq2bv67GXZweJYv9T4De0hSLnL9Bx/8
-   PIZdPWjJKiv1JQK85HNmEOKa5owPs0UN1FI8Js5eAgyPHywfYNuBUJioR
-   p/RHhG5SU7EbDC1ZKj7BjWkzWOR2+DEvZe9lbUC+Jk1+uaHW7X9sP9uaa
-   e3qtpf+RLCfQAE5uaeoi3GBVck/J1Xrw82S8vmnZkLeWppcvpIkaCxTup
-   w==;
-X-CSE-ConnectionGUID: qIi8utYlRsuNPf0ndrufBg==
-X-CSE-MsgGUID: 1CeABR2bTUWilg9TWfsxxw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13157166"
+  bh=KcjPY5SJnd0eiA9+BlsLrswqW7Klqo/AjPPcGTCEdHc=;
+  b=DEbiRLDaM1gFYWn2XqN6i517deEZyvM1YsP2cvNbTlbN7pf0JrVIOEF6
+   pb7FjvX+dBQ/kAyQc8U8b7iqd/lVhdSE21CQ6B2x17V+Xizvs+j2pgaFr
+   aw0LLwy0qxsaIjVXUknOQlW+cObBuwGSXSWNBZmg+kR8K2dZ8fblY8rWE
+   ydUkF6f+iq2/EKY4bCiFGmrgVW5bGAMRbuAJH9cWn0TiA+YTsRvGuoPh1
+   /v4JraaSdFp34YOqsKJPf7YWqEiSAg7BaWfE+6HZ70tqxLfeYqSpRCGud
+   pz/InVhvEvGRJLWBvCe+X6Y12GLDLm4rti+MVv5sI+6aBTP4DsSJFO7EN
+   g==;
+X-CSE-ConnectionGUID: hs4kxvDeTY27OM9wiXE+zw==
+X-CSE-MsgGUID: w6Bgr1DDQ1GnWx42B5NQqQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13157176"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="13157166"
+   d="scan'208";a="13157176"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 16:42:54 -0700
-X-CSE-ConnectionGUID: e0kKPqBJRO6JERvxF4VmfQ==
-X-CSE-MsgGUID: vfLCMKsxT+Cjx9nXtdUuzw==
+X-CSE-ConnectionGUID: DywyVgqnTZq2s/0WS4uMmA==
+X-CSE-MsgGUID: q2jI9BgzTKe9Dy/ANqrnTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="72676222"
+   d="scan'208";a="72676221"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by orviesa001.jf.intel.com with ESMTP; 28 May 2024 16:42:52 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC6Sv-000Csl-22;
+	id 1sC6Sv-000Csn-27;
 	Tue, 28 May 2024 23:42:49 +0000
-Date: Wed, 29 May 2024 07:42:36 +0800
+Date: Wed, 29 May 2024 07:42:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
-Subject: Re: [PATCH 1/7] fs: Introduce buffered_write_operations
-Message-ID: <202405290745.X6owMB05-lkp@intel.com>
-References: <20240528164829.2105447-2-willy@infradead.org>
+Subject: Re: [PATCH 6/7] ext4: Convert to buffered_write_operations
+Message-ID: <202405290727.QWBqNxqa-lkp@intel.com>
+References: <20240528164829.2105447-7-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528164829.2105447-2-willy@infradead.org>
+In-Reply-To: <20240528164829.2105447-7-willy@infradead.org>
 
 Hi Matthew,
 
@@ -73,123 +73,232 @@ kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on linus/master]
 [also build test WARNING on v6.10-rc1 next-20240528]
-[cannot apply to tytso-ext4/dev jack-fs/for_next]
+[cannot apply to tytso-ext4/dev jack-fs/for_next hch-configfs/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/fs-Introduce-buffered_write_operations/20240529-005213
 base:   linus/master
-patch link:    https://lore.kernel.org/r/20240528164829.2105447-2-willy%40infradead.org
-patch subject: [PATCH 1/7] fs: Introduce buffered_write_operations
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240529/202405290745.X6owMB05-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290745.X6owMB05-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240528164829.2105447-7-willy%40infradead.org
+patch subject: [PATCH 6/7] ext4: Convert to buffered_write_operations
+config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290727.QWBqNxqa-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290727.QWBqNxqa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290745.X6owMB05-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290727.QWBqNxqa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/filemap.c:4097: warning: Function parameter or struct member 'fsdata' not described in '__filemap_write_iter'
-   mm/filemap.c:4146: warning: Function parameter or struct member 'ops' not described in 'filemap_write_iter'
->> mm/filemap.c:4146: warning: Function parameter or struct member 'fsdata' not described in 'filemap_write_iter'
+   In file included from fs/ext4/inline.c:7:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/ext4/inline.c:7:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/ext4/inline.c:7:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/ext4/inline.c:7:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> fs/ext4/inline.c:914:7: warning: variable 'folio' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     914 |                 if (ret == -ENOSPC &&
+         |                     ^~~~~~~~~~~~~~~~~
+     915 |                     ext4_should_retry_alloc(inode->i_sb, &retries))
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/inline.c:956:9: note: uninitialized use occurs here
+     956 |         return folio;
+         |                ^~~~~
+   fs/ext4/inline.c:914:3: note: remove the 'if' if its condition is always true
+     914 |                 if (ret == -ENOSPC &&
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+     915 |                     ext4_should_retry_alloc(inode->i_sb, &retries))
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     916 |                         goto retry_journal;
+>> fs/ext4/inline.c:914:7: warning: variable 'folio' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+     914 |                 if (ret == -ENOSPC &&
+         |                     ^~~~~~~~~~~~~~
+   fs/ext4/inline.c:956:9: note: uninitialized use occurs here
+     956 |         return folio;
+         |                ^~~~~
+   fs/ext4/inline.c:914:7: note: remove the '&&' if its condition is always true
+     914 |                 if (ret == -ENOSPC &&
+         |                     ^~~~~~~~~~~~~~~~~
+>> fs/ext4/inline.c:907:6: warning: variable 'folio' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     907 |         if (ret && ret != -ENOSPC)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/inline.c:956:9: note: uninitialized use occurs here
+     956 |         return folio;
+         |                ^~~~~
+   fs/ext4/inline.c:907:2: note: remove the 'if' if its condition is always false
+     907 |         if (ret && ret != -ENOSPC)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+     908 |                 goto out_journal;
+         |                 ~~~~~~~~~~~~~~~~
+   fs/ext4/inline.c:901:6: warning: variable 'folio' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     901 |         if (IS_ERR(handle)) {
+         |             ^~~~~~~~~~~~~~
+   fs/ext4/inline.c:956:9: note: uninitialized use occurs here
+     956 |         return folio;
+         |                ^~~~~
+   fs/ext4/inline.c:901:2: note: remove the 'if' if its condition is always false
+     901 |         if (IS_ERR(handle)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     902 |                 ret = PTR_ERR(handle);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~
+     903 |                 goto out;
+         |                 ~~~~~~~~~
+     904 |         }
+         |         ~
+   fs/ext4/inline.c:891:21: note: initialize the variable 'folio' to silence this warning
+     891 |         struct folio *folio;
+         |                            ^
+         |                             = NULL
+   11 warnings generated.
 
 
-vim +4097 mm/filemap.c
+vim +914 fs/ext4/inline.c
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4072  
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4073  /**
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4074)  * __filemap_write_iter - write data to a file
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4075   * @iocb: IO state structure (file, offset, etc.)
-8174202b34c30e Al Viro                 2014-04-03  4076   * @from: iov_iter with data to write
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4077)  * @ops: How to inform the filesystem that a write is starting/finishing.
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4078   *
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4079   * This function does all the work needed for actually writing data to a
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4080   * file. It does all basic checks, removes SUID from the file, updates
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4081   * modification times and calls proper subroutines depending on whether we
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4082   * do direct IO or a standard buffered write.
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4083   *
-9608703e488cf7 Jan Kara                2021-04-12  4084   * It expects i_rwsem to be grabbed unless we work on a block device or similar
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4085   * object which does not need locking at all.
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4086   *
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4087   * This function does *not* take care of syncing data in case of O_SYNC write.
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4088   * A caller has to handle it. This is mainly due to the fact that we want to
-9608703e488cf7 Jan Kara                2021-04-12  4089   * avoid syncing under i_rwsem.
-a862f68a8b3600 Mike Rapoport           2019-03-05  4090   *
-a862f68a8b3600 Mike Rapoport           2019-03-05  4091   * Return:
-a862f68a8b3600 Mike Rapoport           2019-03-05  4092   * * number of bytes written, even for truncated writes
-a862f68a8b3600 Mike Rapoport           2019-03-05  4093   * * negative error code if no data has been written at all
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4094   */
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4095) ssize_t __filemap_write_iter(struct kiocb *iocb, struct iov_iter *from,
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4096) 		const struct buffered_write_operations *ops, void *fsdata)
-^1da177e4c3f41 Linus Torvalds          2005-04-16 @4097  {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4098  	struct file *file = iocb->ki_filp;
-fb5527e68d4956 Jeff Moyer              2006-10-19  4099  	struct address_space *mapping = file->f_mapping;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4100  	struct inode *inode = mapping->host;
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4101  	ssize_t ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4102  
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4103  	ret = file_remove_privs(file);
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4104  	if (ret)
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4105  		return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4106  
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4107  	ret = file_update_time(file);
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4108  	if (ret)
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4109  		return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4110  
-2ba48ce513c4e5 Al Viro                 2015-04-09  4111  	if (iocb->ki_flags & IOCB_DIRECT) {
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4112  		ret = generic_file_direct_write(iocb, from);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4113  		/*
-fbbbad4bc2101e Matthew Wilcox          2015-02-16  4114  		 * If the write stopped short of completing, fall back to
-fbbbad4bc2101e Matthew Wilcox          2015-02-16  4115  		 * buffered writes.  Some filesystems do this for writes to
-fbbbad4bc2101e Matthew Wilcox          2015-02-16  4116  		 * holes, for example.  For DAX files, a buffered write will
-fbbbad4bc2101e Matthew Wilcox          2015-02-16  4117  		 * not succeed (even if it did, DAX does not handle dirty
-fbbbad4bc2101e Matthew Wilcox          2015-02-16  4118  		 * page-cache pages correctly).
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4119  		 */
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4120  		if (ret < 0 || !iov_iter_count(from) || IS_DAX(inode))
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4121  			return ret;
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4122  		return direct_write_fallback(iocb, from, ret,
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4123) 				filemap_perform_write(iocb, from, ops, fsdata));
-fb5527e68d4956 Jeff Moyer              2006-10-19  4124  	}
-44fff0fa08ec5a Christoph Hellwig       2023-06-01  4125  
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4126) 	return filemap_perform_write(iocb, from, ops, fsdata);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4127  }
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4128) EXPORT_SYMBOL(__filemap_write_iter);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4129  
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4130  /**
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4131)  * filemap_write_iter - write data to a file
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4132   * @iocb:	IO state structure
-8174202b34c30e Al Viro                 2014-04-03  4133   * @from:	iov_iter with data to write
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4134   *
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4135)  * This is a wrapper around __filemap_write_iter() to be used by most
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4136   * filesystems. It takes care of syncing the file in case of O_SYNC file
-9608703e488cf7 Jan Kara                2021-04-12  4137   * and acquires i_rwsem as needed.
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4138)  *
-a862f68a8b3600 Mike Rapoport           2019-03-05  4139   * Return:
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4140)  * * negative error code if no data has been written at all or if
-a862f68a8b3600 Mike Rapoport           2019-03-05  4141   *   vfs_fsync_range() failed for a synchronous write
-a862f68a8b3600 Mike Rapoport           2019-03-05  4142   * * number of bytes written, even for truncated writes
-e4dd9de3c66bc7 Jan Kara                2009-08-17  4143   */
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4144) ssize_t filemap_write_iter(struct kiocb *iocb, struct iov_iter *from,
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4145) 		const struct buffered_write_operations *ops, void *fsdata)
-^1da177e4c3f41 Linus Torvalds          2005-04-16 @4146  {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4147  	struct file *file = iocb->ki_filp;
-148f948ba877f4 Jan Kara                2009-08-17  4148  	struct inode *inode = file->f_mapping->host;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4149  	ssize_t ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4150  
-5955102c9984fa Al Viro                 2016-01-22  4151  	inode_lock(inode);
-3309dd04cbcd2c Al Viro                 2015-04-09  4152  	ret = generic_write_checks(iocb, from);
-3309dd04cbcd2c Al Viro                 2015-04-09  4153  	if (ret > 0)
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4154) 		ret = __filemap_write_iter(iocb, from, ops, fsdata);
-5955102c9984fa Al Viro                 2016-01-22  4155  	inode_unlock(inode);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4156  
-e259221763a404 Christoph Hellwig       2016-04-07  4157  	if (ret > 0)
-e259221763a404 Christoph Hellwig       2016-04-07  4158  		ret = generic_write_sync(iocb, ret);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4159  	return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4160  }
-1e90da36c016f4 Matthew Wilcox (Oracle  2024-05-28  4161) 
+9c3569b50f12e47 Tao Ma                  2012-12-10  877  
+9c3569b50f12e47 Tao Ma                  2012-12-10  878  /*
+9c3569b50f12e47 Tao Ma                  2012-12-10  879   * Prepare the write for the inline data.
+8d6ce136790268f Shijie Luo              2020-01-23  880   * If the data can be written into the inode, we just read
+9c3569b50f12e47 Tao Ma                  2012-12-10  881   * the page and make it uptodate, and start the journal.
+9c3569b50f12e47 Tao Ma                  2012-12-10  882   * Otherwise read the page, makes it dirty so that it can be
+9c3569b50f12e47 Tao Ma                  2012-12-10  883   * handle in writepages(the i_disksize update is left to the
+9c3569b50f12e47 Tao Ma                  2012-12-10  884   * normal ext4_da_write_end).
+9c3569b50f12e47 Tao Ma                  2012-12-10  885   */
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  886) struct folio *ext4_da_write_inline_data_begin(struct address_space *mapping,
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  887) 		struct inode *inode, loff_t pos, size_t len)
+9c3569b50f12e47 Tao Ma                  2012-12-10  888  {
+09355d9d038a159 Ritesh Harjani          2022-01-17  889  	int ret;
+9c3569b50f12e47 Tao Ma                  2012-12-10  890  	handle_t *handle;
+9a9d01f081ea29a Matthew Wilcox          2023-03-24  891  	struct folio *folio;
+9c3569b50f12e47 Tao Ma                  2012-12-10  892  	struct ext4_iloc iloc;
+625ef8a3acd111d Lukas Czerner           2018-10-02  893  	int retries = 0;
+9c3569b50f12e47 Tao Ma                  2012-12-10  894  
+9c3569b50f12e47 Tao Ma                  2012-12-10  895  	ret = ext4_get_inode_loc(inode, &iloc);
+9c3569b50f12e47 Tao Ma                  2012-12-10  896  	if (ret)
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  897) 		return ERR_PTR(ret);
+9c3569b50f12e47 Tao Ma                  2012-12-10  898  
+bc0ca9df3b2abb1 Jan Kara                2014-01-06  899  retry_journal:
+9924a92a8c21757 Theodore Ts'o           2013-02-08  900  	handle = ext4_journal_start(inode, EXT4_HT_INODE, 1);
+9c3569b50f12e47 Tao Ma                  2012-12-10  901  	if (IS_ERR(handle)) {
+9c3569b50f12e47 Tao Ma                  2012-12-10  902  		ret = PTR_ERR(handle);
+9c3569b50f12e47 Tao Ma                  2012-12-10  903  		goto out;
+9c3569b50f12e47 Tao Ma                  2012-12-10  904  	}
+9c3569b50f12e47 Tao Ma                  2012-12-10  905  
+9c3569b50f12e47 Tao Ma                  2012-12-10  906  	ret = ext4_prepare_inline_data(handle, inode, pos + len);
+9c3569b50f12e47 Tao Ma                  2012-12-10 @907  	if (ret && ret != -ENOSPC)
+52e4477758eef45 Jan Kara                2014-01-06  908  		goto out_journal;
+9c3569b50f12e47 Tao Ma                  2012-12-10  909  
+9c3569b50f12e47 Tao Ma                  2012-12-10  910  	if (ret == -ENOSPC) {
+8bc1379b82b8e80 Theodore Ts'o           2018-06-16  911  		ext4_journal_stop(handle);
+9c3569b50f12e47 Tao Ma                  2012-12-10  912  		ret = ext4_da_convert_inline_data_to_extent(mapping,
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  913) 							    inode);
+bc0ca9df3b2abb1 Jan Kara                2014-01-06 @914  		if (ret == -ENOSPC &&
+bc0ca9df3b2abb1 Jan Kara                2014-01-06  915  		    ext4_should_retry_alloc(inode->i_sb, &retries))
+bc0ca9df3b2abb1 Jan Kara                2014-01-06  916  			goto retry_journal;
+9c3569b50f12e47 Tao Ma                  2012-12-10  917  		goto out;
+9c3569b50f12e47 Tao Ma                  2012-12-10  918  	}
+9c3569b50f12e47 Tao Ma                  2012-12-10  919  
+36d116e99da7e45 Matthew Wilcox (Oracle  2022-02-22  920) 	/*
+36d116e99da7e45 Matthew Wilcox (Oracle  2022-02-22  921) 	 * We cannot recurse into the filesystem as the transaction
+36d116e99da7e45 Matthew Wilcox (Oracle  2022-02-22  922) 	 * is already started.
+36d116e99da7e45 Matthew Wilcox (Oracle  2022-02-22  923) 	 */
+9a9d01f081ea29a Matthew Wilcox          2023-03-24  924  	folio = __filemap_get_folio(mapping, 0, FGP_WRITEBEGIN | FGP_NOFS,
+9a9d01f081ea29a Matthew Wilcox          2023-03-24  925  					mapping_gfp_mask(mapping));
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  926) 	if (IS_ERR(folio))
+52e4477758eef45 Jan Kara                2014-01-06  927  		goto out_journal;
+9c3569b50f12e47 Tao Ma                  2012-12-10  928  
+9c3569b50f12e47 Tao Ma                  2012-12-10  929  	down_read(&EXT4_I(inode)->xattr_sem);
+9c3569b50f12e47 Tao Ma                  2012-12-10  930  	if (!ext4_has_inline_data(inode)) {
+9c3569b50f12e47 Tao Ma                  2012-12-10  931  		ret = 0;
+9c3569b50f12e47 Tao Ma                  2012-12-10  932  		goto out_release_page;
+9c3569b50f12e47 Tao Ma                  2012-12-10  933  	}
+9c3569b50f12e47 Tao Ma                  2012-12-10  934  
+9a9d01f081ea29a Matthew Wilcox          2023-03-24  935  	if (!folio_test_uptodate(folio)) {
+6b87fbe4155007c Matthew Wilcox          2023-03-24  936  		ret = ext4_read_inline_folio(inode, folio);
+9c3569b50f12e47 Tao Ma                  2012-12-10  937  		if (ret < 0)
+9c3569b50f12e47 Tao Ma                  2012-12-10  938  			goto out_release_page;
+9c3569b50f12e47 Tao Ma                  2012-12-10  939  	}
+188c299e2a26cc3 Jan Kara                2021-08-16  940  	ret = ext4_journal_get_write_access(handle, inode->i_sb, iloc.bh,
+188c299e2a26cc3 Jan Kara                2021-08-16  941  					    EXT4_JTR_NONE);
+362eca70b53389b Theodore Ts'o           2018-07-10  942  	if (ret)
+362eca70b53389b Theodore Ts'o           2018-07-10  943  		goto out_release_page;
+9c3569b50f12e47 Tao Ma                  2012-12-10  944  
+9c3569b50f12e47 Tao Ma                  2012-12-10  945  	up_read(&EXT4_I(inode)->xattr_sem);
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  946) 	goto out;
+9c3569b50f12e47 Tao Ma                  2012-12-10  947  out_release_page:
+9c3569b50f12e47 Tao Ma                  2012-12-10  948  	up_read(&EXT4_I(inode)->xattr_sem);
+9a9d01f081ea29a Matthew Wilcox          2023-03-24  949  	folio_unlock(folio);
+9a9d01f081ea29a Matthew Wilcox          2023-03-24  950  	folio_put(folio);
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  951) 	folio = ERR_PTR(ret);
+52e4477758eef45 Jan Kara                2014-01-06  952  out_journal:
+9c3569b50f12e47 Tao Ma                  2012-12-10  953  	ext4_journal_stop(handle);
+52e4477758eef45 Jan Kara                2014-01-06  954  out:
+9c3569b50f12e47 Tao Ma                  2012-12-10  955  	brelse(iloc.bh);
+8ca000469995a1f Matthew Wilcox (Oracle  2024-05-28  956) 	return folio;
+9c3569b50f12e47 Tao Ma                  2012-12-10  957  }
+9c3569b50f12e47 Tao Ma                  2012-12-10  958  
 
 -- 
 0-DAY CI Kernel Test Service
