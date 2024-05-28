@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7532EAE6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 18:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C152E646
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 18:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716921525; cv=none; b=l0BFHz+/R36Gj8s+DMxbWImboFlvirjABpA1VVFUdm1X2KR+1yjpBWFyKxN9zZir/82mzO2V+OUv1yF9G/krv8ChYBXAwEdBH9UCmrYCKy8JgoxvP17jAQqdeBPmA8kUlObGJm66G8g4Tl9i7CH3DJsB14AnrwR0wlJFley8SIk=
+	t=1716922138; cv=none; b=XrzfCpkVFEDQciifXAOBaqCgQt47NouTSG0LboSXpB0Wa7VSnjIJaUApzm82nD134ig+Aj/kbDWYr3eL8P9Tf9EWN8/MF/nSPmwSjyGkuUktwoTlda3sW1Wb2keF5V7e9+eDejNLnr8lGw+e7bYz3h0j7Y68OAITCm5G+US5FX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716921525; c=relaxed/simple;
-	bh=0xmwyYlbUgXt/T8c6mEbdNqxAWI8GU9dxarrjmnYaW0=;
+	s=arc-20240116; t=1716922138; c=relaxed/simple;
+	bh=QKA17a8vx/wZQk9MYsCgMxGJMu+FfOwgJRhpBNDRwJg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pmP/zgaKBpTE+niUXO2PzCuS85gi4zYjDIscgYqAqI7HVn3XF2QH/WeobvM1jCCe6lIRH+yf8cd6wRY62K5S2J84ZOgz0L4q0J0lBaV4BjKzAqbVtcNjKLK4PvZA0hiS+aRUBfOzKOk/UsSntOoDMnZIkjRgnolf3uMg+uWuMEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9hCgMj5; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Gr3ePlsQ2VU1Kw4bfabTiU8hVtKF60BBLiUdYrIwiSir5+tFisLw9uNPgN7vnnK5yhF/Lc9SsBA+7K8Rn8YlTYMfsQ/Ko448cCdVZ0ncqta4nHiFJMz8yerXLZTfVBNq9rCJ2ehb5TtTxQPBPnfqTDAmMmT5ApeMDRs62ZOM77A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aauiGsQA; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9hCgMj5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aauiGsQA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716921522; x=1748457522;
+  t=1716922137; x=1748458137;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0xmwyYlbUgXt/T8c6mEbdNqxAWI8GU9dxarrjmnYaW0=;
-  b=N9hCgMj59SvvxiDvKGveS3PaLBE3lloO/lAe6NFaCaY3xUTLMMVZL+7D
-   T66Jew2/1Mwb1I5oiOY6B+kdqvBd/tVPMFOaWnVd9E41g4bSaMg+Q7kAk
-   GPf6xK1aU6PZgxZucqtcSRAm50cVRK8Vvp4jiGqi6MCOYkRU+QUHSIg+/
-   6um35IfVTn6a4tp9DSGJeJt1NgQtrafRMpj0NqcvnMtBnCs6pLK3sJ8Zf
-   ul9HtN3l0EV8SOGO9OHNG+B3hu1Tz/DoYB//yxBxmLnOjAF1J6EdfQyaw
-   HaED5mp8U6BzHHeZTJmHHrNNLADiJ0rDikkmK28o1nxbJ+nuzXf4QHZKS
-   g==;
-X-CSE-ConnectionGUID: DROBYyZoRb+Cfh1llETmjA==
-X-CSE-MsgGUID: oNj1ZfrSQdWv80x2Ev4giA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="23844949"
+  bh=QKA17a8vx/wZQk9MYsCgMxGJMu+FfOwgJRhpBNDRwJg=;
+  b=aauiGsQAOF+ui9hn+jeeKgFb0gtrbqjdm+qdy1f61PY5Pw+pu8T+mzut
+   gmUmdLw8rrz1L0UNVu6c5b4qorXEzc1lkCVRKr2UPNrMMAh9kD4lh7UGR
+   UWPvv70lA5MuiHfDRr5QDVtbOpHFKWk6FAePb5AQoZiiq19ba+pq/hW1h
+   3SsASosKI5RBaM2ymAotCedcfwjN5Q4uqqtQmtXmZS0UkkS+JYS82YQdG
+   zexxM30N8phM6CtEZTBqrGfCmX2Uc0AEALLwqsb0G/3oqYyzW84KeQIkS
+   Amuk3xDKu3OpCUO3j37vuo87z1nS428OI3sM2mdQilSuQiV9Y3186hyhQ
+   w==;
+X-CSE-ConnectionGUID: ukGvaFilSEuc2v7+A73qmA==
+X-CSE-MsgGUID: rXI81Zs6TYaU49P7FMjFJA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13238090"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="23844949"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 11:38:41 -0700
-X-CSE-ConnectionGUID: /uDwuwvmTCOx4OtN0zI74w==
-X-CSE-MsgGUID: Fy0ThtnIQjSCLOUeqogr0g==
+   d="scan'208";a="13238090"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 11:48:57 -0700
+X-CSE-ConnectionGUID: 9tGUyXMNQLertOOCZnfPMg==
+X-CSE-MsgGUID: twEpaq0AQsqq0JGBqu4KYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="40160649"
+   d="scan'208";a="35083313"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 11:38:40 -0700
+  by orviesa010.jf.intel.com with ESMTP; 28 May 2024 11:48:56 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC1iY-000Cd1-05;
-	Tue, 28 May 2024 18:38:38 +0000
-Date: Wed, 29 May 2024 02:38:10 +0800
+	id 1sC1sS-000CdL-0p;
+	Tue, 28 May 2024 18:48:52 +0000
+Date: Wed, 29 May 2024 02:48:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 13700/13737] powerpc-linux-ld:
- drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn401/dcn401_fpu.o uses hard
- float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o
- uses soft float
-Message-ID: <202405290207.TyWqBP5P-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-block:scsi-ulp-limits 9/12] drivers/scsi/sd.c:3672:34: error:
+ too many arguments to function call, expected 2, have 3
+Message-ID: <202405290222.elu7yZMW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,126 +62,164 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6dc544b66971c7f9909ff038b62149105272d26a
-commit: 1b389d55ef6a7d7a2418a144961a44db88743147 [13700/13737] Merge branch 'drm-next' of https://gitlab.freedesktop.org/agd5f/linux
-config: powerpc-randconfig-r051-20240527 (https://download.01.org/0day-ci/archive/20240529/202405290207.TyWqBP5P-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290207.TyWqBP5P-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/block.git scsi-ulp-limits
+head:   85f94a3d757915e58f3a8e330e479037177fdc04
+commit: 305e4c4e9709d6b67b144d7c3515f4aeb2fa6c6e [9/12] sd: convert to the atomic queue limits API
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290222.elu7yZMW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290222.elu7yZMW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290207.TyWqBP5P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290222.elu7yZMW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_vba.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_vba.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_rq_dlg_calc_20.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_rq_dlg_calc_20.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_rq_dlg_calc_20v2.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_rq_dlg_calc_20v2.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20v2.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20v2.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn21/display_rq_dlg_calc_21.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn21/display_rq_dlg_calc_21.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn21/display_mode_vba_21.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn21/display_mode_vba_21.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_mode_vba_30.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_mode_vba_30.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_rq_dlg_calc_30.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_rq_dlg_calc_30.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_rq_dlg_calc_31.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_rq_dlg_calc_31.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_mode_vba_314.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_mode_vba_314.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_rq_dlg_calc_32.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_rq_dlg_calc_32.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_util_32.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_util_32.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn321/dcn321_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn321/dcn321_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn301/dcn301_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn301/dcn301_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn302/dcn302_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn302/dcn302_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn303/dcn303_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn303/dcn303_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/dcn314_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/dcn314_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn351/dcn351_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn351/dcn351_fpu.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn401/dcn401_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn401/dcn401_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dsc/rc_calc_fpu.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dsc/rc_calc_fpu.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calcs.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calcs.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calc_math.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calc_math.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calc_auto.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calc_auto.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_util.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_util.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_wrapper.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_wrapper.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_utils.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_utils.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_policy.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_policy.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_translation_helper.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_translation_helper.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_mall_phantom.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_mall_phantom.o
-   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml_display_rq_dlg_calc.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml_display_rq_dlg_calc.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_top/dml_top_mcache.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_top/dml_top_mcache.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_standalone_libraries/lib_float_math.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_standalone_libraries/lib_float_math.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/dml21_translation_helper.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/dml21_translation_helper.o
->> powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/dml21_utils.o uses hard float, drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.o uses soft float
-   powerpc-linux-ld: failed to merge target specific data of file drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/dml21_utils.o
+>> drivers/scsi/sd.c:3672:34: error: too many arguments to function call, expected 2, have 3
+                           sd_zbc_read_zones(sdkp, &lim, buffer);
+                           ~~~~~~~~~~~~~~~~~             ^~~~~~
+   drivers/scsi/sd.h:254:19: note: 'sd_zbc_read_zones' declared here
+   static inline int sd_zbc_read_zones(struct scsi_disk *sdkp, u8 buf[SD_BUF_SIZE])
+                     ^
+   1 error generated.
+
+
+vim +3672 drivers/scsi/sd.c
+
+  3607	
+  3608	/**
+  3609	 *	sd_revalidate_disk - called the first time a new disk is seen,
+  3610	 *	performs disk spin up, read_capacity, etc.
+  3611	 *	@disk: struct gendisk we care about
+  3612	 **/
+  3613	static int sd_revalidate_disk(struct gendisk *disk)
+  3614	{
+  3615		struct scsi_disk *sdkp = scsi_disk(disk);
+  3616		struct scsi_device *sdp = sdkp->device;
+  3617		struct request_queue *q = sdkp->disk->queue;
+  3618		sector_t old_capacity = sdkp->capacity;
+  3619		struct queue_limits lim;
+  3620		unsigned char *buffer;
+  3621		unsigned int dev_max;
+  3622		int err;
+  3623	
+  3624		SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
+  3625					      "sd_revalidate_disk\n"));
+  3626	
+  3627		/*
+  3628		 * If the device is offline, don't try and read capacity or any
+  3629		 * of the other niceties.
+  3630		 */
+  3631		if (!scsi_device_online(sdp))
+  3632			goto out;
+  3633	
+  3634		buffer = kmalloc(SD_BUF_SIZE, GFP_KERNEL);
+  3635		if (!buffer) {
+  3636			sd_printk(KERN_WARNING, sdkp, "sd_revalidate_disk: Memory "
+  3637				  "allocation failure.\n");
+  3638			goto out;
+  3639		}
+  3640	
+  3641		sd_spinup_disk(sdkp);
+  3642	
+  3643		lim = queue_limits_start_update(sdkp->disk->queue);
+  3644	
+  3645		/*
+  3646		 * Without media there is no reason to ask; moreover, some devices
+  3647		 * react badly if we do.
+  3648		 */
+  3649		if (sdkp->media_present) {
+  3650			sd_read_capacity(sdkp, &lim, buffer);
+  3651			/*
+  3652			 * Some USB/UAS devices return generic values for mode pages
+  3653			 * until the media has been accessed. Trigger a READ operation
+  3654			 * to force the device to populate mode pages.
+  3655			 */
+  3656			if (sdp->read_before_ms)
+  3657				sd_read_block_zero(sdkp);
+  3658			/*
+  3659			 * set the default to rotational.  All non-rotational devices
+  3660			 * support the block characteristics VPD page, which will
+  3661			 * cause this to be updated correctly and any device which
+  3662			 * doesn't support it should be treated as rotational.
+  3663			 */
+  3664			blk_queue_flag_clear(QUEUE_FLAG_NONROT, q);
+  3665			blk_queue_flag_set(QUEUE_FLAG_ADD_RANDOM, q);
+  3666	
+  3667			if (scsi_device_supports_vpd(sdp)) {
+  3668				sd_read_block_provisioning(sdkp);
+  3669				sd_read_block_limits(sdkp, &lim);
+  3670				sd_read_block_limits_ext(sdkp);
+  3671				sd_read_block_characteristics(sdkp, &lim);
+> 3672				sd_zbc_read_zones(sdkp, &lim, buffer);
+  3673				sd_read_cpr(sdkp);
+  3674			}
+  3675	
+  3676			sd_print_capacity(sdkp, old_capacity);
+  3677	
+  3678			sd_read_write_protect_flag(sdkp, buffer);
+  3679			sd_read_cache_type(sdkp, buffer);
+  3680			sd_read_io_hints(sdkp, buffer);
+  3681			sd_read_app_tag_own(sdkp, buffer);
+  3682			sd_read_write_same(sdkp, buffer);
+  3683			sd_read_security(sdkp, buffer);
+  3684			sd_config_protection(sdkp);
+  3685		}
+  3686	
+  3687		/*
+  3688		 * We now have all cache related info, determine how we deal
+  3689		 * with flush requests.
+  3690		 */
+  3691		sd_set_flush_flag(sdkp);
+  3692	
+  3693		/* Initial block count limit based on CDB TRANSFER LENGTH field size. */
+  3694		dev_max = sdp->use_16_for_rw ? SD_MAX_XFER_BLOCKS : SD_DEF_XFER_BLOCKS;
+  3695	
+  3696		/* Some devices report a maximum block count for READ/WRITE requests. */
+  3697		dev_max = min_not_zero(dev_max, sdkp->max_xfer_blocks);
+  3698		q->limits.max_dev_sectors = logical_to_sectors(sdp, dev_max);
+  3699	
+  3700		if (sd_validate_min_xfer_size(sdkp))
+  3701			lim.io_min = logical_to_bytes(sdp, sdkp->min_xfer_blocks);
+  3702		else
+  3703			lim.io_min = 0;
+  3704	
+  3705		/*
+  3706		 * Limit default to SCSI host optimal sector limit if set. There may be
+  3707		 * an impact on performance for when the size of a request exceeds this
+  3708		 * host limit.
+  3709		 */
+  3710		lim.io_opt = sdp->host->opt_sectors << SECTOR_SHIFT;
+  3711		if (sd_validate_opt_xfer_size(sdkp, dev_max)) {
+  3712			lim.io_opt = min_not_zero(lim.io_opt,
+  3713					logical_to_bytes(sdp, sdkp->opt_xfer_blocks));
+  3714		}
+  3715	
+  3716		sdkp->first_scan = 0;
+  3717	
+  3718		set_capacity_and_notify(disk, logical_to_sectors(sdp, sdkp->capacity));
+  3719		sd_config_write_same(sdkp, &lim);
+  3720		kfree(buffer);
+  3721	
+  3722		blk_mq_freeze_queue(sdkp->disk->queue);
+  3723		err = queue_limits_commit_update(sdkp->disk->queue, &lim);
+  3724		blk_mq_unfreeze_queue(sdkp->disk->queue);
+  3725		if (err)
+  3726			return err;
+  3727	
+  3728		/*
+  3729		 * For a zoned drive, revalidating the zones can be done only once
+  3730		 * the gendisk capacity is set. So if this fails, set back the gendisk
+  3731		 * capacity to 0.
+  3732		 */
+  3733		if (sd_zbc_revalidate_zones(sdkp))
+  3734			set_capacity_and_notify(disk, 0);
+  3735	
+  3736	 out:
+  3737		return 0;
+  3738	}
+  3739	
 
 -- 
 0-DAY CI Kernel Test Service
