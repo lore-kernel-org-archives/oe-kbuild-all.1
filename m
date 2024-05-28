@@ -1,148 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C05033C8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 23:27:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A45CA64;
+	Tue, 28 May 2024 00:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716852442; cv=none; b=N6hOJkbYVNAzSMGQ0K0KO15yoLiajs4br3qaTkvGW5ix0sr43x0IpNuURpq34KzCWw9dM+JMNHLR3afjzWEedlcaCcJHs+APxyAd97gUAI9fxyoD/z7m5+GY3kCpbePheWXhMLMs/RpSG3GO9HVQ42v3nRUTh14ZG8I/qdERAxQ=
+	t=1716855609; cv=none; b=MQXj303yVdnnCEFjI/phJ3PzX4AT65ecVeHxZWt8GulRw+/kvhR506QO7Ngo3LWL39VLPUIPL9+0isNR6qvWhWI9V4ovbcyE6xGtPOyz6qIYltWDVm5FyFFpSsug/2X5oJXkpXvGW6Jkrb0WpgG6F8Xm96v3tBn+8inBmTk/zfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716852442; c=relaxed/simple;
-	bh=UPQZLfgN2PJwYFcvhxNxXsFlEUE261DKoAL5m9V08lI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sJ8s3MfkGncGE30kxfOs8Lie09ilyNddDfAyGIcq/s/clZdI15y3hfQzaCtzPkMBvaGS7U1g1YGg9JXlFrRdVhU9OVEMAkRbNSJAf1LGWGq0R340XKEARQjgCsEac67kkmh/8wGDZ4SyAtne4jixocAoxK9IhU3MBVaxNrqHjlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJ6N+jjw; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1716855609; c=relaxed/simple;
+	bh=eWutr2ixlnG62KX0n+3CKcwCg7XUOaIpMKsxTO2P7eI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OMteHhiiZnTmYWBDgShCjVLI0DIbKrZc0tJCACSZ5ahLhG9kcFWTvIXsiE1ydS5mZ7Y3tIqzeS2EThDNJUzrqLFVz7i5OH5YQymPsyzaj5qXqT6Q+ZKfJwwDQXCYpT7obz9eFn7852CbFQ8E0u1sUZ2k7GQ3HQnYMkv0JmV0rZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ76nE1A; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJ6N+jjw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ76nE1A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716852440; x=1748388440;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UPQZLfgN2PJwYFcvhxNxXsFlEUE261DKoAL5m9V08lI=;
-  b=hJ6N+jjw9wsaO7r5M07i6/HoCV7HbrYnadcZV8gyf2Gzt4zkBopJYpv3
-   tMUlY+EJQib7zRrson7pjTWl1KACPQpWXpL0Im7DUcB8hCpdlDm9HFijU
-   +20JgfNinLTmNyT4GtazdcibSVI/mIO6pReMyBw2wy0R10vr3++Szu3K3
-   5CT+JUgyPM62ZdUXeL3DHVwa7OMN9zOsRgFeGTO3T7qsiA/GjMo64Qc8u
-   OFfya9yegAjoTxChpZXRN7YT75f62V9Nd/+ybYT+j+6uT5BSiWmvBQNcf
-   SnL6OYp0vdZ4/DK6DGEAdUHTCnXmd2stRKk8vjk5AU8zekmOX0SZ+HbaY
+  t=1716855607; x=1748391607;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=eWutr2ixlnG62KX0n+3CKcwCg7XUOaIpMKsxTO2P7eI=;
+  b=eZ76nE1AQk8kYLxkEItfa/UaZ2gufhuEfsMdsljY/5BcTOUgm9Ekmh3x
+   emWGAr2Z+6Cc1P2IiCZW7AB+aBIHpmfk4naoH2g/r4AaKW9TeoGH+7fT5
+   Q/E4mDDARE7MH+fz6ix6gTr7eQCGL3zBXJr/mrpxheXv/OdXSKfRbShcz
+   neTtSs+n2iokE+O/TV0K0NKsTDAZsZmM4gM7hPjGDg5AoCSmS9eApk4/v
+   V+xxvceAw5M3KKh8ElVzeGLRA0rnPIjNa3VenxNGfhc1jz8TelDGZYljY
+   4DyNAv+VON94I8QSmMuhbSnhe7nU0L/epxAB9FFT+bG6QwkBMVTBO/uqf
    Q==;
-X-CSE-ConnectionGUID: bUY2n6+ZR86WCJnkMzWW8g==
-X-CSE-MsgGUID: KoKksgDVR9OeQptr+e3PSg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13018232"
+X-CSE-ConnectionGUID: EmmyMHx3RUCT6lexTlwz5g==
+X-CSE-MsgGUID: 2c+Y/xZhQx21Mi31Xb3E3Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13005904"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="13018232"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 16:27:20 -0700
-X-CSE-ConnectionGUID: 32FSDnCERk+T2wvcEbBcwA==
-X-CSE-MsgGUID: V5XrR3hmTD6YR+Z5AiV9Sg==
+   d="scan'208";a="13005904"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 17:20:06 -0700
+X-CSE-ConnectionGUID: w4akoXTfQ/WInjn+IB/C/A==
+X-CSE-MsgGUID: WDKBma7rRiOAj5w/CeSwHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="34953636"
+   d="scan'208";a="65697189"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 27 May 2024 16:27:19 -0700
+  by orviesa002.jf.intel.com with ESMTP; 27 May 2024 17:20:01 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBjkK-000BC3-15;
-	Mon, 27 May 2024 23:27:16 +0000
-Date: Tue, 28 May 2024 07:27:01 +0800
+	id 1sBkZK-000BDz-1x;
+	Tue, 28 May 2024 00:19:58 +0000
+Date: Tue, 28 May 2024 08:19:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [drm-misc:drm-misc-next 7/10]
- drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:25: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202405280709.9vMmDoGt-lkp@intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sean Wang <sean.wang@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Subject: Re: [PATCH v1 05/11] pinctrl: pinmux: Add a convenient define
+ PINCTRL_FUNCTION_DESC()
+Message-ID: <202405280739.VSX5oEnr-lkp@intel.com>
+References: <20240527212742.1432960-6-andy.shevchenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240527212742.1432960-6-andy.shevchenko@gmail.com>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   40f98db5c06081ce583a24fb8950367f1058d2a3
-commit: dc6fcaaba5a5411237d042a26c4d46689f3346bb [7/10] drm/omap: Allow build with COMPILE_TEST=y
-config: mips-randconfig-r133-20240528 (https://download.01.org/0day-ci/archive/20240528/202405280709.9vMmDoGt-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240528/202405280709.9vMmDoGt-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next linus/master v6.10-rc1 next-20240523]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-berlin-Make-use-of-struct-pinfunction/20240528-053304
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20240527212742.1432960-6-andy.shevchenko%40gmail.com
+patch subject: [PATCH v1 05/11] pinctrl: pinmux: Add a convenient define PINCTRL_FUNCTION_DESC()
+config: sh-defconfig (https://download.01.org/0day-ci/archive/20240528/202405280739.VSX5oEnr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280739.VSX5oEnr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405280709.9vMmDoGt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405280739.VSX5oEnr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int [usertype] *wa_dma_data @@
-   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:25: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:25: sparse:     got unsigned int [usertype] *wa_dma_data
->> drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:24: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int [usertype] *wa_dma_data @@
-   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:24: sparse:     expected void volatile [noderef] __iomem *mem
-   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:24: sparse:     got unsigned int [usertype] *wa_dma_data
->> drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:19: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:19: sparse:     got unsigned int *
+All warnings (new ones prefixed by >>):
 
-vim +122 drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+>> drivers/pinctrl/pinmux.c:863: warning: Function parameter or struct member 'ngroups' not described in 'pinmux_generic_add_function'
+>> drivers/pinctrl/pinmux.c:863: warning: Excess function parameter 'num_groups' description in 'pinmux_generic_add_function'
 
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  101  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  102  static u32 dmm_read_wa(struct dmm *dmm, u32 reg)
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  103  {
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  104  	dma_addr_t src, dst;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  105  	int r;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  106  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  107  	src = dmm->phys_base + reg;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  108  	dst = dmm->wa_dma_handle;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  109  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  110  	r = dmm_dma_copy(dmm, src, dst);
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  111  	if (r) {
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  112  		dev_err(dmm->dev, "sDMA read transfer timeout\n");
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  113  		return readl(dmm->base + reg);
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  114  	}
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  115  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  116  	/*
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  117  	 * As per i878 workaround, the DMA is used to access the DMM registers.
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  118  	 * Make sure that the readl is not moved by the compiler or the CPU
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  119  	 * earlier than the DMA finished writing the value to memory.
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  120  	 */
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  121  	rmb();
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26 @122  	return readl(dmm->wa_dma_data);
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  123  }
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  124  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  125  static void dmm_write_wa(struct dmm *dmm, u32 val, u32 reg)
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  126  {
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  127  	dma_addr_t src, dst;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  128  	int r;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  129  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26 @130  	writel(val, dmm->wa_dma_data);
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  131  	/*
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  132  	 * As per i878 workaround, the DMA is used to access the DMM registers.
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  133  	 * Make sure that the writel is not moved by the compiler or the CPU, so
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  134  	 * the data will be in place before we start the DMA to do the actual
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  135  	 * register write.
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  136  	 */
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  137  	wmb();
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  138  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  139  	src = dmm->wa_dma_handle;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  140  	dst = dmm->phys_base + reg;
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  141  
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  142  	r = dmm_dma_copy(dmm, src, dst);
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  143  	if (r) {
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  144  		dev_err(dmm->dev, "sDMA write transfer timeout\n");
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  145  		writel(val, dmm->base + reg);
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  146  	}
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  147  }
-f5b9930b85dc631 Tomi Valkeinen 2018-09-26  148  
 
-:::::: The code at line 122 was first introduced by commit
-:::::: f5b9930b85dc6319fd6bcc259e447eff62fc691c drm/omap: partial workaround for DRA7xx DMM errata i878
+vim +863 drivers/pinctrl/pinmux.c
 
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@ti.com>
-:::::: CC: Tomi Valkeinen <tomi.valkeinen@ti.com>
+a76edc89b100e4 Tony Lindgren      2016-12-27  849  
+a76edc89b100e4 Tony Lindgren      2016-12-27  850  /**
+6bffa7e1631d55 Geert Uytterhoeven 2017-04-03  851   * pinmux_generic_add_function() - adds a function group
+a76edc89b100e4 Tony Lindgren      2016-12-27  852   * @pctldev: pin controller device
+a76edc89b100e4 Tony Lindgren      2016-12-27  853   * @name: name of the function
+a76edc89b100e4 Tony Lindgren      2016-12-27  854   * @groups: array of pin groups
+a76edc89b100e4 Tony Lindgren      2016-12-27  855   * @num_groups: number of pin groups
+a76edc89b100e4 Tony Lindgren      2016-12-27  856   * @data: pin controller driver specific data
+a76edc89b100e4 Tony Lindgren      2016-12-27  857   */
+a76edc89b100e4 Tony Lindgren      2016-12-27  858  int pinmux_generic_add_function(struct pinctrl_dev *pctldev,
+a76edc89b100e4 Tony Lindgren      2016-12-27  859  				const char *name,
+bd0aae66c48208 Rafał Miłecki      2021-12-16  860  				const char * const *groups,
+368512f04e89e0 Andy Shevchenko    2024-05-28  861  				const unsigned int ngroups,
+a76edc89b100e4 Tony Lindgren      2016-12-27  862  				void *data)
+a76edc89b100e4 Tony Lindgren      2016-12-27 @863  {
+a76edc89b100e4 Tony Lindgren      2016-12-27  864  	struct function_desc *function;
+6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  865  	int selector, error;
+f913cfce4ee49a Tony Lindgren      2018-07-05  866  
+f913cfce4ee49a Tony Lindgren      2018-07-05  867  	if (!name)
+f913cfce4ee49a Tony Lindgren      2018-07-05  868  		return -EINVAL;
+f913cfce4ee49a Tony Lindgren      2018-07-05  869  
+f913cfce4ee49a Tony Lindgren      2018-07-05  870  	selector = pinmux_func_name_to_selector(pctldev, name);
+f913cfce4ee49a Tony Lindgren      2018-07-05  871  	if (selector >= 0)
+f913cfce4ee49a Tony Lindgren      2018-07-05  872  		return selector;
+f913cfce4ee49a Tony Lindgren      2018-07-05  873  
+f913cfce4ee49a Tony Lindgren      2018-07-05  874  	selector = pctldev->num_functions;
+a76edc89b100e4 Tony Lindgren      2016-12-27  875  
+a76edc89b100e4 Tony Lindgren      2016-12-27  876  	function = devm_kzalloc(pctldev->dev, sizeof(*function), GFP_KERNEL);
+a76edc89b100e4 Tony Lindgren      2016-12-27  877  	if (!function)
+a76edc89b100e4 Tony Lindgren      2016-12-27  878  		return -ENOMEM;
+a76edc89b100e4 Tony Lindgren      2016-12-27  879  
+368512f04e89e0 Andy Shevchenko    2024-05-28  880  	function = PINCTRL_FUNCTION_DESC(name, groups, ngroups, data);
+a76edc89b100e4 Tony Lindgren      2016-12-27  881  
+6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  882  	error = radix_tree_insert(&pctldev->pin_function_tree, selector, function);
+6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  883  	if (error)
+6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  884  		return error;
+a76edc89b100e4 Tony Lindgren      2016-12-27  885  
+a76edc89b100e4 Tony Lindgren      2016-12-27  886  	pctldev->num_functions++;
+a76edc89b100e4 Tony Lindgren      2016-12-27  887  
+f913cfce4ee49a Tony Lindgren      2018-07-05  888  	return selector;
+a76edc89b100e4 Tony Lindgren      2016-12-27  889  }
+a76edc89b100e4 Tony Lindgren      2016-12-27  890  EXPORT_SYMBOL_GPL(pinmux_generic_add_function);
+a76edc89b100e4 Tony Lindgren      2016-12-27  891  
 
 -- 
 0-DAY CI Kernel Test Service
