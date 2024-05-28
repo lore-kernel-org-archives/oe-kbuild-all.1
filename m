@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D8F37719;
-	Tue, 28 May 2024 21:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA2713E032
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 22:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716931080; cv=none; b=DoqbWUy6aJrwg3J+yRjwSKR0b634E9RL0WpAPgaQ4rrZ6uljoyKB+yzga0UfiF7Vmhu+YqwRtj6RhBvzVjx9sFJ5412vfrFNr8c7TsLRsx3QIrLRvRahl0QqUUwutclhAmJrU+GNpjZXuk+RtR5cEheexS4W3b0MvW/zuzsd1ww=
+	t=1716934799; cv=none; b=Wltao41ilST1u5PMkS9awNfYmg8y6qx2LE3d31CvqKhPYfn53hx1QHCo9mxN8cYHgK+pdiZMaDMLU1DyKcbW5lz5c7V/6nYbHsN3t8vMKDRY17vcLbRvSaK+ihx4aZH/5iZnLiBpMUdcRvOugjergbKD+3GEwVoaIpzzFSKm1/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716931080; c=relaxed/simple;
-	bh=df6P1xfVcWeYr0Prst7JHR/lRDenSZqOcvbQYQ8TnsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nwYP79yZkHuG96c1qP+Zh7VtDVN1mPrKSdsqgfFVpECH7Hy639aO1xhvYprKUYZXROSvEgVtbP5tFFLmd8zK+hTrLVcIpLLK3UGzS41OEl3KFVvXUOir8E3TGXLze1SVyPm4hTCOmwVgrm2uRBzDg4+YRZGBVhNxqJZkT7eZU/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uipdfcm4; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1716934799; c=relaxed/simple;
+	bh=YHNnKhDBl7U6bA5Lo49KueOTpVAW/UhJjT4JAywJ714=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tu3qyj7+AotTlkKnzQADv41hvknqPMoX6EFKvV9X2VcvBhZ3KhJG95H5Zm4PV4h4M4GMAwrKd+pqzwwhgTjEmC8L6sC47f8kX+7KVIFoVkqGzIUnmiTfrC1ZQO1rfAkgZYaBwkojO3Gh20I5sa8W6i83QIfyG57rnfCVZudjPi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaJiJGds; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uipdfcm4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaJiJGds"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716931077; x=1748467077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=df6P1xfVcWeYr0Prst7JHR/lRDenSZqOcvbQYQ8TnsY=;
-  b=Uipdfcm4a1vElnrAjN/KJJzM1laW0j9c+ZiN+KQHP44g+n2/+0A8/uOr
-   rRBVgKA8aThU/0oIm1xHcaG12cciawjMoFVzXYHdS9I+P3o59BLJuU+tv
-   hKiFA6IUUD9G8GqUKL/hsiAcH0HRdLA5qsqbyVmMAyS2LH3K2v5XMOw1b
-   raYH1CWB0E3NfEYRW6B474L7p8pZZmj/UHtM8skNGL92mBpsLeXAGOqVP
-   o19xr2dC2shZy/dR9gACj3J/S+4Nq1UYy7ABY9JI6d6LwQDDgG/3SqO3G
-   KCYt6G8hBly5t37e87aCQ7iosGz8SyCHpc13URLyTDdge5Fy1/G96GBGX
-   Q==;
-X-CSE-ConnectionGUID: E+EEIhw1R3S88LEZ7Qh8kA==
-X-CSE-MsgGUID: UlgyV7KlQZ+V5qXTRwngpQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24433712"
+  t=1716934799; x=1748470799;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YHNnKhDBl7U6bA5Lo49KueOTpVAW/UhJjT4JAywJ714=;
+  b=iaJiJGdsjcvr2YP8Z8HrvuZG4PW7Un1r3nh0fVW1xgMtYv+RixDzAoJT
+   RY5UQX5ytwTcr0dRh7RVJRd9YKK5wgFJJargB+RR94rSnGvEwZOmD56Iq
+   utkaW5lHQOVId8rUR54jhc64tYNCS+eqCTj2HqlRTY3FV9LVEheR7sACa
+   4nV+MNuW6J2/G0+AWU55618FTVLPUVN70SN8Ta5MumUzQTgXpJ3n9yHVW
+   u7dM6L4dUQGG3A5dBJNwAWrMEhGDbS/6MOQri0vAf/xMvKwFZz3xafESO
+   t9+IDO+XHaa/1hLmxhvMqTpN8usTFM39ZdJyHSqf17Zob+GFlAcCpAv4D
+   w==;
+X-CSE-ConnectionGUID: 6r4N9XaQQKiMqCPL45uFqA==
+X-CSE-MsgGUID: 7VrxTpqPSN6ZbPimlsn4rw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30812121"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="24433712"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 14:17:57 -0700
-X-CSE-ConnectionGUID: 52dP+MQSTjGafcuMc8lliw==
-X-CSE-MsgGUID: 9ajn04XiQ+KcTDxH1ciLeQ==
+   d="scan'208";a="30812121"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 15:19:58 -0700
+X-CSE-ConnectionGUID: jrNcMNMLRy24gWvK2CDhdA==
+X-CSE-MsgGUID: qoXJdFzqRbOUM2oJvZgIhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="40196234"
+   d="scan'208";a="40090690"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 14:17:54 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 May 2024 15:19:57 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC4Cd-000Clf-1k;
-	Tue, 28 May 2024 21:17:51 +0000
-Date: Wed, 29 May 2024 05:17:16 +0800
+	id 1sC5Ag-000CoV-1R;
+	Tue, 28 May 2024 22:19:54 +0000
+Date: Wed, 29 May 2024 06:19:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Zhang Lixu <lixu.zhang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] HID: intel-ish-hid: fix endian-conversion
-Message-ID: <202405290447.n14W21hZ-lkp@intel.com>
-References: <20240528115802.3122955-2-arnd@kernel.org>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:page_frag_cache_v5 11/13] kernel/exit.o: warning:
+ objtool: __ex_table+0x0: special: can't find orig instruction
+Message-ID: <202405290629.oaN9XxEz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,91 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528115802.3122955-2-arnd@kernel.org>
 
-Hi Arnd,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on next-20240528]
-[cannot apply to linus/master v6.10-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/HID-intel-ish-hid-fix-endian-conversion/20240528-200100
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20240528115802.3122955-2-arnd%40kernel.org
-patch subject: [PATCH 2/2] HID: intel-ish-hid: fix endian-conversion
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240529/202405290447.n14W21hZ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290447.n14W21hZ-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_cache_v5
+head:   5fe53a7c019262862519bf2365207b2caf7773cf
+commit: eb68d59203696da1dd122ad0eaecdb3afe821f3e [11/13] net: replace page_frag with page_frag_cache
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290629.oaN9XxEz-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290629.oaN9XxEz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290447.n14W21hZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290629.oaN9XxEz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/hid/intel-ish-hid/ishtp/loader.c:178:9: error: use of undeclared identifier 'dma'
-     178 |                                                  &dma, GFP_KERNEL);
-         |                                                   ^
-   drivers/hid/intel-ish-hid/ishtp/loader.c:186:52: error: use of undeclared identifier 'dma'
-     186 |                 fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma);
-         |                                                                  ^
-   include/linux/byteorder/generic.h:86:21: note: expanded from macro 'cpu_to_le64'
-      86 | #define cpu_to_le64 __cpu_to_le64
-         |                     ^
-   2 errors generated.
+>> kernel/exit.o: warning: objtool: __ex_table+0x0: special: can't find orig instruction
 
 
-vim +/dma +178 drivers/hid/intel-ish-hid/ishtp/loader.c
-
-   154	
-   155	/**
-   156	 * prepare_dma_bufs() - Prepare the DMA buffer for transferring firmware fragments
-   157	 * @dev: The ISHTP device
-   158	 * @ish_fw: The ISH firmware
-   159	 * @fragment: The ISHTP firmware fragment descriptor
-   160	 * @dma_bufs: The array of DMA fragment buffers
-   161	 * @fragment_size: The size of a single DMA fragment
-   162	 *
-   163	 * Return: 0 on success, negative error code on failure
-   164	 */
-   165	static int prepare_dma_bufs(struct ishtp_device *dev,
-   166				    const struct firmware *ish_fw,
-   167				    struct loader_xfer_dma_fragment *fragment,
-   168				    void **dma_bufs, u32 fragment_size, u32 fragment_count)
-   169	{
-   170		dma_addr_t dma_addr;
-   171		u32 offset = 0;
-   172		u32 length;
-   173		int i;
-   174	
-   175		for (i = 0; i < fragment->fragment_cnt && offset < ish_fw->size; i++) {
-   176			dma_bufs[i] = dma_alloc_coherent(dev->devc, fragment_size, &dma_addr, GFP_KERNEL);
-   177			dma_bufs[i] = dma_alloc_coherent(dev->devc, fragment_size,
- > 178							 &dma, GFP_KERNEL);
-   179			if (!dma_bufs[i])
-   180				return -ENOMEM;
-   181	
-   182			fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma_addr);
-   183	
-   184			memcpy(dma_bufs[i], ish_fw->data + offset, le32_to_cpu(fragment->fragment_tbl[i].length));
-   185			dma_wmb();
-   186			fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma);
-   187			length = clamp(ish_fw->size - offset, 0, fragment_size);
-   188			fragment->fragment_tbl[i].length = cpu_to_le32(length);
-   189			fragment->fragment_tbl[i].fw_off = cpu_to_le32(offset);
-   190	
-   191			offset += length;
-   192		}
-   193	
-   194		return 0;
-   195	}
-   196	
+objdump-func vmlinux.o __ex_table:
 
 -- 
 0-DAY CI Kernel Test Service
