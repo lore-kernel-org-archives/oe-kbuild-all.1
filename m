@@ -1,159 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A45CA64;
-	Tue, 28 May 2024 00:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EFE38D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 00:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716855609; cv=none; b=MQXj303yVdnnCEFjI/phJ3PzX4AT65ecVeHxZWt8GulRw+/kvhR506QO7Ngo3LWL39VLPUIPL9+0isNR6qvWhWI9V4ovbcyE6xGtPOyz6qIYltWDVm5FyFFpSsug/2X5oJXkpXvGW6Jkrb0WpgG6F8Xm96v3tBn+8inBmTk/zfQ=
+	t=1716856264; cv=none; b=Oq77iOjGabciztfI1kRsWJg9Sag9vKgW6j002YUbmGxHIbcGdyUgPgEKl1EIGF++TetEeBprigxQjjUz5mJhZfu75J9rt0yOagpjGbuIe9d/1pJ9JgpEhWBs7WSBq1i6ER7aJAm7BT/u6Ca5n14aFswHsze9nDh/A9de0TdFdwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716855609; c=relaxed/simple;
-	bh=eWutr2ixlnG62KX0n+3CKcwCg7XUOaIpMKsxTO2P7eI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OMteHhiiZnTmYWBDgShCjVLI0DIbKrZc0tJCACSZ5ahLhG9kcFWTvIXsiE1ydS5mZ7Y3tIqzeS2EThDNJUzrqLFVz7i5OH5YQymPsyzaj5qXqT6Q+ZKfJwwDQXCYpT7obz9eFn7852CbFQ8E0u1sUZ2k7GQ3HQnYMkv0JmV0rZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ76nE1A; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1716856264; c=relaxed/simple;
+	bh=nJDU8Ztn5k44cipy51TShIe6ayG/bgCQDbeJ4IIdpaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rNL4mDvb8NnEi9K4JE7gAvDHujzH0vhKM+imLfV//DNV1hJ/AmHyaeIehjMb5XgUWAk4nF3Qrhid/8UYYJjMSUjHG/tEm72Arlxvm73tx71eScj0ErVfISfPbYWUlmjuA+ejq79WGSb4lz324Ts+6nJ7IJPIjN7k5b63U2j1ZAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgFVKeOR; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ76nE1A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgFVKeOR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716855607; x=1748391607;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=eWutr2ixlnG62KX0n+3CKcwCg7XUOaIpMKsxTO2P7eI=;
-  b=eZ76nE1AQk8kYLxkEItfa/UaZ2gufhuEfsMdsljY/5BcTOUgm9Ekmh3x
-   emWGAr2Z+6Cc1P2IiCZW7AB+aBIHpmfk4naoH2g/r4AaKW9TeoGH+7fT5
-   Q/E4mDDARE7MH+fz6ix6gTr7eQCGL3zBXJr/mrpxheXv/OdXSKfRbShcz
-   neTtSs+n2iokE+O/TV0K0NKsTDAZsZmM4gM7hPjGDg5AoCSmS9eApk4/v
-   V+xxvceAw5M3KKh8ElVzeGLRA0rnPIjNa3VenxNGfhc1jz8TelDGZYljY
-   4DyNAv+VON94I8QSmMuhbSnhe7nU0L/epxAB9FFT+bG6QwkBMVTBO/uqf
-   Q==;
-X-CSE-ConnectionGUID: EmmyMHx3RUCT6lexTlwz5g==
-X-CSE-MsgGUID: 2c+Y/xZhQx21Mi31Xb3E3Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13005904"
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="13005904"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 17:20:06 -0700
-X-CSE-ConnectionGUID: w4akoXTfQ/WInjn+IB/C/A==
-X-CSE-MsgGUID: WDKBma7rRiOAj5w/CeSwHQ==
+  t=1716856263; x=1748392263;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nJDU8Ztn5k44cipy51TShIe6ayG/bgCQDbeJ4IIdpaY=;
+  b=hgFVKeORVq38aH/R+tSphTz82W+xqRPULNPhYoBjHQJrQeg34bDNfsPK
+   6dcMPvQQr+eafZckVY7e2Hi1w71dQkXiM3+1am+OgO0aM5XPRbJirTjkh
+   SxSfiaQz4oBfIRZF/F+Bi61DKo7zTbY5kCNH4wtD59TeQrTpMzErSQdjt
+   lDfrkd6gEeii25pFz1WA06lBzmn5zN6uV5rdJ46WPkkkeDE8G6HPpumJk
+   TXORHdXxNDkjHnCUC7c9PUEckvQbJFbl/4j5hGchJcHGkmn0RNnsSk0AL
+   UfMntbB4yz9FDzDXhl2gReaRkTWukIV72HddR7tGD5Ymaj2AnKU0mrgFO
+   A==;
+X-CSE-ConnectionGUID: b4qCcdMcRQqSks9pUEU9HA==
+X-CSE-MsgGUID: yb8ItKgUQRihxlwIu1vemA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="23739162"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="23739162"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 17:31:03 -0700
+X-CSE-ConnectionGUID: iKrGhD+8T56ym5OzOpwfBA==
+X-CSE-MsgGUID: 6xByu03QQqKZuBxCCakc9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="65697189"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="66098711"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 May 2024 17:20:01 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 27 May 2024 17:31:01 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBkZK-000BDz-1x;
-	Tue, 28 May 2024 00:19:58 +0000
-Date: Tue, 28 May 2024 08:19:55 +0800
+	id 1sBkjy-000BEF-2R;
+	Tue, 28 May 2024 00:30:58 +0000
+Date: Tue, 28 May 2024 08:30:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-Subject: Re: [PATCH v1 05/11] pinctrl: pinmux: Add a convenient define
- PINCTRL_FUNCTION_DESC()
-Message-ID: <202405280739.VSX5oEnr-lkp@intel.com>
-References: <20240527212742.1432960-6-andy.shevchenko@gmail.com>
+To: Eric Biggers <ebiggers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:crypto-pending 10/11]
+ arch/x86/crypto/aesni-intel_glue.c:1260:56: sparse: sparse: incorrect type
+ in argument 1 (different base types)
+Message-ID: <202405280825.xFT9hdkt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240527212742.1432960-6-andy.shevchenko@gmail.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.10-rc1 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-berlin-Make-use-of-struct-pinfunction/20240528-053304
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20240527212742.1432960-6-andy.shevchenko%40gmail.com
-patch subject: [PATCH v1 05/11] pinctrl: pinmux: Add a convenient define PINCTRL_FUNCTION_DESC()
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20240528/202405280739.VSX5oEnr-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280739.VSX5oEnr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crypto-pending
+head:   1899b9e4f1b7c51cf07f580348eba11165d167f3
+commit: 60a290e256b16429d52964ef69d18f9a0d2157af [10/11] crypto: x86/aes-gcm - rewrite the AES-NI optimized AES-GCM
+config: x86_64-randconfig-123-20240528 (https://download.01.org/0day-ci/archive/20240528/202405280825.xFT9hdkt-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405280825.xFT9hdkt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405280739.VSX5oEnr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405280825.xFT9hdkt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/crypto/aesni-intel_glue.c:1249:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [assigned] [usertype] a @@
+   arch/x86/crypto/aesni-intel_glue.c:1249:53: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1249:53: sparse:     got restricted __be64 [addressable] [assigned] [usertype] a
+   arch/x86/crypto/aesni-intel_glue.c:1250:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [assigned] [usertype] b @@
+   arch/x86/crypto/aesni-intel_glue.c:1250:53: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1250:53: sparse:     got restricted __be64 [addressable] [assigned] [usertype] b
+   arch/x86/crypto/aesni-intel_glue.c:1258:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [assigned] [usertype] a @@
+   arch/x86/crypto/aesni-intel_glue.c:1258:53: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1258:53: sparse:     got restricted __be64 [addressable] [assigned] [usertype] a
+   arch/x86/crypto/aesni-intel_glue.c:1259:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [assigned] [usertype] b @@
+   arch/x86/crypto/aesni-intel_glue.c:1259:53: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1259:53: sparse:     got restricted __be64 [addressable] [assigned] [usertype] b
+>> arch/x86/crypto/aesni-intel_glue.c:1260:56: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 @@
+   arch/x86/crypto/aesni-intel_glue.c:1260:56: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1260:56: sparse:     got restricted __be64
+>> arch/x86/crypto/aesni-intel_glue.c:1265:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [usertype] a @@
+   arch/x86/crypto/aesni-intel_glue.c:1265:46: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1265:46: sparse:     got restricted __be64 [addressable] [usertype] a
+>> arch/x86/crypto/aesni-intel_glue.c:1266:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [usertype] b @@
+   arch/x86/crypto/aesni-intel_glue.c:1266:46: sparse:     expected unsigned long long [usertype] val
+   arch/x86/crypto/aesni-intel_glue.c:1266:46: sparse:     got restricted __be64 [addressable] [usertype] b
 
->> drivers/pinctrl/pinmux.c:863: warning: Function parameter or struct member 'ngroups' not described in 'pinmux_generic_add_function'
->> drivers/pinctrl/pinmux.c:863: warning: Excess function parameter 'num_groups' description in 'pinmux_generic_add_function'
+vim +1260 arch/x86/crypto/aesni-intel_glue.c
 
-
-vim +863 drivers/pinctrl/pinmux.c
-
-a76edc89b100e4 Tony Lindgren      2016-12-27  849  
-a76edc89b100e4 Tony Lindgren      2016-12-27  850  /**
-6bffa7e1631d55 Geert Uytterhoeven 2017-04-03  851   * pinmux_generic_add_function() - adds a function group
-a76edc89b100e4 Tony Lindgren      2016-12-27  852   * @pctldev: pin controller device
-a76edc89b100e4 Tony Lindgren      2016-12-27  853   * @name: name of the function
-a76edc89b100e4 Tony Lindgren      2016-12-27  854   * @groups: array of pin groups
-a76edc89b100e4 Tony Lindgren      2016-12-27  855   * @num_groups: number of pin groups
-a76edc89b100e4 Tony Lindgren      2016-12-27  856   * @data: pin controller driver specific data
-a76edc89b100e4 Tony Lindgren      2016-12-27  857   */
-a76edc89b100e4 Tony Lindgren      2016-12-27  858  int pinmux_generic_add_function(struct pinctrl_dev *pctldev,
-a76edc89b100e4 Tony Lindgren      2016-12-27  859  				const char *name,
-bd0aae66c48208 Rafał Miłecki      2021-12-16  860  				const char * const *groups,
-368512f04e89e0 Andy Shevchenko    2024-05-28  861  				const unsigned int ngroups,
-a76edc89b100e4 Tony Lindgren      2016-12-27  862  				void *data)
-a76edc89b100e4 Tony Lindgren      2016-12-27 @863  {
-a76edc89b100e4 Tony Lindgren      2016-12-27  864  	struct function_desc *function;
-6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  865  	int selector, error;
-f913cfce4ee49a Tony Lindgren      2018-07-05  866  
-f913cfce4ee49a Tony Lindgren      2018-07-05  867  	if (!name)
-f913cfce4ee49a Tony Lindgren      2018-07-05  868  		return -EINVAL;
-f913cfce4ee49a Tony Lindgren      2018-07-05  869  
-f913cfce4ee49a Tony Lindgren      2018-07-05  870  	selector = pinmux_func_name_to_selector(pctldev, name);
-f913cfce4ee49a Tony Lindgren      2018-07-05  871  	if (selector >= 0)
-f913cfce4ee49a Tony Lindgren      2018-07-05  872  		return selector;
-f913cfce4ee49a Tony Lindgren      2018-07-05  873  
-f913cfce4ee49a Tony Lindgren      2018-07-05  874  	selector = pctldev->num_functions;
-a76edc89b100e4 Tony Lindgren      2016-12-27  875  
-a76edc89b100e4 Tony Lindgren      2016-12-27  876  	function = devm_kzalloc(pctldev->dev, sizeof(*function), GFP_KERNEL);
-a76edc89b100e4 Tony Lindgren      2016-12-27  877  	if (!function)
-a76edc89b100e4 Tony Lindgren      2016-12-27  878  		return -ENOMEM;
-a76edc89b100e4 Tony Lindgren      2016-12-27  879  
-368512f04e89e0 Andy Shevchenko    2024-05-28  880  	function = PINCTRL_FUNCTION_DESC(name, groups, ngroups, data);
-a76edc89b100e4 Tony Lindgren      2016-12-27  881  
-6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  882  	error = radix_tree_insert(&pctldev->pin_function_tree, selector, function);
-6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  883  	if (error)
-6ec89cd4d17bd5 Sergey Shtylyov    2023-07-19  884  		return error;
-a76edc89b100e4 Tony Lindgren      2016-12-27  885  
-a76edc89b100e4 Tony Lindgren      2016-12-27  886  	pctldev->num_functions++;
-a76edc89b100e4 Tony Lindgren      2016-12-27  887  
-f913cfce4ee49a Tony Lindgren      2018-07-05  888  	return selector;
-a76edc89b100e4 Tony Lindgren      2016-12-27  889  }
-a76edc89b100e4 Tony Lindgren      2016-12-27  890  EXPORT_SYMBOL_GPL(pinmux_generic_add_function);
-a76edc89b100e4 Tony Lindgren      2016-12-27  891  
+  1176	
+  1177	/*
+  1178	 * This is the setkey function for the x86_64 implementations of AES-GCM.  It
+  1179	 * saves the RFC4106 nonce if applicable, expands the AES key, and precomputes
+  1180	 * powers of the hash key.
+  1181	 *
+  1182	 * To comply with the crypto_aead API, this has to be usable in no-SIMD context.
+  1183	 * For that reason, this function includes a portable C implementation of the
+  1184	 * needed logic.  However, the portable C implementation is very slow, taking
+  1185	 * about the same time as encrypting 37 KB of data.  To be ready for users that
+  1186	 * may set a key even somewhat frequently, we therefore also include a SIMD
+  1187	 * assembly implementation, expanding the AES key using AES-NI and precomputing
+  1188	 * the hash key powers using PCLMULQDQ or VPCLMULQDQ.
+  1189	 */
+  1190	static int gcm_setkey(struct crypto_aead *tfm, const u8 *raw_key,
+  1191			      unsigned int keylen, int flags)
+  1192	{
+  1193		struct aes_gcm_key *key = aes_gcm_key_get(tfm, flags);
+  1194		int err;
+  1195	
+  1196		if (flags & FLAG_RFC4106) {
+  1197			if (keylen < 4)
+  1198				return -EINVAL;
+  1199			keylen -= 4;
+  1200			key->rfc4106_nonce = get_unaligned_be32(raw_key + keylen);
+  1201		}
+  1202	
+  1203		/* The assembly code assumes the following offsets. */
+  1204		BUILD_BUG_ON(offsetof(struct aes_gcm_key_aesni, base.aes_key.key_enc) != 0);
+  1205		BUILD_BUG_ON(offsetof(struct aes_gcm_key_aesni, base.aes_key.key_length) != 480);
+  1206		BUILD_BUG_ON(offsetof(struct aes_gcm_key_aesni, h_powers) != 496);
+  1207		BUILD_BUG_ON(offsetof(struct aes_gcm_key_aesni, h_powers_xored) != 624);
+  1208		BUILD_BUG_ON(offsetof(struct aes_gcm_key_aesni, h_times_x64) != 688);
+  1209		BUILD_BUG_ON(offsetof(struct aes_gcm_key_avx10, base.aes_key.key_enc) != 0);
+  1210		BUILD_BUG_ON(offsetof(struct aes_gcm_key_avx10, base.aes_key.key_length) != 480);
+  1211		BUILD_BUG_ON(offsetof(struct aes_gcm_key_avx10, h_powers) != 512);
+  1212		BUILD_BUG_ON(offsetof(struct aes_gcm_key_avx10, padding) != 768);
+  1213	
+  1214		if (likely(crypto_simd_usable())) {
+  1215			err = aes_check_keylen(keylen);
+  1216			if (err)
+  1217				return err;
+  1218			kernel_fpu_begin();
+  1219			aesni_set_key(&key->aes_key, raw_key, keylen);
+  1220			aes_gcm_precompute(key, flags);
+  1221			kernel_fpu_end();
+  1222		} else {
+  1223			static const u8 x_to_the_minus1[16] __aligned(__alignof__(be128)) = {
+  1224				[0] = 0xc2, [15] = 1
+  1225			};
+  1226			static const u8 x_to_the_63[16] __aligned(__alignof__(be128)) = {
+  1227				[7] = 1,
+  1228			};
+  1229			be128 h1 = {};
+  1230			be128 h;
+  1231			int i;
+  1232	
+  1233			err = aes_expandkey(&key->aes_key, raw_key, keylen);
+  1234			if (err)
+  1235				return err;
+  1236	
+  1237			/* Encrypt the all-zeroes block to get the hash key H^1 */
+  1238			aes_encrypt(&key->aes_key, (u8 *)&h1, (u8 *)&h1);
+  1239	
+  1240			/* Compute H^1 * x^-1 */
+  1241			h = h1;
+  1242			gf128mul_lle(&h, (const be128 *)x_to_the_minus1);
+  1243	
+  1244			/* Compute the needed key powers */
+  1245			if (flags & (FLAG_AVX10_256 | FLAG_AVX10_512)) {
+  1246				struct aes_gcm_key_avx10 *k = AES_GCM_KEY_AVX10(key);
+  1247	
+  1248				for (i = ARRAY_SIZE(k->h_powers) - 1; i >= 0; i--) {
+  1249					put_unaligned_be64(h.a, &k->h_powers[i][8]);
+  1250					put_unaligned_be64(h.b, &k->h_powers[i][0]);
+  1251					gf128mul_lle(&h, &h1);
+  1252				}
+  1253				memset(k->padding, 0, sizeof(k->padding));
+  1254			} else {
+  1255				struct aes_gcm_key_aesni *k = AES_GCM_KEY_AESNI(key);
+  1256	
+  1257				for (i = ARRAY_SIZE(k->h_powers) - 1; i >= 0; i--) {
+  1258					put_unaligned_be64(h.a, &k->h_powers[i][8]);
+  1259					put_unaligned_be64(h.b, &k->h_powers[i][0]);
+> 1260					put_unaligned_be64(h.a ^ h.b,
+  1261							   &k->h_powers_xored[i]);
+  1262					gf128mul_lle(&h, &h1);
+  1263				}
+  1264				gf128mul_lle(&h1, (const be128 *)x_to_the_63);
+> 1265				put_unaligned_be64(h1.a, &k->h_times_x64[8]);
+> 1266				put_unaligned_be64(h1.b, &k->h_times_x64[0]);
+  1267			}
+  1268		}
+  1269		return 0;
+  1270	}
+  1271	
 
 -- 
 0-DAY CI Kernel Test Service
