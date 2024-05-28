@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A6516F91D;
-	Tue, 28 May 2024 14:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE5413AD3E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 15:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716907140; cv=none; b=t8I3aB48/JOxcDKStPVcYi2nQiRF4XTjtBlfzf/KLc1SfWt4k1RZigM5M2uQ1lHksiBo9s7LaZkXtNBGXeNdVq71/3BLJEgyx6V1ZhmQqzOz30PoUkBDRydhd8joBrz2ERfOB0Ohb5nIZMNYHC2VjW1eVP9+3TEMveYG+4dyQ64=
+	t=1716910276; cv=none; b=dPP9vp9wfzHtBfQ3BCrI4+pSLBXv7ZzodUGUEHfGOeQg/c/epVmmXs4xxKuR9Vlyvs9rn3yL3p4TyF9OZcn3cC3/yp4TO0tyvfAK9UmXbjztbLBkHVYUI6M6B32PCxV9LjiYMbgBkXnzlYayRt83k3ycbQfKw3i51VucXZ7yfV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716907140; c=relaxed/simple;
-	bh=M6zz23ytNcIYjpmOBVGRwLDdpmrQad24JbGnhp4sZto=;
+	s=arc-20240116; t=1716910276; c=relaxed/simple;
+	bh=FwtuM1TFCelqwzt9iXjSqkehJYGOzFRnTcVItM8LDk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZQ6Qrsorw/NgdPvc5x/MivH2jTwZp7y0SdbEDBwPkkqblv3h2qgtY+cysCGD9LUjwjZyNVrWPK8/E6yOCbFnRsuQks1fUg3J8egHnwnz7L51Thf80/iM+WyDuxaLcoUUQPk0Rg0tGZgnjXSDHCWrpgKWvpNRqZLZHCG63lZDxqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ViWTw5dy; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=hNS/rOkCxSKa7Rqf5L0cFpW84n8JguCcxIXqKdfQskk4enrIq9QwxcCpHTXpwrcRPzlTkYhN5dbMPNyWWyLIdPbrt/JdU7TY4kq3Bv2FlLu/Wxf8/Ju+6k5wm1okiva3wcLsOd5+6mtXMYxN3IGWzas6Yyj/qcoMx/p3SeBfE+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQ4LXedf; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ViWTw5dy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQ4LXedf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716907138; x=1748443138;
+  t=1716910274; x=1748446274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M6zz23ytNcIYjpmOBVGRwLDdpmrQad24JbGnhp4sZto=;
-  b=ViWTw5dyFrdhzL6dKgVYRnTObQRx0Z7XDaPEULIxiu08Hy3YP/3M+2VQ
-   FHkhUZmPhGID01vGdVJI8NOjgslnIe6RaK2T7VW9+SMecvP0vcIlvxiZI
-   bWbPmK2NmGfmIzklumhYHuTkbvUXj3FAtkvmdmKUFoNkaNOiJ4gCIAYiC
-   0K7hcth7A40+IjqOGMpRYDrlNP82Iz26/22Gv80NJseZW1TO1FJyCNM33
-   iNwZMPWwlFt/hcmxGwGgMrZ7IVIJQ2rjtYzAUeQBTrSHQvqX8GNAkKZph
-   VeIcbLaeIMQTGpU/J/IudFiXKLA2BONW7gzQKfSpRfh9AQTbws+XRBpbz
-   g==;
-X-CSE-ConnectionGUID: g8VGptm7TICrHCqRgNIwpQ==
-X-CSE-MsgGUID: HAhdimppQWicGXamyalBeg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13097648"
+  bh=FwtuM1TFCelqwzt9iXjSqkehJYGOzFRnTcVItM8LDk4=;
+  b=gQ4LXedfq4ATCF8zB10TkT65ScTnAiFlEXVj2ml5s0+/ethBd5igFe9R
+   l4dZRhKVm/P+6jGOM7sMSIX9Lys1FPLvKMWhhbw0Ipgsxl2+txWixhdEo
+   POXULxDa2RYNvZbTf2n1E/CFpqhPEe4vkVMUbJrg1rAxoHiOVuXvg15NL
+   /cr5pumkKRxn1cVs1YBZmGNvaFLX85x5LH9wWXnSig7jbCKLL5lDOVUDr
+   w5xTW0m5bbXyXXAuZlRLXTn1+FqUyLmAZaxqLJmb/MZjmj8tIwnZl7YyZ
+   hM+MwXE2ETDOk4hXUS/nrG0wkhFZd1DQ1O1N2YcTk6NviZ6tMPj+Z6iC9
+   A==;
+X-CSE-ConnectionGUID: JZj0bHGmTU+qLvWYpKNJ1Q==
+X-CSE-MsgGUID: WRmC8ZpRRSS9Vw3B3xG4vQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13034172"
 X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; 
-   d="scan'208";a="13097648"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 07:38:58 -0700
-X-CSE-ConnectionGUID: dA1SJRMtSvSOTk2Fpy2o+Q==
-X-CSE-MsgGUID: 53UMXH7CRJGOnwsVBk8ANA==
+   d="scan'208";a="13034172"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 08:31:13 -0700
+X-CSE-ConnectionGUID: a4vzKj8jTOqW9VIbk6IQVQ==
+X-CSE-MsgGUID: klZmLL5vQOeR47Bqigsm4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; 
-   d="scan'208";a="40056247"
+   d="scan'208";a="35133142"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 07:38:56 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 May 2024 08:31:12 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBxyY-000CL3-0s;
-	Tue, 28 May 2024 14:38:54 +0000
-Date: Tue, 28 May 2024 22:38:48 +0800
+	id 1sByn7-000CNb-2Z;
+	Tue, 28 May 2024 15:31:09 +0000
+Date: Tue, 28 May 2024 23:31:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Andy Yan <andyshrk@163.com>
-Subject: [drm-misc:drm-misc-next 29/29]
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c:213:3: error: implicit declaration of
- function 'drm_connector_hdmi_compute_mode_clock' is invalid in C99
-Message-ID: <202405282205.EU7NUoeQ-lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 1549/2075] drivers/dma-buf/udmabuf.c:45:undefined
+ reference to `vmf_insert_pfn'
+Message-ID: <202405282308.UEzt6hqC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,44 +64,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   62545c719e26ec9f62efab7e9582deb73265b6d0
-commit: ea64761a54a25fa2c27bae99b3c72dadfaa74d3e [29/29] drm/sun4i: hdmi: Switch to HDMI connector
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240528/202405282205.EU7NUoeQ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405282205.EU7NUoeQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6dc544b66971c7f9909ff038b62149105272d26a
+commit: f7254e043ff1cc9ff97b0de83bc23509c8be4b9c [1549/2075] udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
+config: sh-randconfig-r012-20230414 (https://download.01.org/0day-ci/archive/20240528/202405282308.UEzt6hqC-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405282308.UEzt6hqC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405282205.EU7NUoeQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405282308.UEzt6hqC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c:213:3: error: implicit declaration of function 'drm_connector_hdmi_compute_mode_clock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_connector_hdmi_compute_mode_clock(mode, 8,
-                   ^
-   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c:213:3: note: did you mean 'drm_hdmi_compute_mode_clock'?
-   include/drm/display/drm_hdmi_helper.h:28:1: note: 'drm_hdmi_compute_mode_clock' declared here
-   drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-   ^
-   1 error generated.
+   sh4-linux-ld: drivers/dma-buf/udmabuf.o: in function `udmabuf_vm_fault':
+>> drivers/dma-buf/udmabuf.c:45:(.text+0x140): undefined reference to `vmf_insert_pfn'
 
 
-vim +/drm_connector_hdmi_compute_mode_clock +213 drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+vim +45 drivers/dma-buf/udmabuf.c
 
-   207	
-   208	static enum drm_mode_status
-   209	sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
-   210					struct drm_display_mode *mode)
-   211	{
-   212		unsigned long long rate =
- > 213			drm_connector_hdmi_compute_mode_clock(mode, 8,
-   214							      HDMI_COLORSPACE_RGB);
-   215	
-   216		return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
-   217	}
-   218	
+fbb0de795078190 Gerd Hoffmann    2018-08-27  32  
+300133d372b7b54 Souptick Joarder 2019-01-03  33  static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+fbb0de795078190 Gerd Hoffmann    2018-08-27  34  {
+fbb0de795078190 Gerd Hoffmann    2018-08-27  35  	struct vm_area_struct *vma = vmf->vma;
+fbb0de795078190 Gerd Hoffmann    2018-08-27  36  	struct udmabuf *ubuf = vma->vm_private_data;
+05b252cccb2e5c3 Gerd Hoffmann    2022-06-20  37  	pgoff_t pgoff = vmf->pgoff;
+f7254e043ff1cc9 Vivek Kasireddy  2024-04-10  38  	unsigned long pfn;
+fbb0de795078190 Gerd Hoffmann    2018-08-27  39  
+05b252cccb2e5c3 Gerd Hoffmann    2022-06-20  40  	if (pgoff >= ubuf->pagecount)
+05b252cccb2e5c3 Gerd Hoffmann    2022-06-20  41  		return VM_FAULT_SIGBUS;
+f7254e043ff1cc9 Vivek Kasireddy  2024-04-10  42  
+f7254e043ff1cc9 Vivek Kasireddy  2024-04-10  43  	pfn = page_to_pfn(ubuf->pages[pgoff]);
+f7254e043ff1cc9 Vivek Kasireddy  2024-04-10  44  	return vmf_insert_pfn(vma, vmf->address, pfn);
+fbb0de795078190 Gerd Hoffmann    2018-08-27 @45  }
+fbb0de795078190 Gerd Hoffmann    2018-08-27  46  
+
+:::::: The code at line 45 was first introduced by commit
+:::::: fbb0de795078190a9834b3409e4b009cfb18a6d4 Add udmabuf misc device
+
+:::::: TO: Gerd Hoffmann <kraxel@redhat.com>
+:::::: CC: Gerd Hoffmann <kraxel@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
