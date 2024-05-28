@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06904C622;
-	Tue, 28 May 2024 05:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A9C23C9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 05:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716873912; cv=none; b=VJ/MWtwfSM9roliJ8XQD1AA5ad/HnvjgCeWU13nrcoiKUVVejs10WNBxsDHMFiW6MqZvV/QILZo/g+1ygaugQv2NMH3r2yBWbRfPoD/FCV4ksPUk8Sjhh9kcLJtBsCZqS842DZ1uAbkVnernrdrbnMQK0ZCdQzQVZXLrvK1lRSs=
+	t=1716874288; cv=none; b=Bp3cTIoL2mi7aTVcsTV4GxnIOks5Y++Ew3s5DV2BKoEFXCkBPgLdfY6OLKVsdLZ5y3lD+4dTeatSwENLYvRET2YvYgaOM68gzUcoxuI0ZKzrYmVfVgjZZm133ZWge1tjLmsV+GnauaGUZQwsmhAxcaUz60NEWJbInMd7cOshT14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716873912; c=relaxed/simple;
-	bh=9ljL2SRej7kfSr3/Z80vnbqUEmaAjmzBnY5RLtqXrnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XbERzza+Xkc1lyA+4IFM8AZjGg3zHF+zT1eDx1gX4g9Db/P6cvmzAXOQ89nEMUMIEQbVP2KYXHIbAZAGQwBZGAa52+7oMaIH4egwuUK6vJcXMADZdXj8eQIlZN/u6z2i5WUG7KgHulewf/xkYl3Zg5603AM/87pLQFN/0QLvo90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Crlv4UUK; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716874288; c=relaxed/simple;
+	bh=HyQLjZEpd9wwdN20s4cZ6BruH/hZKkcc3iKQN6LiTVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KOIFHBSQb5dahqExAB1mEdKtHWjhrFmfh8tIPTvho26EIxhj0DM73URBtLFaxKhcxfAy72XWNtilueULRoQ7LLTeI4lzZTm2UKjdVpIhIWmp/EO2Kygu/y/5OaoeMdeCF8a2gbR6xAWyeUU5C2l8qpI7iAfCz7RcjPO25mza+oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SKPoXPsE; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Crlv4UUK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716873910; x=1748409910;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9ljL2SRej7kfSr3/Z80vnbqUEmaAjmzBnY5RLtqXrnM=;
-  b=Crlv4UUKcjgRtdv2ysfu/WuvtQJLoeWHQbTTFB4duBwP1ejfTjUC7tYt
-   IP8uNNc7lA9qNnkl8Cjg+Uvu//TGiziEyS3FysADvRQSQafZuCXjFfHHh
-   37CG8poVSDqm+h8tzdq+9Zjg54EjE6IojfoFpc4XLp6ydtO2fmQmptyLD
-   WC2g+6e8WpVzmfkwe3MmjVUuA1ui3kziw++U772JE3oY2Y6CIpgqb85gH
-   iS6YXThJTa6trog0BBXcaODehG3EmpsuXxz7A5c+BS+68pLYoHRsFJQfO
-   PEPNdbCwRW9gp9wil5djGJblvB3NBnvHHHq7qUx9CEP53IHmb920Fyk4m
-   Q==;
-X-CSE-ConnectionGUID: 2dMZyZPVSXOXgabUCIRY9A==
-X-CSE-MsgGUID: kUspt9+5QDadIswm6vpWvg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13038220"
-X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="13038220"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 22:25:10 -0700
-X-CSE-ConnectionGUID: iw1DyotnQsOQ2cZ3eVSkpw==
-X-CSE-MsgGUID: fkHDgsOvSi2w7etDCHK2kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="35019332"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 27 May 2024 22:25:10 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sBpKa-000Bil-2S;
-	Tue, 28 May 2024 05:25:05 +0000
-Date: Tue, 28 May 2024 13:22:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:mgtime 4/5] fs/inode.c:73:15: error: '__section__'
- attribute only applies to functions, global variables, Objective-C methods,
- and Objective-C properties
-Message-ID: <202405281321.aRVc7usN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SKPoXPsE"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2bdf3f4d5ffso309342a91.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 May 2024 22:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716874285; x=1717479085; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9hvPgmffj4Wj06vdVO18Z5LSO2FFEsKmLvRZE6+/qIo=;
+        b=SKPoXPsEu7PsHrxaqQpmYiBgdDhutVUQ74C94Oi6wg1JEXfWX301Ju4Gz4ApNOOct6
+         hlLWRKII2PMa5L0v4hqPT6n15TGFbtPXT1/nXOFi1Sy4qp0m5pa1N3JVm6b9rhD/lRcW
+         8eWatG9CNFCOfisg8/cKiHMyWCa4ttl6ACMqpEXVDRb/SRSab7sR+wNcuwyKxclWMhQA
+         iNTLqetq9cfnxXf5sbA9ZtBCFio4CJ1mYSG8dq/JCZbzBXZxqskbGE0TAQoZK1gLfdbn
+         /l9FlNal08u/YaQR/Lm3yof6+gcd5nR//68kbWH93FaBsLMWM5rJg7sRdGNWo1qwmnpq
+         cpug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716874285; x=1717479085;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9hvPgmffj4Wj06vdVO18Z5LSO2FFEsKmLvRZE6+/qIo=;
+        b=V4eDPh5CV1wYiBBFrFG1VnoKfGRH7CkLaW7J8k7CdUw/ts17lnfVebU+iTxjm5NCJu
+         aHMT+atFUf4w6BaS5iMZLghe9jTU4lUlF58OpLXIsv/jtmCz6AzHWg//9yQg05/bK5Qq
+         KxvNyALV7nK8Z3vg2LmNa6fjdm5OqKfuH6O+sd4PDVzlZ4JUoIq7P81sYUQiUXgCb0gL
+         yI+DNuq1mia8uNIhMJu05gkIpMz/6K+xsKvdkwMHsYION3dAGOjz2Py3l3rMW1XCV93q
+         t+Xi4YbeFOBAwcFT6i8kLBquU0FxaaspPE9qJIrsMuS92R856nrcAA4Y+cRXKBmPZndd
+         R5ow==
+X-Forwarded-Encrypted: i=1; AJvYcCWMqCCqOenN48mpC7A9vh+/7LQ8VYoSRsQjCpbURDoYuMNiZw6i3N3LrVTcV8vC6jartMARYGXKft5VIFvxrtazZbl4K57DxN7++kPpUQ==
+X-Gm-Message-State: AOJu0YznCtW1DjR4g1q/+p16kBHcGzQmQanMlMhfN4myjhT06KrsEmQ4
+	t2+lSLKl73mGsbPJjBzaWRg639ix3KYVJ30yVuI9SaWr6t/8Y2+OUoOy4YWQ27E=
+X-Google-Smtp-Source: AGHT+IH3eeCklWFIBgjuU2ajwASNK+Fln476Y1+Xt+QjngmUQhquOGzUKnaJQt7MCEQySQmbSAajXg==
+X-Received: by 2002:a17:90b:3754:b0:2b4:fcfd:780e with SMTP id 98e67ed59e1d1-2bf5f75124fmr9077103a91.49.1716874285301;
+        Mon, 27 May 2024 22:31:25 -0700 (PDT)
+Received: from localhost ([122.172.82.13])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bf5f511a92sm6769359a91.24.2024.05.27.22.31.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 May 2024 22:31:24 -0700 (PDT)
+Date: Tue, 28 May 2024 11:01:22 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [rafael-pm:bleeding-edge 11/15] drivers/opp/core.c:2447
+ _opp_attach_genpd() warn: missing unwind goto?
+Message-ID: <20240528053122.pzfkdig6k4kga2yz@vireshk-i7>
+References: <3d73f08e-8305-4ad8-8327-adaaf96ac673@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +69,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <3d73f08e-8305-4ad8-8327-adaaf96ac673@moroto.mountain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
-head:   05aa6b03b8c3451d4aac5fb47e9e99c6e00ee304
-commit: 05ca0fa7e195e028694f41de279dec33ada93d21 [4/5] fs: add infrastructure for multigrain timestamps
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240528/202405281321.aRVc7usN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240528/202405281321.aRVc7usN-lkp@intel.com/reproduce)
+On 23-05-24, 15:50, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+> head:   fe07fa9fa1115e0979b89a90ae8594794ac2f63f
+> commit: 2a56c462fe5a2ee61d38e2d7b772bee56115a00c [11/15] OPP: Fix required_opp_tables for multiple genpds using same table
+> config: i386-randconfig-141-20240517 (https://download.01.org/0day-ci/archive/20240518/202405180016.4fbn86bm-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202405180016.4fbn86bm-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/opp/core.c:2447 _opp_attach_genpd() warn: missing unwind goto?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405281321.aRVc7usN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/inode.c:73:15: error: '__section__' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
-      73 | static struct __cacheline_aligned_in_smp ctime_floor_val ctime_floor;
-         |               ^
-   include/linux/cache.h:60:36: note: expanded from macro '__cacheline_aligned_in_smp'
-      60 | #define __cacheline_aligned_in_smp __cacheline_aligned
-         |                                    ^
-   include/linux/cache.h:55:4: note: expanded from macro '__cacheline_aligned'
-      55 |                  __section__(".data..cacheline_aligned")))
-         |                  ^
-   fs/inode.c:73:15: warning: attribute declaration must precede definition [-Wignored-attributes]
-   include/linux/cache.h:60:36: note: expanded from macro '__cacheline_aligned_in_smp'
-      60 | #define __cacheline_aligned_in_smp __cacheline_aligned
-         |                                    ^
-   include/linux/cache.h:54:18: note: expanded from macro '__cacheline_aligned'
-      54 |   __attribute__((__aligned__(SMP_CACHE_BYTES),                  \
-         |                  ^
-   fs/inode.c:64:8: note: previous definition is here
-      64 | struct ctime_floor_val {
-         |        ^
-   1 warning and 1 error generated.
-
-
-vim +/__section__ +73 fs/inode.c
-
-    62	
-    63	/* Floor value for all ctime stamps */
-    64	struct ctime_floor_val {
-    65		union {
-    66			struct {
-    67				ktime_t	coarse;
-    68				ktime_t	floor;
-    69			};
-    70			u128	full;
-    71		};
-    72	};
-  > 73	static struct __cacheline_aligned_in_smp ctime_floor_val ctime_floor;
-    74	
+Sent a fix. Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+viresh
