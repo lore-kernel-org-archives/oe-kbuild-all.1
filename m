@@ -1,61 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C8317E8E4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 00:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB4E2F2A;
+	Wed, 29 May 2024 00:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716943006; cv=none; b=PSJEoL4Zb1sZREY6qL/3NCwwGGwvo9dV5hLCsDGmt7ZxScCKh9r3xKQkH0kgGbKco0XLRmh4JtrI9uRLQpwWT4tJ7tuyGqxuxG4ssABO3vi+QjzV9jy9tEo8ZJh+LKs8tAFnH9Y3xsGMVAOcr47zl5LSv4vq9xVTZWqqtdIWrDQ=
+	t=1716944269; cv=none; b=m5Ggl67Ap+0ahZw3/xvR9Gb7LKgNDEDQocua1/88jTyTWDvt81YjcmGoOXL3m+DG9WgBTQlkvSkISdihFw9pctnLOp2g1qGOxPQQ5G7aOGgCUgGYy+JITrHWwS1g1iHAbDVS+RwgmRSf2rWFBwoPB7gOn7mwOo7G8Ruv1nBWYfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716943006; c=relaxed/simple;
-	bh=uwDkLunLwjity6zB9oYaQ9fbDslgtTAovlJYkP9GbZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mo3pW3M/cUWNvv2P26+prbr+8nx1287OXTLRlNUbGDn9l4GqMXSjsYMepryJb87d/hcoLYo4XCuU0cEaUYZ1Q59afGlJebzNTJBLfS/KrOzf0sNlLt0AtDlocQg7B4PXfpsqQK7NviKHYICO6AXQmgFXKWKO3nphhyUN12H70Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YR6FS669; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1716944269; c=relaxed/simple;
+	bh=9PMDHi0i2X7JYHYfsjL5TSPtAzVp+Z//KwjHgfx3R6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eU6M2BNtd6He87w4SVCrZylVIkmM4bkVnwk29SKgRqMAJ4S/3+RcMmR4VLHWEWStzG5z7nxFw5yc8xXF/wtKySFfyEDBeutg1IsTFXem55HtERx6htkNpqYtqUdtcsz1m6H3MyDQVkrrnwZB4GP58HBphEvmLtwtHSJQBM3JU/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g6uXwrdI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YR6FS669"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g6uXwrdI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716943004; x=1748479004;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uwDkLunLwjity6zB9oYaQ9fbDslgtTAovlJYkP9GbZ0=;
-  b=YR6FS669sB4QlTMTut0ZV6IYvaArXaZeBjIDTVkhkgVfbAZDU4Of1rwm
-   Yu11t3IImbN96a5Q/4rYAzS1ysNL0bnd0ERdlRmfI+EFDmGy8v4KPepRv
-   ie4wAUWXLInpS+TkOwlGZXhevolgr5UVXltdXWhVA25PjaY2JhTadIXwk
-   Qb6gAoQk265fU9NpKaPiad2bu22uLVdbbaBPbj9k8tnS36gusLAZiZ5yv
-   Tc9J45CT4FG4ja0wZB+cm/NnaRs3X5KD5irC2VsMKBH6/GHVTkEkgzzCm
-   yxk74wMpbvIi9ppC4vql5V7j99KSrbP228JPOn27JASFQ1qo7ZmR/Xmrc
+  t=1716944267; x=1748480267;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9PMDHi0i2X7JYHYfsjL5TSPtAzVp+Z//KwjHgfx3R6M=;
+  b=g6uXwrdIxHqlF7i0gWIPf4/mJ3jZbdecPCBIMGXfI+IMlXdryPg6OkG0
+   EHiBVelux3MyUwllYdc4UKLIWX5Cw+t3XffbTw1pcD11yADxVRB6O/FYq
+   ZhhhkvSfbUGvkH8g8U2aRhInaJuk09EaPKZeNrrkKi2oEotTxXiy+CuUN
+   NV4Bn1z3cDzJQ/qgB3a/Hcn/r85AZIgqnfWWd5aD/8FCah/Hy2rQJvND7
+   eBo+ojZvK98d4lbPgvHo9RCBwLpzsy9I5EkZAPk+prxM6B7QGiVJxMhTH
+   0BgeYWMkubeDmMTseP0Om800PuLKRlwhf2I6+suqhvWVIY8cwQkSEys+M
    g==;
-X-CSE-ConnectionGUID: flFNuH3HQPK+rTAIhsFTFg==
-X-CSE-MsgGUID: fzWIqu5MRvqn6bGcOo5neg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13142890"
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="13142890"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 17:36:44 -0700
-X-CSE-ConnectionGUID: L7McAlKQRICuHsqEA4Nupg==
-X-CSE-MsgGUID: JDy5juobTpGxpgTmWsc0yQ==
+X-CSE-ConnectionGUID: uvT3ah70SvqbZXeVrSNb8w==
+X-CSE-MsgGUID: Ear0ys8zQRSUCktCcUEOsA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24738022"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
+   d="scan'208";a="24738022"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 17:57:46 -0700
+X-CSE-ConnectionGUID: 9XYhmVTTSMK9lfuGzBmNlA==
+X-CSE-MsgGUID: XvW19c5xTcKwgSa5g6SciA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="39770111"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
+   d="scan'208";a="35317869"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 28 May 2024 17:36:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 May 2024 17:57:42 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC7J0-000Cvb-2k;
-	Wed, 29 May 2024 00:36:38 +0000
-Date: Wed, 29 May 2024 08:36:27 +0800
+	id 1sC7dL-000Cwn-2I;
+	Wed, 29 May 2024 00:57:39 +0000
+Date: Wed, 29 May 2024 08:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 65/98] ld: cpuset.c:undefined reference to
- `get_idle_time'
-Message-ID: <202405290837.WFaDE56x-lkp@intel.com>
+To: Thomas Bonnefille <thomas.bonnefille@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Chao Wei <chao.wei@sophgo.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Thomas Bonnefille <thomas.bonnefille@bootlin.com>
+Subject: Re: [PATCH 5/5] riscv: dts: sophgo: Add LicheeRV Nano board device
+ tree
+Message-ID: <202405290822.4dIYJxLq-lkp@intel.com>
+References: <20240527-sg2002-v1-5-1b6cb38ce8f4@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,24 +80,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240527-sg2002-v1-5-1b6cb38ce8f4@bootlin.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   724ee3c4545840fd6d1af9474de10a9404f4d6c5
-commit: f02c35d2e66fb42ca03914d72b8e25ed8bf6e688 [65/98] cpuset: add cpuinfo and stat show
-config: x86_64-buildonly-randconfig-003-20240529 (https://download.01.org/0day-ci/archive/20240529/202405290837.WFaDE56x-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290837.WFaDE56x-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Bonnefille/dt-bindings-interrupt-controller-Add-SOPHGO-SG2002-plic/20240527-183235
+base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+patch link:    https://lore.kernel.org/r/20240527-sg2002-v1-5-1b6cb38ce8f4%40bootlin.com
+patch subject: [PATCH 5/5] riscv: dts: sophgo: Add LicheeRV Nano board device tree
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405290822.4dIYJxLq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290822.4dIYJxLq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290837.WFaDE56x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290822.4dIYJxLq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `cpuset_cgroup_stat_show':
-   cpuset.c:(.text+0x4a469a): undefined reference to `get_idle_time'
->> ld: cpuset.c:(.text+0x4a4c4e): undefined reference to `get_idle_time'
+>> make[6]: *** No rule to make target 'arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano.dtb', needed by 'arch/riscv/boot/dts/sophgo/'.
+   make[6]: Target 'arch/riscv/boot/dts/sophgo/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
