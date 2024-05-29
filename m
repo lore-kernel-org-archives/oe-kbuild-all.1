@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12F526AF3;
-	Wed, 29 May 2024 21:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B4C1C68AE;
+	Wed, 29 May 2024 21:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717017406; cv=none; b=a40/J/xqOI9GcmsGbUK5jGBfbS6j7ao1ifP2yisAxsum3ec0BM6hZV2/dtxIiPZqQrBwXOUtK+64WNkv+tYqADnHpr3/evvFjK8WK+lmCPW34yDEBdSUBaMuK5237YOpw7XV72AjG6VVd1c1pLoLA6MYjAxo6KEXRB5EdA4OwdY=
+	t=1717018102; cv=none; b=JSFU9hi/RGmYGi0vX18MQubt80Q5aS8D2vlF8VdHNc1fMKGIOPnX2s/0vmcxzKjNscZpzblVW17m2FjtEptN8Ni+/l/FkKfOfuuZTXUN+6mC02BQsFuTyu4hNrmQFwOAhGhbOMZ03EfaKv1WTipvsdEO58/BrdBxUUygiURjkCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717017406; c=relaxed/simple;
-	bh=aRl9eNmFJZGJdj9IohaJE01Mwbt5Hsh96tkwxTyDkX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tBiUsdRAfihiN+1OsXBeWVfjqeBaSBEL+5B3UkBOYkjKEy1P9xGIjhgcmWyYsyI3qNHe9/IpBwTfHn4/xw6n/7E6ltK+8BaApXK7D20NrwnN2YYMo2r632aritSvBZE7jy0W6AMiyEj/lnz63blgE0WSVlc2otI9Dga8bH+784M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/wzguuB; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1717018102; c=relaxed/simple;
+	bh=8zWDjDedFf/ICjSC0KUnEXjkIlsSCH86AQ05ywlbeis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EnylXUM+mafEZQJIFzyG7hHESniSYNEfmkLfuQHFK9QRURkDM8XkbhPLL6LILvV6mUJoj8BOG1P7wLNGTZeyeedCaRbruUiWT/jTeQknS4wHDRVWFutztRx2NQUssdY2SkgXxOD80REmb+dSXUSGA9/+CfaM+04mo+8KuJjymJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wx0zmJ4E; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/wzguuB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wx0zmJ4E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717017405; x=1748553405;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aRl9eNmFJZGJdj9IohaJE01Mwbt5Hsh96tkwxTyDkX0=;
-  b=n/wzguuB+0yJIOIezlyf7yZgqZVOK/nM7tA8qTDZpcYZtua0YQYF+48/
-   YH5mvD783nYpzUKffy/yU5KoE+a8U3a0mt30gh2EQUDfvqzPq+6iA2Vm7
-   mKGZs9zVAxSElVkLk5UQ0s1YhkLMz/9+fKl5+doMD95OxUhocxHj1UUuU
-   +fxeEYbzSP7gso2mJ6bYJp5wt5laFPfDgWQfkWbDNGkl2sjhLf2apNlsh
-   p4sHkzcAxP0N8Cy6/cb2HeAgljKl0E0PVYdUkoS8gK7AFnvGZVvkO3+Mm
-   5Q+Ubm2oYcKcmwwoSQjk1jXJSdDxUZut4DvevMOFswoKYR44bCeXyuAXH
-   w==;
-X-CSE-ConnectionGUID: Sd4iJoDBS7aF1+hpHUp5Kg==
-X-CSE-MsgGUID: QRu1PyYDSUOlxk3bsziHSA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17289928"
+  t=1717018100; x=1748554100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8zWDjDedFf/ICjSC0KUnEXjkIlsSCH86AQ05ywlbeis=;
+  b=Wx0zmJ4EVS9fjXYTMYZZcc0rj6KYwNdZA5xJ8gIUzdfD3TQEVhJokHkm
+   EgNEza1AKvWj7UpBs+FoeqTxfNJ6CtSUEg7GG6OnOS2iOuDexE0fwfv+A
+   HiULH6Jcc1HO1x5jLLLn/mPoyH2aw/HXEpyYZeunDhiEsw6pS5Fg9ZW7g
+   U6RG1tmhi8GPFkUfJ1r2BPTjmj12V+q90J56ov4XYHhRFtCOHzQmrqJDb
+   MIqJBPMBiFY8zQTm2dAGOQSK+ZkhA4Bo/KhCyZgsU4yt2eLH/SgommAL9
+   Aj0qVMceH1QwZMNR/s51Bp/G+VfpPhJNYptxsoHzxYQBMpgq/yL92H9M5
+   Q==;
+X-CSE-ConnectionGUID: i1ZhIRf9Sh6T1a9NuhLdVA==
+X-CSE-MsgGUID: acN4KQQIRNyAvEBx3FYpIw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="38841859"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="17289928"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 14:16:44 -0700
-X-CSE-ConnectionGUID: lHXdzQPiS4+pqkYJlY6eBw==
-X-CSE-MsgGUID: cuu9iGiXRiySgEafrll9dg==
+   d="scan'208";a="38841859"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 14:28:20 -0700
+X-CSE-ConnectionGUID: CEsAyq0uRNOwBNGzYvlJbg==
+X-CSE-MsgGUID: jN0JXMA+S2iNMyExX/slww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="36116780"
+   d="scan'208";a="66779322"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 29 May 2024 14:16:43 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 May 2024 14:28:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCQf2-000EDe-0M;
-	Wed, 29 May 2024 21:16:40 +0000
-Date: Thu, 30 May 2024 05:15:56 +0800
+	id 1sCQpA-000EEH-11;
+	Wed, 29 May 2024 21:27:58 +0000
+Date: Thu, 30 May 2024 05:26:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rt-devel:linux-6.10.y-rt-rebase 11/93] kernel/softirq.c:663:40:
- error: call to undeclared function 'local_pending_timers'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202405300512.kGipfc2J-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] spi: dt-bindings: fsl-dspi: Convert to yaml format
+Message-ID: <202405300552.k5g5BIm0-lkp@intel.com>
+References: <20240529193651.1029840-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +69,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240529193651.1029840-1-Frank.Li@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.10.y-rt-rebase
-head:   6d20efa57a896036453f4b061ae22601ef61b494
-commit: 9105c9af2449940dbb3b9c2b98f2c9868a384410 [11/93] softirq: Use a dedicated thread for timer wakeups.
-config: i386-randconfig-012-20240529 (https://download.01.org/0day-ci/archive/20240530/202405300512.kGipfc2J-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300512.kGipfc2J-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.10-rc1 next-20240529]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/spi-dt-bindings-fsl-dspi-Convert-to-yaml-format/20240530-033848
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20240529193651.1029840-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] spi: dt-bindings: fsl-dspi: Convert to yaml format
+reproduce: (https://download.01.org/0day-ci/archive/20240530/202405300552.k5g5BIm0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405300512.kGipfc2J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405300552.k5g5BIm0-lkp@intel.com/
 
-Note: the rt-devel/linux-6.10.y-rt-rebase HEAD 6d20efa57a896036453f4b061ae22601ef61b494 builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
->> kernel/softirq.c:663:40: error: call to undeclared function 'local_pending_timers'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     663 |                 if (IS_ENABLED(CONFIG_PREEMPT_RT) && local_pending_timers())
-         |                                                      ^
-   1 error generated.
-
-
-vim +/local_pending_timers +663 kernel/softirq.c
-
-   649	
-   650	static inline void __irq_exit_rcu(void)
-   651	{
-   652	#ifndef __ARCH_IRQ_EXIT_IRQS_DISABLED
-   653		local_irq_disable();
-   654	#else
-   655		lockdep_assert_irqs_disabled();
-   656	#endif
-   657		account_hardirq_exit(current);
-   658		preempt_count_sub(HARDIRQ_OFFSET);
-   659		if (!in_interrupt()) {
-   660			if (local_softirq_pending())
-   661				invoke_softirq();
-   662	
- > 663			if (IS_ENABLED(CONFIG_PREEMPT_RT) && local_pending_timers())
-   664				wake_timersd();
-   665		}
-   666	
-   667		tick_irq_exit();
-   668	}
-   669	
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
+   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/spi/spi-fsl-dspi.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
