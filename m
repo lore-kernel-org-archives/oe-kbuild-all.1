@@ -1,102 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2357F16C451
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 15:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A618B1B810
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 15:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716995061; cv=none; b=ljf7UkPaL5sxWH6ti2jeV9TccAnr+a1MJgAG52Nit8tEykmeQpi7/dhOFJZcEQzUkmPcS9va8JjlxE3DpFo6nT2zhMQnKDapBWTdI028k43HSRp56Kfw7jZyA3dRGVzQEXPG3Y8J6mNMrqlYvdCSrAyZi2EjIDeCTtzkq2aj8Y4=
+	t=1716995235; cv=none; b=c2J9cabaC8NDRqxb9Q4wjFNaY8b5zfmC0VrJ3xWIHFNBMPiUL5Odtqad5jJPagH1XhoyjyxeR/trN7gJ4kFGt9moM379iP5YAwLBVlfE0lAcVjNgl0Ymg8dtk6ACRfZxZ/5cmCq6NIyVo9b2a4ETGIjPE7wOi2ZokpPe80H6deY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716995061; c=relaxed/simple;
-	bh=CfVjJUt8nMdP3neMlxbZxm/ZXmRp+RbGsRhqRw+N5ls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BeMcRDwr8rLfgglYFE7B2Rd4czXhulUNOAj+Gny+uMNDiGpvFaE8Te2O46b4KsxxgJcuqF7qb97vuh6plVxbAeT/IGghiaB10xnWeNliFcK1Ffn+Fzt2yvJNQ3EF+F3KuBXJ5+garl1ARIYsvJCSyZj4CgihIoJ/xA6GPbvtwrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjVAt+7j; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1716995235; c=relaxed/simple;
+	bh=CGodxGASuTYguxkcnqiOhet+t7dXhdkloOo/a8z2/Zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m/u7VMPqpD7OhDPeyRXG6gHa/1ZVf25eIs4vV7CwdxuybD8UvSc5nYYClxg9SNIBNXKT2aHNhsAZ41DLwVEe6C5GJurZoyWsrhQylO/64v+f3dLBtvuZ5vy4eBt9hFCTl6QB36hL+X5QuH76VQSiqFO7ue034wlcKSOEK+p40Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sh4z2b/C; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjVAt+7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sh4z2b/C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716995060; x=1748531060;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=CfVjJUt8nMdP3neMlxbZxm/ZXmRp+RbGsRhqRw+N5ls=;
-  b=hjVAt+7jM2oEL5fOeRy7xtkC0VVVCjsEnsB36LghagJgZFcb0OHm1ABN
-   imyMAe/6nomQ8IRqzzH2yj2vefx9ceOl0ShrH6bpkePOG159pqFMhdsTN
-   SjOJDCjDg+nAQPwJ2rdtODjfWS1kDfz3Tq69OKtoNFMbVWs6Trqdcupdj
-   aAFAwnkwjKRNv+EqWZh11xZoGpeFg15wNefoVDH3c/gMe2ZbjZP7ivtX3
-   gi84Jwe16w9fZpjamjUldhEauKqXhtL+OC9Bkg9renoL68sRiJiKvxR5r
-   vC3CYu5YvFPmPnAQ02GbSB9cVCwFB30AwPLR2FtwjlmC4UuK3d7KPCW+F
-   Q==;
-X-CSE-ConnectionGUID: EBwOW0t7R2uoQm9PYOZ9nQ==
-X-CSE-MsgGUID: vGaFPd8LT6OnL/NlfV9w7g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17193943"
+  t=1716995234; x=1748531234;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CGodxGASuTYguxkcnqiOhet+t7dXhdkloOo/a8z2/Zc=;
+  b=Sh4z2b/CNRB9OgWelfJA7NpdludaFzM08E9vAg6d4MAq1boMP9gDmYwN
+   ql56POMSX0M7vx3givi/J7weRflNaXJWITeDOPjHDukQRC/8mhF2k/OBb
+   jG7FGF1qNEr+pxfKehS5U38bu30WdOU3ux5GS2+s7A5mJBV98p3uNuGKY
+   sRgajJp7pMQsBBGzTxNlInX83YUysNXSUNAoWvXOxz6SNdN/JcgRvzEW6
+   1320MXpcVbwhfUKMODSddYEQ/LGI6RFCaHVPj3MfcDSbPLqVOMRNvBLVH
+   x1zZ61SZnl70O5OiFFtc+tNugAbGRbOAZZNLuEnfaWPAl1Ts+ShxPMAAC
+   g==;
+X-CSE-ConnectionGUID: evKy2jotTCeqWjH2AwjLng==
+X-CSE-MsgGUID: EUFUHJcSShutMFhrNIHdcg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13228692"
 X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="17193943"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 08:04:19 -0700
-X-CSE-ConnectionGUID: oDGauErySKiDz+KokTwUuA==
-X-CSE-MsgGUID: s/PMuMnATz+hHI+gDy8iJw==
+   d="scan'208";a="13228692"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 08:07:11 -0700
+X-CSE-ConnectionGUID: UxWPMbaYQY+4O+krefjQxQ==
+X-CSE-MsgGUID: iNZGm82rQp2F5L/YhUkxBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="39977204"
-Received: from unknown (HELO [10.125.111.89]) ([10.125.111.89])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 08:04:19 -0700
-Message-ID: <937b10b1-f1fd-4af5-9e7b-dad5e43504e3@linux.intel.com>
-Date: Wed, 29 May 2024 10:04:17 -0500
+   d="scan'208";a="40323826"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 29 May 2024 08:07:10 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sCKtO-000DqB-2U;
+	Wed, 29 May 2024 15:07:06 +0000
+Date: Wed, 29 May 2024 23:06:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 5041/22575]
+ drivers/hid/i2c-hid/.tmp_i2c-hid-core.o: warning: objtool: missing symbol
+ for section .exit.text
+Message-ID: <202405292306.oKi0pqkq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ERROR: modpost: "__spi_register_driver"
- [sound/soc/codecs/snd-soc-cs35l56-spi.ko] undefined!
-To: kernel test robot <lkp@intel.com>,
- Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Bard Liao
- <yung-chuan.liao@linux.intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-References: <202405291344.wWCOfrZR-lkp@intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <202405291344.wWCOfrZR-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   aec283517697385e25d19ae7312a63bad805b4a7
+commit: 211070f39ed4ec7390dca8351c9fee934b8179e7 [5041/22575] HID: i2c-hid: override HID descriptors for certain devices
+config: x86_64-buildonly-randconfig-005-20240527 (https://download.01.org/0day-ci/archive/20240529/202405292306.oKi0pqkq-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405292306.oKi0pqkq-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405292306.oKi0pqkq-lkp@intel.com/
 
-On 5/29/24 00:23, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   e0cce98fe279b64f4a7d81b7f5c3a23d80b92fbc
-> commit: b831b4dca48dbe0f1f7705b44460dd9ca7f2f940 ASoC: intel: sof_sdw: Add support for cs42l43-cs35l56 sidecar amps
-> date:   4 weeks ago
-> config: loongarch-randconfig-r006-20230403 (https://download.01.org/0day-ci/archive/20240529/202405291344.wWCOfrZR-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291344.wWCOfrZR-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405291344.wWCOfrZR-lkp@intel.com/
+All warnings (new ones prefixed by >>):
 
-...
+   In file included from drivers/hid/i2c-hid/i2c-hid-core.c:21:
+   include/linux/module.h:140:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'i2c_hid_driver_exit': 'cold' [-Wmissing-attributes]
+     140 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/device.h:1637:1: note: in expansion of macro 'module_exit'
+    1637 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/i2c.h:870:9: note: in expansion of macro 'module_driver'
+     870 |         module_driver(__i2c_driver, i2c_add_driver, \
+         |         ^~~~~~~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
+    1344 | module_i2c_driver(i2c_hid_driver);
+         | ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/i2c.h:30,
+                    from drivers/hid/i2c-hid/i2c-hid-core.c:22:
+   drivers/hid/i2c-hid/i2c-hid-core.c:1344:19: note: 'cleanup_module' target declared here
+    1344 | module_i2c_driver(i2c_hid_driver);
+         |                   ^~~~~~~~~~~~~~
+   include/linux/device.h:1633:20: note: in definition of macro 'module_driver'
+    1633 | static void __exit __driver##_exit(void) \
+         |                    ^~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
+    1344 | module_i2c_driver(i2c_hid_driver);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/module.h:134:13: warning: 'init_module' specifies less restrictive attribute than its target 'i2c_hid_driver_init': 'cold' [-Wmissing-attributes]
+     134 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/device.h:1632:1: note: in expansion of macro 'module_init'
+    1632 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/i2c.h:870:9: note: in expansion of macro 'module_driver'
+     870 |         module_driver(__i2c_driver, i2c_add_driver, \
+         |         ^~~~~~~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
+    1344 | module_i2c_driver(i2c_hid_driver);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:1344:19: note: 'init_module' target declared here
+    1344 | module_i2c_driver(i2c_hid_driver);
+         |                   ^~~~~~~~~~~~~~
+   include/linux/device.h:1628:19: note: in definition of macro 'module_driver'
+    1628 | static int __init __driver##_init(void) \
+         |                   ^~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:1344:1: note: in expansion of macro 'module_i2c_driver'
+    1344 | module_i2c_driver(i2c_hid_driver);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c: In function '__i2c_hid_command':
+   drivers/hid/i2c-hid/i2c-hid-core.c:223:26: warning: array subscript 0 is outside array bounds of 'u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+     223 |                 cmd->data[0] = ihid->hdesc_buffer[registerIndex];
+         |                 ~~~~~~~~~^~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:98:12: note: while referencing 'data'
+      98 |         u8 data[0];
+         |            ^~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:224:26: warning: array subscript 1 is outside array bounds of 'u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+     224 |                 cmd->data[1] = ihid->hdesc_buffer[registerIndex + 1];
+         |                 ~~~~~~~~~^~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:98:12: note: while referencing 'data'
+      98 |         u8 data[0];
+         |            ^~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:327: warning: Function parameter or member 'data_len' not described in 'i2c_hid_set_or_send_report'
+   drivers/hid/i2c-hid/i2c-hid-core.c:327: warning: Excess function parameter 'len' description in 'i2c_hid_set_or_send_report'
+>> drivers/hid/i2c-hid/.tmp_i2c-hid-core.o: warning: objtool: missing symbol for section .exit.text
 
->>> ERROR: modpost: "__spi_register_driver" [sound/soc/codecs/snd-soc-cs35l56-spi.ko] undefined!
->>> ERROR: modpost: "__devm_regmap_init_spi" [sound/soc/codecs/snd-soc-cs35l56-spi.ko] undefined!
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for SND_SOC_CS35L56_SPI
->    Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SPI_MASTER [=n] && (SOUNDWIRE [=m] || !SOUNDWIRE [=m])
->    Selected by [m]:
->    - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_SOC_INTEL_MACH [=y] && SND_SOC_SOF_INTEL_SOUNDWIRE [=m] && I2C [=y] && ACPI [=y] && (MFD_INTEL_LPSS [=n] || COMPILE_TEST [=y]) && (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES [=n] || COMPILE_TEST [=y]) && SOUNDWIRE [=m]
-> 
-
-should be fixed by
-
-[1/1] ASoC: Intel: sof-sdw: fix missing SPI_MASTER dependency
-      commit: b062938fd9afec844c50571fddd8d81623a60ee1
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
