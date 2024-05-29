@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DED715B980
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 05:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F9315B973
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 05:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716960271; cv=none; b=YL+lfxfT/VmxIGhuddZh9pRDWy6D+uSxNQwUolAdUtUc5rodGCnXCzMwEI9usDe8QkXTUexCjV+72XjwdgAaBB/p6xNhrzFfJI68EeaiOEdmsIIw/OM9zat0O1z9ZCcd33911W5fwciXXFuRvCwg3u6u6TIIoNrQZ/Jg0H2cmKM=
+	t=1716960274; cv=none; b=TgcDvowkoOgUiiOgowE7hAVC94MjJ/STKzwEuSoKrS+qqLMlcEui9OlBnGp6KnjKd2cy2SMRo9izOzsrjQhNm4dXW/Beslkk5IZ+WpDXVVRV/51X6NlarSizbVvycxgUvapoN2hFGx4TSrwN+9oT8mZgcQnPtJeRpQw4eVE/6yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716960271; c=relaxed/simple;
-	bh=Gd63o1EZEgIPPYuiQc1nyiBy2S6S9bQDHLhJNfdoxkY=;
+	s=arc-20240116; t=1716960274; c=relaxed/simple;
+	bh=LmO683wjipQD+G3aaBflmlX8ECbbSB/vxEMY8ibsJMc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bnbU5PK8KUqIYE1Ctfq/cHNeiGvRZbKqbjqsqxEnA6/ynVPTyfPkEmtwcRmsL0+zNai+1ZC+gWptMPfGUe3Y8oLLlO/Y5y158U6DiWlI0rvnsKHBtbo32ZXOiQuz1rVokhBnrFE/aJ1YCvj/O/d7WBm+MJ0Pdyu4n44dwwmgAQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CILrmLjr; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=oVT+t2bUcNobCCEkDsd14mVXXdbXvpACLnlNr79irfrTnT4L2e/ra4OVS+DZdk7DR/iOGka5+rn3M4hShzEnuNZwDigZtsZHKvQN0Zql5DtUqlJ/TLBpTd0SjlncYINDjyxGtZXiEofpYoPRfI9uvhQNfKRtOcguXT8JoWKWC9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OOuW93mK; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CILrmLjr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OOuW93mK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716960270; x=1748496270;
+  t=1716960273; x=1748496273;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gd63o1EZEgIPPYuiQc1nyiBy2S6S9bQDHLhJNfdoxkY=;
-  b=CILrmLjr3fcwZYqDgYVBB3+wGBz8WWqb39oiJZqamaOITR3Ot2eMMUrQ
-   qKvI1m1F2vxdYq5Fnl+hf6q32oV+FWEc5ToC3b+PIAf5qRswY8++AvPXM
-   Wqn/DDLhtyZ5Bo5A7loumU4Lq2edcL6dpcDsSyoginZ3c93d6jm3xT1hV
-   sur3wHwJyei0jHdzsEGIb9mSglpQOOCGR+/a61vLaRAb44INdFSkt2uzv
-   gqnjsc+QLINO/yQN8w6LocP1MnmsHVMODpVhIHJTUsuFAwHLBFrSTrDxb
-   BOqh8fRGuEV21uaMuIIUgql2t7uj1tyg01FUAu0fIekQNx4WPnT5cznxH
+  bh=LmO683wjipQD+G3aaBflmlX8ECbbSB/vxEMY8ibsJMc=;
+  b=OOuW93mKTX9X6sPKd7Sr5dZnXRkt3QG1kCY+XeYdXa2b6i5x93/e1EHy
+   9rXPfSWubckROhGFptS7SSkLqhnLyKfSYI/qubeuUXHRtH8M6GzsG/Dkx
+   Nrkw0hfDDUKNBdimbmzWJFi7+ZEGGhPHRxPvrOIkFoUxDSLL4dWnmuMdC
+   rIimS7Yn9aSYEWU9ANMDViVbo5eFQBr5psMyoRQ3zUj/5k78LzA3+e7XZ
+   5dcKkdeXVw1UsLGhTzBN1FM1Q6QLQPgjM7S42c5OXAW9kqIaKeSZ98mjw
+   YrjheM2rhxl0noPhoOCLPbfnTdZgJ0ircduFVn2QOMf16X5DUuz1dLMTP
    Q==;
-X-CSE-ConnectionGUID: e8HfuxToSAaky1kFSRRvvg==
-X-CSE-MsgGUID: pAVLZ7vuQcCBfhIpLvSxPg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24754957"
+X-CSE-ConnectionGUID: zg+M3nOGRAuI6o2irUsfBg==
+X-CSE-MsgGUID: WXtROeJhSduDTG+PvKzFEQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24754968"
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="24754957"
+   d="scan'208";a="24754968"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 22:24:30 -0700
-X-CSE-ConnectionGUID: eN+ThbrlT6WbGl8CpSW9BQ==
-X-CSE-MsgGUID: rVGYw1PeSA2Z9HfsyIJ5Mw==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 22:24:33 -0700
+X-CSE-ConnectionGUID: IR15retxRbC1UoHHYP5Ksw==
+X-CSE-MsgGUID: CBeXdYJ9R2iCLhVcn5fAhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="39742113"
+   d="scan'208";a="39742120"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 28 May 2024 22:24:28 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 May 2024 22:24:30 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCBnV-000DAB-0O;
-	Wed, 29 May 2024 05:24:25 +0000
-Date: Wed, 29 May 2024 13:23:39 +0800
+	id 1sCBnW-000DAD-0w;
+	Wed, 29 May 2024 05:24:27 +0000
+Date: Wed, 29 May 2024 13:23:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:struct-device 6/20] drivers/opp/core.c:1406:20: error:
- conflicting types for '_add_opp_dev'; have 'struct opp_device *(const struct
- device *, struct opp_table *)'
-Message-ID: <202405291357.0WmchXmT-lkp@intel.com>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: ERROR: modpost: "__spi_register_driver"
+ [sound/soc/codecs/snd-soc-cs35l56-spi.ko] undefined!
+Message-ID: <202405291344.wWCOfrZR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,64 +66,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bvanassche/linux struct-device
-head:   f37061809bb98e131179785e0d1ff3fe5bfbd819
-commit: 038d6d6ae0da46eb5240a2a5ec65e8bd8cb149bc [6/20] driver core/cpu: Move the CPUID into struct cpu
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240529/202405291357.0WmchXmT-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291357.0WmchXmT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e0cce98fe279b64f4a7d81b7f5c3a23d80b92fbc
+commit: b831b4dca48dbe0f1f7705b44460dd9ca7f2f940 ASoC: intel: sof_sdw: Add support for cs42l43-cs35l56 sidecar amps
+date:   4 weeks ago
+config: loongarch-randconfig-r006-20230403 (https://download.01.org/0day-ci/archive/20240529/202405291344.wWCOfrZR-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291344.wWCOfrZR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405291357.0WmchXmT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405291344.wWCOfrZR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/opp/core.c:1406:20: error: conflicting types for '_add_opp_dev'; have 'struct opp_device *(const struct device *, struct opp_table *)'
-    1406 | struct opp_device *_add_opp_dev(const struct device *dev,
-         |                    ^~~~~~~~~~~~
-   In file included from drivers/opp/core.c:23:
-   drivers/opp/opp.h:257:20: note: previous declaration of '_add_opp_dev' with type 'struct opp_device *(struct device *, struct opp_table *)'
-     257 | struct opp_device *_add_opp_dev(struct device *dev, struct opp_table *opp_table);
-         |                    ^~~~~~~~~~~~
-   drivers/opp/core.c: In function '_add_opp_dev':
->> drivers/opp/core.c:1416:22: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1416 |         opp_dev->dev = dev;
-         |                      ^
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/synopsys/dwc-xlgmac.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ali1563.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/power/reset/piix4-poweroff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/marvell_cn10k_ddr_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+>> ERROR: modpost: "__spi_register_driver" [sound/soc/codecs/snd-soc-cs35l56-spi.ko] undefined!
+>> ERROR: modpost: "__devm_regmap_init_spi" [sound/soc/codecs/snd-soc-cs35l56-spi.ko] undefined!
 
-
-vim +1406 drivers/opp/core.c
-
-064416586190cb drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1405  
-ef43f01ac06976 drivers/opp/core.c            Viresh Kumar       2020-10-22 @1406  struct opp_device *_add_opp_dev(const struct device *dev,
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1407  				struct opp_table *opp_table)
-064416586190cb drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1408  {
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1409  	struct opp_device *opp_dev;
-064416586190cb drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1410  
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1411  	opp_dev = kzalloc(sizeof(*opp_dev), GFP_KERNEL);
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1412  	if (!opp_dev)
-064416586190cb drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1413  		return NULL;
-064416586190cb drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1414  
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1415  	/* Initialize opp-dev */
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16 @1416  	opp_dev->dev = dev;
-3d2556992a878a drivers/opp/core.c            Viresh Kumar       2018-08-03  1417  
-ef43f01ac06976 drivers/opp/core.c            Viresh Kumar       2020-10-22  1418  	mutex_lock(&opp_table->lock);
-052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar       2017-01-23  1419  	list_add(&opp_dev->node, &opp_table->dev_list);
-ef43f01ac06976 drivers/opp/core.c            Viresh Kumar       2020-10-22  1420  	mutex_unlock(&opp_table->lock);
-064416586190cb drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1421  
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1422  	/* Create debugfs entries for the opp_table */
-a2dea4cb907022 drivers/opp/core.c            Greg Kroah-Hartman 2019-01-22  1423  	opp_debug_register(opp_dev, opp_table);
-283d55e68d8a0f drivers/opp/core.c            Viresh Kumar       2018-09-07  1424  
-283d55e68d8a0f drivers/opp/core.c            Viresh Kumar       2018-09-07  1425  	return opp_dev;
-283d55e68d8a0f drivers/opp/core.c            Viresh Kumar       2018-09-07  1426  }
-283d55e68d8a0f drivers/opp/core.c            Viresh Kumar       2018-09-07  1427  
-
-:::::: The code at line 1406 was first introduced by commit
-:::::: ef43f01ac06976b2aa2b17266d307bb1a4f7e6f9 opp: Always add entries in dev_list with opp_table->lock held
-
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_CS35L56_SPI
+   Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SPI_MASTER [=n] && (SOUNDWIRE [=m] || !SOUNDWIRE [=m])
+   Selected by [m]:
+   - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_SOC_INTEL_MACH [=y] && SND_SOC_SOF_INTEL_SOUNDWIRE [=m] && I2C [=y] && ACPI [=y] && (MFD_INTEL_LPSS [=n] || COMPILE_TEST [=y]) && (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES [=n] || COMPILE_TEST [=y]) && SOUNDWIRE [=m]
 
 -- 
 0-DAY CI Kernel Test Service
