@@ -1,148 +1,106 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FF81591F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 14:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A6315B546
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 14:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716993168; cv=none; b=aRFtIVaAFmc1pSGXroy5RmzMxeehCXcO5TOEiADFGx2+b4Pq+qhfoDZqOYzfOR2+EirytBPyLaxkf/uaYdZGas25HVqwhyhbKuDG3eF7m+H/z+v8reH55bdjwWP4+N4yaRNAUlMK0+XZe0AUdVl5C8g+VE9h/TI8JOY+XE4ou1o=
+	t=1716993295; cv=none; b=RuhW/PlfzEjJpgwHmK4m0w+9Z293SaXOT4vfDb4HrVjEzK6J6K4FZruriQNx+dAzgjcChJby0Vz9d0GDsqWfCiQBXb+9/W91R/MsvNZe5oxCmOhiy25f3jAx6MQzwV/RrwZd1Y5d7gHVaYlv1vENWBj8mt8z0s37W/ZD5aJYDVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716993168; c=relaxed/simple;
-	bh=li4ZbxG2F4FGjel82rPqgESS9j5jdY8puT5M++X2kzs=;
+	s=arc-20240116; t=1716993295; c=relaxed/simple;
+	bh=Ey8/2KALuAvzcBRattnpKuA5GdNoIbG9ZqOA2Tf4z8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jInkwshYaleJbYU8c2JTDAGyr1vaET4/O+zfshc3uE0uibnrzP8PajZJ3l0WuaZLDx2i3umkC5v25oSutt8aDqYwsPeU0RgBg0ueTjDiWpm4Panp6Y/dpmvSjZt7nkzjXHLe4pbbKScew3hAQDC29H0YA8JnfAe61yr/sfTcLgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EQN0Y/Wz; arc=none smtp.client-ip=209.85.218.51
+	 Content-Disposition; b=GS2YBrJShXq8dVF45GONNZhGY1Guh5TxhnulkT3XNoSediNld1IbgOpKaTT7TJ9r1zob7+wlwthMZcrmF2ZYQnPzCf/x4IR5KdILlmVH5LyJpmFIBhQ/paT0OjFTTOBtCZUqqxn2wZXznExRiV9qhz90HrKyyCl9CmSKd7g6Z9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZTtMv1fG; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EQN0Y/Wz"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a5dcb5a0db4so271685466b.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 07:32:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZTtMv1fG"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-572c65cea55so30084a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 07:34:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716993165; x=1717597965; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GL+ZXu8YsVg8veqNeDMZZjWT6LtrFbHYU/tEpop01gE=;
-        b=EQN0Y/Wz2zWXPkE8KmoYStDoJQu+HTlUrq3J7GVd4FCDDfEyvjElY+rcpykX/f/0eq
-         RJfX/0DHgSdTbL3LP/9uFJnpELpO+g1IHhLGb/kRSVRGFbMy32gy51SockfGNGRBS9ns
-         SKP0OKLIv4SZpDcSOdFhTE/5A63pr58FHVA+Hy3bmSrvY6Y1SwM+04iUDoTd6BXwRwrF
-         eeW4NUTzTKgK0hxoGFrapCmIZzo2Ur8YJEsWVzeXbXrfwaSLbghye8M1lr5NKwJ8/B23
-         2jhbIWT1rlANmNx6RqpTt1euxNmXFu32LyQHqetkRhr4DkFQxkm3xb3XjaLlAdky3vx2
-         bwxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716993165; x=1717597965;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+        d=linaro.org; s=google; t=1716993293; x=1717598093; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GL+ZXu8YsVg8veqNeDMZZjWT6LtrFbHYU/tEpop01gE=;
-        b=JfLyeXb5fVNdBrYsr+mo8FS/RhecD/KSVNvnOTMVNyiHV2ODnDnsumgf1Uf3zzS1CJ
-         88+N+X6k0ncSm0J7RjfjSrnHc5i6xO11gPhhNX3yIdQbZVLPLkT08ex4yDbZZdllA+aN
-         pRS20Dt2orlGP4pVm95Tnk+VgjrTyH2Z9J/K06ZqwYbEzQIlLN1ra1WtaYlQ7bw/ZSH3
-         BD2SJMcMg6+73GunTbfgOjhyxN5wBs004FO2KsiL6pZWj2hDaZkqmwjHSMm1a83BsQDV
-         izlZEw4pVyX0QfK71ssEuyMXzEl1+13HJd5MDiULLmdhU02P3Qwq/ZiRLWIuH8TCFyhz
-         nIlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNgq5C6hr98a1mMDGKe808CxWQkNoMVgsmo14dLZRTdouIlbCXZB/lxQx/s/Suytio5wSY/4kg+GE+LEGo9CgyapR+M/Jd+Y78CbOt1w==
-X-Gm-Message-State: AOJu0YzLLlqODvYqpG09baER5DweYi8gR8cQLEEepYPWGZUZ2icH/ui/
-	l2R0GW9bebPGFzB4EndVdu6n0XSSKpB2kS7oY18JZyrkiD7EmmC99d3iK0aUVHk=
-X-Google-Smtp-Source: AGHT+IFHKZcI8vnShZhzgKqN73KpOv8IjqZ877BnV4ShkqFBb+Deu4xUihuipUqnmdso1P98gLeYAA==
-X-Received: by 2002:a17:906:dff9:b0:a5a:5bd3:9f0 with SMTP id a640c23a62f3a-a62641df7b1mr987106666b.24.1716993164975;
-        Wed, 29 May 2024 07:32:44 -0700 (PDT)
+        bh=Ti8iM4CJa0zeubPFUCGKsh7js+m2+W8cxvTp1KBdZNw=;
+        b=ZTtMv1fG9q1Ri4rwXNTNqJXdvTSwQB1YMxMYcYgQthPgTSNCFIWj5P1cZOOHwLxfsl
+         73VMD6HLie8jtXJYmt1g3ytUXkdfIl2IgueaoGSMVo+fOG+e/yJmFupgBysjvOnFhn/U
+         INPhqgRuqaGQWMf3Vst2YbasSULUdTYC6VYtE6SAjTqWPo7tRfXchU8jAJ2fUBFhlxKx
+         xv+TjBMtUXy2X2rR4N97Hu2psuIsPOKvNK2oQxpWoZOrXDIFF7RS35LOWlbMTmAH8sJo
+         11iyKrO+ilNPh+/nW9rfCI47X+BKVrsJ4vxpk3dBHIkozWc9GwSwzOgO3or+a2TnJMUl
+         i10A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716993293; x=1717598093;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ti8iM4CJa0zeubPFUCGKsh7js+m2+W8cxvTp1KBdZNw=;
+        b=K+LQDweki5QCB5VypyC031L8fsASM5bAXHrZU34QA2gCml16N8oP+4TGDcEVCKT3Y8
+         UA0y2i+RAvJZhmwardzAcA6G2EyJFidhOkGqulIPmXuhSfDdJqRqdkcO1Kbv3VLj+5X0
+         cDYRBY+2tzPZyYKMfkQ+IbRcfZLxOfzSzYrAcXPqpBQf3mUfllvOltPkpA6kHJbn0UfG
+         O+oZnxIxwytVfbUTmMmFMKKqUJV0Ud/RKSnFQ4g4Jqvu10vpzaZigk2kyGWxkBDKkjwU
+         0GIjkjRqz/z5tJT321WC6N/1Y6r4ISccA4OEeBM+XZ2qoPWTek5a6dkCGZ8j3I9l8DOH
+         FSlA==
+X-Forwarded-Encrypted: i=1; AJvYcCU47TDj1WmYV9jsEUd4A6cW00PZPelpQBv/6I6vpFB+/7tcXIaAD9ixY9Aclai88V5YpRWKSnirbsVrGnYzqxtoC5Ef2yekspf3fpv4Fw==
+X-Gm-Message-State: AOJu0YxbOMXcc5zrVSMBJokHDFYNaVxj53VWx5IXqOgYLrKH36r4Mxmp
+	VVEKCdv1r8sbLJM6Oqc44iGM+B8X/S17N9Hct+6kFxvAg6BH2E8QV3q7C4I460I=
+X-Google-Smtp-Source: AGHT+IEycpg5AfsBjpt7MmlgRlSSNnfMRzhy95My3zSPmMDPM+fo2DlvE+vQzDD0tCAo+F+apSNnyQ==
+X-Received: by 2002:a50:8a9c:0:b0:579:eb77:6d83 with SMTP id 4fb4d7f45d1cf-57a03faeedcmr2279766a12.13.1716993292770;
+        Wed, 29 May 2024 07:34:52 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc4f465sm717035366b.120.2024.05.29.07.32.44
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57862f76dfdsm7020297a12.21.2024.05.29.07.34.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 May 2024 07:32:44 -0700 (PDT)
-Date: Wed, 29 May 2024 17:32:40 +0300
+        Wed, 29 May 2024 07:34:52 -0700 (PDT)
+Date: Wed, 29 May 2024 17:34:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh@kernel.org, nuno.sa@analog.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Subject: Re: [PATCH v5 9/9] drivers: iio: imu: Add support for adis1657x
- family
-Message-ID: <ff870fa7-436c-4ab1-9e8b-a5efcdd28c29@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm2key-v7 9/9]
+ crypto/asymmetric_keys/tpm2_key_ecdsa.c:400 tpm2_key_ecdsa_preparse() error:
+ uninitialized symbol 'ret'.
+Message-ID: <59a952f0-8d32-4052-bdb5-8f3ea2310ab7@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240527142618.275897-10-ramona.bolboaca13@gmail.com>
 
-Hi Ramona,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240527-230203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240527142618.275897-10-ramona.bolboaca13%40gmail.com
-patch subject: [PATCH v5 9/9] drivers: iio: imu: Add support for adis1657x family
-config: x86_64-randconfig-161-20240528 (https://download.01.org/0day-ci/archive/20240528/202405281539.EXGy0dhk-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v7
+head:   892305fec7841bf841a9c19e01c999c5f4b4e831
+commit: dfd0950fe8c58c105ecba27fc4968d8e3db7d639 [9/9] keys: asymmetric: Add tpm2_key_ecdsa
+config: openrisc-randconfig-r071-20240529 (https://download.01.org/0day-ci/archive/20240529/202405290944.TAA2j4lu-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405281539.EXGy0dhk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405290944.TAA2j4lu-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/imu/adis16475.c:1608 adis16475_push_single_sample() warn: missing error code? 'ret'
+crypto/asymmetric_keys/tpm2_key_ecdsa.c:400 tpm2_key_ecdsa_preparse() error: uninitialized symbol 'ret'.
 
-vim +/ret +1608 drivers/iio/imu/adis16475.c
+vim +/ret +400 crypto/asymmetric_keys/tpm2_key_ecdsa.c
 
-c49e2871e50119 Ramona Gradinariu 2024-05-27  1577  static int adis16475_push_single_sample(struct iio_poll_func *pf)
-fff7352bf7a3ce Nuno Sá           2020-04-13  1578  {
-fff7352bf7a3ce Nuno Sá           2020-04-13  1579  	struct iio_dev *indio_dev = pf->indio_dev;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1580  	struct adis16475 *st = iio_priv(indio_dev);
-fff7352bf7a3ce Nuno Sá           2020-04-13  1581  	struct adis *adis = &st->adis;
-8f6bc87d67c030 Ramona Bolboaca   2023-08-08  1582  	int ret, bit, buff_offset = 0, i = 0;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1583  	__be16 *buffer;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1584  	u16 crc;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1585  	bool valid;
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1586  	u8 crc_offset = 9;
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1587  	u16 burst_size = ADIS16475_BURST_MAX_DATA;
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1588  	u16 start_idx = (st->info->flags & ADIS16475_HAS_TIMESTAMP32) ? 2 : 0;
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1589  
-fff7352bf7a3ce Nuno Sá           2020-04-13  1590  	/* offset until the first element after gyro and accel */
-fff7352bf7a3ce Nuno Sá           2020-04-13  1591  	const u8 offset = st->burst32 ? 13 : 7;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1592  
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1593  	if (st->burst32) {
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1594  		crc_offset = (st->info->flags & ADIS16475_HAS_TIMESTAMP32) ? 16 : 15;
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1595  		burst_size = adis->data->burst_max_len;
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1596  	}
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1597  
-fff7352bf7a3ce Nuno Sá           2020-04-13  1598  	ret = spi_sync(adis->spi, &adis->msg);
-fff7352bf7a3ce Nuno Sá           2020-04-13  1599  	if (ret)
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1600  		return ret;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1601  
-fff7352bf7a3ce Nuno Sá           2020-04-13  1602  	buffer = adis->buffer;
-fff7352bf7a3ce Nuno Sá           2020-04-13  1603  
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1604  	crc = be16_to_cpu(buffer[crc_offset]);
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1605  	valid = adis16475_validate_crc(adis->buffer, crc, burst_size, start_idx);
-fff7352bf7a3ce Nuno Sá           2020-04-13  1606  	if (!valid) {
-fff7352bf7a3ce Nuno Sá           2020-04-13  1607  		dev_err(&adis->spi->dev, "Invalid crc\n");
-7f174ee4adeb12 Ramona Gradinariu 2024-05-27 @1608  		return ret;
-                                                                ^^^^^^^^^^
-return -EINVAL
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  393  static int tpm2_key_ecdsa_preparse(struct key_preparsed_payload *prep)
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  394  {
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  395  	struct tpm2_key *key;
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  396  	int ret;
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  397  
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  398  	key = tpm2_key_decode(prep->data, prep->datalen);
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  399  	if (IS_ERR(key))
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28 @400  		return ret;
 
-fff7352bf7a3ce Nuno Sá           2020-04-13  1609  	}
-fff7352bf7a3ce Nuno Sá           2020-04-13  1610  
-fff7352bf7a3ce Nuno Sá           2020-04-13  1611  	for_each_set_bit(bit, indio_dev->active_scan_mask,
-fff7352bf7a3ce Nuno Sá           2020-04-13  1612  			 indio_dev->masklength) {
-fff7352bf7a3ce Nuno Sá           2020-04-13  1613  		/*
-fff7352bf7a3ce Nuno Sá           2020-04-13  1614  		 * When burst mode is used, system flags is the first data
-fff7352bf7a3ce Nuno Sá           2020-04-13  1615  		 * channel in the sequence, but the scan index is 7.
-fff7352bf7a3ce Nuno Sá           2020-04-13  1616  		 */
+ret isn't set.  return ERR_PTR(key);
+
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  401  
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  402  	if (key->oid != OID_TPMLoadableKey) {
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  403  		kfree(key);
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  404  		return -EBADMSG;
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  405  	}
+dfd0950fe8c58c Jarkko Sakkinen 2024-05-28  406  
 
 -- 
 0-DAY CI Kernel Test Service
