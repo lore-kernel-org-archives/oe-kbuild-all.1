@@ -1,59 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787D7184118;
-	Wed, 29 May 2024 16:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172D1190670;
+	Wed, 29 May 2024 17:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717000772; cv=none; b=HBg04JxIvZ16ZWN0Y/HI3qzzVVYeFtdF03+hJqypKKAS/KtzmWfv4/AVH1+VeKCb2jXkW3RZ8uz0eeyQNlAegnWDxTfI/YAhT9q5iLUnU0dqjZdqFXFXsg5o9DIbBNCKrlx2IQpCkVyaI7CFazVhc8Yhq7jx+kJnn3XSwLfruCQ=
+	t=1717003584; cv=none; b=IrwXs3OIpJvoRKKBgbfhmjroIJ+9d2p3OkJq11xucbaVqxDhqwagAILoJpBAjOhse+P547lsYXWGSnmHTJVpRQvYR8ugGZonOWxJiOb4x46S0H582jNIhN2lwxTd2pBXgyXP13dZYQNUbY6QkTlgPgRq+vPAIztBnMXGnbuIsO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717000772; c=relaxed/simple;
-	bh=ykTtw6vKDQHUEg7QWmim2oDDVh/AapNP1ApfV4SD5iQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kdrN1drUpAEovcHAYNOFoAu4yhwnrz2CoUKAJZmCuioBpUOoxylmqbcQK+4GdePtlu8BalyH+D9c2O8zGFI3JGkfv6uJnFERGBg0nh1ptClLAm1Ht5EPCXwHNnv6XMaMTLoqk9AvRdbSpIr05vcYfAwiCPbyj9ros2xRVl/iUt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbFhJ1ps; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717003584; c=relaxed/simple;
+	bh=/ZmaI7Tp86xbs33KPrl3e9t1v0xhb/a+g5gOXvjLFRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/xYFeZ9UjRwqmOmMT4TfZhaUAvnXd17cuCAvPAfJBhixd6pfrQnZctq44tOW7xDMKaYuBm4B5ctFeJcANg2ukassW4Y8ngf/LND5pL+db6J05uYnWeNaYGd3K8mXGUmer8Gl4Yq3aGP8I7qifP2NxlJlwT3UN82uDpfYi/mNcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bcmjvp4D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbFhJ1ps"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717000770; x=1748536770;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ykTtw6vKDQHUEg7QWmim2oDDVh/AapNP1ApfV4SD5iQ=;
-  b=FbFhJ1psc/oShDp7uta3lBnZEpc0gnFOiOSlNWpIcdvSjZYVPNwtguDR
-   /taamaRcJwICFgos/7hyQSWXhncRlmvyxAHhahTcakQVwuJ+/NTc+dFyr
-   cktT9kZcYqE0+hexdjkpwdh29UT34HR0V5nllhcLfBCcd1wignCfX0Nmc
-   6HAiTAPl/Fr7xv8QAepQAnjc5BuHrGdITJK2p4TfGKmZF+0VIIliYIb6g
-   NcZGCxfPwo7LkSi3xidooRwDMG7ivPgobHmFuzS4V2gAcFEGFjvy3YWdA
-   qOruaBCGEBvT3OFjhvGd8u1RrzXgGuXJGVkCSxtmKWwseUGju/Ha5FUjh
-   Q==;
-X-CSE-ConnectionGUID: 2fjqCRSXQIaZ/bPGoy/uhg==
-X-CSE-MsgGUID: ujH32mCtQ3O4ImpxhD8wLQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13269263"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="13269263"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 09:39:30 -0700
-X-CSE-ConnectionGUID: 7r1iJnGZRQqOCkUmzRhFrA==
-X-CSE-MsgGUID: ErXgLbakTSKS+cFV2AjYBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="40390968"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 29 May 2024 09:39:29 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sCMKk-000Dx7-1p;
-	Wed, 29 May 2024 16:39:26 +0000
-Date: Thu, 30 May 2024 00:39:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org
-Subject: [tiwai-sound:for-next 9/10] sound/core/ump.c:694:6: warning:
- variable 'type' is uninitialized when used here
-Message-ID: <202405300035.Fz3pTUG4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bcmjvp4D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8AA0C113CC;
+	Wed, 29 May 2024 17:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717003583;
+	bh=/ZmaI7Tp86xbs33KPrl3e9t1v0xhb/a+g5gOXvjLFRs=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=bcmjvp4DmtMs/UTo3YG/tGsIhOBfrpp55SNY9WmMlzK+0e0pfIeY7E3A2V6D5b7TI
+	 LM0kSZ43EiW0SGMES7HRe52OpnOrZUWXBAVRmEcCLRvTpcR2XMNHGtak2GZk3L5+mZ
+	 Ykp9yQqO9+AbwN7s08qjIi6lbbfPGm3TidRTOm1jE6ryedkx8SL6vg2X/vyqIUyfMO
+	 iWQIaA8UBcF+DsroFpI0pAHWTJoI0w0OXjUmsvPotX8DxBwPNFpJF6aNRCbhXVP0M0
+	 kG9YsH3CY9UJQOvFm/XMKDvKo4vDRlUf6qbOKJAopylXXXlugwgh25Ywi7if1ptznY
+	 I7FdQ8mi1E7hg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id B6F99CE0F8F; Wed, 29 May 2024 10:26:22 -0700 (PDT)
+Date: Wed, 29 May 2024 10:26:22 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2024.05.18a 44/51] update.c:undefined reference
+ to `cmpxchg_emu_u8'
+Message-ID: <2851b44c-46e6-4ed8-9eb2-99c91c464710@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202405271352.XYjxKyUi-lkp@intel.com>
+ <df54d8ab-514d-409f-8522-b0790a12b953@paulmck-laptop>
+ <ZlbfMhpMmeGU+4aH@yujie-X299>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +48,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZlbfMhpMmeGU+4aH@yujie-X299>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   e472ffe6ae48ba80461ff1a7bb40f73665a856f0
-commit: 42db3930d4d7384d4e241c928e8cb2a0cdc5589c [9/10] ALSA: ump: Don't accept an invalid UMP protocol number
-config: i386-randconfig-011-20240529 (https://download.01.org/0day-ci/archive/20240530/202405300035.Fz3pTUG4-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300035.Fz3pTUG4-lkp@intel.com/reproduce)
+On Wed, May 29, 2024 at 03:54:26PM +0800, Yujie Liu wrote:
+> On Tue, May 28, 2024 at 12:26:43PM -0700, Paul E. McKenney wrote:
+> > On Mon, May 27, 2024 at 01:25:58PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.05.18a
+> > > head:   0e3eb8082184e066eb389f5e6f9c7b8c2d452d66
+> > > commit: c48887df74a95090e633a29ffbcef00b71cdab66 [44/51] rcu-tasks: Remove open-coded one-byte cmpxchg() emulation
+> > > config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240527/202405271352.XYjxKyUi-lkp@intel.com/config)
+> > > compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240527/202405271352.XYjxKyUi-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202405271352.XYjxKyUi-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > >    /usr/bin/ld: kernel/rcu/update.o: in function `rcu_trc_cmpxchg_need_qs':
+> > > >> update.c:(.text+0x27d5): undefined reference to `cmpxchg_emu_u8'
+> > >    /usr/bin/ld: kernel/rcu/update.o: in function `trc_read_check_handler':
+> > >    update.c:(.text+0x2839): undefined reference to `cmpxchg_emu_u8'
+> > > >> /usr/bin/ld: update.c:(.text+0x2882): undefined reference to `cmpxchg_emu_u8'
+> > >    /usr/bin/ld: kernel/rcu/update.o: in function `trc_inspect_reader':
+> > >    update.c:(.text+0x52ce): undefined reference to `cmpxchg_emu_u8'
+> > >    /usr/bin/ld: update.c:(.text+0x5330): undefined reference to `cmpxchg_emu_u8'
+> > >    /usr/bin/ld: kernel/rcu/update.o:update.c:(.text+0x5933): more undefined references to `cmpxchg_emu_u8' follow
+> > > >> collect2: error: ld returned 1 exit status
+> > 
+> > Good catch!!!
+> > 
+> > Does the patch below clear this up?
+> 
+> The patch below will select ARCH_NEED_CMPXCHG_1_EMU by default on um
+> arch, so that cmpxchg-emu.o can be built, and it fixes the link error
+> for me.
+> 
+> Tested-by: Yujie Liu <yujie.liu@intel.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405300035.Fz3pTUG4-lkp@intel.com/
+Thank you!  I will apply your Tested-by on my next rebase.
 
-All warnings (new ones prefixed by >>):
-
->> sound/core/ump.c:694:6: warning: variable 'type' is uninitialized when used here [-Wuninitialized]
-     694 |         if (type != SNDRV_UMP_EP_INFO_PROTO_MIDI1 &&
-         |             ^~~~
-   sound/core/ump.c:688:19: note: initialize the variable 'type' to silence this warning
-     688 |         unsigned int type;
-         |                          ^
-         |                           = 0
-   1 warning generated.
-
-
-vim +/type +694 sound/core/ump.c
-
-   678	
-   679	/**
-   680	 * snd_ump_switch_protocol - switch MIDI protocol
-   681	 * @ump: UMP endpoint
-   682	 * @protocol: protocol to switch to
-   683	 *
-   684	 * Returns 1 if the protocol is actually switched, 0 if unchanged
-   685	 */
-   686	int snd_ump_switch_protocol(struct snd_ump_endpoint *ump, unsigned int protocol)
-   687	{
-   688		unsigned int type;
-   689	
-   690		protocol &= ump->info.protocol_caps;
-   691		if (protocol == ump->info.protocol)
-   692			return 0;
-   693	
- > 694		if (type != SNDRV_UMP_EP_INFO_PROTO_MIDI1 &&
-   695		    type != SNDRV_UMP_EP_INFO_PROTO_MIDI2)
-   696			return 0;
-   697	
-   698		ump->info.protocol = protocol;
-   699		ump_dbg(ump, "New protocol = %x (caps = %x)\n",
-   700			protocol, ump->info.protocol_caps);
-   701		seq_notify_protocol(ump);
-   702		return 1;
-   703	}
-   704	EXPORT_SYMBOL_GPL(snd_ump_switch_protocol);
-   705	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+							Thanx, Paul
+> > 
+> > ------------------------------------------------------------------------
+> > 
+> > commit 47450c70303a11da1bd650403844ad9e688f05a4
+> > Author: Paul E. McKenney <paulmck@kernel.org>
+> > Date:   Tue May 28 12:15:06 2024 -0700
+> > 
+> >     um: Emulate one-byte cmpxchg
+> >     
+> >     Use the new cmpxchg_emu_u8() to emulate one-byte cmpxchg() on um.
+> >     
+> >     Reported-by: kernel test robot <lkp@intel.com>
+> >     Closes: https://lore.kernel.org/all/202405271352.XYjxKyUi-lkp@intel.com/
+> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> >     Cc: Richard Weinberger <richard@nod.at>
+> >     Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> >     Cc: Johannes Berg <johannes@sipsolutions.net>
+> >     Cc: <linux-um@lists.infradead.org>
+> > 
+> > diff --git a/arch/um/Kconfig b/arch/um/Kconfig
+> > index 93a5a8999b07e..5fc55e1d71122 100644
+> > --- a/arch/um/Kconfig
+> > +++ b/arch/um/Kconfig
+> > @@ -11,6 +11,7 @@ config UML
+> >  	select ARCH_HAS_KCOV
+> >  	select ARCH_HAS_STRNCPY_FROM_USER
+> >  	select ARCH_HAS_STRNLEN_USER
+> > +	select ARCH_NEED_CMPXCHG_1_EMU
+> >  	select ARCH_NO_PREEMPT
+> >  	select HAVE_ARCH_AUDITSYSCALL
+> >  	select HAVE_ARCH_KASAN if X86_64
+> > 
