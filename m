@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F155A13E029
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 May 2024 23:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256791843
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 00:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716940436; cv=none; b=QChD1Bfkh1gGM4m87exeQN9Zbm9MVEkyLNFF0U5sOYergRgcNMHq2ZZbzujRzu9bobbAhHB2vLaYy1pljTD68k0E9TMXnyJVax4XTpeRYDMtrt7ayFUECzQyyLohbo1+PyozgDRNqURzSaOYk2VEcAf2A/7Qz2Xd7QXCOg9G0HM=
+	t=1716941697; cv=none; b=l4g/118x+iXtSUTIWdNnmamrx9BG+GY5Ku1TegjsFpbbu2VrIDTVRWNsufz+2jNqGLz0m43aZWZIhGxQ9v6feaHsI+jqwTxgwwwpl4KXz1e4bbpIj6MNqjyV2fMK2+nNE/LtbwNt7E6psrVoGR0n7F6bbZBRe0nRlI0LTg+kwls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716940436; c=relaxed/simple;
-	bh=wI4KOBWnpGHY9c4n5mEYmBiR8R4+Z+itBmNHlk7TN6o=;
+	s=arc-20240116; t=1716941697; c=relaxed/simple;
+	bh=/WHlXx9rIIwP1V/JbyVMHDssBiIF+AfJKYBiHSL1WLk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RzGS/Efrwqre2ikKb9zUZZeYEwL3SxjnPXQiC2+0MohJ+emaxCjIuUkWaRrmqRNJaDQwuRxE8pDm9ZUGWzhgg8EnyXYzad17g2QvGMsYfrgOSZrkkYN6Qvnb/z7N8APTyMVwZMe18ujMV10UA0i6+VPqkhYF012Rj1yJvV3t5TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSI/Oidn; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=PhX7tkxp/oOowSBwe68V/Rex3m3LKGM8w6b0TuJxPYO8R2LMhq7VnLbpVdXUFMn7+sP4Wtbuv+uyujT/9Ysf0CEUnQEz+467kPvYLl0fXWvwLF8pljTEDKap/8G5JYz1ZvwR5xxLBOiRU/HRxT9kutOupWapQHt5rOB0QNM8nak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MFs8Oey5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSI/Oidn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFs8Oey5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716940435; x=1748476435;
+  t=1716941696; x=1748477696;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wI4KOBWnpGHY9c4n5mEYmBiR8R4+Z+itBmNHlk7TN6o=;
-  b=TSI/Oidnf3ksZ5aGi0lmlBIkq+pJ8DcBlVwEEw3hGiYpGqI2fInwZsuH
-   HlSb8G4iq2nzXqLVTWOzpsmhs0ssz3YnRq2LL2yhOnD89ZOrsGZ5Zrgzf
-   Ivx1U2jupuh2u+bcE5VnsOwwmmxQNhsJTQ/ehS1RCHQjloHEJ6Wr0WVoV
-   1jz6Wz7VsI8WPiGUlLtd6cBu8opdYzewoig0zp8NfOmSX32OQ/EOSOGJ9
-   grwMzAVTMwp2ZF2TWq2gpc1OAiSpk+nhPMjO3f3O8oNFMD2M91t14P6+L
-   LkUyNvhob7AgZ0/sPJmPbeEctd7kRyjX9/K0Ldv8yoMmOE4CIlg4KTqzH
-   w==;
-X-CSE-ConnectionGUID: +1ar2GbfRp6Y5/+fs53Ofg==
-X-CSE-MsgGUID: eWHV//OASZqzSoEpzMvF6Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13138254"
+  bh=/WHlXx9rIIwP1V/JbyVMHDssBiIF+AfJKYBiHSL1WLk=;
+  b=MFs8Oey5G8ZKzZupK7wkiYRphhTKDt9tGg0WPYEjy9AzZCnlw2VaLfHO
+   Nu78+cJP8cswA6CJmk6NjLGrbjgAvBJ/CyC9JUidX+/iiZeXwXU5vd9ee
+   WHG0nIyuVJfYLsJQR7C1JeRTD0X09Kb+BeHW8Sh1MJD8mub81YVxcWDis
+   xj3uNdiIvtoX7rd/7qqxz5CrRriX1dUypZGYceb7N1if/+VhyVdX7kzi4
+   TflRsq10H1elrAQhRNz0UgDj1THaaRo5xpTCLcfXBP3J6+hdVdKjJHABu
+   SM2N1gpUHkCPE3omXCyAjCSkmdPKbfdiuPrBlDg3C0ZWsu53mcjP6L8Tg
+   g==;
+X-CSE-ConnectionGUID: PU2ZckOJSYaq16xkHzBt6g==
+X-CSE-MsgGUID: EM2mIZ3CRIu+LvmHbjnxMw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13167725"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="13138254"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 16:53:54 -0700
-X-CSE-ConnectionGUID: 8jzEAy9GRkWQj3yiSELXNw==
-X-CSE-MsgGUID: DmGlVnIfTIuogqoTRltdig==
+   d="scan'208";a="13167725"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 17:14:55 -0700
+X-CSE-ConnectionGUID: WvWT+1SLRd6oty53MwfHLA==
+X-CSE-MsgGUID: iuuzlohgQYeWnsjfhQHVYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="40231374"
+   d="scan'208";a="66093147"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 16:53:52 -0700
+  by orviesa002.jf.intel.com with ESMTP; 28 May 2024 17:14:53 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC6dZ-000CtF-35;
-	Tue, 28 May 2024 23:53:49 +0000
-Date: Wed, 29 May 2024 07:53:10 +0800
+	id 1sC6xu-000CuV-2h;
+	Wed, 29 May 2024 00:14:50 +0000
+Date: Wed, 29 May 2024 08:14:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	Andi Shyti <andi.shyti@kernel.org>
-Subject: [geert-renesas-drivers:master 1238/1305]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0_2_ppt.c:1565:34:
- error: 'I2C_CLASS_SPD' undeclared; did you mean 'I2C_CLASS_HWMON'?
-Message-ID: <202405290741.B3D8sNtJ-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 22/29] drm_hdmi_state_helper.c:undefined
+ reference to `drm_hdmi_avi_infoframe_colorimetry'
+Message-ID: <202405290803.c3178DYT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   0b2f40fe4961467879063f9e70c4d1426ff4218d
-commit: e61bcf42d290e73025bab38e0e55a5586c2d8ad5 [1238/1305] i2c: Remove I2C_CLASS_SPD
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405290741.B3D8sNtJ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290741.B3D8sNtJ-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   336dca397dcefc5d7436be1fee3c814ed6512996
+commit: f378b77227bc4732922c57f92be89438bb1018a1 [22/29] drm/connector: hdmi: Add Infoframes generation
+config: arc-randconfig-002-20240529 (https://download.01.org/0day-ci/archive/20240529/202405290803.c3178DYT-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290803.c3178DYT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290741.B3D8sNtJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290803.c3178DYT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0_2_ppt.c: In function 'smu_v14_0_2_i2c_control_init':
->> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0_2_ppt.c:1565:34: error: 'I2C_CLASS_SPD' undeclared (first use in this function); did you mean 'I2C_CLASS_HWMON'?
-    1565 |                 control->class = I2C_CLASS_SPD;
-         |                                  ^~~~~~~~~~~~~
-         |                                  I2C_CLASS_HWMON
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0_2_ppt.c:1565:34: note: each undeclared identifier is reported only once for each function it appears in
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_12_bpc':
+   drm_connector_test.c:(.text+0x230): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drm_connector_test.c:(.text+0x230): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_10_bpc':
+   drm_connector_test.c:(.text+0x378): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drm_connector_test.c:(.text+0x378): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_8_bpc':
+   drm_connector_test.c:(.text+0x4c0): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o:drm_connector_test.c:(.text+0x4c0): more undefined references to `drm_hdmi_compute_mode_clock' follow
+   arc-elf-ld: drivers/gpu/drm/display/drm_hdmi_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
+>> drm_hdmi_state_helper.c:(.text+0x824): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x824): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x82c): undefined reference to `drm_hdmi_avi_infoframe_bars'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x82c): undefined reference to `drm_hdmi_avi_infoframe_bars'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x866): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x866): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
 
-
-vim +1565 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu14/smu_v14_0_2_ppt.c
-
-3e55845c3983d9 Likun Gao 2023-04-25  1551  
-3e55845c3983d9 Likun Gao 2023-04-25  1552  static int smu_v14_0_2_i2c_control_init(struct smu_context *smu)
-3e55845c3983d9 Likun Gao 2023-04-25  1553  {
-3e55845c3983d9 Likun Gao 2023-04-25  1554  	struct amdgpu_device *adev = smu->adev;
-3e55845c3983d9 Likun Gao 2023-04-25  1555  	int res, i;
-3e55845c3983d9 Likun Gao 2023-04-25  1556  
-3e55845c3983d9 Likun Gao 2023-04-25  1557  	for (i = 0; i < MAX_SMU_I2C_BUSES; i++) {
-3e55845c3983d9 Likun Gao 2023-04-25  1558  		struct amdgpu_smu_i2c_bus *smu_i2c = &adev->pm.smu_i2c[i];
-3e55845c3983d9 Likun Gao 2023-04-25  1559  		struct i2c_adapter *control = &smu_i2c->adapter;
-3e55845c3983d9 Likun Gao 2023-04-25  1560  
-3e55845c3983d9 Likun Gao 2023-04-25  1561  		smu_i2c->adev = adev;
-3e55845c3983d9 Likun Gao 2023-04-25  1562  		smu_i2c->port = i;
-3e55845c3983d9 Likun Gao 2023-04-25  1563  		mutex_init(&smu_i2c->mutex);
-3e55845c3983d9 Likun Gao 2023-04-25  1564  		control->owner = THIS_MODULE;
-3e55845c3983d9 Likun Gao 2023-04-25 @1565  		control->class = I2C_CLASS_SPD;
-3e55845c3983d9 Likun Gao 2023-04-25  1566  		control->dev.parent = &adev->pdev->dev;
-3e55845c3983d9 Likun Gao 2023-04-25  1567  		control->algo = &smu_v14_0_2_i2c_algo;
-3e55845c3983d9 Likun Gao 2023-04-25  1568  		snprintf(control->name, sizeof(control->name), "AMDGPU SMU %d", i);
-3e55845c3983d9 Likun Gao 2023-04-25  1569  		control->quirks = &smu_v14_0_2_i2c_control_quirks;
-3e55845c3983d9 Likun Gao 2023-04-25  1570  		i2c_set_adapdata(control, smu_i2c);
-3e55845c3983d9 Likun Gao 2023-04-25  1571  
-3e55845c3983d9 Likun Gao 2023-04-25  1572  		res = i2c_add_adapter(control);
-3e55845c3983d9 Likun Gao 2023-04-25  1573  		if (res) {
-3e55845c3983d9 Likun Gao 2023-04-25  1574  			DRM_ERROR("Failed to register hw i2c, err: %d\n", res);
-3e55845c3983d9 Likun Gao 2023-04-25  1575  			goto Out_err;
-3e55845c3983d9 Likun Gao 2023-04-25  1576  		}
-3e55845c3983d9 Likun Gao 2023-04-25  1577  	}
-3e55845c3983d9 Likun Gao 2023-04-25  1578  
-3e55845c3983d9 Likun Gao 2023-04-25  1579  	/* assign the buses used for the FRU EEPROM and RAS EEPROM */
-3e55845c3983d9 Likun Gao 2023-04-25  1580  	/* XXX ideally this would be something in a vbios data table */
-3e55845c3983d9 Likun Gao 2023-04-25  1581  	adev->pm.ras_eeprom_i2c_bus = &adev->pm.smu_i2c[1].adapter;
-3e55845c3983d9 Likun Gao 2023-04-25  1582  	adev->pm.fru_eeprom_i2c_bus = &adev->pm.smu_i2c[0].adapter;
-3e55845c3983d9 Likun Gao 2023-04-25  1583  
-3e55845c3983d9 Likun Gao 2023-04-25  1584  	return 0;
-3e55845c3983d9 Likun Gao 2023-04-25  1585  Out_err:
-3e55845c3983d9 Likun Gao 2023-04-25  1586  	for ( ; i >= 0; i--) {
-3e55845c3983d9 Likun Gao 2023-04-25  1587  		struct amdgpu_smu_i2c_bus *smu_i2c = &adev->pm.smu_i2c[i];
-3e55845c3983d9 Likun Gao 2023-04-25  1588  		struct i2c_adapter *control = &smu_i2c->adapter;
-3e55845c3983d9 Likun Gao 2023-04-25  1589  
-3e55845c3983d9 Likun Gao 2023-04-25  1590  		i2c_del_adapter(control);
-3e55845c3983d9 Likun Gao 2023-04-25  1591  	}
-3e55845c3983d9 Likun Gao 2023-04-25  1592  	return res;
-3e55845c3983d9 Likun Gao 2023-04-25  1593  }
-3e55845c3983d9 Likun Gao 2023-04-25  1594  
-
-:::::: The code at line 1565 was first introduced by commit
-:::::: 3e55845c3983d92e28517a545e403b5eb9acf95b drm/amd/swsmu: add smu v14_0_2 support
-
-:::::: TO: Likun Gao <Likun.Gao@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=y] && DRM_DISPLAY_HDMI_HELPER [=n]
+   Selected by [y]:
+   - DRM_KUNIT_TEST [=y] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
 
 -- 
 0-DAY CI Kernel Test Service
