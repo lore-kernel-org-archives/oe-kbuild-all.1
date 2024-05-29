@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8756A16728D;
-	Wed, 29 May 2024 05:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A84167295
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 06:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716962302; cv=none; b=kXL91KUQHHAjbNw2rPsLOhiiygtVS+Mn8dqz0Jjn5mI5gPthp5PYq+qZjG5gcGo2v6dWm2L3eUSixVR8TlN/OTGet7P3PHzZT1q1cQqL28L8LuYkI80E0pY6zfrohZXfGLvU8WAfqc14U1oc/yUxnTMjFTSab2zXMiS8bvIGpg0=
+	t=1716964210; cv=none; b=Oh3i4N2+GikykUtEqABuvMZl3r9RnsRhHzTenwzOaV07BkG5TYLZTb4ny/WnZ3sfVYbiYy4C6cMVYVpJNLldkQrCT2qO+RwiaB3mV8gcAWNFMIQOKgYTumiVZf8ooCO1XUyiszyGx4oJbV3Gh42gHFLAL39yy33yHzfqoA/7KSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716962302; c=relaxed/simple;
-	bh=rC6sJIzmyV9lzYEJy7EVUUCCyjovjdkPkirJjFnT4PY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QZRaUCE6h5TpY6O+Ep9yTqAVenn+5hRa7L8qpJ5g1MhD1oHvxu++kloUoe2ttPb8QFuHL+HdtQlIsn6YVTSsPSAVeBDTXqTBDdkkfC7xf6ZeyShEffD+q01yOvlDyQdCX8Mg8rm+J4QMN9V8KmG5hdEUy5f2DR5LjhWm5n1WEgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hT5Rzv7E; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1716964210; c=relaxed/simple;
+	bh=SodOntcXSaYLJA+i4z/XuLZgNlHKB3BxduaH+5A5CpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OqsmkVTa9KiQpDyUgcOhSoR+awOrq6/dnFIKOxFlYhI2OHqvJ5MXeCC/yN9TzZFaj66jW7UtOYQYr+kKjQL2uITgWwUC+pwh9+nM9QJ7L9ub+C5zUErFiO6uPrNSzkgXq/ydvxBoNa6HGoNwa8Cv6x1xpnqymvzD+p7lDEnleE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHjqvt5u; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hT5Rzv7E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHjqvt5u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716962301; x=1748498301;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rC6sJIzmyV9lzYEJy7EVUUCCyjovjdkPkirJjFnT4PY=;
-  b=hT5Rzv7EfICxTC0plcC0AK/LW1208pcguyHIM/g0W2YLYk1swSLn5CIE
-   ZtyiVMc8G+6rizl7yRThlo93YqDrVg5BVtDJU/ga6hE87zdnqLXQerEcW
-   F/rkz9O1TctqDv+S5Ld5Z1wO8pv4iTp8MuM3IUlOeaBn/pZlktuZj0KXx
-   AlNFIM3euJqFUMAU6RLrnfRSYqeElbQ0XFAzSU4iLY2zEhSRraFtTlT+J
-   zT9Rgh53oyXzwKCfOAG3RTl+OpHSD4PR5snEdT8Wkhm3Z36WdEOkTjm5k
-   6HCm0D4Rf3g/BFV0sXtidIWthmgXBBm0iSuL926f7n+bJfg8n+5/aLm6i
+  t=1716964207; x=1748500207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SodOntcXSaYLJA+i4z/XuLZgNlHKB3BxduaH+5A5CpI=;
+  b=fHjqvt5up1fmwvCzz78n0/Td/YrTfgr9s1dppV8j6Z3GM8SP2/xPcgMj
+   9bmBePriJ+Fc/0EwbyR6BjZdsl1BCHuNiBdK+KUa6RuQIGdv2BVWyfM+M
+   q0pAkKuXitKX3AajqCcln/MYavJiyNtPiAVPMkpPB0twGQMfqWLkdlTZ3
+   ehybjXHQ8KegS9gDuL+BI9UxdqkBDUgHIwMGKaZZw5jlz7c7g0whdpG8d
+   5d68x4PruLXxzD0sga4/oO3kZjiVQZSB7zMXhddnQRpxaL3Z/0eqLL1v4
+   65xYMh8/gTz1npu3W7kMIPS0GcFqBuujgVPx2TEVsFH+ndQbOhN0V1CXX
    g==;
-X-CSE-ConnectionGUID: dfjcqvbhTCqBJ4t00s/Vhw==
-X-CSE-MsgGUID: p+qr6wNpTiuuhw8iBOXSmg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13193098"
+X-CSE-ConnectionGUID: ShLKtGzDQzyQZzRJP/fhEA==
+X-CSE-MsgGUID: kT9KD3UUTdaSeULoodDqzw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="17139907"
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="13193098"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 22:58:20 -0700
-X-CSE-ConnectionGUID: tvK1npEaSnqrYtM8d5bItA==
-X-CSE-MsgGUID: G0Si5JCWRVunRTUebbFEUg==
+   d="scan'208";a="17139907"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 23:30:07 -0700
+X-CSE-ConnectionGUID: pH2IyfZ1TvW50xTq2fSNVA==
+X-CSE-MsgGUID: o1PXy3HrRRK1SQe+AN/i9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="66511251"
+   d="scan'208";a="35406851"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 May 2024 22:58:18 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 May 2024 23:30:03 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCCKD-000DBP-1G;
-	Wed, 29 May 2024 05:58:16 +0000
-Date: Wed, 29 May 2024 13:57:34 +0800
+	id 1sCCor-000DCx-0M;
+	Wed, 29 May 2024 06:29:55 +0000
+Date: Wed, 29 May 2024 14:29:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:struct-device 6/20] drivers/opp/core.c:1406:20: error:
- conflicting types for '_add_opp_dev'
-Message-ID: <202405291343.wYiRn1MH-lkp@intel.com>
+To: Namhyung Kim <namhyung@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, bpf@vger.kernel.org,
+	Aleksei Shchekotikhin <alekseis@google.com>,
+	Nilay Vaish <nilayvaish@google.com>
+Subject: Re: [PATCH] bpf: Allocate bpf_event_entry with node info
+Message-ID: <202405291415.6JlTkRMF-lkp@intel.com>
+References: <20240528223643.1166776-1-namhyung@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,64 +72,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240528223643.1166776-1-namhyung@kernel.org>
 
-tree:   https://github.com/bvanassche/linux struct-device
-head:   f37061809bb98e131179785e0d1ff3fe5bfbd819
-commit: 038d6d6ae0da46eb5240a2a5ec65e8bd8cb149bc [6/20] driver core/cpu: Move the CPUID into struct cpu
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240529/202405291343.wYiRn1MH-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291343.wYiRn1MH-lkp@intel.com/reproduce)
+Hi Namhyung,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master linus/master v6.10-rc1 next-20240528]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Namhyung-Kim/bpf-Allocate-bpf_event_entry-with-node-info/20240529-063828
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240528223643.1166776-1-namhyung%40kernel.org
+patch subject: [PATCH] bpf: Allocate bpf_event_entry with node info
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240529/202405291415.6JlTkRMF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291415.6JlTkRMF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405291343.wYiRn1MH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405291415.6JlTkRMF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/opp/core.c:1406:20: error: conflicting types for '_add_opp_dev'
-   struct opp_device *_add_opp_dev(const struct device *dev,
-                      ^
-   drivers/opp/opp.h:257:20: note: previous declaration is here
-   struct opp_device *_add_opp_dev(struct device *dev, struct opp_table *opp_table);
-                      ^
->> drivers/opp/core.c:1416:15: error: assigning to 'struct device *' from 'const struct device *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           opp_dev->dev = dev;
-                        ^ ~~~
-   2 errors generated.
+   kernel/bpf/arraymap.c: In function 'bpf_event_entry_gen':
+>> kernel/bpf/arraymap.c:1200:18: error: 'struct perf_event' has no member named 'cpu'
+    1200 |         if (event->cpu >= 0)
+         |                  ^~
+   In file included from ./arch/m68k/include/generated/asm/topology.h:1,
+                    from include/linux/topology.h:36,
+                    from include/linux/gfp.h:8,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from include/linux/bpf.h:20,
+                    from kernel/bpf/arraymap.c:5:
+   kernel/bpf/arraymap.c:1201:36: error: 'cpu' undeclared (first use in this function)
+    1201 |                 node = cpu_to_node(cpu);
+         |                                    ^~~
+   include/asm-generic/topology.h:35:41: note: in definition of macro 'cpu_to_node'
+      35 | #define cpu_to_node(cpu)        ((void)(cpu),0)
+         |                                         ^~~
+   kernel/bpf/arraymap.c:1201:36: note: each undeclared identifier is reported only once for each function it appears in
+    1201 |                 node = cpu_to_node(cpu);
+         |                                    ^~~
+   include/asm-generic/topology.h:35:41: note: in definition of macro 'cpu_to_node'
+      35 | #define cpu_to_node(cpu)        ((void)(cpu),0)
+         |                                         ^~~
+>> include/asm-generic/topology.h:35:45: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+      35 | #define cpu_to_node(cpu)        ((void)(cpu),0)
+         |                                             ^
+   kernel/bpf/arraymap.c:1201:24: note: in expansion of macro 'cpu_to_node'
+    1201 |                 node = cpu_to_node(cpu);
+         |                        ^~~~~~~~~~~
 
 
-vim +/_add_opp_dev +1406 drivers/opp/core.c
+vim +1200 kernel/bpf/arraymap.c
 
-064416586190cb0 drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1405  
-ef43f01ac06976b drivers/opp/core.c            Viresh Kumar       2020-10-22 @1406  struct opp_device *_add_opp_dev(const struct device *dev,
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1407  				struct opp_table *opp_table)
-064416586190cb0 drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1408  {
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1409  	struct opp_device *opp_dev;
-064416586190cb0 drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1410  
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1411  	opp_dev = kzalloc(sizeof(*opp_dev), GFP_KERNEL);
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1412  	if (!opp_dev)
-064416586190cb0 drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1413  		return NULL;
-064416586190cb0 drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1414  
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1415  	/* Initialize opp-dev */
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16 @1416  	opp_dev->dev = dev;
-3d2556992a878a2 drivers/opp/core.c            Viresh Kumar       2018-08-03  1417  
-ef43f01ac06976b drivers/opp/core.c            Viresh Kumar       2020-10-22  1418  	mutex_lock(&opp_table->lock);
-052c6f19141dd13 drivers/base/power/opp/core.c Viresh Kumar       2017-01-23  1419  	list_add(&opp_dev->node, &opp_table->dev_list);
-ef43f01ac06976b drivers/opp/core.c            Viresh Kumar       2020-10-22  1420  	mutex_unlock(&opp_table->lock);
-064416586190cb0 drivers/base/power/opp.c      Viresh Kumar       2015-07-29  1421  
-2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar       2016-02-16  1422  	/* Create debugfs entries for the opp_table */
-a2dea4cb9070224 drivers/opp/core.c            Greg Kroah-Hartman 2019-01-22  1423  	opp_debug_register(opp_dev, opp_table);
-283d55e68d8a0f3 drivers/opp/core.c            Viresh Kumar       2018-09-07  1424  
-283d55e68d8a0f3 drivers/opp/core.c            Viresh Kumar       2018-09-07  1425  	return opp_dev;
-283d55e68d8a0f3 drivers/opp/core.c            Viresh Kumar       2018-09-07  1426  }
-283d55e68d8a0f3 drivers/opp/core.c            Viresh Kumar       2018-09-07  1427  
-
-:::::: The code at line 1406 was first introduced by commit
-:::::: ef43f01ac06976b2aa2b17266d307bb1a4f7e6f9 opp: Always add entries in dev_list with opp_table->lock held
-
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+  1192	
+  1193	static struct bpf_event_entry *bpf_event_entry_gen(struct file *perf_file,
+  1194							   struct file *map_file)
+  1195	{
+  1196		struct bpf_event_entry *ee;
+  1197		struct perf_event *event = perf_file->private_data;
+  1198		int node = -1;
+  1199	
+> 1200		if (event->cpu >= 0)
+  1201			node = cpu_to_node(cpu);
+  1202	
+  1203		ee = kzalloc_node(sizeof(*ee), GFP_KERNEL, node);
+  1204		if (ee) {
+  1205			ee->event = event;
+  1206			ee->perf_file = perf_file;
+  1207			ee->map_file = map_file;
+  1208		}
+  1209	
+  1210		return ee;
+  1211	}
+  1212	
 
 -- 
 0-DAY CI Kernel Test Service
