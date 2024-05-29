@@ -1,123 +1,106 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC74B159562
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 14:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B101415956E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 14:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716993387; cv=none; b=OtXSxqYXbDvhf+ucUrL19qkdR6Bk0ffNTQMXMg2aX3k/xB7bmlNGLTtYyJxBbzK9mvu5h869MzR+C3uS5wCa0NsuZj5Ex6DbVOBSpZ7yhOf+/2cw/rzSRvMUFzFgTK2xH5sfTLv9m20ACgGQPn1my0jOuELeUiAfOBCdwm//+rY=
+	t=1716993408; cv=none; b=jTJ34DF+YhZwuX1ztWEuzyRpFAOMGwnn0eraxdCVrva2gJwdPDGJf0FBMcmukmuQduyZRH2w738Z4cEdetC2TU2Aa3e8glwr67lX/8NM4cjOh0GXS+EWzwIcY5btnCFHoi9jhVupIYGg/luZteOVQsblK7hlpb8gICHtafoHmBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716993387; c=relaxed/simple;
-	bh=OGbtwjULhl3w+vcGIL81b+obaLwHCiTbz2FtbPMorDA=;
+	s=arc-20240116; t=1716993408; c=relaxed/simple;
+	bh=v+AqXz9lE7vMj8YZneK1GB2GEtgHWi76CLZjSCBDrqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=J6bLE4o6B/TIhKK0+uDPE/4+rPH8n7Cl44mRlkdbSj6j4IWBL698/kUG4hvUD/hosxGss6lpNz6DyoXd8htwo1h3yw6zu1LpaD8jz8jS47K2js6WckM0rc4WrnIbIcOXXuOciJjNEU1J3bGzvh0BCsZIJ+E/VRnW/EBflaoHg90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xC5ZHyu6; arc=none smtp.client-ip=209.85.167.54
+	 Content-Disposition; b=kxpCt1ebp6sWmowbwWEuX+EnTmN/vB18q3WJxv0Pxs/X3U6TfX3UBxQRNMmP9zkmSM5BlzxEaVlRslCBwhq+QHqYIlIgfYUYgK0+OZoQSyorjSkwqYbBnGhhLpVD3fpIG0u7d7q0SFZEvKnKKIWnMU+DB8qnVvCiDVTAdtXlg50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K/K9pbSd; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xC5ZHyu6"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-529661f2552so2681471e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 07:36:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K/K9pbSd"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a634e03339dso262974566b.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 07:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716993384; x=1717598184; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=onLXeJRqtHiywJfTtQupZmxSe9czseg1ydGlgZn2T04=;
-        b=xC5ZHyu6W/jSECXqLNZL/6e6biM03+Ituq4l80AvIKIJFUyJSv0kHqafNnONA5wytb
-         mz4kgT0Y44JoBIKxBmWNR7s2NV1kX8GD/pGWQ5KldocSuRvXFgz8OUrinWa6AMkP/odq
-         7ta4sOVS0jWwf0GgU4/11gbmIxqh7nt5avzKqFi5znbgbgQNMNKkEJdOLsrPngweaIMp
-         xBrGKaWNVyq/fmplp9JwJdbjWu/BLOlhabiMbd6J+jq1bWTCCdxeyyiWXrCUx8KIjLQS
-         hlFJ5QrouI0VBEx1ReArEQjSu6rDPcdd4aFSbq8EFVM+lFQGjZvKQnVbWETyDRiVo7gf
-         s0Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716993384; x=1717598184;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+        d=linaro.org; s=google; t=1716993405; x=1717598205; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=onLXeJRqtHiywJfTtQupZmxSe9czseg1ydGlgZn2T04=;
-        b=S3R56KIVwaRygmPvF9CvavAzQwsEyAmwyLsU2FaD+qFZe2WtWXBjdrxz+mFSEM3l+S
-         uqvhO2LKJMupiLO6InzKHteCg5u0CS7t2sXsYFpKx7PuPQzn4ngNk8V5H+G1egQKHZcC
-         RPUQxwtXiSDL5wxgcG9/2dT1C5WFIjkQLZjmOPKL0sojAnAyC1WVujdPAaFPw7s8e4UY
-         0cE93rv9oFAslTuRAo6TbATHa7WGyAmj/mId+kr0N1NBVaInbwc3febd1MvwzBDlmZWI
-         O6QizF0u+FnC4fTbjP4zWwW+bMt1yWV3AH/gizFVAIubWqfWnyh/WqZ1e9ryOaWUtOZ2
-         wAMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVsqmJG+8imFOCYi7grwbFYV/0fiWMKAu68aWyhaxDmu8dyJnXleIbApK9asNIi0ByhsNAg2YpiZ8iatraCK9vL61HU2dZy3S5WS0Lf9w==
-X-Gm-Message-State: AOJu0YwteMOpcok9BTBAQqlbBkJ8rED6wuhulTp90hRlaEl+Mn6Eb4ih
-	k97XT0LoyDcsqdGWpBq6wu8g8Z/kO7O/ocq+9PLNgplY82mOFn68YkqM6h1XOBE=
-X-Google-Smtp-Source: AGHT+IGc7EKt54sm1khoej2woFrmOQu3LLvXiuSZdD1P1QxwpCeqzx3WQs7Wuujc3vbdzMFGi4KfwA==
-X-Received: by 2002:a05:6512:3a93:b0:529:b3c9:7261 with SMTP id 2adb3069b0e04-529b3c97397mr6223224e87.5.1716993383771;
-        Wed, 29 May 2024 07:36:23 -0700 (PDT)
+        bh=Yv3a3CJFN4Nnb+bjJbzTRKcZ98dxxB3lgsL5CdCIzmU=;
+        b=K/K9pbSdT6xI6p9N34ZFf7QMJIWGjNX79VH8rGtGxZJ2tF95Hmd8AVtr3n+0ErQYGw
+         +G7JPvhkWCfFjjhVoq4kTNtLxbe/BzFRW4LZ/5fdnXOii4BdmF2OCwI4AHDn5oP9hPre
+         O1wRKS+mPJtq+TjyCF8xEmBu9eTceRHhAhVHak2wyN5hWTG2sST88ZYxIRyNAs6vtLV3
+         xq0R70ueyJ5btCRr8XF4m9staRneKakQJtlaUkf9KaVXBd7TjGrH73amiN1Sz/eOghzD
+         2GM5XtQ/eaA03uqqkrsZcwNJIlFeaj74dctIPmTgckIMlczzfFx6J2JlzHkEj15nunM/
+         kkMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716993405; x=1717598205;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yv3a3CJFN4Nnb+bjJbzTRKcZ98dxxB3lgsL5CdCIzmU=;
+        b=UC1DrqUZYllJrsDTXdkCOBxFsayf2XYpSHGETAieiTnzH8sznKWLVvrEZPrK/7BfBd
+         bwZr1kRoSwGbRaC5o4us6uReQodrV3lA42c9SljbVZqOdXXHxGqJXc13hVeua5ZNiUuz
+         PEZriAiB+xzxkqWouPPM8o1wurLhjo81FfexERTj2SrTZJMDea9pnDw5thstyBuxjZT+
+         IVvYeE3qOki/XWZYPj3ShE+CK8ShN12hJq0zCwqA5EpPAEnd6O9o/KBwgk8A67C4Q2Bz
+         0HUOooS+sMmN+a/rb3/4C5Y7WvEvrQIUMov0EwnPKPyr80n+P4bSYQ3K4Rb7pzjt0qL4
+         5lRg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaWXuP7vn6r7QVlsj6Pd7gmxXuTsgq/ZmycHs1FqR4zX/MW4g63uW38Gwc7ORimd8Irwf2lsKSPcZcq3Loo49EIkT3OqTm1BpSS+d4OQ==
+X-Gm-Message-State: AOJu0YzXG/bm4MLBX/cl4UUvnDKLki16cjtOJ+WBHLEDoD2bgcOcwhBP
+	ekUtAgPi5wBPXiCuINRCL6oM5yLuYiMg494jwZtZzfUvbWciJElCjQa+gkEEQLA=
+X-Google-Smtp-Source: AGHT+IEzmGWtCmzYo+wzkCM+TEmy2NyYpktDM4J2BXNMHhR6pvHvLeHzCgGQ3u0rvedu0L2fz7FH9Q==
+X-Received: by 2002:a17:906:6d4f:b0:a63:3c69:ec4 with SMTP id a640c23a62f3a-a633c690fdemr337843266b.23.1716993404942;
+        Wed, 29 May 2024 07:36:44 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc51489sm721025766b.128.2024.05.29.07.36.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8b9aasm719367866b.155.2024.05.29.07.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 May 2024 07:36:23 -0700 (PDT)
-Date: Wed, 29 May 2024 17:36:19 +0300
+        Wed, 29 May 2024 07:36:44 -0700 (PDT)
+Date: Wed, 29 May 2024 17:36:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Francesco Dolcini <francesco@dolcini.it>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
+To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] iio: adc: ti-ads1119: Add driver
-Message-ID: <a3521734-487b-4c17-b910-2b169b26bc64@moroto.mountain>
+	James Prestwood <prestwoj@gmail.com>
+Subject: [jarkko-tpmdd:tpm2key-v7 8/9]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:636 tpm2_key_rsa_preparse() error:
+ uninitialized symbol 'ret'.
+Message-ID: <cbae0ed0-e0a6-41ba-9671-a9f48e8f07f3@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240527154050.24975-3-francesco@dolcini.it>
 
-Hi Francesco,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Dolcini/dt-bindings-iio-adc-add-ti-ads1119/20240527-234431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240527154050.24975-3-francesco%40dolcini.it
-patch subject: [PATCH v1 2/2] iio: adc: ti-ads1119: Add driver
-config: openrisc-randconfig-r071-20240529 (https://download.01.org/0day-ci/archive/20240529/202405291150.r5z8TZYu-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v7
+head:   892305fec7841bf841a9c19e01c999c5f4b4e831
+commit: 4970b8d723c3af732b21a8bf7c1eebfb03792457 [8/9] keys: asymmetric: Add tpm2_key_rsa
+config: alpha-randconfig-r081-20240529 (https://download.01.org/0day-ci/archive/20240529/202405291528.FxUKVyP2-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405291150.r5z8TZYu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405291528.FxUKVyP2-lkp@intel.com/
 
-New smatch warnings:
-drivers/iio/adc/ti-ads1119.c:653 ads1119_get_configs() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+crypto/asymmetric_keys/tpm2_key_rsa.c:636 tpm2_key_rsa_preparse() error: uninitialized symbol 'ret'.
 
-vim +629 drivers/iio/adc/ti-ads1119.c
+vim +/ret +636 crypto/asymmetric_keys/tpm2_key_rsa.c
 
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  642  static int ads1119_get_configs(struct ads1119_state *st)
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  643  {
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  644  	struct device *dev = &st->client->dev;
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  645  
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  646  	st->vref = devm_regulator_get_optional(dev, "vref");
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  647  	if (IS_ERR(st->vref))
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  648  		return dev_err_probe(dev, PTR_ERR(st->vref),
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  649  				     "Failed to get vref\n");
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  650  
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  651  	st->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  652  	if (IS_ERR(st->reset_gpio))
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27 @653  		return dev_err_probe(dev, PTR_ERR(st->vref),
-                                                                                                  ^^^^^^^^
-st->reset_gpio was intended.
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  629  static int tpm2_key_rsa_preparse(struct key_preparsed_payload *prep)
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  630  {
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  631  	struct tpm2_key *key;
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  632  	int ret;
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  633  
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  634  	key = tpm2_key_decode(prep->data, prep->datalen);
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  635  	if (IS_ERR(key))
+4970b8d723c3af Jarkko Sakkinen 2024-05-26 @636  		return ret;
+                                                                ^^^^^^^^^^
+Same.  return PTR_ERR(key);
 
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  654  				     "Failed to get reset gpio\n");
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  655  
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  656  	return ads1119_alloc_and_config_channels(st);
-14caaeae0e22b3 João Paulo Gonçalves 2024-05-27  657  }
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  637  
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  638  	if (key->oid != OID_TPMLoadableKey) {
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  639  		kfree(key);
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  640  		return -EBADMSG;
+4970b8d723c3af Jarkko Sakkinen 2024-05-26  641  	}
 
 -- 
 0-DAY CI Kernel Test Service
