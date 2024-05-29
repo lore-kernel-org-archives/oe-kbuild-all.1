@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6678175B1;
-	Wed, 29 May 2024 09:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617AC31A60
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 10:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716975193; cv=none; b=ujpgnixnf9+6Az+VctYtqv/aDVS3V0W3hd6UzlX+T2Qr44Ur9QOKP5EK86ChKiOBfTrZrhTl89z5F15l/1nfTuAzKCLUiBuAYU4z+7aU7O75KDsA4dwk8hkg1TQz4l9c/dgAjgv/rU+asLCRElV+nmbqwPEGqvUourRIsXU9SGM=
+	t=1716977116; cv=none; b=ZnGQp8cQJHnSJw7eJJ1fjllSWyl1wzIoKbMzWly518huDF405nZpttThJk8zHIJhDdUN/qtA/tSFDaISKXthvB7C0CWIEMvpO0DYl1G0MVv0MDY59oosEazDUruELrRM0qqolQRxfAuS+Tb8lECBin44aK+Chx3AhJyWX4dBAqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716975193; c=relaxed/simple;
-	bh=VOHE8+XFYOI/3yKlFm4DVx4x+nfeXxTaK605tEECapY=;
+	s=arc-20240116; t=1716977116; c=relaxed/simple;
+	bh=oi1y84Wrswt0LE67b+gnIN/RP8HGxWVlWhD1L3eHezY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VdZyHRrAOEpZ60iYaV5jtah9zQlco0o/2R5Cp5q4GUKwXlio0ESthjw+NcFn8GUApTbUyoSrxdS7fRTfN+GvYFayJP5p5r1LYKJBsoqAp+/t/FN/LtoE0c68ZBo0+4lHighjEgc1ccPXCVqavzk4xLYRUgxLSRpFuarn0y0X46M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NbXWfevg; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=RvNi1Xzo2at5gU/Yr/TP5EoE6YWYdSHNhgAJwvlPvqtr+K3mJW7kryR3Jf/zHkca4WIcQEfIJwoPPFF+eKC5VLO1polB9PPIkay0m4Zz2ouPmvG8zZHGrBnRVyBYZFymCtI/3Gh/duYYXFiHVPR0lq3qxhdvvltAoU1J7KgIBok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D37W32/4; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NbXWfevg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D37W32/4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716975191; x=1748511191;
+  t=1716977114; x=1748513114;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VOHE8+XFYOI/3yKlFm4DVx4x+nfeXxTaK605tEECapY=;
-  b=NbXWfevgG17DuIqhlfwz2sAs7kIzIDVVYgf2GflvbdZHTrwT4zjkn706
-   ghyuF9btyz0dYGsaPw1forZ+I+CoN9vAGNmfwaZRlR9NqebGAQaRcAibV
-   hcq96vKkdExGcwLWwJ6aMkrayyuEmckVuabTN8DR9E9GAjlvqCmTPLePJ
-   iibo9Kbp3PqRjzEwIvGIsKnANOEBAZ+g6Dcg1RuJRyMxmpJRHY65tcMso
-   6r2t819apSzGfSnB6mVasin4LBzKADHlhrPAL49CxS6sJWIGI9oT09jPJ
-   dSHrmEnzHR3Ubt+a/R2wNa30DNVFua3Pdj+qI6aiQGmsb6f60xyUt6ItV
-   Q==;
-X-CSE-ConnectionGUID: vPqqjB3PRrOrta+zrKJNOw==
-X-CSE-MsgGUID: AAM/g55XTdCdoxKOQBaAaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13139739"
+  bh=oi1y84Wrswt0LE67b+gnIN/RP8HGxWVlWhD1L3eHezY=;
+  b=D37W32/4/XmGg/8f+6b8aKQSpOru14a72ISY7pqTfpWaSDzwECDfrPRR
+   FapVCtejjVOB7dQ7wZxFAQEejbJ+UnROxc4h3K+AEl3Ds/yFhXBOWn1FY
+   yIzby17u17wkfYQySlYYWoRXJnQTa+bj1NfVKGuru6+cGtdtBXRlIEL43
+   +TQ/viDhLl8h8lEC/XFF4zot0rMZGrBmPeu6t8D103DOhsh/xjEo0FwoF
+   v+b3G+qBRbOsGodkocZtZarbEWLmFUm4hp0O++x2knFrwe9pDpeqTABtc
+   qOdj8pimnr3Z4oYtLDWotq2dw+CmLgZ13/SOKN1auh03lw6mmiB2WKG01
+   g==;
+X-CSE-ConnectionGUID: OOLQHnBLS2KT6C9egT1bQA==
+X-CSE-MsgGUID: hunV75PMSdCrQpvyScZhRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13601124"
 X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="13139739"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 02:32:58 -0700
-X-CSE-ConnectionGUID: XcET4DHvQJ+rKtsJGx7WNQ==
-X-CSE-MsgGUID: 1mqwJP1eTAic9L5whiDBxw==
+   d="scan'208";a="13601124"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 03:05:13 -0700
+X-CSE-ConnectionGUID: LzHPBBD1RWKj76LYTOUHow==
+X-CSE-MsgGUID: kXfyAMKWRcGtXnPJ68z0Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="66252211"
+   d="scan'208";a="35360459"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 May 2024 02:32:57 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 May 2024 03:05:12 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCFfy-000DRb-1S;
-	Wed, 29 May 2024 09:32:54 +0000
-Date: Wed, 29 May 2024 17:32:13 +0800
+	id 1sCGBB-000DTz-25;
+	Wed, 29 May 2024 10:05:09 +0000
+Date: Wed, 29 May 2024 18:04:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2key-v7 9/9]
- crypto/asymmetric_keys/tpm2_key_ecdsa.c:222:26: warning: format specifies
- type 'unsigned int' but the argument has type 'off_t' (aka 'long')
-Message-ID: <202405291703.l77ggr3t-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 22/29] ERROR: modpost:
+ "drm_hdmi_avi_infoframe_colorimetry"
+ [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+Message-ID: <202405291707.omg1Mbaj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,241 +64,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v7
-head:   892305fec7841bf841a9c19e01c999c5f4b4e831
-commit: 892305fec7841bf841a9c19e01c999c5f4b4e831 [9/9] keys: asymmetric: Add tpm2_key_ecdsa
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405291703.l77ggr3t-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291703.l77ggr3t-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   336dca397dcefc5d7436be1fee3c814ed6512996
+commit: f378b77227bc4732922c57f92be89438bb1018a1 [22/29] drm/connector: hdmi: Add Infoframes generation
+config: x86_64-randconfig-122-20240529 (https://download.01.org/0day-ci/archive/20240529/202405291707.omg1Mbaj-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291707.omg1Mbaj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405291703.l77ggr3t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405291707.omg1Mbaj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:18:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:18:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:18:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from crypto/asymmetric_keys/tpm2_key_ecdsa.c:18:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> crypto/asymmetric_keys/tpm2_key_ecdsa.c:222:26: warning: format specifies type 'unsigned int' but the argument has type 'off_t' (aka 'long') [-Wformat]
-     222 |                 pr_warn("offset=%u\n", offset);
-         |                                 ~~     ^~~~~~
-         |                                 %ld
-   include/linux/printk.h:517:37: note: expanded from macro 'pr_warn'
-     517 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c:232:26: warning: format specifies type 'unsigned int' but the argument has type 'off_t' (aka 'long') [-Wformat]
-     232 |                 pr_warn("offset=%u\n", offset);
-         |                                 ~~     ^~~~~~
-         |                                 %ld
-   include/linux/printk.h:517:37: note: expanded from macro 'pr_warn'
-     517 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c:421:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     421 |                 return ret;
-         |                        ^~~
-   crypto/asymmetric_keys/tpm2_key_ecdsa.c:417:9: note: initialize the variable 'ret' to silence this warning
-     417 |         int ret;
-         |                ^
-         |                 = 0
-   10 warnings generated.
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_hdmi_state_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi-avmm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+ERROR: modpost: "drm_hdmi_compute_mode_clock" [drivers/gpu/drm/tests/drm_connector_test.ko] undefined!
+ERROR: modpost: "drm_hdmi_compute_mode_clock" [drivers/gpu/drm/tests/drm_hdmi_state_helper_test.ko] undefined!
+>> ERROR: modpost: "drm_hdmi_avi_infoframe_colorimetry" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+>> ERROR: modpost: "drm_hdmi_infoframe_set_hdr_metadata" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+ERROR: modpost: "drm_hdmi_compute_mode_clock" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+>> ERROR: modpost: "drm_hdmi_avi_infoframe_bars" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
 
-
-vim +222 crypto/asymmetric_keys/tpm2_key_ecdsa.c
-
-   128	
-   129	static int tpm2_key_ecdsa_sign(struct tpm_chip *chip, struct tpm2_key *key,
-   130				       struct kernel_pkey_params *params,
-   131				       const void *in, void *out)
-   132	{
-   133		u8 r[SHA256_DIGEST_SIZE], s[SHA256_DIGEST_SIZE];
-   134		u32 in_len = params->in_len;
-   135		bool r_0, s_0;
-   136		struct tpm_header *head;
-   137		struct tpm_buf buf;
-   138		u32 key_handle;
-   139		u8 *ptr = out;
-   140		off_t offset;
-   141		int ret;
-   142	
-   143	
-   144		/* Require explicit hash algorithm: */
-   145		if (!params->hash_algo)
-   146			return -EINVAL;
-   147	
-   148		/* Currently only support SHA256: */
-   149		if (!!strcmp(params->hash_algo, "sha256"))
-   150			return -EINVAL;
-   151	
-   152		ret = tpm_try_get_ops(chip);
-   153		if (ret)
-   154			return ret;
-   155	
-   156		ret = tpm2_start_auth_session(chip);
-   157		if (ret)
-   158			goto err_ops;
-   159	
-   160		ret = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_LOAD);
-   161		if (ret < 0) {
-   162			tpm2_end_auth_session(chip);
-   163			goto err_ops;
-   164		}
-   165	
-   166		tpm_buf_append_name(chip, &buf, key->parent, NULL);
-   167		tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_CONTINUE_SESSION |
-   168					    TPM2_SA_ENCRYPT, NULL, 0);
-   169		tpm_buf_append(&buf, &key->data[0], key->priv_len + key->pub_len);
-   170		if (buf.flags & TPM_BUF_OVERFLOW) {
-   171			tpm2_end_auth_session(chip);
-   172			ret = -E2BIG;
-   173			goto err_buf;
-   174		}
-   175		tpm_buf_fill_hmac_session(chip, &buf);
-   176		ret = tpm_transmit_cmd(chip, &buf, 4, "ECDSA loading");
-   177		ret = tpm_buf_check_hmac_response(chip, &buf, ret);
-   178		if (ret) {
-   179			tpm2_end_auth_session(chip);
-   180			ret = -EIO;
-   181			goto err_buf;
-   182		}
-   183	
-   184		key_handle = be32_to_cpup((__be32 *)&buf.data[TPM_HEADER_SIZE]);
-   185	
-   186		tpm_buf_reset(&buf, TPM2_ST_SESSIONS, TPM2_CC_SIGN);
-   187		tpm_buf_append_name(chip, &buf, key_handle, NULL);
-   188		tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_DECRYPT, NULL, 0);
-   189	
-   190		sha256(in, in_len, r);
-   191		tpm_buf_append_u16(&buf, SHA256_DIGEST_SIZE);
-   192		tpm_buf_append(&buf, r, SHA256_DIGEST_SIZE);
-   193		tpm_buf_append_u16(&buf, TPM_ALG_ECDSA);
-   194		tpm_buf_append_u16(&buf, TPM_ALG_SHA256);
-   195	
-   196		/* 10.7.2 A NULL Ticket */
-   197		tpm_buf_append_u16(&buf, TPM2_ST_HASHCHECK);
-   198		tpm_buf_append_u32(&buf, TPM2_RH_NULL);
-   199		tpm_buf_append_u16(&buf, 0);
-   200	
-   201		tpm_buf_fill_hmac_session(chip, &buf);
-   202		ret = tpm_transmit_cmd(chip, &buf, 4, "ECDSA signing");
-   203		ret = tpm_buf_check_hmac_response(chip, &buf, ret);
-   204		if (ret) {
-   205			tpm2_end_auth_session(chip);
-   206			ret = -EIO;
-   207			goto err_key_handle;
-   208		}
-   209	
-   210		/* Move to parameters: */
-   211		head = (struct tpm_header *)buf.data;
-   212		offset = sizeof(*head);
-   213		if (be16_to_cpu(head->tag) == TPM2_ST_SESSIONS)
-   214			offset += 4;
-   215	
-   216		ret = -EIO;
-   217	
-   218		/* Copy R: */
-   219		if (tpm_buf_read_u16(&buf, &offset) != TPM_ALG_ECDSA ||
-   220		    tpm_buf_read_u16(&buf, &offset) != TPM_ALG_SHA256 ||
-   221		    tpm_buf_read_u16(&buf, &offset) != SHA256_DIGEST_SIZE) {
- > 222			pr_warn("offset=%u\n", offset);
-   223			goto err_key_handle;
-   224		}
-   225	
-   226		tpm_buf_read(&buf, &offset, SHA256_DIGEST_SIZE, r);
-   227		r_0 = (r[0] & 0x80) != 0;
-   228		pr_info("r_0=%d\n", r_0);
-   229	
-   230		/* Copy S: */
-   231		if (tpm_buf_read_u16(&buf, &offset) != SHA256_DIGEST_SIZE) {
-   232			pr_warn("offset=%u\n", offset);
-   233			goto err_key_handle;
-   234		}
-   235	
-   236		tpm_buf_read(&buf, &offset, SHA256_DIGEST_SIZE, s);
-   237		s_0 = (r[0] & 0x80) != 0;
-   238		pr_info("s_0=%d\n", r_0);
-   239	
-   240		/* Encode the ASN.1 signature: */
-   241	#define TPM2_KEY_ECDSA_SIG_SIZE		(2 + 2 * (2 + SHA256_DIGEST_SIZE) + r_0 + s_0)
-   242		pr_info("sig_size=%d\n", TPM2_KEY_ECDSA_SIG_SIZE);
-   243		ptr[0] = 0x30; /* SEQUENCE */
-   244		ptr[1] = TPM2_KEY_ECDSA_SIG_SIZE - 2;
-   245	#define TPM2_KEY_ECDSA_SIG_R_TAG	2
-   246	#define TPM2_KEY_ECDSA_SIG_R_SIZE	3
-   247	#define TPM2_KEY_ECDSA_SIG_R_BODY	4
-   248		ptr[TPM2_KEY_ECDSA_SIG_R_TAG] = 0x02; /* INTEGER */
-   249		ptr[TPM2_KEY_ECDSA_SIG_R_SIZE] = SHA256_DIGEST_SIZE + r_0;
-   250		ptr[TPM2_KEY_ECDSA_SIG_R_BODY] = 0x00; /* maybe dummy write */
-   251		memcpy(&ptr[TPM2_KEY_ECDSA_SIG_R_BODY + r_0], r, SHA256_DIGEST_SIZE);
-   252	#define TPM2_KEY_ECDSA_SIG_S_TAG	(4 + r_0 + SHA256_DIGEST_SIZE)
-   253	#define TPM2_KEY_ECDSA_SIG_S_SIZE	(5 + r_0 + SHA256_DIGEST_SIZE)
-   254	#define TPM2_KEY_ECDSA_SIG_S_BODY	(6 + r_0 + SHA256_DIGEST_SIZE)
-   255		ptr[TPM2_KEY_ECDSA_SIG_S_TAG] = 0x02; /* INTEGER */
-   256		ptr[TPM2_KEY_ECDSA_SIG_S_SIZE] = SHA256_DIGEST_SIZE + s_0;
-   257		ptr[TPM2_KEY_ECDSA_SIG_S_BODY] = 0x00; /* maybe dummy write */
-   258		memcpy(&ptr[TPM2_KEY_ECDSA_SIG_S_BODY + s_0], s, SHA256_DIGEST_SIZE);
-   259		ret = TPM2_KEY_ECDSA_SIG_SIZE;
-   260	
-   261	err_key_handle:
-   262		tpm2_flush_context(chip, key_handle);
-   263	
-   264	err_buf:
-   265		tpm_buf_destroy(&buf);
-   266	
-   267	err_ops:
-   268		tpm_put_ops(chip);
-   269		return ret;
-   270	}
-   271	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=m] && DRM_DISPLAY_HDMI_HELPER [=n]
+   Selected by [m]:
+   - DRM_KUNIT_TEST [=m] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
 
 -- 
 0-DAY CI Kernel Test Service
