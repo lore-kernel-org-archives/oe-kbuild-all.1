@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03610335C7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 19:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB88C1C2331
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 20:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717009402; cv=none; b=HVpcRQoyJCf9Beh7hPybK24hXqD5FcIBYfAM1ibpC8vkPMqPg2AcRekRP+gZmNY7GHIhrF4ZD4djBsEwJQDnCMSeBhN0Ff0jcLnTwCzbR4zMyzw0F0IM2YUVInDrJmEcWegJQ2lGW0rWVvjyPyXca3vqvcjQBIAxIYItqbZ+Hhs=
+	t=1717013066; cv=none; b=gIGS6XRgiEDSEXaTeVPuPQmKL1MX02VCuYZPNecJbi4FQQdXGX7vclrAzJc1tEoXkOP3b0zplnG+8yEXwdOl4POS/yzI1W+elTuxcuWv5n8tyElwY6lInRLDh7gLQcNifTA2atDglNyl3TXU/nIM+COZygwCqxuHy2PAlSoSSrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717009402; c=relaxed/simple;
-	bh=nSAH9Un4bXzKh3l9HjiIt9+YQ+TZpDXeEqs4OWNgAZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FESHfGxDVh5Tv0xAkgO6N7BZ86HlRxQCEFrcpLM+2uCSnRMZ55sZvdxDEQbqYF5uFE1Ex6mcHjNu10FOdnfmzBPxhZGUfo4WNmaQRloa4k8BIOFFvFR3GaLQ/dne4IQFghfXRhdzuLTu7Zfwk8Qw9ov1VV35Q5syGYu5BKQvj4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DT6g0OOo; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1717013066; c=relaxed/simple;
+	bh=EWUWJngpPUFGlRBMALS5nfZudOsfs/z+V2AeIjEwW/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GFtFX0LHDm3HxfmVGNNdSInEWhVNg72EmX7SNCxlj6xtxCw3A0KbvRBJertCBesY/NeY+Wf1Y/zGnZgtRhOZAXdYAKFBHW2poWxx2bOZcuIeIw4Yhn0k6nKihuuoZ71zDzwn2NYEAfFdU/OwDuQ6kyQgggGpwPhv1RfXO+RdDEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLZLoDP1; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DT6g0OOo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLZLoDP1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717009401; x=1748545401;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nSAH9Un4bXzKh3l9HjiIt9+YQ+TZpDXeEqs4OWNgAZQ=;
-  b=DT6g0OOomBNtrBjbGFR7yOUTQYIS56BUAfn1unRcy5mb/MsO5ce6uuQA
-   afO3p+ymA+rlLSCF7VE687aRGCxRyqBdnRRgd3g5Wv3Khc5Xmv6Ec3QM+
-   r9YVbqHmLXeoSir6KiA6gvtoF+q9mx/yD1TjGXmIY0FlBeV/fei7aNYTU
-   thBZX2hkj3fyk/t2h8ww4cMS/SBhAp8hC4WVO/BzGpuVbRvVptvrcsdgY
-   RYUOsVNzZucgYQijo4aF8PvvWegvz7sb/KUtgpaGz0kRGVwWNSnQFdZHn
-   2G5O6SQzggwfHcXoYyHEF30XD5+d5MW47kdYfEc+y0BaWjP2ICEzCwx3R
-   g==;
-X-CSE-ConnectionGUID: 4Kl1g/TJS0qhhm++CthoNQ==
-X-CSE-MsgGUID: 4K1rD/x4TWC0tMEp2WneYA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="30939209"
+  t=1717013065; x=1748549065;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EWUWJngpPUFGlRBMALS5nfZudOsfs/z+V2AeIjEwW/8=;
+  b=aLZLoDP1tzkLeP4+on+gCszYjP/M8wr2UsSoXgOqsNF4Fx7kL5AFZEfK
+   ncIHPkGMydmWDJP3dSINRagSyxpaFurLiGZOBdzdeRI3XSOMsZT17gdIA
+   ZoWiGp+kI/uBRWa9thNLAmY4XulBIe2H1TiHx2jnzOL0EyG8kYbAXU7xP
+   oNcu7cYzT09izBsggyeZci6G1sHblhdYjadEYJ9dR3ZlKg4LTjCqJS1Eb
+   EV6mViZIVnW/lzb27FCPPIfKlY9x0vFnlleqT4LD7pjt7OXKooNx3MYyp
+   54GBxFxkosgDcQbkFgjyXwy/WBaENFiZVSiR8nTneLpor0vYu3PBhDt2f
+   A==;
+X-CSE-ConnectionGUID: a6wn3l/zR3uAEe3w60+6TQ==
+X-CSE-MsgGUID: tGxakYt0TBi01xHokhxCIQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13572258"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="30939209"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 12:03:21 -0700
-X-CSE-ConnectionGUID: qZAGOw0LQzCcq+6ITTOilg==
-X-CSE-MsgGUID: Jvv03pnKRTuXgW0AScrpeA==
+   d="scan'208";a="13572258"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 13:04:25 -0700
+X-CSE-ConnectionGUID: fqct1rU/R12QtAkODSN13w==
+X-CSE-MsgGUID: UZgpRGBDT0K/6mmWUEe5Kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="40394316"
+   d="scan'208";a="35504775"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 29 May 2024 12:03:19 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 May 2024 13:04:22 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCOZx-000E6N-0Z;
-	Wed, 29 May 2024 19:03:17 +0000
-Date: Thu, 30 May 2024 03:02:56 +0800
+	id 1sCPX0-000E9H-3B;
+	Wed, 29 May 2024 20:04:19 +0000
+Date: Thu, 30 May 2024 04:03:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1861/2527] /usr/bin/ld:
- kernel/rcu/tasks.h:1472:undefined reference to `cmpxchg_emu_u8'
-Message-ID: <202405300206.tMqF4PfU-lkp@intel.com>
+To: Youling Tang <youling.tang@linux.dev>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org,
+	linux-kernel@vger.kernel.org, Mateusz Guzik <mjguzik@gmail.com>,
+	Youling Tang <tangyouling@kylinos.cn>
+Subject: Re: [PATCH 1/2] x86: Remove the prefetch() specific implementation
+ on x86_64
+Message-ID: <202405300328.eZmSYZrP-lkp@intel.com>
+References: <20240529032059.899347-1-youling.tang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,29 +68,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240529032059.899347-1-youling.tang@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d99040b1bc8dbf385a8aa535e9efcdf94466e19
-commit: 8046f300501578d516391059d9ded85aa883487d [1861/2527] rcu-tasks: Remove open-coded one-byte cmpxchg() emulation
-config: um-randconfig-r033-20230910 (https://download.01.org/0day-ci/archive/20240530/202405300206.tMqF4PfU-lkp@intel.com/config)
+Hi Youling,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/master]
+[also build test ERROR on linus/master v6.10-rc1 next-20240529]
+[cannot apply to tip/auto-latest tip/x86/core bp/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/prefetch-Add-ARCH_HAS_PREFETCH-definition-when-the-architecture-is-not-defined/20240529-112345
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20240529032059.899347-1-youling.tang%40linux.dev
+patch subject: [PATCH 1/2] x86: Remove the prefetch() specific implementation on x86_64
+config: x86_64-buildonly-randconfig-006-20240530 (https://download.01.org/0day-ci/archive/20240530/202405300328.eZmSYZrP-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300206.tMqF4PfU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300328.eZmSYZrP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405300206.tMqF4PfU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405300328.eZmSYZrP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: kernel/rcu/update.o: in function `rcu_trc_cmpxchg_need_qs':
-   kernel/rcu/tasks.h:1472:(.text+0x1f67): undefined reference to `cmpxchg_emu_u8'
->> /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x1fdf): undefined reference to `cmpxchg_emu_u8'
-   /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x4523): undefined reference to `cmpxchg_emu_u8'
-   /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x4573): undefined reference to `cmpxchg_emu_u8'
-   /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x49f3): undefined reference to `cmpxchg_emu_u8'
-   /usr/bin/ld: kernel/rcu/update.o:kernel/rcu/tasks.h:1472: more undefined references to `cmpxchg_emu_u8' follow
-   collect2: error: ld returned 1 exit status
+   drivers/soc/fsl/dpio/dpio-service.c: In function 'dpaa2_io_store_next':
+>> drivers/soc/fsl/dpio/dpio-service.c:745:17: error: implicit declaration of function 'prefetch'; did you mean 'prefetchw'? [-Werror=implicit-function-declaration]
+     745 |                 prefetch(&s->vaddr[s->idx]);
+         |                 ^~~~~~~~
+         |                 prefetchw
+   cc1: some warnings being treated as errors
+--
+   drivers/soc/fsl/dpio/qbman-portal.c: In function 'qbman_swp_dqrr_next_direct':
+>> drivers/soc/fsl/dpio/qbman-portal.c:1213:17: error: implicit declaration of function 'prefetch'; did you mean 'prefetchw'? [-Werror=implicit-function-declaration]
+    1213 |                 prefetch(qbman_get_cmd(s,
+         |                 ^~~~~~~~
+         |                 prefetchw
+   cc1: some warnings being treated as errors
+
+
+vim +745 drivers/soc/fsl/dpio/dpio-service.c
+
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  703  
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  704  /**
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  705   * dpaa2_io_store_next() - Determine when the next dequeue result is available.
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  706   * @s: the dpaa2_io_store object.
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  707   * @is_last: indicate whether this is the last frame in the pull command.
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  708   *
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  709   * When an object driver performs dequeues to a dpaa2_io_store, this function
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  710   * can be used to determine when the next frame result is available. Once
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  711   * this function returns non-NULL, a subsequent call to it will try to find
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  712   * the next dequeue result.
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  713   *
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  714   * Note that if a pull-dequeue has a NULL result because the target FQ/channel
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  715   * was empty, then this function will also return NULL (rather than expecting
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  716   * the caller to always check for this. As such, "is_last" can be used to
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  717   * differentiate between "end-of-empty-dequeue" and "still-waiting".
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  718   *
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  719   * Return dequeue result for a valid dequeue result, or NULL for empty dequeue.
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  720   */
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  721  struct dpaa2_dq *dpaa2_io_store_next(struct dpaa2_io_store *s, int *is_last)
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  722  {
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  723  	int match;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  724  	struct dpaa2_dq *ret = &s->vaddr[s->idx];
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  725  
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  726  	match = qbman_result_has_new_result(s->swp, ret);
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  727  	if (!match) {
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  728  		*is_last = 0;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  729  		return NULL;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  730  	}
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  731  
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  732  	s->idx++;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  733  
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  734  	if (dpaa2_dq_is_pull_complete(ret)) {
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  735  		*is_last = 1;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  736  		s->idx = 0;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  737  		/*
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  738  		 * If we get an empty dequeue result to terminate a zero-results
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  739  		 * vdqcr, return NULL to the caller rather than expecting him to
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  740  		 * check non-NULL results every time.
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  741  		 */
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  742  		if (!(dpaa2_dq_flags(ret) & DPAA2_DQ_STAT_VALIDFRAME))
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  743  			ret = NULL;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  744  	} else {
+f1e250bf365962 drivers/soc/fsl/dpio/dpio-service.c            Ioana Ciocoi Radulescu 2018-12-14 @745  		prefetch(&s->vaddr[s->idx]);
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  746  		*is_last = 0;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  747  	}
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  748  
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  749  	return ret;
+780b626323d721 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Roy Pledge             2017-03-13  750  }
+53639c64c686f0 drivers/staging/fsl-mc/bus/dpio/dpio-service.c Laurentiu Tudor        2017-11-17  751  EXPORT_SYMBOL_GPL(dpaa2_io_store_next);
+e80081c34b0358 drivers/soc/fsl/dpio/dpio-service.c            Roy Pledge             2018-12-18  752  
 
 -- 
 0-DAY CI Kernel Test Service
