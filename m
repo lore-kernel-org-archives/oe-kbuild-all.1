@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176BD1C230E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 08:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A2E16C451
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 08:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716970069; cv=none; b=m8zoIgnhGtPhuf9l4LgK3YkwwalniBN+LYdswT/rsy/IqQ4ni8is+E9KhEwUEWoRxBc9HzLVV9ssOnCz3YkCwNt6ZlwEyw4NQC3Y2pVUkDGrzrO09MoebG0WLU5CzAs6OkMXCpF4VOZhjrbLKjNRgUMVsFwqYBmDX32EGgMag0g=
+	t=1716971391; cv=none; b=bpJSsvybzH6MiCk5JPOBOClOn4n26YV3eoBNrE993GLX5pcuBrweJ8tKoVjavxN7UDZhRc/WvnBg/yS+KTMtrM9YzrPoRLiDAKfMF0wBh+7J3h1J6ndhZGbdcsN1UuMvv4yMX35Juh/DAI1e4H+AhIGMrbjjjVdZ7ARaXkc71/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716970069; c=relaxed/simple;
-	bh=H5KfOUNjLhaiOhbV7MUe6COJzskNnIYeixYUur2rsP0=;
+	s=arc-20240116; t=1716971391; c=relaxed/simple;
+	bh=IP3UyWLF4jjHC9iHoxDS696+aMxwixBXhwROVHFpi4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fEvk5YIULqu56S2pSej5gb29OvaqNWDydRWJuM0sAOsI1+SGDanN83CLbBtmBzOBXVBLL5kKLqFcpIX/+FXxNvNq4mMS6wrm50n1dSoa5lva7Pc2ZZdionAQUJ6DKpPncHlvWwkTJE9rwAh/3ToL6O7ChI1RfZUEaiyoFXp8fOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gEIA4RQf; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=rkQoGahUhvht76S6VAixhbIrDciLXDuAFtaNOHVsBX11AKiS/l/6fI7/Hra4MMPuY42uTGEYNiEAyzxk8+NTl3/optbHNTFsbPf8F5IeBW0dene8S19mU7drnQEoKIgeZMT1wlXZVyrtCEnKuY/f6nwxTjE/H8l3/cSR2wsRAdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFSQIl8d; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gEIA4RQf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFSQIl8d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716970068; x=1748506068;
+  t=1716971390; x=1748507390;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H5KfOUNjLhaiOhbV7MUe6COJzskNnIYeixYUur2rsP0=;
-  b=gEIA4RQf8X0RsUJHH+x+1/3JrxTmdxeJLllJMDdEoNM7ecHeBTpkRpvr
-   Mo1tkFoCzGggNJFFpnufuGIbg534D2CBbEdTbqVO+Jq4ri3zd6/irz4zX
-   MNBkTJ3RJVEU1x2TXJJA6LhOiOistjZE5MGl4sIc1G13MI7IdYkIExKo3
-   wpcZAnD6G0xrgD8YK8GFhMFsMZ5d3fH/Bjcp6A6c5TjVRFKGJXZOy6E/4
-   fRordlCRw7VExR6IJDTynwsuodod0mc8Be/LMnpHGhFsOqJgcnnGP87dd
-   gTyWAUTy+vooP9OJnn19/o94Bsi7WKNA6rUh2zNqgoOaH3MGrXi0+b6AM
-   Q==;
-X-CSE-ConnectionGUID: UbvDPkmOTLK7nkmPq7JMGw==
-X-CSE-MsgGUID: 2HXyd9jtQl+Pc29OQjLPzg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30858399"
+  bh=IP3UyWLF4jjHC9iHoxDS696+aMxwixBXhwROVHFpi4Q=;
+  b=JFSQIl8dEqbmPtDsLIFrPGjO6yRWIr00tM32UKAiFvq9KTcgOfz/ypUu
+   7+DemjXW1rhMvrW2b96Y+glush2c+sTD9ErUi9TymSYe1GkPY01y7puav
+   H39yDf5wAH1c07tlm2DqDVZpCXN9Vlok+Mua8i72wodZAgr6uzuOyWPfQ
+   ao9vtDGjfkw1sZRGaYG9pPOOB7nR11M6M7rVwpSmDqv7stCVssvHKtbgP
+   q8Jc1RnqXLEElHHrbDE9Y1Oomn2C5bqGXEFk+q3ZZx+AoVkdfDeomEhHP
+   HS1soTJKFSXan5Ka7SjROVwrgbNj6AS9TVcceyb8GJaclHXPfKgpjKrcM
+   A==;
+X-CSE-ConnectionGUID: T7DRNmnLSZmKGZ3dpW5vCA==
+X-CSE-MsgGUID: qIfIY5qLTVes2UP0xo/otA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24492386"
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="30858399"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 01:07:48 -0700
-X-CSE-ConnectionGUID: tIkDoun/SVKBd6y/S38Uiw==
-X-CSE-MsgGUID: aJltZPe6RQegZV+3qIsw2g==
+   d="scan'208";a="24492386"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 01:29:50 -0700
+X-CSE-ConnectionGUID: AwVVNuV2TpSBI+fBig12bw==
+X-CSE-MsgGUID: 97q1MpXERiGDZiQkVbGjJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="40235894"
+   d="scan'208";a="35440455"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 29 May 2024 01:07:46 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 May 2024 01:29:48 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCELY-000DJ1-0L;
-	Wed, 29 May 2024 08:07:44 +0000
-Date: Wed, 29 May 2024 16:07:31 +0800
+	id 1sCEgr-000DKi-23;
+	Wed, 29 May 2024 08:29:45 +0000
+Date: Wed, 29 May 2024 16:29:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 23/44]
- drivers/virt/gunyah/gunyah_platform_hooks.c:42:5: warning: conflicting types
- for 'gunyah_rm_platform_pre_demand_page' due to enum/integer mismatch; have
- 'int(struct gunyah_rm *, u16,  enum gunyah_pagetable_access,  struct folio
- *)' {aka 'int(struct gunyah...
-Message-ID: <202405291638.zjUBtCaf-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 6/29] kismet: WARNING: unmet direct
+ dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER when selected by
+ DRM_KUNIT_TEST
+Message-ID: <202405291636.8GgBtK8u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,125 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   8ae1f42fd034d5d8d1566cf9705840942dd6fc40
-commit: 8134d2cbc1b62d687bc49f3481ba27ee5fdc76cd [23/44] FROMLIST: gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
-config: arm64-randconfig-r054-20240529 (https://download.01.org/0day-ci/archive/20240529/202405291638.zjUBtCaf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291638.zjUBtCaf-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   336dca397dcefc5d7436be1fee3c814ed6512996
+commit: eb66d34d793ed48494820ce908c8c821b8e6cae5 [6/29] drm/tests: Add output bpc tests
+config: x86_64-kismet-CONFIG_DRM_DISPLAY_HDMI_STATE_HELPER-CONFIG_DRM_KUNIT_TEST-0-0 (https://download.01.org/0day-ci/archive/20240529/202405291636.8GgBtK8u-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240529/202405291636.8GgBtK8u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405291638.zjUBtCaf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405291636.8GgBtK8u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/virt/gunyah/gunyah_platform_hooks.c:42:5: warning: conflicting types for 'gunyah_rm_platform_pre_demand_page' due to enum/integer mismatch; have 'int(struct gunyah_rm *, u16,  enum gunyah_pagetable_access,  struct folio *)' {aka 'int(struct gunyah_rm *, short unsigned int,  enum gunyah_pagetable_access,  struct folio *)'} [-Wenum-int-mismatch]
-      42 | int gunyah_rm_platform_pre_demand_page(struct gunyah_rm *rm, u16 vmid,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/virt/gunyah/gunyah_platform_hooks.c:11:
-   drivers/virt/gunyah/rsc_mgr.h:125:5: note: previous declaration of 'gunyah_rm_platform_pre_demand_page' with type 'int(struct gunyah_rm *, u16,  u32,  struct folio *)' {aka 'int(struct gunyah_rm *, short unsigned int,  unsigned int,  struct folio *)'}
-     125 | int gunyah_rm_platform_pre_demand_page(struct gunyah_rm *rm, u16 vmid,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virt/gunyah/gunyah_platform_hooks.c:56:5: warning: conflicting types for 'gunyah_rm_platform_reclaim_demand_page' due to enum/integer mismatch; have 'int(struct gunyah_rm *, u16,  enum gunyah_pagetable_access,  struct folio *)' {aka 'int(struct gunyah_rm *, short unsigned int,  enum gunyah_pagetable_access,  struct folio *)'} [-Wenum-int-mismatch]
-      56 | int gunyah_rm_platform_reclaim_demand_page(struct gunyah_rm *rm, u16 vmid,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virt/gunyah/rsc_mgr.h:127:5: note: previous declaration of 'gunyah_rm_platform_reclaim_demand_page' with type 'int(struct gunyah_rm *, u16,  u32,  struct folio *)' {aka 'int(struct gunyah_rm *, short unsigned int,  unsigned int,  struct folio *)'}
-     127 | int gunyah_rm_platform_reclaim_demand_page(struct gunyah_rm *rm, u16 vmid,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-
-
-vim +42 drivers/virt/gunyah/gunyah_platform_hooks.c
-
-    41	
-  > 42	int gunyah_rm_platform_pre_demand_page(struct gunyah_rm *rm, u16 vmid,
-    43					       enum gunyah_pagetable_access access,
-    44					       struct folio *folio)
-    45	{
-    46		int ret = 0;
-    47	
-    48		down_read(&rm_platform_ops_lock);
-    49		if (rm_platform_ops && rm_platform_ops->pre_demand_page)
-    50			ret = rm_platform_ops->pre_demand_page(rm, vmid, access, folio);
-    51		up_read(&rm_platform_ops_lock);
-    52		return ret;
-    53	}
-    54	EXPORT_SYMBOL_GPL(gunyah_rm_platform_pre_demand_page);
-    55	
-  > 56	int gunyah_rm_platform_reclaim_demand_page(struct gunyah_rm *rm, u16 vmid,
-    57						   enum gunyah_pagetable_access access,
-    58						   struct folio *folio)
-    59	{
-    60		int ret = 0;
-    61	
-    62		down_read(&rm_platform_ops_lock);
-    63		if (rm_platform_ops && rm_platform_ops->pre_demand_page)
-    64			ret = rm_platform_ops->release_demand_page(rm, vmid, access,
-    65								   folio);
-    66		up_read(&rm_platform_ops_lock);
-    67		return ret;
-    68	}
-    69	EXPORT_SYMBOL_GPL(gunyah_rm_platform_reclaim_demand_page);
-    70	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER when selected by DRM_KUNIT_TEST
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=y] && DRM_DISPLAY_HDMI_HELPER [=n]
+     Selected by [y]:
+     - DRM_KUNIT_TEST [=y] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
 
 -- 
 0-DAY CI Kernel Test Service
