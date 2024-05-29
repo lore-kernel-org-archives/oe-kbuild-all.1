@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259EA15B990
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 18:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03610335C7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 May 2024 19:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717007537; cv=none; b=JVys6mxXL80ACzlR1JYbsYMSw92xxW2GKY0phzGKzltHa/QiDj0+QVpKc5L3bO9yAbHfMuF849RdaFaegj4nClQJHv+34r472pTjCo+0X9Yd26BkT/LUms9C0KYk8Gfmee39zYlq0vBc6BU2Fx5FnOmnv14iUMBcnFlk21LqzMU=
+	t=1717009402; cv=none; b=HVpcRQoyJCf9Beh7hPybK24hXqD5FcIBYfAM1ibpC8vkPMqPg2AcRekRP+gZmNY7GHIhrF4ZD4djBsEwJQDnCMSeBhN0Ff0jcLnTwCzbR4zMyzw0F0IM2YUVInDrJmEcWegJQ2lGW0rWVvjyPyXca3vqvcjQBIAxIYItqbZ+Hhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717007537; c=relaxed/simple;
-	bh=aObcPV7/1urBW8Zs6kqX2NL+wGZSdpbLjdECccXm5wU=;
+	s=arc-20240116; t=1717009402; c=relaxed/simple;
+	bh=nSAH9Un4bXzKh3l9HjiIt9+YQ+TZpDXeEqs4OWNgAZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s3VJ9ai+7HTSoYQnpcStxUrSX3HWIPiqPXLgPzVlOR3Ch88a9VhMS+x/uhbKKWnOSPIXReGmSzlY1DRfKGZH2KXOt/XshNqOBuCntT0P7MEanuuwPzGcDT8NHrEuCeucQjVQRzOLpKwE9hOrlOXbKCbSmrmE6w4Y/Hg1qHy2oWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BhrdP3Cb; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=FESHfGxDVh5Tv0xAkgO6N7BZ86HlRxQCEFrcpLM+2uCSnRMZ55sZvdxDEQbqYF5uFE1Ex6mcHjNu10FOdnfmzBPxhZGUfo4WNmaQRloa4k8BIOFFvFR3GaLQ/dne4IQFghfXRhdzuLTu7Zfwk8Qw9ov1VV35Q5syGYu5BKQvj4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DT6g0OOo; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BhrdP3Cb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DT6g0OOo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717007536; x=1748543536;
+  t=1717009401; x=1748545401;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aObcPV7/1urBW8Zs6kqX2NL+wGZSdpbLjdECccXm5wU=;
-  b=BhrdP3Cbn+L5at0/roJByW3y6+sCmCHrgzRtrNQUNIywYrMW6AEUm7WZ
-   C+u3v3XaufFEF+GJxj6hH+CjGkxCJ12KQjOB4E91ySibc5yCESS8Cz0rV
-   Oa/BgnSlGOEr2pksve5puDk89wYOv1eEXr9T1wGmkmQK/S+hkuq649uOe
-   458FS9q6nCDtZI2zUDh64OoyiElxCH6F6kSd78WpRIjPdfBkss7a3S0di
-   /nyaSLkVI+rd4dg7VSluhckz2tEtOMTIIbJfem6JZQmTZILEjpy5r0GTf
-   i/o9CGOE/0ZyBIGad83gy5LFvcvnjnYnx+qKA/wOFuolPKqryP3bJDJ23
+  bh=nSAH9Un4bXzKh3l9HjiIt9+YQ+TZpDXeEqs4OWNgAZQ=;
+  b=DT6g0OOomBNtrBjbGFR7yOUTQYIS56BUAfn1unRcy5mb/MsO5ce6uuQA
+   afO3p+ymA+rlLSCF7VE687aRGCxRyqBdnRRgd3g5Wv3Khc5Xmv6Ec3QM+
+   r9YVbqHmLXeoSir6KiA6gvtoF+q9mx/yD1TjGXmIY0FlBeV/fei7aNYTU
+   thBZX2hkj3fyk/t2h8ww4cMS/SBhAp8hC4WVO/BzGpuVbRvVptvrcsdgY
+   RYUOsVNzZucgYQijo4aF8PvvWegvz7sb/KUtgpaGz0kRGVwWNSnQFdZHn
+   2G5O6SQzggwfHcXoYyHEF30XD5+d5MW47kdYfEc+y0BaWjP2ICEzCwx3R
    g==;
-X-CSE-ConnectionGUID: 2kTfFH90RlaZclnjEi9U3g==
-X-CSE-MsgGUID: ByTKW5lNRSer9F2eAMiVqA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13254176"
+X-CSE-ConnectionGUID: 4Kl1g/TJS0qhhm++CthoNQ==
+X-CSE-MsgGUID: 4K1rD/x4TWC0tMEp2WneYA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="30939209"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="13254176"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 11:32:15 -0700
-X-CSE-ConnectionGUID: GAHPneGmQ+mSounZZzkxVQ==
-X-CSE-MsgGUID: icqJjtn6QIuE5tdr4Xna6A==
+   d="scan'208";a="30939209"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 12:03:21 -0700
+X-CSE-ConnectionGUID: qZAGOw0LQzCcq+6ITTOilg==
+X-CSE-MsgGUID: Jvv03pnKRTuXgW0AScrpeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="66726353"
+   d="scan'208";a="40394316"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 29 May 2024 11:32:14 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 May 2024 12:03:19 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCO5s-000E5P-1P;
-	Wed, 29 May 2024 18:32:12 +0000
-Date: Thu, 30 May 2024 02:31:51 +0800
+	id 1sCOZx-000E6N-0Z;
+	Wed, 29 May 2024 19:03:17 +0000
+Date: Thu, 30 May 2024 03:02:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 5/9] tlc_dp_hdcp.c:undefined reference to
- `tee_client_invoke_func'
-Message-ID: <202405300239.ITUSN5ec-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 1861/2527] /usr/bin/ld:
+ kernel/rcu/tasks.h:1472:undefined reference to `cmpxchg_emu_u8'
+Message-ID: <202405300206.tMqF4PfU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +63,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   8b97081ebca485a952dbf0187bfcefe20f71dd01
-commit: f3d25943c1d4020b0ad7f3049b57cc70ba462af7 [5/9] FROMLIST: Subject: [PATCH] drm/mediatek/dp: Add tee client application for HDCP
-config: arm-randconfig-003-20240529 (https://download.01.org/0day-ci/archive/20240530/202405300239.ITUSN5ec-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300239.ITUSN5ec-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d99040b1bc8dbf385a8aa535e9efcdf94466e19
+commit: 8046f300501578d516391059d9ded85aa883487d [1861/2527] rcu-tasks: Remove open-coded one-byte cmpxchg() emulation
+config: um-randconfig-r033-20230910 (https://download.01.org/0day-ci/archive/20240530/202405300206.tMqF4PfU-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300206.tMqF4PfU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405300239.ITUSN5ec-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405300206.tMqF4PfU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/tlc_dp_hdcp.o: in function `dp_tee_op_send':
->> tlc_dp_hdcp.c:(.text+0xf0): undefined reference to `tee_client_invoke_func'
->> arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x118): undefined reference to `tee_shm_get_va'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/tlc_dp_hdcp.o: in function `tee_remove_device':
->> tlc_dp_hdcp.c:(.text+0x250): undefined reference to `tee_shm_free'
->> arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x25c): undefined reference to `tee_client_close_session'
->> arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x264): undefined reference to `tee_client_close_context'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/tlc_dp_hdcp.o: in function `tee_add_device':
->> tlc_dp_hdcp.c:(.text+0x318): undefined reference to `tee_client_open_context'
->> arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x35c): undefined reference to `tee_client_open_session'
-   arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x3a4): undefined reference to `tee_client_close_context'
->> arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x3f0): undefined reference to `tee_shm_alloc_kernel_buf'
-   arm-linux-gnueabi-ld: tlc_dp_hdcp.c:(.text+0x42c): undefined reference to `tee_client_close_session'
+   /usr/bin/ld: kernel/rcu/update.o: in function `rcu_trc_cmpxchg_need_qs':
+   kernel/rcu/tasks.h:1472:(.text+0x1f67): undefined reference to `cmpxchg_emu_u8'
+>> /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x1fdf): undefined reference to `cmpxchg_emu_u8'
+   /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x4523): undefined reference to `cmpxchg_emu_u8'
+   /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x4573): undefined reference to `cmpxchg_emu_u8'
+   /usr/bin/ld: kernel/rcu/tasks.h:1472:(.text+0x49f3): undefined reference to `cmpxchg_emu_u8'
+   /usr/bin/ld: kernel/rcu/update.o:kernel/rcu/tasks.h:1472: more undefined references to `cmpxchg_emu_u8' follow
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
