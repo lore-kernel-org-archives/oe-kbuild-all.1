@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EAB18397C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 21:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9890717E44B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 21:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717103620; cv=none; b=u6+L+G8Cl6fxXnKhMbPWMLfijoK+pky9ymt8Wh3T9cgnYQd+o9k9MQDI2bpZfV5jvm7683mPAikzXnxCVZGyKJMQ1gJgdPLPU2BfezJPIO1VbxAUZBKW952Pf5AxkThHT1kQRjIt2803qatnhvnFsnzVJDjkaQdlpR1Yg/Daj68=
+	t=1717105053; cv=none; b=TNi3zE0n0jH7o4OviAJi9FITiNhQXm5qZQelFp/Yocv+GmUjEmf8+NsMuWxPUBLmMTEN9uD1M23e6opO/Vt8xgDHhvUpmiZYvMpYcvL/IdoMJ4f2SLt88YK0wo9LNNbhY52Ry9ANGx7dEeRmOfEyXB+Y2bBQTrYFUogC78fx8C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717103620; c=relaxed/simple;
-	bh=rF/hXWpTX0jdiIj9qgH3yAxYevC9MmDUB675ivDlxIc=;
+	s=arc-20240116; t=1717105053; c=relaxed/simple;
+	bh=XsFw7Mt1tz/SrOvoRWYGSq/sn2X882GikK6K1pky3Vg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gDq7TFNXK7Mz3NNshWt44Vd/M1RFEqa829nB2UjtELcPRi0av+eV+ydjYVDMxNn19wwNtOpHtlJJVdWbgtJvk6zinBwuQCcdHVRdgHexStRrJi06V8J1A2TB0dpVGudH1V8wnSOxfosv638GCFkXrgWdLQANfqvQz7LYjWZZziA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUhe0U3Q; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=rgTZzoPK1R5pqG0iqnTsha7eno24xFnN+n5N97pAuMeKfcsIbjDKb+WdclmXJ/1llbkl5GOB/PBfZCSN6AvNlBu+rCuTmgfc4ryOSMTMWVN6XuJLV+RhwPz3Hd1VByE8Iszfw/r5FalP8KvCQg/IK2lU08MWfllIAzp3QhTzFCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cgvyz7/O; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUhe0U3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cgvyz7/O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717103619; x=1748639619;
+  t=1717105052; x=1748641052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rF/hXWpTX0jdiIj9qgH3yAxYevC9MmDUB675ivDlxIc=;
-  b=mUhe0U3QSK8Y9no1+m7CmllnvizbwHPPVJGqMDvEUBRWtLrSZx2lsc9l
-   GOcofypRwReajPTZc5oW162vhP2AV8g39SibxyA1wBZ4N36P13z4G46C7
-   H1kWn2qgySVdAKgv+c1zAzkG6fJaCB3qndmZKqwobdJBgUyjLJJdacBt+
-   f+Sikwifg+VAgWjNtV02nghtJmVbapanklMsgH449v31zO/p6TWgD2ihU
-   pGuEud6HJR4iPAHlgfdRZfYQ6Smifz+/hCWLgFMyPpwysUZV/EtJqYpbv
-   /rZbpmoOZ83Ac8wr3aVk2R6sFnEdeAfKdxs/1aC3djFa7Mm5e1XTGgEfg
-   w==;
-X-CSE-ConnectionGUID: v7xnsjLNQEGNGouN8k5eFw==
-X-CSE-MsgGUID: 7EB2NYcXTEuJpiu+wSBsJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13498422"
+  bh=XsFw7Mt1tz/SrOvoRWYGSq/sn2X882GikK6K1pky3Vg=;
+  b=Cgvyz7/OUkhKb9j87BTw7La6CzyIph+xQlftvI7z3fK1KemFr57gvOvT
+   wbibbqLtZEP8s6n/yl5DG1LA9aJ7j9iJT1EyYvSWfZMvqpTgJ1ymHisuE
+   rdD4EG1SXN0U3jNOIeUZUu3OqC8JxnQpSYtRW0SKJkQZWkFn2GpFKW92h
+   C4oPGO7N1KQamTQDnxYQjov9jZzCyHC3rFAuHcGSR8r8JnLNN5VEZndvX
+   6aM1IvmpgSbptlraLq1jaZRcwcn+X6zPE1CFhYuFpprBlBF1eihu45eYo
+   cMDsHixNT0oWtJi9aIJVMygMFz0R8ZknMbEo8187Z0zN/pajmerdvn/Cp
+   A==;
+X-CSE-ConnectionGUID: Zax6DHEPSxWRgkb3LZxXbw==
+X-CSE-MsgGUID: PrfSnglMQMW72ilafmKfYw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24290357"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="13498422"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 14:13:37 -0700
-X-CSE-ConnectionGUID: nlU/spBfQGWupTPM4zuOow==
-X-CSE-MsgGUID: goEUW574Taq1Tc4az8cBQQ==
+   d="scan'208";a="24290357"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 14:33:49 -0700
+X-CSE-ConnectionGUID: nEr4ZfqiT/+X6V6ikO6cPA==
+X-CSE-MsgGUID: IeSNDkA7TDWm2ouAOyBj3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="40395581"
+   d="scan'208";a="35944667"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 30 May 2024 14:13:36 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 30 May 2024 14:33:47 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCn5Z-000FzN-2Y;
-	Thu, 30 May 2024 21:13:33 +0000
-Date: Fri, 31 May 2024 05:12:35 +0800
+	id 1sCnP7-000G0l-1k;
+	Thu, 30 May 2024 21:33:45 +0000
+Date: Fri, 31 May 2024 05:33:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 16561/22602]
- include/linux/uaccess.h:112:17: warning: 'pmas' may be used uninitialized
-Message-ID: <202405310530.QbRwB9XW-lkp@intel.com>
+Subject: [android-common:android13-5.15 1/3] fs/fuse/backing.c:1218:undefined
+ reference to `fuse_get_bpf_prog'
+Message-ID: <202405310502.LwiMndTe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +62,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   03933bd11a64b94203f2cbe30ae71061807872fb
-commit: 1a378b87531ea80e7847bf0105adedff28a73080 [16561/22602] mm: add pin memory method for checkpoint add restore
-config: arm64-randconfig-002-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310530.QbRwB9XW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310530.QbRwB9XW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   7ea5014410f786539cbdc8efa564732410677818
+commit: f5f4199c102aa676998b42abff60d071385c1c0c [1/3] ANDROID: fuse-bpf v1.1
+config: x86_64-randconfig-013-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310502.LwiMndTe-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310502.LwiMndTe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310530.QbRwB9XW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310502.LwiMndTe-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+All errors (new ones prefixed by >>):
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/compat.h:19,
-                    from arch/arm64/include/asm/ftrace.h:20,
-                    from include/linux/ftrace.h:21,
-                    from include/linux/kprobes.h:42,
-                    from drivers/char/pin_memory.c:8:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'set_pin_mem_area' at drivers/char/pin_memory.c:95:6:
->> include/linux/uaccess.h:112:17: warning: 'pmas' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:251,
-                    from include/linux/export.h:45,
-                    from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:7,
-                    from drivers/char/pin_memory.c:6:
-   include/linux/kasan-checks.h: In function 'set_pin_mem_area':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/pin_memory.c:90:33: note: 'pmas' declared here
-      90 |         struct pin_mem_area_set pmas;
-         |                                 ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'pin_mem_remap' at drivers/char/pin_memory.c:116:6:
->> include/linux/uaccess.h:112:17: warning: 'pid' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'pin_mem_remap':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/pin_memory.c:107:13: note: 'pid' declared here
-     107 |         int pid;
-         |             ^~~
+   ld: fs/fuse/backing.o: in function `fuse_handle_bpf_prog':
+>> fs/fuse/backing.c:1218:(.text+0xaa8e): undefined reference to `fuse_get_bpf_prog'
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
-   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
    Selected by [y]:
-   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
 
 
-vim +/pmas +112 include/linux/uaccess.h
+vim +1218 fs/fuse/backing.c
 
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-d597580d373774 Al Viro        2017-03-20  124  #ifdef INLINE_COPY_TO_USER
-d597580d373774 Al Viro        2017-03-20  125  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  126  _copy_to_user(void __user *to, const void *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  127  {
-9c5f6908de03a4 Al Viro        2017-06-29  128  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  129  	if (access_ok(to, n)) {
-9c5f6908de03a4 Al Viro        2017-06-29  130  		kasan_check_read(from, n);
-d597580d373774 Al Viro        2017-03-20  131  		n = raw_copy_to_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  132  	}
-d597580d373774 Al Viro        2017-03-20  133  	return n;
-d597580d373774 Al Viro        2017-03-20  134  }
-d597580d373774 Al Viro        2017-03-20  135  #else
-d597580d373774 Al Viro        2017-03-20  136  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  137  _copy_to_user(void __user *, const void *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  138  #endif
-d597580d373774 Al Viro        2017-03-20  139  
-d597580d373774 Al Viro        2017-03-20  140  static __always_inline unsigned long __must_check
-d597580d373774 Al Viro        2017-03-20  141  copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  142  {
-b0377fedb65280 Al Viro        2017-06-29  143  	if (likely(check_copy_size(to, n, false)))
-d597580d373774 Al Viro        2017-03-20 @144  		n = _copy_from_user(to, from, n);
-d597580d373774 Al Viro        2017-03-20  145  	return n;
-d597580d373774 Al Viro        2017-03-20  146  }
-d597580d373774 Al Viro        2017-03-20  147  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  1186	
+  1187	int fuse_handle_bpf_prog(struct fuse_entry_bpf *feb, struct inode *parent,
+  1188				 struct bpf_prog **bpf)
+  1189	{
+  1190		struct fuse_inode *pi;
+  1191	
+  1192		// Parent isn't presented, but we want to keep
+  1193		// Don't touch bpf program at all in this case
+  1194		if (feb->out.bpf_action == FUSE_ACTION_KEEP && !parent)
+  1195			goto out;
+  1196	
+  1197		if (*bpf) {
+  1198			bpf_prog_put(*bpf);
+  1199			*bpf = NULL;
+  1200		}
+  1201	
+  1202		switch (feb->out.bpf_action) {
+  1203		case FUSE_ACTION_KEEP:
+  1204			pi = get_fuse_inode(parent);
+  1205			*bpf = pi->bpf;
+  1206			if (*bpf)
+  1207				bpf_prog_inc(*bpf);
+  1208			break;
+  1209	
+  1210		case FUSE_ACTION_REMOVE:
+  1211			break;
+  1212	
+  1213		case FUSE_ACTION_REPLACE: {
+  1214			struct file *bpf_file = feb->bpf_file;
+  1215			struct bpf_prog *bpf_prog = ERR_PTR(-EINVAL);
+  1216	
+  1217			if (bpf_file && !IS_ERR(bpf_file))
+> 1218				bpf_prog = fuse_get_bpf_prog(bpf_file);
+  1219	
+  1220			if (IS_ERR(bpf_prog))
+  1221				return PTR_ERR(bpf_prog);
+  1222	
+  1223			*bpf = bpf_prog;
+  1224			break;
+  1225		}
+  1226	
+  1227		default:
+  1228			return -EINVAL;
+  1229		}
+  1230	
+  1231	out:
+  1232		return 0;
+  1233	}
+  1234	
 
 -- 
 0-DAY CI Kernel Test Service
