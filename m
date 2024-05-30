@@ -1,68 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C8B1BF31;
-	Thu, 30 May 2024 07:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9A9147C6E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 08:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717053541; cv=none; b=sOL81fkf8uzneO6x8mjyriDtflomeFqjdf4lfV3XQpd7WMPabazWoVXuzPweZZqMEA26UNvgkRv+NwmZ/TeJdo1gJdhlI7MHXf7ajg0tT93cAzPEx4wNe4oyCHO2q5ne6bvugBLKdq+yhO4RBmpXoFoaIQqp75SAsaH9vtSuZlA=
+	t=1717056759; cv=none; b=mTtL9U9akKKGXS3swfIaD/4aCcxWgOLRPQAPJoFdKNvvjgu0IgEcZmWH5Iyf8JjEYg5nTksETFxHBVDCnchf8N3Nmg0v8KAxaf2hNOnFrxScTbuljLfZj59uG1ZcdmqTTnVXu85lcPTzqCXnTjbvy5uhT9Ffiynz+afoLS9zLrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717053541; c=relaxed/simple;
-	bh=Z0xan/ivmoAPz+DU5pt3583E8qR7Fl6rcusxJ3qoYlQ=;
+	s=arc-20240116; t=1717056759; c=relaxed/simple;
+	bh=uLA4wCaq7A2u/eyrQk8XHfRRjmbUeF0S9C9i4nJzoyc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sqd+ddqVAFAHel5oTDxQV9CUjx05V1KDQSAgty590EwLLQol+iAneVfcZ5fNYlKB29w2qxT9zm5ywTGy7JKQAGE+p8IBlrXd87VZQUrD6m34gp2F/hqoPF9rqYJka5NRr+2pxoS0mFuWrAHs/Q+BnT+EWpL4FY+xzaJTuLlOxfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q83v1VUs; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=fZ3lDtz+RkpsIyxVrqY28MbDhctzKQU5YnUMeiWwZYtou4jETyjlCsw74i1nAOl/PA5O6yXOlDrigp8sRjk9l+DoEbHGTEyM78oE8KE8HYxZR7cAWjgGW8SK5I2afYbWsKLdiDNGxlvdVeB6VYD2v6kHoc06EMkLYt2Rv9B5Y/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6t/r9e7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q83v1VUs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6t/r9e7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717053539; x=1748589539;
+  t=1717056757; x=1748592757;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z0xan/ivmoAPz+DU5pt3583E8qR7Fl6rcusxJ3qoYlQ=;
-  b=Q83v1VUsL2gXB9RxHIA+F61CX2PkB5Qav3YTPgEyNiBYh0DnSEB44CHs
-   KCWspC2dalrddjHUzA06yurfl44K8zwQ/FOUsW+Y3rO87aGhWyvKBRXGT
-   vm+HqC8vVQR01M/Hi8S04qeS9Q0bJlfSDVinnQoQtPvdWOwxP/GQN0yXz
-   8Eh65rKURt0VNuZ/EDJ+1aV+v7Txuv7T/SwOnx0sqsIFFZB5f78tCB+W/
-   4MscSLmekUE7TbLHZqZISicuwRg2axxH38J87qV3LRH/pOMyFQ1Bu9SuR
-   In2Km5zdur+My2eZsEOgy/Db2c9t1dq9wr4lufTkRAqEz476WjqHkodBW
-   A==;
-X-CSE-ConnectionGUID: TWylzP+pTjOBT6xTQ3M6wA==
-X-CSE-MsgGUID: 7oQYoRAgRh2Y7RzfAMK/bA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13456970"
+  bh=uLA4wCaq7A2u/eyrQk8XHfRRjmbUeF0S9C9i4nJzoyc=;
+  b=C6t/r9e7s7cCDivHk/6SLNoYOSXrDaFxqVQyeW5GQV5vh05ebEeeLmhc
+   yu5gc2+Gex4/0qTDvo3QRJSTanXyJi3k/YtdXop1Mky+L3UQ+3fjhFIqn
+   8cT9AsH0vdy9XQrPQuP+VEDywgyHtHtLMiuvWX2jUN93o3W3P6u6Ja0gz
+   49Yae8bFcf3fuBA45gdq4fGYIVowbqTK9rUOJ/1z6eCdfoMTZJW4J8RpC
+   MyIradlU8RzZr9OrFXWscUAdChV911yHqpYt8u56Cs1eeGZ8naYRgF/96
+   6NYm+gsDNyWEbm/f1DoOZj2WxwQme/CrvnGehYsO5KdE9xe7zt8jEIIsv
+   Q==;
+X-CSE-ConnectionGUID: HN/W+rXPTq+FM+DuwH/zYQ==
+X-CSE-MsgGUID: QOyU4VIXTceLDfrkYsNQxA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17315062"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="13456970"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 00:18:59 -0700
-X-CSE-ConnectionGUID: g49QkoMFTdGWZ4Azzcrr/Q==
-X-CSE-MsgGUID: m6TjW4d7TYSZL/krcAFKKQ==
+   d="scan'208";a="17315062"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 01:12:36 -0700
+X-CSE-ConnectionGUID: hZ7dxmihRoSeywTi4GgBJQ==
+X-CSE-MsgGUID: Fypt2OqRRbuYKw1Z1ny1Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="35665727"
+   d="scan'208";a="36216189"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 30 May 2024 00:18:54 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 May 2024 01:12:34 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCa3o-000EwX-0L;
-	Thu, 30 May 2024 07:18:52 +0000
-Date: Thu, 30 May 2024 15:18:48 +0800
+	id 1sCati-000Ezu-1l;
+	Thu, 30 May 2024 08:12:30 +0000
+Date: Thu, 30 May 2024 16:12:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com,
-	robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-	dan.scally@ideasonboard.com
-Subject: Re: [PATCH v5 15/16] media: platform: Add mali-c55 parameters video
- node
-Message-ID: <202405301558.no1nWGU1-lkp@intel.com>
-References: <20240529152858.183799-16-dan.scally@ideasonboard.com>
+To: Aditya Nagesh <adityanagesh@linux.microsoft.com>,
+	adityanagesh@microsoft.com, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Aditya Nagesh <adityanagesh@linux.microsoft.com>
+Subject: Re: [PATCH v5] Drivers: hv: Cosmetic changes for hv.c and balloon.c
+Message-ID: <202405301550.DKuS2OzK-lkp@intel.com>
+References: <1716998695-32135-1-git-send-email-adityanagesh@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,169 +66,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529152858.183799-16-dan.scally@ideasonboard.com>
+In-Reply-To: <1716998695-32135-1-git-send-email-adityanagesh@linux.microsoft.com>
 
-Hi Daniel,
+Hi Aditya,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on media-tree/master]
-[cannot apply to linuxtv-media-stage/master sailus-media-tree/master linus/master sailus-media-tree/streams v6.10-rc1 next-20240529]
+[auto build test ERROR on next-20240529]
+[cannot apply to linus/master v6.10-rc1 v6.9 v6.9-rc7 v6.10-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240529-233239
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240529152858.183799-16-dan.scally%40ideasonboard.com
-patch subject: [PATCH v5 15/16] media: platform: Add mali-c55 parameters video node
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240530/202405301558.no1nWGU1-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301558.no1nWGU1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Nagesh/Drivers-hv-Cosmetic-changes-for-hv-c-and-balloon-c/20240530-000928
+base:   next-20240529
+patch link:    https://lore.kernel.org/r/1716998695-32135-1-git-send-email-adityanagesh%40linux.microsoft.com
+patch subject: [PATCH v5] Drivers: hv: Cosmetic changes for hv.c and balloon.c
+config: arm64-randconfig-002-20240530 (https://download.01.org/0day-ci/archive/20240530/202405301550.DKuS2OzK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301550.DKuS2OzK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405301558.no1nWGU1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405301550.DKuS2OzK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/arm/mali-c55/mali-c55-params.c:14:
-   In file included from include/media/videobuf2-core.h:18:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/arm/mali-c55/mali-c55-params.c:14:
-   In file included from include/media/videobuf2-core.h:18:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/arm/mali-c55/mali-c55-params.c:14:
-   In file included from include/media/videobuf2-core.h:18:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/media/platform/arm/mali-c55/mali-c55-params.c:14:
-   In file included from include/media/videobuf2-core.h:18:
-   In file included from include/linux/dma-buf.h:19:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/media/platform/arm/mali-c55/mali-c55-params.c:505:4: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
-         |                                                                        ~~~
-         |                                                                        %zu
-     505 |                         config->total_size);
-         |                         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   8 warnings generated.
+   drivers/hv/hv_balloon.c: In function 'hot_add_req':
+>> drivers/hv/hv_balloon.c:998:9: warning: "/*" within comment [-Wcomment]
+     998 |         /*
+         |          
+>> drivers/hv/hv_balloon.c:980: error: unterminated #ifdef
+     980 | #ifdef CONFIG_MEMORY_HOTPLUG
+         | 
+>> drivers/hv/hv_balloon.c:978:39: error: expected declaration or statement at end of input
+     978 |         resp.hdr.size = sizeof(struct dm_hot_add_response);
+         |                                       ^~~~~~~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:974:34: warning: unused variable 'dm' [-Wunused-variable]
+     974 |         struct hv_dynmem_device *dm = &dm_device;
+         |                                  ^~
+   drivers/hv/hv_balloon.c: At top level:
+>> drivers/hv/hv_balloon.c:575:13: warning: 'post_status' declared 'static' but never defined [-Wunused-function]
+     575 | static void post_status(struct hv_dynmem_device *dm);
+         |             ^~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:577:13: warning: 'enable_page_reporting' declared 'static' but never defined [-Wunused-function]
+     577 | static void enable_page_reporting(void);
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:579:13: warning: 'disable_page_reporting' declared 'static' but never defined [-Wunused-function]
+     579 | static void disable_page_reporting(void);
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:967:13: warning: 'hot_add_req' defined but not used [-Wunused-function]
+     967 | static void hot_add_req(struct work_struct *dummy)
+         |             ^~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:496:22: warning: 'ha_pages_in_chunk' defined but not used [-Wunused-variable]
+     496 | static unsigned long ha_pages_in_chunk;
+         |                      ^~~~~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:494:13: warning: 'balloon_up_send_buffer' defined but not used [-Wunused-variable]
+     494 | static __u8 balloon_up_send_buffer[HV_HYP_PAGE_SIZE];
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:493:13: warning: 'recv_buffer' defined but not used [-Wunused-variable]
+     493 | static __u8 recv_buffer[HV_HYP_PAGE_SIZE];
+         |             ^~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:478:12: warning: 'dm_ring_size' defined but not used [-Wunused-variable]
+     478 | static int dm_ring_size = VMBUS_RING_SIZE(16 * 1024);
+         |            ^~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:476:17: warning: 'trans_id' defined but not used [-Wunused-variable]
+     476 | static atomic_t trans_id = ATOMIC_INIT(0);
+         |                 ^~~~~~~~
+>> drivers/hv/hv_balloon.c:469:12: warning: 'hv_hypercall_multi_failure' defined but not used [-Wunused-variable]
+     469 | static int hv_hypercall_multi_failure;
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:467:22: warning: 'last_post_time' defined but not used [-Wunused-variable]
+     467 | static unsigned long last_post_time;
+         |                      ^~~~~~~~~~~~~~
+>> drivers/hv/hv_balloon.c:455:13: warning: 'do_hot_add' defined but not used [-Wunused-variable]
+     455 | static bool do_hot_add;
+         |             ^~~~~~~~~~
+>> drivers/hv/hv_balloon.c:453:13: warning: 'allow_hibernation' defined but not used [-Wunused-variable]
+     453 | static bool allow_hibernation;
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +505 drivers/media/platform/arm/mali-c55/mali-c55-params.c
+vim +980 drivers/hv/hv_balloon.c
 
-   480	
-   481	void mali_c55_params_write_config(struct mali_c55 *mali_c55)
-   482	{
-   483		struct mali_c55_params *params = &mali_c55->params;
-   484		enum vb2_buffer_state state = VB2_BUF_STATE_DONE;
-   485		struct mali_c55_params_buffer *config;
-   486		struct mali_c55_buffer *buf;
-   487		size_t block_offset = 0;
-   488	
-   489		spin_lock(&params->buffers.lock);
-   490	
-   491		buf = list_first_entry_or_null(&params->buffers.queue,
-   492					       struct mali_c55_buffer, queue);
-   493		if (buf)
-   494			list_del(&buf->queue);
-   495		spin_unlock(&params->buffers.lock);
-   496	
-   497		if (!buf)
-   498			return;
-   499	
-   500		buf->vb.sequence = mali_c55->isp.frame_sequence;
-   501		config = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-   502	
-   503		if (config->total_size > MALI_C55_PARAMS_MAX_SIZE) {
-   504			dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
- > 505				config->total_size);
-   506			state = VB2_BUF_STATE_ERROR;
-   507			goto err_buffer_done;
-   508		}
-   509	
-   510		/* Walk the list of parameter blocks and process them. */
-   511		while (block_offset < config->total_size) {
-   512			const struct mali_c55_block_handler *block_handler;
-   513			struct mali_c55_params_block_header *block;
-   514	
-   515			block = (struct mali_c55_params_block_header *)
-   516				 &config->data[block_offset];
-   517	
-   518			if (block->type >= MALI_C55_PARAM_BLOCK_SENTINEL) {
-   519				dev_dbg(mali_c55->dev, "Invalid parameters block type\n");
-   520				state = VB2_BUF_STATE_ERROR;
-   521				goto err_buffer_done;
-   522			}
-   523	
-   524			block_handler = &mali_c55_block_handlers[block->type];
-   525			if (block->size != block_handler->size) {
-   526				dev_dbg(mali_c55->dev, "Invalid parameters block size\n");
-   527				state = VB2_BUF_STATE_ERROR;
-   528				goto err_buffer_done;
-   529			}
-   530	
-   531			block_handler->handler(mali_c55, block);
-   532	
-   533			block_offset += block->size;
-   534		}
-   535	
-   536	err_buffer_done:
-   537		vb2_buffer_done(&buf->vb.vb2_buf, state);
-   538	}
-   539	
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   966  
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  @967  static void hot_add_req(struct work_struct *dummy)
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   968  {
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   969  	struct dm_hot_add_response resp;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   970  #ifdef CONFIG_MEMORY_HOTPLUG
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   971  	unsigned long pg_start, pfn_cnt;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   972  	unsigned long rg_start, rg_sz;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   973  #endif
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  @974  	struct hv_dynmem_device *dm = &dm_device;
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   975  
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   976  	memset(&resp, 0, sizeof(struct dm_hot_add_response));
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   977  	resp.hdr.type = DM_MEM_HOT_ADD_RESPONSE;
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  @978  	resp.hdr.size = sizeof(struct dm_hot_add_response);
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   979  
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  @980  #ifdef CONFIG_MEMORY_HOTPLUG
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   981  	pg_start = dm->ha_wrk.ha_page_range.finfo.start_page;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   982  	pfn_cnt = dm->ha_wrk.ha_page_range.finfo.page_cnt;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   983  
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   984  	rg_start = dm->ha_wrk.ha_region_range.finfo.start_page;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   985  	rg_sz = dm->ha_wrk.ha_region_range.finfo.page_cnt;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   986  
+1aa0ebde593dfb1 Aditya Nagesh    2024-05-29   987  	if (rg_start == 0 && !dm->host_specified_ha_region) {
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   988  		/*
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   989  		 * Based on the hot-add page range being specified,
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   990  	}
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   991  
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18   992  	if (do_hot_add)
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   993  		resp.page_count = process_hot_add(pg_start, pfn_cnt,
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   994  						  rg_start, rg_sz);
+549fd280b145e21 Vitaly Kuznetsov 2015-02-28   995  
+549fd280b145e21 Vitaly Kuznetsov 2015-02-28   996  	dm->num_pages_added += resp.page_count;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   997  #endif
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  @998  	/*
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18   999  	 * The result field of the response structure has the
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1000  	 * following semantics:
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1001  	 *
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1002  	 * 1. If all or some pages hot-added: Guest should return success.
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1003  	 *
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1004  	 * 2. If no pages could be hot-added:
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1005  	 *
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1006  	 * If the guest returns success, then the host
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1007  	 * will not attempt any further hot-add operations. This
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1008  	 * signifies a permanent failure.
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1009  	 *
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1010  	 * If the guest returns failure, then this failure will be
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1011  	 * treated as a transient failure and the host may retry the
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1012  	 * hot-add operation after some delay.
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1013  	 */
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1014  	if (resp.page_count > 0)
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1015  		resp.result = 1;
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1016  	else if (!do_hot_add)
+7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1017  		resp.result = 1;
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1018  	else
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1019  		resp.result = 0;
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1020  
+25bd2b2f1f05347 Dexuan Cui       2019-11-19  1021  	if (!do_hot_add || resp.page_count == 0) {
+25bd2b2f1f05347 Dexuan Cui       2019-11-19  1022  		if (!allow_hibernation)
+223e1e4d2c16fed Vitaly Kuznetsov 2018-03-04  1023  			pr_err("Memory hot add failed\n");
+25bd2b2f1f05347 Dexuan Cui       2019-11-19  1024  		else
+25bd2b2f1f05347 Dexuan Cui       2019-11-19  1025  			pr_info("Ignore hot-add request!\n");
+25bd2b2f1f05347 Dexuan Cui       2019-11-19  1026  	}
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1027  
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1028  	dm->state = DM_INITIALIZED;
+20138d6cb838aa0 K. Y. Srinivasan 2013-07-17  1029  	resp.hdr.trans_id = atomic_inc_return(&trans_id);
+1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1030  	vmbus_sendpacket(dm->dev->channel, &resp,
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1031  			sizeof(struct dm_hot_add_response),
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1032  			(unsigned long)NULL,
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1033  			VM_PKT_DATA_INBAND, 0);
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1034  }
+9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1035  
 
 -- 
 0-DAY CI Kernel Test Service
