@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9A9147C6E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 08:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B19E18398D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 08:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717056759; cv=none; b=mTtL9U9akKKGXS3swfIaD/4aCcxWgOLRPQAPJoFdKNvvjgu0IgEcZmWH5Iyf8JjEYg5nTksETFxHBVDCnchf8N3Nmg0v8KAxaf2hNOnFrxScTbuljLfZj59uG1ZcdmqTTnVXu85lcPTzqCXnTjbvy5uhT9Ffiynz+afoLS9zLrE=
+	t=1717059559; cv=none; b=VC6C07yusYhK51ZtsPVKBz5GG5JX0RqVxe31Uo6sF8M1l6cSksrztEAvjTp0jBXgqKduXXGIlIRpdQi8cXKL55scHz5SxUHW4+0/g0DTY9zMi36iOtHhe8jvWqbbqfKubY1LTM4Ilf2dlyPqtcMoABKi9zea7EJ7hjhMC+rMVHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717056759; c=relaxed/simple;
-	bh=uLA4wCaq7A2u/eyrQk8XHfRRjmbUeF0S9C9i4nJzoyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fZ3lDtz+RkpsIyxVrqY28MbDhctzKQU5YnUMeiWwZYtou4jETyjlCsw74i1nAOl/PA5O6yXOlDrigp8sRjk9l+DoEbHGTEyM78oE8KE8HYxZR7cAWjgGW8SK5I2afYbWsKLdiDNGxlvdVeB6VYD2v6kHoc06EMkLYt2Rv9B5Y/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6t/r9e7; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1717059559; c=relaxed/simple;
+	bh=7erkCVuFmRPNhc2qmyC6rDS4204oLjDjOJVwHrs41Hc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oZdiEDGRy7FhiT/rAKeIBi+s4FTivqCyeVHkxdngMRtLADLTN6ksE6dUyf+6gItMXO1TjkPsHS+fIDMGSdLIeADPGCAXLyLQG4Awl8KH+wOoO1d+OZC4P7wNRzokm8yxGiTKvEg/gUfqGSE9G6NnzeYA6+OyRyets4kGcw9su5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhaFARnI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6t/r9e7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhaFARnI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717056757; x=1748592757;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uLA4wCaq7A2u/eyrQk8XHfRRjmbUeF0S9C9i4nJzoyc=;
-  b=C6t/r9e7s7cCDivHk/6SLNoYOSXrDaFxqVQyeW5GQV5vh05ebEeeLmhc
-   yu5gc2+Gex4/0qTDvo3QRJSTanXyJi3k/YtdXop1Mky+L3UQ+3fjhFIqn
-   8cT9AsH0vdy9XQrPQuP+VEDywgyHtHtLMiuvWX2jUN93o3W3P6u6Ja0gz
-   49Yae8bFcf3fuBA45gdq4fGYIVowbqTK9rUOJ/1z6eCdfoMTZJW4J8RpC
-   MyIradlU8RzZr9OrFXWscUAdChV911yHqpYt8u56Cs1eeGZ8naYRgF/96
-   6NYm+gsDNyWEbm/f1DoOZj2WxwQme/CrvnGehYsO5KdE9xe7zt8jEIIsv
-   Q==;
-X-CSE-ConnectionGUID: HN/W+rXPTq+FM+DuwH/zYQ==
-X-CSE-MsgGUID: QOyU4VIXTceLDfrkYsNQxA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17315062"
+  t=1717059557; x=1748595557;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7erkCVuFmRPNhc2qmyC6rDS4204oLjDjOJVwHrs41Hc=;
+  b=OhaFARnIE+ZB/cj9EtIEY+ARzhY5OaiZf2vHvgO+Tw5b5QtuLJbmFqex
+   u78ustjTJu2jF7y94on6gNq6u7Ugy+NDR1CSwjG0foiNuufC4zXHZ1pKW
+   w1J8zIIq4rDh8ecO5/xcdQeSaxYgSUeNLPfiAXPqSsTCVqldraoBBEq8u
+   nlqZsRW1VyEByoAVZHF6W5XmyQVUC5ayTYozlKkxXJ1zfVWIwfo01oqWq
+   5Bg9+IZ3NDMBvdcQ4HPfaG7ukftG6AHlSPA1wPEBABFlAhdJxxrI/SOjw
+   2IYmFXMix1cvZAakK3l4SuPuirO60uRW+dNWJqMxM68Xc3LXfqbov91qo
+   A==;
+X-CSE-ConnectionGUID: WNETN1i4SYK9fNX6XgJ7Kg==
+X-CSE-MsgGUID: e8pnc/M9RmOZpiLM7m0Mag==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24134313"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="17315062"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 01:12:36 -0700
-X-CSE-ConnectionGUID: hZ7dxmihRoSeywTi4GgBJQ==
-X-CSE-MsgGUID: Fypt2OqRRbuYKw1Z1ny1Yw==
+   d="scan'208";a="24134313"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 01:59:17 -0700
+X-CSE-ConnectionGUID: ZJvcr5FRQlqrZhVw3PU7Kw==
+X-CSE-MsgGUID: bFtEh0kmSoqVMhelQcrAng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="36216189"
+   d="scan'208";a="40621900"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 30 May 2024 01:12:34 -0700
+  by orviesa003.jf.intel.com with ESMTP; 30 May 2024 01:59:16 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCati-000Ezu-1l;
-	Thu, 30 May 2024 08:12:30 +0000
-Date: Thu, 30 May 2024 16:12:07 +0800
+	id 1sCbZr-000F2j-0l;
+	Thu, 30 May 2024 08:57:37 +0000
+Date: Thu, 30 May 2024 16:55:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditya Nagesh <adityanagesh@linux.microsoft.com>,
-	adityanagesh@microsoft.com, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Aditya Nagesh <adityanagesh@linux.microsoft.com>
-Subject: Re: [PATCH v5] Drivers: hv: Cosmetic changes for hv.c and balloon.c
-Message-ID: <202405301550.DKuS2OzK-lkp@intel.com>
-References: <1716998695-32135-1-git-send-email-adityanagesh@linux.microsoft.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-block:scsi-ulp-limits 10/13] drivers/scsi/sd.c:3689:9: error:
+ too many arguments to function 'sd_set_flush_flag'
+Message-ID: <202405301629.T1wsZryk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,160 +61,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1716998695-32135-1-git-send-email-adityanagesh@linux.microsoft.com>
 
-Hi Aditya,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240529]
-[cannot apply to linus/master v6.10-rc1 v6.9 v6.9-rc7 v6.10-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Nagesh/Drivers-hv-Cosmetic-changes-for-hv-c-and-balloon-c/20240530-000928
-base:   next-20240529
-patch link:    https://lore.kernel.org/r/1716998695-32135-1-git-send-email-adityanagesh%40linux.microsoft.com
-patch subject: [PATCH v5] Drivers: hv: Cosmetic changes for hv.c and balloon.c
-config: arm64-randconfig-002-20240530 (https://download.01.org/0day-ci/archive/20240530/202405301550.DKuS2OzK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301550.DKuS2OzK-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/block.git scsi-ulp-limits
+head:   beb731a409c206c822327f03aa100a81fad9dc2a
+commit: 6fbf4b9bfce23260dcdf0a44f9de066ec3794ff2 [10/13] sd: convert to the atomic queue limits API
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240530/202405301629.T1wsZryk-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301629.T1wsZryk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405301550.DKuS2OzK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405301629.T1wsZryk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hv/hv_balloon.c: In function 'hot_add_req':
->> drivers/hv/hv_balloon.c:998:9: warning: "/*" within comment [-Wcomment]
-     998 |         /*
-         |          
->> drivers/hv/hv_balloon.c:980: error: unterminated #ifdef
-     980 | #ifdef CONFIG_MEMORY_HOTPLUG
-         | 
->> drivers/hv/hv_balloon.c:978:39: error: expected declaration or statement at end of input
-     978 |         resp.hdr.size = sizeof(struct dm_hot_add_response);
-         |                                       ^~~~~~~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:974:34: warning: unused variable 'dm' [-Wunused-variable]
-     974 |         struct hv_dynmem_device *dm = &dm_device;
-         |                                  ^~
-   drivers/hv/hv_balloon.c: At top level:
->> drivers/hv/hv_balloon.c:575:13: warning: 'post_status' declared 'static' but never defined [-Wunused-function]
-     575 | static void post_status(struct hv_dynmem_device *dm);
-         |             ^~~~~~~~~~~
->> drivers/hv/hv_balloon.c:577:13: warning: 'enable_page_reporting' declared 'static' but never defined [-Wunused-function]
-     577 | static void enable_page_reporting(void);
-         |             ^~~~~~~~~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:579:13: warning: 'disable_page_reporting' declared 'static' but never defined [-Wunused-function]
-     579 | static void disable_page_reporting(void);
-         |             ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:967:13: warning: 'hot_add_req' defined but not used [-Wunused-function]
-     967 | static void hot_add_req(struct work_struct *dummy)
-         |             ^~~~~~~~~~~
->> drivers/hv/hv_balloon.c:496:22: warning: 'ha_pages_in_chunk' defined but not used [-Wunused-variable]
-     496 | static unsigned long ha_pages_in_chunk;
-         |                      ^~~~~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:494:13: warning: 'balloon_up_send_buffer' defined but not used [-Wunused-variable]
-     494 | static __u8 balloon_up_send_buffer[HV_HYP_PAGE_SIZE];
-         |             ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:493:13: warning: 'recv_buffer' defined but not used [-Wunused-variable]
-     493 | static __u8 recv_buffer[HV_HYP_PAGE_SIZE];
-         |             ^~~~~~~~~~~
->> drivers/hv/hv_balloon.c:478:12: warning: 'dm_ring_size' defined but not used [-Wunused-variable]
-     478 | static int dm_ring_size = VMBUS_RING_SIZE(16 * 1024);
-         |            ^~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:476:17: warning: 'trans_id' defined but not used [-Wunused-variable]
-     476 | static atomic_t trans_id = ATOMIC_INIT(0);
-         |                 ^~~~~~~~
->> drivers/hv/hv_balloon.c:469:12: warning: 'hv_hypercall_multi_failure' defined but not used [-Wunused-variable]
-     469 | static int hv_hypercall_multi_failure;
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:467:22: warning: 'last_post_time' defined but not used [-Wunused-variable]
-     467 | static unsigned long last_post_time;
-         |                      ^~~~~~~~~~~~~~
->> drivers/hv/hv_balloon.c:455:13: warning: 'do_hot_add' defined but not used [-Wunused-variable]
-     455 | static bool do_hot_add;
-         |             ^~~~~~~~~~
->> drivers/hv/hv_balloon.c:453:13: warning: 'allow_hibernation' defined but not used [-Wunused-variable]
-     453 | static bool allow_hibernation;
+   drivers/scsi/sd.c: In function 'sd_revalidate_disk':
+>> drivers/scsi/sd.c:3689:9: error: too many arguments to function 'sd_set_flush_flag'
+    3689 |         sd_set_flush_flag(sdkp, &lim);
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/scsi/sd.c:123:13: note: declared here
+     123 | static void sd_set_flush_flag(struct scsi_disk *sdkp)
          |             ^~~~~~~~~~~~~~~~~
 
 
-vim +980 drivers/hv/hv_balloon.c
+vim +/sd_set_flush_flag +3689 drivers/scsi/sd.c
 
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   966  
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  @967  static void hot_add_req(struct work_struct *dummy)
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   968  {
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   969  	struct dm_hot_add_response resp;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   970  #ifdef CONFIG_MEMORY_HOTPLUG
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   971  	unsigned long pg_start, pfn_cnt;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   972  	unsigned long rg_start, rg_sz;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   973  #endif
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  @974  	struct hv_dynmem_device *dm = &dm_device;
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   975  
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   976  	memset(&resp, 0, sizeof(struct dm_hot_add_response));
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   977  	resp.hdr.type = DM_MEM_HOT_ADD_RESPONSE;
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  @978  	resp.hdr.size = sizeof(struct dm_hot_add_response);
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14   979  
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  @980  #ifdef CONFIG_MEMORY_HOTPLUG
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   981  	pg_start = dm->ha_wrk.ha_page_range.finfo.start_page;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   982  	pfn_cnt = dm->ha_wrk.ha_page_range.finfo.page_cnt;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   983  
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   984  	rg_start = dm->ha_wrk.ha_region_range.finfo.start_page;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   985  	rg_sz = dm->ha_wrk.ha_region_range.finfo.page_cnt;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   986  
-1aa0ebde593dfb1 Aditya Nagesh    2024-05-29   987  	if (rg_start == 0 && !dm->host_specified_ha_region) {
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   988  		/*
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   989  		 * Based on the hot-add page range being specified,
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   990  	}
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   991  
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18   992  	if (do_hot_add)
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   993  		resp.page_count = process_hot_add(pg_start, pfn_cnt,
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   994  						  rg_start, rg_sz);
-549fd280b145e21 Vitaly Kuznetsov 2015-02-28   995  
-549fd280b145e21 Vitaly Kuznetsov 2015-02-28   996  	dm->num_pages_added += resp.page_count;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15   997  #endif
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  @998  	/*
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18   999  	 * The result field of the response structure has the
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1000  	 * following semantics:
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1001  	 *
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1002  	 * 1. If all or some pages hot-added: Guest should return success.
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1003  	 *
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1004  	 * 2. If no pages could be hot-added:
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1005  	 *
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1006  	 * If the guest returns success, then the host
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1007  	 * will not attempt any further hot-add operations. This
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1008  	 * signifies a permanent failure.
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1009  	 *
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1010  	 * If the guest returns failure, then this failure will be
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1011  	 * treated as a transient failure and the host may retry the
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1012  	 * hot-add operation after some delay.
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1013  	 */
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1014  	if (resp.page_count > 0)
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1015  		resp.result = 1;
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1016  	else if (!do_hot_add)
-7f4f2302a11173d K. Y. Srinivasan 2013-03-18  1017  		resp.result = 1;
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1018  	else
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1019  		resp.result = 0;
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1020  
-25bd2b2f1f05347 Dexuan Cui       2019-11-19  1021  	if (!do_hot_add || resp.page_count == 0) {
-25bd2b2f1f05347 Dexuan Cui       2019-11-19  1022  		if (!allow_hibernation)
-223e1e4d2c16fed Vitaly Kuznetsov 2018-03-04  1023  			pr_err("Memory hot add failed\n");
-25bd2b2f1f05347 Dexuan Cui       2019-11-19  1024  		else
-25bd2b2f1f05347 Dexuan Cui       2019-11-19  1025  			pr_info("Ignore hot-add request!\n");
-25bd2b2f1f05347 Dexuan Cui       2019-11-19  1026  	}
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1027  
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1028  	dm->state = DM_INITIALIZED;
-20138d6cb838aa0 K. Y. Srinivasan 2013-07-17  1029  	resp.hdr.trans_id = atomic_inc_return(&trans_id);
-1cac8cd4d146b60 K. Y. Srinivasan 2013-03-15  1030  	vmbus_sendpacket(dm->dev->channel, &resp,
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1031  			sizeof(struct dm_hot_add_response),
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1032  			(unsigned long)NULL,
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1033  			VM_PKT_DATA_INBAND, 0);
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1034  }
-9aa8b50b2b3d3a7 K. Y. Srinivasan 2012-11-14  1035  
+  3605	
+  3606	/**
+  3607	 *	sd_revalidate_disk - called the first time a new disk is seen,
+  3608	 *	performs disk spin up, read_capacity, etc.
+  3609	 *	@disk: struct gendisk we care about
+  3610	 **/
+  3611	static int sd_revalidate_disk(struct gendisk *disk)
+  3612	{
+  3613		struct scsi_disk *sdkp = scsi_disk(disk);
+  3614		struct scsi_device *sdp = sdkp->device;
+  3615		struct request_queue *q = sdkp->disk->queue;
+  3616		sector_t old_capacity = sdkp->capacity;
+  3617		struct queue_limits lim;
+  3618		unsigned char *buffer;
+  3619		unsigned int dev_max;
+  3620		int err;
+  3621	
+  3622		SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
+  3623					      "sd_revalidate_disk\n"));
+  3624	
+  3625		/*
+  3626		 * If the device is offline, don't try and read capacity or any
+  3627		 * of the other niceties.
+  3628		 */
+  3629		if (!scsi_device_online(sdp))
+  3630			goto out;
+  3631	
+  3632		buffer = kmalloc(SD_BUF_SIZE, GFP_KERNEL);
+  3633		if (!buffer) {
+  3634			sd_printk(KERN_WARNING, sdkp, "sd_revalidate_disk: Memory "
+  3635				  "allocation failure.\n");
+  3636			goto out;
+  3637		}
+  3638	
+  3639		sd_spinup_disk(sdkp);
+  3640	
+  3641		lim = queue_limits_start_update(sdkp->disk->queue);
+  3642	
+  3643		/*
+  3644		 * Without media there is no reason to ask; moreover, some devices
+  3645		 * react badly if we do.
+  3646		 */
+  3647		if (sdkp->media_present) {
+  3648			sd_read_capacity(sdkp, &lim, buffer);
+  3649			/*
+  3650			 * Some USB/UAS devices return generic values for mode pages
+  3651			 * until the media has been accessed. Trigger a READ operation
+  3652			 * to force the device to populate mode pages.
+  3653			 */
+  3654			if (sdp->read_before_ms)
+  3655				sd_read_block_zero(sdkp);
+  3656			/*
+  3657			 * set the default to rotational.  All non-rotational devices
+  3658			 * support the block characteristics VPD page, which will
+  3659			 * cause this to be updated correctly and any device which
+  3660			 * doesn't support it should be treated as rotational.
+  3661			 */
+  3662			blk_queue_flag_clear(QUEUE_FLAG_NONROT, q);
+  3663			blk_queue_flag_set(QUEUE_FLAG_ADD_RANDOM, q);
+  3664	
+  3665			if (scsi_device_supports_vpd(sdp)) {
+  3666				sd_read_block_provisioning(sdkp);
+  3667				sd_read_block_limits(sdkp, &lim);
+  3668				sd_read_block_limits_ext(sdkp);
+  3669				sd_read_block_characteristics(sdkp, &lim);
+  3670				sd_zbc_read_zones(sdkp, &lim, buffer);
+  3671				sd_read_cpr(sdkp);
+  3672			}
+  3673	
+  3674			sd_print_capacity(sdkp, old_capacity);
+  3675	
+  3676			sd_read_write_protect_flag(sdkp, buffer);
+  3677			sd_read_cache_type(sdkp, buffer);
+  3678			sd_read_io_hints(sdkp, buffer);
+  3679			sd_read_app_tag_own(sdkp, buffer);
+  3680			sd_read_write_same(sdkp, buffer);
+  3681			sd_read_security(sdkp, buffer);
+  3682			sd_config_protection(sdkp);
+  3683		}
+  3684	
+  3685		/*
+  3686		 * We now have all cache related info, determine how we deal
+  3687		 * with flush requests.
+  3688		 */
+> 3689		sd_set_flush_flag(sdkp, &lim);
+  3690	
+  3691		/* Initial block count limit based on CDB TRANSFER LENGTH field size. */
+  3692		dev_max = sdp->use_16_for_rw ? SD_MAX_XFER_BLOCKS : SD_DEF_XFER_BLOCKS;
+  3693	
+  3694		/* Some devices report a maximum block count for READ/WRITE requests. */
+  3695		dev_max = min_not_zero(dev_max, sdkp->max_xfer_blocks);
+  3696		lim.max_dev_sectors = logical_to_sectors(sdp, dev_max);
+  3697	
+  3698		if (sd_validate_min_xfer_size(sdkp))
+  3699			lim.io_min = logical_to_bytes(sdp, sdkp->min_xfer_blocks);
+  3700		else
+  3701			lim.io_min = 0;
+  3702	
+  3703		/*
+  3704		 * Limit default to SCSI host optimal sector limit if set. There may be
+  3705		 * an impact on performance for when the size of a request exceeds this
+  3706		 * host limit.
+  3707		 */
+  3708		lim.io_opt = sdp->host->opt_sectors << SECTOR_SHIFT;
+  3709		if (sd_validate_opt_xfer_size(sdkp, dev_max)) {
+  3710			lim.io_opt = min_not_zero(lim.io_opt,
+  3711					logical_to_bytes(sdp, sdkp->opt_xfer_blocks));
+  3712		}
+  3713	
+  3714		sdkp->first_scan = 0;
+  3715	
+  3716		set_capacity_and_notify(disk, logical_to_sectors(sdp, sdkp->capacity));
+  3717		sd_config_write_same(sdkp, &lim);
+  3718		kfree(buffer);
+  3719	
+  3720		blk_mq_freeze_queue(sdkp->disk->queue);
+  3721		err = queue_limits_commit_update(sdkp->disk->queue, &lim);
+  3722		blk_mq_unfreeze_queue(sdkp->disk->queue);
+  3723		if (err)
+  3724			return err;
+  3725	
+  3726		/*
+  3727		 * For a zoned drive, revalidating the zones can be done only once
+  3728		 * the gendisk capacity is set. So if this fails, set back the gendisk
+  3729		 * capacity to 0.
+  3730		 */
+  3731		if (sd_zbc_revalidate_zones(sdkp))
+  3732			set_capacity_and_notify(disk, 0);
+  3733	
+  3734	 out:
+  3735		return 0;
+  3736	}
+  3737	
 
 -- 
 0-DAY CI Kernel Test Service
