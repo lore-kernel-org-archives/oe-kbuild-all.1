@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E2183969
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 09:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2025118398C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 09:06:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717059984; cv=none; b=HcZhGN7PrcUUg34JTTdEDqA+ZXKgCX9gglpHJf5EH/sXSSV+Ne4/wfOiLN/veoK6ni+mX6+LncnecZPxd4qRKRk7VzXz4cIKaCU9jRAxGCDtdQYZdFOyD4zC6H7xo6Qs5SY1QM+1ZnTv5oBDQjYyTLpiQt5y2k+qhtULdisfH0I=
+	t=1717059986; cv=none; b=Pvn64UOX1F4y6uyXEky8k+U4zGaqbWIG3+M9z01licAvA0dN7hZm5kyzGJ5NuJVnO1MeYro1RGFVNWNSFkCc2ijdRk3/zhwqdFBtzxak+LkxvpQmhI6k0o72JWAmrsLZNNHc66s/X5K382iusnHwjKS6pvvc/A72C7dtZOFH5hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717059984; c=relaxed/simple;
-	bh=6l3+p4NSvOUE9t1ohwKUVidYq/uYDStWZq7KZRvzydQ=;
+	s=arc-20240116; t=1717059986; c=relaxed/simple;
+	bh=guL/lqICiu7SNITBX9O9XDOs/dycOTc74JgKd45RPlk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bAq3lxkjHuCEWbjJfzfl2IoUeOnArJpc2O2eQlpqRzAygP/vJ6r4iCqjaWEiITygXCJRmLK2VYN9p7GKQqDYNaxy1GkVZbFGAyU5bGMAglzpBFJ2azb2FA8ZeoUHVcKOBXP2ttxiMfB4H6EYoy7dfHp4aodlVfgCcbudEN3BRLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8vra/ZY; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=HP+Ts0Pj6MxP4XYN7gsGSrDO2FAF1xUMPpIwRP91JDvkLP9tn8/WB0MI0GXDBAHO5BDZN4vQWHJjMK2WJzj0ARr3w8oE/RsBCGVo/tGJ7UxDV78qJnvbDvdxppdOFJIM+L/YIs24rzqZ5SO2eq73XRZaWTn4KvsyfyUSsqwAHp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+evLled; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8vra/ZY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+evLled"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717059982; x=1748595982;
+  t=1717059984; x=1748595984;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6l3+p4NSvOUE9t1ohwKUVidYq/uYDStWZq7KZRvzydQ=;
-  b=k8vra/ZYS9kZEWLd04lQwSD6hq9iiOG5+fXP0nd+PlwWnWHRInbYx/VN
-   kPkyF+9NjXtMsipGczltRh6cnuYMqLvvN4V02toQ23jByZvEiRaDVSP/i
-   3TPq8JaBnalHU6UkkRor3X40vL9vDL+NftMslCgcUEaPrh7B6NEitXUud
-   0KAyhyG/R0oyvX4Qr8FxHZF7gBo8QrA7e5AMZPA8v8Mtzhd8jTVl2XLy/
-   vCOVl6CGwdR2WiBO6svW3WsXuHLriRVQvgWKwjjnOD0YweOQDGq2otDoc
-   6uIQkhdgoTXe6LDaqJwSQpDdqQ5L79yjMAG9HLl2WHpazeWbVTl6AR706
-   w==;
-X-CSE-ConnectionGUID: Wl27HKw7QNCpOzHcp+Rj6w==
-X-CSE-MsgGUID: JiPms7V2Q1SqDcPvrdKwYA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24939232"
+  bh=guL/lqICiu7SNITBX9O9XDOs/dycOTc74JgKd45RPlk=;
+  b=F+evLledz+ryc+olVr795fsvVxaeK1VB4KgRINOi2O73HCAj0s+A4Odl
+   UBSh5IgJ+QBUOhd0J7Hj+L4T81Jl81E6008Q94ryIHkFZeAF7Q71UeMlZ
+   xyOirOjU3lJo6b1oM9CYa92/ef6+6A0gC/OVop+EuEHevzfsO0bEk4wMU
+   V+WEYD4ZHbOo5eUjXyoJ0/DEH5htpdXwv5jsuJZHxCUCjd9CfCdFv/ozU
+   7RHRDvTaJ3rLOtS8ap1SMEai/bfUaEOBhJXJZgARxyeTQOrb9kvTBJi7Q
+   JFGRVod6/EUQaA5HvRokGR+XdMgFcdL0zv/1nITmRnyb00C9mfuJTQNHl
+   g==;
+X-CSE-ConnectionGUID: il0A+9YaS+qWZxjyeYrxJg==
+X-CSE-MsgGUID: 0YSuPRxmQk6GjkF6MPORUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24939230"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="24939232"
+   d="scan'208";a="24939230"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 02:06:19 -0700
-X-CSE-ConnectionGUID: l52WcXfsTySd1vbgG5BNNA==
-X-CSE-MsgGUID: 7WIcrcIaSw6eVKok4toNLQ==
+X-CSE-ConnectionGUID: BU0k80s2QsSC1UTVLq4CRw==
+X-CSE-MsgGUID: 1wPvIbyjSMiB5q6/9uPZ6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="35692461"
+   d="scan'208";a="35692462"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by orviesa010.jf.intel.com with ESMTP; 30 May 2024 02:06:18 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCbjj-000F2v-0m;
+	id 1sCbjj-000F2x-0r;
 	Thu, 30 May 2024 09:06:15 +0000
-Date: Thu, 30 May 2024 17:05:37 +0800
+Date: Thu, 30 May 2024 17:05:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
+To: Mark Rutland <mark.rutland@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 19767/22580] fs/cifs/transport.c:108
- _cifs_mid_q_entry_release() warn: always true condition
- '(((midEntry->command)) >= 0) => (0-u16max >= 0)'
-Message-ID: <202405301643.qKz6P2N2-lkp@intel.com>
+Subject: [mark:arm64/gicv3-nmi-prio 2/4] drivers/irqchip/irq-gic.c:611:37:
+ sparse: sparse: cast truncates bits from constant value (a0a0a0a0a0a0a0a0
+ becomes a0a0a0a0)
+Message-ID: <202405301615.ye2brv8r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +63,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   001f12b6928e25e5551ad2fbae86556c280757a1
-commit: 28b546c67ad5b05406ea31184515152c8b0abeba [19767/22580] CIFS: Fix retry mid list corruption on reconnects
-config: x86_64-randconfig-161-20240530 (https://download.01.org/0day-ci/archive/20240530/202405301643.qKz6P2N2-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Mark,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/gicv3-nmi-prio
+head:   4b2d73625bdecefd2c83bc438a875de2cdeac00e
+commit: 1ba736ea6b5862ec5b389646c7de0d5db52f2910 [2/4] irqchip/gic-v3: make distributor priorities variables
+config: arm64-randconfig-r123-20240530 (https://download.01.org/0day-ci/archive/20240530/202405301615.ye2brv8r-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce: (https://download.01.org/0day-ci/archive/20240530/202405301615.ye2brv8r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405301643.qKz6P2N2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405301615.ye2brv8r-lkp@intel.com/
 
-smatch warnings:
-fs/cifs/transport.c:108 _cifs_mid_q_entry_release() warn: always true condition '(((midEntry->command)) >= 0) => (0-u16max >= 0)'
+sparse warnings: (new ones prefixed by >>)
+   drivers/irqchip/irq-gic.c:1172:44: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu *[noderef] __iomem *percpu_base @@     got void [noderef] __iomem *[noderef] __percpu * @@
+   drivers/irqchip/irq-gic.c:1172:44: sparse:     expected void [noderef] __percpu *[noderef] __iomem *percpu_base
+   drivers/irqchip/irq-gic.c:1172:44: sparse:     got void [noderef] __iomem *[noderef] __percpu *
+   drivers/irqchip/irq-gic.c:1173:43: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu *[noderef] __iomem *percpu_base @@     got void [noderef] __iomem *[noderef] __percpu * @@
+   drivers/irqchip/irq-gic.c:1173:43: sparse:     expected void [noderef] __percpu *[noderef] __iomem *percpu_base
+   drivers/irqchip/irq-gic.c:1173:43: sparse:     got void [noderef] __iomem *[noderef] __percpu *
+   drivers/irqchip/irq-gic.c:1184:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got void [noderef] __percpu *[noderef] __iomem * @@
+   drivers/irqchip/irq-gic.c:1184:26: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/irqchip/irq-gic.c:1184:26: sparse:     got void [noderef] __percpu *[noderef] __iomem *
+   drivers/irqchip/irq-gic.c:1184:71: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu * @@     got void [noderef] __iomem * @@
+   drivers/irqchip/irq-gic.c:1184:71: sparse:     expected void [noderef] __percpu *
+   drivers/irqchip/irq-gic.c:1184:71: sparse:     got void [noderef] __iomem *
+   drivers/irqchip/irq-gic.c:1186:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got void [noderef] __percpu *[noderef] __iomem * @@
+   drivers/irqchip/irq-gic.c:1186:26: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/irqchip/irq-gic.c:1186:26: sparse:     got void [noderef] __percpu *[noderef] __iomem *
+   drivers/irqchip/irq-gic.c:1186:70: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu * @@     got void [noderef] __iomem * @@
+   drivers/irqchip/irq-gic.c:1186:70: sparse:     expected void [noderef] __percpu *
+   drivers/irqchip/irq-gic.c:1186:70: sparse:     got void [noderef] __iomem *
+   drivers/irqchip/irq-gic.c:1231:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got void [noderef] __percpu *[noderef] __iomem *percpu_base @@
+   drivers/irqchip/irq-gic.c:1231:43: sparse:     expected void [noderef] __percpu *__pdata
+   drivers/irqchip/irq-gic.c:1231:43: sparse:     got void [noderef] __percpu *[noderef] __iomem *percpu_base
+   drivers/irqchip/irq-gic.c:1232:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got void [noderef] __percpu *[noderef] __iomem *percpu_base @@
+   drivers/irqchip/irq-gic.c:1232:42: sparse:     expected void [noderef] __percpu *__pdata
+   drivers/irqchip/irq-gic.c:1232:42: sparse:     got void [noderef] __percpu *[noderef] __iomem *percpu_base
+   drivers/irqchip/irq-gic.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/irqchip/irq-gic.c:611:37: sparse: sparse: cast truncates bits from constant value (a0a0a0a0a0a0a0a0 becomes a0a0a0a0)
+   drivers/irqchip/irq-gic.c:700:37: sparse: sparse: cast truncates bits from constant value (a0a0a0a0a0a0a0a0 becomes a0a0a0a0)
 
-vim +108 fs/cifs/transport.c
+vim +611 drivers/irqchip/irq-gic.c
 
-^1da177e4c3f415 Linus Torvalds  2005-04-16   85  
-696e420bb2a6624 Lars Persson    2018-06-25   86  static void _cifs_mid_q_entry_release(struct kref *refcount)
-696e420bb2a6624 Lars Persson    2018-06-25   87  {
-28b546c67ad5b05 Pavel Shilovsky 2022-08-27   88  	struct mid_q_entry *midEntry =
-28b546c67ad5b05 Pavel Shilovsky 2022-08-27   89  			container_of(refcount, struct mid_q_entry, refcount);
-1047abc159b4eb4 Steve French    2005-10-11   90  #ifdef CONFIG_CIFS_STATS2
-2dc7e1c03316940 Pavel Shilovsky 2011-12-26   91  	__le16 command = midEntry->server->vals->lock_cmd;
-1047abc159b4eb4 Steve French    2005-10-11   92  	unsigned long now;
-1047abc159b4eb4 Steve French    2005-10-11   93  #endif
-7c9421e1a9ce8d1 Pavel Shilovsky 2012-03-23   94  	midEntry->mid_state = MID_FREE;
-8097531a5cb55c6 Jeff Layton     2011-01-11   95  	atomic_dec(&midCount);
-7c9421e1a9ce8d1 Pavel Shilovsky 2012-03-23   96  	if (midEntry->large_buf)
-^1da177e4c3f415 Linus Torvalds  2005-04-16   97  		cifs_buf_release(midEntry->resp_buf);
-b8643e1b5253a6a Steve French    2005-04-28   98  	else
-b8643e1b5253a6a Steve French    2005-04-28   99  		cifs_small_buf_release(midEntry->resp_buf);
-1047abc159b4eb4 Steve French    2005-10-11  100  #ifdef CONFIG_CIFS_STATS2
-1047abc159b4eb4 Steve French    2005-10-11  101  	now = jiffies;
-1047abc159b4eb4 Steve French    2005-10-11  102  	/* commands taking longer than one second are indications that
-1047abc159b4eb4 Steve French    2005-10-11  103  	   something is wrong, unless it is quite a slow link or server */
-020eec5f712ffb4 Steve French    2018-08-01  104  	if (time_after(now, midEntry->when_alloc + HZ) &&
-020eec5f712ffb4 Steve French    2018-08-01  105  	    (midEntry->command != command)) {
-468d677954c0d94 Steve French    2018-08-04  106  		/* smb2slowcmd[NUMBER_OF_SMB2_COMMANDS] counts by command */
-468d677954c0d94 Steve French    2018-08-04  107  		if ((le16_to_cpu(midEntry->command) < NUMBER_OF_SMB2_COMMANDS) &&
-468d677954c0d94 Steve French    2018-08-04 @108  		    (le16_to_cpu(midEntry->command) >= 0))
-468d677954c0d94 Steve French    2018-08-04  109  			cifs_stats_inc(&midEntry->server->smb2slowcmd[le16_to_cpu(midEntry->command)]);
-468d677954c0d94 Steve French    2018-08-04  110  
-020eec5f712ffb4 Steve French    2018-08-01  111  		trace_smb3_slow_rsp(le16_to_cpu(midEntry->command),
-020eec5f712ffb4 Steve French    2018-08-01  112  			       midEntry->mid, midEntry->pid,
-020eec5f712ffb4 Steve French    2018-08-01  113  			       midEntry->when_sent, midEntry->when_received);
-020eec5f712ffb4 Steve French    2018-08-01  114  		if (cifsFYI & CIFS_TIMER) {
-0b456f04bcdf5b1 Andy Shevchenko 2014-08-27  115  			pr_debug(" CIFS slow rsp: cmd %d mid %llu",
-1047abc159b4eb4 Steve French    2005-10-11  116  			       midEntry->command, midEntry->mid);
-0b456f04bcdf5b1 Andy Shevchenko 2014-08-27  117  			pr_info(" A: 0x%lx S: 0x%lx R: 0x%lx\n",
-1047abc159b4eb4 Steve French    2005-10-11  118  			       now - midEntry->when_alloc,
-1047abc159b4eb4 Steve French    2005-10-11  119  			       now - midEntry->when_sent,
-1047abc159b4eb4 Steve French    2005-10-11  120  			       now - midEntry->when_received);
-1047abc159b4eb4 Steve French    2005-10-11  121  		}
-1047abc159b4eb4 Steve French    2005-10-11  122  	}
-1047abc159b4eb4 Steve French    2005-10-11  123  #endif
-28b546c67ad5b05 Pavel Shilovsky 2022-08-27  124  
-28b546c67ad5b05 Pavel Shilovsky 2022-08-27  125  	mempool_free(midEntry, cifs_mid_poolp);
-28b546c67ad5b05 Pavel Shilovsky 2022-08-27  126  }
-28b546c67ad5b05 Pavel Shilovsky 2022-08-27  127  
-
-:::::: The code at line 108 was first introduced by commit
-:::::: 468d677954c0d94fec59275d91222257fe8b4416 smb3: display stats counters for number of slow commands
-
-:::::: TO: Steve French <stfrench@microsoft.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+   581	
+   582	/*
+   583	 * Restores the GIC distributor registers during resume or when coming out of
+   584	 * idle.  Must be called before enabling interrupts.  If a level interrupt
+   585	 * that occurred while the GIC was suspended is still present, it will be
+   586	 * handled normally, but any edge interrupts that occurred will not be seen by
+   587	 * the GIC and need to be handled by the platform-specific wakeup source.
+   588	 */
+   589	void gic_dist_restore(struct gic_chip_data *gic)
+   590	{
+   591		unsigned int gic_irqs;
+   592		unsigned int i;
+   593		void __iomem *dist_base;
+   594	
+   595		if (WARN_ON(!gic))
+   596			return;
+   597	
+   598		gic_irqs = gic->gic_irqs;
+   599		dist_base = gic_data_dist_base(gic);
+   600	
+   601		if (!dist_base)
+   602			return;
+   603	
+   604		writel_relaxed(GICD_DISABLE, dist_base + GIC_DIST_CTRL);
+   605	
+   606		for (i = 0; i < DIV_ROUND_UP(gic_irqs, 16); i++)
+   607			writel_relaxed(gic->saved_spi_conf[i],
+   608				dist_base + GIC_DIST_CONFIG + i * 4);
+   609	
+   610		for (i = 0; i < DIV_ROUND_UP(gic_irqs, 4); i++)
+ > 611			writel_relaxed((u32)REPEAT_BYTE(GICD_INT_DEF_PRI),
+   612				dist_base + GIC_DIST_PRI + i * 4);
+   613	
+   614		for (i = 0; i < DIV_ROUND_UP(gic_irqs, 4); i++)
+   615			writel_relaxed(gic->saved_spi_target[i],
+   616				dist_base + GIC_DIST_TARGET + i * 4);
+   617	
+   618		for (i = 0; i < DIV_ROUND_UP(gic_irqs, 32); i++) {
+   619			writel_relaxed(GICD_INT_EN_CLR_X32,
+   620				dist_base + GIC_DIST_ENABLE_CLEAR + i * 4);
+   621			writel_relaxed(gic->saved_spi_enable[i],
+   622				dist_base + GIC_DIST_ENABLE_SET + i * 4);
+   623		}
+   624	
+   625		for (i = 0; i < DIV_ROUND_UP(gic_irqs, 32); i++) {
+   626			writel_relaxed(GICD_INT_EN_CLR_X32,
+   627				dist_base + GIC_DIST_ACTIVE_CLEAR + i * 4);
+   628			writel_relaxed(gic->saved_spi_active[i],
+   629				dist_base + GIC_DIST_ACTIVE_SET + i * 4);
+   630		}
+   631	
+   632		writel_relaxed(GICD_ENABLE, dist_base + GIC_DIST_CTRL);
+   633	}
+   634	
 
 -- 
 0-DAY CI Kernel Test Service
