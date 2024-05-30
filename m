@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB27143737
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 06:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E2C15A86F;
+	Thu, 30 May 2024 06:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717049673; cv=none; b=AlFanmjXNawpUzSeHMR55U+04bv2Q1lAVOWGwg2JS9PUtF7ReP4sTkY5lyEsackl94VX7gCk7VeSV7kgXKS3GkbCAb7TNj9pPJIqAIlMeqflGxTFJVKtKQq/2P1v3EskDTGs6D7aFEAqRWA8uoz295MWI23DuWcBUGPHCsNk1yY=
+	t=1717051038; cv=none; b=Lp3CG/H81MsU6G8dtNgeaXAh5cDNVjVlLDZvH4X2xg+chLIEU4W7C8YZPPUJGsIBTq57aOIV8JYWGOjRwLc+OKMJiSksM1J/WbQWLCpzrA5CEo/alisON6eLwvVEF2+0639+OYJ8HGwzftkFcpR9h70j/75pSI8Up1eTkcWWf+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717049673; c=relaxed/simple;
-	bh=tTtXpV0h3bQe9G8QsvlUCdX22HRiw6desFyK8GPFQGE=;
+	s=arc-20240116; t=1717051038; c=relaxed/simple;
+	bh=xYfnI1YzjUptr5lHZs5yUaLN1qMaYn1bInEg9WPBe/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWPHwO65xKT0gtsBtGy/Tfp8xBny+o7G+eAUt0AYAuvFmR4TqiGIgrcVZMV0YMoe0FBGISphzWxOvPAhh+a+VXNknMhWUOf4XE42BHVcV3Bh46nSLlnpPWaCat+zM/iaP0ddEV6BNZMRvawbNPRspWpJlvMxfYMM6aWGY6jJB2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMa+Ux6b; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=swwZ+MGR06LhNSk70jtXMGzewkbLT2C//WuvqAEwVXF/jglg2QZjR7HcklGKsT+RgO2g7B+tUAkBUAEpkGhlfWh7WgXpYmbVo+w80JSKqOGnhu7A+4xZCRsSJwYZDQTenzNnuow2KhJ8N6uUZo3dTpECBHz+jm6P5hr1YYo8dyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jMbsC2+o; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMa+Ux6b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jMbsC2+o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717049672; x=1748585672;
+  t=1717051036; x=1748587036;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tTtXpV0h3bQe9G8QsvlUCdX22HRiw6desFyK8GPFQGE=;
-  b=aMa+Ux6brCbSknlymMbyxQ4YHpmhoUovLgSqRfK90YJnxhB2mnvwMAF1
-   01aWwG1EMLlkdMFgM7QEuSSiuoFymxGzUuzLdBms5PY/s66HZafgvSECm
-   Q3Dl5Hwgvu92Bidp3lMY3vtMzrM9LOmPdqsq6JVxiJHVL4V/4+BjM9XNF
-   WAFVu+6kWJ5BueXBGqYRBDMPQXm1xYwRH3qlbL/K6TFmo5rlvcFkBWkJb
-   wtbJBYpxG/EEI9NAF0+ua/BrPVs1PlQE9hfA+CnESsC8xp/vp8DLhs2RA
-   dwvHq6U4pwkbv0A0fHFaCA12Qzt2QEw2+f17JVRiZtRZMaHRG8XVO2w8j
-   A==;
-X-CSE-ConnectionGUID: 5aTkGiYLTIWRTW4EkMnj8Q==
-X-CSE-MsgGUID: iXuvYkjGTbiBvQwNruw5Rg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="38894474"
+  bh=xYfnI1YzjUptr5lHZs5yUaLN1qMaYn1bInEg9WPBe/k=;
+  b=jMbsC2+oX/+Gqn4J/veVLPHMJp5QNu0GIn93XZVMmnW0DUhsb9Fcscy3
+   1Rz1r+Gi1qMxgLfESdodd2Bfkz5EcbYbaSJO69DBdw+ey4abOLk7IkvUJ
+   QBPFsfcvsrhHnWmMiDN8ozeGsn6B2hzN1itMg6y2Yh0PXVGriUTmYkbYO
+   npmShRuMFN75A+f2n4UIcvNGqKSkhDTUgzCeZM8rx4RPQqJ+YNPJv2W0v
+   egMRHN1+lu1u865fZjNLHMyjKRK8iVt64WtIW42vuSgPwQixXkHp9DXAL
+   2oVdi0zIAH4OjWPNzdU66AAcq+Oy1nTJHe1stU2jEDabO7Si2XK4D/gXu
+   w==;
+X-CSE-ConnectionGUID: hlwtQ613S6itpG7u1eS1Pw==
+X-CSE-MsgGUID: 7n+IcgTXTwupxpXPwWPc1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13693261"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="38894474"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 23:14:32 -0700
-X-CSE-ConnectionGUID: /uj3kZtWQE+exZw3FJFpXQ==
-X-CSE-MsgGUID: /Ggt4ZiiQEupZB6IZV7Dag==
+   d="scan'208";a="13693261"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 23:37:15 -0700
+X-CSE-ConnectionGUID: rlqGgxDjQfSLc44CwICBnw==
+X-CSE-MsgGUID: vO77sm1ESBeeSAGc6jOhHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="35688776"
+   d="scan'208";a="36263693"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 29 May 2024 23:14:29 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 May 2024 23:37:10 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCZ3T-000Ern-2O;
-	Thu, 30 May 2024 06:14:27 +0000
-Date: Thu, 30 May 2024 14:14:10 +0800
+	id 1sCZPP-000Eta-2k;
+	Thu, 30 May 2024 06:37:07 +0000
+Date: Thu, 30 May 2024 14:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5/6] perf/x86: Enable NMI source reporting for perfmon
-Message-ID: <202405301242.LFkK3Hcm-lkp@intel.com>
-References: <20240529203325.3039243-6-jacob.jun.pan@linux.intel.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>, akpm@linux-foundation.org,
+	hughd@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	willy@infradead.org, david@redhat.com, wangkefeng.wang@huawei.com,
+	ying.huang@intel.com, 21cnbao@gmail.com, ryan.roberts@arm.com,
+	shy828301@gmail.com, ziy@nvidia.com, ioworker0@gmail.com,
+	da.gomez@samsung.com, p.raghav@samsung.com,
+	baolin.wang@linux.alibaba.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/6] mm: shmem: add mTHP support for anonymous shmem
+Message-ID: <202405301430.0NRLTOWU-lkp@intel.com>
+References: <ec35a23026dd016705d211e85163cabe07681516.1717033868.git.baolin.wang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,126 +69,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529203325.3039243-6-jacob.jun.pan@linux.intel.com>
+In-Reply-To: <ec35a23026dd016705d211e85163cabe07681516.1717033868.git.baolin.wang@linux.alibaba.com>
 
-Hi Jacob,
+Hi Baolin,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on perf-tools/perf-tools linus/master v6.10-rc1 next-20240529]
-[cannot apply to tip/perf/core tip/x86/core acme/perf/core]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20240529]
+[cannot apply to linus/master v6.10-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Pan/x86-irq-Add-enumeration-of-NMI-source-reporting-CPU-feature/20240530-043112
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240529203325.3039243-6-jacob.jun.pan%40linux.intel.com
-patch subject: [PATCH 5/6] perf/x86: Enable NMI source reporting for perfmon
-config: i386-randconfig-012-20240530 (https://download.01.org/0day-ci/archive/20240530/202405301242.LFkK3Hcm-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301242.LFkK3Hcm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baolin-Wang/mm-memory-extend-finish_fault-to-support-large-folio/20240530-100805
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/ec35a23026dd016705d211e85163cabe07681516.1717033868.git.baolin.wang%40linux.alibaba.com
+patch subject: [PATCH v3 4/6] mm: shmem: add mTHP support for anonymous shmem
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240530/202405301430.0NRLTOWU-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301430.0NRLTOWU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405301242.LFkK3Hcm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405301430.0NRLTOWU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/events/intel/core.c: In function 'intel_pmu_handle_irq':
->> arch/x86/events/intel/core.c:3096:40: error: 'apic_perfmon_ctr' undeclared (first use in this function)
-    3096 |                 apic_write(APIC_LVTPC, apic_perfmon_ctr);
-         |                                        ^~~~~~~~~~~~~~~~
-   arch/x86/events/intel/core.c:3096:40: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from mm/shmem.c:28:
+   In file included from include/linux/ramfs.h:5:
+   In file included from include/linux/fs_parser.h:11:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2245:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> mm/shmem.c:1748:14: warning: variable 'suitable_orders' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1748 |                 } else if (orders & BIT(HPAGE_PMD_ORDER)) {
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/shmem.c:1766:25: note: uninitialized use occurs here
+    1766 |                 order = highest_order(suitable_orders);
+         |                                       ^~~~~~~~~~~~~~~
+   mm/shmem.c:1748:10: note: remove the 'if' if its condition is always true
+    1748 |                 } else if (orders & BIT(HPAGE_PMD_ORDER)) {
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/shmem.c:1736:31: note: initialize the variable 'suitable_orders' to silence this warning
+    1736 |         unsigned long suitable_orders;
+         |                                      ^
+         |                                       = 0
+   2 warnings generated.
 
 
-vim +/apic_perfmon_ctr +3096 arch/x86/events/intel/core.c
+vim +1748 mm/shmem.c
 
-  3067	
-  3068	/*
-  3069	 * This handler is triggered by the local APIC, so the APIC IRQ handling
-  3070	 * rules apply:
-  3071	 */
-  3072	static int intel_pmu_handle_irq(struct pt_regs *regs)
-  3073	{
-  3074		struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-  3075		bool late_ack = hybrid_bit(cpuc->pmu, late_ack);
-  3076		bool mid_ack = hybrid_bit(cpuc->pmu, mid_ack);
-  3077		int loops;
-  3078		u64 status;
-  3079		int handled;
-  3080		int pmu_enabled;
-  3081	
-  3082		/*
-  3083		 * Save the PMU state.
-  3084		 * It needs to be restored when leaving the handler.
-  3085		 */
-  3086		pmu_enabled = cpuc->enabled;
-  3087		/*
-  3088		 * In general, the early ACK is only applied for old platforms.
-  3089		 * For the big core starts from Haswell, the late ACK should be
-  3090		 * applied.
-  3091		 * For the small core after Tremont, we have to do the ACK right
-  3092		 * before re-enabling counters, which is in the middle of the
-  3093		 * NMI handler.
-  3094		 */
-  3095		if (!late_ack && !mid_ack)
-> 3096			apic_write(APIC_LVTPC, apic_perfmon_ctr);
-  3097		intel_bts_disable_local();
-  3098		cpuc->enabled = 0;
-  3099		__intel_pmu_disable_all(true);
-  3100		handled = intel_pmu_drain_bts_buffer();
-  3101		handled += intel_bts_interrupt();
-  3102		status = intel_pmu_get_status();
-  3103		if (!status)
-  3104			goto done;
-  3105	
-  3106		loops = 0;
-  3107	again:
-  3108		intel_pmu_lbr_read();
-  3109		intel_pmu_ack_status(status);
-  3110		if (++loops > 100) {
-  3111			static bool warned;
-  3112	
-  3113			if (!warned) {
-  3114				WARN(1, "perfevents: irq loop stuck!\n");
-  3115				perf_event_print_debug();
-  3116				warned = true;
-  3117			}
-  3118			intel_pmu_reset();
-  3119			goto done;
-  3120		}
-  3121	
-  3122		handled += handle_pmi_common(regs, status);
-  3123	
-  3124		/*
-  3125		 * Repeat if there is more work to be done:
-  3126		 */
-  3127		status = intel_pmu_get_status();
-  3128		if (status)
-  3129			goto again;
-  3130	
-  3131	done:
-  3132		if (mid_ack)
-  3133			apic_write(APIC_LVTPC, apic_perfmon_ctr);
-  3134		/* Only restore PMU state when it's active. See x86_pmu_disable(). */
-  3135		cpuc->enabled = pmu_enabled;
-  3136		if (pmu_enabled)
-  3137			__intel_pmu_enable_all(0, true);
-  3138		intel_bts_enable_local();
-  3139	
-  3140		/*
-  3141		 * Only unmask the NMI after the overflow counters
-  3142		 * have been reset. This avoids spurious NMIs on
-  3143		 * Haswell CPUs.
-  3144		 */
-  3145		if (late_ack)
-  3146			apic_write(APIC_LVTPC, apic_perfmon_ctr);
-  3147		return handled;
-  3148	}
-  3149	
+  1728	
+  1729	static struct folio *shmem_alloc_and_add_folio(struct vm_fault *vmf,
+  1730			gfp_t gfp, struct inode *inode, pgoff_t index,
+  1731			struct mm_struct *fault_mm, unsigned long orders)
+  1732	{
+  1733		struct address_space *mapping = inode->i_mapping;
+  1734		struct shmem_inode_info *info = SHMEM_I(inode);
+  1735		struct vm_area_struct *vma = vmf ? vmf->vma : NULL;
+  1736		unsigned long suitable_orders;
+  1737		struct folio *folio = NULL;
+  1738		long pages;
+  1739		int error, order;
+  1740	
+  1741		if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+  1742			orders = 0;
+  1743	
+  1744		if (orders > 0) {
+  1745			if (vma && vma_is_anon_shmem(vma)) {
+  1746				suitable_orders = anon_shmem_suitable_orders(inode, vmf,
+  1747								mapping, index, orders);
+> 1748			} else if (orders & BIT(HPAGE_PMD_ORDER)) {
+  1749				pages = HPAGE_PMD_NR;
+  1750				suitable_orders = BIT(HPAGE_PMD_ORDER);
+  1751				index = round_down(index, HPAGE_PMD_NR);
+  1752	
+  1753				/*
+  1754				 * Check for conflict before waiting on a huge allocation.
+  1755				 * Conflict might be that a huge page has just been allocated
+  1756				 * and added to page cache by a racing thread, or that there
+  1757				 * is already at least one small page in the huge extent.
+  1758				 * Be careful to retry when appropriate, but not forever!
+  1759				 * Elsewhere -EEXIST would be the right code, but not here.
+  1760				 */
+  1761				if (xa_find(&mapping->i_pages, &index,
+  1762					    index + HPAGE_PMD_NR - 1, XA_PRESENT))
+  1763					return ERR_PTR(-E2BIG);
+  1764			}
+  1765	
+  1766			order = highest_order(suitable_orders);
+  1767			while (suitable_orders) {
+  1768				pages = 1UL << order;
+  1769				index = round_down(index, pages);
+  1770				folio = shmem_alloc_folio(gfp, order, info, index);
+  1771				if (folio)
+  1772					goto allocated;
+  1773	
+  1774				if (pages == HPAGE_PMD_NR)
+  1775					count_vm_event(THP_FILE_FALLBACK);
+  1776				order = next_order(&suitable_orders, order);
+  1777			}
+  1778		} else {
+  1779			pages = 1;
+  1780			folio = shmem_alloc_folio(gfp, 0, info, index);
+  1781		}
+  1782		if (!folio)
+  1783			return ERR_PTR(-ENOMEM);
+  1784	
+  1785	allocated:
+  1786		__folio_set_locked(folio);
+  1787		__folio_set_swapbacked(folio);
+  1788	
+  1789		gfp &= GFP_RECLAIM_MASK;
+  1790		error = mem_cgroup_charge(folio, fault_mm, gfp);
+  1791		if (error) {
+  1792			if (xa_find(&mapping->i_pages, &index,
+  1793					index + pages - 1, XA_PRESENT)) {
+  1794				error = -EEXIST;
+  1795			} else if (pages == HPAGE_PMD_NR) {
+  1796				count_vm_event(THP_FILE_FALLBACK);
+  1797				count_vm_event(THP_FILE_FALLBACK_CHARGE);
+  1798			}
+  1799			goto unlock;
+  1800		}
+  1801	
+  1802		error = shmem_add_to_page_cache(folio, mapping, index, NULL, gfp);
+  1803		if (error)
+  1804			goto unlock;
+  1805	
+  1806		error = shmem_inode_acct_blocks(inode, pages);
+  1807		if (error) {
+  1808			struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+  1809			long freed;
+  1810			/*
+  1811			 * Try to reclaim some space by splitting a few
+  1812			 * large folios beyond i_size on the filesystem.
+  1813			 */
+  1814			shmem_unused_huge_shrink(sbinfo, NULL, 2);
+  1815			/*
+  1816			 * And do a shmem_recalc_inode() to account for freed pages:
+  1817			 * except our folio is there in cache, so not quite balanced.
+  1818			 */
+  1819			spin_lock(&info->lock);
+  1820			freed = pages + info->alloced - info->swapped -
+  1821				READ_ONCE(mapping->nrpages);
+  1822			if (freed > 0)
+  1823				info->alloced -= freed;
+  1824			spin_unlock(&info->lock);
+  1825			if (freed > 0)
+  1826				shmem_inode_unacct_blocks(inode, freed);
+  1827			error = shmem_inode_acct_blocks(inode, pages);
+  1828			if (error) {
+  1829				filemap_remove_folio(folio);
+  1830				goto unlock;
+  1831			}
+  1832		}
+  1833	
+  1834		shmem_recalc_inode(inode, pages, 0);
+  1835		folio_add_lru(folio);
+  1836		return folio;
+  1837	
+  1838	unlock:
+  1839		folio_unlock(folio);
+  1840		folio_put(folio);
+  1841		return ERR_PTR(error);
+  1842	}
+  1843	
 
 -- 
 0-DAY CI Kernel Test Service
