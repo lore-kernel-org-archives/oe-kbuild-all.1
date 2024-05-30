@@ -1,60 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B51CAB0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 15:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A9418755C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 16:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717082626; cv=none; b=Q85f6xRaAxo2t/fCTyqpQeHVFIjN6kN3YjtUbUDLaZXs4ZcZtRDhXan/itrt9QBr/Le9ZZaRWDL1Mc+vSY/f/smOle1Ory5xsB0Gh4CXG/aLp3BDfo0AfwYTNcttXwor4YCCh7vwIofneq/BjYclGdt3j/xlbLSBX7poAb6PGV8=
+	t=1717086003; cv=none; b=A6GS4wKSG+LqArrP72bjIStVSscEy7kYQyp89ZHbReAjhCaQ00QxWswuPnSFyZaxYMXWuptYCwranxGsvTcRv74Tp/mKOAQsBSoVa3UBAgGv43LoQUZXeFt/oLfyzvF28ujujCwuJa8Xosrvh67t1BVlJC3/DlOPn8qYmQU3VC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717082626; c=relaxed/simple;
-	bh=U+mW+L6f/Twt4uGPzoRCYtWA49CgVsFMfCOgnOwxdC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sn3qRQf5krAoEQ07ZqDSZHSaPze73S2+Y0JLXnUMMITV185s8gFVvJUWeBn/MpGMg5ZTFYPnS9+tbrsNtCELbXSXEGuk53CDYHQp3W9Y9NAADRtX6cvt9M6gRwliQjb8jnGaI0jwsVkug6gHgfVDg/SFEAQW3sS+VcrMftzk8V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHnc8sG7; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1717086003; c=relaxed/simple;
+	bh=4kn4vjazlOgWAkFWvL+DJ8Sb/gYaYuXSroU8uHXVN+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BrJtVtq4uioUMmYO0sgHAncnPQKNi7oLXXL4OLd4HfRWwZ9QrmaVdHQfNVe1aqhCxxZn8m6sfR8AawzwkqKQSdR/5IC8A3t5XEdkQTLLnWmCxOLUvxXAFSMY2JUw1Xd22S8io6KmzegXZ1JZbDXw/jSwddGNB3krFzkeaqt9Mws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9bcp7z9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHnc8sG7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9bcp7z9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717082624; x=1748618624;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U+mW+L6f/Twt4uGPzoRCYtWA49CgVsFMfCOgnOwxdC0=;
-  b=GHnc8sG7Zn3tMq+VN32nWgcV4P1a7h0AqMml7G2FY+AP0TO530Iul+jG
-   xH12NBI8LQesVM1qxfAIdr87UaL2CeWaCLDRggAH7vVL99YBUDtNQKxEv
-   6z04hXDazSuEHwi84ZEUZ2mA/QNVTAj/hFYcsLQp5f6ONEX0FAOR+9Hsk
-   qEXbeWmeOSYRu8kszhy3Cdr9XLI0ry+v3FrkTWXqzZZBmUGzPSSfMG2yL
-   XtpOIHHVoce0cfZVKOB5RO7IrJ61/aDgSdi2zTKUlbo5Xe/Bwe9BCNKYl
-   VBGS92qk+O4ZXbHiiWN5dyS4V0nIcc105gHUhmlzYhmiLLTRO8iShHjRc
-   g==;
-X-CSE-ConnectionGUID: o+lG8jyRQWuvAGLxwNN2nA==
-X-CSE-MsgGUID: pZJQ6JkWRLmFjpWQX7Lq4Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24191058"
+  t=1717086002; x=1748622002;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4kn4vjazlOgWAkFWvL+DJ8Sb/gYaYuXSroU8uHXVN+E=;
+  b=i9bcp7z9cUQPWsM66F9gpkedj/44ojTM1xxRwu8123LfwpvAac8bIGhV
+   1le5szQFuqXxHy2z1nIthaAqkXEGQFODdBYCHqIBR+heeFYSd39RPd26O
+   p4V9IVT1JOhNsjFw4PFnlpfmvXWJSpDXPgIz1eB2WDBuv6vFiaNn730kX
+   H6HVxfHUseAeoP3BXTnR7ZS+tKSqyPqXBhmMe6xS55A2i3pS1DIcQVGH5
+   9jZu3EZEvvKw+GPDeySDoGdZJPFWkPxA1V62PYaTH+tAWbyJ/YkbEtZ5P
+   iy50kI6PrxANwS3NYYR12TOS8sYwMLSjy57UQSztqIlr6Mw882WVFaENo
+   Q==;
+X-CSE-ConnectionGUID: +IQsaZ6YQne6oitLmNYKmw==
+X-CSE-MsgGUID: PZsAcvqCQpKQ0OhQJSiHHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24139717"
 X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="24191058"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 08:23:43 -0700
-X-CSE-ConnectionGUID: kHTftNWnQvmuqoIANWGYGw==
-X-CSE-MsgGUID: LET40OjPQ8SyHbGnlQ27oA==
+   d="scan'208";a="24139717"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 09:19:45 -0700
+X-CSE-ConnectionGUID: aEyrTQvAS7ivZk9nl5t0+g==
+X-CSE-MsgGUID: Ydc/93sIThmnu9UFkE6+XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="35910354"
+   d="scan'208";a="35946498"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 May 2024 08:23:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 May 2024 09:19:40 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sChcf-000Fd7-12;
-	Thu, 30 May 2024 15:23:26 +0000
-Date: Thu, 30 May 2024 23:23:09 +0800
+	id 1sCiUl-000Fgf-2G;
+	Thu, 30 May 2024 16:19:20 +0000
+Date: Fri, 31 May 2024 00:15:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 37/37] versioncheck:
- ./drivers/gpu/arm/mali/platform/mediatek/mt8183_mali_kbase_runtime_pm.c: 84:
- need linux/version.h
-Message-ID: <202405302316.HPJeg1Gr-lkp@intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>, Frank Binns <frank.binns@imgtec.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] clk: mediatek: Add mt8173-mfgtop driver
+Message-ID: <202405310018.2eeqgDyV-lkp@intel.com>
+References: <20240530083513.4135052-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,115 +75,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240530083513.4135052-3-wenst@chromium.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   4cdde2c30d79fba7b0502b267ed571deec8fc684
-commit: 4cdde2c30d79fba7b0502b267ed571deec8fc684 [37/37] CHROMIUM: gpu: mali: mt8183: Switch mt8183 clk to auto-reparent
-reproduce: (https://download.01.org/0day-ci/archive/20240530/202405302316.HPJeg1Gr-lkp@intel.com/reproduce)
+Hi Chen-Yu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-clock-mediatek-Add-mt8173-mfgtop/20240530-163739
+base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+patch link:    https://lore.kernel.org/r/20240530083513.4135052-3-wenst%40chromium.org
+patch subject: [PATCH 2/6] clk: mediatek: Add mt8173-mfgtop driver
+config: arc-randconfig-001-20240530 (https://download.01.org/0day-ci/archive/20240531/202405310018.2eeqgDyV-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310018.2eeqgDyV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405302316.HPJeg1Gr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310018.2eeqgDyV-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.73.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_driver.c: 3493: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_policy.c: 440: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_time.c: 362: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware.c: 3256: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware_no_mali.c: 1691: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.c: 2986: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.h: 423: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_reset_gpu.c: 640: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_sync_debugfs.c: 878: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_tiler_heap_reclaim.c: 371: need linux/version.h
-   ./drivers/gpu/arm/mali/include/priority_control_manager.h: 27 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/ipa/mali_kbase_ipa.c: 778: need linux/version.h
-   ./drivers/gpu/arm/mali/jm/mali_kbase_jm_defs.h: 875: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase.h: 869: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_debug_job_fault.c: 573: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_defs.h: 2255: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_dummy_job_wa.c: 459: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence.c: 61: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence.h: 252: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence_ops.c: 111: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_gpuprops.c: 889: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_gwt.c: 275: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/mali_kbase_kinstr_prfcnt.c: 2024: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_mem.h: 2602: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_mem_linux.h: 533: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_mem_migrate.c: 712: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_mem_migrate.h: 118: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_sync.h: 216: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_vinstr.c: 1136: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_malisw.h: 29 linux/version.h not needed.
->> ./drivers/gpu/arm/mali/platform/mediatek/mt8183_mali_kbase_runtime_pm.c: 84: need linux/version.h
-   ./drivers/gpu/arm/mali/tl/mali_kbase_timeline_io.c: 465: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/cache_km.c: 47 linux/version.h not needed.
-   ./drivers/gpu/drm/img-rogue/1.17/mt8173/mt8173_sysconfig.c: 552: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/osfunc_arm64.c: 43 linux/version.h not needed.
-   ./drivers/gpu/drm/img-rogue/1.17/osfunc_x86.c: 134: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/pvr_buffer_sync.c: 739: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/pvr_debugfs.c: 624: need linux/version.h
-   ./drivers/media/virtio/virtio_video_driver.c: 21 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/config.h: 69: need linux/version.h
-   ./drivers/net/wireless/iwl7000/hdrs/kunit/visibility.h: 3 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/linux/acpi_amd_wbrf.h: 3 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/linux/math.h: 4 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2351: need linux/version.h
-   ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 180: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 433: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2536: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.h: 103: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1244: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3693: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 1142: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6815: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2973: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2357: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2608: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3572: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2419: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/backports.c: 559: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 403: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5483: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 737: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/driver-ops.h: 1733: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/ethtool.c: 284: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2728: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2490: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/link.c: 531: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/main.c: 1854: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 9171: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/parse.c: 959: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5544: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1472: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 3038: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/status.c: 1302: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/tdls.c: 2080: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6309: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/util.c: 4392: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/pmdomain/core.c: In function 'genpd_queue_power_off_work':
+   drivers/pmdomain/core.c:701:20: error: 'pm_wq' undeclared (first use in this function)
+     701 |         queue_work(pm_wq, &genpd->power_off_work);
+         |                    ^~~~~
+   drivers/pmdomain/core.c:701:20: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/pmdomain/core.c: In function 'genpd_dev_pm_qos_notifier':
+   drivers/pmdomain/core.c:900:39: error: 'struct dev_pm_info' has no member named 'ignore_children'
+     900 |                 if (!dev || dev->power.ignore_children)
+         |                                       ^
+   drivers/pmdomain/core.c: In function 'rtpm_status_str':
+>> drivers/pmdomain/core.c:3111:23: error: 'struct dev_pm_info' has no member named 'runtime_error'
+    3111 |         if (dev->power.runtime_error)
+         |                       ^
+>> drivers/pmdomain/core.c:3113:28: error: 'struct dev_pm_info' has no member named 'disable_depth'
+    3113 |         else if (dev->power.disable_depth)
+         |                            ^
+>> drivers/pmdomain/core.c:3115:28: error: 'struct dev_pm_info' has no member named 'runtime_status'
+    3115 |         else if (dev->power.runtime_status < ARRAY_SIZE(status_lookup))
+         |                            ^
+   drivers/pmdomain/core.c:3116:45: error: 'struct dev_pm_info' has no member named 'runtime_status'
+    3116 |                 p = status_lookup[dev->power.runtime_status];
+         |                                             ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+   Depends on [n]: PM [=n]
+   Selected by [m]:
+   - COMMON_CLK_MT8173_MFGTOP [=m] && COMMON_CLK [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK_MT8173 [=m]
+
+
+vim +3111 drivers/pmdomain/core.c
+
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3095  
+8b0510b52478a4e drivers/base/power/domain.c Jon Hunter        2016-08-11  3096  #ifdef CONFIG_DEBUG_FS
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3097  /*
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3098   * TODO: This function is a slightly modified version of rtpm_status_show
+d30d819dc831078 drivers/base/power/domain.c Rafael J. Wysocki 2014-11-27  3099   * from sysfs.c, so generalize it.
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3100   */
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3101  static void rtpm_status_str(struct seq_file *s, struct device *dev)
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3102  {
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3103  	static const char * const status_lookup[] = {
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3104  		[RPM_ACTIVE] = "active",
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3105  		[RPM_RESUMING] = "resuming",
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3106  		[RPM_SUSPENDED] = "suspended",
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3107  		[RPM_SUSPENDING] = "suspending"
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3108  	};
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3109  	const char *p = "";
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3110  
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15 @3111  	if (dev->power.runtime_error)
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3112  		p = "error";
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15 @3113  	else if (dev->power.disable_depth)
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3114  		p = "unsupported";
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15 @3115  	else if (dev->power.runtime_status < ARRAY_SIZE(status_lookup))
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3116  		p = status_lookup[dev->power.runtime_status];
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3117  	else
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3118  		WARN_ON(1);
+2bd5306a8764d94 drivers/base/power/domain.c Maciej Matraszek  2014-09-15  3119  
+45fbc464b047b3f drivers/base/power/domain.c Dmitry Osipenko   2021-01-21  3120  	seq_printf(s, "%-25s  ", p);
+45fbc464b047b3f drivers/base/power/domain.c Dmitry Osipenko   2021-01-21  3121  }
+45fbc464b047b3f drivers/base/power/domain.c Dmitry Osipenko   2021-01-21  3122  
 
 -- 
 0-DAY CI Kernel Test Service
