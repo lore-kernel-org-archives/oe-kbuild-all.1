@@ -1,64 +1,60 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B1D38DC3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 15:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B51CAB0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 15:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717081568; cv=none; b=uqRbX07Xx3k7PqOI37grUmnfa1bDbDxXM/Iyy1q0jnajEKGV9BBIGNZVTunW6/MbTd0XeYo4T4ZEV/vmCFMO3xYspbXiGpOvrH0+tA2dBc2n3sK5GsxSsOlTsUESCiwZtW4aRDXt68heMu2+yTgIN2eus4vtlXQFZd5S9ocySMY=
+	t=1717082626; cv=none; b=Q85f6xRaAxo2t/fCTyqpQeHVFIjN6kN3YjtUbUDLaZXs4ZcZtRDhXan/itrt9QBr/Le9ZZaRWDL1Mc+vSY/f/smOle1Ory5xsB0Gh4CXG/aLp3BDfo0AfwYTNcttXwor4YCCh7vwIofneq/BjYclGdt3j/xlbLSBX7poAb6PGV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717081568; c=relaxed/simple;
-	bh=wmpnIms+Ni0Ry0kfnKXn0gXyCrb7sifwgWadDYz1sB0=;
+	s=arc-20240116; t=1717082626; c=relaxed/simple;
+	bh=U+mW+L6f/Twt4uGPzoRCYtWA49CgVsFMfCOgnOwxdC0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N6LaGSfmTSGKKZWW5E+WSGzMWEv2xLlC+juapCF036/sMtAHJ4hY7l9tBg4speuBlk8Owu6oCC/EWGpnSW5soFWHNLjD1wliCHMiGXrcwkioqeWvrOXj1lrIxTpVwUymIafbV20bWzAiQ5AEEqRfKa0LDxguEACb7dNPKTaszq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V8Ss9rwD; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=sn3qRQf5krAoEQ07ZqDSZHSaPze73S2+Y0JLXnUMMITV185s8gFVvJUWeBn/MpGMg5ZTFYPnS9+tbrsNtCELbXSXEGuk53CDYHQp3W9Y9NAADRtX6cvt9M6gRwliQjb8jnGaI0jwsVkug6gHgfVDg/SFEAQW3sS+VcrMftzk8V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHnc8sG7; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V8Ss9rwD"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-57864327f6eso1587400a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 08:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717081565; x=1717686365; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JfTCm3TgmaVqE21yEOO5h5MBclylP+1WmzgquDnfhEE=;
-        b=V8Ss9rwDP/a2u3HDXCnwPKCV92mHQDGvTdExFAE1dF0StMZzrm8pZrCI8fe5oq+yfn
-         +br2C7PZYj/EuelIQR8yNeV8mekJbNNB0H1LeVd4fTDNbsuBNQIs15Ls/tdaezZyTKGi
-         9c53+DLvC7CpaN1Av9tpZw5JR2F0aPnGV1sOlp9ReLaBamM2+UmdWfrySwqIepD3PrK/
-         6R1uQ5bOnhCV2ooPJTsT4UruVQCd9EeHAtVycY00OneGTHUZMdSE5JDX7wTzrHSCZYx1
-         uX0rXh73KyVQlnZIG/mv2//p6h4lOWVWSBEja3flXf64nWSExr3G51LXY6epJHiu2PWL
-         +zRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717081565; x=1717686365;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JfTCm3TgmaVqE21yEOO5h5MBclylP+1WmzgquDnfhEE=;
-        b=OwthNzjsxVGPkZcgHL2f4qq117lTwr+aCBTzAByxNMzi7f6R59rvDyPl0eY49Rabpi
-         IcPCj5YHUw4MQoCcMe/4wdp/PQtLY0Z5tYZhjEu6XVfQSrYqlRYnlASjvjwJSu6OWjBs
-         MQWPYmoQkQ0GrMVnWuBumfINWacvRP8tp3Bb9yb9/QcgPUIuWtNoZi3+djFHDCkYr6QB
-         12RsN4xJqt4ZvhNmMJgUhvTZk34TaTzr8r5BoL/8sF21v81ZuJJgtDXUAxifRuisPVrf
-         WeNeV14temzKg5yLenMYm06YQngp0LqOVRjFnxUt1ufjpSiUATD9462UyfkozgElWHsd
-         FHTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUarnUH386XQlVDwKjcDEDWcB+etMObQw/wFjE57btqMKqSmQZvirpzqxq7jVERKdMT1N2RgflNBMeU3HkH9u/qyLoS+E/xLov+eq4RXw==
-X-Gm-Message-State: AOJu0YxscpZM2pxft+c7gV4I5vHuaHbZAtqNClq3S6qFCXNezvQdt6nG
-	z5+UjxPnUMX1OY8bHdXha+y6l5IBRwrgMObHQTk5T6OU1Ik0JUapGRIQ+bAtuv0=
-X-Google-Smtp-Source: AGHT+IGFszHFfcj7wctFXE+SYTvuP+z6WVvHgpD1nVi2pkCWcCJDw9CqOdvJQ+km4DhaujCdkaYA5Q==
-X-Received: by 2002:a50:999a:0:b0:574:ec3d:262a with SMTP id 4fb4d7f45d1cf-57a19f5d549mr1844685a12.5.1717081564934;
-        Thu, 30 May 2024 08:06:04 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a231e5250sm817567a12.39.2024.05.30.08.06.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 08:06:04 -0700 (PDT)
-Date: Thu, 30 May 2024 18:06:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Ziyang Xuan <william.xuanziyang@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 22031/22588] net/tipc/udp_media.c:775
- cleanup_bearer() warn: variable dereferenced before check 'ub->ubsock' (see
- line 774)
-Message-ID: <29a08432-8d91-4462-8224-b8e919485d21@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHnc8sG7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717082624; x=1748618624;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U+mW+L6f/Twt4uGPzoRCYtWA49CgVsFMfCOgnOwxdC0=;
+  b=GHnc8sG7Zn3tMq+VN32nWgcV4P1a7h0AqMml7G2FY+AP0TO530Iul+jG
+   xH12NBI8LQesVM1qxfAIdr87UaL2CeWaCLDRggAH7vVL99YBUDtNQKxEv
+   6z04hXDazSuEHwi84ZEUZ2mA/QNVTAj/hFYcsLQp5f6ONEX0FAOR+9Hsk
+   qEXbeWmeOSYRu8kszhy3Cdr9XLI0ry+v3FrkTWXqzZZBmUGzPSSfMG2yL
+   XtpOIHHVoce0cfZVKOB5RO7IrJ61/aDgSdi2zTKUlbo5Xe/Bwe9BCNKYl
+   VBGS92qk+O4ZXbHiiWN5dyS4V0nIcc105gHUhmlzYhmiLLTRO8iShHjRc
+   g==;
+X-CSE-ConnectionGUID: o+lG8jyRQWuvAGLxwNN2nA==
+X-CSE-MsgGUID: pZJQ6JkWRLmFjpWQX7Lq4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24191058"
+X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
+   d="scan'208";a="24191058"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 08:23:43 -0700
+X-CSE-ConnectionGUID: kHTftNWnQvmuqoIANWGYGw==
+X-CSE-MsgGUID: LET40OjPQ8SyHbGnlQ27oA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
+   d="scan'208";a="35910354"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 30 May 2024 08:23:37 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sChcf-000Fd7-12;
+	Thu, 30 May 2024 15:23:26 +0000
+Date: Thu, 30 May 2024 23:23:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 37/37] versioncheck:
+ ./drivers/gpu/arm/mali/platform/mediatek/mt8183_mali_kbase_runtime_pm.c: 84:
+ need linux/version.h
+Message-ID: <202405302316.HPJeg1Gr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,74 +64,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   03933bd11a64b94203f2cbe30ae71061807872fb
-commit: f147e8f44610a18cff2d6db47d5e7bcad58a59a5 [22031/22588] tipc: wait and exit until all work queues are done
-config: x86_64-randconfig-161-20240530 (https://download.01.org/0day-ci/archive/20240530/202405302145.ELvG0wIM-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   4cdde2c30d79fba7b0502b267ed571deec8fc684
+commit: 4cdde2c30d79fba7b0502b267ed571deec8fc684 [37/37] CHROMIUM: gpu: mali: mt8183: Switch mt8183 clk to auto-reparent
+reproduce: (https://download.01.org/0day-ci/archive/20240530/202405302316.HPJeg1Gr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405302145.ELvG0wIM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405302316.HPJeg1Gr-lkp@intel.com/
 
-smatch warnings:
-net/tipc/udp_media.c:775 cleanup_bearer() warn: variable dereferenced before check 'ub->ubsock' (see line 774)
-net/tipc/udp_media.c:796 tipc_udp_disable() error: we previously assumed 'ub->ubsock' could be null (see line 791)
-
-vim +775 net/tipc/udp_media.c
-
-d0f91938bede20 Erik Hugne   2015-03-05  764  static void cleanup_bearer(struct work_struct *work)
-d0f91938bede20 Erik Hugne   2015-03-05  765  {
-d0f91938bede20 Erik Hugne   2015-03-05  766  	struct udp_bearer *ub = container_of(work, struct udp_bearer, work);
-ef20cd4dd16339 Richard Alpe 2016-08-26  767  	struct udp_replicast *rcast, *tmp;
-ef20cd4dd16339 Richard Alpe 2016-08-26  768  
-ef20cd4dd16339 Richard Alpe 2016-08-26  769  	list_for_each_entry_safe(rcast, tmp, &ub->rcast.list, list) {
-ef20cd4dd16339 Richard Alpe 2016-08-26  770  		list_del_rcu(&rcast->list);
-ef20cd4dd16339 Richard Alpe 2016-08-26  771  		kfree_rcu(rcast, rcu);
-ef20cd4dd16339 Richard Alpe 2016-08-26  772  	}
-d0f91938bede20 Erik Hugne   2015-03-05  773  
-f147e8f44610a1 Xin Long     2024-04-02 @774  	atomic_dec(&tipc_net(sock_net(ub->ubsock->sk))->wq_count);
-                                                                              ^^^^^^^^^^^^^^
-Unchecked dereference.
-
-d0f91938bede20 Erik Hugne   2015-03-05 @775  	if (ub->ubsock)
-                                                    ^^^^^^^^^^
-Too late.
-
-d0f91938bede20 Erik Hugne   2015-03-05  776  		udp_tunnel_sock_release(ub->ubsock);
-d0f91938bede20 Erik Hugne   2015-03-05  777  	synchronize_net();
-d0f91938bede20 Erik Hugne   2015-03-05  778  	kfree(ub);
-d0f91938bede20 Erik Hugne   2015-03-05  779  }
-d0f91938bede20 Erik Hugne   2015-03-05  780  
-d0f91938bede20 Erik Hugne   2015-03-05  781  /* tipc_udp_disable - detach bearer from socket */
-d0f91938bede20 Erik Hugne   2015-03-05  782  static void tipc_udp_disable(struct tipc_bearer *b)
-d0f91938bede20 Erik Hugne   2015-03-05  783  {
-d0f91938bede20 Erik Hugne   2015-03-05  784  	struct udp_bearer *ub;
-d0f91938bede20 Erik Hugne   2015-03-05  785  
-d0f91938bede20 Erik Hugne   2015-03-05  786  	ub = rcu_dereference_rtnl(b->media_ptr);
-d0f91938bede20 Erik Hugne   2015-03-05  787  	if (!ub) {
-d0f91938bede20 Erik Hugne   2015-03-05  788  		pr_err("UDP bearer instance not found\n");
-d0f91938bede20 Erik Hugne   2015-03-05  789  		return;
-d0f91938bede20 Erik Hugne   2015-03-05  790  	}
-d0f91938bede20 Erik Hugne   2015-03-05 @791  	if (ub->ubsock)
-                                                    ^^^^^^^^^^
-Check for NULL
-
-d0f91938bede20 Erik Hugne   2015-03-05  792  		sock_set_flag(ub->ubsock->sk, SOCK_DEAD);
-d0f91938bede20 Erik Hugne   2015-03-05  793  	RCU_INIT_POINTER(ub->bearer, NULL);
-d0f91938bede20 Erik Hugne   2015-03-05  794  
-d0f91938bede20 Erik Hugne   2015-03-05  795  	/* sock_release need to be done outside of rtnl lock */
-f147e8f44610a1 Xin Long     2024-04-02 @796  	atomic_inc(&tipc_net(sock_net(ub->ubsock->sk))->wq_count);
-                                                                              ^^^^^^^^^^^^^^
-Unchecked dereference
-
-d0f91938bede20 Erik Hugne   2015-03-05  797  	INIT_WORK(&ub->work, cleanup_bearer);
-d0f91938bede20 Erik Hugne   2015-03-05  798  	schedule_work(&ub->work);
-d0f91938bede20 Erik Hugne   2015-03-05  799  }
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.73.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_driver.c: 3493: need linux/version.h
+   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_policy.c: 440: need linux/version.h
+   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_time.c: 362: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware.c: 3256: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware_no_mali.c: 1691: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.c: 2986: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.h: 423: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_reset_gpu.c: 640: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_sync_debugfs.c: 878: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_tiler_heap_reclaim.c: 371: need linux/version.h
+   ./drivers/gpu/arm/mali/include/priority_control_manager.h: 27 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/ipa/mali_kbase_ipa.c: 778: need linux/version.h
+   ./drivers/gpu/arm/mali/jm/mali_kbase_jm_defs.h: 875: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase.h: 869: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_debug_job_fault.c: 573: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_defs.h: 2255: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_dummy_job_wa.c: 459: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_fence.c: 61: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_fence.h: 252: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_fence_ops.c: 111: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_gpuprops.c: 889: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_gwt.c: 275: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/mali_kbase_kinstr_prfcnt.c: 2024: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem.h: 2602: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem_linux.h: 533: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem_migrate.c: 712: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem_migrate.h: 118: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_sync.h: 216: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_vinstr.c: 1136: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_malisw.h: 29 linux/version.h not needed.
+>> ./drivers/gpu/arm/mali/platform/mediatek/mt8183_mali_kbase_runtime_pm.c: 84: need linux/version.h
+   ./drivers/gpu/arm/mali/tl/mali_kbase_timeline_io.c: 465: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/cache_km.c: 47 linux/version.h not needed.
+   ./drivers/gpu/drm/img-rogue/1.17/mt8173/mt8173_sysconfig.c: 552: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/osfunc_arm64.c: 43 linux/version.h not needed.
+   ./drivers/gpu/drm/img-rogue/1.17/osfunc_x86.c: 134: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/pvr_buffer_sync.c: 739: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/pvr_debugfs.c: 624: need linux/version.h
+   ./drivers/media/virtio/virtio_video_driver.c: 21 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/config.h: 69: need linux/version.h
+   ./drivers/net/wireless/iwl7000/hdrs/kunit/visibility.h: 3 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/linux/acpi_amd_wbrf.h: 3 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/linux/math.h: 4 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2351: need linux/version.h
+   ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 180: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 433: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2536: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.h: 103: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1244: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3693: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 1142: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6815: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2973: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2357: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2608: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3572: need linux/version.h
+   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2419: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/backports.c: 559: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 403: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5483: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 737: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/driver-ops.h: 1733: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/ethtool.c: 284: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2728: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2490: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/link.c: 531: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/main.c: 1854: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 9171: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/parse.c: 959: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5544: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1472: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 3038: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/status.c: 1302: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/tdls.c: 2080: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6309: need linux/version.h
+   ./drivers/net/wireless/iwl7000/mac80211/util.c: 4392: need linux/version.h
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
