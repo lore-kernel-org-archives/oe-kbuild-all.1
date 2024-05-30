@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F1717C203
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 13:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F8C186E2F;
+	Thu, 30 May 2024 14:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717076192; cv=none; b=ZvkpC8vVqT9Z35mYRXmLsTV/qsrEb36iOASNyqx1as+T2QOdDhZwbNQUX2g+FQvY39ee00qKXrsJFRT6XJeQkVNl2mzAzeqz9tdzDmj/cnVIy3tVuyJ0fCLV4NTtE7Fsd3C1ZbLMd2my3XZ6VCUw7bOiwREh8j9kidoCE+mTwQs=
+	t=1717078976; cv=none; b=Hbs95mE4mDGtEyPiOhbvynVOnGZO3aiHf0FaLo4z9eZHzzzjv9diodMnH25hP22hFGPchb03tecMgaqeEDXWFEscXvt4EM+jwgu9KRgNJCHSquBiw8izn81F0HbaGnNTvtONsdx9Jq8ERkxQVi4gDnwFs679Yo9KAPJ0JpvCD04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717076192; c=relaxed/simple;
-	bh=dvXBBgEi4XiF4NuQUXxKbOsA/Dj0DKOKfST7p2/9ItM=;
+	s=arc-20240116; t=1717078976; c=relaxed/simple;
+	bh=0TzI08c66avPZJEdsDRUEmen7CFRPyXzgnULJsKiuKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KG+zUakMte9yaG8ulwJUA+o9XiNo1rDmyJnL8yprjjTY+7IZfrUTVME/D3N9LAFqAi8/RHsKg8ZddYMHA15kWypnNv5/dHlNFlSxuBGLtBFIunpG5kD0KVdaCwyBl64lip6vM5rDjC4XhtXIA8JAWmLOii9TFdjgUizcXwaXW9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eQv9vsR6; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=lHT/+mEDB2Jk/PfT7XEqrzCRaW57Mp5F1uocq/X6ALhmoa/xSy98napuvJr5iJGQhLVmc2CxBDnrqO9Wc490C8/alJeR+Q3vkSTSsz3b9qaoksVZ8ScP4MOE8SCCtJTgHA27GoHjx2Q/mlB6ToEFK0+dyOCkE7833nqe0hIl8sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kqbnRjX+; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQv9vsR6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kqbnRjX+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717076191; x=1748612191;
+  t=1717078975; x=1748614975;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=dvXBBgEi4XiF4NuQUXxKbOsA/Dj0DKOKfST7p2/9ItM=;
-  b=eQv9vsR6Zs9KfHelxfe1d4aoDIezDE0l8ZlLUYdcXYvJKfux6qDaW5Qb
-   D4Sh23bpJ3KOv4In9l/skzVjMWdaH/P9JcG096QLIYtBvbZFSZCM9RdtU
-   cR26SUvEXOTOymoeHhxVaSClPL4WB488eQLvSdeFNFx0MvPRc0b0hvwmL
-   Ox2kOloOMV/IT+crG1z/q/IJO8wEtQCabgewroP/TTyMNYYPWVyXUN+/B
-   1zjjlTRgmlH8GNebm69q7gfjBXpL+Wo6riQ+dUE1jPYqCvoCL6lEre60C
-   xTSXa2ba+71Fxu0uP6/sC+4Npe3OG77hpHnR2XOMXbDihG3ar/LyAzH+g
-   A==;
-X-CSE-ConnectionGUID: TNd1oOlfS3uYrVRsPw8jbQ==
-X-CSE-MsgGUID: zXnWY6/9ToyoJZQRgAOZcQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24681472"
+  bh=0TzI08c66avPZJEdsDRUEmen7CFRPyXzgnULJsKiuKw=;
+  b=kqbnRjX+2f0TBU6qs8g8aXFlsVlQCQzOhC8rcOeiBvRM5OR8Bi8C+nin
+   /ebm4rGeDhQ1HaWKqkPgfXE8BZxZNXPjmocCRDRataSqBHXXBWyA8Kmhr
+   m8KAGAcD0j9XUjUI5R7Mb9skHJiwpUpDYPbCse+sCMONMzNpyhw0qE5au
+   Q50FBHbi+YO7bxQWtIVSvzxQGpcjABn9I1gw+5OENtgfRFIXIym5tHGSU
+   CjzhfPOZKlq2ewGbqMfSsmjKrOk2AyjYvhrzXaJ30e2jE1JMBrZfQrYTP
+   0mopdSZ8U37tv5dWhdPDvk3v/zL6qnxdafLomEq0dZpLqq4s8FbmwBh0B
+   Q==;
+X-CSE-ConnectionGUID: TYMqvI2YRsK6X3pWMcdPsQ==
+X-CSE-MsgGUID: LfRCl7wQRrmpbeNUU1M7Qw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24971283"
 X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="24681472"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 06:36:30 -0700
-X-CSE-ConnectionGUID: py9lAhkhQA6O4KhnuZOthg==
-X-CSE-MsgGUID: 72ijirNkQJeIiou3cDt3UA==
+   d="scan'208";a="24971283"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 07:22:54 -0700
+X-CSE-ConnectionGUID: JU4D+hkIS5GrqJb6iNRbeg==
+X-CSE-MsgGUID: cDohpN6KSJ2/DX72oY4GmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="40733932"
+   d="scan'208";a="35764100"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 May 2024 06:36:28 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 May 2024 07:22:52 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCfxB-000FOF-04;
-	Thu, 30 May 2024 13:36:25 +0000
-Date: Thu, 30 May 2024 21:36:08 +0800
+	id 1sCgfx-000FY4-2t;
+	Thu, 30 May 2024 14:22:47 +0000
+Date: Thu, 30 May 2024 22:19:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Samuel Holland <samuel.holland@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andy Chiu <andy.chiu@sifive.com>, linux-riscv@lists.infradead.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Andy Chiu <andy.chiu@sifive.com>,
+	linux-riscv@lists.infradead.org,
 	Matthew Bystrin <dev.mbstr@gmail.com>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Samuel Holland <samuel.holland@sifive.com>
 Subject: Re: [PATCH 4/4] riscv: entry: Save a frame record for exceptions
-Message-ID: <202405302103.1V3ufzgK-lkp@intel.com>
+Message-ID: <202405302207.M9bDz8l3-lkp@intel.com>
 References: <20240530001733.1407654-5-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,20 +85,23 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/riscv-Fix-
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20240530001733.1407654-5-samuel.holland%40sifive.com
 patch subject: [PATCH 4/4] riscv: entry: Save a frame record for exceptions
-config: riscv-randconfig-002-20240530 (https://download.01.org/0day-ci/archive/20240530/202405302103.1V3ufzgK-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405302103.1V3ufzgK-lkp@intel.com/reproduce)
+config: riscv-randconfig-001-20240530 (https://download.01.org/0day-ci/archive/20240530/202405302207.M9bDz8l3-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405302207.M9bDz8l3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405302103.1V3ufzgK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405302207.M9bDz8l3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/riscv/kernel/probes/rethook_trampoline.S: Assembler messages:
->> arch/riscv/kernel/probes/rethook_trampoline.S:79: Error: illegal operands `addi sp,sp,-(PT_SIZE_ON_STACK)'
->> arch/riscv/kernel/probes/rethook_trampoline.S:90: Error: illegal operands `addi sp,sp,PT_SIZE_ON_STACK'
+>> arch/riscv/kernel/probes/rethook_trampoline.S:79:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+    addi sp, sp, -(PT_SIZE_ON_STACK)
+                 ^
+   arch/riscv/kernel/probes/rethook_trampoline.S:90:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+    addi sp, sp, PT_SIZE_ON_STACK
+                 ^
 
 
 vim +79 arch/riscv/kernel/probes/rethook_trampoline.S
@@ -173,17 +177,6 @@ c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-
 c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  77  
 76329c693924d8 arch/riscv/kernel/probes/rethook_trampoline.S Clément Léger 2023-10-24  78  SYM_CODE_START(arch_rethook_trampoline)
 c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17 @79  	addi sp, sp, -(PT_SIZE_ON_STACK)
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  80  	save_all_base_regs
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  81  
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  82  	move a0, sp /* pt_regs */
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  83  
-b57c2f12409845 arch/riscv/kernel/probes/rethook_trampoline.S Binglei Wang  2022-10-25  84  	call arch_rethook_trampoline_callback
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  85  
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  86  	/* use the result as the return-address */
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  87  	move ra, a0
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  88  
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17  89  	restore_all_base_regs
-c22b0bcb1dd024 arch/riscv/kernel/probes/kprobes_trampoline.S Guo Ren       2020-12-17 @90  	addi sp, sp, PT_SIZE_ON_STACK
 
 -- 
 0-DAY CI Kernel Test Service
