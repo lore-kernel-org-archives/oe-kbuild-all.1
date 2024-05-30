@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE6522083
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 19:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7009117D35E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 20:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717098578; cv=none; b=ssrAogNV4VsTwpACYTZDPFroipMl/YgZmhvNZ0v87LOHGMEbhrmdDrpHxaTaYbQoWsRw64cfGp1lwyOulhjbL6OLs5zD9TX/HxL22jCfQ6PRgdf5V3CUbvX+LMWyg6ffnt3fQn9pJV2FIxpkhf9Ys+v/1lNv7vBFVq0BvFBCBpM=
+	t=1717102301; cv=none; b=d73f94dbRgNSN91vV2ZjtoIIdRpIYFqluQcpZ1DUabwZGv/MsqrLsM9cJThzA0zXZ7jpwdMzuTWKOVNPkfZ98hv+C0AQus8gKkaBAhQwSJqZpMN8NHe9Fmn73R+GRlY/T0yXdkyo+4uAHjvrsQabH88dBVivJqoHN59SYtqUnX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717098578; c=relaxed/simple;
-	bh=dw6PHAUiKNZynTrJW/bQdeGSnY0/fN0GNkW1qwkTAPU=;
+	s=arc-20240116; t=1717102301; c=relaxed/simple;
+	bh=RAYBy0qHJIwdJxwWflZaAKdWrjsSMABWj1ElC/ICSCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sHbvm/EpsXN9yzpFgHEYzhIk7KoALQZUx63UzDhHW6F/qU+oJHkHcdj7cgr8dwjOeKLwDK/HLJqN2Uueb4pQG3J3nv9JF55vHUSBtdldSDx8fyGpRMcigLPOEiBAco1i7LRTPR4m0OZZToqDHIUOiEdt/HGocfgveT+UY0+dgOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/1J+MLz; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z0ItrUZzE83a9CdGHkw9mlK29XAj226KimhPHLhbm3O37ati+ZCCXQeFT9GLqpzTCagwZOgVRguJD4CojIjLDPqsfLUtWSeWEr9CCtqE8V3HRg0oIypQVtMEsJ+XCFbhieRP2ihEzzLbW/GK7ReWb+AT3VUq6pL30Lqk455bM6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXEw0bN7; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/1J+MLz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXEw0bN7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717098576; x=1748634576;
+  t=1717102299; x=1748638299;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dw6PHAUiKNZynTrJW/bQdeGSnY0/fN0GNkW1qwkTAPU=;
-  b=m/1J+MLzWOkepnrU8S77/ZaUkb1C4SgC7TRe50RdnwywUIHtDqZjxcVB
-   h1PscQmEvJf0DCMWEeQBDi8V/IGtYIbm17219r5vfylUD+pHi5IxoioiM
-   SV0Tc0O56ZVsy+1QtbCaDqfXp3s38Zse8/0LetiY1CCqRmdNvoMxgMtPM
-   NUKv8aO8ZHeqKyOHVOIL79gfBwZuBjLENlqUMYU96wnXsOSZDZsQrF0CM
-   mkbd50oAq1Eu5KzLCCM5hkBT40rQb6qU9asphasdKXmzXdsuI67/+i5uz
-   SXWdfvaH/LJkhKK3fessrTaXRfOeSfGVDPfmG1ANU3i9J4bAu0yDzGBtm
+  bh=RAYBy0qHJIwdJxwWflZaAKdWrjsSMABWj1ElC/ICSCM=;
+  b=QXEw0bN7N26U/Cg245eKuzTMDwFxidyQGF/I/FEKso9JAVasQjZtYyl4
+   IbFsuKFALsZJn+rbnWryV4199NP6GnOQaQoQw+cm5cNVromyt86aEKvn6
+   eH1mLSrzCkTHH6hfRjw4D446g3lMP+nqOTC3nSrVKdj1N0fjG+YEuY87X
+   yqY2LNWq0wniVPoi2jJgw+id4w+v4cz1EIksu+ru3jz+Wrk1OBzd2bbb2
+   CQ1tGT8vxqeIKqiAnsKNHxfGFcpLp0HYPDPW6wzft3+05/wSbU7D0NwHl
+   iSKQ4zwk7iQ3CYizovBgvk2X2CK6ZWEePEKelogJ2Mk2i75ndPdbAAnUf
    Q==;
-X-CSE-ConnectionGUID: ky0UdN+sQVaizpTEZNr2nw==
-X-CSE-MsgGUID: nnngwRMSS0W1p4q+h+4LGA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31107723"
+X-CSE-ConnectionGUID: 3sKKeM7IRkWZAlMZu8mn8w==
+X-CSE-MsgGUID: QvAkxsGAR6i9rhR6X05qFw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31114956"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="31107723"
+   d="scan'208";a="31114956"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:49:36 -0700
-X-CSE-ConnectionGUID: Jh/LxzXKTK+r0DCwXZWcWQ==
-X-CSE-MsgGUID: FP8yERaSS/2g2CbiwJf7JA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 13:51:39 -0700
+X-CSE-ConnectionGUID: nQeAQxXuQx2BCT4H/y9BJg==
+X-CSE-MsgGUID: M5ftgt0KTsqUxFvQd8Cvlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="35850528"
+   d="scan'208";a="35869134"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 30 May 2024 12:49:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 May 2024 13:51:35 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sClmE-000FuR-2y;
-	Thu, 30 May 2024 19:49:30 +0000
-Date: Fri, 31 May 2024 03:48:51 +0800
+	id 1sCmkH-000Fxh-00;
+	Thu, 30 May 2024 20:51:33 +0000
+Date: Fri, 31 May 2024 04:51:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Subbaraya Sundeep <sbhatta@marvell.com>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -60,7 +60,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Subbaraya Sundeep <sbhatta@marvell.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 Subject: Re: [net-next PATCH] octeontx2: Improve mailbox tracepoints for
  debugging
-Message-ID: <202405310351.9HtVnVJ5-lkp@intel.com>
+Message-ID: <202405310425.kxMtnCmV-lkp@intel.com>
 References: <1717070038-18381-1-git-send-email-sbhatta@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,88 +82,157 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Subbaraya-Sundeep/octeont
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/1717070038-18381-1-git-send-email-sbhatta%40marvell.com
 patch subject: [net-next PATCH] octeontx2: Improve mailbox tracepoints for debugging
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240531/202405310351.9HtVnVJ5-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310351.9HtVnVJ5-lkp@intel.com/reproduce)
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240531/202405310425.kxMtnCmV-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310425.kxMtnCmV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310351.9HtVnVJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310425.kxMtnCmV-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/marvell/octeontx2/af/mbox.c: In function '__otx2_mbox_reset':
->> drivers/net/ethernet/marvell/octeontx2/af/mbox.c:23:29: warning: unused variable 'msg' [-Wunused-variable]
-      23 |         struct mbox_msghdr *msg;
-         |                             ^~~
-   drivers/net/ethernet/marvell/octeontx2/af/mbox.c: In function 'otx2_mbox_msg_send_data':
->> drivers/net/ethernet/marvell/octeontx2/af/mbox.c:254:9: error: 'msg' undeclared (first use in this function); did you mean 'ndmsg'?
-     254 |         msg = (struct mbox_msghdr *)(hw_mbase + mbox->tx_start + msgs_offset);
-         |         ^~~
-         |         ndmsg
-   drivers/net/ethernet/marvell/octeontx2/af/mbox.c:254:9: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/trace/trace_events.h:419,
+                    from include/trace/define_trace.h:102,
+                    from drivers/net/ethernet/marvell/octeontx2/af/rvu_trace.h:144,
+                    from drivers/net/ethernet/marvell/octeontx2/af/rvu_trace.c:9:
+>> drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:119:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
+     119 | );
+         | ^~            
+   In file included from include/trace/trace_events.h:375:
+   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
+      34 | #define __assign_str(dst)                                               \
+         | 
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h: In function 'trace_event_raw_event_otx2_msg_wait_rsp':
+>> drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:115:28: error: '__assign_str' undeclared (first use in this function)
+     115 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |                            ^~~~~~~~~~~~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:110:1: note: in expansion of macro 'TRACE_EVENT'
+     110 | TRACE_EVENT(otx2_msg_wait_rsp,
+         | ^~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:115:13: note: in expansion of macro 'TP_fast_assign'
+     115 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |             ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:115:28: note: each undeclared identifier is reported only once for each function it appears in
+     115 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |                            ^~~~~~~~~~~~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:110:1: note: in expansion of macro 'TRACE_EVENT'
+     110 | TRACE_EVENT(otx2_msg_wait_rsp,
+         | ^~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:115:13: note: in expansion of macro 'TP_fast_assign'
+     115 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |             ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h: At top level:
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:134:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
+     134 | );
+         | ^~            
+   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
+      34 | #define __assign_str(dst)                                               \
+         | 
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:134:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
+     134 | );
+         | ^~            
+   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
+      34 | #define __assign_str(dst)                                               \
+         | 
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h: In function 'trace_event_raw_event_otx2_msg_status':
+>> drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:128:28: error: unknown type name '__assign_str'
+     128 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |                            ^~~~~~~~~~~~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:121:1: note: in expansion of macro 'TRACE_EVENT'
+     121 | TRACE_EVENT(otx2_msg_status,
+         | ^~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:128:13: note: in expansion of macro 'TP_fast_assign'
+     128 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |             ^~~~~~~~~~~~~~
+>> include/trace/stages/stage6_event_callback.h:9:17: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'entry'
+       9 | #define __entry entry
+         |                 ^~~~~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:121:1: note: in expansion of macro 'TRACE_EVENT'
+     121 | TRACE_EVENT(otx2_msg_status,
+         | ^~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:128:13: note: in expansion of macro 'TP_fast_assign'
+     128 |             TP_fast_assign(__assign_str(dev, pci_name(pdev))
+         |             ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:130:28: note: in expansion of macro '__entry'
+     130 |                            __entry->num_msgs = num_msgs;
+         |                            ^~~~~~~
+   In file included from include/trace/trace_events.h:469:
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h: At top level:
+>> drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:119:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
+     119 | );
+         | ^~            
+   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
+      34 | #define __assign_str(dst)                                               \
+         | 
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:134:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
+     134 | );
+         | ^~            
+   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
+      34 | #define __assign_str(dst)                                               \
+         | 
+   drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h:134:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
+     134 | );
+         | ^~            
+   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
+      34 | #define __assign_str(dst)                                               \
+         | 
 
 
-vim +254 drivers/net/ethernet/marvell/octeontx2/af/mbox.c
+vim +/__assign_str +119 drivers/net/ethernet/marvell/octeontx2/af/./rvu_trace.h
 
-   216	
-   217	static void otx2_mbox_msg_send_data(struct otx2_mbox *mbox, int devid, u64 data)
-   218	{
-   219		struct otx2_mbox_dev *mdev = &mbox->dev[devid];
-   220		struct mbox_hdr *tx_hdr, *rx_hdr;
-   221		void *hw_mbase = mdev->hwbase;
-   222		u64 intr_val;
-   223	
-   224		tx_hdr = hw_mbase + mbox->tx_start;
-   225		rx_hdr = hw_mbase + mbox->rx_start;
-   226	
-   227		/* If bounce buffer is implemented copy mbox messages from
-   228		 * bounce buffer to hw mbox memory.
-   229		 */
-   230		if (mdev->mbase != hw_mbase)
-   231			memcpy(hw_mbase + mbox->tx_start + msgs_offset,
-   232			       mdev->mbase + mbox->tx_start + msgs_offset,
-   233			       mdev->msg_size);
-   234	
-   235		spin_lock(&mdev->mbox_lock);
-   236	
-   237		tx_hdr->msg_size = mdev->msg_size;
-   238	
-   239		/* Reset header for next messages */
-   240		mdev->msg_size = 0;
-   241		mdev->rsp_size = 0;
-   242		mdev->msgs_acked = 0;
-   243	
-   244		/* Sync mbox data into memory */
-   245		smp_wmb();
-   246	
-   247		/* num_msgs != 0 signals to the peer that the buffer has a number of
-   248		 * messages.  So this should be written after writing all the messages
-   249		 * to the shared memory.
-   250		 */
-   251		tx_hdr->num_msgs = mdev->num_msgs;
-   252		rx_hdr->num_msgs = 0;
-   253	
- > 254		msg = (struct mbox_msghdr *)(hw_mbase + mbox->tx_start + msgs_offset);
-   255	
-   256		trace_otx2_msg_send(mbox->pdev, tx_hdr->num_msgs, tx_hdr->msg_size,
-   257				    msg->id, msg->pcifunc);
-   258	
-   259		spin_unlock(&mdev->mbox_lock);
-   260	
-   261		/* Check if interrupt pending */
-   262		intr_val = readq((void __iomem *)mbox->reg_base +
-   263			     (mbox->trigger | (devid << mbox->tr_shift)));
-   264	
-   265		intr_val |= data;
-   266		/* The interrupt should be fired after num_msgs is written
-   267		 * to the shared memory
-   268		 */
-   269		writeq(intr_val, (void __iomem *)mbox->reg_base +
-   270		       (mbox->trigger | (devid << mbox->tr_shift)));
-   271	}
-   272	
+   109	
+   110	TRACE_EVENT(otx2_msg_wait_rsp,
+   111		    TP_PROTO(const struct pci_dev *pdev),
+   112		    TP_ARGS(pdev),
+   113		    TP_STRUCT__entry(__string(dev, pci_name(pdev))
+   114		    ),
+ > 115		    TP_fast_assign(__assign_str(dev, pci_name(pdev))
+   116		    ),
+   117		    TP_printk("[%s] timed out while waiting for response\n",
+   118			      __get_str(dev))
+ > 119	);
+   120	
+   121	TRACE_EVENT(otx2_msg_status,
+   122		    TP_PROTO(const struct pci_dev *pdev, const char *msg, u16 num_msgs),
+   123		    TP_ARGS(pdev, msg, num_msgs),
+   124		    TP_STRUCT__entry(__string(dev, pci_name(pdev))
+   125				     __string(str, msg)
+   126				     __field(u16, num_msgs)
+   127		    ),
+ > 128		    TP_fast_assign(__assign_str(dev, pci_name(pdev))
+   129				   __assign_str(str, msg)
+   130				   __entry->num_msgs = num_msgs;
+   131		    ),
+   132		    TP_printk("[%s] %s num_msgs:%d\n", __get_str(dev),
+   133			      __get_str(str), __entry->num_msgs)
+ > 134	);
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
