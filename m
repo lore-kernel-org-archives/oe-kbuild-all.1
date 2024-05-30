@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A33917B51C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 11:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E420517C9E4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 12:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717069983; cv=none; b=JiPsQMbiCu7aBcqNK5EcP3wCBzrOvOuXdFg9OoFLKuefZOLamZL19XCOcvk2lP0Qsj4YHpPjdqdF9sbYQTYiEAp9+kXa6lTwRi31EybGviw06/NUfIULoQ/4eQ0o6L83e5Q7fdJq2g4uUA5oltvFi0KWUQjvaAe/Go27wNjsz7E=
+	t=1717073755; cv=none; b=F5uoA4sTeXewxxHVXooylI+qMpx62MfQSEx2SifXMeMta0+y3mQq7e1NhlrQsyKN1tImMPnXGzrMZ6BcX//wY8IiiRh5VX/1tEoiZJhQv4Wf2s9wKQF8PrkkFNhKwAk/CDcD3UBpsT2PQQWtTFXV3jfOqBuUOUoGinqFWgbcUOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717069983; c=relaxed/simple;
-	bh=gqgw8dMBXSqZl1co5MFwPd8MmkmrgVoFkFjmIbkDCqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QTSXqofM0sU+A68WCx0gJ9l7KTjZYbvOrypCBidPMe4pn9fB2icAqs98m3hNALR8y50L1Mpsxb7Th7OJsFBMQ46EBz5jNI8Is8rDN3aWs/UUZW3ISlYmy1ZL6Cf2oXg7oHvSjAfgvzJtQ43qBINdBVyImU82zXrx/Za4uh7aBjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ekGZFCD+; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1717073755; c=relaxed/simple;
+	bh=0X4fg4iFYKDndZ2Iqm/1AYkChQqhNk/LkEu9yRES+Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQ0NbegRB26XU7/6gIEMxSN+O8W5N1yugeUWlSWxOgP134vPbBAhwYyy+Sd1P+UPIQKdSWB7Hp092dj7eNhsWyGXtdRw9rjzQXiB9GA7BPRX69DqRuKT1MQ1bSCqmrXJzFBqoJWHhqrYCNChmBoEWbddOfQSYNghs8p0j2EvZJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ac141h56; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ekGZFCD+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ac141h56"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717069981; x=1748605981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gqgw8dMBXSqZl1co5MFwPd8MmkmrgVoFkFjmIbkDCqM=;
-  b=ekGZFCD+K43B2qaoWWm2Gw3GkX96stRfRDVWqk1nb8pELs72L3JVVKNZ
-   s3HvA/dsYpqt4vYNBfsu5cGAZYWhZJbHrw+D+PHIa4b/m0VubA6/C3JVF
-   9OR8iF4vY5Pcgdir5Iv2JQLxD1+hd6MBx+Nt/kcO5JtBA+qvLgmyu/5G2
-   vEM56LvLdZjlpCyEBBkjGqi10VEX9UdVOF0qfiLjwARq4FLB0CFU51h3t
-   VFnAtpBhdxhDtm0lYWfQwmeenJZ5tVAKj1T5m9dGr1Va+2bn7gSdFguUQ
-   uO6W1wNhlFb0IizZXKJQSHNvrKq8CifXvGk1fdIvBT2iwk8C00ns7gd3x
-   A==;
-X-CSE-ConnectionGUID: DmXQbsmdRwCP+RTwpCKrDw==
-X-CSE-MsgGUID: wv9o8Mg4RTyHzyalWo/2vw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17384025"
+  t=1717073755; x=1748609755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0X4fg4iFYKDndZ2Iqm/1AYkChQqhNk/LkEu9yRES+Ns=;
+  b=ac141h56o0hK82QKcIq228m3sO1V6d8R0Oz65gXXZUr55dH6PW+RJ81c
+   C5VXEsbruymAiWuYKCcKP6fpB5sckBBHTJM2wseRGaADItX0fdzZN5Aam
+   x6zE1LuE+Eq0ybiZhZeOQLL62QE1n8h2LrWZKCroDMNqIvMG8kPSXrQtm
+   pdpBWmgI9n+0MIgTUP6tPSDC8ip9UU1wirxbVypcSoy0e4vZ8xG74WmSB
+   yqbQOPo7uaZJfWXBIB+7LPfXrcw5G9WFZTkizZZyKhSwO+VBlPrzDr3em
+   EN7ZNqoQ2bQAATXPwED8bEU1tCokhIGcrUw8X/MLfJstWvNd5ffoFoyss
+   g==;
+X-CSE-ConnectionGUID: EE9YZ97CTd+cMJglOTCJ3g==
+X-CSE-MsgGUID: 5EnMZl87R0az5anKPDqzaQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24212937"
 X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="17384025"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 04:53:01 -0700
-X-CSE-ConnectionGUID: GIlOHjzjSIqDau84SpLI9Q==
-X-CSE-MsgGUID: /z8unwMPRsem5/BjcFTT3w==
+   d="scan'208";a="24212937"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 05:55:54 -0700
+X-CSE-ConnectionGUID: nGh0ZSuIRT+n4SJAOnAjEQ==
+X-CSE-MsgGUID: sNkZZY+dSvO9LH+0m+cs+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="35822511"
+   d="scan'208";a="35786717"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 30 May 2024 04:52:59 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 30 May 2024 05:55:49 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCeL3-000FGZ-2E;
-	Thu, 30 May 2024 11:52:57 +0000
-Date: Thu, 30 May 2024 19:52:14 +0800
+	id 1sCfJq-000FLN-2l;
+	Thu, 30 May 2024 12:55:46 +0000
+Date: Thu, 30 May 2024 20:54:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:scsi-ulp-limits 10/13] drivers/scsi/sd.c:3689:26: error:
- too many arguments to function call, expected single argument 'sdkp', have 2
- arguments
-Message-ID: <202405301944.hT3nUAdR-lkp@intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+	dan.scally@ideasonboard.com
+Subject: Re: [PATCH v5 15/16] media: platform: Add mali-c55 parameters video
+ node
+Message-ID: <202405302048.Twi0r71r-lkp@intel.com>
+References: <20240529152858.183799-16-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,165 +70,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240529152858.183799-16-dan.scally@ideasonboard.com>
 
-tree:   git://git.infradead.org/users/hch/block.git scsi-ulp-limits
-head:   beb731a409c206c822327f03aa100a81fad9dc2a
-commit: 6fbf4b9bfce23260dcdf0a44f9de066ec3794ff2 [10/13] sd: convert to the atomic queue limits API
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240530/202405301944.hT3nUAdR-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405301944.hT3nUAdR-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[cannot apply to linuxtv-media-stage/master sailus-media-tree/master linus/master sailus-media-tree/streams v6.10-rc1 next-20240529]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240529-233239
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240529152858.183799-16-dan.scally%40ideasonboard.com
+patch subject: [PATCH v5 15/16] media: platform: Add mali-c55 parameters video node
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20240530/202405302048.Twi0r71r-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405302048.Twi0r71r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405301944.hT3nUAdR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405302048.Twi0r71r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/scsi/sd.c:3689:26: error: too many arguments to function call, expected single argument 'sdkp', have 2 arguments
-           sd_set_flush_flag(sdkp, &lim);
-           ~~~~~~~~~~~~~~~~~       ^~~~
-   drivers/scsi/sd.c:123:13: note: 'sd_set_flush_flag' declared here
-   static void sd_set_flush_flag(struct scsi_disk *sdkp)
-               ^
-   1 error generated.
+   In file included from include/linux/printk.h:566,
+                    from include/asm-generic/bug.h:22,
+                    from ./arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/media/media-entity.h:15,
+                    from drivers/media/platform/arm/mali-c55/mali-c55-params.c:9:
+   drivers/media/platform/arm/mali-c55/mali-c55-params.c: In function 'mali_c55_params_write_config':
+>> drivers/media/platform/arm/mali-c55/mali-c55-params.c:504:40: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/media/platform/arm/mali-c55/mali-c55-params.c:504:17: note: in expansion of macro 'dev_dbg'
+     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
+         |                 ^~~~~~~
+   drivers/media/platform/arm/mali-c55/mali-c55-params.c:504:74: note: format string is defined here
+     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
+         |                                                                        ~~^
+         |                                                                          |
+         |                                                                          long unsigned int
+         |                                                                        %u
 
 
-vim +/sdkp +3689 drivers/scsi/sd.c
+vim +504 drivers/media/platform/arm/mali-c55/mali-c55-params.c
 
-  3605	
-  3606	/**
-  3607	 *	sd_revalidate_disk - called the first time a new disk is seen,
-  3608	 *	performs disk spin up, read_capacity, etc.
-  3609	 *	@disk: struct gendisk we care about
-  3610	 **/
-  3611	static int sd_revalidate_disk(struct gendisk *disk)
-  3612	{
-  3613		struct scsi_disk *sdkp = scsi_disk(disk);
-  3614		struct scsi_device *sdp = sdkp->device;
-  3615		struct request_queue *q = sdkp->disk->queue;
-  3616		sector_t old_capacity = sdkp->capacity;
-  3617		struct queue_limits lim;
-  3618		unsigned char *buffer;
-  3619		unsigned int dev_max;
-  3620		int err;
-  3621	
-  3622		SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
-  3623					      "sd_revalidate_disk\n"));
-  3624	
-  3625		/*
-  3626		 * If the device is offline, don't try and read capacity or any
-  3627		 * of the other niceties.
-  3628		 */
-  3629		if (!scsi_device_online(sdp))
-  3630			goto out;
-  3631	
-  3632		buffer = kmalloc(SD_BUF_SIZE, GFP_KERNEL);
-  3633		if (!buffer) {
-  3634			sd_printk(KERN_WARNING, sdkp, "sd_revalidate_disk: Memory "
-  3635				  "allocation failure.\n");
-  3636			goto out;
-  3637		}
-  3638	
-  3639		sd_spinup_disk(sdkp);
-  3640	
-  3641		lim = queue_limits_start_update(sdkp->disk->queue);
-  3642	
-  3643		/*
-  3644		 * Without media there is no reason to ask; moreover, some devices
-  3645		 * react badly if we do.
-  3646		 */
-  3647		if (sdkp->media_present) {
-  3648			sd_read_capacity(sdkp, &lim, buffer);
-  3649			/*
-  3650			 * Some USB/UAS devices return generic values for mode pages
-  3651			 * until the media has been accessed. Trigger a READ operation
-  3652			 * to force the device to populate mode pages.
-  3653			 */
-  3654			if (sdp->read_before_ms)
-  3655				sd_read_block_zero(sdkp);
-  3656			/*
-  3657			 * set the default to rotational.  All non-rotational devices
-  3658			 * support the block characteristics VPD page, which will
-  3659			 * cause this to be updated correctly and any device which
-  3660			 * doesn't support it should be treated as rotational.
-  3661			 */
-  3662			blk_queue_flag_clear(QUEUE_FLAG_NONROT, q);
-  3663			blk_queue_flag_set(QUEUE_FLAG_ADD_RANDOM, q);
-  3664	
-  3665			if (scsi_device_supports_vpd(sdp)) {
-  3666				sd_read_block_provisioning(sdkp);
-  3667				sd_read_block_limits(sdkp, &lim);
-  3668				sd_read_block_limits_ext(sdkp);
-  3669				sd_read_block_characteristics(sdkp, &lim);
-  3670				sd_zbc_read_zones(sdkp, &lim, buffer);
-  3671				sd_read_cpr(sdkp);
-  3672			}
-  3673	
-  3674			sd_print_capacity(sdkp, old_capacity);
-  3675	
-  3676			sd_read_write_protect_flag(sdkp, buffer);
-  3677			sd_read_cache_type(sdkp, buffer);
-  3678			sd_read_io_hints(sdkp, buffer);
-  3679			sd_read_app_tag_own(sdkp, buffer);
-  3680			sd_read_write_same(sdkp, buffer);
-  3681			sd_read_security(sdkp, buffer);
-  3682			sd_config_protection(sdkp);
-  3683		}
-  3684	
-  3685		/*
-  3686		 * We now have all cache related info, determine how we deal
-  3687		 * with flush requests.
-  3688		 */
-> 3689		sd_set_flush_flag(sdkp, &lim);
-  3690	
-  3691		/* Initial block count limit based on CDB TRANSFER LENGTH field size. */
-  3692		dev_max = sdp->use_16_for_rw ? SD_MAX_XFER_BLOCKS : SD_DEF_XFER_BLOCKS;
-  3693	
-  3694		/* Some devices report a maximum block count for READ/WRITE requests. */
-  3695		dev_max = min_not_zero(dev_max, sdkp->max_xfer_blocks);
-  3696		lim.max_dev_sectors = logical_to_sectors(sdp, dev_max);
-  3697	
-  3698		if (sd_validate_min_xfer_size(sdkp))
-  3699			lim.io_min = logical_to_bytes(sdp, sdkp->min_xfer_blocks);
-  3700		else
-  3701			lim.io_min = 0;
-  3702	
-  3703		/*
-  3704		 * Limit default to SCSI host optimal sector limit if set. There may be
-  3705		 * an impact on performance for when the size of a request exceeds this
-  3706		 * host limit.
-  3707		 */
-  3708		lim.io_opt = sdp->host->opt_sectors << SECTOR_SHIFT;
-  3709		if (sd_validate_opt_xfer_size(sdkp, dev_max)) {
-  3710			lim.io_opt = min_not_zero(lim.io_opt,
-  3711					logical_to_bytes(sdp, sdkp->opt_xfer_blocks));
-  3712		}
-  3713	
-  3714		sdkp->first_scan = 0;
-  3715	
-  3716		set_capacity_and_notify(disk, logical_to_sectors(sdp, sdkp->capacity));
-  3717		sd_config_write_same(sdkp, &lim);
-  3718		kfree(buffer);
-  3719	
-  3720		blk_mq_freeze_queue(sdkp->disk->queue);
-  3721		err = queue_limits_commit_update(sdkp->disk->queue, &lim);
-  3722		blk_mq_unfreeze_queue(sdkp->disk->queue);
-  3723		if (err)
-  3724			return err;
-  3725	
-  3726		/*
-  3727		 * For a zoned drive, revalidating the zones can be done only once
-  3728		 * the gendisk capacity is set. So if this fails, set back the gendisk
-  3729		 * capacity to 0.
-  3730		 */
-  3731		if (sd_zbc_revalidate_zones(sdkp))
-  3732			set_capacity_and_notify(disk, 0);
-  3733	
-  3734	 out:
-  3735		return 0;
-  3736	}
-  3737	
+   480	
+   481	void mali_c55_params_write_config(struct mali_c55 *mali_c55)
+   482	{
+   483		struct mali_c55_params *params = &mali_c55->params;
+   484		enum vb2_buffer_state state = VB2_BUF_STATE_DONE;
+   485		struct mali_c55_params_buffer *config;
+   486		struct mali_c55_buffer *buf;
+   487		size_t block_offset = 0;
+   488	
+   489		spin_lock(&params->buffers.lock);
+   490	
+   491		buf = list_first_entry_or_null(&params->buffers.queue,
+   492					       struct mali_c55_buffer, queue);
+   493		if (buf)
+   494			list_del(&buf->queue);
+   495		spin_unlock(&params->buffers.lock);
+   496	
+   497		if (!buf)
+   498			return;
+   499	
+   500		buf->vb.sequence = mali_c55->isp.frame_sequence;
+   501		config = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
+   502	
+   503		if (config->total_size > MALI_C55_PARAMS_MAX_SIZE) {
+ > 504			dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
+   505				config->total_size);
+   506			state = VB2_BUF_STATE_ERROR;
+   507			goto err_buffer_done;
+   508		}
+   509	
+   510		/* Walk the list of parameter blocks and process them. */
+   511		while (block_offset < config->total_size) {
+   512			const struct mali_c55_block_handler *block_handler;
+   513			struct mali_c55_params_block_header *block;
+   514	
+   515			block = (struct mali_c55_params_block_header *)
+   516				 &config->data[block_offset];
+   517	
+   518			if (block->type >= MALI_C55_PARAM_BLOCK_SENTINEL) {
+   519				dev_dbg(mali_c55->dev, "Invalid parameters block type\n");
+   520				state = VB2_BUF_STATE_ERROR;
+   521				goto err_buffer_done;
+   522			}
+   523	
+   524			block_handler = &mali_c55_block_handlers[block->type];
+   525			if (block->size != block_handler->size) {
+   526				dev_dbg(mali_c55->dev, "Invalid parameters block size\n");
+   527				state = VB2_BUF_STATE_ERROR;
+   528				goto err_buffer_done;
+   529			}
+   530	
+   531			block_handler->handler(mali_c55, block);
+   532	
+   533			block_offset += block->size;
+   534		}
+   535	
+   536	err_buffer_done:
+   537		vb2_buffer_done(&buf->vb.vb2_buf, state);
+   538	}
+   539	
 
 -- 
 0-DAY CI Kernel Test Service
