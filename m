@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD5A14BF8D;
-	Thu, 30 May 2024 19:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE6522083
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 May 2024 19:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717097979; cv=none; b=ZdtMbbFSDDBnpwN5kjCUbXnoUM7cGAa49ERr3Q+0YqWGnz4+itueDRxvorim5EwkTgcy9VslfIvjptBdcOdd1jOgtx8T5SGXNYhioY7rAwNf9v6KcbSnx2C7S8qzL32vdqJEEOa2nB3LBNLxli7ynUmts8zir8PCgMr6QuPcO30=
+	t=1717098578; cv=none; b=ssrAogNV4VsTwpACYTZDPFroipMl/YgZmhvNZ0v87LOHGMEbhrmdDrpHxaTaYbQoWsRw64cfGp1lwyOulhjbL6OLs5zD9TX/HxL22jCfQ6PRgdf5V3CUbvX+LMWyg6ffnt3fQn9pJV2FIxpkhf9Ys+v/1lNv7vBFVq0BvFBCBpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717097979; c=relaxed/simple;
-	bh=/lktGtJSvAn4lh7mJGP1VwrQBcfaabMzyjbDYfqQoH4=;
+	s=arc-20240116; t=1717098578; c=relaxed/simple;
+	bh=dw6PHAUiKNZynTrJW/bQdeGSnY0/fN0GNkW1qwkTAPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vtyho7r8a+nUQUl7pwyUSL88PtJ4wEFISFUIdNmQ2rhZP5DtUomj4kOT5Fq9sCET1K8e88VDUxfvPooSagBnPPwZQKm/2VwhaAIIrqDC/uAX2N2Qt/hiDJbNlncaCulZqE77J/NlUFipWOoZA1uIsIFNjdRxOmqxtIVUPgMbz9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lb3aI8TG; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=sHbvm/EpsXN9yzpFgHEYzhIk7KoALQZUx63UzDhHW6F/qU+oJHkHcdj7cgr8dwjOeKLwDK/HLJqN2Uueb4pQG3J3nv9JF55vHUSBtdldSDx8fyGpRMcigLPOEiBAco1i7LRTPR4m0OZZToqDHIUOiEdt/HGocfgveT+UY0+dgOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/1J+MLz; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lb3aI8TG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/1J+MLz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717097977; x=1748633977;
+  t=1717098576; x=1748634576;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/lktGtJSvAn4lh7mJGP1VwrQBcfaabMzyjbDYfqQoH4=;
-  b=Lb3aI8TGHI5w7Lu4up/4Qc3OBh6+Ba5/h8U8s7vZfWz08g5D9K2jpvka
-   cpPJMKvJg3+mx0VhVgRhybWR/2p0LaMiDeTfWEqbA/g54LNb60/buG3pR
-   vb1cLeKHeeOyXU6xMb5OygR5D99mNhVmrWJylSXvj5Lwy5/JBIqo4rAFB
-   CEDKCqyJqESthVsfW+oQPuF4okrVq9oNOBS1hvJb/BQFv1bfmJBzSN9+k
-   0nsbFrAV+UOnFMEi8Jg4vKtuyKXxAKbFstEktz5pymhRML5Gqvui2MDHf
-   1ciHn474yv0o1qxjLohs18lj/u6gkDB5mMANQNjvuFY+t4J6KHyrRIztG
-   g==;
-X-CSE-ConnectionGUID: i5hnyjAASI2ZOx2mzRxz9w==
-X-CSE-MsgGUID: 3GKs+8+PQmGGr/DcS2YhZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13809275"
+  bh=dw6PHAUiKNZynTrJW/bQdeGSnY0/fN0GNkW1qwkTAPU=;
+  b=m/1J+MLzWOkepnrU8S77/ZaUkb1C4SgC7TRe50RdnwywUIHtDqZjxcVB
+   h1PscQmEvJf0DCMWEeQBDi8V/IGtYIbm17219r5vfylUD+pHi5IxoioiM
+   SV0Tc0O56ZVsy+1QtbCaDqfXp3s38Zse8/0LetiY1CCqRmdNvoMxgMtPM
+   NUKv8aO8ZHeqKyOHVOIL79gfBwZuBjLENlqUMYU96wnXsOSZDZsQrF0CM
+   mkbd50oAq1Eu5KzLCCM5hkBT40rQb6qU9asphasdKXmzXdsuI67/+i5uz
+   SXWdfvaH/LJkhKK3fessrTaXRfOeSfGVDPfmG1ANU3i9J4bAu0yDzGBtm
+   Q==;
+X-CSE-ConnectionGUID: ky0UdN+sQVaizpTEZNr2nw==
+X-CSE-MsgGUID: nnngwRMSS0W1p4q+h+4LGA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31107723"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="13809275"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:39:36 -0700
-X-CSE-ConnectionGUID: RR6vibQ8SNWT6LNa4FbOmw==
-X-CSE-MsgGUID: X2unkvyYR22oCdxtNCYCrw==
+   d="scan'208";a="31107723"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:49:36 -0700
+X-CSE-ConnectionGUID: Jh/LxzXKTK+r0DCwXZWcWQ==
+X-CSE-MsgGUID: FP8yERaSS/2g2CbiwJf7JA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="40985566"
+   d="scan'208";a="35850528"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 30 May 2024 12:39:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 May 2024 12:49:33 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sClcX-000FuD-1Y;
-	Thu, 30 May 2024 19:39:29 +0000
-Date: Fri, 31 May 2024 03:38:39 +0800
+	id 1sClmE-000FuR-2y;
+	Thu, 30 May 2024 19:49:30 +0000
+Date: Fri, 31 May 2024 03:48:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Witold Sadowski <wsadowski@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, broonie@kernel.org,
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, pthombar@cadence.com,
-	Witold Sadowski <wsadowski@marvell.com>
-Subject: Re: [PATCH v7 2/4] spi: cadence: Add Marvell xSPI IP overlay changes
-Message-ID: <202405310322.RIyE2GGE-lkp@intel.com>
-References: <20240529220026.1644986-3-wsadowski@marvell.com>
+To: Subbaraya Sundeep <sbhatta@marvell.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Jerin Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [net-next PATCH] octeontx2: Improve mailbox tracepoints for
+ debugging
+Message-ID: <202405310351.9HtVnVJ5-lkp@intel.com>
+References: <1717070038-18381-1-git-send-email-sbhatta@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,105 +70,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529220026.1644986-3-wsadowski@marvell.com>
+In-Reply-To: <1717070038-18381-1-git-send-email-sbhatta@marvell.com>
 
-Hi Witold,
+Hi Subbaraya,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on broonie-spi/for-next]
-[also build test ERROR on linus/master v6.10-rc1 next-20240529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Witold-Sadowski/spi-dt-bindings-cadence-Add-Marvell-overlay-bindings-documentation-for-Cadence-XSPI/20240530-060250
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20240529220026.1644986-3-wsadowski%40marvell.com
-patch subject: [PATCH v7 2/4] spi: cadence: Add Marvell xSPI IP overlay changes
-config: arm-randconfig-004-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310322.RIyE2GGE-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310322.RIyE2GGE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Subbaraya-Sundeep/octeontx2-Improve-mailbox-tracepoints-for-debugging/20240530-195537
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1717070038-18381-1-git-send-email-sbhatta%40marvell.com
+patch subject: [net-next PATCH] octeontx2: Improve mailbox tracepoints for debugging
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240531/202405310351.9HtVnVJ5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310351.9HtVnVJ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310322.RIyE2GGE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310351.9HtVnVJ5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-cadence-xspi.c:496:15: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           *buf64++ = readq(addr);
-                                      ^
-   drivers/spi/spi-cadence-xspi.c:499:10: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           tmp = readq(addr);
-                                 ^
-   drivers/spi/spi-cadence-xspi.c:505:9: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   tmp = readq(addr);
-                         ^
->> drivers/spi/spi-cadence-xspi.c:520:4: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           writeq(*buf64++, addr);
-                           ^
-   drivers/spi/spi-cadence-xspi.c:524:4: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           writeq(tmp, addr);
-                           ^
-   drivers/spi/spi-cadence-xspi.c:530:3: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   writeq(tmp, addr);
-                   ^
-   6 errors generated.
+   drivers/net/ethernet/marvell/octeontx2/af/mbox.c: In function '__otx2_mbox_reset':
+>> drivers/net/ethernet/marvell/octeontx2/af/mbox.c:23:29: warning: unused variable 'msg' [-Wunused-variable]
+      23 |         struct mbox_msghdr *msg;
+         |                             ^~~
+   drivers/net/ethernet/marvell/octeontx2/af/mbox.c: In function 'otx2_mbox_msg_send_data':
+>> drivers/net/ethernet/marvell/octeontx2/af/mbox.c:254:9: error: 'msg' undeclared (first use in this function); did you mean 'ndmsg'?
+     254 |         msg = (struct mbox_msghdr *)(hw_mbase + mbox->tx_start + msgs_offset);
+         |         ^~~
+         |         ndmsg
+   drivers/net/ethernet/marvell/octeontx2/af/mbox.c:254:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/readq +496 drivers/spi/spi-cadence-xspi.c
+vim +254 drivers/net/ethernet/marvell/octeontx2/af/mbox.c
 
-   485	
-   486	static void mrvl_ioreadq(void __iomem  *addr, void *buf, int len)
-   487	{
-   488		int i = 0;
-   489		int rcount = len / 8;
-   490		int rcount_nf = len % 8;
-   491		uint64_t tmp;
-   492		uint64_t *buf64 = (uint64_t *)buf;
-   493	
-   494		if (((uint64_t)buf % 8) == 0) {
-   495			for (i = 0; i < rcount; i++)
- > 496				*buf64++ = readq(addr);
-   497		} else {
-   498			for (i = 0; i < rcount; i++) {
-   499				tmp = readq(addr);
-   500				memcpy(buf+(i*8), &tmp, 8);
-   501			}
-   502		}
-   503	
-   504		if (rcount_nf != 0) {
-   505			tmp = readq(addr);
-   506			memcpy(buf+(i*8), &tmp, rcount_nf);
-   507		}
-   508	}
-   509	
-   510	static void mrvl_iowriteq(void __iomem *addr, const void *buf, int len)
-   511	{
-   512		int i = 0;
-   513		int rcount = len / 8;
-   514		int rcount_nf = len % 8;
-   515		uint64_t tmp;
-   516		uint64_t *buf64 = (uint64_t *)buf;
-   517	
-   518		if (((uint64_t)buf % 8) == 0) {
-   519			for (i = 0; i < rcount; i++)
- > 520				writeq(*buf64++, addr);
-   521		} else {
-   522			for (i = 0; i < rcount; i++) {
-   523				memcpy(&tmp, buf+(i*8), 8);
-   524				writeq(tmp, addr);
-   525			}
-   526		}
-   527	
-   528		if (rcount_nf != 0) {
-   529			memcpy(&tmp, buf+(i*8), rcount_nf);
-   530			writeq(tmp, addr);
-   531		}
-   532	}
-   533	
+   216	
+   217	static void otx2_mbox_msg_send_data(struct otx2_mbox *mbox, int devid, u64 data)
+   218	{
+   219		struct otx2_mbox_dev *mdev = &mbox->dev[devid];
+   220		struct mbox_hdr *tx_hdr, *rx_hdr;
+   221		void *hw_mbase = mdev->hwbase;
+   222		u64 intr_val;
+   223	
+   224		tx_hdr = hw_mbase + mbox->tx_start;
+   225		rx_hdr = hw_mbase + mbox->rx_start;
+   226	
+   227		/* If bounce buffer is implemented copy mbox messages from
+   228		 * bounce buffer to hw mbox memory.
+   229		 */
+   230		if (mdev->mbase != hw_mbase)
+   231			memcpy(hw_mbase + mbox->tx_start + msgs_offset,
+   232			       mdev->mbase + mbox->tx_start + msgs_offset,
+   233			       mdev->msg_size);
+   234	
+   235		spin_lock(&mdev->mbox_lock);
+   236	
+   237		tx_hdr->msg_size = mdev->msg_size;
+   238	
+   239		/* Reset header for next messages */
+   240		mdev->msg_size = 0;
+   241		mdev->rsp_size = 0;
+   242		mdev->msgs_acked = 0;
+   243	
+   244		/* Sync mbox data into memory */
+   245		smp_wmb();
+   246	
+   247		/* num_msgs != 0 signals to the peer that the buffer has a number of
+   248		 * messages.  So this should be written after writing all the messages
+   249		 * to the shared memory.
+   250		 */
+   251		tx_hdr->num_msgs = mdev->num_msgs;
+   252		rx_hdr->num_msgs = 0;
+   253	
+ > 254		msg = (struct mbox_msghdr *)(hw_mbase + mbox->tx_start + msgs_offset);
+   255	
+   256		trace_otx2_msg_send(mbox->pdev, tx_hdr->num_msgs, tx_hdr->msg_size,
+   257				    msg->id, msg->pcifunc);
+   258	
+   259		spin_unlock(&mdev->mbox_lock);
+   260	
+   261		/* Check if interrupt pending */
+   262		intr_val = readq((void __iomem *)mbox->reg_base +
+   263			     (mbox->trigger | (devid << mbox->tr_shift)));
+   264	
+   265		intr_val |= data;
+   266		/* The interrupt should be fired after num_msgs is written
+   267		 * to the shared memory
+   268		 */
+   269		writeq(intr_val, (void __iomem *)mbox->reg_base +
+   270		       (mbox->trigger | (devid << mbox->tr_shift)));
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
