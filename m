@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D79C360
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 00:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C85415C0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 00:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717114106; cv=none; b=I3IlZisPnfwrHJpKLaIkPRyRVZk7W0cEKqHjog52l5OzQ1pFWaeQsfZrff1pi+yimNwNFTebPS7+7Y0+5zQkdj9Lc9hVJSAwAppWTQPF4nlaVQOttXL7zkomLilReA0TuUKeGefXVGK4uf8n0+CIAQCkvVkhcBpbP168Mdl2jtc=
+	t=1717114239; cv=none; b=CoVuZU2uAZqQ5Lbr2l+0Lz8OZPJIpiO/Y1h8Vl/OpPOfdU4kkxPf5s87NJuY/QD0fBLtC2oI9ZTJ33o8FKdmJqrHh9QdcFggoCMeCPm0+Aj2wiItYJw9TJGlvUsF7MQusOg11jf3hs8Zc2TMBKR1NYf8njtDaeZzrS9rEYw63i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717114106; c=relaxed/simple;
-	bh=sXffO9GwbKm570bV7qD4kRrBq+O3OIMlErorNlRUL+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ddme5akQZHjCY7zU5wuxgtblC5/h8A0Jr1Dy1doRAjXer4K8eBlNHHOh2GUwMsSmdP8s6pYQZyt98k/EEAgJBqPUtSFhVaqdUvZjblZ/IQ2mmRDdKYbbhfaUyZYflVMFhbeyvgN0V4tlwucn/enSCPP4Ouuf+O1L9dJZe7LBAi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICm5s1kW; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1717114239; c=relaxed/simple;
+	bh=kbuE3YYNvHZZpdFzMlUIb5zBZJCuGRjp82a+xXwXIow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PdSX5nL1FYvX56mdMlprDKdDjB18HzzYHoycYdhi/H2YEEAo/2hRhwZrc4gHnZHehP4SLQ4PNpjnmeQKlesQuVdn1nHHy88j0Z378LTy5maD8JaXDACXy//mnjSzFwcSnkeMt1ssxAturXvMRN7Zi7rqYjFL90KaFnoAJOlN/EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr0S5O+J; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICm5s1kW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr0S5O+J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717114103; x=1748650103;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sXffO9GwbKm570bV7qD4kRrBq+O3OIMlErorNlRUL+s=;
-  b=ICm5s1kWNPy7R7ZKAiZ1lRjzfaagazpUbamhukt2ch7qot4YWQeJB1MP
-   E0aFKr+VmRcAAapgldXHcEDTdtUZCcwpN0nmKNlg70GjlpEAe5x9HTq03
-   u7ptLs7QuIuQ8Rres9K2DKAu1Vha4Pn9inkEJosB/sInx/+H8CVwtmjNw
-   8DO48lwiHTmXBjkcoHrNxd7LL5/ww3YikgFu9OPMqHyEQ6JnOTxmjuT2J
-   t+Bd/XYqECzYWkUXbFds1SocE0TE9iGyXTcnjHB8L+am1k8xdln5mL5hF
-   dt2pati1PNnbV3GFhMDoYeAnVbOz3io17oF9Qq6tQSoSv0tr+6WK5hRWH
-   g==;
-X-CSE-ConnectionGUID: 9CGh3+wfSrOHVJuyDGWOqA==
-X-CSE-MsgGUID: B4O5QZxOTBqFO6i0C0XVdQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="25046381"
+  t=1717114238; x=1748650238;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kbuE3YYNvHZZpdFzMlUIb5zBZJCuGRjp82a+xXwXIow=;
+  b=Jr0S5O+JTI/bYyk2opPL8AuIXRfFOuW/jsryVGg8g+TrwJ1L1kDVAq/U
+   Rg1pPRupt9DT82AdvYwTF1glLMxeufCzJA5kvTn74VwTtHaHeJK3LB9rp
+   7pqyJOt1qKxR/fc0JoUTljNkOY4vA0hIYMN2tBKD/aKKCdUNUPSHmkZBw
+   jVq9eOwXfoXRuXPX1+JAxczYhWuBNZiVFHJC/XRkEjGsv5XMiinrGCHZ8
+   DAQzJw0a1ttDKX9gCgZ/Nk4WoxXp43px7xtBX2nRojYWG0+5wm8njpDcQ
+   qFGJN+i85XjyLUgwPJqoFAlyqkYB3UQRUNW+hELNzerjxxETzFPg+AyZC
+   w==;
+X-CSE-ConnectionGUID: skfYlFd9S4eKZDfyW35WAw==
+X-CSE-MsgGUID: EBlKplijQqyCOqbGq4CmIA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13481070"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="25046381"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 17:08:23 -0700
-X-CSE-ConnectionGUID: js+yU0NtTy6OMVksj3gOlQ==
-X-CSE-MsgGUID: ycqtFK9lR+OU/Gauq690Sw==
+   d="scan'208";a="13481070"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 17:10:37 -0700
+X-CSE-ConnectionGUID: 2usrzk6OQhS9flupch8FOw==
+X-CSE-MsgGUID: m/2Q4ip9TzeEilm/NbGggQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="36092290"
+   d="scan'208";a="36028466"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 May 2024 17:08:22 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 May 2024 17:07:22 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCpoh-000GEl-1x;
-	Fri, 31 May 2024 00:08:19 +0000
-Date: Fri, 31 May 2024 08:07:34 +0800
+	id 1sCpnj-000GEf-1o;
+	Fri, 31 May 2024 00:07:19 +0000
+Date: Fri, 31 May 2024 08:07:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-06-exp 10082/13266]
- arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:597:5:
- warning: no previous prototype for 'smmu_domain_config_s2'
-Message-ID: <202405310818.XaqXqNyK-lkp@intel.com>
+To: ranechita <ramona.nechita@analog.com>, linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ranechita <ramona.nechita@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Okan Sahin <okan.sahin@analog.com>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Liam Beguin <liambeguin@gmail.com>,
+	Ivan Mikhaylov <fr0st61te@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drivers: iio: adc: add support for ad777x family
+Message-ID: <202405310747.6KO7w1V1-lkp@intel.com>
+References: <20240529150322.28018-1-ramona.nechita@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,149 +77,185 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240529150322.28018-1-ramona.nechita@analog.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-06-exp
-head:   55abd4e47b51cc21408819285768808fbd2384ac
-commit: edb183c2b760b28788587e86644d8a83b024be15 [10082/13266] ANDROID: drivers/arm-smmu-v3-kvm: Add smmu_domain_config_s2
-config: arm64-randconfig-r054-20240529 (https://download.01.org/0day-ci/archive/20240531/202405310818.XaqXqNyK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310818.XaqXqNyK-lkp@intel.com/reproduce)
+Hi ranechita,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.10-rc1 next-20240529]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ranechita/drivers-iio-adc-add-support-for-ad777x-family/20240529-230814
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240529150322.28018-1-ramona.nechita%40analog.com
+patch subject: [PATCH v2] drivers: iio: adc: add support for ad777x family
+config: microblaze-randconfig-r113-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310747.6KO7w1V1-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240531/202405310747.6KO7w1V1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310818.XaqXqNyK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310747.6KO7w1V1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ad7779.c:571:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned long @@
+   drivers/iio/adc/ad7779.c:571:35: sparse:     expected restricted __be32
+   drivers/iio/adc/ad7779.c:571:35: sparse:     got unsigned long
+>> drivers/iio/adc/ad7779.c:581:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int [usertype] @@
+   drivers/iio/adc/ad7779.c:581:42: sparse:     expected restricted __be32
+   drivers/iio/adc/ad7779.c:581:42: sparse:     got unsigned int [usertype]
+>> drivers/iio/adc/ad7779.c:685:35: sparse: sparse: symbol 'ad777x_buffer_setup_ops' was not declared. Should it be static?
+   drivers/iio/adc/ad7779.c: note: in included file (through include/linux/mutex.h, include/linux/notifier.h, include/linux/clk.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9,
-                    from include/linux/io-pgtable-arm.h:167,
-                    from arch/arm64/kvm/hyp/include/nvhe/iommu.h:9,
-                    from arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:11:
-   arch/arm64/kvm/hyp/include/nvhe/refcount.h: In function '__lse_refcount_fetch_add_16':
-   arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:22: error: expected string literal before '__LSE_PREAMBLE'
-      35 |         asm volatile(__LSE_PREAMBLE
-         |                      ^~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c: At top level:
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:597:5: warning: no previous prototype for 'smmu_domain_config_s2' [-Wmissing-prototypes]
-     597 | int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:629:5: warning: no previous prototype for 'smmu_domain_finalise' [-Wmissing-prototypes]
-     629 | int smmu_domain_finalise(struct kvm_hyp_iommu_domain *domain)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:727:5: warning: no previous prototype for 'smmu_alloc_domain' [-Wmissing-prototypes]
-     727 | int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain, u32 type)
-         |     ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:744:6: warning: no previous prototype for 'smmu_free_domain' [-Wmissing-prototypes]
-     744 | void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
-         |      ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:756:6: warning: no previous prototype for 'smmu_dabt_device' [-Wmissing-prototypes]
-     756 | bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
-         |      ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:799:6: warning: no previous prototype for 'smmu_dabt_handler' [-Wmissing-prototypes]
-     799 | bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:811:5: warning: no previous prototype for 'smmu_suspend' [-Wmissing-prototypes]
-     811 | int smmu_suspend(struct kvm_hyp_iommu *iommu)
-         |     ^~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:824:5: warning: no previous prototype for 'smmu_resume' [-Wmissing-prototypes]
-     824 | int smmu_resume(struct kvm_hyp_iommu *iommu)
-         |     ^~~~~~~~~~~
+vim +571 drivers/iio/adc/ad7779.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-
-
-vim +/smmu_domain_config_s2 +597 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c
-
-   596	
- > 597	int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
-   598	{
-   599		struct io_pgtable_cfg *cfg;
-   600		u64 ts, sl, ic, oc, sh, tg, ps;
+   552	
+   553	static irqreturn_t ad777x_irq_handler(int irq, void *data)
+   554	{
+   555		struct iio_dev *indio_dev = data;
+   556		struct ad777x_state *st = iio_priv(indio_dev);
+   557		int ret;
+   558		__be32 tmp[8];
+   559		int i;
+   560		int k = 0;
+   561	
+   562		struct spi_transfer sd_readback_tr[] = {
+   563			{
+   564				.rx_buf = st->spidata_rx,
+   565				.tx_buf = st->spidata_tx,
+   566				.len = 32,
+   567			}
+   568		};
+   569	
+   570		if (iio_buffer_enabled(indio_dev)) {
+ > 571			st->spidata_tx[0] = AD777X_SPI_READ_CMD;
+   572			ret = spi_sync_transfer(st->spi, sd_readback_tr,
+   573						ARRAY_SIZE(sd_readback_tr));
+   574			if (ret) {
+   575				dev_err(&st->spi->dev,
+   576					"spi transfer error in irq handler");
+   577				return IRQ_HANDLED;
+   578			}
+   579			for (i = 0; i < AD777X_NUM_CHANNELS; i++) {
+   580				if (st->active_ch & BIT(i))
+ > 581					tmp[k++] = __be32_to_cpu(st->spidata_rx[i]);
+   582			}
+   583			iio_push_to_buffers(indio_dev, &tmp[0]);
+   584		}
+   585	
+   586		return IRQ_HANDLED;
+   587	}
+   588	
+   589	static int ad777x_reset(struct iio_dev *indio_dev, struct gpio_desc *reset_gpio)
+   590	{
+   591		struct ad777x_state *st = iio_priv(indio_dev);
+   592		int ret;
+   593		struct spi_transfer reg_read_tr[] = {
+   594			{
+   595				.tx_buf = st->reset_buf,
+   596				.len = 8,
+   597			},
+   598		};
+   599	
+   600		memset(st->reset_buf, 0xff, sizeof(st->reset_buf));
    601	
-   602		cfg = &domain->pgtable->cfg;
-   603		ps = cfg->arm_lpae_s2_cfg.vtcr.ps;
-   604		tg = cfg->arm_lpae_s2_cfg.vtcr.tg;
-   605		sh = cfg->arm_lpae_s2_cfg.vtcr.sh;
-   606		oc = cfg->arm_lpae_s2_cfg.vtcr.orgn;
-   607		ic = cfg->arm_lpae_s2_cfg.vtcr.irgn;
-   608		sl = cfg->arm_lpae_s2_cfg.vtcr.sl;
-   609		ts = cfg->arm_lpae_s2_cfg.vtcr.tsz;
-   610	
-   611		ent[0] = STRTAB_STE_0_V |
-   612			 FIELD_PREP(STRTAB_STE_0_CFG, STRTAB_STE_0_CFG_S2_TRANS);
-   613		ent[1] = FIELD_PREP(STRTAB_STE_1_SHCFG, STRTAB_STE_1_SHCFG_INCOMING);
-   614		ent[2] = FIELD_PREP(STRTAB_STE_2_VTCR,
-   615				FIELD_PREP(STRTAB_STE_2_VTCR_S2PS, ps) |
-   616				FIELD_PREP(STRTAB_STE_2_VTCR_S2TG, tg) |
-   617				FIELD_PREP(STRTAB_STE_2_VTCR_S2SH0, sh) |
-   618				FIELD_PREP(STRTAB_STE_2_VTCR_S2OR0, oc) |
-   619				FIELD_PREP(STRTAB_STE_2_VTCR_S2IR0, ic) |
-   620				FIELD_PREP(STRTAB_STE_2_VTCR_S2SL0, sl) |
-   621				FIELD_PREP(STRTAB_STE_2_VTCR_S2T0SZ, ts)) |
-   622			 FIELD_PREP(STRTAB_STE_2_S2VMID, domain->domain_id) |
-   623			 STRTAB_STE_2_S2AA64 | STRTAB_STE_2_S2R;
-   624		ent[3] = cfg->arm_lpae_s2_cfg.vttbr & STRTAB_STE_3_S2TTB_MASK;
-   625	
-   626		return 0;
-   627	}
-   628	
+   602		if (reset_gpio) {
+   603			gpiod_set_value(reset_gpio, 1);
+   604			fsleep(230);
+   605			return 0;
+   606		}
+   607	
+   608		ret = spi_sync_transfer(st->spi, reg_read_tr,
+   609					ARRAY_SIZE(reg_read_tr));
+   610		if (ret)
+   611			return ret;
+   612	
+   613		fsleep(230);
+   614	
+   615		return 0;
+   616	}
+   617	
+   618	static const struct iio_info ad777x_info = {
+   619		.read_raw = ad777x_read_raw,
+   620		.write_raw = ad777x_write_raw,
+   621		.debugfs_reg_access = &ad777x_reg_access,
+   622		.update_scan_mode = &ad777x_update_scan_mode,
+   623	};
+   624	
+   625	static const struct iio_enum ad777x_filter_enum = {
+   626		.items = ad777x_filter_type,
+   627		.num_items = ARRAY_SIZE(ad777x_filter_type),
+   628		.get = ad777x_get_filter,
+   629		.set = ad777x_set_filter,
+   630	};
+   631	
+   632	static const struct iio_chan_spec_ext_info ad777x_ext_filter[] = {
+   633		IIO_ENUM("filter_type", IIO_SHARED_BY_ALL, &ad777x_filter_enum),
+   634		IIO_ENUM_AVAILABLE("filter_type", IIO_SHARED_BY_ALL,
+   635					  &ad777x_filter_enum),
+   636		{ }
+   637	};
+   638	
+   639	#define AD777x_CHAN_S(index, _ext_info)					       \
+   640		{								       \
+   641			.type = IIO_VOLTAGE,					       \
+   642			.info_mask_separate = BIT(IIO_CHAN_INFO_CALIBSCALE)  |	       \
+   643					      BIT(IIO_CHAN_INFO_CALIBBIAS),	       \
+   644			.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ),       \
+   645			.address = (index),					       \
+   646			.indexed = 1,						       \
+   647			.channel = (index),					       \
+   648			.scan_index = (index),					       \
+   649			.ext_info = (_ext_info),				       \
+   650			.scan_type = {						       \
+   651				.sign = 's',					       \
+   652				.realbits = 24,					       \
+   653				.storagebits = 32,				       \
+   654			},							       \
+   655		}
+   656	
+   657	#define AD777x_CHAN_NO_FILTER_S(index)					       \
+   658		AD777x_CHAN_S(index, NULL)
+   659	
+   660	#define AD777x_CHAN_FILTER_S(index)					       \
+   661		AD777x_CHAN_S(index, ad777x_ext_filter)
+   662	
+   663	static const struct iio_chan_spec ad777x_channels[] = {
+   664		AD777x_CHAN_NO_FILTER_S(0),
+   665		AD777x_CHAN_NO_FILTER_S(1),
+   666		AD777x_CHAN_NO_FILTER_S(2),
+   667		AD777x_CHAN_NO_FILTER_S(3),
+   668		AD777x_CHAN_NO_FILTER_S(4),
+   669		AD777x_CHAN_NO_FILTER_S(5),
+   670		AD777x_CHAN_NO_FILTER_S(6),
+   671		AD777x_CHAN_NO_FILTER_S(7),
+   672	};
+   673	
+   674	static const struct iio_chan_spec ad777x_channels_filter[] = {
+   675		AD777x_CHAN_FILTER_S(0),
+   676		AD777x_CHAN_FILTER_S(1),
+   677		AD777x_CHAN_FILTER_S(2),
+   678		AD777x_CHAN_FILTER_S(3),
+   679		AD777x_CHAN_FILTER_S(4),
+   680		AD777x_CHAN_FILTER_S(5),
+   681		AD777x_CHAN_FILTER_S(6),
+   682		AD777x_CHAN_FILTER_S(7),
+   683	};
+   684	
+ > 685	const struct iio_buffer_setup_ops ad777x_buffer_setup_ops = {
+   686		.postenable = ad777x_buffer_postenable,
+   687		.predisable = ad777x_buffer_predisable,
+   688	};
+   689	
 
 -- 
 0-DAY CI Kernel Test Service
