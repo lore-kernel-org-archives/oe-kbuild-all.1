@@ -1,73 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AC5D51E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 01:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28509C8E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 01:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717117297; cv=none; b=eCiznk3EpmGtPs0WFWPch0Kic8SyI2/aKh1oBquM7Y3WrwKlgYnXWknxEHsC/+/7RwQ9dP6glbwhie4qShLn9pDQJX/dDE8lKspAbamEo7f8tqqxww5GvLkmr6azEQhz24Ar/B2UFf4CJo3oFL9nTsu94eIZhK9PG1E42GZfR6M=
+	t=1717118542; cv=none; b=jXV7Up1prZU6WmQ6XNXpea6ZhOefikvc62MyfuCZz5WaAme8upuJQyI+sca3JeODxF//nc165kXe4qCaKFGVVu5S0eQIXkr+TC4N+TUhWXsojf28iMfbiQGo/Iyodx5TF0j+2bhB/2q7Qe0DD7f0a8bC6VidDIV2MXpidZaNNik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717117297; c=relaxed/simple;
-	bh=HxG5osaBenuaXiNqjDMl+ACscharTtPstTDjg6QkFeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y6YtG7EzV+dSos0lZ7QYX/315HtBDJvrxDUpxpASkV6T68je0Aj9MAR3ma9Xinbp6QF0pUBteDBE9EkffrFpN+JvllBnmPm1cQLJmUOt7vQamz+8qe5g6t7aTu+zG/2MvbzIgtEJAuPVpzsnWN7m8WObSkEN+L4iB0f25/zv5wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwwRBQUb; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1717118542; c=relaxed/simple;
+	bh=t7mcpL9wJU6meE+UoG9k9HAWtkHILajD3sSqYI9gQt8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RL4EStBiSR7fAbz/YOq+qovghGC/8ysOTCqFB1MKRSKrDspGWlqis0y1SDSsNduKPA0BOxh+CtCuVPCQXG+bW0N1Q+ZJflJJvsVBwRyS7rp8mkklY9VmNHM3DHvpKy0CR+wlnNXdSJ9RAzS/fd/xzjcHdkVutYQw22ik0kreCyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPW03c/g; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwwRBQUb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPW03c/g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717117294; x=1748653294;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HxG5osaBenuaXiNqjDMl+ACscharTtPstTDjg6QkFeI=;
-  b=FwwRBQUbx2WouWDsCMBJnLvliqASA65LFGiVgTFYYp/wfWGOOHTwXLcm
-   Z+RtCmTp4SOtKRqBeNaSkSdNKC6CRnceulFK6caEX4P+enF5elVeT3N39
-   g0XbQgAwzGN0TWuIXy8BOS4PQFkb2XpoEWSa5iWhD7vPisXLsSMmMAmDb
-   nKKoOz60fe1zlnSXfDN4DxvH39J+woH0QV7b6gXJnbDtx+w/NABnz6cYx
-   yEWlEEoKayKejp6vbO6s/n4Rp/BbU2i3W6PboU5wBmCF30rK/iE/KmepI
-   Vs6rxES40ZglEJwHkXCf2U1kYpvggMici9YtPTjShf2utobNACDRn60iU
-   A==;
-X-CSE-ConnectionGUID: wLlJ8uCZR9uzO9tesNO67g==
-X-CSE-MsgGUID: EvhkOubrRUmjjE5aLl9jkw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="17446398"
+  t=1717118540; x=1748654540;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t7mcpL9wJU6meE+UoG9k9HAWtkHILajD3sSqYI9gQt8=;
+  b=CPW03c/gf/NYWSoNmSO3uz5TqNjhkck34hcCLmT5jAOL14VPbK/KFRNS
+   xj6+0wHQU1if/iODmsh49YIkIaBHlfBTruKRyaVtokwt0Leu/ckMqKAxA
+   o9RhiEf3fgyD8rAeLoI4K4OWoycj8v2ivstVizui9eynRLfVZlUcDMUI9
+   0FaeKqkN+rVwotFHiva5THWuqrNTra48zI2LX+XfAgi7GLXZc0vagGTE0
+   P7VScbhXEdaLSHe3BjcYv05PVlNsGMMmsBcmEEl6U3IFvbH6Pi+1Hz41a
+   CJbMY7+L+iTrcmQWFsDFzvl634EtFpmOJtx+HZc3OhKwx9b4s/5Hff92w
+   g==;
+X-CSE-ConnectionGUID: fQ0Pfw6+Rbi2VbibfK7qrQ==
+X-CSE-MsgGUID: +b5t2usBTEuoHaxRcGNrew==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13771273"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="17446398"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 18:01:22 -0700
-X-CSE-ConnectionGUID: KTu1FWO8RuCq02JLF+MT2g==
-X-CSE-MsgGUID: v97yehVvQbyvM9/AyyHfgw==
+   d="scan'208";a="13771273"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 18:22:19 -0700
+X-CSE-ConnectionGUID: +7OVKxlzRuK4RC9JPCjfhw==
+X-CSE-MsgGUID: RcmCEqGTQFOLoXBHMtruhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="36041608"
+   d="scan'208";a="41069748"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 30 May 2024 18:01:17 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 May 2024 18:22:19 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCqdv-000GJ1-08;
-	Fri, 31 May 2024 01:01:15 +0000
-Date: Fri, 31 May 2024 09:00:50 +0800
+	id 1sCqyG-000GL7-0Z;
+	Fri, 31 May 2024 01:22:16 +0000
+Date: Fri, 31 May 2024 09:21:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Qingfang Deng <dqfext@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Steven Liu <Steven.Liu@mediatek.com>,
-	"SkyLake.Huang" <skylake.huang@mediatek.com>
-Subject: Re: [PATCH net-next v5 5/5] net: phy: add driver for built-in 2.5G
- ethernet PHY on MT7988
-Message-ID: <202405310819.c3Dv1OM3-lkp@intel.com>
-References: <20240530034844.11176-6-SkyLake.Huang@mediatek.com>
+To: Danila Tikhonov <danila@jiaxyga.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 1810/2527]
+ drivers/clk/qcom/camcc-sm7150.c:1900:15: sparse: sparse: symbol
+ 'camcc_sm7150_hws' was not declared. Should it be static?
+Message-ID: <202405310927.8DwxnKbA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,106 +64,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240530034844.11176-6-SkyLake.Huang@mediatek.com>
 
-Hi Sky,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-drivers/20240530-115522
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240530034844.11176-6-SkyLake.Huang%40mediatek.com
-patch subject: [PATCH net-next v5 5/5] net: phy: add driver for built-in 2.5G ethernet PHY on MT7988
-config: openrisc-randconfig-r121-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310819.c3Dv1OM3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240531/202405310819.c3Dv1OM3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d99040b1bc8dbf385a8aa535e9efcdf94466e19
+commit: 9f0532da42261476561c0a683097f6de82e7c3ed [1810/2527] clk: qcom: Add Camera Clock Controller driver for SM7150
+config: microblaze-randconfig-r113-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310927.8DwxnKbA-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240531/202405310927.8DwxnKbA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310819.c3Dv1OM3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310927.8DwxnKbA-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/phy/mediatek/mtk-2p5ge.c:106:9: sparse: sparse: cast to restricted __be16
+>> drivers/clk/qcom/camcc-sm7150.c:1900:15: sparse: sparse: symbol 'camcc_sm7150_hws' was not declared. Should it be static?
 
-vim +106 drivers/net/phy/mediatek/mtk-2p5ge.c
+vim +/camcc_sm7150_hws +1900 drivers/clk/qcom/camcc-sm7150.c
 
-    56	
-    57	static int mt798x_2p5ge_phy_load_fw(struct phy_device *phydev)
-    58	{
-    59		struct mtk_i2p5ge_phy_priv *priv = phydev->priv;
-    60		void __iomem *md32_en_cfg_base, *pmb_addr;
-    61		struct device *dev = &phydev->mdio.dev;
-    62		const struct firmware *fw;
-    63		int ret, i;
-    64		u16 reg;
-    65	
-    66		if (priv->fw_loaded)
-    67			return 0;
-    68	
-    69		pmb_addr = ioremap(MT7988_2P5GE_PMB_BASE, MT7988_2P5GE_PMB_LEN);
-    70		if (!pmb_addr)
-    71			return -ENOMEM;
-    72		md32_en_cfg_base = ioremap(MT7988_2P5GE_MD32_EN_CFG_BASE, MT7988_2P5GE_MD32_EN_CFG_LEN);
-    73		if (!md32_en_cfg_base) {
-    74			ret = -ENOMEM;
-    75			goto free_pmb;
-    76		}
-    77	
-    78		ret = request_firmware(&fw, MT7988_2P5GE_PMB, dev);
-    79		if (ret) {
-    80			dev_err(dev, "failed to load firmware: %s, ret: %d\n",
-    81				MT7988_2P5GE_PMB, ret);
-    82			goto free;
-    83		}
-    84	
-    85		if (fw->size != MT7988_2P5GE_PMB_SIZE) {
-    86			dev_err(dev, "Firmware size 0x%zx != 0x%x\n",
-    87				fw->size, MT7988_2P5GE_PMB_SIZE);
-    88			ret = -EINVAL;
-    89			goto free;
-    90		}
-    91	
-    92		reg = readw(md32_en_cfg_base);
-    93		if (reg & MD32_EN) {
-    94			phy_set_bits(phydev, MII_BMCR, BMCR_RESET);
-    95			usleep_range(10000, 11000);
-    96		}
-    97		phy_set_bits(phydev, MII_BMCR, BMCR_PDOWN);
-    98	
-    99		/* Write magic number to safely stall MCU */
-   100		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x800e, 0x1100);
-   101		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x800f, 0x00df);
-   102	
-   103		for (i = 0; i < MT7988_2P5GE_PMB_SIZE - 1; i += 4)
-   104			writel(*((uint32_t *)(fw->data + i)), pmb_addr + i);
-   105		release_firmware(fw);
- > 106		dev_info(dev, "Firmware date code: %x/%x/%x, version: %x.%x\n",
-   107			 be16_to_cpu(*((uint16_t *)(fw->data + MT7988_2P5GE_PMB_SIZE - 8))),
-   108			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 6),
-   109			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 5),
-   110			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 2),
-   111			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 1));
-   112	
-   113		writew(reg & ~MD32_EN, md32_en_cfg_base);
-   114		writew(reg | MD32_EN, md32_en_cfg_base);
-   115		phy_set_bits(phydev, MII_BMCR, BMCR_RESET);
-   116		/* We need a delay here to stabilize initialization of MCU */
-   117		usleep_range(7000, 8000);
-   118		dev_info(dev, "Firmware loading/trigger ok.\n");
-   119	
-   120		priv->fw_loaded = true;
-   121	
-   122	free:
-   123		iounmap(md32_en_cfg_base);
-   124	free_pmb:
-   125		iounmap(pmb_addr);
-   126	
-   127		return ret ? ret : 0;
-   128	}
-   129	
+  1899	
+> 1900	struct clk_hw *camcc_sm7150_hws[] = {
+  1901		[CAMCC_PLL0_OUT_EVEN] = &camcc_pll0_out_even.hw,
+  1902		[CAMCC_PLL0_OUT_ODD] = &camcc_pll0_out_odd.hw,
+  1903		[CAMCC_PLL1_OUT_EVEN] = &camcc_pll1_out_even.hw,
+  1904		[CAMCC_PLL2_OUT_EARLY] = &camcc_pll2_out_early.hw,
+  1905		[CAMCC_PLL3_OUT_EVEN] = &camcc_pll3_out_even.hw,
+  1906		[CAMCC_PLL4_OUT_EVEN] = &camcc_pll4_out_even.hw,
+  1907	};
+  1908	
 
 -- 
 0-DAY CI Kernel Test Service
