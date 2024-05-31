@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7473745D5;
-	Fri, 31 May 2024 02:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3A44C7C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 02:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717121665; cv=none; b=k4Pj6DJXsxkJvLwvqC/aDFCVJbgHoV7Lz6jFvxXPBQcwuq802lhOjBjTCLBnOeodbC64qLJ32av0cVFUGAnLsoYzMrak19su5n1ASURFgoEx3veQa2eaCvgR7YrKuxAgwlNGFScRbZGOWCAnatQV/vRE99tA3sYWdj7a/hfgnWA=
+	t=1717121666; cv=none; b=U65aYQtO00mrbyb+LhLdaXdQfSFy16tP+ex4FsHKty0pPnJzJZfIYBs/Fkf4CLqDWfV1t4pVjBMfxYyGEzZEoVQrFU6pt3FaQiuK3ir2wj/tRW9IBT+2QktOPKKPgIScqhyrzJ+P9fsCuOweAt9pijKUFM+sqj3YDDyGaeDmAk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717121665; c=relaxed/simple;
-	bh=eOHKQ8JxHfWVlQJItled/hhtg9RG1QB7ZNY++VrthUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SElRrfyHAfdpgmIYLrdyZxQ9U9lIQ31CX5mugdwx2mH+LFc+itUbbIl1Fdg3QtWRENonWwhtVtoXxwTERuqX+w8KjWZbGbvj2UONwrO/HeP3DGHCkizU5EJkFpeQcggYXzNp6pfCTGEH38+eroQjYT5zUXu2lnNv7gY0yKRPsus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOeb/Yeq; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1717121666; c=relaxed/simple;
+	bh=xn2rd7kJ5Qxtu2XGb+Wyt9/YczBrhI26LyxJ9KOGmdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iq7htJNv3if0rbwfi8DddmmNICNcPCxhkwhIdXSoL6xJFsLlB7hY+/yMBftO9LjfozRxZbGYw5/Ieh6QwhNRt4FIpG334VwVEwn5kF8RNrhLZBFLnJhZGAS8OXn4Wnt4gGo8lcgDK2xmAUcttDoQh6MiG366wP94PNg5tpvq+aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8Y9Mju1; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOeb/Yeq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8Y9Mju1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717121665; x=1748657665;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eOHKQ8JxHfWVlQJItled/hhtg9RG1QB7ZNY++VrthUQ=;
-  b=jOeb/YeqGPDEW9piMET/j5VfZXgbXtWTMUr+h2ZPIcwQpOmMAb42RL13
-   jgr7J2R+yMyLIjW/xK8TMvaPimYvlTZlMAEDaL6MNpJjrSl8X/YXejwHr
-   5LEYf7pzJVFyF2t0gliedt2dbJQ8ZRapNWOVQ1LRTZDSSe1zpWLQVn6ae
-   y9NJbWE43BJvSSJ3vt4xI8XZa2rfcfHBQuvHxDlk0ukLQvWpa17C+KYeZ
-   JqLr5W4Baf4NYDJY7C+joaY2SwJpf3x4WQif5dokXgaefX3d65o1Kad2g
-   xwJFQsL9paNWQFehyR8lQ2EkpzXYw36iaRAFww6+EQJlqaIwZOg35Rhcv
+  t=1717121664; x=1748657664;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xn2rd7kJ5Qxtu2XGb+Wyt9/YczBrhI26LyxJ9KOGmdI=;
+  b=B8Y9Mju1QxJJyx4zpm87pB6i50bL+DbS8n0TJCuZO4iRcYX+0x0BTB6q
+   CwGL2OSkMwh+r8PrLCeMPX5uGGk3BffeMvhnCkD/t4KXJ50Bt1K4fUAO0
+   PF6lMBd0b1ouvC4LcAMCmS59GoCbxUtnsrnaGViTqIcc8RFIWct2J3ee+
+   LL4/otQ1JGvhdPXABSNglWGPqBz4xgayGHZaYyoWQp6ZjtRgzjdu+K4yu
+   Db91Ekz1pTT0G9efTBevw09/W8hkACmpPvqCJjaCiDU2ekynRTlTvb7/Y
+   TpqUnawiHRXCDVNCfxB5FZhIyPEQQLaadCij0hgykOujO7v5iCX8XPvLO
    g==;
-X-CSE-ConnectionGUID: XoYb8ceOSiSP0nb1OaZe3g==
-X-CSE-MsgGUID: GYdhvIUBTo6z9mKMUdp7pQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="17480809"
+X-CSE-ConnectionGUID: 7J7nlMoKTou7c6t1Iai/6g==
+X-CSE-MsgGUID: yCMzIKBwTmGPQqCNQTpolA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13521061"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="17480809"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 19:14:23 -0700
-X-CSE-ConnectionGUID: O4lSNZqvRwGOrqolWsiLgw==
-X-CSE-MsgGUID: fkoyztfgTwqq7Rw0I1d7XQ==
+   d="scan'208";a="13521061"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 19:14:24 -0700
+X-CSE-ConnectionGUID: 7Y5+mafaTTav5NAg9Qp+cA==
+X-CSE-MsgGUID: SL2k1zsaQ36x4fwsYkhXkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="40940467"
+   d="scan'208";a="40466790"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 May 2024 19:14:20 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 30 May 2024 19:14:20 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCrmc-000GOL-0C;
+	id 1sCrmc-000GOH-02;
 	Fri, 31 May 2024 02:14:18 +0000
-Date: Fri, 31 May 2024 10:14:00 +0800
+Date: Fri, 31 May 2024 10:14:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 93/93] ERROR: modpost: "do_exit"
- [fs/bcachefs/bcachefs.ko] undefined!
-Message-ID: <202405311008.oux1PVXS-lkp@intel.com>
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>
+Cc: oe-kbuild-all@lists.linux.dev, catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: Re: [PATCH v12 3/3] Input: Add TouchNetix axiom i2c touchscreen
+ driver
+Message-ID: <202405311035.5QZSREJv-lkp@intel.com>
+References: <20240529091004.107256-4-kamel.bouhara@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,74 +76,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240529091004.107256-4-kamel.bouhara@bootlin.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   ce6297d0475422fa2de0db1d4f955633ba70d031
-commit: ce6297d0475422fa2de0db1d4f955633ba70d031 [93/93] bcachefs: twf: Switch to create_io_thread()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240531/202405311008.oux1PVXS-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405311008.oux1PVXS-lkp@intel.com/reproduce)
+Hi Kamel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.10-rc1 next-20240529]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings-vendor-prefixes-Add-TouchNetix-AS/20240529-171328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240529091004.107256-4-kamel.bouhara%40bootlin.com
+patch subject: [PATCH v12 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+config: x86_64-randconfig-103-20240531 (https://download.01.org/0day-ci/archive/20240531/202405311035.5QZSREJv-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405311035.5QZSREJv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405311008.oux1PVXS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405311035.5QZSREJv-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/mm/cmm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/kvm/kvm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/nfs_acl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/grace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/lib/test_kprobes_s390.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/lib/test_unwind.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/lib/test_modules.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
->> ERROR: modpost: "do_exit" [fs/bcachefs/bcachefs.ko] undefined!
->> ERROR: modpost: "wake_up_new_task" [fs/bcachefs/bcachefs.ko] undefined!
->> ERROR: modpost: "__set_task_comm" [fs/bcachefs/bcachefs.ko] undefined!
+   ld: drivers/input/touchscreen/touchnetix_axiom.o: in function `axiom_handle_events':
+>> drivers/input/touchscreen/touchnetix_axiom.c:473:(.text+0x245f): undefined reference to `crc16'
+
+
+vim +473 drivers/input/touchscreen/touchnetix_axiom.c
+
+   442	
+   443	/*
+   444	 * Validates the crc and demultiplexes the axiom reports to the appropriate
+   445	 * report handler
+   446	 */
+   447	static int axiom_handle_events(struct axiom_data *ts)
+   448	{
+   449		struct input_dev *input_dev = ts->input_dev;
+   450		u8 *report_data = ts->rx_buf;
+   451		struct device *dev = ts->dev;
+   452		u16 crc_report;
+   453		u8 *crc_bytes;
+   454		u16 crc_calc;
+   455		int error;
+   456		u8 len;
+   457	
+   458		error = axiom_read(ts, AXIOM_REPORT_USAGE_ID, 0, report_data, ts->max_report_len);
+   459		if (error)
+   460			return error;
+   461	
+   462		len = (report_data[0] & AXIOM_COMMS_REPORT_LEN_MASK) << 1;
+   463		if (len <= 2) {
+   464			dev_err(dev, "Zero length report discarded.\n");
+   465			return -ENODATA;
+   466		}
+   467	
+   468		/* Validate the report CRC */
+   469		crc_bytes = &report_data[len];
+   470	
+   471		crc_report = get_unaligned_le16(crc_bytes - 2);
+   472		/* Length is in 16 bit words and remove the size of the CRC16 itself */
+ > 473		crc_calc = crc16(0, report_data, (len - 2));
+   474	
+   475		if (crc_calc != crc_report) {
+   476			dev_err(dev,
+   477				"CRC mismatch! Expected: %#x, Calculated CRC: %#x.\n",
+   478				crc_report, crc_calc);
+   479			return -EINVAL;
+   480		}
+   481	
+   482		switch (report_data[1]) {
+   483		case AXIOM_USAGE_2DCTS_REPORT_ID:
+   484			if (axiom_process_u41_report(ts, &report_data[1])) {
+   485				input_mt_sync_frame(input_dev);
+   486				input_sync(input_dev);
+   487			}
+   488			break;
+   489	
+   490		case AXIOM_USAGE_2AUX_REPORT_ID:
+   491			/* This is an aux report (force) */
+   492			axiom_process_u46_report(ts, &report_data[1]);
+   493			input_mt_sync(input_dev);
+   494			input_sync(input_dev);
+   495			break;
+   496	
+   497		case AXIOM_USAGE_2HB_REPORT_ID:
+   498			/* This is a heartbeat report */
+   499			break;
+   500		default:
+   501			return -EINVAL;
+   502		}
+   503	
+   504		return 0;
+   505	}
+   506	
 
 -- 
 0-DAY CI Kernel Test Service
