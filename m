@@ -1,74 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C85415C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 00:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7A51367
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 00:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717114239; cv=none; b=CoVuZU2uAZqQ5Lbr2l+0Lz8OZPJIpiO/Y1h8Vl/OpPOfdU4kkxPf5s87NJuY/QD0fBLtC2oI9ZTJ33o8FKdmJqrHh9QdcFggoCMeCPm0+Aj2wiItYJw9TJGlvUsF7MQusOg11jf3hs8Zc2TMBKR1NYf8njtDaeZzrS9rEYw63i8=
+	t=1717115307; cv=none; b=Ka2H6IcVW8AidPEXzMwuLKmrJVeRZwaZLZTvgtFYXubt2gyeqkgZ6TheDLz4cMN6uscjldYGtCa4RHy/go7STlOR1l3ZjvG8P+qf7AfZleez+EMMlW80cBK3jH4hDkmvRgfzQN0gv5mxQQYxzuWRnytQ15ac1xmoJxcGm3xg+kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717114239; c=relaxed/simple;
-	bh=kbuE3YYNvHZZpdFzMlUIb5zBZJCuGRjp82a+xXwXIow=;
+	s=arc-20240116; t=1717115307; c=relaxed/simple;
+	bh=ed4Jpucv0SyK9RYrWVa8iEpWUZbW+UIPQj2RL5LdfHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PdSX5nL1FYvX56mdMlprDKdDjB18HzzYHoycYdhi/H2YEEAo/2hRhwZrc4gHnZHehP4SLQ4PNpjnmeQKlesQuVdn1nHHy88j0Z378LTy5maD8JaXDACXy//mnjSzFwcSnkeMt1ssxAturXvMRN7Zi7rqYjFL90KaFnoAJOlN/EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr0S5O+J; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=OyZvvnPllv0lJw4aT0IJJH4g2+RyIdYNc87HulvGfoGbKMZlrB3dgpKs882Bb1YZZBUrxLCvzaWjB6u8dhQx0g8tVOr8LbI92cd/RKW4p5bMt3RDfGgeVLnuRoCWy0RIkwGFLA8DQRxbDP3GNKNdzyRY/QunHvlHduwCr+9EDzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bejbmjxW; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr0S5O+J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bejbmjxW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717114238; x=1748650238;
+  t=1717115306; x=1748651306;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kbuE3YYNvHZZpdFzMlUIb5zBZJCuGRjp82a+xXwXIow=;
-  b=Jr0S5O+JTI/bYyk2opPL8AuIXRfFOuW/jsryVGg8g+TrwJ1L1kDVAq/U
-   Rg1pPRupt9DT82AdvYwTF1glLMxeufCzJA5kvTn74VwTtHaHeJK3LB9rp
-   7pqyJOt1qKxR/fc0JoUTljNkOY4vA0hIYMN2tBKD/aKKCdUNUPSHmkZBw
-   jVq9eOwXfoXRuXPX1+JAxczYhWuBNZiVFHJC/XRkEjGsv5XMiinrGCHZ8
-   DAQzJw0a1ttDKX9gCgZ/Nk4WoxXp43px7xtBX2nRojYWG0+5wm8njpDcQ
-   qFGJN+i85XjyLUgwPJqoFAlyqkYB3UQRUNW+hELNzerjxxETzFPg+AyZC
-   w==;
-X-CSE-ConnectionGUID: skfYlFd9S4eKZDfyW35WAw==
-X-CSE-MsgGUID: EBlKplijQqyCOqbGq4CmIA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13481070"
+  bh=ed4Jpucv0SyK9RYrWVa8iEpWUZbW+UIPQj2RL5LdfHs=;
+  b=bejbmjxWTPGtlYWfqbVq21K4NEU/EVsIVad801ayGzaxjGx09klJuXEp
+   m0tsxqpCHlSnne7i6YuT5X7qCfzmIKeVPac92jRBR7ZJk8fXRf9QIVFOx
+   dP4e4wSknnawH+rBHfxxnofCk6AN0RELvnNRKpFykJv4jsSWS5Na5JxdC
+   3L4RcrugNegBVTYlY+4++Q244nOfPuScrbqArGC0zvu95/73obE0kFiKX
+   UXsol494zgrg0uIWSNUrlMtVBrqIMLD+4sMkZr6VR17cMdBbw9p7PNIJl
+   NDdRIjo+uY7vmJgQJkw12f8UKsC6lxFoPaHDnnqPW/R5WNORRfj2A7ij3
+   A==;
+X-CSE-ConnectionGUID: XmHnU/tFSEK+TqB6jDgODQ==
+X-CSE-MsgGUID: v05aSn0oQcaQjbD/lMvG+g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31174572"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="13481070"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 17:10:37 -0700
-X-CSE-ConnectionGUID: 2usrzk6OQhS9flupch8FOw==
-X-CSE-MsgGUID: m/2Q4ip9TzeEilm/NbGggQ==
+   d="scan'208";a="31174572"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 17:28:25 -0700
+X-CSE-ConnectionGUID: WF8e6GNVSjuElKXSRK+MiQ==
+X-CSE-MsgGUID: JlzRA6JwQ5a6fgbBAyUHSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="36028466"
+   d="scan'208";a="73477419"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 30 May 2024 17:07:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 May 2024 17:28:23 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCpnj-000GEf-1o;
-	Fri, 31 May 2024 00:07:19 +0000
-Date: Fri, 31 May 2024 08:07:14 +0800
+	id 1sCq85-000GH7-0C;
+	Fri, 31 May 2024 00:28:21 +0000
+Date: Fri, 31 May 2024 08:28:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: ranechita <ramona.nechita@analog.com>, linux-iio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ranechita <ramona.nechita@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Okan Sahin <okan.sahin@analog.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Liam Beguin <liambeguin@gmail.com>,
-	Ivan Mikhaylov <fr0st61te@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drivers: iio: adc: add support for ad777x family
-Message-ID: <202405310747.6KO7w1V1-lkp@intel.com>
-References: <20240529150322.28018-1-ramona.nechita@analog.com>
+To: Oleg Nesterov <oleg@redhat.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] tick: shift tick_nohz_switch_to_nohz() from
+ tick_check_oneshot_change() to hrtimer_run_queues()
+Message-ID: <202405310818.JPmNHEjC-lkp@intel.com>
+References: <20240530124203.GA26990@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,185 +66,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529150322.28018-1-ramona.nechita@analog.com>
+In-Reply-To: <20240530124203.GA26990@redhat.com>
 
-Hi ranechita,
+Hi Oleg,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.10-rc1 next-20240529]
+[auto build test ERROR on tip/timers/core]
+[also build test ERROR on linus/master v6.10-rc1 next-20240529]
+[cannot apply to tip/timers/nohz]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ranechita/drivers-iio-adc-add-support-for-ad777x-family/20240529-230814
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240529150322.28018-1-ramona.nechita%40analog.com
-patch subject: [PATCH v2] drivers: iio: adc: add support for ad777x family
-config: microblaze-randconfig-r113-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310747.6KO7w1V1-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240531/202405310747.6KO7w1V1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleg-Nesterov/tick-shift-tick_nohz_switch_to_nohz-from-tick_check_oneshot_change-to-hrtimer_run_queues/20240530-204940
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20240530124203.GA26990%40redhat.com
+patch subject: [PATCH] tick: shift tick_nohz_switch_to_nohz() from tick_check_oneshot_change() to hrtimer_run_queues()
+config: i386-randconfig-001-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310818.JPmNHEjC-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310818.JPmNHEjC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310747.6KO7w1V1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310818.JPmNHEjC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/ad7779.c:571:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned long @@
-   drivers/iio/adc/ad7779.c:571:35: sparse:     expected restricted __be32
-   drivers/iio/adc/ad7779.c:571:35: sparse:     got unsigned long
->> drivers/iio/adc/ad7779.c:581:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int [usertype] @@
-   drivers/iio/adc/ad7779.c:581:42: sparse:     expected restricted __be32
-   drivers/iio/adc/ad7779.c:581:42: sparse:     got unsigned int [usertype]
->> drivers/iio/adc/ad7779.c:685:35: sparse: sparse: symbol 'ad777x_buffer_setup_ops' was not declared. Should it be static?
-   drivers/iio/adc/ad7779.c: note: in included file (through include/linux/mutex.h, include/linux/notifier.h, include/linux/clk.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All errors (new ones prefixed by >>):
 
-vim +571 drivers/iio/adc/ad7779.c
+   ld: kernel/time/hrtimer.o: in function `hrtimer_run_queues':
+>> kernel/time/hrtimer.c:1898:(.text+0x1e71): undefined reference to `tick_nohz_switch_to_nohz'
 
-   552	
-   553	static irqreturn_t ad777x_irq_handler(int irq, void *data)
-   554	{
-   555		struct iio_dev *indio_dev = data;
-   556		struct ad777x_state *st = iio_priv(indio_dev);
-   557		int ret;
-   558		__be32 tmp[8];
-   559		int i;
-   560		int k = 0;
-   561	
-   562		struct spi_transfer sd_readback_tr[] = {
-   563			{
-   564				.rx_buf = st->spidata_rx,
-   565				.tx_buf = st->spidata_tx,
-   566				.len = 32,
-   567			}
-   568		};
-   569	
-   570		if (iio_buffer_enabled(indio_dev)) {
- > 571			st->spidata_tx[0] = AD777X_SPI_READ_CMD;
-   572			ret = spi_sync_transfer(st->spi, sd_readback_tr,
-   573						ARRAY_SIZE(sd_readback_tr));
-   574			if (ret) {
-   575				dev_err(&st->spi->dev,
-   576					"spi transfer error in irq handler");
-   577				return IRQ_HANDLED;
-   578			}
-   579			for (i = 0; i < AD777X_NUM_CHANNELS; i++) {
-   580				if (st->active_ch & BIT(i))
- > 581					tmp[k++] = __be32_to_cpu(st->spidata_rx[i]);
-   582			}
-   583			iio_push_to_buffers(indio_dev, &tmp[0]);
-   584		}
-   585	
-   586		return IRQ_HANDLED;
-   587	}
-   588	
-   589	static int ad777x_reset(struct iio_dev *indio_dev, struct gpio_desc *reset_gpio)
-   590	{
-   591		struct ad777x_state *st = iio_priv(indio_dev);
-   592		int ret;
-   593		struct spi_transfer reg_read_tr[] = {
-   594			{
-   595				.tx_buf = st->reset_buf,
-   596				.len = 8,
-   597			},
-   598		};
-   599	
-   600		memset(st->reset_buf, 0xff, sizeof(st->reset_buf));
-   601	
-   602		if (reset_gpio) {
-   603			gpiod_set_value(reset_gpio, 1);
-   604			fsleep(230);
-   605			return 0;
-   606		}
-   607	
-   608		ret = spi_sync_transfer(st->spi, reg_read_tr,
-   609					ARRAY_SIZE(reg_read_tr));
-   610		if (ret)
-   611			return ret;
-   612	
-   613		fsleep(230);
-   614	
-   615		return 0;
-   616	}
-   617	
-   618	static const struct iio_info ad777x_info = {
-   619		.read_raw = ad777x_read_raw,
-   620		.write_raw = ad777x_write_raw,
-   621		.debugfs_reg_access = &ad777x_reg_access,
-   622		.update_scan_mode = &ad777x_update_scan_mode,
-   623	};
-   624	
-   625	static const struct iio_enum ad777x_filter_enum = {
-   626		.items = ad777x_filter_type,
-   627		.num_items = ARRAY_SIZE(ad777x_filter_type),
-   628		.get = ad777x_get_filter,
-   629		.set = ad777x_set_filter,
-   630	};
-   631	
-   632	static const struct iio_chan_spec_ext_info ad777x_ext_filter[] = {
-   633		IIO_ENUM("filter_type", IIO_SHARED_BY_ALL, &ad777x_filter_enum),
-   634		IIO_ENUM_AVAILABLE("filter_type", IIO_SHARED_BY_ALL,
-   635					  &ad777x_filter_enum),
-   636		{ }
-   637	};
-   638	
-   639	#define AD777x_CHAN_S(index, _ext_info)					       \
-   640		{								       \
-   641			.type = IIO_VOLTAGE,					       \
-   642			.info_mask_separate = BIT(IIO_CHAN_INFO_CALIBSCALE)  |	       \
-   643					      BIT(IIO_CHAN_INFO_CALIBBIAS),	       \
-   644			.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ),       \
-   645			.address = (index),					       \
-   646			.indexed = 1,						       \
-   647			.channel = (index),					       \
-   648			.scan_index = (index),					       \
-   649			.ext_info = (_ext_info),				       \
-   650			.scan_type = {						       \
-   651				.sign = 's',					       \
-   652				.realbits = 24,					       \
-   653				.storagebits = 32,				       \
-   654			},							       \
-   655		}
-   656	
-   657	#define AD777x_CHAN_NO_FILTER_S(index)					       \
-   658		AD777x_CHAN_S(index, NULL)
-   659	
-   660	#define AD777x_CHAN_FILTER_S(index)					       \
-   661		AD777x_CHAN_S(index, ad777x_ext_filter)
-   662	
-   663	static const struct iio_chan_spec ad777x_channels[] = {
-   664		AD777x_CHAN_NO_FILTER_S(0),
-   665		AD777x_CHAN_NO_FILTER_S(1),
-   666		AD777x_CHAN_NO_FILTER_S(2),
-   667		AD777x_CHAN_NO_FILTER_S(3),
-   668		AD777x_CHAN_NO_FILTER_S(4),
-   669		AD777x_CHAN_NO_FILTER_S(5),
-   670		AD777x_CHAN_NO_FILTER_S(6),
-   671		AD777x_CHAN_NO_FILTER_S(7),
-   672	};
-   673	
-   674	static const struct iio_chan_spec ad777x_channels_filter[] = {
-   675		AD777x_CHAN_FILTER_S(0),
-   676		AD777x_CHAN_FILTER_S(1),
-   677		AD777x_CHAN_FILTER_S(2),
-   678		AD777x_CHAN_FILTER_S(3),
-   679		AD777x_CHAN_FILTER_S(4),
-   680		AD777x_CHAN_FILTER_S(5),
-   681		AD777x_CHAN_FILTER_S(6),
-   682		AD777x_CHAN_FILTER_S(7),
-   683	};
-   684	
- > 685	const struct iio_buffer_setup_ops ad777x_buffer_setup_ops = {
-   686		.postenable = ad777x_buffer_postenable,
-   687		.predisable = ad777x_buffer_predisable,
-   688	};
-   689	
+
+vim +1898 kernel/time/hrtimer.c
+
+  1874	
+  1875	/*
+  1876	 * Called from run_local_timers in hardirq context every jiffy
+  1877	 */
+  1878	void hrtimer_run_queues(void)
+  1879	{
+  1880		struct hrtimer_cpu_base *cpu_base = this_cpu_ptr(&hrtimer_bases);
+  1881		unsigned long flags;
+  1882		ktime_t now;
+  1883	
+  1884		if (hrtimer_hres_active(cpu_base))
+  1885			return;
+  1886	
+  1887		/*
+  1888		 * This _is_ ugly: We have to check periodically, whether we
+  1889		 * can switch to highres and / or nohz mode. The clocksource
+  1890		 * switch happens with xtime_lock held. Notification from
+  1891		 * there only sets the check bit in the tick_oneshot code,
+  1892		 * otherwise we might deadlock vs. xtime_lock.
+  1893		 */
+  1894		if (tick_check_oneshot_change()) {
+  1895			if (hrtimer_is_hres_enabled())
+  1896				hrtimer_switch_to_hres();
+  1897			else
+> 1898				tick_nohz_switch_to_nohz();
+  1899			return;
+  1900		}
+  1901	
+  1902		raw_spin_lock_irqsave(&cpu_base->lock, flags);
+  1903		now = hrtimer_update_base(cpu_base);
+  1904	
+  1905		if (!ktime_before(now, cpu_base->softirq_expires_next)) {
+  1906			cpu_base->softirq_expires_next = KTIME_MAX;
+  1907			cpu_base->softirq_activated = 1;
+  1908			raise_softirq_irqoff(HRTIMER_SOFTIRQ);
+  1909		}
+  1910	
+  1911		__hrtimer_run_queues(cpu_base, now, flags, HRTIMER_ACTIVE_HARD);
+  1912		raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
+  1913	}
+  1914	
 
 -- 
 0-DAY CI Kernel Test Service
