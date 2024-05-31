@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A1216F82B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 16:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B4A16A360;
+	Fri, 31 May 2024 17:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717173785; cv=none; b=LwEiUy53rBEyHcFIJIopCg628Qdolk+WNV8EJ8iq7+0eZxjpuF3MPQAOFjNbZSRjiJXJj9oEsuKNzNVJrQblAYIzx6Fon3lsoZQJ5xVQP6L7hRwIH9Dy7wjZRkzryKfZnH+cj8d8QPhVTmXwLkjFF1+bYFLahCj2ACEi6yQq8mM=
+	t=1717174893; cv=none; b=Du9fs/S0GLM9cNSFxfF9yZ4rtRVmk4APlceGJTEvjuN/GlzOuVCbh0ybLM4T4XVm23gXEZN6WX539Cgz0Pm/2P++qF7fEE4OBgjqaDGQgNYzidzfKZdf8srOUjdzBBTYXYw9gvdI627nXqPIauIn7OqNQvmuu0P3Aq9ntoCAIr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717173785; c=relaxed/simple;
-	bh=Wcr20VooTMm+vS0jb6dxxpuIcVG0AJll5xMfGY/THTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jW9TfoJcVkoOj+DE9drIGjRQgtAl2f1kyokdNNNrzUHOapktp5YinkwDIOScK2z235mRGKokf8RvVRmMZ8DcHzrw1GKhfS+mbbWARuOU36OoNvhII7vJaTPZsgc1Adwb+3PM2bW/1Y5hh1RemosgiYSc4r7ZS3xhYkm6b7SEdhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFkvFL2/; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1717174893; c=relaxed/simple;
+	bh=Yjqo3hlhlx9yKevXhDT1MNENp9AFIIad+z8zrRdLuUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OlzSi6nHVoXcjs8VYtiqqKqZuHxwD1HGlcOcZimkOejIVh8PPzT6+Yq6SleKr9G/YErkva9doFMI6rGNv1zPfiR3ldUvZadPvZY4EWiCf/JHalbEFUEfl9J8HHzexr6YuTFuUFSYSTfWgiti1Qp8bn2at+HkfNcmuBrQfl9Xn/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=faGKBjHC; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFkvFL2/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="faGKBjHC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717173783; x=1748709783;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wcr20VooTMm+vS0jb6dxxpuIcVG0AJll5xMfGY/THTk=;
-  b=FFkvFL2/rTX85b0g3q8OJEYxyaNpzhQgW1ItZO0PaCL7AEyt7V3Ob3uX
-   zOQvIrs6zJfMM+KFPWKPvrRvykW+2WBiWckDTUwv7PFcH1C4Mt3W2Sv3M
-   iIDR20OMK4KAi87+DL9GZgT5k+8pazXq/OwHB00trbw7G5ot7KSMLHInB
-   tYaNQgT4YVsiTp04tb2y/XMIwbNp1KKPWFL0Xekvgk3GOB7waiC3CrDX9
-   rEllHV/0H1g0FirRHnlKw0p6kkCOcn5UEDUsoyXj0ypdVr31/2SwsA4R5
-   mBAjjNB2MNPJfOV8ngy/Yo6GMzva0uUGdCdSAsvkH7XlUgRwkJTy4KT8Y
-   Q==;
-X-CSE-ConnectionGUID: iRlZ8VHORsqDeRC8uyJ3aQ==
-X-CSE-MsgGUID: FBn90AAXRdeJfz9C61Gegw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13849036"
+  t=1717174891; x=1748710891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yjqo3hlhlx9yKevXhDT1MNENp9AFIIad+z8zrRdLuUs=;
+  b=faGKBjHCipfYarK+ZtyukSvXvuDJ9nLLhH83jsdCuoPRrcXL4V7i0QDX
+   KcQiwrp5uQyql6B0usuSccvDUAwWVCaBBp+8kNBzoa9HAFcAxmoNAT5XN
+   +JJGQ08xnXTI2qFu4Y+uQ2Dg+as0/V0lfE6kIw/WdvPsxQJ6rXNmLtSKd
+   lYbjN+ROiJ22MB5zzstaDoLd8qphUrMi1tg32HsiKJIfFUK6bWka5ByAN
+   k2l/e+gl0Q63f2JqkE95EbNRxROzWFI3D9T3NYSGA84FCyKETVbdv6/9C
+   51n3RUX6zDAQGEmL6uDNqv40pUeHcMr6GEO37OxGqQ50jZpGdD2MqFNcj
+   w==;
+X-CSE-ConnectionGUID: LE9rXJb3TZarAvoUF0HTfg==
+X-CSE-MsgGUID: EB9njq2VR9K4GXq2tb5/Rw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="31223125"
 X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="13849036"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 09:43:03 -0700
-X-CSE-ConnectionGUID: wft/6zXpS+KGVdjU0COACw==
-X-CSE-MsgGUID: 31boE8VLTSyH/lNp2e1Wfg==
+   d="scan'208";a="31223125"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:01:31 -0700
+X-CSE-ConnectionGUID: kwv4Ne6VSaWer/Fbg//lww==
+X-CSE-MsgGUID: UWrQa+u+SWK1A29eqgaOlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="36320814"
+   d="scan'208";a="36800309"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 31 May 2024 09:43:01 -0700
+  by orviesa008.jf.intel.com with ESMTP; 31 May 2024 10:01:29 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sD5L5-000HMz-20;
-	Fri, 31 May 2024 16:42:52 +0000
-Date: Sat, 1 Jun 2024 00:40:31 +0800
+	id 1sD5d8-000HUA-1N;
+	Fri, 31 May 2024 17:01:26 +0000
+Date: Sat, 1 Jun 2024 01:01:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Chen Siyu <chensiyu1321@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21243/22626]
- drivers/net/can/phytium/phytium_can.c:366:28: sparse: sparse: incorrect type
- in argument 1 (different base types)
-Message-ID: <202406010039.Hfpe41SX-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	don <zds100@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, mhiramat@kernel.org
+Subject: Re: [PATCH] tracing/fprobe: Support raw tracepoint events on modules
+Message-ID: <202406010034.fsNP9Rsq-lkp@intel.com>
+References: <171714888633.198965.13093663631481169611.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,137 +65,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <171714888633.198965.13093663631481169611.stgit@devnote2>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d2901c3f0ff7d121adf97d64bd2cc3789821600d
-commit: db0908f0353219c48495233e71e676da2cefee44 [21243/22626] can: can controller driver for phytium CPUs
-config: arm64-randconfig-r122-20240531 (https://download.01.org/0day-ci/archive/20240601/202406010039.Hfpe41SX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240601/202406010039.Hfpe41SX-lkp@intel.com/reproduce)
+Hi Masami,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10-rc1 next-20240531]
+[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-fprobe-Support-raw-tracepoint-events-on-modules/20240531-175013
+base:   linus/master
+patch link:    https://lore.kernel.org/r/171714888633.198965.13093663631481169611.stgit%40devnote2
+patch subject: [PATCH] tracing/fprobe: Support raw tracepoint events on modules
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240601/202406010034.fsNP9Rsq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406010034.fsNP9Rsq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406010039.Hfpe41SX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406010034.fsNP9Rsq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/can/phytium/phytium_can.c:366:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *p @@     got unsigned int * @@
-   drivers/net/can/phytium/phytium_can.c:366:28: sparse:     expected restricted __be32 const [usertype] *p
-   drivers/net/can/phytium/phytium_can.c:366:28: sparse:     got unsigned int *
-   drivers/net/can/phytium/phytium_can.c:370:37: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *p @@     got unsigned int * @@
-   drivers/net/can/phytium/phytium_can.c:370:37: sparse:     expected restricted __be32 const [usertype] *p
-   drivers/net/can/phytium/phytium_can.c:370:37: sparse:     got unsigned int *
->> drivers/net/can/phytium/phytium_can.c:436:51: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] @@     got unsigned int @@
-   drivers/net/can/phytium/phytium_can.c:436:51: sparse:     expected restricted __be32 [usertype]
-   drivers/net/can/phytium/phytium_can.c:436:51: sparse:     got unsigned int
->> drivers/net/can/phytium/phytium_can.c:568:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 @@
-   drivers/net/can/phytium/phytium_can.c:568:31: sparse:     expected unsigned int
-   drivers/net/can/phytium/phytium_can.c:568:31: sparse:     got restricted __be32
-   drivers/net/can/phytium/phytium_can.c:569:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 @@
-   drivers/net/can/phytium/phytium_can.c:569:31: sparse:     expected unsigned int
-   drivers/net/can/phytium/phytium_can.c:569:31: sparse:     got restricted __be32
-   drivers/net/can/phytium/phytium_can.c:601:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 @@
-   drivers/net/can/phytium/phytium_can.c:601:31: sparse:     expected unsigned int
-   drivers/net/can/phytium/phytium_can.c:601:31: sparse:     got restricted __be32
->> drivers/net/can/phytium/phytium_can.c:612:43: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/net/can/phytium/phytium_can.c:612:43: sparse:     expected unsigned int [usertype] val
-   drivers/net/can/phytium/phytium_can.c:612:43: sparse:     got restricted __be32 [usertype]
-   drivers/net/can/phytium/phytium_can.c:1050: warning: Function parameter or member 'skb' not described in 'phytium_can_start_xmit'
-   drivers/net/can/phytium/phytium_can.c:1050: warning: Function parameter or member 'dev' not described in 'phytium_can_start_xmit'
+All errors (new ones prefixed by >>):
 
-vim +366 drivers/net/can/phytium/phytium_can.c
+   In file included from kernel/tracepoint.c:5:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/tracepoint.c:751:34: error: no member named '__start___tracepoints_ptrs' in 'struct module'
+     751 |                 for_each_tracepoint_range(mod->__start___tracepoints_ptrs,
+         |                                           ~~~  ^
+   5 warnings and 1 error generated.
 
-   355	
-   356	static int phytium_can_read_fifo(struct net_device *dev)
-   357	{
-   358		struct net_device_stats *stats = &dev->stats;
-   359		struct phytium_can_dev *cdev = netdev_priv(dev);
-   360		struct canfd_frame *cf;
-   361		struct sk_buff *skb;
-   362		u32 id, dlc, i;
-   363	
-   364		/* Read the frame header from FIFO */
-   365		id = phytium_can_read(cdev, CAN_RX_FIFO);
- > 366		id = be32_to_cpup(&id);
-   367		if (id & CAN_IDE_MASK) {
-   368			/* Received an extended frame */
-   369			dlc = phytium_can_read(cdev, CAN_RX_FIFO);
-   370			dlc = be32_to_cpup(&dlc);
-   371			if (dlc & CAN_ID2_FDF_MASK)
-   372				skb = alloc_canfd_skb(dev, &cf);
-   373			else
-   374				skb = alloc_can_skb(dev, (struct can_frame **)&cf);
-   375	
-   376			if (unlikely(!skb)) {
-   377				stats->rx_dropped++;
-   378				return 0;
-   379			}
-   380	
-   381			if (dlc & CAN_ID2_FDF_MASK) {
-   382				/* CAN FD extended frame */
-   383				if (dlc & CANFD_ID2_BRS_MASK)
-   384					cf->flags |= CANFD_BRS;
-   385				if (dlc & CANFD_ID2_ESI_MASK)
-   386					cf->flags |= CANFD_ESI;
-   387				cf->len = can_dlc2len((dlc & CANFD_ID2_DLC_MASK) >>
-   388						CANFD_ID2_DLC_OFF);
-   389			} else {
-   390				/* CAN extended frame */
-   391				cf->len = get_can_dlc((dlc & CAN_ID2_DLC_MASK) >>
-   392						CAN_ID2_DLC_OFF);
-   393			}
-   394	
-   395			cf->can_id = (id & CAN_ID1_MASK) >> 3;
-   396			cf->can_id |= (id & CAN_ID2_MASK) >> 1;
-   397			cf->can_id |= CAN_EFF_FLAG;
-   398	
-   399			if (id & CAN_ID2_RTR_MASK)
-   400				cf->can_id |= CAN_RTR_FLAG;
-   401		} else {
-   402			/* Received a standard frame */
-   403			if (id & CAN_ID1_FDF_MASK)
-   404				skb = alloc_canfd_skb(dev, &cf);
-   405			else
-   406				skb = alloc_can_skb(dev, (struct can_frame **)&cf);
-   407	
-   408			if (unlikely(!skb)) {
-   409				stats->rx_dropped++;
-   410				return 0;
-   411			}
-   412	
-   413			if (id & CAN_ID1_FDF_MASK) {
-   414				/* CAN FD extended frame */
-   415				if (id & CANFD_ID1_BRS_MASK)
-   416					cf->flags |= CANFD_BRS;
-   417				if (id & CANFD_ID1_ESI_MASK)
-   418					cf->flags |= CANFD_ESI;
-   419				cf->len = can_dlc2len((id & CANFD_ID1_DLC_MASK) >>
-   420						CANFD_ID1_DLC_OFF);
-   421			} else {
-   422				/* CAN extended frame */
-   423				cf->len = get_can_dlc((id & CAN_ID1_DLC_MASK) >>
-   424						CAN_ID1_DLC_OFF);
-   425			}
-   426	
-   427			cf->can_id = (id & CAN_ID1_MASK) >> 21;
-   428	
-   429			if (id & CAN_ID1_RTR_MASK)
-   430				cf->can_id |= CAN_RTR_FLAG;
-   431		}
-   432	
-   433		if (!(cf->can_id & CAN_RTR_FLAG))
-   434			/* Receive data frames */
-   435			for (i = 0; i < cf->len; i += 4)
- > 436				*(__be32 *)(cf->data + i) = phytium_can_read(cdev,
-   437						CAN_RX_FIFO);
-   438	
-   439		stats->rx_packets++;
-   440		stats->rx_bytes += cf->len;
-   441		netif_receive_skb(skb);
-   442	
-   443		return 1;
-   444	}
-   445	
+
+vim +751 kernel/tracepoint.c
+
+   738	
+   739	void for_each_module_tracepoint(void (*fct)(struct tracepoint *tp, void *priv),
+   740					void *priv)
+   741	{
+   742		struct tp_module *tp_mod;
+   743		struct module *mod;
+   744	
+   745		if (!mod->num_tracepoints)
+   746			return;
+   747	
+   748		mutex_lock(&tracepoint_module_list_mutex);
+   749		list_for_each_entry(tp_mod, &tracepoint_module_list, list) {
+   750			mod = tp_mod->mod;
+ > 751			for_each_tracepoint_range(mod->__start___tracepoints_ptrs,
+   752				mod->tracepoints_ptrs + mod->num_tracepoints,
+   753				fct, priv);
+   754		}
+   755		mutex_unlock(&tracepoint_module_list_mutex);
+   756	}
+   757	#endif /* CONFIG_MODULES */
+   758	
 
 -- 
 0-DAY CI Kernel Test Service
