@@ -1,63 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7A51367
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 00:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AC5D51E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 01:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717115307; cv=none; b=Ka2H6IcVW8AidPEXzMwuLKmrJVeRZwaZLZTvgtFYXubt2gyeqkgZ6TheDLz4cMN6uscjldYGtCa4RHy/go7STlOR1l3ZjvG8P+qf7AfZleez+EMMlW80cBK3jH4hDkmvRgfzQN0gv5mxQQYxzuWRnytQ15ac1xmoJxcGm3xg+kM=
+	t=1717117297; cv=none; b=eCiznk3EpmGtPs0WFWPch0Kic8SyI2/aKh1oBquM7Y3WrwKlgYnXWknxEHsC/+/7RwQ9dP6glbwhie4qShLn9pDQJX/dDE8lKspAbamEo7f8tqqxww5GvLkmr6azEQhz24Ar/B2UFf4CJo3oFL9nTsu94eIZhK9PG1E42GZfR6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717115307; c=relaxed/simple;
-	bh=ed4Jpucv0SyK9RYrWVa8iEpWUZbW+UIPQj2RL5LdfHs=;
+	s=arc-20240116; t=1717117297; c=relaxed/simple;
+	bh=HxG5osaBenuaXiNqjDMl+ACscharTtPstTDjg6QkFeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OyZvvnPllv0lJw4aT0IJJH4g2+RyIdYNc87HulvGfoGbKMZlrB3dgpKs882Bb1YZZBUrxLCvzaWjB6u8dhQx0g8tVOr8LbI92cd/RKW4p5bMt3RDfGgeVLnuRoCWy0RIkwGFLA8DQRxbDP3GNKNdzyRY/QunHvlHduwCr+9EDzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bejbmjxW; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y6YtG7EzV+dSos0lZ7QYX/315HtBDJvrxDUpxpASkV6T68je0Aj9MAR3ma9Xinbp6QF0pUBteDBE9EkffrFpN+JvllBnmPm1cQLJmUOt7vQamz+8qe5g6t7aTu+zG/2MvbzIgtEJAuPVpzsnWN7m8WObSkEN+L4iB0f25/zv5wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwwRBQUb; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bejbmjxW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwwRBQUb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717115306; x=1748651306;
+  t=1717117294; x=1748653294;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ed4Jpucv0SyK9RYrWVa8iEpWUZbW+UIPQj2RL5LdfHs=;
-  b=bejbmjxWTPGtlYWfqbVq21K4NEU/EVsIVad801ayGzaxjGx09klJuXEp
-   m0tsxqpCHlSnne7i6YuT5X7qCfzmIKeVPac92jRBR7ZJk8fXRf9QIVFOx
-   dP4e4wSknnawH+rBHfxxnofCk6AN0RELvnNRKpFykJv4jsSWS5Na5JxdC
-   3L4RcrugNegBVTYlY+4++Q244nOfPuScrbqArGC0zvu95/73obE0kFiKX
-   UXsol494zgrg0uIWSNUrlMtVBrqIMLD+4sMkZr6VR17cMdBbw9p7PNIJl
-   NDdRIjo+uY7vmJgQJkw12f8UKsC6lxFoPaHDnnqPW/R5WNORRfj2A7ij3
+  bh=HxG5osaBenuaXiNqjDMl+ACscharTtPstTDjg6QkFeI=;
+  b=FwwRBQUbx2WouWDsCMBJnLvliqASA65LFGiVgTFYYp/wfWGOOHTwXLcm
+   Z+RtCmTp4SOtKRqBeNaSkSdNKC6CRnceulFK6caEX4P+enF5elVeT3N39
+   g0XbQgAwzGN0TWuIXy8BOS4PQFkb2XpoEWSa5iWhD7vPisXLsSMmMAmDb
+   nKKoOz60fe1zlnSXfDN4DxvH39J+woH0QV7b6gXJnbDtx+w/NABnz6cYx
+   yEWlEEoKayKejp6vbO6s/n4Rp/BbU2i3W6PboU5wBmCF30rK/iE/KmepI
+   Vs6rxES40ZglEJwHkXCf2U1kYpvggMici9YtPTjShf2utobNACDRn60iU
    A==;
-X-CSE-ConnectionGUID: XmHnU/tFSEK+TqB6jDgODQ==
-X-CSE-MsgGUID: v05aSn0oQcaQjbD/lMvG+g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31174572"
+X-CSE-ConnectionGUID: wLlJ8uCZR9uzO9tesNO67g==
+X-CSE-MsgGUID: EvhkOubrRUmjjE5aLl9jkw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="17446398"
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="31174572"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 17:28:25 -0700
-X-CSE-ConnectionGUID: WF8e6GNVSjuElKXSRK+MiQ==
-X-CSE-MsgGUID: JlzRA6JwQ5a6fgbBAyUHSA==
+   d="scan'208";a="17446398"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 18:01:22 -0700
+X-CSE-ConnectionGUID: KTu1FWO8RuCq02JLF+MT2g==
+X-CSE-MsgGUID: v97yehVvQbyvM9/AyyHfgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="73477419"
+   d="scan'208";a="36041608"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 May 2024 17:28:23 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 May 2024 18:01:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCq85-000GH7-0C;
-	Fri, 31 May 2024 00:28:21 +0000
-Date: Fri, 31 May 2024 08:28:14 +0800
+	id 1sCqdv-000GJ1-08;
+	Fri, 31 May 2024 01:01:15 +0000
+Date: Fri, 31 May 2024 09:00:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleg Nesterov <oleg@redhat.com>, Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] tick: shift tick_nohz_switch_to_nohz() from
- tick_check_oneshot_change() to hrtimer_run_queues()
-Message-ID: <202405310818.JPmNHEjC-lkp@intel.com>
-References: <20240530124203.GA26990@redhat.com>
+To: Sky Huang <SkyLake.Huang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Qingfang Deng <dqfext@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Steven Liu <Steven.Liu@mediatek.com>,
+	"SkyLake.Huang" <skylake.huang@mediatek.com>
+Subject: Re: [PATCH net-next v5 5/5] net: phy: add driver for built-in 2.5G
+ ethernet PHY on MT7988
+Message-ID: <202405310819.c3Dv1OM3-lkp@intel.com>
+References: <20240530034844.11176-6-SkyLake.Huang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,81 +76,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240530124203.GA26990@redhat.com>
+In-Reply-To: <20240530034844.11176-6-SkyLake.Huang@mediatek.com>
 
-Hi Oleg,
+Hi Sky,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tip/timers/core]
-[also build test ERROR on linus/master v6.10-rc1 next-20240529]
-[cannot apply to tip/timers/nohz]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleg-Nesterov/tick-shift-tick_nohz_switch_to_nohz-from-tick_check_oneshot_change-to-hrtimer_run_queues/20240530-204940
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20240530124203.GA26990%40redhat.com
-patch subject: [PATCH] tick: shift tick_nohz_switch_to_nohz() from tick_check_oneshot_change() to hrtimer_run_queues()
-config: i386-randconfig-001-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310818.JPmNHEjC-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310818.JPmNHEjC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-drivers/20240530-115522
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240530034844.11176-6-SkyLake.Huang%40mediatek.com
+patch subject: [PATCH net-next v5 5/5] net: phy: add driver for built-in 2.5G ethernet PHY on MT7988
+config: openrisc-randconfig-r121-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310819.c3Dv1OM3-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240531/202405310819.c3Dv1OM3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310818.JPmNHEjC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310819.c3Dv1OM3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/phy/mediatek/mtk-2p5ge.c:106:9: sparse: sparse: cast to restricted __be16
 
-   ld: kernel/time/hrtimer.o: in function `hrtimer_run_queues':
->> kernel/time/hrtimer.c:1898:(.text+0x1e71): undefined reference to `tick_nohz_switch_to_nohz'
+vim +106 drivers/net/phy/mediatek/mtk-2p5ge.c
 
-
-vim +1898 kernel/time/hrtimer.c
-
-  1874	
-  1875	/*
-  1876	 * Called from run_local_timers in hardirq context every jiffy
-  1877	 */
-  1878	void hrtimer_run_queues(void)
-  1879	{
-  1880		struct hrtimer_cpu_base *cpu_base = this_cpu_ptr(&hrtimer_bases);
-  1881		unsigned long flags;
-  1882		ktime_t now;
-  1883	
-  1884		if (hrtimer_hres_active(cpu_base))
-  1885			return;
-  1886	
-  1887		/*
-  1888		 * This _is_ ugly: We have to check periodically, whether we
-  1889		 * can switch to highres and / or nohz mode. The clocksource
-  1890		 * switch happens with xtime_lock held. Notification from
-  1891		 * there only sets the check bit in the tick_oneshot code,
-  1892		 * otherwise we might deadlock vs. xtime_lock.
-  1893		 */
-  1894		if (tick_check_oneshot_change()) {
-  1895			if (hrtimer_is_hres_enabled())
-  1896				hrtimer_switch_to_hres();
-  1897			else
-> 1898				tick_nohz_switch_to_nohz();
-  1899			return;
-  1900		}
-  1901	
-  1902		raw_spin_lock_irqsave(&cpu_base->lock, flags);
-  1903		now = hrtimer_update_base(cpu_base);
-  1904	
-  1905		if (!ktime_before(now, cpu_base->softirq_expires_next)) {
-  1906			cpu_base->softirq_expires_next = KTIME_MAX;
-  1907			cpu_base->softirq_activated = 1;
-  1908			raise_softirq_irqoff(HRTIMER_SOFTIRQ);
-  1909		}
-  1910	
-  1911		__hrtimer_run_queues(cpu_base, now, flags, HRTIMER_ACTIVE_HARD);
-  1912		raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
-  1913	}
-  1914	
+    56	
+    57	static int mt798x_2p5ge_phy_load_fw(struct phy_device *phydev)
+    58	{
+    59		struct mtk_i2p5ge_phy_priv *priv = phydev->priv;
+    60		void __iomem *md32_en_cfg_base, *pmb_addr;
+    61		struct device *dev = &phydev->mdio.dev;
+    62		const struct firmware *fw;
+    63		int ret, i;
+    64		u16 reg;
+    65	
+    66		if (priv->fw_loaded)
+    67			return 0;
+    68	
+    69		pmb_addr = ioremap(MT7988_2P5GE_PMB_BASE, MT7988_2P5GE_PMB_LEN);
+    70		if (!pmb_addr)
+    71			return -ENOMEM;
+    72		md32_en_cfg_base = ioremap(MT7988_2P5GE_MD32_EN_CFG_BASE, MT7988_2P5GE_MD32_EN_CFG_LEN);
+    73		if (!md32_en_cfg_base) {
+    74			ret = -ENOMEM;
+    75			goto free_pmb;
+    76		}
+    77	
+    78		ret = request_firmware(&fw, MT7988_2P5GE_PMB, dev);
+    79		if (ret) {
+    80			dev_err(dev, "failed to load firmware: %s, ret: %d\n",
+    81				MT7988_2P5GE_PMB, ret);
+    82			goto free;
+    83		}
+    84	
+    85		if (fw->size != MT7988_2P5GE_PMB_SIZE) {
+    86			dev_err(dev, "Firmware size 0x%zx != 0x%x\n",
+    87				fw->size, MT7988_2P5GE_PMB_SIZE);
+    88			ret = -EINVAL;
+    89			goto free;
+    90		}
+    91	
+    92		reg = readw(md32_en_cfg_base);
+    93		if (reg & MD32_EN) {
+    94			phy_set_bits(phydev, MII_BMCR, BMCR_RESET);
+    95			usleep_range(10000, 11000);
+    96		}
+    97		phy_set_bits(phydev, MII_BMCR, BMCR_PDOWN);
+    98	
+    99		/* Write magic number to safely stall MCU */
+   100		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x800e, 0x1100);
+   101		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x800f, 0x00df);
+   102	
+   103		for (i = 0; i < MT7988_2P5GE_PMB_SIZE - 1; i += 4)
+   104			writel(*((uint32_t *)(fw->data + i)), pmb_addr + i);
+   105		release_firmware(fw);
+ > 106		dev_info(dev, "Firmware date code: %x/%x/%x, version: %x.%x\n",
+   107			 be16_to_cpu(*((uint16_t *)(fw->data + MT7988_2P5GE_PMB_SIZE - 8))),
+   108			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 6),
+   109			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 5),
+   110			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 2),
+   111			 *(fw->data + MT7988_2P5GE_PMB_SIZE - 1));
+   112	
+   113		writew(reg & ~MD32_EN, md32_en_cfg_base);
+   114		writew(reg | MD32_EN, md32_en_cfg_base);
+   115		phy_set_bits(phydev, MII_BMCR, BMCR_RESET);
+   116		/* We need a delay here to stabilize initialization of MCU */
+   117		usleep_range(7000, 8000);
+   118		dev_info(dev, "Firmware loading/trigger ok.\n");
+   119	
+   120		priv->fw_loaded = true;
+   121	
+   122	free:
+   123		iounmap(md32_en_cfg_base);
+   124	free_pmb:
+   125		iounmap(pmb_addr);
+   126	
+   127		return ret ? ret : 0;
+   128	}
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
