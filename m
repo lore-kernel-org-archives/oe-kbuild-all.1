@@ -1,66 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5912D7D06E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 May 2024 20:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88477249F9;
+	Fri, 31 May 2024 21:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717187420; cv=none; b=ldK3HsKPEV7curfZojOtJwugK+pZqmGcGtCF7BM4HZdVTZiXCrCS/YdTOjjEy4P9ZSjpdK7VgZA1i5e3sg6G9WrTckIoWRYyuT7k0GRQ4MxERnItcqj428DfE7FnQd9evilw+KmTxNYBUyAv/yJAmuNm+EXR0UAwAJT3SsW0XnE=
+	t=1717192403; cv=none; b=XULAQ1oHeoaTCRZfJ+CIR0DvYRvOkOc+2uaD9Yt9ZWZBNzwhKGK2eruAv69L47I5gQdSZLbpHhedvwHFxezc2QFViFDDxZa7aWJ55KOEnll4m3nR6UuGKFusajuzewWXD4YUf6bYjjsZGc94Wab7A2boUHm2r9bwG2lqyiDEdKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717187420; c=relaxed/simple;
-	bh=FyXrGKtxtK1Ia++Up7p7wWt6dTZYsv9GlxJsgvwjMZ0=;
+	s=arc-20240116; t=1717192403; c=relaxed/simple;
+	bh=CPHoggbhzNf5ibw9VbBbdMg/tioqAhC9EB19f97+qc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TD1Ut9+zXQW37Gm8Nga6G6nHiTkcNzrf+pL4fV/neVhGtMvt4JyKVWtqqIw0eqzhoEvJApoOkRXpIprqL6rSwzwDFdLekEY7x/X3nIqAvdARAK3nmknWS+8wTDlAUD8uolxNdzcbaxR+eafn9Z0qOtV6Mr9nfb1is9s4ep/Qw+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eDZyNDhu; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=exDUB/s4QVKEO9Bei+6G/FcbLsMG4rt8SXGcM7KuqqWZnvJ7bVY0jfXCCU+jDaImalKkVVxVpzfUwJv3NSmJnbcWGY5xtinH8/lfPRNWfMf02yjxnqsNFT5BeG2CWipnFGyuHT0t4zEI4a5+355hXN1bRDoDUi3rNivacXzCI1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZPZx4Zm; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDZyNDhu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZPZx4Zm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717187419; x=1748723419;
+  t=1717192401; x=1748728401;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FyXrGKtxtK1Ia++Up7p7wWt6dTZYsv9GlxJsgvwjMZ0=;
-  b=eDZyNDhudm35RyxL3LzWc784zSq2enJStYtwXs/apwRz6ux7/CpQB4Xa
-   DzBOlfRw0NR51JjOPmCzS6Dpz4qQJVJMRF8ITsBsLhCHPO9qHSxKddxGY
-   kYWEXSVS55bHO1tDBSk9rgdzNpFPIPn6M65JUhnVeHG7addoX1lgTUioU
-   g91iW5YYdjD6VcSvC9DKymbVwKZWAy6lm0KlwvybRHa4yP5nwWZjUsBAU
-   LwbiNTloCo2OM+2MevmMIwZH9pVsUEKXA1jbV8mMcYlPCjRYDHz2cExFC
-   iZlWG2NNEwSXxrUqa93+Buo6q1FeroNg5Uq+xLs9leO468rDiC4RDxOTx
-   g==;
-X-CSE-ConnectionGUID: XvyB2rlNRNGmnMMUO7h45Q==
-X-CSE-MsgGUID: 0UxBp49cQF+crwATqRtsMg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="17544899"
+  bh=CPHoggbhzNf5ibw9VbBbdMg/tioqAhC9EB19f97+qc8=;
+  b=iZPZx4Zmd0Uv33R+UfDeJrR8f7Hui7ZD3E0lQjWb2e7fGwbkDEYMO3AM
+   2GifN+f8UnsZCE51gT1THeq25Fhl1zGUVKTTOX5KkuPiTx5VSb53+fmJz
+   rHciiI4ubPgm++xPQBQutqSYtxiBsYyNzg0LIM3LKnKtfvZIyUa5VUJT8
+   6d3o7+URY6wEumUK8e83Vx8FBokce51YazWb6WdbApRK67fE2//908GbJ
+   U/KqSGGZmtzCIC/3YBZyHZ5GLKmE+VzKgFGv5xBUO1dMT3/MGnCntp0W7
+   /aZu1tlgVbknaDiHuinirnSxmU/LxgwAhFGbhHBVgYF6pRuVHuGBU5plP
+   w==;
+X-CSE-ConnectionGUID: Yf3iTXhwRFqWbVfNueRZAQ==
+X-CSE-MsgGUID: Cob2fOilSdy9aChw4Q+nVg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="17600226"
 X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
-   d="scan'208";a="17544899"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 13:30:17 -0700
-X-CSE-ConnectionGUID: VFIwyAj9SgmeTuHViMNcug==
-X-CSE-MsgGUID: Og9p9johTY22w0ElFeLTWw==
+   d="scan'208";a="17600226"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 14:53:21 -0700
+X-CSE-ConnectionGUID: c9OWndSkQPeEQpneVeUCbA==
+X-CSE-MsgGUID: BhUsEDPER0eHdbxJaGJzaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
-   d="scan'208";a="40711149"
+   d="scan'208";a="36205908"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 May 2024 13:30:15 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 May 2024 14:53:14 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sD8tA-000Hmr-2d;
-	Fri, 31 May 2024 20:30:12 +0000
-Date: Sat, 1 Jun 2024 04:29:37 +0800
+	id 1sDABU-000Hsc-0O;
+	Fri, 31 May 2024 21:53:12 +0000
+Date: Sat, 1 Jun 2024 05:52:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivnandan Kumar <quic_kshivnan@quicinc.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Ramakrishna Gottimukkula <quic_rgottimu@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Shivnandan Kumar <quic_kshivnan@quicinc.com>
-Subject: Re: [PATCH] soc: qcom: icc-bwmon: Add tracepoints in
- bwmon_intr_thread
-Message-ID: <202406010409.xiR31FVt-lkp@intel.com>
-References: <20240531105404.879267-1-quic_kshivnan@quicinc.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Rob Herring <robh@kernel.org>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Mark Brown <broonie@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	Chancel Liu <chancel.liu@nxp.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	David Rhodes <david.rhodes@cirrus.com>, Kevin Lu <kevin-lu@ti.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: Re: [PATCH v2 1/6] ASoC: codecs: Remove unused of_gpio.h
+Message-ID: <202406010556.2MUAFCcz-lkp@intel.com>
+References: <20240531153038.1590171-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,114 +85,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531105404.879267-1-quic_kshivnan@quicinc.com>
+In-Reply-To: <20240531153038.1590171-2-andriy.shevchenko@linux.intel.com>
 
-Hi Shivnandan,
+Hi Andy,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.10-rc1 next-20240531]
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on shawnguo/for-next rockchip/for-next linus/master v6.10-rc1 next-20240531]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivnandan-Kumar/soc-qcom-icc-bwmon-Add-tracepoints-in-bwmon_intr_thread/20240531-185658
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240531105404.879267-1-quic_kshivnan%40quicinc.com
-patch subject: [PATCH] soc: qcom: icc-bwmon: Add tracepoints in bwmon_intr_thread
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240601/202406010409.xiR31FVt-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406010409.xiR31FVt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/ASoC-codecs-Remove-unused-of_gpio-h/20240531-233513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240531153038.1590171-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 1/6] ASoC: codecs: Remove unused of_gpio.h
+config: i386-buildonly-randconfig-006-20240601 (https://download.01.org/0day-ci/archive/20240601/202406010556.2MUAFCcz-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406010556.2MUAFCcz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406010409.xiR31FVt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406010556.2MUAFCcz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:419,
-                    from include/trace/define_trace.h:102,
-                    from drivers/soc/qcom/trace_icc-bwmon.h:49,
-                    from drivers/soc/qcom/icc-bwmon.c:21:
->> include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:39:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      39 | );
-         | ^~             
-   In file included from include/trace/trace_events.h:375:
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h: In function 'trace_event_raw_event_qcom_bwmon_update':
->> include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:28:17: error: '__assign_str' undeclared (first use in this function)
-      28 |                 __assign_str(name, name);
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:13:1: note: in expansion of macro 'TRACE_EVENT'
-      13 | TRACE_EVENT(qcom_bwmon_update,
-         | ^~~~~~~~~~~
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:28:17: note: each undeclared identifier is reported only once for each function it appears in
-      28 |                 __assign_str(name, name);
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:13:1: note: in expansion of macro 'TRACE_EVENT'
-      13 | TRACE_EVENT(qcom_bwmon_update,
-         | ^~~~~~~~~~~
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:469:
-   include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h: At top level:
->> include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h:39:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      39 | );
-         | ^~             
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
+>> sound/soc/codecs/aw88399.c:1791:3: error: call to undeclared function 'gpiod_set_value_cansleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1791 |                 gpiod_set_value_cansleep(aw88399->reset_gpio, 1);
+         |                 ^
+>> sound/soc/codecs/aw88399.c:1868:24: error: call to undeclared function 'devm_gpiod_get_optional'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1868 |         aw88399->reset_gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_LOW);
+         |                               ^
+   sound/soc/codecs/aw88399.c:1868:24: note: did you mean 'devm_regulator_get_optional'?
+   include/linux/regulator/consumer.h:347:1: note: 'devm_regulator_get_optional' declared here
+     347 | devm_regulator_get_optional(struct device *dev, const char *id)
+         | ^
+>> sound/soc/codecs/aw88399.c:1868:68: error: use of undeclared identifier 'GPIOD_OUT_LOW'
+    1868 |         aw88399->reset_gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_LOW);
+         |                                                                           ^
+   3 errors generated.
 
 
-vim +/__assign_str +39 include/trace/../../drivers/soc/qcom//trace_icc-bwmon.h
+vim +/gpiod_set_value_cansleep +1791 sound/soc/codecs/aw88399.c
 
-    14	
-    15		TP_PROTO(const char *name,
-    16			 unsigned int meas_kbps, unsigned int up_kbps, unsigned int down_kbps),
-    17	
-    18		TP_ARGS(name, meas_kbps, up_kbps, down_kbps),
-    19	
-    20		TP_STRUCT__entry(
-    21			__string(name, name)
-    22			__field(unsigned int, meas_kbps)
-    23			__field(unsigned int, up_kbps)
-    24			__field(unsigned int, down_kbps)
-    25		),
-    26	
-    27		TP_fast_assign(
-  > 28			__assign_str(name, name);
-    29			__entry->meas_kbps = meas_kbps;
-    30			__entry->up_kbps = up_kbps;
-    31			__entry->down_kbps = down_kbps;
-    32		),
-    33	
-    34		TP_printk("name=%s meas_kbps=%u up_kbps=%u down_kbps=%u",
-    35			__get_str(name),
-    36			__entry->meas_kbps,
-    37			__entry->up_kbps,
-    38			__entry->down_kbps)
-  > 39	);
-    40	
+8ade6cc7e26175 Weidong Wang 2023-10-25  1787  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1788  static void aw88399_hw_reset(struct aw88399 *aw88399)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1789  {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1790  	if (aw88399->reset_gpio) {
+8ade6cc7e26175 Weidong Wang 2023-10-25 @1791  		gpiod_set_value_cansleep(aw88399->reset_gpio, 1);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1792  		usleep_range(AW88399_1000_US, AW88399_1000_US + 10);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1793  		gpiod_set_value_cansleep(aw88399->reset_gpio, 0);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1794  		usleep_range(AW88399_1000_US, AW88399_1000_US + 10);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1795  		gpiod_set_value_cansleep(aw88399->reset_gpio, 1);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1796  		usleep_range(AW88399_1000_US, AW88399_1000_US + 10);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1797  	}
+8ade6cc7e26175 Weidong Wang 2023-10-25  1798  }
+8ade6cc7e26175 Weidong Wang 2023-10-25  1799  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1800  static void aw88399_parse_channel_dt(struct aw_device *aw_dev)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1801  {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1802  	struct device_node *np = aw_dev->dev->of_node;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1803  	u32 channel_value;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1804  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1805  	of_property_read_u32(np, "awinic,audio-channel", &channel_value);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1806  	aw_dev->channel = channel_value;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1807  }
+8ade6cc7e26175 Weidong Wang 2023-10-25  1808  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1809  static int aw88399_init(struct aw88399 *aw88399, struct i2c_client *i2c, struct regmap *regmap)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1810  {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1811  	struct aw_device *aw_dev;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1812  	unsigned int chip_id;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1813  	int ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1814  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1815  	ret = regmap_read(regmap, AW88399_ID_REG, &chip_id);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1816  	if (ret) {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1817  		dev_err(&i2c->dev, "%s read chipid error. ret = %d", __func__, ret);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1818  		return ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1819  	}
+8ade6cc7e26175 Weidong Wang 2023-10-25  1820  	if (chip_id != AW88399_CHIP_ID) {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1821  		dev_err(&i2c->dev, "unsupported device");
+8ade6cc7e26175 Weidong Wang 2023-10-25  1822  		return -ENXIO;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1823  	}
+8ade6cc7e26175 Weidong Wang 2023-10-25  1824  	dev_dbg(&i2c->dev, "chip id = %x\n", chip_id);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1825  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1826  	aw_dev = devm_kzalloc(&i2c->dev, sizeof(*aw_dev), GFP_KERNEL);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1827  	if (!aw_dev)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1828  		return -ENOMEM;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1829  	aw88399->aw_pa = aw_dev;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1830  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1831  	aw_dev->i2c = i2c;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1832  	aw_dev->dev = &i2c->dev;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1833  	aw_dev->regmap = regmap;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1834  	mutex_init(&aw_dev->dsp_lock);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1835  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1836  	aw_dev->chip_id = chip_id;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1837  	aw_dev->acf = NULL;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1838  	aw_dev->prof_info.prof_desc = NULL;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1839  	aw_dev->prof_info.count = 0;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1840  	aw_dev->prof_info.prof_type = AW88395_DEV_NONE_TYPE_ID;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1841  	aw_dev->channel = AW88399_DEV_DEFAULT_CH;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1842  	aw_dev->fw_status = AW88399_DEV_FW_FAILED;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1843  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1844  	aw_dev->fade_step = AW88399_VOLUME_STEP_DB;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1845  	aw_dev->volume_desc.ctl_volume = AW88399_VOL_DEFAULT_VALUE;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1846  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1847  	aw88399_parse_channel_dt(aw_dev);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1848  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1849  	return 0;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1850  }
+8ade6cc7e26175 Weidong Wang 2023-10-25  1851  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1852  static int aw88399_i2c_probe(struct i2c_client *i2c)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1853  {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1854  	struct aw88399 *aw88399;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1855  	int ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1856  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1857  	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
+8ade6cc7e26175 Weidong Wang 2023-10-25  1858  		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed");
+8ade6cc7e26175 Weidong Wang 2023-10-25  1859  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1860  	aw88399 = devm_kzalloc(&i2c->dev, sizeof(*aw88399), GFP_KERNEL);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1861  	if (!aw88399)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1862  		return -ENOMEM;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1863  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1864  	mutex_init(&aw88399->lock);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1865  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1866  	i2c_set_clientdata(i2c, aw88399);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1867  
+8ade6cc7e26175 Weidong Wang 2023-10-25 @1868  	aw88399->reset_gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_LOW);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1869  	if (IS_ERR(aw88399->reset_gpio))
+8ade6cc7e26175 Weidong Wang 2023-10-25  1870  		return dev_err_probe(&i2c->dev, PTR_ERR(aw88399->reset_gpio),
+8ade6cc7e26175 Weidong Wang 2023-10-25  1871  							"reset gpio not defined\n");
+8ade6cc7e26175 Weidong Wang 2023-10-25  1872  	aw88399_hw_reset(aw88399);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1873  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1874  	aw88399->regmap = devm_regmap_init_i2c(i2c, &aw88399_remap_config);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1875  	if (IS_ERR(aw88399->regmap))
+8ade6cc7e26175 Weidong Wang 2023-10-25  1876  		return dev_err_probe(&i2c->dev, PTR_ERR(aw88399->regmap),
+8ade6cc7e26175 Weidong Wang 2023-10-25  1877  							"failed to init regmap\n");
+8ade6cc7e26175 Weidong Wang 2023-10-25  1878  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1879  	/* aw pa init */
+8ade6cc7e26175 Weidong Wang 2023-10-25  1880  	ret = aw88399_init(aw88399, i2c, aw88399->regmap);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1881  	if (ret)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1882  		return ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1883  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1884  	ret = devm_snd_soc_register_component(&i2c->dev,
+8ade6cc7e26175 Weidong Wang 2023-10-25  1885  			&soc_codec_dev_aw88399,
+8ade6cc7e26175 Weidong Wang 2023-10-25  1886  			aw88399_dai, ARRAY_SIZE(aw88399_dai));
+8ade6cc7e26175 Weidong Wang 2023-10-25  1887  	if (ret)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1888  		dev_err(&i2c->dev, "failed to register aw88399: %d", ret);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1889  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1890  	return ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1891  }
+8ade6cc7e26175 Weidong Wang 2023-10-25  1892  
 
 -- 
 0-DAY CI Kernel Test Service
