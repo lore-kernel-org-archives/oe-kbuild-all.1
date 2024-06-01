@@ -1,112 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADBB2D03B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 22:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41AB44366
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 23:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717282370; cv=none; b=fSNYMHM8jLVFHI8442VbjocRvEdgDhSOlQ/QD3kPfVTpfGdm35woI9pwCimNNmCmy1hyxNWI2uQL7c7M+dOlSn4fHbr6KCUx4AAf2Lcr5KUpjiWXeK+1hySXYQRvip2anjCGP4D89ZU8Cex3nFMTF80m7Rr1ocqWc4CH6NiQ/hs=
+	t=1717285280; cv=none; b=gok5LwKkme/RbAyVYxiC2Z1zylzlkYZMH5UcAYTno08JI25pymrpXuecZudS9lgrPZzL9qRx+InD+rtKpLwX7rdVM1dQpddwmVc/gVQ6Ib5Y6yKC6E0WyXsRplZi7XN4B1e+ZuWUgb6s3Fn3Btgt4/hRqINinsJ+jYEFxnrs4X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717282370; c=relaxed/simple;
-	bh=ocXYML42mn784O1Op9lmjxrbuZKI080VDiVmCKhpP3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ij+K7p/6n5tB+9QeDm1u1Vs+yIcdZctmwL9YIn6ioShkQvVEA4I5mgPcOQjmmUzbV1hEAhpKGzoSzhggZMcTIAv3OixwPzbpcWj23PwBN0vx5gxK4z07xDW8QS7D9kBNJzpVSbfDjTmChnA7NGcwwvDorcJIgUoDfVWUQ5fFGo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2eX01Sa; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717285280; c=relaxed/simple;
+	bh=FmvqevEnqgVG3f18m0kOVP2Uxy2zchTMI7AloT2hyhQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pNA1AzBhahryY9ZefvQrc1r8d5cImQsuGZg6j5GzhDkVPg/+Sq3Afrp71qcZOzBlUf2JWZ9SNFywABXovHLZ5sTSm1ldxMONACsuhs38cHhZpYXfkCj6FXpE8AjyNzvR2afNmCtvwTCvgexI5yABrGVXv4NrENb8lDRb47q1lFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PSuHrJOM; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2eX01Sa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717282370; x=1748818370;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ocXYML42mn784O1Op9lmjxrbuZKI080VDiVmCKhpP3w=;
-  b=N2eX01Saw6O/rPw1F9o2jl4ebp8Rh3FSMIymVlgR+qvXa6BkmUfdWXOr
-   nOCm8vZtr3dX1Gfz1Jhg0Z++3/IftRN4hCKAewwk8JxaTuE/nrqeeVSg7
-   JjXvfK1Mi1JsB8QR1l+ELhpIiDxP1EoTeaiXl28JGktm4I45JOYL40dee
-   GVcmsrE4AN6Wm3huuOx+jqrhvj27VwN7CrDu+EJ0Ao6kX50nkDeF9KvUD
-   s/gpFL0MLXgJNho9TXqBy586ChWTIq/synxTs32QX+pOCPhruV9zBW9xn
-   j+vU1YU2PegJzr+XqSzRcNkFv4pwr5KTK7OezoyNXciutUgXwtKV7GJem
-   A==;
-X-CSE-ConnectionGUID: mWGAd9rXTNKvR9qazll4RA==
-X-CSE-MsgGUID: oBG619NRS6quYzdR2SowHw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="24925631"
-X-IronPort-AV: E=Sophos;i="6.08,208,1712646000"; 
-   d="scan'208";a="24925631"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 15:52:49 -0700
-X-CSE-ConnectionGUID: X+C4K3ZdTLGS1QQXdigOlA==
-X-CSE-MsgGUID: rpHvPhY+RbOpq0dXtC/gsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,208,1712646000"; 
-   d="scan'208";a="36420804"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Jun 2024 15:52:47 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sDXae-000JS7-1y;
-	Sat, 01 Jun 2024 22:52:44 +0000
-Date: Sun, 2 Jun 2024 06:52:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gerhard Engleder <gerhard@engleder-embedded.com>,
-	linux-i2c@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andi.shyti@kernel.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org,
-	Gerhard Engleder <gerhard@engleder-embedded.com>
-Subject: Re: [PATCH 1/2] i2c: keba: Add KEBA I2C controller support
-Message-ID: <202406020634.cfpd5wMw-lkp@intel.com>
-References: <20240601192846.68146-2-gerhard@engleder-embedded.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PSuHrJOM"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-df481bf6680so3098120276.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 01 Jun 2024 16:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717285278; x=1717890078; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z4FOUlc5EDq/I7DD/WiBWLN5W19MKLu5xl8To+MXnS0=;
+        b=PSuHrJOMMIgIabh0INCIwmF9ApZIY13HDndJfm2D19hDChW40mZlgPSaOUsK7S32sU
+         mrKKi8It7U9o/hL340+8ZIf04fPFeQcx46tmzd57HL6Asg6xfxW9EudvrwD9CQry09O9
+         679OYkWlSi7IOXhcdbqMsKtqjG8rWnRb6spj92I1pmeBTcPB6rZbugyGFNfw17q0+cEM
+         jK4+6EQ8NsDhcgA7AQEzw1Gs53m5eWGijYjalGePLACwLI3MqzRKYogM3vpJcUZliIBB
+         MGqfNd1e7U4YulT2W5ADBCdSV1WfkhnBd0dhaFaa+iLNkx2HQk2KsVI2tefhSyXykH0a
+         M6Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717285278; x=1717890078;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z4FOUlc5EDq/I7DD/WiBWLN5W19MKLu5xl8To+MXnS0=;
+        b=Y23XenXBvzTutX5oB4KzJJzN53BYwFf/tj89jf8bfOUqv7b0m3dveOk4ORbgmk7mnf
+         NdygKOR5w5WMcYDuGTDdyliRMsByJWfZZWUFIlJFWoH2kRA89Ol0FUnVnKv0iX6jjcF5
+         1+S0doVY41m++KS81vCrsB8blwhXEaf2DgwC+E8taCrgAAuuqUuvYJMP09kTWUsIY86B
+         WVVbHnMDZg8pnOJYP9qqks4E6+AsY1k8r0kGUhabX71mxrdVcUfukSzmID3Omrj3mJ3A
+         xg5zRUH1n6hCRe6QH3t0VIr9UU79lcDcA/4a4odjuDqcH/NMhnKf//LW6BKauGGPTnuA
+         xF+g==
+X-Forwarded-Encrypted: i=1; AJvYcCX4g9v2vfGTwVlU/IqWEM5K2qk22xDWPRb0XSTTehnwF/Z0jUgn5t67ToXegWAJCyXMEdN5iSV+3b4v/zx/cpibJlzkwBBPR8EREYbh2w==
+X-Gm-Message-State: AOJu0Ywt02Q73ONSkOBAM9Yqrci7Q2g+oePvpmauXHeTjXAFcUtJmDE4
+	FpQdOF5NJQDzDxnjk1MjsOExHrotOCtJ7Q3iyEJpvHnsC7CVlfhGz9cyIUYY1CRoGwQEuoPPMbm
+	3YvkipV1npPzc5mvmyEINcBzS5dDf9HS3As4r
+X-Google-Smtp-Source: AGHT+IGoJGrV89s6wgpWQzLAiysiCfFoPAHgS9BdWTDh4qzRR4oPAXSK/QX/xarY7MY0WiL5wbkjQVluVFnWtAem6Lw=
+X-Received: by 2002:a25:b1a4:0:b0:dfa:47cf:d293 with SMTP id
+ 3f1490d57ef6-dfa73dbc2e9mr5287912276.40.1717285277431; Sat, 01 Jun 2024
+ 16:41:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240601192846.68146-2-gerhard@engleder-embedded.com>
+References: <202405280616.wcOGWJEj-lkp@intel.com>
+In-Reply-To: <202405280616.wcOGWJEj-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sat, 1 Jun 2024 16:41:05 -0700
+Message-ID: <CAJuCfpF=55_2j8oECernpWq9GXV09RjHexLS7+k4YjaOeO1=Vg@mail.gmail.com>
+Subject: Re: ld.lld: error: undefined symbol: proc_do_static_key
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Vlastimil Babka <vbabka@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Gerhard,
+On Mon, May 27, 2024 at 3:23=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   2bfcfd584ff5ccc8bb7acde19b42570414bf880b
+> commit: 8d469d0bee74d3f2d02f0b232933a3f084d9cbf7 lib: introduce early boo=
+t parameter to avoid page_ext memory overhead
+> date:   5 weeks ago
+> config: arm64-randconfig-002-20240528 (https://download.01.org/0day-ci/ar=
+chive/20240528/202405280616.wcOGWJEj-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfd=
+cc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240528/202405280616.wcOGWJEj-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405280616.wcOGWJEj-lkp=
+@intel.com/
 
-kernel test robot noticed the following build warnings:
+Fix is posted at
+https://lore.kernel.org/all/20240601233831.617124-1-surenb@google.com/
 
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.10-rc1 next-20240531]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/i2c-keba-Add-KEBA-I2C-controller-support/20240602-040548
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240601192846.68146-2-gerhard%40engleder-embedded.com
-patch subject: [PATCH 1/2] i2c: keba: Add KEBA I2C controller support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240602/202406020634.cfpd5wMw-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240602/202406020634.cfpd5wMw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406020634.cfpd5wMw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/i2c/busses/i2c-keba.c:568:34: warning: 'ki2c_devtype' defined but not used [-Wunused-variable]
-     568 | static struct platform_device_id ki2c_devtype[] = {
-         |                                  ^~~~~~~~~~~~
-
-
-vim +/ki2c_devtype +568 drivers/i2c/busses/i2c-keba.c
-
-   567	
- > 568	static struct platform_device_id ki2c_devtype[] = {
-   569		{ .name = KI2C },
-   570		{ }
-   571	};
-   572	MODULE_DEVICE_TABLE(platform, ki2c_devtype);
-   573	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: proc_do_static_key
+>    >>> referenced by alloc_tag.c
+>    >>>               lib/alloc_tag.o:(memory_allocation_profiling_sysctls=
+) in archive vmlinux.a
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
