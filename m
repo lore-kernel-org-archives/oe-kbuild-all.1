@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4126FB9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 04:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6F0101CA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 04:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717216629; cv=none; b=L7rAzf1nb8iIAtTrTmElSi69hZ1U8Jdxx4c2aBRZoUyTA8KlVvhD24xzBF5twajtefRBucOJ146lxi5Rp4nLdPbNStBeuMZb/3ymsrPypgy3L5L8faN/8YNaRZvplUqOzc7LJZRr06oNLf7w+Yk57s4Q25h7nDcRycJ57iu0o2Q=
+	t=1717217890; cv=none; b=Rq06T/ld8aVRVx3NfomSsHHDu4p+BVK08nAy3PWL/PKELlx0LhnTgVfIHVUjUAOiK9eCVW25AJ7C9QRhbNJCF+mYUX2+6M7oaBhVPrs0+hB13/gAXngI3WZdtcEwvxX2fqkMhX0Gx5cYeXaPHbSIs4w4AJ3CniWw3IPdx5Wbnn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717216629; c=relaxed/simple;
-	bh=cI02ZdRER8wMAwEAPeMn7mXRWAQEyMdvqfPmeFGMFZs=;
+	s=arc-20240116; t=1717217890; c=relaxed/simple;
+	bh=r25U9L0OR+jyAxREDz/RkcBit/n08qpYyAYgib3UY+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=URRz4n3Qnjl9KWbhIWfcHmiI4cI2G2CB8DLZWTfXjYrB8bdFUSyHawn7O/mUoWz9MB+VErRu+Vtw0wXizgvpDZRkB1dycEZvlcdD2BdTznmBo/NrfiK+OC218/YZbVDJ5NylN1k7Rg86kYdI7z/EGh2Ji24iVmy7ZORem2vTHwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zorz1eon; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=eug7Ne/L7EvubMZVV22lDW7x1SuaonulUgwlafVjG7RgqkPTuifl8iXihpV4hFkYBQHnRuTi4TWn5Jq7VhKUlCPqxc2EpC5Q4BpjUnZn/YUla8woSMgwhooSSz8f7NVt4cL+GjYUm8K70TgMclkxt2wdQWKWEyozC6sXR4Dcs+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWpmICAv; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zorz1eon"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWpmICAv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717216627; x=1748752627;
+  t=1717217888; x=1748753888;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cI02ZdRER8wMAwEAPeMn7mXRWAQEyMdvqfPmeFGMFZs=;
-  b=Zorz1eon/keWXbSovIL9M8jAf8nCQpppyFPA5x68B/pU6QnMdg8nJuxc
-   QLcmLQj4Zho+ESNy4+e3wDHzcBWs9BMrJZyqGM+6UvQDDM5k4gX3tAha5
-   Kf9O0FROkeirFxhoQmptOaRCsMu4qGz544qe/0o51W2qb89X5xBAGPs5L
-   WUgqRU7vgEBJMGo5ykz0c1M5WhF++jD1KruOMhLs1AdfPzTRBQujpN+Dg
-   K9u+VNlbDt1SOGCNEeEvBeMr/YP2yOTkuA+OtDxkfWISoE6eP2emUlrYy
-   e1mIJgK9ovRH/o1CaK/OUxbORPzTb/PuAhd5UDQigVpyH829VFLyFXcpC
-   Q==;
-X-CSE-ConnectionGUID: PZwyiO9fQBOwXfOZqcxHtg==
-X-CSE-MsgGUID: pbUw6T+aT/CRXlfCuOEUcw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24893314"
+  bh=r25U9L0OR+jyAxREDz/RkcBit/n08qpYyAYgib3UY+Y=;
+  b=LWpmICAvzIpYolsR/Fu1ptrqhpwgShB1deQCoIVpoSMwlAJRC+eaBIjS
+   HOkOiUYAuyKLDhbKL2xhhM0cXS1PGoiyt8ET0u5uQkDG4QaX1DKq2wmTf
+   cOHCoRO8wcEFC4L+biIB7KJ9IgUOrHgW2tCRanvDBvKEmgd5npOczV33j
+   YcLs+VhngKeNQVRZ15BTFIoF+xi3WdaGB3NOFnjgfgHged9E6PoHQeK8g
+   9vZU1Xb8B1Vf+K+5Q2O3XVP8J99YnySfJcL555pMbu97QfRMYvPVWc4PV
+   N+QMr1ARXolj/FwOugBhep9EqgQvo2kXUW4qoL1uC5eD1uVSxfi4Q2q9h
+   g==;
+X-CSE-ConnectionGUID: B2fqzKVyQPquz/bzurNFzQ==
+X-CSE-MsgGUID: Kog+bArpRo65gUt6E/M35g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13895889"
 X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="24893314"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 21:37:06 -0700
-X-CSE-ConnectionGUID: HVS8BmnJSsWjNkUcWubDrw==
-X-CSE-MsgGUID: M7gaF/rOSNWMl7FekdF/Xg==
+   d="scan'208";a="13895889"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 21:58:07 -0700
+X-CSE-ConnectionGUID: mBU/Yy8mS6m0b802riBNCA==
+X-CSE-MsgGUID: gpkPlOovQ3apPVNBqtsnmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="40900849"
+   d="scan'208";a="67546392"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 31 May 2024 21:37:05 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 31 May 2024 21:58:05 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDGUJ-000IP5-0z;
-	Sat, 01 Jun 2024 04:37:03 +0000
-Date: Sat, 1 Jun 2024 12:36:52 +0800
+	id 1sDGod-000IPV-1d;
+	Sat, 01 Jun 2024 04:58:03 +0000
+Date: Sat, 1 Jun 2024 12:57:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: kernel@openeuler.org, wangzhimin <wangzhimin1179@phytium.com.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.9/prjc 461/473] kernel/sched/alt_core.c:4208:6: warning:
- assignment makes pointer from integer without a cast
-Message-ID: <202406011244.OJQBOe5s-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 21354/22626]
+ drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: sparse: sparse:
+ incompatible types for operation (<):
+Message-ID: <202406011246.c9Ab6NVD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,133 +63,189 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.9/prjc
-head:   8964d2061c8f25fc8c96de75a0f9e3234ae61c6e
-commit: f90f6c0ad3cb7786aa8308e4669ea037dabf7476 [461/473] sched/alt: Generic active_balance_cpu_stop()
-config: i386-randconfig-011-20240601 (https://download.01.org/0day-ci/archive/20240601/202406011244.OJQBOe5s-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011244.OJQBOe5s-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d2901c3f0ff7d121adf97d64bd2cc3789821600d
+commit: af48889301db8235deab66a8822e3e00195ca14b [21354/22626] dwmac:add phytium dwmac driver
+config: arm64-randconfig-r122-20240531 (https://download.01.org/0day-ci/archive/20240601/202406011246.c9Ab6NVD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240601/202406011246.c9Ab6NVD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406011244.OJQBOe5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406011246.c9Ab6NVD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: sparse: sparse: incompatible types for operation (<):
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: sparse:    void [noderef] <asn:2> *[addressable] [assigned] addr
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: sparse:    int
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: sparse: sparse: symbol 'phytium_dwmac_remove' was not declared. Should it be static?
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: In function 'phytium_dwmac_probe':
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: warning: ordered comparison of pointer with integer zero [-Wextra]
+     157 |         if (stmmac_res.addr < 0) {
+         |                             ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:34: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+     159 |                 return stmmac_res.addr;
+         |                        ~~~~~~~~~~^~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: At top level:
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: warning: no previous prototype for 'phytium_dwmac_remove' [-Wmissing-prototypes]
+     172 | int phytium_dwmac_remove(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~
 
-   In file included from kernel/sched/alt_core.c:48:0:
-   kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
-    static inline void flush_smp_call_function_queue(void) { }
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/sched.h:9:0,
-                    from kernel/sched/alt_core.c:47:
-   kernel/sched/alt_sched.h:357:20: note: previous definition of 'flush_smp_call_function_queue' was here
-    static inline void flush_smp_call_function_queue(void) { }
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function 'active_balance_cpu_stop':
-   kernel/sched/alt_core.c:4207:14: error: implicit declaration of function '__best_mask_cpu'; did you mean '__set_task_cpu'? [-Werror=implicit-function-declaration]
-      int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-                 ^~~~~~~~~~~~~~~
-                 __set_task_cpu
-   In file included from include/asm-generic/percpu.h:7:0,
-                    from arch/x86/include/asm/percpu.h:615,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/sched/signal.h:5,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/alt_core.c:15:
-   kernel/sched/alt_core.c:4207:44: error: 'sched_cpu_llc_mask' undeclared (first use in this function); did you mean 'sched_idle_mask'?
-      int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-                                               ^
-   include/linux/percpu-defs.h:219:47: note: in definition of macro '__verify_pcpu_ptr'
-     const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL; \
-                                                  ^~~
-   include/linux/percpu-defs.h:263:47: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-    #define per_cpu_ptr(ptr, cpu) ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-                                                  ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:29: note: in expansion of macro 'per_cpu_ptr'
-    #define per_cpu(var, cpu) (*per_cpu_ptr(&(var), cpu))
-                                ^~~~~~~~~~~
-   kernel/sched/alt_core.c:4207:36: note: in expansion of macro 'per_cpu'
-      int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-                                       ^~~~~~~
-   kernel/sched/alt_core.c:4207:44: note: each undeclared identifier is reported only once for each function it appears in
-      int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-                                               ^
-   include/linux/percpu-defs.h:219:47: note: in definition of macro '__verify_pcpu_ptr'
-     const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL; \
-                                                  ^~~
-   include/linux/percpu-defs.h:263:47: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-    #define per_cpu_ptr(ptr, cpu) ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-                                                  ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:29: note: in expansion of macro 'per_cpu_ptr'
-    #define per_cpu(var, cpu) (*per_cpu_ptr(&(var), cpu))
-                                ^~~~~~~~~~~
-   kernel/sched/alt_core.c:4207:36: note: in expansion of macro 'per_cpu'
-      int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-                                       ^~~~~~~
-   kernel/sched/alt_core.c:4208:8: error: implicit declaration of function 'move_queued_task'; did you mean 'requeue_task'? [-Werror=implicit-function-declaration]
-      rq = move_queued_task(rq, p, dcpu);
-           ^~~~~~~~~~~~~~~~
-           requeue_task
->> kernel/sched/alt_core.c:4208:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      rq = move_queued_task(rq, p, dcpu);
-         ^
-   kernel/sched/alt_core.c: In function 'trigger_active_balance':
-   kernel/sched/alt_core.c:4245:17: error: 'struct rq' has no member named 'active_balance_work'
-            arg, &rq->active_balance_work);
-                    ^~
-   kernel/sched/alt_core.c: In function 'sched_init':
-   kernel/sched/alt_core.c:7683:47: error: 'sched_sg_idle_mask' undeclared (first use in this function); did you mean 'sched_idle_mask'?
-     struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
-                                                  ^~~~~~~~~~~~~~~~~~
-                                                  sched_idle_mask
-   kernel/sched/alt_core.c:7683:21: warning: unused variable 'balance_arg' [-Wunused-variable]
-     struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
-                        ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +157 drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c
 
-
-vim +4208 kernel/sched/alt_core.c
-
-561e42ce50942d Alfred Chen 2019-08-19  4188  
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4189  static int active_balance_cpu_stop(void *data)
-561e42ce50942d Alfred Chen 2019-08-19  4190  {
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4191  	struct balance_arg *arg = data;
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4192  	struct task_struct *p = arg->task;
-561e42ce50942d Alfred Chen 2019-08-19  4193  	struct rq *rq = this_rq();
-561e42ce50942d Alfred Chen 2019-08-19  4194  	unsigned long flags;
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4195  	cpumask_t tmp;
-561e42ce50942d Alfred Chen 2019-08-19  4196  
-561e42ce50942d Alfred Chen 2019-08-19  4197  	local_irq_save(flags);
-561e42ce50942d Alfred Chen 2019-08-19  4198  
-561e42ce50942d Alfred Chen 2019-08-19  4199  	raw_spin_lock(&p->pi_lock);
-561e42ce50942d Alfred Chen 2019-08-19  4200  	raw_spin_lock(&rq->lock);
-561e42ce50942d Alfred Chen 2019-08-19  4201  
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4202  	arg->active = 0;
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4203  
-561e42ce50942d Alfred Chen 2019-08-19  4204  	if (task_on_rq_queued(p) && task_rq(p) == rq &&
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4205  	    cpumask_and(&tmp, p->cpus_ptr, arg->cpumask) &&
-f445b324dd06c9 Alfred Chen 2021-03-14  4206  	    !is_migration_disabled(p)) {
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4207  		int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-561e42ce50942d Alfred Chen 2019-08-19 @4208  		rq = move_queued_task(rq, p, dcpu);
-66606cb1479a7c Alfred Chen 2020-11-03  4209  	}
-561e42ce50942d Alfred Chen 2019-08-19  4210  
-561e42ce50942d Alfred Chen 2019-08-19  4211  	raw_spin_unlock(&rq->lock);
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4212  	raw_spin_unlock_irqrestore(&p->pi_lock, flags);
-561e42ce50942d Alfred Chen 2019-08-19  4213  
-561e42ce50942d Alfred Chen 2019-08-19  4214  	return 0;
-561e42ce50942d Alfred Chen 2019-08-19  4215  }
-561e42ce50942d Alfred Chen 2019-08-19  4216  
-
-:::::: The code at line 4208 was first introduced by commit
-:::::: 561e42ce50942dea67eafbee0a4b48d1b0b7b7ac Project C v5.7.5-r2
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+    32	
+    33	static int phytium_dwmac_probe(struct platform_device *pdev)
+    34	{
+    35		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+    36		struct plat_stmmacenet_data *plat;
+    37		struct stmmac_resources stmmac_res;
+    38		struct device_node *np = pdev->dev.of_node;
+    39		struct resource *res;
+    40		u64 clk_freq;
+    41		char clk_name[20];
+    42		int ret;
+    43	
+    44		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+    45		if (!plat)
+    46			return -ENOMEM;
+    47	
+    48		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
+    49					     GFP_KERNEL);
+    50		if (!plat->dma_cfg)
+    51			return -ENOMEM;
+    52	
+    53		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi), GFP_KERNEL);
+    54		if (!plat->axi)
+    55			return -ENOMEM;
+    56	
+    57		plat->interface = device_get_phy_mode(&pdev->dev);
+    58		if (plat->interface < 0)
+    59			return plat->interface;
+    60	
+    61		/* Configure PHY if using device-tree */
+    62		if (pdev->dev.of_node)
+    63			plat->phy_node = of_parse_phandle(np, "phy-handle", 0);
+    64	
+    65		if (pdev->dev.of_node) {
+    66			plat->bus_id = of_alias_get_id(np, "ethernet");
+    67			if (plat->bus_id < 0)
+    68				plat->bus_id = 0;
+    69		} else if (fwnode_property_read_u32(fwnode, "bus_id", &plat->bus_id)) {
+    70			plat->bus_id = 2;
+    71		}
+    72	
+    73		plat->phy_addr = -1;
+    74		plat->clk_csr = -1;
+    75		plat->has_gmac = 1;
+    76		plat->enh_desc = 1;
+    77		plat->bugged_jumbo = 1;
+    78		plat->pmt = 1;
+    79		plat->force_sf_dma_mode = 1;
+    80	
+    81		if (fwnode_property_read_u32(fwnode, "max-speed", &plat->max_speed))
+    82			plat->max_speed = -1;
+    83	
+    84		if (fwnode_property_read_u32(fwnode, "max-frame-size", &plat->maxmtu))
+    85			plat->maxmtu = JUMBO_LEN;
+    86	
+    87		if (fwnode_property_read_u32(fwnode, "snps,multicast-filter-bins",
+    88					     &plat->multicast_filter_bins))
+    89			plat->multicast_filter_bins = HASH_TABLE_SIZE;
+    90	
+    91		if (fwnode_property_read_u32(fwnode, "snps,perfect-filter-entries",
+    92					     &plat->unicast_filter_entries))
+    93			plat->unicast_filter_entries = 1;
+    94	
+    95		if (fwnode_property_read_u32(fwnode, "tx-fifo-depth",
+    96					     &plat->tx_fifo_size))
+    97			plat->tx_fifo_size = 0x1000;
+    98	
+    99		if (fwnode_property_read_u32(fwnode, "rx-fifo-depth",
+   100					     &plat->rx_fifo_size))
+   101			plat->rx_fifo_size = 0x1000;
+   102	
+   103		if (phytium_dwmac_acpi_phy(plat, fwnode, &pdev->dev))
+   104			return -ENODEV;
+   105	
+   106		plat->rx_queues_to_use = 1;
+   107		plat->tx_queues_to_use = 1;
+   108		plat->rx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   109		plat->tx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   110	
+   111		if (fwnode_property_read_u64(fwnode, "clock-frequency", &clk_freq))
+   112			clk_freq = 125000000;
+   113	
+   114		/* Set system clock */
+   115		snprintf(clk_name, sizeof(clk_name), "%s-%d", "stmmaceth",
+   116			 plat->bus_id);
+   117	
+   118		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev, clk_name,
+   119							   NULL, 0, clk_freq);
+   120		if (IS_ERR(plat->stmmac_clk)) {
+   121			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
+   122			plat->stmmac_clk = NULL;
+   123		}
+   124	
+   125		ret = clk_prepare_enable(plat->stmmac_clk);
+   126		if (ret) {
+   127			clk_unregister_fixed_rate(plat->stmmac_clk);
+   128			return ret;
+   129		}
+   130	
+   131		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
+   132		plat->clk_ptp_ref = NULL;
+   133	
+   134		if (fwnode_property_read_u32(fwnode, "snps,pbl", &plat->dma_cfg->pbl))
+   135			plat->dma_cfg->pbl = 16;
+   136	
+   137		fwnode_property_read_u32(fwnode, "snps,txpbl", &plat->dma_cfg->txpbl);
+   138		fwnode_property_read_u32(fwnode, "snps,rxpbl", &plat->dma_cfg->rxpbl);
+   139	
+   140		plat->dma_cfg->pblx8 = !fwnode_property_read_bool(fwnode,
+   141								  "snps,no-pbl-x8");
+   142		plat->dma_cfg->aal = fwnode_property_read_bool(fwnode, "snps,aal");
+   143		plat->dma_cfg->fixed_burst = fwnode_property_read_bool(fwnode,
+   144								       "snps,fixed-burst");
+   145		plat->dma_cfg->mixed_burst = fwnode_property_read_bool(fwnode,
+   146								       "snps,mixed-burst");
+   147	
+   148		plat->axi->axi_lpi_en = false;
+   149		plat->axi->axi_xit_frm = false;
+   150		plat->axi->axi_wr_osr_lmt = 7;
+   151		plat->axi->axi_rd_osr_lmt = 7;
+   152		plat->axi->axi_blen[0] = 16;
+   153	
+   154		memset(&stmmac_res, 0, sizeof(stmmac_res));
+   155		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   156		stmmac_res.addr = devm_ioremap_resource(&pdev->dev, res);
+ > 157		if (stmmac_res.addr < 0) {
+   158			dev_err(&pdev->dev, "resource map failed.\n");
+   159			return stmmac_res.addr;
+   160		}
+   161		stmmac_res.irq = platform_get_irq(pdev, 0);
+   162		if (stmmac_res.irq < 0) {
+   163			dev_err(&pdev->dev, "IRQ not found.\n");
+   164			return -ENXIO;
+   165		}
+   166		stmmac_res.wol_irq = stmmac_res.irq;
+   167		stmmac_res.lpi_irq = -1;
+   168	
+   169		return  stmmac_dvr_probe(&pdev->dev, plat, &stmmac_res);
+   170	}
+   171	
+ > 172	int phytium_dwmac_remove(struct platform_device *pdev)
+   173	{
+   174		int ret;
+   175		struct net_device *ndev = platform_get_drvdata(pdev);
+   176		struct stmmac_priv *priv = netdev_priv(ndev);
+   177		struct plat_stmmacenet_data *plat = priv->plat;
+   178	
+   179		ret = stmmac_pltfr_remove(pdev);
+   180		clk_unregister_fixed_rate(plat->stmmac_clk);
+   181		return ret;
+   182	}
+   183	
 
 -- 
 0-DAY CI Kernel Test Service
