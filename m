@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C7C125DE;
-	Sat,  1 Jun 2024 19:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD3F1CAA6;
+	Sat,  1 Jun 2024 20:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717269335; cv=none; b=fQTtG02J9ELWG7y30Xqhp+DTp23S/Wy+RE/cdpaEa6jG/q74Fr29ps3olDFqoAr8dY4kfRXNeLpqXF2vp289vmQYZZPIuBDHeTJK8ZV5v2qjKjdgVP3JMmvgW1jb/bx9cNhup2zBE6NgLcZW1TGESbokr/6n75uVgwdK1u08CqE=
+	t=1717275073; cv=none; b=V+gN6ZSCcd3XWLhtQXtarSJQrCJ/efm0eVh6+WZfkjvu5VjsgpmvLWzC26jMgArUDoq3mxGfEEe0qzVC750nBC1DWZMdGW1PI2N2L0zfmzbR1Ocg25IlY1qEs5FZP91P9st+g+lFIaryJPJmFQPzePC/c78XLmPKkkKpOMwo5lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717269335; c=relaxed/simple;
-	bh=TCNSPxPns4EhFR9yBjsnQhWnMT3BTaZJ5LndNteH2Ns=;
+	s=arc-20240116; t=1717275073; c=relaxed/simple;
+	bh=NK8j9UGLpfCjTYjcM2PbmEMcNxeoo86/1fcojIA7+Uc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nxKnODVyXs6JIJUIalLaJ6CWYOKwkvVS2A1UrB0n94fvgjLO8HpdytRt0f/YYeKFMaAjjoGjMV+rH7LEhp5/EzYwQTZpiPwc197Mu3cGBWimXeqVujyJewE6+qjP/Joj7LvxcVHqUIzjivRJELOsjZX++C9h/QvFCvCbZLNyeGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ui+iMp0B; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJ4No+ooQQvnpU9GgUR6kMd3+rXYJmmyaihm/z3qj4xvDX47PR6wvf48tWWd5jfJnHTXKqGdntfPaaNspJw9HZbdzPuNUd2Llgkcmq9E4T/oZFuEJJoen9c9k6hiUDvVT003MJ88wRcGNv/Fnx3onJArfT7ySvLbz3jRABCwvVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kK8Rz+zl; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ui+iMp0B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kK8Rz+zl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717269333; x=1748805333;
+  t=1717275071; x=1748811071;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TCNSPxPns4EhFR9yBjsnQhWnMT3BTaZJ5LndNteH2Ns=;
-  b=Ui+iMp0BHJMsejzYibXW9WxN99pEPm0eMyteNW8X6z63pAC6hDFyoHuO
-   Y9DTIfcrbfErbyXaLC4eLCPlcaS4QPQdd4FZjsRHGAZ6OdWW8wv2lm1fq
-   1KrhpYodValK+0edcHnyelso89FXlFuji06TDerVDYtgEmX1k/3GCA5bv
-   H6Jds7A6OIqAOW7qOV+XbtAUYM5i0jIAAcLzxkfaVRHWugpLFCND4XaAN
-   /GZdk+pLMZrucDu7SAfUfGIGnbeX5xSo9KYHAkZmVbnjtwj83iOkDin37
-   5TxYSLcv5rTc/fB53t60z2Yg4iEm3jFOww6OMt11lPZ29rBQOUzv6xrVl
+  bh=NK8j9UGLpfCjTYjcM2PbmEMcNxeoo86/1fcojIA7+Uc=;
+  b=kK8Rz+zlYUZXYmzUQntwGs+G+Y9OCla1ag6DpcVPqXjQXDnhnuWTTya3
+   HlVwMxmnhOvO6yWnP47y4MYLoj9Mbh0VHLVHcKU5giK69tI5rjHg8mHiE
+   RkDOGAGRshNPalrX7mx9xpUo0qWQimrRoJjk0lzmxpxIIyOLynX+OYaTC
+   d5F46JuVPdmgD8p0AFMZdPpkwUKNO4DciXLbMB9i1YOzrHpNcmN4iSNqW
+   wvc6+Rwg1mdBkTtqcV/o3RPGtGEAdphEENns507KUoUPKEDKWdGObBMZv
+   /ENZoTAyP4QtElXC11vkGdxAnba5ImNy+4ZDVwrdMR303/nFmgP2YfndV
    Q==;
-X-CSE-ConnectionGUID: aB9HjrodQvqcAe6r3Wyrdg==
-X-CSE-MsgGUID: IVywz4D8SbuyvC5IRFXw9Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="14024367"
-X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="14024367"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 12:15:31 -0700
-X-CSE-ConnectionGUID: rWV/KU92STmxbEjmvCR7Zw==
-X-CSE-MsgGUID: bgxV5EY2QLGvKJagxrtxBw==
+X-CSE-ConnectionGUID: Hn+tW0IzQkeVh9yuaEVLvA==
+X-CSE-MsgGUID: CS2PmcW3TiWU0IVC2sq1mQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="13652018"
+X-IronPort-AV: E=Sophos;i="6.08,208,1712646000"; 
+   d="scan'208";a="13652018"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 13:51:10 -0700
+X-CSE-ConnectionGUID: beW2idpTT3KBZYatnIHp6Q==
+X-CSE-MsgGUID: YOsL1a+8RO6AoszTCTqrHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="41560131"
+X-IronPort-AV: E=Sophos;i="6.08,208,1712646000"; 
+   d="scan'208";a="67672133"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 01 Jun 2024 12:15:29 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 Jun 2024 13:51:09 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDUBq-000JHH-06;
-	Sat, 01 Jun 2024 19:15:21 +0000
-Date: Sun, 2 Jun 2024 03:13:51 +0800
+	id 1sDVfn-000JKh-0F;
+	Sat, 01 Jun 2024 20:50:23 +0000
+Date: Sun, 2 Jun 2024 04:48:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srujana Challa <schalla@marvell.com>, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, schalla@marvell.com,
-	vattunuru@marvell.com, sthotton@marvell.com,
-	ndabilpuram@marvell.com, jerinj@marvell.com
-Subject: Re: [PATCH] vdpa: Add support for no-IOMMU mode
-Message-ID: <202406020255.Xp36fzlp-lkp@intel.com>
-References: <20240530101823.1210161-1-schalla@marvell.com>
+To: Radu Sabau <radu.sabau@analog.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] hwmon: Add PEC attribute support to hardware
+ monitoring core
+Message-ID: <202406020416.G7zcrbxZ-lkp@intel.com>
+References: <20240531084645.12935-1-radu.sabau@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,42 +63,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240530101823.1210161-1-schalla@marvell.com>
+In-Reply-To: <20240531084645.12935-1-radu.sabau@analog.com>
 
-Hi Srujana,
+Hi Radu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on mst-vhost/linux-next]
-[also build test WARNING on linus/master v6.10-rc1 next-20240531]
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.10-rc1 next-20240531]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Srujana-Challa/vdpa-Add-support-for-no-IOMMU-mode/20240530-182129
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20240530101823.1210161-1-schalla%40marvell.com
-patch subject: [PATCH] vdpa: Add support for no-IOMMU mode
-config: powerpc64-randconfig-r123-20240601 (https://download.01.org/0day-ci/archive/20240602/202406020255.Xp36fzlp-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240602/202406020255.Xp36fzlp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau/drivers-hwmon-max31827-Add-PEC-support/20240531-165035
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240531084645.12935-1-radu.sabau%40analog.com
+patch subject: [PATCH v6 1/2] hwmon: Add PEC attribute support to hardware monitoring core
+config: arm-imxrt_defconfig (https://download.01.org/0day-ci/archive/20240602/202406020416.G7zcrbxZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240602/202406020416.G7zcrbxZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406020255.Xp36fzlp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406020416.G7zcrbxZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/vhost/vdpa.c:39:6: sparse: sparse: symbol 'vhost_vdpa_noiommu' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/vhost_vdpa_noiommu +39 drivers/vhost/vdpa.c
+   In file included from drivers/hwmon/hwmon.c:17:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/hwmon.c:400:7: error: call to undeclared function 'i2c_check_functionality'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     400 |             !i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_PEC))
+         |              ^
+   1 warning and 1 error generated.
 
-    38	
-  > 39	bool vhost_vdpa_noiommu;
-    40	module_param_named(enable_vhost_vdpa_unsafe_noiommu_mode,
-    41			   vhost_vdpa_noiommu, bool, 0644);
-    42	MODULE_PARM_DESC(enable_vhost_vdpa_unsafe_noiommu_mode, "Enable UNSAFE, no-IOMMU mode.  This mode provides no device isolation, no DMA translation, no host kernel protection, cannot be used for device assignment to virtual machines, requires RAWIO permissions, and will taint the kernel.  If you do not know what this is for, step away. (default: false)");
-    43	
+
+vim +/i2c_check_functionality +400 drivers/hwmon/hwmon.c
+
+   393	
+   394	static int hwmon_pec_register(struct device *hdev)
+   395	{
+   396		struct i2c_client *client = i2c_verify_client(hdev->parent);
+   397		int err;
+   398	
+   399		if (!client ||
+ > 400		    !i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_PEC))
+   401			return 0;
+   402	
+   403		err = device_create_file(&client->dev, &dev_attr_pec);
+   404		if (err)
+   405			return err;
+   406	
+   407		return devm_add_action_or_reset(hdev, hwmon_remove_pec, &client->dev);
+   408	}
+   409	
 
 -- 
 0-DAY CI Kernel Test Service
