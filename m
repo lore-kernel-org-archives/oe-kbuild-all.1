@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D291A14F9F0;
-	Sat,  1 Jun 2024 12:57:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2831D52D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 13:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717246652; cv=none; b=uP1YuFUraVSDwq3811XEa1lpd8BcRqFfc9K2DO+CgKv0G6kPd4RSzkOAbHdQRXftCFWRDtBk5CcYBSggthLXYmIJWXtNSMAA/N0S3SLpiy5c9R8RK/9V72Rovxm0A+F/Cs4TDEtMTV5qTNS8VYzN7p/b22mBtoewy9yqqs5tHwo=
+	t=1717248513; cv=none; b=P4hfYy4q261J99tW1XZN5CImR2NZTSOaz7lBocdgufSIz+HEqUDWzhL/PSG8ihfhG5IOZ0YA7U3I4pvLc5U1tjID060FwKv0zySF2i0cSiJiAUP6pAxC0vpLdnNl8O5tJyy+EjeZ/ruQv4cczcL6evLPf3VKqqEoMWWia3nFluQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717246652; c=relaxed/simple;
-	bh=Fivm1LCR0dzG7lVPX86f9+7qvWYNkdEYGCX/xoEl5AU=;
+	s=arc-20240116; t=1717248513; c=relaxed/simple;
+	bh=D59jnmVQMhCNl55Pkwv0majNLLAp15FV0PALvzWaA2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ipaYDNn/ehmnEj7zgTf9Hw7whfG1z1Dp6nxNgdyRuSg9x00bppCyZj1XzsV6TVnQZPl1AD8d0J3pHicw2uUoE7vQCdZrom1JXZ3E/PaKMs/39vorwNYaxXIkZor7Vn0rK+tlcEVexAdQtX6F+idFck/E/Fv3P6IKTmHO+Hid4KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9LKGrkK; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZLSqK3ikiCZtb5LRwnTww+376Bi4B/H/OZr/P2u2RxjkT/X1Ru/trqLw2ndNpATAJgxGdE9MC5xLyqrFFO5oojmx8xd1aKyzjxHCOpKULE2wLQiuThyp90EodUzxNrH4OUCoj5Rpak5ZR4RtJ6SwmxGTyQePYgZCEf58jAxqz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sn9rkqu4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9LKGrkK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sn9rkqu4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717246650; x=1748782650;
+  t=1717248511; x=1748784511;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Fivm1LCR0dzG7lVPX86f9+7qvWYNkdEYGCX/xoEl5AU=;
-  b=d9LKGrkKry5EnGDqz8656HoIcBG/z5r903cCvBHpp5rMgh/DfV25/I+W
-   MUQZdOK9YD1fMGol6Wb3QviRlIoKScm5uvdVnW+D1OztzS9JSXaO1IPMd
-   DE+xrXNzt1PVrb4zWvozxvC6BRsq2cne+fKsCGLPJkGsdBpQx3LlNhMTv
-   r105PxSn0diG9wClk2b3iUhb7Dr1THQlPtEzUJfw4kcmF9INZIkUAhbX1
-   xqJ0JqRrGAsR9pu/jLo8ahhWNfOeYbVUaht6DCMHJpnCBra13phRU9nr7
-   bLKqBmJp1Nj02kKjOgBKHJi7EWrD7fgQbRkoq0EqkwL9OC75DJpHbBxUm
-   Q==;
-X-CSE-ConnectionGUID: /1o0LNBXTzeT0QwAY7zOZg==
-X-CSE-MsgGUID: we6GQ+MaQKGwqMk5m76q0Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="17635434"
+  bh=D59jnmVQMhCNl55Pkwv0majNLLAp15FV0PALvzWaA2Q=;
+  b=Sn9rkqu4s4Q9rG88qbXValkefQpPwsJbIWseAL9skcainiYB1hRUubrx
+   3ij8soqwvGsQRrdMprVOf01jgqbAwpC0BaWyz9DTVQ1RcSAf8r/QtLxsM
+   9qu/08xMgq7RAuMdFGpRqvKon1gtDO71vA1wJ8jZvwj7k6A6GzP/2fBmZ
+   J+hoopWkX7U/B4Qd/21Y9E5JbklfMYIXdJ+tmlXblNLkpE17yzgNk+neS
+   qH/pWQI5KD4W4UhIIhKBE80E4nJ5F2jM5Gao2bnZDq5BYkDfElEmyhI6J
+   QZKyk+NZ4ueAhgK/dq3URJt4Uvy4nthfK+1mN5U3FRSMAnQu7YOZhR8Jx
+   A==;
+X-CSE-ConnectionGUID: qKtrTg9XQ/CPLPt/zaT2+g==
+X-CSE-MsgGUID: 5zOy5Q65TxubJ/wrhnAGlA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="17636686"
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="17635434"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 05:57:26 -0700
-X-CSE-ConnectionGUID: HphK+o8BQDmOtu3tXry3jg==
-X-CSE-MsgGUID: u6r6+95rSdSN1QPSDHhjcA==
+   d="scan'208";a="17636686"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 06:28:31 -0700
+X-CSE-ConnectionGUID: VUgAXcZJSS2qpLFK8gkM7Q==
+X-CSE-MsgGUID: QA43emCHShOWnAJco8uRRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="67270705"
+   d="scan'208";a="36526002"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Jun 2024 05:57:26 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 Jun 2024 06:28:26 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDOIU-000ItD-35;
-	Sat, 01 Jun 2024 12:57:22 +0000
-Date: Sat, 1 Jun 2024 20:56:47 +0800
+	id 1sDOmV-000Iur-2L;
+	Sat, 01 Jun 2024 13:28:23 +0000
+Date: Sat, 1 Jun 2024 21:27:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yan Zhai <yan@cloudflare.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v2 net-next 1/7] net: add rx_sk to trace_kfree_skb
-Message-ID: <202406012054.AjuaAUPn-lkp@intel.com>
-References: <451ae2a5c2ddb3c127cfddaf4a6579d6e85791f3.1717206060.git.yan@cloudflare.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, peterz@infradead.org,
+	mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, dev.mbstr@gmail.com,
+	samuel.holland@sifive.com, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
+Subject: Re: [PATCH] riscv: stacktrace: Add USER_STACKTRACE support
+Message-ID: <202406012109.PDAjXm2i-lkp@intel.com>
+References: <20240531083258.386709-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,149 +69,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <451ae2a5c2ddb3c127cfddaf4a6579d6e85791f3.1717206060.git.yan@cloudflare.com>
+In-Reply-To: <20240531083258.386709-1-ruanjinjie@huawei.com>
 
-Hi Yan,
+Hi Jinjie,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.10-rc1 next-20240531]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhai/net-add-rx_sk-to-trace_kfree_skb/20240601-094726
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/451ae2a5c2ddb3c127cfddaf4a6579d6e85791f3.1717206060.git.yan%40cloudflare.com
-patch subject: [RFC v2 net-next 1/7] net: add rx_sk to trace_kfree_skb
-config: arm-randconfig-002-20240601 (https://download.01.org/0day-ci/archive/20240601/202406012054.AjuaAUPn-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406012054.AjuaAUPn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/riscv-stacktrace-Add-USER_STACKTRACE-support/20240531-163624
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20240531083258.386709-1-ruanjinjie%40huawei.com
+patch subject: [PATCH] riscv: stacktrace: Add USER_STACKTRACE support
+config: riscv-randconfig-r061-20240601 (https://download.01.org/0day-ci/archive/20240601/202406012109.PDAjXm2i-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406012054.AjuaAUPn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406012109.PDAjXm2i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/stacktrace.c:188:16-18: WARNING !A || A && B is equivalent to !A || B
 
-   In file included from net/core/drop_monitor.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/core/drop_monitor.c:1162:32: error: incompatible function pointer types passing 'void (*const)(void *, struct sk_buff *, void *, enum skb_drop_reason)' to parameter of type 'void (*)(void *, struct sk_buff *, void *, enum skb_drop_reason, struct sock *)' [-Wincompatible-function-pointer-types]
-    1162 |         rc = register_trace_kfree_skb(ops->kfree_skb_probe, NULL);
-         |                                       ^~~~~~~~~~~~~~~~~~~~
-   include/trace/events/skb.h:24:1: note: passing argument to parameter 'probe' here
-      24 | TRACE_EVENT(kfree_skb,
-         | ^
-   include/linux/tracepoint.h:568:2: note: expanded from macro 'TRACE_EVENT'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:434:2: note: expanded from macro 'DECLARE_TRACE'
-     434 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:270:31: note: expanded from macro '__DECLARE_TRACE'
-     270 |         register_trace_##name(void (*probe)(data_proto), void *data)    \
-         |                                      ^
-   net/core/drop_monitor.c:1177:29: error: incompatible function pointer types passing 'void (*const)(void *, struct sk_buff *, void *, enum skb_drop_reason)' to parameter of type 'void (*)(void *, struct sk_buff *, void *, enum skb_drop_reason, struct sock *)' [-Wincompatible-function-pointer-types]
-    1177 |         unregister_trace_kfree_skb(ops->kfree_skb_probe, NULL);
-         |                                    ^~~~~~~~~~~~~~~~~~~~
-   include/trace/events/skb.h:24:1: note: passing argument to parameter 'probe' here
-      24 | TRACE_EVENT(kfree_skb,
-         | ^
-   include/linux/tracepoint.h:568:2: note: expanded from macro 'TRACE_EVENT'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:434:2: note: expanded from macro 'DECLARE_TRACE'
-     434 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:283:33: note: expanded from macro '__DECLARE_TRACE'
-     283 |         unregister_trace_##name(void (*probe)(data_proto), void *data)  \
-         |                                        ^
-   net/core/drop_monitor.c:1200:29: error: incompatible function pointer types passing 'void (*const)(void *, struct sk_buff *, void *, enum skb_drop_reason)' to parameter of type 'void (*)(void *, struct sk_buff *, void *, enum skb_drop_reason, struct sock *)' [-Wincompatible-function-pointer-types]
-    1200 |         unregister_trace_kfree_skb(ops->kfree_skb_probe, NULL);
-         |                                    ^~~~~~~~~~~~~~~~~~~~
-   include/trace/events/skb.h:24:1: note: passing argument to parameter 'probe' here
-      24 | TRACE_EVENT(kfree_skb,
-         | ^
-   include/linux/tracepoint.h:568:2: note: expanded from macro 'TRACE_EVENT'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:434:2: note: expanded from macro 'DECLARE_TRACE'
-     434 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:283:33: note: expanded from macro '__DECLARE_TRACE'
-     283 |         unregister_trace_##name(void (*probe)(data_proto), void *data)  \
-         |                                        ^
-   1 warning and 3 errors generated.
+vim +188 arch/riscv/kernel/stacktrace.c
 
-
-vim +1162 net/core/drop_monitor.c
-
-8e94c3bc922e70 Ido Schimmel 2019-08-17  1135  
-7c747838a55818 Ido Schimmel 2019-08-11  1136  static int net_dm_trace_on_set(struct netlink_ext_ack *extack)
-9a8afc8d3962f3 Neil Horman  2009-03-11  1137  {
-28315f7999870b Ido Schimmel 2019-08-11  1138  	const struct net_dm_alert_ops *ops;
-70c69274f354ec Ido Schimmel 2019-08-11  1139  	int cpu, rc;
-4b706372f18de5 Neil Horman  2010-07-20  1140  
-28315f7999870b Ido Schimmel 2019-08-11  1141  	ops = net_dm_alert_ops_arr[net_dm_alert_mode];
-28315f7999870b Ido Schimmel 2019-08-11  1142  
-cad456d5abbb63 Neil Horman  2012-05-17  1143  	if (!try_module_get(THIS_MODULE)) {
-965100966efe85 Ido Schimmel 2019-08-06  1144  		NL_SET_ERR_MSG_MOD(extack, "Failed to take reference on module");
-7c747838a55818 Ido Schimmel 2019-08-11  1145  		return -ENODEV;
-cad456d5abbb63 Neil Horman  2012-05-17  1146  	}
-cad456d5abbb63 Neil Horman  2012-05-17  1147  
-70c69274f354ec Ido Schimmel 2019-08-11  1148  	for_each_possible_cpu(cpu) {
-70c69274f354ec Ido Schimmel 2019-08-11  1149  		struct per_cpu_dm_data *data = &per_cpu(dm_cpu_data, cpu);
-44075f56379388 Ido Schimmel 2019-08-11  1150  		struct sk_buff *skb;
-70c69274f354ec Ido Schimmel 2019-08-11  1151  
-28315f7999870b Ido Schimmel 2019-08-11  1152  		INIT_WORK(&data->dm_alert_work, ops->work_item_func);
-70c69274f354ec Ido Schimmel 2019-08-11  1153  		timer_setup(&data->send_timer, sched_send_work, 0);
-44075f56379388 Ido Schimmel 2019-08-11  1154  		/* Allocate a new per-CPU skb for the summary alert message and
-44075f56379388 Ido Schimmel 2019-08-11  1155  		 * free the old one which might contain stale data from
-44075f56379388 Ido Schimmel 2019-08-11  1156  		 * previous tracing.
-44075f56379388 Ido Schimmel 2019-08-11  1157  		 */
-44075f56379388 Ido Schimmel 2019-08-11  1158  		skb = reset_per_cpu_data(data);
-44075f56379388 Ido Schimmel 2019-08-11  1159  		consume_skb(skb);
-70c69274f354ec Ido Schimmel 2019-08-11  1160  	}
-70c69274f354ec Ido Schimmel 2019-08-11  1161  
-28315f7999870b Ido Schimmel 2019-08-11 @1162  	rc = register_trace_kfree_skb(ops->kfree_skb_probe, NULL);
-7c747838a55818 Ido Schimmel 2019-08-11  1163  	if (rc) {
-7c747838a55818 Ido Schimmel 2019-08-11  1164  		NL_SET_ERR_MSG_MOD(extack, "Failed to connect probe to kfree_skb() tracepoint");
-7c747838a55818 Ido Schimmel 2019-08-11  1165  		goto err_module_put;
-7c747838a55818 Ido Schimmel 2019-08-11  1166  	}
-cad456d5abbb63 Neil Horman  2012-05-17  1167  
-28315f7999870b Ido Schimmel 2019-08-11  1168  	rc = register_trace_napi_poll(ops->napi_poll_probe, NULL);
-7c747838a55818 Ido Schimmel 2019-08-11  1169  	if (rc) {
-7c747838a55818 Ido Schimmel 2019-08-11  1170  		NL_SET_ERR_MSG_MOD(extack, "Failed to connect probe to napi_poll() tracepoint");
-7c747838a55818 Ido Schimmel 2019-08-11  1171  		goto err_unregister_trace;
-7c747838a55818 Ido Schimmel 2019-08-11  1172  	}
-7c747838a55818 Ido Schimmel 2019-08-11  1173  
-7c747838a55818 Ido Schimmel 2019-08-11  1174  	return 0;
-7c747838a55818 Ido Schimmel 2019-08-11  1175  
-7c747838a55818 Ido Schimmel 2019-08-11  1176  err_unregister_trace:
-28315f7999870b Ido Schimmel 2019-08-11  1177  	unregister_trace_kfree_skb(ops->kfree_skb_probe, NULL);
-7c747838a55818 Ido Schimmel 2019-08-11  1178  err_module_put:
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1179  	for_each_possible_cpu(cpu) {
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1180  		struct per_cpu_dm_data *data = &per_cpu(dm_cpu_data, cpu);
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1181  		struct sk_buff *skb;
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1182  
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1183  		del_timer_sync(&data->send_timer);
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1184  		cancel_work_sync(&data->dm_alert_work);
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1185  		while ((skb = __skb_dequeue(&data->drop_queue)))
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1186  			consume_skb(skb);
-9398e9c0b1d44e Ido Schimmel 2021-03-10  1187  	}
-7c747838a55818 Ido Schimmel 2019-08-11  1188  	module_put(THIS_MODULE);
-7c747838a55818 Ido Schimmel 2019-08-11  1189  	return rc;
-7c747838a55818 Ido Schimmel 2019-08-11  1190  }
-7c747838a55818 Ido Schimmel 2019-08-11  1191  
+   164	
+   165	/*
+   166	 * Get the return address for a single stackframe and return a pointer to the
+   167	 * next frame tail.
+   168	 */
+   169	static unsigned long unwind_user_frame(stack_trace_consume_fn consume_entry,
+   170					       void *cookie, unsigned long fp,
+   171					       unsigned long reg_ra)
+   172	{
+   173		struct stackframe buftail;
+   174		unsigned long ra = 0;
+   175		unsigned long __user *user_frame_tail =
+   176			(unsigned long __user *)(fp - sizeof(struct stackframe));
+   177	
+   178		/* Check accessibility of one struct frame_tail beyond */
+   179		if (!access_ok(user_frame_tail, sizeof(buftail)))
+   180			return 0;
+   181		if (__copy_from_user_inatomic(&buftail, user_frame_tail,
+   182					      sizeof(buftail)))
+   183			return 0;
+   184	
+   185		ra = reg_ra ? : buftail.ra;
+   186	
+   187		fp = buftail.fp;
+ > 188		if (!ra || (ra && !consume_entry(cookie, ra)))
+   189			return 0;
+   190	
+   191		return fp;
+   192	}
+   193	
 
 -- 
 0-DAY CI Kernel Test Service
