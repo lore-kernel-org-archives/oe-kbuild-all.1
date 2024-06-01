@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6566FB9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 03:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEFBA94B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 03:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717211624; cv=none; b=En4Flvm6AtVYKhp2oYsLVyBlPeQ8YihxOgkdI5BrV3py4J4iKbkuwL1lIKKAOy2/yzjRE4OSJDBuTuyIy9rH4pGwv3B/gItpr/dnG7C46hMh2dsepSBUhHTJ8nNvA9Y+HqyzAcedbPQzPf3t+Fi7AVZSSSmSZVZbaPJFb2GJcwA=
+	t=1717211683; cv=none; b=Evq2+La3zxFWozBEuc7jp4OmfBk6ET1MBbJ6KFviAHJuBLVN/DLU1qvBSQvoecLwzwGJLHkx143Ae6sXA/RJUtCbkwKXNMOHzs0wCe5u4dT9hRUfBvFhWPVbaKgoPSR46l9JYP4iiA8gkU4MxZCZ9HYLitc9EraracTSQFKxhzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717211624; c=relaxed/simple;
-	bh=Cmlsnd8FTjt2wf+atbpmaJYozuztvdSnJ0N1WnHmgzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MZ39gosJefjcEZL7a5PKWiHpeEy5/okIGwlPqAoplzGiPQoLZ4xFGTY5FLbSUhx8qHYyaZSJSnSpO2isl4MSifIMU9bmJKn32liwec71tDOV9ZhgWS7Obdpe0MJnMIM7WXL91L406Hnuaq/f78mFGeTiFK/iQPkyeEzjBaTDwxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWL+9q/B; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1717211683; c=relaxed/simple;
+	bh=c7E6ywWcouETEOz7X+m9V6ffY9O9cI6IapgRWonAuyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0sfjYD79LcdOwRGiFFVDFH6azIL7K9xsAQXj8XIT6/sUJNZghoXSOQNcDshJUhiaiw1qvMNVMMVLGZ9hQT5JM0F8bZ5x3IHhja+c+D6yK9TohLCHDZCG/rQaOR7b/qPyGdkMTsNvfgU5WBhxssiNa+mDHcMHsFu2Az+Z+FM3LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cg93CBS7; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWL+9q/B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cg93CBS7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717211622; x=1748747622;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cmlsnd8FTjt2wf+atbpmaJYozuztvdSnJ0N1WnHmgzA=;
-  b=dWL+9q/Ba7pRrl31LQGiK72cssHe2kjBmVyPjNOghQIMlGUPl5o+vzPO
-   QcGYsaVrofdAqrguWLEHfWwfh1/2SfLuX5QhHb/dh2neTpzJqvKKvFvA5
-   2nyh/3ZuX/PIm3eelsUWV3nvSaIDDVSGu8Vo3CssqT53A4GbGDE4cOAU9
-   DpO0/7kSmg58bRTzzoCIXBwZ0Ba84Sc6Ylvt/AZ5PiznlxSu1aXJ++UO6
-   7HmRYUvUaxQax3FRqsmGuXF2z8piB9ioH6LoLEh58dtaRJlFzWV0n7vyK
-   oOlIP20UkuuRle9HY4SatHBWdCe+5fkvdRhs9pgyuTcUcTQttawyiCRBf
-   g==;
-X-CSE-ConnectionGUID: ir4nXVilRSqvClXw4x/bUg==
-X-CSE-MsgGUID: 5tkYO9KoRj2DqVnsWF884g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="17598964"
+  t=1717211683; x=1748747683;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c7E6ywWcouETEOz7X+m9V6ffY9O9cI6IapgRWonAuyw=;
+  b=Cg93CBS7Knh5ciDwIwAOyGsoT/qg0/IW7TBy39bd8o4PAXypToyQXQwM
+   hWx2gdFW5Vu5pj4hAHFQ9VFE6ifGjK368SJw16GrfDE7/qeACivht8zQY
+   2/NDIPJrxKC0bUK645lhiez0ZGVf1yTEPvCwSEzxLj5wf1xE9rCH8t+zF
+   ZPNhxyS7ZfeEOG9WW8jDstisoAXYOBEj2flgm87azHDaCFKETFCRnw1UN
+   +WYoZrzD/9SgVFIaf3fGsaPAyO2oy86KeO0tj4j7MivzZIMYeZD3zS8TU
+   iIybq4GVVHoLpPQ2WdacCyuSeIkpyP2PqCAOCidWqTyQ3h+X/2PPtgsYT
+   w==;
+X-CSE-ConnectionGUID: tvfFufFnQtCZSSkRZvD3Fw==
+X-CSE-MsgGUID: 1hXjQaJhT721PU+wXnSAMQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24431272"
 X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="17598964"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 20:13:39 -0700
-X-CSE-ConnectionGUID: VFeIB5DVRJ+4JCn00rksqg==
-X-CSE-MsgGUID: 7UKASYetTLWTDmkzppBcTA==
+   d="scan'208";a="24431272"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 20:14:42 -0700
+X-CSE-ConnectionGUID: l2xz+gaVQ1Sp7xFZjbApEA==
+X-CSE-MsgGUID: n7Eg6RluRgSRmWmZVdk4kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="40887772"
+   d="scan'208";a="73824285"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 31 May 2024 20:13:38 -0700
+  by orviesa001.jf.intel.com with ESMTP; 31 May 2024 20:14:38 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDFBX-000IFu-1t;
-	Sat, 01 Jun 2024 03:13:35 +0000
-Date: Sat, 1 Jun 2024 11:02:44 +0800
+	id 1sDFCV-000IGn-2o;
+	Sat, 01 Jun 2024 03:14:35 +0000
+Date: Sat, 1 Jun 2024 11:02:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask-types 9/10] kernel/irq/irqdesc.c:31:9: error:
- implicit declaration of function 'cpulist_parse'; did you mean
- 'nodelist_parse'?
-Message-ID: <202406011031.1hNlnnTB-lkp@intel.com>
+To: Simon Trimmer <simont@opensource.cirrus.com>, tiwai@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, soyer@irl.hu, shenghao-ding@ti.com,
+	kevin-lu@ti.com, baojun.xu@ti.com, kailang@realtek.com,
+	Simon Trimmer <simont@opensource.cirrus.com>
+Subject: Re: [PATCH 4/7] ALSA: hda: hda_component: Introduce component parent
+ structure
+Message-ID: <202406011025.mzDXJJjz-lkp@intel.com>
+References: <20240531151409.80284-5-simont@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +67,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240531151409.80284-5-simont@opensource.cirrus.com>
 
-tree:   https://github.com/norov/linux cpumask-types
-head:   73e9e98494988c844af62ffb6dc7aa5512d87034
-commit: 46b57212fb7c3b4e7bef861e73110c4aff516336 [9/10] cpumask_str.h
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240601/202406011031.1hNlnnTB-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011031.1hNlnnTB-lkp@intel.com/reproduce)
+Hi Simon,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.10-rc1 next-20240531]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Trimmer/ALSA-hda-cs35l56-Component-should-be-unbound-before-deconstruction/20240531-231828
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240531151409.80284-5-simont%40opensource.cirrus.com
+patch subject: [PATCH 4/7] ALSA: hda: hda_component: Introduce component parent structure
+config: arm64-randconfig-001-20240601 (https://download.01.org/0day-ci/archive/20240601/202406011025.mzDXJJjz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011025.mzDXJJjz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406011031.1hNlnnTB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406011025.mzDXJJjz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/irq/irqdesc.c: In function 'irq_affinity_setup':
->> kernel/irq/irqdesc.c:31:9: error: implicit declaration of function 'cpulist_parse'; did you mean 'nodelist_parse'? [-Werror=implicit-function-declaration]
-      31 |         cpulist_parse(str, irq_default_affinity);
-         |         ^~~~~~~~~~~~~
-         |         nodelist_parse
-   cc1: some warnings being treated as errors
+   sound/pci/hda/hda_component.c: In function 'hda_component_manager_bind':
+>> sound/pci/hda/hda_component.c:140:33: warning: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
+     140 |         memset(parent, 0, sizeof(parent));
+         |                                 ^
 
 
-vim +31 kernel/irq/irqdesc.c
+vim +140 sound/pci/hda/hda_component.c
 
-3795de236d67a0 Thomas Gleixner 2010-09-22  26  
-fe0514348452f5 Thomas Gleixner 2011-05-18  27  #if defined(CONFIG_SMP)
-fbf198030e0b02 Thomas Gleixner 2016-02-03  28  static int __init irq_affinity_setup(char *str)
-fbf198030e0b02 Thomas Gleixner 2016-02-03  29  {
-10d94ff4d558b9 Rakib Mullick   2017-11-01  30  	alloc_bootmem_cpumask_var(&irq_default_affinity);
-fbf198030e0b02 Thomas Gleixner 2016-02-03 @31  	cpulist_parse(str, irq_default_affinity);
-fbf198030e0b02 Thomas Gleixner 2016-02-03  32  	/*
-fbf198030e0b02 Thomas Gleixner 2016-02-03  33  	 * Set at least the boot cpu. We don't want to end up with
-a359f757965aaf Ingo Molnar     2021-03-22  34  	 * bugreports caused by random commandline masks
-fbf198030e0b02 Thomas Gleixner 2016-02-03  35  	 */
-fbf198030e0b02 Thomas Gleixner 2016-02-03  36  	cpumask_set_cpu(smp_processor_id(), irq_default_affinity);
-fbf198030e0b02 Thomas Gleixner 2016-02-03  37  	return 1;
-fbf198030e0b02 Thomas Gleixner 2016-02-03  38  }
-fbf198030e0b02 Thomas Gleixner 2016-02-03  39  __setup("irqaffinity=", irq_affinity_setup);
-fbf198030e0b02 Thomas Gleixner 2016-02-03  40  
-
-:::::: The code at line 31 was first introduced by commit
-:::::: fbf198030e0b027538c290300cfaf9e2efdce122 genirq: Add default affinity mask command line option
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   133	
+   134	int hda_component_manager_bind(struct hda_codec *cdc,
+   135				       struct hda_component_parent *parent)
+   136	{
+   137		int i;
+   138	
+   139		/* Init shared and component specific data */
+ > 140		memset(parent, 0, sizeof(parent));
+   141		for (i = 0; i < ARRAY_SIZE(parent->comps); i++)
+   142			parent->comps[i].codec = cdc;
+   143	
+   144		return component_bind_all(hda_codec_dev(cdc), &parent->comps);
+   145	}
+   146	EXPORT_SYMBOL_NS_GPL(hda_component_manager_bind, SND_HDA_SCODEC_COMPONENT);
+   147	
 
 -- 
 0-DAY CI Kernel Test Service
