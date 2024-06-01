@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C32312FB39;
-	Fri, 31 May 2024 23:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF31136A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 00:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717199199; cv=none; b=pg+tnwrzV9OwITCOdsAtZ5zY9wD4hPZGUkLU659eUkEhHcWxUPIzAH29cCD1fxFg46R9VtwVjUrmYkw3uU/HOtAShOGUg7BCUDpJdAJE5UZ5iTprMgp+42Eh3AvNYtEboV1GqMAOucdt2fg83omKVz+daRFIcmZZWlb+e6qJox8=
+	t=1717200395; cv=none; b=LnLKUQkj5ctr9LV14a0qUjLNUvvufo/UhA2vn9Igb0Kqlc72PftjCCTKdADgV86qvpcJjGFxy8R3EFGSJzT33/d7JMzmT4Zgzmu6JLGF1Mf45A4o7H82Gu5rRQ5OVHwoo9xlL2/YSvl6EYPWY+yCd7037Jn81zFczMeyU7dh9m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717199199; c=relaxed/simple;
-	bh=w9f4SRdsr1jbq30eJTRQWvC0wokK6CB4VUrnYL1cjEE=;
+	s=arc-20240116; t=1717200395; c=relaxed/simple;
+	bh=yp9Zt/5vSb7ekWLGlVsUad39e1Y4nLgpzrgskORnuzA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cE9AGScCAQwQZeMi191wHR1nZaqvTT/kz5wJ6fpAKYtyqoZQMyGsDHEsWd0uPsJwl491NNTWlBuoMBTyX4qxWp2AiOyvlDh7j42CC8N6vA7MD4baTsmrTm1PwucOPAQMug0RQP6Dvq6fPMT6wv4QW+J+rUJMcYttm1QiuQF26o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7EdDy5m; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Xb/gQYTaFJqRjJkhjGx2zoQmVkJuhFmdA8o13eqhhD/KFcfRaLTR0gxk7CXSSXsqqokftysS70d6VE4gElsF1Nx2gKFvrAA0pCFMXqlJnECro/g7mhUCtum/IGiAbCUz99YBHf8Cp/NrbVVc2gRXfwkVhTWHnWSVlMEmObn8gzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNTWm2rd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7EdDy5m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNTWm2rd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717199197; x=1748735197;
+  t=1717200394; x=1748736394;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w9f4SRdsr1jbq30eJTRQWvC0wokK6CB4VUrnYL1cjEE=;
-  b=i7EdDy5m+umgsIk5iBhpmKjO3LA4VPzH+UgIngb0WvaLVOQp3+5dPDEB
-   XOl+4OGDbDENq0RHbx/L92gpoylCHrGhl3e38Ifgk0Hlcg/fC6XAgSdW5
-   m9iEEgmnxtpMBKNyry2UXUg5x6ryeXzaS7mWVfE0zjsr6HsTS55hDOcqX
-   MZM62ArR4lFVbYYcx3SNWKrwcrb+EyRjgiryZ5BMLfQs3G39He/zUUKcM
-   XyE99PWiZKZ+UN/iWnm/06TatJRCqObW+b0QHIw4Dk0qsCd7+jo4HmuZ2
-   Wg1bC56+pyY4PGaSwq8wyzYiw0EKEU5zyMiGd8iwtuNx3+CXpLW1wjE68
+  bh=yp9Zt/5vSb7ekWLGlVsUad39e1Y4nLgpzrgskORnuzA=;
+  b=QNTWm2rdK5ul9wmDEpnMMCkc5o8JXN69ntulah7qkMG3Xoaj1AaTxxd/
+   i7CRmQlPDDq4eCDLXr7XrnvupRsvTWrNAaSLPqq+L3aZAvbf4G1KOVVR2
+   pgX+8rSgVxI7yj+eb4eC4AdwHtmiYEmXMkwI1ZVT25oF3V4MAZ4nWQE8N
+   ZqzTROGBDdrutQQJPdMtkIMT8lTDeSWEsvjWYWPMXxtoQ5t+hRD1of2Iq
+   ylP7vjopFjR3v3jE6zW7SNwrL2YYvMcpkeycLp/78g9S7I0Qzb8u8In3y
+   9rGX8GigAx5Bwg6qSzbXYgLZjyLZek8l9NGGzzjOgkRS5Ij1qvs83TQwv
    A==;
-X-CSE-ConnectionGUID: rrAFScibSDmh+2tE3aDvjw==
-X-CSE-MsgGUID: 7qx36Ow8SEWW5TwhAuQdQQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="39163625"
+X-CSE-ConnectionGUID: /DMjvou1SbaB4+C0MO2yBw==
+X-CSE-MsgGUID: xVUcPfnwRGmltr+wNe/r6A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13518197"
 X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
-   d="scan'208";a="39163625"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 16:46:34 -0700
-X-CSE-ConnectionGUID: s3dXxQ8ASRq+vtFK4FEXtQ==
-X-CSE-MsgGUID: ATHJlMi1QM+oP414xMq03A==
+   d="scan'208";a="13518197"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 17:06:33 -0700
+X-CSE-ConnectionGUID: 6f5SR9yPQ2+Q4d41zJDsIg==
+X-CSE-MsgGUID: XQM0Sm3YS3S1mVwVB2rZKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
-   d="scan'208";a="41239428"
+   d="scan'208";a="40856862"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 31 May 2024 16:46:32 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 31 May 2024 17:06:32 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDBx7-000Hzb-0B;
-	Fri, 31 May 2024 23:46:29 +0000
-Date: Sat, 1 Jun 2024 07:45:33 +0800
+	id 1sDCGU-000I1R-03;
+	Sat, 01 Jun 2024 00:06:30 +0000
+Date: Sat, 1 Jun 2024 08:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Gary Guo <gary@garyguo.net>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: error[E0428]: the name `ARCH_SLAB_MINALIGN` is defined multiple times
-Message-ID: <202406010709.mn4GmRMM-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 18743/22626] /tmp/ccJZCoWT.s:2346:
+ Error: immediate out of range at operand 3 -- `bic w0,w20,5'
+Message-ID: <202406010715.TcWqtXea-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,157 +62,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b050496579632f86ee1ef7e7501906db579f3457
-commit: 70a57b247251aabadd67795c3097c0fcc616e533 RISC-V: enable building 64-bit kernels with rust support
-date:   5 weeks ago
-config: riscv-randconfig-001-20240601 (https://download.01.org/0day-ci/archive/20240601/202406010709.mn4GmRMM-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406010709.mn4GmRMM-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d2901c3f0ff7d121adf97d64bd2cc3789821600d
+commit: bba3f529a3ac03f6c6b8cea750cd48b355548d27 [18743/22626] xen/netback: don't queue unlimited number of packages
+config: arm64-randconfig-002-20240531 (https://download.01.org/0day-ci/archive/20240601/202406010715.TcWqtXea-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406010715.TcWqtXea-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406010709.mn4GmRMM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406010715.TcWqtXea-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   insw(addr, buffer, count);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   insl(addr, buffer, count);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   outsb(addr, buffer, count);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   outsw(addr, buffer, count);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   outsl(addr, buffer, count);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1115:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   ~~~~~~~~~~ ^
-   13 warnings generated.
->> clang diag: include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1115:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> clang diag: include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1115:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> error[E0428]: the name `ARCH_SLAB_MINALIGN` is defined multiple times
-   --> rust/bindings/bindings_generated.rs:62705:1
-   |
-   2964  | pub const ARCH_SLAB_MINALIGN: u32 = 16;
-   | --------------------------------------- previous definition of the value `ARCH_SLAB_MINALIGN` here
-   ...
-   62705 | pub const ARCH_SLAB_MINALIGN: usize = 16;
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ARCH_SLAB_MINALIGN` redefined here
-   |
-   = note: `ARCH_SLAB_MINALIGN` must be defined only once in the value namespace of this module
+   /tmp/ccJZCoWT.s: Assembler messages:
+>> /tmp/ccJZCoWT.s:2346: Error: immediate out of range at operand 3 -- `bic w0,w20,5'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
+   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   Selected by [y]:
+   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
 
 -- 
 0-DAY CI Kernel Test Service
