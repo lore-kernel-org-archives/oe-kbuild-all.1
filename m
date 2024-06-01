@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AE61171D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 18:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C7C125DE;
+	Sat,  1 Jun 2024 19:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717266031; cv=none; b=qK3YVhUcgAVq95VZvnALDTKvb3pPJVmCblhOo5T7jav9KPvT14P0GjetAngbAJRMGjzv+s81dCwLVT8MhDCb/E3poTtbSwn72PNXkMxdaAJhSnIQFUh3ojk8aXYblTK9upZKGz+9LeLVCTv57cnpAIrTl1t9XIRwVEU4JzXPYfg=
+	t=1717269335; cv=none; b=fQTtG02J9ELWG7y30Xqhp+DTp23S/Wy+RE/cdpaEa6jG/q74Fr29ps3olDFqoAr8dY4kfRXNeLpqXF2vp289vmQYZZPIuBDHeTJK8ZV5v2qjKjdgVP3JMmvgW1jb/bx9cNhup2zBE6NgLcZW1TGESbokr/6n75uVgwdK1u08CqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717266031; c=relaxed/simple;
-	bh=Q3mad32EU8sQ+K9041sEMDYyV4a9PLsJY90WFQtx9CI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PTQaKKX/kbZK/VxKHrN3SYMvrD0IJ2pR8jU17x4ki1npGu4qamESKrtOATCLd3o5teeFKMOTa6HSqswwQl78csv6mSuae6X292c1Hcsqi8l5zM94pqlCQpqp9HSd/GP92scz7uysoqlYvqFt6ceI5nT+L9WqIhUlDoGs+x8JPq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7u875+w; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1717269335; c=relaxed/simple;
+	bh=TCNSPxPns4EhFR9yBjsnQhWnMT3BTaZJ5LndNteH2Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxKnODVyXs6JIJUIalLaJ6CWYOKwkvVS2A1UrB0n94fvgjLO8HpdytRt0f/YYeKFMaAjjoGjMV+rH7LEhp5/EzYwQTZpiPwc197Mu3cGBWimXeqVujyJewE6+qjP/Joj7LvxcVHqUIzjivRJELOsjZX++C9h/QvFCvCbZLNyeGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ui+iMp0B; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7u875+w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ui+iMp0B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717266029; x=1748802029;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q3mad32EU8sQ+K9041sEMDYyV4a9PLsJY90WFQtx9CI=;
-  b=S7u875+w17Mc86xirJ4B1aoFzRvlpvuozJXsYUWdr/NAlV0zUStja1rs
-   /yyUSqwh+DglevIKLgwG1Zoj6ASkjY4AHBZGPN9LtEzQMNKXQ/30f4DmQ
-   /57nnfHfDo2TSn9oF7aH+igdYxVcolFabRPlFxWbIs2PwWP7K18ZjE+B/
-   zWUOAJGmIxKNQ2UAKsmyPTkcDyQjCBy2sdslh6/WW+ANDSCXHouh3nmbN
-   nAo+BnFRytJmQpDs4jRfZzBzjpDc/76EhSJOffFyD2VT1VFCENymbGu5G
-   TW7eei7kJGIqGG5mU4UTEZxkgaEhTAGdyCyW2qSg/SLaqfPJCMnKFbwSM
+  t=1717269333; x=1748805333;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TCNSPxPns4EhFR9yBjsnQhWnMT3BTaZJ5LndNteH2Ns=;
+  b=Ui+iMp0BHJMsejzYibXW9WxN99pEPm0eMyteNW8X6z63pAC6hDFyoHuO
+   Y9DTIfcrbfErbyXaLC4eLCPlcaS4QPQdd4FZjsRHGAZ6OdWW8wv2lm1fq
+   1KrhpYodValK+0edcHnyelso89FXlFuji06TDerVDYtgEmX1k/3GCA5bv
+   H6Jds7A6OIqAOW7qOV+XbtAUYM5i0jIAAcLzxkfaVRHWugpLFCND4XaAN
+   /GZdk+pLMZrucDu7SAfUfGIGnbeX5xSo9KYHAkZmVbnjtwj83iOkDin37
+   5TxYSLcv5rTc/fB53t60z2Yg4iEm3jFOww6OMt11lPZ29rBQOUzv6xrVl
    Q==;
-X-CSE-ConnectionGUID: fxUIDy8LRPCpyjRVfjZnwA==
-X-CSE-MsgGUID: RvkAC8o/Rvi008eUwsEB+Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="31294987"
+X-CSE-ConnectionGUID: aB9HjrodQvqcAe6r3Wyrdg==
+X-CSE-MsgGUID: IVywz4D8SbuyvC5IRFXw9Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="14024367"
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="31294987"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 11:20:29 -0700
-X-CSE-ConnectionGUID: TCRoo628QwCIM7LKGEnh/A==
-X-CSE-MsgGUID: jLvbtuJNRdKn+3ZvrkROsQ==
+   d="scan'208";a="14024367"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 12:15:31 -0700
+X-CSE-ConnectionGUID: rWV/KU92STmxbEjmvCR7Zw==
+X-CSE-MsgGUID: bgxV5EY2QLGvKJagxrtxBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="37105759"
+   d="scan'208";a="41560131"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Jun 2024 11:20:28 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Jun 2024 12:15:29 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDTL8-000JEP-0Q;
-	Sat, 01 Jun 2024 18:20:26 +0000
-Date: Sun, 2 Jun 2024 02:19:58 +0800
+	id 1sDUBq-000JHH-06;
+	Sat, 01 Jun 2024 19:15:21 +0000
+Date: Sun, 2 Jun 2024 03:13:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 95/106]
- drivers/media/platform/mediatek/aie/mtk_aie_53.c:1835:12: warning:
- 'mtk_aie_runtime_resume' defined but not used
-Message-ID: <202406020211.qByg1OGs-lkp@intel.com>
+To: Srujana Challa <schalla@marvell.com>, virtualization@lists.linux.dev,
+	kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, schalla@marvell.com,
+	vattunuru@marvell.com, sthotton@marvell.com,
+	ndabilpuram@marvell.com, jerinj@marvell.com
+Subject: Re: [PATCH] vdpa: Add support for no-IOMMU mode
+Message-ID: <202406020255.Xp36fzlp-lkp@intel.com>
+References: <20240530101823.1210161-1-schalla@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +65,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240530101823.1210161-1-schalla@marvell.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   48e85bb9c7f6237c1ae5c6826dc494ac7674935a
-commit: 5cd0ae9700e0a1483b2fd161c7d7f120b643d953 [95/106] CHROMIUM: media: platform: mediatek: aie driver migration
-config: x86_64-randconfig-122-20240602 (https://download.01.org/0day-ci/archive/20240602/202406020211.qByg1OGs-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240602/202406020211.qByg1OGs-lkp@intel.com/reproduce)
+Hi Srujana,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mst-vhost/linux-next]
+[also build test WARNING on linus/master v6.10-rc1 next-20240531]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Srujana-Challa/vdpa-Add-support-for-no-IOMMU-mode/20240530-182129
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20240530101823.1210161-1-schalla%40marvell.com
+patch subject: [PATCH] vdpa: Add support for no-IOMMU mode
+config: powerpc64-randconfig-r123-20240601 (https://download.01.org/0day-ci/archive/20240602/202406020255.Xp36fzlp-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240602/202406020255.Xp36fzlp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406020211.qByg1OGs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406020255.Xp36fzlp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vhost/vdpa.c:39:6: sparse: sparse: symbol 'vhost_vdpa_noiommu' was not declared. Should it be static?
 
->> drivers/media/platform/mediatek/aie/mtk_aie_53.c:1835:12: warning: 'mtk_aie_runtime_resume' defined but not used [-Wunused-function]
-    1835 | static int mtk_aie_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie_53.c:1826:12: warning: 'mtk_aie_runtime_suspend' defined but not used [-Wunused-function]
-    1826 | static int mtk_aie_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/aie/mtk_aie_53.c:1804:12: warning: 'mtk_aie_resume' defined but not used [-Wunused-function]
-    1804 | static int mtk_aie_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/aie/mtk_aie_53.c:1770:12: warning: 'mtk_aie_suspend' defined but not used [-Wunused-function]
-    1770 | static int mtk_aie_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
+vim +/vhost_vdpa_noiommu +39 drivers/vhost/vdpa.c
 
-
-vim +/mtk_aie_runtime_resume +1835 drivers/media/platform/mediatek/aie/mtk_aie_53.c
-
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1825  
-d2e4e2025dedbc4 Copy Chou 2023-10-18 @1826  static int mtk_aie_runtime_suspend(struct device *dev)
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1827  {
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1828  	struct mtk_aie_dev *fd = dev_get_drvdata(dev);
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1829  
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1830  	clk_bulk_disable_unprepare(fd->aie_clk.clk_num, fd->aie_clk.clks);
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1831  
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1832  	return 0;
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1833  }
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1834  
-d2e4e2025dedbc4 Copy Chou 2023-10-18 @1835  static int mtk_aie_runtime_resume(struct device *dev)
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1836  {
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1837  	struct mtk_aie_dev *fd = dev_get_drvdata(dev);
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1838  	int ret = -EINVAL;
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1839  
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1840  	ret = clk_bulk_prepare_enable(fd->aie_clk.clk_num, fd->aie_clk.clks);
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1841  	if (ret) {
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1842  		dev_err(dev, "failed to enable clock:%d\n", ret);
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1843  		return ret;
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1844  	}
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1845  
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1846  	return 0;
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1847  }
-d2e4e2025dedbc4 Copy Chou 2023-10-18  1848  
-
-:::::: The code at line 1835 was first introduced by commit
-:::::: d2e4e2025dedbc41046b5d9f4a8a209280f328f6 CHROMIUM: media: platform: mediatek: aie: Porting Kernel 6.1
-
-:::::: TO: Copy Chou <copy.chou@mediatek.corp-partner.google.com>
-:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
+    38	
+  > 39	bool vhost_vdpa_noiommu;
+    40	module_param_named(enable_vhost_vdpa_unsafe_noiommu_mode,
+    41			   vhost_vdpa_noiommu, bool, 0644);
+    42	MODULE_PARM_DESC(enable_vhost_vdpa_unsafe_noiommu_mode, "Enable UNSAFE, no-IOMMU mode.  This mode provides no device isolation, no DMA translation, no host kernel protection, cannot be used for device assignment to virtual machines, requires RAWIO permissions, and will taint the kernel.  If you do not know what this is for, step away. (default: false)");
+    43	
 
 -- 
 0-DAY CI Kernel Test Service
