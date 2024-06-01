@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8072914;
-	Sat,  1 Jun 2024 02:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED483C0C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jun 2024 03:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717209164; cv=none; b=bXS7OTXF9dW7wkouzKKnhClXg1py1loz7pvgi0xNIjZJxxoLWaMh2sK54rK1Ef5XLUOGuJ6fLiqL3OVvvdNU8yX3DloRLYdu3rk2+G7K2yqtMkEEoIU79dlrVgskWC/+vIeevTQSVgIcBrO7Dz+yfYJ5cvxyw3LDkdl07WcDahg=
+	t=1717211622; cv=none; b=AW8ce4/su+McOWvrXxsJqTDy/VbJd20YS6zWrRHROzVqLJV14j1/fUE+A19D+OeVB6kayNsxp/Be4GDWHAbnpUaaLn+LK4VL+Li/f/adkhI1eOF+w9Owxq+TNTiZdUzLMZeDLGpzkBg9+6Tk8pK4ghRPbt1OUSyY+44FxiEO2H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717209164; c=relaxed/simple;
-	bh=DiWSyQtftc8aPwNB1nMgQRYl58NlU2baAGwiCrM3a98=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P2iFoFO5RByFS6xaMVxttmyxB7hskxJqDQ6Y1BlowXrFzyqX743R36Ivst6YngKxcATTaHTz5ja0BJDMSFovFC/Dh1eSalrGX1EW1DsqrTqq33Z6SNWfurN1LbQlCqibQKA88tCmQhv2UbZ764j1v32yTl0Ey7Ml8Lg4vfpmTqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYbph24F; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1717211622; c=relaxed/simple;
+	bh=6o78ys8bBaHjGzP5paAGkbyquzuL1Hg1dQwBgD+BKgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e1E6piZTAVelBkS0nl2Lngb98c1FN/gfHlCVBAfPsfLnYmJvz6Bd2yE8plYbxJhDdEYz9sE0Yb6H4+xtjl4GDx5SoVzqhq6tTeBsjYDo4M/wLAYekLLBcDGPMBNuf9AC5EGmsOiI5NagKIwQWjRLjLT5CNjEh4s6OfBpHUCn+jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AoUIYTTx; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYbph24F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AoUIYTTx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717209162; x=1748745162;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DiWSyQtftc8aPwNB1nMgQRYl58NlU2baAGwiCrM3a98=;
-  b=dYbph24F7CRKeR9IRL/dTz/Eo7EHZP595Ad0d+txFSzLWwwweig+IEP2
-   zL4m1xKYbDH9Le3jqFNAzTHjy9zb2JjUchaf9AurbLWQF3dFL6g2KqKDf
-   hbDgRoLEyEW02KPuGFGGh1H7knudlAWAjjxFxSGWv3gAAFhi4tZqfha8R
-   EEnj2IUTJk0e44i9dxF6ktHfxM3cvv220B0wAHt6GgF1X0xpS20vQ5C6m
-   IeCFb+av2o19CMhECjBghSohYzmYQYXlqUS1A4zlU9DzM5q71wBreYAgu
-   KoCgr5JrZbXSKWnAf5Ump8DZBHhLhmtBTuQMpISi+bZ5666CuMkDbaK10
-   A==;
-X-CSE-ConnectionGUID: DXmYToP0TEqPStPGN7oulA==
-X-CSE-MsgGUID: glsmNKrzQVGTrEvpPv/naA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="17616814"
+  t=1717211619; x=1748747619;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6o78ys8bBaHjGzP5paAGkbyquzuL1Hg1dQwBgD+BKgI=;
+  b=AoUIYTTxGhJ+bw5wVs+RdWPt5rrEWwMPPZJILnr6Vzd0iQv0vLM7z3Ks
+   rNzeV2vuXZO7+/V5omkh2YzEOrvVk2YCeNA2u6Vm+INptYcnyTGtmjUOr
+   +zba0NbLl7VyQHLENYroBCQa699KDLHtawI2uSBVRDMtkoV3h+dZI1xTs
+   siWSS7b26DwOR8a+fMEeh9FO30n8GewBOBlUYfTryqaAl5ZHadThoeVJw
+   4zEvPlPOKthbj2wirZgoOhSiC0EDZNY71mfaaYSgPoskEOpBXKFMZo0dr
+   9OAgpMyLy4WATjKtThmj9y/F75mMHDelsH7FEEM+sWi2LMae3jwO5bgL8
+   Q==;
+X-CSE-ConnectionGUID: YuUvwKHITPeaOH6kCxQekw==
+X-CSE-MsgGUID: SKa1rsOQReuDspUasdEdXg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="17598962"
 X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="17616814"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 19:32:42 -0700
-X-CSE-ConnectionGUID: 9b6zvCUFTx2Kd9sWoprvDQ==
-X-CSE-MsgGUID: /99hga84RqK3PvkY4gZoNg==
+   d="scan'208";a="17598962"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 20:13:39 -0700
+X-CSE-ConnectionGUID: ytq5/sulQ96fCGbxH0IXwg==
+X-CSE-MsgGUID: 1KhfPMwaT36d0/lkg7VSdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="59512300"
+   d="scan'208";a="40887765"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 31 May 2024 19:32:37 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 31 May 2024 20:13:37 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDEXe-000IAX-2g;
-	Sat, 01 Jun 2024 02:32:27 +0000
-Date: Sat, 1 Jun 2024 10:31:25 +0800
+	id 1sDFBX-000IFc-0o;
+	Sat, 01 Jun 2024 03:13:35 +0000
+Date: Sat, 1 Jun 2024 11:02:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Johan Hovold <jhovold@gmail.com>
-Subject: Re: [PATCH v1 4/4] mfd: lm3533: Remove the driver
-Message-ID: <202406011025.2DhlyP3G-lkp@intel.com>
-References: <20240531170844.1595468-5-andriy.shevchenko@linux.intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:cpumask-types 9/10] include/linux/cpumask_str.h:27:64: error:
+ 'nr_cpumask_bits' undeclared; did you mean 'cpumask_bits'?
+Message-ID: <202406011006.3mGQuRBA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,46 +61,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531170844.1595468-5-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on lee-backlight/for-backlight-fixes linus/master v6.10-rc1 next-20240531]
-[cannot apply to lee-backlight/for-backlight-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/backlight-lm3533_bl-Remove-the-driver/20240601-011153
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240531170844.1595468-5-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 4/4] mfd: lm3533: Remove the driver
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240601/202406011025.2DhlyP3G-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011025.2DhlyP3G-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux cpumask-types
+head:   73e9e98494988c844af62ffb6dc7aa5512d87034
+commit: 46b57212fb7c3b4e7bef861e73110c4aff516336 [9/10] cpumask_str.h
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240601/202406011006.3mGQuRBA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011006.3mGQuRBA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406011025.2DhlyP3G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406011006.3mGQuRBA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/mfd/lm3533-ctrlbank.c:13:10: fatal error: 'linux/mfd/lm3533.h' file not found
-      13 | #include <linux/mfd/lm3533.h>
-         |          ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from drivers/base/cpu.c:6:
+   include/linux/cpumask_str.h: In function 'cpumask_parse_user':
+>> include/linux/cpumask_str.h:27:64: error: 'nr_cpumask_bits' undeclared (first use in this function); did you mean 'cpumask_bits'?
+      27 |         return bitmap_parse_user(buf, len, cpumask_bits(dstp), nr_cpumask_bits);
+         |                                                                ^~~~~~~~~~~~~~~
+         |                                                                cpumask_bits
+   include/linux/cpumask_str.h:27:64: note: each undeclared identifier is reported only once for each function it appears in
+   include/linux/cpumask_str.h: In function 'cpumask_parselist_user':
+   include/linux/cpumask_str.h:42:38: error: 'nr_cpumask_bits' undeclared (first use in this function); did you mean 'cpumask_bits'?
+      42 |                                      nr_cpumask_bits);
+         |                                      ^~~~~~~~~~~~~~~
+         |                                      cpumask_bits
+   include/linux/cpumask_str.h: In function 'cpumask_parse':
+>> include/linux/cpumask_str.h:54:34: error: 'UINT_MAX' undeclared (first use in this function)
+      54 |         return bitmap_parse(buf, UINT_MAX, cpumask_bits(dstp), nr_cpumask_bits);
+         |                                  ^~~~~~~~
+   include/linux/cpumask_str.h:7:1: note: 'UINT_MAX' is defined in header '<limits.h>'; did you forget to '#include <limits.h>'?
+       6 | #include <linux/bitmap-str.h>
+     +++ |+#include <limits.h>
+       7 | 
+   include/linux/cpumask_str.h:54:64: error: 'nr_cpumask_bits' undeclared (first use in this function); did you mean 'cpumask_bits'?
+      54 |         return bitmap_parse(buf, UINT_MAX, cpumask_bits(dstp), nr_cpumask_bits);
+         |                                                                ^~~~~~~~~~~~~~~
+         |                                                                cpumask_bits
+   include/linux/cpumask_str.h: In function 'cpulist_parse':
+   include/linux/cpumask_str.h:66:58: error: 'nr_cpumask_bits' undeclared (first use in this function); did you mean 'cpumask_bits'?
+      66 |         return bitmap_parselist(buf, cpumask_bits(dstp), nr_cpumask_bits);
+         |                                                          ^~~~~~~~~~~~~~~
+         |                                                          cpumask_bits
+   include/linux/cpumask_str.h: In function 'cpumap_print_to_pagebuf':
+>> include/linux/cpumask_str.h:83:39: error: 'nr_cpu_ids' undeclared (first use in this function)
+      83 |                                       nr_cpu_ids);
+         |                                       ^~~~~~~~~~
+   include/linux/cpumask_str.h: In function 'cpumap_print_bitmask_to_buf':
+   include/linux/cpumask_str.h:107:36: error: 'nr_cpu_ids' undeclared (first use in this function)
+     107 |                                    nr_cpu_ids, off, count) - 1;
+         |                                    ^~~~~~~~~~
+   include/linux/cpumask_str.h: In function 'cpumap_print_list_to_buf':
+   include/linux/cpumask_str.h:129:36: error: 'nr_cpu_ids' undeclared (first use in this function)
+     129 |                                    nr_cpu_ids, off, count) - 1;
+         |                                    ^~~~~~~~~~
+   include/linux/cpumask_str.h: In function 'cpumap_print_to_pagebuf':
+>> include/linux/cpumask_str.h:84:1: warning: control reaches end of non-void function [-Wreturn-type]
+      84 | }
+         | ^
 
 
-vim +13 drivers/mfd/lm3533-ctrlbank.c
+vim +27 include/linux/cpumask_str.h
 
-16c5c023aac862 Johan Hovold 2012-05-03  12  
-16c5c023aac862 Johan Hovold 2012-05-03 @13  #include <linux/mfd/lm3533.h>
-16c5c023aac862 Johan Hovold 2012-05-03  14  
-16c5c023aac862 Johan Hovold 2012-05-03  15  
+    15	
+    16	/**
+    17	 * cpumask_parse_user - extract a cpumask from a user string
+    18	 * @buf: the buffer to extract from
+    19	 * @len: the length of the buffer
+    20	 * @dstp: the cpumask to set.
+    21	 *
+    22	 * Return: -errno, or 0 for success.
+    23	 */
+    24	static inline int cpumask_parse_user(const char __user *buf, int len,
+    25					     struct cpumask *dstp)
+    26	{
+  > 27		return bitmap_parse_user(buf, len, cpumask_bits(dstp), nr_cpumask_bits);
+    28	}
+    29	
+    30	/**
+    31	 * cpumask_parselist_user - extract a cpumask from a user string
+    32	 * @buf: the buffer to extract from
+    33	 * @len: the length of the buffer
+    34	 * @dstp: the cpumask to set.
+    35	 *
+    36	 * Return: -errno, or 0 for success.
+    37	 */
+    38	static inline int cpumask_parselist_user(const char __user *buf, int len,
+    39					     struct cpumask *dstp)
+    40	{
+    41		return bitmap_parselist_user(buf, len, cpumask_bits(dstp),
+    42					     nr_cpumask_bits);
+    43	}
+    44	
+    45	/**
+    46	 * cpumask_parse - extract a cpumask from a string
+    47	 * @buf: the buffer to extract from
+    48	 * @dstp: the cpumask to set.
+    49	 *
+    50	 * Return: -errno, or 0 for success.
+    51	 */
+    52	static inline int cpumask_parse(const char *buf, struct cpumask *dstp)
+    53	{
+  > 54		return bitmap_parse(buf, UINT_MAX, cpumask_bits(dstp), nr_cpumask_bits);
+    55	}
+    56	
+    57	/**
+    58	 * cpulist_parse - extract a cpumask from a user string of ranges
+    59	 * @buf: the buffer to extract from
+    60	 * @dstp: the cpumask to set.
+    61	 *
+    62	 * Return: -errno, or 0 for success.
+    63	 */
+    64	static inline int cpulist_parse(const char *buf, struct cpumask *dstp)
+    65	{
+  > 66		return bitmap_parselist(buf, cpumask_bits(dstp), nr_cpumask_bits);
+    67	}
+    68	
+    69	/**
+    70	 * cpumap_print_to_pagebuf  - copies the cpumask into the buffer either
+    71	 *	as comma-separated list of cpus or hex values of cpumask
+    72	 * @list: indicates whether the cpumap must be list
+    73	 * @mask: the cpumask to copy
+    74	 * @buf: the buffer to copy into
+    75	 *
+    76	 * Return: the length of the (null-terminated) @buf string, zero if
+    77	 * nothing is copied.
+    78	 */
+    79	static inline ssize_t
+    80	cpumap_print_to_pagebuf(bool list, char *buf, const struct cpumask *mask)
+    81	{
+    82		return bitmap_print_to_pagebuf(list, buf, cpumask_bits(mask),
+  > 83					      nr_cpu_ids);
+  > 84	}
+    85	
+    86	/**
+    87	 * cpumap_print_bitmask_to_buf  - copies the cpumask into the buffer as
+    88	 *	hex values of cpumask
+    89	 *
+    90	 * @buf: the buffer to copy into
+    91	 * @mask: the cpumask to copy
+    92	 * @off: in the string from which we are copying, we copy to @buf
+    93	 * @count: the maximum number of bytes to print
+    94	 *
+    95	 * The function prints the cpumask into the buffer as hex values of
+    96	 * cpumask; Typically used by bin_attribute to export cpumask bitmask
+    97	 * ABI.
+    98	 *
+    99	 * Return: the length of how many bytes have been copied, excluding
+   100	 * terminating '\0'.
+   101	 */
+   102	static inline ssize_t
+   103	cpumap_print_bitmask_to_buf(char *buf, const struct cpumask *mask,
+   104			loff_t off, size_t count)
+   105	{
+   106		return bitmap_print_bitmask_to_buf(buf, cpumask_bits(mask),
+ > 107					   nr_cpu_ids, off, count) - 1;
+   108	}
+   109	
 
 -- 
 0-DAY CI Kernel Test Service
