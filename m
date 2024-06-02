@@ -1,112 +1,172 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FD250A62
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jun 2024 17:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0498E2574D
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jun 2024 21:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717350517; cv=none; b=AF7K/FAvqKptySdoOo8g9mHHIB8r6tXoShvKaE+BB8cCCIBLg9JJtz2Xslf0LBTNy+j/aIhhFFxoVXANBPzTZQ/sBi43M1edIiBiACoMsktqKuPvR7jJjn87d+ipgRDHVj6x/AhwAlJFGUPwwLngFgyEO6SWVF4qT1SWAMZlwI4=
+	t=1717364537; cv=none; b=QUEMjKMIGa7fbJpYQlZoYbqVb4hysA/BSg0N9A9JYbVF2ZFEMFjp07f1EzAVV76CichegRdpTGKpxd46JvuEY3sgfK+u31s25preXBuEvb4s0sp9HT0jPXEOATL1oryimiCWpQ7CYUfRxW9jEczWHvso/mJe1UrqAYKOa45rguY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717350517; c=relaxed/simple;
-	bh=HZBhpsabW3XZ2JWJtKb+cvqE9wv56/ewsCF0Su26CXg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ROpTBWZXGAfJf11o9afgqOKLsf9Pz+K3FaEEG1PO8SFD597bgmo8zwCQUseeV0xFG1r+XARNmfn0CSLFgIkPnHL99ld6yMB3LE8DGHZFZg855FZ6PybikhAzpA9jU2c8Ha+WPvZZ6b1uwwe//xFuPtd8kGC/e8OROi2HBYbugRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZMN0Q2ci; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717364537; c=relaxed/simple;
+	bh=hbJ3wHkhQ3tuqihB4rH0Z9XdKGCZ4cSlWhBPz44nwic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJSTa4UWEx7Ls+c3kxgXMECmGj2GMmBuPWadP9NE+YLKe6Dgy+ZshLTJkNErmvWeQyfS07Vsblh9fe+1GUUWWALzG4U8PAtI3ZNlrL7K0loSJzozFnEVPpQVemORvmPDODitMxGW3k1EIJiOCOno3pw72A1UMq8/N10GEiXYNAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezKe8PrV; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMN0Q2ci"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c222e7c94dso65455a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Jun 2024 10:48:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717350514; x=1717955314; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z17ZhyH6OHFIWFfmFYlugkpZiR9dmaOSQiVuQJAdc+Q=;
-        b=ZMN0Q2ciXT0/vufY4tU3DBH1x5T6RNOHc8jOdjTgQ1a8pGkO6wpt+HDg2an2KXp8fq
-         o3T36zVUfyKF+DzDe6ODMiEP6Kv6wz+usIMVRBF7Y932cJtES7dAOuaEulQ/YPT0RxkG
-         zdvWiuuiSY/YmH99C/uiFHbVcLmYUREdSDQ1hVK/pEnaWPY48vepMMHtwXbqBcko7Gr4
-         34s1oQJumLYUDGQZqgm0M2j3mqwn0J/uOxBm9cB53rHkJ+3CZWGxhi5T3uHO3Nl1L1xq
-         qGTgw7VFInRfA7Q1IGmt3gP6xpOlZMp63FAP9vXPtT2TsxWZ5t29nk9FFKD8KAahq6LM
-         ekIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717350514; x=1717955314;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z17ZhyH6OHFIWFfmFYlugkpZiR9dmaOSQiVuQJAdc+Q=;
-        b=ZUrk2sDMW5QPwPAPPAbJvYOlZeLfRnSHs6OrlV4dJWihctTqq/KNTXnPtbe9uuKjCV
-         KiXXHdeGCIwxGJzDanQ1pDkSg7w8Tvb/eB9/p0hv3KLdIar7ci1yLlbmgEXKMUzLNyqn
-         mhzpArNAG7CdUOIXh++DwEvZSMnuTiSFunHNX7fnsgjABr3qljJ8YL59dhDELIDlSivQ
-         cf+VxWGdM4c8JUm8o+Plsrgs+58cFoNpFclXBeDMW+Kuv0dG5VRC8KgUxkuvtGoPKGjn
-         V3XGbHsLGxHv3R0Xn7CHtuaIX7Kg2/NGlali3nrtAyntjnmqEYzcmhZ/NWxM+Kxi5SxZ
-         77aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUW+SzGmkiRuRFDSw6h3pvXSdJE0St0y3bkViiiMoHhTquM78By5hSTkf2dUtL50b0puZHuICSWITK9Qr5PFrrN6mT+OUTaXXCaXaeG0Q==
-X-Gm-Message-State: AOJu0Yy0RzORx/gBK7uI0LHgWqYGmu8oXiyAZvBRj1x5xnAfk9gk8FAH
-	IjfgRLKbqMBGv3LSIMX9VfE3zVPXF/YLevr5ihOIwt85TJzfN+lU
-X-Google-Smtp-Source: AGHT+IENhK8zQltv5hp7mgtlbP2tCvRYnj2FkWlYAQ0CSAUZnV9X/z/Poam/4TpvD/Wzx4pmWG1r2Q==
-X-Received: by 2002:a05:6a21:6d9f:b0:1b0:1ce1:e7b2 with SMTP id adf61e73a8af0-1b26f2cc95bmr8041718637.4.1717350513914;
-        Sun, 02 Jun 2024 10:48:33 -0700 (PDT)
-Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1a775f741sm6481184a91.7.2024.06.02.10.48.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jun 2024 10:48:33 -0700 (PDT)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev,
-	bfoster@redhat.com,
-	irogers@google.com,
-	linux-bcachefs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	lkp@intel.com,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH] bcachefs: Fix missing assignment of minimum element before min_heap_pop()
-Date: Mon,  3 Jun 2024 01:48:28 +0800
-Message-Id: <20240602174828.1955320-1-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <202406030001.jwsq6DZp-lkp@intel.com>
-References: <202406030001.jwsq6DZp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezKe8PrV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717364535; x=1748900535;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hbJ3wHkhQ3tuqihB4rH0Z9XdKGCZ4cSlWhBPz44nwic=;
+  b=ezKe8PrVcYIvNj9r0XR1z2UQ8aqFbixbY2TyJQmQ2qoGu4VB9K6pzLay
+   uqe7N6MAY3vKjQ2dRPTegmLOg/wdUihUmN40f3UWO6WjilIKasrLgwWqA
+   XN2+bwW97bogd/vJ5fVzeqlmoPdKJzSRTJMvEjDceyGZirUvsf+GOZich
+   FxA9hTQVMfMPFyIQch+M1h5PQlIamRVcR4jVYNgIOqzRBNntAwK0fIq2u
+   kOUpGu+tsV6snRAtl9KTxwV2jhpOfqDkoMvJi/8fkQivHnSygyoO0NA46
+   1EY4uwl2XuStcBSs4492LomLpvG7Xe6Z32QKBckQE/eRO1i2g8m/kfQ3z
+   g==;
+X-CSE-ConnectionGUID: gfNWRBJOSoWGoyDBmOvDkQ==
+X-CSE-MsgGUID: wQjhfFM5T2Su4I2hmjiK6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="31385258"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
+   d="scan'208";a="31385258"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 14:42:14 -0700
+X-CSE-ConnectionGUID: 5WdJsbmoTRC05FwxbSZrlw==
+X-CSE-MsgGUID: 47x1voyoSPKd0eI/NYYQcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
+   d="scan'208";a="67539307"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 02 Jun 2024 14:42:12 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sDsxu-000KUj-0P;
+	Sun, 02 Jun 2024 21:42:10 +0000
+Date: Mon, 3 Jun 2024 05:41:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gerhard Engleder <gerhard@engleder-embedded.com>,
+	linux-i2c@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andi.shyti@kernel.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org,
+	Gerhard Engleder <gerhard@engleder-embedded.com>
+Subject: Re: [PATCH 1/2] i2c: keba: Add KEBA I2C controller support
+Message-ID: <202406030504.QcIr6Qaw-lkp@intel.com>
+References: <20240601192846.68146-2-gerhard@engleder-embedded.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240601192846.68146-2-gerhard@engleder-embedded.com>
 
-When replacing the heap_pop() macro with min_heap_pop(), the original
-heap_pop() macro would store the minimum element into 'ret'. However,
-after replacing it with min_heap_pop(), the code incorrectly failed to
-store the minimum element into 'ret' before deleting it.
+Hi Gerhard,
 
-Fix the issue by using min_heap_peek() to assign the minimum element to
-'ret' before calling min_heap_pop() to remove the minimum element.
+kernel test robot noticed the following build warnings:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406030001.jwsq6DZp-lkp@intel.com/
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
----
- fs/bcachefs/clock.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.10-rc1 next-20240531]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/fs/bcachefs/clock.c b/fs/bcachefs/clock.c
-index 3ec64fe6a064..18fab9c44b1b 100644
---- a/fs/bcachefs/clock.c
-+++ b/fs/bcachefs/clock.c
-@@ -156,8 +156,10 @@ static struct io_timer *get_expired_timer(struct io_clock *clock,
- 	spin_lock(&clock->timer_lock);
- 
- 	if (clock->timers.nr &&
--	    time_after_eq(now, clock->timers.data[0]->expire))
-+	    time_after_eq(now, clock->timers.data[0]->expire)) {
-+		ret = *min_heap_peek(&clock->timers);
- 		min_heap_pop(&clock->timers, &callbacks, NULL);
-+	}
- 
- 	spin_unlock(&clock->timer_lock);
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/i2c-keba-Add-KEBA-I2C-controller-support/20240602-040548
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240601192846.68146-2-gerhard%40engleder-embedded.com
+patch subject: [PATCH 1/2] i2c: keba: Add KEBA I2C controller support
+config: s390-randconfig-r062-20240603 (https://download.01.org/0day-ci/archive/20240603/202406030504.QcIr6Qaw-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406030504.QcIr6Qaw-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/i2c/busses/i2c-keba.c:491:14-15: WARNING comparing pointer to 0
+
+vim +491 drivers/i2c/busses/i2c-keba.c
+
+   480	
+   481	static int ki2c_probe(struct platform_device *pdev)
+   482	{
+   483		struct i2c_keba_platform_data *pdata;
+   484		struct device *dev = &pdev->dev;
+   485		struct i2c_adapter *adap;
+   486		struct resource *io;
+   487		struct ki2c *ki2c;
+   488		int ret;
+   489	
+   490		pdata = dev->platform_data;
+ > 491		if (pdata == 0) {
+   492			dev_err(dev, "Platform data not found!\n");
+   493			return -ENODEV;
+   494		}
+   495	
+   496		ki2c = devm_kzalloc(dev, sizeof(*ki2c), GFP_KERNEL);
+   497		if (!ki2c)
+   498			return -ENOMEM;
+   499		ki2c->pdev = pdev;
+   500		ki2c->client = devm_kcalloc(dev, pdata->info_size,
+   501					    sizeof(*ki2c->client), GFP_KERNEL);
+   502		if (!ki2c->client)
+   503			return -ENOMEM;
+   504		ki2c->client_size = pdata->info_size;
+   505		platform_set_drvdata(pdev, ki2c);
+   506	
+   507		io = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   508		ki2c->base = devm_ioremap_resource(dev, io);
+   509		if (IS_ERR(ki2c->base))
+   510			return PTR_ERR(ki2c->base);
+   511	
+   512		/* enable controller */
+   513		iowrite8(KI2C_CONTROL_MEN, ki2c->base + KI2C_CONTROL_REG);
+   514	
+   515		adap = &ki2c->adapter;
+   516		strscpy(adap->name, "KEBA I2C adapter", sizeof(adap->name));
+   517		adap->owner = THIS_MODULE;
+   518		adap->class = I2C_CLASS_HWMON;
+   519		adap->algo = &ki2c_algo;
+   520		adap->dev.parent = dev;
+   521	
+   522		i2c_set_adapdata(adap, ki2c);
+   523	
+   524		/* reset bus before probing I2C devices */
+   525		ret = ki2c_reset_bus(ki2c);
+   526		if (ret) {
+   527			dev_err(dev, "Failed to reset bus (%d)!\n", ret);
+   528			goto out_disable;
+   529		}
+   530	
+   531		ret = i2c_add_adapter(adap);
+   532		if (ret) {
+   533			dev_err(dev, "Failed to add adapter (%d)!\n", ret);
+   534			goto out_disable;
+   535		}
+   536	
+   537		ret = ki2c_register_devices(ki2c, pdata);
+   538		if (ret) {
+   539			dev_err(dev, "Failed to register devices (%d)!\n", ret);
+   540			goto out_delete;
+   541		}
+   542	
+   543		return 0;
+   544	
+   545	out_delete:
+   546		i2c_del_adapter(adap);
+   547	out_disable:
+   548		iowrite8(0, ki2c->base + KI2C_CONTROL_REG);
+   549		return ret;
+   550	}
+   551	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
