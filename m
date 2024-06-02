@@ -1,45 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAF412B7D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jun 2024 16:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0062A1B0
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jun 2024 17:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717347485; cv=none; b=bvAtyYM3qNVjh/5ebbB/cgmfz7hF5CP1Z1tCC2/gF5DNaMKQ07YzGsMOZAq7XyI5dxLgVv+cGeidHIm9le0LcFhOHjVrrUNQjGheyI0KITygnaPvWxNN5ez6RURMwLe5ytNX+aDHnfH1j5RXfy/Gh9GXPBqx6Swsl9+4Fiqm6Hw=
+	t=1717350226; cv=none; b=IzU1iKvA5Tnd+pJVNf7Jlg3FXGwtmU8nL3xhsMra5QE9+86kRFHzyFTwBU8FphENdwG62mvPet0AbviRzyB0ThAfy1uFlk3PrO9u4l6qQ7R9WyGfwDaJXpmcHbB5npFR39yI1sUfGWp9K35Oc8zcXLcVCHVPVUuxIIBXhNj9uIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717347485; c=relaxed/simple;
-	bh=9q9L/gIbnbM7XjgtJ3CAkv+ZYzjtHqSpV29hZxYwVDo=;
+	s=arc-20240116; t=1717350226; c=relaxed/simple;
+	bh=Af/kEOqNbwUOa3kAk/ZbOge45GldzWBilvQi/CceEqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iu2euKXJDxW5lcI0LNMroaB3MMkGROzYGfMv7jnAqlwtaFrms8/VpC8w8uhdndJwZmA2LwcaDpb1MWnz0Txhfhu/wQ+UqPa8sVvi9n07PRoD/pfn++d0jxJ2OmdxL3NXX7prGTL3bQW4TCUzErlgY3Pes3qjbAObk/5dNQkJNAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q9zejESM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqytfQfKBXqHOtL3PtrQgFZIVbygUUhtA1G3MAYBzar6qG2OWyjaVavrRSzFb79HXRBB9Xc1ncs7cvu53isN7ApcVJTxEJsDHIekX9OxcQNQnWUmsfqKI4TkJNO+qy2QIZ5PcvBk71Z/88cdMbDannxUgSHXQB7Je2k4PNkQWiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUo/+kTK; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q9zejESM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B816C2BBFC;
-	Sun,  2 Jun 2024 16:58:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717347485;
-	bh=9q9L/gIbnbM7XjgtJ3CAkv+ZYzjtHqSpV29hZxYwVDo=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=q9zejESMNhbZFjJD2C8rEbtcSgz8ZvZS8mXu9S6g8tGN3jyDSk4vGRCNFHuaib7TV
-	 iATR60x+aCpLFmwjYmVJLSnbxB+B4KW1JI1wBOnjXtg5jrMLU8GgMnraTk30rTf13v
-	 f7ImSOd8h2PgkHGQCwofPcIxhkNy84RZfjwhtgIu/gWfjnNEFi/wIounyPhR1dUHti
-	 16lvylrV4XBwDdPnlphvKrSWcwvGvgvzQOl5c0QOeoNcpyQIA6cFYq8kw+yl1l1C0w
-	 MMiEz/WfCxaZr+e7+Al+51VNoiinjQw45Ap5BE/kUPEcypGF3/H2Kh633+xxJLlw25
-	 Aq1JzbYQeyaqg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id EC415CE3F0A; Sun,  2 Jun 2024 09:58:04 -0700 (PDT)
-Date: Sun, 2 Jun 2024 09:58:04 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUo/+kTK"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f6538a8e5eso274865ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Jun 2024 10:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717350224; x=1717955024; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QVYvn45xuKCqAmfsQN9o8nWTGJ8RKVT6+1YtcfyGBkw=;
+        b=gUo/+kTKhuwYaT5EJWv/j27YR8U3g3wExGslnplEtz3qBE85vk9zftTTERuiaqgCUX
+         Mc0dw/W4rXocpMUaR5f0s4n0SOU3Lf+SVmLFBD7lN+x5qsg695meUmmx0MxZ4EY6Bbsy
+         gmxY645MrxZgCDlJTu2WhFaRlylLy3f04BYB5IPXgNfUW4X9lLWz/Qrz3d9TayuYG/Rx
+         y0Wd1LaVZQF9xTcBcAtiG5F3tB0bL5FTUZzimum+ofXjDscqol6GfEJNWX1SYdYmjHWz
+         dK5/psE0VvHinNgvntJpXr32EQGqcOZ3GSHEvSPl/TNSoni5cOs3LF821KaKHS1iqXhf
+         Cpng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717350224; x=1717955024;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QVYvn45xuKCqAmfsQN9o8nWTGJ8RKVT6+1YtcfyGBkw=;
+        b=NVmvthC494N9ZBgared06MaGz4PaSSoJM0lhNBFz/nSUKqGA32B8wLhW8ns+TaVGOd
+         HDPk5MLseEgCtSmh6cELhfWJQJqhcMzt2HwztOLEMMGmh5cfoimpgD4gBpVn8JQ7kth1
+         9rKEgHc7IMVLPQXUEH13DsB1CXB82MzW2EHawHCLM+hNmHmnNsrE/1uPb6PLNw2cmAeT
+         zKdnjZju5RrA1pNfm7929jdaOuw8stc7PUNquapjVKY9EwJitdzabVNruMHqnPVF6P4Q
+         5gOzNAT4/OWqmlwGmnR2koo6HaVQ/vqzYBsetFFfMPTSLdNLAUvtUf/OWlwjqQOURzZR
+         A4Dg==
+X-Gm-Message-State: AOJu0Yxh5BdPziqdqM9+iDqdxa6okq03CC08MAalVdy4CEzYScPxmd+P
+	ZRzVaG3YqZGeE23RmettpeGlfzwPfpHz8D5OwM297oCTwyilFMEI
+X-Google-Smtp-Source: AGHT+IEA/orTGFjeW7gsNTSl5epQsQ3MkyyvV4S9DpL38mexliTyPs4rfRg2cLoDMIIuPJjEfC3bwQ==
+X-Received: by 2002:a17:903:22c3:b0:1eb:50eb:c07d with SMTP id d9443c01a7336-1f6370c34c3mr80842555ad.4.1717350224447;
+        Sun, 02 Jun 2024 10:43:44 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f632355498sm50159925ad.66.2024.06.02.10.43.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jun 2024 10:43:43 -0700 (PDT)
+Date: Mon, 3 Jun 2024 01:43:40 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 2654/3060]
- arch/arm/include/asm/cmpxchg.h:167:12: error: call to undeclared function
- 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <d1abdcd7-fc21-4017-8b32-0e3f181fd844@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202406021249.imvU1Clu-lkp@intel.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Ian Rogers <irogers@google.com>
+Subject: Re: [akpm-mm:mm-nonmm-unstable 38/65] fs/bcachefs/clock.c:150:18-21:
+ Unneeded variable: "ret". Return "NULL" on line 164
+Message-ID: <ZlyvTI8Lf50Q634D@visitorckw-System-Product-Name>
+References: <202406030001.jwsq6DZp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,115 +69,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406021249.imvU1Clu-lkp@intel.com>
+In-Reply-To: <202406030001.jwsq6DZp-lkp@intel.com>
 
-On Sun, Jun 02, 2024 at 12:56:31PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   0e1980c40b6edfa68b6acf926bab22448a6e40c9
-> commit: 6ba3d5014d24a46ed329fc567e554c218eb62cfa [2654/3060] ARM: Emulate one-byte cmpxchg
-> config: arm-randconfig-r051-20240602 (https://download.01.org/0day-ci/archive/20240602/202406021249.imvU1Clu-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240602/202406021249.imvU1Clu-lkp@intel.com/reproduce)
+On Mon, Jun 03, 2024 at 12:46:08AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+> head:   54524b845fbe070c5401141bc4ff2ec3f01f1e72
+> commit: cf66e6c3b24c5aaf365c54bb7dc8b9cb01f47f4d [38/65] bcachefs: remove heap-related macros and switch to generic min_heap
+> config: x86_64-randconfig-102-20240602 (https://download.01.org/0day-ci/archive/20240603/202406030001.jwsq6DZp-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406021249.imvU1Clu-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406030001.jwsq6DZp-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/bounds.c:13:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:63:
->    In file included from arch/arm/include/asm/bitops.h:245:
->    In file included from include/asm-generic/bitops/lock.h:5:
->    In file included from include/linux/atomic.h:7:
->    In file included from arch/arm/include/asm/atomic.h:16:
-> >> arch/arm/include/asm/cmpxchg.h:167:12: error: call to undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      167 |                 oldval = cmpxchg_emu_u8((volatile u8 *)ptr, old, new);
+> cocci warnings: (new ones prefixed by >>)
+> >> fs/bcachefs/clock.c:150:18-21: Unneeded variable: "ret". Return "NULL" on line 164
+>
+Hi Andrew,
 
-This is an old commit.  This should be fixed by its replacement:
+This error occurred because I forgot to store the minimum value into
+'ret' before calling min_heap_pop(). Should I submit a new version of
+the patch series or send a separate patch to fix this error?
 
-74e3470afaca ("ARM: Emulate one-byte cmpxchg")
+Regards,
+Kuan-Wei
 
-							Thanx, Paul
-
->    1 error generated.
->    make[3]: *** [scripts/Makefile.build:117: kernel/bounds.s] Error 1
->    make[3]: Target 'prepare' not remade because of errors.
->    make[2]: *** [Makefile:1208: prepare0] Error 2
->    make[2]: Target 'prepare' not remade because of errors.
->    make[1]: *** [Makefile:240: __sub-make] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:240: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
+> vim +150 fs/bcachefs/clock.c
 > 
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  146  
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  147  static struct io_timer *get_expired_timer(struct io_clock *clock,
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  148  					  unsigned long now)
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  149  {
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16 @150  	struct io_timer *ret = NULL;
+> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  151  	const struct min_heap_callbacks callbacks = {
+> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  152  		.less = io_timer_cmp,
+> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  153  		.swp = io_timer_swp,
+> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  154  	};
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  155  
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  156  	spin_lock(&clock->timer_lock);
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  157  
+> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  158  	if (clock->timers.nr &&
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  159  	    time_after_eq(now, clock->timers.data[0]->expire))
+> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  160  		min_heap_pop(&clock->timers, &callbacks, NULL);
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  161  
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  162  	spin_unlock(&clock->timer_lock);
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  163  
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16 @164  	return ret;
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  165  }
+> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  166  
 > 
-> vim +/cmpxchg_emu_u8 +167 arch/arm/include/asm/cmpxchg.h
+> :::::: The code at line 150 was first introduced by commit
+> :::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
 > 
->    152	
->    153	/*
->    154	 * cmpxchg only support 32-bits operands on ARMv6.
->    155	 */
->    156	
->    157	static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
->    158					      unsigned long new, int size)
->    159	{
->    160		unsigned long oldval, res;
->    161	
->    162		prefetchw((const void *)ptr);
->    163	
->    164		switch (size) {
->    165	#ifdef CONFIG_CPU_V6	/* min ARCH >= ARMv6K */
->    166		case 1:
->  > 167			oldval = cmpxchg_emu_u8((volatile u8 *)ptr, old, new);
->    168			break;
->    169	#else
->    170		case 1:
->    171			do {
->    172				asm volatile("@ __cmpxchg1\n"
->    173				"	ldrexb	%1, [%2]\n"
->    174				"	mov	%0, #0\n"
->    175				"	teq	%1, %3\n"
->    176				"	strexbeq %0, %4, [%2]\n"
->    177					: "=&r" (res), "=&r" (oldval)
->    178					: "r" (ptr), "Ir" (old), "r" (new)
->    179					: "memory", "cc");
->    180			} while (res);
->    181			break;
->    182		case 2:
->    183			do {
->    184				asm volatile("@ __cmpxchg1\n"
->    185				"	ldrexh	%1, [%2]\n"
->    186				"	mov	%0, #0\n"
->    187				"	teq	%1, %3\n"
->    188				"	strexheq %0, %4, [%2]\n"
->    189					: "=&r" (res), "=&r" (oldval)
->    190					: "r" (ptr), "Ir" (old), "r" (new)
->    191					: "memory", "cc");
->    192			} while (res);
->    193			break;
->    194	#endif
->    195		case 4:
->    196			do {
->    197				asm volatile("@ __cmpxchg4\n"
->    198				"	ldrex	%1, [%2]\n"
->    199				"	mov	%0, #0\n"
->    200				"	teq	%1, %3\n"
->    201				"	strexeq %0, %4, [%2]\n"
->    202					: "=&r" (res), "=&r" (oldval)
->    203					: "r" (ptr), "Ir" (old), "r" (new)
->    204					: "memory", "cc");
->    205			} while (res);
->    206			break;
->    207		default:
->    208			__bad_cmpxchg(ptr, size);
->    209			oldval = 0;
->    210		}
->    211	
->    212		return oldval;
->    213	}
->    214	
+> :::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+> :::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
