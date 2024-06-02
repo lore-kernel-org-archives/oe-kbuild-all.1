@@ -1,65 +1,72 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0062A1B0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jun 2024 17:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FD250A62
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jun 2024 17:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717350226; cv=none; b=IzU1iKvA5Tnd+pJVNf7Jlg3FXGwtmU8nL3xhsMra5QE9+86kRFHzyFTwBU8FphENdwG62mvPet0AbviRzyB0ThAfy1uFlk3PrO9u4l6qQ7R9WyGfwDaJXpmcHbB5npFR39yI1sUfGWp9K35Oc8zcXLcVCHVPVUuxIIBXhNj9uIc=
+	t=1717350517; cv=none; b=AF7K/FAvqKptySdoOo8g9mHHIB8r6tXoShvKaE+BB8cCCIBLg9JJtz2Xslf0LBTNy+j/aIhhFFxoVXANBPzTZQ/sBi43M1edIiBiACoMsktqKuPvR7jJjn87d+ipgRDHVj6x/AhwAlJFGUPwwLngFgyEO6SWVF4qT1SWAMZlwI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717350226; c=relaxed/simple;
-	bh=Af/kEOqNbwUOa3kAk/ZbOge45GldzWBilvQi/CceEqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqytfQfKBXqHOtL3PtrQgFZIVbygUUhtA1G3MAYBzar6qG2OWyjaVavrRSzFb79HXRBB9Xc1ncs7cvu53isN7ApcVJTxEJsDHIekX9OxcQNQnWUmsfqKI4TkJNO+qy2QIZ5PcvBk71Z/88cdMbDannxUgSHXQB7Je2k4PNkQWiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUo/+kTK; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1717350517; c=relaxed/simple;
+	bh=HZBhpsabW3XZ2JWJtKb+cvqE9wv56/ewsCF0Su26CXg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ROpTBWZXGAfJf11o9afgqOKLsf9Pz+K3FaEEG1PO8SFD597bgmo8zwCQUseeV0xFG1r+XARNmfn0CSLFgIkPnHL99ld6yMB3LE8DGHZFZg855FZ6PybikhAzpA9jU2c8Ha+WPvZZ6b1uwwe//xFuPtd8kGC/e8OROi2HBYbugRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZMN0Q2ci; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUo/+kTK"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f6538a8e5eso274865ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Jun 2024 10:43:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMN0Q2ci"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c222e7c94dso65455a91.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Jun 2024 10:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717350224; x=1717955024; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QVYvn45xuKCqAmfsQN9o8nWTGJ8RKVT6+1YtcfyGBkw=;
-        b=gUo/+kTKhuwYaT5EJWv/j27YR8U3g3wExGslnplEtz3qBE85vk9zftTTERuiaqgCUX
-         Mc0dw/W4rXocpMUaR5f0s4n0SOU3Lf+SVmLFBD7lN+x5qsg695meUmmx0MxZ4EY6Bbsy
-         gmxY645MrxZgCDlJTu2WhFaRlylLy3f04BYB5IPXgNfUW4X9lLWz/Qrz3d9TayuYG/Rx
-         y0Wd1LaVZQF9xTcBcAtiG5F3tB0bL5FTUZzimum+ofXjDscqol6GfEJNWX1SYdYmjHWz
-         dK5/psE0VvHinNgvntJpXr32EQGqcOZ3GSHEvSPl/TNSoni5cOs3LF821KaKHS1iqXhf
-         Cpng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717350224; x=1717955024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1717350514; x=1717955314; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QVYvn45xuKCqAmfsQN9o8nWTGJ8RKVT6+1YtcfyGBkw=;
-        b=NVmvthC494N9ZBgared06MaGz4PaSSoJM0lhNBFz/nSUKqGA32B8wLhW8ns+TaVGOd
-         HDPk5MLseEgCtSmh6cELhfWJQJqhcMzt2HwztOLEMMGmh5cfoimpgD4gBpVn8JQ7kth1
-         9rKEgHc7IMVLPQXUEH13DsB1CXB82MzW2EHawHCLM+hNmHmnNsrE/1uPb6PLNw2cmAeT
-         zKdnjZju5RrA1pNfm7929jdaOuw8stc7PUNquapjVKY9EwJitdzabVNruMHqnPVF6P4Q
-         5gOzNAT4/OWqmlwGmnR2koo6HaVQ/vqzYBsetFFfMPTSLdNLAUvtUf/OWlwjqQOURzZR
-         A4Dg==
-X-Gm-Message-State: AOJu0Yxh5BdPziqdqM9+iDqdxa6okq03CC08MAalVdy4CEzYScPxmd+P
-	ZRzVaG3YqZGeE23RmettpeGlfzwPfpHz8D5OwM297oCTwyilFMEI
-X-Google-Smtp-Source: AGHT+IEA/orTGFjeW7gsNTSl5epQsQ3MkyyvV4S9DpL38mexliTyPs4rfRg2cLoDMIIuPJjEfC3bwQ==
-X-Received: by 2002:a17:903:22c3:b0:1eb:50eb:c07d with SMTP id d9443c01a7336-1f6370c34c3mr80842555ad.4.1717350224447;
-        Sun, 02 Jun 2024 10:43:44 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f632355498sm50159925ad.66.2024.06.02.10.43.42
+        bh=Z17ZhyH6OHFIWFfmFYlugkpZiR9dmaOSQiVuQJAdc+Q=;
+        b=ZMN0Q2ciXT0/vufY4tU3DBH1x5T6RNOHc8jOdjTgQ1a8pGkO6wpt+HDg2an2KXp8fq
+         o3T36zVUfyKF+DzDe6ODMiEP6Kv6wz+usIMVRBF7Y932cJtES7dAOuaEulQ/YPT0RxkG
+         zdvWiuuiSY/YmH99C/uiFHbVcLmYUREdSDQ1hVK/pEnaWPY48vepMMHtwXbqBcko7Gr4
+         34s1oQJumLYUDGQZqgm0M2j3mqwn0J/uOxBm9cB53rHkJ+3CZWGxhi5T3uHO3Nl1L1xq
+         qGTgw7VFInRfA7Q1IGmt3gP6xpOlZMp63FAP9vXPtT2TsxWZ5t29nk9FFKD8KAahq6LM
+         ekIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717350514; x=1717955314;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z17ZhyH6OHFIWFfmFYlugkpZiR9dmaOSQiVuQJAdc+Q=;
+        b=ZUrk2sDMW5QPwPAPPAbJvYOlZeLfRnSHs6OrlV4dJWihctTqq/KNTXnPtbe9uuKjCV
+         KiXXHdeGCIwxGJzDanQ1pDkSg7w8Tvb/eB9/p0hv3KLdIar7ci1yLlbmgEXKMUzLNyqn
+         mhzpArNAG7CdUOIXh++DwEvZSMnuTiSFunHNX7fnsgjABr3qljJ8YL59dhDELIDlSivQ
+         cf+VxWGdM4c8JUm8o+Plsrgs+58cFoNpFclXBeDMW+Kuv0dG5VRC8KgUxkuvtGoPKGjn
+         V3XGbHsLGxHv3R0Xn7CHtuaIX7Kg2/NGlali3nrtAyntjnmqEYzcmhZ/NWxM+Kxi5SxZ
+         77aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUW+SzGmkiRuRFDSw6h3pvXSdJE0St0y3bkViiiMoHhTquM78By5hSTkf2dUtL50b0puZHuICSWITK9Qr5PFrrN6mT+OUTaXXCaXaeG0Q==
+X-Gm-Message-State: AOJu0Yy0RzORx/gBK7uI0LHgWqYGmu8oXiyAZvBRj1x5xnAfk9gk8FAH
+	IjfgRLKbqMBGv3LSIMX9VfE3zVPXF/YLevr5ihOIwt85TJzfN+lU
+X-Google-Smtp-Source: AGHT+IENhK8zQltv5hp7mgtlbP2tCvRYnj2FkWlYAQ0CSAUZnV9X/z/Poam/4TpvD/Wzx4pmWG1r2Q==
+X-Received: by 2002:a05:6a21:6d9f:b0:1b0:1ce1:e7b2 with SMTP id adf61e73a8af0-1b26f2cc95bmr8041718637.4.1717350513914;
+        Sun, 02 Jun 2024 10:48:33 -0700 (PDT)
+Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1a775f741sm6481184a91.7.2024.06.02.10.48.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jun 2024 10:43:43 -0700 (PDT)
-Date: Mon, 3 Jun 2024 01:43:40 +0800
+        Sun, 02 Jun 2024 10:48:33 -0700 (PDT)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ian Rogers <irogers@google.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 38/65] fs/bcachefs/clock.c:150:18-21:
- Unneeded variable: "ret". Return "NULL" on line 164
-Message-ID: <ZlyvTI8Lf50Q634D@visitorckw-System-Product-Name>
+To: akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev,
+	bfoster@redhat.com,
+	irogers@google.com,
+	linux-bcachefs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	lkp@intel.com,
+	Kuan-Wei Chiu <visitorckw@gmail.com>
+Subject: [PATCH] bcachefs: Fix missing assignment of minimum element before min_heap_pop()
+Date: Mon,  3 Jun 2024 01:48:28 +0800
+Message-Id: <20240602174828.1955320-1-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202406030001.jwsq6DZp-lkp@intel.com>
 References: <202406030001.jwsq6DZp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,64 +74,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202406030001.jwsq6DZp-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 03, 2024 at 12:46:08AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-> head:   54524b845fbe070c5401141bc4ff2ec3f01f1e72
-> commit: cf66e6c3b24c5aaf365c54bb7dc8b9cb01f47f4d [38/65] bcachefs: remove heap-related macros and switch to generic min_heap
-> config: x86_64-randconfig-102-20240602 (https://download.01.org/0day-ci/archive/20240603/202406030001.jwsq6DZp-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406030001.jwsq6DZp-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> fs/bcachefs/clock.c:150:18-21: Unneeded variable: "ret". Return "NULL" on line 164
->
-Hi Andrew,
+When replacing the heap_pop() macro with min_heap_pop(), the original
+heap_pop() macro would store the minimum element into 'ret'. However,
+after replacing it with min_heap_pop(), the code incorrectly failed to
+store the minimum element into 'ret' before deleting it.
 
-This error occurred because I forgot to store the minimum value into
-'ret' before calling min_heap_pop(). Should I submit a new version of
-the patch series or send a separate patch to fix this error?
+Fix the issue by using min_heap_peek() to assign the minimum element to
+'ret' before calling min_heap_pop() to remove the minimum element.
 
-Regards,
-Kuan-Wei
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202406030001.jwsq6DZp-lkp@intel.com/
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
+ fs/bcachefs/clock.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> vim +150 fs/bcachefs/clock.c
-> 
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  146  
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  147  static struct io_timer *get_expired_timer(struct io_clock *clock,
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  148  					  unsigned long now)
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  149  {
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16 @150  	struct io_timer *ret = NULL;
-> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  151  	const struct min_heap_callbacks callbacks = {
-> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  152  		.less = io_timer_cmp,
-> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  153  		.swp = io_timer_swp,
-> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  154  	};
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  155  
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  156  	spin_lock(&clock->timer_lock);
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  157  
-> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  158  	if (clock->timers.nr &&
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  159  	    time_after_eq(now, clock->timers.data[0]->expire))
-> cf66e6c3b24c5aa Kuan-Wei Chiu   2024-05-24  160  		min_heap_pop(&clock->timers, &callbacks, NULL);
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  161  
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  162  	spin_unlock(&clock->timer_lock);
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  163  
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16 @164  	return ret;
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  165  }
-> 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  166  
-> 
-> :::::: The code at line 150 was first introduced by commit
-> :::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-> 
-> :::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-> :::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+diff --git a/fs/bcachefs/clock.c b/fs/bcachefs/clock.c
+index 3ec64fe6a064..18fab9c44b1b 100644
+--- a/fs/bcachefs/clock.c
++++ b/fs/bcachefs/clock.c
+@@ -156,8 +156,10 @@ static struct io_timer *get_expired_timer(struct io_clock *clock,
+ 	spin_lock(&clock->timer_lock);
+ 
+ 	if (clock->timers.nr &&
+-	    time_after_eq(now, clock->timers.data[0]->expire))
++	    time_after_eq(now, clock->timers.data[0]->expire)) {
++		ret = *min_heap_peek(&clock->timers);
+ 		min_heap_pop(&clock->timers, &callbacks, NULL);
++	}
+ 
+ 	spin_unlock(&clock->timer_lock);
+ 
+-- 
+2.34.1
+
