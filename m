@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47B58062B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 09:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E0584039
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 11:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717407819; cv=none; b=mhNqEcb5vav2BaiFHPl6x/j/4t2cmcf3w9gWeUUJ7gbqy5uGVTT3W1cH6J7/NFpCgy0+wkgu8F2xNWDaGbZpkeNSC//qeLay9RUvAaoWh+N+WZfPmuDsdvmkqdlDn9HyfRc/Da1BZ+MeFPNaaBGJh/aQRk9nIt++V1YUZoTwd+E=
+	t=1717413466; cv=none; b=rQyMQWZtXMCi77XRMWsY2dxU88nl9iQ5hhHBLZWcEuPLdSKlNiuadAxOdS97KkdmHVkZ/451a8khcbuJQZqmMfG9IaTS3y+WxwaH1P74DUgZIolkgwm2cy4m2UUD0oQotX31PLy32xcr3vC2nGxD0Wg0VBmtlzuzXCN1Hj3iKAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717407819; c=relaxed/simple;
-	bh=QJgyk4Hqv6L3qgb6EA9natEWIOuUpjgY6eqT1OOKyQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i04uE+GuBMOYNb1gKyl7hriVMvWGA4cAS0DJsUEFrDLsU3AR/gsjrcvwxalVmO05pEI0Q7ioQxpXQsFA9t2rKCAJU2AbDrXBlDQesux7RdDHJTmccT+xxqYYg6Q0RDBgyFHySIFYUx6RAiFPJzJaqiZt/RLmttU5G2XAzCf96cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NG+qKAHX; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1717413466; c=relaxed/simple;
+	bh=nrXznC7FKj+qMqeNwBFEzSsxRpZPZIHhbagU8WQ6TJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ScnLBsvqOBILaIthqJhwRJsyCjXRo79oExtVTMSA5UeNf70E1rxq1pd5j6AuAsJL1rnqsZdpMbNb0LNL0+APDSEjqfNDlAeDQueAwsQusqadqyLYEMav6O7UrQNo6FHzcaGkfzI7Gz2vqymGEt4qe+tDvGnRgK5W4NC+msxvLuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=je2tT8Uv; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NG+qKAHX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="je2tT8Uv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717407817; x=1748943817;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QJgyk4Hqv6L3qgb6EA9natEWIOuUpjgY6eqT1OOKyQ8=;
-  b=NG+qKAHX+NfRqd5sQl+hN0WqkimsSK97ZbekYs5yYahQ0FRzuamelAIA
-   one5p4gD27aikM3kCxCpePPFcfIOVMln5eXS/5KtvrIkxQ8wt/hTdqRen
-   JfAnH5SG59399RBxan2w7nOdtKnZp4mDrh18gOwy/fAaOCiLRV2xZnThu
-   kZ0/dpQCwrN5Ozyo+NNz/MvH1TBc711MhpDnolZh2pydeWfSrxSszqLuO
-   YVO9yon4+abrwueJRhXcqlpPpHa2+pButNA0g9b+UV91pf6CCiKFKHVbw
-   CTqYW2zkCXFBpD4fCVJxvSZeBvaqZ8g4FQQYlupnCljW2aS1afnYfXbWd
+  t=1717413465; x=1748949465;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nrXznC7FKj+qMqeNwBFEzSsxRpZPZIHhbagU8WQ6TJs=;
+  b=je2tT8UvRXDz4yVIGhKJb17z4rLHgeBR35z7ddmbqFxVToLj7jHZEPxl
+   WUO+kUG4R9ldWyv0+7b6tk5eRnFioHJdzKRtROXLhLU5zZTW42hIAEJdd
+   BTbs/oSqsWu2xzyQztKSPqbHyNPjxZV1AZB/5fzaeDzYCUX09Ntxg3KbY
+   X2V7ZGf38eY6LUxopAHXNznsWxksA+8dN3wdeRXnWdFhBxhOnXkyV0TIo
+   6TIJGBZBJh62u2rv0Q10XRSQc9CcCuCnrniNdwkFjSdRmTlP9mB+OeDdB
+   9dTRbLblpgBvglB12xCTcJv7DbHqExvqpK0XCylyyM+A5nTPO0rm3bzVZ
    w==;
-X-CSE-ConnectionGUID: HDiIehygQxS/GY2Ynbl6mg==
-X-CSE-MsgGUID: DpwlfdwzQsG5HcuEkMveEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="31423442"
+X-CSE-ConnectionGUID: +fEnp6r8SwmfN7z0UJeRhw==
+X-CSE-MsgGUID: wsc3btzjQZaUvo8ia5vGGQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="14087023"
 X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="31423442"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 02:43:37 -0700
-X-CSE-ConnectionGUID: auV+l2NSRUWEEZcRWk7WFQ==
-X-CSE-MsgGUID: z6sJWO59SrOIzlDTHPVH1w==
+   d="scan'208";a="14087023"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 04:17:44 -0700
+X-CSE-ConnectionGUID: thO/l+UcSl2KgT7kI3dEcw==
+X-CSE-MsgGUID: wLn/iXe8QKGog6cZyINkHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="41758939"
+   d="scan'208";a="41938420"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 03 Jun 2024 02:43:36 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Jun 2024 04:17:42 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sE4Dm-000LIX-26;
-	Mon, 03 Jun 2024 09:43:23 +0000
-Date: Mon, 3 Jun 2024 17:42:47 +0800
+	id 1sE5h5-000LSl-0H;
+	Mon, 03 Jun 2024 11:17:39 +0000
+Date: Mon, 3 Jun 2024 19:16:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-ak4619-for-upstream-2024-06-03 7/7] Error:
- arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts:30.2-14 syntax
- error
-Message-ID: <202406031709.kVkSgWtQ-lkp@intel.com>
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	linux-edac@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com, rric@kernel.org,
+	bp@alien8.de, tony.luck@intel.com, james.morse@arm.com,
+	mchehab@kernel.org, shubhrajyoti.datta@gmail.com
+Subject: Re: [PATCH] EDAC/synopsys: Fix the injection of the errors
+Message-ID: <202406031857.80s6OP7c-lkp@intel.com>
+References: <20240603051638.22332-1-shubhrajyoti.datta@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240603051638.22332-1-shubhrajyoti.datta@amd.com>
 
-tree:   https://github.com/morimoto/linux sound-ak4619-for-upstream-2024-06-03
-head:   083c2d07c3858c8430a8faabbc29e56905da9dd3
-commit: 083c2d07c3858c8430a8faabbc29e56905da9dd3 [7/7] arm64: dts: renesas: gray-hawk-single: Add Sound support
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240603/202406031709.kVkSgWtQ-lkp@intel.com/config)
+Hi Shubhrajyoti,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10-rc2 next-20240603]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/EDAC-synopsys-Fix-the-injection-of-the-errors/20240603-131853
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240603051638.22332-1-shubhrajyoti.datta%40amd.com
+patch subject: [PATCH] EDAC/synopsys: Fix the injection of the errors
+config: arm64-randconfig-001-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031857.80s6OP7c-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031709.kVkSgWtQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031857.80s6OP7c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406031709.kVkSgWtQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406031857.80s6OP7c-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Error: arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts:30.2-14 syntax error
-   FATAL ERROR: Unable to parse input tree
+   drivers/edac/synopsys_edac.c: In function 'zynqmp_get_mem_info':
+>> drivers/edac/synopsys_edac.c:419:27: error: 'struct synps_edac_priv' has no member named 'poison_addr'
+     419 |         linear_addr = priv->poison_addr;
+         |                           ^~
+
+
+vim +419 drivers/edac/synopsys_edac.c
+
+   407	
+   408	/**
+   409	 * zynqmp_get_mem_info - Get the current memory info.
+   410	 * @priv:	DDR memory controller private instance data.
+   411	 *
+   412	 * Return: host interface address.
+   413	 */
+   414	static ulong zynqmp_get_mem_info(struct synps_edac_priv *priv)
+   415	{
+   416		ulong hif_addr = 0;
+   417		ulong linear_addr;
+   418	
+ > 419		linear_addr = priv->poison_addr;
+   420		if (linear_addr >= SZ_32G)
+   421			linear_addr = linear_addr - SZ_32G + SZ_2G;
+   422		hif_addr = linear_addr >> 3;
+   423		return hif_addr;
+   424	}
+   425	
 
 -- 
 0-DAY CI Kernel Test Service
