@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDCD5BAC3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 06:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1874204B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 06:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717396770; cv=none; b=h1ibdtujvmfIX79JhkbM0Io1rnQcKKKlZV3awh0Ok9cVwMKtF6g16xwtR4dcSnQWsz5/u33jGzvkh4T6fWRNlYkdA5UxAHe/xLHEnDYGz+G0M1OPUXDqNp3WyM6GKf7DHPQR2KbsUhbsxXaooY7veJq9vuLuEuwsOqv7etamqKc=
+	t=1717397985; cv=none; b=ZvpSUvvsvswhM/+U4KtFNW6fs5sNdQbRoIt/a6vyZ3LJWmC/l0x2NBlqhyqJ7Vm5mErUIM3PSX+uDTX2zWxZflY2w7cW3FcBeFf+NQodCbkau7jlpti7RPovuthY1q/qNzH8VtxjpkShq0u8eVFWn9cxdGaA6fHQUuEkrCBAZow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717396770; c=relaxed/simple;
-	bh=1BZZMsPFwPpGXIX87G1hn2zFFzt5yAvYEmZSxoqHeTY=;
+	s=arc-20240116; t=1717397985; c=relaxed/simple;
+	bh=wev1QeZy3Ojt36DUS6N7XESPafqqU+G03GP20yq/4u0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h4eTghgkH5SU3mFJs6XkoCx0jFQEfU0YcCjkesfwPVUOfECPvOtKSF8F9UnX6aUZpxPQDovw6Wm/dJnKT0cSdKSbrwY8ZsNon2/m7pz7Jz6YgC2T0bOGcJqQaSugIM1BEBKWdllZzASRf4yIjuqJzHUVqPxo3g4Wq8euO4VZ/II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8knMSnV; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=TOEYqx6fXPhvYK2CC2uJf+2gCErWFSRfl0YLjUXdUaGlMNgDUleBxSNHOneOkXVYw63goZc/33Wye96JSS2V0eavi+H4fT4IVouux5pO/icmCCrdfH1bHdVvyIGXUmp8t+IE83xh1isrE3TPxWwiLN+m3v4dmhtcr/UW9eocv5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kp+8grSe; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8knMSnV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kp+8grSe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717396769; x=1748932769;
+  t=1717397984; x=1748933984;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1BZZMsPFwPpGXIX87G1hn2zFFzt5yAvYEmZSxoqHeTY=;
-  b=Q8knMSnVetlThnqiYaWV3F49036J00hOWopd26+VQkgXcHKDwwLXTvRB
-   ZcbjIwIb9SYA7PbqBiO9U00VeYIwAz5ALKBZgk5+jHAxAyK3gKz7sc2Cf
-   VOjTAyunMwakTsYVbgiBGBvZCcEvQk9Tt6SMy4NTBdzNKFPXXJSKirhtB
-   /moTQhc7b2WuEnQdfv4tNNUUjgxEemHUYh1abJNlSgwNZoF1PbnokmaZV
-   sDjUwamQISL/sHtDYeKib4jQIB9rPLjwcpLxO/ZRqGotFgXQy05knzOC9
-   Fj2VVl89fWnrBdpf6glh9zem12aTtfweEMJFVPrSLBOnCUqfDKcniXatw
-   w==;
-X-CSE-ConnectionGUID: 8DzHiSB5TpW1pQaTiRJJSQ==
-X-CSE-MsgGUID: FkBGmLs8Q2arzdlj40vCEw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13688996"
+  bh=wev1QeZy3Ojt36DUS6N7XESPafqqU+G03GP20yq/4u0=;
+  b=kp+8grSeg8H6W0XaZCtxSamBLdn+HYwBvkSmzolKDnDoDEyLvkvJNIaC
+   T0nXDn6C1zBWbq0mL+3xOFhbSgjxv+hl1zgXdFIeZDiB8TrYVZM1/EKKp
+   7qEGFeVdkozKvoZsQttLQpd8i1Xj84CqXhCrOn2Ed+JPDF1EHNslIPiHh
+   cllwTxSF75O/FUXrFmfh8Ignr/Wf+JEB1Zmlyvf0e/CdWo3D9EGHduIc0
+   pm2U/10rbOiwjb2phXO6VRHbc33rrBVaXsMJIYOKDi3nv6Ppmi+4cLtyy
+   3CzYhZ4GMcD6QS0Pack9ndMdSXqIY3+qnry8SKMMF48/ZFiOeqWS6eMzy
+   g==;
+X-CSE-ConnectionGUID: k0oPJX1/R+qjbqEnLPIyxQ==
+X-CSE-MsgGUID: h66mgvKARKKNs8Tg7fmQNQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13717684"
 X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="13688996"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 23:39:28 -0700
-X-CSE-ConnectionGUID: erGpIcptQAe/GvypGlxCfw==
-X-CSE-MsgGUID: PAgDW9EuQvaGNOEDNgbZOg==
+   d="scan'208";a="13717684"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 23:59:43 -0700
+X-CSE-ConnectionGUID: aYtOoEE/TZS80Qf72AJ5OQ==
+X-CSE-MsgGUID: xM1Z9alXRmKnV1JITS3dEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="36704400"
+   d="scan'208";a="36686620"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 02 Jun 2024 23:39:27 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Jun 2024 23:59:41 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sE1Lp-000L7C-07;
-	Mon, 03 Jun 2024 06:39:25 +0000
-Date: Mon, 3 Jun 2024 14:38:04 +0800
+	id 1sE1fM-000L8P-1k;
+	Mon, 03 Jun 2024 06:59:37 +0000
+Date: Mon, 3 Jun 2024 14:59:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2024.05.30a 5/50]
- arch/arm/include/asm/cmpxchg.h:167:12: error: call to undeclared function
- 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202406031410.LcIbbCfd-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 61/61] fs/bcachefs/error.c:121:3: error:
+ a label can only be part of a statement and a declaration is not a statement
+Message-ID: <202406031445.W3Z8Dimv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,109 +63,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.05.30a
-head:   3d08b2c4a149fdf966e1b0768c14bbf4048e4070
-commit: 6ba3d5014d24a46ed329fc567e554c218eb62cfa [5/50] ARM: Emulate one-byte cmpxchg
-config: arm-randconfig-r052-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031410.LcIbbCfd-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031410.LcIbbCfd-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   c39351763cb597c4b0882f00fc043ebcf00e3c62
+commit: c39351763cb597c4b0882f00fc043ebcf00e3c62 [61/61] bcachefs: Unlock trans when waiting for user input in fsck
+config: i386-buildonly-randconfig-004-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031445.W3Z8Dimv-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031445.W3Z8Dimv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406031410.LcIbbCfd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406031445.W3Z8Dimv-lkp@intel.com/
 
-Note: the paulmck-rcu/dev.2024.05.30a HEAD 3d08b2c4a149fdf966e1b0768c14bbf4048e4070 builds fine.
-      It only hurts bisectability.
+All error/warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/bounds.c:13:
-   In file included from include/linux/log2.h:12:
-   In file included from include/linux/bitops.h:63:
-   In file included from arch/arm/include/asm/bitops.h:245:
-   In file included from include/asm-generic/bitops/lock.h:5:
-   In file included from include/linux/atomic.h:7:
-   In file included from arch/arm/include/asm/atomic.h:16:
->> arch/arm/include/asm/cmpxchg.h:167:12: error: call to undeclared function 'cmpxchg_emu_u8'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   oldval = cmpxchg_emu_u8((volatile u8 *)ptr, old, new);
-                            ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:117: kernel/bounds.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   fs/bcachefs/error.c: In function 'bch2_fsck_ask_yn':
+>> fs/bcachefs/error.c:121:3: error: a label can only be part of a statement and a declaration is not a statement
+     121 |   unsigned long t = unlock_long_at
+         |   ^~~~~~~~
+>> fs/bcachefs/error.c:125:3: error: expected expression before 'int'
+     125 |   int r = bch2_stdio_redirect_readline_timeout(stdio, &line, t);
+         |   ^~~
+>> fs/bcachefs/error.c:126:7: error: 'r' undeclared (first use in this function)
+     126 |   if (r == -ETIME) {
+         |       ^
+   fs/bcachefs/error.c:126:7: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/bcachefs/error.c:121:17: warning: unused variable 't' [-Wunused-variable]
+     121 |   unsigned long t = unlock_long_at
+         |                 ^
 
 
-vim +/cmpxchg_emu_u8 +167 arch/arm/include/asm/cmpxchg.h
+vim +121 fs/bcachefs/error.c
 
-   152	
-   153	/*
-   154	 * cmpxchg only support 32-bits operands on ARMv6.
-   155	 */
-   156	
-   157	static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
-   158					      unsigned long new, int size)
-   159	{
-   160		unsigned long oldval, res;
-   161	
-   162		prefetchw((const void *)ptr);
-   163	
-   164		switch (size) {
-   165	#ifdef CONFIG_CPU_V6	/* min ARCH >= ARMv6K */
-   166		case 1:
- > 167			oldval = cmpxchg_emu_u8((volatile u8 *)ptr, old, new);
-   168			break;
-   169	#else
-   170		case 1:
-   171			do {
-   172				asm volatile("@ __cmpxchg1\n"
-   173				"	ldrexb	%1, [%2]\n"
-   174				"	mov	%0, #0\n"
-   175				"	teq	%1, %3\n"
-   176				"	strexbeq %0, %4, [%2]\n"
-   177					: "=&r" (res), "=&r" (oldval)
-   178					: "r" (ptr), "Ir" (old), "r" (new)
-   179					: "memory", "cc");
-   180			} while (res);
-   181			break;
-   182		case 2:
-   183			do {
-   184				asm volatile("@ __cmpxchg1\n"
-   185				"	ldrexh	%1, [%2]\n"
-   186				"	mov	%0, #0\n"
-   187				"	teq	%1, %3\n"
-   188				"	strexheq %0, %4, [%2]\n"
-   189					: "=&r" (res), "=&r" (oldval)
-   190					: "r" (ptr), "Ir" (old), "r" (new)
-   191					: "memory", "cc");
-   192			} while (res);
-   193			break;
-   194	#endif
-   195		case 4:
-   196			do {
-   197				asm volatile("@ __cmpxchg4\n"
-   198				"	ldrex	%1, [%2]\n"
-   199				"	mov	%0, #0\n"
-   200				"	teq	%1, %3\n"
-   201				"	strexeq %0, %4, [%2]\n"
-   202					: "=&r" (res), "=&r" (oldval)
-   203					: "r" (ptr), "Ir" (old), "r" (new)
-   204					: "memory", "cc");
-   205			} while (res);
-   206			break;
-   207		default:
-   208			__bad_cmpxchg(ptr, size);
-   209			oldval = 0;
-   210		}
-   211	
-   212		return oldval;
-   213	}
-   214	
+    99	
+   100	#ifdef __KERNEL__
+   101	static enum ask_yn bch2_fsck_ask_yn(struct bch_fs *c, struct btree_trans *trans)
+   102	{
+   103		struct stdio_redirect *stdio = c->stdio;
+   104	
+   105		if (c->stdio_filter && c->stdio_filter != current)
+   106			stdio = NULL;
+   107	
+   108		if (!stdio)
+   109			return YN_NO;
+   110	
+   111		if (trans)
+   112			bch2_trans_unlock(trans);
+   113	
+   114		unsigned long unlock_long_at = trans ? jiffies + HZ * 2 : 0;
+   115		darray_char line = {};
+   116		int ret;
+   117	
+   118		do {
+   119			bch2_print(c, " (y,n, or Y,N for all errors of this type) ");
+   120	rewait:
+ > 121			unsigned long t = unlock_long_at
+   122				? max_t(long, unlock_long_at - jiffies, 0)
+   123				: MAX_SCHEDULE_TIMEOUT;
+   124	
+ > 125			int r = bch2_stdio_redirect_readline_timeout(stdio, &line, t);
+ > 126			if (r == -ETIME) {
+   127				bch2_trans_unlock_long(trans);
+   128				unlock_long_at = 0;
+   129				goto rewait;
+   130			}
+   131	
+   132			if (r < 0) {
+   133				ret = YN_NO;
+   134				break;
+   135			}
+   136	
+   137			darray_last(line) = '\0';
+   138		} while ((ret = parse_yn_response(line.data)) < 0);
+   139	
+   140		darray_exit(&line);
+   141		return ret;
+   142	}
+   143	#else
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
