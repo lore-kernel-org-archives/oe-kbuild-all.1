@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37D263D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 07:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD22352F64
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 07:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717400031; cv=none; b=upcL06Tyge5VeALWr7RkZTizZSOAAPNXZpoxBYO/XT8VYi2TRlsby4ebZqXbyYEzDaMX+rHoRYHOiM5v62o7C8UEumJLiKnMDzgbgTGONi599pow3FE5CShJTQPmwlAaBHfIWKeUiqHUpCkVdy6s3h7MKsbAbDSTUKgQG9b4UUY=
+	t=1717400505; cv=none; b=qllrUwyEeV7sYkFa9hZxkgDsMjuSWF0mWBi1F/oQm31+BLTnzoG3vSiBVAzQ9Ut9N0U5ClLx2FfvVyhArfHfxa+hbPRL2e2LV0ttqVE1g4eV8Z8uQZ08GZJnMOBnqmpUysIENReFT68FwJ9sTowOJ6CvQsmGOJXDQsa+ijMIOQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717400031; c=relaxed/simple;
-	bh=HAyyIRZKIqQiknxH/Qv0R/q0l/9YCOjXPHe8KHRIW2c=;
+	s=arc-20240116; t=1717400505; c=relaxed/simple;
+	bh=N0NmV9LhewgF3njvueUnBE3uN9KSCQPkqbIf4isVIaE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CjwWFhUkaE5QoTocdALjXXid6E3LGSTX9u6UBsBTHu1puAvxWGgO5Sz84Fs9Bvm5nFLje140myIxtfbUwwlxmsIzYcIvTWTP28+/RNf3AYX5oY2r02jwiVGx689/CB0d62bdpLsdEKAi/r9LO7xSkPfQX9VA+AVwyALIDRoWGS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5hXb22o; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition:In-Reply-To; b=i8LDlQndK90pQw7lbQxR+lt+/mJr2H85U4nxlOXNuF+MgDsfIDmZI9tnZQQC2oiiQx4kyb1/dFDpqTewfKieGBRFW16xpHtvDuPEL3xGLKNuIE2XaH2ybtj4+RrYdAj2W3LCzfdD8QulpT2GqJ0Bs40mUF+XBRt17U/T+Ynzs/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bY448ekL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5hXb22o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bY448ekL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717400030; x=1748936030;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HAyyIRZKIqQiknxH/Qv0R/q0l/9YCOjXPHe8KHRIW2c=;
-  b=A5hXb22o+/7TfWi+yHEVnzaSLsNzm/JXfGV7cRf1GYOS899wY/Dj2/ea
-   0Ikbq6k+CuPekeQoPdMWb89ykGYffbONkUv3tDkDpYxckIRriL3dX8FeR
-   j10FsJ4yXpDG3caaHMPRrn6I4+lTODG7wvfVogrLcTvOs2qRAe1ICVfKb
-   1V9SSbjSP8969i/6y3FVuD+N3KnufyqO6oPcXC7AALIotrda466bbycRo
-   YKxFGCXr4iQsOux5b7uzYOqLvo5l+w0A88DEp4At83NOwwDEc1uXUoIFn
-   WK8TZr+IkYdb5HfXzQ8swUPUZ6xFAv6ZwdjA5n9Wakl3/hi7yxHy9fEEN
-   g==;
-X-CSE-ConnectionGUID: q4OhHU97St6BCkCTfU9jiQ==
-X-CSE-MsgGUID: yCSJH8ejSAGBCct/l0t0YA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24507030"
+  t=1717400503; x=1748936503;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=N0NmV9LhewgF3njvueUnBE3uN9KSCQPkqbIf4isVIaE=;
+  b=bY448ekLTWFzOxhEButm+PGpS5yVXhlgxr1Itody4qwG9PRPzzbbfZTL
+   8yz256JOCqx7D9igFATOa7KMoPIPJNXE+5WI9QxiVsuil/BLynuqg7SMf
+   O3SOKjK5kWDxNZPhQNqtCJjtUSJwqa0HIGuSJpaAQDGUVAK7FoamQrTHA
+   L03+FEs83hnj24TzGD/3PGyWZBo9NOLEp8ekDyL1EdMSGRgQflizEkmrA
+   Aa7MrKosfF1FAlxsRDL7hl2IY9fosj1XjxX2/5zNmmDt98NeSvVRCha7y
+   +Lv9rZ71tExDA7mVALy9CcusozW6iXd/HnNQgRAG6HMuNZ99OCj8OrBtx
+   Q==;
+X-CSE-ConnectionGUID: cyolhRt3QViCrtFa+1oqZw==
+X-CSE-MsgGUID: CnyLYKsCSxu0aC77mZ8Plw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="17707402"
 X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="24507030"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 00:33:49 -0700
-X-CSE-ConnectionGUID: Rg2qHim/QTWCHLrJZbE2Dg==
-X-CSE-MsgGUID: o7QfnvTXRnaWiHEqAWWySQ==
+   d="scan'208";a="17707402"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 00:41:43 -0700
+X-CSE-ConnectionGUID: +iQtmzJkRLyDqYmsuCldjQ==
+X-CSE-MsgGUID: JJtl7ytiT+W6qeMQAzRIJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="67636021"
+   d="scan'208";a="36880014"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 03 Jun 2024 00:33:47 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 03 Jun 2024 00:41:41 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sE2CH-000LAB-2b;
-	Mon, 03 Jun 2024 07:33:40 +0000
-Date: Mon, 3 Jun 2024 15:32:42 +0800
+	id 1sE2Ju-000LAP-0x;
+	Mon, 03 Jun 2024 07:41:33 +0000
+Date: Mon, 3 Jun 2024 15:41:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [linux-next:master 3415/3461] drivers/hwmon/cros_ec_hwmon.c:34:18:
- sparse: sparse: cast to restricted __le16
-Message-ID: <202406031506.HgEi9sBs-lkp@intel.com>
+To: Cheng Ming Lin <linchengming884@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Documentation: mtd: spinand: macronix: Add support for
+ serial NAND flash
+Message-ID: <Zl1zlcVrTionWOCw@242c30a86391>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240603073953.16399-1-linchengming884@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   861a3cb5a2a8480d361fa6708da24747d6fa72fe
-commit: e8665a172378986159ce8aaf45712c43472f5866 [3415/3461] hwmon: add ChromeOS EC driver
-config: x86_64-randconfig-r111-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031506.HgEi9sBs-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031506.HgEi9sBs-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406031506.HgEi9sBs-lkp@intel.com/
+Thanks for your patch.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/cros_ec_hwmon.c:34:18: sparse: sparse: cast to restricted __le16
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-vim +34 drivers/hwmon/cros_ec_hwmon.c
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-    25	
-    26	static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
-    27	{
-    28		int ret;
-    29	
-    30		ret = cros_ec_cmd_readmem(cros_ec, EC_MEMMAP_FAN + index * 2, 2, speed);
-    31		if (ret < 0)
-    32			return ret;
-    33	
-  > 34		*speed = le16_to_cpu(*speed);
-    35		return 0;
-    36	}
-    37	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] Documentation: mtd: spinand: macronix: Add support for serial NAND flash
+Link: https://lore.kernel.org/stable/20240603073953.16399-1-linchengming884%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
