@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7262312B83
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 05:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217BA12B83;
+	Mon,  3 Jun 2024 05:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717390952; cv=none; b=Opy/n+BfAxWbpiUhZdNpSrDRJMTrsumaYvShSAeI9SCwdgqFPXSulbyIIwllLoxbIXYb/Z/4nfry/vgQIWfeH4k4AFlPit9WCfjXxqoSwS+oX9HLALJV3OxyItMZiGVxHIkIMxn6wvnHvsTXK05zmRr0La+VWhUmxxocZzuX24Y=
+	t=1717390981; cv=none; b=Ny2R+zDeB8DPl02t0gNBqjqLPUT+Vtul7KXx/AUiujwsg+pfZpUKP0Ytx3EjNpeAQZP9fUxM9oJnTlMTEtAJO4z9XX3BOa8rjLMfuVdEYfKo9LVk2KP+L8Af0oTj2EK8Zb1Gfl+22HFR8yxVIfkE+dDbR6uCttt02fbVqikSW+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717390952; c=relaxed/simple;
-	bh=1Fr9Sl2is++bpBC0wQsophdAvq5buYyphOzE+izRyJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UTc2IBNT7WImUkdNsMXVnXnyZGukwM99zn9tUjnSoMVCNsWYrQmmN3BNHibUWMeAf6B1wkvJIaUmuM5zNNOtQJU+RUUlDXW6IoERfBoLza+6Y2IiHPvWUnZXAhv1ejYETPCTG/ZIBVzPmTTcKJ/nuJZr7GobsWBAPSAs/j1JIUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XoYjFjkp; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1717390981; c=relaxed/simple;
+	bh=iTklQgMJScrjnQARr2lJPht09uZlutMwmCs4a/grV5c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c9JlNY18w9NsJ44FC2VoQB8SC2QrdGCg+EcEKiNCjVG+z3WCZOIQ1MhHFbZCYfNuU75A0PPuw4tDPcYoRX8szMTwKzF2bvs91YgWPsaGTP0BRh9KP65w3uKBintTseqfXH9HSclS18WFjrgpNKPWKdCiCupPPD0L8cX23KYLNEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjqgKJ4r; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XoYjFjkp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjqgKJ4r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717390951; x=1748926951;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1Fr9Sl2is++bpBC0wQsophdAvq5buYyphOzE+izRyJM=;
-  b=XoYjFjkpO4h/uET9HeV8iNIILOeDEmZEHuCRoDxbyexnoZ2hNZknWG/Q
-   ZKfy2yqHkaFS9mt+cUo3Qa8/k3ZRkFnAkVcNXNLIDVoTySQIJzF9kbTVs
-   Yz8U1H1ILBlzppaDizjKdAtMpHlTZ06DLVhoa5aSJhSrXrrijR8Dc9cnJ
-   /URByb87CwcoL0zabbmTTUJFbuG+AYZQeLpifw5+5o8OAC131/h91nvd/
-   +dQRi8+c49yn8NLxRlHK6BZVznVICdervWNcSKXm0jarstNNGXGtiwQl5
-   8QgD9uLE0QFd/Cjsfhv/eav/f7pWsNTMKsAKQZ1lmog/v5Fj3Q1pdzPEp
+  t=1717390979; x=1748926979;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iTklQgMJScrjnQARr2lJPht09uZlutMwmCs4a/grV5c=;
+  b=WjqgKJ4regZQTTFnangESjYl/NKLlhrXe9r/Dm9TbGPi/wOX8ONw5qjd
+   bKPhw/pdT+XSYQBJ/zUXnQIxo0Q/QSbn08ll/F/v7GCxpVYCdnpE2agda
+   Ok796Cpo4dDEBlZ7Il8XODvXBFx5bRWKc0UnDdg5pIHWD6fgDp0kdmZ/O
+   wvGUJ6teliLPmjxkR/o0148UsIK/Dvu/P+MEJyL29dKD9pZ9XKb+bRufR
+   mVmi4eaETz12SdzIcdDVfaEKtPZk7DCWfWPiiuV9HZc4Lugk2G2Csy2n6
+   Av7mz6iCAo9bYcSFU9MA7fkvptny0X6EaK944C2HZtIUtdyvqGQj5O6ox
    A==;
-X-CSE-ConnectionGUID: VmOySCEISSyzWrMv7sEO+g==
-X-CSE-MsgGUID: vtNxR3YeQDOqSipWGTNafg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13736994"
+X-CSE-ConnectionGUID: iG7NsNttSEKyI0cu+rD/3Q==
+X-CSE-MsgGUID: lCe3WJzkTzWwQf+OwX/yzw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24444842"
 X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="13736994"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 22:02:30 -0700
-X-CSE-ConnectionGUID: MX9VQkVgT0CdSdrKfY91oA==
-X-CSE-MsgGUID: LgS2Y4VSQy22/QDsmgMUSg==
+   d="scan'208";a="24444842"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 22:02:59 -0700
+X-CSE-ConnectionGUID: QNaKz4dGRuqb2uNZLPCOtA==
+X-CSE-MsgGUID: N4fwfj4jSOufIp3aT1wI8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="59928722"
+   d="scan'208";a="36666820"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Jun 2024 22:02:29 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Jun 2024 22:02:57 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDzpg-000L2b-0T;
-	Mon, 03 Jun 2024 05:02:16 +0000
-Date: Mon, 3 Jun 2024 13:00:58 +0800
+	id 1sDzqR-000L2k-1b;
+	Mon, 03 Jun 2024 05:02:55 +0000
+Date: Mon, 3 Jun 2024 13:01:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/5] darray: lift from bcachefs
-Message-ID: <202406031215.Diw8Tr5W-lkp@intel.com>
-References: <20240603003306.2030491-2-kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 60/60] fs/bcachefs/error.c:121:3:
+ warning: label followed by a declaration is a C23 extension
+Message-ID: <202406031346.mFOD4vkX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +62,145 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240603003306.2030491-2-kent.overstreet@linux.dev>
 
-Hi Kent,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on linus/master v6.10-rc2]
-[cannot apply to akpm-mm/mm-nonmm-unstable tip/x86/asm akpm-mm/mm-everything next-20240531]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Overstreet/darray-lift-from-bcachefs/20240603-083536
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20240603003306.2030491-2-kent.overstreet%40linux.dev
-patch subject: [PATCH 1/5] darray: lift from bcachefs
-config: i386-buildonly-randconfig-004-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031215.Diw8Tr5W-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031215.Diw8Tr5W-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   567b09eb98ef6d174e26c491b35ac086f133fa2f
+commit: 567b09eb98ef6d174e26c491b35ac086f133fa2f [60/60] bcachefs: Unlock trans when waiting for user input in fsck
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240603/202406031346.mFOD4vkX-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406031346.mFOD4vkX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406031215.Diw8Tr5W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406031346.mFOD4vkX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/bcachefs.h:461,
-                    from fs/bcachefs/reflink.c:2:
->> fs/bcachefs/btree_node_scan_types.h:5:10: fatal error: darray.h: No such file or directory
-       5 | #include "darray.h"
-         |          ^~~~~~~~~~
-   compilation terminated.
+   In file included from fs/bcachefs/error.c:2:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/bcachefs/error.c:2:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/bcachefs/error.c:2:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/bcachefs/error.c:2:
+   In file included from fs/bcachefs/bcachefs.h:188:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> fs/bcachefs/error.c:121:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     121 |                 unsigned long t = unlock_long_at
+         |                 ^
+   8 warnings generated.
 
 
-vim +5 fs/bcachefs/btree_node_scan_types.h
+vim +121 fs/bcachefs/error.c
 
-4409b8081d1624 Kent Overstreet 2024-03-11  4  
-4409b8081d1624 Kent Overstreet 2024-03-11 @5  #include "darray.h"
-4409b8081d1624 Kent Overstreet 2024-03-11  6  
+    99	
+   100	#ifdef __KERNEL__
+   101	static enum ask_yn bch2_fsck_ask_yn(struct bch_fs *c, struct btree_trans *trans)
+   102	{
+   103		struct stdio_redirect *stdio = c->stdio;
+   104	
+   105		if (c->stdio_filter && c->stdio_filter != current)
+   106			stdio = NULL;
+   107	
+   108		if (!stdio)
+   109			return YN_NO;
+   110	
+   111		if (trans)
+   112			bch2_trans_unlock(trans);
+   113	
+   114		unsigned long unlock_long_at = trans ? jiffies + HZ * 2 : 0;
+   115		darray_char line = {};
+   116		int ret;
+   117	
+   118		do {
+   119			bch2_print(c, " (y,n, or Y,N for all errors of this type) ");
+   120	rewait:
+ > 121			unsigned long t = unlock_long_at
+   122				? max_t(long, unlock_long_at - jiffies, 0)
+   123				: MAX_SCHEDULE_TIMEOUT;
+   124	
+   125			int r = bch2_stdio_redirect_readline_timeout(stdio, &line, t);
+   126			if (r == -ETIME) {
+   127				bch2_trans_unlock_long(trans);
+   128				unlock_long_at = 0;
+   129				goto rewait;
+   130			}
+   131	
+   132			if (r < 0) {
+   133				ret = YN_NO;
+   134				break;
+   135			}
+   136	
+   137			darray_last(line) = '\0';
+   138		} while ((ret = parse_yn_response(line.data)) < 0);
+   139	
+   140		darray_exit(&line);
+   141		return ret;
+   142	}
+   143	#else
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
