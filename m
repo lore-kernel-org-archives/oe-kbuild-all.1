@@ -1,85 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D4083A07;
-	Mon,  3 Jun 2024 23:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053B781736
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 23:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717455774; cv=none; b=XrN98r8Cap+96CSl88rkcuSzV9KveLPZiE0NeErEQJVxlF7nXRKaFdva1epgFcrurkY1ogODUzlwI7bqEjtN1b+JztNuPgNk0XMOy1sdR7GeskaAWQ86xxo2KaTtaO1Hn3tDMWnZL7S3qNY3ir4PwYaSgjWvu23p5JyXdH3oweA=
+	t=1717458838; cv=none; b=b1eKe0gTBji7SibSLkY9e1LzAHASt+07canEfalncUVRwGCqbASycTdneAVhUoZAuWUuIHJLSuG97nU/QUFeAnqFqjtyDHzJMBxZdHFB7dW3l2INjVNaCYTIyl06rw8l1sMaPCTIrDITUOZdVYrUfTjwPn7/0FKSq2ANJB+yqZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717455774; c=relaxed/simple;
-	bh=3Ncjzb2ZWnsKUDe7He5plc+QeNjITYvtwV7ey/ecEIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rfj84ZcdSzyDDibW7Vx7KnpiaGxhODZnPdm3FGwJq44uBxykD8ArX5GLNALBrMkFM0KBuAsYqwRTT6tNZBL3b6W8ODopmqay/o/qAXtVErJ1sUvv/nTo3PIqegTJCCpA5F1SECNrgKiPoBCUyxRkCbLVzRClFpC+KA7hGCcFChA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzoN7nI3; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1717458838; c=relaxed/simple;
+	bh=umasxBYQ9N/UPcmclGy8L4X1QfgyT2YH7gw/sNs3ymI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dGHBaXesZeGXZ4d0FfquvC4FxLbUH8qjeJPVuQRh9Qhhk0o875PdW5yJ3ZmiEyYGyCHk75XTgmNw5aAhL3tMvw9lTdduarIUjAFXrQJxzMx1B14u3dn+PGZDwj9OPxO5SkGx1WDhN1xPOGEybnijtN+pKVnxC2kA28sGLO4rFAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ARaXfn7l; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzoN7nI3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARaXfn7l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717455773; x=1748991773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Ncjzb2ZWnsKUDe7He5plc+QeNjITYvtwV7ey/ecEIQ=;
-  b=UzoN7nI3D35kULVVoe4Y4ioEoeP5zm8hKxsETsusLy65UV8h9oCr2rlL
-   u9RIJzXOr0FT+AwPWpDwmgRz6aEUgwCvt76ohIKZYh+W0b8Y0fgF3IgNh
-   jL0hLHRW1NwxP+aWQU0xqaKnipBDosQBRufGzwymTAPEVpjLSA0aFYPaA
-   uYnasni0NuUETxt8qOJY/uzACuObq3ktmS/IhjXoRSVyADmfIQTWQXWHa
-   54is4zSQAaP5kyL1pd9iY8sTg4oNe9xsFge6d0JLcAWCpe/CmLiqfgQrM
-   D5MM7FV5+ok0aqyijZfMGzpo33yyfO9q/XgbJM0kUQNWaHT3BtSQ1YQJQ
-   A==;
-X-CSE-ConnectionGUID: pHAli0J5T+yXKpfiHYEmJQ==
-X-CSE-MsgGUID: V8AvWWxySBuE6na6l4WO1A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="13811797"
+  t=1717458837; x=1748994837;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=umasxBYQ9N/UPcmclGy8L4X1QfgyT2YH7gw/sNs3ymI=;
+  b=ARaXfn7l1UCvOdnbqMJTrVP6CH4prP0Vllimu4WLfxqZC0uzWiXWxUY7
+   Aoj0Bmh5AkJp5mti35sOVoDxtMCGsM2N5xS0Q7WyiHMvvbFUnyUYJ4FUK
+   pR39OBMun3lWP/cAffSLvk8frOVCBF1YXJR7B9Ibr3EYwMMcyHAKtO1rV
+   ZAxrDh3IY05rUrlvoOPnZk7EMklSxg7slNL+UeA3leZ5zZ+5daCHXBGYW
+   YRrRcMUb1fXupS787mn+mSSWu/v1gzva3Rp4Gf4aVVr5cKEn7lt0MreFz
+   JZVDGeye1h5LL0ctUqKrVzL13xGBIQhAYGkj6neNuRyGDyJGg/r07fGN6
+   w==;
+X-CSE-ConnectionGUID: UmXfzQzAS9mfQfg52VX+Ag==
+X-CSE-MsgGUID: xHvUDoQWQcKRmil2cZxJwQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="31479441"
 X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
-   d="scan'208";a="13811797"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 16:02:52 -0700
-X-CSE-ConnectionGUID: 4OkZhgWhQTyv4X0RBKCwLA==
-X-CSE-MsgGUID: SmqE3MnYSzWDHybU8y+hTg==
+   d="scan'208";a="31479441"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 16:53:56 -0700
+X-CSE-ConnectionGUID: qwvPSHSwRE2OELaLOzDcnA==
+X-CSE-MsgGUID: Kc4TLhSaS4y3ZUahWMKLlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
-   d="scan'208";a="60204759"
+   d="scan'208";a="42107685"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Jun 2024 16:02:44 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Jun 2024 16:53:55 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEGhN-000MIf-2j;
-	Mon, 03 Jun 2024 23:02:41 +0000
-Date: Tue, 4 Jun 2024 07:00:35 +0800
+	id 1sEHUv-000MLH-0i;
+	Mon, 03 Jun 2024 23:53:53 +0000
+Date: Tue, 4 Jun 2024 07:53:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com,
-	donald.hunter@gmail.com,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Dragos Tatulea <dtatulea@nvidia.com>,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH net-next v14 3/5] ethtool: provide customized dim profile
- management
-Message-ID: <202406040645.6z95FW1f-lkp@intel.com>
-References: <20240603154727.31998-4-hengqi@linux.alibaba.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 11184/30000]
+ drivers/soc/qcom/rpmh-rsc.c:695:1: sparse: sparse: 'arch_initcall()' has
+ implicit return type
+Message-ID: <202406040745.RPeM4IZV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -88,30 +62,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240603154727.31998-4-hengqi@linux.alibaba.com>
 
-Hi Heng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240603-235834
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240603154727.31998-4-hengqi%40linux.alibaba.com
-patch subject: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   079d4f3ff06b21f99aed51d8b22534bdfda5a134
+commit: 1ee367d36875a25c92ae7bb66d4b6f25f0d386d5 [11184/30000] ANDROID: GKI: drivers: qcom: rpmh-rsc: Add tristate support for qcom,rpmh-rsc driver
+config: arm64-randconfig-r123-20240603 (https://download.01.org/0day-ci/archive/20240604/202406040745.RPeM4IZV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240604/202406040745.RPeM4IZV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406040645.6z95FW1f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406040745.RPeM4IZV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/qcom/rpmh-rsc.c:695:1: sparse: sparse: 'arch_initcall()' has implicit return type
+   drivers/soc/qcom/rpmh-rsc.c:697:16: sparse: sparse: Expected ) in function declarator
+   drivers/soc/qcom/rpmh-rsc.c:697:16: sparse: sparse: got "GPL v2"
+   drivers/soc/qcom/rpmh-rsc.c:698:20: sparse: sparse: Expected ) in function declarator
+   drivers/soc/qcom/rpmh-rsc.c:698:20: sparse: sparse: got "Qualcomm RPM-Hardened (RPMH) Communication driver"
+   drivers/soc/qcom/rpmh-rsc.c:695:1: warning: data definition has no type or storage class
+     695 | arch_initcall(rpmh_driver_init);
+         | ^~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh-rsc.c:695:1: error: type defaults to 'int' in declaration of 'arch_initcall' [-Werror=implicit-int]
+   drivers/soc/qcom/rpmh-rsc.c:695:1: warning: parameter names (without types) in function declaration
+   drivers/soc/qcom/rpmh-rsc.c:697:16: error: expected declaration specifiers or '...' before string constant
+     697 | MODULE_LICENSE("GPL v2");
+         |                ^~~~~~~~
+   drivers/soc/qcom/rpmh-rsc.c:698:20: error: expected declaration specifiers or '...' before string constant
+     698 | MODULE_DESCRIPTION("Qualcomm RPM-Hardened (RPMH) Communication driver");
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh-rsc.c:691:19: warning: 'rpmh_driver_init' defined but not used [-Wunused-function]
+     691 | static int __init rpmh_driver_init(void)
+         |                   ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
->> net/ethtool/coalesce.o: warning: objtool: unexpected relocation symbol type in .rela.discard.reachable
+vim +695 drivers/soc/qcom/rpmh-rsc.c
+
+658628e7ef78e8 Lina Iyer     2018-06-20  690  
+658628e7ef78e8 Lina Iyer     2018-06-20  691  static int __init rpmh_driver_init(void)
+658628e7ef78e8 Lina Iyer     2018-06-20  692  {
+658628e7ef78e8 Lina Iyer     2018-06-20  693  	return platform_driver_register(&rpmh_driver);
+658628e7ef78e8 Lina Iyer     2018-06-20  694  }
+658628e7ef78e8 Lina Iyer     2018-06-20 @695  arch_initcall(rpmh_driver_init);
+1ee367d36875a2 Will McVicker 2020-02-10  696  
+
+:::::: The code at line 695 was first introduced by commit
+:::::: 658628e7ef78e875cfe13064387c1a7a287d6338 drivers: qcom: rpmh-rsc: add RPMH controller for QCOM SoCs
+
+:::::: TO: Lina Iyer <ilina@codeaurora.org>
+:::::: CC: Andy Gross <andy.gross@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
