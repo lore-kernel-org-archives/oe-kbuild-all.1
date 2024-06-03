@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066511304BF;
-	Mon,  3 Jun 2024 15:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF943BA31
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 15:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717429026; cv=none; b=B8ZchsqcHPQoemOR6IWA7D2Qhq3L47q+x6T2DcQz6X8I7qERHG3rZraMPsRaUkVeoxbPHLx6qzjcqabAXB3HFRWl1SwDtQEv6uf09qwed+leo8bK8QTE4oLLxQn9s0LnCtjpfOKjCkcqWxQh9JydK9z7etOCfWGEiIuLzh3ZGvs=
+	t=1717429781; cv=none; b=fJglsXTV/nKEnW8R1bgnPfOFBBMT9gc3d/Y/X3OsCC6IiXQiLdXWI6b0d909bzbSC5TOZwNAHIuypgpe7NTgksvBVictc9raq0TQx/4y2TBBsm2zD8liKNfX6bv4Kj6AscgHWzIewgMpq9t1oyOtD4/Kjo9VaH2zmoGSEXQrMBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717429026; c=relaxed/simple;
-	bh=qLGutChqnX9e8a3ha4iN2YiLfsS82Seh0CnbTGwsF+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EnvVxXMV6ujBtDymi8vCV2w2x7JcLHYX3Raqc4ntM+03ji1x7Ivt0BaqLjI1I2iCqGul41TeHH5xJLTJ6eqUXk/MICUOQXskgbQaeYwERurHSso0lmAhWeLwuJ3ziLV/MVODUPfDYGJMd/ciboVZMPo7jxSkrdJHv9yiGJYt+BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiIdf16g; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1717429781; c=relaxed/simple;
+	bh=sAz/0G7IfCaSqCzpa1MGbHiAmlpqGZjbXMIKkPGrMlM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oRxrmJEKoWi8Krwg1fyOEXWb85ouUhL0O+vM4ia68rSq3Vtbu0KC7I4U6gff9gtPEPrl2FI/nf1big44PWegzKQ0q4Mkfb3GdgKomGAuXKjhyhGvlmmzq7tlIsA8jtgYXEzYzlvDhK64Yi2/DWZ6fbjBU779gAPIScvCpnOR/5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxbLk0Iu; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiIdf16g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxbLk0Iu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717429025; x=1748965025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qLGutChqnX9e8a3ha4iN2YiLfsS82Seh0CnbTGwsF+c=;
-  b=BiIdf16g8NwaxOzJhS5+stZ186oe6VAZzB6JIHYle3d1mGXKhdUYBQQC
-   z2IL9lO1A4ZDWg7SfEKgSng6UE4DVJuLUa8443NmjD++5FIJOPwb8Y4qz
-   /QQFWmtxJYMduvAkWgdsdb5IqaHkoMcEqZA1lWvJaZvklN8eWpYRoyFVS
-   sqG3EPbBFqIGjx5wqQ25qvSAgcwgnZ1hCz4OFPAIBladB7IpnUylKR1+K
-   2Vx+sYKWz8cCHrxvdiuDmq8JIgLGBftOT3D0HdUWMFW/6h9qryxknYcrV
-   GDLZVIu0jHk0I31CEPExqdiwRZXb4TOxCMI9mwQx8kTYswpyeeKsqsH8I
+  t=1717429780; x=1748965780;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sAz/0G7IfCaSqCzpa1MGbHiAmlpqGZjbXMIKkPGrMlM=;
+  b=WxbLk0IuepT9a12K2dN9L0pW0O07Ld63lCjRbl0biGNz5Z7w0ztQ3P0t
+   Kn4NpNDHuANf+y9MnVec/u1OuXipGkQr06l9NcWuWFB9DD1Opyqjlij8Y
+   kYQ9Tef5UJRxjtPFvXufF5LtS12PDrE2+GY4Fxl1pz3Qql+liTfZgLNzj
+   M4xPRFUKfQiHMcU9HOHWV3K3ZUcHZISNFU1kqPrKYr4dg6HOLJTTPBhxT
+   Tf4k2iBUna+PIijOUYZfmkVgqxDgfPy4JB/Y6+6pzRmcGp3XH2n7XQPT6
+   y/Et23t4gQ8JkqszrPc49Iky9NhrSYXvjFUY9jyp5n0Y5iHnNalUVQn90
    w==;
-X-CSE-ConnectionGUID: fBwOed9aTyKe1DFQkDZLnA==
-X-CSE-MsgGUID: uDxfF/cWS5aj9qh//nAOng==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="17753468"
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="17753468"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 08:37:05 -0700
-X-CSE-ConnectionGUID: 7gY6C+GHQda2OASj6mtLdA==
-X-CSE-MsgGUID: wJTKSMQ0Qd68nog43sZDLw==
+X-CSE-ConnectionGUID: PAhZpEH4RcCVApUlwAj5gA==
+X-CSE-MsgGUID: nWyqgdRUSOmSRlBQrEpf0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="39332395"
+X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
+   d="scan'208";a="39332395"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 08:49:39 -0700
+X-CSE-ConnectionGUID: gzsSLXcNRMSSgNwaN94Y3A==
+X-CSE-MsgGUID: Gga6ifBpTyWVypU7FalGog==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="41996853"
+X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
+   d="scan'208";a="37027997"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 03 Jun 2024 08:37:02 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2024 08:49:32 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sE9k4-000LpL-05;
-	Mon, 03 Jun 2024 15:37:00 +0000
-Date: Mon, 3 Jun 2024 23:36:41 +0800
+	id 1sE9w5-000LqJ-2g;
+	Mon, 03 Jun 2024 15:49:27 +0000
+Date: Mon, 3 Jun 2024 23:48:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiu Jianfeng <xiujianfeng@huawei.com>, akpm@linux-foundation.org,
-	muchun.song@linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next 2/3] mm/hugetlb_cgroup: prepare cftypes based on
- template
-Message-ID: <202406032321.OzAKgNBA-lkp@intel.com>
-References: <20240603120506.1837322-3-xiujianfeng@huawei.com>
+To: Hagar Hemdan <hagarhem@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>
+Subject: [tip:irq/urgent 3/3] drivers/irqchip/irq-gic-v3-its.c:1973:62:
+ error: macro "guard" passed 2 arguments, but takes just 1
+Message-ID: <202406032312.di8cohFZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,75 +63,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240603120506.1837322-3-xiujianfeng@huawei.com>
 
-Hi Xiu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiu-Jianfeng/mm-hugetlb_cgroup-identify-the-legacy-using-cgroup_subsys_on_dfl/20240603-201513
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240603120506.1837322-3-xiujianfeng%40huawei.com
-patch subject: [PATCH -next 2/3] mm/hugetlb_cgroup: prepare cftypes based on template
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240603/202406032321.OzAKgNBA-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406032321.OzAKgNBA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/urgent
+head:   8dd4302d37bb2fe842acb3be688d393254b4f126
+commit: 8dd4302d37bb2fe842acb3be688d393254b4f126 [3/3] irqchip/gic-v3-its: Fix potential race condition in its_vlpi_prop_update()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240603/202406032312.di8cohFZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406032312.di8cohFZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406032321.OzAKgNBA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406032312.di8cohFZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/hugetlb_cgroup.c:20:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2245:
-   include/linux/vmstat.h:498:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     498 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> mm/hugetlb_cgroup.c:828:13: warning: address of array 'tmpl->name' will always evaluate to 'true' [-Wpointer-bool-conversion]
-     828 |                 if (tmpl->name)
-         |                 ~~  ~~~~~~^~~~
-   2 warnings generated.
+   drivers/irqchip/irq-gic-v3-its.c: In function 'its_irq_set_vcpu_affinity':
+>> drivers/irqchip/irq-gic-v3-its.c:1973:62: error: macro "guard" passed 2 arguments, but takes just 1
+    1973 |         guard(raw_spinlock_irq, &its_dev->event_map.vlpi_lock);
+         |                                                              ^
+   In file included from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/irqchip/irq-gic-v3-its.c:7:
+   include/linux/cleanup.h:163: note: macro "guard" defined here
+     163 | #define guard(_name) \
+         | 
+>> drivers/irqchip/irq-gic-v3-its.c:1973:9: error: 'guard' undeclared (first use in this function)
+    1973 |         guard(raw_spinlock_irq, &its_dev->event_map.vlpi_lock);
+         |         ^~~~~
+   drivers/irqchip/irq-gic-v3-its.c:1973:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +828 mm/hugetlb_cgroup.c
+vim +/guard +1973 drivers/irqchip/irq-gic-v3-its.c
 
-   814	
-   815	static void __init
-   816	hugetlb_cgroup_cfttypes_init(struct hstate *h, struct cftype *cft,
-   817				     struct cftype *tmpl, int tmpl_size)
-   818	{
-   819		char buf[32];
-   820		int i, idx = hstate_index(h);
-   821	
-   822		/* format the size */
-   823		mem_fmt(buf, sizeof(buf), huge_page_size(h));
-   824	
-   825		for (i = 0; i < tmpl_size; cft++, tmpl++, i++) {
-   826			*cft = *tmpl;
-   827			/* rebuild the name */
- > 828			if (tmpl->name)
-   829				snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
-   830			/* rebuild the private */
-   831			if (tmpl->private)
-   832				cft->private = MEMFILE_PRIVATE(idx, tmpl->private);
-   833			/* rebuild the file_offset */
-   834			if (tmpl->file_offset) {
-   835				unsigned int offset = tmpl->file_offset;
-   836	
-   837				cft->file_offset = MEMFILE_OFFSET0(offset) +
-   838						   MEMFILE_FIELD_SIZE(offset) * idx;
-   839			}
-   840		}
-   841	}
-   842	
+  1963	
+  1964	static int its_irq_set_vcpu_affinity(struct irq_data *d, void *vcpu_info)
+  1965	{
+  1966		struct its_device *its_dev = irq_data_get_irq_chip_data(d);
+  1967		struct its_cmd_info *info = vcpu_info;
+  1968	
+  1969		/* Need a v4 ITS */
+  1970		if (!is_v4(its_dev->its))
+  1971			return -EINVAL;
+  1972	
+> 1973		guard(raw_spinlock_irq, &its_dev->event_map.vlpi_lock);
+  1974	
+  1975		/* Unmap request? */
+  1976		if (!info)
+  1977			return its_vlpi_unmap(d);
+  1978	
+  1979		switch (info->cmd_type) {
+  1980		case MAP_VLPI:
+  1981			return its_vlpi_map(d, info);
+  1982	
+  1983		case GET_VLPI:
+  1984			return its_vlpi_get(d, info);
+  1985	
+  1986		case PROP_UPDATE_VLPI:
+  1987		case PROP_UPDATE_AND_INV_VLPI:
+  1988			return its_vlpi_prop_update(d, info);
+  1989	
+  1990		default:
+  1991			return -EINVAL;
+  1992		}
+  1993	}
+  1994	
 
 -- 
 0-DAY CI Kernel Test Service
