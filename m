@@ -1,110 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1E212DDB3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 14:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00CA4A1B;
+	Mon,  3 Jun 2024 14:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717423997; cv=none; b=TtcXlk/zVyEHaTJUp+F35NRiazMlB8yMyBTS3fDNzvgOUeS4a70Ej+cxK6e37ONNzVTNAu18VGnXC07vGAc8MhiYJ4ycoqPijw/Mxqb5mlJQqqUybfHmthb9dM+vkj0m0TX38e+RnPddlXbr54MFgwhs5Ve8UeYTX0ez6ipvq3A=
+	t=1717426261; cv=none; b=Brsfv4yGNd5Lcl8DmFmcrD/FiF0zjQ1Kelf5POXg5LjjGnIT2RHSbnOqiaW2lHBhAzTJjO4btmYCzvqcYVivY3O6c2cIxuOymR7WTi0DHTL92aZbyc8arG/FmjUtcd7FsR5ceciu3gaimn4TS9APJONnEpg0k643JBe1fEQcdeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717423997; c=relaxed/simple;
-	bh=GPTkRLmIP+xK5y2zZohNZa0d0AtymeaIl6pRMjsFebU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ty8HW8+e49/HHiPsBe8QP7aHJ63iqEzyC+dLrb8eKu6vJHRlUn1NtVnQiagusWa+nKLxC08aiFdYCKyNb0N5eR2PDrjtgocfzD2RipQuPotmjFIdepwE9eAY+qSqvsWi06MamfioRCfGpGcaGk0J9tTu7eSLymRbF7RoKzYrwSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XgROXtj3; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717426261; c=relaxed/simple;
+	bh=zG98KLJbkM25RRn+j3UuuXqg165jOeRk2KEUp6rpJ8I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NkTXH9ifQOlZax2Yvc2eWWQGMh31n6z5mxXek+bu4fTb1/kageyBE+twsH85KIHa33hBvwdUS74pi6L2Y9jyBsNlWejvTy7wcbFjHKi6sXj6uXNBuojICQKRLKpqL5eln5LAOIMqOnVB9RwemMd+zebPV/nMCpQ6vrhVBrfrhz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SDeMR4vU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EtXdY/cY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SDeMR4vU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EtXdY/cY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgROXtj3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717423995; x=1748959995;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GPTkRLmIP+xK5y2zZohNZa0d0AtymeaIl6pRMjsFebU=;
-  b=XgROXtj3hRed97vUUq0hsioPJyXbqvFMUReBCuJlwX1tjaafxSQlYTcj
-   hQAov7Ug2ohWyJwTRr5t+H7ScQiFudBB6+Yk1va8dgVP1ELDCguTMEWQX
-   vZ/t8rrz+8eH2TqBAwadrVqDN8mFvoKP9iHH4V3dpeFExcrLLlT+9CO/x
-   uj8cIyndeSaTXq9XQX1MClECsYkBETSgbiekt6Chm1XpF0VTewFKo0I4+
-   iBGD1ZtkbBfYEYYakfjcSRUBnEgz+wgGavuMYv1aHQbqdAcssjCJokZIi
-   pLflaKJUxxoSx+bPPNHIzwTs5k7vDhUTRXvAie38HjPnzDSfQvnNlAoNT
-   w==;
-X-CSE-ConnectionGUID: AJCkyp3eSHChtYX5FcMlAg==
-X-CSE-MsgGUID: Q40YIwbWS22lfZ1Hc4Y3RA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="16859736"
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="16859736"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 07:13:12 -0700
-X-CSE-ConnectionGUID: PdCYld/3Tkm2oBhnJx7FkQ==
-X-CSE-MsgGUID: xWiaZl5vR76ox6QF1gaceQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="41429970"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Jun 2024 07:13:11 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sE8Qu-000LjT-2a;
-	Mon, 03 Jun 2024 14:13:08 +0000
-Date: Mon, 3 Jun 2024 22:12:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 66/68]
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c:223:30: warning: unused variable
- 'ovl'
-Message-ID: <202406032234.aCUW79R9-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SDeMR4vU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EtXdY/cY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SDeMR4vU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EtXdY/cY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 25F8420041;
+	Mon,  3 Jun 2024 14:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717426258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
+	b=SDeMR4vUjc/iiTjnSjIxaV3KqI4m+Fqopb1EOGNnw/9s5+CEXaC8dmFLl6VN5WTGy9TsJs
+	z2hGnUUsGddeCq8i3DsmdQTslbD1r8Dtx/K+Ha+71eaadY6Tabf8+2DlPch+xL608XHU+3
+	0f3TMd3/nxeRO++zBmJIgwUODsKJtnE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717426258;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
+	b=EtXdY/cYXTA1Cs9Y0HwyWtAG3TQRjf5bD+HdC+5tdH7VsZpHYIfONy3IDXpRl5Qf9NVrf+
+	wfvEITRAl3DsckCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717426258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
+	b=SDeMR4vUjc/iiTjnSjIxaV3KqI4m+Fqopb1EOGNnw/9s5+CEXaC8dmFLl6VN5WTGy9TsJs
+	z2hGnUUsGddeCq8i3DsmdQTslbD1r8Dtx/K+Ha+71eaadY6Tabf8+2DlPch+xL608XHU+3
+	0f3TMd3/nxeRO++zBmJIgwUODsKJtnE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717426258;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
+	b=EtXdY/cYXTA1Cs9Y0HwyWtAG3TQRjf5bD+HdC+5tdH7VsZpHYIfONy3IDXpRl5Qf9NVrf+
+	wfvEITRAl3DsckCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2F0113A93;
+	Mon,  3 Jun 2024 14:50:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jlr0LFHYXWaLbAAAD6G6ig
+	(envelope-from <krisman@suse.de>); Mon, 03 Jun 2024 14:50:57 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: <lkp@intel.com>,  <coreteam@netfilter.org>,  <davem@davemloft.net>,
+  <ebiggers@kernel.org>,  <fw@strlen.de>,  <jaegeuk@kernel.org>,
+  <kadlec@netfilter.org>,  <kuba@kernel.org>,
+  <linux-fscrypt@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <llvm@lists.linux.dev>,  <netdev@vger.kernel.org>,
+  <netfilter-devel@vger.kernel.org>,  <oe-kbuild-all@lists.linux.dev>,
+  <pablo@netfilter.org>,
+  <syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com>,
+  <syzkaller-bugs@googlegroups.com>,  <tytso@mit.edu>,
+  <adilger.kernel@dilger.ca>,  <linux-ext4@vger.kernel.org>
+Subject: Re: [PATCH V5] ext4: check hash version and filesystem casefolded
+ consistent
+In-Reply-To: <20240601113749.473058-1-lizhi.xu@windriver.com> (Lizhi Xu's
+	message of "Sat, 1 Jun 2024 19:37:49 +0800")
+References: <20240531185519.GB1153@sol.localdomain>
+	<20240601113749.473058-1-lizhi.xu@windriver.com>
+Date: Mon, 03 Jun 2024 10:50:51 -0400
+Message-ID: <87plsym65w.fsf@mailhost.krisman.be>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-2.71)[98.71%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[340581ba9dceb7e06fb3];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.51
+X-Spam-Flag: NO
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   2268a7004f002732576535c32b514ad4933e3d13
-commit: f35c9df7b63fcc5f77832ed518667025c4a1f920 [66/68] CHROMIUM: drm/mediatek: Change CRC looping thread CMDQ start/stop timing
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240603/202406032234.aCUW79R9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406032234.aCUW79R9-lkp@intel.com/reproduce)
+Lizhi Xu <lizhi.xu@windriver.com> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406032234.aCUW79R9-lkp@intel.com/
+> When mounting the ext4 filesystem, if the hash version and casefolded are not
+> consistent, exit the mounting.
+>
+> Reported-by: syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com
+> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+> ---
+>  fs/ext4/super.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+> index c682fb927b64..0ad326504c50 100644
+> --- a/fs/ext4/super.c
+> +++ b/fs/ext4/super.c
+> @@ -5262,6 +5262,11 @@ static int __ext4_fill_super(struct fs_context *fc, struct super_block *sb)
+>  		goto failed_mount;
+>  
+>  	ext4_hash_info_init(sb);
+> +	if (es->s_def_hash_version == DX_HASH_SIPHASH && 
+> +	    !ext4_has_feature_casefold(sb)) {
 
-All warnings (new ones prefixed by >>):
+Can we ever have DX_HASH_SIPHASH set up in the super block?  I thought
+it was used solely for directories where ext4_hash_in_dirent(inode) is
+true.
 
-   drivers/gpu/drm/mediatek/mtk_disp_ovl.c: In function 'mtk_ovl_crc_start':
->> drivers/gpu/drm/mediatek/mtk_disp_ovl.c:223:30: warning: unused variable 'ovl' [-Wunused-variable]
-     223 |         struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-         |                              ^~~
-   drivers/gpu/drm/mediatek/mtk_disp_ovl.c: In function 'mtk_ovl_crc_stop':
-   drivers/gpu/drm/mediatek/mtk_disp_ovl.c:232:30: warning: unused variable 'ovl' [-Wunused-variable]
-     232 |         struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-         |                              ^~~
---
-   drivers/gpu/drm/mediatek/mtk_ethdr.c: In function 'mtk_ethdr_crc_start':
->> drivers/gpu/drm/mediatek/mtk_ethdr.c:140:27: warning: unused variable 'priv' [-Wunused-variable]
-     140 |         struct mtk_ethdr *priv = dev_get_drvdata(dev);
-         |                           ^~~~
-   drivers/gpu/drm/mediatek/mtk_ethdr.c: In function 'mtk_ethdr_crc_stop':
-   drivers/gpu/drm/mediatek/mtk_ethdr.c:149:27: warning: unused variable 'priv' [-Wunused-variable]
-     149 |         struct mtk_ethdr *priv = dev_get_drvdata(dev);
-         |                           ^~~~
-
-
-vim +/ovl +223 drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-
-   220	
-   221	void mtk_ovl_crc_start(struct device *dev)
-   222	{
- > 223		struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-   224	
+If this is only for the case of a superblock corruption, perhaps we
+should always reject the mount, whether casefold is enabled or not?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Gabriel Krisman Bertazi
