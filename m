@@ -1,154 +1,134 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00CA4A1B;
-	Mon,  3 Jun 2024 14:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A5712EBD3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jun 2024 15:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717426261; cv=none; b=Brsfv4yGNd5Lcl8DmFmcrD/FiF0zjQ1Kelf5POXg5LjjGnIT2RHSbnOqiaW2lHBhAzTJjO4btmYCzvqcYVivY3O6c2cIxuOymR7WTi0DHTL92aZbyc8arG/FmjUtcd7FsR5ceciu3gaimn4TS9APJONnEpg0k643JBe1fEQcdeQ=
+	t=1717427769; cv=none; b=exIQfRvRl+thS0Odh1f1/0+Mq56aOUNwGReyNg+9RN/HvQd2eNNqk2aJBSmTdXP+CpFZ8ZY56i3DpKxtLsF/Q3rh7/qNAQxm9xaFXrStbtU4Z/7RI1JrRRQaQ9VwuKDbblAOak+64eYSmZ57e/A0UCLp+fVwLqDuYX8Nnl4DqkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717426261; c=relaxed/simple;
-	bh=zG98KLJbkM25RRn+j3UuuXqg165jOeRk2KEUp6rpJ8I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NkTXH9ifQOlZax2Yvc2eWWQGMh31n6z5mxXek+bu4fTb1/kageyBE+twsH85KIHa33hBvwdUS74pi6L2Y9jyBsNlWejvTy7wcbFjHKi6sXj6uXNBuojICQKRLKpqL5eln5LAOIMqOnVB9RwemMd+zebPV/nMCpQ6vrhVBrfrhz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SDeMR4vU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EtXdY/cY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SDeMR4vU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EtXdY/cY; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1717427769; c=relaxed/simple;
+	bh=wn74DGayn2LhHF1DS4AIgDk5E4v/Hiu+0yxvri0+M6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KRFcIq5Y5E5oat6xTPkpc0drNJj6b0+1yTSX2AX6ZmDX6l9OzdxfMi6V5/gCbiF4TLQ8cgMJZo8JPBhNWse0Rxy2SEXiaKEXiI2I/rx0uE/y97G0d6gtqf9afd6PHoQuNux14jnP0q4GHjbVj6fN7MkmVMckJINw85MLeCgLYdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqCUBfUJ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SDeMR4vU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EtXdY/cY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SDeMR4vU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EtXdY/cY"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 25F8420041;
-	Mon,  3 Jun 2024 14:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717426258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
-	b=SDeMR4vUjc/iiTjnSjIxaV3KqI4m+Fqopb1EOGNnw/9s5+CEXaC8dmFLl6VN5WTGy9TsJs
-	z2hGnUUsGddeCq8i3DsmdQTslbD1r8Dtx/K+Ha+71eaadY6Tabf8+2DlPch+xL608XHU+3
-	0f3TMd3/nxeRO++zBmJIgwUODsKJtnE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717426258;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
-	b=EtXdY/cYXTA1Cs9Y0HwyWtAG3TQRjf5bD+HdC+5tdH7VsZpHYIfONy3IDXpRl5Qf9NVrf+
-	wfvEITRAl3DsckCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717426258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
-	b=SDeMR4vUjc/iiTjnSjIxaV3KqI4m+Fqopb1EOGNnw/9s5+CEXaC8dmFLl6VN5WTGy9TsJs
-	z2hGnUUsGddeCq8i3DsmdQTslbD1r8Dtx/K+Ha+71eaadY6Tabf8+2DlPch+xL608XHU+3
-	0f3TMd3/nxeRO++zBmJIgwUODsKJtnE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717426258;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oe7YXIZQ2xQOr2btlbRQ08j1/YVZeKV53iC/f6cqlfw=;
-	b=EtXdY/cYXTA1Cs9Y0HwyWtAG3TQRjf5bD+HdC+5tdH7VsZpHYIfONy3IDXpRl5Qf9NVrf+
-	wfvEITRAl3DsckCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2F0113A93;
-	Mon,  3 Jun 2024 14:50:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jlr0LFHYXWaLbAAAD6G6ig
-	(envelope-from <krisman@suse.de>); Mon, 03 Jun 2024 14:50:57 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: <lkp@intel.com>,  <coreteam@netfilter.org>,  <davem@davemloft.net>,
-  <ebiggers@kernel.org>,  <fw@strlen.de>,  <jaegeuk@kernel.org>,
-  <kadlec@netfilter.org>,  <kuba@kernel.org>,
-  <linux-fscrypt@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
-  <llvm@lists.linux.dev>,  <netdev@vger.kernel.org>,
-  <netfilter-devel@vger.kernel.org>,  <oe-kbuild-all@lists.linux.dev>,
-  <pablo@netfilter.org>,
-  <syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com>,
-  <syzkaller-bugs@googlegroups.com>,  <tytso@mit.edu>,
-  <adilger.kernel@dilger.ca>,  <linux-ext4@vger.kernel.org>
-Subject: Re: [PATCH V5] ext4: check hash version and filesystem casefolded
- consistent
-In-Reply-To: <20240601113749.473058-1-lizhi.xu@windriver.com> (Lizhi Xu's
-	message of "Sat, 1 Jun 2024 19:37:49 +0800")
-References: <20240531185519.GB1153@sol.localdomain>
-	<20240601113749.473058-1-lizhi.xu@windriver.com>
-Date: Mon, 03 Jun 2024 10:50:51 -0400
-Message-ID: <87plsym65w.fsf@mailhost.krisman.be>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqCUBfUJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717427766; x=1748963766;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wn74DGayn2LhHF1DS4AIgDk5E4v/Hiu+0yxvri0+M6Y=;
+  b=AqCUBfUJmBXUJu20t9z3b6GR5o03Nr9QNdJV84tvWlcLkR+JI5yqCX3E
+   1/JRZn6zaQCfIMIhutPVrzXSKRgpg7ie77y/P2F1ObLtuntpWFDLpAjDt
+   ls2guuWEKC2Jpo5b5Nxn6HUzwAG0RoveCORHrvpiOxAaTBVP3MS/eP4fj
+   ah910qyBzW5sB/8nNrbCM4qRxHrr56Bq5wp8nbHatmcZLaTy50IKa1FXY
+   GZBdBCuIiJSopOs8KIwSMK2iQ6VU0C/xW6K1VhN0GSzCWlZ9CUEuXi7aP
+   TXRRoV5zbLLvfcwCAxXlTLTWXaqDFx0onsN4QI/5v+vha6nXd+mKmCdno
+   w==;
+X-CSE-ConnectionGUID: +zS/83zkS8atE309MgfBxA==
+X-CSE-MsgGUID: aymEdeUuRZWF1q1n0NvGYg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="14050605"
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="14050605"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 08:16:05 -0700
+X-CSE-ConnectionGUID: E5y3S27MSJOx6GJBW1SKRg==
+X-CSE-MsgGUID: uTkr4zqHT6Cip7CLKCXx7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="37493984"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 03 Jun 2024 08:16:01 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sE9Pi-000LnG-2U;
+	Mon, 03 Jun 2024 15:15:58 +0000
+Date: Mon, 3 Jun 2024 23:15:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mao Jinlong <quic_jinlmao@quicinc.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Tingwei Zhang <quic_tingweiz@quicinc.com>,
+	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+	Tao Zhang <quic_taozha@quicinc.com>,
+	songchai <quic_songchai@quicinc.com>
+Subject: Re: [PATCH v2 2/3] coresight: Add support to get preferred id for
+ system trace sources
+Message-ID: <202406032259.9poyd8Ts-lkp@intel.com>
+References: <20240603094354.2348-3-quic_jinlmao@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-2.71)[98.71%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[340581ba9dceb7e06fb3];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.51
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603094354.2348-3-quic_jinlmao@quicinc.com>
 
-Lizhi Xu <lizhi.xu@windriver.com> writes:
+Hi Mao,
 
-> When mounting the ext4 filesystem, if the hash version and casefolded are not
-> consistent, exit the mounting.
->
-> Reported-by: syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com
-> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
-> ---
->  fs/ext4/super.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index c682fb927b64..0ad326504c50 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -5262,6 +5262,11 @@ static int __ext4_fill_super(struct fs_context *fc, struct super_block *sb)
->  		goto failed_mount;
->  
->  	ext4_hash_info_init(sb);
-> +	if (es->s_def_hash_version == DX_HASH_SIPHASH && 
-> +	    !ext4_has_feature_casefold(sb)) {
+kernel test robot noticed the following build errors:
 
-Can we ever have DX_HASH_SIPHASH set up in the super block?  I thought
-it was used solely for directories where ext4_hash_in_dirent(inode) is
-true.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on atorgue-stm32/stm32-next linus/master v6.10-rc2 next-20240603]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If this is only for the case of a superblock corruption, perhaps we
-should always reject the mount, whether casefold is enabled or not?
+url:    https://github.com/intel-lab-lkp/linux/commits/Mao-Jinlong/dt-bindings-arm-Add-trace-id-for-coresight-dummy-source/20240603-175023
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240603094354.2348-3-quic_jinlmao%40quicinc.com
+patch subject: [PATCH v2 2/3] coresight: Add support to get preferred id for system trace sources
+config: arm-randconfig-001-20240603 (https://download.01.org/0day-ci/archive/20240603/202406032259.9poyd8Ts-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240603/202406032259.9poyd8Ts-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406032259.9poyd8Ts-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/hwtracing/coresight/coresight-platform.c:797:12: error: redefinition of 'of_coresight_get_trace_id'
+     797 | static int of_coresight_get_trace_id(struct device *dev, u32 *id)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-platform.c:191:12: note: previous definition of 'of_coresight_get_trace_id' with type 'int(struct device *, u32 *)' {aka 'int(struct device *, unsigned int *)'}
+     191 | static int of_coresight_get_trace_id(struct device *dev, u32 *id)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwtracing/coresight/coresight-platform.c:191:12: warning: 'of_coresight_get_trace_id' defined but not used [-Wunused-function]
+--
+   drivers/hwtracing/coresight/coresight-tpda.c: In function 'tpda_init_default_data':
+>> drivers/hwtracing/coresight/coresight-tpda.c:254:16: error: too few arguments to function 'coresight_trace_id_get_system_id'
+     254 |         atid = coresight_trace_id_get_system_id();
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/hwtracing/coresight/coresight-tpda.c:20:
+   drivers/hwtracing/coresight/coresight-trace-id.h:126:5: note: declared here
+     126 | int coresight_trace_id_get_system_id(int id);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/of_coresight_get_trace_id +797 drivers/hwtracing/coresight/coresight-platform.c
+
+   796	
+ > 797	static int of_coresight_get_trace_id(struct device *dev, u32 *id)
+   798	{
+   799		return -ENODEV;
+   800	}
+   801	
 
 -- 
-Gabriel Krisman Bertazi
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
