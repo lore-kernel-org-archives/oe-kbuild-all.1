@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A004F33F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 03:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9165113DB9F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 05:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717471250; cv=none; b=dkCXMdGxepX94HA+83UMGdOAlPvSlwCQw0/eMupPP0B9LFi0cKxtOI+ba+ULNhVdtxHLsusX0nszY6YNAh3atrLH5XpxJvkJCO+s4Vbh+tRUnVZmkFGcmIklvXN2tPjhTybQWOto32GW0UXovTM6inX4K2a8dhjcaFSE+qTQerg=
+	t=1717478064; cv=none; b=pRqwcIn01CE7tXM7sdpOn/L0KSroHamY4/hVdSf7PYzhclBW4wpmMrvp+ikLSOxsL6hB+JR06p0KbtQ+A5exg9v1hBZrP3HNv7L8tgY/lCHd+ssnoyI17MQqdSMaYiOygBX/lHb4+P4zJXRShQGJGyXR9n02MipOyweVGF5dVk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717471250; c=relaxed/simple;
-	bh=nDJJLPRgaTwmezQQx2sKWYNbbDh6+QwbieU3LpVxtWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NjZKpFeO9J5xImH1DxTGETBenzh3M/0sRmV83V/KBM9CUAZ+jKfoj+pL0cz4D021Bv7TIT52D7PfJ/Beztrlpx4QCHXvK8liapo88bCmxs6SNSqR53MMjQ/v1CPtnOcsIoKM0kELIOzqRvRvmNvbJrU4JMepVd73LQeC2pFVrP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBWnM7YV; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1717478064; c=relaxed/simple;
+	bh=BFs+Im/0w0+5yhb0ZsHQ8NsdUzGpCZq3fhm5A3fGSek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qfiSzMtk9E2yYshkLZGDyIIKPTpllxezQvVjlkxEQYZEImsDVwSltbrVYeFtIt8xjftUrguEG79b9SXwFwXka332honEVzQayrYh0fYWJGs6yCfEuBFxlXF8pkAE8DakYAg2CK6tfGrZHJGcKLDd8WejmwSkaF3V+WB9wsrDbXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ARH6LJQq; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBWnM7YV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARH6LJQq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717471249; x=1749007249;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nDJJLPRgaTwmezQQx2sKWYNbbDh6+QwbieU3LpVxtWU=;
-  b=XBWnM7YV4pB0sdsVwW0OU5dkAadfIj2zTWMor2poemvuc1mFRmXN4ceC
-   c2srqv61VSLXY/FVb0xMWsA1BfdiUPah5tMm/2ulL9F+b83AQdx6xVtX7
-   GrmJQK3vF2LEXZJTqjeP9VKYXlxTvUReHyhIdyNNX6404w8Oo9l4il8VA
-   pQyWsUPnOUW4OnMBv/WgJpIkDaAd6CMbEI3VcstyNDRMoRHnBmzj+s+We
-   N8uZwhrWEetPNM3pM1U5lF4Tnd/GmCRhvZyabtsZgCraq961CLFmPCeIO
-   esE4QCSZUYm2oIBoq6odCAAc1b0DsqVIMfF1e7Gop/g+0dHCiKbOwtzGt
-   Q==;
-X-CSE-ConnectionGUID: HFZX42CTSbe7okxe0CeBhw==
-X-CSE-MsgGUID: RVqHLNquQmSAZidDT1LN2g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="17827298"
+  t=1717478062; x=1749014062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BFs+Im/0w0+5yhb0ZsHQ8NsdUzGpCZq3fhm5A3fGSek=;
+  b=ARH6LJQqX3sr1MfNRJ9yA2acBzrAvcRBtO1PuJUKEVOR5HslJpTwBzme
+   5gZWxQReLd6XQxevl46IzlDgMAsRt+5ptYaZWYuIo++7AAFvaplPiiklm
+   /0CDlKKg3DbYpgXTH094xoC0e/oaduHQ74MjLPQP2v9GlwMZUF+9zgOh9
+   mgJJ0AcMciSRRGFzd2a1NLlFJ8Ggpn8+x5B1CdJHC5KKmpG1Fk0jsgFYO
+   TNOYSKGMPYlrxmuXz9kZabs4xQ1PxRSw0itn2FGbdOLJsSM2fMZ+Ikhq2
+   HyIat+9rDXisTT0/WYNWN2I4wB9fBoIr2xwYkLdi6/lEdqGMSdbSjys78
+   g==;
+X-CSE-ConnectionGUID: /4PR1LLnQKSbT+0Mjr5eLg==
+X-CSE-MsgGUID: VF56yL3aQ6WYKw//FzVAKA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="16936851"
 X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="17827298"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 20:20:46 -0700
-X-CSE-ConnectionGUID: 9bwiE4vUTJmGuDMGyUy5bg==
-X-CSE-MsgGUID: Uj/9yymYSVeQKfmvPi0GKA==
+   d="scan'208";a="16936851"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 22:14:18 -0700
+X-CSE-ConnectionGUID: C4aXGUYRTU6jFPVtV1xDaA==
+X-CSE-MsgGUID: P3BX5KqWTvO00/CuBJmd/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="37202782"
+   d="scan'208";a="37172643"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2024 20:20:44 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 Jun 2024 22:14:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEKj3-000MV9-1d;
-	Tue, 04 Jun 2024 03:20:41 +0000
-Date: Tue, 4 Jun 2024 11:19:52 +0800
+	id 1sEMUw-000Mb5-01;
+	Tue, 04 Jun 2024 05:14:14 +0000
+Date: Tue, 4 Jun 2024 13:13:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:memcontrol_v1.2 6/15] mm/memcontrol-v1.c:1297:12: error:
- static declaration of 'memcg1_can_attach' follows non-static declaration
-Message-ID: <202406041117.fVWtbhJU-lkp@intel.com>
+To: Gerhard Engleder <gerhard@engleder-embedded.com>,
+	linux-i2c@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andi.shyti@kernel.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org,
+	Gerhard Engleder <gerhard@engleder-embedded.com>
+Subject: Re: [PATCH 2/2] misc: keba: Add basic KEBA CP500 system FPGA support
+Message-ID: <202406041218.9TKBWHf2-lkp@intel.com>
+References: <20240601192846.68146-3-gerhard@engleder-embedded.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,71 +65,248 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240601192846.68146-3-gerhard@engleder-embedded.com>
 
-Hi Roman,
+Hi Gerhard,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/rgushchin/linux.git memcontrol_v1.2
-head:   95565b6663a1eaa4a2bb06f3b5b7d3345b009a40
-commit: 1624ea43c8bfb0b64888ace5d067503989bdbdcc [6/15] mm: memcg: rename charge move-related functions
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240604/202406041117.fVWtbhJU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406041117.fVWtbhJU-lkp@intel.com/reproduce)
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.10-rc2 next-20240603]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/i2c-keba-Add-KEBA-I2C-controller-support/20240602-040548
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240601192846.68146-3-gerhard%40engleder-embedded.com
+patch subject: [PATCH 2/2] misc: keba: Add basic KEBA CP500 system FPGA support
+config: csky-randconfig-r132-20240604 (https://download.01.org/0day-ci/archive/20240604/202406041218.9TKBWHf2-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240604/202406041218.9TKBWHf2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406041117.fVWtbhJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406041218.9TKBWHf2-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/keba/cp500.c:64:19: sparse: sparse: symbol 'cp035_devices' was not declared. Should it be static?
+>> drivers/misc/keba/cp500.c:70:19: sparse: sparse: symbol 'cp505_devices' was not declared. Should it be static?
+>> drivers/misc/keba/cp500.c:76:19: sparse: sparse: symbol 'cp520_devices' was not declared. Should it be static?
+>> drivers/misc/keba/cp500.c:262:26: sparse: sparse: Using plain integer as NULL pointer
+   drivers/misc/keba/cp500.c:324:22: sparse: sparse: Using plain integer as NULL pointer
+   drivers/misc/keba/cp500.c:407:34: sparse: sparse: Using plain integer as NULL pointer
+   drivers/misc/keba/cp500.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
->> mm/memcontrol-v1.c:1297:12: error: static declaration of 'memcg1_can_attach' follows non-static declaration
-    1297 | static int memcg1_can_attach(struct cgroup_taskset *tset)
-         |            ^~~~~~~~~~~~~~~~~
-   In file included from mm/memcontrol-v1.c:12:
-   mm/memcontrol-v1.h:34:5: note: previous declaration of 'memcg1_can_attach' with type 'int(struct cgroup_taskset *)'
-      34 | int memcg1_can_attach(struct cgroup_taskset *tset);
-         |     ^~~~~~~~~~~~~~~~~
->> mm/memcontrol-v1.c:1301:13: error: static declaration of 'memcg1_cancel_attach' follows non-static declaration
-    1301 | static void memcg1_cancel_attach(struct cgroup_taskset *tset)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   mm/memcontrol-v1.h:35:6: note: previous declaration of 'memcg1_cancel_attach' with type 'void(struct cgroup_taskset *)'
-      35 | void memcg1_cancel_attach(struct cgroup_taskset *tset);
-         |      ^~~~~~~~~~~~~~~~~~~~
->> mm/memcontrol-v1.c:1304:13: error: static declaration of 'memcg1_move_task' follows non-static declaration
-    1304 | static void memcg1_move_task(void)
-         |             ^~~~~~~~~~~~~~~~
-   mm/memcontrol-v1.h:36:6: note: previous declaration of 'memcg1_move_task' with type 'void(void)'
-      36 | void memcg1_move_task(void);
-         |      ^~~~~~~~~~~~~~~~
->> mm/memcontrol-v1.c:1304:13: warning: 'memcg1_move_task' defined but not used [-Wunused-function]
-    1304 | static void memcg1_move_task(void)
-         |             ^~~~~~~~~~~~~~~~
->> mm/memcontrol-v1.c:1301:13: warning: 'memcg1_cancel_attach' defined but not used [-Wunused-function]
-    1301 | static void memcg1_cancel_attach(struct cgroup_taskset *tset)
-         |             ^~~~~~~~~~~~~~~~~~~~
->> mm/memcontrol-v1.c:1297:12: warning: 'memcg1_can_attach' defined but not used [-Wunused-function]
-    1297 | static int memcg1_can_attach(struct cgroup_taskset *tset)
-         |            ^~~~~~~~~~~~~~~~~
+vim +/cp035_devices +64 drivers/misc/keba/cp500.c
 
-
-vim +/memcg1_can_attach +1297 mm/memcontrol-v1.c
-
-  1295	
-  1296	#else	/* !CONFIG_MMU */
-> 1297	static int memcg1_can_attach(struct cgroup_taskset *tset)
-  1298	{
-  1299		return 0;
-  1300	}
-> 1301	static void memcg1_cancel_attach(struct cgroup_taskset *tset)
-  1302	{
-  1303	}
-> 1304	static void memcg1_move_task(void)
-  1305	{
-  1306	}
-  1307	#endif
-  1308	
+    62	
+    63	/* list of devices within FPGA of CP035 family (CP035, CP056, CP057) */
+  > 64	struct cp500_devs cp035_devices = {
+    65		.startup   = { 0x0000, SZ_4K },
+    66		.i2c       = { 0x4000, SZ_4K },
+    67	};
+    68	
+    69	/* list of devices within FPGA of CP505 family (CP503, CP505, CP507) */
+  > 70	struct cp500_devs cp505_devices = {
+    71		.startup   = { 0x0000, SZ_4K },
+    72		.i2c       = { 0x5000, SZ_4K },
+    73	};
+    74	
+    75	/* list of devices within FPGA of CP520 family (CP520, CP530) */
+  > 76	struct cp500_devs cp520_devices = {
+    77		.startup     = { 0x0000, SZ_4K },
+    78		.i2c         = { 0x5000, SZ_4K },
+    79	};
+    80	
+    81	struct cp500 {
+    82		struct pci_dev *pci_dev;
+    83		struct cp500_devs *devs;
+    84		int msix_num;
+    85		struct {
+    86			int major;
+    87			int minor;
+    88			int build;
+    89		} version;
+    90	
+    91		/* system FPGA BAR */
+    92		resource_size_t sys_hwbase;
+    93		struct platform_device *i2c;
+    94	
+    95		/* ECM EtherCAT BAR */
+    96		resource_size_t ecm_hwbase;
+    97	
+    98		void __iomem *system_startup_addr;
+    99	};
+   100	
+   101	/* I2C devices */
+   102	static struct i2c_board_info cp500_i2c_info[] = {
+   103		{	/* temperature sensor */
+   104			I2C_BOARD_INFO("emc1403", 0x4c),
+   105		},
+   106		{	/* CPU EEPROM
+   107			 * CP035 family: CPU board
+   108			 * CP505 family: bridge board
+   109			 * CP520 family: carrier board
+   110			 */
+   111			I2C_BOARD_INFO("24c32", 0x50),
+   112			.dev_name = CP500_HW_CPU_EEPROM_NAME,
+   113		},
+   114		{	/* interface board EEPROM */
+   115			I2C_BOARD_INFO("24c32", 0x51),
+   116		},
+   117		{	/* EEPROM (optional)
+   118			 * CP505 family: CPU board
+   119			 * CP520 family: MMI board
+   120			 */
+   121			I2C_BOARD_INFO("24c32", 0x52),
+   122		},
+   123		{	/* extension module 0 EEPROM (optional) */
+   124			I2C_BOARD_INFO("24c32", 0x53),
+   125		},
+   126		{	/* extension module 1 EEPROM (optional) */
+   127			I2C_BOARD_INFO("24c32", 0x54),
+   128		},
+   129		{	/* extension module 2 EEPROM (optional) */
+   130			I2C_BOARD_INFO("24c32", 0x55),
+   131		},
+   132		{	/* extension module 3 EEPROM (optional) */
+   133			I2C_BOARD_INFO("24c32", 0x56),
+   134		}
+   135	};
+   136	
+   137	static ssize_t cp500_get_fpga_version(struct cp500 *cp500, char *buf,
+   138					      size_t max_len)
+   139	{
+   140		int n;
+   141	
+   142		if (CP500_IS_CP035(cp500))
+   143			n = scnprintf(buf, max_len, "CP035");
+   144		else if (CP500_IS_CP505(cp500))
+   145			n = scnprintf(buf, max_len, "CP505");
+   146		else
+   147			n = scnprintf(buf, max_len, "CP500");
+   148	
+   149		n += scnprintf(buf + n, max_len - n, "_FPGA_%d.%02d",
+   150			       cp500->version.major, cp500->version.minor);
+   151	
+   152		/* test versions have test bit set */
+   153		if (cp500->version.build & CP500_BUILD_TEST)
+   154			n += scnprintf(buf + n, max_len - n, "Test%d",
+   155				       cp500->version.build & ~CP500_BUILD_TEST);
+   156	
+   157		n += scnprintf(buf + n, max_len - n, "\n");
+   158	
+   159		return n;
+   160	}
+   161	
+   162	static ssize_t version_show(struct device *dev, struct device_attribute *attr,
+   163				    char *buf)
+   164	{
+   165		struct cp500 *cp500 = dev_get_drvdata(dev);
+   166	
+   167		return cp500_get_fpga_version(cp500, buf, PAGE_SIZE);
+   168	}
+   169	static DEVICE_ATTR_RO(version);
+   170	
+   171	static ssize_t keep_cfg_show(struct device *dev, struct device_attribute *attr,
+   172				     char *buf)
+   173	{
+   174		struct cp500 *cp500 = dev_get_drvdata(dev);
+   175		unsigned long keep_cfg = 1;
+   176	
+   177		/* FPGA configuration stream is kept during reset when RECONFIG bit is
+   178		 * zero
+   179		 */
+   180		if (ioread8(cp500->system_startup_addr + CP500_RECONFIG_REG) &
+   181			CP500_RECFG_REQ)
+   182			keep_cfg = 0;
+   183	
+   184		return sprintf(buf, "%lu\n", keep_cfg);
+   185	}
+   186	
+   187	static ssize_t keep_cfg_store(struct device *dev, struct device_attribute *attr,
+   188				      const char *buf, size_t count)
+   189	{
+   190		struct cp500 *cp500 = dev_get_drvdata(dev);
+   191		unsigned long keep_cfg;
+   192	
+   193		if (kstrtoul(buf, 10, &keep_cfg) < 0)
+   194			return -EINVAL;
+   195	
+   196		/* In normal operation "keep_cfg" is "1". This means that the FPGA keeps
+   197		 * its configuration stream during a reset.
+   198		 * In case of a firmware update of the FPGA, the configuration stream
+   199		 * needs to be reloaded. This can be done without a powercycle by
+   200		 * writing a "0" into the "keep_cfg" attribute. After a reset/reboot th
+   201		 * new configuration stream will be loaded.
+   202		 */
+   203		if (keep_cfg)
+   204			iowrite8(0, cp500->system_startup_addr + CP500_RECONFIG_REG);
+   205		else
+   206			iowrite8(CP500_RECFG_REQ,
+   207				 cp500->system_startup_addr + CP500_RECONFIG_REG);
+   208	
+   209		return count;
+   210	}
+   211	static DEVICE_ATTR_RW(keep_cfg);
+   212	
+   213	static struct attribute *attrs[] = {
+   214		&dev_attr_version.attr,
+   215		&dev_attr_keep_cfg.attr,
+   216		NULL
+   217	};
+   218	static const struct attribute_group attrs_group = { .attrs = attrs };
+   219	
+   220	static int cp500_register_i2c(struct cp500 *cp500)
+   221	{
+   222		struct i2c_keba_platform_data data;
+   223		struct platform_device *pdev;
+   224		struct resource res[] = {
+   225			{
+   226			 /* I2C register area */
+   227			 .start = (resource_size_t) cp500->sys_hwbase +
+   228				  cp500->devs->i2c.offset,
+   229			 .end   = (resource_size_t) cp500->sys_hwbase +
+   230				  cp500->devs->i2c.offset +
+   231				  cp500->devs->i2c.size - 1,
+   232			 .flags = IORESOURCE_MEM,
+   233			 },
+   234		};
+   235	
+   236		data.info = cp500_i2c_info;
+   237		data.info_size = ARRAY_SIZE(cp500_i2c_info);
+   238	
+   239		pdev = platform_device_register_resndata(&cp500->pci_dev->dev,
+   240							 "i2c-keba", 0, res,
+   241							 ARRAY_SIZE(res), &data,
+   242							 sizeof(data));
+   243		if (IS_ERR(pdev))
+   244			return PTR_ERR(pdev);
+   245		cp500->i2c = pdev;
+   246	
+   247		return 0;
+   248	}
+   249	
+   250	static void cp500_register_platform_devs(struct cp500 *cp500)
+   251	{
+   252		struct device *dev = &cp500->pci_dev->dev;
+   253	
+   254		if (cp500_register_i2c(cp500))
+   255			dev_warn(dev, "Failed to register i2c-keba!\n");
+   256	}
+   257	
+   258	static void cp500_unregister_dev(struct platform_device **ppdev)
+   259	{
+   260		if (*ppdev) {
+   261			platform_device_unregister(*ppdev);
+ > 262			*ppdev = 0;
+   263		}
+   264	}
+   265	
 
 -- 
 0-DAY CI Kernel Test Service
