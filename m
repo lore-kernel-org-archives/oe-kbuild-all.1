@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BAC13D289
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 10:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6831420D7;
+	Tue,  4 Jun 2024 11:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717495623; cv=none; b=cocvY/bB7M3ubPfx9YvxDzRXKVcn/yRQEw2Jr3CelWIXsYkzBjniuvUK1OieHr4G4RJAmkMBioGmhAXfo3X/uNX8jfqZEQV1Gn86QnKO8UMMiggj/IUx3Km7mE+MmHA4Y6a1AOPHb5tDo/yr+RyAnr645o6SzYxduEcwc1ltuxM=
+	t=1717500616; cv=none; b=WGiLTnQHZQokUbWjcurFwV9OYL0kiYLIurtsgaeiPn+j3zrgvd5k1A90BUHCZHpG9BHRh6tP+cMqTphO5tziPZuQysupldxKSd1TGXoJf5EHa66Fsv6l5kTZkKsaIGKFflSsRCKpgG3HW186kHT/JbzCCk8u/Jz781FbNoXd214=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717495623; c=relaxed/simple;
-	bh=F3vbFHgw5c4rVE7GFfNV9B1VguIkLCfEsFNL39bHMdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sTeIo0dlydnbnx3amDLFKD9uyedFBaW0XCBBbmO7Hm9VDBdzA2G3rkuf/h5EkNwU01DOt2qKVbgleL9FkRShN0cmIEEbp3onPRfkjYKEo0I3IN2xhYcxJ27xUUSReRvBJZTypxVUxMyY5P21Rpy8c/yTgWdMzenTLPgTeXu4XCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=njA3aAj5; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1717500616; c=relaxed/simple;
+	bh=TSTA2G2LQUoLI818l9IzE6WcYMZFTkdSN3J60PlP/OM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oUK6K1LtbYSCJ0YdbuSatG5du47SttAExr+uHpWPjePti8Th4cBiGjkhXHpJQ525u9wYF6bmUj5gLKOX1hemBxzmozqIPIwuHooxEWPRCwFeDl8Yc2tQyyfUmFQmpJoxm6yc7SEYe7Qoe3EAbR6dm+B3u1rVkl0XMmQ/Lc2j1tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdRrewFP; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="njA3aAj5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdRrewFP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717495621; x=1749031621;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F3vbFHgw5c4rVE7GFfNV9B1VguIkLCfEsFNL39bHMdE=;
-  b=njA3aAj5Mjvhacryc6Utv08H+3RuMNHZzcAUh7eGUDQ1T/1+m8CKgEJP
-   1f7bYM6nQ+9KapV0hrDJ7AldE6HrKsAt3WGajM2kXxH56Y31Vsb1h8lwo
-   lYsn1KddYl/wnApTkDbIpdW85wSY7mnr0e8ieekPKKi+jItl98BUVvdHN
-   KATHUrQRyu2vD1zlrLBI0PPgLy6rVoC76DF3r6ky8QRHfm6i2tqfv+1MW
-   L4BNJ0PNt6lS2J3Why0LrQTd7E+ZMrX8LQ8oxbNhgLpXIP2jUV/njaO9r
-   PsTb0A+pchJ3rr9bGgGPaGZaOOE1WgGGZygVqjmkqcr+A1YJQTj5/JOiC
-   g==;
-X-CSE-ConnectionGUID: X6p3MePtQSuT26Pp/t7q1Q==
-X-CSE-MsgGUID: A/+aWHLJTQe4bfaLAdyPVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="25144173"
+  t=1717500614; x=1749036614;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TSTA2G2LQUoLI818l9IzE6WcYMZFTkdSN3J60PlP/OM=;
+  b=OdRrewFP5MUVENDRqkkcuHEBPp/VmaAIOHBfvDoyeVA4sPjbgEcgCn+S
+   mxS1mSQ8fZGnK1y1AclN/EBBmcyRA4VeNzfzYc7xIXy8mzC92z0Z9OQo6
+   8T90/gbKrZdzLAdL51tZ4FSlZ+7DHBP+h779lyRKiylWQwPL7EQ2KTNfQ
+   SclejSY99WDVb806Iqa+nbC+Eucb5tpLuztueF/LV5BnzorMWgL/VCKDR
+   vIVEASKy38b2JvYomtHUuGQp55sQa4iO/DYQ14gvZm8llWbPP3IJdXPTE
+   cri0RB0+ANh7CRRBNsvbq8HGCgQAu+FW9GUnj4c8YD1/WjRmRxRwYZfyW
+   A==;
+X-CSE-ConnectionGUID: pYaa4EZ8Q+SnW1Gi9kQDaw==
+X-CSE-MsgGUID: iDfcWe2pQc+NgLgCTOIG8w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="14263082"
 X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="25144173"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 03:07:00 -0700
-X-CSE-ConnectionGUID: 4QE1RR+nSPKZXtqC2L2oTA==
-X-CSE-MsgGUID: pHA5lEGyQbCaLwqOnsXKSQ==
+   d="scan'208";a="14263082"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 04:30:13 -0700
+X-CSE-ConnectionGUID: SpeJQ3pTRt+lLlyUgBliTg==
+X-CSE-MsgGUID: PDxX2zhER16Ox+JxrCjxVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="41733704"
+   d="scan'208";a="41670248"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Jun 2024 03:06:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 04 Jun 2024 04:30:09 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sER4D-000N3A-1a;
-	Tue, 04 Jun 2024 10:06:57 +0000
-Date: Tue, 4 Jun 2024 18:06:19 +0800
+	id 1sESMh-000N8x-06;
+	Tue, 04 Jun 2024 11:30:07 +0000
+Date: Tue, 4 Jun 2024 19:29:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/next 19/23]
- drivers/net/ethernet/broadcom/bnxt/bnxt.c:14885:13: warning:
- 'bnxt_init_rx_ring_rxbd_pages' defined but not used
-Message-ID: <202406041709.yXWbaRnX-lkp@intel.com>
+To: Andreas Kemnade <andreas@kemnade.info>, marcel@holtmann.org,
+	luiz.dentz@gmail.com, johan@kernel.org, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, pmenzel@molgen.mpg.de,
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	Adam Ford <aford173@gmail.com>, Tony Lindgren <tony@atomide.com>,
+	tomi.valkeinen@ideasonboard.com,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@gmail.com>,
+	robh@kernel.org, hns@goldelico.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 3/4] gnss: Add driver for AI2 protocol
+Message-ID: <202406041854.1Ad8rnRn-lkp@intel.com>
+References: <20240603144400.2195564-4-andreas@kemnade.info>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,121 +69,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240603144400.2195564-4-andreas@kemnade.info>
 
-tree:   https://github.com/isilence/linux zcrx/next
-head:   557b992217c1ed5778b0cf14e58e444c5ba05b91
-commit: bad71974dee88e06e38eec9a6a719b8220e78a6c [19/23] [NOT-FOR-UPSTREAM] bnxt: implement queue api
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240604/202406041709.yXWbaRnX-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406041709.yXWbaRnX-lkp@intel.com/reproduce)
+Hi Andreas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.10-rc2 next-20240604]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/gnss-Add-AI2-protocol-used-by-some-TI-combo-chips/20240603-224753
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20240603144400.2195564-4-andreas%40kemnade.info
+patch subject: [PATCH v3 3/4] gnss: Add driver for AI2 protocol
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240604/202406041854.1Ad8rnRn-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406041854.1Ad8rnRn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406041709.yXWbaRnX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406041854.1Ad8rnRn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:14885:13: warning: 'bnxt_init_rx_ring_rxbd_pages' defined but not used [-Wunused-function]
-   14885 | static void bnxt_init_rx_ring_rxbd_pages(struct bnxt *bp, struct bnxt_rx_ring_info *rxr)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:14872:12: warning: 'bnxt_alloc_rx_agg_bmap' defined but not used [-Wunused-function]
-   14872 | static int bnxt_alloc_rx_agg_bmap(struct bnxt *bp, struct bnxt_rx_ring_info *rxr)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:14849:12: warning: 'bnxt_alloc_rx_ring_struct' defined but not used [-Wunused-function]
-   14849 | static int bnxt_alloc_rx_ring_struct(struct bnxt *bp, struct bnxt_ring_struct *ring)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_setup_int_mode':
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:10402:48: warning: '%s' directive output may be truncated writing 4 bytes into a region of size between 2 and 17 [-Wformat-truncation=]
-   10402 |         snprintf(bp->irq_tbl[0].name, len, "%s-%s-%d", bp->dev->name, "TxRx",
-         |                                                ^~                     ~~~~~~
-   In function 'bnxt_setup_inta',
-       inlined from 'bnxt_setup_int_mode' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:10422:3:
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:10402:9: note: 'snprintf' output between 8 and 23 bytes into a destination of size 18
-   10402 |         snprintf(bp->irq_tbl[0].name, len, "%s-%s-%d", bp->dev->name, "TxRx",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   10403 |                  0);
-         |                  ~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_setup_int_mode':
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:10387:62: warning: '%s' directive output may be truncated writing between 2 and 4 bytes into a region of size between 2 and 17 [-Wformat-truncation=]
-   10387 |                 snprintf(bp->irq_tbl[map_idx].name, len, "%s-%s-%d", dev->name,
-         |                                                              ^~
-   In function 'bnxt_setup_msix',
-       inlined from 'bnxt_setup_int_mode' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:10420:3:
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:10387:58: note: directive argument in the range [-2147483643, 2147483646]
-   10387 |                 snprintf(bp->irq_tbl[map_idx].name, len, "%s-%s-%d", dev->name,
-         |                                                          ^~~~~~~~~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:10387:17: note: 'snprintf' output between 6 and 33 bytes into a destination of size 18
-   10387 |                 snprintf(bp->irq_tbl[map_idx].name, len, "%s-%s-%d", dev->name,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   10388 |                          attr, i);
-         |                          ~~~~~~~~
+   In file included from drivers/gnss/ai2.c:9:
+   In file included from include/linux/gnss.h:13:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gnss/ai2.c:9:
+   In file included from include/linux/gnss.h:13:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gnss/ai2.c:9:
+   In file included from include/linux/gnss.h:13:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gnss/ai2.c:9:
+   In file included from include/linux/gnss.h:13:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/gnss/ai2.c:340:6: error: call to undeclared function 'get_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     340 |         if (get_unaligned_le16(data + i) != sum) {
+         |             ^
+   7 warnings and 1 error generated.
 
 
-vim +/bnxt_init_rx_ring_rxbd_pages +14885 drivers/net/ethernet/broadcom/bnxt/bnxt.c
+vim +/get_unaligned_le16 +340 drivers/gnss/ai2.c
 
- 14848	
- 14849	static int bnxt_alloc_rx_ring_struct(struct bnxt *bp, struct bnxt_ring_struct *ring)
- 14850	{
- 14851		struct bnxt_ring_mem_info *rmem;
- 14852		int rc;
- 14853	
- 14854		rmem = &ring->ring_mem;
- 14855		rc = __bnxt_alloc_rx_desc_ring(bp->pdev, rmem);
- 14856		if (rc)
- 14857			return rc;
- 14858	
- 14859		*rmem->vmem = vzalloc(rmem->vmem_size);
- 14860		if (!(*rmem->vmem)) {
- 14861			rc = -ENOMEM;
- 14862			goto err_free;
- 14863		}
- 14864	
- 14865		return 0;
- 14866	
- 14867	err_free:
- 14868		bnxt_free_ring(bp, rmem);
- 14869		return rc;
- 14870	}
- 14871	
- 14872	static int bnxt_alloc_rx_agg_bmap(struct bnxt *bp, struct bnxt_rx_ring_info *rxr)
- 14873	{
- 14874		u16 mem_size;
- 14875	
- 14876		rxr->rx_agg_bmap_size = bp->rx_agg_ring_mask + 1;
- 14877		mem_size = rxr->rx_agg_bmap_size / 8;
- 14878		rxr->rx_agg_bmap = kzalloc(mem_size, GFP_KERNEL);
- 14879		if (!rxr->rx_agg_bmap)
- 14880			return -ENOMEM;
- 14881	
- 14882		return 0;
- 14883	}
- 14884	
- 14885	static void bnxt_init_rx_ring_rxbd_pages(struct bnxt *bp, struct bnxt_rx_ring_info *rxr)
- 14886	{
- 14887		struct bnxt_ring_struct *ring;
- 14888		u32 type;
- 14889	
- 14890		type = (bp->rx_buf_use_size << RX_BD_LEN_SHIFT) |
- 14891			RX_BD_TYPE_RX_PACKET_BD | RX_BD_FLAGS_EOP;
- 14892	
- 14893		if (NET_IP_ALIGN == 2)
- 14894			type |= RX_BD_FLAGS_SOP;
- 14895	
- 14896		ring = &rxr->rx_ring_struct;
- 14897		ring->fw_ring_id = INVALID_HW_RING_ID;
- 14898		bnxt_init_rxbd_pages(ring, type);
- 14899	
- 14900		ring = &rxr->rx_agg_ring_struct;
- 14901		ring->fw_ring_id = INVALID_HW_RING_ID;
- 14902		if ((bp->flags & BNXT_FLAG_AGG_RINGS)) {
- 14903			type = ((u32)BNXT_RX_PAGE_SIZE << RX_BD_LEN_SHIFT) |
- 14904				RX_BD_TYPE_RX_AGG_BD | RX_BD_FLAGS_SOP;
- 14905	
- 14906			bnxt_init_rxbd_pages(ring, type);
- 14907		}
- 14908	}
- 14909	
+   324	
+   325	/* do some sanity checks and split frame into packets */
+   326	static void process_ai2_frame(struct ai2_device *ai2dev)
+   327	{
+   328		u16 sum;
+   329		int i;
+   330		u8 *head;
+   331		u8 *data;
+   332	
+   333		sum = 0;
+   334		data = ai2dev->recv_skb->data;
+   335		for (i = 0; i < ai2dev->recv_skb->len - 2; i++)
+   336			sum += data[i];
+   337	
+   338		print_hex_dump_bytes("ai2 frame: ", DUMP_PREFIX_OFFSET, data, ai2dev->recv_skb->len);
+   339	
+ > 340		if (get_unaligned_le16(data + i) != sum) {
+   341			dev_dbg(ai2dev->dev,
+   342				"checksum error in reception, dropping frame\n");
+   343			return;
+   344		}
+   345	
+   346		/* reached if byte 1 in the command packet is set to 1 */
+   347		if (data[1] == AI2_ACK)
+   348			return;
+   349	
+   350		head = skb_pull(ai2dev->recv_skb, 2); /* drop frame start marker */
+   351		while (head && (ai2dev->recv_skb->len >= 3)) {
+   352			u8 cmd;
+   353			u16 pktlen;
+   354	
+   355			cmd = head[0];
+   356			pktlen = get_unaligned_le16(head + 1);
+   357			data = skb_pull(ai2dev->recv_skb, 3);
+   358			if (!data)
+   359				break;
+   360	
+   361			if (pktlen > ai2dev->recv_skb->len)
+   362				break;
+   363	
+   364			head = skb_pull(ai2dev->recv_skb, pktlen);
+   365	
+   366			process_ai2_packet(ai2dev, cmd, data, pktlen);
+   367		}
+   368	}
+   369	
 
 -- 
 0-DAY CI Kernel Test Service
