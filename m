@@ -1,64 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDCE14D2B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 22:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1669C143C4D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 22:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717541129; cv=none; b=uq3I6N2xvd9kREhIi1BhJL84G4OJqQJfHqriJTqbAw+NNHkjjK+uEyzMb06pKbVJmiKOFV08OKECt1iSm2yF+zaLDrH/zyhyKLVqBklVb7ebdKC+IxKrFSeceNfc+N953QzYbAVXtvECEftvIy9PNWQyTVrQFHtIxhajJrnTdiY=
+	t=1717541789; cv=none; b=IEtnBDD53KxKLeV8RFKEyqwOHJx6i3NfYI5Ra8zxI0eTRpFkeMp21jkZ7L1ZpfVFlNYb3DlnSiqwFPXd2AG34jiwHVpbThktYjS78zHiSNKYVnlTwD9lMAFMU1cKBcLufcLDFNfcmPm3Lsw9slqb6YkZJAAehJ7JMkOOiw2Ppc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717541129; c=relaxed/simple;
-	bh=mXAGe3YINODB6h+MbBkIPYf536ptCXDV0Tp3NMe+dO8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ae73UO1pf7sKYzgSxyLu7dODPfMHXu3ZhEq2gJvMJBL4Kb3UeQwfe7bsTJgsPpcnZa5lqetYu9FpHf/mYi+0JNnppIcMIZNwG+/c7qlaeIA6wl+GA8RXHPUwhY4OWkoGWF8eafOQZHqZu2xrBZ67X//wEwf/eiPEjj0fUhiXoOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hZAwvL8n; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1717541789; c=relaxed/simple;
+	bh=vDd4QAVGXylqcxBvFGG9NNS7qOB8GjGN+CmZ40vpbCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g3QaMnKLlgHgIUg90curApybYs6jGKCVPv/dbiafp0BOW+JZBss3tlvxZyqg0kvhPyKF5mwhUmfSovaSZSVJyhLfzMXvJ/P8lAzCA285tkbWmvB9P+FIrQ0Tgt5OJshrBYpCWLUpmo+t2braU0aTwmjnO0yuZ997Acp66g2GABg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYshPGd3; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hZAwvL8n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYshPGd3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717541128; x=1749077128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mXAGe3YINODB6h+MbBkIPYf536ptCXDV0Tp3NMe+dO8=;
-  b=hZAwvL8nbl4FjLTP3iqtEQvJq4AsHJWvlx4wHpwZs2bvbdcy3zafDvKX
-   I7sEuVOqrrpgkL4g4GRh2Raan1sScHqF+viuTUo2walQKvOPJQmQYyQH3
-   qbWit0JLhXKgIRpAcTl47hhlFeCp3RMggXubrF45Z7DLRHr0uD2K/S97K
-   +oEbHBFRwW+GnDhFNBFmNXUqZ4szxDcFHpStqKKdUuYrHoOXVIQCzOyrb
-   cV+5pZUUgnLKFMpwKPHF+AwkgZ6T8puIeb+OHyeKlKyLVN72CAkXtVdLQ
-   X2zkY6mktASSwUOcONpW+QS4lH8mS58szYywOvZhT1fx6ugJnp1+IGDhE
+  t=1717541788; x=1749077788;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vDd4QAVGXylqcxBvFGG9NNS7qOB8GjGN+CmZ40vpbCw=;
+  b=aYshPGd3qJfzaRbUIqIjFNeitShUxGNI/fNbMtrGA8erWGjyyvdEdZ3e
+   N+g413s4P2U0Vfx/C6bBF/g2g1oeM8LCGwid3fPR5GYkL/PsJDc6IFlmL
+   Kv7Db6kXVcKuUmhCRZ8jAoACM6MQy7ht6hWb02Il1NtgGaAU+tqxGytzO
+   ju/iUASx0NBIPZzhnUVhATpS3ugGvCm5kmcLmOwVH924Vw7dyqprvSGUH
+   5rG9IvJlDLb07BKiumoc+MueNZeX8/zpFpmltrHwSb2veWhGP9lly7/69
+   zYlmLBlTH3pK6xl5HqVidjTHfb4etwRAnBUTyiIdEiD0UgUV/LE3sldTx
    Q==;
-X-CSE-ConnectionGUID: XUAmumssTjSj4lsmnU8WHg==
-X-CSE-MsgGUID: Kk3hV8YpSm6XtHH6I6ObQw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14253162"
+X-CSE-ConnectionGUID: YSZT+km7RFKwESjw5fMBdg==
+X-CSE-MsgGUID: jdsk1+PzRcKQH1L5nFEmiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14254484"
 X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
-   d="scan'208";a="14253162"
+   d="scan'208";a="14254484"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 15:45:28 -0700
-X-CSE-ConnectionGUID: 31zVMKuHSCKIFD6pq35g3A==
-X-CSE-MsgGUID: cYrlB2C1T329o8h4VgUFIw==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 15:56:27 -0700
+X-CSE-ConnectionGUID: O8uXuBBWTE2P5WMuSi5xxg==
+X-CSE-MsgGUID: 3o6+RsenTEKPgWqP8sHMmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
-   d="scan'208";a="60576089"
+   d="scan'208";a="60577778"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Jun 2024 15:45:24 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jun 2024 15:56:25 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEcuA-0000dH-12;
-	Tue, 04 Jun 2024 22:45:22 +0000
-Date: Wed, 5 Jun 2024 06:44:54 +0800
+	id 1sEd4o-0000df-2D;
+	Tue, 04 Jun 2024 22:56:22 +0000
+Date: Wed, 5 Jun 2024 06:55:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>,
-	linux-kernel@vger.kernel.org, maple-tree@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	akpm@linux-foundation.org, liam.howlett@oracle.com,
-	zhangpeng.00@bytedance.com, willy@infradead.org,
-	Sidhartha Kumar <sidhartha.kumar@oracle.com>
-Subject: Re: [PATCH 12/18] maple_tree: convert mas_insert() to preallocate
- nodes
-Message-ID: <202406050614.NwHTjXFD-lkp@intel.com>
-References: <20240604174145.563900-13-sidhartha.kumar@oracle.com>
+To: Kalle Valo <quic_kvalo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@codeaurora.org>,
+	ath10k@lists.infradead.org
+Subject: [kvalo-ath:master-pending 5/5]
+ drivers/net/wireless/ath/ath11k/pci.c:708:15: error: implicit declaration of
+ function 'vzalloc'; did you mean 'kzalloc'?
+Message-ID: <202406050650.VgDMtMhL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,94 +63,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240604174145.563900-13-sidhartha.kumar@oracle.com>
 
-Hi Sidhartha,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
-[also build test WARNING on linus/master v6.10-rc2 next-20240604]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sidhartha-Kumar/maple_tree-introduce-store_type-enum/20240605-014633
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20240604174145.563900-13-sidhartha.kumar%40oracle.com
-patch subject: [PATCH 12/18] maple_tree: convert mas_insert() to preallocate nodes
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240605/202406050614.NwHTjXFD-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050614.NwHTjXFD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git master-pending
+head:   6f446d0a1af020dd164a006adc327f4fd3d5dacd
+commit: 6f446d0a1af020dd164a006adc327f4fd3d5dacd [5/5] Merge branch 'pending' into master-pending
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240605/202406050650.VgDMtMhL-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050650.VgDMtMhL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406050614.NwHTjXFD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406050650.VgDMtMhL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   lib/maple_tree.c:4304: warning: Function parameter or struct member 'entry' not described in 'mas_prealloc_calc'
->> lib/maple_tree.c:4449: warning: Function parameter or struct member 'gfp' not described in 'mas_insert'
+   drivers/net/wireless/ath/ath11k/pci.c: In function 'ath11k_pci_coredump_download':
+>> drivers/net/wireless/ath/ath11k/pci.c:708:15: error: implicit declaration of function 'vzalloc'; did you mean 'kzalloc'? [-Werror=implicit-function-declaration]
+     708 |         buf = vzalloc(len);
+         |               ^~~~~~~
+         |               kzalloc
+>> drivers/net/wireless/ath/ath11k/pci.c:708:13: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     708 |         buf = vzalloc(len);
+         |             ^
+   cc1: some warnings being treated as errors
 
 
-vim +4449 lib/maple_tree.c
+vim +708 drivers/net/wireless/ath/ath11k/pci.c
 
-e0c5446b52f6a9 Sidhartha Kumar 2024-06-04  4439  
-54a611b605901c Liam R. Howlett 2022-09-06  4440  /**
-54a611b605901c Liam R. Howlett 2022-09-06  4441   * mas_insert() - Internal call to insert a value
-54a611b605901c Liam R. Howlett 2022-09-06  4442   * @mas: The maple state
-54a611b605901c Liam R. Howlett 2022-09-06  4443   * @entry: The entry to store
-54a611b605901c Liam R. Howlett 2022-09-06  4444   *
-54a611b605901c Liam R. Howlett 2022-09-06  4445   * Return: %NULL or the contents that already exists at the requested index
-54a611b605901c Liam R. Howlett 2022-09-06  4446   * otherwise.  The maple state needs to be checked for error conditions.
-54a611b605901c Liam R. Howlett 2022-09-06  4447   */
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4448  static inline void *mas_insert(struct ma_state *mas, void *entry, gfp_t gfp)
-54a611b605901c Liam R. Howlett 2022-09-06 @4449  {
-54a611b605901c Liam R. Howlett 2022-09-06  4450  	MA_WR_STATE(wr_mas, mas, entry);
-54a611b605901c Liam R. Howlett 2022-09-06  4451  
-54a611b605901c Liam R. Howlett 2022-09-06  4452  	/*
-54a611b605901c Liam R. Howlett 2022-09-06  4453  	 * Inserting a new range inserts either 0, 1, or 2 pivots within the
-54a611b605901c Liam R. Howlett 2022-09-06  4454  	 * tree.  If the insert fits exactly into an existing gap with a value
-54a611b605901c Liam R. Howlett 2022-09-06  4455  	 * of NULL, then the slot only needs to be written with the new value.
-54a611b605901c Liam R. Howlett 2022-09-06  4456  	 * If the range being inserted is adjacent to another range, then only a
-54a611b605901c Liam R. Howlett 2022-09-06  4457  	 * single pivot needs to be inserted (as well as writing the entry).  If
-54a611b605901c Liam R. Howlett 2022-09-06  4458  	 * the new range is within a gap but does not touch any other ranges,
-54a611b605901c Liam R. Howlett 2022-09-06  4459  	 * then two pivots need to be inserted: the start - 1, and the end.  As
-54a611b605901c Liam R. Howlett 2022-09-06  4460  	 * usual, the entry must be written.  Most operations require a new node
-54a611b605901c Liam R. Howlett 2022-09-06  4461  	 * to be allocated and replace an existing node to ensure RCU safety,
-54a611b605901c Liam R. Howlett 2022-09-06  4462  	 * when in RCU mode.  The exception to requiring a newly allocated node
-54a611b605901c Liam R. Howlett 2022-09-06  4463  	 * is when inserting at the end of a node (appending).  When done
-54a611b605901c Liam R. Howlett 2022-09-06  4464  	 * carefully, appending can reuse the node in place.
-54a611b605901c Liam R. Howlett 2022-09-06  4465  	 */
-54a611b605901c Liam R. Howlett 2022-09-06  4466  	wr_mas.content = mas_start(mas);
-54a611b605901c Liam R. Howlett 2022-09-06  4467  	if (wr_mas.content)
-54a611b605901c Liam R. Howlett 2022-09-06  4468  		goto exists;
-54a611b605901c Liam R. Howlett 2022-09-06  4469  
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4470  	mas_wr_preallocate(&wr_mas, entry, gfp);
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4471  	if (mas_is_err(mas))
-54a611b605901c Liam R. Howlett 2022-09-06  4472  		return NULL;
-54a611b605901c Liam R. Howlett 2022-09-06  4473  
-54a611b605901c Liam R. Howlett 2022-09-06  4474  	/* spanning writes always overwrite something */
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4475  	if (mas->store_type == wr_spanning_store)
-54a611b605901c Liam R. Howlett 2022-09-06  4476  		goto exists;
-54a611b605901c Liam R. Howlett 2022-09-06  4477  
-54a611b605901c Liam R. Howlett 2022-09-06  4478  	/* At this point, we are at the leaf node that needs to be altered. */
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4479  	if (mas->store_type != wr_new_root && mas->store_type != wr_store_root) {
-54a611b605901c Liam R. Howlett 2022-09-06  4480  		wr_mas.offset_end = mas->offset;
-54a611b605901c Liam R. Howlett 2022-09-06  4481  		wr_mas.end_piv = wr_mas.r_max;
-54a611b605901c Liam R. Howlett 2022-09-06  4482  
-54a611b605901c Liam R. Howlett 2022-09-06  4483  		if (wr_mas.content || (mas->last > wr_mas.r_max))
-54a611b605901c Liam R. Howlett 2022-09-06  4484  			goto exists;
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4485  	}
-54a611b605901c Liam R. Howlett 2022-09-06  4486  
-9d36d13535c7c8 Sidhartha Kumar 2024-06-04  4487  	mas_wr_store_entry(&wr_mas);
-54a611b605901c Liam R. Howlett 2022-09-06  4488  	return wr_mas.content;
-54a611b605901c Liam R. Howlett 2022-09-06  4489  
-54a611b605901c Liam R. Howlett 2022-09-06  4490  exists:
-54a611b605901c Liam R. Howlett 2022-09-06  4491  	mas_set_err(mas, -EEXIST);
-54a611b605901c Liam R. Howlett 2022-09-06  4492  	return wr_mas.content;
-54a611b605901c Liam R. Howlett 2022-09-06  4493  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  681  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  682  static void ath11k_pci_coredump_download(struct ath11k_base *ab)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  683  {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  684  	struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  685  	struct mhi_controller *mhi_ctrl = ab_pci->mhi_ctrl;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  686  	struct image_info *rddm_img, *fw_img;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  687  	struct timespec64 timestamp;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  688  	int i, len, mem_idx;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  689  	enum ath11k_fw_crash_dump_type mem_type;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  690  	struct ath11k_dump_file_data *file_data;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  691  	struct ath11k_tlv_dump_data *dump_tlv;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  692  	size_t hdr_len = sizeof(*file_data);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  693  	void *buf;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  694  	u32 dump_seg_sz[FW_CRASH_DUMP_TYPE_MAX] = { 0 };
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  695  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  696  	ath11k_mhi_coredump(mhi_ctrl, false);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  697  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  698  	len = ath11k_pci_coredump_calculate_size(ab, dump_seg_sz);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  699  	if (!len) {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  700  		ath11k_warn(ab, "No crash dump data found for devcoredump");
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  701  		return;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  702  	}
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  703  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  704  	rddm_img = mhi_ctrl->rddm_image;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  705  	fw_img = mhi_ctrl->fbc_image;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  706  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  707  	/* dev_coredumpv() requires vmalloc data */
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31 @708  	buf = vzalloc(len);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  709  	if (!buf)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  710  		return;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  711  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  712  	ab->dump_data = buf;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  713  	ab->ath11k_coredump_len = len;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  714  	file_data = ab->dump_data;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  715  	strscpy(file_data->df_magic, "ATH11K-FW-DUMP", sizeof(file_data->df_magic));
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  716  	file_data->len = cpu_to_le32(len);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  717  	file_data->version = cpu_to_le32(ATH11K_FW_CRASH_DUMP_V2);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  718  	file_data->chip_id = cpu_to_le32(ab_pci->dev_id);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  719  	file_data->qrtr_id = cpu_to_le32(ab_pci->ab->qmi.service_ins_id);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  720  	file_data->bus_id = cpu_to_le32(pci_domain_nr(ab_pci->pdev->bus));
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  721  	guid_gen(&file_data->guid);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  722  	ktime_get_real_ts64(&timestamp);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  723  	file_data->tv_sec = cpu_to_le64(timestamp.tv_sec);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  724  	file_data->tv_nsec = cpu_to_le64(timestamp.tv_nsec);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  725  	buf += hdr_len;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  726  	dump_tlv = buf;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  727  	dump_tlv->type = cpu_to_le32(FW_CRASH_DUMP_PAGING_DATA);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  728  	dump_tlv->tlv_len = cpu_to_le32(dump_seg_sz[FW_CRASH_DUMP_PAGING_DATA]);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  729  	buf += COREDUMP_TLV_HDR_SIZE;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  730  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  731  	/* append all segments together as they are all part of a single contiguous
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  732  	 * block of memory
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  733  	 */
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  734  	for (i = 0; i < fw_img->entries ; i++) {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  735  		if (!fw_img->mhi_buf[i].buf)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  736  			continue;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  737  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  738  		memcpy_fromio(buf, (void const __iomem *)fw_img->mhi_buf[i].buf,
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  739  			      fw_img->mhi_buf[i].len);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  740  		buf += fw_img->mhi_buf[i].len;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  741  	}
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  742  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  743  	dump_tlv = buf;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  744  	dump_tlv->type = cpu_to_le32(FW_CRASH_DUMP_RDDM_DATA);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  745  	dump_tlv->tlv_len = cpu_to_le32(dump_seg_sz[FW_CRASH_DUMP_RDDM_DATA]);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  746  	buf += COREDUMP_TLV_HDR_SIZE;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  747  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  748  	/* append all segments together as they are all part of a single contiguous
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  749  	 * block of memory
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  750  	 */
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  751  	for (i = 0; i < rddm_img->entries; i++) {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  752  		if (!rddm_img->mhi_buf[i].buf)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  753  			continue;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  754  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  755  		memcpy_fromio(buf, (void const __iomem *)rddm_img->mhi_buf[i].buf,
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  756  			      rddm_img->mhi_buf[i].len);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  757  		buf += rddm_img->mhi_buf[i].len;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  758  	}
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  759  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  760  	mem_idx = FW_CRASH_DUMP_REMOTE_MEM_DATA;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  761  	for (; mem_idx < FW_CRASH_DUMP_TYPE_MAX; mem_idx++) {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  762  		if (mem_idx == FW_CRASH_DUMP_NONE)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  763  			continue;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  764  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  765  		dump_tlv = buf;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  766  		dump_tlv->type = cpu_to_le32(mem_idx);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  767  		dump_tlv->tlv_len = cpu_to_le32(dump_seg_sz[mem_idx]);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  768  		buf += COREDUMP_TLV_HDR_SIZE;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  769  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  770  		if (!dump_tlv->tlv_len)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  771  			continue;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  772  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  773  		for (i = 0; i < ab->qmi.mem_seg_count; i++) {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  774  			mem_type = ath11k_coredump_get_dump_type
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  775  						(ab->qmi.target_mem[i].type);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  776  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  777  			if (mem_type != mem_idx)
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  778  				continue;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  779  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  780  			if (!ab->qmi.target_mem[i].v.iaddr) {
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  781  				ath11k_dbg(ab, ATH11K_DBG_PCI,
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  782  					   "Skipping mem region type %d",
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  783  					   ab->qmi.target_mem[i].type);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  784  				continue;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  785  			}
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  786  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  787  			memcpy_fromio(buf, ab->qmi.target_mem[i].v.iaddr,
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  788  				      ab->qmi.target_mem[i].size);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  789  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  790  			buf += ab->qmi.target_mem[i].size;
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  791  		}
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  792  	}
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  793  
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  794  	queue_work(ab->workqueue, &ab->dump_work);
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  795  }
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  796  #endif
+9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  797  
+
+:::::: The code at line 708 was first introduced by commit
+:::::: 9e0e90f4ca68b50d1c7016d565731c0c2b31b2ef wifi: ath11k: Add firmware coredump collection support
+
+:::::: TO: Miaoqing Pan <quic_miaoqing@quicinc.com>
+:::::: CC: Kalle Valo <quic_kvalo@quicinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
