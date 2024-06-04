@@ -1,60 +1,85 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1669C143C4D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 22:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09F6143C4D;
+	Tue,  4 Jun 2024 22:56:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717541789; cv=none; b=IEtnBDD53KxKLeV8RFKEyqwOHJx6i3NfYI5Ra8zxI0eTRpFkeMp21jkZ7L1ZpfVFlNYb3DlnSiqwFPXd2AG34jiwHVpbThktYjS78zHiSNKYVnlTwD9lMAFMU1cKBcLufcLDFNfcmPm3Lsw9slqb6YkZJAAehJ7JMkOOiw2Ppc8=
+	t=1717541794; cv=none; b=E9p8+rHok8WB4Cgiznx0118nrpmmBZXJ1ixv4IjmWBzO9/SM2Y9020Zg8IAf5EYVUTCQAReIAwtvd+/rKkc1u+b09advxg6DWVXQMxKo21E+K+gYzjK2uVMm2qys1EOY5Kh/rJ5joatl+ye5hFjko50dtAM2bEX0SYocU0E79Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717541789; c=relaxed/simple;
-	bh=vDd4QAVGXylqcxBvFGG9NNS7qOB8GjGN+CmZ40vpbCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g3QaMnKLlgHgIUg90curApybYs6jGKCVPv/dbiafp0BOW+JZBss3tlvxZyqg0kvhPyKF5mwhUmfSovaSZSVJyhLfzMXvJ/P8lAzCA285tkbWmvB9P+FIrQ0Tgt5OJshrBYpCWLUpmo+t2braU0aTwmjnO0yuZ997Acp66g2GABg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYshPGd3; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1717541794; c=relaxed/simple;
+	bh=nZNryhcoFtzW/5oT7/zR2d7gRfCNJX+kKOGg4rbpdrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qAZpEWYSCFhOA04/PCGffqwxWqW3hjhIIOigQcsnGcLIbhXH6rFaK98XTkUnsMP3YblIVZLDu34Ki3bn9n2V7frpHWHLxHaYdBzfWWxjwiluRu8YaQoQ0DzlMMUlcfLBKHtL2myasZeHjaAjT6y5U03BQVLld29H3HZRorUolcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxOJ0mnX; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYshPGd3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxOJ0mnX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717541788; x=1749077788;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vDd4QAVGXylqcxBvFGG9NNS7qOB8GjGN+CmZ40vpbCw=;
-  b=aYshPGd3qJfzaRbUIqIjFNeitShUxGNI/fNbMtrGA8erWGjyyvdEdZ3e
-   N+g413s4P2U0Vfx/C6bBF/g2g1oeM8LCGwid3fPR5GYkL/PsJDc6IFlmL
-   Kv7Db6kXVcKuUmhCRZ8jAoACM6MQy7ht6hWb02Il1NtgGaAU+tqxGytzO
-   ju/iUASx0NBIPZzhnUVhATpS3ugGvCm5kmcLmOwVH924Vw7dyqprvSGUH
-   5rG9IvJlDLb07BKiumoc+MueNZeX8/zpFpmltrHwSb2veWhGP9lly7/69
-   zYlmLBlTH3pK6xl5HqVidjTHfb4etwRAnBUTyiIdEiD0UgUV/LE3sldTx
+  t=1717541793; x=1749077793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nZNryhcoFtzW/5oT7/zR2d7gRfCNJX+kKOGg4rbpdrs=;
+  b=TxOJ0mnXoMJhIDZWv48L/qwv19UTvLWVNgXIjSWDEd+/m8h16pS8/6br
+   FyRhCQv8ZaMDeuElZmSzudOlRjUPml6h0tdF+PSVSDwK2vKyQpN5yG+CY
+   fhusRlcVX7ZhlPo8YIZ/97LaQWgHkTpHZgK05K4Y9QJobaqUAIrZoELAp
+   xV5Gj3C2GBw2PyVsl4a+qERlrsR7hYfbf4+hiEru59Gq3SUHNXmWi2j7J
+   1qGLg+OAApmsRAR4X76Vl7MRbbH2AMJ2VpS2NkF14rpNukhXNvD96xBI3
+   KDwBwEopszVrl2U1awQhpp4Cw74bXDVcw6A7O3T8n7imtUBtEeSMNcspW
    Q==;
-X-CSE-ConnectionGUID: YSZT+km7RFKwESjw5fMBdg==
-X-CSE-MsgGUID: jdsk1+PzRcKQH1L5nFEmiw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14254484"
+X-CSE-ConnectionGUID: LYRA6saBTaqvvB+eUO7dIw==
+X-CSE-MsgGUID: 674EyYCJSkGxLreP6IyYbg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14254516"
 X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
-   d="scan'208";a="14254484"
+   d="scan'208";a="14254516"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 15:56:27 -0700
-X-CSE-ConnectionGUID: O8uXuBBWTE2P5WMuSi5xxg==
-X-CSE-MsgGUID: 3o6+RsenTEKPgWqP8sHMmQ==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 15:56:33 -0700
+X-CSE-ConnectionGUID: ZMAMxOhORbWpZ8KjiouN6Q==
+X-CSE-MsgGUID: /JwtXkokRTqQRniM+lvvKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
-   d="scan'208";a="60577778"
+   d="scan'208";a="60577794"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 04 Jun 2024 15:56:25 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEd4o-0000df-2D;
+	id 1sEd4o-0000dh-2N;
 	Tue, 04 Jun 2024 22:56:22 +0000
-Date: Wed, 5 Jun 2024 06:55:32 +0800
+Date: Wed, 5 Jun 2024 06:55:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalle Valo <quic_kvalo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@codeaurora.org>,
-	ath10k@lists.infradead.org
-Subject: [kvalo-ath:master-pending 5/5]
- drivers/net/wireless/ath/ath11k/pci.c:708:15: error: implicit declaration of
- function 'vzalloc'; did you mean 'kzalloc'?
-Message-ID: <202406050650.VgDMtMhL-lkp@intel.com>
+To: Yuanchu Xie <yuanchu@google.com>, David Hildenbrand <david@redhat.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+	Khalid Aziz <khalid.aziz@oracle.com>,
+	Henry Huang <henry.hj@antgroup.com>, Yu Zhao <yuzhao@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Gregory Price <gregory.price@memverge.com>,
+	Huang Ying <ying.huang@intel.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kalesh Singh <kaleshsingh@google.com>, Wei Xu <weixugc@google.com>,
+	David Rientjes <rientjes@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Sudarshan Rajagopalan <quic_sudaraja@quicinc.com>,
+	Kairui Song <kasong@tencent.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Vasily Averin <vasily.averin@linux.dev>,
+	Nhat Pham <nphamcs@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
+	Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH v2 5/8] mm: extend working set reporting to memcgs
+Message-ID: <202406050600.hZAG0KTL-lkp@intel.com>
+References: <20240604020549.1017540-6-yuanchu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,157 +88,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240604020549.1017540-6-yuanchu@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git master-pending
-head:   6f446d0a1af020dd164a006adc327f4fd3d5dacd
-commit: 6f446d0a1af020dd164a006adc327f4fd3d5dacd [5/5] Merge branch 'pending' into master-pending
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240605/202406050650.VgDMtMhL-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050650.VgDMtMhL-lkp@intel.com/reproduce)
+Hi Yuanchu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.10-rc2 next-20240604]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuanchu-Xie/mm-multi-gen-LRU-ignore-non-leaf-pmd_young-for-force_scan-true/20240604-100824
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20240604020549.1017540-6-yuanchu%40google.com
+patch subject: [PATCH v2 5/8] mm: extend working set reporting to memcgs
+config: s390-randconfig-002-20240605 (https://download.01.org/0day-ci/archive/20240605/202406050600.hZAG0KTL-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050600.hZAG0KTL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406050650.VgDMtMhL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406050600.hZAG0KTL-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/ath/ath11k/pci.c: In function 'ath11k_pci_coredump_download':
->> drivers/net/wireless/ath/ath11k/pci.c:708:15: error: implicit declaration of function 'vzalloc'; did you mean 'kzalloc'? [-Werror=implicit-function-declaration]
-     708 |         buf = vzalloc(len);
-         |               ^~~~~~~
-         |               kzalloc
->> drivers/net/wireless/ath/ath11k/pci.c:708:13: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     708 |         buf = vzalloc(len);
-         |             ^
-   cc1: some warnings being treated as errors
+   In file included from mm/workingset_report.c:6:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/workingset_report.c:14:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/workingset_report.c:45:37: error: incomplete definition of type 'struct mem_cgroup'
+      45 |                 wsr->page_age_cgroup_file = &memcg->workingset_page_age_file;
+         |                                              ~~~~~^
+   include/linux/mm_types.h:33:8: note: forward declaration of 'struct mem_cgroup'
+      33 | struct mem_cgroup;
+         |        ^
+>> mm/workingset_report.c:551:3: error: call to undeclared function 'cgroup_file_notify'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     551 |                 cgroup_file_notify(wsr->page_age_cgroup_file);
+         |                 ^
+   3 warnings and 2 errors generated.
 
 
-vim +708 drivers/net/wireless/ath/ath11k/pci.c
+vim +45 mm/workingset_report.c
 
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  681  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  682  static void ath11k_pci_coredump_download(struct ath11k_base *ab)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  683  {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  684  	struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  685  	struct mhi_controller *mhi_ctrl = ab_pci->mhi_ctrl;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  686  	struct image_info *rddm_img, *fw_img;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  687  	struct timespec64 timestamp;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  688  	int i, len, mem_idx;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  689  	enum ath11k_fw_crash_dump_type mem_type;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  690  	struct ath11k_dump_file_data *file_data;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  691  	struct ath11k_tlv_dump_data *dump_tlv;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  692  	size_t hdr_len = sizeof(*file_data);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  693  	void *buf;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  694  	u32 dump_seg_sz[FW_CRASH_DUMP_TYPE_MAX] = { 0 };
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  695  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  696  	ath11k_mhi_coredump(mhi_ctrl, false);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  697  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  698  	len = ath11k_pci_coredump_calculate_size(ab, dump_seg_sz);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  699  	if (!len) {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  700  		ath11k_warn(ab, "No crash dump data found for devcoredump");
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  701  		return;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  702  	}
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  703  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  704  	rddm_img = mhi_ctrl->rddm_image;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  705  	fw_img = mhi_ctrl->fbc_image;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  706  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  707  	/* dev_coredumpv() requires vmalloc data */
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31 @708  	buf = vzalloc(len);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  709  	if (!buf)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  710  		return;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  711  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  712  	ab->dump_data = buf;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  713  	ab->ath11k_coredump_len = len;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  714  	file_data = ab->dump_data;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  715  	strscpy(file_data->df_magic, "ATH11K-FW-DUMP", sizeof(file_data->df_magic));
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  716  	file_data->len = cpu_to_le32(len);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  717  	file_data->version = cpu_to_le32(ATH11K_FW_CRASH_DUMP_V2);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  718  	file_data->chip_id = cpu_to_le32(ab_pci->dev_id);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  719  	file_data->qrtr_id = cpu_to_le32(ab_pci->ab->qmi.service_ins_id);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  720  	file_data->bus_id = cpu_to_le32(pci_domain_nr(ab_pci->pdev->bus));
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  721  	guid_gen(&file_data->guid);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  722  	ktime_get_real_ts64(&timestamp);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  723  	file_data->tv_sec = cpu_to_le64(timestamp.tv_sec);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  724  	file_data->tv_nsec = cpu_to_le64(timestamp.tv_nsec);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  725  	buf += hdr_len;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  726  	dump_tlv = buf;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  727  	dump_tlv->type = cpu_to_le32(FW_CRASH_DUMP_PAGING_DATA);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  728  	dump_tlv->tlv_len = cpu_to_le32(dump_seg_sz[FW_CRASH_DUMP_PAGING_DATA]);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  729  	buf += COREDUMP_TLV_HDR_SIZE;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  730  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  731  	/* append all segments together as they are all part of a single contiguous
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  732  	 * block of memory
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  733  	 */
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  734  	for (i = 0; i < fw_img->entries ; i++) {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  735  		if (!fw_img->mhi_buf[i].buf)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  736  			continue;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  737  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  738  		memcpy_fromio(buf, (void const __iomem *)fw_img->mhi_buf[i].buf,
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  739  			      fw_img->mhi_buf[i].len);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  740  		buf += fw_img->mhi_buf[i].len;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  741  	}
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  742  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  743  	dump_tlv = buf;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  744  	dump_tlv->type = cpu_to_le32(FW_CRASH_DUMP_RDDM_DATA);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  745  	dump_tlv->tlv_len = cpu_to_le32(dump_seg_sz[FW_CRASH_DUMP_RDDM_DATA]);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  746  	buf += COREDUMP_TLV_HDR_SIZE;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  747  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  748  	/* append all segments together as they are all part of a single contiguous
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  749  	 * block of memory
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  750  	 */
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  751  	for (i = 0; i < rddm_img->entries; i++) {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  752  		if (!rddm_img->mhi_buf[i].buf)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  753  			continue;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  754  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  755  		memcpy_fromio(buf, (void const __iomem *)rddm_img->mhi_buf[i].buf,
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  756  			      rddm_img->mhi_buf[i].len);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  757  		buf += rddm_img->mhi_buf[i].len;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  758  	}
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  759  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  760  	mem_idx = FW_CRASH_DUMP_REMOTE_MEM_DATA;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  761  	for (; mem_idx < FW_CRASH_DUMP_TYPE_MAX; mem_idx++) {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  762  		if (mem_idx == FW_CRASH_DUMP_NONE)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  763  			continue;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  764  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  765  		dump_tlv = buf;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  766  		dump_tlv->type = cpu_to_le32(mem_idx);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  767  		dump_tlv->tlv_len = cpu_to_le32(dump_seg_sz[mem_idx]);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  768  		buf += COREDUMP_TLV_HDR_SIZE;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  769  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  770  		if (!dump_tlv->tlv_len)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  771  			continue;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  772  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  773  		for (i = 0; i < ab->qmi.mem_seg_count; i++) {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  774  			mem_type = ath11k_coredump_get_dump_type
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  775  						(ab->qmi.target_mem[i].type);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  776  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  777  			if (mem_type != mem_idx)
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  778  				continue;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  779  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  780  			if (!ab->qmi.target_mem[i].v.iaddr) {
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  781  				ath11k_dbg(ab, ATH11K_DBG_PCI,
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  782  					   "Skipping mem region type %d",
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  783  					   ab->qmi.target_mem[i].type);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  784  				continue;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  785  			}
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  786  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  787  			memcpy_fromio(buf, ab->qmi.target_mem[i].v.iaddr,
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  788  				      ab->qmi.target_mem[i].size);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  789  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  790  			buf += ab->qmi.target_mem[i].size;
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  791  		}
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  792  	}
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  793  
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  794  	queue_work(ab->workqueue, &ab->dump_work);
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  795  }
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  796  #endif
-9e0e90f4ca68b5 Miaoqing Pan 2024-05-31  797  
-
-:::::: The code at line 708 was first introduced by commit
-:::::: 9e0e90f4ca68b50d1c7016d565731c0c2b31b2ef wifi: ath11k: Add firmware coredump collection support
-
-:::::: TO: Miaoqing Pan <quic_miaoqing@quicinc.com>
-:::::: CC: Kalle Valo <quic_kvalo@quicinc.com>
+    36	
+    37	void wsr_init_lruvec(struct lruvec *lruvec)
+    38	{
+    39		struct wsr_state *wsr = &lruvec->wsr;
+    40		struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+    41	
+    42		memset(wsr, 0, sizeof(*wsr));
+    43		mutex_init(&wsr->page_age_lock);
+    44		if (memcg && !mem_cgroup_is_root(memcg))
+  > 45			wsr->page_age_cgroup_file = &memcg->workingset_page_age_file;
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
