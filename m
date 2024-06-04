@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7C12A1CF;
-	Tue,  4 Jun 2024 20:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEC4142905
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 21:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717534037; cv=none; b=n0lYqrcLYEDjNCDSMp8bp6fFiAsBHgME4nBgT7+Hk9AlhfTn3k5rn9mdPjm7EGqQx/ZTK5GR524YCj95gRV0RqxezztBwr9l6zfqTeYggNxoBcmjzus8RmSucArd1GAokGlE7HF2SAuZiXEWD+1GX0RVIL3/f8vAVSiKogl0rX8=
+	t=1717535418; cv=none; b=D/HyrwVXu2i/vcJAIdK3GGLE0bwu3WNYtX57L1IPJXXH9AYiP+sZmIk3IGsl67X4XmMXfR0pQXx3sksIcX29D7S5ZNXupUtn/80M7XRCRQNXPAostSRcrTq5lidLfLAksrY/bOquwVZA3AcKxMlu3LRp8lok8uEaVJ0CtJ/zVM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717534037; c=relaxed/simple;
-	bh=IJFHMgoH26v1CExj3lKJDiXLct4JZFh9UhxQh1Qp0Us=;
+	s=arc-20240116; t=1717535418; c=relaxed/simple;
+	bh=wMcjoHRFalaPepGrkEF80MaAt0Fbocc34Crnd/5hGY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hCXAct8o01G5nli/9bO44R/mFkCvSPgU7mszz/eLIoGzFKtu00QWyte9CO5yFTiN7bpkufivWyoRPvl0k581M5pR4juS5cA6XHCWB6EKGdmhj8/FkxEqoNyZTcLXRj+jGHBscGQ0QMRiN965IrPRjbJbEFlHXbDZBhE9OMVGg7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwS770UD; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=XRbm5+A3xrvWUSgRYsE7K181LFCGsQN/Zft2v1dpOpzfU2sY8VhiLBsvIxce3o8Uddz3TB5eoeKo3JXYnA9xD0MkZwbyQHl2ODoy2db5eRMcnAgejZdzKqiMxbG5NgLpjqTLvvg2VG2PuUMJrb0+wptwn7LHYXz/YVQ3VCXnImg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLkCkvHC; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwS770UD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLkCkvHC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717534036; x=1749070036;
+  t=1717535416; x=1749071416;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IJFHMgoH26v1CExj3lKJDiXLct4JZFh9UhxQh1Qp0Us=;
-  b=FwS770UDH9e+l+6Bcs8PD8fqvViYz5BKU3Ipk5QTV8bZs/EHvHqRoewO
-   XAH4tfs+2njfpQnUeT37yUTiTqSW+xf0Zbif0M4HScGrckQZhjTXzi+sX
-   rnXvX/mjmkafXGirflt8GKGARDn9Mj/ht1Zrx8KzPJSt8qN6KccH+Owk4
-   DPtNmIECqH6pu9GVn23m+00vEDgpBHaaiB6dvrOW/qO9psFzgL7mnJA7w
-   q/xdZQmcDMw3KijfAeiZn0HAvfh4wCMwsNGlkJFnPMs5pjTgmSgQo3rZH
-   KDyuH5BIle+gd3+bWYGdT3xlkRtUoSlFqLWSo7PiQtwbtuBboca+jMpuu
+  bh=wMcjoHRFalaPepGrkEF80MaAt0Fbocc34Crnd/5hGY0=;
+  b=YLkCkvHCaJCnrJW3HCQBBlOo6O3bo/rkoM4SCkI9G5H85jrdC9h4iO/X
+   QuED8x17jpaH2auuoGZ48PHcoPWxyZPBGBtwy+ymOKEvj9SOKzAzUfK7n
+   JPAuJ/6SSCBmjj+HCkb4HfwXQae8fKZZnUgSaxvX6h5eZ6DZ7YmUC5wKF
+   +ccoTVvnKGGSBrYDIRyt3B7cWXzIBWbSHBaf9BHUHfJ7t/zaGfxPDSIQc
+   g9G1lqlcKnK4bneVfgQwfGRqCTvXDQwPnlf6OZKG7uIbS87WMFZKlVt29
+   PpYCRi7DXavtNCozGuZyUTHLvMFgY93KNUS8ysRdz02hEbqG/WPg9Ch3t
    A==;
-X-CSE-ConnectionGUID: sBJPvQAxSLidx3H4/TWXvA==
-X-CSE-MsgGUID: YPPHQ743QKm4O+B5tJQQ0w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="25515469"
+X-CSE-ConnectionGUID: QKZewh2ARUSFJigCXY44GQ==
+X-CSE-MsgGUID: hMg1o3LrSvaTEcgROXqubQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="13995110"
 X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
-   d="scan'208";a="25515469"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 13:47:15 -0700
-X-CSE-ConnectionGUID: e4kRaR4lTd2p5eemiru3sg==
-X-CSE-MsgGUID: +N5m/9ZMRtCMdFewntT/4Q==
+   d="scan'208";a="13995110"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 14:10:15 -0700
+X-CSE-ConnectionGUID: 4koSPkksQYC4AwyFvAAHHw==
+X-CSE-MsgGUID: /NonjfLjTLmED9PsnAhs5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
-   d="scan'208";a="38015444"
+   d="scan'208";a="41796047"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 04 Jun 2024 13:47:13 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 04 Jun 2024 14:10:13 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEb3m-0000Wp-1z;
-	Tue, 04 Jun 2024 20:47:10 +0000
-Date: Wed, 5 Jun 2024 04:47:01 +0800
+	id 1sEbQ2-0000XL-36;
+	Tue, 04 Jun 2024 21:10:10 +0000
+Date: Wed, 5 Jun 2024 05:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kamil =?iso-8859-1?Q?Hor=E1k?= - 2N <kamilh@axis.com>,
-	florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
-	hkallweit1@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kamilh@axis.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach
- link modes
-Message-ID: <202406050455.vukoabPJ-lkp@intel.com>
-References: <20240604133654.2626813-4-kamilh@axis.com>
+To: Sidhartha Kumar <sidhartha.kumar@oracle.com>,
+	linux-kernel@vger.kernel.org, maple-tree@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	akpm@linux-foundation.org, liam.howlett@oracle.com,
+	zhangpeng.00@bytedance.com, willy@infradead.org,
+	Sidhartha Kumar <sidhartha.kumar@oracle.com>
+Subject: Re: [PATCH 04/18] maple_tree: introduce mas_wr_store_type()
+Message-ID: <202406050440.xjLxhyu5-lkp@intel.com>
+References: <20240604174145.563900-5-sidhartha.kumar@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,78 +66,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240604133654.2626813-4-kamilh@axis.com>
+In-Reply-To: <20240604174145.563900-5-sidhartha.kumar@oracle.com>
 
-Hi Kamil,
+Hi Sidhartha,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master v6.10-rc2 next-20240604]
-[cannot apply to horms-ipvs/master]
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on linus/master v6.10-rc2 next-20240604]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kamil-Hor-k-2N/net-phy-bcm54811-New-link-mode-for-BroadR-Reach/20240604-214127
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240604133654.2626813-4-kamilh%40axis.com
-patch subject: [PATCH v4 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach link modes
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240605/202406050455.vukoabPJ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050455.vukoabPJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sidhartha-Kumar/maple_tree-introduce-store_type-enum/20240605-014633
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240604174145.563900-5-sidhartha.kumar%40oracle.com
+patch subject: [PATCH 04/18] maple_tree: introduce mas_wr_store_type()
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240605/202406050440.xjLxhyu5-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050440.xjLxhyu5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406050455.vukoabPJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406050440.xjLxhyu5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/phy/broadcom.c:641:6: warning: operator '?:' has lower precedence than '|'; '|' will be evaluated first [-Wbitwise-conditional-parentheses]
-                   on ? 0 : BCM54811_EXP_BROADREACH_LRE_OVERLAY_CTL_OVERRIDE_VAL);
-                   ~~ ^
-   drivers/net/phy/broadcom.c:641:6: note: place parentheses around the '|' expression to silence this warning
-                   on ? 0 : BCM54811_EXP_BROADREACH_LRE_OVERLAY_CTL_OVERRIDE_VAL);
-                   ~~ ^
-   drivers/net/phy/broadcom.c:641:6: note: place parentheses around the '?:' expression to evaluate it first
-                   on ? 0 : BCM54811_EXP_BROADREACH_LRE_OVERLAY_CTL_OVERRIDE_VAL);
-                   ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> lib/maple_tree.c:4289: warning: Function parameter or struct member 'entry' not described in 'mas_prealloc_calc'
 
 
-vim +641 drivers/net/phy/broadcom.c
+vim +4289 lib/maple_tree.c
 
-   614	
-   615	static int bcm5481x_set_brrmode(struct phy_device *phydev, bool on)
-   616	{
-   617		int reg;
-   618		int err;
-   619	
-   620		reg = bcm_phy_read_exp(phydev, BCM54810_EXP_BROADREACH_LRE_MISC_CTL);
-   621	
-   622		if (on)
-   623			reg |= BCM54810_EXP_BROADREACH_LRE_MISC_CTL_EN;
-   624		else
-   625			reg &= ~BCM54810_EXP_BROADREACH_LRE_MISC_CTL_EN;
-   626	
-   627		err = bcm_phy_write_exp(phydev, BCM54810_EXP_BROADREACH_LRE_MISC_CTL, reg);
-   628		if (err)
-   629			return err;
-   630	
-   631		/* Update the abilities based on the current brr on/off setting */
-   632		err = bcm54811_read_abilities(phydev);
-   633		if (err)
-   634			return err;
-   635	
-   636		/* Ensure LRE or IEEE register set is accessed according to the brr on/off,
-   637		 *  thus set the override
-   638		 */
-   639		return bcm_phy_write_exp(phydev, BCM54811_EXP_BROADREACH_LRE_OVERLAY_CTL,
-   640			BCM54811_EXP_BROADREACH_LRE_OVERLAY_CTL_EN |
- > 641			on ? 0 : BCM54811_EXP_BROADREACH_LRE_OVERLAY_CTL_OVERRIDE_VAL);
-   642	}
-   643	
+  4280	
+  4281	/**
+  4282	 * mas_prealloc_calc() - Calculate number of nodes needed for a
+  4283	 * given store oepration
+  4284	 * @mas: The maple state.
+  4285	 *
+  4286	 * Return: Number of nodes required for preallocation.
+  4287	 */
+  4288	static inline int mas_prealloc_calc(struct ma_state *mas, void *entry)
+> 4289	{
+  4290		int ret = mas_mt_height(mas) * 3 + 1;
+  4291	
+  4292		switch (mas->store_type) {
+  4293		case wr_invalid:
+  4294			WARN_ON_ONCE(1);
+  4295			break;
+  4296		case wr_new_root:
+  4297			ret = 1;
+  4298			break;
+  4299		case wr_store_root:
+  4300			if (likely((mas->last != 0) || (mas->index != 0)))
+  4301				ret = 1;
+  4302			else if (((unsigned long) (entry) & 3) == 2)
+  4303				ret = 1;
+  4304			else
+  4305				ret = 0;
+  4306			break;
+  4307		case wr_spanning_store:
+  4308			ret =  mas_mt_height(mas) * 3 + 1;
+  4309			break;
+  4310		case wr_split_store:
+  4311			ret =  mas_mt_height(mas) * 2 + 1;
+  4312			break;
+  4313		case wr_rebalance:
+  4314			ret =  mas_mt_height(mas) * 2 - 1;
+  4315			break;
+  4316		case wr_node_store:
+  4317		case wr_bnode:
+  4318			ret = mt_in_rcu(mas->tree) ? 1 : 0;
+  4319			break;
+  4320		case wr_append:
+  4321		case wr_exact_fit:
+  4322		case wr_slot_store:
+  4323			ret = 0;
+  4324		}
+  4325	
+  4326		return ret;
+  4327	}
+  4328	
 
 -- 
 0-DAY CI Kernel Test Service
