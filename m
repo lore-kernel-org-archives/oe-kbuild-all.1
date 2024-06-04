@@ -1,62 +1,62 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BFF14374D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 08:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3142F142E63
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 08:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717490730; cv=none; b=BuU4eF5ZxiPkRP0F5G/UXKmJadEX4Vma7dKTfQwuYN5YiGt/thkCsy+h9oDvcNRFIv+irHOIJRc3qL4kjYWUWw/FyccicdfNA53zRaD8EBqnjB8AtMJgxQtk93g/RDZZZGkW3A7jcVTPeMuyHH/2Z0pj5E3q48cgcXtVKWPTpjI=
+	t=1717491030; cv=none; b=NyImf6T7cWq21pzIbkHSFTQI0KISOVR6Ob6VPAn3HiEOE5SLbyuaJhww1Q/5VwczQeRxO2UiJPnY2n+m4j6K0EEeMlo7t4w0MTAlSsk1GV7I00vipSRrnA+bbLXIXhabUWbSCVKVCT62wQu7Pq8aMRha4a/yXvAKIhuAZ3Jh7ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717490730; c=relaxed/simple;
-	bh=Q2r5gEmSbW/esZpwACnwRo1JFS6sL/xst6Ev80WuO34=;
+	s=arc-20240116; t=1717491030; c=relaxed/simple;
+	bh=VLMKmnLD7S9ACeqiKTuZtjwkKOTwOqaA+qWiGLt8xlM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=DH3boteci7+Rm0DVx7junJXXlEfbF0oOQjXFVee3+UJ54eE6HppBgRso02de4KufXedk8c0x51bauhElbu6CjunpIUif1wIRx+V4L20DEZa9upAPDPzd0kB+SMDn0812LLeSrU1x6ksIjOO3YiQBPPs5tRVnkn1ccTQRk8Wtmp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vACNJ532; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=JmN2nEAXNrs92peH310AdwgElUDjF00lo81D/gQEnLKabGEwf1xl1GEcyFIMIfQSOXz6cjjctcSGqKg+7zOW/iyykwZ/PrhiGwJr+bWJtF4Cr3MimgmD+M2N+a7u7TO0r8vXBOrJPDGx0RGF5BKEbdnFGyDfz1bSIfkTfEbZRc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICrRHICu; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vACNJ532"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a68a4a9946cso307739266b.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Jun 2024 01:45:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717490727; x=1718095527; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xa8Bmzuu4eaFtEaA9MmaDqyYrQVRV0RJz9ub5GTR/kk=;
-        b=vACNJ532+p8ytqsQQSEt9xtAJlk8W3rqpbYg9Pp3rSqPJ8tAb1fZxjiDBmPdiYasYw
-         K1LjAo13oE9F6RLy5pRAuyYgRRyXkLsMMQ48f2pDow2P57L36+RwfEpikH+Qto/qAVM7
-         vZifBOJJK37ioDRxNHfozs76lUwBE42QWwW1nrkKoX+F1/VI3RrZySXk4LE4aNNzDP8t
-         oFPHVTpCs6wl9zLSelm84fcBBCUD22GgRnyZd6/iA/G8K28WX++8wQbv2v/A2fOThZwL
-         bGqYZ3reTH/iZvhjkWk0Aers8XLpmjYXm1V/+AKxz7dV6q41G9LbPTkjlczmpygTF3N4
-         8rBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717490727; x=1718095527;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xa8Bmzuu4eaFtEaA9MmaDqyYrQVRV0RJz9ub5GTR/kk=;
-        b=i/84xA1FkOHSydZuRo2XQxIYzyFcO3g41+P8mqw9igNAwTFHecF1BC2oyDSdPxCRAH
-         LRYutHQcpnw/z+ZnY5uOsVnT5APpTikHxivjyJUFFKTEAJnq7HWNsGN1/mNK99ZczFhQ
-         IXHvJF75yOwctMNoLpSk80aQHOieyB4ccFnv4W1NMkrIEvfJioXOS0x1aKqmhgBJc3yt
-         sVX2CGwHp4icSB/ihCF9oiSpu+aOIUqDqryXFeW6HOgfcuOQyb2bwBh28qambU1kKTu+
-         5iDg7aQwDf46uFSj9Cm7CAdHTgkNRy6yDv3/Br8ldQKiXfsUlC9VhYam/5aH/Khj+v/t
-         FDRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZsGq+Pm9/M4LoSScQM8PKWYHIWgw3ZUNmu2dyotOeeCpQ/GcecGi0exoCfdqtLfk/VTJ1/ceeVmtkp3sfJnsVDY0utXhVRWECEWH+HA==
-X-Gm-Message-State: AOJu0Yyc1DeBbCa1ajU4lLkmcQ77zVi1KRBel5teWit0b155B1xhIHsH
-	xzjc3OHdxcGrAn46FNSGFG/AWtT2jknlaYA/RU9oK9DyHpjvFwqvILyRNUUenbg=
-X-Google-Smtp-Source: AGHT+IE+tCAaTegCU1cJ2lWV2raOXc6Xn5dEF3PAIROGRTcGQWzKXMmiqpa4ahguzpqZZOVjQmjwvg==
-X-Received: by 2002:a17:906:4684:b0:a62:cef2:5711 with SMTP id a640c23a62f3a-a681fc5c772mr785417666b.6.1717490726878;
-        Tue, 04 Jun 2024 01:45:26 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67eab85ea3sm603080666b.174.2024.06.04.01.45.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 01:45:26 -0700 (PDT)
-Date: Tue, 4 Jun 2024 11:45:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yan Zhai <yan@cloudflare.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC net-next 6/6] af_packet: pass rx socket on rcv drops
-Message-ID: <161b0924-2481-4f2e-9386-20f35623a828@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICrRHICu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717491028; x=1749027028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VLMKmnLD7S9ACeqiKTuZtjwkKOTwOqaA+qWiGLt8xlM=;
+  b=ICrRHICukqxNCtyPhTalqU/8fGESmkJvJ+yYMc4q3qgsGie0jWQZkspT
+   nqO0/WckgrGj2+e93FXnt0t5WTdjvG+7CQtpt0YlwmT9j87dvWtD8c/Ev
+   6OUsJxjk1OUnFN0QH0o3FqNwxOkC76QO1nrwSxHM9VmJ9zLxWhAZiZvUK
+   PcsQoKP3hRh2gZ0hBnMN+1igCH9aL/UoG7114jopr/MUXuX2vjvcE31S0
+   F04dsBWpXqoscZwthFHg18kfT17ipPA6q8+xNOYsY5z3bp77Ns0VTPcow
+   xOxvHBXuLX+oxrHp5TPVH1S8osCNCkZVH01laaOWaIYTH69qTSvez4LAB
+   g==;
+X-CSE-ConnectionGUID: MYnX9hD5QJ2guQyBtQCS7g==
+X-CSE-MsgGUID: JGxkdfSyQpaFTqDlXqmYxQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="25422146"
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="25422146"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 01:50:19 -0700
+X-CSE-ConnectionGUID: h4mOgW0pSAGSlb9CFF8wOA==
+X-CSE-MsgGUID: IiAPboChS1ib6gE5KsgmJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="37038317"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 04 Jun 2024 01:50:17 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sEPrx-000Myh-1e;
+	Tue, 04 Jun 2024 08:50:13 +0000
+Date: Tue, 4 Jun 2024 16:49:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gerecke <jason.gerecke@wacom.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [linux-next:master 2302/3381]
+ drivers/input/touchscreen/wacom_w8001.c:637:29: warning: ' Pen' directive
+ output may be truncated writing 4 bytes into a region of size between 1 and
+ 64
+Message-ID: <202406041641.wE3cCT4C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,152 +65,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <df2ad57a2986038ae9b5e46c73d48c22bb86b788.1717105215.git.yan@cloudflare.com>
 
-Hi Yan,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhai/net-add-kfree_skb_for_sk-function/20240531-055120
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/df2ad57a2986038ae9b5e46c73d48c22bb86b788.1717105215.git.yan%40cloudflare.com
-patch subject: [RFC net-next 6/6] af_packet: pass rx socket on rcv drops
-config: i386-randconfig-141-20240601 (https://download.01.org/0day-ci/archive/20240601/202406011859.Aacus8GV-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d97496ca23a2d4ee80b7302849404859d9058bcd
+commit: 6c7cc1a29d1e679be4a98b01141f1ba491e5775e [2302/3381] Input: wacom_w8001 - simplify device name generation
+config: microblaze-randconfig-r006-20230312 (https://download.01.org/0day-ci/archive/20240604/202406041641.wE3cCT4C-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406041641.wE3cCT4C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406011859.Aacus8GV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406041641.wE3cCT4C-lkp@intel.com/
 
-smatch warnings:
-net/packet/af_packet.c:2229 packet_rcv() error: uninitialized symbol 'sk'.
-net/packet/af_packet.c:2497 tpacket_rcv() error: uninitialized symbol 'sk'.
+All warnings (new ones prefixed by >>):
 
-vim +/sk +2229 net/packet/af_packet.c
-
-40d4e3dfc2f56a Eric Dumazet             2009-07-21  2120  static int packet_rcv(struct sk_buff *skb, struct net_device *dev,
-40d4e3dfc2f56a Eric Dumazet             2009-07-21  2121  		      struct packet_type *pt, struct net_device *orig_dev)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2122  {
-2f57dd94bdef08 Yan Zhai                 2023-12-04  2123  	enum skb_drop_reason drop_reason = SKB_CONSUMED;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2124  	struct sock *sk;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2125  	struct sockaddr_ll *sll;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2126  	struct packet_sock *po;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2127  	u8 *skb_head = skb->data;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2128  	int skb_len = skb->len;
-dbcb5855d108b7 David S. Miller          2007-01-24  2129  	unsigned int snaplen, res;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2130  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2131  	if (skb->pkt_type == PACKET_LOOPBACK)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2132  		goto drop;
-
-sk uninitialized
-
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2133  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2134  	sk = pt->af_packet_priv;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2135  	po = pkt_sk(sk);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2136  
-09ad9bc752519c Octavian Purdila         2009-11-25  2137  	if (!net_eq(dev_net(dev), sock_net(sk)))
-d12d01d6b4d197 Denis V. Lunev           2007-11-19  2138  		goto drop;
-d12d01d6b4d197 Denis V. Lunev           2007-11-19  2139  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2140  	skb->dev = dev;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2141  
-d549699048b4b5 Eyal Birger              2020-11-21  2142  	if (dev_has_header(dev)) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2143  		/* The device has an explicit notion of ll header,
-62ab0812137ec4 Eric Dumazet             2010-12-06  2144  		 * exported to higher levels.
-62ab0812137ec4 Eric Dumazet             2010-12-06  2145  		 *
-62ab0812137ec4 Eric Dumazet             2010-12-06  2146  		 * Otherwise, the device hides details of its frame
-62ab0812137ec4 Eric Dumazet             2010-12-06  2147  		 * structure, so that corresponding packet head is
-62ab0812137ec4 Eric Dumazet             2010-12-06  2148  		 * never delivered to user.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2149  		 */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2150  		if (sk->sk_type != SOCK_DGRAM)
-98e399f82ab3a6 Arnaldo Carvalho de Melo 2007-03-19  2151  			skb_push(skb, skb->data - skb_mac_header(skb));
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2152  		else if (skb->pkt_type == PACKET_OUTGOING) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2153  			/* Special case: outgoing packets have ll header at head */
-bbe735e4247dba Arnaldo Carvalho de Melo 2007-03-10  2154  			skb_pull(skb, skb_network_offset(skb));
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2155  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2156  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2157  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2158  	snaplen = skb->len;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2159  
-dbcb5855d108b7 David S. Miller          2007-01-24  2160  	res = run_filter(skb, sk, snaplen);
-dbcb5855d108b7 David S. Miller          2007-01-24  2161  	if (!res)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2162  		goto drop_n_restore;
-dbcb5855d108b7 David S. Miller          2007-01-24  2163  	if (snaplen > res)
-dbcb5855d108b7 David S. Miller          2007-01-24  2164  		snaplen = res;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2165  
-0fd7bac6b6157e Eric Dumazet             2011-12-21  2166  	if (atomic_read(&sk->sk_rmem_alloc) >= sk->sk_rcvbuf)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2167  		goto drop_n_acct;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2168  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2169  	if (skb_shared(skb)) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2170  		struct sk_buff *nskb = skb_clone(skb, GFP_ATOMIC);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2171  		if (nskb == NULL)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2172  			goto drop_n_acct;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2173  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2174  		if (skb_head != skb->data) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2175  			skb->data = skb_head;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2176  			skb->len = skb_len;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2177  		}
-abc4e4fa29eb81 Eric Dumazet             2012-04-19  2178  		consume_skb(skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2179  		skb = nskb;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2180  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2181  
-b4772ef879a8f7 Eyal Birger              2015-03-01  2182  	sock_skb_cb_check_size(sizeof(*PACKET_SKB_CB(skb)) + MAX_ADDR_LEN - 8);
-ffbc61117d32dc Herbert Xu               2007-02-04  2183  
-ffbc61117d32dc Herbert Xu               2007-02-04  2184  	sll = &PACKET_SKB_CB(skb)->sa.ll;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2185  	sll->sll_hatype = dev->type;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2186  	sll->sll_pkttype = skb->pkt_type;
-ee5675ecdf7a4e Eric Dumazet             2023-03-16  2187  	if (unlikely(packet_sock_flag(po, PACKET_SOCK_ORIGDEV)))
-80feaacb8a6400 Peter P. Waskiewicz Jr   2007-04-20  2188  		sll->sll_ifindex = orig_dev->ifindex;
-80feaacb8a6400 Peter P. Waskiewicz Jr   2007-04-20  2189  	else
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2190  		sll->sll_ifindex = dev->ifindex;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2191  
-b95cce3576813a Stephen Hemminger        2007-09-26  2192  	sll->sll_halen = dev_parse_header(skb, sll->sll_addr);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2193  
-2472d7613bd3ba Eyal Birger              2015-03-01  2194  	/* sll->sll_family and sll->sll_protocol are set in packet_recvmsg().
-2472d7613bd3ba Eyal Birger              2015-03-01  2195  	 * Use their space for storing the original skb length.
-2472d7613bd3ba Eyal Birger              2015-03-01  2196  	 */
-2472d7613bd3ba Eyal Birger              2015-03-01  2197  	PACKET_SKB_CB(skb)->sa.origlen = skb->len;
-8dc41944741596 Herbert Xu               2007-02-04  2198  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2199  	if (pskb_trim(skb, snaplen))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2200  		goto drop_n_acct;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2201  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2202  	skb_set_owner_r(skb, sk);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2203  	skb->dev = NULL;
-adf30907d63893 Eric Dumazet             2009-06-02  2204  	skb_dst_drop(skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2205  
-84531c24f27b02 Phil Oester              2005-07-12  2206  	/* drop conntrack reference */
-895b5c9f206eb7 Florian Westphal         2019-09-29  2207  	nf_reset_ct(skb);
-84531c24f27b02 Phil Oester              2005-07-12  2208  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2209  	spin_lock(&sk->sk_receive_queue.lock);
-ee80fbf301adac Daniel Borkmann          2013-04-19  2210  	po->stats.stats1.tp_packets++;
-3bc3b96f3b455b Eyal Birger              2015-03-01  2211  	sock_skb_set_dropcount(sk, skb);
-27942a15209f56 Martin KaFai Lau         2022-03-02  2212  	skb_clear_delivery_time(skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2213  	__skb_queue_tail(&sk->sk_receive_queue, skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2214  	spin_unlock(&sk->sk_receive_queue.lock);
-676d23690fb62b David S. Miller          2014-04-11  2215  	sk->sk_data_ready(sk);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2216  	return 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2217  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2218  drop_n_acct:
-8e8e2951e30957 Eric Dumazet             2019-06-12  2219  	atomic_inc(&po->tp_drops);
-7091fbd82cd568 Willem de Bruijn         2011-09-30  2220  	atomic_inc(&sk->sk_drops);
-2f57dd94bdef08 Yan Zhai                 2023-12-04  2221  	drop_reason = SKB_DROP_REASON_PACKET_SOCK_ERROR;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2222  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2223  drop_n_restore:
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2224  	if (skb_head != skb->data && skb_shared(skb)) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2225  		skb->data = skb_head;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2226  		skb->len = skb_len;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2227  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2228  drop:
-6def5ba6ef15af Yan Zhai                 2024-05-30 @2229  	kfree_skb_for_sk(skb, sk, drop_reason);
-                                                                                      ^^
+   drivers/input/touchscreen/wacom_w8001.c: In function 'w8001_connect':
+>> drivers/input/touchscreen/wacom_w8001.c:637:29: warning: ' Pen' directive output may be truncated writing 4 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
+     637 |                          "%s Pen", basename);
+         |                             ^~~~
+   drivers/input/touchscreen/wacom_w8001.c:636:17: note: 'snprintf' output between 5 and 68 bytes into a destination of size 64
+     636 |                 snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     637 |                          "%s Pen", basename);
+         |                          ~~~~~~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/wacom_w8001.c:653:29: warning: ' Finger' directive output may be truncated writing 7 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
+     653 |                          "%s Finger", basename);
+         |                             ^~~~~~~
+   drivers/input/touchscreen/wacom_w8001.c:652:17: note: 'snprintf' output between 8 and 71 bytes into a destination of size 64
+     652 |                 snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     653 |                          "%s Finger", basename);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~
 
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2230  	return 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2231  }
+vim +637 drivers/input/touchscreen/wacom_w8001.c
+
+   586	
+   587	/*
+   588	 * w8001_connect() is the routine that is called when someone adds a
+   589	 * new serio device that supports the w8001 protocol and registers it as
+   590	 * an input device.
+   591	 */
+   592	
+   593	static int w8001_connect(struct serio *serio, struct serio_driver *drv)
+   594	{
+   595		struct w8001 *w8001;
+   596		struct input_dev *input_dev_pen;
+   597		struct input_dev *input_dev_touch;
+   598		char basename[64] = "Wacom Serial";
+   599		int err, err_pen, err_touch;
+   600	
+   601		w8001 = kzalloc(sizeof(struct w8001), GFP_KERNEL);
+   602		input_dev_pen = input_allocate_device();
+   603		input_dev_touch = input_allocate_device();
+   604		if (!w8001 || !input_dev_pen || !input_dev_touch) {
+   605			err = -ENOMEM;
+   606			goto fail1;
+   607		}
+   608	
+   609		w8001->serio = serio;
+   610		w8001->pen_dev = input_dev_pen;
+   611		w8001->touch_dev = input_dev_touch;
+   612		mutex_init(&w8001->mutex);
+   613		init_completion(&w8001->cmd_done);
+   614		snprintf(w8001->phys, sizeof(w8001->phys), "%s/input0", serio->phys);
+   615	
+   616		serio_set_drvdata(serio, w8001);
+   617		err = serio_open(serio, drv);
+   618		if (err)
+   619			goto fail2;
+   620	
+   621		err = w8001_detect(w8001);
+   622		if (err)
+   623			goto fail3;
+   624	
+   625		/* For backwards-compatibility we compose the basename based on
+   626		 * capabilities and then just append the tool type
+   627		 */
+   628		err_pen = w8001_setup_pen(w8001, basename, sizeof(basename));
+   629		err_touch = w8001_setup_touch(w8001, basename, sizeof(basename));
+   630		if (err_pen && err_touch) {
+   631			err = -ENXIO;
+   632			goto fail3;
+   633		}
+   634	
+   635		if (!err_pen) {
+   636			snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+ > 637				 "%s Pen", basename);
+   638			input_dev_pen->name = w8001->pen_name;
+   639	
+   640			w8001_set_devdata(input_dev_pen, w8001, serio);
+   641	
+   642			err = input_register_device(w8001->pen_dev);
+   643			if (err)
+   644				goto fail3;
+   645		} else {
+   646			input_free_device(input_dev_pen);
+   647			input_dev_pen = NULL;
+   648			w8001->pen_dev = NULL;
+   649		}
+   650	
+   651		if (!err_touch) {
+   652			snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+ > 653				 "%s Finger", basename);
+   654			input_dev_touch->name = w8001->touch_name;
+   655	
+   656			w8001_set_devdata(input_dev_touch, w8001, serio);
+   657	
+   658			err = input_register_device(w8001->touch_dev);
+   659			if (err)
+   660				goto fail4;
+   661		} else {
+   662			input_free_device(input_dev_touch);
+   663			input_dev_touch = NULL;
+   664			w8001->touch_dev = NULL;
+   665		}
+   666	
+   667		return 0;
+   668	
+   669	fail4:
+   670		if (w8001->pen_dev)
+   671			input_unregister_device(w8001->pen_dev);
+   672	fail3:
+   673		serio_close(serio);
+   674	fail2:
+   675		serio_set_drvdata(serio, NULL);
+   676	fail1:
+   677		input_free_device(input_dev_pen);
+   678		input_free_device(input_dev_touch);
+   679		kfree(w8001);
+   680		return err;
+   681	}
+   682	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
