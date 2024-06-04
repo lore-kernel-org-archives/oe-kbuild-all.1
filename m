@@ -1,68 +1,72 @@
 Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC170143C5F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 09:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE37143897
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jun 2024 09:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717493032; cv=none; b=Qv+80QHHv5sUjji95kWGMpMKXPcpjR/tSTzc8il/2P3vXCb4jEPt1ZcuQly8R6m27lQ0znxAG5O+NbuQMbW5jQQMC+/O4kj+SyxqOV8wtRF75lPtEM15jm+CKdDf3Ky1gKQrEQAZBI/w5O/nlQJcZPSsNsuzJTS3Tcih40vRN8A=
+	t=1717493233; cv=none; b=msQUvtV77GljImU+YDNuD2PYBqj+hBqNaAxco7r8oCg8ihZEhSgDGiiHl4dy5mptCq4WCh7FiblHLUxQxaBXKO1XsrpyRwKSUYbmnV0Vis9Yot0hqUJFtS/xzVDoyf6NLeGJQJnX+xdI04Sb37/tDnzoIH8tXRXZ3WL3t0CTpi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717493032; c=relaxed/simple;
-	bh=hPRDfVN9zrZHHC+fiHl3+xNBPjg/xtoXtIax3D3WLeg=;
+	s=arc-20240116; t=1717493233; c=relaxed/simple;
+	bh=D2jU5oSARChmNNCZuwg8yDcYXULvhyEIQRoV+s3GJ2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SaJmtQv3uM7Rj4qDfejySIbcggbbAane4cxZlzL3ouGB4MQa7ErcGvcAkAuJ7gcEDyCR5pX/R264B4NwAQQHPlQoJ+/+9cT9u9g96aCWdpJEs5VbxPf/j6pqFxask3xhepJR69NsK2ERNGf0f/o+9SxH7+CLCdjcCXzh4N5MaWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MWGn15el; arc=none smtp.client-ip=209.85.218.43
+	 Content-Disposition:In-Reply-To; b=tjst3CeU6uwO26U08wK5ATTdUoBc9XNVQRaax716LmctryOLBQIjhD0JRVZIDWI4Y+duwGducIizv3QNEmavnLz3aco9YmLzTfzurr65lPuwu3uNHpa4rHWVEX+gmM6j1rl+TNwQbeLvGxmdoMiAnI4PP+fMxXUCVQ+OI0Oj6Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aeDCpHIL; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MWGn15el"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a626919d19dso946016766b.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Jun 2024 02:23:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aeDCpHIL"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a696cde86a4so32330266b.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Jun 2024 02:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717493029; x=1718097829; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1717493230; x=1718098030; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xemicTBwRPyiUNufo8q8iiZLE9eFd5HL26ZHWNiDDh8=;
-        b=MWGn15eleVUuY/Tn1qGpxOfAFNl8oantXS1mIXiyTdubaa+KQrcwhXilGGCnJ9aUOA
-         UnGFMiX0PB+bJeu/hOP9HXCZqLBx6WZeWPuIj2m9N6de/mDXkY52cOUeqk/dypTIQJrY
-         VT+laVNrSs04vQpWj3N2EDD8J6KjGekL9RuGdBJxQ6MIMN0bMhZqgs8hB1wRm6bvMJ+L
-         WYADb1Ists56iiwkOU0OT02zaGik3S5y/sONwKJ0r/g63dv34WkN5FReazctg/HjesPF
-         PryLIGgsjkpwRHXbUIwWusKLDuV1QRasrk1zPjcCQmxw+KGaabrnk7pzyy9txJCbj1hk
-         d/Qg==
+        bh=HFq7tpSqPveDiLxXj1+bXctSOmCsU5WM6G1TgLnMF4E=;
+        b=aeDCpHILiDWHDaMqeWALYfI1fIYchCPXcbBk/x2+kKL7SbfbU38tvYMxgmQKCwMXdE
+         7wccXp6cBvui8xXDlD8koRj4Ntp0NutygNfGw2fcEXWShKss2wqiBFvtsNon0O1XC+aQ
+         VU08MdAo43tiXkuFxkWWPD7Gl73mCsptZs2tEdL2eL3wH3YgDHIi9Rwl1QSfuLF981Uv
+         EsFEm3sYJFkG8u9LGBSZo6K9H/MVBNcLi8lznD5U0jR+uRNYZbAfiBiJZADoUj6xcmt8
+         ht4suPjrwPJNFq1AoKOfqgDJnWvZ0PY3mor9jI2GMXD4GufM+zxQjvojQ+DVtQwatOMQ
+         d6/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717493029; x=1718097829;
+        d=1e100.net; s=20230601; t=1717493230; x=1718098030;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xemicTBwRPyiUNufo8q8iiZLE9eFd5HL26ZHWNiDDh8=;
-        b=vP9pxEHvD83yZFPXKNH09mZxAP9jZ8vU1icybzlwzwxzynxNFFwhjGiqhEpTe/E5IA
-         GRotB1wTaq8J1phZwuXPnWLdtUZ0DYId1rARXpI6oz9/4lZSmTGTI0gZwMu4UIwib7gX
-         pKBC4TmZeKC/yQMlyVfXQFRpsVFOWbTcRlN2tf8O2J5kYeZFqQoaQZTLDBLW7c2I0Hov
-         0OKFL4exHOQ8FU0R3IpAMM8GVd18J7QXsvEPuWfeP0K99B3JyrKnC2FWIz6WAUfN7J0S
-         HoDE+qhQm7DUGAKkpjLy9UAXxFudB04eFW8apAVY0NtehzMgyacSeel5bgMqTtlEikLi
-         wpgA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPeDX25CRY4ia3hyuXzm56JqX34Nw+etxMmsNm8ojjjiM5TyYyVSQSa3ODYIbnQByYwuXBN90/PdmJYr2TN0SThgnNRRQpohVR6mwbzA==
-X-Gm-Message-State: AOJu0YyzCrNnNT2PmMD1+DJMBaSHfYhA5rufpWGGkDuYU7kR2Omw+Ehs
-	KFp+mgFD1WMqqGYiuiWhgwCUWyzNBQu5Y+oigLDWXvSkQ9dYQ8n3OWQ7GblsCVE=
-X-Google-Smtp-Source: AGHT+IGgzFJu020ZVDFJOaUBGqmgiXocPAB8ffUUBJMs4jrthf8Wee4u7s4o7NJ9GYESXPBanDgkdQ==
-X-Received: by 2002:a17:907:bc4:b0:a68:f1ca:a8de with SMTP id a640c23a62f3a-a69545649bbmr126880066b.36.1717493028989;
-        Tue, 04 Jun 2024 02:23:48 -0700 (PDT)
+        bh=HFq7tpSqPveDiLxXj1+bXctSOmCsU5WM6G1TgLnMF4E=;
+        b=mKo/rts2ceLn/S+rPu5turI0J10AxvDkZy5bys15Ulm1LVENxjxZYDEsWSs7RYjlP/
+         rraZbnSNn2kgUWiHzsn2GzKgqcGVxwPYHuX4s6zGbtl9+fAHr0ig0kUIfurjLbv7sW1h
+         A22hN0qHkRVs+ilJih23t1o5pjA1WO4gR6Bq4wWE29GuNy9OOMp/v85saYy37Keo1Tut
+         bx3F3Y00dWAUc9oSRavF9AXpS+42bIAbcJkHCnSeOPVm470bTM4uzqJYwL9sOiCe8fya
+         DwGYLtA05loT4znuLHKVA8ecBgkuYFTAj+fDXBXYS+x3I4EJGTGF7p+aNEJbeoDKx229
+         IEBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcTagnU40gEn6qq58BylhpYNbyN5BxVnrdWx+9d0zWRkd0MvJvipPzlTCVlF43NxcW2NBva++oDpBe89ilvIHwyRgSuoKEdS4zOBgCyQ==
+X-Gm-Message-State: AOJu0Yxl3zt/xZ76fARDMwuJ6vlDN7ulAW3VqvcG4wgkTw6iqGbPVnme
+	HL1ji/hD2rjrOhXOWxdOPAXC6r6C+T6Shnr+ylCIrcnZfVolLSi7eKDcVRRGn9c=
+X-Google-Smtp-Source: AGHT+IH/8jHjvoRXRq9A58t2qMLFUxjDENPNcf1oh67gqs4xFNC0tXcrBM43MYq2iYNsnSI4K4Askg==
+X-Received: by 2002:a17:907:8690:b0:a69:2bce:e424 with SMTP id a640c23a62f3a-a692bcee4b3mr272176866b.1.1717493229789;
+        Tue, 04 Jun 2024 02:27:09 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68fa8035adsm332061266b.185.2024.06.04.02.23.48
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68e940ed6asm378573366b.22.2024.06.04.02.27.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 02:23:48 -0700 (PDT)
-Date: Tue, 4 Jun 2024 12:23:45 +0300
+        Tue, 04 Jun 2024 02:27:09 -0700 (PDT)
+Date: Tue, 4 Jun 2024 12:27:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Baolin Wang <baolin.wang@linux.alibaba.com>,
-	akpm@linux-foundation.org, hughd@google.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, willy@infradead.org,
-	david@redhat.com, wangkefeng.wang@huawei.com, ying.huang@intel.com,
-	21cnbao@gmail.com, ryan.roberts@arm.com, shy828301@gmail.com,
-	ziy@nvidia.com, ioworker0@gmail.com, da.gomez@samsung.com,
-	p.raghav@samsung.com, baolin.wang@linux.alibaba.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] mm: shmem: add mTHP support for anonymous shmem
-Message-ID: <ad47dc93-0cdb-45fb-83b3-170f2c09b93a@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Lizhi Xu <lizhi.xu@windriver.com>,
+	ebiggers@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, adilger.kernel@dilger.ca,
+	coreteam@netfilter.org, davem@davemloft.net, fw@strlen.de,
+	jaegeuk@kernel.org, kadlec@netfilter.org, kuba@kernel.org,
+	linux-ext4@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lizhi.xu@windriver.com,
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+	pablo@netfilter.org,
+	syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com, tytso@mit.edu
+Subject: Re: [PATCH V3] ext4: check hash version and filesystem casefolded
+ consistent
+Message-ID: <638bf33d-7ab0-4ff0-aece-ab877cff1694@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,86 +75,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec35a23026dd016705d211e85163cabe07681516.1717033868.git.baolin.wang@linux.alibaba.com>
+In-Reply-To: <20240531085647.2918240-1-lizhi.xu@windriver.com>
 
-Hi Baolin,
+Hi Lizhi,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baolin-Wang/mm-memory-extend-finish_fault-to-support-large-folio/20240530-100805
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/ec35a23026dd016705d211e85163cabe07681516.1717033868.git.baolin.wang%40linux.alibaba.com
-patch subject: [PATCH v3 4/6] mm: shmem: add mTHP support for anonymous shmem
-config: powerpc64-randconfig-r071-20240531 (https://download.01.org/0day-ci/archive/20240602/202406020203.14sT311e-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Xu/ext4-check-hash-version-and-filesystem-casefolded-consistent/20240531-170046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20240531085647.2918240-1-lizhi.xu%40windriver.com
+patch subject: [PATCH V3] ext4: check hash version and filesystem casefolded consistent
+config: i386-randconfig-141-20240601 (https://download.01.org/0day-ci/archive/20240602/202406020752.Ii2MU4KP-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406020203.14sT311e-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406020752.Ii2MU4KP-lkp@intel.com/
 
 smatch warnings:
-mm/shmem.c:1766 shmem_alloc_and_add_folio() error: uninitialized symbol 'suitable_orders'.
+fs/ext4/super.c:5287 __ext4_fill_super() warn: missing error code 'err'
 
-vim +/suitable_orders +1766 mm/shmem.c
+vim +/err +5287 fs/ext4/super.c
 
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1729  static struct folio *shmem_alloc_and_add_folio(struct vm_fault *vmf,
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1730  		gfp_t gfp, struct inode *inode, pgoff_t index,
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1731  		struct mm_struct *fault_mm, unsigned long orders)
-800d8c63b2e989 Kirill A. Shutemov      2016-07-26  1732  {
-3022fd7af9604d Hugh Dickins            2023-09-29  1733  	struct address_space *mapping = inode->i_mapping;
-0f0796945614b7 Mike Rapoport           2017-09-06  1734  	struct shmem_inode_info *info = SHMEM_I(inode);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1735  	struct vm_area_struct *vma = vmf ? vmf->vma : NULL;
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1736  	unsigned long suitable_orders;
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1737  	struct folio *folio = NULL;
-3022fd7af9604d Hugh Dickins            2023-09-29  1738  	long pages;
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1739  	int error, order;
-800d8c63b2e989 Kirill A. Shutemov      2016-07-26  1740  
-396bcc5299c281 Matthew Wilcox (Oracle  2020-04-06  1741) 	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1742  		orders = 0;
-800d8c63b2e989 Kirill A. Shutemov      2016-07-26  1743  
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1744  	if (orders > 0) {
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1745  		if (vma && vma_is_anon_shmem(vma)) {
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1746  			suitable_orders = anon_shmem_suitable_orders(inode, vmf,
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1747  							mapping, index, orders);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1748  		} else if (orders & BIT(HPAGE_PMD_ORDER)) {
-3022fd7af9604d Hugh Dickins            2023-09-29  1749  			pages = HPAGE_PMD_NR;
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1750  			suitable_orders = BIT(HPAGE_PMD_ORDER);
-3022fd7af9604d Hugh Dickins            2023-09-29  1751  			index = round_down(index, HPAGE_PMD_NR);
-3022fd7af9604d Hugh Dickins            2023-09-29  1752  
-3022fd7af9604d Hugh Dickins            2023-09-29  1753  			/*
-3022fd7af9604d Hugh Dickins            2023-09-29  1754  			 * Check for conflict before waiting on a huge allocation.
-3022fd7af9604d Hugh Dickins            2023-09-29  1755  			 * Conflict might be that a huge page has just been allocated
-3022fd7af9604d Hugh Dickins            2023-09-29  1756  			 * and added to page cache by a racing thread, or that there
-3022fd7af9604d Hugh Dickins            2023-09-29  1757  			 * is already at least one small page in the huge extent.
-3022fd7af9604d Hugh Dickins            2023-09-29  1758  			 * Be careful to retry when appropriate, but not forever!
-3022fd7af9604d Hugh Dickins            2023-09-29  1759  			 * Elsewhere -EEXIST would be the right code, but not here.
-3022fd7af9604d Hugh Dickins            2023-09-29  1760  			 */
-3022fd7af9604d Hugh Dickins            2023-09-29  1761  			if (xa_find(&mapping->i_pages, &index,
-3022fd7af9604d Hugh Dickins            2023-09-29  1762  				    index + HPAGE_PMD_NR - 1, XA_PRESENT))
-3022fd7af9604d Hugh Dickins            2023-09-29  1763  				return ERR_PTR(-E2BIG);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1764  		}
+d4fab7b28e2f5d7 Theodore Ts'o           2023-04-27  5280  	err = ext4_block_group_meta_init(sb, silent);
+d4fab7b28e2f5d7 Theodore Ts'o           2023-04-27  5281  	if (err)
+0d1ee42f27d30ee Alexandre Ratchov       2006-10-11  5282  		goto failed_mount;
+0b8e58a140cae2b Andreas Dilger          2009-06-03  5283  
+db9345d9e6f075e Jason Yan               2023-03-23  5284  	ext4_hash_info_init(sb);
+66b3f078839bbdb Lizhi Xu                2024-05-31  5285  	if (es->s_def_hash_version == DX_HASH_SIPHASH && 
+66b3f078839bbdb Lizhi Xu                2024-05-31  5286  	    !ext4_has_feature_casefold(sb))
+66b3f078839bbdb Lizhi Xu                2024-05-31 @5287  		goto failed_mount;
 
-suitable_orders uninitialized on else path.
 
-52cd3b074050dd Lee Schermerhorn        2008-04-28  1765  
-ededbc2c2f28a1 Baolin Wang             2024-05-30 @1766  		order = highest_order(suitable_orders);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1767  		while (suitable_orders) {
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1768  			pages = 1UL << order;
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1769  			index = round_down(index, pages);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1770  			folio = shmem_alloc_folio(gfp, order, info, index);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1771  			if (folio)
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1772  				goto allocated;
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1773  
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1774  			if (pages == HPAGE_PMD_NR)
-3022fd7af9604d Hugh Dickins            2023-09-29  1775  				count_vm_event(THP_FILE_FALLBACK);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1776  			order = next_order(&suitable_orders, order);
-ededbc2c2f28a1 Baolin Wang             2024-05-30  1777  		}
-3022fd7af9604d Hugh Dickins            2023-09-29  1778  	} else {
-3022fd7af9604d Hugh Dickins            2023-09-29  1779  		pages = 1;
+Should this be an error path?  err = something?
+
+ac27a0ec112a089 Dave Kleikamp           2006-10-11  5288  
+d4fab7b28e2f5d7 Theodore Ts'o           2023-04-27  5289  	err = ext4_handle_clustersize(sb);
+d4fab7b28e2f5d7 Theodore Ts'o           2023-04-27  5290  	if (err)
+281b59959707dfa Theodore Ts'o           2011-09-09  5291  		goto failed_mount;
+960fd856fdc3b08 Theodore Ts'o           2013-07-05  5292  
+d4fab7b28e2f5d7 Theodore Ts'o           2023-04-27  5293  	err = ext4_check_geometry(sb, es);
+d4fab7b28e2f5d7 Theodore Ts'o           2023-04-27  5294  	if (err)
+bfe0a5f47ada40d Theodore Ts'o           2018-06-17  5295  		goto failed_mount;
+bfe0a5f47ada40d Theodore Ts'o           2018-06-17  5296  
 
 -- 
 0-DAY CI Kernel Test Service
