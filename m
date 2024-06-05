@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA764624
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 04:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ABC61FEC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 05:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717561417; cv=none; b=ur96kYDJaxrEJa7Lx07gFnTmfQr5HIj/TTNPzbO5Q5uxFJvIOdpYb6HFPslfCOX+69F0M94Tz4j63PwVcpBEQ7s79aMKwAG2Ed44rWsXo02lZ145K2/g5jfZvHR7M+YEBvsvd5b6dxMMQS0xIWUAO6qit95sC6utN5Bsbr+zFzA=
+	t=1717563878; cv=none; b=MRivoTzW0INxAVNlmcVH/3FfsZktzzQ8riyfFHscYBBXjkqssdRqDDuUfz69NBeb7RwavMq1ljEixKiUzjQrrgNFIkX9CKcAyhnT47U3LpzanmWFlHgpA5X8HEFBusbvCJ658g7mpWaw5cUOWShaCHuFUCL7JPcLyeiSw6wlzPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717561417; c=relaxed/simple;
-	bh=oe2xk2L9DBQy7GU2pkfgXSHX+LZ0yoNjbg7ml65IEag=;
+	s=arc-20240116; t=1717563878; c=relaxed/simple;
+	bh=x2ZW8cijAAACiOfJr+MbErW0fJMSAWOe6vL0+p9HPsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nrh0pbdBC25uisILJjYKq48K8TTj3Ms7CTlIl0SarMA3kBLB6WLDii13idaHQRExbDkN2Ds+8g0IYcb+EoWy3rMu8USHCMhIyFQt78rLr9aNpZzVMFla0msD11zEXMJ3I4XWY+fAr1Upql+GprySfjHDEYF8/FlaB0a9sKoCyWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ID06bQGa; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHyIR4Le5wAp3ffocAIeBcQ+rJMaUBi0XDvRLBMHHumx8QOj0u87D4Zn7FtpCnYiE/kYema6Gt2takrl2o76WXxg+i0Y+FgU9zBnqzNcCAbOBwNvWDsd2msF5lp9VBlNybAG5rc/6mZKe7fUUj7ld1uh61jfsfuxu5aRari2PS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUidmhsw; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ID06bQGa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUidmhsw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717561416; x=1749097416;
+  t=1717563877; x=1749099877;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oe2xk2L9DBQy7GU2pkfgXSHX+LZ0yoNjbg7ml65IEag=;
-  b=ID06bQGaPzcSoZlKlhSods3wxFSzqcPExjIh5OurcdQDf3vcMIE3jQFx
-   C8Iq9a40GYTaHh84zp8b1yzeZID0g59r/oywyluySqpcjmksn8vevazl6
-   1TKkgMokRXuQy17rJjLTgIDiF6b4DhWMgDKdVnkdm+SuhkkH898iOSG1n
-   /V28KaRkO8Me44O4K2oRVS9fOIZ54peXZVYuGxS9syNQxr+YHTwzS0J+I
-   dXZXYjGau4cg4m1lJAYjFLtTGV6EU36Mk1V4lnlot/n2x99Idh/RK6nK3
-   d7S/4AgU+epx4Vu7BlSZ6okVr077Jf9kIvZViKpmuz6glMstgUNE9WfXb
-   A==;
-X-CSE-ConnectionGUID: lhZxEuPZSzWTT9A9sSMINQ==
-X-CSE-MsgGUID: UV+r9Y6ORi+cdpvFowmzaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14329241"
+  bh=x2ZW8cijAAACiOfJr+MbErW0fJMSAWOe6vL0+p9HPsc=;
+  b=eUidmhswdYaldfYrY4XLZCycCpFB2qQcb9lGOyEryDiCp0EZidmGvElv
+   iDIbmmVzIkK22lKXCPZVMNvPehvzRQ8n+hFCddX12XjrNd0ffAUmmn0eu
+   wzSU5iKXa4httFgEvV2QrjUA58euoQQivHd6TjaLQ9cHBgYK7Aq/7s4tS
+   f4theceAcPG8qjW6Jr0tHsHpEEcnOFScjaVRaSrpi0POiDotfK3l9CZyw
+   ibreHOtZIjo0Gz+dZyLRQcdkoyd6aSv/KNQi/1NdYWy9aRqqNC1efEHHB
+   EmucQaTYhpQjuHmNijmpgVk6FBi2v9eoYZ9DpGYM4g1nck329DzJwZTdY
+   g==;
+X-CSE-ConnectionGUID: lfc/+UuvR/2kSf3fcxDyyQ==
+X-CSE-MsgGUID: C0CZ14BDQ1udY9FGP69Nbg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="25257245"
 X-IronPort-AV: E=Sophos;i="6.08,215,1712646000"; 
-   d="scan'208";a="14329241"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 21:23:35 -0700
-X-CSE-ConnectionGUID: Tkj46dYcT9ml409QlF4Tag==
-X-CSE-MsgGUID: JimUKZdwTouS37wlROTS/w==
+   d="scan'208";a="25257245"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 22:04:36 -0700
+X-CSE-ConnectionGUID: GJ7hVspwS1eWwapyAKcxKQ==
+X-CSE-MsgGUID: 1Q08XN4PTlG6z6cEZDUvkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,215,1712646000"; 
-   d="scan'208";a="37515024"
+   d="scan'208";a="68598678"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 04 Jun 2024 21:23:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Jun 2024 22:04:32 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEiBM-0000ud-2h;
-	Wed, 05 Jun 2024 04:23:28 +0000
-Date: Wed, 5 Jun 2024 12:22:41 +0800
+	id 1sEip4-0000vn-0q;
+	Wed, 05 Jun 2024 05:04:30 +0000
+Date: Wed, 5 Jun 2024 13:03:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
 	freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
@@ -62,7 +62,7 @@ Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler
  warnings for gen7_* includes
-Message-ID: <202406051226.b050NPQf-lkp@intel.com>
+Message-ID: <202406051244.xdNC6LyO-lkp@intel.com>
 References: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,10 +76,10 @@ In-Reply-To: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
 
 Hi Abhinav,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-intel/for-linux-next-fixes]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.10-rc2 next-20240604]
+[auto build test WARNING on drm-intel/for-linux-next-fixes]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.10-rc2 next-20240604]
 [cannot apply to drm-intel/for-linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -89,22 +89,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Kumar/drm-msm-a6x
 base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
 patch link:    https://lore.kernel.org/r/20240604215105.4057278-1-quic_abhinavk%40quicinc.com
 patch subject: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler warnings for gen7_* includes
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240605/202406051226.b050NPQf-lkp@intel.com/config)
+config: i386-buildonly-randconfig-001-20240605 (https://download.01.org/0day-ci/archive/20240605/202406051244.xdNC6LyO-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051226.b050NPQf-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051244.xdNC6LyO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406051226.b050NPQf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406051244.xdNC6LyO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:13:
->> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:114:18: error: 'gen7_9_0_cx_debugbus_blocks' defined but not used [-Werror=unused-const-variable=]
+>> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:114:18: warning: 'gen7_9_0_cx_debugbus_blocks' defined but not used [-Wunused-const-variable=]
      114 | static const u32 gen7_9_0_cx_debugbus_blocks[] = {
          |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
 
 
 vim +/gen7_9_0_cx_debugbus_blocks +114 drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h
