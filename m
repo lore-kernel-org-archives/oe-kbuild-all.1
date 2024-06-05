@@ -1,113 +1,92 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02273169ACB;
-	Wed,  5 Jun 2024 06:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B092BD0D;
+	Wed,  5 Jun 2024 06:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717568127; cv=none; b=RYPWWTIdn+vuouZusNBaR7Uf3zXKmBPko4qPTcSYAbtGeD75rZJn0IBg/HNa04apwgBKRcGMgP87rYkOPkz8IBG2DTJgSipwqaq5tHMGZVTyIbUVNhdB1rCTqo1reWkvkfKyCk3MBFBlPo0vtgRqDm8sVpE561Y+VAaMD7ikxT4=
+	t=1717568257; cv=none; b=YC6P/sfPZRn35jN6XyL8kIHoFAg7QKQ55yGk2KGKWzlRdC7i95eiaUsj55sGk2IzpG7uzivVNZHX9oEQXR/EHFkQKVCZJY32NLzveFvEJnmOezJpEibfMiENTPBL5c4ZK2CVTd6qa9ZCnpnG6OFGpTzT49vRlcqeDoQJLbzH4I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717568127; c=relaxed/simple;
-	bh=/iJbGKJSbqnXsv1mQbSvBzVkuAfvVdIf4m4RBhK/cS4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=e3XQzucnwNJd2FDb8V4WkxfSB+sQbxbqMkMmXtLRaJrnPfk4xy4zhJKN/aTbIq8m1HvfIEZ/YSN3rAfoD+mjCNfhn2nqoX3h3UXrQTer8065wV5h09SFb16ecnJMo0mW4hHhTtLE3b2iMpYn+gumWTT5qfH5aaC9HRjpERcuTsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4VvHCn6NvWz1S63h;
-	Wed,  5 Jun 2024 14:11:33 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
-	by mail.maildlp.com (Postfix) with ESMTPS id 74C6C1A0188;
-	Wed,  5 Jun 2024 14:15:15 +0800 (CST)
-Received: from [10.67.110.112] (10.67.110.112) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 5 Jun 2024 14:15:15 +0800
-Message-ID: <84a65024-d96c-3fa5-c015-98130ee82ccb@huawei.com>
-Date: Wed, 5 Jun 2024 14:15:14 +0800
+	s=arc-20240116; t=1717568257; c=relaxed/simple;
+	bh=yV4hXhnbkqRWbzKRQFt000wHs7U2KnsfGgFlcBTFv+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K9ey4SnKWcVsTgQlhSKfpPMEA11EAqzGLwyOvESV73AVfoyQtY1gdcaBw+kBnzJT7Rx9dvafZD/Aq6KhfFld32dO7zRBqxNCVhKh/fgrm7ccfbaOGQVZAwhZ0xqLg4VS97QGHD3hS40SmJAZ3akHct2Djz69rT17k4QZix6wpms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zxl6qe8B; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zxl6qe8B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B315C32781;
+	Wed,  5 Jun 2024 06:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717568256;
+	bh=yV4hXhnbkqRWbzKRQFt000wHs7U2KnsfGgFlcBTFv+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zxl6qe8BJtjkxN3sCVNGkgprZEMnKAOonITeplAzjP3FIJOa9JiRErHhGfYf6VqNd
+	 rPRIrPdsWU9Nj5/gPCHgKZs3Rp2Ck3LxC5oK5v7G6aewmh+mvDulRDT8tqnRhQlj5o
+	 K79JhFH+nff4GVtW7webgIy/2wYIVVZSsyyscCFFbIW2APqvR4n2Z3loxLX+81vR4A
+	 ci/KVPMSJhPsGb8ziTjHudYeHE8xrjUlxp+142EZxKlnwoIJlQINXDrjkacURrUSrs
+	 MeNUsaFCAVNWDw5Bo7X0QdxJphvnXnr7CulcxtS+CwH7NSY7ELRmy+ROM9MEXf4Blk
+	 /jhpKn4mNEooQ==
+Date: Tue, 4 Jun 2024 23:17:34 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [linux-next:master 1323/3381]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:333:4: error: format specifies type
+ 'unsigned char' but the argument has type 'int'
+Message-ID: <20240605061734.GD279426@thelio-3990X>
+References: <202406050622.SmOX6DL6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH -next 2/3] mm/hugetlb_cgroup: prepare cftypes based on
- template
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-	<akpm@linux-foundation.org>, <muchun.song@linux.dev>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>
-References: <87bca9ca-0c3e-449a-b121-eee7b84dc2ed@moroto.mountain>
-From: xiujianfeng <xiujianfeng@huawei.com>
-In-Reply-To: <87bca9ca-0c3e-449a-b121-eee7b84dc2ed@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500023.china.huawei.com (7.185.36.114)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202406050622.SmOX6DL6-lkp@intel.com>
 
-
-
-On 2024/6/5 13:24, Dan Carpenter wrote:
-> Hi Xiu,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xiu-Jianfeng/mm-hugetlb_cgroup-identify-the-legacy-using-cgroup_subsys_on_dfl/20240603-201513
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20240603120506.1837322-3-xiujianfeng%40huawei.com
-> patch subject: [PATCH -next 2/3] mm/hugetlb_cgroup: prepare cftypes based on template
-> config: i386-randconfig-r071-20240604 (https://download.01.org/0day-ci/archive/20240605/202406050210.OWthxCFt-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+On Wed, Jun 05, 2024 at 06:23:57AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   d97496ca23a2d4ee80b7302849404859d9058bcd
+> commit: 0ea55445554209913a72eab86b60f5788776c4d6 [1323/3381] drm/amdgpu: Fix snprintf usage in amdgpu_gfx_kiq_init_ring
+> config: arm64-randconfig-003-20240605 (https://download.01.org/0day-ci/archive/20240605/202406050622.SmOX6DL6-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050622.SmOX6DL6-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202406050210.OWthxCFt-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406050622.SmOX6DL6-lkp@intel.com/
 > 
-> smatch warnings:
-> mm/hugetlb_cgroup.c:828 hugetlb_cgroup_cfttypes_init() warn: this array is probably non-NULL. 'tmpl->name'
+> All errors (new ones prefixed by >>):
 > 
-> vim +828 mm/hugetlb_cgroup.c
-> 
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  815  static void __init
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  816  hugetlb_cgroup_cfttypes_init(struct hstate *h, struct cftype *cft,
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  817  			     struct cftype *tmpl, int tmpl_size)
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  818  {
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  819  	char buf[32];
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  820  	int i, idx = hstate_index(h);
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  821  
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  822  	/* format the size */
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  823  	mem_fmt(buf, sizeof(buf), huge_page_size(h));
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  824  
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  825  	for (i = 0; i < tmpl_size; cft++, tmpl++, i++) {
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  826  		*cft = *tmpl;
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  827  		/* rebuild the name */
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03 @828  		if (tmpl->name)
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  829  			snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
-> 
-> tmpl->name is an array so it's non-NULL.  Just do the snprintf().  No
-> need for the if statement.
+> >> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:333:4: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
+>                     xcc_id, ring->me, ring->pipe, ring->queue);
+>                     ^~~~~~
+> >> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:333:12: error: format specifies type 'unsigned char' but the argument has type 'u32' (aka 'unsigned int') [-Werror,-Wformat]
+>                     xcc_id, ring->me, ring->pipe, ring->queue);
+>                             ^~~~~~~~
+>    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:333:22: error: format specifies type 'unsigned char' but the argument has type 'u32' (aka 'unsigned int') [-Werror,-Wformat]
+>                     xcc_id, ring->me, ring->pipe, ring->queue);
+>                                       ^~~~~~~~~~
+>    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:333:34: error: format specifies type 'unsigned char' but the argument has type 'u32' (aka 'unsigned int') [-Werror,-Wformat]
+>                     xcc_id, ring->me, ring->pipe, ring->queue);
+>                                                   ^~~~~~~~~~~
+>    4 errors generated.
 
-Hi Dan,
+For what it's worth, I think that we take care not to enable -Wformat
+with clang versions older than 16 because of this issue, see commit
+b0839b281c42 ("Makefile.extrawarn: re-enable -Wformat for clang; take
+2") for more information. However, now that I am looking at
+scripts/Makefile.extrawarn, it appears that we only do that for a normal
+build, not W=1? That seems like a potential oversight of that change but
+I am a little fuzzy on the conversation around that and I am not sure
+Nick is around to answer that...
 
-Thanks for you review, will fix in the next version.
-
-> 
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  830  		/* rebuild the private */
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  831  		if (tmpl->private)
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  832  			cft->private = MEMFILE_PRIVATE(idx, tmpl->private);
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  833  		/* rebuild the file_offset */
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  834  		if (tmpl->file_offset) {
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  835  			unsigned int offset = tmpl->file_offset;
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  836  
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  837  			cft->file_offset = MEMFILE_OFFSET0(offset) +
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  838  					   MEMFILE_FIELD_SIZE(offset) * idx;
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  839  		}
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  840  	}
-> 66bcc9ace99241 Xiu Jianfeng 2024-06-03  841  }
-> 
+Cheers,
+Nathan
