@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1828161930
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 21:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D4B4965B;
+	Wed,  5 Jun 2024 21:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717621270; cv=none; b=QJoa3EnxEMNMHmQxDPuDJiL8XZOum7BMDdsz/1F4rTDeIS6K9yO4/j3fUmEDldObFXUfaovhJ+lF5MQl0VAGCjpKjc0mYlzqyB/18MB53Ye0eVjpoQ3qxnYQjlP8YSLd8txCTS5z7o2Ua9/MkPdT/K62+xonKqteK+bXgxkRrgY=
+	t=1717621942; cv=none; b=q10AQfaIRUPDJDpz2HR9/0iA/3Pe2aobnQ3J8/QuieVIBCs+TlPHNf15czzxiQmsBLSH3ujVSeKwqjQHJd0BvzIXUJI6qXc1zteQzVcLxnv7cS6P9QXG0zELPTOVJbZIVxMt5LJOat+gQWBcdPMaHjOX27vImPQCNliwFeft6bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717621270; c=relaxed/simple;
-	bh=IaZnPXCtcD0nGhckQNwmFEZPwCkw9yymsfdmJJjF6og=;
+	s=arc-20240116; t=1717621942; c=relaxed/simple;
+	bh=4IXudFV4i2Q4t3SaiFq2w0BpNh1HPjlNLzUuz+s+Xf4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u4cRFIS2NRMSortHd9rf/re5EpghIsnZel0E2LoLG59oJwxfhKIpi2crlnwiipRKt9u47k7J9vKibzVWXUzO2IJReF5C0PleSrzubg+sO5max8kHJ5h8y2wxhSxwY2VKyj5c3SKFOILstb5RwAL8fWe0XKGd+r7aC2fYOQVimSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ds38JSOX; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=r6K56R16E8kPJGGfKc5nlbJv/gxMwan084iyvc/b33d4DzyjOqGrpeP1F1qtzqNBIA/xyNzykLvk44qJJCNDIBXBw+W9q3yhOc1b1OuELJqHM8pl2IzoNYb6QCaJdLmo/K64sL5ZC+jThgCld0O6nQpexYLDSsjamgeJojxbH4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDWo1gyT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ds38JSOX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDWo1gyT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717621269; x=1749157269;
+  t=1717621939; x=1749157939;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IaZnPXCtcD0nGhckQNwmFEZPwCkw9yymsfdmJJjF6og=;
-  b=Ds38JSOXWF728CSmQHWxp3h0TPS9oHQatoof78ySGhpzX1lTFAsTbFkR
-   lBNPeeV7/fVMtCcJndgLU6FdYiKmGsb9xEIPDeqJp8vypIqP0luV/e0IQ
-   fBNDGkg4cW7WRzKmxXXoh6ArVz8EswS5YMAiU4gOuUvlE8c2YYUsCGqJH
-   OU3C2sceHtVJa54+TlfWdO3tBfrCYUbRO9DnVqFAGZJOKFi+e2P6us6Ou
-   CdXcptW7XrJ51Ccg+wui6Gfsf6oV9cn47nZx9qbW2Rg8y9PV8YkXBOe1/
-   7UIaw6SUEl90gDB0Gfn4edsR8+WS4AJrdxywOb27L0quXrqcMdZQW8wX4
-   g==;
-X-CSE-ConnectionGUID: TNoDWY6mTBKZ8dkRq4+jcg==
-X-CSE-MsgGUID: fUsGS4joQjubRgshmqH+CA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14392937"
+  bh=4IXudFV4i2Q4t3SaiFq2w0BpNh1HPjlNLzUuz+s+Xf4=;
+  b=VDWo1gyTJI3dG+MFF6c3LfHlR1a44luQee8fy6XvYSbz//lRTgSnt4G5
+   HEI9+XmjopCCuypbA7ZD//vcn1SdSL79dEVE5Qr36MkkzyANzA4koj9fX
+   uascO5f5eaL4ynug3qE49DbeDGYra/ObOH48LdaqtbrrEi302b96qyDZE
+   rVFr+kT1/n1JERYxWZ/HNP9zk64BgGTkH1JwO/6Y3HRFeyd+gbmctmcRy
+   aWEeATi0jsjfog4B8fe2idtlEvpL69mBROA36mN7UJ6zidGq0sMd1mlc4
+   bsa6degCIUSlEim7DFYc3trJ/WIRUE1m1EgcZpF9DTnp7PCRlmccRgqLn
+   Q==;
+X-CSE-ConnectionGUID: 5J89Sl6bQImLafU/Mo49FQ==
+X-CSE-MsgGUID: JJiZgc4kRxiKCDnXzxPf7Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14478107"
 X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="14392937"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 14:01:09 -0700
-X-CSE-ConnectionGUID: ApQqoc/IQ8eeQ2O4DtQ0Ow==
-X-CSE-MsgGUID: Qer1XMT+RjWpThoaL+dlPw==
+   d="scan'208";a="14478107"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 14:12:19 -0700
+X-CSE-ConnectionGUID: xVpoM+P1RBG5cJ0gnB62Aw==
+X-CSE-MsgGUID: w4IMXILEQJSSAhjsKOiHjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="42829387"
+   d="scan'208";a="37830579"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jun 2024 14:01:07 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 05 Jun 2024 14:12:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sExkn-0002G0-0E;
-	Wed, 05 Jun 2024 21:01:05 +0000
-Date: Thu, 6 Jun 2024 05:01:02 +0800
+	id 1sExvb-0002Gm-14;
+	Wed, 05 Jun 2024 21:12:15 +0000
+Date: Thu, 6 Jun 2024 05:11:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: Petr Machata <petrm@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [jpirko-mlxsw:combined_queue 23/32]
- net/ipv4/sysctl_net_ipv4.c:1599:9: error: implicit declaration of function
- 'proc_fib_multipath_hash_set_seed'
-Message-ID: <202406060420.ikN17yQg-lkp@intel.com>
+ net/ipv4/sysctl_net_ipv4.c:1599:2: error: call to undeclared function
+ 'proc_fib_multipath_hash_set_seed'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202406060550.nCypVOEx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,27 +67,118 @@ Content-Disposition: inline
 tree:   https://github.com/jpirko/linux_mlxsw combined_queue
 head:   f100b130c290d783d1945ed8b6a6a0d6baec69b9
 commit: ed9843cdfe0f43d76a86776b998a5f78ecedc3c0 [23/32] net: ipv4: Add a sysctl to set multipath hash seed
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240606/202406060420.ikN17yQg-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060420.ikN17yQg-lkp@intel.com/reproduce)
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240606/202406060550.nCypVOEx-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060550.nCypVOEx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406060420.ikN17yQg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406060550.nCypVOEx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/ipv4/sysctl_net_ipv4.c: In function 'ipv4_sysctl_init_net':
->> net/ipv4/sysctl_net_ipv4.c:1599:9: error: implicit declaration of function 'proc_fib_multipath_hash_set_seed' [-Werror=implicit-function-declaration]
+   In file included from net/ipv4/sysctl_net_ipv4.c:13:
+   In file included from include/net/icmp.h:17:
+   In file included from include/linux/icmp.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/um/include/asm/cacheflush.h:4:
+   In file included from arch/um/include/asm/tlbflush.h:9:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from net/ipv4/sysctl_net_ipv4.c:13:
+   In file included from include/net/icmp.h:17:
+   In file included from include/linux/icmp.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/ipv4/sysctl_net_ipv4.c:13:
+   In file included from include/net/icmp.h:17:
+   In file included from include/linux/icmp.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/ipv4/sysctl_net_ipv4.c:13:
+   In file included from include/net/icmp.h:17:
+   In file included from include/linux/icmp.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/ipv4/sysctl_net_ipv4.c:1599:2: error: call to undeclared function 'proc_fib_multipath_hash_set_seed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1599 |         proc_fib_multipath_hash_set_seed(net, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c: In function 'sysctl_ipv4_init':
->> net/ipv4/sysctl_net_ipv4.c:1635:27: error: 'proc_fib_multipath_hash_rand_seed' undeclared (first use in this function)
+         |         ^
+>> net/ipv4/sysctl_net_ipv4.c:1636:12: error: use of undeclared identifier 'proc_fib_multipath_hash_rand_seed'
+    1636 |                          sizeof(proc_fib_multipath_hash_rand_seed));
+         |                                 ^
+   net/ipv4/sysctl_net_ipv4.c:1635:20: error: use of undeclared identifier 'proc_fib_multipath_hash_rand_seed'
     1635 |         get_random_bytes(&proc_fib_multipath_hash_rand_seed,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:1635:27: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+         |                           ^
+   13 warnings and 3 errors generated.
 
 
 vim +/proc_fib_multipath_hash_set_seed +1599 net/ipv4/sysctl_net_ipv4.c
@@ -165,8 +257,8 @@ vim +/proc_fib_multipath_hash_set_seed +1599 net/ipv4/sysctl_net_ipv4.c
   1632		if (!hdr)
   1633			return -ENOMEM;
   1634	
-> 1635		get_random_bytes(&proc_fib_multipath_hash_rand_seed,
-  1636				 sizeof(proc_fib_multipath_hash_rand_seed));
+  1635		get_random_bytes(&proc_fib_multipath_hash_rand_seed,
+> 1636				 sizeof(proc_fib_multipath_hash_rand_seed));
   1637	
   1638		if (register_pernet_subsys(&ipv4_sysctl_ops)) {
   1639			unregister_net_sysctl_table(hdr);
