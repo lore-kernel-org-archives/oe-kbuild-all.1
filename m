@@ -1,65 +1,68 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21EB10E5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 05:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6A610E5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 05:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717565076; cv=none; b=CraXO0M3tCAXavJlUuWS9+S6VWranUSyg6LP/ENcGKW4jxdj7Edr1/0F05a0/73Ik9/Cvp3hpC8NEcBKXEBCjlPgYbpTYqu9NwTm8Pvwc/8yDpjKdsWALzwI6XHszDnsL1WZYCNA9l29BJI8+L4Isw7XcujweMaTX+LuTbK6nsc=
+	t=1717565216; cv=none; b=Ssam5vR7WSyzhljqNatNj0yzZDQZfzxv1z5o24F2xzQRCYFaX3sWis3GybwDZPJ9+ooUmv1V/qPRgqDufph94quTYvuWbfJzEDbfq+K8jnMAEhkX5QNp/SK7JSWaXmz+iaFA/ElQ7IMBiyinsvp4RCjophE2c80RbKsl/aiqtdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717565076; c=relaxed/simple;
-	bh=poqzOnjxKvuZhOVVP2vCDTAj8Ttrx5WnbLuYUT/fyCk=;
+	s=arc-20240116; t=1717565216; c=relaxed/simple;
+	bh=JWl0dvcLsDyhJpa9XHTWrzG8gS4xKr5gWdK/xlwOF90=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Vezu3vwhcsiKHJCsHGcJiudr5sE4ezURpfMz0i5Bf0WLaQ+a/nWNXTQEaIDXN3CGysszDzqS1Ch/kbvS0UXh5Nu0LdXdBtJyRF62X0qFnkDF82W29rgUDGhV0JKuZIkoFTWfYdPaGxeSGUO6cJm6trZJO6Mb9b/qzUz8RiTVGdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d9HnUnAF; arc=none smtp.client-ip=209.85.208.48
+	 Content-Disposition:In-Reply-To; b=AF3PJEbyhM3+V40jvl6f3PAmibE7J+AVCav/EmzAZergkLkN9o9VQISbrEIgG83KWFdMvodhuMjjgIN3RDke3nIsNSafK2n0+N9r55eg+0FZwLIfzW4VF+S/QnBsM/hbM+6uQ/4zIxs79gwU0BO7MwjFZEW+Wipthnk74miRqdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qgdl8sAh; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d9HnUnAF"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-57a32b0211aso2129193a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Jun 2024 22:24:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qgdl8sAh"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a68b334eb92so167161566b.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Jun 2024 22:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717565073; x=1718169873; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1717565213; x=1718170013; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ieXpxhBBWSSEFA3ad/RzGLUGCP/3ui0qmyCSm+SXO/M=;
-        b=d9HnUnAFKJrW3TXM6eJK+Js4bVPyvDhyhsbtr/WBd6YwjY4LmYBohm7q3ua8jk2e3g
-         yTMIRKnvzS4ODn/h0blBBc/abFNMEhzgvyUYLt+/8Y662LNITmhNqrgemMBIXyqnPcH8
-         rN8UFz6bmrVf+HI33nCctYCmLH/ltI5m48WD1uwoK3GQwcSx55NP/+m8T1tkKRgEKf9/
-         7qfoblIczV2z8ilqT+s6JNY7OQoxtw0edTqUwtzqliz5y+807TwHafR2l2wsOO6URp0U
-         gj1QWTiYsKVV6JSHiJPOEpH+OZvJF4Rapk94Br9/4XuE7Wrm1iLg4DM21DsWPf0Z1q9J
-         3XRg==
+        bh=gLp5UQaiZ9Nbta/3ev83gXvw8Hf+0qRq7Af1uLYkp6M=;
+        b=Qgdl8sAhf5splWn4LBwZMqwemrQ57IaoQheM2XmS9R3kgNLrZRz//G8Ybzmg5kU3rf
+         78ZQLJXmEZ4cNPftHU1nWfzReZ/RFioAW9nSyRGaYFm01lsPvjJJqcthWrURDcrHviRC
+         qdDq11K2vylGCItPI15SgyOfhJp77eq8go7/aklLUBnpuwZVe/BX6elQShXzGyOIh9MV
+         SentPVAtfwTuGeH2B3CSQ7HjZ/zArWOEWW9cCC/1P0FSY/j+iHA3N1X7miYVdnkvsyOq
+         W2q2STbOonerAvo30Mpn3oiXt7ASPt7D5YP+Q2QXUaZHg4NPdBzudFIj1Vx5/2E944eR
+         NpGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717565073; x=1718169873;
+        d=1e100.net; s=20230601; t=1717565213; x=1718170013;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ieXpxhBBWSSEFA3ad/RzGLUGCP/3ui0qmyCSm+SXO/M=;
-        b=w/ziRr3Wbqzl+wmMnvqYdib5PgPI8yW/hnUrBLjKMkwNNuM18ye9YFW5lhzUFnoIXk
-         wFOHK+A4IjgR2kH6RDXLmVShAPs/pGCZFKZlQiUddS6qsHiw8EV2eTjE5gc8U9ob0pVD
-         el3ztmeirp3mCUFK1fQJ9FoiOLlC7RF4Z1g0ChrINUFdik9nsDKshBJKHjgJbDa+/9mw
-         q8s72VqLEy4zeBoOVgjM6gkL0Eh7ZcvC3k1p3LKo6WyJYqwv7vuYO/TPQwhJdyCvgGBr
-         rrgrOu35exO2MrkfF/5UE1AHXMhF1qurZzK/xZG1AxssAl25EtmHrOMK27T4EZTVX1eV
-         7VrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZPJ0/ak6c0slt8YDUo8yio+AOJ8tOU6BZLh14CU+vrjtDNFW/PKCDJbUKpnVPpd3BVAXv510GSj5/FrSTgEfZGPGIXwguVLUBgQnPUA==
-X-Gm-Message-State: AOJu0YzxEUuQMzDljhtO4hTP7YlGQalvV3VBVl3o+KJLFDCU5Be4iNfJ
-	BTECiNNc+oxE2CQksN4caRzgsM52ORRxw3PC16Z7g9Fr+gjP7gZX8+JgDSGMIOY=
-X-Google-Smtp-Source: AGHT+IGblo21HwWBJITrF2Lq0wtl7QLdAO0pjSkQJ1yY4jTCAGyNBZoCeBT+Grw2RfWlVYwmCDGV8A==
-X-Received: by 2002:a50:d6dd:0:b0:572:6846:b899 with SMTP id 4fb4d7f45d1cf-57a8bccb341mr692996a12.41.1717565072709;
-        Tue, 04 Jun 2024 22:24:32 -0700 (PDT)
+        bh=gLp5UQaiZ9Nbta/3ev83gXvw8Hf+0qRq7Af1uLYkp6M=;
+        b=LC8l0NO53KWmFIqb72FFXTzvB4pwT1sPad5VTZOBQjmAXJWdIGyXFlqUCgdKML9iEU
+         bogbcVHemuucYha42P1DATrWb8x89vf6tFtbHvPiYxpgGGydWa1pGnf47UqRR8W6kLF1
+         9x7DU2U6WcFTsNO86hYkv3pm+w/1pjbIMq9u3xlsu4wjYgJwkVKauiyvQtt/jTD6PxcL
+         wxlYavCc0tiwv+FfZeB2Rs/qz4rASjykHa2hsVxggvfk7ByGsZjVUKQFiDIJ5fl0MQHw
+         b5/iuDptL/ZygGKNqw7adG5qBsOInh0evZXW502gqWzX8EMjzO4ouXenBBlPfKiI4V4V
+         sWog==
+X-Forwarded-Encrypted: i=1; AJvYcCXds0PXuh3fnNlUS9Pj5oXvnXLvVp71EXlIVIHT+lDsdRh9nsOhxunxAUjcS8K3borN4aTPd6WWGRYh5Zmr6avE045Yyqcip49pL2L/Cw==
+X-Gm-Message-State: AOJu0YwuX779yB7FYbq9Xfv6ByG57/DnxRIpikJ7wK7KUtN1CBdj22r9
+	KXyzT1RXLn8uKiDFjt0CZpnZpztov1/ebsdgjd9LGTAbAVaFphjU4+9vWkQa+eM=
+X-Google-Smtp-Source: AGHT+IGOMSJFPKFFMw3Bx8/QTz2P9IGqnf2wnl+C+L+ox1QNHbFZ72ssL2lgPvxarUhqjNlSVlRHSg==
+X-Received: by 2002:a50:9b18:0:b0:579:d673:4e67 with SMTP id 4fb4d7f45d1cf-57a8bc9ba6emr1091753a12.26.1717565212609;
+        Tue, 04 Jun 2024 22:26:52 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31c6d301sm8526348a12.76.2024.06.04.22.24.31
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31b98de7sm8515234a12.10.2024.06.04.22.26.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 22:24:32 -0700 (PDT)
-Date: Wed, 5 Jun 2024 08:24:28 +0300
+        Tue, 04 Jun 2024 22:26:52 -0700 (PDT)
+Date: Wed, 5 Jun 2024 08:26:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Xiu Jianfeng <xiujianfeng@huawei.com>,
-	akpm@linux-foundation.org, muchun.song@linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next 2/3] mm/hugetlb_cgroup: prepare cftypes based on
- template
-Message-ID: <87bca9ca-0c3e-449a-b121-eee7b84dc2ed@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Xiaolei Wang <xiaolei.wang@windriver.com>,
+	linux@armlinux.org.uk, alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com, andrew@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	mcoquelin.stm32@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [net v2 PATCH] net: stmmac: Update CBS parameters when speed
+ changes after linking up
+Message-ID: <6c78b634-0e83-42dd-81ce-b36999a1b0ef@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,61 +71,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240603120506.1837322-3-xiujianfeng@huawei.com>
+In-Reply-To: <20240530061453.561708-1-xiaolei.wang@windriver.com>
 
-Hi Xiu,
+Hi Xiaolei,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiu-Jianfeng/mm-hugetlb_cgroup-identify-the-legacy-using-cgroup_subsys_on_dfl/20240603-201513
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240603120506.1837322-3-xiujianfeng%40huawei.com
-patch subject: [PATCH -next 2/3] mm/hugetlb_cgroup: prepare cftypes based on template
-config: i386-randconfig-r071-20240604 (https://download.01.org/0day-ci/archive/20240605/202406050210.OWthxCFt-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/net-stmmac-Update-CBS-parameters-when-speed-changes-after-linking-up/20240530-141843
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240530061453.561708-1-xiaolei.wang%40windriver.com
+patch subject: [net v2 PATCH] net: stmmac: Update CBS parameters when speed changes after linking up
+config: i386-randconfig-141-20240604 (https://download.01.org/0day-ci/archive/20240605/202406050318.jsyBFsxx-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406050210.OWthxCFt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406050318.jsyBFsxx-lkp@intel.com/
 
-smatch warnings:
-mm/hugetlb_cgroup.c:828 hugetlb_cgroup_cfttypes_init() warn: this array is probably non-NULL. 'tmpl->name'
+New smatch warnings:
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3234 stmmac_configure_cbs() error: uninitialized symbol 'ptr'.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3234 stmmac_configure_cbs() error: uninitialized symbol 'speed_div'.
 
-vim +828 mm/hugetlb_cgroup.c
+vim +/ptr +3234 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  815  static void __init
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  816  hugetlb_cgroup_cfttypes_init(struct hstate *h, struct cftype *cft,
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  817  			     struct cftype *tmpl, int tmpl_size)
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  818  {
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  819  	char buf[32];
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  820  	int i, idx = hstate_index(h);
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  821  
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  822  	/* format the size */
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  823  	mem_fmt(buf, sizeof(buf), huge_page_size(h));
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  824  
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  825  	for (i = 0; i < tmpl_size; cft++, tmpl++, i++) {
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  826  		*cft = *tmpl;
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  827  		/* rebuild the name */
-66bcc9ace99241 Xiu Jianfeng 2024-06-03 @828  		if (tmpl->name)
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  829  			snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
+19d9187317979c Joao Pinto   2017-03-10  3194  static void stmmac_configure_cbs(struct stmmac_priv *priv)
+19d9187317979c Joao Pinto   2017-03-10  3195  {
+19d9187317979c Joao Pinto   2017-03-10  3196  	u32 tx_queues_count = priv->plat->tx_queues_to_use;
+19d9187317979c Joao Pinto   2017-03-10  3197  	u32 mode_to_use;
+19d9187317979c Joao Pinto   2017-03-10  3198  	u32 queue;
+882212f550d669 Xiaolei Wang 2024-05-30  3199  	u32 ptr, speed_div;
+882212f550d669 Xiaolei Wang 2024-05-30  3200  	u64 value;
+882212f550d669 Xiaolei Wang 2024-05-30  3201  
+882212f550d669 Xiaolei Wang 2024-05-30  3202  	/* Port Transmit Rate and Speed Divider */
+882212f550d669 Xiaolei Wang 2024-05-30  3203  	switch (priv->speed) {
+882212f550d669 Xiaolei Wang 2024-05-30  3204  	case SPEED_10000:
+882212f550d669 Xiaolei Wang 2024-05-30  3205  		ptr = 32;
+882212f550d669 Xiaolei Wang 2024-05-30  3206  		speed_div = 10000000;
+882212f550d669 Xiaolei Wang 2024-05-30  3207  		break;
+882212f550d669 Xiaolei Wang 2024-05-30  3208  	case SPEED_5000:
+882212f550d669 Xiaolei Wang 2024-05-30  3209  		ptr = 32;
+882212f550d669 Xiaolei Wang 2024-05-30  3210  		speed_div = 5000000;
+882212f550d669 Xiaolei Wang 2024-05-30  3211  		break;
+882212f550d669 Xiaolei Wang 2024-05-30  3212  	case SPEED_2500:
+882212f550d669 Xiaolei Wang 2024-05-30  3213  		ptr = 8;
+882212f550d669 Xiaolei Wang 2024-05-30  3214  		speed_div = 2500000;
+882212f550d669 Xiaolei Wang 2024-05-30  3215  		break;
+882212f550d669 Xiaolei Wang 2024-05-30  3216  	case SPEED_1000:
+882212f550d669 Xiaolei Wang 2024-05-30  3217  		ptr = 8;
+882212f550d669 Xiaolei Wang 2024-05-30  3218  		speed_div = 1000000;
+882212f550d669 Xiaolei Wang 2024-05-30  3219  		break;
+882212f550d669 Xiaolei Wang 2024-05-30  3220  	case SPEED_100:
+882212f550d669 Xiaolei Wang 2024-05-30  3221  		ptr = 4;
+882212f550d669 Xiaolei Wang 2024-05-30  3222  		speed_div = 100000;
+882212f550d669 Xiaolei Wang 2024-05-30  3223  		break;
+882212f550d669 Xiaolei Wang 2024-05-30  3224  	default:
+882212f550d669 Xiaolei Wang 2024-05-30  3225  		netdev_dbg(priv->dev, "link speed is not known\n");
 
-tmpl->name is an array so it's non-NULL.  Just do the snprintf().  No
-need for the if statement.
+return;?
 
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  830  		/* rebuild the private */
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  831  		if (tmpl->private)
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  832  			cft->private = MEMFILE_PRIVATE(idx, tmpl->private);
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  833  		/* rebuild the file_offset */
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  834  		if (tmpl->file_offset) {
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  835  			unsigned int offset = tmpl->file_offset;
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  836  
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  837  			cft->file_offset = MEMFILE_OFFSET0(offset) +
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  838  					   MEMFILE_FIELD_SIZE(offset) * idx;
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  839  		}
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  840  	}
-66bcc9ace99241 Xiu Jianfeng 2024-06-03  841  }
+882212f550d669 Xiaolei Wang 2024-05-30  3226  	}
+19d9187317979c Joao Pinto   2017-03-10  3227  
+44781fef137896 Joao Pinto   2017-03-31  3228  	/* queue 0 is reserved for legacy traffic */
+44781fef137896 Joao Pinto   2017-03-31  3229  	for (queue = 1; queue < tx_queues_count; queue++) {
+19d9187317979c Joao Pinto   2017-03-10  3230  		mode_to_use = priv->plat->tx_queues_cfg[queue].mode_to_use;
+19d9187317979c Joao Pinto   2017-03-10  3231  		if (mode_to_use == MTL_QUEUE_DCB)
+19d9187317979c Joao Pinto   2017-03-10  3232  			continue;
+19d9187317979c Joao Pinto   2017-03-10  3233  
+882212f550d669 Xiaolei Wang 2024-05-30 @3234  		value = div_s64(priv->old_idleslope[queue] * 1024ll * ptr, speed_div);
+                                                                                                              ^^^  ^^^^^^^^^^
+Uninitialized.
+
+882212f550d669 Xiaolei Wang 2024-05-30  3235  		priv->plat->tx_queues_cfg[queue].idle_slope = value & GENMASK(31, 0);
+882212f550d669 Xiaolei Wang 2024-05-30  3236  
+882212f550d669 Xiaolei Wang 2024-05-30  3237  		value = div_s64(-priv->old_sendslope[queue] * 1024ll * ptr, speed_div);
+882212f550d669 Xiaolei Wang 2024-05-30  3238  		priv->plat->tx_queues_cfg[queue].send_slope = value & GENMASK(31, 0);
+882212f550d669 Xiaolei Wang 2024-05-30  3239  
+c10d4c82a5c84c Jose Abreu   2018-04-16  3240  		stmmac_config_cbs(priv, priv->hw,
+19d9187317979c Joao Pinto   2017-03-10  3241  				priv->plat->tx_queues_cfg[queue].send_slope,
+19d9187317979c Joao Pinto   2017-03-10  3242  				priv->plat->tx_queues_cfg[queue].idle_slope,
+19d9187317979c Joao Pinto   2017-03-10  3243  				priv->plat->tx_queues_cfg[queue].high_credit,
+19d9187317979c Joao Pinto   2017-03-10  3244  				priv->plat->tx_queues_cfg[queue].low_credit,
+19d9187317979c Joao Pinto   2017-03-10  3245  				queue);
+19d9187317979c Joao Pinto   2017-03-10  3246  	}
+19d9187317979c Joao Pinto   2017-03-10  3247  }
 
 -- 
 0-DAY CI Kernel Test Service
