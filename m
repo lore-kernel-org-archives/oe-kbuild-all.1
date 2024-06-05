@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8833349645
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 09:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE2F14B093;
+	Wed,  5 Jun 2024 10:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717580252; cv=none; b=ZN9DLq8ryKUeBlYUDDey8690siMpmW7J9Nl+H6i33qyVg1xD/TgSyDWHUsxaLC28U4Xp8U392s5GxgjIoeMyYBBhZ3NyLI6Irz4z0PLUjE8VpvKFwniwdhOuSq6UIZr+cfDng054rBJ5ouqT7dLmoJS0racgknMtsjRkJaiFHCc=
+	t=1717581605; cv=none; b=aWntpDh6yuHIXHmaNxHOp5XnifU2gmgMF/9Y7exp0dHa9Vn/Y0pnjYQkhmV4Irr2Z+LgR0RVYTOssvijQuxvsOAz008xp7n9oLdcPctouNwWhsAepklCJLzOAvy+NoeVZ30EfblTTEjpOXtTWZ7OdMw5Zrj+4BBSEHfdKNq2+CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717580252; c=relaxed/simple;
-	bh=BdfgVb9SY/s+T9CbGMmpm2o5PCRFbB0nsRFyhTfUV5U=;
+	s=arc-20240116; t=1717581605; c=relaxed/simple;
+	bh=eAaxL8dOEnbdf7zGGC+8t1JAz072u3mHY8NMv+nWuss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WJOpHIpzFGNU+l/E7OtFND/jvU2IjkejR1fHnqvXcnWYFFDTlDmBt0JhqsxYhV39YzPBa2axklP8rj8m+3veIy3JcTmHmcZ7YSL0ZDfM91r5mIv2/dSgsqD3G14i/hovSdEThimMVQuDFHcgQMT7siNUDKjrZhsSlfQ5P4c2P0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mN78Cuxt; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=SETsFTAoSSewYtM3VaD0STlmTE7DAbw/Uxm3xU2td6HypX5shclsaL6omg7XG0jSNNOYdnvx07rXmLCzOvuHPBOC4kCEvXVIQ3eOFTNxNr9zNrXsqz0GdYn80lBqE+n2sbE5wtfj8X8kKJcxTwKv0BqtSpGYaoUEbufcsccGqeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L9iWziCx; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mN78Cuxt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9iWziCx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717580250; x=1749116250;
+  t=1717581603; x=1749117603;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BdfgVb9SY/s+T9CbGMmpm2o5PCRFbB0nsRFyhTfUV5U=;
-  b=mN78CuxtVfP3eBi8us6wXMOKrrTc1epMAQO/zY2FD7EvcO4LwLhKTBw1
-   JOarKhX6Zfe0Wi30HqySgVA4cPVZVGvYkX1i06ALzi4dI20gW8HpQYhEr
-   qyRmlKG9SRXuKmf+7cdBYTQuO45UDedXskpxZixw9Rcfk8YuY6CFhMV1t
-   VaLnSRCAOGKiN3xBp2xZ8YdSoCQbJ2jtdzYK1Wnt86WtrvRR3ByxmYFaJ
-   JRVBciCuric+xisdu0XuiVEp7MZ/5aFvTYpoqlbEyUgxXZJUDvrZsr/8a
-   nyNAMqDNOji52/IGDS87MqHqCJ9fXXdJlZavhy/iR0hsS+x6VmZl0+OPS
+  bh=eAaxL8dOEnbdf7zGGC+8t1JAz072u3mHY8NMv+nWuss=;
+  b=L9iWziCxN9h0fzt7VnjzvCQtnnexW4yakVg9mieaEM5yz6bQGGieqhFf
+   xwM8cLC+8Nkrhw4RgxkmCO/PbWDsmRxEx4JkJgU8LbO/UGJej6bLmPbOf
+   C9G5oa46cXVMM8dx00tHvDXYOmH84CtKhJwB1CQC3zRtHwt9Fn+FFb6V0
+   YrAHi9qFS5vucE1ofDJKW/prARSe+oVnOPlGMBXoTm7bCpeow2LcIhil5
+   eUPiW9zy5tNVPlRj0NhEzxx+qF69cJhlj2kmZNXQMkO7VRmkvFJ8IiyBD
+   pyd315Mbtt4xKhZI6HZjESuBX05AjNowXmNsWhfaYekomgxnXhAMyqtfn
    Q==;
-X-CSE-ConnectionGUID: YxfEWoPZRUik/gW6KU6klw==
-X-CSE-MsgGUID: XajAEENzTJGS6xtB7rd/ng==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="36698382"
+X-CSE-ConnectionGUID: z+IZLASISqWNHmtlbTDy8w==
+X-CSE-MsgGUID: 9oslm6v/RyGxsCn+JBHRiQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="36701748"
 X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; 
-   d="scan'208";a="36698382"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 02:37:30 -0700
-X-CSE-ConnectionGUID: KZYyg8rsTMeQ+7kgp+MXVg==
-X-CSE-MsgGUID: Rxw64JkgRrqZ5q039EY7Og==
+   d="scan'208";a="36701748"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 03:00:01 -0700
+X-CSE-ConnectionGUID: treg5r/ASvGGEt8dZN8jYA==
+X-CSE-MsgGUID: T715PcomRA+BQv6VWbb0gQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; 
-   d="scan'208";a="38116379"
+   d="scan'208";a="75025241"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 05 Jun 2024 02:37:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 05 Jun 2024 02:59:59 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEn5B-0001Ke-2Z;
-	Wed, 05 Jun 2024 09:37:25 +0000
-Date: Wed, 5 Jun 2024 17:36:46 +0800
+	id 1sEnQy-0001MS-0s;
+	Wed, 05 Jun 2024 09:59:56 +0000
+Date: Wed, 5 Jun 2024 17:59:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeremy Kerr <jk@codeconstruct.com.au>, David Ahern <dsahern@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
 Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
-Message-ID: <202406051725.14UkSYbV-lkp@intel.com>
+Message-ID: <202406051710.KozBBK8o-lkp@intel.com>
 References: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -77,62 +78,152 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-
 base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
 patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
 patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240605/202406051725.14UkSYbV-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051725.14UkSYbV-lkp@intel.com/reproduce)
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240605/202406051710.KozBBK8o-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051710.KozBBK8o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406051725.14UkSYbV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406051710.KozBBK8o-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from ./arch/openrisc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:299,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/uaccess.h:6,
-                    from net/core/dev.c:71:
-   In function '__seqprop_sequence',
-       inlined from '__u64_stats_fetch_begin' at include/linux/u64_stats_sync.h:171:9,
-       inlined from 'u64_stats_fetch_begin' at include/linux/u64_stats_sync.h:208:9,
-       inlined from 'dev_fetch_dstats' at net/core/dev.c:10873:12:
->> include/asm-generic/rwonce.h:44:26: warning: 'dstats' is used uninitialized [-Wuninitialized]
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/linux/seqlock.h:211:16: note: in expansion of macro 'READ_ONCE'
-     211 |         return READ_ONCE(s->sequence);
-         |                ^~~~~~~~~
-   net/core/dev.c: In function 'dev_fetch_dstats':
-   net/core/dev.c:10868:43: note: 'dstats' was declared here
-   10868 |                 const struct pcpu_dstats *dstats;
-         |                                           ^~~~~~
+   In file included from net/core/dev.c:80:
+   In file included from include/linux/sched/isolation.h:5:
+   In file included from include/linux/cpuset.h:17:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from net/core/dev.c:80:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/core/dev.c:80:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/core/dev.c:80:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/core/dev.c:10871:24: warning: variable 'dstats' is uninitialized when used here [-Wuninitialized]
+    10871 |                 dstats = per_cpu_ptr(dstats, cpu);
+          |                                      ^~~~~~
+   include/linux/percpu-defs.h:263:65: note: expanded from macro 'per_cpu_ptr'
+     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
+         |                                                                   ^~~
+   include/linux/percpu-defs.h:260:38: note: expanded from macro 'VERIFY_PERCPU_PTR'
+     260 |         (typeof(*(__p)) __kernel __force *)(__p);                       \
+         |                                             ^~~
+   net/core/dev.c:10868:35: note: initialize the variable 'dstats' to silence this warning
+    10868 |                 const struct pcpu_dstats *dstats;
+          |                                                 ^
+          |                                                  = NULL
+   net/core/dev.c:4128:1: warning: unused function 'sch_handle_ingress' [-Wunused-function]
+    4128 | sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
+         | ^~~~~~~~~~~~~~~~~~
+   net/core/dev.c:4135:1: warning: unused function 'sch_handle_egress' [-Wunused-function]
+    4135 | sch_handle_egress(struct sk_buff *skb, int *ret, struct net_device *dev)
+         | ^~~~~~~~~~~~~~~~~
+   net/core/dev.c:5392:19: warning: unused function 'nf_ingress' [-Wunused-function]
+    5392 | static inline int nf_ingress(struct sk_buff *skb, struct packet_type **pt_prev,
+         |                   ^~~~~~~~~~
+   17 warnings generated.
 
 
-vim +/dstats +44 include/asm-generic/rwonce.h
+vim +/dstats +10871 net/core/dev.c
 
-e506ea451254ab Will Deacon 2019-10-15  28  
-e506ea451254ab Will Deacon 2019-10-15  29  /*
-e506ea451254ab Will Deacon 2019-10-15  30   * Yes, this permits 64-bit accesses on 32-bit architectures. These will
-e506ea451254ab Will Deacon 2019-10-15  31   * actually be atomic in some cases (namely Armv7 + LPAE), but for others we
-e506ea451254ab Will Deacon 2019-10-15  32   * rely on the access being split into 2x32-bit accesses for a 32-bit quantity
-e506ea451254ab Will Deacon 2019-10-15  33   * (e.g. a virtual address) and a strong prevailing wind.
-e506ea451254ab Will Deacon 2019-10-15  34   */
-e506ea451254ab Will Deacon 2019-10-15  35  #define compiletime_assert_rwonce_type(t)					\
-e506ea451254ab Will Deacon 2019-10-15  36  	compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),	\
-e506ea451254ab Will Deacon 2019-10-15  37  		"Unsupported access size for {READ,WRITE}_ONCE().")
-e506ea451254ab Will Deacon 2019-10-15  38  
-e506ea451254ab Will Deacon 2019-10-15  39  /*
-e506ea451254ab Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of READ_ONCE() if you do not require any
-3c9184109e78ea Will Deacon 2019-10-30  41   * atomicity. Note that this may result in tears!
-e506ea451254ab Will Deacon 2019-10-15  42   */
-b78b331a3f5c07 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
-e506ea451254ab Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const volatile __unqual_scalar_typeof(x) *)&(x))
-b78b331a3f5c07 Will Deacon 2019-10-15  45  #endif
-e506ea451254ab Will Deacon 2019-10-15  46  
+ 10851	
+ 10852	/**
+ 10853	 *	dev_fetch_dstats - collate per-cpu network dstats statistics
+ 10854	 *	@s: place to store stats
+ 10855	 *	@dstats: per-cpu network stats to read from
+ 10856	 *
+ 10857	 *	Read per-cpu network statistics from dev->dstats and populate the
+ 10858	 *	related fields in @s.
+ 10859	 */
+ 10860	void dev_fetch_dstats(struct rtnl_link_stats64 *s,
+ 10861			      const struct pcpu_dstats __percpu *dstats)
+ 10862	{
+ 10863		int cpu;
+ 10864	
+ 10865		for_each_possible_cpu(cpu) {
+ 10866			u64 rx_packets, rx_bytes, rx_drops;
+ 10867			u64 tx_packets, tx_bytes, tx_drops;
+ 10868			const struct pcpu_dstats *dstats;
+ 10869			unsigned int start;
+ 10870	
+ 10871			dstats = per_cpu_ptr(dstats, cpu);
+ 10872			do {
+ 10873				start = u64_stats_fetch_begin(&dstats->syncp);
+ 10874				rx_packets = u64_stats_read(&dstats->rx_packets);
+ 10875				rx_bytes   = u64_stats_read(&dstats->rx_bytes);
+ 10876				rx_drops   = u64_stats_read(&dstats->rx_drops);
+ 10877				tx_packets = u64_stats_read(&dstats->tx_packets);
+ 10878				tx_bytes   = u64_stats_read(&dstats->tx_bytes);
+ 10879				tx_drops   = u64_stats_read(&dstats->tx_drops);
+ 10880			} while (u64_stats_fetch_retry(&dstats->syncp, start));
+ 10881	
+ 10882			s->rx_packets += rx_packets;
+ 10883			s->rx_bytes   += rx_bytes;
+ 10884			s->rx_dropped += rx_drops;
+ 10885			s->tx_packets += tx_packets;
+ 10886			s->tx_bytes   += tx_bytes;
+ 10887			s->tx_dropped += tx_drops;
+ 10888		}
+ 10889	}
+ 10890	EXPORT_SYMBOL_GPL(dev_fetch_dstats);
+ 10891	
 
 -- 
 0-DAY CI Kernel Test Service
