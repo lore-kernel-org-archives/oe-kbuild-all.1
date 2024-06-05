@@ -1,85 +1,84 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F206CDB1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 19:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2214EE572
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 19:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717615922; cv=none; b=sUyCkQExTxO0qEZlCRgaETgQNb9jMCm85zLciMg2uC8tjuug3bn615qFYuSh+mvn1hcwszLy83XY5Q/SOQgfHZdhvXtOyRxnhi98bkgEldp7EDtnjirr7O1pa6AzfZV/kpqHiLCafzs6akTdaN5AVoBIyBtRVx7Db7BCfaj5UTk=
+	t=1717616066; cv=none; b=pY8k0VaHTmLbAjMXa8n/VRwTT5ed8Po5Lsrj8GEXhlbhcLm6pjkn8F0C6Nz305g9/+EosUUWywVMEVb0ByFYJSAROtw25wRM4EzIMoffxvqTRpYWMpY8cpvlb+mcyYKn96TQhYuoaZFoEGQK1yrBB2TrUEcQ7sFoWYovv70A9uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717615922; c=relaxed/simple;
-	bh=m0CXhwJL3QSo1uinEHiWUBm+QL6SC5BUk6YFU+VFrX4=;
+	s=arc-20240116; t=1717616066; c=relaxed/simple;
+	bh=F6uGhyXxFRGXwvwitWPk6r8o7SgW5av//5iXJYuMwIw=;
 	h=From:References:MIME-Version:In-Reply-To:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fFBR0i9xuLwycGLY/P466+dBho+60gBAZQh5ArknFnKvIgNuqFw5ZIT3V0Xjk4LzCxqfnZTakEMb3NIbGp3MfKBxE/AI8iVMnEbhAWMn1Pb7p/TNFNA9cwlvT7uCnQPzHkMzE4sXt0h7n+GCnnUKR2w9I2Rsiex17ndC4IF9r4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f8I8TKnO; arc=none smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=l0DetpdJPxfiMoAaWdNl4ntZFmdRB6mTb5qZsllpORYlar1yriJJnc8gOWavwWibghCwFEKoPMCz3e5dvNoU8ThUBjySFcPaSG0gwaJSEv250GZsE8CRGp1pvDoNiVv1rUvPeynEShvHT39315VzcC1fVuxGWBiRqkqMGyvvXT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F0Y+6V8d; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f8I8TKnO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F0Y+6V8d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717615919;
+	s=mimecast20190719; t=1717616064;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wAUzjKjHQT48MT1CEnySduYKvPnHNLGmCrzOZbluMf0=;
-	b=f8I8TKnOc+FCYN9XY7t8dkZa9m+TZ555aDpvOU6YYIzdpoU798JiftVRJA3PA6hRSYJZXE
-	KpatAOQDzZqAnXyP/dWjaeDm6fkmOJ9MlyDzDIub+lqheL+YXG+yMJnRE8CCAd1JQUhIuE
-	e1dsY4JnH+ZeYMo9+fUR1JYRhOWtOt8=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=jH6Sf/5uQSKSb+Ny2G5B2sTCcG7O89rYUp8bSy5I1tY=;
+	b=F0Y+6V8d+OYIaPBE/Dyo26g1RKzn31xbfoIK/CTA23/MbVsawOs9ZV1BncHk1uVqiFuCbj
+	9Q/XaHnzekr0a+Ex8AyvW5r0XW9v60pDNJp1TBdX1CWWahuegVdWBV9V6wWqPdApsUHr5d
+	evzJeY/gZCnQ8B2Qs4/Jgdfx5wbdRnI=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-320-AVyOPgmtM32Qvx2-fNoVQQ-1; Wed, 05 Jun 2024 15:31:58 -0400
-X-MC-Unique: AVyOPgmtM32Qvx2-fNoVQQ-1
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-5b9b37de6e6so81844eaf.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Jun 2024 12:31:58 -0700 (PDT)
+ us-mta-315-cluhabf5OkOBOmAEUSqtlA-1; Wed, 05 Jun 2024 15:34:22 -0400
+X-MC-Unique: cluhabf5OkOBOmAEUSqtlA-1
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3d202a0f9b3so106296b6e.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Jun 2024 12:34:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717615917; x=1718220717;
+        d=1e100.net; s=20230601; t=1717616062; x=1718220862;
         h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wAUzjKjHQT48MT1CEnySduYKvPnHNLGmCrzOZbluMf0=;
-        b=Dsp7binKmtvytb12vq5XxNF9EFWMgfZxgpH2Qjh0DBCm2DV5vyY5V53tpXiCQW3YPv
-         u8M9BZOqSM9HLrmeor3j2dkZadbHgY7i7FXboty+TKje1yoKlVpIxhdYkDWc1LS7Ej6n
-         tef12PSxJeUkzIxfShtA/Wm2v6uYxQvUGggIyMiRLMREyS3ZwjT8PQjeEKYyHSN1Y2Ts
-         2oocQFiXyDtnqPdUxknpUFFoa5ewzEa0l1kOimAlXo+s4QrQAbt5L+lqrByPqoeNiZAE
-         3EJDCRhHgaLTi6qFIWk3xLhO3AglMNsr5F5ZyuH1EUJPn3eKCbZnnURevVk8oDZcpm11
-         akwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5QomzA2cF/Fxievh/FgLmgi1dV+LgNQ1D6EVQm6nainJ2PXxZOlffXgdvspAg6wf/EoY3zu/KWHS591Wjt0LkMNGtvCuaMDxZ6vJ9CA==
-X-Gm-Message-State: AOJu0YxtuvckdSUgbAsfG0aXC5GmH1fRKLwao6G3sxVpGJZHIlABTV/C
-	OhLMxtsfwSiN1rTakku12XJyu6Hp2IvXoZkWoX4JKl7AQqx4CGa6Kr8pMyYYuEA9Zn5wK07lSXa
-	9vHfHly3fWLjPtVt0Gn6NMCWPRRFt28y3Z/Z2xQ5NgJEfPFiarGhQ08p4B7nVxAmtmUC092lb4a
-	xvrR+u8UOLVlAsDkj+rjK3r8xflw1Q2J1/P9YZcQ==
-X-Received: by 2002:a05:6359:4103:b0:183:612d:44a1 with SMTP id e5c5f4694b2df-19c6ca19ed9mr443021155d.28.1717615917314;
-        Wed, 05 Jun 2024 12:31:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqzqeFCvtmsiZCw2U1K3HXxO/IPPSvtKOjW3/Ru2mn4jCUk47tlrWhigUB8CObse5CiTfalvEzZeA4Lp6TeH8=
-X-Received: by 2002:a05:6359:4103:b0:183:612d:44a1 with SMTP id
- e5c5f4694b2df-19c6ca19ed9mr443017355d.28.1717615916756; Wed, 05 Jun 2024
- 12:31:56 -0700 (PDT)
+        bh=jH6Sf/5uQSKSb+Ny2G5B2sTCcG7O89rYUp8bSy5I1tY=;
+        b=N+/Sa9WJBvtUrek5/FR98ziZtI94DxZVW+ScInU44Pr49Hd9jBUC3701v5Jt91VVVR
+         IG5c4SdAlRg9b0LjKsQKlb0hMRr0zTf4Diu06s3uzG57YqBt12mi1kTI3IJywEYeMsgJ
+         v7/yjjETawQArRoahlhp63ZZNEjmOC8Dwb9jMDXCVqV7kb+VAH45lYwoHFDn9Tkd1d8K
+         2LZ5lwKXBfDCB3kt4Vo7QgeFyuQyjjWVqxFEEnHx9m+np5igZunok2K8Ylmw+uf5d7KN
+         P5sReaN+MgSaWqphHasVbMrAHx13gEOjxuF1R8j5RaDnWTwfbHfh9CnDpsQk1jVznZZC
+         SFLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPylJHAd2YBfN3UvcoEK3RMkGQ1o+DL0VSz1uIvpJGrV6tCltanV41KaC3BWJAbb0PfRcacs3H2IQC1qsELqIME+MNGtwNNT6IZynv+w==
+X-Gm-Message-State: AOJu0Yxtz1AqTKn4YynaTwfSqOVWfF+IS4oLQK7XNQrXsysWUlhE1CV+
+	H/LtKFrgAanhvD1NrM/MspQ+dcKNk1Ko6EgVSrwsdVaH3ssnTbPGvgrPssR/eGcLygjp/qWTKWz
+	S9Uf4qBwo6VtByDVx4qRoSUu2A6U4jES5h6zJa+gmrNTXR1UKUAoTj4S3WCkgj+rXTUL7xotFe9
+	lOm3K959BD94wDiqaSZb0JvZFuXpuCATIzZY849w==
+X-Received: by 2002:a05:6808:de6:b0:3d1:b4d5:88fe with SMTP id 5614622812f47-3d2043dbe5bmr3873291b6e.54.1717616062014;
+        Wed, 05 Jun 2024 12:34:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEgkFGoqjTxQfTUgtST68W0+4pEtir9khOtAK5Fhc6jUhofrXE7C0NKaHykTGdJIOM2zLahI1Ss4Ni/zH+fXrw=
+X-Received: by 2002:a05:6808:de6:b0:3d1:b4d5:88fe with SMTP id
+ 5614622812f47-3d2043dbe5bmr3873276b6e.54.1717616061672; Wed, 05 Jun 2024
+ 12:34:21 -0700 (PDT)
 Received: from 311643009450 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 5 Jun 2024 19:31:55 +0000
+ HTTPREST; Wed, 5 Jun 2024 19:34:21 +0000
 From: =?UTF-8?Q?Adri=C3=A1n_Moreno?= <amorenoz@redhat.com>
-References: <20240603185647.2310748-6-amorenoz@redhat.com> <202406050852.hDtfskO0-lkp@intel.com>
+References: <20240603185647.2310748-7-amorenoz@redhat.com> <202406041623.ycwsuP85-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202406050852.hDtfskO0-lkp@intel.com>
-Date: Wed, 5 Jun 2024 19:31:55 +0000
-Message-ID: <CAG=2xmOQBaUki43jpUnP7F-RvkxXroQ46_CuXvbQyps=MvvYAg@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 5/9] net: openvswitch: add emit_sample action
+In-Reply-To: <202406041623.ycwsuP85-lkp@intel.com>
+Date: Wed, 5 Jun 2024 19:34:21 +0000
+Message-ID: <CAG=2xmMUuS=VesSk1SQ2Pk0xHj_-Hfj6c5Wk7iV=7Ed0VdHiaw@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 6/9] net: openvswitch: store sampling
+ probability in cb.
 To: kernel test robot <lkp@intel.com>
-Cc: netdev@vger.kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, aconole@redhat.com, echaudro@redhat.com, 
-	horms@kernel.org, i.maximets@ovn.org, dev@openvswitch.org, 
-	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Pravin B Shelar <pshelar@ovn.org>, linux-kernel@vger.kernel.org
+Cc: netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev, aconole@redhat.com, 
+	echaudro@redhat.com, horms@kernel.org, i.maximets@ovn.org, 
+	dev@openvswitch.org, Pravin B Shelar <pshelar@ovn.org>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 05, 2024 at 08:29:22AM GMT, kernel test robot wrote:
+On Tue, Jun 04, 2024 at 04:49:39PM GMT, kernel test robot wrote:
 > Hi Adrian,
 >
 > kernel test robot noticed the following build errors:
@@ -88,42 +87,28 @@ On Wed, Jun 05, 2024 at 08:29:22AM GMT, kernel test robot wrote:
 >
 > url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Moreno/net-psample-add-user-cookie/20240604-030055
 > base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20240603185647.2310748-6-amorenoz%40redhat.com
-> patch subject: [PATCH net-next v2 5/9] net: openvswitch: add emit_sample action
-> config: s390-randconfig-002-20240605 (https://download.01.org/0day-ci/archive/20240605/202406050852.hDtfskO0-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050852.hDtfskO0-lkp@intel.com/reproduce)
+> patch link:    https://lore.kernel.org/r/20240603185647.2310748-7-amorenoz%40redhat.com
+> patch subject: [PATCH net-next v2 6/9] net: openvswitch: store sampling probability in cb.
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240604/202406041623.ycwsuP85-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406041623.ycwsuP85-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406050852.hDtfskO0-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406041623.ycwsuP85-lkp@intel.com/
 >
 > All errors (new ones prefixed by >>):
 >
->    s390x-linux-ld: net/openvswitch/actions.o: in function `do_execute_actions':
-> >> actions.c:(.text+0x1d5c): undefined reference to `psample_sample_packet'
+>    m68k-linux-ld: net/openvswitch/actions.o: in function `do_execute_actions':
+> >> actions.c:(.text+0x214e): undefined reference to `__udivdi3'
 >
 
-Thanks robot!
+I forgot about architectures that don't have native u64 division. I will
+use "do_div" in the next version of the series.
 
-OK, I think I know what's wrong. There is an optional dependency with
-PSAMPLE. Openvswitch module does compile without PSAMPLE but there is a
-link error if OPENVSWITCH=y and PSAMPLE=m.
-
-Looking into how to express this in the Kconfig, I'm planning to add the
-following to the next version of the series.
-
-diff --git a/net/openvswitch/Kconfig b/net/openvswitch/Kconfig
-index 29a7081858cd..2535f3f9f462 100644
---- a/net/openvswitch/Kconfig
-+++ b/net/openvswitch/Kconfig
-@@ -10,6 +10,7 @@ config OPENVSWITCH
- 		   (NF_CONNTRACK && ((!NF_DEFRAG_IPV6 || NF_DEFRAG_IPV6) && \
- 				     (!NF_NAT || NF_NAT) && \
- 				     (!NETFILTER_CONNCOUNT || NETFILTER_CONNCOUNT)))
-+	depends on PSAMPLE || !PSAMPLE
- 	select LIBCRC32C
- 	select MPLS
- 	select NET_MPLS_GSO
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
 
