@@ -1,101 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33156BB26
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 03:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A57D2F4A;
+	Wed,  5 Jun 2024 03:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717556914; cv=none; b=IDwbGvxqAMBbBdvUV4DoyKTxMY1gi9Nz6SKv0d1nbd6+4oNk8PW1ahHXX5qUnnnqWaDfp/AnUMarnf8UPNvT66mREoq/SqhwPr8U2fYvYxMVN8LOjf7zxcReuoIso0Nv7cKbyLx6Ty8WoKlxZCl0a0VpXI78Y3wGYwhiwWON+38=
+	t=1717557377; cv=none; b=jpYbpJAYuC6Si03p+rgZUb2Bb5ISsQi3Epwmzw9lbJ90OdthkvQKPbzscdD5UNnCHWaxP/y2e5CBqT+4GD3OeLWai0ndgfdaZOv+l7Cl7IdgdKxoYenPt3AQkzAdw1mATnycxX/Dl/AQT55F6nP+nPFC73KqDcj/XyjoKjKP6Ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717556914; c=relaxed/simple;
-	bh=v9/EYBr9mPsr5ufsnMWdpGRxyzDcht+E82KfMBBjImU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lt095aHkHB7B3aVJc2NOoxo12zSkpVPN7+ACDmYJioC0zN5CeKsJubUeBSnsjFvC7gfwHwT2QtZqESaHqwCjxWkAtTJCqhBdz2+94N3D/OfqpXHuSpBtTrK4y1jRCYZNZ+tfDW1+XUM6e3V1NBCTy8wR+NIuoK2+NT+TjQm68Ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBYBhuJl; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717557377; c=relaxed/simple;
+	bh=04xAPzHHRLN22wGYvDSc+81bOug5t7dxgEN4MPJ3+BA=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=EkoEO4/Pq8SYgCtor1NnRG2czPtDX1COEO7gubnJ1W2lztLHegMrXapn6iWdkmyPd1YBMAe9icw4lQ9EWPpaNXgd4FmXtE1ODv+wba0vPpjsrsp+98cz+IC7Mm3FF86IDfZFjwq4n9jB73zdGMNciCmqTnIzI3z7oqwSj91w39Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hO4oSnZf; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBYBhuJl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717556912; x=1749092912;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v9/EYBr9mPsr5ufsnMWdpGRxyzDcht+E82KfMBBjImU=;
-  b=bBYBhuJlOZ7ZrvgIVmIgOuCzgyjs8iRlEmhwMq4yi34E9KlgztwXRRgt
-   TtGfpY4lPSz1BWpYH8p9MPSpcK9Wvydq/dDVJefk3uXN+O/l6xryth+Ep
-   UGewLFtZKdgT4esfHJCtSNYIUUJ78rzZnRT79a9WSM5vUacOza2ssYD1p
-   xL7ZVtJadhdFbcP1rIcetBpCQFXgD3Y/jg+HvZ8EQCqChRVzD+8YjxNCl
-   Q5qst3H9+V6YVs0j3NJQLcVG4FDcYNCrc8+kzMs42TG4OX8iGC/2QNe5I
-   tZg1+pFbZYI2EOcVSIw8DCsxiCQk8jO+W7i+F3mbHF/ppnunc/HB9JTk+
-   w==;
-X-CSE-ConnectionGUID: +OZJ8p9yS2i/VlU3FcJbzg==
-X-CSE-MsgGUID: 0t/r0w81T/WPqgb32lqN4g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="13980808"
-X-IronPort-AV: E=Sophos;i="6.08,215,1712646000"; 
-   d="scan'208";a="13980808"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 20:08:30 -0700
-X-CSE-ConnectionGUID: LzFqRSULQSCzNjKDeyg6Cw==
-X-CSE-MsgGUID: uxo3awcKQhODJQ52+l7lpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,215,1712646000"; 
-   d="scan'208";a="37559640"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Jun 2024 20:08:27 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sEh0j-0000qh-1R;
-	Wed, 05 Jun 2024 03:08:25 +0000
-Date: Wed, 5 Jun 2024 11:07:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zqiang <qiang.zhang1211@gmail.com>, paulmck@kernel.org,
-	frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joel@joelfernandes.org, urezki@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, qiang.zhang1211@gmail.com,
-	rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	zhixu.liu@gmail.com
-Subject: Re: [PATCH v2] rcu-tasks: Fix access non-existent percpu rtpcp
- variable in rcu_tasks_need_gpcb()
-Message-ID: <202406051045.FpU0Oi69-lkp@intel.com>
-References: <20240604085401.14733-1-qiang.zhang1211@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hO4oSnZf"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eabd22d404so18620491fa.2;
+        Tue, 04 Jun 2024 20:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717557374; x=1718162174; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=04xAPzHHRLN22wGYvDSc+81bOug5t7dxgEN4MPJ3+BA=;
+        b=hO4oSnZfYEuSBdqHPNMNAbU2yIU64z3alvTAjg7E6vgcUN6zaIwpmH7+ZdRAI87+BX
+         +eohR01GZ/u3Vzsfp36suIaz/GmXSwHMvBvC9386PB/t4plI9n+4uWw8sB31KDgT6zHF
+         dMSkgfRropFRx6VA3KS6UqyWT3pDL3+ge/Qj5pLQnuavn5mF7Y37QfkBlg+RvCtN2q39
+         aroBf/mQnNAcO+hz/5suJAN/16cBECWFsk3QjTPyfM9gPMolU0zsvE5AFTilKqABxPXg
+         dDexRremr5tuD8yTKTDX35q0dlGtPowqA6jszAiL8eEFrYxOnHX/Ti0a31Qs4wMwUg1K
+         MZoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717557374; x=1718162174;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=04xAPzHHRLN22wGYvDSc+81bOug5t7dxgEN4MPJ3+BA=;
+        b=VHDLweLv2klBw87zGzuQ+n+tJSSPtfvUcgc1bjMllVDP9E1GcDx7pQRcjRcfYBF2hM
+         UKB5r0QrwoRYJ6X/abW1R2kAhc+vs7rNPhBL1GyBtkSy8pCN8+c6EXhPsoiuiDXd9VPN
+         Jl4A6JrzWzLziyQQ3zwIJpGGo57yJFRzWhc3A+yVziIsvTX784L346rbLQqNt2J1C3Hu
+         DoJbUkK22rwmhDTdxFlTJ8sq76Sse/WkDGrQp5xE9VUyMABfuc3d3N5Is1i7Q9a9FNCG
+         jdsrYI6Bn8eUNObQISToohc96vvxStyM2T7xGFQxU4U+u3lZABoKmwvN8+/4ooyT6tTa
+         U8KA==
+X-Forwarded-Encrypted: i=1; AJvYcCVm1ejb8hemTaCPmsDofTFLlQnCt9Cm9LzKEDWWdg/SrqO/BcNhmCE6WiueeCikVer/c/lm9Mh9b7Oh1TQ+IPeVGbzZWntlU1XDOENoQ27OmoDH+LR6C2jWiwPKfCuf+LP/kiE=
+X-Gm-Message-State: AOJu0Yz5mJrGEGo7rlWjHoThvaLyjIW4r0mfuHtTO2pKoLj+U683dcQ9
+	S/yM4ecGLGuZXYIWDfJ3Ek9pI19j41ZmgoHhjscRgYZny2fFgyFm
+X-Google-Smtp-Source: AGHT+IEn3UnSfnLJLoh7YmAsbD4H23Zx0LdCCxW3cgnZIPOfTgWthOubw4aRXW/incMEXo938UnCzw==
+X-Received: by 2002:a05:651c:208:b0:2e9:816b:da78 with SMTP id 38308e7fff4ca-2eac798b75cmr4930521fa.9.1717557373887;
+        Tue, 04 Jun 2024 20:16:13 -0700 (PDT)
+Received: from smtpclient.apple ([167.99.200.149])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215811d49esm4836265e9.27.2024.06.04.20.16.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Jun 2024 20:16:13 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240604085401.14733-1-qiang.zhang1211@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
+Subject: Re: [PATCH 2/2] iio: adc: meson: add support for the GXLX SoC
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <202406041751.elQWr6cj-lkp@intel.com>
+Date: Wed, 5 Jun 2024 07:15:58 +0400
+Cc: Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-iio@vger.kernel.org,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AML <linux-amlogic@lists.infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1E90764E-5D50-496A-B4DC-3D3982392183@gmail.com>
+References: <20240604055431.3313961-2-christianshewitt@gmail.com>
+ <202406041751.elQWr6cj-lkp@intel.com>
+To: kernel test robot <lkp@intel.com>
+X-Mailer: Apple Mail (2.3774.500.171.1.1)
 
-Hi Zqiang,
+> On 4 Jun 2024, at 1:10=E2=80=AFPM, kernel test robot <lkp@intel.com> =
+wrote:
+>=20
+> kernel test robot noticed the following build errors:
 
-kernel test robot noticed the following build warnings:
+Apologies. Build errors are because I wrongly imagined this dependent =
+series from Martin to be merged:
 
-[auto build test WARNING on paulmck-rcu/dev]
-[also build test WARNING on linus/master v6.10-rc2 next-20240604]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+=
+https://patchwork.kernel.org/project/linux-arm-kernel/cover/20240323231309=
+.415425-1-martin.blumenstingl@googlemail.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zqiang/rcu-tasks-Fix-access-non-existent-percpu-rtpcp-variable-in-rcu_tasks_need_gpcb/20240604-165702
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
-patch link:    https://lore.kernel.org/r/20240604085401.14733-1-qiang.zhang1211%40gmail.com
-patch subject: [PATCH v2] rcu-tasks: Fix access non-existent percpu rtpcp variable in rcu_tasks_need_gpcb()
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240605/202406051045.FpU0Oi69-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051045.FpU0Oi69-lkp@intel.com/reproduce)
+To be continued!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406051045.FpU0Oi69-lkp@intel.com/
+Christian
 
-All warnings (new ones prefixed by >>):
-
->> kernel/rcu/update.o: warning: objtool: unexpected relocation symbol type in .rela.discard.unreachable
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
