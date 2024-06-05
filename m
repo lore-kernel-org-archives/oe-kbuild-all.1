@@ -1,114 +1,146 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2214EE572
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 19:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868A71527A4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 19:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717616066; cv=none; b=pY8k0VaHTmLbAjMXa8n/VRwTT5ed8Po5Lsrj8GEXhlbhcLm6pjkn8F0C6Nz305g9/+EosUUWywVMEVb0ByFYJSAROtw25wRM4EzIMoffxvqTRpYWMpY8cpvlb+mcyYKn96TQhYuoaZFoEGQK1yrBB2TrUEcQ7sFoWYovv70A9uo=
+	t=1717616936; cv=none; b=mB7ZpoNNg8jUBzxFUTgUDcXtpx4Xok9Ohvisf1HYI9rO4ub9WC+fK4rcj+BsLuQKPUr7ptz6MqmquCgKifuSMCPq1Sf5ZeHvKy5hWMTTfIQ/RPcF/3dKJ5T3Shq91b5GKdRs1Gevj1TjNRAlacslY5taXAzmSqdZQHk48pTq5J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717616066; c=relaxed/simple;
-	bh=F6uGhyXxFRGXwvwitWPk6r8o7SgW5av//5iXJYuMwIw=;
-	h=From:References:MIME-Version:In-Reply-To:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l0DetpdJPxfiMoAaWdNl4ntZFmdRB6mTb5qZsllpORYlar1yriJJnc8gOWavwWibghCwFEKoPMCz3e5dvNoU8ThUBjySFcPaSG0gwaJSEv250GZsE8CRGp1pvDoNiVv1rUvPeynEShvHT39315VzcC1fVuxGWBiRqkqMGyvvXT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F0Y+6V8d; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1717616936; c=relaxed/simple;
+	bh=ce7MGeBqGKigM4qYn6QRHIo8lFlWk1dQx2w37OUDRLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZvTIU0Lw56WlFkXRDqCcnaJabgLxyh37f/lCf9259s5uJjHLnJbg9R36pYWS4UGjiSeLPWTtyPzEn3fgdeGvSjjcYyrFPkqkLoRSxXq0ika2STPzXT3S9RZ+HWc4IZ7VP5Vhd1vitVRJ5IfbdqITRphiGiD/wpOeeqELcssJRQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lSDmy4nH; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F0Y+6V8d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717616064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jH6Sf/5uQSKSb+Ny2G5B2sTCcG7O89rYUp8bSy5I1tY=;
-	b=F0Y+6V8d+OYIaPBE/Dyo26g1RKzn31xbfoIK/CTA23/MbVsawOs9ZV1BncHk1uVqiFuCbj
-	9Q/XaHnzekr0a+Ex8AyvW5r0XW9v60pDNJp1TBdX1CWWahuegVdWBV9V6wWqPdApsUHr5d
-	evzJeY/gZCnQ8B2Qs4/Jgdfx5wbdRnI=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-315-cluhabf5OkOBOmAEUSqtlA-1; Wed, 05 Jun 2024 15:34:22 -0400
-X-MC-Unique: cluhabf5OkOBOmAEUSqtlA-1
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3d202a0f9b3so106296b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Jun 2024 12:34:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717616062; x=1718220862;
-        h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jH6Sf/5uQSKSb+Ny2G5B2sTCcG7O89rYUp8bSy5I1tY=;
-        b=N+/Sa9WJBvtUrek5/FR98ziZtI94DxZVW+ScInU44Pr49Hd9jBUC3701v5Jt91VVVR
-         IG5c4SdAlRg9b0LjKsQKlb0hMRr0zTf4Diu06s3uzG57YqBt12mi1kTI3IJywEYeMsgJ
-         v7/yjjETawQArRoahlhp63ZZNEjmOC8Dwb9jMDXCVqV7kb+VAH45lYwoHFDn9Tkd1d8K
-         2LZ5lwKXBfDCB3kt4Vo7QgeFyuQyjjWVqxFEEnHx9m+np5igZunok2K8Ylmw+uf5d7KN
-         P5sReaN+MgSaWqphHasVbMrAHx13gEOjxuF1R8j5RaDnWTwfbHfh9CnDpsQk1jVznZZC
-         SFLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPylJHAd2YBfN3UvcoEK3RMkGQ1o+DL0VSz1uIvpJGrV6tCltanV41KaC3BWJAbb0PfRcacs3H2IQC1qsELqIME+MNGtwNNT6IZynv+w==
-X-Gm-Message-State: AOJu0Yxtz1AqTKn4YynaTwfSqOVWfF+IS4oLQK7XNQrXsysWUlhE1CV+
-	H/LtKFrgAanhvD1NrM/MspQ+dcKNk1Ko6EgVSrwsdVaH3ssnTbPGvgrPssR/eGcLygjp/qWTKWz
-	S9Uf4qBwo6VtByDVx4qRoSUu2A6U4jES5h6zJa+gmrNTXR1UKUAoTj4S3WCkgj+rXTUL7xotFe9
-	lOm3K959BD94wDiqaSZb0JvZFuXpuCATIzZY849w==
-X-Received: by 2002:a05:6808:de6:b0:3d1:b4d5:88fe with SMTP id 5614622812f47-3d2043dbe5bmr3873291b6e.54.1717616062014;
-        Wed, 05 Jun 2024 12:34:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgkFGoqjTxQfTUgtST68W0+4pEtir9khOtAK5Fhc6jUhofrXE7C0NKaHykTGdJIOM2zLahI1Ss4Ni/zH+fXrw=
-X-Received: by 2002:a05:6808:de6:b0:3d1:b4d5:88fe with SMTP id
- 5614622812f47-3d2043dbe5bmr3873276b6e.54.1717616061672; Wed, 05 Jun 2024
- 12:34:21 -0700 (PDT)
-Received: from 311643009450 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 5 Jun 2024 19:34:21 +0000
-From: =?UTF-8?Q?Adri=C3=A1n_Moreno?= <amorenoz@redhat.com>
-References: <20240603185647.2310748-7-amorenoz@redhat.com> <202406041623.ycwsuP85-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lSDmy4nH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717616935; x=1749152935;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ce7MGeBqGKigM4qYn6QRHIo8lFlWk1dQx2w37OUDRLs=;
+  b=lSDmy4nH67/XdrN+iSgCFedl8SrvE5MmUD34E+H7nkEiWG4BamCgFQq8
+   CvKJzvpDP0ntbIQuYOmb5OtVy+2b7QeEZ9UpAB+Zupvbw/iNmpQBQzpqj
+   a7P6cmA/TA2pKW7+LCxTrRaPCvh2sWy9lHDu8m0hu5eaVr120BGk1zbXf
+   9MWj7Bcqoovh9GNcrJTyfG0VoeIEtYv5LTKR94fX0a+pIE/e129GtYBxj
+   Fq3OaDB2r1zPiEXgu/aHUP/RdlAuxle83DG0SEZTVyVVkdHPcQGmf5RMF
+   AXtgLtncMqURFw8gDuE8d6dl0cnpdn/3ehjEEh8yj0bPbBGfyGDk1KxuY
+   g==;
+X-CSE-ConnectionGUID: oK20L30nRnK+U+Rsuv08iA==
+X-CSE-MsgGUID: OjnbUxqSSKCJdqnW3wLA6g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14370707"
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
+   d="scan'208";a="14370707"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 12:48:54 -0700
+X-CSE-ConnectionGUID: aaYlXdF4QjmLQVxKtiqlSA==
+X-CSE-MsgGUID: 6FbZcjgPTc+Yhc6DIbUEOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
+   d="scan'208";a="37589384"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Jun 2024 12:48:52 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sEwcr-00029c-1n;
+	Wed, 05 Jun 2024 19:48:49 +0000
+Date: Thu, 6 Jun 2024 03:48:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeremy Kerr <jk@codeconstruct.com.au>, David Ahern <dsahern@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
+Message-ID: <202406060345.LfJ8GAJM-lkp@intel.com>
+References: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202406041623.ycwsuP85-lkp@intel.com>
-Date: Wed, 5 Jun 2024 19:34:21 +0000
-Message-ID: <CAG=2xmMUuS=VesSk1SQ2Pk0xHj_-Hfj6c5Wk7iV=7Ed0VdHiaw@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 6/9] net: openvswitch: store sampling
- probability in cb.
-To: kernel test robot <lkp@intel.com>
-Cc: netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev, aconole@redhat.com, 
-	echaudro@redhat.com, horms@kernel.org, i.maximets@ovn.org, 
-	dev@openvswitch.org, Pravin B Shelar <pshelar@ovn.org>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
 
-On Tue, Jun 04, 2024 at 04:49:39PM GMT, kernel test robot wrote:
-> Hi Adrian,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Moreno/net-psample-add-user-cookie/20240604-030055
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20240603185647.2310748-7-amorenoz%40redhat.com
-> patch subject: [PATCH net-next v2 6/9] net: openvswitch: store sampling probability in cb.
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240604/202406041623.ycwsuP85-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406041623.ycwsuP85-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406041623.ycwsuP85-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    m68k-linux-ld: net/openvswitch/actions.o: in function `do_execute_actions':
-> >> actions.c:(.text+0x214e): undefined reference to `__udivdi3'
->
+Hi Jeremy,
 
-I forgot about architectures that don't have native u64 division. I will
-use "do_div" in the next version of the series.
+kernel test robot noticed the following build warnings:
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
+base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
+patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
+patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
+config: x86_64-randconfig-121-20240606 (https://download.01.org/0day-ci/archive/20240606/202406060345.LfJ8GAJM-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060345.LfJ8GAJM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406060345.LfJ8GAJM-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   net/core/dev.c:3379:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
+   net/core/dev.c:3379:23: sparse:     expected restricted __wsum [usertype] csum
+   net/core/dev.c:3379:23: sparse:     got unsigned int
+   net/core/dev.c:3379:23: sparse: sparse: cast from restricted __wsum
+>> net/core/dev.c:10871:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct pcpu_dstats const * @@
+   net/core/dev.c:10871:26: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/core/dev.c:10871:26: sparse:     got struct pcpu_dstats const *
+   net/core/dev.c:3819:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
+   net/core/dev.c:5257:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
+
+vim +10871 net/core/dev.c
+
+ 10851	
+ 10852	/**
+ 10853	 *	dev_fetch_dstats - collate per-cpu network dstats statistics
+ 10854	 *	@s: place to store stats
+ 10855	 *	@dstats: per-cpu network stats to read from
+ 10856	 *
+ 10857	 *	Read per-cpu network statistics from dev->dstats and populate the
+ 10858	 *	related fields in @s.
+ 10859	 */
+ 10860	void dev_fetch_dstats(struct rtnl_link_stats64 *s,
+ 10861			      const struct pcpu_dstats __percpu *dstats)
+ 10862	{
+ 10863		int cpu;
+ 10864	
+ 10865		for_each_possible_cpu(cpu) {
+ 10866			u64 rx_packets, rx_bytes, rx_drops;
+ 10867			u64 tx_packets, tx_bytes, tx_drops;
+ 10868			const struct pcpu_dstats *dstats;
+ 10869			unsigned int start;
+ 10870	
+ 10871			dstats = per_cpu_ptr(dstats, cpu);
+ 10872			do {
+ 10873				start = u64_stats_fetch_begin(&dstats->syncp);
+ 10874				rx_packets = u64_stats_read(&dstats->rx_packets);
+ 10875				rx_bytes   = u64_stats_read(&dstats->rx_bytes);
+ 10876				rx_drops   = u64_stats_read(&dstats->rx_drops);
+ 10877				tx_packets = u64_stats_read(&dstats->tx_packets);
+ 10878				tx_bytes   = u64_stats_read(&dstats->tx_bytes);
+ 10879				tx_drops   = u64_stats_read(&dstats->tx_drops);
+ 10880			} while (u64_stats_fetch_retry(&dstats->syncp, start));
+ 10881	
+ 10882			s->rx_packets += rx_packets;
+ 10883			s->rx_bytes   += rx_bytes;
+ 10884			s->rx_dropped += rx_drops;
+ 10885			s->tx_packets += tx_packets;
+ 10886			s->tx_bytes   += tx_bytes;
+ 10887			s->tx_dropped += tx_drops;
+ 10888		}
+ 10889	}
+ 10890	EXPORT_SYMBOL_GPL(dev_fetch_dstats);
+ 10891	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
