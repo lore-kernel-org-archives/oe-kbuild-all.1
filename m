@@ -1,146 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868A71527A4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 19:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6A5155356;
+	Wed,  5 Jun 2024 20:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717616936; cv=none; b=mB7ZpoNNg8jUBzxFUTgUDcXtpx4Xok9Ohvisf1HYI9rO4ub9WC+fK4rcj+BsLuQKPUr7ptz6MqmquCgKifuSMCPq1Sf5ZeHvKy5hWMTTfIQ/RPcF/3dKJ5T3Shq91b5GKdRs1Gevj1TjNRAlacslY5taXAzmSqdZQHk48pTq5J8=
+	t=1717617968; cv=none; b=VNhZFshvSU1yDi/yrH7Z7tNemStU0LO/Hc1aiPKBJmlLdVvRTGE7suutIFsD3X6+2kX/c8LSYeqSAqaFbi4fPHI98kt6Dq+6C6EygagDtvnqWaggfvaK1TVkay1Ikycm0TaVKKtD4h+adLI6Or8AE2VQ/LWc5RKWGck7JZhSG3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717616936; c=relaxed/simple;
-	bh=ce7MGeBqGKigM4qYn6QRHIo8lFlWk1dQx2w37OUDRLs=;
+	s=arc-20240116; t=1717617968; c=relaxed/simple;
+	bh=tcIV154yjEx+jZi6w1gwf86t72QgsTXPe1vDfXnptNM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZvTIU0Lw56WlFkXRDqCcnaJabgLxyh37f/lCf9259s5uJjHLnJbg9R36pYWS4UGjiSeLPWTtyPzEn3fgdeGvSjjcYyrFPkqkLoRSxXq0ika2STPzXT3S9RZ+HWc4IZ7VP5Vhd1vitVRJ5IfbdqITRphiGiD/wpOeeqELcssJRQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lSDmy4nH; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sbhRV1m3+S0srhXvnOei6wjfjWekFNbLlfa0wCUHd3D2yd1oRR2+Oo8thOIikRrYQr24Ag5mNlhKfToUWv6uzitw0TpJqDN7gb+DbuX7avs9gK0Z9gm80H5ZLQC+9BGv13EmoMdGLEZyRP0vO+BwpEJ3mxXm607XYIdWkpDdw4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjlnSwCZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lSDmy4nH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717616935; x=1749152935;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ce7MGeBqGKigM4qYn6QRHIo8lFlWk1dQx2w37OUDRLs=;
-  b=lSDmy4nH67/XdrN+iSgCFedl8SrvE5MmUD34E+H7nkEiWG4BamCgFQq8
-   CvKJzvpDP0ntbIQuYOmb5OtVy+2b7QeEZ9UpAB+Zupvbw/iNmpQBQzpqj
-   a7P6cmA/TA2pKW7+LCxTrRaPCvh2sWy9lHDu8m0hu5eaVr120BGk1zbXf
-   9MWj7Bcqoovh9GNcrJTyfG0VoeIEtYv5LTKR94fX0a+pIE/e129GtYBxj
-   Fq3OaDB2r1zPiEXgu/aHUP/RdlAuxle83DG0SEZTVyVVkdHPcQGmf5RMF
-   AXtgLtncMqURFw8gDuE8d6dl0cnpdn/3ehjEEh8yj0bPbBGfyGDk1KxuY
-   g==;
-X-CSE-ConnectionGUID: oK20L30nRnK+U+Rsuv08iA==
-X-CSE-MsgGUID: OjnbUxqSSKCJdqnW3wLA6g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14370707"
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="14370707"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 12:48:54 -0700
-X-CSE-ConnectionGUID: aaYlXdF4QjmLQVxKtiqlSA==
-X-CSE-MsgGUID: 6FbZcjgPTc+Yhc6DIbUEOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="37589384"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Jun 2024 12:48:52 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sEwcr-00029c-1n;
-	Wed, 05 Jun 2024 19:48:49 +0000
-Date: Thu, 6 Jun 2024 03:48:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeremy Kerr <jk@codeconstruct.com.au>, David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
-Message-ID: <202406060345.LfJ8GAJM-lkp@intel.com>
-References: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjlnSwCZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC328C2BD11;
+	Wed,  5 Jun 2024 20:06:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717617968;
+	bh=tcIV154yjEx+jZi6w1gwf86t72QgsTXPe1vDfXnptNM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LjlnSwCZ3QBn+iv6bMHUH81hwuZF4ddVoebpRp3oNUHaWIyj5D7tXJ5us/UaGcwQu
+	 3dWqyQbno52GB0lf1+Y+PQvumgnJ2zb+Mj0nK3is/r37UiFc6PFD++cG7isW0GdaBM
+	 M1Mo51dyfbb2qxEXDRlCAxvG+EJW9e5L3Dqvl+S/S3tCUdhcy5oM9R0+yq58dOXa8t
+	 SCVWiByboBeyJkjHWQtBMtt/izj/vt+PSgEDX/8rUW+h9v5gxYXdfFIVbcbMdXfnzF
+	 Xl4NuCMELC8BzSMsxsh9gbF7TlZ9JWFbahEVfq9MitPIV78rcDIHurx7ebWSeVKFiD
+	 BzB/piWdTbFlg==
+Date: Wed, 5 Jun 2024 21:06:02 +0100
+From: Simon Horman <horms@kernel.org>
+To: =?utf-8?Q?Adri=C3=A1n?= Moreno <amorenoz@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	aconole@redhat.com, echaudro@redhat.com, i.maximets@ovn.org,
+	dev@openvswitch.org, Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Pravin B Shelar <pshelar@ovn.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 5/9] net: openvswitch: add emit_sample action
+Message-ID: <20240605200602.GB791188@kernel.org>
+References: <20240603185647.2310748-6-amorenoz@redhat.com>
+ <202406050852.hDtfskO0-lkp@intel.com>
+ <CAG=2xmOQBaUki43jpUnP7F-RvkxXroQ46_CuXvbQyps=MvvYAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG=2xmOQBaUki43jpUnP7F-RvkxXroQ46_CuXvbQyps=MvvYAg@mail.gmail.com>
 
-Hi Jeremy,
+On Wed, Jun 05, 2024 at 07:31:55PM +0000, Adrián Moreno wrote:
+> On Wed, Jun 05, 2024 at 08:29:22AM GMT, kernel test robot wrote:
+> > Hi Adrian,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on net-next/main]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Moreno/net-psample-add-user-cookie/20240604-030055
+> > base:   net-next/main
+> > patch link:    https://lore.kernel.org/r/20240603185647.2310748-6-amorenoz%40redhat.com
+> > patch subject: [PATCH net-next v2 5/9] net: openvswitch: add emit_sample action
+> > config: s390-randconfig-002-20240605 (https://download.01.org/0day-ci/archive/20240605/202406050852.hDtfskO0-lkp@intel.com/config)
+> > compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050852.hDtfskO0-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406050852.hDtfskO0-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    s390x-linux-ld: net/openvswitch/actions.o: in function `do_execute_actions':
+> > >> actions.c:(.text+0x1d5c): undefined reference to `psample_sample_packet'
+> >
+> 
+> Thanks robot!
+> 
+> OK, I think I know what's wrong. There is an optional dependency with
+> PSAMPLE. Openvswitch module does compile without PSAMPLE but there is a
+> link error if OPENVSWITCH=y and PSAMPLE=m.
+> 
+> Looking into how to express this in the Kconfig, I'm planning to add the
+> following to the next version of the series.
+> 
+> diff --git a/net/openvswitch/Kconfig b/net/openvswitch/Kconfig
+> index 29a7081858cd..2535f3f9f462 100644
+> --- a/net/openvswitch/Kconfig
+> +++ b/net/openvswitch/Kconfig
+> @@ -10,6 +10,7 @@ config OPENVSWITCH
+>  		   (NF_CONNTRACK && ((!NF_DEFRAG_IPV6 || NF_DEFRAG_IPV6) && \
+>  				     (!NF_NAT || NF_NAT) && \
+>  				     (!NETFILTER_CONNCOUNT || NETFILTER_CONNCOUNT)))
+> +	depends on PSAMPLE || !PSAMPLE
+>  	select LIBCRC32C
+>  	select MPLS
+>  	select NET_MPLS_GSO
+> 
 
-kernel test robot noticed the following build warnings:
+Thanks Adrián,
 
-[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
-base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
-patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
-patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
-config: x86_64-randconfig-121-20240606 (https://download.01.org/0day-ci/archive/20240606/202406060345.LfJ8GAJM-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060345.LfJ8GAJM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406060345.LfJ8GAJM-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   net/core/dev.c:3379:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3379:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3379:23: sparse:     got unsigned int
-   net/core/dev.c:3379:23: sparse: sparse: cast from restricted __wsum
->> net/core/dev.c:10871:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct pcpu_dstats const * @@
-   net/core/dev.c:10871:26: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/core/dev.c:10871:26: sparse:     got struct pcpu_dstats const *
-   net/core/dev.c:3819:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
-   net/core/dev.c:5257:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
-
-vim +10871 net/core/dev.c
-
- 10851	
- 10852	/**
- 10853	 *	dev_fetch_dstats - collate per-cpu network dstats statistics
- 10854	 *	@s: place to store stats
- 10855	 *	@dstats: per-cpu network stats to read from
- 10856	 *
- 10857	 *	Read per-cpu network statistics from dev->dstats and populate the
- 10858	 *	related fields in @s.
- 10859	 */
- 10860	void dev_fetch_dstats(struct rtnl_link_stats64 *s,
- 10861			      const struct pcpu_dstats __percpu *dstats)
- 10862	{
- 10863		int cpu;
- 10864	
- 10865		for_each_possible_cpu(cpu) {
- 10866			u64 rx_packets, rx_bytes, rx_drops;
- 10867			u64 tx_packets, tx_bytes, tx_drops;
- 10868			const struct pcpu_dstats *dstats;
- 10869			unsigned int start;
- 10870	
- 10871			dstats = per_cpu_ptr(dstats, cpu);
- 10872			do {
- 10873				start = u64_stats_fetch_begin(&dstats->syncp);
- 10874				rx_packets = u64_stats_read(&dstats->rx_packets);
- 10875				rx_bytes   = u64_stats_read(&dstats->rx_bytes);
- 10876				rx_drops   = u64_stats_read(&dstats->rx_drops);
- 10877				tx_packets = u64_stats_read(&dstats->tx_packets);
- 10878				tx_bytes   = u64_stats_read(&dstats->tx_bytes);
- 10879				tx_drops   = u64_stats_read(&dstats->tx_drops);
- 10880			} while (u64_stats_fetch_retry(&dstats->syncp, start));
- 10881	
- 10882			s->rx_packets += rx_packets;
- 10883			s->rx_bytes   += rx_bytes;
- 10884			s->rx_dropped += rx_drops;
- 10885			s->tx_packets += tx_packets;
- 10886			s->tx_bytes   += tx_bytes;
- 10887			s->tx_dropped += tx_drops;
- 10888		}
- 10889	}
- 10890	EXPORT_SYMBOL_GPL(dev_fetch_dstats);
- 10891	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I both agree that should work, and tested with the config at the link above
+and found that it does work.
