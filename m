@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE2F14B093;
-	Wed,  5 Jun 2024 10:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440E214BF85
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 10:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717581605; cv=none; b=aWntpDh6yuHIXHmaNxHOp5XnifU2gmgMF/9Y7exp0dHa9Vn/Y0pnjYQkhmV4Irr2Z+LgR0RVYTOssvijQuxvsOAz008xp7n9oLdcPctouNwWhsAepklCJLzOAvy+NoeVZ30EfblTTEjpOXtTWZ7OdMw5Zrj+4BBSEHfdKNq2+CU=
+	t=1717583917; cv=none; b=j/ky5mQUWJqt4kOAxviO3VX2m5ccUa1ZZTgqAAESbpZRjLTD0ilzHsu+cLsUSi8BciWdViSvGdb/Ioi7ErjxdHJJBdAyPzAgxyXBTrKUVvJeblAySYR5QhkPge+JJdxJZ96HJ1LxbfcpZ1g/3oXuydXc1eTxjIJsqHmw7oZNA6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717581605; c=relaxed/simple;
-	bh=eAaxL8dOEnbdf7zGGC+8t1JAz072u3mHY8NMv+nWuss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SETsFTAoSSewYtM3VaD0STlmTE7DAbw/Uxm3xU2td6HypX5shclsaL6omg7XG0jSNNOYdnvx07rXmLCzOvuHPBOC4kCEvXVIQ3eOFTNxNr9zNrXsqz0GdYn80lBqE+n2sbE5wtfj8X8kKJcxTwKv0BqtSpGYaoUEbufcsccGqeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L9iWziCx; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1717583917; c=relaxed/simple;
+	bh=AmfP5qfN/OMxXEoDiPJxPXhowOzDH3RtSfFSifMCGFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ToVr8GXHACC7VykvC5uAmJ3Js6kzRwrol/h2soXGOoO9sk/3y75lduz0aRAN3Cdq3g2cpPWs+Sg6MLaYPTiM1/EbgI/UFXGGoGxx2HvV47Mjbe8o9Kkp129GgPxcKLvfWwpfZRvecb7X0MG8Tw+XD0ZmQc7d39WXiNb0cwx58K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KkUaYyL9; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9iWziCx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KkUaYyL9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717581603; x=1749117603;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eAaxL8dOEnbdf7zGGC+8t1JAz072u3mHY8NMv+nWuss=;
-  b=L9iWziCxN9h0fzt7VnjzvCQtnnexW4yakVg9mieaEM5yz6bQGGieqhFf
-   xwM8cLC+8Nkrhw4RgxkmCO/PbWDsmRxEx4JkJgU8LbO/UGJej6bLmPbOf
-   C9G5oa46cXVMM8dx00tHvDXYOmH84CtKhJwB1CQC3zRtHwt9Fn+FFb6V0
-   YrAHi9qFS5vucE1ofDJKW/prARSe+oVnOPlGMBXoTm7bCpeow2LcIhil5
-   eUPiW9zy5tNVPlRj0NhEzxx+qF69cJhlj2kmZNXQMkO7VRmkvFJ8IiyBD
-   pyd315Mbtt4xKhZI6HZjESuBX05AjNowXmNsWhfaYekomgxnXhAMyqtfn
+  t=1717583915; x=1749119915;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AmfP5qfN/OMxXEoDiPJxPXhowOzDH3RtSfFSifMCGFE=;
+  b=KkUaYyL9yj9xHA26Fhor4HK3KCBbRL5xaiUL002S84mA8zKvXZUYCaRx
+   6g0EfDp/INONQfDXjqJvrb+6KTut4bpNRqhIDTpCFJSAxxQDvH61hNsCv
+   tcjy5AHWYL0XEdTQVgW33gbHpNDyRmo+5eN/y7eKXOrPI94wsRT2GDQPr
+   AeEKgD8RQp+sEpENOakvS4LabEDRJhQQsJJFahAvINVcZYh9Fx2n7gKp1
+   eba+BCad7LL7SUhU112EhIEdw6mLcvAUm3qBma0EYaKbXZW2qmDxpOOlu
+   6octewQk7jbJjVsFg3wC1nQVRFVT8w7YGaU7LTnkXnZem7DCR6AHTvOOQ
    Q==;
-X-CSE-ConnectionGUID: z+IZLASISqWNHmtlbTDy8w==
-X-CSE-MsgGUID: 9oslm6v/RyGxsCn+JBHRiQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="36701748"
+X-CSE-ConnectionGUID: kY4K+53iRjOUJ65/oG+PBQ==
+X-CSE-MsgGUID: 8m/tVU7aTVWZMQa80V5iPA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="17121202"
 X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; 
-   d="scan'208";a="36701748"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 03:00:01 -0700
-X-CSE-ConnectionGUID: treg5r/ASvGGEt8dZN8jYA==
-X-CSE-MsgGUID: T715PcomRA+BQv6VWbb0gQ==
+   d="scan'208";a="17121202"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 03:38:35 -0700
+X-CSE-ConnectionGUID: NSGu90q0S6CJ10YYd+T3kg==
+X-CSE-MsgGUID: XmT2igQeRkGMA2HJ6bqkcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; 
-   d="scan'208";a="75025241"
+   d="scan'208";a="42099630"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jun 2024 02:59:59 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2024 03:38:34 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sEnQy-0001MS-0s;
-	Wed, 05 Jun 2024 09:59:56 +0000
-Date: Wed, 5 Jun 2024 17:59:49 +0800
+	id 1sEo2F-0001OA-0r;
+	Wed, 05 Jun 2024 10:38:27 +0000
+Date: Wed, 5 Jun 2024 18:37:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremy Kerr <jk@codeconstruct.com.au>, David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
-Message-ID: <202406051710.KozBBK8o-lkp@intel.com>
-References: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
+To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Subject: [linux-next:master 3313/3594] kernel/trace/fgraph.c:883:43: error:
+ 'struct ftrace_ops' has no member named 'subop_list'
+Message-ID: <202406051855.9VIYXbTB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,164 +63,356 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
 
-Hi Jeremy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
-base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
-patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
-patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240605/202406051710.KozBBK8o-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051710.KozBBK8o-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   234cb065ad82915ff8d06ce01e01c3e640b674d2
+commit: df3ec5da6a1e7f6e142680d7c5266d3af187170b [3313/3594] function_graph: Add pid tracing back to function graph tracer
+config: riscv-randconfig-001-20240605 (https://download.01.org/0day-ci/archive/20240605/202406051855.9VIYXbTB-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051855.9VIYXbTB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406051710.KozBBK8o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406051855.9VIYXbTB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/core/dev.c:80:
-   In file included from include/linux/sched/isolation.h:5:
-   In file included from include/linux/cpuset.h:17:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from net/core/dev.c:80:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from net/core/dev.c:80:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from net/core/dev.c:80:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> net/core/dev.c:10871:24: warning: variable 'dstats' is uninitialized when used here [-Wuninitialized]
-    10871 |                 dstats = per_cpu_ptr(dstats, cpu);
-          |                                      ^~~~~~
-   include/linux/percpu-defs.h:263:65: note: expanded from macro 'per_cpu_ptr'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                                   ^~~
-   include/linux/percpu-defs.h:260:38: note: expanded from macro 'VERIFY_PERCPU_PTR'
-     260 |         (typeof(*(__p)) __kernel __force *)(__p);                       \
-         |                                             ^~~
-   net/core/dev.c:10868:35: note: initialize the variable 'dstats' to silence this warning
-    10868 |                 const struct pcpu_dstats *dstats;
-          |                                                 ^
-          |                                                  = NULL
-   net/core/dev.c:4128:1: warning: unused function 'sch_handle_ingress' [-Wunused-function]
-    4128 | sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
-         | ^~~~~~~~~~~~~~~~~~
-   net/core/dev.c:4135:1: warning: unused function 'sch_handle_egress' [-Wunused-function]
-    4135 | sch_handle_egress(struct sk_buff *skb, int *ret, struct net_device *dev)
-         | ^~~~~~~~~~~~~~~~~
-   net/core/dev.c:5392:19: warning: unused function 'nf_ingress' [-Wunused-function]
-    5392 | static inline int nf_ingress(struct sk_buff *skb, struct packet_type **pt_prev,
-         |                   ^~~~~~~~~~
-   17 warnings generated.
+   In file included from include/linux/kernel.h:22,
+                    from include/linux/cpumask.h:11,
+                    from arch/riscv/include/asm/processor.h:71,
+                    from arch/riscv/include/asm/thread_info.h:36,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/swap.h:5,
+                    from include/linux/suspend.h:5,
+                    from kernel/trace/fgraph.c:12:
+   kernel/trace/fgraph.c: In function 'fgraph_update_pid_func':
+>> kernel/trace/fgraph.c:883:43: error: 'struct ftrace_ops' has no member named 'subop_list'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |                                           ^
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bits.h:22,
+                    from kernel/trace/fgraph.c:10:
+>> kernel/trace/fgraph.c:883:43: error: 'struct ftrace_ops' has no member named 'subop_list'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |                                           ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:20:54: error: 'struct ftrace_ops' has no member named 'list'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> kernel/trace/fgraph.c:883:43: error: 'struct ftrace_ops' has no member named 'subop_list'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |                                           ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:428:27: error: expression in static assertion is not an integer
+     428 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/riscv/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:299,
+                    from include/linux/build_bug.h:5:
+>> include/linux/stddef.h:16:33: error: 'struct ftrace_ops' has no member named 'list'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/smp.h:12,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63:
+>> include/linux/list.h:769:26: error: 'struct ftrace_ops' has no member named 'list'
+     769 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   include/linux/list.h:779:15: note: in expansion of macro 'list_entry_is_head'
+     779 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> kernel/trace/fgraph.c:883:43: error: 'struct ftrace_ops' has no member named 'subop_list'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |                                           ^
+   include/linux/list.h:769:37: note: in definition of macro 'list_entry_is_head'
+     769 |         list_is_head(&pos->member, (head))
+         |                                     ^~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:25: error: 'struct ftrace_ops' has no member named 'list'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:25: error: 'struct ftrace_ops' has no member named 'list'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:20:54: error: 'struct ftrace_ops' has no member named 'list'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:25: error: 'struct ftrace_ops' has no member named 'list'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:428:27: error: expression in static assertion is not an integer
+     428 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: 'struct ftrace_ops' has no member named 'list'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:883:9: note: in expansion of macro 'list_for_each_entry'
+     883 |         list_for_each_entry(op, &graph_ops.subop_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c: In function 'register_ftrace_graph':
+   kernel/trace/fgraph.c:972:15: error: implicit declaration of function 'ftrace_startup_subops'; did you mean 'ftrace_startup'? [-Werror=implicit-function-declaration]
+     972 |         ret = ftrace_startup_subops(&graph_ops, &gops->ops, command);
+         |               ^~~~~~~~~~~~~~~~~~~~~
+         |               ftrace_startup
+   kernel/trace/fgraph.c: In function 'unregister_ftrace_graph':
+   kernel/trace/fgraph.c:1012:9: error: implicit declaration of function 'ftrace_shutdown_subops'; did you mean 'ftrace_shutdown'? [-Werror=implicit-function-declaration]
+    1012 |         ftrace_shutdown_subops(&graph_ops, &gops->ops, command);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         ftrace_shutdown
+   cc1: some warnings being treated as errors
 
 
-vim +/dstats +10871 net/core/dev.c
+vim +883 kernel/trace/fgraph.c
 
- 10851	
- 10852	/**
- 10853	 *	dev_fetch_dstats - collate per-cpu network dstats statistics
- 10854	 *	@s: place to store stats
- 10855	 *	@dstats: per-cpu network stats to read from
- 10856	 *
- 10857	 *	Read per-cpu network statistics from dev->dstats and populate the
- 10858	 *	related fields in @s.
- 10859	 */
- 10860	void dev_fetch_dstats(struct rtnl_link_stats64 *s,
- 10861			      const struct pcpu_dstats __percpu *dstats)
- 10862	{
- 10863		int cpu;
- 10864	
- 10865		for_each_possible_cpu(cpu) {
- 10866			u64 rx_packets, rx_bytes, rx_drops;
- 10867			u64 tx_packets, tx_bytes, tx_drops;
- 10868			const struct pcpu_dstats *dstats;
- 10869			unsigned int start;
- 10870	
- 10871			dstats = per_cpu_ptr(dstats, cpu);
- 10872			do {
- 10873				start = u64_stats_fetch_begin(&dstats->syncp);
- 10874				rx_packets = u64_stats_read(&dstats->rx_packets);
- 10875				rx_bytes   = u64_stats_read(&dstats->rx_bytes);
- 10876				rx_drops   = u64_stats_read(&dstats->rx_drops);
- 10877				tx_packets = u64_stats_read(&dstats->tx_packets);
- 10878				tx_bytes   = u64_stats_read(&dstats->tx_bytes);
- 10879				tx_drops   = u64_stats_read(&dstats->tx_drops);
- 10880			} while (u64_stats_fetch_retry(&dstats->syncp, start));
- 10881	
- 10882			s->rx_packets += rx_packets;
- 10883			s->rx_bytes   += rx_bytes;
- 10884			s->rx_dropped += rx_drops;
- 10885			s->tx_packets += tx_packets;
- 10886			s->tx_bytes   += tx_bytes;
- 10887			s->tx_dropped += tx_drops;
- 10888		}
- 10889	}
- 10890	EXPORT_SYMBOL_GPL(dev_fetch_dstats);
- 10891	
+   874	
+   875	void fgraph_update_pid_func(void)
+   876	{
+   877		struct fgraph_ops *gops;
+   878		struct ftrace_ops *op;
+   879	
+   880		if (!(graph_ops.flags & FTRACE_OPS_FL_INITIALIZED))
+   881			return;
+   882	
+ > 883		list_for_each_entry(op, &graph_ops.subop_list, list) {
+   884			if (op->flags & FTRACE_OPS_FL_PID) {
+   885				gops = container_of(op, struct fgraph_ops, ops);
+   886				gops->entryfunc = ftrace_pids_enabled(op) ?
+   887					fgraph_pid_func : gops->saved_func;
+   888			}
+   889		}
+   890	}
+   891	
 
 -- 
 0-DAY CI Kernel Test Service
