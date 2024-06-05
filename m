@@ -1,108 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6A5155356;
-	Wed,  5 Jun 2024 20:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7BF14EC52
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jun 2024 20:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717617968; cv=none; b=VNhZFshvSU1yDi/yrH7Z7tNemStU0LO/Hc1aiPKBJmlLdVvRTGE7suutIFsD3X6+2kX/c8LSYeqSAqaFbi4fPHI98kt6Dq+6C6EygagDtvnqWaggfvaK1TVkay1Ikycm0TaVKKtD4h+adLI6Or8AE2VQ/LWc5RKWGck7JZhSG3Y=
+	t=1717620009; cv=none; b=dmzmfQRZZdS8YENpXkuNrVR15E13N+JwFmXWn4tuhG7c6I4GBmNft9v+LuGtDuiuqqLxcW2Krrz4GN5mfcFk2GoLiy6j4ZfuXcrmT28w591kx0S10QeQy3y9ZjpypIgkYGXnjNzTkJDmzLhBLCFUzMEx96DbWGncRV2Uz2XiCvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717617968; c=relaxed/simple;
-	bh=tcIV154yjEx+jZi6w1gwf86t72QgsTXPe1vDfXnptNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sbhRV1m3+S0srhXvnOei6wjfjWekFNbLlfa0wCUHd3D2yd1oRR2+Oo8thOIikRrYQr24Ag5mNlhKfToUWv6uzitw0TpJqDN7gb+DbuX7avs9gK0Z9gm80H5ZLQC+9BGv13EmoMdGLEZyRP0vO+BwpEJ3mxXm607XYIdWkpDdw4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjlnSwCZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717620009; c=relaxed/simple;
+	bh=IAz5hNWndKZuuFvG221hpobSIgq7Dy8QGtnLI3nP/6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RrRCXbut47ur5W8MQ/xfSmqFOkShrLgnT73DZeBtNo5DGLv36chRy1I527IugD5b8rjqHf85HKa5QTi77MtCLuDF9EO0tQRq/Ahn1GwpNbeu0B9Ps2c6uxagE0bSjXjXen6Mnjrv33gkM0ZJGC51zn90cJCDjhDA8qyC9X9gg+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FId8ay2A; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjlnSwCZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC328C2BD11;
-	Wed,  5 Jun 2024 20:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717617968;
-	bh=tcIV154yjEx+jZi6w1gwf86t72QgsTXPe1vDfXnptNM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LjlnSwCZ3QBn+iv6bMHUH81hwuZF4ddVoebpRp3oNUHaWIyj5D7tXJ5us/UaGcwQu
-	 3dWqyQbno52GB0lf1+Y+PQvumgnJ2zb+Mj0nK3is/r37UiFc6PFD++cG7isW0GdaBM
-	 M1Mo51dyfbb2qxEXDRlCAxvG+EJW9e5L3Dqvl+S/S3tCUdhcy5oM9R0+yq58dOXa8t
-	 SCVWiByboBeyJkjHWQtBMtt/izj/vt+PSgEDX/8rUW+h9v5gxYXdfFIVbcbMdXfnzF
-	 Xl4NuCMELC8BzSMsxsh9gbF7TlZ9JWFbahEVfq9MitPIV78rcDIHurx7ebWSeVKFiD
-	 BzB/piWdTbFlg==
-Date: Wed, 5 Jun 2024 21:06:02 +0100
-From: Simon Horman <horms@kernel.org>
-To: =?utf-8?Q?Adri=C3=A1n?= Moreno <amorenoz@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	aconole@redhat.com, echaudro@redhat.com, i.maximets@ovn.org,
-	dev@openvswitch.org, Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Pravin B Shelar <pshelar@ovn.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 5/9] net: openvswitch: add emit_sample action
-Message-ID: <20240605200602.GB791188@kernel.org>
-References: <20240603185647.2310748-6-amorenoz@redhat.com>
- <202406050852.hDtfskO0-lkp@intel.com>
- <CAG=2xmOQBaUki43jpUnP7F-RvkxXroQ46_CuXvbQyps=MvvYAg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FId8ay2A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717620007; x=1749156007;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IAz5hNWndKZuuFvG221hpobSIgq7Dy8QGtnLI3nP/6g=;
+  b=FId8ay2A9d/17jsrf6c0rERiKz+NaK0ToZre/M5GBrt+CLaWoQYnn6eA
+   HnVVcrL8YBRq1ZtM0hA4X7JPrAm/5GL+ixxCcfJK0Rgl8nNLyxZiXC49y
+   4sc+ECn6AJ4wYI/yVfFjyWcbc7/4R3pTO2mX+1aMQan4hWKFTirtbsBuk
+   5kFSOb3nwOghJBc2npskTmcoZ0qj6qRqoDLqYFb0Iv0X2ObGmnuy21b9f
+   K92xN2KHMWYu3QBp+DqYc/SF9iUDmm5i7/axcn1KdveMggS7YOUsRyBPA
+   i0GZm0ApeQcpV6g+O/lZTp8x4XfWQdmIax1kJ2xxgfbXKyZix6rABY5BE
+   g==;
+X-CSE-ConnectionGUID: 6vw1pQ74T8Oq+Fp3GnAohA==
+X-CSE-MsgGUID: U9hcPzxkTgCtWKKa81mu2g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="24887160"
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
+   d="scan'208";a="24887160"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 13:40:07 -0700
+X-CSE-ConnectionGUID: ada0nqkkQ0uQWF8i62j37Q==
+X-CSE-MsgGUID: wGLocmXwSAefOkSGgDX5UQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
+   d="scan'208";a="42286664"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2024 13:40:06 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sExQR-0002E2-2Z;
+	Wed, 05 Jun 2024 20:40:03 +0000
+Date: Thu, 6 Jun 2024 04:39:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/next 13/23] zc_rx.c:undefined reference to
+ `tcp_recvmsg'
+Message-ID: <202406060446.6d7L6GJT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG=2xmOQBaUki43jpUnP7F-RvkxXroQ46_CuXvbQyps=MvvYAg@mail.gmail.com>
 
-On Wed, Jun 05, 2024 at 07:31:55PM +0000, Adrián Moreno wrote:
-> On Wed, Jun 05, 2024 at 08:29:22AM GMT, kernel test robot wrote:
-> > Hi Adrian,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on net-next/main]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Moreno/net-psample-add-user-cookie/20240604-030055
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20240603185647.2310748-6-amorenoz%40redhat.com
-> > patch subject: [PATCH net-next v2 5/9] net: openvswitch: add emit_sample action
-> > config: s390-randconfig-002-20240605 (https://download.01.org/0day-ci/archive/20240605/202406050852.hDtfskO0-lkp@intel.com/config)
-> > compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406050852.hDtfskO0-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406050852.hDtfskO0-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    s390x-linux-ld: net/openvswitch/actions.o: in function `do_execute_actions':
-> > >> actions.c:(.text+0x1d5c): undefined reference to `psample_sample_packet'
-> >
-> 
-> Thanks robot!
-> 
-> OK, I think I know what's wrong. There is an optional dependency with
-> PSAMPLE. Openvswitch module does compile without PSAMPLE but there is a
-> link error if OPENVSWITCH=y and PSAMPLE=m.
-> 
-> Looking into how to express this in the Kconfig, I'm planning to add the
-> following to the next version of the series.
-> 
-> diff --git a/net/openvswitch/Kconfig b/net/openvswitch/Kconfig
-> index 29a7081858cd..2535f3f9f462 100644
-> --- a/net/openvswitch/Kconfig
-> +++ b/net/openvswitch/Kconfig
-> @@ -10,6 +10,7 @@ config OPENVSWITCH
->  		   (NF_CONNTRACK && ((!NF_DEFRAG_IPV6 || NF_DEFRAG_IPV6) && \
->  				     (!NF_NAT || NF_NAT) && \
->  				     (!NETFILTER_CONNCOUNT || NETFILTER_CONNCOUNT)))
-> +	depends on PSAMPLE || !PSAMPLE
->  	select LIBCRC32C
->  	select MPLS
->  	select NET_MPLS_GSO
-> 
+tree:   https://github.com/isilence/linux zcrx/next
+head:   29852d1c1b9a57136f9fcb2c8a2a46ed5e723fe3
+commit: bb34a467261478f55af42bf8d18638d67e300b5f [13/23] io_uring: add io_recvzc request
+config: i386-buildonly-randconfig-006-20240605 (https://download.01.org/0day-ci/archive/20240606/202406060446.6d7L6GJT-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060446.6d7L6GJT-lkp@intel.com/reproduce)
 
-Thanks Adrián,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406060446.6d7L6GJT-lkp@intel.com/
 
-I both agree that should work, and tested with the config at the link above
-and found that it does work.
+All errors (new ones prefixed by >>):
+
+   ld: io_uring/zc_rx.o: in function `io_zcrx_recv':
+>> zc_rx.c:(.text+0x10b6): undefined reference to `tcp_recvmsg'
+>> ld: zc_rx.c:(.text+0x10fe): undefined reference to `tcp_read_sock'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
