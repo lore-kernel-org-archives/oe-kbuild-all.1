@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFE0E573
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 08:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B9415573B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 09:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717662872; cv=none; b=H3Ybxw9O1mUt2Uazp7O3oFWQZmhrAQ0c9aYKplSMkSUOrnQo6qHEYEd5myavsFDongm4zwy0koZ90dp7f7odnaCUbj7kIiXdEagqQU1V9q09ZlOmqtDn4FRX5jM1g8iuWEOmCU+jqj3d4EjbtKxIRhU1WUwfk3w6eZXGyiPt67w=
+	t=1717664565; cv=none; b=eIDhsf1xXf6tQHSreJUnNpeNZKSFgS6EzTmTVowMVKAe9bqBLV+HRgtYfuK76c/u+W1c3L8e5+zExM0RR+BZD2ofL+ajXT6GZJ7+U4HdANeso42Df35yvYx9s16BsOfFOnUbyM3ow9Lcv4h1uYZWv8Sx8jrKqR9RhQdMKqVk+jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717662872; c=relaxed/simple;
-	bh=RdwFWD65OoKPQfprbh1lzHRMyDWlpC3QIEpyfqP5jsI=;
+	s=arc-20240116; t=1717664565; c=relaxed/simple;
+	bh=mCpxfybVw+s5t6VAkDxz45g2sACkRSwSf/rV11JR9GM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IoRLOaFBfWrcZeIpuSc2FvvcPk8lxShQTab8xRtcrOxEoYvPyhuOVXYdEKYT+lrrrm7CMjvNMvpnUYTJ/xINYudsQ9TgcTL2jM9goxGwqmyzkfVE1VjgQADOzMG2+XDshNBkliBTyHewiAgUIvArfgWt4LZfXjqAL85qmG4/4BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chnOKPJp; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=BU4s66+2nZDnJmDDX15d/S/ruy4BHRhANjFfP/XPwWeYvquSa1fQke+yEQf1CeI8skyKgeOLZqWCPv2wW0ylwn5i6QSXogjiTLCryHd4lAu6tfDuvhcf9nlVuB6OdBWoBUtRRTxKJ1iBWc0nyM2tZGcWE7iy1qa7Dby3W02mVIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NLBMMLtx; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chnOKPJp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717662870; x=1749198870;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RdwFWD65OoKPQfprbh1lzHRMyDWlpC3QIEpyfqP5jsI=;
-  b=chnOKPJpNV+mxDIeCyMgNdX+0Zskpp0PuhwoYDDwHrOo/3UFaBYIIMwu
-   dDwBvpheghlDIU6Y5VvYVTBKwwSuxEY2Ml5Rp394lRb+/E1IyPj6PE5iT
-   JnMae2VN6dAIMRTWIZ88lX/apMcpuILO7z6CITVDPv5Iokq8K4G50/GI7
-   sA3PndAIVF42wzw+YkHGRnN9pooPQ6Age/SXE3/RlqSUpO/q1rNz0vNcG
-   /U3cPwqgjmvU/hogXf45gbrPiK/+LmzU8oa4f8SIr0PB+ssJUlV/rnGRn
-   KZ4oiVhYAK7IviIBFv4UCXK2MyEWvX00oYiJCsGtA4pzdkNYZcYg3GOZQ
-   A==;
-X-CSE-ConnectionGUID: UgGRm8bjS9u/z3qfaGlgmA==
-X-CSE-MsgGUID: fzXkhrTkQQKW5bZLzEgMuw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="24883572"
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="24883572"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 01:34:30 -0700
-X-CSE-ConnectionGUID: zPqwUyncRdO0ZowaL0NjEg==
-X-CSE-MsgGUID: XIokBcxAQ6auO+r6RPbZwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="38001259"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Jun 2024 01:34:27 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sF8Zl-0002rE-0K;
-	Thu, 06 Jun 2024 08:34:25 +0000
-Date: Thu, 6 Jun 2024 16:33:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: include/linux/mtd/map.h:381:(.xiptext+0x17af): dangerous relocation:
- windowed longcall crosses 1GB boundary; return may fail: __tsan_write_range
-Message-ID: <202406061616.NSqhiIhR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NLBMMLtx"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57aa64c6bbfso583553a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Jun 2024 02:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717664560; x=1718269360; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3jhqJzVWKZBINGIderyOHidcYli4dqLXjpNqkP4LDD4=;
+        b=NLBMMLtxZr6qmlMBabfQyucYd9uYYmJ8yk5D+dEXSM1yopZnI7RFk9z1TblUi9UN+2
+         TLTsvg7WiRqyxVxsWjoOn71+5NAnUlSceORN9hlQHHcOm4fosxzpytKvoOWLbPnB5bto
+         EQomcgP3rQIoaw/FYpDuKyOUCTWsBFkY9PMQ5mx3Lhs/g/n5KWY4DXD0VRdWvmraoqQR
+         CmrYa+TzTyIPYullOpTp9O8Icq7NyjsV+mU2P0twRYIjwdJImonezos3xIFsGFQPNAQ5
+         onrmCwWjWdb0wK0fLqwhm7TZ6BhSiP+7cYle6uh5u6gKIVaaz+fAt2OECxrIfUtk923i
+         ixIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717664560; x=1718269360;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3jhqJzVWKZBINGIderyOHidcYli4dqLXjpNqkP4LDD4=;
+        b=JLolsHAebtLIOQlK0VM7fL2qLT4SPZjklu1H2emADrgNwFeyXjGx1oeX3lUM6lIhOv
+         Q1M9rGqaweWd7fuhCoP3JF+Cy4npWyL/l95XJMxXnCGZFpj56cujhb1C4fsZfeBj/5Dl
+         VKAdMq+YlUV6c1Y3o1W1cVY6Ouc90KPiCVFVixIo3qburfNi/1MHCy4S9J/5Xm5U6AKK
+         so3mh0WUHhy+qQ6AKQnQkq8N8d8gf5syzRvx+ZEabaQtCBcfZkt8D/tc1UbKjU0pMUMG
+         EcpCTz3OTLrvoq1HmuAL1VZE+YIODbts9OGdXPQKpfeuNCXV9kQSkzKtiFdp8IDyh62O
+         YElQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVb40gib76/fi2L0COX3U+DvXk+oDpxb6gI+dTr3nPH6sc97ZDND1Xb8GkTywkS4mgSiPuS1iqpGVaUzedr182bIgJmeF/Zwf1a5I/rPg==
+X-Gm-Message-State: AOJu0Ywr4pEtCYTTAlG6FaVPKXia1k/8qt2+UA2LzNbFmzjzZXsfFnQS
+	uTh2fUAG2coaCsj0uRh56daXINvacfKgR8c8dX/KZAA34TRqJ08hzlD0aNSUX7o=
+X-Google-Smtp-Source: AGHT+IFaVLx5dgwnC0TMCfiKkqRrwIvNS5Mx2Z2QJryQfdCTPctVUM2HpPWn3S2o+xJhrcNy53Wl+g==
+X-Received: by 2002:a50:aa93:0:b0:57a:27f5:1272 with SMTP id 4fb4d7f45d1cf-57a8b6b709fmr3119565a12.24.1717664560342;
+        Thu, 06 Jun 2024 02:02:40 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aadf9b9d0sm740521a12.2.2024.06.06.02.02.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jun 2024 02:02:39 -0700 (PDT)
+Date: Thu, 6 Jun 2024 12:02:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jeremy Kerr <jk@codeconstruct.com.au>,
+	David Ahern <dsahern@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
+Message-ID: <0510655b-f42e-47e0-81e6-29ab58645c51@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,385 +69,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2df0193e62cf887f373995fb8a91068562784adc
-commit: 2416a2e7be9b27157f173268f5c7f769bd72a8dc mtd: chips: remove redundant assignment to variable timeo
-date:   3 months ago
-config: xtensa-randconfig-s041-20230103 (https://download.01.org/0day-ci/archive/20240606/202406061616.NSqhiIhR-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061616.NSqhiIhR-lkp@intel.com/reproduce)
+Hi Jeremy,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
+base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
+patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
+patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
+config: x86_64-randconfig-161-20240606 (https://download.01.org/0day-ci/archive/20240606/202406061253.ZgaLHWWp-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406061616.NSqhiIhR-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406061253.ZgaLHWWp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+net/core/dev.c:10871 dev_fetch_dstats() error: uninitialized symbol 'dstats'.
 
-   drivers/mtd/chips/cfi_cmdset_0002.c:1304:(.xiptext+0x1287): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1304:(.xiptext+0x1293): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_done':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1742:(.xiptext+0x129f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1742:(.xiptext+0x12ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1743:(.xiptext+0x12c8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1744:(.xiptext+0x12d0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1746:(.xiptext+0x12e3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1747:(.xiptext+0x12f6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1304): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2f80)
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x130e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1316): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1321): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x132a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1338): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1340): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1350): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x135e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1368): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_start':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x1375): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1718:(.xiptext+0x137e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1725:(.xiptext+0x13c1): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1729:(.xiptext+0x13cc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1730:(.xiptext+0x13dc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `otp_enter':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1278:(.xiptext+0x13e7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x13fe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x1406): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x1414): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x141e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x1434): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x143c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x144a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x1454): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x146c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x1474): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x1482): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x148c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x14a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x14ac): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x14ba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_start':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x14c4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x14da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x14e2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1795:(.xiptext+0x14f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1795:(.xiptext+0x14fa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1795:(.xiptext+0x1510): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:1795:(.xiptext+0x151b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1798:(.xiptext+0x1527): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
-   drivers/mtd/chips/cfi_cmdset_0002.c:1803:(.xiptext+0x153c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1807:(.xiptext+0x1547): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1807:(.xiptext+0x1552): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1809:(.xiptext+0x1560): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x1580): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x158f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x1597): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15a2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15b2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15c0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15d6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15de): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15e4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x15fa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1604): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x160c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1618): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1620): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x162f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1641): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1656): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1662): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x1724)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1670): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x167e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x168c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x16a5): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x16ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x16c0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x16cb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x16e8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x16f4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1708): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1713): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1720): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x172a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2cf4)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x1732): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.c:2413:(.xiptext+0x1738): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2413:(.xiptext+0x173e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
-   drivers/mtd/chips/cfi_cmdset_0002.c:2413:(.xiptext+0x174f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __stack_chk_fail
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_current':
-   arch/xtensa/include/asm/current.h:24:(.xiptext+0x1772): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2416:(.xiptext+0x178f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_entry
-   drivers/mtd/chips/cfi_cmdset_0002.c:2416:(.xiptext+0x1795): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2412:(.xiptext+0x179e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `map_word_ff':
->> include/linux/mtd/map.h:381:(.xiptext+0x17af): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write_range
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2421:(.xiptext+0x17cf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2423:(.xiptext+0x17da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2424:(.xiptext+0x17e6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2426:(.xiptext+0x17f7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x180c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x1814): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x181f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x1832): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0002.c:2434:(.xiptext+0x1840): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2f80)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2434:(.xiptext+0x184a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2434:(.xiptext+0x1852): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `xip_disable':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1025:(.xiptext+0x185d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1025:(.xiptext+0x1866): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1025:(.xiptext+0x1870): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1027:(.xiptext+0x1880): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1027:(.xiptext+0x188e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1027:(.xiptext+0x1898): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2450:(.xiptext+0x18a5): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2438:(.xiptext+0x18ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2439:(.xiptext+0x1904): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2439:(.xiptext+0x1910): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2439:(.xiptext+0x191e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x1928): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x1940): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x1948): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x1956): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x1960): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x1976): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x197e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x198c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x1997): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x19ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x19b6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x19c4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x19cf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x19e6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x19ee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x19fc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2445:(.xiptext+0x1a06): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2446:(.xiptext+0x1a1c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2447:(.xiptext+0x1a26): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2448:(.xiptext+0x1a3b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2448:(.xiptext+0x1a47): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2450:(.xiptext+0x1a5c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2454:(.xiptext+0x1a67): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2454:(.xiptext+0x1a76): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_current':
-   arch/xtensa/include/asm/current.h:24:(.xiptext+0x1a96): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   arch/xtensa/include/asm/current.h:24:(.xiptext+0x1aa3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2459:(.xiptext+0x1aab): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2460:(.xiptext+0x1ab6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2461:(.xiptext+0x1ac6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2463:(.xiptext+0x1ad4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2465:(.xiptext+0x1aea): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x1af2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x1af8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   drivers/mtd/chips/cfi_cmdset_0002.c:2470:(.xiptext+0x1b04): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   drivers/mtd/chips/cfi_cmdset_0002.c:2471:(.xiptext+0x1b0e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0002.c:2471:(.xiptext+0x1b18): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2471:(.xiptext+0x1b20): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2474:(.xiptext+0x1b2c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2474:(.xiptext+0x1b34): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2475:(.xiptext+0x1b43): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2475:(.xiptext+0x1b55): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2480:(.xiptext+0x1b6a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2488:(.xiptext+0x1b76): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x1724)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2488:(.xiptext+0x1b84): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x1b92): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x1ba0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x1bb8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x1bc0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2502:(.xiptext+0x1bd0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2502:(.xiptext+0x1bda): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2504:(.xiptext+0x1bf6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2504:(.xiptext+0x1c00): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2505:(.xiptext+0x1c14): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2506:(.xiptext+0x1c1f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2509:(.xiptext+0x1c2c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2509:(.xiptext+0x1c36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2cf4)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2509:(.xiptext+0x1c3e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.c:2509:(.xiptext+0x1c44): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2509:(.xiptext+0x1c4a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
-   drivers/mtd/chips/cfi_cmdset_0002.c:2509:(.xiptext+0x1c5b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __stack_chk_fail
-   drivers/mtd/chips/cfi_cmdset_0002.c:2513:(.xiptext+0x1da2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/chips/cfi_cmdset_0002.c:2513:(.xiptext+0x1db7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_entry
-   drivers/mtd/chips/cfi_cmdset_0002.c:2513:(.xiptext+0x1dbd): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2513:(.xiptext+0x1dc8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2513:(.xiptext+0x1dd6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2514:(.xiptext+0x1df0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
-   drivers/mtd/chips/cfi_cmdset_0002.c:2516:(.xiptext+0x1dff): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2f80)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2516:(.xiptext+0x1e0b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `current_thread_info':
-   arch/xtensa/include/asm/thread_info.h:97:(.xiptext+0x1e14): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2516:(.xiptext+0x1e1d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_current':
-   arch/xtensa/include/asm/current.h:24:(.xiptext+0x1e2b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2516:(.xiptext+0x1e36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2516:(.xiptext+0x1e3e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2516:(.xiptext+0x1e4d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `map_word_ff':
-   include/linux/mtd/map.h:378:(.xiptext+0x1e56): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   include/linux/mtd/map.h:381:(.xiptext+0x1e62): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read_range
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2521:(.xiptext+0x1e78): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2523:(.xiptext+0x1e84): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2523:(.xiptext+0x1e8e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read_range
-   drivers/mtd/chips/cfi_cmdset_0002.c:2527:(.xiptext+0x1eb2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2533:(.xiptext+0x1ebb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2533:(.xiptext+0x1ec7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2534:(.xiptext+0x1ed8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2534:(.xiptext+0x1ee6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2534:(.xiptext+0x1ef2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `xip_disable':
-   drivers/mtd/chips/cfi_cmdset_0002.c:1025:(.xiptext+0x1f01): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:1025:(.xiptext+0x1f0a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1027:(.xiptext+0x1f22): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:1027:(.xiptext+0x1f30): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2550:(.xiptext+0x1f44): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2538:(.xiptext+0x1f5f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2538:(.xiptext+0x1f6a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2538:(.xiptext+0x1f78): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2538:(.xiptext+0x1f84): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2539:(.xiptext+0x1f9e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2539:(.xiptext+0x1fab): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2539:(.xiptext+0x1fbb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2539:(.xiptext+0x1fd3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2540:(.xiptext+0x1fdf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2540:(.xiptext+0x1fee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2540:(.xiptext+0x1ffe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.c:2541:(.xiptext+0x200f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2541:(.xiptext+0x2025): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2541:(.xiptext+0x202e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2541:(.xiptext+0x2036): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
-   drivers/mtd/chips/cfi_cmdset_0002.c:2541:(.xiptext+0x2042): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2542:(.xiptext+0x204b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2542:(.xiptext+0x2056): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read_range
-   drivers/mtd/chips/cfi_cmdset_0002.c:2542:(.xiptext+0x206d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2542:(.xiptext+0x2076): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2543:(.xiptext+0x2082): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read_range
-   drivers/mtd/chips/cfi_cmdset_0002.c:2546:(.xiptext+0x20a9): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2546:(.xiptext+0x20b2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: panic
-   drivers/mtd/chips/cfi_cmdset_0002.c:2547:(.xiptext+0x20b8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2548:(.xiptext+0x20c0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2550:(.xiptext+0x20d7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2554:(.xiptext+0x20f8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2557:(.xiptext+0x2104): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2557:(.xiptext+0x210c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_current':
->> arch/xtensa/include/asm/current.h:24:(.xiptext+0x211c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   drivers/mtd/chips/cfi_cmdset_0002.c:2559:(.xiptext+0x2130): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2560:(.xiptext+0x213f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2563:(.xiptext+0x2160): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2567:(.xiptext+0x2170): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2570:(.xiptext+0x2187): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2571:(.xiptext+0x2192): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/chips/cfi_cmdset_0002.c:2571:(.xiptext+0x219c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2571:(.xiptext+0x21a9): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2574:(.xiptext+0x21b3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2cf4)
-   drivers/mtd/chips/cfi_cmdset_0002.c:2574:(.xiptext+0x21bc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.c:2575:(.xiptext+0x21c2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.c:2575:(.xiptext+0x21c8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
-   drivers/mtd/maps/map_funcs.o:drivers/mtd/maps/map_funcs.c:29:(.xiptext+0xe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_to':
-   drivers/mtd/maps/map_funcs.c:29:(.xiptext+0x23): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_entry
-   drivers/mtd/maps/map_funcs.c:29:(.xiptext+0x29): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:29:(.xiptext+0x32): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.o: in function `inline_map_copy_to':
-   include/linux/mtd/map.h:440:(.xiptext+0x42): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy
-   include/linux/mtd/map.h:440:(.xiptext+0x48): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_to':
-   drivers/mtd/maps/map_funcs.c:31:(.xiptext+0x62): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0x77): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_entry
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0x7d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0x86): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0x92): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_from':
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0x9c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0xaa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy
-   drivers/mtd/maps/map_funcs.c:24:(.xiptext+0xb4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:25:(.xiptext+0xc2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy
-   drivers/mtd/maps/map_funcs.c:25:(.xiptext+0xc8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:25:(.xiptext+0xce): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
-   drivers/mtd/maps/map_funcs.o: in function `memcpy_fromio':
-   include/asm-generic/io.h:1184:(.xiptext+0xfa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_from':
-   include/asm-generic/io.h:1184:(.xiptext+0x10f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_entry
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_from':
-   drivers/mtd/maps/map_funcs.c:26:(.xiptext+0x115): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:26:(.xiptext+0x11e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x12a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x136): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x143): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write1
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x151): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x15a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x167): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write2
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_write':
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x175): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x17e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:19:(.xiptext+0x188): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write4
-   drivers/mtd/maps/map_funcs.c:20:(.xiptext+0x195): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:20:(.xiptext+0x19e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: panic
-   drivers/mtd/maps/map_funcs.c:20:(.xiptext+0x1a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:20:(.xiptext+0x1ac): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_atomic_signal_fence
-   drivers/mtd/maps/map_funcs.o: in function `inline_map_write':
-   include/linux/mtd/map.h:414:(.xiptext+0x1b5): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
-   include/linux/mtd/map.h:426:(.xiptext+0x216): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _mcount
-   include/linux/mtd/map.h:427:(.xiptext+0x22b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_entry
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_write':
-   include/linux/mtd/map.h:427:(.xiptext+0x231): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_write':
-   drivers/mtd/maps/map_funcs.c:21:(.xiptext+0x23a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.c:21:(.xiptext+0x246): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x252): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x25e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read1
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x26d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x276): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x282): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read2
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_read':
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x291): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x29a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:14:(.xiptext+0x2a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
-   drivers/mtd/maps/map_funcs.c:15:(.xiptext+0x2b1): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:15:(.xiptext+0x2ba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: panic
-   drivers/mtd/maps/map_funcs.c:15:(.xiptext+0x2c0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.c:15:(.xiptext+0x2c6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_func_exit
+vim +/dstats +10871 net/core/dev.c
 
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10860  void dev_fetch_dstats(struct rtnl_link_stats64 *s,
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10861  		      const struct pcpu_dstats __percpu *dstats)
+                                                                                                         ^^^^^^
 
-vim +381 include/linux/mtd/map.h
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10862  {
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10863  	int cpu;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10864  
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10865  	for_each_possible_cpu(cpu) {
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10866  		u64 rx_packets, rx_bytes, rx_drops;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10867  		u64 tx_packets, tx_bytes, tx_drops;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10868  		const struct pcpu_dstats *dstats;
+                                                                                          ^^^^^^
+Don't declare a local dstats which shadows the function scope variable.
 
-3a3ab48c68de65 Thomas Gleixner 2005-05-24  372  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  373  static inline map_word map_word_ff(struct map_info *map)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  374  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  375  	map_word r;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  376  	int i;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  377  
-b0435695cb3b3e Thomas Gleixner 2005-05-25  378  	if (map_bankwidth(map) < MAP_FF_LIMIT) {
-a8aff8ab981cc8 Thomas Gleixner 2005-05-25  379  		int bw = 8 * map_bankwidth(map);
-7234bea69de200 Arnd Bergmann   2015-03-10  380  
-a4d62babf988fe Wang Haitao     2013-08-22 @381  		r.x[0] = (1UL << bw) - 1;
-3a3ab48c68de65 Thomas Gleixner 2005-05-24  382  	} else {
-3a3ab48c68de65 Thomas Gleixner 2005-05-24  383  		for (i = 0; i < map_words(map); i++)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  384  			r.x[i] = ~0UL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  385  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  386  	return r;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  387  }
-f77814dd5728ed Nicolas Pitre   2005-02-08  388  
-
-:::::: The code at line 381 was first introduced by commit
-:::::: a4d62babf988fe5dfde24437fa135ef147bc7aa0 mtd: map: fixed bug in 64-bit systems
-
-:::::: TO: Wang Haitao <wang.haitao1@zte.com.cn>
-:::::: CC: Brian Norris <computersforpeace@gmail.com>
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10869  		unsigned int start;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10870  
+85bc70c64e8362d Jeremy Kerr     2024-06-05 @10871  		dstats = per_cpu_ptr(dstats, cpu);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10872  		do {
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10873  			start = u64_stats_fetch_begin(&dstats->syncp);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10874  			rx_packets = u64_stats_read(&dstats->rx_packets);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10875  			rx_bytes   = u64_stats_read(&dstats->rx_bytes);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10876  			rx_drops   = u64_stats_read(&dstats->rx_drops);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10877  			tx_packets = u64_stats_read(&dstats->tx_packets);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10878  			tx_bytes   = u64_stats_read(&dstats->tx_bytes);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10879  			tx_drops   = u64_stats_read(&dstats->tx_drops);
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10880  		} while (u64_stats_fetch_retry(&dstats->syncp, start));
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10881  
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10882  		s->rx_packets += rx_packets;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10883  		s->rx_bytes   += rx_bytes;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10884  		s->rx_dropped += rx_drops;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10885  		s->tx_packets += tx_packets;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10886  		s->tx_bytes   += tx_bytes;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10887  		s->tx_dropped += tx_drops;
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10888  	}
+85bc70c64e8362d Jeremy Kerr     2024-06-05  10889  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
