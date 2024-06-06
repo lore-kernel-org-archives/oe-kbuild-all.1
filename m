@@ -1,183 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD38413BC3A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 07:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74852260C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 07:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717658476; cv=none; b=W/bhOPJvEAl+5PmzWO5aJGJJlqdcHimEz9RoBH35ZTEKwOc6Dl9bkzhQcXIWQdKRlqs9hie0/CEvDt4IM6fTUN3Wk81DUDYomEVlR7FvkgirJSWvB/Vh50IfWgswk80R9CYFK8LcubUW0TFxLsS8yPG14kNl+L6+lTxgOZHj4EI=
+	t=1717659657; cv=none; b=a9DftwGj/LkBnhObeZShj4TuV0iByByd0f1gqTfQMWMMilvooA7VKX+ZrIdnEL7TBhxty1F8TxzJkDtJPf5CUt7N+lb2HhfjxHRH+4XSOgTxRmCIhSRDkkupDO0YRVHAfJ+mNVhRhGP3eS3XhrBmxe7jTwc1EObLYeyd7YDx3Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717658476; c=relaxed/simple;
-	bh=QD4Dh8MLYOkud3AMPflq2aHwK8HUP7fobAgy/H0UKDA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=W7be2c5j5JV7Rb0IJmxKwxDDdHtXe8vrs+Cgr2gRXC7V2BHzlNnCsRzkfPTHF0VFBvuk85RvRnmDHjx4OSQq5bdG5Jo04XH7e+y3oLSwmpt6VYJNQHdXJ9i6RVRegRfE6TLYlkhVDaCdgfe5tsHg53nsYpHTfGwcxq4xFK5QvCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W13iCal+; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	s=arc-20240116; t=1717659657; c=relaxed/simple;
+	bh=C3Ato6lx+EXoU58rKKvuy/luz3LA7CKJ4nY2ZwYbIN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sS/OFtIC9uN3LRYlsQmLCN1lCpvkJ2x9/IMQjyTlt9EpzwEBw2eKwxYYfYd5m9UORfYasr1S8egifQW0+badp4xLjoUC3Fwu9Cinz0J0791CMDcP8YjfvhAoUid/Cw0I18tTny1SZz9bywBDGpdOIvoOIXgAp2MZ8157WuIwY+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRHF12+Q; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W13iCal+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRHF12+Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717658474; x=1749194474;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=QD4Dh8MLYOkud3AMPflq2aHwK8HUP7fobAgy/H0UKDA=;
-  b=W13iCal+q0SluhaypB2NOFgKTY8lHrdacPljpzmliv/ds1RJLG1nAXtB
-   epeOOhFhfinZRuTYii/Vx3xsHy5t/1nvv+Eg+7VML5gVudeRCMfVXjxwr
-   SAIDrxZOT8qoTxlDBKUwmy5NPk5he2f189b0S3i7bSG8BJPSgua3MaziW
-   iQKeK8Rc/jsuYVY+JBxrBer4M+XXQ6f0acwc4II//OSaatTq6CSPCZa32
-   1PXC/60FvwdX84NBN7NSHN37rmDNyTjBQdl4J1qNGwn+r56OnURevUhMY
-   jEqeDxYAmO6m5cCsccOmInZEjZcNla/7TnjzW96ecY8F/HN9q208upbAl
+  t=1717659656; x=1749195656;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C3Ato6lx+EXoU58rKKvuy/luz3LA7CKJ4nY2ZwYbIN0=;
+  b=QRHF12+Qc0OFfpcHpXLdIhzpuZN8xaoRsj981OAcYytYlk4M/eDo529Z
+   tM9PJY77jeVOUrNXMdfwOpMcxal66njb52jAoLpiSeCH9jfMwQhisdau4
+   UlUeMPr+jRWmjwnKYLFcBaJs1SEa6f5gywwuPhjmNamUfDBhNo9zli+cR
+   Gmla1RgI5ZPhlZoZXNASrlg6chsNXGe/yAKXFj9d+WdBan2xhoqr+vuZF
+   CE6HN+FGmas+XTsHS3KroCUTRIR38pPOmFjeeJHWgPuZd/K7QdcbsSVPh
+   xET782FKZJos/1MRs+Z0yUvbRvHSu82lpCaPoCG5ltXh1ZXaClH98Y0sL
    g==;
-X-CSE-ConnectionGUID: 0q7nzuCKQPiYkhNtUEsdaw==
-X-CSE-MsgGUID: d4TV/gsbRfOADGZNHG5+RA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14147844"
+X-CSE-ConnectionGUID: 4kzIIuuxSWuFXGkbJQXy5w==
+X-CSE-MsgGUID: EvlTG2C9R3CWtq5WhrViDQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14445018"
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="14147844"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 00:21:14 -0700
-X-CSE-ConnectionGUID: v/EJ7GX4RJOkNXeZvA21Fg==
-X-CSE-MsgGUID: dO3Tae8ZQJKIx4SLwrVfQw==
+   d="scan'208";a="14445018"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 00:40:56 -0700
+X-CSE-ConnectionGUID: 6W+b1wHuQu+0pRVMrCCHzQ==
+X-CSE-MsgGUID: RUqklMKBR862RA+Jn3Gztg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="42794382"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.9])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 00:21:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Chris Bainbridge <chris.bainbridge@gmail.com>, kernel test robot
- <lkp@intel.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- hughsient@gmail.com
-Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
- initialization
-In-Reply-To: <ZmB_cs-7GU-m3GXX@debian.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240528210319.1242-1-mario.limonciello@amd.com>
- <202406040928.Eu1gRIWv-lkp@intel.com> <ZmB_cs-7GU-m3GXX@debian.local>
-Date: Thu, 06 Jun 2024 10:21:07 +0300
-Message-ID: <87h6e6bkpo.fsf@intel.com>
+   d="scan'208";a="42973481"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 06 Jun 2024 00:40:54 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sF7jw-0002oY-11;
+	Thu, 06 Jun 2024 07:40:52 +0000
+Date: Thu, 6 Jun 2024 15:40:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:upstream-linux-5.15.y 264/377] ld.lld: error:
+ undefined symbol: ntb_db_event
+Message-ID: <202406061525.bx8W6SDR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 05 Jun 2024, Chris Bainbridge <chris.bainbridge@gmail.com> wrote:
-> On Tue, Jun 04, 2024 at 10:02:29AM +0800, kernel test robot wrote:
->> Hi Mario,
->> 
->> kernel test robot noticed the following build errors:
->> 
->> [auto build test ERROR on drm-misc/drm-misc-next]
->> [also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc2 next-20240603]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->> 
->> url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-client-Detect-when-ACPI-lid-is-closed-during-initialization/20240529-050440
->> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->> patch link:    https://lore.kernel.org/r/20240528210319.1242-1-mario.limonciello%40amd.com
->> patch subject: [PATCH v2] drm/client: Detect when ACPI lid is closed during initialization
->> config: i386-randconfig-053-20240604 (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/config)
->> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/reproduce)
->> 
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202406040928.Eu1gRIWv-lkp@intel.com/
->> 
->> All errors (new ones prefixed by >>):
->> 
->>    ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_match_edp_lid':
->> >> drivers/gpu/drm/drm_client_modeset.c:281:(.text+0x221b): undefined reference to `acpi_lid_open'
->> 
->> 
->> vim +281 drivers/gpu/drm/drm_client_modeset.c
->> 
->>    260	
->>    261	static void drm_client_match_edp_lid(struct drm_device *dev,
->>    262					     struct drm_connector **connectors,
->>    263					     unsigned int connector_count,
->>    264					     bool *enabled)
->>    265	{
->>    266		int i;
->>    267	
->>    268		for (i = 0; i < connector_count; i++) {
->>    269			struct drm_connector *connector = connectors[i];
->>    270	
->>    271			switch (connector->connector_type) {
->>    272			case DRM_MODE_CONNECTOR_LVDS:
->>    273			case DRM_MODE_CONNECTOR_eDP:
->>    274				if (!enabled[i])
->>    275					continue;
->>    276				break;
->>    277			default:
->>    278				continue;
->>    279			}
->>    280	
->>  > 281			if (!acpi_lid_open()) {
->>    282				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
->>    283					    connector->base.id, connector->name);
->>    284				enabled[i] = false;
->>    285			}
->>    286		}
->>    287	}
->>    288	
->> 
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
->
-> The failed config has CONFIG_ACPI_BUTTON=m. The build failure can be
-> fixed with:
->
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index b76438c31761..0271e66f44f8 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -271,11 +271,13 @@ static void drm_client_match_edp_lid(struct drm_device *dev,
->                 if (connector->connector_type != DRM_MODE_CONNECTOR_eDP || !enabled[i])
->                         continue;
->
-> +#if defined(CONFIG_ACPI_BUTTON)
->                 if (!acpi_lid_open()) {
->                         drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
->                                     connector->base.id, connector->name);
->                         enabled[i] = false;
->                 }
-> +#endif
->         }
->  }
+tree:   https://android.googlesource.com/kernel/common upstream-linux-5.15.y
+head:   c61bd26ae81a896c8660150b4e356153da30880a
+commit: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb [264/377] PCI: endpoint: Support NTB transfer between RC and EP
+config: i386-randconfig-r111-20240606 (https://download.01.org/0day-ci/archive/20240606/202406061525.bx8W6SDR-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061525.bx8W6SDR-lkp@intel.com/reproduce)
 
-No. This is because
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406061525.bx8W6SDR-lkp@intel.com/
 
-CONFIG_DRM=y
-CONFIG_ACPI_BUTTON=m
+All errors (new ones prefixed by >>):
 
-The pedantically correct fix is probably having DRM
-
-	depends on ACPI_BUTTON || ACPI_BUTTON=n
-
-but seeing how i915 and xe just
-
-	select ACPI_BUTTON if ACPI
-
-and nouveau basically uses acpi_lid_open() it if it's reachable with no
-regard to kconfig, it's anyone's guess what will work.
-
-
-BR,
-Jani.
-
-
+>> ld.lld: error: undefined symbol: ntb_db_event
+   >>> referenced by pci-epf-vntb.c:261 (drivers/pci/endpoint/functions/pci-epf-vntb.c:261)
+   >>>               pci/endpoint/functions/pci-epf-vntb.o:(epf_ntb_cmd_handler) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ntb_link_event
+   >>> referenced by pci-epf-vntb.c:173 (drivers/pci/endpoint/functions/pci-epf-vntb.c:173)
+   >>>               pci/endpoint/functions/pci-epf-vntb.o:(epf_ntb_cmd_handler) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ntb_register_device
+   >>> referenced by pci-epf-vntb.c:1242 (drivers/pci/endpoint/functions/pci-epf-vntb.c:1242)
+   >>>               pci/endpoint/functions/pci-epf-vntb.o:(pci_vntb_probe) in archive drivers/built-in.a
 
 -- 
-Jani Nikula, Intel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
