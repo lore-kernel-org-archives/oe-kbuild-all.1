@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941863EA72
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 06:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2BF1799F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 06:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717655712; cv=none; b=QlMPgBo5DQaJ444IPR1eFSVuDO/DeOM5ME3fIeyANYipVPWF+ahVvum8KhbGZdFhR/nWubHxbvz4wZxhMIa+AZL0S94aj31R9dyKFd3+lvmdxCRwVG++Pb/sxGl4Bx2OpveunI8H7fqLXWNheBdqq5ajz0ymETlz8TD3sudPKs0=
+	t=1717656327; cv=none; b=d0ucknfsKeVr/IXdZpEStdysJyEMsbr4o70I4AmEHwGuVLzsOloK5u2Q+/RbtXJkxsPZqwhg6naRSdLVDpUv3njNBwTkoCFCHktRamiTDQknDKAbdz7zqOhS/vfisqqhPYoGmaTzNCfBbhIBFhcK3u6NgzN0bPh5y17cwJStVho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717655712; c=relaxed/simple;
-	bh=IDwTm8ne3tQERc9oAjpdiOsTpEVmz0KtUNve6HXXI0Y=;
+	s=arc-20240116; t=1717656327; c=relaxed/simple;
+	bh=3q4wzSJm4vMmM9zMczMTuQYF13hwlu2zwEVuOIjRjiY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iXwxZB+dtqxFK3UNs7syQdglm5f9aH2RMDGJ/JVNoke5ty8IP8Ug/tF4SORs6X6TXjiBlj5gg7vKGmW+GybGvRCFGuRjJMoXwUWyW8QnMmcctZeahBFGYt11vQ9D61o+2fyC4URI9VvSa+cIADltiy36TYTcneOrn0R3b8nSQAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oko6zctt; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition:In-Reply-To; b=SQf3f1K4oPWc9VYmSwC9zVUntBmaiZGbNkUG+FTMKPP6O8Iv0unLI1/5/ZLSAnkF3wYDWnJf/oRxC0lAFz1RNqPtxfEeV6q3Xsmk34BtCBmYCfQptP1x/y9A2ukaqO3T+ybPnDdv/lO6otbX+wmxMjKV4z3CY/xfuQHxoD3Lbdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mja/a6U2; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oko6zctt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mja/a6U2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717655711; x=1749191711;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IDwTm8ne3tQERc9oAjpdiOsTpEVmz0KtUNve6HXXI0Y=;
-  b=Oko6zcttC1VfYl1yZaJyF0gYu5n+tUvHC3dpvBC2cSS2YaK7nhvXI80R
-   2sSloo8sH74fn1aRX1L9FiSr5YtBx157m0uA0eNbDL7pHiNDjKY5aHMMN
-   b5JoN2ZdJxUSVlr/YvKH/hBr9NOPk8Bn3N5GSB9op5j+5P81Td1OPi9VX
-   ruvA7mH3jP14rXL1adyvNQp3l2XmuMK0pIBYBUQhMHCNCWS5Igq8YBWG1
-   6DtkybYxbUVPisnfb+8m5DwipRGbExolfVjZaranUeX0g4asm3ZvUwynE
-   9eWkNrNqg/ZJEZVJGS1wQYSuD3xg0yAbVntEWjHFWlJoy1KBsvyKzUH+n
-   A==;
-X-CSE-ConnectionGUID: X4xtDITDQkelvf7lNJ5TUA==
-X-CSE-MsgGUID: iAqow6cPRDCKmoLvkTr0xQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="17237987"
+  t=1717656326; x=1749192326;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=3q4wzSJm4vMmM9zMczMTuQYF13hwlu2zwEVuOIjRjiY=;
+  b=Mja/a6U2gWAfVlKtj8O1/d+ulnv/uWyWSkJ89wyBo7YqZoMj1lfgndFV
+   0rVBVV+wG4DwXIOv5v5dNbVAh/3VK0kjMJlnSHUo31BTQug8rGp4b/o1J
+   +1aCR8d7VSVmvKMJi857dHaBRokHYTtuA1zGJk8MIbdNQ4C8yf5K3qhQ0
+   5IQy6xWV4rOOyuwSTA7nG44R34FfgYIrPZiFE4MvCVmupgLrXRrpJZLoH
+   7BI3pjN5bXITRG+wtq7ZFSUVxWHJTNM2X0U+GiEVnBf91Hj/WU611y3Ke
+   FhgWZzGaMzwuw8NCp+69GRxFPPXfHzZCbeaJT8ttp0P+JlTa3yJuHS7NZ
+   Q==;
+X-CSE-ConnectionGUID: aUJD9byiT4OpyxtWkLUkmA==
+X-CSE-MsgGUID: 98VbXH0eSpSiewnPT3PnGw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14437769"
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="17237987"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 23:35:10 -0700
-X-CSE-ConnectionGUID: lq6i8TFIQh+eAdTqQKBzMw==
-X-CSE-MsgGUID: u9ZainnyQRuRKEaiumv7rQ==
+   d="scan'208";a="14437769"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 23:45:26 -0700
+X-CSE-ConnectionGUID: Ttl83260S7Oo3PRphhIn1g==
+X-CSE-MsgGUID: Fwle9UYpS+2QFHluCC1p8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="37955450"
+   d="scan'208";a="42804582"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Jun 2024 23:35:08 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 Jun 2024 23:45:24 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sF6iI-0002l2-1R;
-	Thu, 06 Jun 2024 06:35:06 +0000
-Date: Thu, 6 Jun 2024 14:34:32 +0800
+	id 1sF6s4-0002lc-1c;
+	Thu, 06 Jun 2024 06:45:21 +0000
+Date: Thu, 6 Jun 2024 14:44:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-6.11 25/29] or1k-linux-ld:
- fs/nfs/nfs3proc.o:undefined reference to `nfs3_init_localioclient'
-Message-ID: <202406061432.BzK6CFGi-lkp@intel.com>
+To: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] docs: stable-kernel-rules: provide example of
+ specifying target series
+Message-ID: <ZmFa1jSIiGmykc8t@242c30a86391>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,44 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240606064311.18678-1-shung-hsi.yu@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-6.11
-head:   252b0c685ae2eafa0ced0682a496e9eecf23d1ff
-commit: 51975d922764190b4745b87458026ad1303c4ec4 [25/29] nfs: implement v4 client support for NFS_LOCALIO_PROGRAM
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240606/202406061432.BzK6CFGi-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061432.BzK6CFGi-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406061432.BzK6CFGi-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   or1k-linux-ld: fs/nfs/client.o: in function `nfs_free_client':
-   client.c:(.text+0x4d4): undefined reference to `nfs_local_disable'
-   client.c:(.text+0x4d4): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_disable'
-   or1k-linux-ld: fs/nfs/client.o: in function `nfs_get_client':
-   client.c:(.text+0x23b4): undefined reference to `nfs_local_probe'
-   client.c:(.text+0x23b4): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_probe'
-   or1k-linux-ld: fs/nfs/inode.o: in function `init_nfs_fs':
-   inode.c:(.init.text+0x168): undefined reference to `nfs_local_init'
-   inode.c:(.init.text+0x168): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_init'
-   or1k-linux-ld: fs/nfs/pagelist.o: in function `nfs_initiate_pgio':
-   pagelist.c:(.text+0x4d0): undefined reference to `nfs_local_doio'
-   pagelist.c:(.text+0x4d0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_doio'
-   or1k-linux-ld: fs/nfs/pagelist.o: in function `nfs_generic_pg_pgios':
-   pagelist.c:(.text+0x139c): undefined reference to `nfs_local_file_open'
-   pagelist.c:(.text+0x139c): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_file_open'
-   or1k-linux-ld: fs/nfs/write.o: in function `nfs_initiate_commit':
-   write.c:(.text+0x8ac): undefined reference to `nfs_local_commit'
-   write.c:(.text+0x8ac): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_commit'
-   or1k-linux-ld: fs/nfs/write.o: in function `nfs_commit_list':
-   write.c:(.text+0x1bb0): undefined reference to `nfs_local_file_open'
-   write.c:(.text+0x1bb0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `nfs_local_file_open'
->> or1k-linux-ld: fs/nfs/nfs3proc.o:(.rodata+0xe0): undefined reference to `nfs3_init_localioclient'
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 1/2] docs: stable-kernel-rules: provide example of specifying target series
+Link: https://lore.kernel.org/stable/20240606064311.18678-1-shung-hsi.yu%40suse.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
