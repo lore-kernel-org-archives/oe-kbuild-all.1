@@ -1,185 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0B5178CC9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 12:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94FA1D688;
+	Thu,  6 Jun 2024 13:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717677102; cv=none; b=qGL0Ht8526iTzCyKMPKasAzCbPjqTl0dBxzvSKiGkP2wRY8Y/216A1GnO4Rv+Z18vMYN+xW/YIpsapNYnBpNVTQGPF9Wm9DLVWvymom+eD2jl31jplDAyy8WVD8u03RGv/6wlK6OGS37tQpUjsgmcQJgwfAXXqWeEtGM2sgQNT4=
+	t=1717680640; cv=none; b=DAaX5gVUHKveleX2+hf8WSmXpSUGBLXfkW3v+kJ/q6erB8M5fkRTXhfPFC5P8+ug8w2pHj6HtsKFyajRTnEzXG7Q8dH1JeNIhZYvl4OWT4kp5kuXR+x8JmBSE3SFl9Yw7Xk+SBSOEnr2UpwmsZN5lj/CsW3lGa5PL1IAZ2KitMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717677102; c=relaxed/simple;
-	bh=qmQ2i1HXn0VWzplIzuv5p+11bHG39A8QkFIOVxF7dZg=;
+	s=arc-20240116; t=1717680640; c=relaxed/simple;
+	bh=Aw8mXRPRvqz8sD3PD2BMYJivDyo3YQgbnJEYWVzd2/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCyb8cwMw0WPgcLVJjWPmY0sy/bQRuOMhGOs7C6XGUzy7TFXWI6ArND7aKXUpxT2CarYy8mPWudKTCaGE09fvXbYgS6Cp+Nx5bZYQdxd5hMWZ0Q6hVTvqL4PL6lohSie0yyXM3dfbA+s59yZyU7J2AracjrrDGbzYH1qi3JOf5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEp9ABCY; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z4jOvApCh8wPywgjnbGbM+aU4g+wRxb0YyBTSM9YuNX+rD3hz0j7URUPhI7zIlIBaVZQKuj2U92vMnlDu9LDpMDvdjHhcvAE+cwYS2hioYHhPY9r2vaASx/WtSkTYr0lPTKo8mJrPIl3jMaEZ+7vC/bJCoM3gnm8nntgzfN6D+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=CygLTZO9; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEp9ABCY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717677101; x=1749213101;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=qmQ2i1HXn0VWzplIzuv5p+11bHG39A8QkFIOVxF7dZg=;
-  b=XEp9ABCY250+qJqYG4QOf76TrSlj7TzlDbR00OQZTXWbGpc+wRbSPUZS
-   WXN1eW+hWE3+myKuwApgw6Gs/cHeVBj6faIMwouhsPo036J9Ehm75Ai2l
-   mcxeE/kyPDC13OA1Yb+9lfmcmdugdxC9V6NB3Ti+AxJ2sXH35iY54wMSz
-   2f9LmtUZmcXwMIIcSdLCn6Ai1alKp9DKUOOGkiMVs+9tD/0Ith7X6ZV25
-   vvtDDlnuy+stl5Z7Je3/r0HFJkS6J4fuerdwRsGO3HUApmc9+4EWgCHj2
-   Cz61+wAw/5S8LreJ3wEpyEhOsNKk7gmh4/7uAAV2BBCDHoQSbXbVeV8CC
-   w==;
-X-CSE-ConnectionGUID: HlLtq6EfTFe3RYjpZd7VsQ==
-X-CSE-MsgGUID: 6ZJKEYHbRfaGd0CgZ8MQdA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14179495"
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14179495"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 05:31:40 -0700
-X-CSE-ConnectionGUID: BERFzdKoRCOuD+bVLtOUDw==
-X-CSE-MsgGUID: U23lwtZKQJK6r0IejF8rhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="37960244"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by fmviesa008.fm.intel.com with SMTP; 06 Jun 2024 05:31:35 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Thu, 06 Jun 2024 15:31:34 +0300
-Date: Thu, 6 Jun 2024 15:31:34 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Chris Bainbridge <chris.bainbridge@gmail.com>,
-	kernel test robot <lkp@intel.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	hughsient@gmail.com
-Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
- initialization
-Message-ID: <ZmGsJsXhHcPV48XJ@intel.com>
-References: <20240528210319.1242-1-mario.limonciello@amd.com>
- <202406040928.Eu1gRIWv-lkp@intel.com>
- <ZmB_cs-7GU-m3GXX@debian.local>
- <87h6e6bkpo.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="CygLTZO9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=9XI9wH7c0OiiKuuV7PRZF9/baW0BWhqWDJc2QitLSPM=; b=CygLTZO9o2WozOhuihdVYu9TLp
+	FcbVEin+gAaHruSRNgRxK+Z7tLS3BIfb//O7t1e9vrIXgN/M6T7okJS2KB9XOq8VzhHfKfeMVydUx
+	ilvllNJJIMs+xIxzz48Q7HX899PT/rky8c/t1wuqNH6Y63wyhqaAk99glu+WPGO4XTFQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sFDCM-00H1Hj-1m; Thu, 06 Jun 2024 15:30:34 +0200
+Date: Thu, 6 Jun 2024 15:30:34 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, bryan.whitehead@microchip.com,
+	linux@armlinux.org.uk, sbauer@blackbox.su, hmehrtens@maxlinear.com,
+	lxu@maxlinear.com, hkallweit1@gmail.com, edumazet@google.com,
+	pabeni@redhat.com, UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH net V3 2/3] net: lan743x: Support WOL at both the PHY and
+ MAC appropriately
+Message-ID: <95a302f0-1f46-465c-b3ab-63c9c3f4dda4@lunn.ch>
+References: <20240605101611.18791-3-Raju.Lakkaraju@microchip.com>
+ <202406052200.w3zuc32H-lkp@intel.com>
+ <ZmGN+2qysJGU/9+V@HYD-DK-UNGSW21.microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87h6e6bkpo.fsf@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <ZmGN+2qysJGU/9+V@HYD-DK-UNGSW21.microchip.com>
 
-On Thu, Jun 06, 2024 at 10:21:07AM +0300, Jani Nikula wrote:
-> On Wed, 05 Jun 2024, Chris Bainbridge <chris.bainbridge@gmail.com> wrote:
-> > On Tue, Jun 04, 2024 at 10:02:29AM +0800, kernel test robot wrote:
-> >> Hi Mario,
-> >> 
-> >> kernel test robot noticed the following build errors:
-> >> 
-> >> [auto build test ERROR on drm-misc/drm-misc-next]
-> >> [also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc2 next-20240603]
-> >> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> >> And when submitting patch, we suggest to use '--base' as documented in
-> >> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >> 
-> >> url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-client-Detect-when-ACPI-lid-is-closed-during-initialization/20240529-050440
-> >> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> >> patch link:    https://lore.kernel.org/r/20240528210319.1242-1-mario.limonciello%40amd.com
-> >> patch subject: [PATCH v2] drm/client: Detect when ACPI lid is closed during initialization
-> >> config: i386-randconfig-053-20240604 (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/config)
-> >> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/reproduce)
-> >> 
-> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> >> the same patch/commit), kindly add following tags
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202406040928.Eu1gRIWv-lkp@intel.com/
-> >> 
-> >> All errors (new ones prefixed by >>):
-> >> 
-> >>    ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_match_edp_lid':
-> >> >> drivers/gpu/drm/drm_client_modeset.c:281:(.text+0x221b): undefined reference to `acpi_lid_open'
-> >> 
-> >> 
-> >> vim +281 drivers/gpu/drm/drm_client_modeset.c
-> >> 
-> >>    260	
-> >>    261	static void drm_client_match_edp_lid(struct drm_device *dev,
-> >>    262					     struct drm_connector **connectors,
-> >>    263					     unsigned int connector_count,
-> >>    264					     bool *enabled)
-> >>    265	{
-> >>    266		int i;
-> >>    267	
-> >>    268		for (i = 0; i < connector_count; i++) {
-> >>    269			struct drm_connector *connector = connectors[i];
-> >>    270	
-> >>    271			switch (connector->connector_type) {
-> >>    272			case DRM_MODE_CONNECTOR_LVDS:
-> >>    273			case DRM_MODE_CONNECTOR_eDP:
-> >>    274				if (!enabled[i])
-> >>    275					continue;
-> >>    276				break;
-> >>    277			default:
-> >>    278				continue;
-> >>    279			}
-> >>    280	
-> >>  > 281			if (!acpi_lid_open()) {
-> >>    282				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
-> >>    283					    connector->base.id, connector->name);
-> >>    284				enabled[i] = false;
-> >>    285			}
-> >>    286		}
-> >>    287	}
-> >>    288	
-> >> 
-> >> -- 
-> >> 0-DAY CI Kernel Test Service
-> >> https://github.com/intel/lkp-tests/wiki
-> >
-> > The failed config has CONFIG_ACPI_BUTTON=m. The build failure can be
-> > fixed with:
-> >
-> > diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> > index b76438c31761..0271e66f44f8 100644
-> > --- a/drivers/gpu/drm/drm_client_modeset.c
-> > +++ b/drivers/gpu/drm/drm_client_modeset.c
-> > @@ -271,11 +271,13 @@ static void drm_client_match_edp_lid(struct drm_device *dev,
-> >                 if (connector->connector_type != DRM_MODE_CONNECTOR_eDP || !enabled[i])
-> >                         continue;
-> >
-> > +#if defined(CONFIG_ACPI_BUTTON)
-> >                 if (!acpi_lid_open()) {
-> >                         drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
-> >                                     connector->base.id, connector->name);
-> >                         enabled[i] = false;
-> >                 }
-> > +#endif
-> >         }
-> >  }
-> 
-> No. This is because
-> 
-> CONFIG_DRM=y
-> CONFIG_ACPI_BUTTON=m
-> 
-> The pedantically correct fix is probably having DRM
-> 
-> 	depends on ACPI_BUTTON || ACPI_BUTTON=n
-> 
-> but seeing how i915 and xe just
-> 
-> 	select ACPI_BUTTON if ACPI
+On Thu, Jun 06, 2024 at 03:52:51PM +0530, Raju Lakkaraju wrote:
+> The target architecture of alpha's config file miss the "CONFIG_PM=y"
+> cofiguration.
 
-Huh. We should nuke that as we haven't used this lid stuff in ages.
+No. Your patch is missing support for CONFIG_PM = n. Or you need to
+add a depends on PM.
 
--- 
-Ville Syrjälä
-Intel
+We expect the kernel to build for any configuration. There are build
+bots which create random configurations and see if they build. Not
+having PM is a valid configuration, especially for a big iron server
+which never sleeps.
+
+    Andrew
