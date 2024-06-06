@@ -1,69 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76604646;
-	Thu,  6 Jun 2024 00:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55A612E4D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 01:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717634465; cv=none; b=qqHtrjM5TVALvm42b9LF7Kd+pml0fUghFOrv4L4h4WeOkqHGUTLRXlsHiHgyzyVMDmtGDFFQ+OYnLdVD2vstnzzcGWRS+0mIpYISK5C/37+Xl6vlZaU24vrWzsNMfNSRyHiLAkxtWxZUj92xtTp8iRQG4LcEXTlx2QouKVgv/Js=
+	t=1717637627; cv=none; b=sKSyVPMYG3SOUW41DXx8A5fFE/0xMU9hSYUvKx8QF8XKv2Nou2LDFoZh6PYIRNbuRBPb6xZ2NdbS9JC1+cfprJTOFfLMsAgwbQfsSfJt1JpSnLTU16fRAAmTPd+607yYbrAbwG2hiDRmXNgzXBAryj8Jtd/u1VZbDLImoEEJhn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717634465; c=relaxed/simple;
-	bh=d8Pdnajr5Jp3uRMQuGYWWv+KOBPfqtgFMVQb/GIHpCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qHXWQhZlosZEnMIS5J06V4jBsTFrJYG6mr8oSJM3P0I/CKKapDYeq3kYeg2+IKkEIlxnYpmETWrWYgoftN61n1grzDfYMUesnY6av+4WR8L9xlweCT3andfd+dpHxqehfCgjYq54HIvq53UKF4FY0Rx9b/ESJuwR3/W5laGsoeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vx1R3yaG; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1717637627; c=relaxed/simple;
+	bh=ScAxi7Islko6wIYvEbcuVSx0QgtEdtkb+KC0TYD2+AA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iRIdpd7SLzCpVLF1NjXmY5FVyLC8b4z6D2z3KvAjd8tf4nIeOEE2oAqvVfNIuNAezK2J4CX5cOtvHVeoBs0Q7v0E/h2vDM64TT+rJzglmlWy25BjfPNzR3gO+pSNCb98BihANdedMCeXEvoGrauivHNCCDIRk7b58a9oMOYbFbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHLWp07a; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vx1R3yaG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHLWp07a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717634463; x=1749170463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d8Pdnajr5Jp3uRMQuGYWWv+KOBPfqtgFMVQb/GIHpCA=;
-  b=Vx1R3yaGoEq8eevBOoNiWm0DHEuJZPPHbZpVx9x4R3YSjBXRzw3Sof6w
-   o2iAuqmVgPYaILmJnmLJljEfVc/9XO8HJldQvfR1P16aHo9hsPEIAQsXk
-   MpcovbtFXxTIpV5XBlvqNU1g4ExZ6dwtGHnemNHfmaiM2PAemsgfHjrfA
-   0irpcEalHiBiJQw9RamQ70yiWgdSXUHBe1Eu92Un9YHWdQ9YYcjPpX3cr
-   UQcw5E6RQcOO+D/i5DlVhpNJgxERpx/MH7m8yj6FPXEBDsbvZ7ssyvTqE
-   T7fIa7Qts3+cHwY1uMSVzFv+VWf+w+XoEuU70Aos8LneGZwPvOFxuWsiH
-   A==;
-X-CSE-ConnectionGUID: HDTctKd4SeKsEbmBAC0c9g==
-X-CSE-MsgGUID: XyiYLwCcTweVDsjrxH89pQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14234053"
+  t=1717637625; x=1749173625;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ScAxi7Islko6wIYvEbcuVSx0QgtEdtkb+KC0TYD2+AA=;
+  b=OHLWp07ax6i25ueD+gTlEA4m9lVs72dsbkIiO68J6eFN7jLv9jknm7B2
+   bymTvS3utA8enuMRZ1i6T7sXCqD4wyfg5yTGhB+DhEWdkUN/27Og1RFYJ
+   npanYq5qAl3fzwoYtHl5+Kue839f2snI/0ROqiTKNLJrU/l7yzTRCpCjR
+   4mrNwPjXRLncdq3gpk5YLfje3sfxkMsTSIMSvrG8aMl+NbpVY/ne5Icn3
+   9THlLR6RNM0Ldu7QRCP2ksF/7ck0Hanz3m2WDs3neSiG4uhLwudz+ijsO
+   R1Yq0nqCC6LlBWhUwpI2bksci6+cmiXgBgFZIsOOt+DhqUCtcxILQtCgo
+   g==;
+X-CSE-ConnectionGUID: 03J42FDFSTCo9QclFmFXpw==
+X-CSE-MsgGUID: +Ufte/MGQO+rdGFoJqFv4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14502664"
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="14234053"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 17:41:03 -0700
-X-CSE-ConnectionGUID: h4Hr9I05QbyxpdQN1ROHqw==
-X-CSE-MsgGUID: T+3KgnMhSLiDXOMDu2BN7w==
+   d="scan'208";a="14502664"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 18:33:44 -0700
+X-CSE-ConnectionGUID: EgaCZ400QEi8wxcYGS7kRg==
+X-CSE-MsgGUID: YYPsIAAMQzan18uQZcKSOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="42735289"
+   d="scan'208";a="42205335"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 05 Jun 2024 17:40:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 Jun 2024 18:33:43 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sF1BZ-0002U4-0X;
-	Thu, 06 Jun 2024 00:40:57 +0000
-Date: Thu, 6 Jun 2024 08:40:41 +0800
+	id 1sF20a-0002Wm-1y;
+	Thu, 06 Jun 2024 01:33:40 +0000
+Date: Thu, 6 Jun 2024 09:33:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fred Griffoul <fgriffo@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, griffoul@gmail.com,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] vfio/pci: add msi interrupt affinity support
-Message-ID: <202406060731.L3NSR1Hy-lkp@intel.com>
-References: <20240605155509.53536-1-fgriffo@amazon.co.uk>
+To: Peng Tao <tao.peng@primarydata.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
+	Lance Shelton <lance.shelton@hammerspace.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>
+Subject: [snitzer:nfs-localio-for-6.11 7/29]
+ include/linux/sunrpc/addr.h:100:15: warning: 'rpc_ntop6_addr_noscopeid'
+ defined but not used
+Message-ID: <202406060941.2fEwSeJc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,84 +64,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605155509.53536-1-fgriffo@amazon.co.uk>
 
-Hi Fred,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on awilliam-vfio/next]
-[also build test ERROR on awilliam-vfio/for-linus linus/master v6.10-rc2 next-20240605]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fred-Griffoul/vfio-pci-add-msi-interrupt-affinity-support/20240605-235753
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20240605155509.53536-1-fgriffo%40amazon.co.uk
-patch subject: [PATCH v2] vfio/pci: add msi interrupt affinity support
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240606/202406060731.L3NSR1Hy-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060731.L3NSR1Hy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-6.11
+head:   252b0c685ae2eafa0ced0682a496e9eecf23d1ff
+commit: 8302af091458963dc2eb9774c0e47d036c8c1854 [7/29] sunrpc: add and export rpc_ntop6_addr_noscopeid
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240606/202406060941.2fEwSeJc-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060941.2fEwSeJc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406060731.L3NSR1Hy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406060941.2fEwSeJc-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/mm/cmm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/kvm/kvm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/nfs_acl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/grace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/lib/test_kprobes_s390.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/lib/test_unwind.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/s390/lib/test_modules.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
->> ERROR: modpost: "cpuset_cpus_allowed" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
+   In file included from net/sunrpc/clnt.c:37:
+>> include/linux/sunrpc/addr.h:100:15: warning: 'rpc_ntop6_addr_noscopeid' defined but not used [-Wunused-function]
+     100 | static size_t rpc_ntop6_addr_noscopeid(const struct in6_addr *addr,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/sunrpc/clnt.c: In function 'rpc_create':
+   net/sunrpc/clnt.c:582:75: warning: '%s' directive output may be truncated writing up to 107 bytes into a region of size 48 [-Wformat-truncation=]
+     582 |                                 snprintf(servername, sizeof(servername), "%s",
+         |                                                                           ^~
+   net/sunrpc/clnt.c:582:33: note: 'snprintf' output between 1 and 108 bytes into a destination of size 48
+     582 |                                 snprintf(servername, sizeof(servername), "%s",
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     583 |                                          sun->sun_path);
+         |                                          ~~~~~~~~~~~~~~
+--
+   In file included from net/sunrpc/xprtsock.c:37:
+>> include/linux/sunrpc/addr.h:100:15: warning: 'rpc_ntop6_addr_noscopeid' defined but not used [-Wunused-function]
+     100 | static size_t rpc_ntop6_addr_noscopeid(const struct in6_addr *addr,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/rpc_ntop6_addr_noscopeid +100 include/linux/sunrpc/addr.h
+
+    87	
+    88	static inline bool __rpc_copy_addr6(struct sockaddr *dst,
+    89					    const struct sockaddr *src)
+    90	{
+    91		const struct sockaddr_in6 *ssin6 = (const struct sockaddr_in6 *) src;
+    92		struct sockaddr_in6 *dsin6 = (struct sockaddr_in6 *) dst;
+    93	
+    94		dsin6->sin6_family = ssin6->sin6_family;
+    95		dsin6->sin6_addr = ssin6->sin6_addr;
+    96		dsin6->sin6_scope_id = ssin6->sin6_scope_id;
+    97		return true;
+    98	}
+    99	#else	/* !(IS_ENABLED(CONFIG_IPV6) */
+ > 100	static size_t rpc_ntop6_addr_noscopeid(const struct in6_addr *addr,
+   101					       char *buf, const int buflen)
+   102	{
+   103		return 0;
+   104	}
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
