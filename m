@@ -1,62 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2D513DB92
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 22:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3326D13D884
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 23:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717713697; cv=none; b=kCD9c3htrhPRGLZ6QD/5WskZXTLDzns80h6M1+0tGcculyH6mL8tYb2s5/FH/8Wp7EOgWdFDdrVwKao81DquIc6zSljRtvYS1Z/MwbrMcx4/+j9jHDVqs31rK6ogpBqQuRohbtz7dgsRXPZocG3Zoe16KwrMPrTtoLRuUAxTpHk=
+	t=1717715543; cv=none; b=h28CVmWU/tqXupBJOB3a96tEx3/V/Tyk4T+TUU+vzskA79uFJALYTqS+D86FgO6JcuWw7VHW0GGHfHVCOnAtT9s3X96rI+1OjVH2z0ZpMO3zi3m9LPjIrhgM6oZe0d/qtsaPIv1dZNBELoZmRyCBa6vZVTppiXMZxbt9xJz0sfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717713697; c=relaxed/simple;
-	bh=XB9M0wgRyKTm2TjdDZvKaK/ZZ0rode3WezydrQ39Dfk=;
+	s=arc-20240116; t=1717715543; c=relaxed/simple;
+	bh=RndAAMxTu9JW+h1dAfHpTIJdE+aymqxTfBB/KA/nySA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JN5ppjIWybLH0vzwNWPHXmQdzloPMaSJL2QRcy6O2i4tcfSKI4zde/7iRN9TZwO0cF3GrQnDfz2/TaBN1jXbZauFdj+TeeBsOr/nPmk3r+bn0UbQB3ntzi++eDctO27Ji1K4ePWE0JBupaH4Rt9+rUmtCRaaNSEx9Y51JLKtilE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDNRHpB6; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=VSvucwf8I0CxCELgecSvULWGPfiI02QcqfjxRiS9EtPkXQB8l0OPlfbG+XP3AqY7IIag/nG36G/3AF07yMVRHXjthHAbw4Zj+UjIRec0PWCK+DzYQ2koZAz6XEVrmyncQOmu3Gz8DgIqJ9honNz3w8oNz/y7FNbEriIuRto1/Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNLKB2Df; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDNRHpB6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNLKB2Df"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717713696; x=1749249696;
+  t=1717715541; x=1749251541;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XB9M0wgRyKTm2TjdDZvKaK/ZZ0rode3WezydrQ39Dfk=;
-  b=BDNRHpB606CQYQ/pJ5r0wD7icvBAo/6psAP0KCcfaS60V+iKZOO6iYu9
-   Ym5tpl1T9GY1ogssF18ykUhDxaaTcyu+WJwnsGveUQ2TASPWNq86RFsLy
-   Af7/AifBm1Kxebh2n2Mtp47igSSkFIuD/6aTlc78pJ/w8+yIQVPrfpEko
-   llAcgB+JqJHiQ/Kj4+bcfpojlQtyNIedst1SJN1tYdray0ycaMSO+NXpA
-   Mz7MMtiIa3Tbt6O6+a2zvcbRBzkLR+C8JivdumQ0tuoVnCufCQF3VQObM
-   5/+i071W5bbpy6dmFMYwEhop+hP8TUlBKw6EG5+/qUh5xhIksMFfHm8SR
+  bh=RndAAMxTu9JW+h1dAfHpTIJdE+aymqxTfBB/KA/nySA=;
+  b=mNLKB2Dfz3velQ1qkmjt7mqj42+3eIRsqArS8O6lL1s62NBiF8hZoYqb
+   QfyiHI3WqqAOfTOQT3nEYAY+UF0lEgs6IvqqiAo+eFCeZX/Gtkf+B7NX9
+   +A/EFj7Fy2aQz5XR4yz2XzpD56UFhzzj6tULzUa/J1MJQNli4F0wZSQAv
+   d0ZZtz4DNe3E23HKTYVQdmkpuag472si1QNMkH+Vn2mhmAkB5bN1Z+i2x
+   de/DI46gknn+E3xsLxfaYptXwq4rrQn+brHgyY06WAvRaTzCpoWga6KoH
+   qBX6ZnokDr0y2LjTzEKqe2D3FlB7N2PUnVX9bdkIHTm9k6GKPzPVKmP5h
    g==;
-X-CSE-ConnectionGUID: Yuu3jL3STJGB2dn0eKlNiA==
-X-CSE-MsgGUID: lxDfMAtjTUGifju3JcL3Tg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14597923"
+X-CSE-ConnectionGUID: 6Rfpq1NYTQqAQN35FxKx5A==
+X-CSE-MsgGUID: MLZmR5V/Ru2wQVLUFGnyBg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25521279"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14597923"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 15:41:35 -0700
-X-CSE-ConnectionGUID: VVzLXt+/R4WYyr0dqCVgGA==
-X-CSE-MsgGUID: VH65b2x3SnqKdaqJk4at+A==
+   d="scan'208";a="25521279"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 16:12:21 -0700
+X-CSE-ConnectionGUID: aoIxobw6SPm+cKIoA2ttTw==
+X-CSE-MsgGUID: nLcwAksGSKSn47nFg2RCzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="68913325"
+   d="scan'208";a="42589661"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 06 Jun 2024 15:41:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 06 Jun 2024 16:12:17 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFLnW-0003oO-2t;
-	Thu, 06 Jun 2024 22:41:30 +0000
-Date: Fri, 7 Jun 2024 06:40:53 +0800
+	id 1sFMHG-0003qC-2r;
+	Thu, 06 Jun 2024 23:12:14 +0000
+Date: Fri, 7 Jun 2024 07:11:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, animesh.manna@intel.com,
-	arun.r.murthy@intel.com, jouni.hogander@intel.com,
-	Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/psr: Implment WA to help reach PC10
-Message-ID: <202406070642.9SbQep4F-lkp@intel.com>
-References: <20240606082926.1816416-4-suraj.kandpal@intel.com>
+To: Fred Griffoul <fgriffo@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev, griffoul@gmail.com,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Ye Bin <yebin10@huawei.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] vfio/pci: add msi interrupt affinity support
+Message-ID: <202406070659.pYu6zNrx-lkp@intel.com>
+References: <20240605155509.53536-1-fgriffo@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,122 +72,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240606082926.1816416-4-suraj.kandpal@intel.com>
+In-Reply-To: <20240605155509.53536-1-fgriffo@amazon.co.uk>
 
-Hi Suraj,
+Hi Fred,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc2 next-20240606]
+[auto build test ERROR on awilliam-vfio/next]
+[also build test ERROR on awilliam-vfio/for-linus linus/master v6.10-rc2 next-20240606]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-psr-Add-return-bool-value-for-hsw_activate_psr1/20240606-163351
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240606082926.1816416-4-suraj.kandpal%40intel.com
-patch subject: [PATCH 2/2] drm/i915/psr: Implment WA to help reach PC10
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240607/202406070642.9SbQep4F-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070642.9SbQep4F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fred-Griffoul/vfio-pci-add-msi-interrupt-affinity-support/20240605-235753
+base:   https://github.com/awilliam/linux-vfio.git next
+patch link:    https://lore.kernel.org/r/20240605155509.53536-1-fgriffo%40amazon.co.uk
+patch subject: [PATCH v2] vfio/pci: add msi interrupt affinity support
+config: arm64-randconfig-001-20240607 (https://download.01.org/0day-ci/archive/20240607/202406070659.pYu6zNrx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070659.pYu6zNrx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406070642.9SbQep4F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406070659.pYu6zNrx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/gpu/drm/i915/display/intel_psr.c:35:
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_check_delayed_vblank_limit':
-   drivers/gpu/drm/i915/i915_reg.h:4158:62: error: 'dev_priv' undeclared (first use in this function); did you mean 'dev_crit'?
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                              ^~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.h:31:69: note: in definition of macro 'intel_de_read'
-      31 | #define intel_de_read(p,...) __intel_de_read(__to_intel_display(p), __VA_ARGS__)
-         |                                                                     ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_reg_defs.h:42:49: note: in expansion of macro '_MMIO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                 ^~~~~
-   drivers/gpu/drm/i915/display/intel_display_device.h:185:42: note: in expansion of macro '__to_intel_display'
-     185 | #define DISPLAY_INFO(i915)              (__to_intel_display(i915)->info.__device_info)
-         |                                          ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_reg_defs.h:42:55: note: in expansion of macro 'DISPLAY_INFO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                       ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_reg.h:4158:49: note: in expansion of macro '_MMIO_TRANS2'
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                 ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:817:36: note: in expansion of macro 'TRANS_SET_CONTEXT_LATENCY'
-     817 |         return intel_de_read(i915, TRANS_SET_CONTEXT_LATENCY(cpu_transcoder)) >= 6;
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_reg.h:4158:62: note: each undeclared identifier is reported only once for each function it appears in
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                              ^~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.h:31:69: note: in definition of macro 'intel_de_read'
-      31 | #define intel_de_read(p,...) __intel_de_read(__to_intel_display(p), __VA_ARGS__)
-         |                                                                     ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_reg_defs.h:42:49: note: in expansion of macro '_MMIO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                 ^~~~~
-   drivers/gpu/drm/i915/display/intel_display_device.h:185:42: note: in expansion of macro '__to_intel_display'
-     185 | #define DISPLAY_INFO(i915)              (__to_intel_display(i915)->info.__device_info)
-         |                                          ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_reg_defs.h:42:55: note: in expansion of macro 'DISPLAY_INFO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                       ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_reg.h:4158:49: note: in expansion of macro '_MMIO_TRANS2'
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                 ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:817:36: note: in expansion of macro 'TRANS_SET_CONTEXT_LATENCY'
-     817 |         return intel_de_read(i915, TRANS_SET_CONTEXT_LATENCY(cpu_transcoder)) >= 6;
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:815:66: warning: parameter 'cpu_transcoder' set but not used [-Wunused-but-set-parameter]
-     815 |                                                  enum transcoder cpu_transcoder)
-         |                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_is_dpkgc_configured':
-   drivers/gpu/drm/i915/display/intel_psr.c:822:36: error: 'LNL_PKG_C_LATENCY' undeclared (first use in this function)
-     822 |         return intel_de_read(i915, LNL_PKG_C_LATENCY) == U32_MAX;
-         |                                    ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.h:31:69: note: in definition of macro 'intel_de_read'
-      31 | #define intel_de_read(p,...) __intel_de_read(__to_intel_display(p), __VA_ARGS__)
-         |                                                                     ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_is_dc5_entry_possible':
-   drivers/gpu/drm/i915/display/intel_psr.c:835:26: error: 'struct drm_crtc' has no member named 'active'
-     835 |                 if (!crtc->active)
-         |                          ^~
-   drivers/gpu/drm/i915/display/intel_psr.c:842:69: error: '_encoder' undeclared (first use in this function); did you mean 'encoder'?
-     842 |                         struct intel_dp *intel_dp = enc_to_intel_dp(_encoder);
-         |                                                                     ^~~~~~~~
-         |                                                                     encoder
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'wa_16023497226_check':
-   drivers/gpu/drm/i915/display/intel_psr.c:861:13: error: implicit declaration of function 'is_dpkg_c_configured' [-Werror=implicit-function-declaration]
-     861 |         if (is_dpkg_c_configured(i915)) {
-         |             ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:866:35: error: implicit declaration of function 'is_dc5_entry_possible'; did you mean 'intel_psr_is_dc5_entry_possible'? [-Werror=implicit-function-declaration]
-     866 |                 else if (!psr1 && is_dc5_entry_possible(i915))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-         |                                   intel_psr_is_dc5_entry_possible
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_check_delayed_vblank_limit':
-   drivers/gpu/drm/i915/display/intel_psr.c:818:1: warning: control reaches end of non-void function [-Wreturn-type]
-     818 | }
-         | ^
-   drivers/gpu/drm/i915/display/intel_psr.c: At top level:
->> drivers/gpu/drm/i915/display/intel_psr.c:820:13: warning: 'intel_psr_is_dpkgc_configured' defined but not used [-Wunused-function]
-     820 | static bool intel_psr_is_dpkgc_configured(struct drm_i915_private *i915)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/intel_psr_is_dpkgc_configured +820 drivers/gpu/drm/i915/display/intel_psr.c
-
-   819	
- > 820	static bool intel_psr_is_dpkgc_configured(struct drm_i915_private *i915)
-   821	{
-   822		return intel_de_read(i915, LNL_PKG_C_LATENCY) == U32_MAX;
-   823	}
-   824	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-infra_ao.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-imp_iic_wrap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mdp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-wpe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-wpe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-imp_iic_wrap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-wpe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sprd/clk-sprd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a83t-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r40-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pmdomain/amlogic/meson-ee-pwrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x10 (section: .data) -> mxc_rnga_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/arm_smccc_trng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/vexpress-sysreg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/kmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ufs/host/ufs-qcom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/of_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+>> ERROR: modpost: "arm64_mismatched_32bit_el0" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
