@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4FB19884A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 21:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21325487B3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 21:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717707995; cv=none; b=DZRuNwu0+lF+HJ4wd4XckbBaNlsHeINzk9zguUDpYVzwGsop14OL+hhB9/P5j1MBEZbVUpGVeatVxl/4tD173Q3wHZeZA+3KQIz2VsOdjdcs6R04utY1qRtWpevCfc3pZjzaPOxejgKz0MLxTL6U9voncBlIIbA3qrJ2TpxLELA=
+	t=1717708655; cv=none; b=g38jSp1N4emW3hebhBnj41OYi2UVyZRwiOjXzskuwBSPhBFYwL2Fu5BpZB93lKcF882ke3y6s0SMuQMUnGlA5oHXkCOQ+qfigQ4rruHeYW4CCZ/pO42vgQa7vLYLv7wT6+AWlphXvCeqvuuuhJr/FvgeIDwji3PUSpb4hHEBy9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717707995; c=relaxed/simple;
-	bh=dTvaYVKRkBoEzX6rl/ZHUdPy2G40HXsX2n/BVVIdaHA=;
+	s=arc-20240116; t=1717708655; c=relaxed/simple;
+	bh=N0Q7oD6FKmO32Pc1pIntTHg0BQLLkxWsDSJc6HB1PFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sGR+lJJOaRPbebPPNferSJeQVBsL2kH+MyHGlE5zt3Sp4KKIRbCi0bbQft/76RLtXbdbXvxKwbFEH1uTu1HgNhCD0MxxzS/YJ2IURKLHlWOQ1DwdSLlpzzHTVsW6g5JzR6pLiQJvuxCxFzuxKwtaLkLQjz687r6Zf+xhUej0m+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WH0dHmr8; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=GN34q6BJG/KfvRVx7UBS1pegOWSY3jCgk12WfuumZ2qshZHE05gJzGxvqAgT3epYwEDwZvOxIS/+4cyAsSS61g01A8/kP8b4NX7Nci5J7A7U5Ip8OL45JCECXxDrBN68y1VgSn4s8VvOGkw0wSkIIYQWWpOkdg7GFkur5bNOgws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjlI5jEz; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WH0dHmr8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjlI5jEz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717707994; x=1749243994;
+  t=1717708652; x=1749244652;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dTvaYVKRkBoEzX6rl/ZHUdPy2G40HXsX2n/BVVIdaHA=;
-  b=WH0dHmr8/ykXTXxe1LBYUcpPyqrUvRqa9bzGjZUMgMi30Zt5gourtNo1
-   VFSLbdwVxDNVNorvovwlb/dbfyWh26E1z73A4iRRHbZkDNgdR4uk1yCal
-   phrpLANJlrF9yzx8rpbpclGiYKy8DaKfHHyUj8mklYqfsIBozGSrnEmWR
-   CPRFN2nUjhSowbVIq4xlXxViVTjHtW8LKpIjgSG1Nk6IFwLAXvbc7DU/5
-   Qrk4RLyzSU2tJ1siY4adRYYt4l4aFwfj2NAUtpE8AOA6SLyuBwOaCDpTq
-   juHK0k53er8SFJo6O9pz/T/0vGnxvD47mouw7+MmPERkX+0kG0TyjNtEJ
-   g==;
-X-CSE-ConnectionGUID: IZ69Ja5NT/yJJtIMX0kDyQ==
-X-CSE-MsgGUID: Fevp1OquTVSidBJgp7NTfA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="36933989"
+  bh=N0Q7oD6FKmO32Pc1pIntTHg0BQLLkxWsDSJc6HB1PFs=;
+  b=IjlI5jEzghlui+3Q3bT/YhTL7ZBUHHXHqqYJacSWcCAtUFJz1k65RtrC
+   1S/XwBGdPnsfuVxMyMd6KctkeDx4XW+LrnVZE0c+Rp2mdv3f+30qrtKO2
+   4LNzO+VOvRckHj4aHB+lSzqSX65g6dUxla2FAXlvTjLoeGsb8d2FF7tlI
+   H838b2E6cjcqzMIw+OIHykhEjUZht/oxPF/bMOh1JKc7VDyLfgdnHKiqB
+   irAuFmli2aG6BmMbAZXae033zIT16a7QAdTZmuOjcIJrN8YdcT7j8+8tb
+   27ZWajgXSlq6LFDXPha3Ig1qAksRPPQ2UVzbuo32pCu7jT7SI0Z3zhehY
+   A==;
+X-CSE-ConnectionGUID: z6PDGsfbR+e065wCZPyoaA==
+X-CSE-MsgGUID: SqUMPO0kTomQ2MEo01AOtw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25814966"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="36933989"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 14:06:31 -0700
-X-CSE-ConnectionGUID: mvxFFOd+QxChAKTmSxsjnA==
-X-CSE-MsgGUID: tIgZCN56RLKiTDUiYI46zA==
+   d="scan'208";a="25814966"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 14:17:32 -0700
+X-CSE-ConnectionGUID: /3VKxS5mSyGw3G6NuzDeGQ==
+X-CSE-MsgGUID: OY8x7gTDTFG2XlxKbELLIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="38048842"
+   d="scan'208";a="75576778"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jun 2024 14:06:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 06 Jun 2024 14:17:29 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFKJW-0003j0-24;
-	Thu, 06 Jun 2024 21:06:26 +0000
-Date: Fri, 7 Jun 2024 05:06:16 +0800
+	id 1sFKUA-0003jO-2m;
+	Thu, 06 Jun 2024 21:17:26 +0000
+Date: Fri, 7 Jun 2024 05:16:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremy Kerr <jk@codeconstruct.com.au>, David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH 1/3] net: core,vrf: Change pcpu_dstat fields to
- u64_stats_t
-Message-ID: <202406070424.JtWImJfu-lkp@intel.com>
-References: <20240605-dstats-v1-1-1024396e1670@codeconstruct.com.au>
+To: Tao Zeng via B4 Relay <devnull+tao.zeng.amlogic.com@kernel.org>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, Tao Zeng <tao.zeng@amlogic.com>
+Subject: Re: [PATCH] erofs: support external crypto for decompression
+Message-ID: <202406070429.UJRJ6zGg-lkp@intel.com>
+References: <20240606-erofs-decompression-v1-1-ec5f31396e04@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,64 +67,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605-dstats-v1-1-1024396e1670@codeconstruct.com.au>
+In-Reply-To: <20240606-erofs-decompression-v1-1-ec5f31396e04@amlogic.com>
 
-Hi Jeremy,
+Hi Tao,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
+[auto build test ERROR on ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
-base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
-patch link:    https://lore.kernel.org/r/20240605-dstats-v1-1-1024396e1670%40codeconstruct.com.au
-patch subject: [PATCH 1/3] net: core,vrf: Change pcpu_dstat fields to u64_stats_t
-config: i386-randconfig-062-20240607 (https://download.01.org/0day-ci/archive/20240607/202406070424.JtWImJfu-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070424.JtWImJfu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Zeng-via-B4-Relay/erofs-support-external-crypto-for-decompression/20240606-155702
+base:   ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f
+patch link:    https://lore.kernel.org/r/20240606-erofs-decompression-v1-1-ec5f31396e04%40amlogic.com
+patch subject: [PATCH] erofs: support external crypto for decompression
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240607/202406070429.UJRJ6zGg-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070429.UJRJ6zGg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406070424.JtWImJfu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406070429.UJRJ6zGg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/vrf.c:414:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct u64_stats_t [usertype] *p @@     got struct u64_stats_t [noderef] __percpu * @@
-   drivers/net/vrf.c:414:35: sparse:     expected struct u64_stats_t [usertype] *p
-   drivers/net/vrf.c:414:35: sparse:     got struct u64_stats_t [noderef] __percpu *
-   drivers/net/vrf.c: note: in included file (through include/linux/smp.h, include/linux/alloc_tag.h, include/linux/percpu.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All error/warnings (new ones prefixed by >>):
 
-vim +414 drivers/net/vrf.c
+   In file included from fs/erofs/decompressor.c:6:
+>> fs/erofs/compress.h:120:1: error: expected identifier or '(' before '{' token
+     120 | {
+         | ^
+>> fs/erofs/compress.h:116:19: warning: 'z_erofs_load_crypto_config' declared 'static' but never defined [-Wunused-function]
+     116 | static inline int z_erofs_load_crypto_config(struct super_block *sb,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   391	
-   392	/* Local traffic destined to local address. Reinsert the packet to rx
-   393	 * path, similar to loopback handling.
-   394	 */
-   395	static int vrf_local_xmit(struct sk_buff *skb, struct net_device *dev,
-   396				  struct dst_entry *dst)
-   397	{
-   398		int len = skb->len;
-   399	
-   400		skb_orphan(skb);
-   401	
-   402		skb_dst_set(skb, dst);
-   403	
-   404		/* set pkt_type to avoid skb hitting packet taps twice -
-   405		 * once on Tx and again in Rx processing
-   406		 */
-   407		skb->pkt_type = PACKET_LOOPBACK;
-   408	
-   409		skb->protocol = eth_type_trans(skb, dev);
-   410	
-   411		if (likely(__netif_rx(skb) == NET_RX_SUCCESS))
-   412			vrf_rx_stats(dev, len);
-   413		else
- > 414			u64_stats_inc(&dev->dstats->rx_drops);
-   415	
-   416		return NETDEV_TX_OK;
-   417	}
-   418	
+
+vim +120 fs/erofs/compress.h
+
+   115	
+ > 116	static inline int z_erofs_load_crypto_config(struct super_block *sb,
+   117						     struct erofs_super_block *dsb,
+   118						     void *data,
+   119						     int size);
+ > 120	{
+   121		if (crypto) {
+   122			erofs_err(sb, "crypto algorithm isn't enabled");
+   123			return -EINVAL;
+   124		}
+   125		return 0;
+   126	}
+   127	#endif
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
