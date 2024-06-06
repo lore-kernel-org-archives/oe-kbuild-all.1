@@ -1,190 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EC5D53C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 21:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674DC4594A;
+	Thu,  6 Jun 2024 21:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717710515; cv=none; b=Nc+IoAC63EOh7dNgwgRgRAlxpOhaPyF3eaHSzMQeEjUh+MqXu7Nca2b2GAXjNM192T16oGAZkAf/WSCIdBK2BmowLe0oxlIVcrZBLDffZ5sfTUCPzZRaXNzv3B68IYvkDPqimwQJcEY5nPDfHHIBvCkMGZ9VDwDgfKz0gaCBwuY=
+	t=1717711176; cv=none; b=cMik2bTbRmBrgGtB6TAU0kbLSqIlcvNmxmj79QDzgp6MdExG0iCbdE6CCyna1vOBjq2EQtjhLsX9cq9qc5ESSOItjcKy5YFge4wsGs0HeD6l1ZL94L66wlLE0241lSVnuVp+r1V8HnHLdY63aAU4XTt0HnlWodGUA6WMwyS2uZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717710515; c=relaxed/simple;
-	bh=ey+qneSYX9tUYxRu25ZozXqIQA2hdB225YK/ra1eUwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LBByfHBLk9N20pPL13BuLBZsQTUQBisav9HlEUgsezw03XFoVh7fJs5DYCPA8ap1lfevFMXjXcfZee8Zo5fg5KytZmHZ4mqeNIzHzRtq2xZsw1ZhZRi52SCctSEMlfOgj7lXpJZweRDWTDdL4V7p0yG1r4oRWaqyyaqB6l90UW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GNpejkRi; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1717711176; c=relaxed/simple;
+	bh=wvUJH258XBnoPR4hL72RaVBEkAQOyVNRDzLmK0dHgP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LWAMhWUSWvFNQiSreQT1i2kE1DnjzybJwUk3m06r5f/wxn9mB64Fk3LefTQBhDl6HXSVkzT8DAqXFxvwSTHfH/mVytD3xZDtICOQudN/1ntJ9Hj03qZZMAvdWOZuHz3wsaKpb/CWyjicPPQ7OMHdOvbOBx90iV4AbE5KK9kEWbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+9s1X2l; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNpejkRi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+9s1X2l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717710514; x=1749246514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ey+qneSYX9tUYxRu25ZozXqIQA2hdB225YK/ra1eUwM=;
-  b=GNpejkRipmOKLhjEhLZ6278XYSBCWhlKgRHj8hp2/fSY2jTpperydol7
-   uLQxVLWLWqipirifUcSakSt3rQh+sC777zkLXNDTDzEbw77wPWVRGB3qG
-   TtXLRmiNhkxzTI92HJT4v+q36jsJA8BoCWty49xOndiA+ma6aRB1BO4av
-   Yi9EU6wOiEZuV+gHcM4lXZvUX7yKuHpeoqe+NRM7DpF1mYtnd9DfJMblG
-   653Q9ColsguugR3lQZqwINrLRxBRIUuUsJ3QI1qmnv+q6BxeYdlsxdBIv
-   tSpNxzq+wRwdMZ241UJPr16qeuTbOjNOUm6bTLw6cq4TPRmQe1bW97wai
-   A==;
-X-CSE-ConnectionGUID: AtxXGp4NR4CKVdWgvTKSNA==
-X-CSE-MsgGUID: Nxukdp+vTy6yHtD4hikO1Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14251699"
+  t=1717711175; x=1749247175;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wvUJH258XBnoPR4hL72RaVBEkAQOyVNRDzLmK0dHgP0=;
+  b=C+9s1X2lemO9w9vrTpQyFtF8PIwfTBuAkLSMex7sQvjGRa6++YUlLyKB
+   1KPYVD47MQJz23sblFIVReyluSqZz1Sf1lfmgHkiMaOqMni1yB2W+lwtW
+   o1gJI6G3rew6OT8/sWUMearcU0GtZ+xDs+bMFhM+7rwXzdVeD3vL30wXd
+   1mibJfU/RrwGf9dl7m8+xVQXA9YxeQXk5bh+6ROgkjCaIko549xHs4Ec1
+   j8sLtqdMcB7AgdJTQ2eC0FztYt5C0fZwMHudcYno84l7j0OT9+LRufsru
+   1VQsDVtGaQm4HY2E7mg41a74MVhrLe5NHt+OLgHjgL0ej2qVc85+el/NS
+   g==;
+X-CSE-ConnectionGUID: 6BPkno7TS8CkKCSVtYB1qw==
+X-CSE-MsgGUID: 7PqupCLoRKaCq2XXro1RkQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14367721"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14251699"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 14:48:33 -0700
-X-CSE-ConnectionGUID: X9J3pHlJQeadPCPFbwelAA==
-X-CSE-MsgGUID: rIMQcq1ISNeughnHqcYH6g==
+   d="scan'208";a="14367721"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 14:59:34 -0700
+X-CSE-ConnectionGUID: Mkwn1ORASxeJQGTAdTs/Zw==
+X-CSE-MsgGUID: 9JwsXYUGQDqe+7lwgXcqyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="38550937"
+   d="scan'208";a="42545073"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 06 Jun 2024 14:48:32 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 06 Jun 2024 14:59:32 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFKyC-0003ls-0M;
-	Thu, 06 Jun 2024 21:48:28 +0000
-Date: Fri, 7 Jun 2024 05:48:09 +0800
+	id 1sFL8r-0003mE-2G;
+	Thu, 06 Jun 2024 21:59:29 +0000
+Date: Fri, 7 Jun 2024 05:58:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, animesh.manna@intel.com,
-	arun.r.murthy@intel.com, jouni.hogander@intel.com,
-	Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/psr: Implment WA to help reach PC10
-Message-ID: <202406070543.soJpPCOs-lkp@intel.com>
-References: <20240606082926.1816416-4-suraj.kandpal@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org
+Subject: [rafael-pm:thermal-core-testing 15/19]
+ drivers/thermal/thermal_trip.c:80: warning: expecting prototype for
+ __thermal_zone_set_trips(). Prototype was for thermal_zone_set_trips()
+ instead
+Message-ID: <202406070545.l4cZkyKT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240606082926.1816416-4-suraj.kandpal@intel.com>
 
-Hi Suraj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc2 next-20240606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-psr-Add-return-bool-value-for-hsw_activate_psr1/20240606-163351
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240606082926.1816416-4-suraj.kandpal%40intel.com
-patch subject: [PATCH 2/2] drm/i915/psr: Implment WA to help reach PC10
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240607/202406070543.soJpPCOs-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070543.soJpPCOs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal-core-testing
+head:   6e0a68e98f310000edb1e4aa178257d4bc3509f8
+commit: 60f7b1c6e1b5722b8ac2958ec6c57c5cec9ef9c7 [15/19] thermal: trip: Rename __thermal_zone_set_trips() to thermal_zone_set_trips()
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240607/202406070545.l4cZkyKT-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070545.l4cZkyKT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406070543.soJpPCOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406070545.l4cZkyKT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/display/intel_psr.c:35:
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_check_delayed_vblank_limit':
->> drivers/gpu/drm/xe/compat-i915-headers/../../i915/i915_reg.h:4158:62: error: 'dev_priv' undeclared (first use in this function); did you mean 'dev_crit'?
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                              ^~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.h:31:69: note: in definition of macro 'intel_de_read'
-      31 | #define intel_de_read(p,...) __intel_de_read(__to_intel_display(p), __VA_ARGS__)
-         |                                                                     ^~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/display/intel_display_reg_defs.h:42:49: note: in expansion of macro '_MMIO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                 ^~~~~
-   drivers/gpu/drm/i915/display/intel_display_device.h:185:42: note: in expansion of macro '__to_intel_display'
-     185 | #define DISPLAY_INFO(i915)              (__to_intel_display(i915)->info.__device_info)
-         |                                          ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/display/intel_display_reg_defs.h:42:55: note: in expansion of macro 'DISPLAY_INFO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                       ^~~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/i915_reg.h:4158:49: note: in expansion of macro '_MMIO_TRANS2'
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                 ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:817:36: note: in expansion of macro 'TRANS_SET_CONTEXT_LATENCY'
-     817 |         return intel_de_read(i915, TRANS_SET_CONTEXT_LATENCY(cpu_transcoder)) >= 6;
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/i915_reg.h:4158:62: note: each undeclared identifier is reported only once for each function it appears in
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                              ^~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.h:31:69: note: in definition of macro 'intel_de_read'
-      31 | #define intel_de_read(p,...) __intel_de_read(__to_intel_display(p), __VA_ARGS__)
-         |                                                                     ^~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/display/intel_display_reg_defs.h:42:49: note: in expansion of macro '_MMIO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                 ^~~~~
-   drivers/gpu/drm/i915/display/intel_display_device.h:185:42: note: in expansion of macro '__to_intel_display'
-     185 | #define DISPLAY_INFO(i915)              (__to_intel_display(i915)->info.__device_info)
-         |                                          ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/display/intel_display_reg_defs.h:42:55: note: in expansion of macro 'DISPLAY_INFO'
-      42 | #define _MMIO_TRANS2(display, tran, reg)        _MMIO(DISPLAY_INFO(display)->trans_offsets[(tran)] - \
-         |                                                       ^~~~~~~~~~~~
-   drivers/gpu/drm/xe/compat-i915-headers/../../i915/i915_reg.h:4158:49: note: in expansion of macro '_MMIO_TRANS2'
-    4158 | #define TRANS_SET_CONTEXT_LATENCY(tran)         _MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-         |                                                 ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:817:36: note: in expansion of macro 'TRANS_SET_CONTEXT_LATENCY'
-     817 |         return intel_de_read(i915, TRANS_SET_CONTEXT_LATENCY(cpu_transcoder)) >= 6;
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_psr.c:815:66: error: parameter 'cpu_transcoder' set but not used [-Werror=unused-but-set-parameter]
-     815 |                                                  enum transcoder cpu_transcoder)
-         |                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_is_dpkgc_configured':
->> drivers/gpu/drm/i915/display/intel_psr.c:822:36: error: 'LNL_PKG_C_LATENCY' undeclared (first use in this function)
-     822 |         return intel_de_read(i915, LNL_PKG_C_LATENCY) == U32_MAX;
-         |                                    ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.h:31:69: note: in definition of macro 'intel_de_read'
-      31 | #define intel_de_read(p,...) __intel_de_read(__to_intel_display(p), __VA_ARGS__)
-         |                                                                     ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_is_dc5_entry_possible':
->> drivers/gpu/drm/i915/display/intel_psr.c:835:26: error: 'struct drm_crtc' has no member named 'active'
-     835 |                 if (!crtc->active)
-         |                          ^~
->> drivers/gpu/drm/i915/display/intel_psr.c:842:69: error: '_encoder' undeclared (first use in this function); did you mean 'encoder'?
-     842 |                         struct intel_dp *intel_dp = enc_to_intel_dp(_encoder);
-         |                                                                     ^~~~~~~~
-         |                                                                     encoder
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'wa_16023497226_check':
->> drivers/gpu/drm/i915/display/intel_psr.c:861:13: error: implicit declaration of function 'is_dpkg_c_configured' [-Werror=implicit-function-declaration]
-     861 |         if (is_dpkg_c_configured(i915)) {
-         |             ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_psr.c:866:35: error: implicit declaration of function 'is_dc5_entry_possible'; did you mean 'intel_psr_is_dc5_entry_possible'? [-Werror=implicit-function-declaration]
-     866 |                 else if (!psr1 && is_dc5_entry_possible(i915))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-         |                                   intel_psr_is_dc5_entry_possible
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_check_delayed_vblank_limit':
-   drivers/gpu/drm/i915/display/intel_psr.c:818:1: warning: control reaches end of non-void function [-Wreturn-type]
-     818 | }
-         | ^
-   drivers/gpu/drm/i915/display/intel_psr.c: At top level:
->> drivers/gpu/drm/i915/display/intel_psr.c:820:13: error: 'intel_psr_is_dpkgc_configured' defined but not used [-Werror=unused-function]
-     820 | static bool intel_psr_is_dpkgc_configured(struct drm_i915_private *i915)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/thermal/thermal_trip.c:80: warning: expecting prototype for __thermal_zone_set_trips(). Prototype was for thermal_zone_set_trips() instead
 
 
-vim +4158 drivers/gpu/drm/xe/compat-i915-headers/../../i915/i915_reg.h
+vim +80 drivers/thermal/thermal_trip.c
 
-dae847991a4327 Paulo Zanoni          2012-10-15  4153  
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4154  #define _TRANS_A_SET_CONTEXT_LATENCY		0x6007C
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4155  #define _TRANS_B_SET_CONTEXT_LATENCY		0x6107C
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4156  #define _TRANS_C_SET_CONTEXT_LATENCY		0x6207C
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4157  #define _TRANS_D_SET_CONTEXT_LATENCY		0x6307C
-407569ff790979 Jani Nikula           2024-04-23 @4158  #define TRANS_SET_CONTEXT_LATENCY(tran)		_MMIO_TRANS2(dev_priv, tran, _TRANS_A_SET_CONTEXT_LATENCY)
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4159  #define  TRANS_SET_CONTEXT_LATENCY_MASK		REG_GENMASK(15, 0)
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4160  #define  TRANS_SET_CONTEXT_LATENCY_VALUE(x)	REG_FIELD_PREP(TRANS_SET_CONTEXT_LATENCY_MASK, (x))
-1d53ccdc400c87 José Roberto de Souza 2021-06-16  4161  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   63  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   64  /**
+5b8de18ee9027c Daniel Lezcano    2023-01-23   65   * __thermal_zone_set_trips - Computes the next trip points for the driver
+5b8de18ee9027c Daniel Lezcano    2023-01-23   66   * @tz: a pointer to a thermal zone device structure
+5b8de18ee9027c Daniel Lezcano    2023-01-23   67   *
+5b8de18ee9027c Daniel Lezcano    2023-01-23   68   * The function computes the next temperature boundaries by browsing
+5b8de18ee9027c Daniel Lezcano    2023-01-23   69   * the trip points. The result is the closer low and high trip points
+5b8de18ee9027c Daniel Lezcano    2023-01-23   70   * to the current temperature. These values are passed to the backend
+5b8de18ee9027c Daniel Lezcano    2023-01-23   71   * driver to let it set its own notification mechanism (usually an
+5b8de18ee9027c Daniel Lezcano    2023-01-23   72   * interrupt).
+5b8de18ee9027c Daniel Lezcano    2023-01-23   73   *
+5b8de18ee9027c Daniel Lezcano    2023-01-23   74   * This function must be called with tz->lock held. Both tz and tz->ops
+5b8de18ee9027c Daniel Lezcano    2023-01-23   75   * must be valid pointers.
+5b8de18ee9027c Daniel Lezcano    2023-01-23   76   *
+5b8de18ee9027c Daniel Lezcano    2023-01-23   77   * It does not return a value
+5b8de18ee9027c Daniel Lezcano    2023-01-23   78   */
+60f7b1c6e1b572 Rafael J. Wysocki 2024-05-28   79  void thermal_zone_set_trips(struct thermal_zone_device *tz)
+5b8de18ee9027c Daniel Lezcano    2023-01-23  @80  {
+daeeb032f42d06 Rafael J. Wysocki 2024-04-02   81  	const struct thermal_trip_desc *td;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   82  	int low = -INT_MAX, high = INT_MAX;
+0c0c4740c9d266 Rafael J. Wysocki 2023-12-04   83  	int ret;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   84  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   85  	lockdep_assert_held(&tz->lock);
+5b8de18ee9027c Daniel Lezcano    2023-01-23   86  
+698a1eb1f75eb6 Rafael J. Wysocki 2024-02-22   87  	if (!tz->ops.set_trips)
+5b8de18ee9027c Daniel Lezcano    2023-01-23   88  		return;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   89  
+daeeb032f42d06 Rafael J. Wysocki 2024-04-02   90  	for_each_trip_desc(tz, td) {
+daeeb032f42d06 Rafael J. Wysocki 2024-04-02   91  		const struct thermal_trip *trip = &td->trip;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   92  		int trip_low;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   93  
+0c0c4740c9d266 Rafael J. Wysocki 2023-12-04   94  		trip_low = trip->temperature - trip->hysteresis;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   95  
+f67cf45deedb11 Daniel Lezcano    2024-03-25   96  		if (trip_low < tz->temperature && trip_low > low)
+5b8de18ee9027c Daniel Lezcano    2023-01-23   97  			low = trip_low;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   98  
+0c0c4740c9d266 Rafael J. Wysocki 2023-12-04   99  		if (trip->temperature > tz->temperature &&
+f67cf45deedb11 Daniel Lezcano    2024-03-25  100  		    trip->temperature < high)
+0c0c4740c9d266 Rafael J. Wysocki 2023-12-04  101  			high = trip->temperature;
+5b8de18ee9027c Daniel Lezcano    2023-01-23  102  	}
+5b8de18ee9027c Daniel Lezcano    2023-01-23  103  
+5b8de18ee9027c Daniel Lezcano    2023-01-23  104  	/* No need to change trip points */
+5b8de18ee9027c Daniel Lezcano    2023-01-23  105  	if (tz->prev_low_trip == low && tz->prev_high_trip == high)
+5b8de18ee9027c Daniel Lezcano    2023-01-23  106  		return;
+5b8de18ee9027c Daniel Lezcano    2023-01-23  107  
+5b8de18ee9027c Daniel Lezcano    2023-01-23  108  	tz->prev_low_trip = low;
+5b8de18ee9027c Daniel Lezcano    2023-01-23  109  	tz->prev_high_trip = high;
+5b8de18ee9027c Daniel Lezcano    2023-01-23  110  
+5b8de18ee9027c Daniel Lezcano    2023-01-23  111  	dev_dbg(&tz->device,
+5b8de18ee9027c Daniel Lezcano    2023-01-23  112  		"new temperature boundaries: %d < x < %d\n", low, high);
+5b8de18ee9027c Daniel Lezcano    2023-01-23  113  
+5b8de18ee9027c Daniel Lezcano    2023-01-23  114  	/*
+5b8de18ee9027c Daniel Lezcano    2023-01-23  115  	 * Set a temperature window. When this window is left the driver
+5b8de18ee9027c Daniel Lezcano    2023-01-23  116  	 * must inform the thermal core via thermal_zone_device_update.
+5b8de18ee9027c Daniel Lezcano    2023-01-23  117  	 */
+698a1eb1f75eb6 Rafael J. Wysocki 2024-02-22  118  	ret = tz->ops.set_trips(tz, low, high);
+5b8de18ee9027c Daniel Lezcano    2023-01-23  119  	if (ret)
+5b8de18ee9027c Daniel Lezcano    2023-01-23  120  		dev_err(&tz->device, "Failed to set trips: %d\n", ret);
+5b8de18ee9027c Daniel Lezcano    2023-01-23  121  }
+5b8de18ee9027c Daniel Lezcano    2023-01-23  122  
+
+:::::: The code at line 80 was first introduced by commit
+:::::: 5b8de18ee9027c647db4c1905f7fd0550d17d67a thermal/core: Move the thermal trip code to a dedicated file
+
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
