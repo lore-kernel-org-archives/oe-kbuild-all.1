@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA673A8CB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 20:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5042199E8D;
+	Thu,  6 Jun 2024 20:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717706111; cv=none; b=C7C+h3OfX/Ng/+NEx5O2zPaxyUlPeBqFyA0tMrdRw93ZEGxwFHL0UxVa2BAd1CCkx1tGMm5eQbJvC4KlSyd7eSkFp95Ybz6hjyB3iYhLW/kEEQEKA4MGYJAHBfmJKsLnBIBXem/me+I/i2rmamS/3HUvL6LXpQlKuJ1FbfzWN9I=
+	t=1717706112; cv=none; b=r0p6Hcr5r9+kU02A8/eWwtVvWCjWa9pSsZmKPumTM5aJ7xsj+nGnZVZj0TJheHOR0xg2J9yKNRsqEjr3sgtNYoxEKRUltMLFfDNEa4UcYtD/VCRjnagnJRxv5M8jiDftuE7L1ha/qeW4booZZjBX3EoXj0jE+5rra/MQH8JtW/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717706111; c=relaxed/simple;
-	bh=CrrXiHDBC6YnFk1V87SvYkDo0svapMDQnQutfZDES7A=;
+	s=arc-20240116; t=1717706112; c=relaxed/simple;
+	bh=0hWLNf3Qux6YwlgVPzUwqQ7I4rmjkePIxnoozYuX59U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=br0XDzyMbv7TVJYs9TFHBKEd4H5TtdVWTu49s0BBidda49OdeKpQTY55jGeDoc2DefV0nwthbl/ZptjIr563UUqlcG/cuDML1a2xnsVn1ht7H6IUpHmQYBs9MVW2ZDAp7hv7CqyjJ5l2GgxCYnR7Eh1G1c/T9S982tlE/08HXrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEdX6ga6; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=E7uql11TOLK/LBCZ84G5TU7o/5AAZNWVYseVXS30UReqvJitBAzkjHLlZDmS5sPoX+Qi4BeVWqq7V/wXJeFKNaJWh+Kw2eJRx0HfaklUbQtn0/F8xC2RCPIMNR9iwfxGiqXj4bVxokXdc5WCLwnfeiP1PCqX+XYdlcou/GPPHxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dfs2fQDv; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEdX6ga6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dfs2fQDv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717706109; x=1749242109;
+  t=1717706111; x=1749242111;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CrrXiHDBC6YnFk1V87SvYkDo0svapMDQnQutfZDES7A=;
-  b=nEdX6ga6X1qf7sQxZntCcgWQBhMOLWa9vhzA7b8Gyl/wQiIOHDcWgDfo
-   mmLU2reSaBLssM5fzbTzMhjdUNlaBbJtdWmRFZHKTByUrnYgISElMziA3
-   /IMjeojAIxCfdYYJliFQp5HTBTmON4y1fyxkyI6mPufGb8Bug1zIUxwga
-   aT02LYARJgcA0HwcoM87x0bJnUQNOoBVMobQiM10WVMDTKYZzcjG7esTh
-   JyUg2xVJY1lIc5EwORKyaHG7VV577ZQ20O952RLBdC88khv75XSP+DSiV
-   /jfiLCUFOrNKbFZHKeBwKqa7XV+bRkLrlnySUEjoIVOG2uFKCDGRFEgf7
-   A==;
-X-CSE-ConnectionGUID: gogq++vhRGmqngFmv6CmdQ==
-X-CSE-MsgGUID: AvWQdq+lQsqN3aeXCQJg+Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14244949"
+  bh=0hWLNf3Qux6YwlgVPzUwqQ7I4rmjkePIxnoozYuX59U=;
+  b=Dfs2fQDvSRb17enF0zGLhX57HoaRB21UdpxUkcLwmFvLy1d1JVcbHZba
+   JIAJQXRwMAYH1+z/aksKPcwizgzT1/voJhaaQCJFpxSZWMqaKPUBfz6Gw
+   3ePNLmEKljd1+FWQW4hky2E9u3S4aalgVsl77St0ZdKmK3qVxi79gzykY
+   vNZffN+FdI/MKZQdDcSSX+VYa27tBjzDK12DXKQ09UWGV/WinbSA+T+6J
+   zffZdE0adVAb4etGaw0TM6l9gCzQKeuUrBwELa6GM/UWwTaU9zaIAWBEB
+   GGCY7jHGfAvg1j8sMghD1FncMHHgZNTEdYqpVehj9SuIVyOdKm6/KJQFL
+   Q==;
+X-CSE-ConnectionGUID: k7nFLQRkRFuFEyeI1w2xWw==
+X-CSE-MsgGUID: UgggbvOcSWODiZCZj03uSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14244951"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14244949"
+   d="scan'208";a="14244951"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 13:35:08 -0700
-X-CSE-ConnectionGUID: BlX13foCSOKxRXj17Z71nQ==
-X-CSE-MsgGUID: LRZZeIlUQDaXHQ80sJ5mvg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 13:35:09 -0700
+X-CSE-ConnectionGUID: qZQduw5SS1ObR6Xhs8OOAQ==
+X-CSE-MsgGUID: 3TC1oPouQbiHXBJIgF19Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="37943317"
+   d="scan'208";a="37943321"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by fmviesa007.fm.intel.com with ESMTP; 06 Jun 2024 13:35:07 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFJpB-0003gC-1P;
+	id 1sFJpB-0003gQ-1s;
 	Thu, 06 Jun 2024 20:35:05 +0000
-Date: Fri, 7 Jun 2024 04:34:15 +0800
+Date: Fri, 7 Jun 2024 04:34:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 122/126]
- drivers/dma-buf/heaps/restricted_heap_mtk.c:187:48: warning: passing
- argument 2 of 'sg_set_page' makes pointer from integer without a cast
-Message-ID: <202406070409.0xblAwLu-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-msg-ring.1 6/7] io_uring/msg_ring.c:95:6:
+ warning: variable 'flags' is used uninitialized whenever 'if' condition is
+ false
+Message-ID: <202406070408.EifgtOJu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,146 +63,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   bb84077a7f2f0e6433f0c71d35738db6fcfca976
-commit: 64a3b3ce74a66cbab1a9f310c99028b746bfa43f [122/126] CHROMIUM: dma-buf: heaps: restricted_mtk: Retrieve the sg from TEE
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240607/202406070409.0xblAwLu-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070409.0xblAwLu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-msg-ring.1
+head:   0ffab2e0e86e525c59448ded8bac7bbf256e650f
+commit: d11afec0fbe1eaf03077a755e2b9cb5386c22d19 [6/7] io_uring/msg_ring: improve handling of target CQE posting
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240607/202406070408.EifgtOJu-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070408.EifgtOJu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406070409.0xblAwLu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406070408.EifgtOJu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/dma-buf/heaps/restricted_heap_mtk.c: In function 'mtk_tee_restrict_memory':
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:187:48: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
-     187 |                 sg_set_page(buf->sg_table.sgl, phys_to_page(pa_tee), buf->size, 0);
-         |                                                ^~~~~~~~~~~~
-         |                                                pfn_to_page
->> drivers/dma-buf/heaps/restricted_heap_mtk.c:187:48: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     187 |                 sg_set_page(buf->sg_table.sgl, phys_to_page(pa_tee), buf->size, 0);
-         |                                                ^~~~~~~~~~~~~~~~~~~~
-         |                                                |
-         |                                                int
-   In file included from include/linux/dma-buf.h:19,
-                    from drivers/dma-buf/heaps/restricted_heap_mtk.c:9:
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:223:33: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     223 |                 sg_set_page(sg, phys_to_page(tee_sg_item->pa),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 |
-         |                                 int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   In file included from io_uring/msg_ring.c:11:
+   In file included from io_uring/io_uring.h:6:
+   In file included from include/linux/resume_user_mode.h:8:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> io_uring/msg_ring.c:95:6: warning: variable 'flags' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      95 |         if (msg->flags & IORING_MSG_RING_FLAGS_PASS)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   io_uring/msg_ring.c:100:35: note: uninitialized use occurs here
+     100 |         io_req_set_res(target, msg->len, flags);
+         |                                          ^~~~~
+   io_uring/msg_ring.c:95:2: note: remove the 'if' if its condition is always true
+      95 |         if (msg->flags & IORING_MSG_RING_FLAGS_PASS)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      96 |                 flags = msg->cqe_flags;
+   io_uring/msg_ring.c:86:11: note: initialize the variable 'flags' to silence this warning
+      86 |         u32 flags;
+         |                  ^
+         |                   = 0
+   2 warnings generated.
 
 
-vim +/sg_set_page +187 drivers/dma-buf/heaps/restricted_heap_mtk.c
+vim +95 io_uring/msg_ring.c
 
-   147	
-   148	static int mtk_tee_restrict_memory(struct restricted_heap *heap, struct restricted_buffer *buf)
-   149	{
-   150		struct mtk_restricted_heap_data *data = heap->priv_data;
-   151		struct tee_param params[TEE_PARAM_NUM] = {0};
-   152		struct mtk_tee_scatterlist *tee_sg_item;
-   153		struct mtk_tee_scatterlist *tee_sg_buf;
-   154		unsigned int sg_num, size, i;
-   155		struct tee_shm *sg_shm;
-   156		struct scatterlist *sg;
-   157		phys_addr_t pa_tee;
-   158		u64 r_addr;
-   159		int ret;
-   160	
-   161		/* Alloc the secure buffer and get the sg-list number from TEE */
-   162		params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-   163		params[0].u.value.a = buf->size;
-   164		params[0].u.value.b = PAGE_SIZE;
-   165		params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-   166		params[1].u.value.a = data->mem_type;
-   167		params[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT;
-   168		if (heap->cma && data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA) {
-   169			params[2].u.value.a = heap->cma_paddr;
-   170			params[2].u.value.b = heap->cma_size;
-   171		}
-   172		params[3].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
-   173		ret = mtk_tee_service_call(data->tee_ctx, data->tee_session,
-   174					   MTK_TZCMD_SECMEM_ZALLOC, params);
-   175		if (ret)
-   176			return -ENOMEM;
-   177	
-   178		r_addr = params[3].u.value.a;
-   179	
-   180		sg_num = params[2].u.value.a;
-   181	
-   182		/* If there is only one time, It means the buffer is continous,Get the PA directly. */
-   183		if (sg_num == 1) {
-   184			pa_tee = params[2].u.value.b;
-   185			if (sg_alloc_table(&buf->sg_table, 1, GFP_KERNEL))
-   186				goto tee_secmem_free;
- > 187			sg_set_page(buf->sg_table.sgl, phys_to_page(pa_tee), buf->size, 0);
-   188			buf->restricted_addr = r_addr;
-   189			return 0;
-   190		}
-   191	
-   192		/*
-   193		 * If the buffer inside TEE are discontinuous, Use sharemem to retrieve
-   194		 * the detail sg list from TEE.
-   195		 */
-   196		tee_sg_buf = kmalloc_array(sg_num, sizeof(*tee_sg_item), GFP_KERNEL);
-   197		if (!tee_sg_buf) {
-   198			ret = -ENOMEM;
-   199			goto tee_secmem_free;
-   200		}
-   201	
-   202		size = sg_num * sizeof(*tee_sg_item);
-   203	        sg_shm = tee_shm_register_kernel_buf(data->tee_ctx, tee_sg_buf, size);
-   204	        if (!sg_shm)
-   205			goto free_sg_buf;
-   206	
-   207		memset(params, 0, sizeof(params));
-   208		params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-   209		params[0].u.value.a = r_addr;
-   210		params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT;
-   211		params[1].u.memref.shm = sg_shm;
-   212	        params[1].u.memref.size = size;
-   213		ret = mtk_tee_service_call(data->tee_ctx, data->tee_session,
-   214					   MTK_TZCMD_SECMEM_RETRIEVE_SG, params);
-   215		if (ret)
-   216			goto put_shm;
-   217	
-   218		if (sg_alloc_table(&buf->sg_table, sg_num, GFP_KERNEL))
-   219			goto put_shm;
-   220	
-   221		for_each_sgtable_sg(&buf->sg_table, sg, i) {
-   222			tee_sg_item = tee_sg_buf + i;
-   223			sg_set_page(sg, phys_to_page(tee_sg_item->pa),
-   224				    tee_sg_item->length, 0);
-   225		}
-   226	
-   227		tee_shm_put(sg_shm);
-   228		kfree(tee_sg_buf);
-   229		buf->restricted_addr = r_addr;
-   230		return 0;
-   231	
-   232	put_shm:
-   233		tee_shm_put(sg_shm);
-   234	free_sg_buf:
-   235		kfree(tee_sg_buf);
-   236	tee_secmem_free:
-   237		params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-   238		params[0].u.value.a = r_addr;
-   239		params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
-   240		mtk_tee_service_call(data->tee_ctx, data->tee_session,
-   241				     MTK_TZCMD_SECMEM_FREE, params);
-   242		return ret;
-   243	}
-   244	
+56d8e3180c065c Pavel Begunkov 2023-01-20   80  
+d11afec0fbe1ea Jens Axboe     2024-03-28   81  static int io_msg_data_remote(struct io_kiocb *req)
+6d043ee1164ca3 Pavel Begunkov 2022-12-07   82  {
+6d043ee1164ca3 Pavel Begunkov 2022-12-07   83  	struct io_ring_ctx *target_ctx = req->file->private_data;
+d11afec0fbe1ea Jens Axboe     2024-03-28   84  	struct io_msg *msg = io_kiocb_to_cmd(req, struct io_msg);
+d11afec0fbe1ea Jens Axboe     2024-03-28   85  	struct io_kiocb *target;
+d11afec0fbe1ea Jens Axboe     2024-03-28   86  	u32 flags;
+6d043ee1164ca3 Pavel Begunkov 2022-12-07   87  
+d11afec0fbe1ea Jens Axboe     2024-03-28   88  	BUILD_BUG_ON(sizeof_field(struct io_kiocb, cmd) <
+d11afec0fbe1ea Jens Axboe     2024-03-28   89  			sizeof(struct io_overflow_cqe) + sizeof(struct io_uring_cqe));
+d11afec0fbe1ea Jens Axboe     2024-03-28   90  
+d11afec0fbe1ea Jens Axboe     2024-03-28   91  	target = kmem_cache_alloc(req_cachep, GFP_ATOMIC | __GFP_ZERO);
+d11afec0fbe1ea Jens Axboe     2024-03-28   92  	if (!target)
+d11afec0fbe1ea Jens Axboe     2024-03-28   93  		return -ENOMEM;
+8572df941cbef2 Jens Axboe     2023-01-21   94  
+8572df941cbef2 Jens Axboe     2023-01-21  @95  	if (msg->flags & IORING_MSG_RING_FLAGS_PASS)
+8572df941cbef2 Jens Axboe     2023-01-21   96  		flags = msg->cqe_flags;
+8572df941cbef2 Jens Axboe     2023-01-21   97  
+d11afec0fbe1ea Jens Axboe     2024-03-28   98  	target->flags = REQ_F_NOCACHE;
+d11afec0fbe1ea Jens Axboe     2024-03-28   99  	target->cqe.user_data = msg->user_data;
+d11afec0fbe1ea Jens Axboe     2024-03-28  100  	io_req_set_res(target, msg->len, flags);
+d11afec0fbe1ea Jens Axboe     2024-03-28  101  	target->ctx = target_ctx;
+d11afec0fbe1ea Jens Axboe     2024-03-28  102  	target->io_task_work.func = io_req_task_complete;
+d11afec0fbe1ea Jens Axboe     2024-03-28  103  	target->task = get_task_struct(READ_ONCE(target_ctx->submitter_task));
+d11afec0fbe1ea Jens Axboe     2024-03-28  104  	io_req_task_work_add_remote(target, target_ctx, IOU_F_TWQ_LAZY_WAKE);
+d11afec0fbe1ea Jens Axboe     2024-03-28  105  	return 0;
+6d043ee1164ca3 Pavel Begunkov 2022-12-07  106  }
+6d043ee1164ca3 Pavel Begunkov 2022-12-07  107  
+
+:::::: The code at line 95 was first introduced by commit
+:::::: 8572df941cbef2b295282535b013828e7df39471 io_uring/msg-ring: ensure flags passing works for task_work completions
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
