@@ -1,66 +1,60 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B9415573B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 09:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881913A3F1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 09:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717664565; cv=none; b=eIDhsf1xXf6tQHSreJUnNpeNZKSFgS6EzTmTVowMVKAe9bqBLV+HRgtYfuK76c/u+W1c3L8e5+zExM0RR+BZD2ofL+ajXT6GZJ7+U4HdANeso42Df35yvYx9s16BsOfFOnUbyM3ow9Lcv4h1uYZWv8Sx8jrKqR9RhQdMKqVk+jY=
+	t=1717665395; cv=none; b=UihH0Cy7cACJ5cBevzVSUmt3yV7VfS1WvwkTJMpaCN6Nzp0cnBOJm6tH0EVB7VJkNlUuXHMbzEc5p9eZ8V46gw3JTaJ/gwpBwBcriNkZvaJ99eEOyJwWifd8is9ZMGBuRzQVSSmAqpAeYhhEw9TTs4RkWb/KahPj/ZIEWpSW050=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717664565; c=relaxed/simple;
-	bh=mCpxfybVw+s5t6VAkDxz45g2sACkRSwSf/rV11JR9GM=;
+	s=arc-20240116; t=1717665395; c=relaxed/simple;
+	bh=s/LEKzhglfD+kdFxXOUSWDELLQdE26cjEcFTSJwlZTM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BU4s66+2nZDnJmDDX15d/S/ruy4BHRhANjFfP/XPwWeYvquSa1fQke+yEQf1CeI8skyKgeOLZqWCPv2wW0ylwn5i6QSXogjiTLCryHd4lAu6tfDuvhcf9nlVuB6OdBWoBUtRRTxKJ1iBWc0nyM2tZGcWE7iy1qa7Dby3W02mVIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NLBMMLtx; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=o8U1a30VPNff7zzaxISHIg2vsAzfDfrR3Ry5LnZferiAscrTCpF/ZLojjmsNUJeNcWN/pLx/NsS1tpxEjxCl1G6NVhmqNCwD87TSUiuNOkLFF2r+LVFDnVcj+MX2JdtUPwuqJSsO2oVTdxEXxsGcLT3uDvg5y7h4j1OSLoSwrFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+I5ZcIZ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NLBMMLtx"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57aa64c6bbfso583553a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Jun 2024 02:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717664560; x=1718269360; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3jhqJzVWKZBINGIderyOHidcYli4dqLXjpNqkP4LDD4=;
-        b=NLBMMLtxZr6qmlMBabfQyucYd9uYYmJ8yk5D+dEXSM1yopZnI7RFk9z1TblUi9UN+2
-         TLTsvg7WiRqyxVxsWjoOn71+5NAnUlSceORN9hlQHHcOm4fosxzpytKvoOWLbPnB5bto
-         EQomcgP3rQIoaw/FYpDuKyOUCTWsBFkY9PMQ5mx3Lhs/g/n5KWY4DXD0VRdWvmraoqQR
-         CmrYa+TzTyIPYullOpTp9O8Icq7NyjsV+mU2P0twRYIjwdJImonezos3xIFsGFQPNAQ5
-         onrmCwWjWdb0wK0fLqwhm7TZ6BhSiP+7cYle6uh5u6gKIVaaz+fAt2OECxrIfUtk923i
-         ixIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717664560; x=1718269360;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3jhqJzVWKZBINGIderyOHidcYli4dqLXjpNqkP4LDD4=;
-        b=JLolsHAebtLIOQlK0VM7fL2qLT4SPZjklu1H2emADrgNwFeyXjGx1oeX3lUM6lIhOv
-         Q1M9rGqaweWd7fuhCoP3JF+Cy4npWyL/l95XJMxXnCGZFpj56cujhb1C4fsZfeBj/5Dl
-         VKAdMq+YlUV6c1Y3o1W1cVY6Ouc90KPiCVFVixIo3qburfNi/1MHCy4S9J/5Xm5U6AKK
-         so3mh0WUHhy+qQ6AKQnQkq8N8d8gf5syzRvx+ZEabaQtCBcfZkt8D/tc1UbKjU0pMUMG
-         EcpCTz3OTLrvoq1HmuAL1VZE+YIODbts9OGdXPQKpfeuNCXV9kQSkzKtiFdp8IDyh62O
-         YElQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVb40gib76/fi2L0COX3U+DvXk+oDpxb6gI+dTr3nPH6sc97ZDND1Xb8GkTywkS4mgSiPuS1iqpGVaUzedr182bIgJmeF/Zwf1a5I/rPg==
-X-Gm-Message-State: AOJu0Ywr4pEtCYTTAlG6FaVPKXia1k/8qt2+UA2LzNbFmzjzZXsfFnQS
-	uTh2fUAG2coaCsj0uRh56daXINvacfKgR8c8dX/KZAA34TRqJ08hzlD0aNSUX7o=
-X-Google-Smtp-Source: AGHT+IFaVLx5dgwnC0TMCfiKkqRrwIvNS5Mx2Z2QJryQfdCTPctVUM2HpPWn3S2o+xJhrcNy53Wl+g==
-X-Received: by 2002:a50:aa93:0:b0:57a:27f5:1272 with SMTP id 4fb4d7f45d1cf-57a8b6b709fmr3119565a12.24.1717664560342;
-        Thu, 06 Jun 2024 02:02:40 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aadf9b9d0sm740521a12.2.2024.06.06.02.02.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 02:02:39 -0700 (PDT)
-Date: Thu, 6 Jun 2024 12:02:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jeremy Kerr <jk@codeconstruct.com.au>,
-	David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
-Message-ID: <0510655b-f42e-47e0-81e6-29ab58645c51@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+I5ZcIZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717665393; x=1749201393;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s/LEKzhglfD+kdFxXOUSWDELLQdE26cjEcFTSJwlZTM=;
+  b=d+I5ZcIZLHB02L+GmasK6Eooye+SoN4tGRe5M/kklZt4BF+kKSSYSxUq
+   BmFl3uCkRmRDtpV/p+FupzG0hrVzvAS0QiQIb3DEq3yUdiMWFdRiIcMqE
+   KbwTMz7E7jpxpyi1pt/Lsy35abQu1UTRgWJTKhpmde0JF+OUf6My1myEX
+   AY2zfVz7QQ5tWzgtWV+xVkzaScK5o54mBoQmICg03B/GpOGrL/OzQESNX
+   ahdZ3x9Huceraj/yQIPzRd9Jv5/iVmGY7yzXPm+OE262EBIX3/BxvxgIL
+   0D72MQUi5ihb90vJo0gSWFB4qw7TqA07tbEBOBOUD1JjEDMJSVTtXJIz4
+   Q==;
+X-CSE-ConnectionGUID: aBJG8MO4RaGcIxNPJFl68w==
+X-CSE-MsgGUID: 7fwD6KhPQCm9wykazpvdqQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="18166272"
+X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
+   d="scan'208";a="18166272"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 02:16:33 -0700
+X-CSE-ConnectionGUID: /2pHx4BEQQqbR8f3pD/Fig==
+X-CSE-MsgGUID: U9Ci0j0fSd6+SmEhLq1N7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
+   d="scan'208";a="37867588"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Jun 2024 02:16:32 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sF9ET-0002u4-1e;
+	Thu, 06 Jun 2024 09:16:29 +0000
+Date: Thu, 6 Jun 2024 17:16:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Subject: [linux-next:master 3357/4264] kernel/trace/trace_selftest.c:761:
+ warning: "BYTE_NUMBER" redefined
+Message-ID: <202406061744.rZDXfRrG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,67 +63,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
 
-Hi Jeremy,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
-base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
-patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
-patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
-config: x86_64-randconfig-161-20240606 (https://download.01.org/0day-ci/archive/20240606/202406061253.ZgaLHWWp-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f
+commit: 47c3c70aa36971c90e32e91f9254110195d67a02 [3357/4264] function_graph: Add selftest for passing local variables
+config: sh-randconfig-c004-20211223 (https://download.01.org/0day-ci/archive/20240606/202406061744.rZDXfRrG-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061744.rZDXfRrG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406061253.ZgaLHWWp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406061744.rZDXfRrG-lkp@intel.com/
 
-smatch warnings:
-net/core/dev.c:10871 dev_fetch_dstats() error: uninitialized symbol 'dstats'.
+All warnings (new ones prefixed by >>):
 
-vim +/dstats +10871 net/core/dev.c
+   In file included from kernel/trace/trace.c:8677:
+>> kernel/trace/trace_selftest.c:761: warning: "BYTE_NUMBER" redefined
+     761 | #define BYTE_NUMBER 123
+         | 
+   In file included from arch/sh/include/asm/bitops.h:17,
+                    from include/linux/bitops.h:63,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/sh/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/ring_buffer.h:5,
+                    from kernel/trace/trace.c:15:
+   arch/sh/include/asm/bitops-op32.h:14: note: this is the location of the previous definition
+      14 | #define BYTE_NUMBER(nr)         ((nr ^ BITOP_LE_SWIZZLE) / BITS_PER_BYTE)
+         | 
 
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10860  void dev_fetch_dstats(struct rtnl_link_stats64 *s,
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10861  		      const struct pcpu_dstats __percpu *dstats)
-                                                                                                         ^^^^^^
 
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10862  {
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10863  	int cpu;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10864  
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10865  	for_each_possible_cpu(cpu) {
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10866  		u64 rx_packets, rx_bytes, rx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10867  		u64 tx_packets, tx_bytes, tx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10868  		const struct pcpu_dstats *dstats;
-                                                                                          ^^^^^^
-Don't declare a local dstats which shadows the function scope variable.
+vim +/BYTE_NUMBER +761 kernel/trace/trace_selftest.c
 
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10869  		unsigned int start;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10870  
-85bc70c64e8362d Jeremy Kerr     2024-06-05 @10871  		dstats = per_cpu_ptr(dstats, cpu);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10872  		do {
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10873  			start = u64_stats_fetch_begin(&dstats->syncp);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10874  			rx_packets = u64_stats_read(&dstats->rx_packets);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10875  			rx_bytes   = u64_stats_read(&dstats->rx_bytes);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10876  			rx_drops   = u64_stats_read(&dstats->rx_drops);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10877  			tx_packets = u64_stats_read(&dstats->tx_packets);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10878  			tx_bytes   = u64_stats_read(&dstats->tx_bytes);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10879  			tx_drops   = u64_stats_read(&dstats->tx_drops);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10880  		} while (u64_stats_fetch_retry(&dstats->syncp, start));
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10881  
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10882  		s->rx_packets += rx_packets;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10883  		s->rx_bytes   += rx_bytes;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10884  		s->rx_dropped += rx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10885  		s->tx_packets += tx_packets;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10886  		s->tx_bytes   += tx_bytes;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10887  		s->tx_dropped += tx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10888  	}
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10889  }
+   760	
+ > 761	#define BYTE_NUMBER 123
+   762	#define SHORT_NUMBER 12345
+   763	#define WORD_NUMBER 1234567890
+   764	#define LONG_NUMBER 1234567890123456789LL
+   765	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
