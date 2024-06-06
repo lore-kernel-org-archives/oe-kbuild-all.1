@@ -1,60 +1,74 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53243199E93
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 20:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93086199E9A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 20:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717706114; cv=none; b=UzfzgFKP5NYMOvlW8WZSfWhtpngynMZi5qlQYwlePQcpJwMh8/hmFhQKjjrFuA3aYiVd2QKT2ybNmgwPcGcs2+oQrDCi49K1m2cTwfSceOi5qAxnsC7V9SzXwoG5AxNrat18yKVqIaVB1Oc29Owqpvhfzt5XbYAu1z/B/zFt4yc=
+	t=1717706115; cv=none; b=ceGXJwkl5b08cCWFT+tpZ+AGlxuQ2ntnfVxrvxV3T+fpr/InRNYhD7UUnRIQefIxwbg8Szs/S83ROmdPLKllX8CT2ujnupThlp2yT5Fi8EGrP8ZLzxEK2mmh6Eu5VsAI30EnC2fG9XYWZ0lCUQ9/eI5aEjeuWmc08mBs21tgMJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717706114; c=relaxed/simple;
-	bh=HgzW/erQQ7U3VviKff4iB4lDWZvOJ11pfSzFImr5Fx4=;
+	s=arc-20240116; t=1717706115; c=relaxed/simple;
+	bh=nhXf8eSvkloqZ8P33sV7YhNFzeOdKj1NPqkLgfGyFUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eaC7zfzOqt5Y12GsTqEKdTiuyohrzf01a94BBCICmPDXdK4yLIR9wZnS/eWjhQSOg6MKgWgoomNkb9ND+dJiQkVWz1yM+mGKMGZnV+6JOQemyYryKnGakb9uIE0xff9vhohHj4zjjYvmQNuKdU06yvLH5xlEj7AfKhEnm8tEzy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSgLqu4E; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=txM5A2ctNTT/etpFAMCfg2jXyi0PXpoRAArMPO+U3uYRhhlrTlN7fFfdezVI1HZUYtxZcyLLRMzNLGpbB9oxMNODSHmMCKeA1zOQyQpVIMpKJz2j986cWvUIILbQbLuW4o0EN/gFHo6qecjHzkVKJAtIgdK37xVv+EeRfK85ooI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TwhqYBCO; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSgLqu4E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwhqYBCO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717706111; x=1749242111;
+  t=1717706112; x=1749242112;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HgzW/erQQ7U3VviKff4iB4lDWZvOJ11pfSzFImr5Fx4=;
-  b=VSgLqu4EAasTKwcdn9H/+wv//01pbUwqWbJ44tTL/hY/fqwKVhQ7GNyM
-   Y5m+Ul8Hwl8+8AGrgi0+oaXLuS1LhB1VG4MUBJADQUkjg15iHMBv39Bgx
-   DUMJ4B6OAWeOBtedk7djFWHWODpmigDEXP5GCN1YREkRWieCu2NxaNmKF
-   quwwEQEfecCHgtH97pxikx2rNpC7/8m8OEm/6FS0rVgy4yybcyz+XXKKR
-   K3vO2M58UYcJ72A6n4EPhdBZVFQC0B1G29uPbCz4A55dYq3R9OWnX2jSA
-   qOhaw7dq3hsPQg9o6KSZDKy/V5LTiI9XcGoLqRVbi75rK/+/1vgyFZB1t
-   Q==;
-X-CSE-ConnectionGUID: PHpYJSiDQTSz/Qv0XlPwHQ==
-X-CSE-MsgGUID: K1QxGinnSK2kPf79kiyQGA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14244955"
+  bh=nhXf8eSvkloqZ8P33sV7YhNFzeOdKj1NPqkLgfGyFUo=;
+  b=TwhqYBCO7bidxIj6EqMfp7Geeu0KwWqbuSX2PP6HSgIWFEWKbv+gGoZ9
+   DkfRRvl0EuKmTiJg2UtGkyAWtB9W9BaxGICfOIe+6pIyclJ+uB8vgB0f9
+   YKFCDYSCd0qPYU13rS7MbmALoBMqZWhoPU1w3jH538JsZdMl0GOtdgPKe
+   n74BfFFXv8PEZGrWZVsxMqoHTaGYoc0yyF9VrX/56gn8ZcsuE/JOGjQfw
+   QZhwPFiXVy9UceYm2W/ufELTdOBCX8M+EMx30lqexhH0rMDc2XTbfDAqn
+   eU7hQUxMpCGEIl+ShC3GYqCTVAqlVYxBW8dMg6i4qsGjY5Pji/KSwgMup
+   w==;
+X-CSE-ConnectionGUID: PWq/7cBGQv22UXV9OQsYxg==
+X-CSE-MsgGUID: T1yFFfibQ8OaLFIGM4Q4Uw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14244965"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14244955"
+   d="scan'208";a="14244965"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 13:35:09 -0700
-X-CSE-ConnectionGUID: ThyzqUc4Qg2uIqiIi/Xw2w==
-X-CSE-MsgGUID: bucYLtpDSgWnnGNo1gn+Rw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 13:35:11 -0700
+X-CSE-ConnectionGUID: 95PXqdiHRVqk7lnI60X+eA==
+X-CSE-MsgGUID: MDjjan1aTiS9rovMoWiiCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="37943319"
+   d="scan'208";a="37943332"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
   by fmviesa007.fm.intel.com with ESMTP; 06 Jun 2024 13:35:07 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFJpB-0003gK-1i;
+	id 1sFJpB-0003gH-1a;
 	Thu, 06 Jun 2024 20:35:05 +0000
-Date: Fri, 7 Jun 2024 04:34:08 +0800
+Date: Fri, 7 Jun 2024 04:34:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: syzbot <syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com>,
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: possible deadlock in trie_delete_elem
-Message-ID: <202406070409.D0Nkzcbj-lkp@intel.com>
-References: <000000000000277099061a394d13@google.com>
+To: Haylen Chu <heylenay@outlook.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, Haylen Chu <heylenay@outlook.com>
+Subject: Re: [PATCH v2 2/3] riscv: dts: sophgo: cv18xx: Add sensor device and
+ thermal zone
+Message-ID: <202406070442.HO8jNHCo-lkp@intel.com>
+References: <SG2PR01MB42184CFE2C3D3E210CC6F7DAD7F82@SG2PR01MB4218.apcprd01.prod.exchangelabs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,945 +77,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <000000000000277099061a394d13@google.com>
+In-Reply-To: <SG2PR01MB42184CFE2C3D3E210CC6F7DAD7F82@SG2PR01MB4218.apcprd01.prod.exchangelabs.com>
 
-Hi syzbot,
+Hi Haylen,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
-[also build test ERROR on bpf/master linus/master v6.10-rc2 next-20240606]
+[auto build test WARNING on rafael-pm/thermal]
+[also build test WARNING on robh/for-next linus/master v6.10-rc2 next-20240606]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/syzbot/possible-deadlock-in-trie_delete_elem/20240606-230435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/000000000000277099061a394d13%40google.com
-patch subject: possible deadlock in trie_delete_elem
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20240607/202406070409.D0Nkzcbj-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070409.D0Nkzcbj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Haylen-Chu/dt-bindings-thermal-sophgo-cv180x-thermal-Add-Sophgo-CV180x-thermal/20240604-205916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/SG2PR01MB42184CFE2C3D3E210CC6F7DAD7F82%40SG2PR01MB4218.apcprd01.prod.exchangelabs.com
+patch subject: [PATCH v2 2/3] riscv: dts: sophgo: cv18xx: Add sensor device and thermal zone
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce: (https://download.01.org/0day-ci/archive/20240607/202406070442.HO8jNHCo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406070409.D0Nkzcbj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406070442.HO8jNHCo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/asm-generic/percpu.h:7,
-                    from ./arch/sh/include/generated/asm/percpu.h:1,
-                    from include/linux/irqflags.h:19,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sh/include/asm/cmpxchg.h:74,
-                    from arch/sh/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/sh/include/asm/bitops.h:63,
-                    from include/linux/bitops.h:63,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/sh/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from kernel/tracepoint.c:5:
-   kernel/tracepoint.c: In function 'debug_print_probes':
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/percpu-defs.h:318:16: note: in definition of macro '__pcpu_size_call_return'
-     318 |         typeof(variable) pscr_ret__;                                    \
-         |                ^~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/percpu-defs.h:320:23: note: in definition of macro '__pcpu_size_call_return'
-     320 |         switch(sizeof(variable)) {                                      \
-         |                       ^~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/asm-generic/percpu.h:144:16: note: in definition of macro 'this_cpu_generic_read'
-     144 |         typeof(pcp) __ret;                                              \
-         |                ^~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
-   In file included from <command-line>:
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:454:17: note: in definition of macro '__native_word'
-     454 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:454:46: note: in definition of macro '__native_word'
-     454 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:455:17: note: in definition of macro '__native_word'
-     455 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                 ^
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:455:45: note: in definition of macro '__native_word'
-     455 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                             ^
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/asm-generic/percpu.h:125:16: note: in definition of macro '__this_cpu_generic_read_nopreempt'
-     125 |         typeof(pcp) ___ret;                                             \
-         |                ^~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:241:9: note: in expansion of macro '__verify_pcpu_ptr'
-     241 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:241:9: note: in expansion of macro '__verify_pcpu_ptr'
-     241 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
->> kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:241:9: note: in expansion of macro '__verify_pcpu_ptr'
-     241 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
-   kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:18: note: in expansion of macro 'READ_ONCE'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                  ^~~~~~~~~
-   include/linux/percpu-defs.h:231:9: note: in expansion of macro 'RELOC_HIDE'
-     231 |         RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-         |         ^~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-      44 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:9: note: in expansion of macro 'arch_raw_cpu_ptr'
-     242 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:127:29: note: in expansion of macro 'raw_cpu_ptr'
-     127 |         ___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));                       \
-         |                             ^~~~~~~~~~~
-   include/asm-generic/percpu.h:146:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
-     146 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:375:41: note: in expansion of macro 'this_cpu_generic_read'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:321:30: note: in expansion of macro 'this_cpu_read_1'
-     321 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^~~~
-   include/linux/percpu-defs.h:489:41: note: in expansion of macro '__pcpu_size_call_return'
-     489 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/tracepoint.c:178:30: note: in expansion of macro 'this_cpu_read'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                              ^~~~~~~~~~~~~
-   kernel/tracepoint.c:178:50: error: invalid use of undefined type 'struct bpf_raw_tp_link'
-     178 |                 int active = this_cpu_read(*(link->link.prog->active));
-         |                                                  ^~
-   include/linux/compiler_types.h:467:23: note: in definition of macro '__compiletime_assert'
-     467 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:487:9: note: in expansion of macro '_compiletime_assert'
-     487 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-
-
-vim +178 kernel/tracepoint.c
-
-   > 5	#include <linux/module.h>
-     6	#include <linux/mutex.h>
-     7	#include <linux/types.h>
-     8	#include <linux/jhash.h>
-     9	#include <linux/list.h>
-    10	#include <linux/rcupdate.h>
-    11	#include <linux/tracepoint.h>
-    12	#include <linux/err.h>
-    13	#include <linux/slab.h>
-    14	#include <linux/sched/signal.h>
-    15	#include <linux/sched/task.h>
-    16	#include <linux/static_key.h>
-    17	
-    18	enum tp_func_state {
-    19		TP_FUNC_0,
-    20		TP_FUNC_1,
-    21		TP_FUNC_2,
-    22		TP_FUNC_N,
-    23	};
-    24	
-    25	extern tracepoint_ptr_t __start___tracepoints_ptrs[];
-    26	extern tracepoint_ptr_t __stop___tracepoints_ptrs[];
-    27	
-    28	DEFINE_SRCU(tracepoint_srcu);
-    29	EXPORT_SYMBOL_GPL(tracepoint_srcu);
-    30	
-    31	enum tp_transition_sync {
-    32		TP_TRANSITION_SYNC_1_0_1,
-    33		TP_TRANSITION_SYNC_N_2_1,
-    34	
-    35		_NR_TP_TRANSITION_SYNC,
-    36	};
-    37	
-    38	struct tp_transition_snapshot {
-    39		unsigned long rcu;
-    40		unsigned long srcu;
-    41		bool ongoing;
-    42	};
-    43	
-    44	/* Protected by tracepoints_mutex */
-    45	static struct tp_transition_snapshot tp_transition_snapshot[_NR_TP_TRANSITION_SYNC];
-    46	
-    47	static void tp_rcu_get_state(enum tp_transition_sync sync)
-    48	{
-    49		struct tp_transition_snapshot *snapshot = &tp_transition_snapshot[sync];
-    50	
-    51		/* Keep the latest get_state snapshot. */
-    52		snapshot->rcu = get_state_synchronize_rcu();
-    53		snapshot->srcu = start_poll_synchronize_srcu(&tracepoint_srcu);
-    54		snapshot->ongoing = true;
-    55	}
-    56	
-    57	static void tp_rcu_cond_sync(enum tp_transition_sync sync)
-    58	{
-    59		struct tp_transition_snapshot *snapshot = &tp_transition_snapshot[sync];
-    60	
-    61		if (!snapshot->ongoing)
-    62			return;
-    63		cond_synchronize_rcu(snapshot->rcu);
-    64		if (!poll_state_synchronize_srcu(&tracepoint_srcu, snapshot->srcu))
-    65			synchronize_srcu(&tracepoint_srcu);
-    66		snapshot->ongoing = false;
-    67	}
-    68	
-    69	/* Set to 1 to enable tracepoint debug output */
-    70	static const int tracepoint_debug;
-    71	
-    72	#ifdef CONFIG_MODULES
-    73	/*
-    74	 * Tracepoint module list mutex protects the local module list.
-    75	 */
-    76	static DEFINE_MUTEX(tracepoint_module_list_mutex);
-    77	
-    78	/* Local list of struct tp_module */
-    79	static LIST_HEAD(tracepoint_module_list);
-    80	#endif /* CONFIG_MODULES */
-    81	
-    82	/*
-    83	 * tracepoints_mutex protects the builtin and module tracepoints.
-    84	 * tracepoints_mutex nests inside tracepoint_module_list_mutex.
-    85	 */
-    86	static DEFINE_MUTEX(tracepoints_mutex);
-    87	
-    88	static struct rcu_head *early_probes;
-    89	static bool ok_to_free_tracepoints;
-    90	
-    91	/*
-    92	 * Note about RCU :
-    93	 * It is used to delay the free of multiple probes array until a quiescent
-    94	 * state is reached.
-    95	 */
-    96	struct tp_probes {
-    97		struct rcu_head rcu;
-    98		struct tracepoint_func probes[];
-    99	};
-   100	
-   101	/* Called in removal of a func but failed to allocate a new tp_funcs */
-   102	static void tp_stub_func(void)
-   103	{
-   104		return;
-   105	}
-   106	
-   107	static inline void *allocate_probes(int count)
-   108	{
-   109		struct tp_probes *p  = kmalloc(struct_size(p, probes, count),
-   110					       GFP_KERNEL);
-   111		return p == NULL ? NULL : p->probes;
-   112	}
-   113	
-   114	static void srcu_free_old_probes(struct rcu_head *head)
-   115	{
-   116		kfree(container_of(head, struct tp_probes, rcu));
-   117	}
-   118	
-   119	static void rcu_free_old_probes(struct rcu_head *head)
-   120	{
-   121		call_srcu(&tracepoint_srcu, head, srcu_free_old_probes);
-   122	}
-   123	
-   124	static __init int release_early_probes(void)
-   125	{
-   126		struct rcu_head *tmp;
-   127	
-   128		ok_to_free_tracepoints = true;
-   129	
-   130		while (early_probes) {
-   131			tmp = early_probes;
-   132			early_probes = tmp->next;
-   133			call_rcu(tmp, rcu_free_old_probes);
-   134		}
-   135	
-   136		return 0;
-   137	}
-   138	
-   139	/* SRCU is initialized at core_initcall */
-   140	postcore_initcall(release_early_probes);
-   141	
-   142	static inline void release_probes(struct tracepoint_func *old)
-   143	{
-   144		if (old) {
-   145			struct tp_probes *tp_probes = container_of(old,
-   146				struct tp_probes, probes[0]);
-   147	
-   148			/*
-   149			 * We can't free probes if SRCU is not initialized yet.
-   150			 * Postpone the freeing till after SRCU is initialized.
-   151			 */
-   152			if (unlikely(!ok_to_free_tracepoints)) {
-   153				tp_probes->rcu.next = early_probes;
-   154				early_probes = &tp_probes->rcu;
-   155				return;
-   156			}
-   157	
-   158			/*
-   159			 * Tracepoint probes are protected by both sched RCU and SRCU,
-   160			 * by calling the SRCU callback in the sched RCU callback we
-   161			 * cover both cases. So let us chain the SRCU and sched RCU
-   162			 * callbacks to wait for both grace periods.
-   163			 */
-   164			call_rcu(&tp_probes->rcu, rcu_free_old_probes);
-   165		}
-   166	}
-   167	
-   168	static void debug_print_probes(struct tracepoint_func *funcs)
-   169	{
-   170		int i;
-   171		struct bpf_raw_tp_link *link;
-   172	
-   173		if (!tracepoint_debug || !funcs)
-   174			return;
-   175	
-   176		for (i = 0; funcs[i].func; i++) {
-   177			link = funcs[i].data;
- > 178			int active = this_cpu_read(*(link->link.prog->active));
-   179			printk("Probe %d : %p / %p: %s/%d / %i\n", i,
-   180					funcs[i].func,
-   181					link,
-   182					link->link.prog->aux->name,
-   183					active,
-   184					funcs[i].prio);
-   185		}
-   186	}
-   187	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: thermal-zones: 'soc-thermal-0' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
