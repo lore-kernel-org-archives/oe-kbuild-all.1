@@ -1,113 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881913A3F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 09:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899F51940BE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 10:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717665395; cv=none; b=UihH0Cy7cACJ5cBevzVSUmt3yV7VfS1WvwkTJMpaCN6Nzp0cnBOJm6tH0EVB7VJkNlUuXHMbzEc5p9eZ8V46gw3JTaJ/gwpBwBcriNkZvaJ99eEOyJwWifd8is9ZMGBuRzQVSSmAqpAeYhhEw9TTs4RkWb/KahPj/ZIEWpSW050=
+	t=1717669561; cv=none; b=u/mcIFYOyL8KCzbnmn0nSB5muWfpP0owfB/JShiXcubuUmYWn7fBeD49i4sqqWzq7q97f5+7RT6K0ePHOlA4W6vO/zcRSlCmm6EnH00BQPi7gIx2VC/oakrPVStbaNEJHTXtmI+KJa2WropNqdZfUWeEoefNOXRlr0bshl1DmVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717665395; c=relaxed/simple;
-	bh=s/LEKzhglfD+kdFxXOUSWDELLQdE26cjEcFTSJwlZTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o8U1a30VPNff7zzaxISHIg2vsAzfDfrR3Ry5LnZferiAscrTCpF/ZLojjmsNUJeNcWN/pLx/NsS1tpxEjxCl1G6NVhmqNCwD87TSUiuNOkLFF2r+LVFDnVcj+MX2JdtUPwuqJSsO2oVTdxEXxsGcLT3uDvg5y7h4j1OSLoSwrFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+I5ZcIZ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717669561; c=relaxed/simple;
+	bh=Y9cpqD3t+DiHnN1F1DLKXpb8pKYRnlIlunH0czog3Vg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMIbuYbUZ3Dw0SKdYxTjpkTcoCwBkzPWixTqgK+lBaQdEF4ZoO0bya4yMseESH7H9we4VQxHtQfuCZ1qBan+NBiFxW+v6lvDQwjUbB/N+ak0lsl/pzwHY9gh4rG+vc26zRdEG/YTpNRMffAuP6HeFQ+iKh7RTQWKoSaxgHSSNoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=ccsJOH6n; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+I5ZcIZ"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="ccsJOH6n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717665393; x=1749201393;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s/LEKzhglfD+kdFxXOUSWDELLQdE26cjEcFTSJwlZTM=;
-  b=d+I5ZcIZLHB02L+GmasK6Eooye+SoN4tGRe5M/kklZt4BF+kKSSYSxUq
-   BmFl3uCkRmRDtpV/p+FupzG0hrVzvAS0QiQIb3DEq3yUdiMWFdRiIcMqE
-   KbwTMz7E7jpxpyi1pt/Lsy35abQu1UTRgWJTKhpmde0JF+OUf6My1myEX
-   AY2zfVz7QQ5tWzgtWV+xVkzaScK5o54mBoQmICg03B/GpOGrL/OzQESNX
-   ahdZ3x9Huceraj/yQIPzRd9Jv5/iVmGY7yzXPm+OE262EBIX3/BxvxgIL
-   0D72MQUi5ihb90vJo0gSWFB4qw7TqA07tbEBOBOUD1JjEDMJSVTtXJIz4
-   Q==;
-X-CSE-ConnectionGUID: aBJG8MO4RaGcIxNPJFl68w==
-X-CSE-MsgGUID: 7fwD6KhPQCm9wykazpvdqQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="18166272"
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1717669558; x=1749205558;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y9cpqD3t+DiHnN1F1DLKXpb8pKYRnlIlunH0czog3Vg=;
+  b=ccsJOH6ngqekAwkFN5MT+uFvfGCEbr+zQ8gtXMw8k0L4+6lTujpQX4vP
+   NDDm2u8/79w3ZTJJwuzrGdDWy2BepOLGsmniek4+bIeV2KMUnyrtKpAAE
+   MKmUfm6ifw9rdA4IgBtWa6BFidonY+8WP91cZ7+lpbHZbIAQsxW7JoCf2
+   N3aBeLfMxtL454TXQ3uHpU47tDVLxVrp2b55LB5Yj0XGgu7PmcN0fcrXr
+   SYKYHbnu8U+uPi4iNj3RCM/KDxdp41IBUTA/kZTr4k+Q3ujj/tLsZyFZS
+   wxr8bHm5qVSaEaGiTIxZ9ZaL5MgC0eiX7REphSWhfdw5pYikeQeJqyWhw
+   w==;
+X-CSE-ConnectionGUID: LF52B74sSd6hfTmuCf+/iA==
+X-CSE-MsgGUID: BcnDLqiFTH6Rao3o5ZdqQg==
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="18166272"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 02:16:33 -0700
-X-CSE-ConnectionGUID: /2pHx4BEQQqbR8f3pD/Fig==
-X-CSE-MsgGUID: U9Ci0j0fSd6+SmEhLq1N7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="37867588"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jun 2024 02:16:32 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sF9ET-0002u4-1e;
-	Thu, 06 Jun 2024 09:16:29 +0000
-Date: Thu, 6 Jun 2024 17:16:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: [linux-next:master 3357/4264] kernel/trace/trace_selftest.c:761:
- warning: "BYTE_NUMBER" redefined
-Message-ID: <202406061744.rZDXfRrG-lkp@intel.com>
+   d="scan'208";a="29467372"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Jun 2024 03:25:52 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 6 Jun 2024 03:25:31 -0700
+Received: from localhost (10.10.85.11) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Thu, 6 Jun 2024 03:25:31 -0700
+Date: Thu, 6 Jun 2024 15:52:51 +0530
+From: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
+To: kernel test robot <lkp@intel.com>
+CC: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>, <netdev@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <davem@davemloft.net>, <kuba@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <bryan.whitehead@microchip.com>,
+	<andrew@lunn.ch>, <linux@armlinux.org.uk>, <sbauer@blackbox.su>,
+	<hmehrtens@maxlinear.com>, <lxu@maxlinear.com>, <hkallweit1@gmail.com>,
+	<edumazet@google.com>, <pabeni@redhat.com>, <UNGLinuxDriver@microchip.com>
+Subject: Re: [PATCH net V3 2/3] net: lan743x: Support WOL at both the PHY and
+ MAC appropriately
+Message-ID: <ZmGN+2qysJGU/9+V@HYD-DK-UNGSW21.microchip.com>
+References: <20240605101611.18791-3-Raju.Lakkaraju@microchip.com>
+ <202406052200.w3zuc32H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
+In-Reply-To: <202406052200.w3zuc32H-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f
-commit: 47c3c70aa36971c90e32e91f9254110195d67a02 [3357/4264] function_graph: Add selftest for passing local variables
-config: sh-randconfig-c004-20211223 (https://download.01.org/0day-ci/archive/20240606/202406061744.rZDXfRrG-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061744.rZDXfRrG-lkp@intel.com/reproduce)
+The target architecture of alpha's config file miss the "CONFIG_PM=y"
+cofiguration.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406061744.rZDXfRrG-lkp@intel.com/
+"phy_wolopts" and "phy_wol_supported" variable define in struct
+lan743x_adapter under CONFIG_PM compiler option.
 
-All warnings (new ones prefixed by >>):
+these variable define in drivers/net/ethernet/microchip/lan743x_main.h file.
 
-   In file included from kernel/trace/trace.c:8677:
->> kernel/trace/trace_selftest.c:761: warning: "BYTE_NUMBER" redefined
-     761 | #define BYTE_NUMBER 123
-         | 
-   In file included from arch/sh/include/asm/bitops.h:17,
-                    from include/linux/bitops.h:63,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/ring_buffer.h:5,
-                    from kernel/trace/trace.c:15:
-   arch/sh/include/asm/bitops-op32.h:14: note: this is the location of the previous definition
-      14 | #define BYTE_NUMBER(nr)         ((nr ^ BITOP_LE_SWIZZLE) / BITS_PER_BYTE)
-         | 
+Thanks,
+Raju
 
-
-vim +/BYTE_NUMBER +761 kernel/trace/trace_selftest.c
-
-   760	
- > 761	#define BYTE_NUMBER 123
-   762	#define SHORT_NUMBER 12345
-   763	#define WORD_NUMBER 1234567890
-   764	#define LONG_NUMBER 1234567890123456789LL
-   765	
+The 06/05/2024 22:56, kernel test robot wrote:
+> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> 
+> Hi Raju,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Lakkaraju/net-lan743x-disable-WOL-upon-resume-to-restore-full-data-path-operation/20240605-182110
+> base:   net/main
+> patch link:    https://lore.kernel.org/r/20240605101611.18791-3-Raju.Lakkaraju%40microchip.com
+> patch subject: [PATCH net V3 2/3] net: lan743x: Support WOL at both the PHY and MAC appropriately
+> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240605/202406052200.w3zuc32H-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406052200.w3zuc32H-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/net/ethernet/microchip/lan743x_main.c: In function 'lan743x_netdev_open':
+> >> drivers/net/ethernet/microchip/lan743x_main.c:3126:24: error: 'struct lan743x_adapter' has no member named 'phy_wol_supported'
+>     3126 |                 adapter->phy_wol_supported = wol.supported;
+>          |                        ^~
+> >> drivers/net/ethernet/microchip/lan743x_main.c:3127:24: error: 'struct lan743x_adapter' has no member named 'phy_wolopts'
+>     3127 |                 adapter->phy_wolopts = wol.wolopts;
+>          |                        ^~
+> 
+> 
+> vim +3126 drivers/net/ethernet/microchip/lan743x_main.c
+> 
+>   3085
+>   3086  static int lan743x_netdev_open(struct net_device *netdev)
+>   3087  {
+>   3088          struct lan743x_adapter *adapter = netdev_priv(netdev);
+>   3089          int index;
+>   3090          int ret;
+>   3091
+>   3092          ret = lan743x_intr_open(adapter);
+>   3093          if (ret)
+>   3094                  goto return_error;
+>   3095
+>   3096          ret = lan743x_mac_open(adapter);
+>   3097          if (ret)
+>   3098                  goto close_intr;
+>   3099
+>   3100          ret = lan743x_phy_open(adapter);
+>   3101          if (ret)
+>   3102                  goto close_mac;
+>   3103
+>   3104          ret = lan743x_ptp_open(adapter);
+>   3105          if (ret)
+>   3106                  goto close_phy;
+>   3107
+>   3108          lan743x_rfe_open(adapter);
+>   3109
+>   3110          for (index = 0; index < LAN743X_USED_RX_CHANNELS; index++) {
+>   3111                  ret = lan743x_rx_open(&adapter->rx[index]);
+>   3112                  if (ret)
+>   3113                          goto close_rx;
+>   3114          }
+>   3115
+>   3116          for (index = 0; index < adapter->used_tx_channels; index++) {
+>   3117                  ret = lan743x_tx_open(&adapter->tx[index]);
+>   3118                  if (ret)
+>   3119                          goto close_tx;
+>   3120          }
+>   3121
+>   3122          if (adapter->netdev->phydev) {
+>   3123                  struct ethtool_wolinfo wol = { .cmd = ETHTOOL_GWOL };
+>   3124
+>   3125                  phy_ethtool_get_wol(netdev->phydev, &wol);
+> > 3126                  adapter->phy_wol_supported = wol.supported;
+> > 3127                  adapter->phy_wolopts = wol.wolopts;
+>   3128          }
+>   3129
+>   3130          return 0;
+>   3131
+>   3132  close_tx:
+>   3133          for (index = 0; index < adapter->used_tx_channels; index++) {
+>   3134                  if (adapter->tx[index].ring_cpu_ptr)
+>   3135                          lan743x_tx_close(&adapter->tx[index]);
+>   3136          }
+>   3137
+>   3138  close_rx:
+>   3139          for (index = 0; index < LAN743X_USED_RX_CHANNELS; index++) {
+>   3140                  if (adapter->rx[index].ring_cpu_ptr)
+>   3141                          lan743x_rx_close(&adapter->rx[index]);
+>   3142          }
+>   3143          lan743x_ptp_close(adapter);
+>   3144
+>   3145  close_phy:
+>   3146          lan743x_phy_close(adapter);
+>   3147
+>   3148  close_mac:
+>   3149          lan743x_mac_close(adapter);
+>   3150
+>   3151  close_intr:
+>   3152          lan743x_intr_close(adapter);
+>   3153
+>   3154  return_error:
+>   3155          netif_warn(adapter, ifup, adapter->netdev,
+>   3156                     "Error opening LAN743x\n");
+>   3157          return ret;
+>   3158  }
+>   3159
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--------                                                                        
+Thanks,                                                                         
+Raju
