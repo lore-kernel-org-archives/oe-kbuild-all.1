@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183274F1F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 19:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FCD4AEC6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 20:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717703348; cv=none; b=llyLDJqdm0HkZhY4gJ1ZitIrjg8Yl/iv+Xpasrx2/rBfTpneP51GlgfsAE7prZTRFwyjGSz58Vgo38pRL7/DY4/oWXm0uvFlqdR7aMnc3v1hk/Qv6mJt1/u+Zh5eJCHkT2m29drqaJefuHvxTHlDx2DtZtTO23WTCQCOGIr+cWI=
+	t=1717704008; cv=none; b=qe7Pjn8u7cqU5ZJ3TL71qYPlww9TyK4cKmY+MDhhcK8Mnv4jZLeR3DrA2CCzIdKtTsdEPfpOFxPOg4uNCS3SBeuEPJsGR2lZoK9M/gg7rQYav9e2sv46lF9hPtNXmKZ1swJyGkXwYyTpOj+GRQRhBxDVrBbwTGYuSUGePBINVkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717703348; c=relaxed/simple;
-	bh=lQmGD70c76wE1zEDkuaHvckSyOmixCPZoZ5u/2uDaog=;
+	s=arc-20240116; t=1717704008; c=relaxed/simple;
+	bh=Pog3UK/GBctC6dItiSiiSPp9Eo9tu4aaJmoluvZSs1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GAj8ipIglBmY8VP9OeQTvfPFTp2wu9SCkkcYyU/k7GM3zibsTHtEPb0yCX9ua0Ka+mzqSktjFNDusEQGswnYZTgEh8K/cNP56UdNu7QhKKRJ7DA8UOTNR9QPgBg/IZdpwKs+ATWhja168MYxvwUecQFJLw1BJNmuZMrbPgqPS8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=judpDorp; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=bLA6SdscM/DvVBXXfau/kWQAMMQ1y1r+va6Tt42Z7kFqThmo/Qy9ZfPy+qPTUrqqR4fncvqyMDB2L8znKLAxc5fdupu25+sAN4m/sTgObzyg/3oKiNTKbgX3BhZsWHlAr/HXlQ5bIMA/nEV2KqCqyX33/Q0PKFiRFMDBLZxxWsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6F6k9BJ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="judpDorp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6F6k9BJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717703347; x=1749239347;
+  t=1717704007; x=1749240007;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lQmGD70c76wE1zEDkuaHvckSyOmixCPZoZ5u/2uDaog=;
-  b=judpDorp4y7exrsY8nkjU6tk0re6ixoXzOf43qcOe1oIFTXzf2qra9SD
-   7yIMxG8hLLY/5GpGRIuUcb0NBC73hpsbKVko5jvJqmz38s7kfDMUqxsHK
-   pKxzZ1HOZNpmiC/0Mayoc1O9ydYIKsVQQVashXiaNuITTaWOKGyp9fPCt
-   aTG5P/4NVcmTaDmtIEbv90dxcsOgyCf5Qhh5/f4P1UbStvczw4sKNlF3p
-   3ezXA9TlS9yaEuCrAblhBbud3zelpdQKNCF/0fBLBvT90R3VOxZ67Rc5S
-   QVD+flkRyz+0VOe3OD+fLj/8SkYry7xeRA5k17OV2gWQ50/1YGZrwpMJe
-   w==;
-X-CSE-ConnectionGUID: R2JcaBdbSkGfeMFZ6zA0Ug==
-X-CSE-MsgGUID: gobzIyp6RcqmNG206sdVIA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14354682"
+  bh=Pog3UK/GBctC6dItiSiiSPp9Eo9tu4aaJmoluvZSs1E=;
+  b=O6F6k9BJqWlGYqagbLZGr7M69BYAMBcQnxj+Fuby5/XgiBFa5QHX7L+W
+   ZKlFOYvyOSCDCDleN0z9PjfHVjE9rT/PEk+4CSecc75Ey5fhSh2CguJru
+   0N+gbrp4qZN4BF+bfWMePpawsQ0v3HSo5kphPrzHsdOA78qcXMqAQivfV
+   ojxprWZWuf7DjboS/ASq3lZmqJ+SdzOUMZjW56eKWS2pznpyi2V5rWx2N
+   2a4gLwwSOC7q0ongfXST8tfnB79RMfJCoaE/IWwZVc7LkfoKMhnIWnPpR
+   pAqVyT6UMFl3mRtYa9yU/U0cpDFM/V74RUMprHxmluNlm/wtJ1uxXOW2m
+   Q==;
+X-CSE-ConnectionGUID: e9uMw22YQ9moig8PNGMp3A==
+X-CSE-MsgGUID: XyPmh45kSDqjhasBPs7mNw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25054166"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14354682"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 12:49:06 -0700
-X-CSE-ConnectionGUID: 5NWaLLUQQpuuHFSsCB4SGQ==
-X-CSE-MsgGUID: XrbDSODFQuS1WOY7VNjS5w==
+   d="scan'208";a="25054166"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 13:00:06 -0700
+X-CSE-ConnectionGUID: M78MGbqgRhODXhTEletTHQ==
+X-CSE-MsgGUID: xkRcljGSRRCWW6teEeCVCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="38758320"
+   d="scan'208";a="38153356"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 06 Jun 2024 12:49:05 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Jun 2024 13:00:05 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFJ6c-0003eW-39;
-	Thu, 06 Jun 2024 19:49:02 +0000
-Date: Fri, 7 Jun 2024 03:48:47 +0800
+	id 1sFJHH-0003ek-0a;
+	Thu, 06 Jun 2024 20:00:03 +0000
+Date: Fri, 7 Jun 2024 03:59:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-Subject: [cel:nfsd-5.15.y 1/1] fs/nfsd/nfs4proc.c:1326:77: error: invalid
- suffix "D" on integer constant
-Message-ID: <202406070315.CbqQTUD3-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:stacktrace/tests 29/30] stacktrace_kunit.c:undefined reference
+ to `kunit_fail_assert_format'
+Message-ID: <202406070331.Q58fghXR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,91 +62,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-5.15.y
-head:   5ebfde8045ccf1135af2d346564b8c3145ce4a47
-commit: 5ebfde8045ccf1135af2d346564b8c3145ce4a47 [1/1] sunrpc: exclude from freezer when waiting for requests:
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240607/202406070315.CbqQTUD3-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070315.CbqQTUD3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
+head:   b355c7c11a4a1cec3478bc7a2f129638d9b5116d
+commit: bd60ed306ab25ea1c027a362c756729923d62548 [29/30] WIP: lib: add basic stacktrace tests
+config: sparc64-randconfig-001-20240606 (https://download.01.org/0day-ci/archive/20240607/202406070331.Q58fghXR-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070331.Q58fghXR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406070315.CbqQTUD3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406070331.Q58fghXR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/nfsd/nfs4proc.c: In function 'nfsd4_ssc_setup_dul':
->> fs/nfsd/nfs4proc.c:1326:77: error: invalid suffix "D" on integer constant
-    1326 |                                         (freezable_schedule_timeout(20*HZ) =3D=3D 0)) {
-         |                                                                             ^~
-   fs/nfsd/nfs4proc.c:1326:80: error: invalid suffix "D" on integer constant
-    1326 |                                         (freezable_schedule_timeout(20*HZ) =3D=3D 0)) {
-         |                                                                                ^~
->> fs/nfsd/nfs4proc.c:1326:82: error: expected ')' before numeric constant
-    1326 |                                         (freezable_schedule_timeout(20*HZ) =3D=3D 0)) {
-         |                                         ~                                        ^~
-         |                                                                                  )
-
-
-vim +/D +1326 fs/nfsd/nfs4proc.c
-
-  1298	
-  1299	/*
-  1300	 * setup a work entry in the ssc delayed unmount list.
-  1301	 */
-  1302	static __be32 nfsd4_ssc_setup_dul(struct nfsd_net *nn, char *ipaddr,
-  1303					  struct nfsd4_ssc_umount_item **nsui)
-  1304	{
-  1305		struct nfsd4_ssc_umount_item *ni = NULL;
-  1306		struct nfsd4_ssc_umount_item *work = NULL;
-  1307		struct nfsd4_ssc_umount_item *tmp;
-  1308		DEFINE_WAIT(wait);
-  1309		__be32 status = 0;
-  1310	
-  1311		*nsui = NULL;
-  1312		work = kzalloc(sizeof(*work), GFP_KERNEL);
-  1313	try_again:
-  1314		spin_lock(&nn->nfsd_ssc_lock);
-  1315		list_for_each_entry_safe(ni, tmp, &nn->nfsd_ssc_mount_list, nsui_list) {
-  1316			if (strncmp(ni->nsui_ipaddr, ipaddr, sizeof(ni->nsui_ipaddr)))
-  1317				continue;
-  1318			/* found a match */
-  1319			if (ni->nsui_busy) {
-  1320				/*  wait - and try again */
-  1321				prepare_to_wait(&nn->nfsd_ssc_waitq, &wait, TASK_IDLE);
-  1322				spin_unlock(&nn->nfsd_ssc_lock);
-  1323	
-  1324				/* allow 20secs for mount/unmount for now - revisit */
-  1325				if (kthread_should_stop() ||
-> 1326						(freezable_schedule_timeout(20*HZ) =3D=3D 0)) {
-  1327					finish_wait(&nn->nfsd_ssc_waitq, &wait);
-  1328					kfree(work);
-  1329					return nfserr_eagain;
-  1330				}
-  1331				finish_wait(&nn->nfsd_ssc_waitq, &wait);
-  1332				goto try_again;
-  1333			}
-  1334			*nsui = ni;
-  1335			refcount_inc(&ni->nsui_refcnt);
-  1336			spin_unlock(&nn->nfsd_ssc_lock);
-  1337			kfree(work);
-  1338	
-  1339			/* return vfsmount in (*nsui)->nsui_vfsmount */
-  1340			return 0;
-  1341		}
-  1342		if (work) {
-  1343			strscpy(work->nsui_ipaddr, ipaddr, sizeof(work->nsui_ipaddr) - 1);
-  1344			refcount_set(&work->nsui_refcnt, 2);
-  1345			work->nsui_busy = true;
-  1346			list_add_tail(&work->nsui_list, &nn->nfsd_ssc_mount_list);
-  1347			*nsui = work;
-  1348		} else
-  1349			status = nfserr_resource;
-  1350		spin_unlock(&nn->nfsd_ssc_lock);
-  1351		return status;
-  1352	}
-  1353	
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `std_expect_trace':
+>> stacktrace_kunit.c:(.text+0x1b8): undefined reference to `kunit_fail_assert_format'
+>> sparc64-linux-ld: stacktrace_kunit.c:(.text+0x1c8): undefined reference to `kunit_fail_assert_format'
+>> sparc64-linux-ld: stacktrace_kunit.c:(.text+0x1dc): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x308): undefined reference to `kunit_fail_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x320): undefined reference to `kunit_fail_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x330): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `std_expect_callers_present_reliable':
+>> stacktrace_kunit.c:(.text+0x404): undefined reference to `kunit_log_append'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `std_test_exit':
+>> stacktrace_kunit.c:(.text+0x4b8): undefined reference to `kunit_kfree'
+>> sparc64-linux-ld: stacktrace_kunit.c:(.text+0x51c): undefined reference to `kunit_log_append'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x564): undefined reference to `kunit_log_append'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `std_test_init':
+>> stacktrace_kunit.c:(.text+0x5b0): undefined reference to `kunit_kmalloc_array'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_unwind_reliable_notail':
+>> stacktrace_kunit.c:(.text+0x630): undefined reference to `kunit_binary_ptr_assert_format'
+>> sparc64-linux-ld: stacktrace_kunit.c:(.text+0x654): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x668): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_nounwind':
+>> stacktrace_kunit.c:(.text+0x6e4): undefined reference to `kunit_binary_assert_format'
+>> sparc64-linux-ld: stacktrace_kunit.c:(.text+0x730): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x740): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x770): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x78c): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x7a0): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x7c8): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x7e8): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x7f8): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_nounwind_tail':
+   stacktrace_kunit.c:(.text+0x884): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x8d0): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x8e0): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x910): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x92c): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x940): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x968): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x988): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0x998): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_unwind_reliable':
+   stacktrace_kunit.c:(.text+0x9f0): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xa14): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xa28): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_unwind_reliable_tail':
+   stacktrace_kunit.c:(.text+0xa70): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xa94): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xaa8): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_nounwind_notail':
+   stacktrace_kunit.c:(.text+0xb24): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xb70): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xb80): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xbb0): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xbcc): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xbe0): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xc08): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xc28): undefined reference to `kunit_binary_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xc38): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_unwind':
+   stacktrace_kunit.c:(.text+0xca0): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xcbc): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xcd0): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_unwind_tail':
+   stacktrace_kunit.c:(.text+0xd40): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xd5c): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xd70): undefined reference to `__kunit_do_failed_assertion'
+   sparc64-linux-ld: lib/stacktrace_kunit.o: in function `test_unwind_notail':
+   stacktrace_kunit.c:(.text+0xde0): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xdfc): undefined reference to `kunit_binary_ptr_assert_format'
+   sparc64-linux-ld: stacktrace_kunit.c:(.text+0xe10): undefined reference to `__kunit_do_failed_assertion'
 
 -- 
 0-DAY CI Kernel Test Service
