@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AAC1C68E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 03:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE8D19D8B9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jun 2024 03:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717643239; cv=none; b=c7Y1d8H4twkUxWZ5CuBw9s3IwJC5w6uAtVGk8MKbTrtQBRuDI5KBJlB1mxUwB5py1dmOuEeZLpPA0DBo5WPUAUJGhv18bI1KSxQfyx0VJyXiAxZS2iusbMJEultvycGFwxwci0iZk/ZDRLCjFBbJqblK+72UQ/ElwBXsc+slMJ8=
+	t=1717645833; cv=none; b=bYoelIU/Npa/iWWV2ciVNaomZzI6J+LZRsB4iVbVnrDLtQIWFP9TFZmif9oMSyPo1rMHaKM8Z/DZyT5CVFYMc5+0wm7NYhgIJSv5Qol/3uGO8v/STdQSH28Chp0CSEJzirEKmaNGBVU1mYb598AZ/CVzUk3SLjStkjG/V8wdwpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717643239; c=relaxed/simple;
-	bh=AKHLfXSvrGRb4hwraSM71/6M4jI/tz0aHGASz8s9L/o=;
+	s=arc-20240116; t=1717645833; c=relaxed/simple;
+	bh=KAwXJ0dJmD/Tdt12TnkPtuBnQ1/WttBzpznw7teYFDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AjxD+d6+osf+8nB1g+ajcaY8l0gbPxx9sviBL7nh+VoG27Y/sfqTlqzVXybxDjQ6ChI+fzZv3bDxi2+0nVBNSDg5PrBNJCkX5AioTwDEJgtqf0yr4azuiT9E9/KR6AHgv1Ry0jSc/ZWX0DaDTKkrds3gaud2T52q7U89iKcBHiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaINDK/C; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=UElfjHjMtJQoyZy2/BEBtw5dT0g3pvw9d0thoF7g/IlhARhFZgdw7cxqQhGRIzZ4LQWF3wlyuEeNxL+GBr+ttxmyMBbtlsSqY3aSL1MJ4w8C4jUqtw4PNtYyu7rpdj5HSehr/vuENC+WLXTsC5JymLC2dZfdN8MzxDMq9MrV0qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEkAH984; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaINDK/C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEkAH984"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717643238; x=1749179238;
+  t=1717645832; x=1749181832;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AKHLfXSvrGRb4hwraSM71/6M4jI/tz0aHGASz8s9L/o=;
-  b=iaINDK/CLmRAueCki5BLb4iAVMSeDxa7QWeCZhNcFJzhJDiXrRDL37+d
-   xaWWhF8D18rJh1DwQHbyoAsuOnt8JGYGTt5OBOwcJ0gZSwE0Vg3L+wNfN
-   8mWrMmUiATXH+j+5vBMn0niwSQ+l51j9IMe0Zt+x9M97qy/R2Ue5Sb9ck
-   Pivr8BvEFO9F/P1kcVZB3RMfFaxKVt0q6uZcPkDcaoEn1HN8pJLi3Bge2
-   VTtt3gzpoGBeaZg1HGUSIh60337xZfM3yeTgZt9L1Z4w/YLUxRKDmZxiI
-   bhW5LCVu0WAxBwCzSf2JNW/Le80grVQu9Kl8dpSG9HB0jMyHFkhgjU5o1
-   g==;
-X-CSE-ConnectionGUID: XgD9uLwEQRWYiRSKhVyJpg==
-X-CSE-MsgGUID: l/t7iTByRumPegFLoEZCdw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="11932776"
+  bh=KAwXJ0dJmD/Tdt12TnkPtuBnQ1/WttBzpznw7teYFDk=;
+  b=EEkAH984+LmN7OagUnM+Ly0utIo8XjZSFCS2r1oaXH2psRf4QSn2i7xi
+   /g+U8VAdphg4najwuBTiQRoxXEjXRMgj0L2ENMgTM1XfKb6R6TUc+24av
+   Y5A5LUJKzSaP+2k+nySFg+iZksRoFE+1Iih2TA1lXtZ85nWHLPu6nFEhb
+   vt32tEbHlCRDyMkbqBPce/KEf0D8xmgyzA6J2eFpWZyRIvyflWo5DjWpR
+   84rPmkWFaG9o+2czdvrBvx+kTw6sh9Dw7rxe3J6SnMFNpSmvk2nXGA1jp
+   22rn6qPHh1CQGlTSnBxqva2m8xqSCYU7MwU5Z+dn9c0GHWUUS7GeUZejW
+   w==;
+X-CSE-ConnectionGUID: I2U7DThmQC+tM1DuLwEt4A==
+X-CSE-MsgGUID: FHuyoJOfRzmdGDqmmUKAZg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14248766"
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="11932776"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 20:07:18 -0700
-X-CSE-ConnectionGUID: u60AwyGMQwqLAHOyjdqmmA==
-X-CSE-MsgGUID: uPw+iC2fQ12aa1G3PeqpRA==
+   d="scan'208";a="14248766"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 20:50:31 -0700
+X-CSE-ConnectionGUID: 2A/db5JzTP6ZoGjmRdOJ1w==
+X-CSE-MsgGUID: I9Wh2m+HTKyYhW3tJ+DDMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="42225704"
+   d="scan'208";a="37829854"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Jun 2024 20:07:13 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jun 2024 20:50:30 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sF3T5-0002c0-0D;
-	Thu, 06 Jun 2024 03:07:11 +0000
-Date: Thu, 6 Jun 2024 11:06:49 +0800
+	id 1sF48x-0002d6-2d;
+	Thu, 06 Jun 2024 03:50:27 +0000
+Date: Thu, 6 Jun 2024 11:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Weston Andros Adamson <dros@primarydata.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
-	Jeff Layton <jeff.layton@primarydata.com>,
-	Peng Tao <tao.peng@primarydata.com>,
-	Lance Shelton <lance.shelton@hammerspace.com>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>
-Subject: [snitzer:nfs-localio-for-6.11 10/29]
- include/linux/seqlock.h:1075:20: warning: 'seq' is used uninitialized
-Message-ID: <202406061016.xrRg1yWL-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm2key-v8 5/7] crypto/tpm2_key.c:94: warning:
+ expecting prototype for tpm_key_parse(). Prototype was for tpm2_key_parse()
+ instead
+Message-ID: <202406061116.WbEBy71I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,85 +63,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-6.11
-head:   252b0c685ae2eafa0ced0682a496e9eecf23d1ff
-commit: 1db309e3046ff4d7bc50071001f56700fec36d46 [10/29] nfs/nfsd: add "local io" support
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240606/202406061016.xrRg1yWL-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061016.xrRg1yWL-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
+head:   fd7b0d97192f7fceebfa349654f77be312e257c0
+commit: 3597726a9ebb828cf4475797e587fdf35de2d765 [5/7] crypto: tpm2_key: Implement a robust parser
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240606/202406061116.WbEBy71I-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406061116.WbEBy71I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406061016.xrRg1yWL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406061116.WbEBy71I-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:17,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from fs/nfs/localio.c:8:
-   In function 'read_seqbegin_or_lock',
-       inlined from 'nfs_copy_boot_verifier' at fs/nfs/localio.c:515:3:
->> include/linux/seqlock.h:1075:20: warning: 'seq' is used uninitialized [-Wuninitialized]
-    1075 |         if (!(*seq & 1))        /* Even */
-         |              ~~~~~~^~~~
-   fs/nfs/localio.c: In function 'nfs_copy_boot_verifier':
-   fs/nfs/localio.c:512:13: note: 'seq' was declared here
-     512 |         int seq;
-         |             ^~~
+>> crypto/tpm2_key.c:94: warning: expecting prototype for tpm_key_parse(). Prototype was for tpm2_key_parse() instead
 
 
-vim +/seq +1075 include/linux/seqlock.h
+vim +94 crypto/tpm2_key.c
 
-1370e97bb2eb1e Waiman Long      2013-09-12  1041  
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1042  /**
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1043   * read_seqbegin_or_lock() - begin a seqlock_t lockless or locking reader
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1044   * @lock: Pointer to seqlock_t
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1045   * @seq : Marker and return parameter. If the passed value is even, the
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1046   * reader will become a *lockless* seqlock_t reader as in read_seqbegin().
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1047   * If the passed value is odd, the reader will become a *locking* reader
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1048   * as in read_seqlock_excl().  In the first call to this function, the
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1049   * caller *must* initialize and pass an even value to @seq; this way, a
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1050   * lockless read can be optimistically tried first.
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1051   *
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1052   * read_seqbegin_or_lock is an API designed to optimistically try a normal
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1053   * lockless seqlock_t read section first.  If an odd counter is found, the
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1054   * lockless read trial has failed, and the next read iteration transforms
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1055   * itself into a full seqlock_t locking reader.
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1056   *
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1057   * This is typically used to avoid seqlock_t lockless readers starvation
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1058   * (too much retry loops) in the case of a sharp spike in write side
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1059   * activity.
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1060   *
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1061   * Context: if the seqlock_t write section, *or other read sections*, can
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1062   * be invoked from hardirq or softirq contexts, use the _irqsave or _bh
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1063   * variant of this function instead.
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1064   *
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1065   * Check Documentation/locking/seqlock.rst for template example code.
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1066   *
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1067   * Return: the encountered sequence counter value, through the @seq
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1068   * parameter, which is overloaded as a return parameter. This returned
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1069   * value must be checked with need_seqretry(). If the read section need to
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1070   * be retried, this returned value must also be passed as the @seq
-89b88845e05752 Ahmed S. Darwish 2020-07-20  1071   * parameter of the next read_seqbegin_or_lock() iteration.
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1072   */
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1073  static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1074  {
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20 @1075  	if (!(*seq & 1))	/* Even */
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1076  		*seq = read_seqbegin(lock);
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1077  	else			/* Odd */
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1078  		read_seqlock_excl(lock);
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1079  }
-f4a27cbcec90ac Ahmed S. Darwish 2020-07-20  1080  
-
-:::::: The code at line 1075 was first introduced by commit
-:::::: f4a27cbcec90ac04ee60e04b222e1449dcdba0bd seqlock: Reorder seqcount_t and seqlock_t API definitions
-
-:::::: TO: Ahmed S. Darwish <a.darwish@linutronix.de>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+    71	
+    72	/**
+    73	 * tpm_key_parse() - Parse a TPM2 key from ASN.1 blob
+    74	 * @src:	ASN.1 source buffer.
+    75	 * @size:	Size of the source buffer.
+    76	 * @key:	Pre-allocated &tpm2_key to be populated.
+    77	 *
+    78	 * Load TPM2B_PRIVATE and TPM2B_PUBLIC from an ASN.1 file, and concatenate the
+    79	 * blobs together as a single blob, as this is expected format for the TPM2
+    80	 * commands.
+    81	 *
+    82	 * Validation:
+    83	 * - TPM2B_PRIVATE is capped by %TPM2_KEY_BYTES_MAX.
+    84	 * - TPM2B_PRIVATE must match the retrieved buffer size.
+    85	 * - TPM2B_PUBLIC is capped by %TPM2_KEY_BYTES_MAX.
+    86	 * - TPM2B_PUBLIC must match the retrieved buffer size.
+    87	 * - TPM2B_PUBLIC must have enough space to fit *tpm2_public_t.
+    88	 *
+    89	 * Return:
+    90	 * * 0:		Success.
+    91	 * * -EBADMSG:	Parsing failed.
+    92	 */
+    93	int tpm2_key_parse(const void *src, const unsigned int size, struct tpm2_key *key)
+  > 94	{
 
 -- 
 0-DAY CI Kernel Test Service
