@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EEB14EC7D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 08:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631BF15B560
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 09:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717749816; cv=none; b=kPBCu6E0Eq8V64X+Vw3mUCkycRkk46QaBRLTorckc6m1ixd9UqqC5QawCVriAoXfcVQRGPT124l3PlZIfi7O1C+T/H30jjIQDXRm+4DBBk4Rj9vYFHgpDjoJBUb9tCqVREH9teuPXsA5Jkd5QRc+2QyNABDoiO13kIg4nRYBZeY=
+	t=1717751028; cv=none; b=i7ke7yoa80goktOjiDUujFJqbkJ0jGSPpRD+OoPR+Tpyek8hlQTBDc21L3hfHPY2gF8XhiJc4wqZz5H7bemovXACM7m2z9icH2PQv7pIBozcBlKxDNS/vOaYzrNQ4E4JZwAiL54UTd50U5d4sodX32fOYF0yDjUkoqA3MqC/Tp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717749816; c=relaxed/simple;
-	bh=hPqcfFgl2WknRCSZUESE2vhW7El77UTKmA7hrCCHvTM=;
+	s=arc-20240116; t=1717751028; c=relaxed/simple;
+	bh=Z1IOXgFLxmibdj0KMZVMIV3nmi5mYVWUXSXbrMUn/M4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utBBtZEwvfmr4uwzyK6A7bnRoqHH98o2vDSxHPfTestcCUu1mGjxrym0z5Wud7x4za8GmUTbpc5nheAAP1PpcH/QzWeyIlNPU1WHHSw95BQUQttuWQag84pfhAUR06rCePvGOYYJr6cacj+iSo5Wpeca3ouCaDYz3P0kUutKr1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIAEQuNS; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=EkU1Yxi4rOmad71WjSoAvqQwceiP5BoB90mV4oeZItnmq2jmWiDuuwOmCbsS/I5vlL1XjwCdTY8NsS/vGHRg1FKnuzXHCefhTNEQpBggHIcLOj64rjXBtYN+hYkh4ApSaA6/pEdFTOeWsLHaqRMMUsi9pcQHNvcb3IO4rKOmghA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsSRXm4L; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIAEQuNS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsSRXm4L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717749814; x=1749285814;
+  t=1717751026; x=1749287026;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hPqcfFgl2WknRCSZUESE2vhW7El77UTKmA7hrCCHvTM=;
-  b=PIAEQuNSR6aUZ+vfDuw+femLwENzQ2w0g2qQJxsbLPtxXRBliSv+nsHG
-   7oKbW5FJyBQxLvqvRIbO5Ychu82vyFfcqLZ4yYIHfX7C2vPv1S86R+iyR
-   C4zeYQmJlGHJ98Ez33AWpFn89lx4+nsX+gyEWctwOcO4D7eARW4tFG2ki
-   TaMSI/mAAlKiRalstIaOPs9FCHo/ih9yNVnDDoQkr3/jcn6EQVT4RC8CU
-   oQTaguAeyzT7NS39y4MMPoxTa58iDw4J89AtaQ17p+eMFiOxaUAfPZ3lk
-   jFFwVm+520qa52VW8Fxj5G59oThbkyD76iYcLT8wMpiR96XiVa5fZbbxQ
-   Q==;
-X-CSE-ConnectionGUID: Fr/lRMdURFKlVyxnCySsFQ==
-X-CSE-MsgGUID: EtzqivMCRtKLSk7wdt/yOA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="39861159"
+  bh=Z1IOXgFLxmibdj0KMZVMIV3nmi5mYVWUXSXbrMUn/M4=;
+  b=hsSRXm4Lrtz2QqO/s+qVyo6bNElyTZNFNfv/C8viVcMdGGUHuz6aDgvo
+   nOEAGOpbX/ljJ4JCcP0WTwREMyNlg4bfnNojWb1DlZZRkjpiXc78/YrVc
+   eqCpiL+GhS6SFmeIbq2fXvJhOUNto2yb8mOC84VHCUq3ubQ9rxg7pZSoC
+   papMYeo4k1431+xjAWU++NhWeVyQ8CxUUlnxvuD8nwEKBgijnp2J8NVAK
+   5TamI8ms0XUtvI99+WBnZoLRJrz48SwrAPDhiOSIrg3YcAaZ7E7aHKUQw
+   jkyE60xYEZmpQMpK/YB9fTwJoSlFoeocBdo7IBYDOYoq6zd+oM16TSz/y
+   A==;
+X-CSE-ConnectionGUID: tmXmOf41SeSJ0B8d/xF16Q==
+X-CSE-MsgGUID: 0n748u3pQVG5Ec93tN+qnQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="31956372"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="39861159"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 01:43:33 -0700
-X-CSE-ConnectionGUID: pInDoQ2nT7SFmVrFQM+aQA==
-X-CSE-MsgGUID: MGy7S5jURTOUAJhR0KMY+A==
+   d="scan'208";a="31956372"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 02:03:46 -0700
+X-CSE-ConnectionGUID: v4XLjFqMQYuXIjEeP25zsA==
+X-CSE-MsgGUID: t5z+DbVyR2GEOE+307g54A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="38927914"
+   d="scan'208";a="75739707"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 07 Jun 2024 01:43:32 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 Jun 2024 02:03:45 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFVC5-0004Hs-1x;
-	Fri, 07 Jun 2024 08:43:29 +0000
-Date: Fri, 7 Jun 2024 16:42:31 +0800
+	id 1sFVVe-0004KB-2l;
+	Fri, 07 Jun 2024 09:03:42 +0000
+Date: Fri, 7 Jun 2024 17:03:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: mhkelley58@gmail.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC 1/1] swiotlb: Reduce calls to swiotlb_find_pool()
-Message-ID: <202406071654.vpgXWObk-lkp@intel.com>
+Message-ID: <202406071641.Brak00PZ-lkp@intel.com>
 References: <20240607031421.182589-1-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,10 +67,10 @@ In-Reply-To: <20240607031421.182589-1-mhklinux@outlook.com>
 Hi,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on joro-iommu/next]
-[also build test WARNING on linus/master v6.10-rc2 next-20240607]
+[auto build test ERROR on joro-iommu/next]
+[also build test ERROR on linus/master v6.10-rc2 next-20240607]
 [cannot apply to xen-tip/linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -80,45 +80,119 @@ url:    https://github.com/intel-lab-lkp/linux/commits/mhkelley58-gmail-com/swio
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
 patch link:    https://lore.kernel.org/r/20240607031421.182589-1-mhklinux%40outlook.com
 patch subject: [RFC 1/1] swiotlb: Reduce calls to swiotlb_find_pool()
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240607/202406071654.vpgXWObk-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071654.vpgXWObk-lkp@intel.com/reproduce)
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240607/202406071641.Brak00PZ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071641.Brak00PZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406071654.vpgXWObk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071641.Brak00PZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/dma/swiotlb.c:1509: warning: Function parameter or struct member 'pool' not described in 'swiotlb_del_transient'
+   In file included from kernel/dma/mapping.c:18:
+   kernel/dma/direct.h: In function 'dma_direct_sync_single_for_device':
+>> kernel/dma/direct.h:64:17: error: implicit declaration of function 'swiotlb_sync_single_for_device'; did you mean 'dma_sync_single_for_device'? [-Werror=implicit-function-declaration]
+      64 |                 swiotlb_sync_single_for_device(dev, paddr, size, dir, pool);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 dma_sync_single_for_device
+   kernel/dma/direct.h: In function 'dma_direct_sync_single_for_cpu':
+>> kernel/dma/direct.h:83:17: error: implicit declaration of function 'swiotlb_sync_single_for_cpu'; did you mean 'dma_sync_single_for_cpu'? [-Werror=implicit-function-declaration]
+      83 |                 swiotlb_sync_single_for_cpu(dev, paddr, size, dir, pool);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 dma_sync_single_for_cpu
+   kernel/dma/direct.h: In function 'dma_direct_map_page':
+>> kernel/dma/direct.h:99:24: error: implicit declaration of function 'swiotlb_map'; did you mean 'swiotlb_free'? [-Werror=implicit-function-declaration]
+      99 |                 return swiotlb_map(dev, phys, size, dir, attrs);
+         |                        ^~~~~~~~~~~
+         |                        swiotlb_free
+   kernel/dma/direct.h: In function 'dma_direct_unmap_page':
+>> kernel/dma/direct.h:131:17: error: implicit declaration of function 'swiotlb_tbl_unmap_single' [-Werror=implicit-function-declaration]
+     131 |                 swiotlb_tbl_unmap_single(dev, phys, size, dir,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1509 kernel/dma/swiotlb.c
+vim +64 kernel/dma/direct.h
 
-79636caad3618e Petr Tesarik   2023-08-01  1496  
-79636caad3618e Petr Tesarik   2023-08-01  1497  /**
-79636caad3618e Petr Tesarik   2023-08-01  1498   * swiotlb_del_transient() - delete a transient memory pool
-79636caad3618e Petr Tesarik   2023-08-01  1499   * @dev:	Device which mapped the buffer.
-79636caad3618e Petr Tesarik   2023-08-01  1500   * @tlb_addr:	Physical address within a bounce buffer.
-79636caad3618e Petr Tesarik   2023-08-01  1501   *
-79636caad3618e Petr Tesarik   2023-08-01  1502   * Check whether the address belongs to a transient SWIOTLB memory pool.
-79636caad3618e Petr Tesarik   2023-08-01  1503   * If yes, then delete the pool.
-79636caad3618e Petr Tesarik   2023-08-01  1504   *
-79636caad3618e Petr Tesarik   2023-08-01  1505   * Return: %true if @tlb_addr belonged to a transient pool that was released.
-79636caad3618e Petr Tesarik   2023-08-01  1506   */
-e55c3fdc1c0850 Michael Kelley 2024-06-06  1507  static bool swiotlb_del_transient(struct device *dev, phys_addr_t tlb_addr,
-e55c3fdc1c0850 Michael Kelley 2024-06-06  1508  				  struct io_tlb_pool *pool)
-79636caad3618e Petr Tesarik   2023-08-01 @1509  {
-79636caad3618e Petr Tesarik   2023-08-01  1510  	if (!pool->transient)
-79636caad3618e Petr Tesarik   2023-08-01  1511  		return false;
-79636caad3618e Petr Tesarik   2023-08-01  1512  
-79636caad3618e Petr Tesarik   2023-08-01  1513  	dec_used(dev->dma_io_tlb_mem, pool->nslabs);
-79636caad3618e Petr Tesarik   2023-08-01  1514  	swiotlb_del_pool(dev, pool);
-02e765697038c5 ZhangPeng      2024-01-09  1515  	dec_transient_used(dev->dma_io_tlb_mem, pool->nslabs);
-79636caad3618e Petr Tesarik   2023-08-01  1516  	return true;
-79636caad3618e Petr Tesarik   2023-08-01  1517  }
-79636caad3618e Petr Tesarik   2023-08-01  1518  
+    55	
+    56	static inline void dma_direct_sync_single_for_device(struct device *dev,
+    57			dma_addr_t addr, size_t size, enum dma_data_direction dir)
+    58	{
+    59		phys_addr_t paddr = dma_to_phys(dev, addr);
+    60		struct io_tlb_pool *pool;
+    61	
+    62		pool = is_swiotlb_buffer(dev, paddr);
+    63		if (unlikely(pool))
+  > 64			swiotlb_sync_single_for_device(dev, paddr, size, dir, pool);
+    65	
+    66		if (!dev_is_dma_coherent(dev))
+    67			arch_sync_dma_for_device(paddr, size, dir);
+    68	}
+    69	
+    70	static inline void dma_direct_sync_single_for_cpu(struct device *dev,
+    71			dma_addr_t addr, size_t size, enum dma_data_direction dir)
+    72	{
+    73		phys_addr_t paddr = dma_to_phys(dev, addr);
+    74		struct io_tlb_pool *pool;
+    75	
+    76		if (!dev_is_dma_coherent(dev)) {
+    77			arch_sync_dma_for_cpu(paddr, size, dir);
+    78			arch_sync_dma_for_cpu_all();
+    79		}
+    80	
+    81		pool = is_swiotlb_buffer(dev, paddr);
+    82		if (unlikely(pool))
+  > 83			swiotlb_sync_single_for_cpu(dev, paddr, size, dir, pool);
+    84	
+    85		if (dir == DMA_FROM_DEVICE)
+    86			arch_dma_mark_clean(paddr, size);
+    87	}
+    88	
+    89	static inline dma_addr_t dma_direct_map_page(struct device *dev,
+    90			struct page *page, unsigned long offset, size_t size,
+    91			enum dma_data_direction dir, unsigned long attrs)
+    92	{
+    93		phys_addr_t phys = page_to_phys(page) + offset;
+    94		dma_addr_t dma_addr = phys_to_dma(dev, phys);
+    95	
+    96		if (is_swiotlb_force_bounce(dev)) {
+    97			if (is_pci_p2pdma_page(page))
+    98				return DMA_MAPPING_ERROR;
+  > 99			return swiotlb_map(dev, phys, size, dir, attrs);
+   100		}
+   101	
+   102		if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
+   103		    dma_kmalloc_needs_bounce(dev, size, dir)) {
+   104			if (is_pci_p2pdma_page(page))
+   105				return DMA_MAPPING_ERROR;
+   106			if (is_swiotlb_active(dev))
+   107				return swiotlb_map(dev, phys, size, dir, attrs);
+   108	
+   109			dev_WARN_ONCE(dev, 1,
+   110				     "DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
+   111				     &dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
+   112			return DMA_MAPPING_ERROR;
+   113		}
+   114	
+   115		if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+   116			arch_sync_dma_for_device(phys, size, dir);
+   117		return dma_addr;
+   118	}
+   119	
+   120	static inline void dma_direct_unmap_page(struct device *dev, dma_addr_t addr,
+   121			size_t size, enum dma_data_direction dir, unsigned long attrs)
+   122	{
+   123		phys_addr_t phys = dma_to_phys(dev, addr);
+   124		struct io_tlb_pool *pool;
+   125	
+   126		if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+   127			dma_direct_sync_single_for_cpu(dev, addr, size, dir);
+   128	
+   129		pool = is_swiotlb_buffer(dev, phys);
+   130		if (unlikely(pool))
+ > 131			swiotlb_tbl_unmap_single(dev, phys, size, dir,
 
 -- 
 0-DAY CI Kernel Test Service
