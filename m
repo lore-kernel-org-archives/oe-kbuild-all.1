@@ -1,70 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110C84C76
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 01:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C555101D5;
+	Fri,  7 Jun 2024 01:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717724842; cv=fail; b=uQreaEEH2NddMF20NZzLYIneCnm/moWr2FJPBqAFvWwoYQiwixj7NCvTu5QklV+KxKl4J0G7xR/42pXd1gRGnkBgHtCUmASFeVJC/EP8bHVqis/V4g8XZbeOMDByDzfTuNVt2XD5JY/O10Km4OvD2wujNtA5pjp31VURDclTZRc=
+	t=1717724893; cv=fail; b=qhxl2Y6/TZBFw5l3koI3O3Ov8OvPercgADhwSEcMccoSN3Wl/fu+SxAh1YzcSlH1fGzuldvLbEEa6FouuL5yP+6eAiIkad29xM1FMGHfRzy70qrq0Lv9U189QF3+LnCIeM5YBeh4Lz40+5b38gLxMUuh2U20MADUpUIDM8w6yHc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717724842; c=relaxed/simple;
-	bh=atzc0yWGGU7OuEy95L6Q7ciW02o3Ak+C5GQZpb1IDvk=;
+	s=arc-20240116; t=1717724893; c=relaxed/simple;
+	bh=GmQQC1QA0O+xNU2qjgb/EngWpUFiuUZXIUpy3ixNWkA=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=Xv1qkKKy3ljNsZaqax+Pex4U/ZHm0l96pwEU2+8rSh3aP0pbNbguFsGdfNOC5KG35iwG12M9QDwzHWouoq04HGqef1pR5Ssd7f1BGZdGTFXPIenhtP8w9B1KrVoLgQ1H2zsBgJofISdLcs8QhVET4XRooab3+vDp6QRWmPow0h8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nuUyq2ak; arc=fail smtp.client-ip=198.175.65.17
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dnX/3OlP3oQsdvEm0xxTrvP+jgtfiB6/1R20jKSC1pN+d2z8Q7UYNnDZkC7307KegYHAFLotpFj9R3lg/uQVRxCGmFswQ1BLGNtDuGIFQqzRB8+iBfwmWK78zRPif1XEPkJD4EYgzCkVmobl9Gi5vAh0oY8zolGs11J1QztoU9U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1j98dXf; arc=fail smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nuUyq2ak"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1j98dXf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717724839; x=1749260839;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=atzc0yWGGU7OuEy95L6Q7ciW02o3Ak+C5GQZpb1IDvk=;
-  b=nuUyq2aksSxOtskmQPVFQnq4Hsmn09h1lRBxJVAG/xHGn+BQ/EJO9/kK
-   ZYzep656YAg7A29kI8fB1ktWJRgf2CFpPb5r55qwKF3/3EFqGLgbeXMQp
-   QPQ729SU31RGUrjZx21ZnNrpdGASH/quBmF39qfIVoMyDgKmtg60jMSgg
-   iG31GiEBn7gPIU+9wCqMMfzB6GAVF9jciodDv63nwDqL5ex1d7l14M1te
-   /Qe1+i1n5dLizdR0Q4ju7YS2HVOYh3Box8umvxJUeri1Ur59AB5ckyqmK
-   0YIyggl7H9+HiYXqnZashZKsGPE9uLsgh9zfFkEAa1kb/QQJRnVoMNUze
-   Q==;
-X-CSE-ConnectionGUID: ZzNwdeMZT8S+Ek7rtqPXzg==
-X-CSE-MsgGUID: QBZMBOvJR3GCaX6r2PVnlw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14547263"
+  t=1717724891; x=1749260891;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=GmQQC1QA0O+xNU2qjgb/EngWpUFiuUZXIUpy3ixNWkA=;
+  b=R1j98dXfAM618rc4e+2iMPldEpXMhbuK0BdGWNmzAkDgbHospJXr7CS7
+   g1DmzgoqSW+KxNDeA5imVmfci/5oqo6ZH9vOzW5oqE6G/KqKbt5f9uCSq
+   SlU1bjz+lE5GVqWaecdzCgqt6iWRGtECLXvD8H15H8fN7kLgt6POxsQh4
+   tU/ZSx8ffS6+EsCvhFCbvKMI0u9JJjDPY7AJoo2tZWCLdCmW00fu2lzMV
+   Rc9ciSYXeEEWii398UG/E3SSfnYEvK+Vyjd90c14aUpBAYpQ+rOeqqUeJ
+   /Yt20qK63/C9BSE/Uoh6SfUBKGBPKCriVEhtp3Clqwm4ddthRRSCMHyWV
+   A==;
+X-CSE-ConnectionGUID: xg3bc4XMR4OI8guHH6SItQ==
+X-CSE-MsgGUID: t+lAgwqcR7GsL6dpdOCDUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25083116"
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14547263"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 18:47:19 -0700
-X-CSE-ConnectionGUID: vXDEkrDpSpyfYxxw+YYZNQ==
-X-CSE-MsgGUID: ktqrGxF4ThG5Berao5He8Q==
+   d="scan'208";a="25083116"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 18:48:10 -0700
+X-CSE-ConnectionGUID: 4+VqanNJRsm0/qaQ05NFlg==
+X-CSE-MsgGUID: oz76Kw1aTuiKzqXDLOD26g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="38004218"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Jun 2024 18:47:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="scan'208";a="61372307"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Jun 2024 18:48:10 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 6 Jun 2024 18:47:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 6 Jun 2024 18:48:09 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 6 Jun 2024 18:47:17 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 6 Jun 2024 18:47:17 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.49) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Thu, 6 Jun 2024 18:48:09 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 6 Jun 2024 18:47:17 -0700
+ 15.1.2507.39; Thu, 6 Jun 2024 18:48:09 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hwAIqAIT7c/Q//8Ib4sn9PIfUZLR8WrBbCgH3g+3jUo/SFUQg2GXRkj8V4QQCMv7JpgYeOGvm45cwcvv0QnAU/0kZd/wEboX50qDMLmiDlCXMQo/rK64V5aht4uyfht7ueCi7tzkcudc8q1ISw5lwPa3FZDOjZjYGusWg0HUUL5B3Ade06Mad0jQB90NYDuQCqdh081HK+vQhE8AzsTu65Rforc+IJlvski7swuiiCqNizRDGC9uuXHZQgTCxUmO/r9E3xMDQd85nSG7XKI475HBjFK7rjb9dETXIoBGwnh79qOJYmJNZMkWz4mmgJ+I0VrS42vvXsGFie2QNc5d/A==
+ b=O0Ydg6esXPx/0DKHjguF4P2OnDobHaoVXPp8CX6vfzqeWI6D4f/YZHfQjdVevtHQaZEDTMFzFW5ciA/rzXCOCmGt74tx/+7YHposLt7MQQ0bWBTZrtjZVA0kj7q10v6+80eJLfluS//X+cEPgpC91Y6gQWO2AhPyzakPGOGcnmAwcoQPpJXFVaWAcv/dbAYku/ZbddekiIzloa2vHfzNLjT3s0+jvzqErBnQcgQze0JsfNL7b2Map45YObMH2JbBl68I7FOoojqIfk/wah71ayymhv+7o81H8ax26t6X+dvEyhOFdduYps6LeuBuUrnr+1g/WX2novofBxJTxAWgaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nMfU5F5CebvM3CUCtTdG6P6MAARN/vKFBWliXzRjzAg=;
- b=NcVAkplrt17u5Z7gw2JbT5MAfMv6YBt0+wBZkSzYLppLE8uFDaaFDOi2LG/JZrFVswClCrc2xSfaWK22fYE2P+GykkjabQ6aLby8SYS39EhqLQ8I2IqB1WueR+l3mYyocu+hfoNjKQ1A4r+2xTYE14wbHOgM08pzeCEysqXuYokrwa7BtnQoxC4MZhw4h7mCFCyc9R87CW9NS4AtyTnxaUksF7Iqs6qSb8820cCNnZZoaRPtU0xUEzhaNlkbbIBIwzfvI6hp/F3xBh3u5fWTtaormf/LuN9wxqO1dFgk1EIDFbnaX3N6Bz+8E+aAO59d0JSksCw/y5HKe4i+l+I/fw==
+ bh=BJTDcVmUQbrn57AArZ1I5GJcbBGpJiT6+X1DlKoBvQk=;
+ b=Fj7ZGjlksFL8k+rEGed/q2anvbALJVum9qR8ul7STyX6gOROeN/UASNBKr6FODu1gB3XkkTb0lrAz4EcNWfTk0BNf63V+a3daGXfospkH9OGnsKAs63ukoxpwDoy8GFZglDIdgPQRO0HF5xf+XtmpHwa1UGsn93VKTj/grNHxaxuvUN+hik5tmdaRIT/ukccIPy2hmgB49sDqrBDKb/omx+eQF/+smE6VR74yGm11c2sAaBJhEygpYeJPLd2VODdnMI6iHmSuBhlWL5fvdEDyuyeHbi7bs0wxFrjNxCyjMMv6irV4GQNXI4eRPQACOL3wUItMgzaNlTlsYhogmmckQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -74,24 +71,29 @@ Received: from SN6PR11MB3230.namprd11.prod.outlook.com (2603:10b6:805:b8::29)
  by PH7PR11MB7662.namprd11.prod.outlook.com (2603:10b6:510:27d::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22; Fri, 7 Jun
- 2024 01:47:09 +0000
+ 2024 01:48:02 +0000
 Received: from SN6PR11MB3230.namprd11.prod.outlook.com
  ([fe80::c2dd:7cf8:6008:b690]) by SN6PR11MB3230.namprd11.prod.outlook.com
  ([fe80::c2dd:7cf8:6008:b690%5]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
- 01:47:09 +0000
-Date: Fri, 7 Jun 2024 09:47:03 +0800
+ 01:48:02 +0000
+Date: Fri, 7 Jun 2024 09:47:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Simek <monstr@monstr.eu>
-CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
-	<linux-mm@kvack.org>
-Subject: [linux-next:master 1507/4264]
- arch/microblaze/boot/dts/system.dts:20.9-23.4: Warning
- (unit_address_vs_reg): /memory: node has a reg or ranges property, but no
- unit name
-Message-ID: <ZmJmlwR1PPYigLos@rli9-mobl>
+To: Artur Weber <aweber.kernel@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+	<rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, "Broadcom
+ internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
+	Stanislav Jakubek <stano.jakubek@gmail.com>,
+	<~postmarketos/upstreaming@lists.sr.ht>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Artur Weber <aweber.kernel@gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: bcm-mobile: Split out nodes used by both
+ BCM21664 and BCM23550
+Message-ID: <ZmJmyJdrVx/+XSOi@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
+In-Reply-To: <20240605-bcm21664-common-v1-2-6386e9141eb6@gmail.com>
+X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
  To SN6PR11MB3230.namprd11.prod.outlook.com (2603:10b6:805:b8::29)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -102,697 +104,126 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN6PR11MB3230:EE_|PH7PR11MB7662:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd9b88cc-c4fb-4416-2630-08dc8693be58
+X-MS-Office365-Filtering-Correlation-Id: 7acff915-c389-4a0c-27e5-08dc8693dda5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5GdFgvJRv6XSZaF32aw5dAwkMBctzck1I0aQC8mFjvjsGJQO8A9sMlWXmu1n?=
- =?us-ascii?Q?KNhorWk1HbY//AtjQkZnSoHXvF8Tb1/FS+XXFO+V6tM89NsoZNKUjyHPmTcy?=
- =?us-ascii?Q?5n8brmINX1tIVWQ4HOH43LjK0lY7mMq37QhDUWjcK6kd80HskCfVEZFrQblv?=
- =?us-ascii?Q?SHKyFhZnmRcvp41WnIt2of7zkyyXQd2gm7vcIA8lBz4CaUITdWu5uoVtoWtz?=
- =?us-ascii?Q?ZYAFeuqqk9+1FQnbakfyGp6MlC5JFsF3WAYaKxQalgp+Sn0+K8UGzSnnnNt3?=
- =?us-ascii?Q?dK+8VMu7d9XfCeUFtJ5EKj6k9Xog9lov138U0ysbU2cHmJ04yThAbQiozbjC?=
- =?us-ascii?Q?uMDH3qBMNADZqXn8MEkpFAotIwqW8g/4fuGf+g0YBqy7IvYRec3TNfXtZW3S?=
- =?us-ascii?Q?fGzlO/2Po2LZNqwixpTGCbjRN1wBLbfAPoUd5+h9YNCgQTS/bsziZoiA6fY2?=
- =?us-ascii?Q?KSfOmrz6pY3it8qEx27CuRiNKbWP9o6fC/VMmWMGNTs647dWEwjS6xXqFfFL?=
- =?us-ascii?Q?cBq5wZQoaFq6sRpz/sD2CpLs/rfp7y20aoCVOK+RN8Uul6fBKlHQYjfeA2D4?=
- =?us-ascii?Q?GHKrMzHDf7IbrC+sEdsp+aZkftVn9Bf8ICF1Gqih8MUbUUyQrm4tC26pVpK3?=
- =?us-ascii?Q?YG7XnekRJ7EMfAS696mb8DfXsuEFzQ3YJHBpN5EWbK8bZCuaIdhoxIEcZwSL?=
- =?us-ascii?Q?RP9ANQ6LxWQh3pCSQjNFwAyPWr7fURm+op3nbhxa28ToffQdNExs/H5T4CVm?=
- =?us-ascii?Q?Zphfz3H6JlLhd2K1FG2rg2I16+8O75OP2tdcjBwc8y6MSul/udbhtkZoBGsd?=
- =?us-ascii?Q?g8rWIeXmxGFVtPD5mKyxv6iNcuFogYN6hLpIR2M9LXcm3AY0PaUMLTk80VSU?=
- =?us-ascii?Q?KjYTHPbBkKAQY6IoEkk05yfAwSfh41FL/70Z7IOQ2N/0+QOu7swClpLcp+pV?=
- =?us-ascii?Q?tXwpyoRtmtkW1EPXV9rq14NKyjn3m1B/i/hWhaThG19pZgqkt73ncuVp1mIg?=
- =?us-ascii?Q?/9n6GPLUD9gnUibSWrUOfvvlLv2wdA8HFoWDpA4+td48ELVNctneC/DK1mgk?=
- =?us-ascii?Q?SHX4S68mAIXGHddevAx9/kKkAxX0RQVswj2vd/hFUluWdRG5IfnloXlgvHVy?=
- =?us-ascii?Q?Q5wBHN8mtX92YiwvSC2XInUh5YSImPDUSxmUNhcBVPLWlemeoGUtLNBvs2qN?=
- =?us-ascii?Q?EGVq0Ddg4x4/NFFPSqiN8vdbUKEYIQAwQd6j6ToN46XbneRo6NL0HkTMCTtf?=
- =?us-ascii?Q?oSi22EBE2aI9in9iE2HpyYC30oIN7RQEpp52El0lrQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3230.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015|7416005;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mYr1XadjeWFH7UYlU42/6HltAoZ3a18z/9edgChZw4cEAEC7Vri39gU3ROk1?=
+ =?us-ascii?Q?7K+qaHXvUrip243YhqwhTiDiy29s+tgA8Hfhakgc2CHhcFW4gMFbivVZ2xIm?=
+ =?us-ascii?Q?5dsffGbcnR3tIcTNXDjcn1h+r3FLiMN4jjmrxpflZ6RSGYHVLg7GPxvYuSJi?=
+ =?us-ascii?Q?iU8hJ5ovQrbceD1KfEnktZUJNKdyDjSRopfW2PPB0zDC9Y+t+tbjWJIrnMJ9?=
+ =?us-ascii?Q?8DP6F9TnktnylcHqWfNv7zynx3W2rke5/vXxBsdnuL/OmtddGeUQsdtqldRW?=
+ =?us-ascii?Q?/hWD6pgRfBsF977fX+4SCOAfWXNMI6OBHpzGDKOkAF3ppyy58AwOPGp5ch3x?=
+ =?us-ascii?Q?/eXZt92UD05LB900pcAsswR0ua3hj2yECoxMTaFzA/HbGVp91QjRe/pNbVGG?=
+ =?us-ascii?Q?Nx53XexbOC2VRAv2VPSnm9xMBF6uQ212TNlNvdl/DKONxBaCFA7I7T9+zmHp?=
+ =?us-ascii?Q?Cqn4v7UUmjIfzXMTv1VaokeEqED+dT8w13zU9iLRWKb++xqL4zVNACDvSwFG?=
+ =?us-ascii?Q?dtSafqWErIpIHOXcyx0eYQnJiK2moj4SLpVvOSA3m9qBVkVmM7+FqRA3khsL?=
+ =?us-ascii?Q?qbWVADj1jp+a3fp8U8cCH/MJXC9PxyRIkOgwSRvXJSG4o2cl9jGEPXit8rIj?=
+ =?us-ascii?Q?myieqI7i6FsM1o3qPutSN1Ne8mzvBvVooi49+qz3IHZvWqq2tkik81ONfB6O?=
+ =?us-ascii?Q?Lm5PLfmiPVha9nt6EYSvHYJf2cInEQhJvWGWPfdbBXSCpUwIV20rwHimpzTW?=
+ =?us-ascii?Q?T0xxr6e3c6tk6dKHc6+HrFl3+n7t4tDl7b8MF4QBL5K30f7Zr6NGydBSTKdO?=
+ =?us-ascii?Q?yGOu5LGBKda34SHAiERaqcn2OdSbXn0Zmqe3zd8laCBbiXSf0xQo0a+ZJEY1?=
+ =?us-ascii?Q?vHlXgTq8fP+sUkln6i8l75Nv9+TYIZXLdf3EFsFpX+B6C6ysYtT8tE7ZqaJG?=
+ =?us-ascii?Q?POKZxXMmuGzzd6JHDQ3L6HhkJZm3SVVfs+hjwfYerNKIX3ktBGlKt33b2T1+?=
+ =?us-ascii?Q?WobShqYO+xR0V4NHhKT+z+7DiX5DSMZbeLEyMg3j/y2WaoNpEvN9bdpjWpKW?=
+ =?us-ascii?Q?s59r8t+cdqbJoDkZQ/ekH2/lTjtiT3+z1K79SWNdbDqgcB/i/+a9XJxiqQvL?=
+ =?us-ascii?Q?Zw9CkB2jzCiH4pFpUFHMZohnaD0q4dkvdfaHFQBzvMCMffO63IkwSFr854BX?=
+ =?us-ascii?Q?yr3FVseJ0V7eNUlUkawkFNUIh6RgO5FowGq0XI++yPsj4bXhJTM/wKxccf1J?=
+ =?us-ascii?Q?IT2smsW+SjU4/3NSKSDHWYHeAA8an1LEJojDNtc70w=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3230.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(7416005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hJL1KJrBs+zLRLyQwTrM/c08i1m3CuSaNvXgbLnH0hFFbGEJBRxl5Tf+Wddw?=
- =?us-ascii?Q?CXHzE3colMoGwtO3sjxrgC1GT2n+u7MKX/rDw2mt0/KHpO7rDfKPXjVZywPt?=
- =?us-ascii?Q?jkxfQKx0TJhDp5h3i/usgUXJEcsxJH34KAnziWYY2ZV+HAUDhdu4TfqhhDmH?=
- =?us-ascii?Q?9AC/iuvBcJLkIrpYTaXp5e8xzg2bCxGXbsjnxPfQY7YzCD/EBq3kE050BhSS?=
- =?us-ascii?Q?/xPbBZSlhFS7Nn9TGLi1yOs6i3BcRaBj68jOdvEVBr9jNZnidtft2rSF3L5b?=
- =?us-ascii?Q?BiYbbaDCdE+fzVSwU1b4LprUQ1k1vCSagIHZMm5VzILRHRR2YkYFNtq5s0cS?=
- =?us-ascii?Q?XfeVPQUg0/yTLvfE8bI7Nbbv2KC72Wy8a5JfHxrQ3180qsrxtraoMltnaVCF?=
- =?us-ascii?Q?DioRbftaTHR2AA47A3XJofjG/d9yi/WzpslJOj+uyD/Hf2JUiI3ydQILmjvy?=
- =?us-ascii?Q?XdZQQn2YsxGU8kDGjgSTDz7H48ys2NK9+e3WvnjIEQXyaSOFBPFdh/xYODYw?=
- =?us-ascii?Q?g+ixUGop0vcXxHLFh5MQTj7+5EcAP2OZX8J4GUYecIMR/6YecLxlx78gPvoL?=
- =?us-ascii?Q?/1L5z3w2rwg78Me4D1Osu2iOagGvlhjhujpuQbo94Hz4mZJriCeNW7InFUUJ?=
- =?us-ascii?Q?VPRDS/0lo8o/hYGgD0eBfgtePCVM+ro3oZOKKb5B+54l2yP35b3hqd0QYt4r?=
- =?us-ascii?Q?MQI8ioS0qSXO3eE1050Mx+HnXvG6VSH/QU6VUThXjniD3XBNFJHz/RQp1cM/?=
- =?us-ascii?Q?oTe7kK7iFFxsZzTwaEBvPHTLcP6nFI3a9P783okQK9LLzeRFeNAp2bx9y3uF?=
- =?us-ascii?Q?Hyha/bTrIkrnu6JvXtNdzmLxJy3G1T33HifmPU5of0SY53dRsimspJXT6z3H?=
- =?us-ascii?Q?w1+cNAjeUNqJHst+Orqxax4uROafsuuxGHJnUe5qY95h/DF7Fw4wFDbQHwDs?=
- =?us-ascii?Q?cYBZt7diPenKN4SoWvMkHjY4jus9mgDKsmS0bqWRcek/0p5PFgQlxD/O3uOW?=
- =?us-ascii?Q?dbNPkDrta+PjSrHPfIZcpgjxHZfocGdYym8LMNmQlLJqyqL/LjSyGRzkBsQX?=
- =?us-ascii?Q?d+XFY4cv4kz9QEvxSCemzt9L9bimvVngsW6MvsFGzPZ5NINCQ6Q10I19y/hG?=
- =?us-ascii?Q?L/ChBu0/zlzRYa1HLho6j6k5UVNcv9jWkmJ2CDGWd2K6hYd29ihrlDGXmPzW?=
- =?us-ascii?Q?l4Eqs47xFpPRm9q91uhbC4YM9fREfr2HbKeFV1Y1JV5xFou1eCbTomMBZd7n?=
- =?us-ascii?Q?y4jz9XDfw8MfLQK8cwht1LRrw19JwsMpKyGmgV5I13Rbdod3V+ZwASBxRX9L?=
- =?us-ascii?Q?nfdPGstbpS1lAJWFQKyPAVBBt3y0ZDGLBSHGNK/ekAPqS6C36XjXrtIWdiu4?=
- =?us-ascii?Q?6Tw2yS2OLz1U+7m402j/XONyMcslr0NPLt76Ys1QyV+6uv7iMksKYyAKhlzo?=
- =?us-ascii?Q?XwDwSBtkJisco+lV4sAMtl9f19pUMgf1o/jDWhgFYViXSAkxSTCEf5qXf9MR?=
- =?us-ascii?Q?FhhrtZcluwZfQzwZXVmU4n2ageShu+r2cNu1Hm5ksNHc/2zNmWdRlk1jADvm?=
- =?us-ascii?Q?gaNMeg00pO0jMNtAWnUVQzvbp93sXik3dQCdCx/b?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd9b88cc-c4fb-4416-2630-08dc8693be58
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gQ6YTS9JDxIuYyC2jScnpJyv0nQFyKZeqsKuuumajCmvDADpSz5Y7kwaS4Xn?=
+ =?us-ascii?Q?F6lOv1lsWManBw4jF6H9QvRxmBJBCv/tjj3ss8QmVqzllA8WB+2ycDbOJBcr?=
+ =?us-ascii?Q?2box1YFM4y76emnmau3TqzPjcgscZSTCo2P6nsdigHR4TSN7UV341QvwSiQQ?=
+ =?us-ascii?Q?kLU63wszzkDsTLsrpvHEGGTFLzkd/bPnb39jpCEva9/CGxN+0nWGbW3uM8qV?=
+ =?us-ascii?Q?BVEqmLBlA/sTB7WKpeNgMjspCpiWmHX6SZUGb907W0Z3fwkG9Bn7bt8E8avi?=
+ =?us-ascii?Q?9Wveu6ztDOmkb/gG6XSywSHiSi3L6EuoSzRFkGuKrVamCGUfBSe7VmguRlQH?=
+ =?us-ascii?Q?bhB/wKY1IDhve2kVmgDaa07C4ZYXKBIlfYkQs4S+PRm98EMdgwYCzNwullO/?=
+ =?us-ascii?Q?vWYm5jU58TdG7IoOkocqFNHIUqO+ijhavS9uLZoGOidXYSpabs4cvcCyC3n9?=
+ =?us-ascii?Q?xD5ZL5H1A3/8UYI0oCJ/C9ilPxEg6GKtwyj8WOb0g3AU0hdehWKGE5b7pN5O?=
+ =?us-ascii?Q?r1di3GE6jsISDhH3fZVnUX8d+4A2Kd6UyLAkV+IiErBCkHtHOqmuCVouieG2?=
+ =?us-ascii?Q?Jl6daTPMyQZCIjVJV9aBpgKIh/CB+wTWaKCfw8JUSMeowazYlkh0/q+V9D2B?=
+ =?us-ascii?Q?/wdSR5sK2wzVhPxsdTpgDd1CC2SEa0o8eJFMYtfcHHwJYI5V0wUibZ8HYQ0X?=
+ =?us-ascii?Q?xDIvl8BEOyhcCpSBfxOghEu1jcviHknXEFICXoo9w1hU8Mi7HEPL+RAXYJTq?=
+ =?us-ascii?Q?k/cBEWclWMv2t1dG5nOOjTZPWqULzD0IRiS67Y7W9shG4p5YgQgPdTpYrF1d?=
+ =?us-ascii?Q?TjmSsC0vTsXsFHwU3YSzBqAxQel5bs2m7P4FOiejprBprIuLyN2M17G0po3a?=
+ =?us-ascii?Q?ni3eN1SS4Sv6UeqawuFOzEMFPYY5KWHo9s8DvQQy3rLrNriJt6eGJAXI2YKo?=
+ =?us-ascii?Q?osc1qE5sHYlvi7RG0FiwcW5n/2+xK2iWj9mpwvpiWP1fyGpxwfJuJr8luisS?=
+ =?us-ascii?Q?A+dMezAPlY09tUAl4EOxx93CnY1dY6p8q3XkDwI4GhplCVjeUfc5PeWrCuSr?=
+ =?us-ascii?Q?AZcjoHGNYlA/0qQpf8PO3SyxXReDBsK3jOdl3SurS4/rkuJESKzhEvsJdMvT?=
+ =?us-ascii?Q?GIhFDtmKBo5fjH8aoq9m2570dtB1Owm6+xkOUg8wDADsvpoldghufizNUP6n?=
+ =?us-ascii?Q?7V4ettRDK+9fdF/mhUJxGDKytYpr3y5V8m9XeucvPNKMvSyNxClk9d11G0uK?=
+ =?us-ascii?Q?y7VKWNfopAgkAjC6FKm5w7wKL06Uh0v6kZuFRvzfMw9hDl0Q8/cAY9OEHls9?=
+ =?us-ascii?Q?KIBvrr9DorYvIuo3vYXO1sEo3wB0EhXeX7iyO82myNU8G2zNx0j/gUdpNTLP?=
+ =?us-ascii?Q?L/kByJTnzhG58hOkU79x5xB9O1dsE6RRWYfoQxqX8vzZnGDK3BajLuPXSDkK?=
+ =?us-ascii?Q?IjmzZ6YN3ybfkYwY+HdtXAAW6Lzq6Atc2nCZXiC9p6CRtnf+wcI8sFwhprUk?=
+ =?us-ascii?Q?cO9N4WVFwOp9128OU1RoPXX/NstDR3o3vt1rklNAoljB8mlKuJwE4Z0fFLId?=
+ =?us-ascii?Q?xTJJM3MV04neBr09mb7D+ftEAhovKkTP0I5H5yoQ7hvaQuZ+EW7B7AwWPMO6?=
+ =?us-ascii?Q?Lg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7acff915-c389-4a0c-27e5-08dc8693dda5
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3230.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 01:47:09.4107
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 01:48:01.9847
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CaOwc84JimXIdk0IbRo1OzOqX6fiwdPpm69u5posgIX4fmyeYR6Hyv3786/Ot0UcnQJGW198k4Qxt177CVbL9w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: VO4cVKlm+hJpPH++yfxKyRjYn37x7k59wb1yNAim1PHSTbN8ktdR9S8nZwP2+y5xTaRLXNwIA0y37I3wTBBALQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7662
 X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f
-commit: 32cf1deb9c04854f76c5882a959b7148b6f32e75 [1507/4264] MICROBLAZE kc705 2017.4 full with cpu-reg fix NEW with reserved memory
-:::::: branch date: 13 hours ago
-:::::: commit date: 10 days ago
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070013.JTIjsLY7-lkp@intel.com/reproduce)
+Hi Artur,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Artur-Weber/ARM-dts-broadcom-bcm21664-Move-chosen-node-into-bcm21664-garnet-DTS/20240605-144250
+base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
+patch link:    https://lore.kernel.org/r/20240605-bcm21664-common-v1-2-6386e9141eb6%40gmail.com
+patch subject: [PATCH 2/2] ARM: dts: bcm-mobile: Split out nodes used by both BCM21664 and BCM23550
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406070221.achg575g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406070013.JTIjsLY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406070221.achg575g-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/microblaze/boot/dts/system.dts:20.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/microblaze/boot/dts/system.dts:483.25-486.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00000000: unit name should not have leading "0x"
->> arch/microblaze/boot/dts/system.dts:483.25-486.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00000000: unit name should not have leading 0s
-   arch/microblaze/boot/dts/system.dts:488.25-491.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00b00000: unit name should not have leading "0x"
-   arch/microblaze/boot/dts/system.dts:488.25-491.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00b00000: unit name should not have leading 0s
-   arch/microblaze/boot/dts/system.dts:493.25-496.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00b80000: unit name should not have leading "0x"
-   arch/microblaze/boot/dts/system.dts:493.25-496.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00b80000: unit name should not have leading 0s
-   arch/microblaze/boot/dts/system.dts:498.25-501.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00ba0000: unit name should not have leading "0x"
-   arch/microblaze/boot/dts/system.dts:498.25-501.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00ba0000: unit name should not have leading 0s
-   arch/microblaze/boot/dts/system.dts:503.25-506.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x017a0000: unit name should not have leading "0x"
-   arch/microblaze/boot/dts/system.dts:503.25-506.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x017a0000: unit name should not have leading 0s
->> arch/microblaze/boot/dts/system.dts:579.15-588.4: Warning (simple_bus_reg): /amba_pl/gpio-restart: missing or empty reg/ranges property
->> arch/microblaze/boot/dts/system.dts:50.4-19: Warning (clocks_property): /cpus/cpu@0:clocks: cell 0 is not a phandle reference
->> arch/microblaze/boot/dts/system.dts:272.4-19: Warning (clocks_property): /amba_pl/dma@41e00000:clocks: cell 0 is not a phandle reference
->> arch/microblaze/boot/dts/system.dts:284.4-19: Warning (clocks_property): /amba_pl/timer@41c00000:clocks: cell 0 is not a phandle reference
->> arch/microblaze/boot/dts/system.dts:339.4-19: Warning (clocks_property): /amba_pl/i2c@40800000:clocks: cell 0 is not a phandle reference
->> arch/microblaze/boot/dts/system.dts:560.4-19: Warning (clocks_property): /amba_pl/serial@44a00000:clocks: cell 0 is not a phandle reference
+>> arch/arm/boot/dts/broadcom/bcm21664.dtsi:31.37-38.5: Warning (simple_bus_reg): /apps-bus@3e300000/interrupt-controller@1c00100: simple-bus unit address format error, expected "1c01000"
 
-vim +20 arch/microblaze/boot/dts/system.dts
+vim +/1c01000 +31 arch/arm/boot/dts/broadcom/bcm21664.dtsi
 
-32cf1deb9c04854 Michal Simek  2018-03-12    2  
-845e5ef1a671b8c Michal Simek  2014-04-07    3  / {
-32cf1deb9c04854 Michal Simek  2018-03-12    4  	#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12    5  	#size-cells = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07    6  	compatible = "xlnx,microblaze";
-32cf1deb9c04854 Michal Simek  2018-03-12    7  	model = "Xilinx MicroBlaze";
-32cf1deb9c04854 Michal Simek  2018-03-12    8  
-32cf1deb9c04854 Michal Simek  2018-03-12    9  	chosen {
-32cf1deb9c04854 Michal Simek  2018-03-12   10  		bootargs = "earlycon";
-32cf1deb9c04854 Michal Simek  2018-03-12   11  		stdout-path = "serial0:115200n8";
-845e5ef1a671b8c Michal Simek  2014-04-07   12  	};
-32cf1deb9c04854 Michal Simek  2018-03-12   13  
-845e5ef1a671b8c Michal Simek  2014-04-07   14  	aliases {
-32cf1deb9c04854 Michal Simek  2018-03-12   15  		ethernet0 = "/amba_pl/ethernet@40c00000";
-32cf1deb9c04854 Michal Simek  2018-03-12   16  		i2c0 = "/amba_pl/i2c@40800000";
-32cf1deb9c04854 Michal Simek  2018-03-12   17  		serial0 = "/amba_pl/serial@44a00000";
-845e5ef1a671b8c Michal Simek  2014-04-07   18  	};
-32cf1deb9c04854 Michal Simek  2018-03-12   19  
-32cf1deb9c04854 Michal Simek  2018-03-12  @20  	memory {
-32cf1deb9c04854 Michal Simek  2018-03-12   21  		device_type = "memory";
-32cf1deb9c04854 Michal Simek  2018-03-12   22  		reg = <0x80000000 0x40000000>;
-845e5ef1a671b8c Michal Simek  2014-04-07   23  	};
-32cf1deb9c04854 Michal Simek  2018-03-12   24  
-32cf1deb9c04854 Michal Simek  2018-03-12   25  	reserved-memory {
-845e5ef1a671b8c Michal Simek  2014-04-07   26  		#address-cells = <1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   27  		#size-cells = <1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   28  		ranges;
-32cf1deb9c04854 Michal Simek  2018-03-12   29  
-32cf1deb9c04854 Michal Simek  2018-03-12   30  		alloc@b0000000 {
-32cf1deb9c04854 Michal Simek  2018-03-12   31  			reg = <0xb0000000 0x10000000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   32  			no-map;
-32cf1deb9c04854 Michal Simek  2018-03-12   33  		};
-32cf1deb9c04854 Michal Simek  2018-03-12   34  
-32cf1deb9c04854 Michal Simek  2018-03-12   35  		alloc@a8000000 {
-32cf1deb9c04854 Michal Simek  2018-03-12   36  			reg = <0xa8000000 0x00100000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   37  			no-map;
-32cf1deb9c04854 Michal Simek  2018-03-12   38  		};
-32cf1deb9c04854 Michal Simek  2018-03-12   39  	};
-32cf1deb9c04854 Michal Simek  2018-03-12   40  
-32cf1deb9c04854 Michal Simek  2018-03-12   41  	cpus {
-32cf1deb9c04854 Michal Simek  2018-03-12   42  		#address-cells = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07   43  		#cpus = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   44  		#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   45  
-32cf1deb9c04854 Michal Simek  2018-03-12   46  		cpu@0 {
-32cf1deb9c04854 Michal Simek  2018-03-12   47  			reg = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   48  			bus-handle = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12   49  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  @50  			clocks = <0x3>;
-32cf1deb9c04854 Michal Simek  2018-03-12   51  			compatible = "xlnx,microblaze-10.0";
-32cf1deb9c04854 Michal Simek  2018-03-12   52  			d-cache-baseaddr = <0x80000000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   53  			d-cache-highaddr = <0xbfffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12   54  			d-cache-line-size = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12   55  			d-cache-size = <0x4000>;
-845e5ef1a671b8c Michal Simek  2014-04-07   56  			device_type = "cpu";
-32cf1deb9c04854 Michal Simek  2018-03-12   57  			i-cache-baseaddr = <0x80000000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   58  			i-cache-highaddr = <0xbfffffff>;
-845e5ef1a671b8c Michal Simek  2014-04-07   59  			i-cache-line-size = <0x10>;
-32cf1deb9c04854 Michal Simek  2018-03-12   60  			i-cache-size = <0x4000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   61  			interrupt-handle = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12   62  			model = "microblaze,10.0";
-32cf1deb9c04854 Michal Simek  2018-03-12   63  			timebase-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12   64  			xlnx,addr-size = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12   65  			xlnx,addr-tag-bits = <0x10>;
-845e5ef1a671b8c Michal Simek  2014-04-07   66  			xlnx,allow-dcache-wr = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07   67  			xlnx,allow-icache-wr = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07   68  			xlnx,area-optimized = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   69  			xlnx,async-interrupt = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   70  			xlnx,async-wakeup = <0x3>;
-32cf1deb9c04854 Michal Simek  2018-03-12   71  			xlnx,avoid-primitives = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   72  			xlnx,base-vectors = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   73  			xlnx,branch-target-cache-size = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   74  			xlnx,cache-byte-size = <0x4000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   75  			xlnx,d-axi = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07   76  			xlnx,d-lmb = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   77  			xlnx,d-lmb-mon = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   78  			xlnx,daddr-size = <0x20>;
-845e5ef1a671b8c Michal Simek  2014-04-07   79  			xlnx,data-size = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12   80  			xlnx,dc-axi-mon = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   81  			xlnx,dcache-addr-tag = <0x10>;
-845e5ef1a671b8c Michal Simek  2014-04-07   82  			xlnx,dcache-always-used = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   83  			xlnx,dcache-byte-size = <0x4000>;
-32cf1deb9c04854 Michal Simek  2018-03-12   84  			xlnx,dcache-data-width = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   85  			xlnx,dcache-force-tag-lutram = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   86  			xlnx,dcache-line-len = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12   87  			xlnx,dcache-use-writeback = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   88  			xlnx,dcache-victims = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   89  			xlnx,debug-counter-width = <0x20>;
-845e5ef1a671b8c Michal Simek  2014-04-07   90  			xlnx,debug-enabled = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   91  			xlnx,debug-event-counters = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12   92  			xlnx,debug-external-trace = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   93  			xlnx,debug-interface = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   94  			xlnx,debug-latency-counters = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   95  			xlnx,debug-profile-size = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   96  			xlnx,debug-trace-async-reset = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12   97  			xlnx,debug-trace-size = <0x2000>;
-845e5ef1a671b8c Michal Simek  2014-04-07   98  			xlnx,div-zero-exception = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12   99  			xlnx,dp-axi-mon = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  100  			xlnx,dynamic-bus-sizing = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  101  			xlnx,ecc-use-ce-exception = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  102  			xlnx,edge-is-positive = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  103  			xlnx,enable-discrete-ports = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  104  			xlnx,endianness = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  105  			xlnx,fault-tolerant = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  106  			xlnx,fpu-exception = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  107  			xlnx,freq = <0xbebc200>;
-845e5ef1a671b8c Michal Simek  2014-04-07  108  			xlnx,fsl-exception = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  109  			xlnx,fsl-links = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  110  			xlnx,i-axi = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  111  			xlnx,i-lmb = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  112  			xlnx,i-lmb-mon = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  113  			xlnx,iaddr-size = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  114  			xlnx,ic-axi-mon = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  115  			xlnx,icache-always-used = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  116  			xlnx,icache-data-width = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  117  			xlnx,icache-force-tag-lutram = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  118  			xlnx,icache-line-len = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  119  			xlnx,icache-streams = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  120  			xlnx,icache-victims = <0x8>;
-845e5ef1a671b8c Michal Simek  2014-04-07  121  			xlnx,ill-opcode-exception = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  122  			xlnx,imprecise-exceptions = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  123  			xlnx,instr-size = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  124  			xlnx,interconnect = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  125  			xlnx,interrupt-is-edge = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  126  			xlnx,interrupt-mon = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  127  			xlnx,ip-axi-mon = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  128  			xlnx,lockstep-master = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  129  			xlnx,lockstep-select = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  130  			xlnx,lockstep-slave = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  131  			xlnx,mmu-dtlb-size = <0x4>;
-845e5ef1a671b8c Michal Simek  2014-04-07  132  			xlnx,mmu-itlb-size = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  133  			xlnx,mmu-privileged-instr = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  134  			xlnx,mmu-tlb-access = <0x3>;
-32cf1deb9c04854 Michal Simek  2018-03-12  135  			xlnx,mmu-zones = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  136  			xlnx,num-sync-ff-clk = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  137  			xlnx,num-sync-ff-clk-debug = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  138  			xlnx,num-sync-ff-clk-irq = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  139  			xlnx,num-sync-ff-dbg-clk = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  140  			xlnx,num-sync-ff-dbg-trace-clk = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  141  			xlnx,number-of-pc-brk = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07  142  			xlnx,number-of-rd-addr-brk = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  143  			xlnx,number-of-wr-addr-brk = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  144  			xlnx,opcode-0x0-illegal = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  145  			xlnx,optimization = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  146  			xlnx,pc-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  147  			xlnx,piaddr-size = <0x20>;
-845e5ef1a671b8c Michal Simek  2014-04-07  148  			xlnx,pvr = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  149  			xlnx,pvr-user1 = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  150  			xlnx,pvr-user2 = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  151  			xlnx,reset-msr = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  152  			xlnx,reset-msr-bip = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  153  			xlnx,reset-msr-dce = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  154  			xlnx,reset-msr-ee = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  155  			xlnx,reset-msr-eip = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  156  			xlnx,reset-msr-ice = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  157  			xlnx,reset-msr-ie = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  158  			xlnx,sco = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  159  			xlnx,trace = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  160  			xlnx,unaligned-exceptions = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07  161  			xlnx,use-barrel = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  162  			xlnx,use-branch-target-cache = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  163  			xlnx,use-config-reset = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  164  			xlnx,use-dcache = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07  165  			xlnx,use-div = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  166  			xlnx,use-ext-brk = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  167  			xlnx,use-ext-nm-brk = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  168  			xlnx,use-extended-fsl-instr = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  169  			xlnx,use-fpu = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  170  			xlnx,use-hw-mul = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  171  			xlnx,use-icache = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  172  			xlnx,use-interrupt = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  173  			xlnx,use-mmu = <0x3>;
-845e5ef1a671b8c Michal Simek  2014-04-07  174  			xlnx,use-msr-instr = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  175  			xlnx,use-non-secure = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  176  			xlnx,use-pcmp-instr = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  177  			xlnx,use-reorder-instr = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  178  			xlnx,use-stack-protection = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  179  		};
-845e5ef1a671b8c Michal Simek  2014-04-07  180  	};
-32cf1deb9c04854 Michal Simek  2018-03-12  181  
-32cf1deb9c04854 Michal Simek  2018-03-12  182  	clocks {
-32cf1deb9c04854 Michal Simek  2018-03-12  183  		#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  184  		#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  185  
-32cf1deb9c04854 Michal Simek  2018-03-12  186  		clk_cpu@0 {
-32cf1deb9c04854 Michal Simek  2018-03-12  187  			#clock-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  188  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  189  			clock-output-names = "clk_cpu";
-32cf1deb9c04854 Michal Simek  2018-03-12  190  			compatible = "fixed-clock";
-32cf1deb9c04854 Michal Simek  2018-03-12  191  			reg = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  192  			linux,phandle = <0x3>;
-32cf1deb9c04854 Michal Simek  2018-03-12  193  			phandle = <0x3>;
-32cf1deb9c04854 Michal Simek  2018-03-12  194  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  195  
-32cf1deb9c04854 Michal Simek  2018-03-12  196  		clk_bus_0@1 {
-32cf1deb9c04854 Michal Simek  2018-03-12  197  			#clock-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  198  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  199  			clock-output-names = "clk_bus_0";
-32cf1deb9c04854 Michal Simek  2018-03-12  200  			compatible = "fixed-clock";
-32cf1deb9c04854 Michal Simek  2018-03-12  201  			reg = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  202  			linux,phandle = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  203  			phandle = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  204  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  205  	};
-32cf1deb9c04854 Michal Simek  2018-03-12  206  
-32cf1deb9c04854 Michal Simek  2018-03-12  207  	amba_pl {
-32cf1deb9c04854 Michal Simek  2018-03-12  208  		#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  209  		#size-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  210  		compatible = "simple-bus";
-845e5ef1a671b8c Michal Simek  2014-04-07  211  		ranges;
-32cf1deb9c04854 Michal Simek  2018-03-12  212  		linux,phandle = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  213  		phandle = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  214  
-32cf1deb9c04854 Michal Simek  2018-03-12  215  		ethernet@40c00000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  216  			axistream-connected = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12  217  			axistream-control-connected = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12  218  			clock-frequency = <0x5f5e100>;
-32cf1deb9c04854 Michal Simek  2018-03-12  219  			compatible = "xlnx,axi-ethernet-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  220  			device_type = "network";
-32cf1deb9c04854 Michal Simek  2018-03-12  221  			interrupt-parent = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  222  			interrupts = <0x4 0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  223  			phy-mode = "gmii";
-32cf1deb9c04854 Michal Simek  2018-03-12  224  			reg = <0x40c00000 0x40000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  225  			xlnx = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  226  			xlnx,axiliteclkrate = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  227  			xlnx,axisclkrate = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  228  			xlnx,clockselection = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  229  			xlnx,enableasyncsgmii = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  230  			xlnx,gt-type = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  231  			xlnx,gtinex = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  232  			xlnx,gtlocation = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  233  			xlnx,gtrefclksrc = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  234  			xlnx,include-dre;
-32cf1deb9c04854 Michal Simek  2018-03-12  235  			xlnx,instantiatebitslice0 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  236  			xlnx,phy-type = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  237  			xlnx,phyaddr = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  238  			xlnx,rable = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  239  			xlnx,rxcsum = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  240  			xlnx,rxlane0-placement = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  241  			xlnx,rxlane1-placement = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  242  			xlnx,rxmem = <0x1000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  243  			xlnx,rxnibblebitslice0used = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  244  			xlnx,tx-in-upper-nibble = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  245  			xlnx,txcsum = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  246  			xlnx,txlane0-placement = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  247  			xlnx,txlane1-placement = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  248  			phy-handle = <0x6>;
-32cf1deb9c04854 Michal Simek  2018-03-12  249  			local-mac-address = [00 0a 35 00 22 01];
-32cf1deb9c04854 Michal Simek  2018-03-12  250  			linux,phandle = <0x7>;
-32cf1deb9c04854 Michal Simek  2018-03-12  251  			phandle = <0x7>;
-32cf1deb9c04854 Michal Simek  2018-03-12  252  
-32cf1deb9c04854 Michal Simek  2018-03-12  253  			mdio {
-32cf1deb9c04854 Michal Simek  2018-03-12  254  				#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  255  				#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  256  
-32cf1deb9c04854 Michal Simek  2018-03-12  257  				phy@7 {
-32cf1deb9c04854 Michal Simek  2018-03-12  258  					device_type = "ethernet-phy";
-32cf1deb9c04854 Michal Simek  2018-03-12  259  					reg = <0x7>;
-32cf1deb9c04854 Michal Simek  2018-03-12  260  					linux,phandle = <0x6>;
-32cf1deb9c04854 Michal Simek  2018-03-12  261  					phandle = <0x6>;
-32cf1deb9c04854 Michal Simek  2018-03-12  262  				};
-32cf1deb9c04854 Michal Simek  2018-03-12  263  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  264  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  265  
-32cf1deb9c04854 Michal Simek  2018-03-12  266  		dma@41e00000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  267  			#dma-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  268  			axistream-connected = <0x7>;
-32cf1deb9c04854 Michal Simek  2018-03-12  269  			axistream-control-connected = <0x7>;
-32cf1deb9c04854 Michal Simek  2018-03-12  270  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  271  			clock-names = "s_axi_lite_aclk";
-32cf1deb9c04854 Michal Simek  2018-03-12  272  			clocks = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  273  			compatible = "xlnx,eth-dma";
-32cf1deb9c04854 Michal Simek  2018-03-12  274  			interrupt-parent = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  275  			interrupts = <0x3 0x2 0x2 0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  276  			reg = <0x41e00000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  277  			xlnx,include-dre;
-32cf1deb9c04854 Michal Simek  2018-03-12  278  			linux,phandle = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12  279  			phandle = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12  280  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  281  
-32cf1deb9c04854 Michal Simek  2018-03-12  282  		timer@41c00000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  283  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  284  			clocks = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  285  			compatible = "xlnx,xps-timer-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  286  			interrupt-parent = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  287  			interrupts = <0x5 0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  288  			reg = <0x41c00000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  289  			xlnx,count-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  290  			xlnx,gen0-assert = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  291  			xlnx,gen1-assert = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  292  			xlnx,one-timer-only = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  293  			xlnx,trig0-assert = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  294  			xlnx,trig1-assert = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  295  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  296  
-32cf1deb9c04854 Michal Simek  2018-03-12  297  		gpio@40010000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  298  			#gpio-cells = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  299  			compatible = "xlnx,xps-gpio-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  300  			gpio-controller;
-32cf1deb9c04854 Michal Simek  2018-03-12  301  			reg = <0x40010000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  302  			xlnx,all-inputs = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  303  			xlnx,all-inputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  304  			xlnx,all-outputs = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  305  			xlnx,all-outputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  306  			xlnx,dout-default = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  307  			xlnx,dout-default-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  308  			xlnx,gpio-width = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  309  			xlnx,gpio2-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  310  			xlnx,interrupt-present = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  311  			xlnx,is-dual = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  312  			xlnx,tri-default = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  313  			xlnx,tri-default-2 = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  314  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  315  
-32cf1deb9c04854 Michal Simek  2018-03-12  316  		gpio@40020000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  317  			#gpio-cells = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  318  			compatible = "xlnx,xps-gpio-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  319  			gpio-controller;
-32cf1deb9c04854 Michal Simek  2018-03-12  320  			reg = <0x40020000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  321  			xlnx,all-inputs = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  322  			xlnx,all-inputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  323  			xlnx,all-outputs = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  324  			xlnx,all-outputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  325  			xlnx,dout-default = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  326  			xlnx,dout-default-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  327  			xlnx,gpio-width = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  328  			xlnx,gpio2-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  329  			xlnx,interrupt-present = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  330  			xlnx,is-dual = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  331  			xlnx,tri-default = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  332  			xlnx,tri-default-2 = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  333  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  334  
-32cf1deb9c04854 Michal Simek  2018-03-12  335  		i2c@40800000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  336  			#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  337  			#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  338  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  339  			clocks = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  340  			compatible = "xlnx,xps-iic-2.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  341  			interrupt-parent = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  342  			interrupts = <0x1 0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  343  			reg = <0x40800000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  344  
-32cf1deb9c04854 Michal Simek  2018-03-12  345  			i2cswitch@74 {
-32cf1deb9c04854 Michal Simek  2018-03-12  346  				compatible = "nxp,pca9548";
-32cf1deb9c04854 Michal Simek  2018-03-12  347  				#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  348  				#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  349  				reg = <0x74>;
-32cf1deb9c04854 Michal Simek  2018-03-12  350  
-32cf1deb9c04854 Michal Simek  2018-03-12  351  				i2c@0 {
-32cf1deb9c04854 Michal Simek  2018-03-12  352  					#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  353  					#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  354  					reg = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  355  
-32cf1deb9c04854 Michal Simek  2018-03-12  356  					clock-generator@5d {
-32cf1deb9c04854 Michal Simek  2018-03-12  357  						#clock-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  358  						compatible = "silabs,si570";
-32cf1deb9c04854 Michal Simek  2018-03-12  359  						temperature-stability = <0x32>;
-32cf1deb9c04854 Michal Simek  2018-03-12  360  						reg = <0x5d>;
-32cf1deb9c04854 Michal Simek  2018-03-12  361  						factory-fout = <0x9502f90>;
-32cf1deb9c04854 Michal Simek  2018-03-12  362  						clock-frequency = <0x8d9ee20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  363  					};
-32cf1deb9c04854 Michal Simek  2018-03-12  364  				};
-32cf1deb9c04854 Michal Simek  2018-03-12  365  
-32cf1deb9c04854 Michal Simek  2018-03-12  366  				i2c@3 {
-32cf1deb9c04854 Michal Simek  2018-03-12  367  					#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  368  					#size-cells = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  369  					reg = <0x3>;
-32cf1deb9c04854 Michal Simek  2018-03-12  370  
-32cf1deb9c04854 Michal Simek  2018-03-12  371  					eeprom@54 {
-32cf1deb9c04854 Michal Simek  2018-03-12  372  						compatible = "at,24c08";
-32cf1deb9c04854 Michal Simek  2018-03-12  373  						reg = <0x54>;
-32cf1deb9c04854 Michal Simek  2018-03-12  374  					};
-32cf1deb9c04854 Michal Simek  2018-03-12  375  				};
-32cf1deb9c04854 Michal Simek  2018-03-12  376  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  377  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  378  
-32cf1deb9c04854 Michal Simek  2018-03-12  379  		gpio@40030000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  380  			#gpio-cells = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  381  			compatible = "xlnx,xps-gpio-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  382  			gpio-controller;
-32cf1deb9c04854 Michal Simek  2018-03-12  383  			reg = <0x40030000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  384  			xlnx,all-inputs = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  385  			xlnx,all-inputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  386  			xlnx,all-outputs = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  387  			xlnx,all-outputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  388  			xlnx,dout-default = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  389  			xlnx,dout-default-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  390  			xlnx,gpio-width = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  391  			xlnx,gpio2-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  392  			xlnx,interrupt-present = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  393  			xlnx,is-dual = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  394  			xlnx,tri-default = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  395  			xlnx,tri-default-2 = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  396  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  397  
-32cf1deb9c04854 Michal Simek  2018-03-12  398  		flash@60000000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  399  			bank-width = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  400  			compatible = "cfi-flash";
-32cf1deb9c04854 Michal Simek  2018-03-12  401  			reg = <0x60000000 0x8000000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  402  			xlnx,axi-clk-period-ps = <0x1388>;
-845e5ef1a671b8c Michal Simek  2014-04-07  403  			xlnx,include-datawidth-matching-0 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  404  			xlnx,include-datawidth-matching-1 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  405  			xlnx,include-datawidth-matching-2 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  406  			xlnx,include-datawidth-matching-3 = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07  407  			xlnx,include-negedge-ioregs = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  408  			xlnx,lflash-period-ps = <0x1388>;
-32cf1deb9c04854 Michal Simek  2018-03-12  409  			xlnx,linear-flash-sync-burst = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  410  			xlnx,max-mem-width = <0x10>;
-32cf1deb9c04854 Michal Simek  2018-03-12  411  			xlnx,mem-a-lsb = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  412  			xlnx,mem-a-msb = <0x1f>;
-32cf1deb9c04854 Michal Simek  2018-03-12  413  			xlnx,mem0-type = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  414  			xlnx,mem0-width = <0x10>;
-32cf1deb9c04854 Michal Simek  2018-03-12  415  			xlnx,mem1-type = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  416  			xlnx,mem1-width = <0x10>;
-32cf1deb9c04854 Michal Simek  2018-03-12  417  			xlnx,mem2-type = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  418  			xlnx,mem2-width = <0x10>;
-32cf1deb9c04854 Michal Simek  2018-03-12  419  			xlnx,mem3-type = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  420  			xlnx,mem3-width = <0x10>;
-845e5ef1a671b8c Michal Simek  2014-04-07  421  			xlnx,num-banks-mem = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  422  			xlnx,page-size = <0x10>;
-32cf1deb9c04854 Michal Simek  2018-03-12  423  			xlnx,parity-type-mem-0 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  424  			xlnx,parity-type-mem-1 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  425  			xlnx,parity-type-mem-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  426  			xlnx,parity-type-mem-3 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  427  			xlnx,port-diff = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  428  			xlnx,s-axi-en-reg = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  429  			xlnx,s-axi-mem-addr-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  430  			xlnx,s-axi-mem-data-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  431  			xlnx,s-axi-mem-id-width = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  432  			xlnx,s-axi-reg-addr-width = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12  433  			xlnx,s-axi-reg-data-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  434  			xlnx,synch-pipedelay-0 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  435  			xlnx,synch-pipedelay-1 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  436  			xlnx,synch-pipedelay-2 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  437  			xlnx,synch-pipedelay-3 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  438  			xlnx,tavdv-ps-mem-0 = <0x1fbd0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  439  			xlnx,tavdv-ps-mem-1 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  440  			xlnx,tavdv-ps-mem-2 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  441  			xlnx,tavdv-ps-mem-3 = <0x3a98>;
-32cf1deb9c04854 Michal Simek  2018-03-12  442  			xlnx,tcedv-ps-mem-0 = <0x1fbd0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  443  			xlnx,tcedv-ps-mem-1 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  444  			xlnx,tcedv-ps-mem-2 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  445  			xlnx,tcedv-ps-mem-3 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  446  			xlnx,thzce-ps-mem-0 = <0x88b8>;
-845e5ef1a671b8c Michal Simek  2014-04-07  447  			xlnx,thzce-ps-mem-1 = <0x1b58>;
-845e5ef1a671b8c Michal Simek  2014-04-07  448  			xlnx,thzce-ps-mem-2 = <0x1b58>;
-845e5ef1a671b8c Michal Simek  2014-04-07  449  			xlnx,thzce-ps-mem-3 = <0x1b58>;
-845e5ef1a671b8c Michal Simek  2014-04-07  450  			xlnx,thzoe-ps-mem-0 = <0x1b58>;
-845e5ef1a671b8c Michal Simek  2014-04-07  451  			xlnx,thzoe-ps-mem-1 = <0x1b58>;
-845e5ef1a671b8c Michal Simek  2014-04-07  452  			xlnx,thzoe-ps-mem-2 = <0x1b58>;
-845e5ef1a671b8c Michal Simek  2014-04-07  453  			xlnx,thzoe-ps-mem-3 = <0x1b58>;
-32cf1deb9c04854 Michal Simek  2018-03-12  454  			xlnx,tlzwe-ps-mem-0 = <0xc350>;
-845e5ef1a671b8c Michal Simek  2014-04-07  455  			xlnx,tlzwe-ps-mem-1 = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  456  			xlnx,tlzwe-ps-mem-2 = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  457  			xlnx,tlzwe-ps-mem-3 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  458  			xlnx,tpacc-ps-flash-0 = <0x61a8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  459  			xlnx,tpacc-ps-flash-1 = <0x61a8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  460  			xlnx,tpacc-ps-flash-2 = <0x61a8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  461  			xlnx,tpacc-ps-flash-3 = <0x61a8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  462  			xlnx,twc-ps-mem-0 = <0x11170>;
-845e5ef1a671b8c Michal Simek  2014-04-07  463  			xlnx,twc-ps-mem-1 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  464  			xlnx,twc-ps-mem-2 = <0x3a98>;
-845e5ef1a671b8c Michal Simek  2014-04-07  465  			xlnx,twc-ps-mem-3 = <0x3a98>;
-32cf1deb9c04854 Michal Simek  2018-03-12  466  			xlnx,twp-ps-mem-0 = <0x13880>;
-845e5ef1a671b8c Michal Simek  2014-04-07  467  			xlnx,twp-ps-mem-1 = <0x2ee0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  468  			xlnx,twp-ps-mem-2 = <0x2ee0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  469  			xlnx,twp-ps-mem-3 = <0x2ee0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  470  			xlnx,twph-ps-mem-0 = <0x13880>;
-32cf1deb9c04854 Michal Simek  2018-03-12  471  			xlnx,twph-ps-mem-1 = <0x2ee0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  472  			xlnx,twph-ps-mem-2 = <0x2ee0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  473  			xlnx,twph-ps-mem-3 = <0x2ee0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  474  			xlnx,use-startup = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  475  			xlnx,use-startup-int = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  476  			xlnx,wr-rec-time-mem-0 = <0x186a0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  477  			xlnx,wr-rec-time-mem-1 = <0x6978>;
-32cf1deb9c04854 Michal Simek  2018-03-12  478  			xlnx,wr-rec-time-mem-2 = <0x6978>;
-32cf1deb9c04854 Michal Simek  2018-03-12  479  			xlnx,wr-rec-time-mem-3 = <0x6978>;
-32cf1deb9c04854 Michal Simek  2018-03-12  480  			#address-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  481  			#size-cells = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  482  
-32cf1deb9c04854 Michal Simek  2018-03-12  483  			partition@0x00000000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  484  				label = "fpga";
-32cf1deb9c04854 Michal Simek  2018-03-12  485  				reg = <0x0 0xb00000>;
-845e5ef1a671b8c Michal Simek  2014-04-07  486  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  487  
-32cf1deb9c04854 Michal Simek  2018-03-12  488  			partition@0x00b00000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  489  				label = "boot";
-32cf1deb9c04854 Michal Simek  2018-03-12  490  				reg = <0xb00000 0x80000>;
-845e5ef1a671b8c Michal Simek  2014-04-07  491  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  492  
-32cf1deb9c04854 Michal Simek  2018-03-12  493  			partition@0x00b80000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  494  				label = "bootenv";
-32cf1deb9c04854 Michal Simek  2018-03-12  495  				reg = <0xb80000 0x20000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  496  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  497  
-32cf1deb9c04854 Michal Simek  2018-03-12  498  			partition@0x00ba0000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  499  				label = "kernel";
-32cf1deb9c04854 Michal Simek  2018-03-12  500  				reg = <0xba0000 0xc00000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  501  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  502  
-32cf1deb9c04854 Michal Simek  2018-03-12  503  			partition@0x017a0000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  504  				label = "spare";
-32cf1deb9c04854 Michal Simek  2018-03-12  505  				reg = <0x17a0000 0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  506  			};
-32cf1deb9c04854 Michal Simek  2018-03-12  507  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  508  
-32cf1deb9c04854 Michal Simek  2018-03-12  509  		interrupt-controller@41200000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  510  			#interrupt-cells = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  511  			compatible = "xlnx,xps-intc-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  512  			interrupt-controller;
-32cf1deb9c04854 Michal Simek  2018-03-12  513  			reg = <0x41200000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  514  			xlnx,kind-of-intr = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  515  			xlnx,num-intr-inputs = <0x6>;
-32cf1deb9c04854 Michal Simek  2018-03-12  516  			linux,phandle = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  517  			phandle = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  518  		};
-32cf1deb9c04854 Michal Simek  2018-03-12  519  
-32cf1deb9c04854 Michal Simek  2018-03-12  520  		gpio@40040000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  521  			#gpio-cells = <0x2>;
-845e5ef1a671b8c Michal Simek  2014-04-07  522  			compatible = "xlnx,xps-gpio-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  523  			gpio-controller;
-32cf1deb9c04854 Michal Simek  2018-03-12  524  			reg = <0x40040000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  525  			xlnx,all-inputs = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07  526  			xlnx,all-inputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  527  			xlnx,all-outputs = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  528  			xlnx,all-outputs-2 = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  529  			xlnx,dout-default = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  530  			xlnx,dout-default-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  531  			xlnx,gpio-width = <0x5>;
-32cf1deb9c04854 Michal Simek  2018-03-12  532  			xlnx,gpio2-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  533  			xlnx,interrupt-present = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  534  			xlnx,is-dual = <0x0>;
-845e5ef1a671b8c Michal Simek  2014-04-07  535  			xlnx,tri-default = <0xffffffff>;
-845e5ef1a671b8c Michal Simek  2014-04-07  536  			xlnx,tri-default-2 = <0xffffffff>;
-845e5ef1a671b8c Michal Simek  2014-04-07  537  		};
-845e5ef1a671b8c Michal Simek  2014-04-07  538  
-32cf1deb9c04854 Michal Simek  2018-03-12  539  		gpio_res: gpio@40000000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  540  			#gpio-cells = <2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  541  			compatible = "xlnx,xps-gpio-1.00.a";
-32cf1deb9c04854 Michal Simek  2018-03-12  542  			gpio-controller;
-32cf1deb9c04854 Michal Simek  2018-03-12  543  			reg = <0x40000000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  544  			xlnx,all-inputs = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  545  			xlnx,all-inputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  546  			xlnx,all-outputs = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  547  			xlnx,all-outputs-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  548  			xlnx,dout-default = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  549  			xlnx,dout-default-2 = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  550  			xlnx,gpio-width = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  551  			xlnx,gpio2-width = <0x20>;
-32cf1deb9c04854 Michal Simek  2018-03-12  552  			xlnx,interrupt-present = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  553  			xlnx,is-dual = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  554  			xlnx,tri-default = <0xffffffff>;
-32cf1deb9c04854 Michal Simek  2018-03-12  555  			xlnx,tri-default-2 = <0xffffffff>;
-845e5ef1a671b8c Michal Simek  2014-04-07  556  		};
-845e5ef1a671b8c Michal Simek  2014-04-07  557  
-32cf1deb9c04854 Michal Simek  2018-03-12  558  		serial@44a00000 {
-32cf1deb9c04854 Michal Simek  2018-03-12  559  			clock-frequency = <0xbebc200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  560  			clocks = <0x8>;
-32cf1deb9c04854 Michal Simek  2018-03-12  561  			compatible = "xlnx,xps-uart16550-2.00.a", "ns16550a";
-32cf1deb9c04854 Michal Simek  2018-03-12  562  			current-speed = <0x1c200>;
-32cf1deb9c04854 Michal Simek  2018-03-12  563  			device_type = "serial";
-32cf1deb9c04854 Michal Simek  2018-03-12  564  			interrupt-parent = <0x4>;
-32cf1deb9c04854 Michal Simek  2018-03-12  565  			interrupts = <0x0 0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  566  			port-number = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  567  			reg = <0x44a00000 0x10000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  568  			reg-offset = <0x1000>;
-32cf1deb9c04854 Michal Simek  2018-03-12  569  			reg-shift = <0x2>;
-32cf1deb9c04854 Michal Simek  2018-03-12  570  			xlnx,external-xin-clk-hz = <0x17d7840>;
-32cf1deb9c04854 Michal Simek  2018-03-12  571  			xlnx,external-xin-clk-hz-d = <0x19>;
-32cf1deb9c04854 Michal Simek  2018-03-12  572  			xlnx,has-external-rclk = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  573  			xlnx,has-external-xin = <0x0>;
-32cf1deb9c04854 Michal Simek  2018-03-12  574  			xlnx,is-a-16550 = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  575  			xlnx,s-axi-aclk-freq-hz-d = "200.0";
-32cf1deb9c04854 Michal Simek  2018-03-12  576  			xlnx,use-modem-ports = <0x1>;
-32cf1deb9c04854 Michal Simek  2018-03-12  577  			xlnx,use-user-ports = <0x1>;
-845e5ef1a671b8c Michal Simek  2014-04-07  578  		};
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  579  	gpio-restart {
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  580  		compatible = "gpio-restart";
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  581  		/*
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  582  		 * FIXME: is this active low or active high?
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  583  		 * the current flag (1) indicates active low.
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  584  		 * delay measures are templates, should be adjusted
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  585  		 * to datasheet or trial-and-error with real hardware.
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  586  		 */
-32cf1deb9c04854 Michal Simek  2018-03-12  587  		gpios = <&gpio_res 0 0 0>;
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  588  	};
-7cca9b8b7c5bcc5 Linus Walleij 2019-08-23  589  
-845e5ef1a671b8c Michal Simek  2014-04-07  590  	};
-32cf1deb9c04854 Michal Simek  2018-03-12  591  
+2eba905e860f8a arch/arm/boot/dts/bcm21664.dtsi          Markus Mayer 2014-03-06   5  
+2eba905e860f8a arch/arm/boot/dts/bcm21664.dtsi          Markus Mayer 2014-03-06   6  / {
+2eba905e860f8a arch/arm/boot/dts/bcm21664.dtsi          Markus Mayer 2014-03-06   7  	model = "BCM21664 SoC";
+2eba905e860f8a arch/arm/boot/dts/bcm21664.dtsi          Markus Mayer 2014-03-06   8  	compatible = "brcm,bcm21664";
+2eba905e860f8a arch/arm/boot/dts/bcm21664.dtsi          Markus Mayer 2014-03-06   9  	interrupt-parent = <&gic>;
+2eba905e860f8a arch/arm/boot/dts/bcm21664.dtsi          Markus Mayer 2014-03-06  10  
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  11  	cpus {
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  12  		#address-cells = <1>;
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  13  		#size-cells = <0>;
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  14  
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  15  		cpu0: cpu@0 {
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  16  			device_type = "cpu";
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  17  			compatible = "arm,cortex-a9";
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  18  			reg = <0>;
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  19  		};
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  20  
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  21  		cpu1: cpu@1 {
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  22  			device_type = "cpu";
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  23  			compatible = "arm,cortex-a9";
+f302b57ab0e5ff arch/arm/boot/dts/bcm21664.dtsi          Chris Brand  2016-04-28  24  			enable-method = "brcm,bcm11351-cpu-method";
+84320e1a635fcf arch/arm/boot/dts/bcm21664.dtsi          Kapil Hali   2015-12-01  25  			secondary-boot-reg = <0x35004178>;
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  26  			reg = <1>;
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  27  		};
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  28  	};
+1d3138b75e3af4 arch/arm/boot/dts/bcm21664.dtsi          Alex Elder   2014-06-30  29  
+6a24a6d8543d0b arch/arm/boot/dts/broadcom/bcm21664.dtsi Artur Weber  2024-06-05  30  	apps: apps-bus@3e300000 {
+6a24a6d8543d0b arch/arm/boot/dts/broadcom/bcm21664.dtsi Artur Weber  2024-06-05 @31  		gic: interrupt-controller@1c00100 {
 
 -- 
 0-DAY CI Kernel Test Service
