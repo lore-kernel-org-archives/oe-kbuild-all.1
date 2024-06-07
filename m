@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7912D600
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 23:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761CE4F5EC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 23:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717801434; cv=none; b=iwwmgkrylU8AX12jmKG/TAr0ieICcKXimKGFtge2xmEWNuhhet2cbTc07Nfi5ipe0UVV1pPRjEVPNns92b4m7npAwc21ZO+szq0m9I4wGdZO5xD074eYDzHLFU3WymNCTlQtC4kU4diVSVf2gFiv7t8X5TcXEslosfpArLZmp9g=
+	t=1717802035; cv=none; b=F4+96QW8iZvylShbj80M3GHyl4WzOcLJTs4her3T2oh3S7sXRezlN6DTtNDyP+GB7YKF0xRL1IXP6imEhrFPfIAFCuBdKILUAeW4NQgpcJQGiV0ALv2ec6SKwLiwDNqbvwmMF+Gtry19A0IEjJp99TEV/ZYpbiLL+Kcx+arBIWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717801434; c=relaxed/simple;
-	bh=OV0B/zjxKykMC5g2oRt2yFrWHHKWlMLRED15dmDAOIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XJVSs8rhcq2CJqmM10k8enlTkEUf8RsS6qtdpkdXVYPc6IFiUHyNmMvzpSlRAjUai9yC4w1pZhu2AmRThqCHCeVMqPVak6xD3imGpaUchNqtGTAWho4fTNeuYM04iaCK1aSJuTfvugUgQZe7sGrvYkaRQl8SZrf23qxa6KZvIo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibVFRp6w; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1717802035; c=relaxed/simple;
+	bh=2q2MxS0PnAoB7ta6Xve9stwAf+iHBMYFHvuKsBomFdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ubV4p4FAZbrJ9Y9YAztTjPK0LXH6EByXgY2Ja3N6wov0b8ImA483s71xb5STzN+AaGaJmWIm47C+thl1OJxmsNqGyytIA8eQVUpmk3kWJJ3u6h3ccWowJ7Pb+As3KjvNukgSxarsSxLadr8lPnrYbFu10rHZOn+mzKCLcXLjct8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9UOmWtR; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibVFRp6w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9UOmWtR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717801432; x=1749337432;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OV0B/zjxKykMC5g2oRt2yFrWHHKWlMLRED15dmDAOIg=;
-  b=ibVFRp6wxM/vzzLg45hjwn4Ba3+KPrSde7oD7dqYbavAu27kl4z4lhya
-   2UbSPXndTTd7zwwPTy6iAtUAqQzcfzSuNhufFVFC1bQTlCqGJrprKewPZ
-   0QwgeKzrCIj7DYN8R772RXQmQq/ypakMyih+8sujKVYwgublEWaKEujxP
-   IPaLBXkdtmAiL8tKSC77N3AeWVKs5hPkISozT0V3m57GZJVR4Wi7aB4d5
-   wp0DyrSrUHj6/eTyT4s2SodBRHYWpesfTr+/gCYP5Afj9mxHul3ExC/3T
-   /jnE1bFjdT1Gf8WvIzNHCTI4ioain/LGE0uH27kaHAag0xg3WIsayauCA
-   w==;
-X-CSE-ConnectionGUID: S3RvRze3TeKiIhMTOSipLQ==
-X-CSE-MsgGUID: fmIeOyaxS7qUo1hQZ6xX+g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="39944567"
+  t=1717802033; x=1749338033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2q2MxS0PnAoB7ta6Xve9stwAf+iHBMYFHvuKsBomFdo=;
+  b=U9UOmWtRjtg/fPW4q397VyAU8O54g5GmBLaIZpEzV4QJtY+xKrJ5W+q3
+   f5ZaKIowPMzD00/K3sq+soh3si6JowkfyZ0nYylkkakVzCZCoRdkAIjxe
+   99qg7tYRpwgPWRrBrK+l/YLRsfK/RozMNUxmP8nazKTtq54+9gXzYjD+U
+   lOaaqrcj6+xjeVFsy1QcBxzpkDMuNWqkvZf3jGIceE6UrGsOkI34IedKK
+   mRRz9YkraxIBuR87tFNEpSGQpi9M/3B3ljJJauM46l/3KKGfW2sJ/SQw/
+   UX5eGAyN7QoP55o3Yq69nXZ1q5RHkAsr5+hueBtFz19Q3bbPaZZ5xdwCJ
+   Q==;
+X-CSE-ConnectionGUID: KqP0UnxxR4CkQ9ILohjQXA==
+X-CSE-MsgGUID: NSt+8fN+SEOT3/15oP3asw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14779162"
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="39944567"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 16:03:50 -0700
-X-CSE-ConnectionGUID: A0/h+k7kRzWiOBo60t8oMw==
-X-CSE-MsgGUID: zP4WvUH3Qe2lGh2Nj0AMQQ==
+   d="scan'208";a="14779162"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 16:13:53 -0700
+X-CSE-ConnectionGUID: gS9eduv5R+2Zina7itibXA==
+X-CSE-MsgGUID: huPaYgdESsWna5lAxNy27Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="38596685"
+   d="scan'208";a="75957644"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Jun 2024 16:03:49 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 Jun 2024 16:13:50 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFicd-0000f5-1C;
-	Fri, 07 Jun 2024 23:03:47 +0000
-Date: Sat, 8 Jun 2024 07:03:10 +0800
+	id 1sFimK-0000g2-0A;
+	Fri, 07 Jun 2024 23:13:48 +0000
+Date: Sat, 8 Jun 2024 07:13:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:rust/cpufreq-dt 20/25] error: matching on `Some` with
- `ok()` is redundant
-Message-ID: <202406080731.yQQVUsT3-lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+Message-ID: <202406080603.d9mWzFV2-lkp@intel.com>
+References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,46 +68,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
-head:   aca334cdc747f90b4a1051a3e570cbfa56f10a35
-commit: ec8ea3f68df07330203b58920f07fb166aecf232 [20/25] rust: Extend cpufreq bindings for driver registration
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240608/202406080731.yQQVUsT3-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406080731.yQQVUsT3-lkp@intel.com/reproduce)
+Hi Neil,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
+base:   c3f38fa61af77b49866b006939479069cd451173
+patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
+patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce: (https://download.01.org/0day-ci/archive/20240608/202406080603.d9mWzFV2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406080731.yQQVUsT3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406080603.d9mWzFV2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> error: matching on `Some` with `ok()` is redundant
-   --> rust/kernel/cpufreq.rs:972:9
-   |
-   972 |         if let Some(mut policy) = Policy::from_cpu(cpu).ok() {
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#match_result_ok
-   = note: `-D clippy::match-result-ok` implied by `-D clippy::style`
-   = help: to override `-D clippy::style` add `#[allow(clippy::match_result_ok)]`
-   help: consider matching on `Ok(mut policy)` and removing the call to `ok` instead
-   |
-   972 |         if let Ok(mut policy) = Policy::from_cpu(cpu) {
-   |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
 --
->> error: matching on `Some` with `ok()` is redundant
-   --> rust/kernel/cpufreq.rs:1012:9
-   |
-   1012 |         if let Some(mut policy) = Policy::from_cpu(cpu).ok() {
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#match_result_ok
-   help: consider matching on `Ok(mut policy)` and removing the call to `ok` instead
-   |
-   1012 |         if let Ok(mut policy) = Policy::from_cpu(cpu) {
-   |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
