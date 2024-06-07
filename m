@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A23155300
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 22:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7912D600
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 23:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717798372; cv=none; b=BE6fM8zLKVNw+GAwgluTJBn2U2E8i6SExWFXtFAMAeRo5KKAp7Ls0tM6xd1nC/nVskL6E2jsZ3dVhj37SoPtq6vQsqiPb1XWbWYhY+SxPXL8C0j56kAZxOl7Xo7lfmZfM+RUQaKaWXz9WhN4OOrYdHl3YtmsiYuY2ep2ocWA1GI=
+	t=1717801434; cv=none; b=iwwmgkrylU8AX12jmKG/TAr0ieICcKXimKGFtge2xmEWNuhhet2cbTc07Nfi5ipe0UVV1pPRjEVPNns92b4m7npAwc21ZO+szq0m9I4wGdZO5xD074eYDzHLFU3WymNCTlQtC4kU4diVSVf2gFiv7t8X5TcXEslosfpArLZmp9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717798372; c=relaxed/simple;
-	bh=212IO9K4Rw0UQcxRjjjO+P6wB5hoCNlztTIYL6Jg6Qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7b4HTPrcbHKR4sJZzX/osN1z8/N4ahL4fLkGXDeLwVIVWCuvSnzPgbffRds8IcEMIFGAUSB2rJ6s3qfGfAvMUTUxU+p9lUjcrMyJ/6NcPjaQYSO3ajKBWm/zJAD2JnwqzEPaihf5Z/dW/t21rl3TitlRQgJ1StV51QfQkTe5O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YH0KEAic; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1717801434; c=relaxed/simple;
+	bh=OV0B/zjxKykMC5g2oRt2yFrWHHKWlMLRED15dmDAOIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XJVSs8rhcq2CJqmM10k8enlTkEUf8RsS6qtdpkdXVYPc6IFiUHyNmMvzpSlRAjUai9yC4w1pZhu2AmRThqCHCeVMqPVak6xD3imGpaUchNqtGTAWho4fTNeuYM04iaCK1aSJuTfvugUgQZe7sGrvYkaRQl8SZrf23qxa6KZvIo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibVFRp6w; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YH0KEAic"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibVFRp6w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717798371; x=1749334371;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=212IO9K4Rw0UQcxRjjjO+P6wB5hoCNlztTIYL6Jg6Qk=;
-  b=YH0KEAicugAwMmKlYIBOFmJoU6Ko2D94dU5VcSFqV817NJwIZqlfDqwW
-   rimxqoM8WMxMnJLSpSU5QaD7q1oohYGaoPD42zfFUmgIfoAJxRDzLbpc0
-   MreirxkxgWsLB7iCPEnGq/bzIoxDs2vMHZ7xr71qwP52eDckflcHHxWTq
-   XBItwVcXhcZCvTzVFuL/cxI/yonbjqHO3z3x7EDhAQ7PtkOIrw9aM9XrU
-   8ez1WnV8gxiwoRxvNHIZZF/U0LgZZF4jhGfODi69o0hbmDlkGIYEkZVGo
-   DoDGpKcmLO/2by6o5F0CkRWYX7ojQksbqZs1hOra579LtS0b0mnf1AMp5
-   g==;
-X-CSE-ConnectionGUID: U8d6MqvKRI+38/ZX9xNkQw==
-X-CSE-MsgGUID: 9Gp/2YpeQpWwZElmAvYqEA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25944777"
+  t=1717801432; x=1749337432;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OV0B/zjxKykMC5g2oRt2yFrWHHKWlMLRED15dmDAOIg=;
+  b=ibVFRp6wxM/vzzLg45hjwn4Ba3+KPrSde7oD7dqYbavAu27kl4z4lhya
+   2UbSPXndTTd7zwwPTy6iAtUAqQzcfzSuNhufFVFC1bQTlCqGJrprKewPZ
+   0QwgeKzrCIj7DYN8R772RXQmQq/ypakMyih+8sujKVYwgublEWaKEujxP
+   IPaLBXkdtmAiL8tKSC77N3AeWVKs5hPkISozT0V3m57GZJVR4Wi7aB4d5
+   wp0DyrSrUHj6/eTyT4s2SodBRHYWpesfTr+/gCYP5Afj9mxHul3ExC/3T
+   /jnE1bFjdT1Gf8WvIzNHCTI4ioain/LGE0uH27kaHAag0xg3WIsayauCA
+   w==;
+X-CSE-ConnectionGUID: S3RvRze3TeKiIhMTOSipLQ==
+X-CSE-MsgGUID: fmIeOyaxS7qUo1hQZ6xX+g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="39944567"
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="25944777"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 15:12:50 -0700
-X-CSE-ConnectionGUID: +tx0Ix/uRCyxIsxvayaFLA==
-X-CSE-MsgGUID: YND4BhLMQ2eKBI3TTh6p0A==
+   d="scan'208";a="39944567"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 16:03:50 -0700
+X-CSE-ConnectionGUID: A0/h+k7kRzWiOBo60t8oMw==
+X-CSE-MsgGUID: zP4WvUH3Qe2lGh2Nj0AMQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="38554876"
+   d="scan'208";a="38596685"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Jun 2024 15:12:47 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Jun 2024 16:03:49 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFhpF-0000c7-15;
-	Fri, 07 Jun 2024 22:12:45 +0000
-Date: Sat, 8 Jun 2024 06:12:13 +0800
+	id 1sFicd-0000f5-1C;
+	Fri, 07 Jun 2024 23:03:47 +0000
+Date: Sat, 8 Jun 2024 07:03:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: srinivas.kandagatla@linaro.org, andersson@kernel.org,
-	linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, srinivas.kandagatla@linaro.org,
-	linux-arm-msm@vger.kernel.org, inux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] pinctrl: qcom: Introduce SM4250 LPI pinctrl driver
-Message-ID: <202406080514.8Yq3kzQr-lkp@intel.com>
-References: <20240606130323.138970-3-srinivas.kandagatla@linaro.org>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:rust/cpufreq-dt 20/25] error: matching on `Some` with
+ `ok()` is redundant
+Message-ID: <202406080731.yQQVUsT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,76 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240606130323.138970-3-srinivas.kandagatla@linaro.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.10-rc2 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/srinivas-kandagatla-linaro-org/dt-bindings-pinctrl-qcom-Add-SM4250-pinctrl/20240606-210728
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20240606130323.138970-3-srinivas.kandagatla%40linaro.org
-patch subject: [PATCH 2/2] pinctrl: qcom: Introduce SM4250 LPI pinctrl driver
-config: sh-randconfig-r131-20240608 (https://download.01.org/0day-ci/archive/20240608/202406080514.8Yq3kzQr-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240608/202406080514.8Yq3kzQr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
+head:   aca334cdc747f90b4a1051a3e570cbfa56f10a35
+commit: ec8ea3f68df07330203b58920f07fb166aecf232 [20/25] rust: Extend cpufreq bindings for driver registration
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240608/202406080731.yQQVUsT3-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406080731.yQQVUsT3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406080514.8Yq3kzQr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406080731.yQQVUsT3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pinctrl/qcom/pinctrl-sm4250-lpass-lpi.c:135:9: sparse: sparse: Initializer entry defined twice
-   drivers/pinctrl/qcom/pinctrl-sm4250-lpass-lpi.c:158:9: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +135 drivers/pinctrl/qcom/pinctrl-sm4250-lpass-lpi.c
-
-   125	
-   126	static const struct lpi_function sm4250_functions[] = {
-   127		LPI_FUNCTION(dmic01_clk),
-   128		LPI_FUNCTION(dmic01_data),
-   129		LPI_FUNCTION(dmic23_clk),
-   130		LPI_FUNCTION(dmic23_data),
-   131		LPI_FUNCTION(dmic4_clk),
-   132		LPI_FUNCTION(dmic4_data),
-   133		LPI_FUNCTION(ext_mclk0_a),
-   134		LPI_FUNCTION(ext_mclk0_b),
- > 135		LPI_FUNCTION(ext_mclk1_a),
-   136		LPI_FUNCTION(ext_mclk1_b),
-   137		LPI_FUNCTION(ext_mclk1_c),
-   138		LPI_FUNCTION(i2s1_clk),
-   139		LPI_FUNCTION(i2s1_data),
-   140		LPI_FUNCTION(i2s1_ws),
-   141		LPI_FUNCTION(i2s2_clk),
-   142		LPI_FUNCTION(i2s2_data),
-   143		LPI_FUNCTION(i2s2_ws),
-   144		LPI_FUNCTION(i2s3_clk),
-   145		LPI_FUNCTION(i2s3_data),
-   146		LPI_FUNCTION(i2s3_ws),
-   147		LPI_FUNCTION(qua_mi2s_data),
-   148		LPI_FUNCTION(qua_mi2s_sclk),
-   149		LPI_FUNCTION(slim_clk),
-   150		LPI_FUNCTION(slim_data),
-   151		LPI_FUNCTION(qua_mi2s_ws),
-   152		LPI_FUNCTION(swr_rx_clk),
-   153		LPI_FUNCTION(swr_rx_data),
-   154		LPI_FUNCTION(swr_tx_clk),
-   155		LPI_FUNCTION(swr_tx_data),
-   156		LPI_FUNCTION(swr_wsa_clk),
-   157		LPI_FUNCTION(swr_wsa_data),
-   158		LPI_FUNCTION(ext_mclk1_a),
-   159		LPI_FUNCTION(ext_mclk1_a),
-   160		LPI_FUNCTION(ext_mclk1_a),
-   161		LPI_FUNCTION(ext_mclk1_a),
-   162	};
-   163	
+>> error: matching on `Some` with `ok()` is redundant
+   --> rust/kernel/cpufreq.rs:972:9
+   |
+   972 |         if let Some(mut policy) = Policy::from_cpu(cpu).ok() {
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#match_result_ok
+   = note: `-D clippy::match-result-ok` implied by `-D clippy::style`
+   = help: to override `-D clippy::style` add `#[allow(clippy::match_result_ok)]`
+   help: consider matching on `Ok(mut policy)` and removing the call to `ok` instead
+   |
+   972 |         if let Ok(mut policy) = Policy::from_cpu(cpu) {
+   |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> error: matching on `Some` with `ok()` is redundant
+   --> rust/kernel/cpufreq.rs:1012:9
+   |
+   1012 |         if let Some(mut policy) = Policy::from_cpu(cpu).ok() {
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#match_result_ok
+   help: consider matching on `Ok(mut policy)` and removing the call to `ok` instead
+   |
+   1012 |         if let Ok(mut policy) = Policy::from_cpu(cpu) {
+   |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
