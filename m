@@ -1,70 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58AB15AD9B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 08:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCC6157A40
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 08:22:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717747875; cv=none; b=mlPNG9g1EaNA8Bxeq6f1FV24Pe6poI1UODmgp3RzKFkuKsDpevcZIQ8/qFmIB/ygCMUrG6ym7dEQMeFZlPqVllET1hZffR1gIDVpAeO7Ll24qwh7D36tXsFsEzVAH3XFUgwpsnzkTZvmm3ERoXm6gegnK+i4FCnSHIrOlaYlh3c=
+	t=1717748574; cv=none; b=ATl8wAnsi5TtSPPW97eBy8A1ODdxTISr9AJBKL4gHFAvB56338kmGCquwuYUekLiniXSWSE82U32Cjml9wmNMaGDFqR0EsW0Mi9KUayKwmC+fWFFfiR9lqDNJ0VSmxDYe4mg9pVQjfKWMu4NsNwVQOAyFz2irgY89O1BC5OqsEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717747875; c=relaxed/simple;
-	bh=BjHvlPpsf1JuNh8voewB5kjC1cJt74iMWbnPuF3HdpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bW6r95p5P1yCszjc0TchpjC9ilR5X9sHzM2voc6B7ERljG2pORyPbR+JGVAmSn3GgDF2lI68yB45Weoy5mTifkKIdLcMEqw87fWMW0OCXln41Ih63ajP+G8cYcNH/OtpXVulijjV4gVDZsexCwMi2weFX3oOCABdYeb8hqgkNxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eftwMiAl; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1717748574; c=relaxed/simple;
+	bh=cbXA27wD0IUQyRghWSAez2f+hf7ijWWpek58GFZTkmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fF3wEitSE4zXDFWlSfhxwOMMATtfWEhrbVvRDsDaoT+bYtCJA0fWe5RM5/kzJ6EIr+FF73NCIjPZzJxpv+0v2DH0sBpjy1Ui5KGwuqYf0zw58dj7Xyh7rjYeb6gXPUWMPK7nsrf2Lg4+CinBFZm//Tw2v9b9MdtGx7QeOq2430Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atITQXEn; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eftwMiAl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atITQXEn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717747874; x=1749283874;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BjHvlPpsf1JuNh8voewB5kjC1cJt74iMWbnPuF3HdpY=;
-  b=eftwMiAlE+t6gMWr6LCZsJiwTgLfU99ZMiuh/QzkOpdB4lyJF+cId7SI
-   FCyKjM3bMIUtcxxRCXyU3i6kx5fNxZqOuB/Jfb+kMJv+2iFwkAT4FS56x
-   X8gwbOfOy+dhBj9klOAg2baEArDOIdNtIFh4h3FQe01/XkC7SzgbgWFoe
-   HodiXj/B/qfivtQ4SrvweRB023rxVMFON6W1cIcVqU7OZYIOEn/5cv5A2
-   vYy/u2GN+Yli5Dp1decumSy/P4Wse+RSl6HBo7yc2eflKv2P7OLmRWece
-   pPZ688i0T67npMmskJIAQz3kJ/ShKemaYdFwfCPRgCNMs0jjqCoE1MSOj
-   A==;
-X-CSE-ConnectionGUID: wT8M0pF/S56gVSGDsJSo5w==
-X-CSE-MsgGUID: EMq8zvNsRZCphJJ7AlyaGQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14614618"
+  t=1717748572; x=1749284572;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cbXA27wD0IUQyRghWSAez2f+hf7ijWWpek58GFZTkmo=;
+  b=atITQXEn++aLUqqcdV95lR/kALDhjfd1Ml54GnGSKchNZRbqgBR+wOhU
+   tzsSVJfU0RbyRbrcCb0m4M9745fRUbhFcBEA1yMn+B3ppN4mQHgkfsZyU
+   oK1FQd7W616lDigOINm3RYlxPmBsd5RzpqM3eGsHYbmGMttEURfQps+zm
+   OsgTxdLCyS4F3dHEY//Ca5A/9qf94eMEZoRuBzqbg1sLWxs96LPxyY+tv
+   38uXdf8YFJq/F240FepJjpeQ+/rpDKeSwo54OrOMWu67RdjGd3pJ25pKO
+   YgUH2BuAm3w4SN3acj6amvDPCJoDtr/AVPmpc4z3XVNfaUUl2mdbmegu3
+   w==;
+X-CSE-ConnectionGUID: 72FY/EQ+T1GSeoq/VR4HZQ==
+X-CSE-MsgGUID: pDJM03HiQAWBibxCxYiPJg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14615722"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="14614618"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 01:11:14 -0700
-X-CSE-ConnectionGUID: Yo/IX92zTnuTcmNSHjv5bA==
-X-CSE-MsgGUID: frMbXn5QSte5GkD02fumGw==
+   d="scan'208";a="14615722"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 01:22:52 -0700
+X-CSE-ConnectionGUID: zwc/Cp0NQ3GOYTjT2eG/kA==
+X-CSE-MsgGUID: ZgyOhBhYRIWzeo02F+4faQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="43185517"
+   d="scan'208";a="38823471"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 07 Jun 2024 01:11:10 -0700
+  by orviesa008.jf.intel.com with ESMTP; 07 Jun 2024 01:22:51 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFUgm-0004F4-08;
-	Fri, 07 Jun 2024 08:11:08 +0000
-Date: Fri, 7 Jun 2024 16:10:28 +0800
+	id 1sFUrh-0004Fi-2g;
+	Fri, 07 Jun 2024 08:22:35 +0000
+Date: Fri, 7 Jun 2024 16:21:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Hewitt <christianshewitt@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Hewitt <christianshewitt@gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: meson: add initial support for Dreambox
- One/Two
-Message-ID: <202406071527.fnfhnkUL-lkp@intel.com>
-References: <20240606094513.3949323-3-christianshewitt@gmail.com>
+To: Trond Myklebust <trond.myklebust@hammerspace.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>
+Subject: [snitzer:nfs-localio-for-6.11 13/29]
+ fs/nfs/flexfilelayout/flexfilelayout.c:199:24: sparse: sparse: incorrect
+ type in initializer (different address spaces)
+Message-ID: <202406071836.IOK5vz73-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,54 +62,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240606094513.3949323-3-christianshewitt@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk/for-next linus/master v6.10-rc2 next-20240606]
-[cannot apply to krzk-dt/for-next krzk-mem-ctrl/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/dt-bindings-arm-amlogic-add-support-for-Dreambox-One-Two/20240606-175427
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240606094513.3949323-3-christianshewitt%40gmail.com
-patch subject: [PATCH 3/3] arm64: dts: meson: add initial support for Dreambox One/Two
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce: (https://download.01.org/0day-ci/archive/20240607/202406071527.fnfhnkUL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-6.11
+head:   1dadc081b646bfa3fca1c0e117e0be8f4de62509
+commit: 51267937be8090c58d3741df1005db6b633bfc1e [13/29] pnfs/flexfiles: Enable localio for flexfiles I/O
+config: arc-randconfig-r133-20240607 (https://download.01.org/0day-ci/archive/20240607/202406071836.IOK5vz73-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240607/202406071836.IOK5vz73-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406071527.fnfhnkUL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071836.IOK5vz73-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
-     also defined at arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
-     also defined at arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2220.23-2260.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-     also defined at arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2220.23-2260.6
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: /soc/bus@ff600000/bus@42000/clock-controller@0: failed to match any schema with compatible: ['amlogic,g12a-audio-clkc']
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: /soc/bus@ff600000/bus@42000/audio-controller@744: failed to match any schema with compatible: ['amlogic,g12a-tohdmitx']
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
---
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
-     also defined at arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
-     also defined at arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2220.23-2260.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-     also defined at arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2220.23-2260.6
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: /soc/bus@ff600000/bus@42000/clock-controller@0: failed to match any schema with compatible: ['amlogic,g12a-audio-clkc']
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: /soc/bus@ff600000/bus@42000/audio-controller@744: failed to match any schema with compatible: ['amlogic,g12a-tohdmitx']
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfs/flexfilelayout/flexfilelayout.c:199:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file [noderef] __rcu *_n_ @@     got struct file *[assigned] new @@
+   fs/nfs/flexfilelayout/flexfilelayout.c:199:24: sparse:     expected struct file [noderef] __rcu *_n_
+   fs/nfs/flexfilelayout/flexfilelayout.c:199:24: sparse:     got struct file *[assigned] new
+>> fs/nfs/flexfilelayout/flexfilelayout.c:199:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *[assigned] filp @@     got struct file [noderef] __rcu *[assigned] _prev_ @@
+   fs/nfs/flexfilelayout/flexfilelayout.c:199:22: sparse:     expected struct file *[assigned] filp
+   fs/nfs/flexfilelayout/flexfilelayout.c:199:22: sparse:     got struct file [noderef] __rcu *[assigned] _prev_
+>> fs/nfs/flexfilelayout/flexfilelayout.c:205:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+   fs/nfs/flexfilelayout/flexfilelayout.c:205:30: sparse:     expected struct file [noderef] __rcu **f
+   fs/nfs/flexfilelayout/flexfilelayout.c:205:30: sparse:     got struct file **
+   fs/nfs/flexfilelayout/flexfilelayout.c:336:38: sparse: sparse: self-comparison always evaluates to false
+   fs/nfs/flexfilelayout/flexfilelayout.c:339:62: sparse: sparse: self-comparison always evaluates to false
+
+vim +199 fs/nfs/flexfilelayout/flexfilelayout.c
+
+   165	
+   166	static struct file *
+   167	ff_local_open_fh(struct pnfs_layout_segment *lseg,
+   168			 u32 ds_idx,
+   169			 struct nfs_client *clp,
+   170			 const struct cred *cred,
+   171			 struct nfs_fh *fh,
+   172			 fmode_t mode)
+   173	{
+   174		struct nfs4_ff_layout_mirror *mirror = FF_LAYOUT_COMP(lseg, ds_idx);
+   175		struct file *filp, *new, __rcu **pfile;
+   176	
+   177		if (!nfs_server_is_local(clp))
+   178			return NULL;
+   179		if (mode & FMODE_WRITE) {
+   180			/*
+   181			 * Always request read and write access since this corresponds
+   182			 * to a rw layout.
+   183			 */
+   184			mode |= FMODE_READ;
+   185			pfile = &mirror->rw_file;
+   186		} else
+   187			pfile = &mirror->ro_file;
+   188	
+   189		new = NULL;
+   190		rcu_read_lock();
+   191		filp = rcu_dereference(*pfile);
+   192		if (!filp) {
+   193			rcu_read_unlock();
+   194			new = nfs_local_open_fh(clp, cred, fh, mode);
+   195			if (IS_ERR(new))
+   196				return NULL;
+   197			rcu_read_lock();
+   198			/* try to swap in the pointer */
+ > 199			filp = cmpxchg(pfile, NULL, new);
+   200			if (!filp) {
+   201				filp = new;
+   202				new = NULL;
+   203			}
+   204		}
+ > 205		filp = get_file_rcu(&filp);
+   206		rcu_read_unlock();
+   207		if (new)
+   208			fput(new);
+   209		return filp;
+   210	}
+   211	
 
 -- 
 0-DAY CI Kernel Test Service
