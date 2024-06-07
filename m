@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FE4155CB9;
-	Fri,  7 Jun 2024 07:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3876CB64E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 07:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717744060; cv=none; b=LL3GKHvt2BGv6SMM3wT3J69FnyVzF0FTHgwMMbM1GttS4qM9RENnqHU3D4m/c9T20W+XHIP89eXeyDm8pgTMZuPlk+Wl96eMSC7E1eUePHIqAS7c6h+crSz7qxjlrXKEB32mkkd/5UliO6uA29ydRStW/UnX9KvqP3GKoyrXRb4=
+	t=1717744718; cv=none; b=iTU4hN2MpOb5prxioEB374zlHhuMCokyWYXyJYEmGN5oxyseYVCpeY1jAcfjtN1ZS4fRLSbvooqnPkTbhoSbKqw4iMtXatb+KOeuOcgbX1UbzqRfelUPJ6CiI3ryP9d2VxCXQdcZ0mdOwbSHu4vjcFzWFfTRKsuxoxRYNndPWC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717744060; c=relaxed/simple;
-	bh=VzBTgEMap71oyb/fn732U1n7GZFsqV7RO4coQFnXqjs=;
+	s=arc-20240116; t=1717744718; c=relaxed/simple;
+	bh=n8XyCpC54dLGD+3b6AU+F8CsYHoitMK4INsX4iE24ws=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HaotsWUEiGCcFgeIZbXN0is6G/a7klSciBo8hSjJi60fV2cB2W0z9ffqmML3ghzgLgU2XPMimTXd1CtbM1SWZhaaGzV7PlC1c4/G0jGQL7S2Zd+qr/iE7Hdy6lpUESzqlo01rroEFLFZg+gH2SaHNAODrRkuieMhCtTTvTfO4uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Al0EVLK8; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=lVN4ynheLjhwP28ztQuQAuNDXm8pqhVDMCgh5aI7//2Xt14EMVkg5d9FwJalQQuoQxRIxVNG52LJ2rvDlXpcfM37cFx5FCwDldWv1qTbEnYxJygApM7W2ifGXcvmfXzCK5+MJleielPXNgJw4brMIyWKL2qT1wtjmOdea2WINjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdkhjBVY; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Al0EVLK8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdkhjBVY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717744059; x=1749280059;
+  t=1717744717; x=1749280717;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VzBTgEMap71oyb/fn732U1n7GZFsqV7RO4coQFnXqjs=;
-  b=Al0EVLK8gkpTdP+HSll1JH7VFUDEYJkHoFySirXzPV0Z93dZTN0sUs6u
-   dCtc7lGjuUVXM45zSOMcD3GS/PxLlvSOXTtwDTGltFEmAHVXmnt9sUe/R
-   k9uncc0BNFkPa7Qkjmcr8hOMTE5ta58V36QW/zOOikp/1nHW8s/heiAZX
-   tGn9CLgectaNI0YKvPUll6aXJHfncF12vXhJxbH6n5c72htsiV5d+apHO
-   /WenunXuO68jtx0Xb/sE49f2uGgvQ3zrxaNKAgj60f0ncdIm2sTl5boLO
-   MQsNqveSULF4huRXNImV2WR4K37iIrKmJg84B8iyIDXuaSZwbALBwkzhO
-   w==;
-X-CSE-ConnectionGUID: ZQw1ZsT0TlW+k7fext0D7w==
-X-CSE-MsgGUID: By6Vh1m2SoaC01HJrpENqw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25081310"
+  bh=n8XyCpC54dLGD+3b6AU+F8CsYHoitMK4INsX4iE24ws=;
+  b=gdkhjBVYuRnSU+5OK8Ne02pIycXzqYG9/jVDebwnRKHnW6LITAoTplKO
+   Oad3LR42GpRY6dkAH4j7Yz4LOmm85UXMD31I5RvLFcLMfH+JDu7K+QqVU
+   NOvm/5WqGW/xPeKwfYtzZCjApsStb43O2Iui6F/tUO177NDjZ1u5LYPj3
+   oVgn5UVIWYAGJhn56AY8sPQ1JMxg6NiQ+m4vK8JNmUVWbYcGvf5eQJ9/L
+   ds7NnpdNQ3fLsG+nyBgd+TwK1FgVJSP1B4bgarkNbUkk7lGOvpifTDf80
+   f1OaQAWu49RDt1kbU3DONW4XALTDO0YLXibYxbrWYzbXfNpDi0p9ltyEP
+   g==;
+X-CSE-ConnectionGUID: E7feHpvbRr6mF6zyCnz+DA==
+X-CSE-MsgGUID: 1xr16SasRaKaVA6CeVSsEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="17381750"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="25081310"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 00:07:36 -0700
-X-CSE-ConnectionGUID: XUOnWj95RdCa9aahY4x9SA==
-X-CSE-MsgGUID: VLJJbcerQ7+JNR4h5gTJHQ==
+   d="scan'208";a="17381750"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 00:18:36 -0700
+X-CSE-ConnectionGUID: PT5hB1JzRZW/Zub46xwF5Q==
+X-CSE-MsgGUID: mwNrxT6WR1Cb2yHr3R45sA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="38313412"
+   d="scan'208";a="42804802"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Jun 2024 00:07:35 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Jun 2024 00:18:36 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFThF-0004CG-0a;
-	Fri, 07 Jun 2024 07:07:33 +0000
-Date: Fri, 7 Jun 2024 15:07:27 +0800
+	id 1sFTrt-0004Ck-1i;
+	Fri, 07 Jun 2024 07:18:33 +0000
+Date: Fri, 7 Jun 2024 15:18:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [broonie-misc:kvm-arm64-fix-pkvm-sve-vl 3/5]
- arch/arm64/kernel/fpsimd.c:1096:36: warning: format specifies type 'unsigned
- int' but the argument has type 'unsigned long'
-Message-ID: <202406071530.vhvvPnx1-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/2]
+ drivers/android/android_debug_symbols.c:49:31: error: use of undeclared
+ identifier 'try_to_compact_pages'
+Message-ID: <202406071550.GzEVo0rH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,112 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git kvm-arm64-fix-pkvm-sve-vl
-head:   68353e223a2346c7009e15d8b44f6c58e0d5a094
-commit: e231f23d830ceaa42055c7464e12f55faf811198 [3/5] arm64/fpsimd: Discover maximum vector length implemented by any CPU
-config: arm64-randconfig-002-20240607 (https://download.01.org/0day-ci/archive/20240607/202406071530.vhvvPnx1-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071530.vhvvPnx1-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   08901ec9f16528acf557b4c8c66883508e1810a4
+commit: 7d32bc386a2608acecce8a43089b169d2dad0e05 [1/2] ANDROID: android: Add symbols to debug_symbols driver
+config: i386-randconfig-016-20240607 (https://download.01.org/0day-ci/archive/20240607/202406071550.GzEVo0rH-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071550.GzEVo0rH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406071530.vhvvPnx1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071550.GzEVo0rH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/fpsimd.c:26:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/arm64/kernel/fpsimd.c:1096:36: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
-    1095 |                 pr_warn("%s: cpu%d: increases maximum VL to %u\n",
-         |                                                             ~~
-         |                                                             %lu
-    1096 |                         info->name, smp_processor_id(), max_vl);
-         |                                                         ^~~~~~
-   include/linux/printk.h:517:37: note: expanded from macro 'pr_warn'
-     517 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   2 warnings generated.
+>> drivers/android/android_debug_symbols.c:49:31: error: use of undeclared identifier 'try_to_compact_pages'
+      49 |         ADS_ENTRY(ADS_COMPACT_PAGES, try_to_compact_pages),
+         |                                      ^
+   1 error generated.
 
 
-vim +1096 arch/arm64/kernel/fpsimd.c
+vim +/try_to_compact_pages +49 drivers/android/android_debug_symbols.c
 
-  1074	
-  1075	/*
-  1076	 * Check whether the current CPU supports all VQs in the committed set.
-  1077	 * This function is called during the bring-up of late secondary CPUs only.
-  1078	 */
-  1079	int vec_verify_vq_map(enum vec_type type)
-  1080	{
-  1081		struct vl_info *info = &vl_info[type];
-  1082		DECLARE_BITMAP(tmp_map, SVE_VQ_MAX);
-  1083		unsigned long b, max_vl;
-  1084	
-  1085		vec_probe_vqs(info, tmp_map);
-  1086	
-  1087		/*
-  1088		 * Currently the maximum VL is only used for pKVM which
-  1089		 * doesn't allow late CPUs but we don't expect asymmetry and
-  1090		 * if we encounter any then future users will need handling so
-  1091		 * warn if we see anything.
-  1092		 */
-  1093		max_vl = __bit_to_vl(find_first_bit(tmp_map, SVE_VQ_MAX));
-  1094		if (max_vl > info->max_cpu_vl) {
-  1095			pr_warn("%s: cpu%d: increases maximum VL to %u\n",
-> 1096				info->name, smp_processor_id(), max_vl);
-  1097			info->max_cpu_vl = max_vl;
-  1098		}
-  1099	
-  1100		bitmap_complement(tmp_map, tmp_map, SVE_VQ_MAX);
-  1101		if (bitmap_intersects(tmp_map, info->vq_map, SVE_VQ_MAX)) {
-  1102			pr_warn("%s: cpu%d: Required vector length(s) missing\n",
-  1103				info->name, smp_processor_id());
-  1104			return -EINVAL;
-  1105		}
-  1106	
-  1107		if (!IS_ENABLED(CONFIG_KVM) || !is_hyp_mode_available())
-  1108			return 0;
-  1109	
-  1110		/*
-  1111		 * For KVM, it is necessary to ensure that this CPU doesn't
-  1112		 * support any vector length that guests may have probed as
-  1113		 * unsupported.
-  1114		 */
-  1115	
-  1116		/* Recover the set of supported VQs: */
-  1117		bitmap_complement(tmp_map, tmp_map, SVE_VQ_MAX);
-  1118		/* Find VQs supported that are not globally supported: */
-  1119		bitmap_andnot(tmp_map, tmp_map, info->vq_map, SVE_VQ_MAX);
-  1120	
-  1121		/* Find the lowest such VQ, if any: */
-  1122		b = find_last_bit(tmp_map, SVE_VQ_MAX);
-  1123		if (b >= SVE_VQ_MAX)
-  1124			return 0; /* no mismatches */
-  1125	
-  1126		/*
-  1127		 * Mismatches above sve_max_virtualisable_vl are fine, since
-  1128		 * no guest is allowed to configure ZCR_EL2.LEN to exceed this:
-  1129		 */
-  1130		if (__bit_to_vl(b) <= info->max_virtualisable_vl) {
-  1131			pr_warn("%s: cpu%d: Unsupported vector length(s) present\n",
-  1132				info->name, smp_processor_id());
-  1133			return -EINVAL;
-  1134		}
-  1135	
-  1136		return 0;
-  1137	}
-  1138	
+    33	
+    34	/*
+    35	 * This module maintains static array of symbol and address information.
+    36	 * Add all required core kernel symbols and their addresses into ads_entries[] array,
+    37	 * so that vendor modules can query and to find address of non-exported symbol.
+    38	 */
+    39	static const struct ads_entry ads_entries[ADS_END] = {
+    40		ADS_ENTRY(ADS_PER_CPU_START, __per_cpu_start),
+    41		ADS_ENTRY(ADS_PER_CPU_END, __per_cpu_end),
+    42		ADS_ENTRY(ADS_TEXT, _text),
+    43		ADS_ENTRY(ADS_SEND, _end),
+    44		ADS_ENTRY(ADS_MEM_BLOCK, &memblock),
+    45		ADS_ENTRY(ADS_INIT_MM, &init_mm),
+    46		ADS_ENTRY(ADS_ITERATE_SUPERS, iterate_supers),
+    47		ADS_ENTRY(ADS_DROP_SLAB, drop_slab),
+    48		ADS_ENTRY(ADS_FREE_PAGES, try_to_free_pages),
+  > 49		ADS_ENTRY(ADS_COMPACT_PAGES, try_to_compact_pages),
+    50	};
+    51	
 
 -- 
 0-DAY CI Kernel Test Service
