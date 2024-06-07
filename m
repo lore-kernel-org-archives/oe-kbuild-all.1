@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1BB3FEC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 03:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5AF17571
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 05:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717731625; cv=none; b=nitCzJXjthQmVHdbNkAjme+7LJshpszN6wIf40hIFUfPlRjcyeJhGEKph6qoJkW7+FDmayWnkmjHbwyQebXMmLFv5kbOH9ZXRxRGWn0gqLgUjrXqQV/TIOTQsXbsOuKz+nunoFH6RsbRuEqpAVQ8Ln83NvCMcqePiRMaryWCNQ4=
+	t=1717738393; cv=none; b=JwbPsB/5+vKQWeRDyl6EbxHko/9QFeY0hUJbKLcCBxvv04s7f3GaS+YuqAEPQ9qnfSMfnqxylBIzBJ43cmj02JTj7phzZX+UQEPX1c5YOiFJqnT+5A7TpgXVRYovX0JSP2QSePysrc6zPz8L40ZbIiiwj2PLDUM+fLozDBi//wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717731625; c=relaxed/simple;
-	bh=rPJ5ufAViNYhCGjh+ZuXBltquKOKg7geswHuJeUpgpY=;
+	s=arc-20240116; t=1717738393; c=relaxed/simple;
+	bh=1tkrsEGpD2RbfLPASe08uDN180crBue5wgvldCxYaDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Bv8gr89KQK7iWmjb2RmyrbapqhmfxEps5SKE5bp1pdxM7f9yaSycMXe7itKV9QCXeI+g5N836wU+sSsbMq/zxjrYw+nUPfcfv0j+pP3L70cvOuoxtXoHxGJfpma9JLwwYtmoJ2vZcXnKvDi2WvdpQ7vj1SzHDzYV2PWodvwm2YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E4ows6Lz; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Dmys23ja0bJ0CiTKKVYVBugUl1pMjhHZgDswHbrS8aDgWlm4uhFbFiXEL1tiZbPJKQesWaC7DHzWiMzEmpFpm5/PAz0oSaEa8dEY2Fw1vOyKK7iR8sip5cb3QpFYGLTyuAROfHVBD27xQWHKAV0UAMurJ2lu/fFCbFlAE3CiCAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Di/JURG0; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E4ows6Lz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Di/JURG0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717731623; x=1749267623;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=rPJ5ufAViNYhCGjh+ZuXBltquKOKg7geswHuJeUpgpY=;
-  b=E4ows6Lz6PP7iYfUGRLVa9nmgFhzcefjY17SRO3Xbk8CK/ikID6GSQbk
-   NnyayZpv7aDsszOY2BxScO0hV4nLsApZTb+vV/KR3mJydF5CpYrTShk6J
-   QLGFA5leOistqwqSBGiR35I73NOxDWq9GAqhcqF4UGBxA1MDJE9YCggmB
-   NcXS8Yspsz3VmeLDRJfMoipWIsn6CKsP/9Ovmv8b/h9t5EOW2xzWvXjJ/
-   2bOqMeJCimV0mo4tU6nF6UhzojgYxF+EewiEtS0EE49CqxYTZsyPF3ecu
-   TevRjtX6sZAcDcmFGbRrnqqbmBvWKXiRdZcMm0zGvavZjYfME7T6J2tt0
-   Q==;
-X-CSE-ConnectionGUID: GIdyoe1yQ1GbjleIjXt+2w==
-X-CSE-MsgGUID: SY7wcRVkQ2e5LU92ETALZg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="31981897"
+  t=1717738391; x=1749274391;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1tkrsEGpD2RbfLPASe08uDN180crBue5wgvldCxYaDI=;
+  b=Di/JURG0jFiCg1wNITBftXVHEOhYxVY+ugaPZUZxMztRsYzuMClhrO/e
+   RvUJjVusIaE0ooUTjBbl5dGZf1tQMDVc+DtD8C3O+YJcfAlkOGxgdoXMl
+   YEweyDlMKWzOsJ3TDJLhjK+lS5gZc8D/D55gIOPAb2Dz9Lzde29B3eaJR
+   qBE9VJ5j80lI9Syqi8pi1XO2HMfgOeq6frkOJO0nozWW8t1NHHEJ6RehB
+   R32S80hvPD3+w00TQQ8lDBHTnW6Mn8UtFIDUGd/cDpZ7RWY9Cg8SBV//7
+   REUKZ2FueMATlHgdNvQ2Y73PaQpmHdkjQzJrUIqAT8QdkUuZ1tcVgPyxO
+   g==;
+X-CSE-ConnectionGUID: d1WIvirpTLiBD0wWq0qnqA==
+X-CSE-MsgGUID: 8LMHlXHuTy214KnoOAEo9A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14560566"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="31981897"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 20:40:07 -0700
-X-CSE-ConnectionGUID: V+Y5JIl2Rp2SBL9aKz9Azg==
-X-CSE-MsgGUID: 1WaOr71cQROGxp4tEIjeJg==
+   d="scan'208";a="14560566"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 22:33:10 -0700
+X-CSE-ConnectionGUID: mE+s2g/CQOSVZJpBAvMB3g==
+X-CSE-MsgGUID: KsQz791VTO2dO9U9V0zeoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="38123056"
+   d="scan'208";a="38134562"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jun 2024 20:40:07 -0700
+  by orviesa010.jf.intel.com with ESMTP; 06 Jun 2024 22:33:10 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFQSS-0003zD-2Z;
-	Fri, 07 Jun 2024 03:40:04 +0000
-Date: Fri, 7 Jun 2024 11:37:31 +0800
+	id 1sFSDr-00048C-0a;
+	Fri, 07 Jun 2024 05:33:07 +0000
+Date: Fri, 7 Jun 2024 13:32:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Resend PATCHv4 1/1] mm: fix incorrect vbq reference in
- purge_fragmented_block
-Message-ID: <ZmKAez4QQawL3dSg@242c30a86391>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 111/126] mtk-cmdq-sec-tee.c:undefined
+ reference to `tee_client_close_context'
+Message-ID: <202406071327.vCuhO1Zg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +62,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607023116.1720640-1-zhaoyang.huang@unisoc.com>
 
-Hi,
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   bb84077a7f2f0e6433f0c71d35738db6fcfca976
+commit: a0f3bf1449bdfbea99babee760c8886ee574e42a [111/126] BACKPORT: FROMLIST: mailbox: mediatek: Add CMDQ secure mailbox driver
+config: arm64-randconfig-001-20240607 (https://download.01.org/0day-ci/archive/20240607/202406071327.vCuhO1Zg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071327.vCuhO1Zg-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071327.vCuhO1Zg-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [Resend PATCHv4 1/1] mm: fix incorrect vbq reference in purge_fragmented_block
-Link: https://lore.kernel.org/stable/20240607023116.1720640-1-zhaoyang.huang%40unisoc.com
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_deinit_context':
+>> mtk-cmdq-sec-tee.c:(.text+0x158): undefined reference to `tee_client_close_context'
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_allocate_wsm':
+>> mtk-cmdq-sec-tee.c:(.text+0x204): undefined reference to `tee_shm_register_kernel_buf'
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_free_wsm':
+>> mtk-cmdq-sec-tee.c:(.text+0x2f0): undefined reference to `tee_shm_free'
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_open_session':
+>> mtk-cmdq-sec-tee.c:(.text+0x47c): undefined reference to `tee_client_open_session'
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_close_session':
+>> mtk-cmdq-sec-tee.c:(.text+0x5b0): undefined reference to `tee_client_close_session'
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_execute_session':
+>> mtk-cmdq-sec-tee.c:(.text+0x748): undefined reference to `tee_client_invoke_func'
+   aarch64-linux-ld: drivers/mailbox/mtk-cmdq-sec-tee.o: in function `cmdq_sec_init_context':
+>> mtk-cmdq-sec-tee.c:(.text+0x89c): undefined reference to `tee_client_open_context'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
