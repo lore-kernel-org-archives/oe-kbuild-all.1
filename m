@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE5DDF51
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 13:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1E9192B89
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 13:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717768153; cv=none; b=hQ+Ka6kBV2ehl5BZ+ahfuHDhRhYiprNZ30iZ/9YGA7p7A+VbXwOI+j8BnQ47NKTLugo3biw0myzRK48ZtQnvKIE8hIn//6gD3QBKU15pVypRSPC7vjh7fboplaXBsp6zvphdQ57PxPSOLHKkBckLhoXmBUa4ajbf2EESN29W5Vg=
+	t=1717768154; cv=none; b=kIhGnfS0G9SRklebf3m4YXdK0WQulNOjcLsh5FUCKgJBZD24E1neS1p9nvsNlnOp975LYB4zfosmaWaUSHe9OOojWi1F5CyyxjQ7djoWkrQiXrrm4NEhP1N5xQYQA0lWd4VinSOIjR6wZP1QyWzOk9f7Ac5KdKilkVSbp82nECE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717768153; c=relaxed/simple;
-	bh=Gyd+ZsITDuu0aTTNavP65GqyssP7mOZD6LYM6Mqe8Qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H2IVw/+6k9TLpwQ5rbWiwRp5+vBvIki4Kax6c2blK3FySIJlZh7+UKJ7FCLTmz0Sb+4jCWDgtF04dllJcJDJip9Cqe6N8BqRXfJAvZcekDyK9MtOghR/aePgqOk5sHWoF27M9tYT8xRvEnj28UkHEZYlZCN+ajy1ESEYDzbWcoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AoZ1e4Hi; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1717768154; c=relaxed/simple;
+	bh=KPSZpnEK85cOffft4HH+s5Xl8C3xTVIGwUsb+Bh9liA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=De0NdMWODiQWwXeC7td1GGNsx7eQOZbn+v257F2taJA9dcSWgZb36ybJf3IBnIHkIsJJPDcdbuvHRGj78mKF7wz2629FopEYQmFuhqohAdX8hFAmH7qpnZksiwL+6bRx/d6fMnWDJyqp1mIFEyTFVxzxbAcanIfJMomd9I76eDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOCcQgRX; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AoZ1e4Hi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOCcQgRX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717768151; x=1749304151;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gyd+ZsITDuu0aTTNavP65GqyssP7mOZD6LYM6Mqe8Qs=;
-  b=AoZ1e4HiCCg+xsl4h1p71vDnpGHU380xBLgFqDNwY6HYg67JyDzHBihB
-   RpZa4A+heTE5Clw6EFk5rEs7jxW8yePXXEV1IQZD1w1hJ0Xcf2s2NQj7e
-   VoYP4KSeluM3Jhswidr+QLvPyN4skdJPtKHIdTY5T5nqjP1visawfFinI
-   C9WJ19gH4OiU0WkKtjaBj3zBX2cjWseYx3IGvU5D5fq8p2T2APkktXn6P
-   B7HVuAxtfPC0bljugN5H/LC7S4CfDlFW/wO7YOp6dMfJx8YTU9TQnfd+v
-   6msEqqeX9q3d3SaFX/k0ih9nR8RB0gbsaHDXUgqXUWhF6Ws7V1VxtbDcV
-   g==;
-X-CSE-ConnectionGUID: oYHjGEynRgijD3WgIkkbVQ==
-X-CSE-MsgGUID: wI9vt2/5QC2j8yVnPSTTCg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25062187"
+  t=1717768152; x=1749304152;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KPSZpnEK85cOffft4HH+s5Xl8C3xTVIGwUsb+Bh9liA=;
+  b=FOCcQgRXR6uKQV6je+sdjBcDA9B0FkyIHZauBaJlEVFgNqL2hSWP+Myd
+   pOrntlUg6LnfQoL3yzD4SAV1oKsYACy9IbQsVtS4F1I7n6ommaaAy3nNB
+   K4KWybY/Abi8plP9fdlrkBXg+bCuXZLqEO90PYAtWXDGEVsrb952WiJ/z
+   UbrkbmvR7fBo2ppJ+J2hcQV7vJoHKcTcSY6/ML0CSaWvkmOkTIkSVlYSI
+   D9oM+E5CVOhOv2MDZXr7oUfQfrHLC0l9i6UiKpF8sgm/YgI/i8Bu+LQQz
+   74LYiH6IzAH+x9DaOYBO7cLDBbVeaJfeXllScjnWDSJJGnDCL7xISfZ5W
+   Q==;
+X-CSE-ConnectionGUID: 6cKLS2/QSxOXwZzMHTCZMQ==
+X-CSE-MsgGUID: LOeDsRdGRsCLRaEnIWL1Rg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="31983858"
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="25062187"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 06:49:11 -0700
-X-CSE-ConnectionGUID: mthAXVXUT4CuAOKoRKHn9A==
-X-CSE-MsgGUID: SLYztyB/Rv+Hlos1tWqBxg==
+   d="scan'208";a="31983858"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 06:49:12 -0700
+X-CSE-ConnectionGUID: 6gXWBjRtRTCD2v+JIMzvEg==
+X-CSE-MsgGUID: D2JevSG2Sl6TgLqomuPF2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="69495145"
+   d="scan'208";a="75814895"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Jun 2024 06:49:10 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 Jun 2024 06:49:11 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFZxs-0004sc-0o;
+	id 1sFZxs-0004sY-0g;
 	Fri, 07 Jun 2024 13:49:08 +0000
-Date: Fri, 7 Jun 2024 21:49:00 +0800
+Date: Fri, 7 Jun 2024 21:48:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roger Quadros <rogerq@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Roger Quadros <rogerq@kernel.org>
-Subject: [rogerq:b4/am65-cpsw-multi-rx 5/9]
- drivers/net/ethernet/ti/cpsw_ale.h:37:9: error: redeclaration of enumerator
- 'ENTRIES'
-Message-ID: <202406072141.mMIgOmYi-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH v1 1/1] serial: 8250_platform: Explicitly show we
+ initialise ISA ports only once
+Message-ID: <202406072102.SGp8FYYi-lkp@intel.com>
+References: <20240606184841.3102545-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +66,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240606184841.3102545-1-andriy.shevchenko@linux.intel.com>
 
-tree:   https://github.com/rogerq/linux b4/am65-cpsw-multi-rx
-head:   de06f4cc19db62212a2f1e83905ab3b287ced30e
-commit: 8ba5217a2987d80532ab08449a7f6141d0e78298 [5/9] net: ethernet: ti: cpsw_ale: use regfields for number of Entries and Policers
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240607/202406072141.mMIgOmYi-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406072141.mMIgOmYi-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next next-20240607]
+[cannot apply to tty/tty-linus linus/master v6.10-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/serial-8250_platform-Explicitly-show-we-initialise-ISA-ports-only-once/20240607-025109
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20240606184841.3102545-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] serial: 8250_platform: Explicitly show we initialise ISA ports only once
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240607/202406072102.SGp8FYYi-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406072102.SGp8FYYi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406072141.mMIgOmYi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406072102.SGp8FYYi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/ti/cpsw.c:42:
->> drivers/net/ethernet/ti/cpsw_ale.h:37:9: error: redeclaration of enumerator 'ENTRIES'
-      37 |         ENTRIES,
-         |         ^~~~~~~
-   In file included from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:59,
-                    from include/linux/thread_info.h:60,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/vmalloc.h:5,
-                    from include/asm-generic/io.h:994,
-                    from arch/x86/include/asm/io.h:327,
-                    from include/linux/io.h:13,
-                    from drivers/net/ethernet/ti/cpsw.c:10:
-   arch/x86/include/asm/processor.h:64:9: note: previous definition of 'ENTRIES' with type 'enum tlb_infos'
-      64 |         ENTRIES,
-         |         ^~~~~~~
+>> drivers/tty/serial/8250/8250_platform.o: warning: objtool: __jump_table+0x0: special: can't find orig instruction
 
 
-vim +/ENTRIES +37 drivers/net/ethernet/ti/cpsw_ale.h
-
-    33	
-    34	enum ale_fields {
-    35		MINOR_VER,
-    36		MAJOR_VER,
-  > 37		ENTRIES,
-    38		POLICERS,
-    39		/* terminator */
-    40		ALE_FIELDS_MAX,
-    41	};
-    42	
+objdump-func vmlinux.o __jump_table:
 
 -- 
 0-DAY CI Kernel Test Service
