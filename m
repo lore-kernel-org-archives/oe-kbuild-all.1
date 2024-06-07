@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6B51BDCD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 05:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC3B8831;
+	Fri,  7 Jun 2024 06:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717738395; cv=none; b=ZKm1oC6PBGv4H1zwGN8CTquV2wVeKPLkjs8H7pX35JPwfFe+ZVf4PLmLHTgPdADNHB8OawCwB7KexZ8Tk0NmbOuK+xo03BkrIAFy5aI1MRNpP8hJLSlklTZO71+W9waSCciANHQDw+IAXz+gKmCVA3WTuKnYRBz9Mqa6Qy56a7Y=
+	t=1717740932; cv=none; b=HYyrIipBgRWvxqdhGl+nsZfZpz3ynHH6boLtPJF/INSS7q/dByS24cg14HOE8PNN9tUjpAk8v+2/i9u97Mj0REHlzM+gVcELjUkTXPqbeD+qmRxAJRYuu02CSZTBAh+GUugUVjruSp9JlP7tLbDNFGjf59sNmNXzCdU0GDZSzYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717738395; c=relaxed/simple;
-	bh=rd/63Sh5EwiZ6nYACu4n6B41n0BhGA4uCre9v0D6puM=;
+	s=arc-20240116; t=1717740932; c=relaxed/simple;
+	bh=JAs6g8ylzif5KnIpABCEzzwi86l7HcwixPQidBJ4ohc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i/wE+A/ov1n+KLjCfX4hfJXqq7ejN1/pG+uipFleh1FKELI+eTnoyZWQ/mRN/1Clf0AWJh2+DKSx8+N54c/sAO9BwWVK2c6iBmAqYavk1daV48xuxGf8Pk0mKBJSnVFuMTR2dXk0DPoQg1XcWYqsrXmGoR892qgkEA7f6uWVNUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsXelBsi; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=IK2COC5J3Z5sbxeSTsveLjkRDOLauEwekY00Uff6pzyxDi267FbNJiYQEZZYLjQsYbA/qhxk9gi1OrhfSMwfypW8gsZc8rdatOBbIQG0ShbuGlVZLx+xPetmowjxJnp0YDijBAv7VLIuHV46wKDBM2nUxk/ecJwdfTW/V7l2qRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YJfeStaC; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsXelBsi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YJfeStaC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717738394; x=1749274394;
+  t=1717740931; x=1749276931;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rd/63Sh5EwiZ6nYACu4n6B41n0BhGA4uCre9v0D6puM=;
-  b=nsXelBsiFpUfzAoNUzKzFDymuQWl16c1vDCvnr2MzcwphbKSJ/rwMnft
-   EtUOebOfG+at9YYqE7tOvfLuTj7St37jcDs3EtRuYXY0STFWkCNLVzWDV
-   4hpFj0ptXoyle4KFWxQqD9kwBMyiakKeztske43mrsQr3GqKwkaFRbB5b
-   UxxZg3gzeXK8ASsc/YJy5YTkH40wrCF5YFbodOlKWS2f8CHDsItX+7V3P
-   KH6wrlsh7iKH6V6n0hOUyosd2UnzsRpqicSRozn3SPw9NnLUCB8X3grBo
-   A4DDV/ConBvyOQ1570WAlKrFWqfd1K65p0b/H3l6Wu47jennnlwqEy8ZF
+  bh=JAs6g8ylzif5KnIpABCEzzwi86l7HcwixPQidBJ4ohc=;
+  b=YJfeStaCTmSNE1AfZUvqPvzFarc77MQtNbF9aA1T6RcsnRKuYL4DcVLP
+   Sdru914Bb1QOzIk7BskWlLEGd/rkM/asGdS9ii/mcrZftBzy6v5E/9r7q
+   J+w5sZAv8H1+hO07IJ6yuCXbO4oqTFyM+/iqe52Skltw6QR+rL4HRttF8
+   jVHRj/dwviN0JIzMh9dJv8E0vjESlv+J3rokuX9XwdhORgmOCfN8OAvH3
+   hoQvFHhBd8heG0pobQwNE+vxhf/swowkXHGip9xH5kx8l8vT3sP56Y3qB
+   puJAc1znkJxodxoY2Blr+WOSx2DpcWI4zLKj/MPY1Cw4AHzvJ+9S5A9IG
    w==;
-X-CSE-ConnectionGUID: m8EVn/rwTIGqX6gMLSobAA==
-X-CSE-MsgGUID: SnWB9Dg/SsSn9Qb8QY+Lag==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14560568"
+X-CSE-ConnectionGUID: 9xp2TibHRyGS5qRQGhkCeA==
+X-CSE-MsgGUID: JAD5mEuuREu+fnVcb5Bgxg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25851631"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="14560568"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 22:33:11 -0700
-X-CSE-ConnectionGUID: cxWHj70LRueWK7lLYE7Vcg==
-X-CSE-MsgGUID: tZRSSaD3TOqlQnXY42wlOA==
+   d="scan'208";a="25851631"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 23:15:30 -0700
+X-CSE-ConnectionGUID: LUo6rGR4STK/AYYiqGCVug==
+X-CSE-MsgGUID: mIRbYBwHQEWGnxphjIFMTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="38134563"
+   d="scan'208";a="38206671"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 06 Jun 2024 22:33:10 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 06 Jun 2024 23:15:27 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFSDr-00048A-0W;
-	Fri, 07 Jun 2024 05:33:07 +0000
-Date: Fri, 7 Jun 2024 13:32:34 +0800
+	id 1sFSsn-00049Z-3D;
+	Fri, 07 Jun 2024 06:15:26 +0000
+Date: Fri, 7 Jun 2024 14:14:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Akiva Goldberger <agoldberger@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Leon Romanovsky <leon@kernel.org>
 Subject: [leon-rdma:rdma-next 34/40]
  drivers/infiniband/sw/siw/siw_verbs.c:1130:5: error: conflicting types for
- 'siw_create_cq'; have 'int(struct ib_cq *, const struct ib_cq_init_attr *,
- struct ib_udata *, struct uverbs_attr_bundle *)'
-Message-ID: <202406071321.vpHGgrve-lkp@intel.com>
+ 'siw_create_cq'
+Message-ID: <202406071409.NmyPbA0s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,27 +67,101 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
 head:   7f47750e7d11705566423836041a6778e01ccb24
 commit: fccbaa915853806b5fc4a29cda8429bd97cfc8b3 [34/40] RDMA: Pass entire uverbs attr bundle to create cq function
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240607/202406071321.vpHGgrve-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071321.vpHGgrve-lkp@intel.com/reproduce)
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240607/202406071409.NmyPbA0s-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071409.NmyPbA0s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406071321.vpHGgrve-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071409.NmyPbA0s-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/infiniband/sw/siw/siw_verbs.c:1130:5: error: conflicting types for 'siw_create_cq'; have 'int(struct ib_cq *, const struct ib_cq_init_attr *, struct ib_udata *, struct uverbs_attr_bundle *)'
+   In file included from drivers/infiniband/sw/siw/siw_verbs.c:11:
+   In file included from include/net/addrconf.h:61:
+   In file included from include/linux/ipv6.h:101:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/infiniband/sw/siw/siw_verbs.c:11:
+   In file included from include/net/addrconf.h:61:
+   In file included from include/linux/ipv6.h:101:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/sw/siw/siw_verbs.c:11:
+   In file included from include/net/addrconf.h:61:
+   In file included from include/linux/ipv6.h:101:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/sw/siw/siw_verbs.c:11:
+   In file included from include/net/addrconf.h:61:
+   In file included from include/linux/ipv6.h:101:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/infiniband/sw/siw/siw_verbs.c:1130:5: error: conflicting types for 'siw_create_cq'
     1130 | int siw_create_cq(struct ib_cq *base_cq, const struct ib_cq_init_attr *attr,
-         |     ^~~~~~~~~~~~~
-   In file included from drivers/infiniband/sw/siw/siw_verbs.c:19:
-   drivers/infiniband/sw/siw/siw_verbs.h:45:5: note: previous declaration of 'siw_create_cq' with type 'int(struct ib_cq *, const struct ib_cq_init_attr *, struct ib_udata *)'
+         |     ^
+   drivers/infiniband/sw/siw/siw_verbs.h:45:5: note: previous declaration is here
       45 | int siw_create_cq(struct ib_cq *base_cq, const struct ib_cq_init_attr *attr,
-         |     ^~~~~~~~~~~~~
+         |     ^
+   7 warnings and 1 error generated.
 
 
-vim +1130 drivers/infiniband/sw/siw/siw_verbs.c
+vim +/siw_create_cq +1130 drivers/infiniband/sw/siw/siw_verbs.c
 
 303ae1cdfdf728 Bernard Metzler  2019-06-20  1119  
 303ae1cdfdf728 Bernard Metzler  2019-06-20  1120  /*
