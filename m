@@ -1,45 +1,58 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E974F154424;
-	Fri,  7 Jun 2024 20:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00E479DC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 20:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717792232; cv=none; b=LS67LKFHJxr4GrL8XVpKh+eBmLIVDojOahPuXkivDDa8MDPHQh4YAFp/8rJCqX4b9YKW99Of6ZUR+Y1MmRFqkfCiQzUlicqeMMvpS2Vtk8skmVPHHg5wMjW26rMfNgihKNckspjXd7XQdYmox1s8epF4eYddcsrQHME30gfgx5U=
+	t=1717792664; cv=none; b=hhsoDhVOEhhYyES3LfB2Fl30/RRVf+Z5UuD6N/PEq1q+efjKbv6+ndvSdVgk9z8rI0qh7Gskg9NTn0T+taXUpO0SAK+lvNTSguTlmZHGqbaEd0452BPQr4/blNZRJj8cTdaPZTEVI3qPnrgJCLP+xCH5745mcm9lil+Y6el6ySU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717792232; c=relaxed/simple;
-	bh=IoslD7mjLZes0z/Pdb1R5uPtVtTWZYFBRxVyVXvPpZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FAhaRcspjCzAbz6jDxtk4WZDFOjqwHtIlNMt/wsUvyHjEfMpZRfKJ5smagqlyrUI7p+AdRSot5wdGVgvdAuezMrGB2JLRocHgrCbSk+UH3nX1VvCa5vwXVts3xaAj9MLLB7QE3HGYhEJ8HgRoeWX189B537sBdkYm4KeRKUYuJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=BD949qhv; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1717792664; c=relaxed/simple;
+	bh=twK1kPCLi4emDm7KCmhVIUQhMSZcgakXXTFJJ2Aq8NM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C9OgoKwAeLzmHfHWJoCyJpvBFpGkMVCX3oIgFZqND3pOLHiT0q27HkRTsPJJAO3A4PDlOP4jZIZKcJuV4XJs0wjfxua4zOwaHjgOiWrvfWVANmJMlZKv5W5KlMbJC5fgA5Kju/rx6IIdXtqeSyI4h922VyPIMez+dU3zpuCYYjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzzS5ral; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="BD949qhv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=o3OMEbaSK5J2umcY3DiUsQ5RuyLJhGrfao7NvY5OexI=; b=BD949qhvHdhkf3RD9ABkr6yeCE
-	9mWyT91IrbNLZK58ikXXyeSu98VxgEgfJhnwtj9JTvAxT7dBmdI80JwqW3tTmXwDpkpZdzgEQVdiF
-	M3iSuILs79BbQhHptq0wTIaNEXf98CmcOt2n/CNvq7VQId/CvHtrJLxz0JijcZqKDPVsRB0UdCGiK
-	goC75zoOf5SN352NOcQlFlVexExo31G1eV8i9KmQoth4eGk/x3A5WzZ5o36dTLO5Bp92MhCG9ZKJE
-	4fJis4sut1CoXSL+z01fqyR0ZOo9Sq9yfnWBzRcFcO9v3JP+pZBJJgGOAEjXyUOEEIZKHY19QqOFg
-	pwgX+7+Q==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1sFgEB-00E1i9-1H;
-	Fri, 07 Jun 2024 20:30:23 +0000
-Date: Fri, 7 Jun 2024 21:30:23 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [viro-vfs:work.fd 11/19] fs/select.c:860:3: error: cannot jump
- from this goto statement to its label
-Message-ID: <20240607203023.GB1629371@ZenIV>
-References: <202406071836.yx9rpD7U-lkp@intel.com>
- <20240607152428.GY1629371@ZenIV>
- <20240607202010.GA2270105@thelio-3990X>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzzS5ral"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717792663; x=1749328663;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=twK1kPCLi4emDm7KCmhVIUQhMSZcgakXXTFJJ2Aq8NM=;
+  b=SzzS5ralLNt4hfeVqNGEIWIOMbxDJQnUgCgJgGpFwrFlX5xV/Lx3ia0o
+   7ilQNn0PnLQwIHzXNH80YfwspGGn0/A7RfqE6kzySITj3sxSmxjc3ALFt
+   jl0XG0vQKJiV2Q5RT89CAR1or9gL9b1lbOCTHn9R7BlX6dxywCEnmZOZq
+   bs0ZNQoPRi1x7VHl79FpHcZgjZVwqnS+uZfoGP07DfjtAPJ/dSzvOfwbH
+   CatdGQKA/t2DvPQzgUGp7Eimp9xkHN2JxwdrRssa/XArTs/GCdh/AlWDZ
+   GETAbo9cFoGTd46FQPpIKRZYcW1BIbps+eg2OzFoAQXakFzCLzY/NCX4+
+   Q==;
+X-CSE-ConnectionGUID: Kr1FW4MURgOfFXIluq1U5w==
+X-CSE-MsgGUID: qAvc0u6OQACLbbKazkDH5g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14372620"
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
+   d="scan'208";a="14372620"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 13:37:42 -0700
+X-CSE-ConnectionGUID: gBqPCWbeS/6WIMq/QV+mcg==
+X-CSE-MsgGUID: sv3Sp8/dQLGrY/8E/tFMrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
+   d="scan'208";a="61623023"
+Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 07 Jun 2024 13:37:41 -0700
+Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sFgLD-0000Uc-0l;
+	Fri, 07 Jun 2024 20:37:39 +0000
+Date: Sat, 8 Jun 2024 04:37:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:rust/cpufreq-dt 6/25] warning: unused imports: `ARef`,
+ `AlwaysRefCounted`, `CString`, `Opaque`, `device::Device`, `prelude::*`
+Message-ID: <202406080425.MIduLkLN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,43 +61,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607202010.GA2270105@thelio-3990X>
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, Jun 07, 2024 at 01:20:10PM -0700, Nathan Chancellor wrote:
-> On Fri, Jun 07, 2024 at 04:24:28PM +0100, Al Viro wrote:
-> > > >> fs/select.c:860:3: error: cannot jump from this goto statement to its label
-> > >      860 |                 goto out;
-> > >          |                 ^
-> > >    fs/select.c:862:12: note: jump bypasses initialization of variable with __attribute__((cleanup))
-> > >      862 |         CLASS(fd, f)(fd);
-> > >          |                   ^
-> > >    13 warnings and 1 error generated.
-> > 
-> > Sigh...  That's why declarations in the middle of block really stink.
-> > Sadly, the use of CLASS() very much invites that kind of crap.
-> > For this series I decided to suppress the gag reflex and see how
-> > it goes, but... ouch.
-> > 
-> > Worse, neither current gcc, nor clang 14 catch that kind of crap ;-/
-> 
-> Hmmm, I am able to reproduce this with clang 14.0.6 from kernel.org [1]
-> with x86_64 allnoconfig:
-> 
-> $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 allnoconfig fs/select.o
-> fs/select.c:860:3: error: cannot jump from this goto statement to its label
->                 goto out;
->                 ^
-> fs/select.c:862:12: note: jump bypasses initialization of variable with __attribute__((cleanup))
->         CLASS(fd, f)(fd);
->                   ^
-> 1 error generated.
-> 
-> $ clang --version | head -1
-> ClangBuiltLinux clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> 
-> It is a bug that GCC does not warn about this as far as I understand it:
-> 
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
+head:   aca334cdc747f90b4a1051a3e570cbfa56f10a35
+commit: 63449354e053b5d2f3e6a4a9502624312ce75ccc [6/25] rust: of: Implement property and device_node
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240608/202406080425.MIduLkLN-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406080425.MIduLkLN-lkp@intel.com/reproduce)
 
-Mea culpa - messed up make arguments ;-/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406080425.MIduLkLN-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> warning: unused imports: `ARef`, `AlwaysRefCounted`, `CString`, `Opaque`, `device::Device`, `prelude::*`
+   --> rust/kernel/of.rs:9:5
+   |
+   9  |     device::Device,
+   |     ^^^^^^^^^^^^^^
+   10 |     driver::{self, RawDeviceId},
+   11 |     prelude::*,
+   |     ^^^^^^^^^^
+   12 |     str::{BStr, CString},
+   |                 ^^^^^^^
+   13 |     types::{ARef, AlwaysRefCounted, Opaque},
+   |             ^^^^  ^^^^^^^^^^^^^^^^  ^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+--
+>> warning: unused import: `core::ptr`
+   --> rust/kernel/of.rs:16:5
+   |
+   16 | use core::ptr;
+   |     ^^^^^^^^^
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
