@@ -1,137 +1,237 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0852D45024
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 06:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D013845024
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 06:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717742955; cv=none; b=SK3vBnQSzuUwiijVJQpVGpi/CcspyKBXTZJ0IzVrnNZqTPdaZNi1U6mhWR0jmbSWI/eSEwJ0CMoYIuWXS+Utcf4N99ascTiTYPX679LLTtiGskGjeroeXj8DQceRUP2IOjeKx6zoMMbG/6RbF3NMJNqO7z1DxO44G0GrcI51EA0=
+	t=1717742970; cv=none; b=V5GB0ZT0Z1TDUK79JKzS4eKNlr5IO9yu40pTsokfOjHTztW0OgSyFZbKdVTekNBwSjVNbRoDFZzDZjxRQ6YpYkAdgU8D0Sav4gswsUD7vKWTHK1efhieNUe4gzLwn75elEudhGORsBNLJy5HBgNaMrt9jlViGFmjRQho/gocZnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717742955; c=relaxed/simple;
-	bh=sk3zL7tFOk2jwFtYX7g9U73orqYDS6vSS3zxEaOXEuE=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=J1thFCuE3iP/eqKjjlVwxKL2/0XL00aDGIoaY/BNPx1HbgVuVGFVeWlX1qxMLvGXdvsCfQqfZ5Ug2rBf15K4Y0Mv0pRrQ0H7Dh/AN6u78WHgLqb3rfY3gjs/UehMYdbF0vlDzX70MVmhQSIlHHthrQUVvamuptbk88gPex4hd4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=Mj3ZgNcM; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1717742970; c=relaxed/simple;
+	bh=Gpc+AIIuwGC+HGzIiUUwG+cNgFkKLIjwSmVZyoACLbQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IxN+i0oVn1Dbx/2Q7VjneOzGWYcxlB5W937mP0Rlp/TcOl5EoShA6P/FezYTpX9O+8s1itLC2LyPO5IIJvEpNcNx0wpO/Ocs+bGeFiEzKKN1PIQOZFm6rwCAOn7etU1l3fxydhsGYZY54uK68fd098yLL4b4fB6VGYU5AtbHWow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=S1RHHZDm; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="Mj3ZgNcM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QbnUSq2pPDxntPBJMcNmUi5vpI1jQpvLj4Masm7uAUE=;
-  b=Mj3ZgNcMqVajAut9iWPBFX3dpbjVVA2fePX3DZa0q/Jtck+irT8rd5hr
-   l/XSbbWuxSL0EFo6DQMpiF7D+rb3+GuO5eFm5qToe+OCjmJI5B8f375wd
-   BZ28JRbOlNjWEIgLSlxFIEfvgjNaFQVaa3U+sYLxPt0PMkUmzv0y12cLs
-   w=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.08,220,1712613600"; 
-   d="scan'208";a="169461460"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 08:48:00 +0200
-Date: Fri, 7 Jun 2024 08:47:59 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Guenter Roeck <groeck@google.com>
-cc: cros-kernel-buildreports@googlegroups.com, oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 111/126] drivers/mailbox/mtk-cmdq-sec-tee.c:172:2-8:
- preceding lock on line 158 (fwd)
-Message-ID: <cb5c2b6d-5f1d-15d6-ae58-d13a482b9b36@inria.fr>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="S1RHHZDm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1717742967; x=1749278967;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Gpc+AIIuwGC+HGzIiUUwG+cNgFkKLIjwSmVZyoACLbQ=;
+  b=S1RHHZDmDbKn2TwEdDPzrYBW90Cf3Cdxa46P/2JB7eAy3dMjh4dGhBVC
+   U5zPljbkrUdruC2pK0bzUCEm0ztLvOhqnVi64RxldQGWI7lGqHbwPP8hI
+   FZElu8WLcV5IHn8PksW7jhZ1DG3G7yKGz5gq1Uy1E2BlTaoMgW2AwDWLo
+   jgKL1LPwAUSdbftouJteD5sJfw3swd00eEXvcDmgv/aawWuzsgiqupWRg
+   P8slQsEK4Wsb6JtUJLctvCq1m+shGG+EfyHgqu3qX1hJf2DrNb7B1Rw7N
+   Oio540Qmn10+XswYSa/lFOa3JDU4U+0gAm43Ic7RZXd42PEHDo3sQ1flh
+   g==;
+X-CSE-ConnectionGUID: pjF5WmmEQUOOQw4oHGaFTw==
+X-CSE-MsgGUID: RFM2ace7T0i1GQH4WQgpuQ==
+X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
+   d="scan'208";a="194515033"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Jun 2024 23:49:20 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 6 Jun 2024 23:49:04 -0700
+Received: from HYD-DK-UNGSW21.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 6 Jun 2024 23:48:59 -0700
+From: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
+To: <lkp@intel.com>
+CC: <Raju.Lakkaraju@microchip.com>, <UNGLinuxDriver@microchip.com>,
+	<andrew@lunn.ch>, <bryan.whitehead@microchip.com>, <davem@davemloft.net>,
+	<edumazet@google.com>, <hkallweit1@gmail.com>, <hmehrtens@maxlinear.com>,
+	<kuba@kernel.org>, <linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>,
+	<lxu@maxlinear.com>, <netdev@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>, <sbauer@blackbox.su>,
+	Wojciech Drewek <wojciech.drewek@intel.com>
+Subject: [PATCH net V3 2/3] net: lan743x: Support WOL at both the PHY and MAC appropriately
+Date: Fri, 7 Jun 2024 12:16:06 +0530
+Message-ID: <20240607064606.26189-1-Raju.Lakkaraju@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202406052200.w3zuc32H-lkp@intel.com>
+References: <202406052200.w3zuc32H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hello,
+Prevent options not supported by the PHY from being requested to it by the MAC
+Whenever a WOL option is supported by both, the PHY is given priority
+since that usually leads to better power savings.
 
-Please check whether an unlock is needed on line 172.
+Fixes: e9e13b6adc338 ("lan743x: fix for potential NULL pointer dereference with bare card")
+Signed-off-by: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
+Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
+---
+Change List:
+------------
+V2 -> V3:
+  - Remove the "phy does not support WOL" debug message which is not required
+  - Remove WAKE_PHY support option from Ethernet MAC (LAN743x/PCI11x1x) driver
+  - Add "phy_wol_supported" and "phy_wolopts" variables to hold PHY's WOL config
+V1 -> V2:
+  - Repost - No change
+V0 -> V1:
+  - Change the "phy does not support WOL" print from netif_info() to
+    netif_dbg()
 
-There is another error noted on line 219, but that code is not included.
+ .../net/ethernet/microchip/lan743x_ethtool.c  | 44 +++++++++++++++++--
+ drivers/net/ethernet/microchip/lan743x_main.c | 18 ++++++--
+ drivers/net/ethernet/microchip/lan743x_main.h |  4 ++
+ 3 files changed, 58 insertions(+), 8 deletions(-)
 
-julia
-
----------- Forwarded message ----------
-Date: Fri, 7 Jun 2024 14:35:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [chrome-os:chromeos-6.1 111/126]
-    drivers/mailbox/mtk-cmdq-sec-tee.c:172:2-8: preceding lock on line 158
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
-
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   bb84077a7f2f0e6433f0c71d35738db6fcfca976
-commit: a0f3bf1449bdfbea99babee760c8886ee574e42a [111/126] BACKPORT: FROMLIST: mailbox: mediatek: Add CMDQ secure mailbox driver
-:::::: branch date: 24 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r062-20240607 (https://download.01.org/0day-ci/archive/20240607/202406071437.bg3BwASr-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202406071437.bg3BwASr-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/mailbox/mtk-cmdq-sec-tee.c:172:2-8: preceding lock on line 158
---
->> drivers/mailbox/mtk-cmdq-sec-mailbox.c:219:58-62: ERROR: invalid reference to the index variable of the iterator on line 201
-
-vim +172 drivers/mailbox/mtk-cmdq-sec-tee.c
-
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  149
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  150  int cmdq_sec_execute_session(struct cmdq_sec_tee_context *tee, u32 cmd, s32 timeout_ms)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  151  {
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  152  #if IS_ENABLED(CONFIG_TEE)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  153  	struct tee_ioctl_invoke_arg invoke_arg = {0};
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  154  	struct tee_param params = {0};
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  155  	u64 ts = sched_clock();
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  156  	int ret = 0;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  157
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27 @158  	mutex_lock(&cmdq_sec_exec_lock);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  159
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  160  	params.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  161  	params.u.memref.shm = tee->shared_mem;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  162  	params.u.memref.shm_offs = 0;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  163  	params.u.memref.size = tee->shared_mem->size;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  164
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  165  	invoke_arg.num_params = 1;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  166  	invoke_arg.session = tee->session;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  167  	invoke_arg.func = cmd;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  168
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  169  	ret = tee_client_invoke_func(tee->tee_context, &invoke_arg, &params);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  170  	if (ret) {
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  171  		pr_err("tee_client_invoke_func failed, ret=%d\n", ret);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27 @172  		return -EFAULT;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  173  	}
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  174
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  175  	ret = invoke_arg.ret;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  176
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  177  	mutex_unlock(&cmdq_sec_exec_lock);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  178
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  179  	ts = div_u64(sched_clock() - ts, 1000000);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  180
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  181  	if (ret != 0)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  182  		pr_err("[SEC]execute: TEEC_InvokeCommand:%u ret:%d cost:%lluus", cmd, ret, ts);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  183  	else if (ts > timeout_ms)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  184  		pr_err("[SEC]execute: TEEC_InvokeCommand:%u ret:%d cost:%lluus", cmd, ret, ts);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  185  	else
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  186  		pr_debug("[SEC]execute: TEEC_InvokeCommand:%u ret:%d cost:%lluus", cmd, ret, ts);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  187
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  188  	return ret;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  189  #else
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  190  	return -EFAULT;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  191  #endif
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  192  }
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  193  EXPORT_SYMBOL_GPL(cmdq_sec_execute_session);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  194
-
+diff --git a/drivers/net/ethernet/microchip/lan743x_ethtool.c b/drivers/net/ethernet/microchip/lan743x_ethtool.c
+index d0f4ff4ee075..0d1740d64676 100644
+--- a/drivers/net/ethernet/microchip/lan743x_ethtool.c
++++ b/drivers/net/ethernet/microchip/lan743x_ethtool.c
+@@ -1127,8 +1127,12 @@ static void lan743x_ethtool_get_wol(struct net_device *netdev,
+ 	if (netdev->phydev)
+ 		phy_ethtool_get_wol(netdev->phydev, wol);
+ 
+-	wol->supported |= WAKE_BCAST | WAKE_UCAST | WAKE_MCAST |
+-		WAKE_MAGIC | WAKE_PHY | WAKE_ARP;
++	if (wol->supported != adapter->phy_wol_supported)
++		netif_warn(adapter, drv, adapter->netdev,
++			   "PHY changed its supported WOL! old=%x, new=%x\n",
++			   adapter->phy_wol_supported, wol->supported);
++
++	wol->supported |= MAC_SUPPORTED_WAKES;
+ 
+ 	if (adapter->is_pci11x1x)
+ 		wol->supported |= WAKE_MAGICSECURE;
+@@ -1143,7 +1147,39 @@ static int lan743x_ethtool_set_wol(struct net_device *netdev,
+ {
+ 	struct lan743x_adapter *adapter = netdev_priv(netdev);
+ 
++	/* WAKE_MAGICSEGURE is a modifier of and only valid together with
++	 * WAKE_MAGIC
++	 */
++	if ((wol->wolopts & WAKE_MAGICSECURE) && !(wol->wolopts & WAKE_MAGIC))
++		return -EINVAL;
++
++	if (netdev->phydev) {
++		struct ethtool_wolinfo phy_wol;
++		int ret;
++
++		phy_wol.wolopts = wol->wolopts & adapter->phy_wol_supported;
++
++		/* If WAKE_MAGICSECURE was requested, filter out WAKE_MAGIC
++		 * for PHYs that do not support WAKE_MAGICSECURE
++		 */
++		if (wol->wolopts & WAKE_MAGICSECURE &&
++		    !(adapter->phy_wol_supported & WAKE_MAGICSECURE))
++			phy_wol.wolopts &= ~WAKE_MAGIC;
++
++		ret = phy_ethtool_set_wol(netdev->phydev, &phy_wol);
++		if (ret && (ret != -EOPNOTSUPP))
++			return ret;
++
++		if (ret == -EOPNOTSUPP)
++			adapter->phy_wolopts = 0;
++		else
++			adapter->phy_wolopts = phy_wol.wolopts;
++	} else {
++		adapter->phy_wolopts = 0;
++	}
++
+ 	adapter->wolopts = 0;
++	wol->wolopts &= ~adapter->phy_wolopts;
+ 	if (wol->wolopts & WAKE_UCAST)
+ 		adapter->wolopts |= WAKE_UCAST;
+ 	if (wol->wolopts & WAKE_MCAST)
+@@ -1164,10 +1200,10 @@ static int lan743x_ethtool_set_wol(struct net_device *netdev,
+ 		memset(adapter->sopass, 0, sizeof(u8) * SOPASS_MAX);
+ 	}
+ 
++	wol->wolopts = adapter->wolopts | adapter->phy_wolopts;
+ 	device_set_wakeup_enable(&adapter->pdev->dev, (bool)wol->wolopts);
+ 
+-	return netdev->phydev ? phy_ethtool_set_wol(netdev->phydev, wol)
+-			: -ENETDOWN;
++	return 0;
+ }
+ #endif /* CONFIG_PM */
+ 
+diff --git a/drivers/net/ethernet/microchip/lan743x_main.c b/drivers/net/ethernet/microchip/lan743x_main.c
+index 6a40b961fafb..90572e780d9f 100644
+--- a/drivers/net/ethernet/microchip/lan743x_main.c
++++ b/drivers/net/ethernet/microchip/lan743x_main.c
+@@ -3118,6 +3118,17 @@ static int lan743x_netdev_open(struct net_device *netdev)
+ 		if (ret)
+ 			goto close_tx;
+ 	}
++
++#ifdef CONFIG_PM
++	if (adapter->netdev->phydev) {
++		struct ethtool_wolinfo wol = { .cmd = ETHTOOL_GWOL };
++
++		phy_ethtool_get_wol(netdev->phydev, &wol);
++		adapter->phy_wol_supported = wol.supported;
++		adapter->phy_wolopts = wol.wolopts;
++	}
++#endif
++
+ 	return 0;
+ 
+ close_tx:
+@@ -3587,10 +3598,9 @@ static void lan743x_pm_set_wol(struct lan743x_adapter *adapter)
+ 
+ 	pmtctl |= PMT_CTL_ETH_PHY_D3_COLD_OVR_ | PMT_CTL_ETH_PHY_D3_OVR_;
+ 
+-	if (adapter->wolopts & WAKE_PHY) {
+-		pmtctl |= PMT_CTL_ETH_PHY_EDPD_PLL_CTL_;
++	if (adapter->phy_wolopts)
+ 		pmtctl |= PMT_CTL_ETH_PHY_WAKE_EN_;
+-	}
++
+ 	if (adapter->wolopts & WAKE_MAGIC) {
+ 		wucsr |= MAC_WUCSR_MPEN_;
+ 		macrx |= MAC_RX_RXEN_;
+@@ -3686,7 +3696,7 @@ static int lan743x_pm_suspend(struct device *dev)
+ 	lan743x_csr_write(adapter, MAC_WUCSR2, 0);
+ 	lan743x_csr_write(adapter, MAC_WK_SRC, 0xFFFFFFFF);
+ 
+-	if (adapter->wolopts)
++	if (adapter->wolopts || adapter->phy_wolopts)
+ 		lan743x_pm_set_wol(adapter);
+ 
+ 	if (adapter->is_pci11x1x) {
+diff --git a/drivers/net/ethernet/microchip/lan743x_main.h b/drivers/net/ethernet/microchip/lan743x_main.h
+index fac0f33d10b2..3b2585a384e2 100644
+--- a/drivers/net/ethernet/microchip/lan743x_main.h
++++ b/drivers/net/ethernet/microchip/lan743x_main.h
+@@ -1042,6 +1042,8 @@ enum lan743x_sgmii_lsd {
+ 	LINK_2500_SLAVE
+ };
+ 
++#define MAC_SUPPORTED_WAKES  (WAKE_BCAST | WAKE_UCAST | WAKE_MCAST | \
++			      WAKE_MAGIC | WAKE_ARP)
+ struct lan743x_adapter {
+ 	struct net_device       *netdev;
+ 	struct mii_bus		*mdiobus;
+@@ -1049,6 +1051,8 @@ struct lan743x_adapter {
+ #ifdef CONFIG_PM
+ 	u32			wolopts;
+ 	u8			sopass[SOPASS_MAX];
++	u32			phy_wolopts;
++	u32			phy_wol_supported;
+ #endif
+ 	struct pci_dev		*pdev;
+ 	struct lan743x_csr      csr;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
