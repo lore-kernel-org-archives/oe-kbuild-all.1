@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3871D186E46
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 12:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16AA13BC02
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 12:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717763654; cv=none; b=ht6quv9fjOH/0XeWD4rrEFy6ar/y+hzmOgYYPdNJh/pr/qX5d0GhxzBZ3Bon7teIh9rF3OZ4zEsAo/yhKjzG6onflaHo8QIf1lYRIj+SzT7y7xpfnhM20x2ao28+Ze/VV/GI+D6rXHqJx/bETdC+Q7wTlq/jTM7bDHV7Zg2X7PM=
+	t=1717764314; cv=none; b=OK2RAwf8QIv5vV4zWdrzRlYhWgvTqzktQnKR0USV0WBZT35l0md5TFFhsLQbKqVYt/pdtB+UwNmlWs5687zujKfgbMQ4cXhJj3nNojQdxmuFzRWL0l6XJoigLZz0hhncY4eVvlI4D45AsNfCuCishJYTf535dei0dNHZruH55W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717763654; c=relaxed/simple;
-	bh=BIR85JHk2mvMnrfqN9t80Q5WlHV7sDQEH1JX8HWex3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChsTkLeVFSSW3Vka1AmSMr2BhAC1+giICB4ruyx/4WvOkAT3YIWhewK5LtyksOoVq/wGEsRwv5pUM53ZjgM6CiElcd1DaY++dR5M0uEYFnI9MXFS44q8RFRmslFt1TgjlF/XT4crgTTlFa4OkJmmX9XJWdKzom0sNio44eXglXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfNbKo69; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1717764314; c=relaxed/simple;
+	bh=UR3/HiH60qEpw9kkbiAQMRIa8IHPZ/14uYeaewchTwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HKxo05rClOne1e2U3wakOplIgnCaABXHQEyGba2H9GYoRTSFQQklliTTe54NjGSy3dNKKPXyP/lGVivAVB+g23ncWOTju6tvEAqQcZXs1iJM1/U+Egv2XptaMKi1hMi/n/lKrLo3VyAfamv0enZ2BczZk50Awx5r34+KK+kHevM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+wsUPoa; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfNbKo69"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+wsUPoa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717763653; x=1749299653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BIR85JHk2mvMnrfqN9t80Q5WlHV7sDQEH1JX8HWex3g=;
-  b=AfNbKo69RrsQmOGBvNXGU/89UaNL6BQwXM1utbEfaxp6YoIvlXfGdbN/
-   PX49YvbQYHUTBwGBQG7UgOqiNNOqd56Q6PfzzSkYG7vaLUq91AB37WJox
-   gYGpKkS8uVkXReNv306ujeZ9xIq9+84dn3q/oC9RY6QRIQHXfxoPqdehh
-   oFz/iQujM4YmT53UT+kqhIKSlq5p1Jh8rmBCHJpFt+TFwXl6xk8C3NMjc
-   gnSj9QBeH+kUt9NZdz5vuFHQksqPIMEi/O6metO1cGHPQGofGR0H+Lpar
-   Wjvl6fRFbH+Qrv+pElgNS2fxYqkS34Thag+WSAS2nuvkAwFGBwpe9wGY5
-   Q==;
-X-CSE-ConnectionGUID: 6XElkHDKQmGTQ8YmVH1SeQ==
-X-CSE-MsgGUID: GM/LVGz2RHasD2yvF8kCqA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14707159"
+  t=1717764313; x=1749300313;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UR3/HiH60qEpw9kkbiAQMRIa8IHPZ/14uYeaewchTwE=;
+  b=k+wsUPoa3zOx/T4tl8f+eMJFAIc6F/d17TwbcTaSsMHmKRrgS4/7DpWS
+   fGOUAQ50wmSszBmQ7uysZ0jL1bgk7v0Ge+VCQad9P5XVgoXkskYs/rvBc
+   RX/qezcJ+8BahjuV0SiYn3i1d58qv+vcU+o3pq0TJRgq4dH4e9IUKNLLL
+   kz45z/UPskukCvUTLVb6LtP+9ohbfqXn0v4b0EuYlLy5BIk0DTUDceSP+
+   DlS2KBdGZW/TDXPpEQ28qSOgRgdlG6Olye+qf+jtTmcBr47Ed7FqoCBNk
+   PAeBKowboS2zDQy+XK+6T2FG6rMEGYUIkVGCi5kKejYdpngmU5n1isZGz
+   w==;
+X-CSE-ConnectionGUID: TGtf0PdnTE+2oF2QuSpdlQ==
+X-CSE-MsgGUID: 9z/8qR8cRbiR8+47H+2bZg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25109932"
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="14707159"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 05:34:12 -0700
-X-CSE-ConnectionGUID: QZ9V5JMXSQKMNUpICBhxNQ==
-X-CSE-MsgGUID: 5BfkVLWBTOm8qgjtSfc9hw==
+   d="scan'208";a="25109932"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 05:45:12 -0700
+X-CSE-ConnectionGUID: lp1wRkAHQD2sQc3r5MST2A==
+X-CSE-MsgGUID: u0GVlLY4RZyKU3bI3yciZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="43251618"
+   d="scan'208";a="38234205"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 07 Jun 2024 05:34:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Jun 2024 05:45:11 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFYnH-0004mM-1w;
-	Fri, 07 Jun 2024 12:34:07 +0000
-Date: Fri, 7 Jun 2024 20:33:42 +0800
+	id 1sFYxw-0004n8-13;
+	Fri, 07 Jun 2024 12:45:08 +0000
+Date: Fri, 7 Jun 2024 20:44:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, netfilter-devel@vger.kernel.org,
-	pablo@netfilter.org, willemb@google.com,
-	Christoph Paasch <cpaasch@apple.com>
-Subject: Re: [PATCH net-next 1/2] net: add and use skb_get_hash_net
-Message-ID: <202406072022.OkRGOAuS-lkp@intel.com>
-References: <20240607083205.3000-2-fw@strlen.de>
+To: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Subject: [linux-next:master 3354/4582] kernel/trace/fgraph.c:934:8: error:
+ call to undeclared function 'ftrace_startup_subops'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202406072042.h0bVZTGa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,63 +64,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607083205.3000-2-fw@strlen.de>
 
-Hi Florian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/net-add-and-use-skb_get_hash_net/20240607-163738
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240607083205.3000-2-fw%40strlen.de
-patch subject: [PATCH net-next 1/2] net: add and use skb_get_hash_net
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240607/202406072022.OkRGOAuS-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406072022.OkRGOAuS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d35b2284e966c0bef3e2182a5c5ea02177dd32e4
+commit: c132be2c4fcc1150ad0791c2a85dd4c9ad0bd0c8 [3354/4582] function_graph: Have the instances use their own ftrace_ops for filtering
+config: mips-randconfig-r052-20240607 (https://download.01.org/0day-ci/archive/20240607/202406072042.h0bVZTGa-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406072042.h0bVZTGa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406072022.OkRGOAuS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406072042.h0bVZTGa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD d35b2284e966c0bef3e2182a5c5ea02177dd32e4 builds fine.
+      It may have been fixed somewhere.
 
->> net/core/flow_dissector.c:1872: warning: Function parameter or struct member 'net' not described in '__skb_get_hash_net'
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/trace/fgraph.c:12:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/trace/fgraph.c:934:8: error: call to undeclared function 'ftrace_startup_subops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     934 |         ret = ftrace_startup_subops(&graph_ops, &gops->ops, command);
+         |               ^
+>> kernel/trace/fgraph.c:973:2: error: call to undeclared function 'ftrace_shutdown_subops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     973 |         ftrace_shutdown_subops(&graph_ops, &gops->ops, command);
+         |         ^
+   1 warning and 2 errors generated.
 
 
-vim +1872 net/core/flow_dissector.c
+vim +/ftrace_startup_subops +934 kernel/trace/fgraph.c
 
-eb70db8756717b David S. Miller  2016-07-01  1861  
-d4fd32757176d1 Jiri Pirko       2015-05-12  1862  /**
-11b45a5b56dab6 Florian Westphal 2024-06-07  1863   * __skb_get_hash_net: calculate a flow hash
-d4fd32757176d1 Jiri Pirko       2015-05-12  1864   * @skb: sk_buff to calculate flow hash from
-d4fd32757176d1 Jiri Pirko       2015-05-12  1865   *
-d4fd32757176d1 Jiri Pirko       2015-05-12  1866   * This function calculates a flow hash based on src/dst addresses
-61b905da33ae25 Tom Herbert      2014-03-24  1867   * and src/dst port numbers.  Sets hash in skb to non-zero hash value
-61b905da33ae25 Tom Herbert      2014-03-24  1868   * on success, zero indicates no valid hash.  Also, sets l4_hash in skb
-441d9d327f1e77 Cong Wang        2013-01-21  1869   * if hash is a canonical 4-tuple hash over transport ports.
-441d9d327f1e77 Cong Wang        2013-01-21  1870   */
-11b45a5b56dab6 Florian Westphal 2024-06-07  1871  void __skb_get_hash_net(const struct net *net, struct sk_buff *skb)
-441d9d327f1e77 Cong Wang        2013-01-21 @1872  {
-441d9d327f1e77 Cong Wang        2013-01-21  1873  	struct flow_keys keys;
-635c223cfa05af Gao Feng         2016-08-31  1874  	u32 hash;
-441d9d327f1e77 Cong Wang        2013-01-21  1875  
-11b45a5b56dab6 Florian Westphal 2024-06-07  1876  	memset(&keys, 0, sizeof(keys));
-11b45a5b56dab6 Florian Westphal 2024-06-07  1877  
-11b45a5b56dab6 Florian Westphal 2024-06-07  1878  	__skb_flow_dissect(net, skb, &flow_keys_dissector,
-11b45a5b56dab6 Florian Westphal 2024-06-07  1879  			   &keys, NULL, 0, 0, 0,
-11b45a5b56dab6 Florian Westphal 2024-06-07  1880  			   FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL);
-11b45a5b56dab6 Florian Westphal 2024-06-07  1881  
-50fb799289501c Tom Herbert      2015-05-01  1882  	__flow_hash_secret_init();
-50fb799289501c Tom Herbert      2015-05-01  1883  
-11b45a5b56dab6 Florian Westphal 2024-06-07  1884  	hash = __flow_hash_from_keys(&keys, &hashrnd);
-635c223cfa05af Gao Feng         2016-08-31  1885  
-635c223cfa05af Gao Feng         2016-08-31  1886  	__skb_set_sw_hash(skb, hash, flow_keys_have_l4(&keys));
-441d9d327f1e77 Cong Wang        2013-01-21  1887  }
-11b45a5b56dab6 Florian Westphal 2024-06-07  1888  EXPORT_SYMBOL(__skb_get_hash_net);
-441d9d327f1e77 Cong Wang        2013-01-21  1889  
+   888	
+   889	int register_ftrace_graph(struct fgraph_ops *gops)
+   890	{
+   891		int command = 0;
+   892		int ret = 0;
+   893		int i;
+   894	
+   895		mutex_lock(&ftrace_lock);
+   896	
+   897		if (!fgraph_array[0]) {
+   898			/* The array must always have real data on it */
+   899			for (i = 0; i < FGRAPH_ARRAY_SIZE; i++)
+   900				fgraph_array[i] = &fgraph_stub;
+   901		}
+   902	
+   903		/* Look for an available spot */
+   904		for (i = 0; i < FGRAPH_ARRAY_SIZE; i++) {
+   905			if (fgraph_array[i] == &fgraph_stub)
+   906				break;
+   907		}
+   908		if (i >= FGRAPH_ARRAY_SIZE) {
+   909			ret = -ENOSPC;
+   910			goto out;
+   911		}
+   912	
+   913		fgraph_array[i] = gops;
+   914		if (i + 1 > fgraph_array_cnt)
+   915			fgraph_array_cnt = i + 1;
+   916		gops->idx = i;
+   917	
+   918		ftrace_graph_active++;
+   919	
+   920		if (ftrace_graph_active == 1) {
+   921			register_pm_notifier(&ftrace_suspend_notifier);
+   922			ret = start_graph_tracing();
+   923			if (ret)
+   924				goto error;
+   925			/*
+   926			 * Some archs just test to see if these are not
+   927			 * the default function
+   928			 */
+   929			ftrace_graph_return = return_run;
+   930			ftrace_graph_entry = entry_run;
+   931			command = FTRACE_START_FUNC_RET;
+   932		}
+   933	
+ > 934		ret = ftrace_startup_subops(&graph_ops, &gops->ops, command);
+   935	error:
+   936		if (ret) {
+   937			fgraph_array[i] = &fgraph_stub;
+   938			ftrace_graph_active--;
+   939		}
+   940	out:
+   941		mutex_unlock(&ftrace_lock);
+   942		return ret;
+   943	}
+   944	
+   945	void unregister_ftrace_graph(struct fgraph_ops *gops)
+   946	{
+   947		int command = 0;
+   948		int i;
+   949	
+   950		mutex_lock(&ftrace_lock);
+   951	
+   952		if (unlikely(!ftrace_graph_active))
+   953			goto out;
+   954	
+   955		if (unlikely(gops->idx < 0 || gops->idx >= fgraph_array_cnt))
+   956			goto out;
+   957	
+   958		WARN_ON_ONCE(fgraph_array[gops->idx] != gops);
+   959	
+   960		fgraph_array[gops->idx] = &fgraph_stub;
+   961		if (gops->idx + 1 == fgraph_array_cnt) {
+   962			i = gops->idx;
+   963			while (i >= 0 && fgraph_array[i] == &fgraph_stub)
+   964				i--;
+   965			fgraph_array_cnt = i + 1;
+   966		}
+   967	
+   968		ftrace_graph_active--;
+   969	
+   970		if (!ftrace_graph_active)
+   971			command = FTRACE_STOP_FUNC_RET;
+   972	
+ > 973		ftrace_shutdown_subops(&graph_ops, &gops->ops, command);
 
 -- 
 0-DAY CI Kernel Test Service
