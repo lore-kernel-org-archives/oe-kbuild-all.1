@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D5E15B969;
-	Fri,  7 Jun 2024 09:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A9BDDD9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jun 2024 09:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717753491; cv=none; b=PTi50mLKIDR0heU1T+YXkL5eD3YyBv0V2yQkMgIY7suuFU38bryleVgQ23MJpJd6gggXRLKVNlljhGDMFmf0qcgPz49D2vyuZxLHzs+ZO905B5cuKBpQDv+7YepwSJ50k4W7f8Kvf2FTQT971FL2aYcTMO74DnVKxjPN1EFlJt8=
+	t=1717754138; cv=none; b=lZ6/MIoHkswJ+oOcB7MomaSr4wxWXJVi1f+VbDxWkVQyutGoh7CvoXQVUVQcjmvRGqDnHPFAdT80HkVCASMWiAhmkwmvPFE0/uN1GBa0wtzgUWkIGJAfsckjVe30rxA+Avb+mPzTgH1oga0ZCx23l5IOEfjEv+1u+gzfNtJU5SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717753491; c=relaxed/simple;
-	bh=voo+058tPlgVMfI1TZTTzr4t/Aowjlk+5Zt2NGckp00=;
+	s=arc-20240116; t=1717754138; c=relaxed/simple;
+	bh=0QJqjzqlGGJLqFyZ5Yezy17udAsndyPEm0u6FAzfXPw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bnHSva0bsHpXyZpeYYO4rbwDm2zSkOPBlv0PX9FznKc6N+ygbHFOldP0Tn3Fk4RacQMZbvC0p4bbJSEJSK5i5q47D2jsm7f8H/JWWgXepN9gyHvsmWBMUfmB6K/zfm/Gnp+HaJrwREbOFA4X3JJj8wcfT2sW3fIA24rM6L4NTzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JNywxByP; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=LQ3+DX8bKLebYb7JZE22RmjcwffVlZzmXfGdHxp7zXWPf5cegBW8D5lrkIFSzWe0QxXSoxGi4O/DcRXBhDCVTpIiNjhqxIVVPd1ak30OdlKXxx8d4SdNITdDG/A14frUeJCe/71WCqEE9e308XxdLk9xhAIX5qtTea6VOj4GqnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLezRAy3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JNywxByP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLezRAy3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717753491; x=1749289491;
+  t=1717754136; x=1749290136;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=voo+058tPlgVMfI1TZTTzr4t/Aowjlk+5Zt2NGckp00=;
-  b=JNywxByP4NAkGVT66WtDTTWqBF4HYp+lLsKCYfL+AxghellOSM+iYQd3
-   lZUZG0gFC8p48MevClOXH9JQbz/LMVyLL05krRysXFNtlaVp1MZIcWT74
-   63f2xDfZitAi1EUQyK/9bsgO1mTCf002HBEqqWXB7S3/+te5z39f4j3f0
-   rSxNGOKOh0j5yHyxvipBI2LJS5TLc1FUBua/1gGlqsroLBkPaaWxlj9LF
-   IXZXGSsLwplRpP5cA+g/8g5Kjj5Gt7ltMa+Z3Wfb9W2ASc0DckQb+b9Up
-   Axe+BbhWeI8Eun38H/TnI3+u9VPMebtSWiG8HWptBzEisGk3x8/xYAzDb
-   A==;
-X-CSE-ConnectionGUID: HpufsSIPTAqyqXoN+TKbEQ==
-X-CSE-MsgGUID: a1DIzUmoRLijwbdofQawgQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="18294759"
+  bh=0QJqjzqlGGJLqFyZ5Yezy17udAsndyPEm0u6FAzfXPw=;
+  b=XLezRAy3s4bM9xpnBE2OyhMet+HFRZW5pzPEn6boI+6s1AJF8B1KnApH
+   IngkixZk4bKlN2r8gpNJF7zAl+NRLLxjw33tbItD2Yn9NTwxxDp4J6BUi
+   VievwxgtWQLaDF3FHyAPGakP7eVWx2YLQTTJmx34xZCLSMgTHC/DtbvUK
+   fnmVp49Is2Ln/W1MnQQSW+Oaxyi4BlmOCEdNIUUHkyqAqQq+eDkwXCiTo
+   0VrJHy+NKDBAMO4T81ULefZ2QXUc9nvRh2hVmPrKlrRXo1xlFyJM6p3HN
+   TjmnULBvpuC8yLo1MHcldFT9FCpf82Z2Sk8gOmB4WsOeHEhLcpi1v7jDC
+   g==;
+X-CSE-ConnectionGUID: JQbfs+F6Sq64xfDP8dxIcg==
+X-CSE-MsgGUID: 2VBd6VmmTP6Ve1I4A/Nm/Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="36995066"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="18294759"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 02:44:50 -0700
-X-CSE-ConnectionGUID: 8ZQlJrjIRZii1uvJWoEVGA==
-X-CSE-MsgGUID: UsrlsgBJRDKUnLDBbEx3qA==
+   d="scan'208";a="36995066"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 02:55:35 -0700
+X-CSE-ConnectionGUID: ZDV0j4qaQ9aMaRZqBmPG8A==
+X-CSE-MsgGUID: TAzF2s+eTDyjgv2h9BpGAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="61472308"
+   d="scan'208";a="38266756"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Jun 2024 02:44:47 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 07 Jun 2024 02:55:34 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFW9M-0004Z5-1b;
-	Fri, 07 Jun 2024 09:44:44 +0000
-Date: Fri, 7 Jun 2024 17:44:36 +0800
+	id 1sFWJj-0004b4-0q;
+	Fri, 07 Jun 2024 09:55:28 +0000
+Date: Fri, 7 Jun 2024 17:55:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm: dts: aspeed: Use standard 'i2c' bus node name
-Message-ID: <202406071717.2B7aM49z-lkp@intel.com>
-References: <20240531193115.3814887-1-robh@kernel.org>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v13 9/9] drm/i915: Compute CMRR and calculate vtotal
+Message-ID: <202406071749.cjO2itUi-lkp@intel.com>
+References: <20240605170111.494784-10-mitulkumar.ajitkumar.golani@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,61 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531193115.3814887-1-robh@kernel.org>
+In-Reply-To: <20240605170111.494784-10-mitulkumar.ajitkumar.golani@intel.com>
 
-Hi Rob,
+Hi Mitul,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk/for-next linus/master v6.10-rc2 next-20240607]
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip next-20240606]
+[cannot apply to drm-intel/for-linux-next-fixes drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.10-rc2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/arm-dts-aspeed-Use-standard-i2c-bus-node-name/20240601-033514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240531193115.3814887-1-robh%40kernel.org
-patch subject: [PATCH] arm: dts: aspeed: Use standard 'i2c' bus node name
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071717.2B7aM49z-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/gpu-drm-i915-Update-indentation-for-VRR-registers-and-bits/20240606-011504
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240605170111.494784-10-mitulkumar.ajitkumar.golani%40intel.com
+patch subject: [PATCH v13 9/9] drm/i915: Compute CMRR and calculate vtotal
+config: i386-randconfig-016-20240606 (https://download.01.org/0day-ci/archive/20240607/202406071749.cjO2itUi-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071749.cjO2itUi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406071717.2B7aM49z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071749.cjO2itUi-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts:541.10-555.4: Warning (avoid_unnecessary_addr_size): /ahb/apb/bus@1e78a000/i2c@480/gpio@77: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+All errors (new ones prefixed by >>):
 
-vim +541 arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
+   ld: drivers/gpu/drm/i915/display/intel_vrr.o: in function `cmrr_get_vtotal':
+>> drivers/gpu/drm/i915/display/intel_vrr.c:152:(.text+0x507): undefined reference to `__udivdi3'
 
-36d96827f480e9 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Quan Nguyen  2022-08-17  532  
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  533  &i2c8 {
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  534  	status = "okay";
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  535  
-e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  536  	temperature-sensor@48 {
-e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  537  		compatible = "ti,tmp112";
-e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  538  		reg = <0x48>;
-e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  539  	};
-e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  540  
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28 @541  	gpio@77 {
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  542  		compatible = "nxp,pca9539";
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  543  		reg = <0x77>;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  544  		gpio-controller;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  545  		#address-cells = <1>;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  546  		#size-cells = <0>;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  547  		#gpio-cells = <2>;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  548  
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  549  		bmc-ocp0-en-hog {
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  550  			gpio-hog;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  551  			gpios = <7 GPIO_ACTIVE_LOW>;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  552  			output-high;
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  553  			line-name = "bmc-ocp0-en-n";
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  554  		};
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  555  	};
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  556  };
-695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  557  
+
+vim +152 drivers/gpu/drm/i915/display/intel_vrr.c
+
+   135	
+   136	static unsigned int
+   137	cmrr_get_vtotal(struct intel_crtc_state *crtc_state, bool video_mode_required)
+   138	{
+   139		int multiplier_m = 1, multiplier_n = 1, vtotal, desired_refresh_rate;
+   140		long long adjusted_pixel_rate;
+   141		struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+   142	
+   143		desired_refresh_rate = drm_mode_vrefresh(adjusted_mode);
+   144	
+   145		if (video_mode_required) {
+   146			multiplier_m = 1001;
+   147			multiplier_n = 1000;
+   148		}
+   149	
+   150		crtc_state->cmrr.cmrr_n =
+   151			desired_refresh_rate * adjusted_mode->crtc_htotal * multiplier_n;
+ > 152		vtotal = (adjusted_mode->crtc_clock * 1000 * multiplier_n) / crtc_state->cmrr.cmrr_n;
+   153		adjusted_pixel_rate = adjusted_mode->crtc_clock * 1000 * multiplier_m;
+   154		crtc_state->cmrr.cmrr_m = do_div(adjusted_pixel_rate, crtc_state->cmrr.cmrr_n);
+   155	
+   156		return vtotal;
+   157	}
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
