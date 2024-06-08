@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932AC2D792
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 05:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D2FC2E9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 05:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717825040; cv=none; b=mkqJzIhi/qh8dp7qXBXt14Qar1Y79HyklY1G+T+Obk8cjD4WPeIZAo2MguB2ufi1g/ZrfJxlrWn5TprVaAx18INr6Ps9Cj7Mp62aFY7Am4ZRrcIi7hu8CeFxVs0vt5hNGnPStxohgkqcuVlSWX3QUqRWXRiQqv/s+zpKh3d6yNw=
+	t=1717825100; cv=none; b=ZclyfIwQwf9hCGZMHLwvMWwMCALyMyxOZ6zkdWeFBkZ2wqiHsLi6Mt43hac1+76+rXdeH2ArI8WbmZeJCmOPAeFpjfCHQgRLmSNFDA+4UC7a30GAItiB1nzDPxfW/Hn0UfwS5ScDUyS8DJqNgLDracZuSSKB1CTXiilMlysA1L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717825040; c=relaxed/simple;
-	bh=HurGivzqMGbyXk94VJYVehHdPgh4Jcc2iHK5u3WdZvk=;
+	s=arc-20240116; t=1717825100; c=relaxed/simple;
+	bh=oQHR0aWS4SWcrraf2Axie8qP8p7ev0s16eS8SemoL5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JwxmNVf4aoSZ7mxVdvztFYSxg82WCsAmUWhurPf1NMHnkm1QT539MC5+emncUyqewKhRDLExqMRreeQoDFlipC9U81mN+xOO2M3e4OzOXnUXeD31KoI075sn4Y6mrRpWKEG5S+ZSlKxs/auc3HvnNJTXuygrKYVZn6K2Sggc1p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I77gq5aT; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=BibkxBM1gomEt+Xk3YWf/chdO59wROJ869ianNhjbCIe6fWwZuZ7lTP81okEXWGvAZZGVzTk/VWv2tVn5hG/YZ83L5v9TXzIGFA5GcyxBeK08vTzeTYOjZNk0X7VukISUfYjo7GYDKkP77lrhdRN3izJF9B9fNx+AQntTwR7jHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2IdmfGg; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I77gq5aT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2IdmfGg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717825039; x=1749361039;
+  t=1717825098; x=1749361098;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HurGivzqMGbyXk94VJYVehHdPgh4Jcc2iHK5u3WdZvk=;
-  b=I77gq5aTYNxHjPvBbDYx/uCU5cJxhEEpAreiuBZRls/3j/BFZ6wUFPcm
-   9EXOzo07jcsoKkbk41qWMjnGQ0vEzi/9rmXC0OELVX9fEMaR+R1NT50km
-   vD7rMuzLsRgpLTJLlLvfVpQ07Mi/VsyFsR69K2aNNUdCpBNu+Vlr0GV1O
-   EqRVHOAZ2y+2dSjzAT8o1uXFA2M6GRde0DPBBsKbPZxTsPYdOD85AoUe0
-   LGt3p9EviaSHN1Kd8rzM7S2OktFUAvmR2DPY2U0NdT1xazau2sDek8beG
-   kDrNQVDs2+THng39g7IlV69GQRi5Xt9LNFnae/yzrxjpz1yLzTyCPRfb+
-   w==;
-X-CSE-ConnectionGUID: 187vN+hUQjaZSvBiWZFBQw==
-X-CSE-MsgGUID: 85upJw3iR5i0n1EE7UKlaQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14692590"
+  bh=oQHR0aWS4SWcrraf2Axie8qP8p7ev0s16eS8SemoL5U=;
+  b=M2IdmfGgG02jbrYLxmRjoiNIoSVbPGyBwoPBA9BxfGZaIqO3f+Jlr54t
+   9TGo/rt65hAiNLLubYOfYfhLV6zMP0sz46nAXuwnuBUZm397FYWydcrr1
+   8U1Sof1/Scn8GnX5BPU8t8UwRaddLHMPlUY/VxEocyVNSQdtKz6BB0usg
+   6pHn2+K1ko0yxO2/zL5+Z+nGJqY/A6koxATQOyZpWO0XG09MSJEl/14Ih
+   KyQ1Q90sRz7W1SwZbc5CwHJpBodsi99teVajxd2Mr8trIu5Wi4NIXqPFt
+   rL4sRq9hab9l9jXg1u6h+9zfwUORnCX22x3oVERxeM4Bmc80TVWuJYCUg
+   A==;
+X-CSE-ConnectionGUID: CEw6BqnCQq+GTmxiLt4geQ==
+X-CSE-MsgGUID: A/97Nai0S8CWbY4QDXSaXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="18413792"
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="14692590"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 22:37:18 -0700
-X-CSE-ConnectionGUID: UKU3i2tGT1CboTroAagsyA==
-X-CSE-MsgGUID: v6CDJsfMQEeM0nDPFeZtMA==
+   d="scan'208";a="18413792"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 22:38:17 -0700
+X-CSE-ConnectionGUID: U86sZAJWTi204Cyjp8g/SQ==
+X-CSE-MsgGUID: Km4SPu4cTOK+6+mgIlP40A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="69709376"
+   d="scan'208";a="42975776"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Jun 2024 22:37:17 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Jun 2024 22:38:16 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFolO-00017S-1Q;
-	Sat, 08 Jun 2024 05:37:14 +0000
-Date: Sat, 8 Jun 2024 13:37:06 +0800
+	id 1sFomM-00017c-1Z;
+	Sat, 08 Jun 2024 05:38:14 +0000
+Date: Sat, 8 Jun 2024 13:37:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
- (graph_child_address): /soc/video@10830000/ports/port@1: graph node has
- single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-Message-ID: <202406081329.snoMrZsJ-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:find-and-bit-v6 3/42] include/linux/find_atomic.h:294:15:
+ error: implicit declaration of function 'find_first_zero_bit'
+Message-ID: <202406081337.DBDNAdoL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,176 +62,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
-commit: 971c17f879352adc719ff215e0769f8e0a49d7c4 arm64: dts: renesas: r9a07g043u: Add CSI and CRU nodes
-date:   4 months ago
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081329.snoMrZsJ-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux find-and-bit-v6
+head:   01a427072a49f0674209d92684f2bc928b2509a1
+commit: 6ebe8d6a8e3f6c1f51347b8aab4246c6d604152a [3/42] lib/find: add atomic find_bit() primitives
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240608/202406081337.DBDNAdoL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081337.DBDNAdoL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406081329.snoMrZsJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406081337.DBDNAdoL-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:120.11-129.6: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+All error/warnings (new ones prefixed by >>):
 
-vim +85 arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
+   In file included from lib/find_bit.c:16:
+   include/linux/find_atomic.h: In function '__find_and_set_bit':
+>> include/linux/find_atomic.h:294:15: error: implicit declaration of function 'find_first_zero_bit' [-Werror=implicit-function-declaration]
+     294 |         bit = find_first_zero_bit(addr, nbits);
+         |               ^~~~~~~~~~~~~~~~~~~
+   lib/find_bit.c: At top level:
+>> lib/find_bit.c:99:15: warning: no previous prototype for '_find_first_bit' [-Wmissing-prototypes]
+      99 | unsigned long _find_first_bit(const unsigned long *addr, unsigned long size)
+         |               ^~~~~~~~~~~~~~~
+>> lib/find_bit.c:110:15: warning: no previous prototype for '_find_first_and_bit' [-Wmissing-prototypes]
+     110 | unsigned long _find_first_and_bit(const unsigned long *addr1,
+         |               ^~~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:122:15: warning: no previous prototype for '_find_first_and_and_bit' [-Wmissing-prototypes]
+     122 | unsigned long _find_first_and_and_bit(const unsigned long *addr1,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/find_bit.c: In function '_find_and_set_next_bit':
+>> lib/find_bit.c:57:22: error: implicit declaration of function 'BITMAP_FIRST_WORD_MASK' [-Werror=implicit-function-declaration]
+      57 |         mask = MUNGE(BITMAP_FIRST_WORD_MASK(__start));                          \
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   lib/find_bit.c:151:23: note: in expansion of macro 'FIND_NEXT_BIT'
+     151 |                 bit = FIND_NEXT_BIT(~addr[idx], /* nop */, nbits, start);
+         |                       ^~~~~~~~~~~~~
+   lib/find_bit.c: At top level:
+>> lib/find_bit.c:220:15: warning: no previous prototype for '_find_first_zero_bit' [-Wmissing-prototypes]
+     220 | unsigned long _find_first_zero_bit(const unsigned long *addr, unsigned long size)
+         |               ^~~~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:228:15: warning: no previous prototype for '_find_next_bit' [-Wmissing-prototypes]
+     228 | unsigned long _find_next_bit(const unsigned long *addr, unsigned long nbits, unsigned long start)
+         |               ^~~~~~~~~~~~~~
+>> lib/find_bit.c:235:15: warning: no previous prototype for '__find_nth_bit' [-Wmissing-prototypes]
+     235 | unsigned long __find_nth_bit(const unsigned long *addr, unsigned long size, unsigned long n)
+         |               ^~~~~~~~~~~~~~
+   lib/find_bit.c: In function '__find_nth_bit':
+>> lib/find_bit.c:88:33: error: implicit declaration of function 'BITMAP_LAST_WORD_MASK' [-Werror=implicit-function-declaration]
+      88 |                 tmp = (FETCH) & BITMAP_LAST_WORD_MASK(sz);                      \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+   lib/find_bit.c:237:16: note: in expansion of macro 'FIND_NTH_BIT'
+     237 |         return FIND_NTH_BIT(addr[idx], size, n);
+         |                ^~~~~~~~~~~~
+   lib/find_bit.c: At top level:
+>> lib/find_bit.c:241:15: warning: no previous prototype for '__find_nth_and_bit' [-Wmissing-prototypes]
+     241 | unsigned long __find_nth_and_bit(const unsigned long *addr1, const unsigned long *addr2,
+         |               ^~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:248:15: warning: no previous prototype for '__find_nth_andnot_bit' [-Wmissing-prototypes]
+     248 | unsigned long __find_nth_andnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:255:15: warning: no previous prototype for '__find_nth_and_andnot_bit' [-Wmissing-prototypes]
+     255 | unsigned long __find_nth_and_andnot_bit(const unsigned long *addr1,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:265:15: warning: no previous prototype for '_find_next_and_bit' [-Wmissing-prototypes]
+     265 | unsigned long _find_next_and_bit(const unsigned long *addr1, const unsigned long *addr2,
+         |               ^~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:274:15: warning: no previous prototype for '_find_next_andnot_bit' [-Wmissing-prototypes]
+     274 | unsigned long _find_next_andnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:283:15: warning: no previous prototype for '_find_next_or_bit' [-Wmissing-prototypes]
+     283 | unsigned long _find_next_or_bit(const unsigned long *addr1, const unsigned long *addr2,
+         |               ^~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:292:15: warning: no previous prototype for '_find_next_zero_bit' [-Wmissing-prototypes]
+     292 | unsigned long _find_next_zero_bit(const unsigned long *addr, unsigned long nbits,
+         |               ^~~~~~~~~~~~~~~~~~~
+>> lib/find_bit.c:301:15: warning: no previous prototype for '_find_last_bit' [-Wmissing-prototypes]
+     301 | unsigned long _find_last_bit(const unsigned long *addr, unsigned long size)
+         |               ^~~~~~~~~~~~~~
+>> lib/find_bit.c:320:15: warning: no previous prototype for 'find_next_clump8' [-Wmissing-prototypes]
+     320 | unsigned long find_next_clump8(unsigned long *clump, const unsigned long *addr,
+         |               ^~~~~~~~~~~~~~~~
+   lib/find_bit.c: In function 'find_next_clump8':
+>> lib/find_bit.c:323:18: error: implicit declaration of function 'find_next_bit'; did you mean '_find_next_bit'? [-Werror=implicit-function-declaration]
+     323 |         offset = find_next_bit(addr, size, offset);
+         |                  ^~~~~~~~~~~~~
+         |                  _find_next_bit
+>> lib/find_bit.c:328:18: error: implicit declaration of function 'bitmap_get_value8' [-Werror=implicit-function-declaration]
+     328 |         *clump = bitmap_get_value8(addr, offset);
+         |                  ^~~~~~~~~~~~~~~~~
+   lib/find_bit.c: At top level:
+   lib/find_bit.c:340:15: warning: no previous prototype for '_find_first_zero_bit_le' [-Wmissing-prototypes]
+     340 | unsigned long _find_first_zero_bit_le(const unsigned long *addr, unsigned long size)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/find_bit.c:349:15: warning: no previous prototype for '_find_next_zero_bit_le' [-Wmissing-prototypes]
+     349 | unsigned long _find_next_zero_bit_le(const unsigned long *addr,
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   lib/find_bit.c:358:15: warning: no previous prototype for '_find_next_bit_le' [-Wmissing-prototypes]
+     358 | unsigned long _find_next_bit_le(const unsigned long *addr,
+         |               ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-    60	
-    61	&soc {
-    62		interrupt-parent = <&gic>;
-    63	
-    64		cru: video@10830000 {
-    65			compatible = "renesas,r9a07g043-cru", "renesas,rzg2l-cru";
-    66			reg = <0 0x10830000 0 0x400>;
-    67			clocks = <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
-    68				 <&cpg CPG_MOD R9A07G043_CRU_PCLK>,
-    69				 <&cpg CPG_MOD R9A07G043_CRU_ACLK>;
-    70			clock-names = "video", "apb", "axi";
-    71			interrupts = <SOC_PERIPHERAL_IRQ(167) IRQ_TYPE_LEVEL_HIGH>,
-    72				     <SOC_PERIPHERAL_IRQ(168) IRQ_TYPE_LEVEL_HIGH>,
-    73				     <SOC_PERIPHERAL_IRQ(169) IRQ_TYPE_LEVEL_HIGH>;
-    74			interrupt-names = "image_conv", "image_conv_err", "axi_mst_err";
-    75			resets = <&cpg R9A07G043_CRU_PRESETN>,
-    76				 <&cpg R9A07G043_CRU_ARESETN>;
-    77			reset-names = "presetn", "aresetn";
-    78			power-domains = <&cpg>;
-    79			status = "disabled";
-    80	
-    81			ports {
-    82				#address-cells = <1>;
-    83				#size-cells = <0>;
-    84	
-  > 85				port@1 {
-    86					#address-cells = <1>;
-    87					#size-cells = <0>;
-    88	
-    89					reg = <1>;
-    90					crucsi2: endpoint@0 {
-    91						reg = <0>;
-    92						remote-endpoint = <&csi2cru>;
-    93					};
-    94				};
-    95			};
-    96		};
-    97	
-    98		csi2: csi2@10830400 {
-    99			compatible = "renesas,r9a07g043-csi2", "renesas,rzg2l-csi2";
-   100			reg = <0 0x10830400 0 0xfc00>;
-   101			interrupts = <SOC_PERIPHERAL_IRQ(166) IRQ_TYPE_LEVEL_HIGH>;
-   102			clocks = <&cpg CPG_MOD R9A07G043_CRU_SYSCLK>,
-   103				 <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
-   104				 <&cpg CPG_MOD R9A07G043_CRU_PCLK>;
-   105			clock-names = "system", "video", "apb";
-   106			resets = <&cpg R9A07G043_CRU_PRESETN>,
-   107				 <&cpg R9A07G043_CRU_CMN_RSTB>;
-   108			reset-names = "presetn", "cmn-rstb";
-   109			power-domains = <&cpg>;
-   110			status = "disabled";
-   111	
-   112			ports {
-   113				#address-cells = <1>;
-   114				#size-cells = <0>;
-   115	
-   116				port@0 {
-   117					reg = <0>;
-   118				};
-   119	
- > 120				port@1 {
-   121					#address-cells = <1>;
-   122					#size-cells = <0>;
-   123					reg = <1>;
-   124	
-   125					csi2cru: endpoint@0 {
-   126						reg = <0>;
-   127						remote-endpoint = <&crucsi2>;
-   128					};
-   129				};
-   130			};
-   131		};
-   132	
-   133		irqc: interrupt-controller@110a0000 {
-   134			compatible = "renesas,r9a07g043u-irqc",
-   135				     "renesas,rzg2l-irqc";
-   136			reg = <0 0x110a0000 0 0x10000>;
-   137			#interrupt-cells = <2>;
-   138			#address-cells = <0>;
-   139			interrupt-controller;
-   140			interrupts = <SOC_PERIPHERAL_IRQ(0) IRQ_TYPE_LEVEL_HIGH>,
-   141				     <SOC_PERIPHERAL_IRQ(1) IRQ_TYPE_LEVEL_HIGH>,
-   142				     <SOC_PERIPHERAL_IRQ(2) IRQ_TYPE_LEVEL_HIGH>,
-   143				     <SOC_PERIPHERAL_IRQ(3) IRQ_TYPE_LEVEL_HIGH>,
-   144				     <SOC_PERIPHERAL_IRQ(4) IRQ_TYPE_LEVEL_HIGH>,
-   145				     <SOC_PERIPHERAL_IRQ(5) IRQ_TYPE_LEVEL_HIGH>,
-   146				     <SOC_PERIPHERAL_IRQ(6) IRQ_TYPE_LEVEL_HIGH>,
-   147				     <SOC_PERIPHERAL_IRQ(7) IRQ_TYPE_LEVEL_HIGH>,
-   148				     <SOC_PERIPHERAL_IRQ(8) IRQ_TYPE_LEVEL_HIGH>,
-   149				     <SOC_PERIPHERAL_IRQ(444) IRQ_TYPE_LEVEL_HIGH>,
-   150				     <SOC_PERIPHERAL_IRQ(445) IRQ_TYPE_LEVEL_HIGH>,
-   151				     <SOC_PERIPHERAL_IRQ(446) IRQ_TYPE_LEVEL_HIGH>,
-   152				     <SOC_PERIPHERAL_IRQ(447) IRQ_TYPE_LEVEL_HIGH>,
-   153				     <SOC_PERIPHERAL_IRQ(448) IRQ_TYPE_LEVEL_HIGH>,
-   154				     <SOC_PERIPHERAL_IRQ(449) IRQ_TYPE_LEVEL_HIGH>,
-   155				     <SOC_PERIPHERAL_IRQ(450) IRQ_TYPE_LEVEL_HIGH>,
-   156				     <SOC_PERIPHERAL_IRQ(451) IRQ_TYPE_LEVEL_HIGH>,
-   157				     <SOC_PERIPHERAL_IRQ(452) IRQ_TYPE_LEVEL_HIGH>,
-   158				     <SOC_PERIPHERAL_IRQ(453) IRQ_TYPE_LEVEL_HIGH>,
-   159				     <SOC_PERIPHERAL_IRQ(454) IRQ_TYPE_LEVEL_HIGH>,
-   160				     <SOC_PERIPHERAL_IRQ(455) IRQ_TYPE_LEVEL_HIGH>,
-   161				     <SOC_PERIPHERAL_IRQ(456) IRQ_TYPE_LEVEL_HIGH>,
-   162				     <SOC_PERIPHERAL_IRQ(457) IRQ_TYPE_LEVEL_HIGH>,
-   163				     <SOC_PERIPHERAL_IRQ(458) IRQ_TYPE_LEVEL_HIGH>,
-   164				     <SOC_PERIPHERAL_IRQ(459) IRQ_TYPE_LEVEL_HIGH>,
-   165				     <SOC_PERIPHERAL_IRQ(460) IRQ_TYPE_LEVEL_HIGH>,
-   166				     <SOC_PERIPHERAL_IRQ(461) IRQ_TYPE_LEVEL_HIGH>,
-   167				     <SOC_PERIPHERAL_IRQ(462) IRQ_TYPE_LEVEL_HIGH>,
-   168				     <SOC_PERIPHERAL_IRQ(463) IRQ_TYPE_LEVEL_HIGH>,
-   169				     <SOC_PERIPHERAL_IRQ(464) IRQ_TYPE_LEVEL_HIGH>,
-   170				     <SOC_PERIPHERAL_IRQ(465) IRQ_TYPE_LEVEL_HIGH>,
-   171				     <SOC_PERIPHERAL_IRQ(466) IRQ_TYPE_LEVEL_HIGH>,
-   172				     <SOC_PERIPHERAL_IRQ(467) IRQ_TYPE_LEVEL_HIGH>,
-   173				     <SOC_PERIPHERAL_IRQ(468) IRQ_TYPE_LEVEL_HIGH>,
-   174				     <SOC_PERIPHERAL_IRQ(469) IRQ_TYPE_LEVEL_HIGH>,
-   175				     <SOC_PERIPHERAL_IRQ(470) IRQ_TYPE_LEVEL_HIGH>,
-   176				     <SOC_PERIPHERAL_IRQ(471) IRQ_TYPE_LEVEL_HIGH>,
-   177				     <SOC_PERIPHERAL_IRQ(472) IRQ_TYPE_LEVEL_HIGH>,
-   178				     <SOC_PERIPHERAL_IRQ(473) IRQ_TYPE_LEVEL_HIGH>,
-   179				     <SOC_PERIPHERAL_IRQ(474) IRQ_TYPE_LEVEL_HIGH>,
-   180				     <SOC_PERIPHERAL_IRQ(475) IRQ_TYPE_LEVEL_HIGH>,
-   181				     <SOC_PERIPHERAL_IRQ(25) IRQ_TYPE_EDGE_RISING>;
-   182			interrupt-names = "nmi",
-   183					  "irq0", "irq1", "irq2", "irq3",
-   184					  "irq4", "irq5", "irq6", "irq7",
-   185					  "tint0", "tint1", "tint2", "tint3",
-   186					  "tint4", "tint5", "tint6", "tint7",
-   187					  "tint8", "tint9", "tint10", "tint11",
-   188					  "tint12", "tint13", "tint14", "tint15",
-   189					  "tint16", "tint17", "tint18", "tint19",
-   190					  "tint20", "tint21", "tint22", "tint23",
-   191					  "tint24", "tint25", "tint26", "tint27",
-   192					  "tint28", "tint29", "tint30", "tint31",
-   193					  "bus-err";
-   194			clocks = <&cpg CPG_MOD R9A07G043_IA55_CLK>,
-   195				<&cpg CPG_MOD R9A07G043_IA55_PCLK>;
-   196			clock-names = "clk", "pclk";
-   197			power-domains = <&cpg>;
-   198			resets = <&cpg R9A07G043_IA55_RESETN>;
-   199		};
-   200	
-   201		gic: interrupt-controller@11900000 {
-   202			compatible = "arm,gic-v3";
-   203			#interrupt-cells = <3>;
-   204			#address-cells = <0>;
-   205			interrupt-controller;
-   206			reg = <0x0 0x11900000 0 0x40000>,
-   207			      <0x0 0x11940000 0 0x60000>;
-   208			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
-   209		};
-   210	};
-   211	
+
+vim +/find_first_zero_bit +294 include/linux/find_atomic.h
+
+   278	
+   279	/**
+   280	 * __find_and_set_bit - Find a zero bit and set it non-atomically
+   281	 * @addr: The address to base the search on
+   282	 * @nbits: The bitmap size in bits
+   283	 *
+   284	 * A non-atomic version of find_and_set_bit() needed to help writing
+   285	 * common-looking code where atomicity is provided externally.
+   286	 *
+   287	 * Returns: found and set bit, or >= @nbits if no bits found
+   288	 */
+   289	static inline
+   290	unsigned long __find_and_set_bit(unsigned long *addr, unsigned long nbits)
+   291	{
+   292		unsigned long bit;
+   293	
+ > 294		bit = find_first_zero_bit(addr, nbits);
+   295		if (bit < nbits)
+   296			__set_bit(bit, addr);
+   297	
+   298		return bit;
+   299	}
+   300	
 
 -- 
 0-DAY CI Kernel Test Service
