@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438263D6A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 01:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2830B8BEF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 02:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717810201; cv=none; b=QKUChDK7FC1tGV65fu/zZJe7I2nWZ7m+j4Y+ouBrpW1/lij66PpU/ZgBqGWbvLShOGXClhk2l8Vnb/TBbZMV8zISBjsud3dYacOYxT5YnTQOlXIRDdwO9ESKBB7uv8J6S0TJaZY505gonIzimHtbAwCyHLVxsXXnKTtkiORjMMU=
+	t=1717812126; cv=none; b=EEfL7RrCbq113h27RJnZuPzY6W2AMPIGuBqIHKCQ5hemwocMg24Y8K11oIrmDJgOhfTR+zzL1JqDhG7Zs7LPMrtrduxDlTfSCxFDb6d6pLgYy3N/DD73PnlnPyn+WX49nJVZJb3nSPQvTaS3aGeqIUNf57PW2Pw1c9EqbrvpRbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717810201; c=relaxed/simple;
-	bh=MwtHWlRVfwYVyKC5etWEIGPxXOT2a8aQXZeec8eJvhQ=;
+	s=arc-20240116; t=1717812126; c=relaxed/simple;
+	bh=OT/F7+S3VuIIrmbZ04tTv9bR+NXRWfie1pThFgPHyJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YwbyGECKh2o2/MmfpCo6cMk8DyhCkf30T0Vn7dOpcMQaSJRvlOPkP03+sfn7dBi0Nkcrozh0QEI9+vNmjkQ84yXrmAXpnQH/Hv+rL0POD5ifKzHqjxPQHjsMMTaq3fYdS/gwkW1NvBGxDbIVjk86cc6puUv9s03Zef0/20fY/zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4nFrh/p; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=NytVZDVF1i1hJc/Huvw2bvhoCtW8TnIPbvfrqvxElvYwbk0aE08b+lDGzd5ZMaN0Yzp7qfn9LO6OrG9ByxdW0pGqGCEw3BIZJXpYx7urJ9Nqpcgk3JrqQ83GWba93T1Qib/Yrn/wyP1Cg8QrMdIA9DL5f+ScLa9OZjfOFyhJ7hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFJcFZ1r; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4nFrh/p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFJcFZ1r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717810198; x=1749346198;
+  t=1717812121; x=1749348121;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MwtHWlRVfwYVyKC5etWEIGPxXOT2a8aQXZeec8eJvhQ=;
-  b=G4nFrh/p6Nln5Nb0b0LjyzAwdNp2YbCZSTMjbE6DtdUaFeOzkHZLL96n
-   jJmMYA5wkwIzb9fPnr2Zyc0E9UhRRt8Ry8a06mkv4Vd8zKrYoQGHdOPWb
-   zjR9FlDtNCfMMwJxoZhmYh4f5HGENg4u343cHHlpIg4YKP8wYcXz15Yb6
-   pvOqs1WtliJseO8+e24D6NzzOqIz1sqAcJzdINv5cEIMPAzL80u3zK90x
-   W00sqUtoje+09AsJaqXYO8W9In6Gcr+uvBhUZ0DIuNAsZBYlZcQl5J4yr
-   8VMXcCkbfTU/P1zk7iFiDdDLvUBJi7DqCU003owW3EAd9z5+rSx0uAqjg
-   A==;
-X-CSE-ConnectionGUID: ih6nhJxtSOCG33PnOIRj4Q==
-X-CSE-MsgGUID: UO+tGY+OR5+Mehkqeib4Zw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14705624"
+  bh=OT/F7+S3VuIIrmbZ04tTv9bR+NXRWfie1pThFgPHyJQ=;
+  b=TFJcFZ1ryNAj/qIMM1Zt40+gf+c6t3avvtPOCui30ugXykvX9is3vdjB
+   /k0NISvpJYwR7EKGLWKfqCoTTpJK9jUqFPuEPozGFN3stt9TdfglNsoaa
+   zPS8BYZcSOWVSLi9FEp5ym28pssA1bYLwNhLFZTrnAyv2ZfvA+vJ6V87j
+   XjFlo9Ix+aPwq+RdSPhZphWf0RAASn/KZuzA+x6lIt9ku2Nn9QUVfoxEM
+   LmDEYK5NZ3R5McbrS62w7GvY1d+ij2ADcQICh24BZM7tZ+wu/9GaUTXUb
+   T2+fYSQOTWLGZ/LHCmf4+tBI5jYHijB2HCM6qBeP3OplqGmQgvNiVwdbr
+   g==;
+X-CSE-ConnectionGUID: O2O8MmfvRg6IUZHhwRYoIA==
+X-CSE-MsgGUID: 2gwuSBM1T2ue9t2uUm2uQQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14353637"
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="14705624"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 18:29:57 -0700
-X-CSE-ConnectionGUID: GpsQ06qwReqXsErMwBwIQQ==
-X-CSE-MsgGUID: 6NQnWDHeTVy1iRdBY/LwOg==
+   d="scan'208";a="14353637"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 19:02:01 -0700
+X-CSE-ConnectionGUID: vJTSjfC5RDqMsjopZ6rplw==
+X-CSE-MsgGUID: zsDYaWHzQ8uZzDE9neQjgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="38595389"
+   d="scan'208";a="42944721"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Jun 2024 18:29:56 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Jun 2024 19:01:59 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFku2-0000o2-1i;
-	Sat, 08 Jun 2024 01:29:54 +0000
-Date: Sat, 8 Jun 2024 09:29:25 +0800
+	id 1sFlP2-0000pa-24;
+	Sat, 08 Jun 2024 02:01:56 +0000
+Date: Sat, 8 Jun 2024 10:01:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roger Quadros <rogerq@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vignesh Raghavendra <vigneshr@ti.com>
-Subject: arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:255.10-265.6: Warning
- (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports:
- graph node has single child node 'port@0', #address-cells/#size-cells are
- not necessary
-Message-ID: <202406080936.ImME0HYU-lkp@intel.com>
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning
+ (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202406080939.D1L1ItjD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,144 +67,143 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
-commit: 2c213d19515caf880e6c8266fbeda4145894c10e arm64: dts: ti: k3-am625: Enable Type-C port for USB0
-date:   12 months ago
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406080936.ImME0HYU-lkp@intel.com/reproduce)
+commit: 24f0f6a8059c7108d4ee3476c95db1e7ff4feb79 arm64: dts: qcom: msm8994: correct SPMI unit address
+date:   1 year ago
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240608/202406080939.D1L1ItjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406080936.ImME0HYU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406080939.D1L1ItjD-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:255.10-265.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/ti/k3-am62-main.dtsi:570.22-578.5: Warning (graph_child_address): /bus@f0000/dwc3-usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->>   also defined at arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:346.7-357.3
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:628.28-644.5: Warning (avoid_unnecessary_addr_size): /soc/i2c@f9928000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+     also defined at arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami.dtsi:109.13-141.3
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:232.20-235.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/memory@6c00000)
+--
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:232.20-235.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/hole2@6c00000)
+   arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dts:112.29-115.5: Warning (unique_unit_address_if_enabled): /reserved-memory/audio@cb400000: duplicate unit-address (also used in node /reserved-memory/qseecom@cb400000)
 
-vim +255 arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi
+vim +132 arch/arm64/boot/dts/qcom/pm8994.dtsi
 
-   238	
-   239	&main_i2c0 {
-   240		status = "okay";
-   241		pinctrl-names = "default";
-   242		pinctrl-0 = <&main_i2c0_pins_default>;
-   243		clock-frequency = <400000>;
-   244	
-   245		typec_pd0: tps6598x@3f {
-   246			compatible = "ti,tps6598x";
-   247			reg = <0x3f>;
-   248	
-   249			connector {
-   250				compatible = "usb-c-connector";
-   251				label = "USB-C";
-   252				self-powered;
-   253				data-role = "dual";
-   254				power-role = "sink";
- > 255				ports {
-   256					#address-cells = <1>;
-   257					#size-cells = <0>;
-   258	
-   259					port@0 {
-   260						reg = <0>;
-   261						usb_con_hs: endpoint {
-   262							remote-endpoint = <&usb0_hs_ep>;
-   263						};
-   264					};
-   265				};
-   266			};
-   267		};
-   268	};
-   269	
-   270	&main_i2c1 {
-   271		status = "okay";
-   272		pinctrl-names = "default";
-   273		pinctrl-0 = <&main_i2c1_pins_default>;
-   274		clock-frequency = <400000>;
-   275	
-   276		tlv320aic3106: audio-codec@1b {
-   277			#sound-dai-cells = <0>;
-   278			compatible = "ti,tlv320aic3106";
-   279			reg = <0x1b>;
-   280			ai3x-micbias-vg = <1>;	/* 2.0V */
-   281	
-   282			/* Regulators */
-   283			AVDD-supply = <&vcc_3v3_sys>;
-   284			IOVDD-supply = <&vcc_3v3_sys>;
-   285			DRVDD-supply = <&vcc_3v3_sys>;
-   286		};
-   287	};
-   288	
-   289	&sdhci0 {
-   290		status = "okay";
-   291		pinctrl-names = "default";
-   292		pinctrl-0 = <&main_mmc0_pins_default>;
-   293		ti,driver-strength-ohm = <50>;
-   294		disable-wp;
-   295	};
-   296	
-   297	&sdhci1 {
-   298		/* SD/MMC */
-   299		status = "okay";
-   300		pinctrl-names = "default";
-   301		pinctrl-0 = <&main_mmc1_pins_default>;
-   302		ti,driver-strength-ohm = <50>;
-   303		disable-wp;
-   304	};
-   305	
-   306	&cpsw3g {
-   307		pinctrl-names = "default";
-   308		pinctrl-0 = <&main_rgmii1_pins_default>;
-   309	};
-   310	
-   311	&cpsw_port1 {
-   312		phy-mode = "rgmii-rxid";
-   313		phy-handle = <&cpsw3g_phy0>;
-   314	};
-   315	
-   316	&cpsw3g_mdio {
-   317		status = "okay";
-   318		pinctrl-names = "default";
-   319		pinctrl-0 = <&main_mdio1_pins_default>;
-   320	
-   321		cpsw3g_phy0: ethernet-phy@0 {
-   322			reg = <0>;
-   323			ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
-   324			ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
-   325			ti,min-output-impedance;
-   326		};
-   327	};
-   328	
-   329	&mailbox0_cluster0 {
-   330		mbox_m4_0: mbox-m4-0 {
-   331			ti,mbox-rx = <0 0 0>;
-   332			ti,mbox-tx = <1 0 0>;
-   333		};
-   334	};
-   335	
-   336	&usbss0 {
-   337		status = "okay";
-   338		ti,vbus-divider;
-   339	};
-   340	
-   341	&usbss1 {
-   342		status = "okay";
-   343		ti,vbus-divider;
-   344	};
-   345	
- > 346	&usb0 {
-   347		#address-cells = <1>;
-   348		#size-cells = <0>;
-   349		usb-role-switch;
-   350	
-   351		port@0 {
-   352			reg = <0>;
-   353			usb0_hs_ep: endpoint {
-   354			    remote-endpoint = <&usb_con_hs>;
-   355		       };
-   356		};
-   357	};
-   358	
+38757eb3ca3436 Stephen Boyd        2015-11-17   32  
+38757eb3ca3436 Stephen Boyd        2015-11-17   33  	pmic@0 {
+38757eb3ca3436 Stephen Boyd        2015-11-17   34  		compatible = "qcom,pm8994", "qcom,spmi-pmic";
+38757eb3ca3436 Stephen Boyd        2015-11-17   35  		reg = <0x0 SPMI_USID>;
+38757eb3ca3436 Stephen Boyd        2015-11-17   36  		#address-cells = <1>;
+38757eb3ca3436 Stephen Boyd        2015-11-17   37  		#size-cells = <0>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17   38  
+27414e41ba5f14 Bjorn Andersson     2017-02-17   39  		rtc@6000 {
+27414e41ba5f14 Bjorn Andersson     2017-02-17   40  			compatible = "qcom,pm8941-rtc";
+27414e41ba5f14 Bjorn Andersson     2017-02-17   41  			reg = <0x6000>, <0x6100>;
+27414e41ba5f14 Bjorn Andersson     2017-02-17   42  			reg-names = "rtc", "alarm";
+27414e41ba5f14 Bjorn Andersson     2017-02-17   43  			interrupts = <0x0 0x61 0x1 IRQ_TYPE_EDGE_RISING>;
+27414e41ba5f14 Bjorn Andersson     2017-02-17   44  		};
+27414e41ba5f14 Bjorn Andersson     2017-02-17   45  
+da3a82e35e4b24 Gustave Monce       2021-01-31   46  		pm8994_pon: pon@800 {
+2f74b3db92bef4 Vinod Koul          2018-09-10   47  			compatible = "qcom,pm8916-pon";
+2f74b3db92bef4 Vinod Koul          2018-09-10   48  			reg = <0x800>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   49  			mode-bootloader = <0x2>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   50  			mode-recovery = <0x1>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   51  
+2f74b3db92bef4 Vinod Koul          2018-09-10   52  			pwrkey {
+2f74b3db92bef4 Vinod Koul          2018-09-10   53  				compatible = "qcom,pm8941-pwrkey";
+2f74b3db92bef4 Vinod Koul          2018-09-10   54  				interrupts = <0x0 0x8 0 IRQ_TYPE_EDGE_BOTH>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   55  				debounce = <15625>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   56  				bias-pull-up;
+2f74b3db92bef4 Vinod Koul          2018-09-10   57  				linux,code = <KEY_POWER>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   58  			};
+2f74b3db92bef4 Vinod Koul          2018-09-10   59  
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   60  			pm8994_resin: resin {
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   61  				compatible = "qcom,pm8941-resin";
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   62  				interrupts = <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   63  				debounce = <15625>;
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   64  				bias-pull-up;
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   65  				status = "disabled";
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   66  			};
+2f74b3db92bef4 Vinod Koul          2018-09-10   67  		};
+2f74b3db92bef4 Vinod Koul          2018-09-10   68  
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   69  		pm8994_temp: temp-alarm@2400 {
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   70  			compatible = "qcom,spmi-temp-alarm";
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   71  			reg = <0x2400>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   72  			interrupts = <0x0 0x24 0x0 IRQ_TYPE_EDGE_RISING>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   73  			io-channels = <&pm8994_vadc VADC_DIE_TEMP>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   74  			io-channel-names = "thermal";
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   75  			#thermal-sensor-cells = <0>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   76  		};
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   77  
+183d4cafa711ac Konrad Dybcio       2020-10-05   78  		pm8994_vadc: adc@3100 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   79  			compatible = "qcom,spmi-vadc";
+183d4cafa711ac Konrad Dybcio       2020-10-05   80  			reg = <0x3100>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   81  			interrupts = <0x0 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   82  			#address-cells = <1>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   83  			#size-cells = <0>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   84  			#io-channel-cells = <1>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   85  
+183d4cafa711ac Konrad Dybcio       2020-10-05   86  			adc-chan@7 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   87  				reg = <VADC_VSYS>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   88  				qcom,pre-scaling = <1 3>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   89  				label = "vph_pwr";
+183d4cafa711ac Konrad Dybcio       2020-10-05   90  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05   91  			adc-chan@8 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   92  				reg = <VADC_DIE_TEMP>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   93  				label = "die_temp";
+183d4cafa711ac Konrad Dybcio       2020-10-05   94  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05   95  			adc-chan@9 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   96  				reg = <VADC_REF_625MV>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   97  				label = "ref_625mv";
+183d4cafa711ac Konrad Dybcio       2020-10-05   98  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05   99  			adc-chan@a {
+183d4cafa711ac Konrad Dybcio       2020-10-05  100  				reg = <VADC_REF_1250MV>;
+183d4cafa711ac Konrad Dybcio       2020-10-05  101  				label = "ref_1250mv";
+183d4cafa711ac Konrad Dybcio       2020-10-05  102  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05  103  			adc-chan@e {
+183d4cafa711ac Konrad Dybcio       2020-10-05  104  				reg = <VADC_GND_REF>;
+183d4cafa711ac Konrad Dybcio       2020-10-05  105  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05  106  			adc-chan@f {
+183d4cafa711ac Konrad Dybcio       2020-10-05  107  				reg = <VADC_VDD_VADC>;
+183d4cafa711ac Konrad Dybcio       2020-10-05  108  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05  109  		};
+183d4cafa711ac Konrad Dybcio       2020-10-05  110  
+c95243eeae587c Krzysztof Kozlowski 2022-09-08  111  		pm8994_gpios: gpio@c000 {
+8939304880dee9 Konrad Dybcio       2020-10-05  112  			compatible = "qcom,pm8994-gpio", "qcom,spmi-gpio";
+0804308fdd3cf5 Stephen Boyd        2015-11-17  113  			reg = <0xc000>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  114  			gpio-controller;
+8939304880dee9 Konrad Dybcio       2020-10-05  115  			gpio-ranges = <&pm8994_gpios 0 0 22>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  116  			#gpio-cells = <2>;
+8939304880dee9 Konrad Dybcio       2020-10-05  117  			interrupt-controller;
+8939304880dee9 Konrad Dybcio       2020-10-05  118  			#interrupt-cells = <2>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  119  		};
+0804308fdd3cf5 Stephen Boyd        2015-11-17  120  
+0804308fdd3cf5 Stephen Boyd        2015-11-17  121  		pm8994_mpps: mpps@a000 {
+58d92e6e73250a Dmitry Baryshkov    2021-10-08  122  			compatible = "qcom,pm8994-mpp", "qcom,spmi-mpp";
+0804308fdd3cf5 Stephen Boyd        2015-11-17  123  			reg = <0xa000>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  124  			gpio-controller;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  125  			#gpio-cells = <2>;
+58d92e6e73250a Dmitry Baryshkov    2021-10-08  126  			gpio-ranges = <&pm8994_mpps 0 0 8>;
+8f48ceef5db929 Dmitry Baryshkov    2021-10-08  127  			interrupt-controller;
+8f48ceef5db929 Dmitry Baryshkov    2021-10-08  128  			#interrupt-cells = <2>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  129  		};
+38757eb3ca3436 Stephen Boyd        2015-11-17  130  	};
+38757eb3ca3436 Stephen Boyd        2015-11-17  131  
+38757eb3ca3436 Stephen Boyd        2015-11-17 @132  	pmic@1 {
+
+:::::: The code at line 132 was first introduced by commit
+:::::: 38757eb3ca3436e503a1ab675aad4eb10a65ae0c arm64: dts: qcom: Add pm8994, pmi8994, pm8004 PMIC skeletons
+
+:::::: TO: Stephen Boyd <sboyd@codeaurora.org>
+:::::: CC: Andy Gross <andy.gross@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
