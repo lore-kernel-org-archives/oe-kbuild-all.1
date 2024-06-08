@@ -1,1263 +1,372 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2079.outbound.protection.outlook.com [40.107.114.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D0920322;
-	Sat,  8 Jun 2024 08:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717835317; cv=none; b=hrcWQIv4ZQxbpGobIGcV0fz0HutDxc4bFE3zkxXL5A1d6+8cJar4kzf7NRY8lQrBSvgo2FEWmBJqgynMuZSJHw0GTYL2hsOMbpickFQZ7G0Q4WurJFUAr941C3WeHEzuydK5xHmG5TP2xzhB4Mvzno0qDYoPew01KKP9LSqF11c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717835317; c=relaxed/simple;
-	bh=kdVWVPrXiSu69RrjVp9Cvwdrm3PJeYfw2VOYRC4A+ww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VOVvYFY/OOtfzUn4LjwDsna7EKkvP35OWD+Pl6jwSEDnnEayUvuhxKK6+b6p7AqJtKIzYLCkTy5z9LYZZLfl06QdHTZgYkOY/OhtDE/1h48F42cfI+hQ0LHf9g8Q7PDuDJBlYo2oQLUiGJwHHgcJ+MHeqnQM/o8IQTgxcIuL5Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gp9c1ETl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A814C8D7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 08:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717836186; cv=fail; b=uUoIo21bYNANCL/RmPZ5LV27f1yqCa+GrJIhPD2ErxLT2qRZE3OGQIWGMUaX9stu0++9UQunzOQADA019D0OGenXJ7K+BpE0xS2J2XeGK3nyQAITEvX+Bu8eXmlY/2cxwm4XHJY1rlwRQboMkXCjNJlCHQdBWOVu4vrIqpyMPLs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717836186; c=relaxed/simple;
+	bh=A6jSsbIOPBkqmFZybvklY8LAHaN0GgCAuin/ws5lDck=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PKhccSkf6rhx40OfcyZvboEhlU98ify595QGUyJE4COaTc4rXRX+w5Q7Fu+pmKTHX79ZJQBxettyqM9oYm+QFkkuyXZ+t3Ko1V7w+lPs/0TfMsU6VhlYoWb1GFBSqq/Pv2/itk4scxUcbz8a1HGt9EwgZhGw2wW+bT1h02bso9Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=QD+0ukpJ; arc=fail smtp.client-ip=40.107.114.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gp9c1ETl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717835310; x=1749371310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kdVWVPrXiSu69RrjVp9Cvwdrm3PJeYfw2VOYRC4A+ww=;
-  b=gp9c1ETlb7arFyE6+VVlnBRKAmAb3/tuBH536UEZQcZfsCOzA8pDH2H5
-   kzzEm99aNl/UyuAJ7urjzBtnf2Wpm4+Hrkg/sT6kgDJXpxGyo/326qM0M
-   q7DTIuBXdEkKemAUSR5zotgqYGYvQ0iF+pZ5Tl9+moRXVlRwbGL3QkMkk
-   ntzDYz2/eYyCT94CExmGlC2/y2hL+1+Fz7FmhRFRAI7ec5jAp2T5B8lr1
-   KfFKDMcGQol7xN0+pyV+IDgZGJiCHkheABXTh5VRAYODM+5jRiokPyNqh
-   kunMihZfXJXh0i79aI/6OrHmHRhAatpaJs15FWqBOhGnJ+1R4dMXboqqv
-   g==;
-X-CSE-ConnectionGUID: V8s1aP3mTK62pLzl/DbWag==
-X-CSE-MsgGUID: PEniGvbcTeS1ATdPdYPkRQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="37090835"
-X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="37090835"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 01:28:30 -0700
-X-CSE-ConnectionGUID: f+Ey07P0THC88Nr9VAVkew==
-X-CSE-MsgGUID: 1gXgnYGvQzm37CvxPpcuEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="43114740"
-Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Jun 2024 01:28:25 -0700
-Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sFrR1-0001K0-27;
-	Sat, 08 Jun 2024 08:28:23 +0000
-Date: Sat, 8 Jun 2024 16:27:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, krzk@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Frank.Li@nxp.com, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev, krzk+dt@kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	robh@kernel.org, ulf.hansson@linaro.org
-Subject: Re: [PATCH v3 1/1] dt-bindings: mmc: Convert fsl-esdhc.txt to yaml
-Message-ID: <202406081643.6gdr9Cm2-lkp@intel.com>
-References: <20240605185046.1057877-1-Frank.Li@nxp.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="QD+0ukpJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bl/yHzyKuqn5ihc/SHfJvtgszhp9gps7qpyCxcrnRf3th0iANm+GLcy7sU+FdnSoy6rwg9VxQlb9NPG/BwI2LVQAWOC2s32PTjYrhVguT7THZ27hyXsctIxRF2yK8vhP+FHqM8a2oY6uk1aZz6ujdUKToEMjZRSphAuAxLlU40/afLlcLE+Q1bwkGH1UlEIjWhH3EeVx6tJKKAvBtcXsDpAcTw8yOVGpF2RREcxFRoSs1XhscOoFSGBrh8vjcF+kgZes2YcNp1L6d7780wF/JGGx/Z9if58iYWPV1D0vR5PNVMisArFPE7Bsp8hMl4s9fV6ios/MgNjHzrpKSrUiJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YjK55HYxf9YIlmZxIuKcNLnIE7gkbIE+Nz6/KeIHPoc=;
+ b=byspFVaM4MlxRS02o3MMms3vk/kJUF+fW2SiXI5oxW4mVLSqhpA5aXUQgZmktJRdgPMsNeczWGy/mdpJ6DTpMeK+Hv+JfjrhdgXDtXRM92//fOC6sr3R9hbPyCBYyNO5pmY1QvZsZUaN8i6viCU84JbU2o0QyGb6HhYPu6dwV+LMhVrxAR2DJv/ZhdvsViJjOa9pzSJxNTUDI9gnssv9xncZ1Fi7NcukFCVb/oGZRHxZvVWwEBc6dyAG2YtKmMAs5azhXKBjx3dhiPrV1O0XFRYaxEDGhqvMt6Jg2/bGOW84Xv93ePHSD5OlZS5IkUEoXxhLEUAAeMR/AdOT4tAsIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YjK55HYxf9YIlmZxIuKcNLnIE7gkbIE+Nz6/KeIHPoc=;
+ b=QD+0ukpJAj9vkt7vJojQSDcojz8dq6HgUIvxyVKt8GoFHsK8kPhzBifksWRraCXAHy4kt6Bm7T9D7fOr2YyNFW87JdthOld/O1h4gCBKQjSepYb5W3UntKfIKkdCyzNC9AcA587r4zy89RzOuhT/kgrqswX7FMHBPSnb2insY68=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB6289.jpnprd01.prod.outlook.com (2603:1096:604:f5::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Sat, 8 Jun
+ 2024 08:42:59 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.7633.036; Sat, 8 Jun 2024
+ 08:42:56 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: kernel test robot <lkp@intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>
+Subject: RE: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
+ (graph_child_address): /soc/video@10830000/ports/port@1: graph node has
+ single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+Thread-Topic: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
+ (graph_child_address): /soc/video@10830000/ports/port@1: graph node has
+ single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+Thread-Index: AQHauWXuNNufcFVNdEChjApJ0f0KZLG9jE4Q
+Date: Sat, 8 Jun 2024 08:42:56 +0000
+Message-ID:
+ <TY3PR01MB113468C94F2ED383F5EB883A986C42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <202406081329.snoMrZsJ-lkp@intel.com>
+In-Reply-To: <202406081329.snoMrZsJ-lkp@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB6289:EE_
+x-ms-office365-filtering-correlation-id: 0f3d9c62-d0c4-4e93-0f47-08dc8796fe6a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230031|376005|1800799015|366007|38070700009|220923002;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?ciUzGACaFIIla1zaYtk2bV+W7nxTVJ9I01DXXMOHU2DIx1Zq8uajxamIdwH4?=
+ =?us-ascii?Q?Dsh6smdZFDE1Q5QigjsayRoHfSris2o9FS5PMC8sI68RnM3BWA9QYObnKFkb?=
+ =?us-ascii?Q?h0bNYU/kUzIpgoYmSprw3f7Vy4cjgCn5Ipt1BWCS6SSE0a3zbEtFghfKGxNZ?=
+ =?us-ascii?Q?GRAVfo9yiMUWFS0dg5rppZuzx2hp3ztxBEMEu9bNyfD8dTd04EfmLwtvgIVI?=
+ =?us-ascii?Q?DClwUi2IZhpmj56Ed279Ih316gkA08m805iuo4DHGFey9cKlv0IetJC0LEfY?=
+ =?us-ascii?Q?lWfq61I8A65vFXq3PglItTEMdVEbXuFlym+DmnywZ0Ko++lmcxL56wqT0O8q?=
+ =?us-ascii?Q?Rwx/cboVbD56FTv16IFwHfYVK51PKsqsBert16hxdc3PYR8ngixhme8fAn8d?=
+ =?us-ascii?Q?riL4EmvXy9rfM4NURvbb5oPPeII6xZRdT002ElGxnJazua4X3Jr2H9iBQKOd?=
+ =?us-ascii?Q?5sJ6gM3gUTVtfdM5x0jIG5PNOGYufgM1mU/kHuQ7FuMVjrIgtDmx76z7LFLw?=
+ =?us-ascii?Q?j/0M+SIbqjYkYI6h/pcvDHlqhXRwM+abfQ3TLMwe9boGh4A9FD0BRbv3hBhM?=
+ =?us-ascii?Q?XueiKk9QBrR5g2owmdNcL+9VH2QLCMe+3L58MVReZ9mSVrfiVQ2ecuMwYe08?=
+ =?us-ascii?Q?HAdjRYNQnPRpCT3hACi4SlBMfmnNHJxkRrSHNz6BaFRAErqyl7At0C9vS9ef?=
+ =?us-ascii?Q?R2OKqgjzW1iZ4/+5AvchuHXHspKb49zZv/Um8RsoDyAa/vJ9SP2iV6FD6xeP?=
+ =?us-ascii?Q?eWqV+36Cuh6SvUMDnKn7BLCnshW/OUSLU0purrHteH3Uc6JwwEXuCDCxhFss?=
+ =?us-ascii?Q?MQyA3AciI4XAzFzQfz7fpG6S7scu3tRK9l5lFwK9TKZK8mToJ5WPFH8kE6W4?=
+ =?us-ascii?Q?LO96a7Ve+T+tJLK5sxeRU5phNETAaWGav6sYy+gSHyQn8pd+Z3RKgezjZpao?=
+ =?us-ascii?Q?VSCS84fifAGWgDPPOJRHKlaA1XxyzvT+VDt1eXzqC7kFElBPHZ2XlaFsYkJC?=
+ =?us-ascii?Q?wwh8OfJIHmMgZnfOZJu/aLuqL3So4mXgDIJK9zKkmqD4XcEOAH6yO/pB/JS8?=
+ =?us-ascii?Q?XRxuBp3dUI68H8xfDOz0Gd9mDP08SxAD9Wq+CnYOrBvRM+ZEzLwGNjDTAcrx?=
+ =?us-ascii?Q?JeBxAB7kzfgfgp7PXYCJk9F0MBgKyk9dKQc4nH18teFg2UqpIrMgXjGFWveg?=
+ =?us-ascii?Q?xkzXF1mciiAfLnzaBEIvEs18F1j9vOqadlywS5yCmBCzckvu8JflHMdCcyEK?=
+ =?us-ascii?Q?fRcBDnDfLe3HwDdBkHTRxxBHMiGnjh0OYRX5QdidGBk4nURRuYOQfHhqD4JQ?=
+ =?us-ascii?Q?ywjfStXthM13nSTvi1kHnXnCQMvaU+WjOmtiPeOGZL5CsA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009)(220923002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?JOvAlfR5j8J8Io4cmu2C9tLyKOREEjO1tsEDakXUVqIxyOL2zhHROsZNpgXt?=
+ =?us-ascii?Q?WGQ0kJNZFvx7X2gwG7cXYwci2wzhJ4wZxEtV5kfpPb0KK19HyfEGSTuOSWt1?=
+ =?us-ascii?Q?Q1hDDa2H+KWWXr7XxkHRZflHYELuypEaAPs8atVfc0mPhiQkq8KbqubmbNCe?=
+ =?us-ascii?Q?WUTRBwil67/TIuKaWFo3GOXbklRbY0bx8Gb5SigkFrv0STL7XuvJ19qeh075?=
+ =?us-ascii?Q?ymbjcmEV+ua1nNOpSBF6BVkORp2H5WVPBHcnXg7wsL9TrcIvf/MlGQjuLBn6?=
+ =?us-ascii?Q?w57YXKs1JIRsUDfZzKp7cdg9acuBTe4l+TE4n1D3roY2aFxCPN8NbUwttR4X?=
+ =?us-ascii?Q?ChDgPhVjjGq9s4qZwvjhEVOMoLNdglodMkvFB4CyXRC1iaFh02ETladqAcDz?=
+ =?us-ascii?Q?STcj+GtKO+jCUMIqR0FWlj8s6v4X1Rgiugz7DawVjbnkZBEdaEqmu/r6xFNz?=
+ =?us-ascii?Q?KDlTzVk4yUj4/5CqWuc0KUe7PdPLwB2sU2EuR9qPigL3N2jyM8Lf8vt67QZk?=
+ =?us-ascii?Q?GhGH88z+vgpIb87Xq3TmOsxh8mNxvTdsRtKrrK5W21r+vKwmQjRlKqaF7DvX?=
+ =?us-ascii?Q?5Av64aUB2Kr1+svizwey/fHhfXZOU2V+Y3BlHExttC8ETnJvP6vWdBWfX547?=
+ =?us-ascii?Q?oonmGwwrao6zB903F+SyqwKGWoTzZhXLTmRZt2nvyhkO91W5PVG1Q7QFjWWz?=
+ =?us-ascii?Q?GTOSNuGBF1cigD3yrHQuMcvh6Kbg4MKYTlVupeYPgm/yaV32uOUkiOSV/3Ql?=
+ =?us-ascii?Q?fO2lUL4yl4A6wtIMuHT/phwOAqZZ464bE2rPxHxZwt6oBLp90AuHbR1pIIEO?=
+ =?us-ascii?Q?hfoSGEH7a/9E5iRY7KjIXN9MncPJtgkO9xrcnrMcaJC5/sALaAxl+lls10Xc?=
+ =?us-ascii?Q?oXUmAEvichOd2BftaKzsbo6w29X6UtChiUSGprg+s7XfOTJlsBCSQ09tsG/v?=
+ =?us-ascii?Q?uhyHGOG2fclMPatOVEz92ItiszZSZHjONwkyH6m11h9MXH8BRPUc8J18fQ6C?=
+ =?us-ascii?Q?L05be3NVrXAfIN9JIyn34nO38Nh8ct/iW9HDu3Lhr+goBP+0V5RTJsPLctpI?=
+ =?us-ascii?Q?hTH1w7KNaYKpVMgjuH2v4OWp764jXTFldjsMPS8AI2NX6iztSIHm+Pd102AE?=
+ =?us-ascii?Q?6+MrwKlj9E83Twpf2zUduwsbsmpwHsBEhWkJOjIFQv2RqKUKnZoKbLG7JzLO?=
+ =?us-ascii?Q?ewGVd5uGCtEqcOHibeSs279+C66VpImppAYf44KUtYqyU31PeFUhwnhFbGmj?=
+ =?us-ascii?Q?h7xRAUoajj0iGFL/xoF+6lvCAIpfxU58UbPVuzeNMk7CnlL+/ak9ajSuMSdd?=
+ =?us-ascii?Q?aKN4SK0ygeGELIyoeRVAKztbG7ILph/gN8Dc2qRZNAslbQeNsXfBtiOfBwHd?=
+ =?us-ascii?Q?vVVd+QHCm2e/Dt99C13RLGBuUPbAcJOYqw5QkzRixpaGqMKHuk47no3B+6dW?=
+ =?us-ascii?Q?nrif+IYOzd6H6XVrvGaDSUr0kUNoEsqeiLvl0OPv5+RfjDwp1xbAynOwEaPT?=
+ =?us-ascii?Q?f86FfujJ4FS/wih8HhMvWLbUlzSJu5LGlnyLYNmCZw7rSM9hfcarq8GVD+qD?=
+ =?us-ascii?Q?vBLzTgjXO3JoAWloCiks5oToI85m1RVHALuJ8qxfySFiz0r2WnM34u1AoWlI?=
+ =?us-ascii?Q?Lw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240605185046.1057877-1-Frank.Li@nxp.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f3d9c62-d0c4-4e93-0f47-08dc8796fe6a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2024 08:42:56.2381
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Qp73TkPcQb+q3HsuLBuPP+Lpo0fJ6PZZZkXi3jMZJQ4E/WEiJJoK+VCmgdoNF+ywe0nvfLkKmSdCkkLOUk1HCOzLJldJ3bJ7ky0GXUZBZic=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6289
 
-Hi Frank,
+Hi All,
 
-kernel test robot noticed the following build warnings:
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: Saturday, June 8, 2024 6:37 AM
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kernel.org; Geert Uy=
+tterhoeven
+> <geert+renesas@glider.be>
+> Subject: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning =
+(graph_child_address):
+> /soc/video@10830000/ports/port@1: graph node has single child node 'endpo=
+int@0', #address-
+> cells/#size-cells are not necessary
+>=20
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
+> commit: 971c17f879352adc719ff215e0769f8e0a49d7c4 arm64: dts: renesas: r9a=
+07g043u: Add CSI and CRU
+> nodes
+> date:   4 months ago
+> compiler: aarch64-linux-gcc (GCC) 13.2.0 reproduce (this is a W=3D1 build=
+):
+> (https://download.01.org/0day-ci/archive/20240608/202406081329.snoMrZsJ-l=
+kp@intel.com/reproduce)
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk-dt/for-next ulf-hansson-mmc-mirror/next linus/master v6.10-rc2 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As per this,
+dasb@ree-du1sdd5:~/lkp-tests$ mkdir build_dir && cp config build_dir/.confi=
+g
+cp: cannot stat 'config': No such file or directory
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-mmc-Convert-fsl-esdhc-txt-to-yaml/20240606-025247
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240605185046.1057877-1-Frank.Li%40nxp.com
-patch subject: [PATCH v3 1/1] dt-bindings: mmc: Convert fsl-esdhc.txt to yaml
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce: (https://download.01.org/0day-ci/archive/20240608/202406081643.6gdr9Cm2-lkp@intel.com/reproduce)
+So I have generated .config and copied as config
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406081643.6gdr9Cm2-lkp@intel.com/
+Than I got the the below issue,
+COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-13.2.0 ~/lkp-tests/kbuild=
+/make.cross W=3D1 O=3Dbuild_dir ARCH=3Darm64 olddefconfig
+-bash: /data/dasb/lkp-tests/kbuild/make.cross: No such file or directory
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: esdhc@1580000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: esdhc@1580000: $nodename:0: 'esdhc@1580000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: esdhc@1580000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: esdhc@1580000: $nodename:0: 'esdhc@1580000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: esdhc@1580000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: esdhc@1580000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: esdhc@1580000: $nodename:0: 'esdhc@1580000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: esdhc@1580000: Unevaluated properties are not allowed ('big-endian', 'broken-cd', 'bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1560000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1580000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1580000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1580000: $nodename:0: 'esdhc@1580000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: esdhc@1580000: Unevaluated properties are not allowed ('big-endian', 'broken-cd', 'bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/spi@2100000/flash@2: failed to match any schema with compatible: ['en25s64', 'jedec,spi-nor']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1560000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'clocks', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1580000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1580000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1580000: $nodename:0: 'esdhc@1580000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: esdhc@1580000: Unevaluated properties are not allowed ('big-endian', 'broken-cd', 'bus-width', 'clocks', 'mmc-hs200-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: audio-codec@1a: 'DCVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: audio-codec@1a: 'MICVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: mmc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: mmc@2140000: Unevaluated properties are not allowed ('clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: mmc@2150000: Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@20:reg:0:0: 32 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@40:reg:0:0: 64 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@60:reg:0:0: 96 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@80:reg:0:0: 128 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@a0:reg:0:0: 160 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: bman-portals@508000000: $nodename:0: 'bman-portals@508000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@0: failed to match any schema with compatible: ['fsl,bman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@10000: failed to match any schema with compatible: ['fsl,bman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@20000: failed to match any schema with compatible: ['fsl,bman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1043a-clockgen']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/memory-controller@1530000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1043ardb-cpld']
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: bman-portals@508000000: $nodename:0: 'bman-portals@508000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@0: failed to match any schema with compatible: ['fsl,bman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@10000: failed to match any schema with compatible: ['fsl,bman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@20000: failed to match any schema with compatible: ['fsl,bman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a.dtsi:17.19-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1550000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1043a-clockgen']
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'cd-gpios', 'disable-wp', 'mmc-hs200-1_8v', 'non-removable', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges', 'wp-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: bman-portals@508000000: $nodename:0: 'bman-portals@508000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@0: failed to match any schema with compatible: ['fsl,bman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@10000: failed to match any schema with compatible: ['fsl,bman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@20000: failed to match any schema with compatible: ['fsl,bman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/memory-controller@1530000/nand@0,0: failed to match any schema with compatible: ['fsl,ifc-nand']
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: esdhc@1560000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1046aqds-fpga', 'fsl,fpga-qixis', 'simple-mfd']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1046aqds-fpga', 'fsl,fpga-qixis', 'simple-mfd']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@1:reg:0:0: 32 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@2:reg:0:0: 64 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@3:reg:0:0: 96 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@5:reg:0:0: 128 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: esdhc@1560000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/memory-controller@1530000/nand@0,0: failed to match any schema with compatible: ['fsl,ifc-nand']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1046ardb-cpld']
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: esdhc@1560000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'clocks', 'mmc-hs200-1_8v', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a.dtsi:17.19-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1550000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: esdhc@1560000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: esdhc@1560000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: esdhc@1560000: $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: esdhc@1560000: Unevaluated properties are not allowed ('big-endian', 'bus-width', 'cd-gpios', 'clocks', 'disable-wp', 'mmc-hs200-1_8v', 'non-removable', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges', 'wp-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/memory-controller@2240000/nand@2,0: failed to match any schema with compatible: ['fsl,ifc-nand']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/memory-controller@2240000/board-control@3,0: failed to match any schema with compatible: ['fsl,ls1088aqds-fpga', 'fsl,fpga-qixis']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/memory-controller@2240000/board-control@3,0: failed to match any schema with compatible: ['fsl,ls1088aqds-fpga', 'fsl,fpga-qixis']
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
---
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/memory-controller@2240000/nand@0,0: failed to match any schema with compatible: ['fsl,ifc-nand']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/memory-controller@2240000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1088ardb-fpga', 'fsl,fpga-qixis']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/memory-controller@2240000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1088ardb-fpga', 'fsl,fpga-qixis']
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'mmc-hs200-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
---
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: gpio@76: 'admin_led_lower' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: admin_led_lower: $nodename:0: 'admin_led_lower' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: flash@0: partitions: Unevaluated properties are not allowed ('partition@5C0000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: flash@0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'partitions' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
---
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1088a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1088a-dspi', 'fsl,ls1021a-v1.0-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'clocks', 'disable-wp', 'mmc-hs200-1_8v', 'non-removable', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges', 'wp-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
---
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'mmc-hs200-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: i2c@2000000: clock-names:0: 'ipg' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: i2c@2000000: clock-names:0: 'ipg' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: i2c@2000000: clock-names:0: 'ipg' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: i2c@2000000: clock-names:0: 'ipg' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'mmc-hs200-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: i2c@2000000: clock-names:0: 'ipg' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: i2c@2000000: clock-names:0: 'ipg' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/timer@2800000: failed to match any schema with compatible: ['fsl,lx2160a-ftm-alarm']
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/timer@2800000: failed to match any schema with compatible: ['fsl,lx2160a-ftm-alarm']
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/timer@2800000: failed to match any schema with compatible: ['fsl,lx2160a-ftm-alarm']
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
---
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/timer@2800000: failed to match any schema with compatible: ['fsl,lx2160a-ftm-alarm']
---
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'clocks', 'compatible', 'dma-coherent', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/timer@2800000: failed to match any schema with compatible: ['fsl,lx2160a-ftm-alarm']
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@2060000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@2070000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2140000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2140000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2140000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2140000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2140000: $nodename:0: 'esdhc@2140000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2140000: Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'clocks', 'compatible', 'dma-coherent', 'no-mmc', 'no-sdio', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'voltage-ranges', 'wp-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2150000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2150000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2150000: voltage-ranges:0: [1800, 1800, 3300, 3300] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2150000: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2150000: $nodename:0: 'esdhc@2150000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: esdhc@2150000: Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'clocks', 'compatible', 'dma-coherent', 'mmc-hs200-1_8v', 'no-sd', 'no-sdio', 'non-removable', 'voltage-ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/timer@2800000: failed to match any schema with compatible: ['fsl,lx2160a-ftm-alarm']
+Can you please provide the details how to get this tool chain?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So that I can reproduce and fix the issue in same environment.
+
+Cheers,
+Biju
+
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of the same
+> patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> | https://lore.kernel.org/oe-kbuild-all/202406081329.snoMrZsJ-lkp@intel.
+> | com/
+>=20
+> dtcheck warnings: (new ones prefixed by >>)
+> >> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
+> >> (graph_child_address): /soc/video@10830000/ports/port@1: graph node
+> >> has single child node 'endpoint@0', #address-cells/#size-cells are
+> >> not necessary
+> >> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:120.11-129.6: Warning
+> >> (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node
+> >> has single child node 'endpoint@0', #address-cells/#size-cells are
+> >> not necessary
+>=20
+> vim +85 arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
+>=20
+>     60
+>     61	&soc {
+>     62		interrupt-parent =3D <&gic>;
+>     63
+>     64		cru: video@10830000 {
+>     65			compatible =3D "renesas,r9a07g043-cru", "renesas,rzg2l-cru";
+>     66			reg =3D <0 0x10830000 0 0x400>;
+>     67			clocks =3D <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
+>     68				 <&cpg CPG_MOD R9A07G043_CRU_PCLK>,
+>     69				 <&cpg CPG_MOD R9A07G043_CRU_ACLK>;
+>     70			clock-names =3D "video", "apb", "axi";
+>     71			interrupts =3D <SOC_PERIPHERAL_IRQ(167) IRQ_TYPE_LEVEL_HIGH>,
+>     72				     <SOC_PERIPHERAL_IRQ(168) IRQ_TYPE_LEVEL_HIGH>,
+>     73				     <SOC_PERIPHERAL_IRQ(169) IRQ_TYPE_LEVEL_HIGH>;
+>     74			interrupt-names =3D "image_conv", "image_conv_err", "axi_mst_err=
+";
+>     75			resets =3D <&cpg R9A07G043_CRU_PRESETN>,
+>     76				 <&cpg R9A07G043_CRU_ARESETN>;
+>     77			reset-names =3D "presetn", "aresetn";
+>     78			power-domains =3D <&cpg>;
+>     79			status =3D "disabled";
+>     80
+>     81			ports {
+>     82				#address-cells =3D <1>;
+>     83				#size-cells =3D <0>;
+>     84
+>   > 85				port@1 {
+>     86					#address-cells =3D <1>;
+>     87					#size-cells =3D <0>;
+>     88
+>     89					reg =3D <1>;
+>     90					crucsi2: endpoint@0 {
+>     91						reg =3D <0>;
+>     92						remote-endpoint =3D <&csi2cru>;
+>     93					};
+>     94				};
+>     95			};
+>     96		};
+>     97
+>     98		csi2: csi2@10830400 {
+>     99			compatible =3D "renesas,r9a07g043-csi2", "renesas,rzg2l-csi2";
+>    100			reg =3D <0 0x10830400 0 0xfc00>;
+>    101			interrupts =3D <SOC_PERIPHERAL_IRQ(166) IRQ_TYPE_LEVEL_HIGH>;
+>    102			clocks =3D <&cpg CPG_MOD R9A07G043_CRU_SYSCLK>,
+>    103				 <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
+>    104				 <&cpg CPG_MOD R9A07G043_CRU_PCLK>;
+>    105			clock-names =3D "system", "video", "apb";
+>    106			resets =3D <&cpg R9A07G043_CRU_PRESETN>,
+>    107				 <&cpg R9A07G043_CRU_CMN_RSTB>;
+>    108			reset-names =3D "presetn", "cmn-rstb";
+>    109			power-domains =3D <&cpg>;
+>    110			status =3D "disabled";
+>    111
+>    112			ports {
+>    113				#address-cells =3D <1>;
+>    114				#size-cells =3D <0>;
+>    115
+>    116				port@0 {
+>    117					reg =3D <0>;
+>    118				};
+>    119
+>  > 120				port@1 {
+>    121					#address-cells =3D <1>;
+>    122					#size-cells =3D <0>;
+>    123					reg =3D <1>;
+>    124
+>    125					csi2cru: endpoint@0 {
+>    126						reg =3D <0>;
+>    127						remote-endpoint =3D <&crucsi2>;
+>    128					};
+>    129				};
+>    130			};
+>    131		};
+>    132
+>    133		irqc: interrupt-controller@110a0000 {
+>    134			compatible =3D "renesas,r9a07g043u-irqc",
+>    135				     "renesas,rzg2l-irqc";
+>    136			reg =3D <0 0x110a0000 0 0x10000>;
+>    137			#interrupt-cells =3D <2>;
+>    138			#address-cells =3D <0>;
+>    139			interrupt-controller;
+>    140			interrupts =3D <SOC_PERIPHERAL_IRQ(0) IRQ_TYPE_LEVEL_HIGH>,
+>    141				     <SOC_PERIPHERAL_IRQ(1) IRQ_TYPE_LEVEL_HIGH>,
+>    142				     <SOC_PERIPHERAL_IRQ(2) IRQ_TYPE_LEVEL_HIGH>,
+>    143				     <SOC_PERIPHERAL_IRQ(3) IRQ_TYPE_LEVEL_HIGH>,
+>    144				     <SOC_PERIPHERAL_IRQ(4) IRQ_TYPE_LEVEL_HIGH>,
+>    145				     <SOC_PERIPHERAL_IRQ(5) IRQ_TYPE_LEVEL_HIGH>,
+>    146				     <SOC_PERIPHERAL_IRQ(6) IRQ_TYPE_LEVEL_HIGH>,
+>    147				     <SOC_PERIPHERAL_IRQ(7) IRQ_TYPE_LEVEL_HIGH>,
+>    148				     <SOC_PERIPHERAL_IRQ(8) IRQ_TYPE_LEVEL_HIGH>,
+>    149				     <SOC_PERIPHERAL_IRQ(444) IRQ_TYPE_LEVEL_HIGH>,
+>    150				     <SOC_PERIPHERAL_IRQ(445) IRQ_TYPE_LEVEL_HIGH>,
+>    151				     <SOC_PERIPHERAL_IRQ(446) IRQ_TYPE_LEVEL_HIGH>,
+>    152				     <SOC_PERIPHERAL_IRQ(447) IRQ_TYPE_LEVEL_HIGH>,
+>    153				     <SOC_PERIPHERAL_IRQ(448) IRQ_TYPE_LEVEL_HIGH>,
+>    154				     <SOC_PERIPHERAL_IRQ(449) IRQ_TYPE_LEVEL_HIGH>,
+>    155				     <SOC_PERIPHERAL_IRQ(450) IRQ_TYPE_LEVEL_HIGH>,
+>    156				     <SOC_PERIPHERAL_IRQ(451) IRQ_TYPE_LEVEL_HIGH>,
+>    157				     <SOC_PERIPHERAL_IRQ(452) IRQ_TYPE_LEVEL_HIGH>,
+>    158				     <SOC_PERIPHERAL_IRQ(453) IRQ_TYPE_LEVEL_HIGH>,
+>    159				     <SOC_PERIPHERAL_IRQ(454) IRQ_TYPE_LEVEL_HIGH>,
+>    160				     <SOC_PERIPHERAL_IRQ(455) IRQ_TYPE_LEVEL_HIGH>,
+>    161				     <SOC_PERIPHERAL_IRQ(456) IRQ_TYPE_LEVEL_HIGH>,
+>    162				     <SOC_PERIPHERAL_IRQ(457) IRQ_TYPE_LEVEL_HIGH>,
+>    163				     <SOC_PERIPHERAL_IRQ(458) IRQ_TYPE_LEVEL_HIGH>,
+>    164				     <SOC_PERIPHERAL_IRQ(459) IRQ_TYPE_LEVEL_HIGH>,
+>    165				     <SOC_PERIPHERAL_IRQ(460) IRQ_TYPE_LEVEL_HIGH>,
+>    166				     <SOC_PERIPHERAL_IRQ(461) IRQ_TYPE_LEVEL_HIGH>,
+>    167				     <SOC_PERIPHERAL_IRQ(462) IRQ_TYPE_LEVEL_HIGH>,
+>    168				     <SOC_PERIPHERAL_IRQ(463) IRQ_TYPE_LEVEL_HIGH>,
+>    169				     <SOC_PERIPHERAL_IRQ(464) IRQ_TYPE_LEVEL_HIGH>,
+>    170				     <SOC_PERIPHERAL_IRQ(465) IRQ_TYPE_LEVEL_HIGH>,
+>    171				     <SOC_PERIPHERAL_IRQ(466) IRQ_TYPE_LEVEL_HIGH>,
+>    172				     <SOC_PERIPHERAL_IRQ(467) IRQ_TYPE_LEVEL_HIGH>,
+>    173				     <SOC_PERIPHERAL_IRQ(468) IRQ_TYPE_LEVEL_HIGH>,
+>    174				     <SOC_PERIPHERAL_IRQ(469) IRQ_TYPE_LEVEL_HIGH>,
+>    175				     <SOC_PERIPHERAL_IRQ(470) IRQ_TYPE_LEVEL_HIGH>,
+>    176				     <SOC_PERIPHERAL_IRQ(471) IRQ_TYPE_LEVEL_HIGH>,
+>    177				     <SOC_PERIPHERAL_IRQ(472) IRQ_TYPE_LEVEL_HIGH>,
+>    178				     <SOC_PERIPHERAL_IRQ(473) IRQ_TYPE_LEVEL_HIGH>,
+>    179				     <SOC_PERIPHERAL_IRQ(474) IRQ_TYPE_LEVEL_HIGH>,
+>    180				     <SOC_PERIPHERAL_IRQ(475) IRQ_TYPE_LEVEL_HIGH>,
+>    181				     <SOC_PERIPHERAL_IRQ(25) IRQ_TYPE_EDGE_RISING>;
+>    182			interrupt-names =3D "nmi",
+>    183					  "irq0", "irq1", "irq2", "irq3",
+>    184					  "irq4", "irq5", "irq6", "irq7",
+>    185					  "tint0", "tint1", "tint2", "tint3",
+>    186					  "tint4", "tint5", "tint6", "tint7",
+>    187					  "tint8", "tint9", "tint10", "tint11",
+>    188					  "tint12", "tint13", "tint14", "tint15",
+>    189					  "tint16", "tint17", "tint18", "tint19",
+>    190					  "tint20", "tint21", "tint22", "tint23",
+>    191					  "tint24", "tint25", "tint26", "tint27",
+>    192					  "tint28", "tint29", "tint30", "tint31",
+>    193					  "bus-err";
+>    194			clocks =3D <&cpg CPG_MOD R9A07G043_IA55_CLK>,
+>    195				<&cpg CPG_MOD R9A07G043_IA55_PCLK>;
+>    196			clock-names =3D "clk", "pclk";
+>    197			power-domains =3D <&cpg>;
+>    198			resets =3D <&cpg R9A07G043_IA55_RESETN>;
+>    199		};
+>    200
+>    201		gic: interrupt-controller@11900000 {
+>    202			compatible =3D "arm,gic-v3";
+>    203			#interrupt-cells =3D <3>;
+>    204			#address-cells =3D <0>;
+>    205			interrupt-controller;
+>    206			reg =3D <0x0 0x11900000 0 0x40000>,
+>    207			      <0x0 0x11940000 0 0x60000>;
+>    208			interrupts =3D <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
+>    209		};
+>    210	};
+>    211
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
