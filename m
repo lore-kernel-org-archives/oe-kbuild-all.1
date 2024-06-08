@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1193BDDDA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 04:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509E2167D95
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 04:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717821914; cv=none; b=dkkAUOY9SPI5kZqy/ktG1nR3e13tA5XW1qgMqC8JoA4HtGE1HkI87VqUMsUyEHhyf5SIg54FO9c9LcVQcQ7L8oYF4sHPsWTVeBOXxTPGw/4iqZGg+NAZsFuAbr4OkNmOK/HXBcNz2Hg3mIoioQ2CZM4ZdHOChlH5bfeS2HuGhsg=
+	t=1717822633; cv=none; b=ZpCEbl24WGsX/HkJ5LSQQdAPpYo0CwSL6duQHkpwDLGi+1sjuOHU2QcKbIEWpo4fe6zp63PhJWBB6L4AjAiqlFr6cZ6XL5DrRAdhH93Yx1fKn5hTYfilcpmAl0JwCdZQbDarRw3ULiJqRATIatiRrum8uQz84TVASTJ4k90oqv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717821914; c=relaxed/simple;
-	bh=NwIBSgN012cg278cQekaAqgO/G/C8N0xznx9WA+9OAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TseqAkLQMr07l3BtLH7ZV/L3b9vlKx5q6cm51AD6JTaqzRLbmhgHwRJcVe/hE1F5eBuRW1fT4G5GyqQRuDTxNvPMrW3MDyEjZw18FkVVsBsx63t8D40/o2zfOU3i4FJVdyURJWkRv3vvfqLZkWd/s8EhUICZ4CDkkG9tMBsBGJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMwsqUp9; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1717822633; c=relaxed/simple;
+	bh=4mXhgcby4QJyQYvjz0ooyRFwMPxU736tAMECixop3pI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lm/3B1wSkPxu7ipsPyhFk5jnyuukLVwYPhS2qy0inQv1c676rbvad9y3ChOGrntE8hVLsUDkbyL2+9sGrcJ4XfZ2N3wIkHMzrwMXUzHY+npu/jQJrP6OQWoptZZd3Hv5inYFD4eq4zY9GmDmQd6XIbvegYCn6uVJ/INIFlBDTdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uxxoz2zk; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMwsqUp9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uxxoz2zk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717821912; x=1749357912;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NwIBSgN012cg278cQekaAqgO/G/C8N0xznx9WA+9OAE=;
-  b=XMwsqUp9slQDhOWNxzv5MfcWfr/T7YxRZOvb9s0ZRg7IFY6887X2ZlAT
-   kMuY0cf7OhAZtud41bIDhKeHKCndKVM3dhtyiGtnALrN46qcWUGQzsBB5
-   Cl/qq/ivBdJltuq2FCp/klHOcX3oMvnzcB1Kz7nVo20Zz2ucj6iykAhb2
-   isxjUcGPs2jfh79Np7vD4YOQI3Ay1l4OQCY+zbZyJWfuR5BlJSEvwaG27
-   8CoGanJYiX21OepdQ7NE/KEvnEFtdjzEJ0xh/v1+nOqClL+vPCc7bG9sQ
-   +hdr4Ey5YQudDPSHSM+yav2stkFrvZVEPXyAw7HHhM/lHTgovMpPzTa66
+  t=1717822631; x=1749358631;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4mXhgcby4QJyQYvjz0ooyRFwMPxU736tAMECixop3pI=;
+  b=Uxxoz2zkuTwtAOtRNXkJVXTQOvma7qduycB0ZgV6IZ7J2DQlxQpJmz4p
+   GK+raDdcTS8yq35Df7pskTCUIFzjRtmZhj4korhExKTzQuhPhQottsylC
+   or4gED/ej6vj6pvWHMfMdy9GRLD6Qc928bkwcT2xwbgtDuboTZsUy4Dgy
+   /eupQdxGcoyD9XMrR8MITD3psZ9U99xsZBSgCNttmdZo/IIQPdfHXyuCB
+   LllGxlAEZoSIAQXXkGAdu1FCBEH0Z4pcUea8lUnv2MunSNqO/gDRWiL04
+   eRx+XTHe7n+pmduS/ZXughUyrIx+rHLhJKwdLutNuPR9yggW5fElmPqqe
    Q==;
-X-CSE-ConnectionGUID: 5mMZBuXyT8SbmWc4Mb9CfA==
-X-CSE-MsgGUID: KgN74B70SeKTZDBeW8tQYQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="32048702"
+X-CSE-ConnectionGUID: GEw12IKPQSuM87YzOacS+A==
+X-CSE-MsgGUID: fAuUYHZmSLeOlrSwIWYoGA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25211587"
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="32048702"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 21:45:11 -0700
-X-CSE-ConnectionGUID: oFNwwNMPRs+Vl995yiH1qA==
-X-CSE-MsgGUID: SVmaGNLQRFij+Ekypuz7+A==
+   d="scan'208";a="25211587"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 21:57:09 -0700
+X-CSE-ConnectionGUID: YQ0YKM5yS86iXAtS2D1dVQ==
+X-CSE-MsgGUID: AKWAgStQSeSiDDjGCJ/DRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="42963533"
+   d="scan'208";a="38651184"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Jun 2024 21:45:08 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Jun 2024 21:57:08 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFnwv-00011O-2R;
-	Sat, 08 Jun 2024 04:45:05 +0000
-Date: Sat, 8 Jun 2024 12:45:05 +0800
+	id 1sFo8Y-000122-0M;
+	Sat, 08 Jun 2024 04:57:06 +0000
+Date: Sat, 8 Jun 2024 12:56:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH v6 5/5] remoteproc: stm32: Add support of an OP-TEE TA to
- load the firmware
-Message-ID: <202406081214.qFAil90A-lkp@intel.com>
-References: <20240607093326.369090-6-arnaud.pouliquen@foss.st.com>
+To: Tony Luck <tony.luck@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ia64@vger.kernel.org,
+	Reinette Chatre <reinette.chatre@intel.com>
+Subject: [aegl:get_cpu_cacheinfo_level 2/3] include/linux/cpuhplock.h:39:58:
+ error: use of undeclared identifier 'EPERM'
+Message-ID: <202406081215.5IP0JQSs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,68 +62,251 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607093326.369090-6-arnaud.pouliquen@foss.st.com>
 
-Hi Arnaud,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20240607-183305
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240607093326.369090-6-arnaud.pouliquen%40foss.st.com
-patch subject: [PATCH v6 5/5] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240608/202406081214.qFAil90A-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081214.qFAil90A-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git get_cpu_cacheinfo_level
+head:   1c9e9c336edc795736b7f42999bfed1cfa94724e
+commit: 476529e56cba3ab0efd64bca5e40d7e4b8b2085c [2/3] cacheinfo: Add function to get cacheinfo for a given (cpu, cachelevel)
+config: x86_64-randconfig-104-20240608 (https://download.01.org/0day-ci/archive/20240608/202406081215.5IP0JQSs-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081215.5IP0JQSs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406081214.qFAil90A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406081215.5IP0JQSs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:6,
-                    from include/linux/string.h:374,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/remoteproc/stm32_rproc.c:9:
->> arch/s390/include/asm/bug.h:53:21: error: expected declaration specifiers or '...' before '{' token
-      53 | #define WARN_ON(x) ({                                   \
-         |                     ^
-   include/linux/tee_remoteproc.h:94:9: note: in expansion of macro 'WARN_ON'
-      94 |         WARN_ON(1);
-         |         ^~~~~~~
-   In file included from drivers/remoteproc/stm32_rproc.c:23:
-   include/linux/tee_remoteproc.h:96:9: error: expected identifier or '(' before 'return'
-      96 |         return NULL;
-         |         ^~~~~~
-   include/linux/tee_remoteproc.h:97:1: error: expected identifier or '(' before '}' token
-      97 | }
-         | ^
-   drivers/remoteproc/stm32_rproc.c:717:34: error: 'tee_rproc_find_loaded_rsc_table' undeclared here (not in a function); did you mean 'rproc_find_loaded_rsc_table'?
-     717 |         .find_loaded_rsc_table = tee_rproc_find_loaded_rsc_table,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  rproc_find_loaded_rsc_table
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:15:
+   In file included from include/linux/cacheinfo.h:6:
+>> include/linux/cpuhplock.h:39:58: error: use of undeclared identifier 'EPERM'
+      39 | static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
+         |                                                          ^
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+--
+   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:14:
+   In file included from include/linux/cacheinfo.h:6:
+>> include/linux/cpuhplock.h:39:58: error: use of undeclared identifier 'EPERM'
+      39 | static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
+         |                                                          ^
+   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
+   In file included from include/linux/cpu.h:17:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
 
 
-vim +53 arch/s390/include/asm/bug.h
+vim +/EPERM +39 include/linux/cpuhplock.h
 
-a9df8e325d0de5 arch/s390/include/asm/bug.h Heiko Carstens 2010-01-13  52  
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27 @53  #define WARN_ON(x) ({					\
-fd0cbdd378258f include/asm-s390/bug.h      Heiko Carstens 2007-08-02  54  	int __ret_warn_on = !!(x);			\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  55  	if (__builtin_constant_p(__ret_warn_on)) {	\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  56  		if (__ret_warn_on)			\
-b2be05273a1744 arch/s390/include/asm/bug.h Ben Hutchings  2010-04-03  57  			__WARN();			\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  58  	} else {					\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  59  		if (unlikely(__ret_warn_on))		\
-b2be05273a1744 arch/s390/include/asm/bug.h Ben Hutchings  2010-04-03  60  			__WARN();			\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  61  	}						\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  62  	unlikely(__ret_warn_on);			\
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  63  })
-c0007f1a65762e include/asm-s390/bug.h      Heiko Carstens 2007-04-27  64  
+c0bea3bea7eb170 Tony Luck 2024-06-07  30  
+c0bea3bea7eb170 Tony Luck 2024-06-07  31  static inline void cpus_write_lock(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  32  static inline void cpus_write_unlock(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  33  static inline void cpus_read_lock(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  34  static inline void cpus_read_unlock(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  35  static inline int  cpus_read_trylock(void) { return true; }
+c0bea3bea7eb170 Tony Luck 2024-06-07  36  static inline void lockdep_assert_cpus_held(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  37  static inline void cpu_hotplug_disable(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  38  static inline void cpu_hotplug_enable(void) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07 @39  static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
+c0bea3bea7eb170 Tony Luck 2024-06-07  40  static inline void smp_shutdown_nonboot_cpus(unsigned int primary_cpu) { }
+c0bea3bea7eb170 Tony Luck 2024-06-07  41  #endif	/* !CONFIG_HOTPLUG_CPU */
+c0bea3bea7eb170 Tony Luck 2024-06-07  42  
+
+:::::: The code at line 39 was first introduced by commit
+:::::: c0bea3bea7eb1701c38f23c8ae2d0a49fd35cbbd cpu: Move CPU hotplug function declarations into their own header
+
+:::::: TO: Tony Luck <tony.luck@intel.com>
+:::::: CC: Tony Luck <tony.luck@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
