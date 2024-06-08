@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CF21D6BD
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 07:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372A917BAF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 08:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717833392; cv=none; b=ByJqpuZALSUJQe9h7o+isPuL3rsrmPKwxiO9Z59ktSW2pgrDgpaq5mb+x3VpMZR4fYhXLs2Q05nN7LH+QyKxZQEwPwNmKSnJ7tSwg1eFOdTS/k8px7XH/0TTfLE2qtBeWZ1c6+ONRDyjMV6PGut8JzNfWkZ2LJppUcBv5t7BD8E=
+	t=1717834049; cv=none; b=RBQFl7ViNNLe1TXxDdhhFo8ZBu5ylpuYsIxd0YkKT9DZKBCJooPUNdyrtKIEWLGRi+FyKTKrXKmEmca86a0gEK9Paibae41GVHn9lVcrG5iDoBsMS5whI2m1jXshN5kCi779fE5DHTgWzuWESOkuIapyqvZwDY0/sponEBwyOeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717833392; c=relaxed/simple;
-	bh=MxvILTLB/c9pcQMzuZwXp+aRcmXsT8hvCqo2/+L6K6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jt1fbbNb6SeFLd/x0iO245eXpmEFgnWW3i/eVAf+EEJwLnJee22JBy8rlzJLb8pHvw7GBHgKaUWzjmwBIrBBfQmaWkVykz8mpOckK/lqKgCgq8CO10EMzGeQotRAgijlyQ8GrIZWuimt3W0qi1ZXUiYb4jEW0l5zqM/dRPHAkvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/aR79P+; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1717834049; c=relaxed/simple;
+	bh=AIABarjNxyZZC53ZbJJm7N5Ob7YA7spLdB7Y2xt6VWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qwXpKJSrt89O82wY7COTuu/OCwVK9E53mfecX5nTZxJyNeVjhLgY6qbiP9KkaBYOu3V/VPvEb2xSr4aTyxc3+32ljYHydZ2J/0vHsXpmRNftJVo1ITfrNGIo6+kBOvDgLoUbd7wkQgz1N0ekYEO9HFkCf5SUwH143vmVoadLbRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eNZP5pIX; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/aR79P+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNZP5pIX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717833390; x=1749369390;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MxvILTLB/c9pcQMzuZwXp+aRcmXsT8hvCqo2/+L6K6I=;
-  b=e/aR79P+SeMD/bfwf5CNLobwHE9mGyZXEl35GuzLCHCCZG87KwHdH0jO
-   xnYSS+SuMfNArzUOos0J0qlxHj9a7BpC5zqED9PO/1uonCBJNQ6OtUp1l
-   iEuDLimkiK4dkKw+55K0HZGN+3EbZucFpRCyygd4tuHEm6syUPNuZqixu
-   LUHslvphQVwm6MM+cTGIFDGBjEO+0Gs1u1CYRxs2hRFD4GZZddyb5OeeJ
-   AoPtPvAPPIaQFpEjOij5x5YvZAL7AjfXLhJgmeRqJJdM4nl8dwPBHoaj1
-   AB8sQco+rL8u5ysF1v8HLGKp1CLyYfVS8a8IuZRvoL5W2UC8lNbM/0yn+
+  t=1717834047; x=1749370047;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AIABarjNxyZZC53ZbJJm7N5Ob7YA7spLdB7Y2xt6VWQ=;
+  b=eNZP5pIXr0UapV7/cG4vQI8TrxJh/hhqJ57WuwWlJbLTsRX8eT1ib8ql
+   +0u1fGJYdHWgPhHkJxJLn7oLCvWl8+c7PHDEfbohtdCdZhAHriBWpeD3h
+   Ucw+JDu+8Fkvgkb4gwU+gqTQODngcOrYS/Kzj4Ngmv2moEhgZa8Eexz62
+   gqnVYk4Qk8jWTpBbCEwDld+grfU3BmGNQ6ksRX//fJeH+ZaVV32aYcbfK
+   k5xUlmUZCNfnGQ0UAMhmj2j16hDzpaOi/mUZ0BPdBfoaM/zqDGiGMY175
+   VW+6XLDANyQh1kAva0BH4IuVjhUUmObu9LnZbTI9WTe4jFWyGmpvhN5ub
    g==;
-X-CSE-ConnectionGUID: Vhyjt6JaSqunJTrcNFRMyg==
-X-CSE-MsgGUID: 9oLSWtE4R52Q7bjfMEh6GA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14742994"
+X-CSE-ConnectionGUID: sBSCBssBQ+2U7AqZsHwhgA==
+X-CSE-MsgGUID: 9ePUNDzJQHq7ZA+kTOrE6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14364107"
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="14742994"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 00:56:25 -0700
-X-CSE-ConnectionGUID: CmiG9uvqR6GF37NByUviMQ==
-X-CSE-MsgGUID: NL4Jme6SRM+jwutgc6+/ig==
+   d="scan'208";a="14364107"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 01:07:26 -0700
+X-CSE-ConnectionGUID: fjGiivc8RZS5r6Pu5+muVQ==
+X-CSE-MsgGUID: Fv/teKF1Su6fWCpbdsu3KA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="42995449"
+   d="scan'208";a="42992357"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Jun 2024 00:56:24 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2024 01:07:25 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFqw2-0001HW-0F;
-	Sat, 08 Jun 2024 07:56:22 +0000
-Date: Sat, 8 Jun 2024 15:55:58 +0800
+	id 1sFr6g-0001Ix-33;
+	Sat, 08 Jun 2024 08:07:22 +0000
+Date: Sat, 8 Jun 2024 16:06:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] arm64: dts: qcom: qrb2210-rb1: switch I2C2 to
- i2c-gpio
-Message-ID: <202406081515.QEfWiA9f-lkp@intel.com>
-References: <20240604-rb12-i2c2g-pio-v1-1-f323907179d9@linaro.org>
+To: Daniel Berlin <dberlin@dberlin.org>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/080-wifi 30/48]
+ arch/xtensa/include/uapi/asm/swab.h:24:5: warning: 'txchain' is used
+ uninitialized
+Message-ID: <202406081611.wxsbLzrp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +62,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240604-rb12-i2c2g-pio-v1-1-f323907179d9@linaro.org>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0e1980c40b6edfa68b6acf926bab22448a6e40c9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/arm64-dts-qcom-qrb2210-rb1-switch-I2C2-to-i2c-gpio/20240604-181644
-base:   0e1980c40b6edfa68b6acf926bab22448a6e40c9
-patch link:    https://lore.kernel.org/r/20240604-rb12-i2c2g-pio-v1-1-f323907179d9%40linaro.org
-patch subject: [PATCH 1/2] arm64: dts: qcom: qrb2210-rb1: switch I2C2 to i2c-gpio
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce: (https://download.01.org/0day-ci/archive/20240608/202406081515.QEfWiA9f-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/080-wifi
+head:   fae7f8f49987606a0ffa6103ab424f8baa3b76fe
+commit: 6d2ed99880570a1311247abefd7dbf5b77af6e69 [30/48] [brcmfmac] Compute number of available antennas and set it in wiphy structure.
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240608/202406081611.wxsbLzrp-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081611.wxsbLzrp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406081515.QEfWiA9f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406081611.wxsbLzrp-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1528.27-1601.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-     also defined at arch/arm64/boot/dts/qcom/qrb2210-rb1.dts:257.12-260.3
-   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1486.11-1496.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: /: i2c2-gpio: {'compatible': ['i2c-gpio'], 'sda-gpios': [[25, 6, 0]], 'scl-gpios': [[25, 7, 0]], '#address-cells': [[1]], '#size-cells': [[0]], 'status': ['okay'], 'clock-frequency': [[400000]], 'hdmi-bridge@2b': {'compatible': ['lontium,lt9611uxc'], 'reg': [[43]], 'interrupts-extended': [[25, 46, 2]], 'reset-gpios': [[25, 41, 0]], 'vdd-supply': [[107]], 'vcc-supply': [[108]], 'pinctrl-0': [[109, 110]], 'pinctrl-names': ['default'], '#sound-dai-cells': [[1]], 'ports': {'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[111]], 'phandle': [[92]]}}, 'port@2': {'reg': [[2]], 'endpoint': {'remote-endpoint': [[112]], 'phandle': [[106]]}}}}} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from include/uapi/linux/swab.h:8,
+                    from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:14,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/xtensa/include/uapi/asm/byteorder.h:8,
+                    from arch/xtensa/include/asm/bitops.h:21,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:8:
+   In function '__arch_swab32',
+       inlined from '__fswab32' at include/uapi/linux/swab.h:60:9,
+       inlined from 'brcmf_fil_iovar_int_get' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h:123:19,
+       inlined from 'brcmf_setup_wiphybands' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7359:8:
+>> arch/xtensa/include/uapi/asm/swab.h:24:5: warning: 'txchain' is used uninitialized [-Wuninitialized]
+      24 |     __asm__("ssai     8           \n\t"
+         |     ^~~~~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c: In function 'brcmf_setup_wiphybands':
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7316:13: note: 'txchain' was declared here
+    7316 |         u32 txchain;
+         |             ^~~~~~~
+
+
+vim +/txchain +24 arch/xtensa/include/uapi/asm/swab.h
+
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  19  
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  20  static inline __attribute_const__ __u32 __arch_swab32(__u32 x)
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  21  {
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  22      __u32 res;
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  23      /* instruction sequence from Xtensa ISA release 2/2000 */
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07 @24      __asm__("ssai     8           \n\t"
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  25  	    "srli     %0, %1, 16  \n\t"
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  26  	    "src      %0, %0, %1  \n\t"
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  27  	    "src      %0, %0, %0  \n\t"
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  28  	    "src      %0, %1, %0  \n"
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  29  	    : "=&a" (res)
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  30  	    : "a" (x)
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  31  	    );
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  32      return res;
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  33  }
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  34  #define __arch_swab32 __arch_swab32
+8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  35  
+
+:::::: The code at line 24 was first introduced by commit
+:::::: 8903709b054a8dafe4e8c6d9a6444034d7aba36f xtensa: introduce swab.h
+
+:::::: TO: Harvey Harrison <harvey.harrison@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
