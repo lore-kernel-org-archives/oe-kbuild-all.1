@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509E2167D95
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 04:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932AC2D792
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 05:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717822633; cv=none; b=ZpCEbl24WGsX/HkJ5LSQQdAPpYo0CwSL6duQHkpwDLGi+1sjuOHU2QcKbIEWpo4fe6zp63PhJWBB6L4AjAiqlFr6cZ6XL5DrRAdhH93Yx1fKn5hTYfilcpmAl0JwCdZQbDarRw3ULiJqRATIatiRrum8uQz84TVASTJ4k90oqv4=
+	t=1717825040; cv=none; b=mkqJzIhi/qh8dp7qXBXt14Qar1Y79HyklY1G+T+Obk8cjD4WPeIZAo2MguB2ufi1g/ZrfJxlrWn5TprVaAx18INr6Ps9Cj7Mp62aFY7Am4ZRrcIi7hu8CeFxVs0vt5hNGnPStxohgkqcuVlSWX3QUqRWXRiQqv/s+zpKh3d6yNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717822633; c=relaxed/simple;
-	bh=4mXhgcby4QJyQYvjz0ooyRFwMPxU736tAMECixop3pI=;
+	s=arc-20240116; t=1717825040; c=relaxed/simple;
+	bh=HurGivzqMGbyXk94VJYVehHdPgh4Jcc2iHK5u3WdZvk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lm/3B1wSkPxu7ipsPyhFk5jnyuukLVwYPhS2qy0inQv1c676rbvad9y3ChOGrntE8hVLsUDkbyL2+9sGrcJ4XfZ2N3wIkHMzrwMXUzHY+npu/jQJrP6OQWoptZZd3Hv5inYFD4eq4zY9GmDmQd6XIbvegYCn6uVJ/INIFlBDTdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uxxoz2zk; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=JwxmNVf4aoSZ7mxVdvztFYSxg82WCsAmUWhurPf1NMHnkm1QT539MC5+emncUyqewKhRDLExqMRreeQoDFlipC9U81mN+xOO2M3e4OzOXnUXeD31KoI075sn4Y6mrRpWKEG5S+ZSlKxs/auc3HvnNJTXuygrKYVZn6K2Sggc1p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I77gq5aT; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uxxoz2zk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I77gq5aT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717822631; x=1749358631;
+  t=1717825039; x=1749361039;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4mXhgcby4QJyQYvjz0ooyRFwMPxU736tAMECixop3pI=;
-  b=Uxxoz2zkuTwtAOtRNXkJVXTQOvma7qduycB0ZgV6IZ7J2DQlxQpJmz4p
-   GK+raDdcTS8yq35Df7pskTCUIFzjRtmZhj4korhExKTzQuhPhQottsylC
-   or4gED/ej6vj6pvWHMfMdy9GRLD6Qc928bkwcT2xwbgtDuboTZsUy4Dgy
-   /eupQdxGcoyD9XMrR8MITD3psZ9U99xsZBSgCNttmdZo/IIQPdfHXyuCB
-   LllGxlAEZoSIAQXXkGAdu1FCBEH0Z4pcUea8lUnv2MunSNqO/gDRWiL04
-   eRx+XTHe7n+pmduS/ZXughUyrIx+rHLhJKwdLutNuPR9yggW5fElmPqqe
-   Q==;
-X-CSE-ConnectionGUID: GEw12IKPQSuM87YzOacS+A==
-X-CSE-MsgGUID: fAuUYHZmSLeOlrSwIWYoGA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25211587"
+  bh=HurGivzqMGbyXk94VJYVehHdPgh4Jcc2iHK5u3WdZvk=;
+  b=I77gq5aTYNxHjPvBbDYx/uCU5cJxhEEpAreiuBZRls/3j/BFZ6wUFPcm
+   9EXOzo07jcsoKkbk41qWMjnGQ0vEzi/9rmXC0OELVX9fEMaR+R1NT50km
+   vD7rMuzLsRgpLTJLlLvfVpQ07Mi/VsyFsR69K2aNNUdCpBNu+Vlr0GV1O
+   EqRVHOAZ2y+2dSjzAT8o1uXFA2M6GRde0DPBBsKbPZxTsPYdOD85AoUe0
+   LGt3p9EviaSHN1Kd8rzM7S2OktFUAvmR2DPY2U0NdT1xazau2sDek8beG
+   kDrNQVDs2+THng39g7IlV69GQRi5Xt9LNFnae/yzrxjpz1yLzTyCPRfb+
+   w==;
+X-CSE-ConnectionGUID: 187vN+hUQjaZSvBiWZFBQw==
+X-CSE-MsgGUID: 85upJw3iR5i0n1EE7UKlaQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14692590"
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="25211587"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 21:57:09 -0700
-X-CSE-ConnectionGUID: YQ0YKM5yS86iXAtS2D1dVQ==
-X-CSE-MsgGUID: AKWAgStQSeSiDDjGCJ/DRw==
+   d="scan'208";a="14692590"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 22:37:18 -0700
+X-CSE-ConnectionGUID: UKU3i2tGT1CboTroAagsyA==
+X-CSE-MsgGUID: v6CDJsfMQEeM0nDPFeZtMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="38651184"
+   d="scan'208";a="69709376"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Jun 2024 21:57:08 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 07 Jun 2024 22:37:17 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFo8Y-000122-0M;
-	Sat, 08 Jun 2024 04:57:06 +0000
-Date: Sat, 8 Jun 2024 12:56:18 +0800
+	id 1sFolO-00017S-1Q;
+	Sat, 08 Jun 2024 05:37:14 +0000
+Date: Sat, 8 Jun 2024 13:37:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-ia64@vger.kernel.org,
-	Reinette Chatre <reinette.chatre@intel.com>
-Subject: [aegl:get_cpu_cacheinfo_level 2/3] include/linux/cpuhplock.h:39:58:
- error: use of undeclared identifier 'EPERM'
-Message-ID: <202406081215.5IP0JQSs-lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
+ (graph_child_address): /soc/video@10830000/ports/port@1: graph node has
+ single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+Message-ID: <202406081329.snoMrZsJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,250 +64,176 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git get_cpu_cacheinfo_level
-head:   1c9e9c336edc795736b7f42999bfed1cfa94724e
-commit: 476529e56cba3ab0efd64bca5e40d7e4b8b2085c [2/3] cacheinfo: Add function to get cacheinfo for a given (cpu, cachelevel)
-config: x86_64-randconfig-104-20240608 (https://download.01.org/0day-ci/archive/20240608/202406081215.5IP0JQSs-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081215.5IP0JQSs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
+commit: 971c17f879352adc719ff215e0769f8e0a49d7c4 arm64: dts: renesas: r9a07g043u: Add CSI and CRU nodes
+date:   4 months ago
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081329.snoMrZsJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406081215.5IP0JQSs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406081329.snoMrZsJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:120.11-129.6: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
 
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:15:
-   In file included from include/linux/cacheinfo.h:6:
->> include/linux/cpuhplock.h:39:58: error: use of undeclared identifier 'EPERM'
-      39 | static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
-         |                                                          ^
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:16:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
---
-   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:14:
-   In file included from include/linux/cacheinfo.h:6:
->> include/linux/cpuhplock.h:39:58: error: use of undeclared identifier 'EPERM'
-      39 | static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
-         |                                                          ^
-   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/cpu/resctrl/pseudo_lock.c:15:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+vim +85 arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
 
-
-vim +/EPERM +39 include/linux/cpuhplock.h
-
-c0bea3bea7eb170 Tony Luck 2024-06-07  30  
-c0bea3bea7eb170 Tony Luck 2024-06-07  31  static inline void cpus_write_lock(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  32  static inline void cpus_write_unlock(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  33  static inline void cpus_read_lock(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  34  static inline void cpus_read_unlock(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  35  static inline int  cpus_read_trylock(void) { return true; }
-c0bea3bea7eb170 Tony Luck 2024-06-07  36  static inline void lockdep_assert_cpus_held(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  37  static inline void cpu_hotplug_disable(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  38  static inline void cpu_hotplug_enable(void) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07 @39  static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
-c0bea3bea7eb170 Tony Luck 2024-06-07  40  static inline void smp_shutdown_nonboot_cpus(unsigned int primary_cpu) { }
-c0bea3bea7eb170 Tony Luck 2024-06-07  41  #endif	/* !CONFIG_HOTPLUG_CPU */
-c0bea3bea7eb170 Tony Luck 2024-06-07  42  
-
-:::::: The code at line 39 was first introduced by commit
-:::::: c0bea3bea7eb1701c38f23c8ae2d0a49fd35cbbd cpu: Move CPU hotplug function declarations into their own header
-
-:::::: TO: Tony Luck <tony.luck@intel.com>
-:::::: CC: Tony Luck <tony.luck@intel.com>
+    60	
+    61	&soc {
+    62		interrupt-parent = <&gic>;
+    63	
+    64		cru: video@10830000 {
+    65			compatible = "renesas,r9a07g043-cru", "renesas,rzg2l-cru";
+    66			reg = <0 0x10830000 0 0x400>;
+    67			clocks = <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
+    68				 <&cpg CPG_MOD R9A07G043_CRU_PCLK>,
+    69				 <&cpg CPG_MOD R9A07G043_CRU_ACLK>;
+    70			clock-names = "video", "apb", "axi";
+    71			interrupts = <SOC_PERIPHERAL_IRQ(167) IRQ_TYPE_LEVEL_HIGH>,
+    72				     <SOC_PERIPHERAL_IRQ(168) IRQ_TYPE_LEVEL_HIGH>,
+    73				     <SOC_PERIPHERAL_IRQ(169) IRQ_TYPE_LEVEL_HIGH>;
+    74			interrupt-names = "image_conv", "image_conv_err", "axi_mst_err";
+    75			resets = <&cpg R9A07G043_CRU_PRESETN>,
+    76				 <&cpg R9A07G043_CRU_ARESETN>;
+    77			reset-names = "presetn", "aresetn";
+    78			power-domains = <&cpg>;
+    79			status = "disabled";
+    80	
+    81			ports {
+    82				#address-cells = <1>;
+    83				#size-cells = <0>;
+    84	
+  > 85				port@1 {
+    86					#address-cells = <1>;
+    87					#size-cells = <0>;
+    88	
+    89					reg = <1>;
+    90					crucsi2: endpoint@0 {
+    91						reg = <0>;
+    92						remote-endpoint = <&csi2cru>;
+    93					};
+    94				};
+    95			};
+    96		};
+    97	
+    98		csi2: csi2@10830400 {
+    99			compatible = "renesas,r9a07g043-csi2", "renesas,rzg2l-csi2";
+   100			reg = <0 0x10830400 0 0xfc00>;
+   101			interrupts = <SOC_PERIPHERAL_IRQ(166) IRQ_TYPE_LEVEL_HIGH>;
+   102			clocks = <&cpg CPG_MOD R9A07G043_CRU_SYSCLK>,
+   103				 <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
+   104				 <&cpg CPG_MOD R9A07G043_CRU_PCLK>;
+   105			clock-names = "system", "video", "apb";
+   106			resets = <&cpg R9A07G043_CRU_PRESETN>,
+   107				 <&cpg R9A07G043_CRU_CMN_RSTB>;
+   108			reset-names = "presetn", "cmn-rstb";
+   109			power-domains = <&cpg>;
+   110			status = "disabled";
+   111	
+   112			ports {
+   113				#address-cells = <1>;
+   114				#size-cells = <0>;
+   115	
+   116				port@0 {
+   117					reg = <0>;
+   118				};
+   119	
+ > 120				port@1 {
+   121					#address-cells = <1>;
+   122					#size-cells = <0>;
+   123					reg = <1>;
+   124	
+   125					csi2cru: endpoint@0 {
+   126						reg = <0>;
+   127						remote-endpoint = <&crucsi2>;
+   128					};
+   129				};
+   130			};
+   131		};
+   132	
+   133		irqc: interrupt-controller@110a0000 {
+   134			compatible = "renesas,r9a07g043u-irqc",
+   135				     "renesas,rzg2l-irqc";
+   136			reg = <0 0x110a0000 0 0x10000>;
+   137			#interrupt-cells = <2>;
+   138			#address-cells = <0>;
+   139			interrupt-controller;
+   140			interrupts = <SOC_PERIPHERAL_IRQ(0) IRQ_TYPE_LEVEL_HIGH>,
+   141				     <SOC_PERIPHERAL_IRQ(1) IRQ_TYPE_LEVEL_HIGH>,
+   142				     <SOC_PERIPHERAL_IRQ(2) IRQ_TYPE_LEVEL_HIGH>,
+   143				     <SOC_PERIPHERAL_IRQ(3) IRQ_TYPE_LEVEL_HIGH>,
+   144				     <SOC_PERIPHERAL_IRQ(4) IRQ_TYPE_LEVEL_HIGH>,
+   145				     <SOC_PERIPHERAL_IRQ(5) IRQ_TYPE_LEVEL_HIGH>,
+   146				     <SOC_PERIPHERAL_IRQ(6) IRQ_TYPE_LEVEL_HIGH>,
+   147				     <SOC_PERIPHERAL_IRQ(7) IRQ_TYPE_LEVEL_HIGH>,
+   148				     <SOC_PERIPHERAL_IRQ(8) IRQ_TYPE_LEVEL_HIGH>,
+   149				     <SOC_PERIPHERAL_IRQ(444) IRQ_TYPE_LEVEL_HIGH>,
+   150				     <SOC_PERIPHERAL_IRQ(445) IRQ_TYPE_LEVEL_HIGH>,
+   151				     <SOC_PERIPHERAL_IRQ(446) IRQ_TYPE_LEVEL_HIGH>,
+   152				     <SOC_PERIPHERAL_IRQ(447) IRQ_TYPE_LEVEL_HIGH>,
+   153				     <SOC_PERIPHERAL_IRQ(448) IRQ_TYPE_LEVEL_HIGH>,
+   154				     <SOC_PERIPHERAL_IRQ(449) IRQ_TYPE_LEVEL_HIGH>,
+   155				     <SOC_PERIPHERAL_IRQ(450) IRQ_TYPE_LEVEL_HIGH>,
+   156				     <SOC_PERIPHERAL_IRQ(451) IRQ_TYPE_LEVEL_HIGH>,
+   157				     <SOC_PERIPHERAL_IRQ(452) IRQ_TYPE_LEVEL_HIGH>,
+   158				     <SOC_PERIPHERAL_IRQ(453) IRQ_TYPE_LEVEL_HIGH>,
+   159				     <SOC_PERIPHERAL_IRQ(454) IRQ_TYPE_LEVEL_HIGH>,
+   160				     <SOC_PERIPHERAL_IRQ(455) IRQ_TYPE_LEVEL_HIGH>,
+   161				     <SOC_PERIPHERAL_IRQ(456) IRQ_TYPE_LEVEL_HIGH>,
+   162				     <SOC_PERIPHERAL_IRQ(457) IRQ_TYPE_LEVEL_HIGH>,
+   163				     <SOC_PERIPHERAL_IRQ(458) IRQ_TYPE_LEVEL_HIGH>,
+   164				     <SOC_PERIPHERAL_IRQ(459) IRQ_TYPE_LEVEL_HIGH>,
+   165				     <SOC_PERIPHERAL_IRQ(460) IRQ_TYPE_LEVEL_HIGH>,
+   166				     <SOC_PERIPHERAL_IRQ(461) IRQ_TYPE_LEVEL_HIGH>,
+   167				     <SOC_PERIPHERAL_IRQ(462) IRQ_TYPE_LEVEL_HIGH>,
+   168				     <SOC_PERIPHERAL_IRQ(463) IRQ_TYPE_LEVEL_HIGH>,
+   169				     <SOC_PERIPHERAL_IRQ(464) IRQ_TYPE_LEVEL_HIGH>,
+   170				     <SOC_PERIPHERAL_IRQ(465) IRQ_TYPE_LEVEL_HIGH>,
+   171				     <SOC_PERIPHERAL_IRQ(466) IRQ_TYPE_LEVEL_HIGH>,
+   172				     <SOC_PERIPHERAL_IRQ(467) IRQ_TYPE_LEVEL_HIGH>,
+   173				     <SOC_PERIPHERAL_IRQ(468) IRQ_TYPE_LEVEL_HIGH>,
+   174				     <SOC_PERIPHERAL_IRQ(469) IRQ_TYPE_LEVEL_HIGH>,
+   175				     <SOC_PERIPHERAL_IRQ(470) IRQ_TYPE_LEVEL_HIGH>,
+   176				     <SOC_PERIPHERAL_IRQ(471) IRQ_TYPE_LEVEL_HIGH>,
+   177				     <SOC_PERIPHERAL_IRQ(472) IRQ_TYPE_LEVEL_HIGH>,
+   178				     <SOC_PERIPHERAL_IRQ(473) IRQ_TYPE_LEVEL_HIGH>,
+   179				     <SOC_PERIPHERAL_IRQ(474) IRQ_TYPE_LEVEL_HIGH>,
+   180				     <SOC_PERIPHERAL_IRQ(475) IRQ_TYPE_LEVEL_HIGH>,
+   181				     <SOC_PERIPHERAL_IRQ(25) IRQ_TYPE_EDGE_RISING>;
+   182			interrupt-names = "nmi",
+   183					  "irq0", "irq1", "irq2", "irq3",
+   184					  "irq4", "irq5", "irq6", "irq7",
+   185					  "tint0", "tint1", "tint2", "tint3",
+   186					  "tint4", "tint5", "tint6", "tint7",
+   187					  "tint8", "tint9", "tint10", "tint11",
+   188					  "tint12", "tint13", "tint14", "tint15",
+   189					  "tint16", "tint17", "tint18", "tint19",
+   190					  "tint20", "tint21", "tint22", "tint23",
+   191					  "tint24", "tint25", "tint26", "tint27",
+   192					  "tint28", "tint29", "tint30", "tint31",
+   193					  "bus-err";
+   194			clocks = <&cpg CPG_MOD R9A07G043_IA55_CLK>,
+   195				<&cpg CPG_MOD R9A07G043_IA55_PCLK>;
+   196			clock-names = "clk", "pclk";
+   197			power-domains = <&cpg>;
+   198			resets = <&cpg R9A07G043_IA55_RESETN>;
+   199		};
+   200	
+   201		gic: interrupt-controller@11900000 {
+   202			compatible = "arm,gic-v3";
+   203			#interrupt-cells = <3>;
+   204			#address-cells = <0>;
+   205			interrupt-controller;
+   206			reg = <0x0 0x11900000 0 0x40000>,
+   207			      <0x0 0x11940000 0 0x60000>;
+   208			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
+   209		};
+   210	};
+   211	
 
 -- 
 0-DAY CI Kernel Test Service
