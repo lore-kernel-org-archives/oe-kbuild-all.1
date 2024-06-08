@@ -1,119 +1,141 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E141BC43
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 11:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DEB1386C6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 12:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717847331; cv=none; b=uR4fYQc4W6Bk9xzif5FzVhfHFSA+Q4mOv5iOeh+1qIoaSxd+lapvw7F2z1DntDl/Yw2wsqNr/SAXnQkMNLOVIHk6sWOgdKywImeqRPhchMeLm5w5QKeWBP/de9hlKYM9KFOjYkCqrDJQSdBosWmrd4M/J6QOJaO4EH5RSaD2lTU=
+	t=1717849123; cv=none; b=mjZ4TjindtOAA0mey1k8Khrflnhs+mCTorfyOomqrj0JjyGkL7d9dKr6q+0B+XkIfwedl9gBGa3WGMB4SkQrPTZ1AA8ah9UGQRY2+gbawSYXifjBOhI7eSKiXjCn1SjhtUN2U1hx/ktSfcx9x0ggUHz8fWAMVOYZXLkWTWrT8GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717847331; c=relaxed/simple;
-	bh=QswxofCWT6p5oMxAUibGzSDnmeyXbuazrtkkm4GGxwE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i+zZ6HKFutlBgGT1LBLjc5azEPjePU9qPvmrpZhmqTvoO0i0Q27/zhT2PwIrdM26472lLKD+ni+PNGU9caZfCBv7W1gfd0GikVrnyT1Sn932BroFYoAwvkB6fugA8Ph73xdEnoVP1VXnNFkKlELsdCgwcg1M7asI8U3jMQaRZtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U1DT0Rfg; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717849123; c=relaxed/simple;
+	bh=6ehIePUyXK/oDCmy9u0jQHGJM7TVyOSK66aU5f8sWH4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O0QFFHEDDN+pu58euO4h4+lWEdQOOG5GajK4unWJ8lKfgfty+a/WhqL0l2HwifMfKNPZyo5TxxZBBhSInBHYHOajCiLNoQfSMYKgHWALU7PTS+xpfFCO7qadCT4WoDCVY/uGznm1VY45qImYkdtzf8QW3Nl9JrbCLFBu9WI7ZVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SkathMvh; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1DT0Rfg"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6ef8e62935so100624266b.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 08 Jun 2024 04:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717847328; x=1718452128; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QgEozYEpRnm1HCHc1V6ewTzY/frefA6Lvzpvz3jUqms=;
-        b=U1DT0RfgT10+Sn8Sxc/ElPpmfNRzn6tUFC9LPI5EzCBQdYWUl5sKSoujcc9+k8JsxQ
-         EcHz1B2hoGPOaBWeiSdfK+Yierho/0563TPmrv1PS3ptDQzPWKrUUr2wmSwT9BJS7aUc
-         yT9zP9XjRkVulLLTp+37LSHxT7BJmV4ynkTi1S6tvbu74mbfWeTgF8km9pwy1dXFzjEL
-         GBn4w75ngnwNRXDl112o6L1/xtT/fApg59eLnSX7E3PkhcZDXh/2+wbYq0kWxqU4bnVN
-         UHzEbGKV/0OS+kKuxUPhymBSdl2M68DohuGSRfAfkGaEyT+SyLUn1CoXRZuXmC/E74OT
-         7GTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717847328; x=1718452128;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QgEozYEpRnm1HCHc1V6ewTzY/frefA6Lvzpvz3jUqms=;
-        b=hL75mDJj1+ad451eeb2bxh6TVZz5mvIJARLnJjcNTFrXUjanAy8lvRW/B1jUXxfiCB
-         ts8NTfGhxBFn1ICnHgy4Zu70hNIF1RVqqmQlYRwdNgLuRbDl/YYyDNtwfEzspCML5nGC
-         3BztVksz8l6GPF3s05iQaq6siCY4AR8s7Uooq1AYx05QEyKujhP1KieB8WCIII793w23
-         o/sfBGvxVDQr+EAt6UfSTCeH7btdw1lNyFayc/tyzV7dsaPGiJZG9P9BOaNEF3UoUAIK
-         QteXDNz1GwN+v7gfwmqGZjcEvm9k7S3fDXNUQJbUwhQTSnoHNyQK4YhYmDzU+dsobrM5
-         q6Aw==
-X-Gm-Message-State: AOJu0YwOKOrKVc7s4HHSKeyjYvYWoiKTY5wy3pGfr/U7XzgIK/uumgf1
-	HGAqYItT6dm+QoiieDeIxF1j07iVTIYyg5XQygepTa4koS2xu84=
-X-Google-Smtp-Source: AGHT+IF9gabaxOxHa5x2Qq0OBiqMsOS6PSwBbmA4kM6wizafHBooQIGe9c+EsolwXqjpdshVpNJYZg==
-X-Received: by 2002:a17:906:2542:b0:a5a:51dc:d12 with SMTP id a640c23a62f3a-a6cd560fa01mr396404266b.2.1717847327704;
-        Sat, 08 Jun 2024 04:48:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810b:f40:4600:be1c:a6b2:4433:4c11? ([2a02:810b:f40:4600:be1c:a6b2:4433:4c11])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c806eb0e5sm376382566b.99.2024.06.08.04.48.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Jun 2024 04:48:47 -0700 (PDT)
-Message-ID: <154cdec8-7d0c-4cc6-8d09-0354546203ee@gmail.com>
-Date: Sat, 8 Jun 2024 13:48:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SkathMvh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717849121; x=1749385121;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6ehIePUyXK/oDCmy9u0jQHGJM7TVyOSK66aU5f8sWH4=;
+  b=SkathMvh5Zr1jOHSJcpW4/83D2e6LoNb38wwtXOo2/AOdqkb6Cgt5vVb
+   JEBNPGeVrE+dfKEO8hQRJHaFs+rsxamNOUw5J14AJCOF+UWG9LxFE6vis
+   0FZxk/TIovKKDOwZ7ukUzIiKUGBBjXw12JglQHUzgqrXUlUdGs41KSO8g
+   jlvMjbvGynz55/CBH66XSJ8Ln3sUg2T/aWyEPkqAZWLku01G01Su4p+D1
+   3mCqRvP9N/TUSwD8peyiQYnARyZj3SxshK51NCgMXdnFD9oo8zyB18W+j
+   r5STHcWIb/O+ebaZsEjKHiNn9Ep57Z1rtfNpj564psax7xQz515/PE140
+   A==;
+X-CSE-ConnectionGUID: Ouumy/S+T2CfYTKzvXc5IA==
+X-CSE-MsgGUID: yDU8MRt4Tr6V9wPBkuvTBw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="18357918"
+X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
+   d="scan'208";a="18357918"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 05:18:41 -0700
+X-CSE-ConnectionGUID: P/27zTV7QSWtpX/1HC7Npg==
+X-CSE-MsgGUID: YJ6G4x4USU6cbOG5jHhHyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
+   d="scan'208";a="43712969"
+Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Jun 2024 05:18:38 -0700
+Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sFv1n-0001YQ-1E;
+	Sat, 08 Jun 2024 12:18:35 +0000
+Date: Sat, 8 Jun 2024 20:17:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Viacheslav Bocharov <adeep@lexina.in>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] arm64: dts: meson-axg: add support for JetHome
+ JetHub D2 (j200)
+Message-ID: <202406082025.lTEnYgrR-lkp@intel.com>
+References: <20240607145148.2246990-3-adeep@lexina.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1912/4582] dtbs_check:
- arch/arm/boot/dts/rockchip/rk3128-evb.dtb: /dsi@10110000: failed to match any
- schema with compatible: ['rockchip,rk3128-mipi-dsi', 'snps,dw-mipi-dsi']
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202406081302.0CAdvAA9-lkp@intel.com> <3048353.WAvfycf1tz@diego>
-Content-Language: en-US
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <3048353.WAvfycf1tz@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240607145148.2246990-3-adeep@lexina.in>
 
+Hi Viacheslav,
 
-Am 08.06.24 um 13:26 schrieb Heiko Stübner:
-> Am Samstag, 8. Juni 2024, 07:58:10 CEST schrieb kernel test robot:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   d35b2284e966c0bef3e2182a5c5ea02177dd32e4
->> commit: 73fc389129dfe22b5706b4b6cbc1a4f86d1fbc1b [1912/4582] ARM: dts: rockchip: Add DSI for RK3128
->> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
->> dtschema version: 2024.6.dev1+g833054f
->> reproduce: (https://download.01.org/0day-ci/archive/20240608/202406081302.0CAdvAA9-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202406081302.0CAdvAA9-lkp@intel.com/
->>
->> dtcheck warnings: (new ones prefixed by >>)
->>>> arch/arm/boot/dts/rockchip/rk3128-evb.dtb: /dsi@10110000: failed to match any schema with compatible: ['rockchip,rk3128-mipi-dsi', 'snps,dw-mipi-dsi']
->> --
->>>> arch/arm/boot/dts/rockchip/rk3128-xpi-3128.dtb: /dsi@10110000: failed to match any schema with compatible: ['rockchip,rk3128-mipi-dsi', 'snps,dw-mipi-dsi']
-> I guess something went wrong when that specific next-tree was constructed.
-> Looking at the current linux-next, the drm-specific parts really are not
-> present, but they are in the drm-misc tree for a while now:
->
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=9bb3d9ad3e19f16efc34f427a58e480424c56a16
-> (in the correct drm-misc-next branch) and has been in a pull request
-> to main drm on may 30th [0]
->
-> Not sure if Dave is on vacation or so.
->
->
-> [0] https://patchwork.kernel.org/project/intel-gfx/patch/20240530-hilarious-flat-magpie-5fa186@houat/
-Yeah - looking at [0] it seems there's something off with drm-misc-next
-tree. I know there was an gitlab update of the freedesktop's instance last
-week. Looks like something went wrong there when comparing [1] and [2]. I'm
-sure the commits which trigger this error were in linux-next aleady.
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
 
-[0] 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3502729a63ec22f0f097c039a98b97cf7c9d27c4
+url:    https://github.com/intel-lab-lkp/linux/commits/Viacheslav-Bocharov/dt-bindings-arm-amlogic-add-binding-for-JetHome-JetHub-D2/20240607-225905
+base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
+patch link:    https://lore.kernel.org/r/20240607145148.2246990-3-adeep%40lexina.in
+patch subject: [PATCH v1 2/2] arm64: dts: meson-axg: add support for JetHome JetHub D2 (j200)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce: (https://download.01.org/0day-ci/archive/20240608/202406082025.lTEnYgrR-lkp@intel.com/reproduce)
 
-[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/for-linux-next
-[2] https://cgit.freedesktop.org/drm/drm-misc/log/?h=for-linux-next
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406082025.lTEnYgrR-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2220.23-2260.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: /soc/bus@ff600000/bus@60000/clock-controller@0: failed to match any schema with compatible: ['amlogic,sm1-audio-clkc']
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@300: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@340: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@380: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@3c0: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
