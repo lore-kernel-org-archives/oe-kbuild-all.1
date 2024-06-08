@@ -1,119 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232EC29CF7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 13:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993AC17BBA;
+	Sat,  8 Jun 2024 14:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717854044; cv=none; b=go9+u5UGYAyCwvoy2lkx5GcnYi0rF0bUthWDyDrLdZAZaRd7xXp/pAWXweiIl2rEDcmOmJfB3u/iT1al5T8WdB5hj4SFT21iplDZgYpQZuXtonm7o9s4/3VpvljgqhDsRly3R97uZmHro7fEkzX5leVuFwkonVjbWLJrDrt3Uxc=
+	t=1717856703; cv=none; b=WnUkgjK3q5Wy7jOkavkeGMEkWlSmnTQwS3tRcmA3I8auw9Rh8QPUUC/m5SDx0zmzeUO4cQ4VqNve9mT/WYiMLEHTfSfJAxVxTfDCpCGFtvgzk9AFZs3BmHeb44hRU8sq0PNqw3OUT9z+tO5A9osMkyEndnNCkjUbbY9vfZWGCQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717854044; c=relaxed/simple;
-	bh=nxlyu8p0CmGPfAk0LMwhtYf3/QdjlSKkf/Ec2s2SFc0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XGzAmsDuZkXG8YXpaTlrLEna9838HRT8zMplYNbRxkIVsB3m+nqU0w0Jk3yRiAllORDzHlJOAo8ytWnEDjq1WQUwKtH4PDOhErdqgoLp/zg/qxrna5M/JbFhvZ1Pz72VSZJbQOz+de0GUtglN7Onhd0lxeMrGuPa1ohYpp+AtQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQXRtI0F; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1717856703; c=relaxed/simple;
+	bh=rlC8MSGnb6YA01DoUOnDbXDIu1BbNuO1qPii8soutYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GU/P0fPilZnqJYSy6u03LZfAGepOFyR6oS67KbRVya/5Xx7iWywSq/Zdj2YprEPiafJSehlOdPH4PMIVcUHfzfTVSign4NfnZfLsQMiHMZCfGAedsCofH6cPNPovObCVpZXI2mInzxNBkCXwUIFgZE13Ez+lxHMx8b7b08E4wUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RryReEsD; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQXRtI0F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RryReEsD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717854043; x=1749390043;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nxlyu8p0CmGPfAk0LMwhtYf3/QdjlSKkf/Ec2s2SFc0=;
-  b=hQXRtI0FljlcUakKkNAZwJBKl2QJ+yx0Ysq3yR+9nmtk6GgDEYqhrvLO
-   Q+fZVVq2si7JYwuTCBW8Yj8hcnCNkBEzAPAdRDGaFWEMc//HKlYRqP3GG
-   mnphjZGNSDOTpSm3GspStgf41GeywgpmO9lV5xNwIpZEtXwWmgAL+SWJr
-   kQdc9O+DykrAwls8y4W8VLtLh/YCeDJc1B3huah7bA5NSODT/3FUQn1vM
-   v6SwDhb+oi3bItimuwU4nUcFTPxaZIX7M6M1vcVVX0O/Jumae2wYTq7I0
-   hSnJjLrdcSl1esat2EftVngpDp+1v1G/8jlzG4KdDGu2RKLyTdS81E2Q8
-   Q==;
-X-CSE-ConnectionGUID: z8AR8egOT8Ka1uPkzC4P1Q==
-X-CSE-MsgGUID: kbUKfiA2T6mf1jDD2rjnGA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="37098412"
+  t=1717856699; x=1749392699;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=rlC8MSGnb6YA01DoUOnDbXDIu1BbNuO1qPii8soutYw=;
+  b=RryReEsDvLT4lzCCkDlBOj1ew5Dm0l+HIgaKOaiJsxDmJcyv/W+nRkuE
+   nVQ446Nr74QU4ALeP2oeK/uoMyA6nwcSTiPo530exjcgv3sMSPSByAp+7
+   1UU4HtvJ00KJ56YKKH72Sh+sjgFcD0INbw5gRoo9+x8q4+4rS0BMhf+fU
+   EjqhPlfNsFAihqi6muzLYfno41wVYxtPqqm6BqJLGJnBSw6eVFXigcAw6
+   72smYIgdFOZnJ+ZR6mh+PRT6gy2q4Se1dKooAWu7SrB6OA1h1llZDRzdD
+   zzdd3h1VCWbHQ4JC1tpxcPf2ayoJDtkGBNfpl+ZFla/GCODAVg3zT7PIY
+   w==;
+X-CSE-ConnectionGUID: 8IB1mdabSqKNDhKWbOD4hA==
+X-CSE-MsgGUID: qrlhhPDnQJyA57GTQNiSrg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="14726827"
 X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="37098412"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 06:40:42 -0700
-X-CSE-ConnectionGUID: Fd1YXlatTYidf8BU70XtuQ==
-X-CSE-MsgGUID: 66N6BsC7S9miif6MtHCQlw==
+   d="scan'208";a="14726827"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 07:24:59 -0700
+X-CSE-ConnectionGUID: 08A8MsLfQq2uUBz6UiXTFQ==
+X-CSE-MsgGUID: 8j2cGZ7nTMC2JfPsGBkgKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="38690193"
-Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Jun 2024 06:40:41 -0700
-Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
+   d="scan'208";a="38547777"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jun 2024 07:24:57 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFwJD-0001e6-1C;
-	Sat, 08 Jun 2024 13:40:39 +0000
-Date: Sat, 8 Jun 2024 21:40:28 +0800
+	id 1sFx02-00001W-2M;
+	Sat, 08 Jun 2024 14:24:54 +0000
+Date: Sat, 8 Jun 2024 22:24:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roger Quadros <rogerq@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vignesh Raghavendra <vigneshr@ti.com>, Andrew Davis <afd@ti.com>
-Subject: arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:367.10-376.6: Warning
- (graph_child_address):
- /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/ports: graph node
- has single child node 'port@0', #address-cells/#size-cells are not necessary
-Message-ID: <202406082152.SN1xuMYL-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@baylibre.com>,
+	Benson Leung <bleung@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
+	linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in
+ .get_state()
+Message-ID: <202406082139.KG4VcZiF-lkp@intel.com>
+References: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240607084416.897777-6-u.kleine-koenig@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
-commit: c1453d3c3e9baf538b5f978c9e7cc24e47cc877e arm64: dts: ti: k3-am62p: add the USB sub-system
-date:   6 weeks ago
+Hi Uwe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/pwm-cros-ec-Don-t-care-about-consumers-in-get_state/20240607-164747
+base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+patch link:    https://lore.kernel.org/r/20240607084416.897777-6-u.kleine-koenig%40baylibre.com
+patch subject: [PATCH 1/3] pwm: cros-ec: Don't care about consumers in .get_state()
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240608/202406082139.KG4VcZiF-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406082152.SN1xuMYL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406082139.KG4VcZiF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406082152.SN1xuMYL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406082139.KG4VcZiF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:367.10-376.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:651.22-661.5: Warning (graph_child_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+All warnings (new ones prefixed by >>):
 
-vim +367 arch/arm64/boot/dts/ti/k3-am62p5-sk.dts
+>> drivers/pwm/pwm-cros-ec.c:28: warning: Excess struct member 'channel' description in 'cros_ec_pwm_device'
 
-   350	
-   351	&main_i2c0 {
-   352		status = "okay";
-   353		pinctrl-names = "default";
-   354		pinctrl-0 = <&main_i2c0_pins_default>;
-   355		clock-frequency = <400000>;
-   356	
-   357		typec_pd0: usb-power-controller@3f {
-   358			compatible = "ti,tps6598x";
-   359			reg = <0x3f>;
-   360	
-   361			connector {
-   362				compatible = "usb-c-connector";
-   363				label = "USB-C";
-   364				self-powered;
-   365				data-role = "dual";
-   366				power-role = "sink";
- > 367				ports {
-   368					#address-cells = <1>;
-   369					#size-cells = <0>;
-   370					port@0 {
-   371						reg = <0>;
-   372						usb_con_hs: endpoint {
-   373							remote-endpoint = <&usb0_hs_ep>;
-   374						};
-   375					};
-   376				};
-   377			};
-   378		};
-   379	};
-   380	
+
+vim +28 drivers/pwm/pwm-cros-ec.c
+
+3d593b6e80ad2c Fabio Baltieri   2022-04-28  17  
+1f0d3bb02785f6 Brian Norris     2016-07-15  18  /**
+1f0d3bb02785f6 Brian Norris     2016-07-15  19   * struct cros_ec_pwm_device - Driver data for EC PWM
+1f0d3bb02785f6 Brian Norris     2016-07-15  20   *
+1f0d3bb02785f6 Brian Norris     2016-07-15  21   * @ec: Pointer to EC device
+3d593b6e80ad2c Fabio Baltieri   2022-04-28  22   * @use_pwm_type: Use PWM types instead of generic channels
+82adc1b2688b02 Uwe Kleine-König 2023-07-05  23   * @channel: array with per-channel data
+1f0d3bb02785f6 Brian Norris     2016-07-15  24   */
+1f0d3bb02785f6 Brian Norris     2016-07-15  25  struct cros_ec_pwm_device {
+1f0d3bb02785f6 Brian Norris     2016-07-15  26  	struct cros_ec_device *ec;
+3d593b6e80ad2c Fabio Baltieri   2022-04-28  27  	bool use_pwm_type;
+1db37f9561b2b3 Thierry Reding   2019-10-17 @28  };
+1db37f9561b2b3 Thierry Reding   2019-10-17  29  
 
 -- 
 0-DAY CI Kernel Test Service
