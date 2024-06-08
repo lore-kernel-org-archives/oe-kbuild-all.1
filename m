@@ -1,65 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757E6182DF;
-	Sat,  8 Jun 2024 12:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E57178362
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 12:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717850925; cv=none; b=X1VboFRa5rPbtl+8R91L29kfpTUF0M8aCocpWAhlaQivhP20VvP+ti6AlAK4/5WDnLjzaF5DM6eveRM4DghCUfkVCXIFyXbM4lSZZsokcUeZvBC0v1xDF8FxDzosR3SXvWIY/7ZsalfYgDhLxLOd71nPsAu436wERM7n+5+7K+A=
+	t=1717851585; cv=none; b=I2rwBRDd4xs5O1pMh4jK3zOYipMPaeoPf0XjnFGGXsjS2Pcien7iOe1HfaBU0i/PSujUP9y8Wpu7//Mc9L1D1mSOx6lFdHGmhv7mi1+bZSjyUtWzgi9ltzAi0go+0uvpHHxT1BcEv1ubQxu0N3c0ZNg0xZty3y5C6SOddFAPQyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717850925; c=relaxed/simple;
-	bh=0uhVK2EDPWadg2sGtuaFhDUBT8Bj6aEIPf+2ui1CAww=;
+	s=arc-20240116; t=1717851585; c=relaxed/simple;
+	bh=qemSKm0bQGXNBIJuxbRrXSISGezk0/wXaPTNyjCTnIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evo3IoQr3Qyn/Mza5mbMZwLcF/Bt5udkUpqUZgFrdVYZ71I19dYguXRghZNz/Vr0Vwsj2kzyolLykMfg83Mx51dtkjQ8i2ij1dtyXxaAfvmrj/JPXr1QpjmI/Vac0QBttMrhKA3EIByx/7qhNGN+CcjBbpZe4gkrOp8pBpOSLKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFxQwKLG; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=nkVVobZBn9MxyoMX1J3cTYeDoCCe/fVWmqoFNdta5LHQ7bk3zsfS+pJsGmCTlhni1a+zwKvQX/Y1QEJ743VdtbxQbwNeShB7InPn9Qmlwyj7ccL9SSuZzQXgJL/qxHR2mtn7ixas1+oVZfVmcDEP2XH11e9aQhG3cOaQk7zCXEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFyTAI2i; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFxQwKLG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFyTAI2i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717850924; x=1749386924;
+  t=1717851583; x=1749387583;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0uhVK2EDPWadg2sGtuaFhDUBT8Bj6aEIPf+2ui1CAww=;
-  b=hFxQwKLGqrakMYjGCvAmcRAzAbpOxphDfYpX5bjZQZNl1UBiV01np95V
-   8ua6sgizIm+a2tsH2yCj/eaxPa4limLJP5B2FkSalFCX7+RaWGl4ewbCv
-   5PUtLpt9/Ywe7MH/r/Mw74SVjQrSSnLCEVC8T16WttEX4dwXpMLNYQWSJ
-   obKUSrWO33asQHxB+l5c87RNjhPTzuyRmApgVdMvsF8IOw+olyRj63S39
-   7D8FEOqGZbpAR9MR3TA/izYesMESErjuf9O47hC8Db8YWOOneQhVvQ91/
-   WLMsKFDNs49LrjtJAehKmRMfZA1eUpE2hEY0No/U1CcbHcDPLJHVjOU2N
-   A==;
-X-CSE-ConnectionGUID: sIkgEL85SFePuG8da+BwjA==
-X-CSE-MsgGUID: fO0Z1IA9SXy8aC2624il6w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14522922"
+  bh=qemSKm0bQGXNBIJuxbRrXSISGezk0/wXaPTNyjCTnIo=;
+  b=cFyTAI2iLqxQ+aIrbmrtHfUH910pBKY2vxtwm69l8vFPLCx9778ayK3L
+   ebK5dACQPm4RQgoHFfEj95pjkTFjYdOjtz8akkWYVFlHl65dUC/rmEj7X
+   XExRey6IJ0Jr4QikbTa6zkxqMNcPu6rlDAoOSl3KSYtlCfvnSmkhFz1c2
+   CroF6a7iuX7lBJ06CJoTafEqdRa29lawzbgdzh1c78Xr/0XttTChhR2Eg
+   8jcb97sfU8lpYFvYhOd/J7sN3SchH+x+xAypfxEO1YfvWQNhSApd8uemB
+   O2M4A3m12wezG77FJDT0g1veRreqWSt+t9CZrXMutR55JtFu3SC8ODCgJ
+   w==;
+X-CSE-ConnectionGUID: JuMEmfATQGWqJVlYAJISNw==
+X-CSE-MsgGUID: AZiGslZsS3SmrfTBsSTCWg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="39969791"
 X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="14522922"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 05:48:43 -0700
-X-CSE-ConnectionGUID: sMv28rYnSumtbuouiucdDw==
-X-CSE-MsgGUID: j0UkYyPzQa6XDrMOEKBWbQ==
+   d="scan'208";a="39969791"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 05:59:43 -0700
+X-CSE-ConnectionGUID: OzhhLxVxS3O6GFqgx72Yxw==
+X-CSE-MsgGUID: PzzqGc5gRbucDTsFrZ+92A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="38669003"
+   d="scan'208";a="43523218"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Jun 2024 05:48:40 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 Jun 2024 05:59:40 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFvUr-0001aW-1Y;
-	Sat, 08 Jun 2024 12:48:37 +0000
-Date: Sat, 8 Jun 2024 20:48:28 +0800
+	id 1sFvfV-0001ba-38;
+	Sat, 08 Jun 2024 12:59:38 +0000
+Date: Sat, 8 Jun 2024 20:59:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, kernel@pengutronix.de,
-	festevam@gmail.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 2/2] arm64: dts: freescale: Support i.MX93 9x9 Quick
- Start Board
-Message-ID: <202406082200.sVJmF5id-lkp@intel.com>
-References: <20240605094812.1074027-2-peng.fan@oss.nxp.com>
+To: Beleswar Padhi <b-padhi@ti.com>, nm@ti.com, vigneshr@ti.com
+Cc: oe-kbuild-all@lists.linux.dev, kristo@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, vaishnav.a@ti.com, j-choudhary@ti.com,
+	u-kumar1@ti.com
+Subject: Re: [PATCH 1/3] arm64: dts: ti: Add R5F and C7x remote processor
+ nodes
+Message-ID: <202406082029.cp7GBkgY-lkp@intel.com>
+References: <20240607090433.488454-2-b-padhi@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,9 +67,9 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605094812.1074027-2-peng.fan@oss.nxp.com>
+In-Reply-To: <20240607090433.488454-2-b-padhi@ti.com>
 
-Hi Peng,
+Hi Beleswar,
 
 kernel test robot noticed the following build warnings:
 
@@ -80,75 +79,28 @@ kernel test robot noticed the following build warnings:
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/arm64-dts-freescale-Support-i-MX93-9x9-Quick-Start-Board/20240605-174602
+url:    https://github.com/intel-lab-lkp/linux/commits/Beleswar-Padhi/arm64-dts-ti-Add-R5F-and-C7x-remote-processor-nodes/20240607-170843
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240605094812.1074027-2-peng.fan%40oss.nxp.com
-patch subject: [PATCH 2/2] arm64: dts: freescale: Support i.MX93 9x9 Quick Start Board
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406082200.sVJmF5id-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240607090433.488454-2-b-padhi%40ti.com
+patch subject: [PATCH 1/3] arm64: dts: ti: Add R5F and C7x remote processor nodes
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce: (https://download.01.org/0day-ci/archive/20240608/202406082029.cp7GBkgY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406082200.sVJmF5id-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406082029.cp7GBkgY-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dts:160.10-171.6: Warning (graph_child_address): /soc@0/bus@44000000/i2c@44340000/tcpc@50/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-
-vim +160 arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dts
-
-   132	
-   133	&lpi2c1 {
-   134		#address-cells = <1>;
-   135		#size-cells = <0>;
-   136		clock-frequency = <400000>;
-   137		pinctrl-names = "default";
-   138		pinctrl-0 = <&pinctrl_lpi2c1>;
-   139		status = "okay";
-   140	
-   141		ptn5110: tcpc@50 {
-   142			compatible = "nxp,ptn5110", "tcpci";
-   143			reg = <0x50>;
-   144			interrupt-parent = <&gpio3>;
-   145			interrupts = <26 IRQ_TYPE_LEVEL_LOW>;
-   146			status = "okay";
-   147	
-   148			typec1_con: connector {
-   149				compatible = "usb-c-connector";
-   150				label = "USB-C";
-   151				power-role = "dual";
-   152				data-role = "dual";
-   153				try-power-role = "sink";
-   154				source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
-   155				sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
-   156					     PDO_VAR(5000, 20000, 3000)>;
-   157				op-sink-microwatt = <15000000>;
-   158				self-powered;
-   159	
- > 160				ports {
-   161					#address-cells = <1>;
-   162					#size-cells = <0>;
-   163	
-   164					port@0 {
-   165						reg = <0>;
-   166	
-   167						typec1_dr_sw: endpoint {
-   168							remote-endpoint = <&usb1_drd_sw>;
-   169						};
-   170					};
-   171				};
-   172			};
-   173		};
-   174	
-   175		rtc@53 {
-   176			compatible = "nxp,pcf2131";
-   177			reg = <0x53>;
-   178			interrupt-parent = <&pcal6524>;
-   179			interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
-   180			status = "okay";
-   181		};
-   182	};
-   183	
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e000000: reg: [[0, 2113929216, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e000000: reg-names: ['l2sram'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e200000: reg: [[0, 2116026368, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e200000: reg-names: ['l2sram'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
