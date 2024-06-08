@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1D41862
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 19:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BE51CABA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 20:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717876161; cv=none; b=ugxBfyiSE4CCFPyIX/HgXwinJu4eD7Rzth1xJf5gNaMlL0e2VY+o/iwqzW/djiXmDTSQtT8ekxokNZS65Y3zbbUHQUwvKGDyZ2eLHMLDH5n76V4cQ/3HoC2dwluSXyKnpCqnE7gKF7zRDE812NDgjz8gOquJ3pU5niDQbum/+Lg=
+	t=1717876823; cv=none; b=TzkMc3p6bp3LUCoNgt5G0VZjnIz6jxt6c/QpE2Fz7DJGdvihbR/EPvBglkfqALAWOncfXA0VFa6Se4CCQOOyXA1YzBRwvZ5uhU63laG0sOFJtRZpsMQ+gUSLHYceffJh9NNF6ApBSJLo5Flj2xEd7wFcKYb3qLDwqLdWt1ERIfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717876161; c=relaxed/simple;
-	bh=BjZNtcsxevb20zbaqs83yyboCbNhu31qYt/0angYeBw=;
+	s=arc-20240116; t=1717876823; c=relaxed/simple;
+	bh=BWQ8YQ3tHspA+ojzFV6JptAYfG2+uLs/L4bGYSRyfBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SeTQiR/6WJRmQnAT9gKIIJ2JR1n5WBcwCKymqLzKkAjoVUBwix/QQXIASBI9i0s49CWe1YL8rU7U4jVWVei3J7qYN8mYKElGOB3YQhwhUnldvhxAxtyHG4s6S7EK9mOq2YQWGH8VSgPGGMyNRx9FOEVIqC+J+cM92QlePNgQHjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mv4X4/+i; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=YLaiRaW8simp57GmfZToxWUlYF3pKVRVsYpYxob56HZkUZjhVpcwxKWMcd9TanPGvYfTaW7Arxfvj0w0gLYsICNLYCEi+q01EMmLg7XR8O4MWUeZ3F7qvYZOWKD8pLwdbnnJT1T6zzr5+/RDaN0sajWx6mQNYcMsL146jSANJLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+iiYVfg; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mv4X4/+i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+iiYVfg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717876160; x=1749412160;
+  t=1717876821; x=1749412821;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BjZNtcsxevb20zbaqs83yyboCbNhu31qYt/0angYeBw=;
-  b=mv4X4/+igSibnEaH9KnSv8fzy6rtMAvtLzbR6M+8VqwY4e7qgDNS3aNb
-   UKWWcCsV4AoC2d/Plq5+JGWPZCFPTO5d+PJugRmJ3Q0JXGbEGPlPcI4Z1
-   8gnfD3VNlBOxcn9iV3vsOB+X+tMOg5BrWD4TmFPw7Kh1ZZoePcOu88ADc
-   fBB9hcq75IM0dpt4rHy107NQnlcvy2gloN3fiNRo968uvSRzuIQvA29zX
-   hrCO6F6zY9vxenNlc+FGFG6Fd4wUW/3xtrfcCo+sW3YKaPmmdz4XjFtlg
-   UOd56ZPZnIUVqF+C+aBVdDH0A7MMe3idnegUIAOE03A2tTKmnfbP/YcUs
-   Q==;
-X-CSE-ConnectionGUID: H7oFYpACSSKQ1yNjV5OoNg==
-X-CSE-MsgGUID: nE1BEsT3TPqGZsYWtZ8Yaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="14736207"
+  bh=BWQ8YQ3tHspA+ojzFV6JptAYfG2+uLs/L4bGYSRyfBU=;
+  b=a+iiYVfgMsOImr4FEV4IFXffrQGY9XYB6Drg8webvc4Nwzd9eX69rb+y
+   x8Pnx16RZdBeqti1o+uN4ngZvFT4vwrid1xhmutJH0GEXOUMwrbpSmsrS
+   XY0wqD9Qi3f2iVdAp1DoKEB9gdX+KKmIlhKnCyExzAmVJcpGK5WsMDCUO
+   L2DfRQSw0PKjSve5Cyh805pCf8kKhJGHjGEC3bn4165yHgmHWZjDit6GZ
+   r8jsg4P7n6YXX4oIN953tGQRbqRLy1uSXUgKFAEEobHFR+Q+tzi8rgG5X
+   Fk8jnBPkyp3sGTWcPPREtIB9PNhRu4a7PCtUSV/M6Vlt/iX3dajfqtfHp
+   g==;
+X-CSE-ConnectionGUID: vQsgsGa6SdS8MSgfkMfpgw==
+X-CSE-MsgGUID: oSISjecRRsqHsQJbMgZDwg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="25996558"
 X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
-   d="scan'208";a="14736207"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 12:49:20 -0700
-X-CSE-ConnectionGUID: bNspFrSWT5aXGpbprvTzwQ==
-X-CSE-MsgGUID: 0L5Vg6IPT3i612WkuRYqdg==
+   d="scan'208";a="25996558"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 13:00:20 -0700
+X-CSE-ConnectionGUID: 3DyVeFgcTz+Ztc/elNsUzw==
+X-CSE-MsgGUID: vqYFvA0mQEuztGu5FyPruw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
-   d="scan'208";a="43583411"
+   d="scan'208";a="69821001"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Jun 2024 12:49:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Jun 2024 13:00:20 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sG23w-0000OX-1t;
-	Sat, 08 Jun 2024 19:49:16 +0000
-Date: Sun, 9 Jun 2024 03:49:10 +0800
+	id 1sG2Eb-0000PB-0m;
+	Sat, 08 Jun 2024 20:00:17 +0000
+Date: Sun, 9 Jun 2024 03:59:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find-and-bit-v6 3/43] include/linux/find.h:6:2: error: #error
- only <linux/bitmap.h> can be included directly
-Message-ID: <202406090347.zKSwsWTp-lkp@intel.com>
+To: Nick Terrell <terrelln@meta.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4576/4582] riscv32-linux-ld: section
+ .data..percpu VMA [c2596000,c259c3cb] overlaps section __ksymtab_gpl VMA
+ [c2584cb8,c259b247]
+Message-ID: <202406090320.wCoR5IgD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +64,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux find-and-bit-v6
-head:   d9a04b83dde4d5c4da8cca244b425b908e1975ce
-commit: 8b9df66c755f6227e2e17560a639e93716ada2cd [3/43] lib/find: add atomic find_bit() primitives
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240609/202406090347.zKSwsWTp-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090347.zKSwsWTp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d35b2284e966c0bef3e2182a5c5ea02177dd32e4
+commit: a9a7ccba1aeed5eb94324bd2e0651549ea56f939 [4576/4582] Merge branch 'zstd-next' of https://github.com/terrelln/linux.git
+config: riscv-randconfig-r042-20221215 (https://download.01.org/0day-ci/archive/20240609/202406090320.wCoR5IgD-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090320.wCoR5IgD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406090347.zKSwsWTp-lkp@intel.com/
-
-Note: the norov/find-and-bit-v6 HEAD d9a04b83dde4d5c4da8cca244b425b908e1975ce builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406090320.wCoR5IgD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from lib/find_bit.c:16:
->> include/linux/find.h:6:2: error: #error only <linux/bitmap.h> can be included directly
-       6 | #error only <linux/bitmap.h> can be included directly
-         |  ^~~~~
-   lib/find_bit.c: In function '_find_and_set_next_bit':
-   lib/find_bit.c:58:22: error: implicit declaration of function 'BITMAP_FIRST_WORD_MASK' [-Werror=implicit-function-declaration]
-      58 |         mask = MUNGE(BITMAP_FIRST_WORD_MASK(__start));                          \
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-   lib/find_bit.c:152:23: note: in expansion of macro 'FIND_NEXT_BIT'
-     152 |                 bit = FIND_NEXT_BIT(~addr[idx], /* nop */, nbits, start);
-         |                       ^~~~~~~~~~~~~
-   lib/find_bit.c: In function '__find_nth_bit':
-   lib/find_bit.c:89:33: error: implicit declaration of function 'BITMAP_LAST_WORD_MASK' [-Werror=implicit-function-declaration]
-      89 |                 tmp = (FETCH) & BITMAP_LAST_WORD_MASK(sz);                      \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   lib/find_bit.c:238:16: note: in expansion of macro 'FIND_NTH_BIT'
-     238 |         return FIND_NTH_BIT(addr[idx], size, n);
-         |                ^~~~~~~~~~~~
-   lib/find_bit.c: In function 'find_next_clump8':
-   lib/find_bit.c:329:18: error: implicit declaration of function 'bitmap_get_value8' [-Werror=implicit-function-declaration]
-     329 |         *clump = bitmap_get_value8(addr, offset);
-         |                  ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +6 include/linux/find.h
-
-47d8c15615c0a2 Yury Norov 2021-08-14  4  
-47d8c15615c0a2 Yury Norov 2021-08-14  5  #ifndef __LINUX_BITMAP_H
-47d8c15615c0a2 Yury Norov 2021-08-14 @6  #error only <linux/bitmap.h> can be included directly
-47d8c15615c0a2 Yury Norov 2021-08-14  7  #endif
-47d8c15615c0a2 Yury Norov 2021-08-14  8  
-
-:::::: The code at line 6 was first introduced by commit
-:::::: 47d8c15615c0a2046d2d90b04cb80b81ddf31fb1 include: move find.h from asm_generic to linux
-
-:::::: TO: Yury Norov <yury.norov@gmail.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+   riscv32-linux-ld: section .data LMA [005f0000,009f3f6b] overlaps section .text LMA [00082adc,01fa761b]
+   riscv32-linux-ld: section .pci_fixup VMA [c256f628,c25722c7] overlaps section .bss VMA [c243e000,c25957e7]
+>> riscv32-linux-ld: section .data..percpu VMA [c2596000,c259c3cb] overlaps section __ksymtab_gpl VMA [c2584cb8,c259b247]
+>> riscv32-linux-ld: section __ksymtab_strings VMA [c259b248,c25df2c1] overlaps section .data..percpu VMA [c2596000,c259c3cb]
+   fs/reiserfs/super.o: in function `reiserfs_put_super':
+   fs/reiserfs/super.c:604:(.text+0x1b30): relocation truncated to fit: R_RISCV_GPREL_I against `.LC25'
+   fs/fat/inode.o: in function `fat_fill_inode':
+   fs/fat/inode.c:526:(.text+0x3d9c): relocation truncated to fit: R_RISCV_GPREL_I against `.LC79'
+   fs/fat/namei_msdos.o: in function `do_msdos_rename':
+   fs/fat/namei_msdos.c:528:(.text+0x1490): relocation truncated to fit: R_RISCV_GPREL_I against `.LC0'
+   fs/exfat/super.o: in function `exfat_show_options':
+   fs/exfat/super.c:144:(.text+0x1fc): relocation truncated to fit: R_RISCV_GPREL_I against `.LC2'
+   fs/exfat/super.o: in function `init_exfat_fs':
+   fs/exfat/super.c:814:(.init.text+0x3c): relocation truncated to fit: R_RISCV_GPREL_I against `.LC15'
+   fs/isofs/inode.o: in function `isofs_show_options':
+   fs/isofs/inode.c:458:(.text+0x810): relocation truncated to fit: R_RISCV_GPREL_I against `.LC17'
+   fs/nfs/inode.o: in function `nfs_free_inode':
+   fs/nfs/inode.c:2346:(.text+0x9b8): relocation truncated to fit: R_RISCV_GPREL_I against `.LC3'
+   fs/ntfs3/super.o: in function `seq_puts':
+   include/linux/seq_file.h:129:(.text+0x8cc): relocation truncated to fit: R_RISCV_GPREL_I against `.LC24'
+   fs/udf/super.o: in function `udf_show_options':
+   fs/udf/super.c:418:(.text+0x764): relocation truncated to fit: R_RISCV_GPREL_I against `.LC17'
+   fs/btrfs/sysfs.o: in function `btrfs_sysfs_add_mounted':
+   fs/btrfs/sysfs.c:2172:(.text+0x4908): relocation truncated to fit: R_RISCV_GPREL_I against `.LC63'
+   lib/dynamic_debug.o: in function `ddebug_exec_queries':
+   lib/dynamic_debug.c:571:(.text+0x1d3c): additional relocation overflows omitted from the output
 
 -- 
 0-DAY CI Kernel Test Service
