@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BD1179658
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 15:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D571E2AE6A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jun 2024 16:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717861746; cv=none; b=h9odC6WChx13PIHTpO94M7uNUJs2fSAE6+Jz1kzpJqvsbOh5DCwnVRJQRjnF5MOlm/MNjPtpx3U7scuG3L3YtrpEObTVpUX0A7w2KX0+NKrlqo0KPvwQl7pBNE3aOq3ViK716CosyYvfSCOP29kBInNM5S6g01d8xl3afU8nznA=
+	t=1717863614; cv=none; b=ePn52HjzXYSHI6bjTUG6ts8M8KWmexVxzGB5A67AOW9ys9cac7R8yksla9XNt8FFXd7/0DgH4wMast67jbGUNYbEsG4LrWeOE2rCrueI3D1Go6l2x8jG036WhP7PHtRD6SyVgoSZjO7H32a/eD8JQgvHGZLyfqSJ2xILOnC4nFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717861746; c=relaxed/simple;
-	bh=Vu3mBoCiq0N9b7QydQzPOnM6ZLugKz3OoDl2wdqCxNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iN/Z2Cp5hMMfM7xHLAvPNByllz9si1+QC1hCXXEx9zN9tkwB8GiEIQBEnR9BUXdXWozr1OEtuD0CdYpO43FWc8gaWe5+tX03yMW12LfBQno2+u18LlSSMMOz93T9kpsvohZ0eD2msmTM9Nm/P8FhFHG7gPU4rIiTC51KKdvDdik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPFopaxC; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1717863614; c=relaxed/simple;
+	bh=tlIHue1eVX2KWMUDHuFeU9qzRhgwiAsuAEe22Nyg3Bs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YQfawqWhy+JjkBbGFGd/OcuRUJ6DED+oBR8jRTuVzPsl3F3xjkrcu+0b2Rd315TEuglRKR4byIsd3UL3pf8oZZjZmm1yUUXqRs2MSnuMKkEDsNqvKMs0r0QioxUP2c0jWWhGfUx1BLu3/LEE9VQoa7XpRvRbSEXdFk754zR6ng8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GEWWxrTv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPFopaxC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GEWWxrTv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717861745; x=1749397745;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vu3mBoCiq0N9b7QydQzPOnM6ZLugKz3OoDl2wdqCxNY=;
-  b=gPFopaxCDo2u643vfZi92QK54UAG/DKBiy57eTdkDOgxI+IiXxUIecNQ
-   uyV3Ggc1tP57oG7xTklcDDUp5kuO3N7Ya6tmeJfBQeb8SWSz1VYWxslx8
-   M4ehThKNt87CYN/twLmQ9KxIs+JL2ksGvS9pf8kuDbf1I3+PP5mRgFGs5
-   YtAgKNfaUDJIgMbISLKd1CjV6YUbYvWs0I4BbTxCOnquOBCd5GwtwcSFz
-   u7W3xMxoF/5RS/PnnB+SFAzZj1oMgTGP48FebNM3sa7QEV9UjHurcd5tQ
-   aYS0KokcgbxshatR58647PIwsjOlCh8AMH23UOkHB1ODq/Pg49r3kZPol
-   Q==;
-X-CSE-ConnectionGUID: T4Tg+CsHSVCgl14r24EKdQ==
-X-CSE-MsgGUID: V6I3VV2vTGi1ug7+Mv+BLw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="25681615"
+  t=1717863611; x=1749399611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tlIHue1eVX2KWMUDHuFeU9qzRhgwiAsuAEe22Nyg3Bs=;
+  b=GEWWxrTvMVVNIsYJrU9PrtB40EcSvQO0957PnOhKI3XkXJ/0+Zsr8gRZ
+   UEWrcHKH+1ic1/PlBGxltYSqsFvHZ3Hy2sKyvNOT9BbMM2LYoJavTUFPf
+   att6kQqqbDB8AJd6Felz80FctDZeUJXQowM0z1O8UAPqAWsP0f9fNb6St
+   hPEh9OVWTSOrodRB+sPeoYPxhW9fL1qh4yaaVwkJ3B97UeETqTD9bKUd7
+   gWaJ5Ecbe8mqsjb2KWb5dw9NtR/04TgxP+g/GAt3aKOmXgN1IERS9qZmm
+   AKK0kb/QPKhHcyyRaOPkVv3mPI0pb95ce+iqRTYCPvwWvsW/k5Y7UM7YB
+   w==;
+X-CSE-ConnectionGUID: 6orQeHz2QCyNxcKGfCPglg==
+X-CSE-MsgGUID: 8gBFxTW3T6OMkJYcgH9xxw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="25233109"
 X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="25681615"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 08:49:04 -0700
-X-CSE-ConnectionGUID: 1h+eeu0rQ7OP1d7Rztx+ag==
-X-CSE-MsgGUID: TrjGLIAcSieXP0Ml/ud06A==
+   d="scan'208";a="25233109"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 09:20:10 -0700
+X-CSE-ConnectionGUID: 3qVkvh99RM+YI/m0X7VmoA==
+X-CSE-MsgGUID: Xr07b/w8Q1GSFyWX9rAizw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="38552071"
+   d="scan'208";a="69409987"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Jun 2024 08:49:02 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 Jun 2024 09:20:06 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFyJP-00008Q-1y;
-	Sat, 08 Jun 2024 15:48:59 +0000
-Date: Sat, 8 Jun 2024 23:48:07 +0800
+	id 1sFynT-0000CE-1v;
+	Sat, 08 Jun 2024 16:20:03 +0000
+Date: Sun, 9 Jun 2024 00:19:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>
-Subject: arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
-Message-ID: <202406082323.HAzjhTNu-lkp@intel.com>
+To: Tommy Huang <tommy_huang@aspeedtech.com>, brendan.higgins@linux.dev,
+	benh@kernel.crashing.org, joel@jms.id.au, andi.shyti@kernel.org,
+	andrew@codeconstruct.com.au, wsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, BMC-SW@aspeedtech.com
+Subject: Re: [PATCH v2] i2c: aspeed: Update the stop sw state when the bus
+ recovery occurs
+Message-ID: <202406090041.5IMjYB8x-lkp@intel.com>
+References: <20240608043653.4086647-1-tommy_huang@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,156 +68,274 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240608043653.4086647-1-tommy_huang@aspeedtech.com>
 
-Hi Appana,
+Hi Tommy,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
-commit: 88707ebe77e23e856981e597f322cabbf6415662 microblaze: Add custom break vector handler for mb manager
-date:   1 year, 8 months ago
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240608/202406082323.HAzjhTNu-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406082323.HAzjhTNu-lkp@intel.com/reproduce)
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.10-rc2 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommy-Huang/i2c-aspeed-Update-the-stop-sw-state-when-the-bus-recovery-occurs/20240608-124429
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240608043653.4086647-1-tommy_huang%40aspeedtech.com
+patch subject: [PATCH v2] i2c: aspeed: Update the stop sw state when the bus recovery occurs
+config: arm-aspeed_g5_defconfig (https://download.01.org/0day-ci/archive/20240609/202406090041.5IMjYB8x-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090041.5IMjYB8x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406082323.HAzjhTNu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406090041.5IMjYB8x-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/microblaze/kernel/entry.S: Assembler messages:
->> arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
+>> drivers/i2c/busses/i2c-aspeed.c:28:39: warning: 'struct aspeed_i2c_bus' declared inside parameter list will not be visible outside of this definition or declaration
+      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
+         |                                       ^~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-aspeed.c: In function 'aspeed_i2c_recover_bus':
+>> drivers/i2c/busses/i2c-aspeed.c:192:36: error: passing argument 1 of 'aspeed_i2c_do_stop' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     192 |                 aspeed_i2c_do_stop(bus);
+         |                                    ^~~
+         |                                    |
+         |                                    struct aspeed_i2c_bus *
+   drivers/i2c/busses/i2c-aspeed.c:28:55: note: expected 'struct aspeed_i2c_bus *' but argument is of type 'struct aspeed_i2c_bus *'
+      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/i2c/busses/i2c-aspeed.c: At top level:
+>> drivers/i2c/busses/i2c-aspeed.c:396:13: error: conflicting types for 'aspeed_i2c_do_stop'; have 'void(struct aspeed_i2c_bus *)'
+     396 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-aspeed.c:28:13: note: previous declaration of 'aspeed_i2c_do_stop' with type 'void(struct aspeed_i2c_bus *)'
+      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-aspeed.c:28:13: warning: 'aspeed_i2c_do_stop' used but never defined
+   cc1: some warnings being treated as errors
 
 
-vim +/suspend +945 arch/microblaze/kernel/entry.S
+vim +/aspeed_i2c_do_stop +192 drivers/i2c/busses/i2c-aspeed.c
 
-   825	
-   826		/* restore all the tlb's */
-   827		addik	r3, r0, TOPHYS(tlb_skip)
-   828		addik	r6, r0, PT_TLBL0
-   829		addik	r7, r0, PT_TLBH0
-   830	restore_tlb:
-   831		add	r6, r6, r1
-   832		add	r7, r7, r1
-   833		lwi	r2, r6, 0
-   834		mts 	rtlblo, r2
-   835		lwi	r2, r7, 0
-   836		mts	rtlbhi, r2
-   837		addik	r6, r6, 4
-   838		addik	r7, r7, 4
-   839		bgtid	r3, restore_tlb
-   840		addik	r3, r3, -1
-   841	
-   842		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   843		lwi	r8, r0, TOPHYS(xmb_manager_reset_callback)
-   844		set_vms
-   845		/* return from reset need -8 to adjust for rtsd r15, 8 */
-   846		addik   r15, r0, ret_from_reset - 8
-   847		rtbd	r8, 0
-   848		nop
-   849	
-   850	ret_from_reset:
-   851		set_bip /* Ints masked for state restore */
-   852		VM_OFF
-   853		/* MS: Restore all regs */
-   854		RESTORE_REGS
-   855		lwi	r14, r1, PT_R14
-   856		lwi	r16, r1, PT_PC
-   857		addik	r1, r1, PT_SIZE + 36
-   858		rtbd	r16, 0
-   859		nop
-   860	
-   861	/*
-   862	 * Break handler for MB Manager. Enter to _xmb_manager_break by
-   863	 * injecting fault in one of the TMR Microblaze core.
-   864	 * FIXME: This break handler supports getting
-   865	 * called from kernel space only.
-   866	 */
-   867	C_ENTRY(_xmb_manager_break):
-   868		/*
-   869		 * Reserve memory in the stack for context store/restore
-   870		 * (which includes memory for storing tlbs (max two tlbs))
-   871		 */
-   872		addik	r1, r1, -PT_SIZE - 36
-   873		swi	r1, r0, xmb_manager_stackpointer
-   874		SAVE_REGS
-   875		swi	r14, r1, PT_R14	/* rewrite saved R14 value */
-   876		swi	r16, r1, PT_PC; /* PC and r16 are the same */
-   877	
-   878		lwi	r6, r0, TOPHYS(xmb_manager_baseaddr)
-   879		lwi	r7, r0, TOPHYS(xmb_manager_crval)
-   880		/*
-   881		 * When the break vector gets asserted because of error injection,
-   882		 * the break signal must be blocked before exiting from the
-   883		 * break handler, below code configures the tmr manager
-   884		 * control register to block break signal.
-   885		 */
-   886		swi	r7, r6, 0
-   887	
-   888		/* Save the special purpose registers  */
-   889		mfs	r2, rpid
-   890		swi	r2, r1, PT_PID
-   891	
-   892		mfs	r2, rtlbx
-   893		swi	r2, r1, PT_TLBI
-   894	
-   895		mfs	r2, rzpr
-   896		swi	r2, r1, PT_ZPR
-   897	
-   898	#if CONFIG_XILINX_MICROBLAZE0_USE_FPU
-   899		mfs	r2, rfsr
-   900		swi	r2, r1, PT_FSR
-   901	#endif
-   902		mfs	r2, rmsr
-   903		swi	r2, r1, PT_MSR
-   904	
-   905		/* Save all the tlb's */
-   906		addik	r3, r0, TOPHYS(tlb_skip)
-   907		addik	r6, r0, PT_TLBL0
-   908		addik	r7, r0, PT_TLBH0
-   909	save_tlb:
-   910		add	r6, r6, r1
-   911		add	r7, r7, r1
-   912		mfs	r2, rtlblo
-   913		swi	r2, r6, 0
-   914		mfs	r2, rtlbhi
-   915		swi	r2, r7, 0
-   916		addik	r6, r6, 4
-   917		addik	r7, r7, 4
-   918		bgtid	r3, save_tlb
-   919		addik	r3, r3, -1
-   920	
-   921		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   922		lwi	r8, r0, TOPHYS(xmb_manager_callback)
-   923		/* return from break need -8 to adjust for rtsd r15, 8 */
-   924		addik   r15, r0, ret_from_break - 8
-   925		rtbd	r8, 0
-   926		nop
-   927	
-   928	ret_from_break:
-   929		/* flush the d-cache */
-   930		bralid	r15, mb_flush_dcache
-   931		nop
-   932	
-   933		/*
-   934		 * To make sure microblaze i-cache is in a proper state
-   935		 * invalidate the i-cache.
-   936		 */
-   937		bralid	r15, mb_invalidate_icache
-   938		nop
-   939	
-   940		set_bip; /* Ints masked for state restore */
-   941		VM_OFF;
-   942		mbar	1
-   943		mbar	2
-   944		bri	4
- > 945		suspend
-   946		nop
-   947	#endif
-   948	
+    27	
+  > 28	static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
+    29	
+    30	/* I2C Register */
+    31	#define ASPEED_I2C_FUN_CTRL_REG				0x00
+    32	#define ASPEED_I2C_AC_TIMING_REG1			0x04
+    33	#define ASPEED_I2C_AC_TIMING_REG2			0x08
+    34	#define ASPEED_I2C_INTR_CTRL_REG			0x0c
+    35	#define ASPEED_I2C_INTR_STS_REG				0x10
+    36	#define ASPEED_I2C_CMD_REG				0x14
+    37	#define ASPEED_I2C_DEV_ADDR_REG				0x18
+    38	#define ASPEED_I2C_BYTE_BUF_REG				0x20
+    39	
+    40	/* Global Register Definition */
+    41	/* 0x00 : I2C Interrupt Status Register  */
+    42	/* 0x08 : I2C Interrupt Target Assignment  */
+    43	
+    44	/* Device Register Definition */
+    45	/* 0x00 : I2CD Function Control Register  */
+    46	#define ASPEED_I2CD_MULTI_MASTER_DIS			BIT(15)
+    47	#define ASPEED_I2CD_SDA_DRIVE_1T_EN			BIT(8)
+    48	#define ASPEED_I2CD_M_SDA_DRIVE_1T_EN			BIT(7)
+    49	#define ASPEED_I2CD_M_HIGH_SPEED_EN			BIT(6)
+    50	#define ASPEED_I2CD_SLAVE_EN				BIT(1)
+    51	#define ASPEED_I2CD_MASTER_EN				BIT(0)
+    52	
+    53	/* 0x04 : I2CD Clock and AC Timing Control Register #1 */
+    54	#define ASPEED_I2CD_TIME_TBUF_MASK			GENMASK(31, 28)
+    55	#define ASPEED_I2CD_TIME_THDSTA_MASK			GENMASK(27, 24)
+    56	#define ASPEED_I2CD_TIME_TACST_MASK			GENMASK(23, 20)
+    57	#define ASPEED_I2CD_TIME_SCL_HIGH_SHIFT			16
+    58	#define ASPEED_I2CD_TIME_SCL_HIGH_MASK			GENMASK(19, 16)
+    59	#define ASPEED_I2CD_TIME_SCL_LOW_SHIFT			12
+    60	#define ASPEED_I2CD_TIME_SCL_LOW_MASK			GENMASK(15, 12)
+    61	#define ASPEED_I2CD_TIME_BASE_DIVISOR_MASK		GENMASK(3, 0)
+    62	#define ASPEED_I2CD_TIME_SCL_REG_MAX			GENMASK(3, 0)
+    63	/* 0x08 : I2CD Clock and AC Timing Control Register #2 */
+    64	#define ASPEED_NO_TIMEOUT_CTRL				0
+    65	
+    66	/* 0x0c : I2CD Interrupt Control Register &
+    67	 * 0x10 : I2CD Interrupt Status Register
+    68	 *
+    69	 * These share bit definitions, so use the same values for the enable &
+    70	 * status bits.
+    71	 */
+    72	#define ASPEED_I2CD_INTR_RECV_MASK			0xf000ffff
+    73	#define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT			BIT(14)
+    74	#define ASPEED_I2CD_INTR_BUS_RECOVER_DONE		BIT(13)
+    75	#define ASPEED_I2CD_INTR_SLAVE_MATCH			BIT(7)
+    76	#define ASPEED_I2CD_INTR_SCL_TIMEOUT			BIT(6)
+    77	#define ASPEED_I2CD_INTR_ABNORMAL			BIT(5)
+    78	#define ASPEED_I2CD_INTR_NORMAL_STOP			BIT(4)
+    79	#define ASPEED_I2CD_INTR_ARBIT_LOSS			BIT(3)
+    80	#define ASPEED_I2CD_INTR_RX_DONE			BIT(2)
+    81	#define ASPEED_I2CD_INTR_TX_NAK				BIT(1)
+    82	#define ASPEED_I2CD_INTR_TX_ACK				BIT(0)
+    83	#define ASPEED_I2CD_INTR_MASTER_ERRORS					       \
+    84			(ASPEED_I2CD_INTR_SDA_DL_TIMEOUT |			       \
+    85			 ASPEED_I2CD_INTR_SCL_TIMEOUT |				       \
+    86			 ASPEED_I2CD_INTR_ABNORMAL |				       \
+    87			 ASPEED_I2CD_INTR_ARBIT_LOSS)
+    88	#define ASPEED_I2CD_INTR_ALL						       \
+    89			(ASPEED_I2CD_INTR_SDA_DL_TIMEOUT |			       \
+    90			 ASPEED_I2CD_INTR_BUS_RECOVER_DONE |			       \
+    91			 ASPEED_I2CD_INTR_SCL_TIMEOUT |				       \
+    92			 ASPEED_I2CD_INTR_ABNORMAL |				       \
+    93			 ASPEED_I2CD_INTR_NORMAL_STOP |				       \
+    94			 ASPEED_I2CD_INTR_ARBIT_LOSS |				       \
+    95			 ASPEED_I2CD_INTR_RX_DONE |				       \
+    96			 ASPEED_I2CD_INTR_TX_NAK |				       \
+    97			 ASPEED_I2CD_INTR_TX_ACK)
+    98	
+    99	/* 0x14 : I2CD Command/Status Register   */
+   100	#define ASPEED_I2CD_SCL_LINE_STS			BIT(18)
+   101	#define ASPEED_I2CD_SDA_LINE_STS			BIT(17)
+   102	#define ASPEED_I2CD_BUS_BUSY_STS			BIT(16)
+   103	#define ASPEED_I2CD_BUS_RECOVER_CMD			BIT(11)
+   104	
+   105	/* Command Bit */
+   106	#define ASPEED_I2CD_M_STOP_CMD				BIT(5)
+   107	#define ASPEED_I2CD_M_S_RX_CMD_LAST			BIT(4)
+   108	#define ASPEED_I2CD_M_RX_CMD				BIT(3)
+   109	#define ASPEED_I2CD_S_TX_CMD				BIT(2)
+   110	#define ASPEED_I2CD_M_TX_CMD				BIT(1)
+   111	#define ASPEED_I2CD_M_START_CMD				BIT(0)
+   112	#define ASPEED_I2CD_MASTER_CMDS_MASK					       \
+   113			(ASPEED_I2CD_M_STOP_CMD |				       \
+   114			 ASPEED_I2CD_M_S_RX_CMD_LAST |				       \
+   115			 ASPEED_I2CD_M_RX_CMD |					       \
+   116			 ASPEED_I2CD_M_TX_CMD |					       \
+   117			 ASPEED_I2CD_M_START_CMD)
+   118	
+   119	/* 0x18 : I2CD Slave Device Address Register   */
+   120	#define ASPEED_I2CD_DEV_ADDR_MASK			GENMASK(6, 0)
+   121	
+   122	enum aspeed_i2c_master_state {
+   123		ASPEED_I2C_MASTER_INACTIVE,
+   124		ASPEED_I2C_MASTER_PENDING,
+   125		ASPEED_I2C_MASTER_START,
+   126		ASPEED_I2C_MASTER_TX_FIRST,
+   127		ASPEED_I2C_MASTER_TX,
+   128		ASPEED_I2C_MASTER_RX_FIRST,
+   129		ASPEED_I2C_MASTER_RX,
+   130		ASPEED_I2C_MASTER_STOP,
+   131	};
+   132	
+   133	enum aspeed_i2c_slave_state {
+   134		ASPEED_I2C_SLAVE_INACTIVE,
+   135		ASPEED_I2C_SLAVE_START,
+   136		ASPEED_I2C_SLAVE_READ_REQUESTED,
+   137		ASPEED_I2C_SLAVE_READ_PROCESSED,
+   138		ASPEED_I2C_SLAVE_WRITE_REQUESTED,
+   139		ASPEED_I2C_SLAVE_WRITE_RECEIVED,
+   140		ASPEED_I2C_SLAVE_STOP,
+   141	};
+   142	
+   143	struct aspeed_i2c_bus {
+   144		struct i2c_adapter		adap;
+   145		struct device			*dev;
+   146		void __iomem			*base;
+   147		struct reset_control		*rst;
+   148		/* Synchronizes I/O mem access to base. */
+   149		spinlock_t			lock;
+   150		struct completion		cmd_complete;
+   151		u32				(*get_clk_reg_val)(struct device *dev,
+   152								   u32 divisor);
+   153		unsigned long			parent_clk_frequency;
+   154		u32				bus_frequency;
+   155		/* Transaction state. */
+   156		enum aspeed_i2c_master_state	master_state;
+   157		struct i2c_msg			*msgs;
+   158		size_t				buf_index;
+   159		size_t				msgs_index;
+   160		size_t				msgs_count;
+   161		bool				send_stop;
+   162		int				cmd_err;
+   163		/* Protected only by i2c_lock_bus */
+   164		int				master_xfer_result;
+   165		/* Multi-master */
+   166		bool				multi_master;
+   167	#if IS_ENABLED(CONFIG_I2C_SLAVE)
+   168		struct i2c_client		*slave;
+   169		enum aspeed_i2c_slave_state	slave_state;
+   170	#endif /* CONFIG_I2C_SLAVE */
+   171	};
+   172	
+   173	static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus);
+   174	
+   175	static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
+   176	{
+   177		unsigned long time_left, flags;
+   178		int ret = 0;
+   179		u32 command;
+   180	
+   181		spin_lock_irqsave(&bus->lock, flags);
+   182		command = readl(bus->base + ASPEED_I2C_CMD_REG);
+   183	
+   184		if (command & ASPEED_I2CD_SDA_LINE_STS) {
+   185			/* Bus is idle: no recovery needed. */
+   186			if (command & ASPEED_I2CD_SCL_LINE_STS)
+   187				goto out;
+   188			dev_dbg(bus->dev, "SCL hung (state %x), attempting recovery\n",
+   189				command);
+   190	
+   191			reinit_completion(&bus->cmd_complete);
+ > 192			aspeed_i2c_do_stop(bus);
+   193			spin_unlock_irqrestore(&bus->lock, flags);
+   194	
+   195			time_left = wait_for_completion_timeout(
+   196					&bus->cmd_complete, bus->adap.timeout);
+   197	
+   198			spin_lock_irqsave(&bus->lock, flags);
+   199			if (time_left == 0)
+   200				goto reset_out;
+   201			else if (bus->cmd_err)
+   202				goto reset_out;
+   203			/* Recovery failed. */
+   204			else if (!(readl(bus->base + ASPEED_I2C_CMD_REG) &
+   205				   ASPEED_I2CD_SCL_LINE_STS))
+   206				goto reset_out;
+   207		/* Bus error. */
+   208		} else {
+   209			dev_dbg(bus->dev, "SDA hung (state %x), attempting recovery\n",
+   210				command);
+   211	
+   212			reinit_completion(&bus->cmd_complete);
+   213			/* Writes 1 to 8 SCL clock cycles until SDA is released. */
+   214			writel(ASPEED_I2CD_BUS_RECOVER_CMD,
+   215			       bus->base + ASPEED_I2C_CMD_REG);
+   216			spin_unlock_irqrestore(&bus->lock, flags);
+   217	
+   218			time_left = wait_for_completion_timeout(
+   219					&bus->cmd_complete, bus->adap.timeout);
+   220	
+   221			spin_lock_irqsave(&bus->lock, flags);
+   222			if (time_left == 0)
+   223				goto reset_out;
+   224			else if (bus->cmd_err)
+   225				goto reset_out;
+   226			/* Recovery failed. */
+   227			else if (!(readl(bus->base + ASPEED_I2C_CMD_REG) &
+   228				   ASPEED_I2CD_SDA_LINE_STS))
+   229				goto reset_out;
+   230		}
+   231	
+   232	out:
+   233		spin_unlock_irqrestore(&bus->lock, flags);
+   234	
+   235		return ret;
+   236	
+   237	reset_out:
+   238		spin_unlock_irqrestore(&bus->lock, flags);
+   239	
+   240		return aspeed_i2c_reset(bus);
+   241	}
+   242	
 
 -- 
 0-DAY CI Kernel Test Service
