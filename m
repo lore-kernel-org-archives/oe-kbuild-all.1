@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C2E1E889
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 21:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251024C627
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 22:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717968634; cv=none; b=rd69Z/cIaCY479csFNG3BqOiWjfdygLnRaEZ/y8SII5Ie49FmrEQQ/W4v4XDCIvNPIdI+o0HG1y3DK34eEP3P/xO9xr6amkYjKnxvYr0vCUN9MYJhBN3r8sHz9PVOZcgcMnu4prX4ucpD2Ea9fN5OAQcEPV5KgK7o01hU/SCxNQ=
+	t=1717971158; cv=none; b=NEPtCU7FtH7iSYbfIqfejkvh9dAJWGjcNBkt4cFC+EnNKxdtlwIOG59o4I8vjghGMaYN/n9yrDcTuMGJOnSRDJhA8BfovlMYdmp0xQtxGplNu4ttkJpuMZiTu9WxJwTrRCYzFf65OnX3hIBJQtwLmIvixlouUbbVDELZsdwmkmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717968634; c=relaxed/simple;
-	bh=ImGBQLxIy5HKLiJbFtOEj1r4jL0CFypUKFJH83h3lM4=;
+	s=arc-20240116; t=1717971158; c=relaxed/simple;
+	bh=XX22Wtd3SC/NYGqSoQRJhBZnaGoitMLH2sQbqcY+rlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lsgjS1X6clBIMmRsmRkOX6lyQUD7EGuF1pLiZkA23nW6UzI7mV3SrXMV35xqdCycql8s7qs1AjMxa1K5ncaK+iETvcxrVf8+JLiXFv4h4xvcpmJ+muAeo+Qkr0ogcUCUKC/0FOyNyXF6tWumdCcSFdxnJARtoeNdcnkcqhsMaO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OnIiAVuf; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=NvZeXSTLc3vlEUefPM269EclL3c74pa6suvglYzQEgLh/8qvb05v03f4DMtrSfg1s1k1FjqJ6m6RwR0Qapbq1u/9nAqt7fsZklLOEiFPzyr/VPvGz6LT/VeMPvooxix/+QvgAXjpDagKbj8P5Ik0xPzmeLa4U7kreEUoo1ed1vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eRoAv3ss; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OnIiAVuf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRoAv3ss"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717968633; x=1749504633;
+  t=1717971156; x=1749507156;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ImGBQLxIy5HKLiJbFtOEj1r4jL0CFypUKFJH83h3lM4=;
-  b=OnIiAVufiA5gt9e0SaumdCHs5S+uFsVhSD8H9gwpm7My0TofbGumIrPk
-   LNRLDBmJNN3sEPn9avTGguusFkLGK4F6V2dyADRcm/lXLsE5tbqpN1Niu
-   qxb1YkiRBSkD8Jzn8Lkz9VvylyQlquO9K1fhmM9zN6y8HorZEzibaJvsc
-   NKIF4FrzWHnh+G8DV23f00/YijW9UmCBLKjfg7pjJeOY7MHKffLYGD1vG
-   8yvoKHktameicOeCjSAIDLQYbMv0PcM2SxptW84MkmhZOLxUchq+Uf5HD
-   bf4gIq8gQ4Oj1H0QkCx2G+NI8unCu0oeG9TNzwt8yP3M+6p8SuXoLp2mI
-   g==;
-X-CSE-ConnectionGUID: 86lrqcMZRZ6BWzD828XZnw==
-X-CSE-MsgGUID: 5+8rJCatSZayvizIRXpZbQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="25245919"
+  bh=XX22Wtd3SC/NYGqSoQRJhBZnaGoitMLH2sQbqcY+rlI=;
+  b=eRoAv3ss9MALWnVYgDbdG9u/UYo5zQgW8jEFzFh3rctfXC0auQ777C2+
+   ZR23DRGZhtCktpjcgvXhq0v5egmRQRSTHuceq0Rol3iQ9bA/Fh0TH+ndN
+   sJw0qsGv2puwx9lznfrYPxx49PwYT6ArOGnMyFI0SJQTgq5PxKs3Aif0v
+   CA09AIcZm7wGpaspo0q6PYp5OV/WqCy6yEteaNtAUc0BCAMBeV/g84q7k
+   uMOF3zZW4GtJjXI+z0ktdEecHJBNYhKxOfJVISYsM2w4JE1i3Pkzhy/Hr
+   eRg7sEI856oO897eSZ4ZG5j2RbRb54flmsqIV6mGLJZ0wxdczyD9aJ6B+
+   A==;
+X-CSE-ConnectionGUID: LqCJrzwTQN6IZkkiI/DfOA==
+X-CSE-MsgGUID: NkHRIW8bQ1G1Kh60pGMiNw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="32161465"
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="25245919"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 14:30:32 -0700
-X-CSE-ConnectionGUID: 1EcW4/J/TeO1HStDL50Fgw==
-X-CSE-MsgGUID: E4UxKnEETl6f4JWSlyOqDQ==
+   d="scan'208";a="32161465"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 15:12:35 -0700
+X-CSE-ConnectionGUID: KXijXYxDTFWcRv1RnA69Mw==
+X-CSE-MsgGUID: RcSZ9h99T2OIWCDoxxH7tQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="76346294"
+   d="scan'208";a="38962503"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Jun 2024 14:30:30 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Jun 2024 15:12:35 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGQ7Q-0001by-14;
-	Sun, 09 Jun 2024 21:30:28 +0000
-Date: Mon, 10 Jun 2024 05:30:04 +0800
+	id 1sGQm7-0001di-34;
+	Sun, 09 Jun 2024 22:12:31 +0000
+Date: Mon, 10 Jun 2024 06:11:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [samba-ksmbd:for-next 346/600]
- fs/cifs/../smbfs_common/smb2pdu.h:817:17: error: expected
- specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-Message-ID: <202406100528.u3UG3qRT-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 18534/22827]
+ drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202406100658.RXAKSKac-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,157 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/ksmbd.git for-next
-head:   3fe4ba20003290acf0547625cccc34db928d156e
-commit: cd3ad386810097de48e69cdd3c483ca1bf65c7c6 [346/600] smb3: Replace smb2pdu 1-element arrays with flex-arrays
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240610/202406100528.u3UG3qRT-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100528.u3UG3qRT-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   6a98543755cf2f636ae3169f3774d226d328d2cf
+commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [18534/22827] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
+config: x86_64-randconfig-103-20240609 (https://download.01.org/0day-ci/archive/20240610/202406100658.RXAKSKac-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406100528.u3UG3qRT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406100658.RXAKSKac-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
 
-   In file included from fs/cifs/cifsfs.c:32:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/cifsfs.c:34:
->> fs/cifs/../smbfs_common/smb2pdu.h:817:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     817 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1578:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1578 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
---
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/cached_dir.c:9:
->> fs/cifs/../smbfs_common/smb2pdu.h:817:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     817 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1578:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1578 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:97:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
---
-   In file included from fs/cifs/readdir.c:15:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/readdir.c:16:
->> fs/cifs/../smbfs_common/smb2pdu.h:817:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     817 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1578:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1578 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/readdir.c: In function 'cifs_fill_dirent_unix':
-   fs/cifs/readdir.c:554:25: error: 'FILE_UNIX_INFO' has no member named 'FileName'
-     554 |         de->name = &info->FileName[0];
-         |                         ^~
---
-   In file included from fs/cifs/cifssmb.c:26:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/cifssmb.c:27:
->> fs/cifs/../smbfs_common/smb2pdu.h:817:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     817 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1578:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1578 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifssmb.c: In function 'decode_ext_sec_blob':
-   fs/cifs/cifssmb.c:381:33: error: 'union <anonymous>' has no member named 'extended_response'
-     381 |         char    *guid = pSMBr->u.extended_response.GUID;
-         |                                 ^
-   fs/cifs/cifssmb.c:405:33: error: 'union <anonymous>' has no member named 'extended_response'
-     405 |                         pSMBr->u.extended_response.SecurityBlob, count, server);
-         |                                 ^
-   fs/cifs/cifssmb.c: In function 'CIFSSMBNegotiate':
-   fs/cifs/cifssmb.c:516:55: error: 'union <anonymous>' has no member named 'EncryptionKey'
-     516 |                 memcpy(ses->server->cryptkey, pSMBr->u.EncryptionKey,
-         |                                                       ^
+vim +614 drivers/acpi/cppc_acpi.c
 
-
-vim +/DECLARE_FLEX_ARRAY +817 fs/cifs/../smbfs_common/smb2pdu.h
-
-   802	
-   803	struct smb2_lock_req {
-   804		struct smb2_hdr hdr;
-   805		__le16 StructureSize; /* Must be 48 */
-   806		__le16 LockCount;
-   807		/*
-   808		 * The least significant four bits are the index, the other 28 bits are
-   809		 * the lock sequence number (0 to 64). See MS-SMB2 2.2.26
-   810		 */
-   811		__le32 LockSequenceNumber;
-   812		__u64  PersistentFileId;
-   813		__u64  VolatileFileId;
-   814		/* Followed by at least one */
-   815		union {
-   816			struct smb2_lock_element lock;
- > 817			DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-   818		};
-   819	} __packed;
-   820	
+   576	
+   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
+   578	{
+   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
+   580		int parsed_core_num = 0;
+   581		int i, ret;
+   582	
+   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
+   584		if (!cpc_pptr)
+   585			return -ENOMEM;
+   586		for_each_possible_cpu(i) {
+   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
+   588			if (!cpc_pptr[i]) {
+   589				ret = -ENOMEM;
+   590				goto out;
+   591			}
+   592		}
+   593	
+   594		/*
+   595		 * We can not use acpi_get_devices() to walk the processor devices
+   596		 * because some processor device is not present.
+   597		 */
+   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
+   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
+   600					  cpc_pptr, (void **)&parsed_core_num);
+   601		if (ret)
+   602			goto out;
+   603		if (parsed_core_num != num_possible_cpus()) {
+   604			ret = -EINVAL;
+   605			goto out;
+   606		}
+   607	
+   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
+   609	
+   610	out:
+   611		for_each_possible_cpu(i) {
+   612			cpc_ptr = cpc_pptr[i];
+   613			if (cpc_ptr)
+ > 614				kfree(cpc_ptr);
+   615		}
+   616		kfree(cpc_pptr);
+   617	
+   618		return ret;
+   619	}
+   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
+   621	
 
 -- 
 0-DAY CI Kernel Test Service
