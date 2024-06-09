@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8D210E4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 15:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B94446D1
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 15:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717947078; cv=none; b=Az+Oz4+VOx1ftOAAazI0q3yjNhvvCTepZmfFD8IAQdnkTfXCw+Fabc0RedbdL2g/h0eBYVNOUMm5V17yuwWKJ536RhFWGCxKoc4HGbkJHPeepjWoZ/M755VomR3c6tEkWmNf2wGIPAjvVWj6WpxlRYQEMZs3XC3RWNu3+u6LDVo=
+	t=1717947739; cv=none; b=S0JDPttAOR+RdQLKNIr6ZVdyHftpXlHUkurmnuwRqVhpbFvtBGoPo4dY7dc9GWVDnUXtimC80g2Lc0pHbAyuR32jpoEZLPzdMGQtDXCGHoGwqIxIZm8J1Y6bSAfHjZwT4SkvyGExOVXvB09CdTNFt/FFuOY4IV9Gs7ZJFdNCKKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717947078; c=relaxed/simple;
-	bh=6DFupQ2OQ1VC9a9p/vOyg0wm9JGMVy7qwHi+EupQyRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p+HxL4tGTRk/n99BOBaznh8DheZeKVlgn/QwiohAKQ2fgCBZQa+LE+J0E3z1LMV8kV73bAH2cSv8L1OESmyhI/6E/ISvgV9BLi2gT5iMJs9buV3oZPZNjEdoyJeBW63313Wsamuto7jWXiOuoeY/7QEHd1v15ZB1+V326/x40zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOcdcMDv; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1717947739; c=relaxed/simple;
+	bh=jjZOAJDH3CXwj+75keK9jfIEu+0mkRJEuEOYmcBRoHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iW7VrpreycH7UPkWmhPokYBMbTnPOwEWx45FvuGL14otfT9qlBv55u8sOwjUdDBNxR3HI3ea/EoDIolWeNcukYGKC4DvnE1Q3N2THFGAYQUXpToHyBV8EpgNufAggRm/XWWAVO2B1vLODcpB/NWu1mbcUNBQ7t4Tdnjf9y3HLAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F3jXnIak; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOcdcMDv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F3jXnIak"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717947076; x=1749483076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6DFupQ2OQ1VC9a9p/vOyg0wm9JGMVy7qwHi+EupQyRA=;
-  b=YOcdcMDvcMmK6higSoXDstwANuDS6mWjngngaXV29hm8EcwgvjjuP2sS
-   16vG6xu7PXHOglJddrvGCa+GX/4Pu7xzuiF5Se/TGD8j8g3x1g9o/UMKY
-   eJrcgL1sxjDdC1CNFDZIMYTBMz9lI5Cmd3api+ebkh2rBabeQpUZBwuSZ
-   C5Tv6NCuPlxgOkJawrBoVM/Qq6oi6vkCtWBWOTOCBAltvnPFBAzJck5aA
-   lKBgIQQW32UrrTggI0El6CNtg0Fgjdo7Y84HvDoSivEfB9PC4tE1jkXLT
-   Xy3x/UgrWK73QHpBr0lUS3L/J8y1b2yljAtJbmTEMy1H0jck62ECGDMef
-   Q==;
-X-CSE-ConnectionGUID: MJ71GwgaQJC9JrqP6zMORA==
-X-CSE-MsgGUID: ez5wGWznQSG0hmLRA2MqZg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="17537921"
+  t=1717947738; x=1749483738;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jjZOAJDH3CXwj+75keK9jfIEu+0mkRJEuEOYmcBRoHQ=;
+  b=F3jXnIakmWKSTGAWlq/CFng+zDqs96WBEq7Hot4zdYyrMFjEO1TmCeAq
+   JXB72Xcf1ETYe1K37Q+3h+E5V3gxnoMu8Kj0FvwwPACtnCFdXp6uDKXOU
+   TxJ6xGgjtL/0qvddnJWuQ0qJDv7F7N7tWHLQo5uy1jYhIIl2jHMPbOJZB
+   U2gO4GLd99PA/dlSGOO5HETSKaxHv8jcvy9z4anvjqjtU3XwnYlhFv8YG
+   RiXgRe6N5LFMpmjpC511aT1HSN9LO1K69zR1jgmXLLhCI0oVBlGa53L/d
+   PEzpZkPm1SN6K4wis0eU+GdGOsDggtjz6z+yJhAbY3rbpZAQ+WYdR/UFt
+   g==;
+X-CSE-ConnectionGUID: ILzBxSptQ3SKewOlaNONeg==
+X-CSE-MsgGUID: 8VP18w7tSl2TwzP8e1EOCw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="32151654"
 X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="17537921"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 08:31:16 -0700
-X-CSE-ConnectionGUID: idf+6awATfeUsyFizAoHGw==
-X-CSE-MsgGUID: rHBQZ5IIRsCZyVCNyACpVw==
+   d="scan'208";a="32151654"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 08:42:17 -0700
+X-CSE-ConnectionGUID: schCzkAoRBSIby+nbUxnhQ==
+X-CSE-MsgGUID: li9A0onhT+eAevH2f6SmgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="38750387"
+   d="scan'208";a="43256567"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Jun 2024 08:31:14 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Jun 2024 08:42:14 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGKVk-0001Ly-0x;
-	Sun, 09 Jun 2024 15:31:12 +0000
-Date: Sun, 9 Jun 2024 23:30:19 +0800
+	id 1sGKgO-0001MA-1E;
+	Sun, 09 Jun 2024 15:42:12 +0000
+Date: Sun, 9 Jun 2024 23:41:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Simek <monstr@monstr.eu>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1507/4582] dtbs_check:
- arch/microblaze/boot/dts/system.dtb: /: memory: False schema does not allow
- {'device_type': ['memory'], 'reg': [[2147483648, 1073741824]]}
-Message-ID: <202406092325.F44hxWFE-lkp@intel.com>
+To: Viacheslav Bocharov <adeep@lexina.in>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] arm64: dts: meson-axg: add support for JetHome
+ JetHub D2 (j200)
+Message-ID: <202406092342.w4H7PE64-lkp@intel.com>
+References: <20240607145148.2246990-3-adeep@lexina.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +71,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240607145148.2246990-3-adeep@lexina.in>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d35b2284e966c0bef3e2182a5c5ea02177dd32e4
-commit: 32cf1deb9c04854f76c5882a959b7148b6f32e75 [1507/4582] MICROBLAZE kc705 2017.4 full with cpu-reg fix NEW with reserved memory
-compiler: microblaze-linux-gcc (GCC) 13.2.0
+Hi Viacheslav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Viacheslav-Bocharov/dt-bindings-arm-amlogic-add-binding-for-JetHome-JetHub-D2/20240607-225905
+base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
+patch link:    https://lore.kernel.org/r/20240607145148.2246990-3-adeep%40lexina.in
+patch subject: [PATCH v1 2/2] arm64: dts: meson-axg: add support for JetHome JetHub D2 (j200)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
 dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406092325.F44hxWFE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406092342.w4H7PE64-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406092325.F44hxWFE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406092342.w4H7PE64-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/microblaze/boot/dts/system.dts:498.25-501.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00ba0000: unit name should not have leading "0x"
-   arch/microblaze/boot/dts/system.dts:498.25-501.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00ba0000: unit name should not have leading 0s
-   arch/microblaze/boot/dts/system.dts:503.25-506.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x017a0000: unit name should not have leading "0x"
-   arch/microblaze/boot/dts/system.dts:503.25-506.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x017a0000: unit name should not have leading 0s
-   arch/microblaze/boot/dts/system.dts:579.15-588.4: Warning (simple_bus_reg): /amba_pl/gpio-restart: missing or empty reg/ranges property
-   arch/microblaze/boot/dts/system.dts:50.4-19: Warning (clocks_property): /cpus/cpu@0:clocks: cell 0 is not a phandle reference
-   arch/microblaze/boot/dts/system.dts:272.4-19: Warning (clocks_property): /amba_pl/dma@41e00000:clocks: cell 0 is not a phandle reference
-   arch/microblaze/boot/dts/system.dts:284.4-19: Warning (clocks_property): /amba_pl/timer@41c00000:clocks: cell 0 is not a phandle reference
-   arch/microblaze/boot/dts/system.dts:339.4-19: Warning (clocks_property): /amba_pl/i2c@40800000:clocks: cell 0 is not a phandle reference
-   arch/microblaze/boot/dts/system.dts:560.4-19: Warning (clocks_property): /amba_pl/serial@44a00000:clocks: cell 0 is not a phandle reference
->> arch/microblaze/boot/dts/system.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 1073741824]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/microblaze/boot/dts/system.dtb: /: failed to match any schema with compatible: ['xlnx,microblaze']
->> arch/microblaze/boot/dts/system.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['xlnx,microblaze-10.0']
->> arch/microblaze/boot/dts/system.dtb: clk_cpu@0: 'linux,phandle', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
->> arch/microblaze/boot/dts/system.dtb: clk_bus_0@1: 'linux,phandle', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
->> arch/microblaze/boot/dts/system.dtb: amba_pl: $nodename:0: 'amba_pl' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/microblaze/boot/dts/system.dtb: amba_pl: gpio-restart: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/microblaze/boot/dts/system.dtb: ethernet@40c00000: reg: [[1086324736, 262144]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/xlnx,axi-ethernet.yaml#
->> arch/microblaze/boot/dts/system.dtb: ethernet@40c00000: 'axistream-control-connected', 'clock-frequency', 'device_type', 'linux,phandle', 'local-mac-address', 'xlnx', 'xlnx,axiliteclkrate', 'xlnx,axisclkrate', 'xlnx,clockselection', 'xlnx,enableasyncsgmii', 'xlnx,gt-type', 'xlnx,gtinex', 'xlnx,gtlocation', 'xlnx,gtrefclksrc', 'xlnx,include-dre', 'xlnx,instantiatebitslice0', 'xlnx,phyaddr', 'xlnx,rable', 'xlnx,rxlane0-placement', 'xlnx,rxlane1-placement', 'xlnx,rxnibblebitslice0used', 'xlnx,tx-in-upper-nibble', 'xlnx,txlane0-placement', 'xlnx,txlane1-placement' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/xlnx,axi-ethernet.yaml#
->> arch/microblaze/boot/dts/system.dtb: /amba_pl/dma@41e00000: failed to match any schema with compatible: ['xlnx,eth-dma']
->> arch/microblaze/boot/dts/system.dtb: timer@41c00000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/timer/xlnx,xps-timer.yaml#
->> arch/microblaze/boot/dts/system.dtb: timer@41c00000: 'clock-frequency', 'xlnx,gen0-assert', 'xlnx,gen1-assert', 'xlnx,trig0-assert', 'xlnx,trig1-assert' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/xlnx,xps-timer.yaml#
->> arch/microblaze/boot/dts/system.dtb: i2c@40800000: clock-frequency:0:0: 200000000 is greater than the maximum of 5000000
-   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
->> arch/microblaze/boot/dts/system.dtb: i2c@40800000: clock-frequency:0:0: 200000000 is not one of [100000, 400000, 1000000]
-   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
->> arch/microblaze/boot/dts/system.dtb: i2c@40800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'clock-frequency', 'i2cswitch@74' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
->> arch/microblaze/boot/dts/system.dtb: i2c@40800000: clock-frequency:0:0: 200000000 is greater than the maximum of 5000000
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
->> arch/microblaze/boot/dts/system.dtb: i2cswitch@74: $nodename:0: 'i2cswitch@74' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
->> arch/microblaze/boot/dts/system.dtb: i2cswitch@74: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
->> arch/microblaze/boot/dts/system.dtb: /amba_pl/i2c@40800000/i2cswitch@74/i2c@0/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
->> arch/microblaze/boot/dts/system.dtb: flash@60000000: 'partition@0x00000000', 'partition@0x00b00000', 'partition@0x00b80000', 'partition@0x00ba0000', 'partition@0x017a0000' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/microblaze/boot/dts/system.dtb: /amba_pl/interrupt-controller@41200000: failed to match any schema with compatible: ['xlnx,xps-intc-1.00.a']
->> arch/microblaze/boot/dts/system.dtb: /amba_pl/serial@44a00000: failed to match any schema with compatible: ['xlnx,xps-uart16550-2.00.a', 'ns16550a']
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2220.23-2260.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: /soc/bus@ff600000/bus@60000/clock-controller@0: failed to match any schema with compatible: ['amlogic,sm1-audio-clkc']
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@300: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@340: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@380: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller@3c0: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson-sm1-jethome-jethub-j200.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
