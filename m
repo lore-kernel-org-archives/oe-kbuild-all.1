@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523F74405
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 18:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D8C1CD39
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 20:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717959508; cv=none; b=KkTTd8i5rMr0OuvoHAKgRmWotJbbVFy+rcVPSz1IiTZU/bBmHKFNITS2n68/7dXld3jSXvnVkuJeO9PEJityXyhXpdwuTYL6mnqyeAJ9rtiStmJ7+enV4jIbzGovE5e5Irvf6Ax703xzht/EwGmrEL47LwBozaB7Onhs2anS1dE=
+	t=1717964612; cv=none; b=D3GyAiD4FGJj0c5YFZfGgNp2AT8yrkWewopu0JV0Hq6eTo3zO3xTfTSizji5pY7by8EGZcgBgeEB+Soe2S9K3e0k8Uv0gioTVYtRoo9d1Il8uEv2OV9Car7AV+btHKPjEulagEK0EovMAefqov5NFsmAQ0cpCDHvyNDKqzH9hZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717959508; c=relaxed/simple;
-	bh=xLZ15ZSCiNfPHKmOv1irhHS+V9w3z7/amCWYepTbvKA=;
+	s=arc-20240116; t=1717964612; c=relaxed/simple;
+	bh=IaoNWEOj81c71FbQ7oFl2ntxzRokUe3jwpNjBf65bZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QCug2z22RffIkQQTAwbq+VlwWzF1w0O2LgCmLH71TxqT+0O4Wxj/iBJXRyaZHeipMtIHt232JNdFZD6X/Yv2oggmhjh+C+ldy92rM3vfTlitvi+g2HZAk9LKP2T4U7T0sQgmpMeWfes0ldviP8Zalv0HAo8POp9fZnLA5Ex7UeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P2w9Xnxq; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=lU8zvu3JdoBX8KBwGisUrmUrrXxdUlO8S5rb4uDTZsW8D/Tvho+du5zPc/FDsLN0vi1vcCl02nbWM34tWn9wyMbxVetbNVAsHBBD0Kby8ep+pvkHaa/de8pWwTI9lfSR6YaGQoStQ/38ydiWV9VVUwfj2koMX6Cxks0EjPu841g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbpLjA+8; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P2w9Xnxq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbpLjA+8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717959507; x=1749495507;
+  t=1717964610; x=1749500610;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xLZ15ZSCiNfPHKmOv1irhHS+V9w3z7/amCWYepTbvKA=;
-  b=P2w9XnxqRArhBxPE2U5dRXgN0PonCKxy14IiKmSPcW7vM2sxAOg6KGg8
-   5LXvKn1zwXNgQY0wlB33mGu84b0nrFGMyxHneCVrQ+MxFSCS22yDzLIgX
-   aAmivuNnpDul8EIxQUyDDEu/2pdk1QQCB531xxJfXITUISMhO8TmT6ZJL
-   1d8e4K9LbwZie6O9RW7GCHkIJaS+iUvinmeW+T0La795vNGWWDO0Puoos
-   3EknGHqurVv2hKITZpGBicqpCeeZyhjetNerhxVkxWtVSihdD3cERN1FS
-   HDar4JAUSx+OLw2dbDAmOebHW1oJqKIa6ELvxpfBaV85961xRsUtDsrmH
-   Q==;
-X-CSE-ConnectionGUID: WHGMPrp/TueXhkl4VJttYw==
-X-CSE-MsgGUID: qhzDeSxMTRa1ArZrfoyM+g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14773333"
-X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="14773333"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 11:58:26 -0700
-X-CSE-ConnectionGUID: Nvsw0J+HS/2SU9W8nqgrwg==
-X-CSE-MsgGUID: 0IzW2ipmScGx9z8A3wZhAw==
+  bh=IaoNWEOj81c71FbQ7oFl2ntxzRokUe3jwpNjBf65bZE=;
+  b=KbpLjA+8X+1JGqYaku/9wSKLXN13jJB3IbABtJpBDvII/aDB5a1g65L5
+   8tRtB4KpGTy3waDnfnkYIKXpFPmaktYLPkiG7g8V6gG/a2qFUMuexUEim
+   IikEYUPqtsUqRJHJ3XVrenekuJjuN9JH0CFyFu1RZIhTkJwYNOz23vYhz
+   bhERveQzX8sh6xPGdDHgv12U/3YeDsd0T+HGu/YkxdMVc818KYDkSwxGD
+   yy1qwQW7qH92S/o2QY2LhL2zMSqEpqYvYL2sOpGbfGrwXg6Ak+yC//ilB
+   p/ZTAC+9ufRJpZHd6I8MAfJv7Ppo/zQgKl5JhPqnbXVmBqItcDoPik8QK
+   w==;
+X-CSE-ConnectionGUID: NCoyOjleTnm04Yksv3eeSw==
+X-CSE-MsgGUID: IkRWCwlrQ7uq14DqNrXm/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="18478176"
+X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
+   d="scan'208";a="18478176"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 13:23:30 -0700
+X-CSE-ConnectionGUID: Agjch+VcTfWq9lrp1LjgoQ==
+X-CSE-MsgGUID: FzG3QWHkSu2JsPDnnby7ww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="70030481"
+X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
+   d="scan'208";a="43296860"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Jun 2024 11:58:24 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Jun 2024 13:23:27 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGNkE-0001Wb-0a;
-	Sun, 09 Jun 2024 18:58:22 +0000
-Date: Mon, 10 Jun 2024 02:58:12 +0800
+	id 1sGP4X-0001ZC-0K;
+	Sun, 09 Jun 2024 20:23:25 +0000
+Date: Mon, 10 Jun 2024 04:22:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>,
-	Kees Cook <keescook@chromium.org>,
-	Ronnie Sahlberg <lsahlber@redhat.com>
-Subject: [samba-ksmbd:for-next 226/600] fs/cifs/cifspdu.h:512:17: error:
- expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-Message-ID: <202406100234.NpQ5JC5V-lkp@intel.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-5.10.y-cip-rt-rebase 814/979] ld.lld: error: undefined
+ symbol: arch_dma_alloc
+Message-ID: <202406100414.iYHFS7ro-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,86 +63,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/ksmbd.git for-next
-head:   3fe4ba20003290acf0547625cccc34db928d156e
-commit: cb470770db4ecdaf46a6c4b1703889ba2d6a4b19 [226/600] cifs: Replace a couple of one-element arrays with flexible-array members
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240610/202406100234.NpQ5JC5V-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100234.NpQ5JC5V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip-rt-rebase
+head:   9de69a0c701bb413c105caf0be1dd5cf574866f9
+commit: c6737c17f3653372565b944cc90aecc8c6cf693d [814/979] cache: ax45mp_cache: Add non coherent support
+config: riscv-randconfig-002-20240609 (https://download.01.org/0day-ci/archive/20240610/202406100414.iYHFS7ro-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100414.iYHFS7ro-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406100234.NpQ5JC5V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406100414.iYHFS7ro-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/cifs/cifsfs.c:32:
->> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
+>> ld.lld: error: undefined symbol: arch_dma_alloc
+   >>> referenced by dma-direct.h:32 (include/linux/dma-direct.h:32)
+   >>>               dma/direct.o:(dma_direct_alloc) in archive kernel/built-in.a
 --
-   In file included from fs/cifs/cifsglob.h:100,
-                    from fs/cifs/cached_dir.c:8:
->> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cached_dir.c:415:6: warning: no previous prototype for 'free_cached_dir' [-Wmissing-prototypes]
-     415 | void free_cached_dir(struct cached_fid *cfid)
-         |      ^~~~~~~~~~~~~~~
---
-   In file included from fs/cifs/cifssmb.c:26:
->> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifssmb.c: In function 'decode_ext_sec_blob':
->> fs/cifs/cifssmb.c:381:33: error: 'union <anonymous>' has no member named 'extended_response'
-     381 |         char    *guid = pSMBr->u.extended_response.GUID;
-         |                                 ^
-   fs/cifs/cifssmb.c:405:33: error: 'union <anonymous>' has no member named 'extended_response'
-     405 |                         pSMBr->u.extended_response.SecurityBlob, count, server);
-         |                                 ^
-   fs/cifs/cifssmb.c: In function 'CIFSSMBNegotiate':
->> fs/cifs/cifssmb.c:516:55: error: 'union <anonymous>' has no member named 'EncryptionKey'
-     516 |                 memcpy(ses->server->cryptkey, pSMBr->u.EncryptionKey,
-         |                                                       ^
-
-
-vim +/DECLARE_FLEX_ARRAY +512 fs/cifs/cifspdu.h
-
-   490	
-   491	#define READ_RAW_ENABLE 1
-   492	#define WRITE_RAW_ENABLE 2
-   493	#define RAW_ENABLE (READ_RAW_ENABLE | WRITE_RAW_ENABLE)
-   494	#define SMB1_CLIENT_GUID_SIZE (16)
-   495	typedef struct negotiate_rsp {
-   496		struct smb_hdr hdr;	/* wct = 17 */
-   497		__le16 DialectIndex; /* 0xFFFF = no dialect acceptable */
-   498		__u8 SecurityMode;
-   499		__le16 MaxMpxCount;
-   500		__le16 MaxNumberVcs;
-   501		__le32 MaxBufferSize;
-   502		__le32 MaxRawSize;
-   503		__le32 SessionKey;
-   504		__le32 Capabilities;	/* see below */
-   505		__le32 SystemTimeLow;
-   506		__le32 SystemTimeHigh;
-   507		__le16 ServerTimeZone;
-   508		__u8 EncryptionKeyLength;
-   509		__u16 ByteCount;
-   510		union {
-   511			/* cap extended security off */
- > 512			DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-   513			/* followed by Domain name - if extended security is off */
-   514			/* followed by 16 bytes of server GUID */
-   515			/* then security blob if cap_extended_security negotiated */
-   516			struct {
-   517				unsigned char GUID[SMB1_CLIENT_GUID_SIZE];
-   518				unsigned char SecurityBlob[];
-   519			} __attribute__((packed)) extended_response;
-   520		} __attribute__((packed)) u;
-   521	} __attribute__((packed)) NEGOTIATE_RSP;
-   522	
+>> ld.lld: error: undefined symbol: arch_dma_free
+   >>> referenced by __fls.h:23 (include/asm-generic/bitops/__fls.h:23)
+   >>>               dma/direct.o:(dma_direct_free) in archive kernel/built-in.a
 
 -- 
 0-DAY CI Kernel Test Service
