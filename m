@@ -1,117 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1239233DF
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 01:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCDBA95E;
+	Sun,  9 Jun 2024 01:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717896940; cv=none; b=AO6gTL0TGneMgomxJ45JLBmDCDoc0uGQnWqE1ng4qXR3p029kmzKMVpBFOjG2PiM07jTU4V07xlvL8i8VjPmF+0T3B0gOZ/bvgh0r2/NTlIj5pR33DPl3TvyKOFtk7RlX9GQ+909T0iOmuInM2J/CUntiPxMOJg9fuJKc9+tCio=
+	t=1717896944; cv=none; b=BYwaxGfgDLSxFxXK2wSy2QckP+qkfRL48Mp1VQeR6FOicSySHlzZTLfONXKHS5Zj5rOC1xPi022Bzyw2yifCcBlU+v5T63MJYIPTezyRQRAq+jBU58ZO5LgBv2q2LISGgopAW3a9/lAY4b31GQ02gL//mP5tj5OJ5n+zIBwO9gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717896940; c=relaxed/simple;
-	bh=oJHizDTlgk7iiOeTs8+y1dXRJeUMx1LlY+wokuoqr4U=;
+	s=arc-20240116; t=1717896944; c=relaxed/simple;
+	bh=uuVNQBEbGHZU8TAMitouVvc/s+dScyMtALH78R/ZsgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UW7EBr5/hUfXcWAYbRZplFVF0IDcPucFvG8BL+KP9CS7ntdCYDFEasarMI3tLvJUjRy1tR8pbLfW9n6f24TpBMArZcU1GSoSxidQ513IBgmChVHh8Spz8IknJno56klYKQveJRB2o9KlGO9BDwIWdBPyYdFqjizEkxI+xwg0Cio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcecZB2Q; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=vFkiCd/rHKxCEPNNkvDa1vl3XY/32ovjWZHra1bSrEucvvjXj2yXGjDQ8uwZtOMUCL0bjHFe9AwX/k8O/cTjphijUwOEdJPBvKiJPPAotCMoV3byAMUGvo11EX9pP95Zwh0OigLg37BxoZwATHvyXnhe2Qx1a4F7MTVqIEqjllg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtO52xLi; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcecZB2Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtO52xLi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717896939; x=1749432939;
+  t=1717896942; x=1749432942;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oJHizDTlgk7iiOeTs8+y1dXRJeUMx1LlY+wokuoqr4U=;
-  b=KcecZB2QnSdQmcH4BKO3+PQlYWq7Lgd2GkQNtN8EWDSvxbYyE1YhgYZ1
-   5FuFL9IWM/g9NtIxL/G6XvWseU/RPz1V5BwSe6XcedkU3YBk6uOGeZkeS
-   8k8wH8m608FqRMRl0ynLAJswimDsM5QBC2eYK6i5wKZftZRJzVgdhIcY0
-   BQ1DdPiFjpe88aM8oNT7IgvyGx7Wj43LWiASGNwIy5dYgfeLRpAAk1Y+6
-   avLiaxHVJ9Ud4FLXeP4gxRaJ681rKHp5vYIwaQJX7JSRk/6szyTUz5yUm
-   /zeqhr2HyAZxgrbui/jfjWMEAO+lMcpbxXYJhJKbVr4QG+H/slb4UjKyN
-   w==;
-X-CSE-ConnectionGUID: bAHYkacfRZqWJIcqUpn0JQ==
-X-CSE-MsgGUID: 0mP1hmegRSO/Cacuyhj8AQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="32081335"
+   mime-version:in-reply-to;
+  bh=uuVNQBEbGHZU8TAMitouVvc/s+dScyMtALH78R/ZsgA=;
+  b=gtO52xLidn4b/jyOYwnKYwv38z6G9DLfwaSXbd7f9sfiD8/lyovY5KpL
+   A2fY1TIsww4vCeTiZ1F8ngwuN1q6KFinODnV7aUX7MCYCvzwTZI5aRMAQ
+   vefevJr5a533j4pjXRdNMKsjUw5AW3kIphsI3T6a0iLQ/APBLi7Bz8pdt
+   8u67Aqla+xjQeV7E1XACK2t1p8cWjy+QXTzTZ9j+40m2j3KMyHhNrG/nA
+   mR4MxczipxIen3L9wfQ9PrOFdXQyJFTx1RF3s1IxVxzcQ65pYFh/D0gow
+   TUE5/XA1HS7Yb10WRhE5Ujv0KxgVJiUxC7yyN4i0zhAL79fCbtER4WCtq
+   g==;
+X-CSE-ConnectionGUID: ujdLLsH5QOe7TZFIBJ7MpA==
+X-CSE-MsgGUID: /DYFP5PDTxGPMFdFgNrk2A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="25162530"
 X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
-   d="scan'208";a="32081335"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 18:35:37 -0700
-X-CSE-ConnectionGUID: +OZUXgVJS92pO40bcZYUVA==
-X-CSE-MsgGUID: 1JBw/102Sviaozy4fTCeLg==
+   d="scan'208";a="25162530"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 18:35:42 -0700
+X-CSE-ConnectionGUID: Uy+YTGRITdiRj8jqpSDYRg==
+X-CSE-MsgGUID: NiQMr05vR2SEI8vtLGHx8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
-   d="scan'208";a="69483281"
+   d="scan'208";a="43129201"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Jun 2024 18:35:35 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2024 18:35:36 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sG7T3-0000jQ-0v;
+	id 1sG7T3-0000jX-1K;
 	Sun, 09 Jun 2024 01:35:33 +0000
-Date: Sun, 9 Jun 2024 09:35:22 +0800
+Date: Sun, 9 Jun 2024 09:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
-	linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Mukesh Ojha <quic_mojha@quicinc.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Cavitt <jonathan.cavitt@intel.com>,
-	=?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
-Subject: Re: [PATCH v4 1/2] devcoredump: Add dev_coredumpm_timeout()
-Message-ID: <202406090938.yRretx5x-lkp@intel.com>
-References: <20240607193220.229760-1-jose.souza@intel.com>
+To: Daniel Xu <dxu@dxuuu.xyz>, rostedt@goodmis.org, martin.lau@linux.dev,
+	shuah@kernel.org, song@kernel.org, mhiramat@kernel.org,
+	ast@kernel.org, andrii@kernel.org, pabeni@redhat.com,
+	ebiggers@kernel.org, tytso@mit.edu, vadim.fedorenko@linux.dev,
+	eddyz87@gmail.com, davem@davemloft.net, edumazet@google.com,
+	daniel@iogearbox.net, hawk@kernel.org, kuba@kernel.org,
+	john.fastabend@gmail.com, olsajiri@gmail.com, quentin@isovalent.com,
+	alan.maguire@oracle.com, acme@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	yonghong.song@linux.dev, kpsingh@kernel.org, sdf@google.com,
+	haoluo@google.com, jolsa@kernel.org, mathieu.desnoyers@efficios.com,
+	mykolal@fb.com, fsverity@lists.linux.dev
+Subject: Re: [PATCH bpf-next v4 09/12] bpf: treewide: Align kfunc signatures
+ to prog point-of-view
+Message-ID: <202406090949.IpHo1F5q-lkp@intel.com>
+References: <677377439845fcb9135151d1dac1102ed3d6c924.1717881178.git.dxu@dxuuu.xyz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240607193220.229760-1-jose.souza@intel.com>
+In-Reply-To: <677377439845fcb9135151d1dac1102ed3d6c924.1717881178.git.dxu@dxuuu.xyz>
 
-Hi José,
+Hi Daniel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on wireless/main linus/master v6.10-rc2 next-20240607]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus wireless-next/main]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Roberto-de-Souza/drm-xe-Increase-devcoredump-timeout/20240608-033441
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20240607193220.229760-1-jose.souza%40intel.com
-patch subject: [PATCH v4 1/2] devcoredump: Add dev_coredumpm_timeout()
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240609/202406090938.yRretx5x-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090938.yRretx5x-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/kbuild-bpf-Tell-pahole-to-DECL_TAG-kfuncs/20240609-052326
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/677377439845fcb9135151d1dac1102ed3d6c924.1717881178.git.dxu%40dxuuu.xyz
+patch subject: [PATCH bpf-next v4 09/12] bpf: treewide: Align kfunc signatures to prog point-of-view
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240609/202406090949.IpHo1F5q-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090949.IpHo1F5q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406090938.yRretx5x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406090949.IpHo1F5q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/net/bluetooth/hci_core.h:36,
-                    from net/bluetooth/coredump.c:10:
->> include/net/bluetooth/coredump.h:9: warning: "DEVCOREDUMP_TIMEOUT" redefined
-       9 | #define DEVCOREDUMP_TIMEOUT     msecs_to_jiffies(10000) /* 10 sec */
-         | 
-   In file included from net/bluetooth/coredump.c:6:
-   include/linux/devcoredump.h:16: note: this is the location of the previous definition
-      16 | #define DEVCOREDUMP_TIMEOUT     (HZ * 60 * 5)
-         | 
+>> fs/verity/measure.c:121: warning: Function parameter or struct member 'digest_p' not described in 'bpf_get_fsverity_digest'
+>> fs/verity/measure.c:121: warning: Excess function parameter 'digest_ptr' description in 'bpf_get_fsverity_digest'
+--
+>> kernel/trace/bpf_trace.c:1384: warning: Function parameter or struct member 'data_p' not described in 'bpf_verify_pkcs7_signature'
+>> kernel/trace/bpf_trace.c:1384: warning: Function parameter or struct member 'sig_p' not described in 'bpf_verify_pkcs7_signature'
+>> kernel/trace/bpf_trace.c:1384: warning: Excess function parameter 'data_ptr' description in 'bpf_verify_pkcs7_signature'
+>> kernel/trace/bpf_trace.c:1384: warning: Excess function parameter 'sig_ptr' description in 'bpf_verify_pkcs7_signature'
+>> kernel/trace/bpf_trace.c:1459: warning: Function parameter or struct member 'value_p' not described in 'bpf_get_file_xattr'
+>> kernel/trace/bpf_trace.c:1459: warning: Excess function parameter 'value_ptr' description in 'bpf_get_file_xattr'
 
 
-vim +/DEVCOREDUMP_TIMEOUT +9 include/net/bluetooth/coredump.h
+vim +121 fs/verity/measure.c
 
-9695ef876fd122 Abhishek Pandit-Subedi 2023-03-30   8  
-9695ef876fd122 Abhishek Pandit-Subedi 2023-03-30  @9  #define DEVCOREDUMP_TIMEOUT	msecs_to_jiffies(10000)	/* 10 sec */
-9695ef876fd122 Abhishek Pandit-Subedi 2023-03-30  10  
+67814c00de3161 Song Liu  2023-11-29  110  
+67814c00de3161 Song Liu  2023-11-29  111  /**
+67814c00de3161 Song Liu  2023-11-29  112   * bpf_get_fsverity_digest: read fsverity digest of file
+67814c00de3161 Song Liu  2023-11-29  113   * @file: file to get digest from
+67814c00de3161 Song Liu  2023-11-29  114   * @digest_ptr: (out) dynptr for struct fsverity_digest
+67814c00de3161 Song Liu  2023-11-29  115   *
+67814c00de3161 Song Liu  2023-11-29  116   * Read fsverity_digest of *file* into *digest_ptr*.
+67814c00de3161 Song Liu  2023-11-29  117   *
+67814c00de3161 Song Liu  2023-11-29  118   * Return: 0 on success, a negative value on error.
+67814c00de3161 Song Liu  2023-11-29  119   */
+ec3b75c0e6eb53 Daniel Xu 2024-06-08  120  __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct bpf_dynptr *digest_p)
+67814c00de3161 Song Liu  2023-11-29 @121  {
+ec3b75c0e6eb53 Daniel Xu 2024-06-08  122  	struct bpf_dynptr_kern *digest_ptr = (struct bpf_dynptr_kern *)digest_p;
+67814c00de3161 Song Liu  2023-11-29  123  	const struct inode *inode = file_inode(file);
+67814c00de3161 Song Liu  2023-11-29  124  	u32 dynptr_sz = __bpf_dynptr_size(digest_ptr);
+67814c00de3161 Song Liu  2023-11-29  125  	struct fsverity_digest *arg;
+67814c00de3161 Song Liu  2023-11-29  126  	const struct fsverity_info *vi;
+67814c00de3161 Song Liu  2023-11-29  127  	const struct fsverity_hash_alg *hash_alg;
+67814c00de3161 Song Liu  2023-11-29  128  	int out_digest_sz;
+67814c00de3161 Song Liu  2023-11-29  129  
+67814c00de3161 Song Liu  2023-11-29  130  	if (dynptr_sz < sizeof(struct fsverity_digest))
+67814c00de3161 Song Liu  2023-11-29  131  		return -EINVAL;
+67814c00de3161 Song Liu  2023-11-29  132  
+67814c00de3161 Song Liu  2023-11-29  133  	arg = __bpf_dynptr_data_rw(digest_ptr, dynptr_sz);
+67814c00de3161 Song Liu  2023-11-29  134  	if (!arg)
+67814c00de3161 Song Liu  2023-11-29  135  		return -EINVAL;
+67814c00de3161 Song Liu  2023-11-29  136  
+67814c00de3161 Song Liu  2023-11-29  137  	if (!IS_ALIGNED((uintptr_t)arg, __alignof__(*arg)))
+67814c00de3161 Song Liu  2023-11-29  138  		return -EINVAL;
+67814c00de3161 Song Liu  2023-11-29  139  
+67814c00de3161 Song Liu  2023-11-29  140  	vi = fsverity_get_info(inode);
+67814c00de3161 Song Liu  2023-11-29  141  	if (!vi)
+67814c00de3161 Song Liu  2023-11-29  142  		return -ENODATA; /* not a verity file */
+67814c00de3161 Song Liu  2023-11-29  143  
+67814c00de3161 Song Liu  2023-11-29  144  	hash_alg = vi->tree_params.hash_alg;
+67814c00de3161 Song Liu  2023-11-29  145  
+67814c00de3161 Song Liu  2023-11-29  146  	arg->digest_algorithm = hash_alg - fsverity_hash_algs;
+67814c00de3161 Song Liu  2023-11-29  147  	arg->digest_size = hash_alg->digest_size;
+67814c00de3161 Song Liu  2023-11-29  148  
+67814c00de3161 Song Liu  2023-11-29  149  	out_digest_sz = dynptr_sz - sizeof(struct fsverity_digest);
+67814c00de3161 Song Liu  2023-11-29  150  
+67814c00de3161 Song Liu  2023-11-29  151  	/* copy digest */
+67814c00de3161 Song Liu  2023-11-29  152  	memcpy(arg->digest, vi->file_digest,  min_t(int, hash_alg->digest_size, out_digest_sz));
+67814c00de3161 Song Liu  2023-11-29  153  
+67814c00de3161 Song Liu  2023-11-29  154  	/* fill the extra buffer with zeros */
+67814c00de3161 Song Liu  2023-11-29  155  	if (out_digest_sz > hash_alg->digest_size)
+67814c00de3161 Song Liu  2023-11-29  156  		memset(arg->digest + arg->digest_size, 0, out_digest_sz - hash_alg->digest_size);
+67814c00de3161 Song Liu  2023-11-29  157  
+67814c00de3161 Song Liu  2023-11-29  158  	return 0;
+67814c00de3161 Song Liu  2023-11-29  159  }
+67814c00de3161 Song Liu  2023-11-29  160  
 
 -- 
 0-DAY CI Kernel Test Service
