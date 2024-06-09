@@ -1,86 +1,60 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2DA433C2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 15:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8D210E4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 15:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717946997; cv=none; b=JlXO86LSj+dAHP2T/j4uhuvuhBcedexnJCB6o6j9uO7A4XtNdbEwNXgaljPl+1CafqNDnJaKr5JatcXviCUkG9eGBDPhEcRrE3FdDQO1eiWDIc5heClamdpYAjpWEMB2gC9lsAo2psVghmzfLMt8FjgGbGKxXJi/eiidMfKtFHQ=
+	t=1717947078; cv=none; b=Az+Oz4+VOx1ftOAAazI0q3yjNhvvCTepZmfFD8IAQdnkTfXCw+Fabc0RedbdL2g/h0eBYVNOUMm5V17yuwWKJ536RhFWGCxKoc4HGbkJHPeepjWoZ/M755VomR3c6tEkWmNf2wGIPAjvVWj6WpxlRYQEMZs3XC3RWNu3+u6LDVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717946997; c=relaxed/simple;
-	bh=LkPXGai8kaRoajhEuKD9q1QTp4VpWFHLrSWtfPGkqEk=;
+	s=arc-20240116; t=1717947078; c=relaxed/simple;
+	bh=6DFupQ2OQ1VC9a9p/vOyg0wm9JGMVy7qwHi+EupQyRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=XogHAe3V7MBLpsw+YWPX3Oj1d1p5RB5VJoQB2DnTiTQtzxQ6QG985kbPgf58301csDP5thxxx8lFJKViruPRE42vf8iPQxTzj5gigXHdur2zb0ObZCcxN1z3k+Fcu7ZL8OkTc8EXVTaTHzbTt+nYo8LcPWJ6FL3ntEOxww7mcOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GTVCBz1+; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=p+HxL4tGTRk/n99BOBaznh8DheZeKVlgn/QwiohAKQ2fgCBZQa+LE+J0E3z1LMV8kV73bAH2cSv8L1OESmyhI/6E/ISvgV9BLi2gT5iMJs9buV3oZPZNjEdoyJeBW63313Wsamuto7jWXiOuoeY/7QEHd1v15ZB1+V326/x40zU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOcdcMDv; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GTVCBz1+"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52c8973ff29so272928e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 09 Jun 2024 08:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717946993; x=1718551793; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+p7Dbyuweupea3JxyYctujxWv1vr+kMS3mFulUukLl4=;
-        b=GTVCBz1+xgGo7eX1Ecw0TTvf4MAl1hXd8dE8b4m3NtRNMtHQswupq1FOPggff9ZwR8
-         v/rgvzDKyTCRkS7VQTZqwa1zWrBxndmiThiQvgw1YHOms5r6ttcurgydq0Z4mRR8FsV3
-         n2x1taFtcOT9bkj9rxK+5Ku5sjbSKj6Zhu4HDq7gEAlJm9HcVq5U56hQCb1nzbLxF8QK
-         PAtDoZH/cz+jFp8XY0p8GbqO6aVYJoiu0zbfihEAaK8LZygyYsYdqUr6oNAplDPCTA2t
-         VrEyz3LkVyESBE4TnkB+MOJRCFyT16yWR6cTWsGSAwtJeGgqQbrFgychXYVGc5IlQKpC
-         VAFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717946993; x=1718551793;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+p7Dbyuweupea3JxyYctujxWv1vr+kMS3mFulUukLl4=;
-        b=q6VsxVDyjqPV0in1i3icKJrEMvC0uUFkwSyzUOPKeFvPT8U2AMJRIAaPMa72PqANm4
-         h+NJAeyaIFjpqSd95kS6XcQQvxqqFbGHnWpAAzwuDN7cml/YjRJ9Q3fCwBK0eg9CQezv
-         a1cyuZOk7QOeMwgfhvC1IF0gmccsnLrSHuq8sHiUHEXlwOQ6ZKwyhJ6twi/+4Oprd5m1
-         DW+exmYxvdowWRwKUEuKaCCwNlHb9ytp9O6+Z4J2YJm2osWBx9HqjMxCAnmWOaJcZsF9
-         JhSik7eTVdbevQLAJXtHxnV5MGaL/c0cHa95Eq5PVlBNElngB83G8HHC0tj4v1pQJJ3I
-         SrfA==
-X-Forwarded-Encrypted: i=1; AJvYcCUk8W+JgUNWFrZT7Ycxhfw+fHe6JT6D1AG64TXTuYkX3Lj+TZVuN06Uu7h4znV7y5an0uR/usUd77CbBl6x6o+7/+aYhS1YRrPDK2pJpQ==
-X-Gm-Message-State: AOJu0YyHIpCGeV9eCLm+U9zRyobOL/QZEO4PRuSDN6sWHlugn7JRvHA1
-	ljYpXgsOwyu2gSMyhkUB0+wBuVz7uKP7s7bIn/9BmhJ5G2dAfE2NmZtGiIqAfs8=
-X-Google-Smtp-Source: AGHT+IHAD4z52RxtAlhkJKnz6xDUNUsq8wzsH9aGCceUyMemIpuwQ3lYTq1VwnfUMEWgqgARHYFD4Q==
-X-Received: by 2002:a19:5f5b:0:b0:520:c2c1:153a with SMTP id 2adb3069b0e04-52bb9fd2521mr4380150e87.58.1717946992519;
-        Sun, 09 Jun 2024 08:29:52 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f2024b1c8sm1716363f8f.39.2024.06.09.08.29.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 08:29:52 -0700 (PDT)
-Date: Sun, 9 Jun 2024 18:29:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Fred Griffoul <fgriffo@amazon.co.uk>,
-	griffoul@gmail.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Fred Griffoul <fgriffo@amazon.co.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Waiman Long <longman@redhat.com>,
-	Zefan Li <lizefan.x@bytedance.com>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] vfio/pci: add msi interrupt affinity support
-Message-ID: <714268da-d199-4371-8360-500e7165119c@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOcdcMDv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717947076; x=1749483076;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6DFupQ2OQ1VC9a9p/vOyg0wm9JGMVy7qwHi+EupQyRA=;
+  b=YOcdcMDvcMmK6higSoXDstwANuDS6mWjngngaXV29hm8EcwgvjjuP2sS
+   16vG6xu7PXHOglJddrvGCa+GX/4Pu7xzuiF5Se/TGD8j8g3x1g9o/UMKY
+   eJrcgL1sxjDdC1CNFDZIMYTBMz9lI5Cmd3api+ebkh2rBabeQpUZBwuSZ
+   C5Tv6NCuPlxgOkJawrBoVM/Qq6oi6vkCtWBWOTOCBAltvnPFBAzJck5aA
+   lKBgIQQW32UrrTggI0El6CNtg0Fgjdo7Y84HvDoSivEfB9PC4tE1jkXLT
+   Xy3x/UgrWK73QHpBr0lUS3L/J8y1b2yljAtJbmTEMy1H0jck62ECGDMef
+   Q==;
+X-CSE-ConnectionGUID: MJ71GwgaQJC9JrqP6zMORA==
+X-CSE-MsgGUID: ez5wGWznQSG0hmLRA2MqZg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="17537921"
+X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
+   d="scan'208";a="17537921"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 08:31:16 -0700
+X-CSE-ConnectionGUID: idf+6awATfeUsyFizAoHGw==
+X-CSE-MsgGUID: rHBQZ5IIRsCZyVCNyACpVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
+   d="scan'208";a="38750387"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 09 Jun 2024 08:31:14 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGKVk-0001Ly-0x;
+	Sun, 09 Jun 2024 15:31:12 +0000
+Date: Sun, 9 Jun 2024 23:30:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michal Simek <monstr@monstr.eu>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 1507/4582] dtbs_check:
+ arch/microblaze/boot/dts/system.dtb: /: memory: False schema does not allow
+ {'device_type': ['memory'], 'reg': [[2147483648, 1073741824]]}
+Message-ID: <202406092325.F44hxWFE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -89,94 +63,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607190955.15376-3-fgriffo@amazon.co.uk>
 
-Hi Fred,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fred-Griffoul/cgroup-cpuset-export-cpuset_cpus_allowed/20240608-031332
-base:   cbb325e77fbe62a06184175aa98c9eb98736c3e8
-patch link:    https://lore.kernel.org/r/20240607190955.15376-3-fgriffo%40amazon.co.uk
-patch subject: [PATCH v4 2/2] vfio/pci: add msi interrupt affinity support
-config: mips-randconfig-r081-20240609 (https://download.01.org/0day-ci/archive/20240609/202406092245.Hgx6MqK9-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d35b2284e966c0bef3e2182a5c5ea02177dd32e4
+commit: 32cf1deb9c04854f76c5882a959b7148b6f32e75 [1507/4582] MICROBLAZE kc705 2017.4 full with cpu-reg fix NEW with reserved memory
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406092325.F44hxWFE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406092245.Hgx6MqK9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406092325.F44hxWFE-lkp@intel.com/
 
-New smatch warnings:
-drivers/vfio/pci/vfio_pci_core.c:1241 vfio_pci_ioctl_set_irqs() warn: maybe return -EFAULT instead of the bytes remaining?
-
-vim +1241 drivers/vfio/pci/vfio_pci_core.c
-
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1190  static int vfio_pci_ioctl_set_irqs(struct vfio_pci_core_device *vdev,
-663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1191  				   struct vfio_irq_set __user *arg)
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1192  {
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1193  	unsigned long minsz = offsetofend(struct vfio_irq_set, count);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1194  	struct vfio_irq_set hdr;
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1195  	cpumask_var_t mask;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1196  	u8 *data = NULL;
-05692d7005a364 drivers/vfio/pci/vfio_pci.c      Vlad Tsyrklevich 2016-10-12  1197  	int max, ret = 0;
-ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-17  1198  	size_t data_size = 0;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1199  
-663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1200  	if (copy_from_user(&hdr, arg, minsz))
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1201  		return -EFAULT;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1202  
-05692d7005a364 drivers/vfio/pci/vfio_pci.c      Vlad Tsyrklevich 2016-10-12  1203  	max = vfio_pci_get_irq_count(vdev, hdr.index);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1204  
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1205  	ret = vfio_set_irqs_validate_and_prepare(&hdr, max, VFIO_PCI_NUM_IRQS,
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1206  						 &data_size);
-ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-17  1207  	if (ret)
-ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-17  1208  		return ret;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1209  
-ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-17  1210  	if (data_size) {
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1211  		if (hdr.flags & VFIO_IRQ_SET_DATA_AFFINITY) {
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1212  			if (!zalloc_cpumask_var(&mask, GFP_KERNEL))
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1213  				return -ENOMEM;
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1214  
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1215  			ret = copy_from_user(mask, &arg->data, data_size);
-
-copy_from_user() returns the number of bytes remaining to be copied.
-This should be:
-
-	if (copy_from_user(mask, &arg->data, data_size)) {
-		ret = -EFAULT;
-		goto out;
-	}
-
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1216  			if (ret)
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1217  				goto out;
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1218  
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1219  			data = (u8 *)mask;
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1220  
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1221  		} else {
-663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1222  			data = memdup_user(&arg->data, data_size);
-3a1f7041ddd59e drivers/vfio/pci/vfio_pci.c      Fengguang Wu     2012-12-07  1223  			if (IS_ERR(data))
-3a1f7041ddd59e drivers/vfio/pci/vfio_pci.c      Fengguang Wu     2012-12-07  1224  				return PTR_ERR(data);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1225  		}
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1226  	}
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1227  
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1228  	mutex_lock(&vdev->igate);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1229  
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1230  	ret = vfio_pci_set_irqs_ioctl(vdev, hdr.flags, hdr.index, hdr.start,
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1231  				      hdr.count, data);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1232  
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1233  	mutex_unlock(&vdev->igate);
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1234  
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1235  out:
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1236  	if (hdr.flags & VFIO_IRQ_SET_DATA_AFFINITY && data_size)
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1237  		free_cpumask_var(mask);
-66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-07  1238  	else
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1239  		kfree(data);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31  1240  
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-31 @1241  	return ret;
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-31  1242  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/microblaze/boot/dts/system.dts:498.25-501.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00ba0000: unit name should not have leading "0x"
+   arch/microblaze/boot/dts/system.dts:498.25-501.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00ba0000: unit name should not have leading 0s
+   arch/microblaze/boot/dts/system.dts:503.25-506.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x017a0000: unit name should not have leading "0x"
+   arch/microblaze/boot/dts/system.dts:503.25-506.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x017a0000: unit name should not have leading 0s
+   arch/microblaze/boot/dts/system.dts:579.15-588.4: Warning (simple_bus_reg): /amba_pl/gpio-restart: missing or empty reg/ranges property
+   arch/microblaze/boot/dts/system.dts:50.4-19: Warning (clocks_property): /cpus/cpu@0:clocks: cell 0 is not a phandle reference
+   arch/microblaze/boot/dts/system.dts:272.4-19: Warning (clocks_property): /amba_pl/dma@41e00000:clocks: cell 0 is not a phandle reference
+   arch/microblaze/boot/dts/system.dts:284.4-19: Warning (clocks_property): /amba_pl/timer@41c00000:clocks: cell 0 is not a phandle reference
+   arch/microblaze/boot/dts/system.dts:339.4-19: Warning (clocks_property): /amba_pl/i2c@40800000:clocks: cell 0 is not a phandle reference
+   arch/microblaze/boot/dts/system.dts:560.4-19: Warning (clocks_property): /amba_pl/serial@44a00000:clocks: cell 0 is not a phandle reference
+>> arch/microblaze/boot/dts/system.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/microblaze/boot/dts/system.dtb: /: failed to match any schema with compatible: ['xlnx,microblaze']
+>> arch/microblaze/boot/dts/system.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['xlnx,microblaze-10.0']
+>> arch/microblaze/boot/dts/system.dtb: clk_cpu@0: 'linux,phandle', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/microblaze/boot/dts/system.dtb: clk_bus_0@1: 'linux,phandle', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/microblaze/boot/dts/system.dtb: amba_pl: $nodename:0: 'amba_pl' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/microblaze/boot/dts/system.dtb: amba_pl: gpio-restart: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/microblaze/boot/dts/system.dtb: ethernet@40c00000: reg: [[1086324736, 262144]] is too short
+   	from schema $id: http://devicetree.org/schemas/net/xlnx,axi-ethernet.yaml#
+>> arch/microblaze/boot/dts/system.dtb: ethernet@40c00000: 'axistream-control-connected', 'clock-frequency', 'device_type', 'linux,phandle', 'local-mac-address', 'xlnx', 'xlnx,axiliteclkrate', 'xlnx,axisclkrate', 'xlnx,clockselection', 'xlnx,enableasyncsgmii', 'xlnx,gt-type', 'xlnx,gtinex', 'xlnx,gtlocation', 'xlnx,gtrefclksrc', 'xlnx,include-dre', 'xlnx,instantiatebitslice0', 'xlnx,phyaddr', 'xlnx,rable', 'xlnx,rxlane0-placement', 'xlnx,rxlane1-placement', 'xlnx,rxnibblebitslice0used', 'xlnx,tx-in-upper-nibble', 'xlnx,txlane0-placement', 'xlnx,txlane1-placement' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/xlnx,axi-ethernet.yaml#
+>> arch/microblaze/boot/dts/system.dtb: /amba_pl/dma@41e00000: failed to match any schema with compatible: ['xlnx,eth-dma']
+>> arch/microblaze/boot/dts/system.dtb: timer@41c00000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/timer/xlnx,xps-timer.yaml#
+>> arch/microblaze/boot/dts/system.dtb: timer@41c00000: 'clock-frequency', 'xlnx,gen0-assert', 'xlnx,gen1-assert', 'xlnx,trig0-assert', 'xlnx,trig1-assert' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/xlnx,xps-timer.yaml#
+>> arch/microblaze/boot/dts/system.dtb: i2c@40800000: clock-frequency:0:0: 200000000 is greater than the maximum of 5000000
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
+>> arch/microblaze/boot/dts/system.dtb: i2c@40800000: clock-frequency:0:0: 200000000 is not one of [100000, 400000, 1000000]
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
+>> arch/microblaze/boot/dts/system.dtb: i2c@40800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'clock-frequency', 'i2cswitch@74' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
+>> arch/microblaze/boot/dts/system.dtb: i2c@40800000: clock-frequency:0:0: 200000000 is greater than the maximum of 5000000
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
+>> arch/microblaze/boot/dts/system.dtb: i2cswitch@74: $nodename:0: 'i2cswitch@74' does not match '^(i2c-?)?mux'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+>> arch/microblaze/boot/dts/system.dtb: i2cswitch@74: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@3' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+>> arch/microblaze/boot/dts/system.dtb: /amba_pl/i2c@40800000/i2cswitch@74/i2c@0/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+>> arch/microblaze/boot/dts/system.dtb: flash@60000000: 'partition@0x00000000', 'partition@0x00b00000', 'partition@0x00b80000', 'partition@0x00ba0000', 'partition@0x017a0000' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/microblaze/boot/dts/system.dtb: /amba_pl/interrupt-controller@41200000: failed to match any schema with compatible: ['xlnx,xps-intc-1.00.a']
+>> arch/microblaze/boot/dts/system.dtb: /amba_pl/serial@44a00000: failed to match any schema with compatible: ['xlnx,xps-uart16550-2.00.a', 'ns16550a']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
