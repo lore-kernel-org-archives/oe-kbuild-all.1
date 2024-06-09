@@ -1,204 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2081.outbound.protection.outlook.com [40.107.114.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7838B65E;
-	Sun,  9 Jun 2024 08:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717922642; cv=none; b=AN0PpM9rWJAwJ2fOZ+ekh19fLFxAUmpkYsX7hIQWKCNiUt8HOzCLhN+bqp1kGve0Y3MVGTujhvCuXn2ewpv+eWTGBluzcAUqBr3XNIcoA2TMqsyGY0Y76zkWT43D2Db4tjR4n04hSB9yMW9LiEUU5nfbs+lmROMK0hWs1QKDRjQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717922642; c=relaxed/simple;
-	bh=P3jgUiSm8qQBKqNO6sXYWOj6I4UDr2lE/NmkgVYUaIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sTKrOJyee+sI6xG41ygD6n4pOec8CBbUmUQDzXLmZCvjqA0YW5OdeilUchlbfjajcRtN+KWbsI0pz3rYdp/eQ4PRWVEQAL+o5/WYEumUKLK8+RVxsTB6ZGAo6SVlvF+objr0CR150ptn9Jy8oaKnTc72GtSMlnTUOmy/sBzglKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iq56qmQq; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B88D51E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 09:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717924613; cv=fail; b=BZIlr0fTC8PSy20Vr1xVl3I39Jy3agSRQ0G5t8vuSCUwtEEGqp/axWTHEBRkAN0ZcmzIxOn184eAuHN+kJet358JyQc7wGDCr54/9B9AE0eRzd5KvQqENq/Z8GA2nQ/zS7sqtBLwrhVauozMTcWID9TqBX2Win7R1I/AVS1bThs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717924613; c=relaxed/simple;
+	bh=dgcPQMi0t1/WUBMDGRI2i6U81tr8EPXmy8JtIynaMGg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iN2inZNj8qQjRyTerKqMJGjQfaJvwd014dhFAky2POaSWPB+kO8g+jpOy3I0aJO8+c+m5VrRkMpd+8QVBy7mRgFs0rLfG8jYbeaIekhVH5MAl2GqZ1dOsTM/wAH9ha5hNGQOXQ8h7lYcwmAHYGYP5BIT9xL3kbqPH2xFt9NNpVY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=qWa+ojXA; arc=fail smtp.client-ip=40.107.114.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iq56qmQq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717922641; x=1749458641;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P3jgUiSm8qQBKqNO6sXYWOj6I4UDr2lE/NmkgVYUaIA=;
-  b=Iq56qmQq5tFG3BgQl/9028/r8DeS8I1XRhHgyMDNgjzq1UdZ7FsXsvui
-   npuQkrWB4ezooxr2jPqk5ISeoW9UjjbP6ayNjO+h8UKIKlJs/fk6+kBSF
-   ozt8dl70Yd/QRv4RJtDmggG9q11fMw09df05gvAnDKUGrD7JiP4AAwfxD
-   u0S6N8Lu3CQ3tSUapF/LtJ9mr6ZzqmblADhFvEVBQt6I3oPuS4SfNNtJb
-   LKe5l+8OD1+bRXrrEiEA2dThVZjK1hwTdwfJb4MT/KryEhL+eGfM4zueX
-   Tx8arR+yAgUy5J9E8XQrn6wiWgbRpcwEmo36XMpPJO3hFdd8AtkAzNGtr
-   g==;
-X-CSE-ConnectionGUID: jXIMA3xARROJCtJ4P61yfg==
-X-CSE-MsgGUID: 95Fnets8QEWHdEbIcV/e+A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="14399831"
-X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="14399831"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 01:44:00 -0700
-X-CSE-ConnectionGUID: Jhfs3dedSbKqqo8je3dJuA==
-X-CSE-MsgGUID: 3spXNCV2SVm9yu13iV1CKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="39318986"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Jun 2024 01:43:59 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sGE9c-00010Y-0k;
-	Sun, 09 Jun 2024 08:43:56 +0000
-Date: Sun, 9 Jun 2024 16:43:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 46/97]
- fs/bcachefs/alloc_foreground.c:1709:38: error: call to undeclared function
- 'bch2_fs_usage_read_one'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202406091631.AlBzaflH-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="qWa+ojXA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LTOwIv6thnRItnx8KjclSoPkyI3PYJeJTS0yhc5rbWNGU31Zrm3BTjeB+bwk9aLAbABi6tbQWZm9PvQbeKcItUBPCn0cKBNBYZ6BlkHEUX7okdM1gw7jXpquSZMlmaRxNNqtbTpCZONbisbJrBuAwegZaSvjOkuN/5MJiAjttS10bWSnFXPvx0oqVa/orq88Ppq6uqnPbOg0cmWJKwYvWAYzLEmx0JJOelcysxP16lmiw7UxlGfYOkc9zR2t8BVo0JqmVhtG8MGhc3r/u740Om1snsH0ATOZqJ0HUFxJyozzYlT9PkyM23+TfIfNmo0iDh0GoBCMF6i8Pl4imh1CiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zOqQn5qm6I+l0kcoZoh2aWLsTjyfIBisSl7X59Ei7TA=;
+ b=g6+Gxb4EXSJCVx+ZaGb0F3XRKYCgIRNdkbUD+ATeumEaxMOduO0DuZQ+WTKjDL+EcCtDC4I5k91JsguoYWP0+qhBGyYbQ5qHK2fWwu9Zx8hYBlX/HmDwGDCFpz7W54J9O0WvYGOcfB47w61AMstqmpHr/sVG8pi+5oley0TVB/rNl5M7jwDiWymhKECrDlloEqzXvKNnvJhM/ILgWYFuGSk9J+QEpS9a3gznNxZJAfXQLtlnGOsqKkAzTwM4RpLjiopZURbPC3t4a/vzlkhw65QwE8ObywAHJgwpa8A8MA7cLlhGmpgXX2ckOPFKS5Vaqdkdb00dMJLmS4yltt9now==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zOqQn5qm6I+l0kcoZoh2aWLsTjyfIBisSl7X59Ei7TA=;
+ b=qWa+ojXAiAzs0RYJ6Dl9zdYLrD7eVUs2fll2S9bYQrUvSwpw8SS81WBkJzPFnr9QQkLzhds3iZA5JKk7ovnIqo9JChwQm72WAaWNL+rjqN1isLzrPQE8jExw7pEB49KNjCsLYIB2j49k3F4zWGCK6PPBCARS7yl+Y6XIi1l5qos=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYBPR01MB5328.jpnprd01.prod.outlook.com (2603:1096:404:801f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Sun, 9 Jun
+ 2024 09:16:46 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.7633.036; Sun, 9 Jun 2024
+ 09:16:42 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Philip Li <philip.li@intel.com>
+CC: kernel test robot <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: RE: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
+ (graph_child_address): /soc/video@10830000/ports/port@1: graph node has
+ single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+Thread-Topic: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning
+ (graph_child_address): /soc/video@10830000/ports/port@1: graph node has
+ single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+Thread-Index: AQHauWXuNNufcFVNdEChjApJ0f0KZLG9jE4QgAFaN4CAAEC08A==
+Date: Sun, 9 Jun 2024 09:16:42 +0000
+Message-ID:
+ <TY3PR01MB11346322B694FFDDBB2716CDA86C52@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <202406081329.snoMrZsJ-lkp@intel.com>
+ <TY3PR01MB113468C94F2ED383F5EB883A986C42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <ZmU7ebk5vWv+fBT2@rli9-mobl>
+In-Reply-To: <ZmU7ebk5vWv+fBT2@rli9-mobl>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYBPR01MB5328:EE_
+x-ms-office365-filtering-correlation-id: fa669616-55c5-4ee5-e368-08dc8864e088
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230031|366007|376005|1800799015|38070700009|220923002;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?AtuoUYtlX+DAUJFvo87yz8501XzFr2j+2wU6prtHRn/L7nz8NThfVWgjw+FY?=
+ =?us-ascii?Q?ppu7MVW0gJNsuGURZBpMQTLPnMZ96ykkZ/F+eSXbWQHvB3mOw1ChuTJaPK7Q?=
+ =?us-ascii?Q?BWpYV4/eDHLxmSvikaLtH+PoZU/v4SPP+i5YWrhDiAOnjsxtG+Ws7cSmCxjS?=
+ =?us-ascii?Q?XYDM0JgwpR6RC75tKfoVFXbML7HwYXnCyFmqWXEJS9XX3g1IEfs8/15fSAVS?=
+ =?us-ascii?Q?ucGPiU5jOCwFovQCV2u9Jj3YYfUVOBwRzmGVVoJD9ML2WfVtp3pce8tF9qbx?=
+ =?us-ascii?Q?9e3sSqfLzAAB9WWVdEvWfdkG/ArvrO9SSiaXd9BRlU1ZnJMuGKlePGj2ZL74?=
+ =?us-ascii?Q?Iyc0ooQCveZDj6mdqdzAdSEezIcfJSu4NgXK4VIIjfevnr+5K3J2BHE897Wm?=
+ =?us-ascii?Q?RhOX8/pylEct6sSbrT73eFcwOWyaQrasTzCGxA+dNcncwYOjjhcG84K6EMYB?=
+ =?us-ascii?Q?az7MnvnSAfHCEowxO8fettRHyJgBnGFbHsVNeA079gQAqSQo6RSGSnWvMV9r?=
+ =?us-ascii?Q?w7eucU49xmsslDP9lZ69hyre6bHWbvCcZmDtUAm0FkFKeMNlhjGFr+GO8MMz?=
+ =?us-ascii?Q?15XjqOeJYWhNhNMYeutxyO9LRX4yMhh7ZeAB8d0aWc+jDRiI9vZqxhhrtHFx?=
+ =?us-ascii?Q?Z5jZatgz1FLSRmlRF7JqE6EQh4oUW1zW2y8234qbR10vdPdvtkl4jK9WYN2t?=
+ =?us-ascii?Q?yQnmmGpJO0QxCK7CYxI5SoAUifuNGd78h9CfoHGNb4/RVMbWy2BpHG04tJFh?=
+ =?us-ascii?Q?ZRahPmUPqLFeHGuAK3+IbTHRG9WMHrxD97+Dj6CinswybD5P7OiqUMZhuOQw?=
+ =?us-ascii?Q?ZxU9ncZRDBQvd8MHchnNunirbc6KdhmzK7TTs5H8kSGSqfGsHMihEvsEpCy2?=
+ =?us-ascii?Q?Ym8v0gTZN1fhCv2B9hqOkp0yB5zlSETssTRyGvkr0lEAGHxyJkmDsGBms+8A?=
+ =?us-ascii?Q?OAhKl5nDL6E6rJqmNvwrkmIy4bniklPxKWIaiiyAJw261KkpKAyz06IqI4xw?=
+ =?us-ascii?Q?VZ2/hmomqvjlTdE20Jv38E67qn0R6qf3x+if2RbRQqZ4rsaSyBLwZvHivjxC?=
+ =?us-ascii?Q?Zkt+39Ku8Z+2rFFAeC9sYsAZod5pTrFS8UISWATyZL5zojoM+WffxX2Aq7cd?=
+ =?us-ascii?Q?B+zieWSTfH14DBj4esJqqrWYQS1fRa5tV3ZicLGGUJVGrSalv7m+TyLYupVv?=
+ =?us-ascii?Q?LTBlLZlIidC96iqMDjk4UkgIe4/0uEvz3+VE5CaKuSAftZ13SL8EVM16S8MZ?=
+ =?us-ascii?Q?RXE2uwqLiZTfPYQd6gGl7GIFm0hSZFMUmuxY/616qSfAZxOfp+HcjggmBw7z?=
+ =?us-ascii?Q?TP0wl20u/o6IXsEcRoPaNduhc9HEA3pyILBg4/G3/weMhA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009)(220923002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?1I7NyjcDuBiiz+QTsQZmtKlyLMxi0/6PZhu7qG7oTbQoHZAM1q6fEiOb/Eh+?=
+ =?us-ascii?Q?WTMyQsoMr6zRi9htsQ21yiNDvugDbzW/WgYgSEHaspQPFSjW2JMl2A5CA8lt?=
+ =?us-ascii?Q?od6vvvw2L7qKppoXdqNPrydGOOs3awJ4m/eIT/IeV65YKcM0G/CeeiiKzjgU?=
+ =?us-ascii?Q?XmNGNcVMNPHhIJdzML2A/C06MEOg7aY48kp7jIrdkmBU5w+hYS0nyHvIL9hF?=
+ =?us-ascii?Q?hd5lcnVsbu4Uq/000vssf32l+7Loilpp3aqRU3IY7iqPxVwH9AyziLrF30l5?=
+ =?us-ascii?Q?ANrIYCIh97L3Eqs97R6JU6303CAVv7Yd3F6OX+W23csebCprM557xfgZ6MFo?=
+ =?us-ascii?Q?PTLCPrZZDC+AuKrt6JHQYn9K5lKEl480702c3X1PiH1jswjmXZMtngmHy57W?=
+ =?us-ascii?Q?cSjozBQcGNTN+XZlO0BpvQsmmbTx5gsVtniahWV0yY5Oi3bnOvack3ySpbKp?=
+ =?us-ascii?Q?9cBai5ISkngDg3hNMjQlmz+Bsg6AQ03pkfmzQhbfPR9qBHPV8GJxX+msFpdx?=
+ =?us-ascii?Q?B6Ln2jApIrmg23B+l8/tEAXBh+x6mDlrRn9DQG8MGErLj2EnhsrrrWkipSaP?=
+ =?us-ascii?Q?/ixieA7ToVckuLDgiv5BCb2e3ZB+4ODUHSXbDPr8ZSAGUH6NYvr3TezAiX1g?=
+ =?us-ascii?Q?w0ZDW2V045pSsKlLbmHs57vLIEYJ+7NK1yH+RmYQ/U6Vpc38XlbW3N31W8FU?=
+ =?us-ascii?Q?nEZudCoexMPzzZ8/BZlLxf2Rmzeorw6yt5jRPaXdCOvW8O+I3qH5F0dAdrgH?=
+ =?us-ascii?Q?KKyPOOm1dgPtghAEQSDFTErj6dA6AXG9KajOS+lTBFsf84dsKlDluMGX+46e?=
+ =?us-ascii?Q?BDY7Vp14NFauLG95/2CEslv4TgiNw45cA5wSIbZIDttNlLct+1ymRS5vAOGz?=
+ =?us-ascii?Q?h8rMnrvjWBbzhOLEpMHmAcj3O9AvCS+KOMJV/p2UaXpD2ZD2lXZKGNS7oERy?=
+ =?us-ascii?Q?V4JtyaUcAWWfbd9Ge8oV0uzfzGnPhR7Jg511TZzQV11rrF2SW9r8ArfwOV6H?=
+ =?us-ascii?Q?8G8YeE3VJG4qsCVHf359yvSNCH/qqiunARQWsGolWwRtYdipEr2bVo6hB+Pj?=
+ =?us-ascii?Q?RpJgFJcabo71FSLPa8CX8Bu0yBdpKPFda+n6g8JWrC00l5fJZlzQYYPUlEDt?=
+ =?us-ascii?Q?7HEpNs4xuFcSrhPWP0ytz5LoGhhglmCnUScivEsLd/XM60wgEBbeCCqQgPOr?=
+ =?us-ascii?Q?lPKnKGY21Iw8/crJhpy12ge4/UCWYXwSB582RqMAOFoqNg58Bu/o8w61mPuY?=
+ =?us-ascii?Q?33CpaY+oasHY0ZjVd74xWFUFDucr7IOuBGtQBeEj6vMBN8a580YnhzPhtInd?=
+ =?us-ascii?Q?BmbHjGA27p4GTe3woKQyQnp5I4lVg9VjCSsh7u8pnelRWVjijwxqsMXtNO3X?=
+ =?us-ascii?Q?zGlc2ey96QBv7V1PhFBG5eteTP1iRiaGWYlEPQd64FmNFFKTh8KB/YW0VR5e?=
+ =?us-ascii?Q?7WeaN4aIZW6fUtgSzEcNmyf1gkZqpzrstlNVaympiftI8j4w48CBr65NFqZF?=
+ =?us-ascii?Q?4lUI0Y9mCLg6XNnQ8WF5Ra90yZHLNJhNB2JEFDtNt2/MsclS7WinZraSoYGz?=
+ =?us-ascii?Q?czpG09j9IaK9fdtWr4qbBMYV1qCXTdiqDmgOVfLbgP88D1lkF9A3wc8p5d15?=
+ =?us-ascii?Q?Pw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa669616-55c5-4ee5-e368-08dc8864e088
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2024 09:16:42.4418
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tBWQOL1tsiXQgPhZVyeUQAaPRX7Kt0ejl3x7k+oK4E15PS9L9zmOT8Rws/L4N16hWaiA2xC94k9dFbes0nxzKdLZ90eHjkKxwWDwMzzGMh0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5328
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   e514088a9cf20c9729c12fb6cf92de291fb7cca6
-commit: da76cae296ca4407c458a0ffc9a746627e16304d [46/97] bcachefs: Delete journal-buf-sharded old style accounting
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240609/202406091631.AlBzaflH-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406091631.AlBzaflH-lkp@intel.com/reproduce)
+Hi Philip Li,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406091631.AlBzaflH-lkp@intel.com/
+Thanks for the feedback.
 
-Note: the bcachefs/bcachefs-testing HEAD e514088a9cf20c9729c12fb6cf92de291fb7cca6 builds fine.
-      It only hurts bisectability.
+> -----Original Message-----
+> From: Philip Li <philip.li@intel.com>
+> Sent: Sunday, June 9, 2024 6:20 AM
+> Subject: Re: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warn=
+ing (graph_child_address):
+> /soc/video@10830000/ports/port@1: graph node has single child node 'endpo=
+int@0', #address-
+> cells/#size-cells are not necessary
+>=20
+> On Sat, Jun 08, 2024 at 08:42:56AM +0000, Biju Das wrote:
+> > Hi All,
+> >
+> > > -----Original Message-----
+> > > From: kernel test robot <lkp@intel.com>
+> > > Sent: Saturday, June 8, 2024 6:37 AM
+> > > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Cc: oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kernel.org;
+> > > Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Subject: arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warn=
+ing (graph_child_address):
+> > > /soc/video@10830000/ports/port@1: graph node has single child node
+> > > 'endpoint@0', #address- cells/#size-cells are not necessary
+> > >
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git master
+> > > head:   dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
+> > > commit: 971c17f879352adc719ff215e0769f8e0a49d7c4 arm64: dts:
+> > > renesas: r9a07g043u: Add CSI and CRU nodes
+> > > date:   4 months ago
+> > > compiler: aarch64-linux-gcc (GCC) 13.2.0 reproduce (this is a W=3D1 b=
+uild):
+> > > (https://download.01.org/0day-ci/archive/20240608/202406081329.snoMr
+> > > ZsJ-lkp@intel.com/reproduce)
+> >
+> > As per this,
+> > dasb@ree-du1sdd5:~/lkp-tests$ mkdir build_dir && cp config
+> > build_dir/.config
+> > cp: cannot stat 'config': No such file or directory
+>=20
+> sorry, looks this is confusing to "cp config build_dir/.config" as there'=
+s no .config for this
+> case. We will fix the reproduce step.
 
-All errors (new ones prefixed by >>):
+OK.
 
-   In file included from fs/bcachefs/alloc_foreground.c:14:
-   In file included from fs/bcachefs/bcachefs.h:188:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/bcachefs/alloc_foreground.c:1709:38: error: call to undeclared function 'bch2_fs_usage_read_one'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1709 |         prt_printf(out, "hidden\t%llu\n",                       bch2_fs_usage_read_one(c, &c->usage_base->b.hidden));
-         |                                                                 ^
-   fs/bcachefs/alloc_foreground.c:1709:38: note: did you mean 'bch2_fs_usage_read_short'?
-   fs/bcachefs/buckets.h:299:1: note: 'bch2_fs_usage_read_short' declared here
-     299 | bch2_fs_usage_read_short(struct bch_fs *);
-         | ^
->> fs/bcachefs/alloc_foreground.c:1709:68: error: no member named 'usage_base' in 'struct bch_fs'
-    1709 |         prt_printf(out, "hidden\t%llu\n",                       bch2_fs_usage_read_one(c, &c->usage_base->b.hidden));
-         |                                                                                            ~  ^
-   fs/bcachefs/util.h:192:54: note: expanded from macro 'prt_printf'
-     192 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   fs/bcachefs/alloc_foreground.c:1710:67: error: no member named 'usage_base' in 'struct bch_fs'
-    1710 |         prt_printf(out, "btree\t%llu\n",                        bch2_fs_usage_read_one(c, &c->usage_base->b.btree));
-         |                                                                                            ~  ^
-   fs/bcachefs/util.h:192:54: note: expanded from macro 'prt_printf'
-     192 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   fs/bcachefs/alloc_foreground.c:1711:67: error: no member named 'usage_base' in 'struct bch_fs'
-    1711 |         prt_printf(out, "data\t%llu\n",                         bch2_fs_usage_read_one(c, &c->usage_base->b.data));
-         |                                                                                            ~  ^
-   fs/bcachefs/util.h:192:54: note: expanded from macro 'prt_printf'
-     192 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   fs/bcachefs/alloc_foreground.c:1712:68: error: no member named 'usage_base' in 'struct bch_fs'
-    1712 |         prt_printf(out, "cached\t%llu\n",                       bch2_fs_usage_read_one(c, &c->usage_base->b.cached));
-         |                                                                                            ~  ^
-   fs/bcachefs/util.h:192:54: note: expanded from macro 'prt_printf'
-     192 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   fs/bcachefs/alloc_foreground.c:1713:70: error: no member named 'usage_base' in 'struct bch_fs'
-    1713 |         prt_printf(out, "reserved\t%llu\n",                     bch2_fs_usage_read_one(c, &c->usage_base->b.reserved));
-         |                                                                                            ~  ^
-   fs/bcachefs/util.h:192:54: note: expanded from macro 'prt_printf'
-     192 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   fs/bcachefs/alloc_foreground.c:1715:71: error: no member named 'usage_base' in 'struct bch_fs'
-    1715 |         prt_printf(out, "nr_inodes\t%llu\n",                    bch2_fs_usage_read_one(c, &c->usage_base->b.nr_inodes));
-         |                                                                                            ~  ^
-   fs/bcachefs/util.h:192:54: note: expanded from macro 'prt_printf'
-     192 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   5 warnings and 7 errors generated.
+>=20
+> >
+> > So I have generated .config and copied as config
+> >
+> > Than I got the the below issue,
+> > COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-13.2.0
+> > ~/lkp-tests/kbuild/make.cross W=3D1 O=3Dbuild_dir ARCH=3Darm64 olddefco=
+nfig
+> > -bash: /data/dasb/lkp-tests/kbuild/make.cross: No such file or
+> > directory
+>=20
+> Is it possible the lkp-tests is not up to date? the make.cross code was u=
+ploaded recently.
 
+Yes, lkp-tests are not up to date with the master branch with respect to br=
+anch created using steps to reproduce
+instruction.
 
-vim +/bch2_fs_usage_read_one +1709 fs/bcachefs/alloc_foreground.c
+So manually copied the below files from master branch.
 
-e98786ea855cb2 Kent Overstreet 2024-05-03  1696  
-e98786ea855cb2 Kent Overstreet 2024-05-03  1697  void bch2_fs_alloc_debug_to_text(struct printbuf *out, struct bch_fs *c)
-e98786ea855cb2 Kent Overstreet 2024-05-03  1698  {
-e98786ea855cb2 Kent Overstreet 2024-05-03  1699  	unsigned nr[BCH_DATA_NR];
-e98786ea855cb2 Kent Overstreet 2024-05-03  1700  
-e98786ea855cb2 Kent Overstreet 2024-05-03  1701  	memset(nr, 0, sizeof(nr));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1702  
-e98786ea855cb2 Kent Overstreet 2024-05-03  1703  	for (unsigned i = 0; i < ARRAY_SIZE(c->open_buckets); i++)
-e98786ea855cb2 Kent Overstreet 2024-05-03  1704  		nr[c->open_buckets[i].data_type]++;
-e98786ea855cb2 Kent Overstreet 2024-05-03  1705  
-e98786ea855cb2 Kent Overstreet 2024-05-03  1706  	printbuf_tabstop_push(out, 24);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1707  
-e98786ea855cb2 Kent Overstreet 2024-05-03  1708  	percpu_down_read(&c->mark_lock);
-e98786ea855cb2 Kent Overstreet 2024-05-03 @1709  	prt_printf(out, "hidden\t%llu\n",			bch2_fs_usage_read_one(c, &c->usage_base->b.hidden));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1710  	prt_printf(out, "btree\t%llu\n",			bch2_fs_usage_read_one(c, &c->usage_base->b.btree));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1711  	prt_printf(out, "data\t%llu\n",				bch2_fs_usage_read_one(c, &c->usage_base->b.data));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1712  	prt_printf(out, "cached\t%llu\n",			bch2_fs_usage_read_one(c, &c->usage_base->b.cached));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1713  	prt_printf(out, "reserved\t%llu\n",			bch2_fs_usage_read_one(c, &c->usage_base->b.reserved));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1714  	prt_printf(out, "online_reserved\t%llu\n",		percpu_u64_get(c->online_reserved));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1715  	prt_printf(out, "nr_inodes\t%llu\n",			bch2_fs_usage_read_one(c, &c->usage_base->b.nr_inodes));
-e98786ea855cb2 Kent Overstreet 2024-05-03  1716  	percpu_up_read(&c->mark_lock);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1717  
-e98786ea855cb2 Kent Overstreet 2024-05-03  1718  	prt_newline(out);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1719  	prt_printf(out, "freelist_wait\t%s\n",			c->freelist_wait.list.first ? "waiting" : "empty");
-e98786ea855cb2 Kent Overstreet 2024-05-03  1720  	prt_printf(out, "open buckets allocated\t%i\n",		OPEN_BUCKETS_COUNT - c->open_buckets_nr_free);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1721  	prt_printf(out, "open buckets total\t%u\n",		OPEN_BUCKETS_COUNT);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1722  	prt_printf(out, "open_buckets_wait\t%s\n",		c->open_buckets_wait.list.first ? "waiting" : "empty");
-e98786ea855cb2 Kent Overstreet 2024-05-03  1723  	prt_printf(out, "open_buckets_btree\t%u\n",		nr[BCH_DATA_btree]);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1724  	prt_printf(out, "open_buckets_user\t%u\n",		nr[BCH_DATA_user]);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1725  	prt_printf(out, "btree reserve cache\t%u\n",		c->btree_reserve_cache_nr);
-e98786ea855cb2 Kent Overstreet 2024-05-03  1726  }
-e98786ea855cb2 Kent Overstreet 2024-05-03  1727  
+cp ~/lkp-tests/kbuild/make.cross_bk ~/lkp-tests/kbuild/make.cross
+cp /data/dasb/lkp-tests/kbuild/kbuild.sh_bk /data/dasb/lkp-tests/kbuild/kbu=
+ild.shs
+cp -rf /data/dasb/lkp-tests/kbuild-bk/etc/  /data/dasb/lkp-tests/kbuild/
 
-:::::: The code at line 1709 was first introduced by commit
-:::::: e98786ea855cb28176e27ffce23fb163a36ed32e bcachefs: bch2_print_allocator_stuck()
+>=20
+> >
+> > Can you please provide the details how to get this tool chain?
+> >
+> > So that I can reproduce and fix the issue in same environment.
+>=20
+> You can try below steps (without the cp .config)
+>=20
+> $ mkdir build_dir
+> $ COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-13.2.0 ~/lkp-tests/kb=
+uild/make.cross W=3D1
+> O=3Dbuild_dir ARCH=3Darm64 olddefconfig $ COMPILER_INSTALL_PATH=3D$HOME/0=
+day COMPILER=3Dgcc-13.2.0 ~/lkp-
+> tests/kbuild/make.cross W=3D1 O=3Dbuild_dir ARCH=3Darm64 SHELL=3D/bin/bas=
+h
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+I can reproduce the issue now with lkp-tests environment
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+../arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:85.11-94.6: Warning (graph_c=
+hild_address): /soc/video@10830000/ports/port@1: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+../arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:120.11-129.6: Warning (graph=
+_child_address): /soc/csi2@10830400/ports/port@1: graph node has single chi=
+ld node 'endpoint@0', #address-cells/#size-cells are not necessary
+
+Cheers,
+Biju
