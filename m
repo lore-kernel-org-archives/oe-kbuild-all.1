@@ -1,60 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2792920DC4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 22:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058E018EB0;
+	Sun,  9 Jun 2024 22:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717972481; cv=none; b=VevhltBVRK2pFdxyO2Az1QZL3V8SBt+2iGHCAHBkTeDgWKkcd2OTbyn2nFPeCdtAqaNy4WqDJ1gsds/4GAuMpi+5wNaz5VF8TjOxTG2J25Or+rvHwocNlfqKEa8Cme9U5d1tFzq+Re/AMO0v4hhEInEuisBxC1YjHjVx2+PqCaM=
+	t=1717972483; cv=none; b=QA3+A5b546CmPiSSnBmMj54+tfY9121oMLO4/mOJY/ru2eHbzIwoj3bP0PP/BkUhy1T3ZEraMHoGAUQxsTbYeFpL6dDLShSC6WfR7CHPJkcm0DIpcs6P9ANAw9XgJbkqbALz9eE+x60qHabN2y6C/hNJMOImtm0ATku+sj4peNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717972481; c=relaxed/simple;
-	bh=0SXNMdHlkbVg4dTocEcUUETdUgZHx6Lrn5xblAfhdqg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GzQwO5n2PVDpku01NIFw6CdK+maOvFa74oG8yEBUh0/vey8NPIhR4+dLOwPRnZOakcBY59E9fg2BCGBxXY6kmZ+jxiQoA+X7FQ+dd53XSBtc8jI6tLvFH3vDeI1jQnQKTC9ZrPJKy4SvKw1ebQdHMBixF1Ume5WSoxI1A2Ug3fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8DTnyiS; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1717972483; c=relaxed/simple;
+	bh=7POtHIFBnIfQvUggHgsCUgRA8D1KL4yajWsmoQaTe9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BCk5OS2SHX6QNXpIXhfKgJDLKl/ub5VqQsupdyX4ZvaFuR9p2MmOYB3uwX2z6K2Qf/Tg1zJFcJ22yyvEoBXqqwF3jkitMeEqi+T7PW4/pO3ESfHj59mqRSxzsDv8tP8/TA7O2KEddqA9i/A1a65sS7GOFpSDzM/KDVWyUuoTx1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bwj1EMnu; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8DTnyiS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bwj1EMnu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717972479; x=1749508479;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0SXNMdHlkbVg4dTocEcUUETdUgZHx6Lrn5xblAfhdqg=;
-  b=H8DTnyiSvn2dBtGTfbIfE2obU7m9B5Wnmhs2YblDWpS3rF/08BJWwSZC
-   tBSbg14QNe7tpee/AzWtCjPM6eNd5rMT2DueOzEgivi3Z1UeFfX/Lmfum
-   R32zLMXrXjK7uFya0/DYvqNwJEsnlZseRtUM6Fg4GP1H81hnRKlc99RWH
-   A8B+DgRo5MkMeakefdH1C8sHhbb/ylkiSzYSAePezuRPBo+h8pm/Ib/Bq
-   cNVvZShragwg3LnVxr+t7SF924RuwbGsY9XjdxsrMJkxyd0gunH+BCpyk
-   p3+ARlfCXSRp0AjDbrXN4jObIE9ZvHspFAqrbXxWRRGzVmi30cUHMthlA
-   A==;
-X-CSE-ConnectionGUID: 0Y9H3EAqRHykTZJe4hineg==
-X-CSE-MsgGUID: enxeXi+hTE2c0v4kmHy4JA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14803226"
+  t=1717972481; x=1749508481;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7POtHIFBnIfQvUggHgsCUgRA8D1KL4yajWsmoQaTe9k=;
+  b=Bwj1EMnujoVnMIOHsZqXcqyQCvmbW3rbi919qut6P8dT1GiKhGdOQQrO
+   ybc4K/iBXuEyKBv1K/jTSmFICmH/2tbdOyM70i367C5dLqjIFwNbGOanR
+   M0P8rFhhUkiUeVNEChGCa1X5iUGf+CUDYvlViavn7o36C02Z8evW1IJn/
+   WVwrGJ+JV4eIui+avKvqg7ZOehBuLTcu2pAG+xtko4zeNmIvpmYhLz8R7
+   I4yTygOHJJlt8SVwlUYAtFnqp0whSpE1TRjJ0nveYNnlANr2Dl8DjwH3R
+   fdM0jJ/9ItJZDG/R03oszbDh79xGTxGLEG/GaGhnW3MHozhaK3p4AKFtB
+   Q==;
+X-CSE-ConnectionGUID: mYGidX/NRsmFrzTt4CtZQA==
+X-CSE-MsgGUID: YjPoB+6rQ56/UTGUP+68fw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14803228"
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="14803226"
+   d="scan'208";a="14803228"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 15:34:39 -0700
-X-CSE-ConnectionGUID: w9QFKjuLS3utGq9kNg4qsQ==
-X-CSE-MsgGUID: 8cy84ZhURfqyKRhZxFTPBA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 15:34:40 -0700
+X-CSE-ConnectionGUID: RfCIc2f5TkCYoaPUy7JXMw==
+X-CSE-MsgGUID: 4VQrmob1R6GwaE0Sbl6IBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="43314161"
+   d="scan'208";a="43314180"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 09 Jun 2024 15:34:37 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGR7T-0001eI-17;
+	id 1sGR7T-0001eE-0g;
 	Sun, 09 Jun 2024 22:34:35 +0000
-Date: Mon, 10 Jun 2024 06:33:51 +0800
+Date: Mon, 10 Jun 2024 06:33:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, Winston Wen <wentao@uniontech.com>,
-	Paulo Alcantara <pc@manguebit.com>
-Subject: [samba-ksmbd:for-next 462/600] fs/cifs/connect.c:2304:49: warning:
- passing argument 1 of 'load_nls' discards 'const' qualifier from pointer
- target type
-Message-ID: <202406100635.EHsbq8pU-lkp@intel.com>
+To: Richard chien <m8809301@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Richard chien <richard.chien@hpe.com>
+Subject: Re: [PATCH] ixgbe: Add support for firmware update
+Message-ID: <202406100635.nORK1Xs0-lkp@intel.com>
+References: <20240609085735.6253-1-richard.chien@hpe.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,210 +66,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240609085735.6253-1-richard.chien@hpe.com>
 
-tree:   git://git.samba.org/ksmbd.git for-next
-head:   3fe4ba20003290acf0547625cccc34db928d156e
-commit: 210478bd8268be0166a31bdacb90baf59d46c479 [462/600] cifs: fix charset issue in reconnection
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240610/202406100635.EHsbq8pU-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100635.EHsbq8pU-lkp@intel.com/reproduce)
+Hi Richard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tnguy-net-queue/dev-queue]
+[also build test WARNING on linus/master v6.10-rc3 next-20240607]
+[cannot apply to tnguy-next-queue/dev-queue]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-chien/ixgbe-Add-support-for-firmware-update/20240609-170239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20240609085735.6253-1-richard.chien%40hpe.com
+patch subject: [PATCH] ixgbe: Add support for firmware update
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240610/202406100635.nORK1Xs0-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100635.nORK1Xs0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406100635.EHsbq8pU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406100635.nORK1Xs0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/cifs/connect.c:35:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/connect.c:36:
-   fs/cifs/../smbfs_common/smb2pdu.h:818:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     818 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1638:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1638 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/connect.c: In function 'cifs_get_smb_ses':
->> fs/cifs/connect.c:2304:49: warning: passing argument 1 of 'load_nls' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    2304 |         ses->local_nls = load_nls(ctx->local_nls->charset);
-         |                                   ~~~~~~~~~~~~~~^~~~~~~~~
-   In file included from fs/cifs/cifsproto.h:10,
-                    from fs/cifs/connect.c:37:
-   include/linux/nls.h:50:35: note: expected 'char *' but argument is of type 'const char *'
-      50 | extern struct nls_table *load_nls(char *);
-         |                                   ^~~~~~
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_ethtool.c:1104:9: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    1104 |         default:
+         |         ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_ethtool.c:1104:9: note: insert 'break;' to avoid fall-through
+    1104 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
 
-vim +2304 fs/cifs/connect.c
+vim +1104 drivers/net/ethernet/intel/ixgbe/ixgbe_ethtool.c
 
-  2201	
-  2202	/**
-  2203	 * cifs_get_smb_ses - get a session matching @ctx data from @server
-  2204	 * @server: server to setup the session to
-  2205	 * @ctx: superblock configuration context to use to setup the session
-  2206	 *
-  2207	 * This function assumes it is being called from cifs_mount() where we
-  2208	 * already got a server reference (server refcount +1). See
-  2209	 * cifs_get_tcon() for refcount explanations.
-  2210	 */
-  2211	struct cifs_ses *
-  2212	cifs_get_smb_ses(struct TCP_Server_Info *server, struct smb3_fs_context *ctx)
-  2213	{
-  2214		int rc = 0;
-  2215		unsigned int xid;
-  2216		struct cifs_ses *ses;
-  2217		struct sockaddr_in *addr = (struct sockaddr_in *)&server->dstaddr;
-  2218		struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)&server->dstaddr;
-  2219	
-  2220		xid = get_xid();
-  2221	
-  2222		ses = cifs_find_smb_ses(server, ctx);
-  2223		if (ses) {
-  2224			cifs_dbg(FYI, "Existing smb sess found (status=%d)\n",
-  2225				 ses->ses_status);
-  2226	
-  2227			spin_lock(&ses->chan_lock);
-  2228			if (cifs_chan_needs_reconnect(ses, server)) {
-  2229				spin_unlock(&ses->chan_lock);
-  2230				cifs_dbg(FYI, "Session needs reconnect\n");
-  2231	
-  2232				mutex_lock(&ses->session_mutex);
-  2233				rc = cifs_negotiate_protocol(xid, ses, server);
-  2234				if (rc) {
-  2235					mutex_unlock(&ses->session_mutex);
-  2236					/* problem -- put our ses reference */
-  2237					cifs_put_smb_ses(ses);
-  2238					free_xid(xid);
-  2239					return ERR_PTR(rc);
-  2240				}
-  2241	
-  2242				rc = cifs_setup_session(xid, ses, server,
-  2243							ctx->local_nls);
-  2244				if (rc) {
-  2245					mutex_unlock(&ses->session_mutex);
-  2246					/* problem -- put our reference */
-  2247					cifs_put_smb_ses(ses);
-  2248					free_xid(xid);
-  2249					return ERR_PTR(rc);
-  2250				}
-  2251				mutex_unlock(&ses->session_mutex);
-  2252	
-  2253				spin_lock(&ses->chan_lock);
-  2254			}
-  2255			spin_unlock(&ses->chan_lock);
-  2256	
-  2257			/* existing SMB ses has a server reference already */
-  2258			cifs_put_tcp_session(server, 0);
-  2259			free_xid(xid);
-  2260			return ses;
-  2261		}
-  2262	
-  2263		rc = -ENOMEM;
-  2264	
-  2265		cifs_dbg(FYI, "Existing smb sess not found\n");
-  2266		ses = sesInfoAlloc();
-  2267		if (ses == NULL)
-  2268			goto get_ses_fail;
-  2269	
-  2270		/* new SMB session uses our server ref */
-  2271		ses->server = server;
-  2272		if (server->dstaddr.ss_family == AF_INET6)
-  2273			sprintf(ses->ip_addr, "%pI6", &addr6->sin6_addr);
-  2274		else
-  2275			sprintf(ses->ip_addr, "%pI4", &addr->sin_addr);
-  2276	
-  2277		if (ctx->username) {
-  2278			ses->user_name = kstrdup(ctx->username, GFP_KERNEL);
-  2279			if (!ses->user_name)
-  2280				goto get_ses_fail;
-  2281		}
-  2282	
-  2283		/* ctx->password freed at unmount */
-  2284		if (ctx->password) {
-  2285			ses->password = kstrdup(ctx->password, GFP_KERNEL);
-  2286			if (!ses->password)
-  2287				goto get_ses_fail;
-  2288		}
-  2289		if (ctx->domainname) {
-  2290			ses->domainName = kstrdup(ctx->domainname, GFP_KERNEL);
-  2291			if (!ses->domainName)
-  2292				goto get_ses_fail;
-  2293		}
-  2294	
-  2295		strscpy(ses->workstation_name, ctx->workstation_name, sizeof(ses->workstation_name));
-  2296	
-  2297		if (ctx->domainauto)
-  2298			ses->domainAuto = ctx->domainauto;
-  2299		ses->cred_uid = ctx->cred_uid;
-  2300		ses->linux_uid = ctx->linux_uid;
-  2301	
-  2302		ses->sectype = ctx->sectype;
-  2303		ses->sign = ctx->sign;
-> 2304		ses->local_nls = load_nls(ctx->local_nls->charset);
-  2305	
-  2306		/* add server as first channel */
-  2307		spin_lock(&ses->chan_lock);
-  2308		ses->chans[0].server = server;
-  2309		ses->chan_count = 1;
-  2310		ses->chan_max = ctx->multichannel ? ctx->max_channels:1;
-  2311		ses->chans_need_reconnect = 1;
-  2312		spin_unlock(&ses->chan_lock);
-  2313	
-  2314		mutex_lock(&ses->session_mutex);
-  2315		rc = cifs_negotiate_protocol(xid, ses, server);
-  2316		if (!rc)
-  2317			rc = cifs_setup_session(xid, ses, server, ctx->local_nls);
-  2318		mutex_unlock(&ses->session_mutex);
-  2319	
-  2320		/* each channel uses a different signing key */
-  2321		spin_lock(&ses->chan_lock);
-  2322		memcpy(ses->chans[0].signkey, ses->smb3signingkey,
-  2323		       sizeof(ses->smb3signingkey));
-  2324		spin_unlock(&ses->chan_lock);
-  2325	
-  2326		if (rc)
-  2327			goto get_ses_fail;
-  2328	
-  2329		/*
-  2330		 * success, put it on the list and add it as first channel
-  2331		 * note: the session becomes active soon after this. So you'll
-  2332		 * need to lock before changing something in the session.
-  2333		 */
-  2334		spin_lock(&cifs_tcp_ses_lock);
-  2335		ses->dfs_root_ses = ctx->dfs_root_ses;
-  2336		if (ses->dfs_root_ses)
-  2337			ses->dfs_root_ses->ses_count++;
-  2338		list_add(&ses->smb_ses_list, &server->smb_ses_list);
-  2339		spin_unlock(&cifs_tcp_ses_lock);
-  2340	
-  2341		cifs_setup_ipc(ses, ctx);
-  2342	
-  2343		free_xid(xid);
-  2344	
-  2345		return ses;
-  2346	
-  2347	get_ses_fail:
-  2348		sesInfoFree(ses);
-  2349		free_xid(xid);
-  2350		return ERR_PTR(rc);
-  2351	}
-  2352	
+  1005	
+  1006	static int ixgbe_nvmupd_validate_offset(struct ixgbe_adapter *adapter,
+  1007	                                        u32 offset)
+  1008	{
+  1009	        struct net_device *netdev = adapter->netdev;
+  1010	
+  1011	        switch (offset) {
+  1012	        case IXGBE_STATUS:
+  1013	        case IXGBE_ESDP:
+  1014	        case IXGBE_MSCA:
+  1015	        case IXGBE_MSRWD:
+  1016	        case IXGBE_EEC_8259X:
+  1017	        case IXGBE_FLA_8259X:
+  1018	        case IXGBE_FLOP:
+  1019	        case IXGBE_SWSM_8259X:
+  1020	        case IXGBE_FWSM_8259X:
+  1021	        case IXGBE_FACTPS_8259X:
+  1022	        case IXGBE_GSSR:
+  1023	        case IXGBE_HICR:
+  1024	        case IXGBE_FWSTS:
+  1025	                return 0;
+  1026	        default:
+  1027	                if ((offset >= IXGBE_MAVTV(0) && offset <= IXGBE_MAVTV(7)) ||
+  1028	                    (offset >= IXGBE_RAL(0) && offset <= IXGBE_RAH(15)))
+  1029	                        return 0;
+  1030	        }
+  1031	
+  1032	        switch (adapter->hw.mac.type) {
+  1033	        case ixgbe_mac_82599EB:
+  1034	                switch (offset) {
+  1035	                case IXGBE_AUTOC:
+  1036	                case IXGBE_EERD:
+  1037	                case IXGBE_BARCTRL:
+  1038	                        return 0;
+  1039	                default:
+  1040	                        if (offset >= 0x00020000 &&
+  1041	                            offset <= ixgbe_get_eeprom_len(netdev))
+  1042	                                return 0;
+  1043	                }
+  1044	                break;
+  1045	        case ixgbe_mac_X540:
+  1046	                switch (offset) {
+  1047	                case IXGBE_EERD:
+  1048	                case IXGBE_EEWR:
+  1049	                case IXGBE_SRAMREL:
+  1050	                case IXGBE_BARCTRL:
+  1051	                        return 0;
+  1052	                default:
+  1053	                        if ((offset >= 0x00020000 &&
+  1054	                             offset <= ixgbe_get_eeprom_len(netdev)))
+  1055	                                return 0;
+  1056	                }
+  1057	                break;
+  1058	        case ixgbe_mac_X550:
+  1059	                switch (offset) {
+  1060	                case IXGBE_EEWR:
+  1061	                case IXGBE_SRAMREL:
+  1062	                case IXGBE_PHYCTL_82599:
+  1063	                case IXGBE_FWRESETCNT:
+  1064	                        return 0;
+  1065	                default:
+  1066	                        if (offset >= IXGBE_FLEX_MNG_PTR(0) &&
+  1067	                            offset <= IXGBE_FLEX_MNG_PTR(447))
+  1068	                                return 0;
+  1069	                }
+  1070	                break;
+  1071	        case ixgbe_mac_X550EM_x:
+  1072	                switch (offset) {
+  1073	                case IXGBE_PHYCTL_82599:
+  1074	                case IXGBE_NW_MNG_IF_SEL:
+  1075	                case IXGBE_FWRESETCNT:
+  1076	                case IXGBE_I2CCTL_X550:
+  1077	                        return 0;
+  1078	                default:
+  1079	                        if ((offset >= IXGBE_FLEX_MNG_PTR(0) &&
+  1080	                             offset <= IXGBE_FLEX_MNG_PTR(447)) ||
+  1081	                            (offset >= IXGBE_FUSES0_GROUP(0) &&
+  1082	                             offset <= IXGBE_FUSES0_GROUP(7)))
+  1083	                                return 0;
+  1084	                }
+  1085	                break;
+  1086	        case ixgbe_mac_x550em_a:
+  1087	                switch (offset) {
+  1088	                case IXGBE_PHYCTL_82599:
+  1089	                case IXGBE_NW_MNG_IF_SEL:
+  1090	                case IXGBE_FWRESETCNT:
+  1091	                case IXGBE_I2CCTL_X550:
+  1092	                case IXGBE_FLA_X550EM_a:
+  1093	                case IXGBE_SWSM_X550EM_a:
+  1094	                case IXGBE_FWSM_X550EM_a:
+  1095	                case IXGBE_SWFW_SYNC_X550EM_a:
+  1096	                case IXGBE_FACTPS_X550EM_a:
+  1097	                case IXGBE_EEC_X550EM_a:
+  1098	                        return 0;
+  1099	                default:
+  1100	                        if (offset >= IXGBE_FLEX_MNG_PTR(0) &&
+  1101	                            offset <= IXGBE_FLEX_MNG_PTR(447))
+  1102	                                return 0;
+  1103	                }
+> 1104	        default:
+  1105	                break;
+  1106	        }
+  1107	
+  1108	        return -ENOTTY;
+  1109	}
+  1110	
 
 -- 
 0-DAY CI Kernel Test Service
