@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251024C627
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 22:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2792920DC4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jun 2024 22:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717971158; cv=none; b=NEPtCU7FtH7iSYbfIqfejkvh9dAJWGjcNBkt4cFC+EnNKxdtlwIOG59o4I8vjghGMaYN/n9yrDcTuMGJOnSRDJhA8BfovlMYdmp0xQtxGplNu4ttkJpuMZiTu9WxJwTrRCYzFf65OnX3hIBJQtwLmIvixlouUbbVDELZsdwmkmU=
+	t=1717972481; cv=none; b=VevhltBVRK2pFdxyO2Az1QZL3V8SBt+2iGHCAHBkTeDgWKkcd2OTbyn2nFPeCdtAqaNy4WqDJ1gsds/4GAuMpi+5wNaz5VF8TjOxTG2J25Or+rvHwocNlfqKEa8Cme9U5d1tFzq+Re/AMO0v4hhEInEuisBxC1YjHjVx2+PqCaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717971158; c=relaxed/simple;
-	bh=XX22Wtd3SC/NYGqSoQRJhBZnaGoitMLH2sQbqcY+rlI=;
+	s=arc-20240116; t=1717972481; c=relaxed/simple;
+	bh=0SXNMdHlkbVg4dTocEcUUETdUgZHx6Lrn5xblAfhdqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NvZeXSTLc3vlEUefPM269EclL3c74pa6suvglYzQEgLh/8qvb05v03f4DMtrSfg1s1k1FjqJ6m6RwR0Qapbq1u/9nAqt7fsZklLOEiFPzyr/VPvGz6LT/VeMPvooxix/+QvgAXjpDagKbj8P5Ik0xPzmeLa4U7kreEUoo1ed1vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eRoAv3ss; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=GzQwO5n2PVDpku01NIFw6CdK+maOvFa74oG8yEBUh0/vey8NPIhR4+dLOwPRnZOakcBY59E9fg2BCGBxXY6kmZ+jxiQoA+X7FQ+dd53XSBtc8jI6tLvFH3vDeI1jQnQKTC9ZrPJKy4SvKw1ebQdHMBixF1Ume5WSoxI1A2Ug3fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8DTnyiS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRoAv3ss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8DTnyiS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717971156; x=1749507156;
+  t=1717972479; x=1749508479;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XX22Wtd3SC/NYGqSoQRJhBZnaGoitMLH2sQbqcY+rlI=;
-  b=eRoAv3ss9MALWnVYgDbdG9u/UYo5zQgW8jEFzFh3rctfXC0auQ777C2+
-   ZR23DRGZhtCktpjcgvXhq0v5egmRQRSTHuceq0Rol3iQ9bA/Fh0TH+ndN
-   sJw0qsGv2puwx9lznfrYPxx49PwYT6ArOGnMyFI0SJQTgq5PxKs3Aif0v
-   CA09AIcZm7wGpaspo0q6PYp5OV/WqCy6yEteaNtAUc0BCAMBeV/g84q7k
-   uMOF3zZW4GtJjXI+z0ktdEecHJBNYhKxOfJVISYsM2w4JE1i3Pkzhy/Hr
-   eRg7sEI856oO897eSZ4ZG5j2RbRb54flmsqIV6mGLJZ0wxdczyD9aJ6B+
+  bh=0SXNMdHlkbVg4dTocEcUUETdUgZHx6Lrn5xblAfhdqg=;
+  b=H8DTnyiSvn2dBtGTfbIfE2obU7m9B5Wnmhs2YblDWpS3rF/08BJWwSZC
+   tBSbg14QNe7tpee/AzWtCjPM6eNd5rMT2DueOzEgivi3Z1UeFfX/Lmfum
+   R32zLMXrXjK7uFya0/DYvqNwJEsnlZseRtUM6Fg4GP1H81hnRKlc99RWH
+   A8B+DgRo5MkMeakefdH1C8sHhbb/ylkiSzYSAePezuRPBo+h8pm/Ib/Bq
+   cNVvZShragwg3LnVxr+t7SF924RuwbGsY9XjdxsrMJkxyd0gunH+BCpyk
+   p3+ARlfCXSRp0AjDbrXN4jObIE9ZvHspFAqrbXxWRRGzVmi30cUHMthlA
    A==;
-X-CSE-ConnectionGUID: LqCJrzwTQN6IZkkiI/DfOA==
-X-CSE-MsgGUID: NkHRIW8bQ1G1Kh60pGMiNw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="32161465"
+X-CSE-ConnectionGUID: 0Y9H3EAqRHykTZJe4hineg==
+X-CSE-MsgGUID: enxeXi+hTE2c0v4kmHy4JA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14803226"
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="32161465"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 15:12:35 -0700
-X-CSE-ConnectionGUID: KXijXYxDTFWcRv1RnA69Mw==
-X-CSE-MsgGUID: RcSZ9h99T2OIWCDoxxH7tQ==
+   d="scan'208";a="14803226"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 15:34:39 -0700
+X-CSE-ConnectionGUID: w9QFKjuLS3utGq9kNg4qsQ==
+X-CSE-MsgGUID: 8cy84ZhURfqyKRhZxFTPBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="38962503"
+   d="scan'208";a="43314161"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Jun 2024 15:12:35 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Jun 2024 15:34:37 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGQm7-0001di-34;
-	Sun, 09 Jun 2024 22:12:31 +0000
-Date: Mon, 10 Jun 2024 06:11:35 +0800
+	id 1sGR7T-0001eI-17;
+	Sun, 09 Jun 2024 22:34:35 +0000
+Date: Mon, 10 Jun 2024 06:33:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18534/22827]
- drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202406100658.RXAKSKac-lkp@intel.com>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Winston Wen <wentao@uniontech.com>,
+	Paulo Alcantara <pc@manguebit.com>
+Subject: [samba-ksmbd:for-next 462/600] fs/cifs/connect.c:2304:49: warning:
+ passing argument 1 of 'load_nls' discards 'const' qualifier from pointer
+ target type
+Message-ID: <202406100635.EHsbq8pU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +64,209 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   6a98543755cf2f636ae3169f3774d226d328d2cf
-commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [18534/22827] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
-config: x86_64-randconfig-103-20240609 (https://download.01.org/0day-ci/archive/20240610/202406100658.RXAKSKac-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   git://git.samba.org/ksmbd.git for-next
+head:   3fe4ba20003290acf0547625cccc34db928d156e
+commit: 210478bd8268be0166a31bdacb90baf59d46c479 [462/600] cifs: fix charset issue in reconnection
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240610/202406100635.EHsbq8pU-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100635.EHsbq8pU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406100658.RXAKSKac-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406100635.EHsbq8pU-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
+All warnings (new ones prefixed by >>):
 
-vim +614 drivers/acpi/cppc_acpi.c
+   In file included from fs/cifs/connect.c:35:
+   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   In file included from fs/cifs/cifsglob.h:26,
+                    from fs/cifs/connect.c:36:
+   fs/cifs/../smbfs_common/smb2pdu.h:818:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     818 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/../smbfs_common/smb2pdu.h:1638:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    1638 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/connect.c: In function 'cifs_get_smb_ses':
+>> fs/cifs/connect.c:2304:49: warning: passing argument 1 of 'load_nls' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    2304 |         ses->local_nls = load_nls(ctx->local_nls->charset);
+         |                                   ~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from fs/cifs/cifsproto.h:10,
+                    from fs/cifs/connect.c:37:
+   include/linux/nls.h:50:35: note: expected 'char *' but argument is of type 'const char *'
+      50 | extern struct nls_table *load_nls(char *);
+         |                                   ^~~~~~
 
-   576	
-   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
-   578	{
-   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
-   580		int parsed_core_num = 0;
-   581		int i, ret;
-   582	
-   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
-   584		if (!cpc_pptr)
-   585			return -ENOMEM;
-   586		for_each_possible_cpu(i) {
-   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-   588			if (!cpc_pptr[i]) {
-   589				ret = -ENOMEM;
-   590				goto out;
-   591			}
-   592		}
-   593	
-   594		/*
-   595		 * We can not use acpi_get_devices() to walk the processor devices
-   596		 * because some processor device is not present.
-   597		 */
-   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
-   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
-   600					  cpc_pptr, (void **)&parsed_core_num);
-   601		if (ret)
-   602			goto out;
-   603		if (parsed_core_num != num_possible_cpus()) {
-   604			ret = -EINVAL;
-   605			goto out;
-   606		}
-   607	
-   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
-   609	
-   610	out:
-   611		for_each_possible_cpu(i) {
-   612			cpc_ptr = cpc_pptr[i];
-   613			if (cpc_ptr)
- > 614				kfree(cpc_ptr);
-   615		}
-   616		kfree(cpc_pptr);
-   617	
-   618		return ret;
-   619	}
-   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
-   621	
+
+vim +2304 fs/cifs/connect.c
+
+  2201	
+  2202	/**
+  2203	 * cifs_get_smb_ses - get a session matching @ctx data from @server
+  2204	 * @server: server to setup the session to
+  2205	 * @ctx: superblock configuration context to use to setup the session
+  2206	 *
+  2207	 * This function assumes it is being called from cifs_mount() where we
+  2208	 * already got a server reference (server refcount +1). See
+  2209	 * cifs_get_tcon() for refcount explanations.
+  2210	 */
+  2211	struct cifs_ses *
+  2212	cifs_get_smb_ses(struct TCP_Server_Info *server, struct smb3_fs_context *ctx)
+  2213	{
+  2214		int rc = 0;
+  2215		unsigned int xid;
+  2216		struct cifs_ses *ses;
+  2217		struct sockaddr_in *addr = (struct sockaddr_in *)&server->dstaddr;
+  2218		struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)&server->dstaddr;
+  2219	
+  2220		xid = get_xid();
+  2221	
+  2222		ses = cifs_find_smb_ses(server, ctx);
+  2223		if (ses) {
+  2224			cifs_dbg(FYI, "Existing smb sess found (status=%d)\n",
+  2225				 ses->ses_status);
+  2226	
+  2227			spin_lock(&ses->chan_lock);
+  2228			if (cifs_chan_needs_reconnect(ses, server)) {
+  2229				spin_unlock(&ses->chan_lock);
+  2230				cifs_dbg(FYI, "Session needs reconnect\n");
+  2231	
+  2232				mutex_lock(&ses->session_mutex);
+  2233				rc = cifs_negotiate_protocol(xid, ses, server);
+  2234				if (rc) {
+  2235					mutex_unlock(&ses->session_mutex);
+  2236					/* problem -- put our ses reference */
+  2237					cifs_put_smb_ses(ses);
+  2238					free_xid(xid);
+  2239					return ERR_PTR(rc);
+  2240				}
+  2241	
+  2242				rc = cifs_setup_session(xid, ses, server,
+  2243							ctx->local_nls);
+  2244				if (rc) {
+  2245					mutex_unlock(&ses->session_mutex);
+  2246					/* problem -- put our reference */
+  2247					cifs_put_smb_ses(ses);
+  2248					free_xid(xid);
+  2249					return ERR_PTR(rc);
+  2250				}
+  2251				mutex_unlock(&ses->session_mutex);
+  2252	
+  2253				spin_lock(&ses->chan_lock);
+  2254			}
+  2255			spin_unlock(&ses->chan_lock);
+  2256	
+  2257			/* existing SMB ses has a server reference already */
+  2258			cifs_put_tcp_session(server, 0);
+  2259			free_xid(xid);
+  2260			return ses;
+  2261		}
+  2262	
+  2263		rc = -ENOMEM;
+  2264	
+  2265		cifs_dbg(FYI, "Existing smb sess not found\n");
+  2266		ses = sesInfoAlloc();
+  2267		if (ses == NULL)
+  2268			goto get_ses_fail;
+  2269	
+  2270		/* new SMB session uses our server ref */
+  2271		ses->server = server;
+  2272		if (server->dstaddr.ss_family == AF_INET6)
+  2273			sprintf(ses->ip_addr, "%pI6", &addr6->sin6_addr);
+  2274		else
+  2275			sprintf(ses->ip_addr, "%pI4", &addr->sin_addr);
+  2276	
+  2277		if (ctx->username) {
+  2278			ses->user_name = kstrdup(ctx->username, GFP_KERNEL);
+  2279			if (!ses->user_name)
+  2280				goto get_ses_fail;
+  2281		}
+  2282	
+  2283		/* ctx->password freed at unmount */
+  2284		if (ctx->password) {
+  2285			ses->password = kstrdup(ctx->password, GFP_KERNEL);
+  2286			if (!ses->password)
+  2287				goto get_ses_fail;
+  2288		}
+  2289		if (ctx->domainname) {
+  2290			ses->domainName = kstrdup(ctx->domainname, GFP_KERNEL);
+  2291			if (!ses->domainName)
+  2292				goto get_ses_fail;
+  2293		}
+  2294	
+  2295		strscpy(ses->workstation_name, ctx->workstation_name, sizeof(ses->workstation_name));
+  2296	
+  2297		if (ctx->domainauto)
+  2298			ses->domainAuto = ctx->domainauto;
+  2299		ses->cred_uid = ctx->cred_uid;
+  2300		ses->linux_uid = ctx->linux_uid;
+  2301	
+  2302		ses->sectype = ctx->sectype;
+  2303		ses->sign = ctx->sign;
+> 2304		ses->local_nls = load_nls(ctx->local_nls->charset);
+  2305	
+  2306		/* add server as first channel */
+  2307		spin_lock(&ses->chan_lock);
+  2308		ses->chans[0].server = server;
+  2309		ses->chan_count = 1;
+  2310		ses->chan_max = ctx->multichannel ? ctx->max_channels:1;
+  2311		ses->chans_need_reconnect = 1;
+  2312		spin_unlock(&ses->chan_lock);
+  2313	
+  2314		mutex_lock(&ses->session_mutex);
+  2315		rc = cifs_negotiate_protocol(xid, ses, server);
+  2316		if (!rc)
+  2317			rc = cifs_setup_session(xid, ses, server, ctx->local_nls);
+  2318		mutex_unlock(&ses->session_mutex);
+  2319	
+  2320		/* each channel uses a different signing key */
+  2321		spin_lock(&ses->chan_lock);
+  2322		memcpy(ses->chans[0].signkey, ses->smb3signingkey,
+  2323		       sizeof(ses->smb3signingkey));
+  2324		spin_unlock(&ses->chan_lock);
+  2325	
+  2326		if (rc)
+  2327			goto get_ses_fail;
+  2328	
+  2329		/*
+  2330		 * success, put it on the list and add it as first channel
+  2331		 * note: the session becomes active soon after this. So you'll
+  2332		 * need to lock before changing something in the session.
+  2333		 */
+  2334		spin_lock(&cifs_tcp_ses_lock);
+  2335		ses->dfs_root_ses = ctx->dfs_root_ses;
+  2336		if (ses->dfs_root_ses)
+  2337			ses->dfs_root_ses->ses_count++;
+  2338		list_add(&ses->smb_ses_list, &server->smb_ses_list);
+  2339		spin_unlock(&cifs_tcp_ses_lock);
+  2340	
+  2341		cifs_setup_ipc(ses, ctx);
+  2342	
+  2343		free_xid(xid);
+  2344	
+  2345		return ses;
+  2346	
+  2347	get_ses_fail:
+  2348		sesInfoFree(ses);
+  2349		free_xid(xid);
+  2350		return ERR_PTR(rc);
+  2351	}
+  2352	
 
 -- 
 0-DAY CI Kernel Test Service
