@@ -1,69 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862191876;
-	Mon, 10 Jun 2024 01:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481B8320F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 02:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717983242; cv=none; b=ROVh7EGknkyfXw54SGVuMXcX7qeiUfjfFbY3HDQ9QDWlH7OGXFNEl+g5X2SHLATYeMaayTA2ciXw4YnN1FGd/0dw+Cuu+LUoVKUBXCXPr7fO1iBoYwJYOLTvzmnd0evoyvK/ystgOKELS4SC00GUVk/Q/kFbZaZ6f6JS5oI4zmk=
+	t=1717985223; cv=none; b=FxCUOvEeczwebqLmqxyc7m6KCnuaeJIeW3CsM67Q1A6ral5xgqPnG3tRwnPNKJ1for3dKV3IYN2rSsMsbEthPSvvLexangBvKskI7A3o1e0pvU9NAwVo8thwHEhzHJuYcPm4CrwEfrwYWwCD0jtcF/BzpdAPcV7MyBPF8Rm1Mdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717983242; c=relaxed/simple;
-	bh=Q4HDVCK0RP5fR7/9Wm1KAIacjGw3JnIYUq6KRiAmIbw=;
+	s=arc-20240116; t=1717985223; c=relaxed/simple;
+	bh=BxBGZGWx+C9rblxwyMFADPhIL0QUhuc2bQiAUmd5EGk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWmCLxXA9qwLKxrRWI8SSAXFKQXP2QlW1l15ohMJiGcXVU0htZvKCSZ92lA7DaDu2ByWoWP0VlJw4cQ5r0I/lRNrbQXlTw/YAxOOYmxgdiLJ5toXQ3aXQ/QweOwwH0DSyzked5sEJ5sPN+l2emEydqAeEnol5fXZJs+i0dUVzw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XumhwjRT; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HpaVAWKQiuXUIb0ytFfDtop3+TEpH0SjNedpstr9dL4Ap1qCSuR2WYVOr2GgDxrAYl86o1QdkydLMKW7H3DAU6LCH6cTqlvO6h3x8y9vss5LvnHTq8xmPMrX/Kfy13u/xZB+GM1pIAJF/Fq8TVP/oxAMO9rDSpStuldhSkmBv84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/mf9MRP; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XumhwjRT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/mf9MRP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717983240; x=1749519240;
+  t=1717985221; x=1749521221;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q4HDVCK0RP5fR7/9Wm1KAIacjGw3JnIYUq6KRiAmIbw=;
-  b=XumhwjRTSXtfXBtNURnG4nT6B1i5E9TUJ7bjBtEbPmO/wAroSPd3+TdI
-   hG2DybNrk+fKknvmLeL9MF7JOYwHGyvFEOjdSfqBNnl9gsDnQeuHq1dwe
-   /tzE8TtVWR6ILFuS1dxrOuTqdmeq8z4s2HJqkjw6qpM9zUvEnnpmsqY6w
-   jXwnc/a7H0PfJwfyIXh6oRI+65mmzlBNQWEwkgCVPF+oL6QkmhilQ2LUl
-   WgHpf2ON433dEQ83cRw44lsIN0dYXrdNL/HyzE4F+i6lddp6NSgfnTjAi
-   oXGqz4oZA2O/PdzZQEkUtX8GSBhV/3vgNwB5EQFnd8u/3qSbN9EeTVCrD
-   Q==;
-X-CSE-ConnectionGUID: Oovbw7xUR+mJpMsUOGUtHg==
-X-CSE-MsgGUID: +Tshy6nOQSOyPXF/FY6pyA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14784627"
+  bh=BxBGZGWx+C9rblxwyMFADPhIL0QUhuc2bQiAUmd5EGk=;
+  b=F/mf9MRP+XEi1suePfojWSs0Byj4MG3iwIlD9lp2wFdAm9uOjKFLemIn
+   fjRgEvVB0Qr/Gmagf1NxQjnnt/hD1kuuE9i6Xf1JyQAO8FF6Vmdfov5w5
+   x98MFMdweIitbNKQJIyZGelk5ypgzAfh4Non3DtDM7R8F0UmK78boQ3sS
+   agsWuhzU2wOJjQsIZvNES/2H5+TFkukRF/HsGIlUPwEe2XEfWHFenwI2e
+   kf0+qh5t3xpEFnWxks3AzCVQx0E//1pWC1EawoOUqdjaYxAlOq4nFqMN/
+   OWWGJ6qmctzUPsVxxLJ7M99F1L7ZFUN/Vh9Fs8KXfQlt6sRa6DOFoLsGy
+   w==;
+X-CSE-ConnectionGUID: NS5rGVz7RYCWfjWdLbzF/w==
+X-CSE-MsgGUID: i5aHRxnJT2G6TW0iZOJS0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="37158543"
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="14784627"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 18:34:00 -0700
-X-CSE-ConnectionGUID: hfqCE1wcSFO2cLj3EjMQqQ==
-X-CSE-MsgGUID: EZWbifg8TvK4d6fSj4yRgA==
+   d="scan'208";a="37158543"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 19:07:01 -0700
+X-CSE-ConnectionGUID: WsWdOVlBSRaV2wNn8PWhuw==
+X-CSE-MsgGUID: uPYyZUXTQcuo/3UeegYPOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="44030684"
+   d="scan'208";a="69699937"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jun 2024 18:33:57 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 Jun 2024 19:06:59 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGTv0-0001kE-0l;
-	Mon, 10 Jun 2024 01:33:54 +0000
-Date: Mon, 10 Jun 2024 09:33:26 +0800
+	id 1sGUQy-0001lK-03;
+	Mon, 10 Jun 2024 02:06:56 +0000
+Date: Mon, 10 Jun 2024 10:06:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-	Marco Contenti <marco.c@variscite.com>,
-	Nate Drude <nate.d@variscite.com>,
-	FrancescoFerraro <francesco.f@variscite.com>,
-	Harshesh Valera <harshesh.v@variscite.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [PATCH v3 3/4] arm64: dts: freescale: Add support for the
- Variscite i.MX8MP DART8MCustomBoard
-Message-ID: <202406100920.2CdVa6rb-lkp@intel.com>
-References: <20240608180447.31378-4-laurent.pinchart@ideasonboard.com>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/zh_CN: update the translation of security-bugs
+Message-ID: <202406100911.QBMVtIpz-lkp@intel.com>
+References: <20240610003520.33839-1-dzm91@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,41 +68,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240608180447.31378-4-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20240610003520.33839-1-dzm91@hust.edu.cn>
 
-Hi Laurent,
+Hi Dongliang,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 41f93a496af2696d970cbcb3814261a9b32dbaa2]
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.10-rc3 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Pinchart/dt-bindings-arm-fsl-Add-Variscite-DT8MCustomBoard-with-DART-MX8M-PLUS/20240609-020751
-base:   41f93a496af2696d970cbcb3814261a9b32dbaa2
-patch link:    https://lore.kernel.org/r/20240608180447.31378-4-laurent.pinchart%40ideasonboard.com
-patch subject: [PATCH v3 3/4] arm64: dts: freescale: Add support for the Variscite i.MX8MP DART8MCustomBoard
-config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240610/202406100920.2CdVa6rb-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406100920.2CdVa6rb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongliang-Mu/docs-zh_CN-update-the-translation-of-security-bugs/20240610-083729
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20240610003520.33839-1-dzm91%40hust.edu.cn
+patch subject: [PATCH v2] docs/zh_CN: update the translation of security-bugs
+reproduce: (https://download.01.org/0day-ci/archive/20240610/202406100911.QBMVtIpz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406100920.2CdVa6rb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406100911.QBMVtIpz-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   ti,x-plate-ohms: size (2) error for type uint32-array
->> arch/arm64/boot/dts/freescale/imx8mp-var-dart-dt8mcustomboard-v2.dtb: touch@0: ti,settle-delay-usec: b'\x00\x96' is not of type 'object', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-var-dart-dt8mcustomboard-v2.dtb: touch@0: ti,debounce-tol: b'\x00\x03' is not of type 'object', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-var-dart-dt8mcustomboard-v2.dtb: touch@0: ti,debounce-rep: b'\x00\x01' is not of type 'object', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-var-dart-dt8mcustomboard-v2.dtb: touch@0: ti,x-plate-ohms: size is 16, expected 32
-   	from schema $id: http://devicetree.org/schemas/property-units.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-var-dart-dt8mcustomboard-v2.dtb: /soc@0/bus@30800000/spba-bus@30800000/spi@30820000/touch@0: failed to match any schema with compatible: ['ti,tsc2046']
->> arch/arm64/boot/dts/freescale/imx8mp-var-dart-dt8mcustomboard-v2.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+All warnings (new ones prefixed by >>):
+
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues.rst references a file that doesn't exist: Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+>> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues.rst references a file that doesn't exist: Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+>> Warning: Documentation/translations/zh_TW/process/submitting-patches.rst references a file that doesn't exist: Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
