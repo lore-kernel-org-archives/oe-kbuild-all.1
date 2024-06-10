@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3794C1869
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 18:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09293611B;
+	Mon, 10 Jun 2024 18:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718042582; cv=none; b=cyTLl2DycM69U8Cr8+BSoVsc+3aK3g/EIWkO4Iizp21P+wcNS0yTweQVZT/8ksN7NAK5eQejX5p/5gidQnc8uAZXJgMuuzOJHeWIHCKHaozqj3d62YwI2zI5hX5vUJc7xpMyTcWellbyqmF57UTunxWsStMFGF+oAvFXnhPyQl8=
+	t=1718042584; cv=none; b=ht0IQSStgicjjq6YfzZlKfOgt4O934bS2wZy4iX6wNmVbmGHpKJBEqdqYurTgg50KsrffPaNksUeJ4GE4tOgprXAPAozXYbsXg1+rcNXvVL3yigc4TQOkkhLdEz7XfcpVnYrHyIdVaUx3uqdQIklu2vrHbbGU+SpiZ1EEV0vdrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718042582; c=relaxed/simple;
-	bh=+aZlTaQ9M/bng0DWRIospVgtnvQt3eXqp1TA5pBdJg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UEX4vzG9fDKKcENuMybkAO01YdAH+55IPb3rmDh072ifcjpe7MRtBKK6PLUVLs7VD2b+MuU8qahXLkpYwRmt+L1DFbqZYpdhVnEGDNw98GplXEyEy8KbJFkfHBgFw+vATak3NlMQloS6jJouhVA40UB4DXA02kXW8gXm5ud0x+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MF+RqA6e; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1718042584; c=relaxed/simple;
+	bh=N/dEPQ7ai9UVuq0vgS0ZwPdvy0PZIBUAso11FCkWLb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j1QMgbYhbp68bGqT0pyE1S1XvSIZVHL3nE48BHbi9jFbjXUw+61KdYYeqoU31S2EZSDvtBvd8WDX6oaIHu4RnKofvUFIQLqD7caQhoiXcHxjwpLGdctwMW7fJRqn1rWJi/Bgoh/xMDxkwtI0O7u01hWYNLqk9qpluppKS7iZ4vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvl5sCL6; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MF+RqA6e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvl5sCL6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718042581; x=1749578581;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+aZlTaQ9M/bng0DWRIospVgtnvQt3eXqp1TA5pBdJg0=;
-  b=MF+RqA6eGPHqHKna/+rw4jaBxj5XVw1Ir4/ev7Lho5THUoxOerqCYu/4
-   ELCrlBLdHWDtVb1J41+UiSjn/9v8kdkkqYpMvDfgCLnTCGJBIQeRzpHco
-   XBtKr8efcKB8Hjrl2kNJYATGVI/23ynJxdEHZOGxHG8pVVsWbpJkDtw1Z
-   Ql3Vig7ltBzmFsF5i/jxs0ZOYvzbFGPM1jP8HjU6lmCsmy7dBMq88ALBd
-   KGymmDmjM5UQEd2wx/waFaACRbNZ5HK5Xxu1tDt9uyCGOwohmz9tz7pSf
-   ibaXgF7HatGYekDc6I7vciXqSaf+wbREd6teFLcuQVilZx75a76rbmKce
-   w==;
-X-CSE-ConnectionGUID: BQ3aoCXGSKWUfOaH53mvvg==
-X-CSE-MsgGUID: lyELlW+hRMGoj3+bnxOhzQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="37241928"
+  t=1718042583; x=1749578583;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N/dEPQ7ai9UVuq0vgS0ZwPdvy0PZIBUAso11FCkWLb0=;
+  b=cvl5sCL62f2AConkYSuTvw4BqYRLuRRYl8M1felK19kgxxJg5tiHfVRF
+   hAMoACRu5ZGvii1DKTEBKOSCuDGkENQhjKRrsWMwgCob2xWbH0da6Eh1h
+   fPsYHkVk7jrXwvTmMaqHLpk6rqklCCv7yISwNBAOizSCVBkRMVr2IOmH9
+   HAjI2GH6z4gGiY+Aw1drUTWWHhVJlGORq29J0ZqpB43rjfYa1MY+UWGIK
+   03sqcKydRJlsyU+zlsBxZBt7FxpvLuMjEOstNfLl0846TGmFuxzTH0QYI
+   wkmMQqmnUhEAGedRlj0CQGgSv9KFsO9OQjQ8oab9jd6nsFY08exu8z5c1
+   A==;
+X-CSE-ConnectionGUID: d8soLgsbT0W9bU5TQmHQfA==
+X-CSE-MsgGUID: iKKSUh/DTxCHsz31SPYxCA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="37241930"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="37241928"
+   d="scan'208";a="37241930"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 11:03:00 -0700
-X-CSE-ConnectionGUID: tIFm/6xxS3G6WECQVRhXqg==
-X-CSE-MsgGUID: 1WC3kq7FQSiew1mt0zmdpw==
+X-CSE-ConnectionGUID: tJKzauT/TVCnFdxHUc6cZw==
+X-CSE-MsgGUID: 4wHdGUCGQ5qYkNmZ1DC5og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="38983275"
+   d="scan'208";a="38983272"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Jun 2024 11:02:53 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 10 Jun 2024 11:02:52 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGjM2-0002Mu-2w;
+	id 1sGjM2-0002Mr-2m;
 	Mon, 10 Jun 2024 18:02:50 +0000
-Date: Tue, 11 Jun 2024 02:02:17 +0800
+Date: Tue, 11 Jun 2024 02:02:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.10-rc 18/27]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:31.9-33.4: Warning
- (unit_address_vs_reg): /memory: node has a reg or ranges property, but no
- unit name
-Message-ID: <202406110154.7zDryO7B-lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v2 3/4] phy: renesas: phy-rcar-gen3-usb2: Control
+ VBUSEN selection
+Message-ID: <202406110117.mk5UR3VZ-lkp@intel.com>
+References: <20240607113745.73934-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,106 +63,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240607113745.73934-4-biju.das.jz@bp.renesas.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.10-rc
-head:   fad325f97e2b1111b0ab5bbee1a0463e79782825
-commit: f1b553fc5cbd76d04645e3bebf7595d6a8dc2f5c [18/27] WIP: add BPi-R4
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240611/202406110154.7zDryO7B-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406110154.7zDryO7B-lkp@intel.com/reproduce)
+Hi Biju,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on geert-renesas-devel/next linus/master pza/reset/next v6.10-rc3 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/reset-renesas-Instantiate-USB-VBUS-regulator-device/20240607-234023
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20240607113745.73934-4-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH RFC v2 3/4] phy: renesas: phy-rcar-gen3-usb2: Control VBUSEN selection
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240611/202406110117.mk5UR3VZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406110117.mk5UR3VZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406110154.7zDryO7B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406110117.mk5UR3VZ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1011.23-1032.5: Warning (unit_address_vs_reg): /soc/tphy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1044.23-1066.5: Warning (unit_address_vs_reg): /soc/xphy@11e10000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:31.9-33.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1011.23-1032.5: Warning (simple_bus_reg): /soc/tphy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1044.23-1066.5: Warning (simple_bus_reg): /soc/xphy@11e10000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1127.27-1288.5: Warning (avoid_unnecessary_addr_size): /soc/switch@15020000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +31 arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts
-
-    11	
-    12	/ {
-    13		compatible = "bananapi,bpi-r4", "mediatek,mt7988a";
-    14		model = "Banana Pi BPI-R4";
-    15		chassis-type = "embedded";
-    16	
-    17		aliases {
-    18			serial0 = &uart0;
-    19			led-boot = &led_green;
-    20			led-failsafe = &led_green;
-    21			led-running = &led_green;
-    22			led-upgrade = &led_green;
-    23		};
-    24	
-    25		chosen {
-    26			stdout-path = &uart0;
-    27			bootargs = "console=ttyS0,115200n1 loglevel=8 pci=pcie_bus_perf ubi.block=0,fit root=/dev/fit0";
-    28			rootdisk-spim-nand = <&ubi_rootfs>;
-    29		};
-    30	
-  > 31		memory {
-    32			reg = <0x00 0x40000000 0x00 0x10000000>;
-    33		};
-    34	
-    35		/* SFP1 cage (WAN) */
-    36		sfp1: sfp1 {
-    37			compatible = "sff,sfp";
-    38			i2c-bus = <&i2c_sfp1>;
-    39			los-gpios = <&pio 54 GPIO_ACTIVE_HIGH>;
-    40			mod-def0-gpios = <&pio 82 GPIO_ACTIVE_LOW>;
-    41			tx-disable-gpios = <&pio 70 GPIO_ACTIVE_HIGH>;
-    42			tx-fault-gpios = <&pio 69 GPIO_ACTIVE_HIGH>;
-    43			rate-select0-gpios = <&pio 21 GPIO_ACTIVE_LOW>;
-    44			maximum-power-milliwatt = <3000>;
-    45		};
-    46	
-    47		/* SFP2 cage (LAN) */
-    48		sfp2: sfp2 {
-    49			compatible = "sff,sfp";
-    50			i2c-bus = <&i2c_sfp2>;
-    51			los-gpios = <&pio 2 GPIO_ACTIVE_HIGH>;
-    52			mod-def0-gpios = <&pio 83 GPIO_ACTIVE_LOW>;
-    53			tx-disable-gpios = <&pio 0 GPIO_ACTIVE_HIGH>;
-    54			tx-fault-gpios = <&pio 1 GPIO_ACTIVE_HIGH>;
-    55			rate-select0-gpios = <&pio 3 GPIO_ACTIVE_LOW>;
-    56			maximum-power-milliwatt = <3000>;
-    57		};
-    58	
-    59		gpio-keys {
-    60			compatible = "gpio-keys";
-    61	
-    62			wps {
-    63				label = "WPS";
-    64				linux,code = <KEY_RESTART>;
-    65				gpios = <&pio 14 GPIO_ACTIVE_LOW>;
-    66			};
-    67		};
-    68	
-    69		gpio-leds {
-    70			compatible = "gpio-leds";
-    71	
-    72			led_green: led-green {
-    73				function = LED_FUNCTION_STATUS;
-    74				color = <LED_COLOR_ID_GREEN>;
-    75				gpios = <&pio 79 GPIO_ACTIVE_HIGH>;
-    76				default-state = "on";
-    77			};
-    78	
-    79			led_blue: led-blue {
-    80				function = LED_FUNCTION_WPS;
-    81				color = <LED_COLOR_ID_BLUE>;
-    82				gpios = <&pio 63 GPIO_ACTIVE_HIGH>;
-    83				default-state = "off";
-    84			};
-    85		};
-    86	};
-    87	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/fbtft/fbtft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/marvell_cn10k_ddr_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/nvidia_cspmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/of_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+>> ERROR: modpost: "regulator_get_regmap" [drivers/phy/renesas/phy-rcar-gen3-usb2.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
