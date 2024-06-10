@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C20617C66
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 06:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E93D1CD15
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 07:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718002569; cv=none; b=aq3KgsHGdTdjuUoGlyF4tV+fBi11UQC7dpHelHWPsZAhCvhPkpnnGAtpyG1YuJ0A6pYmmnHjGF6cT4rug3h5AY3NCvVp3SJbn87lrAYbCYIv6uIyrEIPIi+MTaRbolQz1OTR1dUmOBZOzFYjJce66BoYxI8jyjpeKqaYY5qboMQ=
+	t=1718005749; cv=none; b=GiQMuYXcQUiUnelL7RO6b2QT45ULfHbvioPloH38rj12GkdrxfiwZl1hGPqGCNvIS6eDm01P1IukrLY+n5+n1JLxg2KSz72G1Q6mZVYO4WG2aA3zKrgTNGH0n5zZ9f+D5vgbSIJterBTrkaSjk7+dJTArFP8sSH13OOc0+U25A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718002569; c=relaxed/simple;
-	bh=oETmX+G9NQUOzMzKFXYtfSnaONfCUIL1kKpG9sYAz1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O8IUJhIZMYaGFpv1VcIvXXNTSKZumrMLebcjgeVNQ5g/5WDM1PXao28w/ZQh1TN1U8RyGmdu+vuBs4wGUs8kOqBf7ib5X3F79g2gtr/7A7MvruNWODdghRg23Lc08L1u1hyGsewE1xOQ/+xAgGgOLUANmYqnWqHENHM/j0dWuWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4a3w0Xi; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1718005749; c=relaxed/simple;
+	bh=6jhS++X/kRSNxPfeeQz/r6FMf/hMVlZK/ESRq3wR3fE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GJ/jXvYfymAR653nxc2D50yCBJbTq55YkuaxaM0qHvFnqo+PWTfl8rGm9EC53UF8ZiiMdqEqhEOPFI9dO9Q39D6H1+kMbK4HaZaPqcnRV6Phy3TyK8SqsIolYloDjlhDCwLR2SpvbXvLIn3uQ7eV7GwdDJfP6Gqp+YZGaxoloXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3fY6x2o; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4a3w0Xi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3fY6x2o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718002564; x=1749538564;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oETmX+G9NQUOzMzKFXYtfSnaONfCUIL1kKpG9sYAz1o=;
-  b=b4a3w0XiskVvhdqJXgRg+gdOXDsYvBw8EhEw4DVCNZDEgiQCaCpn3f+R
-   JwGmWX4SXD7wecRuMbn81hHNKR18QTecKq0q3XuODHTh8v6tsXhW9Z2vX
-   dqnrDWkQrYax0oDsRvx2PCGZIovAMwoY/Jc3m3I9z+TjI+Zr+eoqyXiWO
-   prLe9AbIjHOvuuhE1MmhE07l7pTAmHAcDbNJzKwDs7D4+EpDckdD/bQl2
-   HjVJ1lU060uVTFyNdkkkXCnckiYY/q4VeeoeZhoRBLWtC35a2pkLbfnle
-   jOnxSyW8/2v5aG4Fl8ll99sXHPGOLf8N+KIZ+o38mdkArf24/vKXr2B3W
-   A==;
-X-CSE-ConnectionGUID: m4ZVhdEXQ6mMa113ILkaCA==
-X-CSE-MsgGUID: Tcmj7YjZTu6Dc/5aM2RLUQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="32139027"
+  t=1718005748; x=1749541748;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6jhS++X/kRSNxPfeeQz/r6FMf/hMVlZK/ESRq3wR3fE=;
+  b=n3fY6x2ocIJ09jiSizN3OqBr8lxgZWGt6w1HISuw77HZopM6GLJveivk
+   xpAya0aJKD8T8FWE/oOg/ITaUVcGVFKiOh9cH2ZzsWdVn7kAWVlxKzJEg
+   ULWR/rJMQYzof4+sBygFZjcF3prHCB3Eyd31MwTGMuG0FqvDjWl7kLT/z
+   BGrmbK1+P4BEszKtu3Geh7wTThZc4e6UKkWFDG+dvkhiytwc9nxlCj9ei
+   BtLf+PNR8V46RaaYhbQcYZNa+aEoMQOxsWKWzCIVmCmKu56UjZcldS8hn
+   YLTINfbmfQ6ymxFhFI8Umh3lXp96Lj9Obzyf3fmVIY+Q5lXyXE6RhYjuB
+   Q==;
+X-CSE-ConnectionGUID: x4923BBgSV6eLLelfNAhRA==
+X-CSE-MsgGUID: gfD9l4bpR+adKCRckRlyKg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="40052292"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="32139027"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 23:56:03 -0700
-X-CSE-ConnectionGUID: 5dWV/ifhQbmT2E7VD6YsfA==
-X-CSE-MsgGUID: N54JzOaoQ/GtVFpDSPcKyA==
+   d="scan'208";a="40052292"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 00:49:07 -0700
+X-CSE-ConnectionGUID: XI7aUyUVQ42Vnk1WEk1W2w==
+X-CSE-MsgGUID: SoXCdszSRi+NL0hiSVaKjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="38799465"
+   d="scan'208";a="39060747"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2024 23:56:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 10 Jun 2024 00:49:04 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGYwh-0001vB-1f;
-	Mon, 10 Jun 2024 06:55:59 +0000
-Date: Mon, 10 Jun 2024 14:55:14 +0800
+	id 1sGZm2-0001x1-0B;
+	Mon, 10 Jun 2024 07:49:02 +0000
+Date: Mon, 10 Jun 2024 15:48:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.6.y-wip 6/61]
- arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatible:
- 'anyOf' conditional failed, one must be fixed:
-Message-ID: <202406101418.S1X7TYlz-lkp@intel.com>
+To: Abhinav Jain <jain.abhinav177@gmail.com>, jgross@suse.com,
+	sstabellini@kernel.org, oleksandr_tyshchenko@epam.com,
+	xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com, jain.abhinav177@gmail.com
+Subject: Re: [PATCH] xen: xen-pciback: Export a bridge and all its children
+ as per TODO
+Message-ID: <202406101511.hTO5m855-lkp@intel.com>
+References: <20240609184410.53500-1-jain.abhinav177@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,98 +66,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240609184410.53500-1-jain.abhinav177@gmail.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y=
--wip
-head:   504c87f7f0af17421d2bb08aa33fc8f0f3191a8f
-commit: 3ac4f7eae7cadbab878fd172b1f116ae24358275 [6/61] arm64: dts: ti: k3-=
-am62p-main: Add support for DSS0
-config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/arch=
-ive/20240610/202406101418.S1X7TYlz-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d=
-2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240610/202406101418.S1X7TYlz-lkp@intel.com/reproduce)
+Hi Abhinav,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on xen-tip/linux-next]
+[also build test ERROR on linus/master v6.10-rc3 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Jain/xen-xen-pciback-Export-a-bridge-and-all-its-children-as-per-TODO/20240610-024623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
+patch link:    https://lore.kernel.org/r/20240609184410.53500-1-jain.abhinav177%40gmail.com
+patch subject: [PATCH] xen: xen-pciback: Export a bridge and all its children as per TODO
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240610/202406101511.hTO5m855-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406101511.hTO5m855-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406101418.S1X7TYlz-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406101511.hTO5m855-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:383.10-392.6: Warning (graph_chi=
-ld_address): /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/port=
-s: graph node has single child node 'port@0', #address-cells/#size-cells ar=
-e not necessary
-   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:656.22-666.5: Warning (graph_c=
-hild_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single c=
-hild node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: bus@43000000: compatible: ['sys=
-con', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatib=
-le: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
-m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
-scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
-6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
-e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
-ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
-t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
-', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
-ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
-k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
-qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
-'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
-io-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
---
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: bus@43000000: compatible: ['sys=
-con', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
-le: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
-m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
-scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
-6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
-e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
-ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
-t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
-', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
-ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
-k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
-qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
-'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
-io-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
+All errors (new ones prefixed by >>):
 
---=20
+   In file included from include/linux/device.h:15,
+                    from include/xen/xenbus.h:37,
+                    from drivers/xen/xen-pciback/xenbus.c:15:
+   drivers/xen/xen-pciback/xenbus.c: In function 'xen_pcibk_export_device':
+>> drivers/xen/xen-pciback/xenbus.c:270:38: error: 'struct pci_dev' has no member named 'domain'
+     270 |                                 child->domain, child->bus->number,
+         |                                      ^~
+   include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                                ^~~~~~~~~~~
+   drivers/xen/xen-pciback/xenbus.c:268:25: note: in expansion of macro 'dev_dbg'
+     268 |                         dev_dbg(&pdev->xdev->dev,
+         |                         ^~~~~~~
+   drivers/xen/xen-pciback/xenbus.c:275:60: error: 'struct pci_dev' has no member named 'domain'
+     275 |                                                       child->domain,
+         |                                                            ^~
+   drivers/xen/xen-pciback/xenbus.c:284:46: error: 'struct pci_dev' has no member named 'domain'
+     284 |                                         child->domain,
+         |                                              ^~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/xen/xen-pciback/xenbus.c:281:33: note: in expansion of macro 'dev_err'
+     281 |                                 dev_err(&pdev->xdev->dev,
+         |                                 ^~~~~~~
+
+
+vim +270 drivers/xen/xen-pciback/xenbus.c
+
+   225	
+   226	static int xen_pcibk_export_device(struct xen_pcibk_device *pdev,
+   227					 int domain, int bus, int slot, int func,
+   228					 int devid)
+   229	{
+   230		struct pci_dev *dev;
+   231		int err = 0;
+   232	
+   233		dev_dbg(&pdev->xdev->dev, "exporting dom %x bus %x slot %x func %x\n",
+   234			domain, bus, slot, func);
+   235	
+   236		dev = pcistub_get_pci_dev_by_slot(pdev, domain, bus, slot, func);
+   237		if (!dev) {
+   238			err = -EINVAL;
+   239			xenbus_dev_fatal(pdev->xdev, err,
+   240					 "Couldn't locate PCI device "
+   241					 "(%04x:%02x:%02x.%d)! "
+   242					 "perhaps already in-use?",
+   243					 domain, bus, slot, func);
+   244			goto out;
+   245		}
+   246	
+   247		err = xen_pcibk_add_pci_dev(pdev, dev, devid,
+   248					    xen_pcibk_publish_pci_dev);
+   249		if (err)
+   250			goto out;
+   251	
+   252		dev_info(&dev->dev, "registering for %d\n", pdev->xdev->otherend_id);
+   253		if (xen_register_device_domain_owner(dev,
+   254						     pdev->xdev->otherend_id) != 0) {
+   255			dev_err(&dev->dev, "Stealing ownership from dom%d.\n",
+   256				xen_find_device_domain_owner(dev));
+   257			xen_unregister_device_domain_owner(dev);
+   258			xen_register_device_domain_owner(dev, pdev->xdev->otherend_id);
+   259		}
+   260	
+   261		/* Check if the device is a bridge and export all its children */
+   262		if ((dev->hdr_type && PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
+   263			struct pci_dev *child = NULL;
+   264	
+   265			/* Iterate over all the devices in this bridge */
+   266			list_for_each_entry(child, &dev->subordinate->devices,
+   267					bus_list) {
+   268				dev_dbg(&pdev->xdev->dev,
+   269					"exporting child device %04x:%02x:%02x.%d\n",
+ > 270					child->domain, child->bus->number,
+   271					PCI_SLOT(child->devfn),
+   272					PCI_FUNC(child->devfn));
+   273	
+   274				err = xen_pcibk_export_device(pdev,
+   275							      child->domain,
+   276							      child->bus->number,
+   277							      PCI_SLOT(child->devfn),
+   278							      PCI_FUNC(child->devfn),
+   279							      devid);
+   280				if (err) {
+   281					dev_err(&pdev->xdev->dev,
+   282						"failed to export child device : "
+   283						"%04x:%02x:%02x.%d\n",
+   284						child->domain,
+   285						child->bus->number,
+   286						PCI_SLOT(child->devfn),
+   287						PCI_FUNC(child->devfn));
+   288					goto out;
+   289				}
+   290			}
+   291		}
+   292	out:
+   293		return err;
+   294	}
+   295	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
