@@ -1,60 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599D93BBE9;
-	Mon, 10 Jun 2024 23:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2EB1514C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 23:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718061523; cv=none; b=s5C6YVcWkb5K6eYQQLcHIl+ZQU+seuRL7KjGclTF8vhx82zKu3jpLVGULEYCXgs0CPipkgMk447+ac7J5mO79f3ErE0gS1jtfMIN1fuiTs52b5AI/5pFphZASoHVCpSgdFjxJpxj/ycCJmvMIQDad0l/6s1LONyy+2g5P9HVYmQ=
+	t=1718061524; cv=none; b=Wn4NT2TXUkFYXFiFEfiupTrtmx0KStEDR1gfsTvFhmi6xNDreFWabm+55NVHGquNaQoBcaT1cwoovPLrk4OQUn5OhxUOcaxGmIe8ZD4m81Az9Nrcm69BjkBRbQMve903nqUIqzG/piFwXXgG5O9JWNMU1JV8CuBCt4Z4E3t1JN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718061523; c=relaxed/simple;
-	bh=HEHDSsMOc1R1S1VQAGeuXtrpByKsBEyFoTn6UfzyxL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eeSjPt5aMCuZZZMo5/OmbOAFsBohf3AA/r5cBBGvnE/PGjkNCHWytSJGrmJmTszpes22D8jiqmCUVLCdu44JI1R+HBJr6vmnEkD4xljC1XLUPEC3dzFqWe8MGZelRn4Ts2A+WxuQniCgUCtgS4uI5IJZYSU+57ecBoTDo6sLiwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jg7euksw; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1718061524; c=relaxed/simple;
+	bh=KIyL2/Hl4FaIl2MR/Gi9klRT1Z9ieuVHLhL4igv4HKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jqkcuYXB7Pe3x9G85xgEvHh2U7Trk7gPuMEpJiALlSDdiuZ6y73xwm8abuMsbAss34QSoA6N8Inl8HkCbuSu6BA7LAaSwaz60PolZ/eTcwbnHQky0oc5b5qDzDuvaYhm/HxdkPEABO7ersp9ldkQOKOLmmiYZ+Avnm7dKHfjp3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7m+kI7V; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jg7euksw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7m+kI7V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718061521; x=1749597521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HEHDSsMOc1R1S1VQAGeuXtrpByKsBEyFoTn6UfzyxL4=;
-  b=jg7eukswiZikFfqmIVpX3C++rqqdTFAzhjN7+NM4hmC7aUSsT6zy5n74
-   iUJ0w0gp81j76BybnvbiWt6nzk7Qp20D1jFCRpZWibBUdkWMvZKGm0dax
-   O4v2ghGC+MGLRQ+mb8+SoUjUQ07tQZJnN4qqPQi7bscPQceZyq/BiS//7
-   8fUedkmWmfEvSARB5ZR2m81uM/XJNyzr2jrUqu98+OwlfyOkDOibyH6LL
-   kTHbfw0MrqqMupwpIhZES+C32IO6J2wGl41t3HaDjgZqa5oWnjn7P4CBw
-   ZPJDTHA9wyE9qqaOr8GkFs3jsClZnwK0QufROSJIpu/plTt87jv5HwokT
-   Q==;
-X-CSE-ConnectionGUID: kXWqF1KaSnK2O+5xekD7yg==
-X-CSE-MsgGUID: LcHgcpuIRZKZBzHox0ZkiA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="12008200"
+  t=1718061522; x=1749597522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KIyL2/Hl4FaIl2MR/Gi9klRT1Z9ieuVHLhL4igv4HKw=;
+  b=e7m+kI7VAbj1qz69uuH11lW+LphIRjgygNpKzMBi/2ugUjLSSJADuJG/
+   p/cBpz5rDukLsf8sCJU/Ubn4WqtFgyujNjJBMw5Qkf995SUOYFdYXT7yF
+   8C5HW61TS/9gRJAIUcUEo835I/wYFM25sXj2bYJilQijqzWx+xMHSDKVn
+   iylV0JDxZdjjDPUGB3GLCPIIN5wpGbXYjBKtCDyKf/m1CEzk++rhUqOQm
+   AOkVOCQwTRtuxlUhK2L2gRxzK1kksrm4ijZUuiddq21QcMr8k/BORK84Z
+   Yc1vcoSQR23ZwIgxfYt7vV8kDkcyniTjkj9AIpCSnKTkRnbmvwy6q+fXO
+   w==;
+X-CSE-ConnectionGUID: ZLmEzPCHQCespjABJl0oVQ==
+X-CSE-MsgGUID: B61HXz91Rqinh8v4q3qPEw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="12008202"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="12008200"
+   d="scan'208";a="12008202"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 16:18:40 -0700
-X-CSE-ConnectionGUID: imA/flIMTiSNQlE0ltN3GA==
-X-CSE-MsgGUID: hU5WL8PPTsq9Mvk5wlYKzw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 16:18:42 -0700
+X-CSE-ConnectionGUID: 26nkzdepRRavkqvQZ6bjbg==
+X-CSE-MsgGUID: 0M+KnpDiQsGcNL9mbEd6OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="76672526"
+   d="scan'208";a="76672525"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 10 Jun 2024 16:18:39 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGoHd-0002Zg-0C;
-	Mon, 10 Jun 2024 23:18:37 +0000
-Date: Tue, 11 Jun 2024 07:18:14 +0800
+	id 1sGoHc-0002Zd-3A;
+	Mon, 10 Jun 2024 23:18:36 +0000
+Date: Tue, 11 Jun 2024 07:18:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>
-Subject: [tglx-devel:devmsi-arm 3/25] include/linux/acpi_iort.h:53:19: error:
- static declaration of 'iort_pmsi_get_dev_id' follows non-static declaration
-Message-ID: <202406110704.R8AnGe0q-lkp@intel.com>
+To: Karan Tilak Kumar <kartilak@cisco.com>, sebaddel@cisco.com
+Cc: oe-kbuild-all@lists.linux.dev, arulponn@cisco.com, djhawar@cisco.com,
+	gcboffa@cisco.com, mkai2@cisco.com, satishkh@cisco.com,
+	jejb@linux.ibm.com, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Karan Tilak Kumar <kartilak@cisco.com>
+Subject: Re: [PATCH 06/14] scsi: fnic: Add and integrate support for FDMI
+Message-ID: <202406110734.p2v8dq9v-lkp@intel.com>
+References: <20240610215100.673158-7-kartilak@cisco.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,77 +66,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240610215100.673158-7-kartilak@cisco.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git devmsi-arm
-head:   c0f9480169244284eb4f7bc656ab52d03a5badd4
-commit: f2082cdb1e418911969043dda100eaaab513e531 [3/25] ACPI/IORT: Make iort_pmsi_get_dev_id() available for !CONFIG_ACPI_IORT
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240611/202406110704.R8AnGe0q-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406110704.R8AnGe0q-lkp@intel.com/reproduce)
+Hi Karan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next linus/master v6.10-rc3 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karan-Tilak-Kumar/scsi-fnic-Replace-shost_printk-with-pr_info-pr_err/20240611-060227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20240610215100.673158-7-kartilak%40cisco.com
+patch subject: [PATCH 06/14] scsi: fnic: Add and integrate support for FDMI
+reproduce: (https://download.01.org/0day-ci/archive/20240611/202406110734.p2v8dq9v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406110704.R8AnGe0q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406110734.p2v8dq9v-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/acpi/glue.c:11:
->> include/linux/acpi_iort.h:53:19: error: static declaration of 'iort_pmsi_get_dev_id' follows non-static declaration
-      53 | static inline int iort_pmsi_get_dev_id(struct device *dev, u32 *dev_id)
-         |                   ^
-   include/linux/acpi_iort.h:30:5: note: previous declaration is here
-      30 | int iort_pmsi_get_dev_id(struct device *dev, u32 *dev_id);
-         |     ^
-   In file included from drivers/acpi/glue.c:19:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning and 1 error generated.
-
-
-vim +/iort_pmsi_get_dev_id +53 include/linux/acpi_iort.h
-
-    31	
-    32	#ifdef CONFIG_ACPI_IORT
-    33	u32 iort_msi_map_id(struct device *dev, u32 id);
-    34	struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
-    35						  enum irq_domain_bus_token bus_token);
-    36	void acpi_configure_pmsi_domain(struct device *dev);
-    37	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode,
-    38			       struct list_head *head);
-    39	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode,
-    40			       struct list_head *head);
-    41	/* IOMMU interface */
-    42	int iort_dma_get_ranges(struct device *dev, u64 *limit);
-    43	int iort_iommu_configure_id(struct device *dev, const u32 *id_in);
-    44	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head);
-    45	phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
-    46	#else
-    47	static inline u32 iort_msi_map_id(struct device *dev, u32 id)
-    48	{ return id; }
-    49	static inline struct irq_domain *iort_get_device_domain(
-    50		struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
-    51	{ return NULL; }
-    52	static inline void acpi_configure_pmsi_domain(struct device *dev) { }
-  > 53	static inline int iort_pmsi_get_dev_id(struct device *dev, u32 *dev_id)
-    54	{ return -ENODEV; }
-    55	static inline
-    56	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
-    57	static inline
-    58	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
-    59	/* IOMMU interface */
-    60	static inline int iort_dma_get_ranges(struct device *dev, u64 *limit)
-    61	{ return -ENODEV; }
-    62	static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
-    63	{ return -ENODEV; }
-    64	static inline
-    65	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head)
-    66	{ }
-    67	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/scsi/fnic/fnic_pci_subsys_devid.c: 11 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 423: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
