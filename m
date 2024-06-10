@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3D7524F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 03:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119973C30
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 03:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717988980; cv=none; b=EvbzFqLOjsNCoKGXibrf+2m4Xxt+QAtK9WYMlvgULOdK7OyvAxXgkK+yuF3U3tfb2LtjmN57x7eq1X75ff0usJrGzY1snwKaw4ph7flFM5HZQxrzdJKXgVGEnatoNEMGHaNNzBTLcumKqYhf7CdD4etUT0qU+sNdDv+oji6LFKg=
+	t=1717989879; cv=none; b=p83POIsYfZZFGwNJHOcbgraRJFDG5HoGl/S2Cxvkaz2J9fOu26dUkPCbIa1P+MwTE9GL4UEADAHATiWKn3+Y7pxGGmS2ce6BWQ2YNRIqeJqZTxYG21JN0WG1zDajQKYiDjG9B4D0nhp64P1L4PSr1THx726zszs4TCzXR6q2RX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717988980; c=relaxed/simple;
-	bh=Wj11lGYu3WhMhBwkounnR1AUHlkuhFRRPVG9yWN6Bms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e8FXoH0hVGB5UtiiwVD43S3TSywxvYQhqPalG4c+HHoz6IR0xIp23ciFzos6fvJHThxwaOWA9VSBUQcc+LgMt5TwnmghCvt77Y0twNyyMXwLhXB5P/Zr1AotN7ylwsPQ3KcPU0pbOENDJvvBkS5D4hU6zPqFGpu3LphyNEsW60Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tso34vRF; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1717989879; c=relaxed/simple;
+	bh=pKYPxkK6Khm57LTdsYcgq61PPqghDLWXjlIBmG5cNeg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q7osdikUktbsXPKnw57RFut+9xT3z1v1+uu44DQzQXaCiWn8RwyQ/TT7QIMH4YN/rp9gFNLk90kLgxI0WakstG0NHVFjpWZRsCIgDmd0RKzLV2RItkQAK2fmuNaLNgVp3Z+5LL2PFz2chfT0dFf6S3ucyViHJwO139DZ4LfZXhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZmHmAzS; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tso34vRF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZmHmAzS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717988977; x=1749524977;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wj11lGYu3WhMhBwkounnR1AUHlkuhFRRPVG9yWN6Bms=;
-  b=Tso34vRFDCsjnG1D7j9dczPUYkwaB09cIzsHlvk0ZcFHD0qHrmiPxTtX
-   /+fr1kpVrq9rpRCyVSY3YF+WWYF9KJhniSl6Yq6O12lXuarld4rYg2xHW
-   z2UpE+tH6r0l7PXbXqo6pYAmHnXS+asEyDP1QrPqV1xYJeCXk6mN478AZ
-   ve4uNQXElc7lBmESrbqUMj4hV6JaUn48adSSx9379Oa9jUeLb5vXCUeAc
-   UOOIe48lFuI88vjXkT6EiqvydJcy+0luYntr2ASHMiN84af0KglqcLLc4
-   cph/KO/xUnpATeu45HcIr911OIDFwjtbuXd/0xMookwvwSVvRmoTnPlg8
-   w==;
-X-CSE-ConnectionGUID: xt/45e6NRAOQi6We3zE/PQ==
-X-CSE-MsgGUID: 2Bnw9Yo1SlalDwHUpuRXdw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14813715"
+  t=1717989877; x=1749525877;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pKYPxkK6Khm57LTdsYcgq61PPqghDLWXjlIBmG5cNeg=;
+  b=CZmHmAzSiHtOxFMhM+eB8agx4sHdj4zq9CSoXA/b+xgGLrGaeGPDwLIy
+   QSzOrlYRL56hCiQQM902UQbhEjtWBY4SwHS85by+rDXsjBpA5cjyVmby3
+   NU8oYanm8v7cgL6zgxKJVYxAjA27I5CK6z8SOoc5CO6Vh67UzC/qTed4F
+   lfiK1cz4r5VK+wOGHf6UQY2C3X9YhrGXQV+gF9upSYIe7y69dMK9a0hSL
+   w3e0JMRDGf2DpCAf4A9EtPsF8e8vkw3pouMo63qLZJ5wtOPGjYTUxewdi
+   1OIgSs5XNfSjg+1cm0kKeGaa+qCueR3SvxRuYYKjhM8b5coP52RyBOoi/
+   Q==;
+X-CSE-ConnectionGUID: Vzjp7QnEQL+T2FuFIqxNUQ==
+X-CSE-MsgGUID: eUMUMR7dRxin0QYR/HcljA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="25743750"
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="14813715"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 20:09:36 -0700
-X-CSE-ConnectionGUID: DOrcTPmaQCSduc8ZxamjnQ==
-X-CSE-MsgGUID: uO0dE4BRQO204xwXNkATKQ==
+   d="scan'208";a="25743750"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 20:24:37 -0700
+X-CSE-ConnectionGUID: smYmUGMuQxGM64y5BZPJnw==
+X-CSE-MsgGUID: HDejnukaRyqAeQEyIo+EOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="38844834"
+   d="scan'208";a="39591681"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Jun 2024 20:09:34 -0700
+  by orviesa007.jf.intel.com with ESMTP; 09 Jun 2024 20:24:35 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGVPY-0001nu-0F;
-	Mon, 10 Jun 2024 03:09:32 +0000
-Date: Mon, 10 Jun 2024 11:09:04 +0800
+	id 1sGVe4-0001ok-30;
+	Mon, 10 Jun 2024 03:24:32 +0000
+Date: Mon, 10 Jun 2024 11:23:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-Message-ID: <202406101035.nanF90LS-lkp@intel.com>
-References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Paulo Alcantara (SUSE)" <pc@manguebit.com>
+Subject: [samba-ksmbd:for-next 579/600] fs/cifs/readdir.c:68:35: error:
+ implicit declaration of function 'inode_get_ctime'; did you mean
+ 'inode_get_bytes'?
+Message-ID: <202406101141.7s5McKFF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,65 +63,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 
-Hi Neil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
-base:   c3f38fa61af77b49866b006939479069cd451173
-patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
-patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240610/202406101035.nanF90LS-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406101035.nanF90LS-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/ksmbd.git for-next
+head:   3fe4ba20003290acf0547625cccc34db928d156e
+commit: 827c1e93bb2a957cc825bc1fddf8740501cc4b84 [579/600] smb: client: stop revalidating reparse points unnecessarily
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240610/202406101141.7s5McKFF-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406101141.7s5McKFF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406101035.nanF90LS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406101141.7s5McKFF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+All errors (new ones prefixed by >>):
+
+   In file included from fs/cifs/readdir.c:15:
+   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
+     885 |         struct_group(common_attributes,
+         |         ^~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
+    2269 |         struct_group(common_attributes,
+         |         ^~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   In file included from fs/cifs/cifsglob.h:26,
+                    from fs/cifs/readdir.c:16:
+   fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
+     705 |         struct_group(network_open_info,
+         |         ^~~~~~~~~~~~
+   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/../smbfs_common/smb2pdu.h:1686:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    1686 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   In file included from fs/cifs/cifsglob.h:27:
+   fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
+     322 |         struct_group(network_open_info,
+         |         ^~~~~~~~~~~~
+   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
+   fs/cifs/cifsglob.h:2182:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
+    2182 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
+         |                                             ^~
+   fs/cifs/cifsglob.h:2183:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
+    2183 |         dst->AccessFlags = src->AccessFlags;
+         |                               ^~
+   fs/cifs/cifsglob.h:2184:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
+    2184 |         dst->CurrentByteOffset = src->CurrentByteOffset;
+         |                                     ^~
+   fs/cifs/cifsglob.h:2185:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
+    2185 |         dst->Mode = src->Mode;
+         |                        ^~
+   fs/cifs/cifsglob.h:2186:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
+    2186 |         dst->AlignmentRequirement = src->AlignmentRequirement;
+         |                                        ^~
+   fs/cifs/cifsglob.h:2187:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
+    2187 |         dst->FileNameLength = src->FileNameLength;
+         |                                  ^~
+   fs/cifs/readdir.c: In function 'reparse_inode_match':
+>> fs/cifs/readdir.c:68:35: error: implicit declaration of function 'inode_get_ctime'; did you mean 'inode_get_bytes'? [-Werror=implicit-function-declaration]
+      68 |         struct timespec64 ctime = inode_get_ctime(inode);
+         |                                   ^~~~~~~~~~~~~~~
+         |                                   inode_get_bytes
+>> fs/cifs/readdir.c:68:35: error: invalid initializer
+   fs/cifs/readdir.c: In function 'cifs_fill_dirent_unix':
+   fs/cifs/readdir.c:522:25: error: 'FILE_UNIX_INFO' has no member named 'FileName'
+     522 |         de->name = &info->FileName[0];
+         |                         ^~
+   cc1: some warnings being treated as errors
+
+
+vim +68 fs/cifs/readdir.c
+
+    57	
+    58	/*
+    59	 * Match a reparse point inode if reparse tag and ctime haven't changed.
+    60	 *
+    61	 * Windows Server updates ctime of reparse points when their data have changed.
+    62	 * The server doesn't allow changing reparse tags from existing reparse points,
+    63	 * though it's worth checking.
+    64	 */
+    65	static inline bool reparse_inode_match(struct inode *inode,
+    66					       struct cifs_fattr *fattr)
+    67	{
+  > 68		struct timespec64 ctime = inode_get_ctime(inode);
+    69	
+    70		return (CIFS_I(inode)->cifsAttrs & ATTR_REPARSE) &&
+    71			CIFS_I(inode)->reparse_tag == fattr->cf_cifstag &&
+    72			timespec64_equal(&ctime, &fattr->cf_ctime);
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
