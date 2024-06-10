@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC461DFF7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 16:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305961422C5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 16:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718036151; cv=none; b=E5cIIVPkcz+bd1eOwQwvhhxB58TGs4Ki5D73YAsKbjXGxisnr+rmZ+qDrR0UuB7/ZzzzGqhRFZRlY5ckJ7HGfZU5t1sMlvM4HyhylwUZN+e/tfWLEAlRvXNCZ8kAylkziNY/y4pWSJ3lBU3lPNk7rmlFJfhx1JqX+vtp/88mAS4=
+	t=1718036873; cv=none; b=MM6Fr/75EMTB5/A5BhQGQN1UbE5jZ6/95JNQZTysj0Wu0uJlmBRq0hKzkAI2cNzaFg1eAtM81C8qG0erPjMS1ZkNbJmcBUN3qfZS3s45BoZosEbEtMxj783iG8SlRHprdEp0BA2H+sRLFgm8vZ4ZTypEfJnHW8CiTypIvxTCELc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718036151; c=relaxed/simple;
-	bh=Qm2rSBRp7xf2gPqbWpmFefMa+S4IvIHvvjUopiG04uw=;
+	s=arc-20240116; t=1718036873; c=relaxed/simple;
+	bh=DcihTn0YHBSSJZt1LVKqAtveahkzXP8JX+xsNNIgiP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYqhq5i7J3kCIZNluJFqHcOhxrb+kRYDVieVM8OPEBk3ARwsOmeG39EOdSyzqVjXizmAA/CBFo7LXYO4zxg5xCtobx+6K7uk3LwWdNXZ8W5XK9EdJend7PEnjjWwEq/W0zEWCQtc1A8cj4LPaOuAl9MVLrrBLfMgLJMTozguAjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXwctmk+; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q9yVGksJg7bP5rVY/+oRkC2CTPMFx50vDaqOE6o3WmRkpKskOyQ0Wzl591chZa6Xcw1L2CoGpWdPtdYNMzu9E9+sIftuvfIG8zG5UmQm948h2zT/HQy8zmGvrY44Bkf9KBQCiLHQMkopzPrBqAHMqQ1WyxJeCSOr0WwixygsKew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuCYTibq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXwctmk+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuCYTibq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718036149; x=1749572149;
+  t=1718036870; x=1749572870;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Qm2rSBRp7xf2gPqbWpmFefMa+S4IvIHvvjUopiG04uw=;
-  b=iXwctmk+WzaI9BceboDFchktV9N7YbHs/jEuygsZNxlLZwJR5irY9ryX
-   q+ayqb+9SltirKpoPdypsY8OBUkgXF3OwGl+4oe7b1JvuAzx4kQ7r46vX
-   R/tc4+MAWLEjrvjyy4slp1zk41/yJqJIUNhNVAQ3cgOyS7GG1QpsmeDxo
-   vlzAD+rgIIgo+Cv2YOMmXF3HaQcBIkrPEeAic5hGPNppeAlMDXz6foMPM
-   cM+MmWcJWrOm4DdemMlWE5qh0KPDGAhmyETm2sisjvQoVyLeCG2W02hF+
-   WcqrcrjM5yWUz4+7r3LvLg9JWrhITi6d6vSPsxM/uj5b907ZCecdQ/wHx
-   A==;
-X-CSE-ConnectionGUID: OFf/Y1aRRBWVaXqOv6MTEA==
-X-CSE-MsgGUID: ffmNO+HVRyub8ULZW3eQ2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="37230613"
+  bh=DcihTn0YHBSSJZt1LVKqAtveahkzXP8JX+xsNNIgiP4=;
+  b=CuCYTibqfd6y9Ps7B+D3DlJSG+yHBHBpIHsJHQQNozXOz6yhyxir0WHl
+   RCZKjF/IxChdO9FnVT1+u72ohE5xTr3tWBoW1yI7Is51rEHtKx33uKKgf
+   A7TPfKgQmHUMxq7K+iE7Fiynxwh+bEqg2SRQ4A6+HYZVkHa6xFXD8N/5T
+   MfjhxyZEVG4I3kGB46FYuWCsL5Lz1c3jN67WSepUQlPUjvH6jpaIQHiXG
+   BP+1M/WlID1zJng1WAn+2zHYTlBqUlC8aD+a27/ZJmogIDD1K1lMozFQv
+   i41jmf3WWC7XBdde0an/OIo1w/LZq07FoWOsDSSxjmEEKbwQgej+ZFMq6
+   g==;
+X-CSE-ConnectionGUID: FCESHDLhT8uOT3iyPTKlnA==
+X-CSE-MsgGUID: ZfjwEkNISVmDVW5nl4u/KQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14438620"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="37230613"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 09:15:49 -0700
-X-CSE-ConnectionGUID: X+wopBWlQ4WLT3IWD3PqMQ==
-X-CSE-MsgGUID: fbeIrED/RhuyG6a3yJ5ihA==
+   d="scan'208";a="14438620"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 09:27:49 -0700
+X-CSE-ConnectionGUID: UcpnBwF1TuObjJxVgwGOVQ==
+X-CSE-MsgGUID: vFfDV1u3TQiu5UCs/KNtcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="43543508"
+   d="scan'208";a="70282034"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Jun 2024 09:15:46 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jun 2024 09:27:47 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGhgO-0002H7-19;
-	Mon, 10 Jun 2024 16:15:44 +0000
-Date: Tue, 11 Jun 2024 00:15:37 +0800
+	id 1sGhs0-0002Hh-3D;
+	Mon, 10 Jun 2024 16:27:45 +0000
+Date: Tue, 11 Jun 2024 00:26:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/connector: hdmi: Fix kerneldoc warnings
-Message-ID: <202406102348.TVIh790U-lkp@intel.com>
-References: <20240610111200.428224-1-mripard@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+Message-ID: <202406110056.TzGN9DUA-lkp@intel.com>
+References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,198 +68,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240610111200.428224-1-mripard@kernel.org>
+In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 
-Hi Maxime,
+Hi Neil,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip]
-[cannot apply to linus/master v6.10-rc3 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-connector-hdmi-Fix-kerneldoc-warnings/20240610-191427
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240610111200.428224-1-mripard%40kernel.org
-patch subject: [PATCH] drm/connector: hdmi: Fix kerneldoc warnings
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240610/202406102348.TVIh790U-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406102348.TVIh790U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
+base:   c3f38fa61af77b49866b006939479069cd451173
+patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
+patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240611/202406110056.TzGN9DUA-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406110056.TzGN9DUA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406102348.TVIh790U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406110056.TzGN9DUA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/drm/drm_modes.h:33,
-                    from include/drm/drm_crtc.h:32,
-                    from include/drm/drm_atomic.h:31,
-                    from drivers/gpu/drm/drm_atomic.c:32:
->> include/drm/drm_connector.h:997:1: error: expected ';', identifier or '(' before 'struct'
-     997 | struct drm_connector_state {
-         | ^~~~~~
-
-
-vim +997 include/drm/drm_connector.h
-
-5b530587b3eb3e Maxime Ripard        2024-06-10   993  
-52217195176115 Daniel Vetter        2016-08-12   994  /**
-52217195176115 Daniel Vetter        2016-08-12   995   * struct drm_connector_state - mutable connector state
-52217195176115 Daniel Vetter        2016-08-12   996   */
-52217195176115 Daniel Vetter        2016-08-12  @997  struct drm_connector_state {
-aab999a66e4bc4 Daniel Vetter        2018-07-09   998  	/** @connector: backpointer to the connector */
-52217195176115 Daniel Vetter        2016-08-12   999  	struct drm_connector *connector;
-52217195176115 Daniel Vetter        2016-08-12  1000  
-afb21ea63d815d Daniel Vetter        2016-08-31  1001  	/**
-afb21ea63d815d Daniel Vetter        2016-08-31  1002  	 * @crtc: CRTC to connect connector to, NULL if disabled.
-afb21ea63d815d Daniel Vetter        2016-08-31  1003  	 *
-afb21ea63d815d Daniel Vetter        2016-08-31  1004  	 * Do not change this directly, use drm_atomic_set_crtc_for_connector()
-afb21ea63d815d Daniel Vetter        2016-08-31  1005  	 * instead.
-afb21ea63d815d Daniel Vetter        2016-08-31  1006  	 */
-afb21ea63d815d Daniel Vetter        2016-08-31  1007  	struct drm_crtc *crtc;
-52217195176115 Daniel Vetter        2016-08-12  1008  
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1009  	/**
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1010  	 * @best_encoder:
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1011  	 *
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1012  	 * Used by the atomic helpers to select the encoder, through the
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1013  	 * &drm_connector_helper_funcs.atomic_best_encoder or
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1014  	 * &drm_connector_helper_funcs.best_encoder callbacks.
-27edadf6df811b Daniel Vetter        2019-05-06  1015  	 *
-1b27fbdde1df17 Laurent Pinchart     2019-06-11  1016  	 * This is also used in the atomic helpers to map encoders to their
-1b27fbdde1df17 Laurent Pinchart     2019-06-11  1017  	 * current and previous connectors, see
-12db36bc3cec76 Sean Paul            2019-08-12  1018  	 * drm_atomic_get_old_connector_for_encoder() and
-12db36bc3cec76 Sean Paul            2019-08-12  1019  	 * drm_atomic_get_new_connector_for_encoder().
-1b27fbdde1df17 Laurent Pinchart     2019-06-11  1020  	 *
-27edadf6df811b Daniel Vetter        2019-05-06  1021  	 * NOTE: Atomic drivers must fill this out (either themselves or through
-27edadf6df811b Daniel Vetter        2019-05-06  1022  	 * helpers), for otherwise the GETCONNECTOR and GETENCODER IOCTLs will
-27edadf6df811b Daniel Vetter        2019-05-06  1023  	 * not return correct data to userspace.
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1024  	 */
-52217195176115 Daniel Vetter        2016-08-12  1025  	struct drm_encoder *best_encoder;
-52217195176115 Daniel Vetter        2016-08-12  1026  
-40ee6fbef75fe6 Manasi Navare        2016-12-16  1027  	/**
-40ee6fbef75fe6 Manasi Navare        2016-12-16  1028  	 * @link_status: Connector link_status to keep track of whether link is
-40ee6fbef75fe6 Manasi Navare        2016-12-16  1029  	 * GOOD or BAD to notify userspace if retraining is necessary.
-40ee6fbef75fe6 Manasi Navare        2016-12-16  1030  	 */
-40ee6fbef75fe6 Manasi Navare        2016-12-16  1031  	enum drm_link_status link_status;
-40ee6fbef75fe6 Manasi Navare        2016-12-16  1032  
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1033  	/** @state: backpointer to global drm_atomic_state */
-52217195176115 Daniel Vetter        2016-08-12  1034  	struct drm_atomic_state *state;
-299a16b163c95f Boris Brezillon      2016-12-02  1035  
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1036  	/**
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1037  	 * @commit: Tracks the pending commit to prevent use-after-free conditions.
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1038  	 *
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1039  	 * Is only set when @crtc is NULL.
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1040  	 */
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1041  	struct drm_crtc_commit *commit;
-21a01abbe32a3c Maarten Lankhorst    2017-09-04  1042  
-aab999a66e4bc4 Daniel Vetter        2018-07-09  1043  	/** @tv: TV connector state */
-299a16b163c95f Boris Brezillon      2016-12-02  1044  	struct drm_tv_connector_state tv;
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1045  
-1452c25b0e6027 Sean Paul            2019-06-12  1046  	/**
-1452c25b0e6027 Sean Paul            2019-06-12  1047  	 * @self_refresh_aware:
-1452c25b0e6027 Sean Paul            2019-06-12  1048  	 *
-1452c25b0e6027 Sean Paul            2019-06-12  1049  	 * This tracks whether a connector is aware of the self refresh state.
-1452c25b0e6027 Sean Paul            2019-06-12  1050  	 * It should be set to true for those connector implementations which
-1452c25b0e6027 Sean Paul            2019-06-12  1051  	 * understand the self refresh state. This is needed since the crtc
-1452c25b0e6027 Sean Paul            2019-06-12  1052  	 * registers the self refresh helpers and it doesn't know if the
-1452c25b0e6027 Sean Paul            2019-06-12  1053  	 * connectors downstream have implemented self refresh entry/exit.
-1452c25b0e6027 Sean Paul            2019-06-12  1054  	 *
-1452c25b0e6027 Sean Paul            2019-06-12  1055  	 * Drivers should set this to true in atomic_check if they know how to
-1452c25b0e6027 Sean Paul            2019-06-12  1056  	 * handle self_refresh requests.
-1452c25b0e6027 Sean Paul            2019-06-12  1057  	 */
-1452c25b0e6027 Sean Paul            2019-06-12  1058  	bool self_refresh_aware;
-1452c25b0e6027 Sean Paul            2019-06-12  1059  
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1060  	/**
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1061  	 * @picture_aspect_ratio: Connector property to control the
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1062  	 * HDMI infoframe aspect ratio setting.
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1063  	 *
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1064  	 * The %DRM_MODE_PICTURE_ASPECT_\* values much match the
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1065  	 * values for &enum hdmi_picture_aspect
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1066  	 */
-0e9f25d0e15fd9 Maarten Lankhorst    2017-05-01  1067  	enum hdmi_picture_aspect picture_aspect_ratio;
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1068  
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1069  	/**
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1070  	 * @content_type: Connector property to control the
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1071  	 * HDMI infoframe content type setting.
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1072  	 * The %DRM_MODE_CONTENT_TYPE_\* values much
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1073  	 * match the values.
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1074  	 */
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1075  	unsigned int content_type;
-50525c332b55f8 Stanislav Lisovskiy  2018-05-15  1076  
-7672dbba85d30d Ramalingam C         2019-08-01  1077  	/**
-7672dbba85d30d Ramalingam C         2019-08-01  1078  	 * @hdcp_content_type: Connector property to pass the type of
-7672dbba85d30d Ramalingam C         2019-08-01  1079  	 * protected content. This is most commonly used for HDCP.
-7672dbba85d30d Ramalingam C         2019-08-01  1080  	 */
-7672dbba85d30d Ramalingam C         2019-08-01  1081  	unsigned int hdcp_content_type;
-7672dbba85d30d Ramalingam C         2019-08-01  1082  
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1083  	/**
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1084  	 * @scaling_mode: Connector property to control the
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1085  	 * upscaling, mostly used for built-in panels.
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1086  	 */
-8f6e1e22e7d0d4 Maarten Lankhorst    2017-05-01  1087  	unsigned int scaling_mode;
-24557865c8b1a6 Sean Paul            2018-01-08  1088  
-24557865c8b1a6 Sean Paul            2018-01-08  1089  	/**
-24557865c8b1a6 Sean Paul            2018-01-08  1090  	 * @content_protection: Connector property to request content
-24557865c8b1a6 Sean Paul            2018-01-08  1091  	 * protection. This is most commonly used for HDCP.
-24557865c8b1a6 Sean Paul            2018-01-08  1092  	 */
-24557865c8b1a6 Sean Paul            2018-01-08  1093  	unsigned int content_protection;
-935774cd71fe60 Brian Starkey        2017-03-29  1094  
-d2c6a405846c24 Uma Shankar          2019-02-19  1095  	/**
-d2c6a405846c24 Uma Shankar          2019-02-19  1096  	 * @colorspace: State variable for Connector property to request
-d2c6a405846c24 Uma Shankar          2019-02-19  1097  	 * colorspace change on Sink. This is most commonly used to switch
-d2c6a405846c24 Uma Shankar          2019-02-19  1098  	 * to wider color gamuts like BT2020.
-d2c6a405846c24 Uma Shankar          2019-02-19  1099  	 */
-1626761ee4406c Harry Wentland       2023-02-03  1100  	enum drm_colorspace colorspace;
-d2c6a405846c24 Uma Shankar          2019-02-19  1101  
-935774cd71fe60 Brian Starkey        2017-03-29  1102  	/**
-935774cd71fe60 Brian Starkey        2017-03-29  1103  	 * @writeback_job: Writeback job for writeback connectors
-935774cd71fe60 Brian Starkey        2017-03-29  1104  	 *
-b13cc8dd588434 Brian Starkey        2017-03-29  1105  	 * Holds the framebuffer and out-fence for a writeback connector. As
-b13cc8dd588434 Brian Starkey        2017-03-29  1106  	 * the writeback completion may be asynchronous to the normal commit
-b13cc8dd588434 Brian Starkey        2017-03-29  1107  	 * cycle, the writeback job lifetime is managed separately from the
-b13cc8dd588434 Brian Starkey        2017-03-29  1108  	 * normal atomic state by this object.
-935774cd71fe60 Brian Starkey        2017-03-29  1109  	 *
-935774cd71fe60 Brian Starkey        2017-03-29  1110  	 * See also: drm_writeback_queue_job() and
-935774cd71fe60 Brian Starkey        2017-03-29  1111  	 * drm_writeback_signal_completion()
-935774cd71fe60 Brian Starkey        2017-03-29  1112  	 */
-935774cd71fe60 Brian Starkey        2017-03-29  1113  	struct drm_writeback_job *writeback_job;
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1114  
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1115  	/**
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1116  	 * @max_requested_bpc: Connector property to limit the maximum bit
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1117  	 * depth of the pixels.
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1118  	 */
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1119  	u8 max_requested_bpc;
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1120  
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1121  	/**
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1122  	 * @max_bpc: Connector max_bpc based on the requested max_bpc property
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1123  	 * and the connector bpc limitations obtained from edid.
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1124  	 */
-47e22ff1a9e0c1 Radhakrishna Sripada 2018-10-12  1125  	u8 max_bpc;
-fbb5d0353c62d1 Uma Shankar          2019-05-16  1126  
-107fe904302092 Rajat Jain           2021-10-05  1127  	/**
-107fe904302092 Rajat Jain           2021-10-05  1128  	 * @privacy_screen_sw_state: See :ref:`Standard Connector
-107fe904302092 Rajat Jain           2021-10-05  1129  	 * Properties<standard_connector_properties>`
-107fe904302092 Rajat Jain           2021-10-05  1130  	 */
-107fe904302092 Rajat Jain           2021-10-05  1131  	enum drm_privacy_screen_status privacy_screen_sw_state;
-107fe904302092 Rajat Jain           2021-10-05  1132  
-fbb5d0353c62d1 Uma Shankar          2019-05-16  1133  	/**
-fbb5d0353c62d1 Uma Shankar          2019-05-16  1134  	 * @hdr_output_metadata:
-fbb5d0353c62d1 Uma Shankar          2019-05-16  1135  	 * DRM blob property for HDR output metadata
-fbb5d0353c62d1 Uma Shankar          2019-05-16  1136  	 */
-fbb5d0353c62d1 Uma Shankar          2019-05-16  1137  	struct drm_property_blob *hdr_output_metadata;
-54cb39e2293b1e Maxime Ripard        2024-05-27  1138  
-54cb39e2293b1e Maxime Ripard        2024-05-27  1139  	/**
-54cb39e2293b1e Maxime Ripard        2024-05-27  1140  	 * @hdmi: HDMI-related variable and properties. Filled by
-54cb39e2293b1e Maxime Ripard        2024-05-27  1141  	 * @drm_atomic_helper_connector_hdmi_check().
-54cb39e2293b1e Maxime Ripard        2024-05-27  1142  	 */
-5b530587b3eb3e Maxime Ripard        2024-06-10  1143  	struct drm_connector_hdmi_state hdmi;
-52217195176115 Daniel Vetter        2016-08-12  1144  };
-52217195176115 Daniel Vetter        2016-08-12  1145  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+--
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
