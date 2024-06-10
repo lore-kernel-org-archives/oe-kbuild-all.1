@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9ED18046
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 06:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C20617C66
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 06:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718002568; cv=none; b=cFBMAVE7MDKbAwfNlEBHzV/gK0HRuUkAImfggglY4DeAlnInQyHuYe/VEvA1/r7zeep7HtwM7Rp7M0aj2nLnB1XWvNMynhOmqRRMrwDdzpT3adglZ2Gi7zUoW/DNGSHa4NEbAvXKrPR4p+b5SOEjFmh++YVknSLYLU837+fnMwM=
+	t=1718002569; cv=none; b=aq3KgsHGdTdjuUoGlyF4tV+fBi11UQC7dpHelHWPsZAhCvhPkpnnGAtpyG1YuJ0A6pYmmnHjGF6cT4rug3h5AY3NCvVp3SJbn87lrAYbCYIv6uIyrEIPIi+MTaRbolQz1OTR1dUmOBZOzFYjJce66BoYxI8jyjpeKqaYY5qboMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718002568; c=relaxed/simple;
-	bh=9x5lfg5IbS2UuO0/g8a59A4OC0SvPJLLx6ic7z+Xr14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=feoX356+eXtScsIFFCXBXfu0+ezha+r+VCnNVx4ypw9NGjQ8D8MsJw8bAhAVsGK7Lw4CproqHVvtFdsAXqXabT75GIrOvPojJhfRBxbTvtekB1ZwGR0QThFplY93cfGjjVqsXElsRrwPOKOVMXsWkP7aSQtwBfmAcAlfF/7VQa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dst6LuXi; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1718002569; c=relaxed/simple;
+	bh=oETmX+G9NQUOzMzKFXYtfSnaONfCUIL1kKpG9sYAz1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O8IUJhIZMYaGFpv1VcIvXXNTSKZumrMLebcjgeVNQ5g/5WDM1PXao28w/ZQh1TN1U8RyGmdu+vuBs4wGUs8kOqBf7ib5X3F79g2gtr/7A7MvruNWODdghRg23Lc08L1u1hyGsewE1xOQ/+xAgGgOLUANmYqnWqHENHM/j0dWuWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4a3w0Xi; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dst6LuXi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4a3w0Xi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718002565; x=1749538565;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9x5lfg5IbS2UuO0/g8a59A4OC0SvPJLLx6ic7z+Xr14=;
-  b=Dst6LuXigxP6RhLsFmHPU6jXxwa35csGmG0m316mDIh6AeauVKWdqOau
-   QUqvcmeR4oROwe3i3pzeZfFRw2jsOPAi6nlMKkZcePvcz0JUFW1EGaMCd
-   eNntt/JGIFJnjr5W2TSlNa1Ul57kUPAQKrjXZx+y5muHON/D42Zwt/8yh
-   8CAsoZq7W09TikxPBTeH0yKjF3qIUZP+1XQayOCGAQCW8GMLmncgJkFFb
-   9Adyj5T7cx6z5NV6+pMwSrffL1lAEWISk9F9oPIXtJ0zIhDZVFvppeqtv
-   Gmqd1TcSchDLi7FyevtOnAIC5twDUj7vqNROh11RcTMj955cXwbjjiPPD
-   w==;
-X-CSE-ConnectionGUID: jhAzDVvqRua2kCO2N5bEAQ==
-X-CSE-MsgGUID: VJ8Mw55TQ2Gl/xjf1Ww7dQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="37173138"
+  t=1718002564; x=1749538564;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oETmX+G9NQUOzMzKFXYtfSnaONfCUIL1kKpG9sYAz1o=;
+  b=b4a3w0XiskVvhdqJXgRg+gdOXDsYvBw8EhEw4DVCNZDEgiQCaCpn3f+R
+   JwGmWX4SXD7wecRuMbn81hHNKR18QTecKq0q3XuODHTh8v6tsXhW9Z2vX
+   dqnrDWkQrYax0oDsRvx2PCGZIovAMwoY/Jc3m3I9z+TjI+Zr+eoqyXiWO
+   prLe9AbIjHOvuuhE1MmhE07l7pTAmHAcDbNJzKwDs7D4+EpDckdD/bQl2
+   HjVJ1lU060uVTFyNdkkkXCnckiYY/q4VeeoeZhoRBLWtC35a2pkLbfnle
+   jOnxSyW8/2v5aG4Fl8ll99sXHPGOLf8N+KIZ+o38mdkArf24/vKXr2B3W
+   A==;
+X-CSE-ConnectionGUID: m4ZVhdEXQ6mMa113ILkaCA==
+X-CSE-MsgGUID: Tcmj7YjZTu6Dc/5aM2RLUQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="32139027"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="37173138"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 23:56:05 -0700
-X-CSE-ConnectionGUID: e8ykSEwdS3G3DA5FIAt9wA==
-X-CSE-MsgGUID: /5hJAPHkQaCvwzCCQyfC/w==
+   d="scan'208";a="32139027"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 23:56:03 -0700
+X-CSE-ConnectionGUID: 5dWV/ifhQbmT2E7VD6YsfA==
+X-CSE-MsgGUID: N54JzOaoQ/GtVFpDSPcKyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="76428104"
+   d="scan'208";a="38799465"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Jun 2024 23:56:02 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2024 23:56:02 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGYwh-0001vE-2E;
+	id 1sGYwh-0001vB-1f;
 	Mon, 10 Jun 2024 06:55:59 +0000
-Date: Mon, 10 Jun 2024 14:55:15 +0800
+Date: Mon, 10 Jun 2024 14:55:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard chien <m8809301@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, jesse.brandeburg@intel.com,
-	anthony.l.nguyen@intel.com, intel-wired-lan@lists.osuosl.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Richard chien <richard.chien@hpe.com>
-Subject: Re: [PATCH] igb: Add support for firmware update
-Message-ID: <202406101404.oWWqbJmG-lkp@intel.com>
-References: <20240609081526.5621-1-richard.chien@hpe.com>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 6/61]
+ arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatible:
+ 'anyOf' conditional failed, one must be fixed:
+Message-ID: <202406101418.S1X7TYlz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,98 +64,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240609081526.5621-1-richard.chien@hpe.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y=
+-wip
+head:   504c87f7f0af17421d2bb08aa33fc8f0f3191a8f
+commit: 3ac4f7eae7cadbab878fd172b1f116ae24358275 [6/61] arm64: dts: ti: k3-=
+am62p-main: Add support for DSS0
+config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/arch=
+ive/20240610/202406101418.S1X7TYlz-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d=
+2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240610/202406101418.S1X7TYlz-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tnguy-next-queue/dev-queue]
-[also build test WARNING on tnguy-net-queue/dev-queue linus/master v6.10-rc3 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-chien/igb-Add-support-for-firmware-update/20240609-162047
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20240609081526.5621-1-richard.chien%40hpe.com
-patch subject: [PATCH] igb: Add support for firmware update
-config: alpha-randconfig-r112-20240610 (https://download.01.org/0day-ci/archive/20240610/202406101404.oWWqbJmG-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240610/202406101404.oWWqbJmG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406101404.oWWqbJmG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406101418.S1X7TYlz-lkp@i=
+ntel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/igb/igb_ethtool.c:923:34: sparse: sparse: cast to restricted __le16
-   drivers/net/ethernet/intel/igb/igb_ethtool.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/stackdepot.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:383.10-392.6: Warning (graph_chi=
+ld_address): /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/port=
+s: graph node has single child node 'port@0', #address-cells/#size-cells ar=
+e not necessary
+   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:656.22-666.5: Warning (graph_c=
+hild_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single c=
+hild node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: bus@43000000: compatible: ['sys=
+con', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
+--
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: bus@43000000: compatible: ['sys=
+con', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
 
-vim +923 drivers/net/ethernet/intel/igb/igb_ethtool.c
-
-   874	
-   875	static int igb_get_eeprom(struct net_device *netdev,
-   876	                          struct ethtool_eeprom *eeprom, u8 *bytes)
-   877	{
-   878	        struct igb_adapter *adapter = netdev_priv(netdev);
-   879	        struct e1000_hw *hw = &adapter->hw;
-   880	        u16 *eeprom_buff;
-   881	        int first_word, last_word;
-   882	        int ret_val = 0;
-   883	        struct e1000_nvm_access *nvm;
-   884	        u32 magic;
-   885	        u16 i;
-   886	
-   887	        if (eeprom->len == 0)
-   888	                return -EINVAL;
-   889	
-   890	        magic = hw->vendor_id | (hw->device_id << 16);
-   891	        if (eeprom->magic && eeprom->magic != magic) {
-   892	                nvm = (struct e1000_nvm_access *)eeprom;
-   893	                ret_val = igb_nvmupd_command(hw, nvm, bytes);
-   894	                return ret_val;
-   895	        }
-   896	          
-   897	        /* normal ethtool get_eeprom support */
-   898	        eeprom->magic = hw->vendor_id | (hw->device_id << 16);
-   899	
-   900	        first_word = eeprom->offset >> 1;
-   901	        last_word = (eeprom->offset + eeprom->len - 1) >> 1;
-   902	
-   903	        eeprom_buff = kmalloc(sizeof(u16) *
-   904	                        (last_word - first_word + 1), GFP_KERNEL);
-   905	        if (!eeprom_buff)
-   906	                return -ENOMEM;
-   907	
-   908	        if (hw->nvm.type == e1000_nvm_eeprom_spi)
-   909	                ret_val = e1000_read_nvm(hw, first_word,
-   910	                                         last_word - first_word + 1,
-   911	                                         eeprom_buff);
-   912	        else {
-   913	                for (i = 0; i < last_word - first_word + 1; i++) {
-   914	                        ret_val = e1000_read_nvm(hw, first_word + i, 1,
-   915	                                                 &eeprom_buff[i]);
-   916	                        if (ret_val)
-   917	                                break;
-   918	                }
-   919	        }
-   920	
-   921	        /* Device's eeprom is always little-endian, word addressable */
-   922	        for (i = 0; i < last_word - first_word + 1; i++)
- > 923	                eeprom_buff[i] = le16_to_cpu(eeprom_buff[i]);
-   924	
-   925	        memcpy(bytes, (u8 *)eeprom_buff + (eeprom->offset & 1),
-   926	                        eeprom->len);
-   927	        kfree(eeprom_buff);
-   928	
-   929	        return ret_val;
-   930	}
-   931	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
