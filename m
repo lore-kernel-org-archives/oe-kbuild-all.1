@@ -1,60 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBDC174EEB;
-	Tue, 11 Jun 2024 08:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B45156E4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 10:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718096352; cv=none; b=Prw1fd0cCbVYOS9rJKsB8+0wZBPotNRFPneJaLZcIj7UPOYcvfTCTE1NyN0d2EtX+XCY0CjUTsLF6G47YE7QusRsM/yV3ExHKOdgRnB04qPRf7Lxp54H/tPf7ptsgEFOdgD6FnaXNfOGmVcfsajGvCna6aAein2T9yXIoyi8XX0=
+	t=1718100320; cv=none; b=k5xieUGz/V32mT2+1Vy91vEF6G9OZYCQR/ApJhKMXQzQ6SOO1g6/45M3408A1Qfjw4QeIcJ7h1BdXGMtszURvsp9KVMTgoXxlM3jCaLwAy7rekKbS5SUgRGEWj/wLJnD0DZkrg8Pe967JpBUPpFmtShqNIwUwCh6OJSKB+fLp1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718096352; c=relaxed/simple;
-	bh=HYqgkl04zqLdbPcuqAZMYldfDQQSBLgVFDNzDgBP8Ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OBIjBw6I87iYbawUGYEXsE52AWDFj5kleAeSI9SKsnE9rZlVOI7DWcwbTf7Hq0FEkOVCFtJuRK0tJNJ5KmzpvtIdStieVvx3JxkPLpnMSslVsgk2Z7nYogun0SIxHTqu+r6wywn2DS/co5xlKgybWdOhW0XC8RTC1fF80dq/VM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBxpsiXP; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1718100320; c=relaxed/simple;
+	bh=z7xGmJO7rnhCGOUXwfuTKI3+a9YP3yCgBsSXkvQaVaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PvDjhntNOXplnI2zfW1hMOCV7Wuzaiqe/y9fGPrBmP4hMRYhfSb+raKY/41ayd7AWKPc6SKrg9gBE7+Z8Jf79Zn14F/qmZv42D6UCtEucIQOsKueySl0k7kMX69jSyHIGRI4h6TFqsZ33frppJUPOQx9JpkYjINPxwrhgRp7kUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhGNiTFi; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBxpsiXP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhGNiTFi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718096350; x=1749632350;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HYqgkl04zqLdbPcuqAZMYldfDQQSBLgVFDNzDgBP8Ag=;
-  b=XBxpsiXPV31KVB7EjRN7UWyvqqR5WQHk6sepVyJMOiMd5k2vJyAqL+hx
-   Ypbz2a0/6mvqfm4OsFcPNDET4zYd39yjBMXw8gR3iuYJIc2bmr88TDdVg
-   UUTIOAyKlFGsZw4QvoFOlbH7IQ7DZigb3X2YMlR1TlC0ZcKirso4RNC4M
-   Ke24K6FjnNIbNJqF/7ZX/3z2m8O1Oxhy7AhI98vTJDfZ6ml2hu3WKImds
-   1Uk5qAs1Gzs/gHFlMciMlPTia5FVH1BQMYbYzV9+tUe45jJaQYOMEUjKP
-   1cyUyAwrAxJcjd2be9tL2WTOK77j2FIPhThnM0GIFWwKx6x50cTMj6gud
-   Q==;
-X-CSE-ConnectionGUID: vfkugvNhRIibyDUQx08rCg==
-X-CSE-MsgGUID: Dw7irCnEQO6q98g/iQ95gg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="40194329"
+  t=1718100319; x=1749636319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z7xGmJO7rnhCGOUXwfuTKI3+a9YP3yCgBsSXkvQaVaY=;
+  b=YhGNiTFicONEy0kjzU2FfrwnB82Y5t2mIoQ4TmHRTatD9XbA3bxZ8GH3
+   Boz/zZgGEk+/Y+chRx8ycGC4AfJSaAOeH1sHqaXsIO9o6X8DvYbiu/zBf
+   TOpuseQAqmVfmWCHslmQI64DvrhghkjxO4VPNxqGRqKjbJdxLUTLUIWvY
+   Bh1zBP2OxeCmVK4tDZ1yz+SuFa58x3tdcxOoTx+LQ2KcaN4jw6YyJkuNO
+   yUob0//sZOnrHpwPh+LlsVG23ZEjXiimchCLMDKeN16eJL25f5ltE5GmW
+   C8vVmA6m6kmmnLiv6qljo4n9+/8WY7Khpk9L99xFWvgGFiQJfkEO1n+qB
+   g==;
+X-CSE-ConnectionGUID: 3q2VxCVEQyCuyhLn3V7SHg==
+X-CSE-MsgGUID: xPUSUEBcQ56pE1+4KPxQ9Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14594748"
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="40194329"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 01:59:09 -0700
-X-CSE-ConnectionGUID: WmVQdflITz+at+cdjYnIuw==
-X-CSE-MsgGUID: 62seSpLyTEa8T/F7jia7XA==
+   d="scan'208";a="14594748"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 03:05:18 -0700
+X-CSE-ConnectionGUID: 5bvUzqKTTQ+bpYeibA3XFA==
+X-CSE-MsgGUID: SSE3ON8XRCGqRRkpNt+zsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="70152225"
+   d="scan'208";a="43782832"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Jun 2024 01:59:08 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2024 03:05:13 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGxLO-0000Fa-05;
-	Tue, 11 Jun 2024 08:59:06 +0000
-Date: Tue, 11 Jun 2024 16:59:02 +0800
+	id 1sGyNK-0000IE-2Y;
+	Tue, 11 Jun 2024 10:05:10 +0000
+Date: Tue, 11 Jun 2024 18:05:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org
-Subject: [driver-core:const_driver 8/8] drivers/s390/cio/device.c:64:21:
- error: initializing 'struct ccw_driver *' with an expression of type 'const
- struct ccw_driver *' discards qualifiers
-Message-ID: <202406111607.3OiraQK0-lkp@intel.com>
+To: Maxwell Bland <mbland@motorola.com>,
+	"open list:BPF (Safe Dynamic Programs and Tools)" <bpf@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Zi Shen Lim <zlim.lnx@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	open list <linux-kernel@vger.kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Puranjay Mohan <puranjay12@gmail.com>
+Subject: Re: [PATCH bpf-next v5 1/3] cfi: add C CFI type macro
+Message-ID: <202406111716.SluzXu9X-lkp@intel.com>
+References: <cwhnmpn5yvg6ma7mvjviy4p7z6gdoba57daeprpc4zcokfhpv2@44gvdmcfuspt>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,131 +81,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cwhnmpn5yvg6ma7mvjviy4p7z6gdoba57daeprpc4zcokfhpv2@44gvdmcfuspt>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_driver
-head:   8e41ff96c9c6e36d7f4887ad6f6224fcd889ac38
-commit: 8e41ff96c9c6e36d7f4887ad6f6224fcd889ac38 [8/8] driver core: have match() callback in struct bus_type take a const *
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240611/202406111607.3OiraQK0-lkp@intel.com/config)
+Hi Maxwell,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Bland/arm64-cfi-bpf-Support-kCFI-BPF-on-arm64/20240611-021203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/cwhnmpn5yvg6ma7mvjviy4p7z6gdoba57daeprpc4zcokfhpv2%4044gvdmcfuspt
+patch subject: [PATCH bpf-next v5 1/3] cfi: add C CFI type macro
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240611/202406111716.SluzXu9X-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111607.3OiraQK0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111716.SluzXu9X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406111607.3OiraQK0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111716.SluzXu9X-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/s390/cio/device.c:21:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/s390/cio/device.c:27:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/s390/cio/device.c:27:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/s390/cio/device.c:27:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/s390/cio/device.c:64:21: error: initializing 'struct ccw_driver *' with an expression of type 'const struct ccw_driver *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-      64 |         struct ccw_driver *cdrv = to_ccwdrv(drv);
-         |                            ^      ~~~~~~~~~~~~~~
-   13 warnings and 1 error generated.
+>> arch/riscv/kernel/cfi.c:85:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      85 | DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
+         | ^
+         | int
+>> arch/riscv/kernel/cfi.c:85:17: error: a parameter list without types is only allowed in a function definition
+      85 | DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
+         |                 ^
+   arch/riscv/kernel/cfi.c:89:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      89 | DEFINE_CFI_TYPE(cfi_bpf_subprog_hash, __bpf_callback_fn);
+         | ^
+         | int
+   arch/riscv/kernel/cfi.c:89:17: error: a parameter list without types is only allowed in a function definition
+      89 | DEFINE_CFI_TYPE(cfi_bpf_subprog_hash, __bpf_callback_fn);
+         |                 ^
+   4 errors generated.
 
 
-vim +64 drivers/s390/cio/device.c
+vim +/int +85 arch/riscv/kernel/cfi.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  55  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  56  /* The Linux driver model distinguishes between a bus type and
-^1da177e4c3f41 Linus Torvalds     2005-04-16  57   * the bus itself. Of course we only have one channel
-^1da177e4c3f41 Linus Torvalds     2005-04-16  58   * subsystem driver and one channel system per machine, but
-^1da177e4c3f41 Linus Torvalds     2005-04-16  59   * we still use the abstraction. T.R. says it's a good idea. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  60  static int
-8e41ff96c9c6e3 Greg Kroah-Hartman 2024-06-10  61  ccw_bus_match (struct device * dev, const struct device_driver * drv)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  62  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  63  	struct ccw_device *cdev = to_ccwdev(dev);
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @64  	struct ccw_driver *cdrv = to_ccwdrv(drv);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  65  	const struct ccw_device_id *ids = cdrv->ids, *found;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  66  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  67  	if (!ids)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  68  		return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  69  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  70  	found = ccw_device_id_match(ids, &cdev->id);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  71  	if (!found)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  72  		return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  73  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  74  	cdev->id.driver_info = found->driver_info;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  75  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  76  	return 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  77  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  78  
-
-:::::: The code at line 64 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+    81	
+    82	/* Must match bpf_func_t / DEFINE_BPF_PROG_RUN() */
+    83	extern unsigned int __bpf_prog_runX(const void *ctx,
+    84					    const struct bpf_insn *insn);
+  > 85	DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
