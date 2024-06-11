@@ -1,109 +1,211 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A2C17109A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 06:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0F114E2E8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 06:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718086799; cv=none; b=BVxrOzX3tMNe7SIfsoiPmbIW4/BSE6hn5ehFTAW2zqcrEFc5rPjegpX/jP0dIn5EG4VmxHXVy2tkCegILTA1pIDNwU3/OcToQ+EbgZZfQDBv01Ey3JIAgIJIE9qMGZvncuLTKarxojHsPzitBB2h6E2By4rbAbtwLEzgPM+M0Eg=
+	t=1718086857; cv=none; b=L/w9PT4VU1GSSyFOvFyqcVWPe8TaiPjNdTO+IcrFpmIGYdvrNOPtuTT3MxQ7tFEFN/RBCZjYoVysOfQet0qdbxdQH5E5kuW0ke/dGw+NnZsECE31LNG92R5meIPxHV21mVo2Wap/9SnJLkmrU/gBCRiHI/cevXulKfQPKGXiQes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718086799; c=relaxed/simple;
-	bh=GTlbHv79HCUkR4bCyJN/xCE2y1H0lGUfX/kWCA8XoYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IcWaYLW0EMhQs1iEeN66ZyWGsCSvLvgKQQUsWIHa6MUFHFUc+Ysb0XUOeEgyDV0ppqZ+fQy7wiNVpXw78nsHmIa8U8JX6GTLIq1i5ruItSGZ6xp5cpl4qMwYiLfwJCAksDfiKoZgIowIzWpqfLyalKph4wYR1dnEkgxkZoKOyco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EvGPnqg1; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1718086857; c=relaxed/simple;
+	bh=6ZufR1EZh9J9uETI3+7eABEY+JsY2Ro/NRVMNpiv+d0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g4Gvbt0N9mF936VN9wWAQgNFcLoGJufL33FtYZTYWzQ5/NmjAzLml49tpj8NRspxMv/3BzUr16T+niP4YmXhMLuQPk0KvCPkfM95/HVe/SjlvM6J3MPHbin7F7GRrTCd/GZWyFVjX1psrORHpHDQiLu7O7VprjOkHFXBBSgWRBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9xgiiqb; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EvGPnqg1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9xgiiqb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718086797; x=1749622797;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=GTlbHv79HCUkR4bCyJN/xCE2y1H0lGUfX/kWCA8XoYE=;
-  b=EvGPnqg1aSu1/+Vp48RlEYzP07qjnwRhJ5u5kryakugPhyBm+pDLrQ8j
-   fthdZOzKM/lXWBAznkoorOd7N5IuWsGkeNiIcGA/JiaDe6hCx7+1TDTw8
-   ePrtOdoIEs42qGyMVnQkQghOl2B0ooJA+RHQ42+cQavWB1631HmK69BRJ
-   e0JFcnJpioafuzgSq9conzMnFWnaNXGbEXwkWK5vbgP/iTpyra7GwGRPb
-   MdFqmY2znSknQB5H0usYVCOxauXG1bZMsMeX9BSSbu5qC7yXUGzijL7U+
-   yj2u8+5rbs+URgbcD8xqGzs7tdeZzr94gfZL8INWTEdD7FMXx93flhKmk
-   A==;
-X-CSE-ConnectionGUID: T7PnrJzqS5yC+LqHUhyVRg==
-X-CSE-MsgGUID: Pt2Y17evQgCJmAmXkwe7dg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="12012063"
+  t=1718086855; x=1749622855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6ZufR1EZh9J9uETI3+7eABEY+JsY2Ro/NRVMNpiv+d0=;
+  b=R9xgiiqbyNFQks8fX1BP8EawdhSgkpP9USBi/5UeWQAlH6XTipuKdVsW
+   D8mA7vMIG8LTmbGTAx3yyE/a38AhXfrEtFbRwuLAwCzL7sljIv+Reubz+
+   S/q5KGt/dFn/D7gyin4pqiRcGMcEaaPiTM8b/kS2xCVq1i1p2qeVszb4M
+   aJoPKiU/wZ1wwhp+FsEiZ8xRIpUznpbV7EveC+JP1teXL5PCWd1gvhX2R
+   N4Gwc4DUQX1zkoeG1FCZkhk8opyyX3vcVTvZKS6WX24nFUhls2qaIAnLq
+   mZa3AWmU9prW/YQapgdOsAxU9/D/mZy19+VbW3fnhqXXaUhRqG5z2xYxp
+   g==;
+X-CSE-ConnectionGUID: 9p0g7k/gT0iQ5WODPpoeGw==
+X-CSE-MsgGUID: RJt44Ac7Soaljht+Yslm+A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="12012083"
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="12012063"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 23:19:55 -0700
-X-CSE-ConnectionGUID: aVccBOZbSdmLjP9VexFR6Q==
-X-CSE-MsgGUID: nA+GciTgTKSR0/bc/6c12Q==
+   d="scan'208";a="12012083"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 23:20:55 -0700
+X-CSE-ConnectionGUID: IdOiOIfDS328fJ4Kp+vyWw==
+X-CSE-MsgGUID: bqT2/gwEQZuJTYaSfaGIeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="39769427"
+   d="scan'208";a="40000694"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Jun 2024 23:19:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 10 Jun 2024 23:20:53 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGurH-000079-0u;
-	Tue, 11 Jun 2024 06:19:51 +0000
-Date: Tue, 11 Jun 2024 14:19:08 +0800
+	id 1sGusF-00007K-1O;
+	Tue, 11 Jun 2024 06:20:51 +0000
+Date: Tue, 11 Jun 2024 14:20:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
-	linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Mukesh Ojha <quic_mojha@quicinc.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Cavitt <jonathan.cavitt@intel.com>,
-	=?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
-Subject: Re: [PATCH v5 1/2] devcoredump: Add dev_coredumpm_timeout()
-Message-ID: <202406111410.gmDjiFQR-lkp@intel.com>
-References: <20240610161133.156566-1-jose.souza@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.1-main 15/216]
+ arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro-rtl8367.dts:83.22-129.4:
+ Warning (unit_address_vs_reg): /ethernet@fe010000/mdio/switch1: node has a
+ reg or ranges property, but no unit name
+Message-ID: <202406111436.OF5W4hvn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240610161133.156566-1-jose.souza@intel.com>
 
-Hi José,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on wireless/main linus/master v6.10-rc3 next-20240607]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus wireless-next/main]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Roberto-de-Souza/drm-xe-Increase-devcoredump-timeout/20240611-001400
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20240610161133.156566-1-jose.souza%40intel.com
-patch subject: [PATCH v5 1/2] devcoredump: Add dev_coredumpm_timeout()
-config: i386-buildonly-randconfig-004-20240611 (https://download.01.org/0day-ci/archive/20240611/202406111410.gmDjiFQR-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111410.gmDjiFQR-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.1-main
+head:   e2c203bcd6b99556747c4d0d1fc0b190c44a5df8
+commit: b8baa228e24773ace5a0ddc40c8b55c55142ac4d [15/216] arm64: dts: rockchip: add hw-rev 00 of r2pro
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240611/202406111436.OF5W4hvn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111436.OF5W4hvn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406111410.gmDjiFQR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111436.OF5W4hvn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro-rtl8367.dts:83.22-129.4: Warning (unit_address_vs_reg): /ethernet@fe010000/mdio/switch1: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro-rtl8367.dts:11.27-17.4: Warning (unit_address_vs_reg): /rtkgsw_red@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dts:559.11-600.4: Warning (unique_unit_address): /ethernet@fe2a0000/mdio/switch@0: duplicate unit-address (also used in node /ethernet@fe2a0000/mdio/ethernet-phy@0)
 
-   ld: sound/soc/intel/avs/apl.o: in function `dev_coredumpm_timeout':
->> apl.c:(.text+0x64c): multiple definition of `dev_coredumpm_timeout'; sound/soc/intel/avs/skl.o:skl.c:(.text+0x2d0): first defined here
---
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:26:0:
->> include/linux/devcoredump.h:79:6: error: no previous prototype for 'dev_coredumpm_timeout' [-Werror=missing-prototypes]
-    void dev_coredumpm_timeout(struct device *dev, struct module *owner,
-         ^~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +83 arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro-rtl8367.dts
+
+     9	
+    10	/ {
+  > 11		rtkgsw_red: rtkgsw_red@0 {
+    12			compatible = "realtek,rtk-gsw"; //reduced phy driver
+    13			realtek,mdio = <&mdio1>;
+    14			realtek,reset-pin = <&gpio3 RK_PB0 GPIO_ACTIVE_HIGH>;
+    15			realtek,extifconfig = "rgmii,rgmii"; //own property to setup rgmii instead of sgmii
+    16			status = "disabled";
+    17		};
+    18	};
+    19	
+    20	&gmac0 {
+    21		assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
+    22		assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>, <&cru CLK_MAC0_2TOP>;
+    23		clock_in_out = "input";
+    24		phy-handle = <&rgmii_phy0>;
+    25		phy-mode = "rgmii";
+    26		pinctrl-names = "default";
+    27		pinctrl-0 = <&gmac0_miim
+    28			     &gmac0_tx_bus2
+    29			     &gmac0_rx_bus2
+    30			     &gmac0_rgmii_clk
+    31			     &gmac0_rgmii_bus>;
+    32		snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
+    33		snps,reset-active-low;
+    34		/* Reset time is 20ms, 100ms for rtl8211f */
+    35		snps,reset-delays-us = <0 20000 100000>;
+    36		tx_delay = <0x3c>;
+    37		rx_delay = <0x2f>;
+    38		status = "okay";
+    39		/delete-node/ fixed-link;
+    40	};
+    41	
+    42	&gmac1 {
+    43		/delete-property/ phy-handle;
+    44		assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
+    45		assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&cru CLK_MAC1_2TOP>;
+    46		clock_in_out = "output";
+    47		phy-mode = "rgmii";
+    48		pinctrl-names = "default";
+    49		pinctrl-0 = <&gmac1m1_miim
+    50			     &gmac1m1_tx_bus2
+    51			     &gmac1m1_rx_bus2
+    52			     &gmac1m1_rgmii_clk
+    53			     &gmac1m1_rgmii_bus>;
+    54	
+    55		snps,reset-gpio = <&gpio0 RK_PB7 GPIO_ACTIVE_LOW>;
+    56		snps,reset-active-low;
+    57		/* Reset time is 20ms, 100ms for rtl8211f */
+    58		snps,reset-delays-us = <0 20000 100000>;
+    59	
+    60		tx_delay = <0x4f>;
+    61		rx_delay = <0x26>;
+    62	
+    63		status = "okay";
+    64	
+    65		fixed-link {
+    66			speed = <1000>;
+    67			full-duplex;
+    68			pause;
+    69		};
+    70	};
+    71	
+    72	&mdio0 {
+    73		rgmii_phy0: ethernet-phy@0 {
+    74			compatible = "ethernet-phy-ieee802.3-c22";
+    75			reg = <0x0>;
+    76		};
+    77	};
+    78	
+    79	/delete-node/ &rgmii_phy1;
+    80	
+    81	&mdio1 {
+    82		//ethernet-phy@0 needs to be deleted
+  > 83		rtkgsw_dsa: switch1 {
+    84			compatible = "realtek,rtl8367s";
+    85			realtek,reset-pin = <&gpio3 RK_PB0 GPIO_ACTIVE_HIGH>;
+    86			reg = <0>;
+    87			status = "disabled";
+    88	
+    89			ports {
+    90				#address-cells = <1>;
+    91				#size-cells = <0>;
+    92	
+    93				port@0 {
+    94					reg = <0>;
+    95					label = "lan0";
+    96				};
+    97	
+    98				port@1 {
+    99					reg = <1>;
+   100					label = "lan1";
+   101				};
+   102	
+   103				port@2 {
+   104					reg = <2>;
+   105					label = "lan2";
+   106				};
+   107	
+   108				port@3 {
+   109					reg = <3>;
+   110					label = "lan3";
+   111				};
+   112	
+   113				port@6 {
+   114					reg = <6>;
+   115					ethernet = <&gmac1>;
+   116					phy-mode = "rgmii";
+   117					realtek,ext-int = <1>;
+   118	
+   119					tx-internal-delay-ps = <0>;
+   120					rx-internal-delay-ps = <0>;
+   121	
+   122					fixed-link {
+   123						speed = <1000>;
+   124						full-duplex;
+   125						pause;
+   126					};
+   127				};
+   128			};
+   129		};
+   130	};
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
