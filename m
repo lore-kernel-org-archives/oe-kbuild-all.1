@@ -1,62 +1,61 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9AC171E49
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 06:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CB2171E66
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 07:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718087494; cv=none; b=mrgMNSffKLbeGPH5BytHH2k9IB4R7b8UDDCzSd9+nluCdXHQhufIAfVaBJQQ88TovhRshHh8LM+LHHbDm0n3s7rT/fdNzBEYdF0NeqwpNCrNU57x5zuAoOMWMPjKkLtiaqzLB/rhIYXm8B9sLssP7NMXUPLTZ5mfU0acFTr/ClI=
+	t=1718089884; cv=none; b=qxoRfpoUUYflyvW4ZT+Fl3Uf1PhxzlL+hDUTooGKf/HihDQ+J+L6/I60OOWnKUBJw9vNJm4ZATok+B9wGyMf+A5nw8IvL6EDCdZ13BywbEdal6m+PjMHViPOWbLQ0Pbr+0jQtJemKuarOUFXhJ3xF7PUrBYl3qgIs0XFYE8oO2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718087494; c=relaxed/simple;
-	bh=JCrCO6n2LwzUup92sO/dIW4I9KnZ2LnBJdgZ9OVY/QY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aquJix4izFgrtApLSbbu8UkPnn2GVlsLY9MSvT8yzmjZGqW8tX7CNYlbWnx+6eid+LFtImcyAWdpLeV4FXxM1VzKJFDi75wDNGiL4aSGuAOIhUeldbQOQz2ajUhOSiJeiZavvpNN0PORjoDPcmf/fp6J+7aqQw9BDzroUdczvcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=O5hhwgQY; arc=none smtp.client-ip=68.232.154.123
+	s=arc-20240116; t=1718089884; c=relaxed/simple;
+	bh=S/+Xkivq6IhVJaiax56t6bbl+j9bKb4Vi8iCoKSPCuo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d6sikGZNVFm3Y/XdzBVy3xjbPtNOVDnllNS9PcsHMM9xlfSNGqPVHxzsWP5QAulKkfjuh0ysLpdU7pnlu61nR32aNhGfH43hjgZbIKjuPZ+zne73ojjLSB5Jda3ZK52hmBhqf+GtSuhvF5Ones2C2mUxAW/OSUIVsYaD3Ll1qR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=fQ7lWrmr; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="O5hhwgQY"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="fQ7lWrmr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1718087493; x=1749623493;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JCrCO6n2LwzUup92sO/dIW4I9KnZ2LnBJdgZ9OVY/QY=;
-  b=O5hhwgQYr4HJF2KV3guzZjR55DcrnihNyUbxoqOcjzkYvd94IvP4txy3
-   UDWxNrF0K0+0525JAaikbrKDsRT+nUkSDwnmSGT8TCx2COdm0+HdpYpA0
-   MnfyVXQSVDSKr0yBX0dbcn8YBjkGmzyAlIV6cWgeVe9pXy61nLOPsskOv
-   ga9OrKEttW+3QfMwWTcyoqj59iucJbSRFMmMsPB2JGwHQQ6XxkMhJ0SX2
-   NXpTENg5JTD401uxtfTNPJLmCIjLH6vzOTQ+3EF4Zv8f9o+5VtWzIGthm
-   U0uauOi5KaFaTZhESvNO8vWlAl8koYIZ/OJG2KUBX2t+fNIVx2D/nn/em
-   A==;
-X-CSE-ConnectionGUID: Q3N2X1fHS0SOCLsGG11+zg==
-X-CSE-MsgGUID: evrT7dM0S+ie+CwwIFSeLg==
+  t=1718089882; x=1749625882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S/+Xkivq6IhVJaiax56t6bbl+j9bKb4Vi8iCoKSPCuo=;
+  b=fQ7lWrmr5s3/PV5K6RvrbUrPOq0sF93xWBYB5QlUXcyYv70IlMHNy+SV
+   1rN4i4fQt4ntqSzH9DmFVHAAYxR2XROpcltJo+I/8mNiahShR6x6yO+qs
+   NnXFK4Fa5QLp4XvkCk0Ir2Fe3i4D3RGBeW1v3CVvlCt4ru0yei7HJHoNv
+   1+3kiihcM72OmMUyCJu9cjUyUbfrY8T4i0R/Bf1gN5QF524guwfObBw30
+   tO8c68jq3C4i9pl1S9ViEgDTy+Oo120G3HTGUXJOg71G6IrABfhseVps9
+   CRR4hyQC95+voQQo23143GU/UJ2L5l6eCgeWSI+1p1uJMKvc6DefCB2Lj
+   Q==;
+X-CSE-ConnectionGUID: ZAOYpDyHSrmaJOE3+iJT+w==
+X-CSE-MsgGUID: pUAy/F8kSkqqLxXpBzXmfQ==
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="27243365"
+   d="scan'208";a="27254456"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 10 Jun 2024 23:31:30 -0700
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jun 2024 00:11:21 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 10 Jun 2024 23:31:03 -0700
-Received: from HYD-DK-UNGSW21.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 10 Jun 2024 23:30:57 -0700
-From: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
-To: <lkp@intel.com>
-CC: <Raju.Lakkaraju@microchip.com>, <UNGLinuxDriver@microchip.com>,
-	<andrew@lunn.ch>, <bryan.whitehead@microchip.com>, <davem@davemloft.net>,
+ 15.1.2507.35; Tue, 11 Jun 2024 00:10:51 -0700
+Received: from localhost (10.10.85.11) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Tue, 11 Jun 2024 00:10:51 -0700
+Date: Tue, 11 Jun 2024 09:10:51 +0200
+From: Horatiu Vultur <horatiu.vultur@microchip.com>
+To: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
+CC: <lkp@intel.com>, <UNGLinuxDriver@microchip.com>, <andrew@lunn.ch>,
+	<bryan.whitehead@microchip.com>, <davem@davemloft.net>,
 	<edumazet@google.com>, <hkallweit1@gmail.com>, <hmehrtens@maxlinear.com>,
 	<kuba@kernel.org>, <linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>,
 	<lxu@maxlinear.com>, <netdev@vger.kernel.org>,
 	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>, <sbauer@blackbox.su>,
 	Wojciech Drewek <wojciech.drewek@intel.com>
-Subject: [PATCH net V3 3/3] net: phy: mxl-gpy: Remove interrupt mask clearing from config_init
-Date: Tue, 11 Jun 2024 11:57:53 +0530
-Message-ID: <20240611062753.12020-4-Raju.Lakkaraju@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240611062753.12020-1-Raju.Lakkaraju@microchip.com>
+Subject: Re: [PATCH net V3 0/3] net: lan743x: Fixes for multiple WOL related
+ issues
+Message-ID: <20240611071051.65e5n3bn7e4zm7lq@DEN-DL-M31836.microchip.com>
 References: <202406052200.w3zuc32H-lkp@intel.com>
  <20240611062753.12020-1-Raju.Lakkaraju@microchip.com>
 Precedence: bulk
@@ -65,164 +64,50 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20240611062753.12020-1-Raju.Lakkaraju@microchip.com>
 
-When the system resumes from sleep, the phy_init_hw() function invokes
-config_init(), which clears all interrupt masks and causes wake events to be
-lost in subsequent wake sequences. Remove interrupt mask clearing from
-config_init() and preserve relevant masks in config_intr().
+Hi Raju,
 
-Fixes: 7d901a1e878a ("net: phy: add Maxlinear GPY115/21x/24x driver")
-Signed-off-by: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
-Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
----
-Change List:
-------------
-V0 -> V3:
-  - Address the https://lore.kernel.org/lkml/4a565d54-f468-4e32-8a2c-102c1203f72c@lunn.ch/T/
-    review comments
+Is this not supposed to be v4?
+Because I can see v3 here:
+https://www.spinics.net/lists/netdev/msg1002225.html
 
- drivers/net/phy/mxl-gpy.c | 58 +++++++++++++++++++++++++--------------
- 1 file changed, 38 insertions(+), 20 deletions(-)
+The 06/11/2024 11:57, Raju Lakkaraju wrote:
+> This patch series implement the following fixes:
+> 1. Disable WOL upon resume in order to restore full data path operation
+> 2. Support WOL at both the PHY and MAC appropriately 
+> 3. Remove interrupt mask clearing from config_init 
+> 
+> Patch-3 was sent seperately earlier. Review comments in link: 
+> https://lore.kernel.org/lkml/4a565d54-f468-4e32-8a2c-102c1203f72c@lunn.ch/T/
+> 
+> Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>                        
+> Reported-by: kernel test robot <lkp@intel.com>                                  
+> Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
 
-diff --git a/drivers/net/phy/mxl-gpy.c b/drivers/net/phy/mxl-gpy.c
-index b2d36a3a96f1..e5f8ac4b4604 100644
---- a/drivers/net/phy/mxl-gpy.c
-+++ b/drivers/net/phy/mxl-gpy.c
-@@ -107,6 +107,7 @@ struct gpy_priv {
- 
- 	u8 fw_major;
- 	u8 fw_minor;
-+	u32 wolopts;
- 
- 	/* It takes 3 seconds to fully switch out of loopback mode before
- 	 * it can safely re-enter loopback mode. Record the time when
-@@ -221,6 +222,15 @@ static int gpy_hwmon_register(struct phy_device *phydev)
- }
- #endif
- 
-+static int gpy_ack_interrupt(struct phy_device *phydev)
-+{
-+	int ret;
-+
-+	/* Clear all pending interrupts */
-+	ret = phy_read(phydev, PHY_ISTAT);
-+	return ret < 0 ? ret : 0;
-+}
-+
- static int gpy_mbox_read(struct phy_device *phydev, u32 addr)
- {
- 	struct gpy_priv *priv = phydev->priv;
-@@ -262,16 +272,8 @@ static int gpy_mbox_read(struct phy_device *phydev, u32 addr)
- 
- static int gpy_config_init(struct phy_device *phydev)
- {
--	int ret;
--
--	/* Mask all interrupts */
--	ret = phy_write(phydev, PHY_IMASK, 0);
--	if (ret)
--		return ret;
--
--	/* Clear all pending interrupts */
--	ret = phy_read(phydev, PHY_ISTAT);
--	return ret < 0 ? ret : 0;
-+	/* Nothing to configure. Configuration Requirement Placeholder */
-+	return 0;
- }
- 
- static int gpy21x_config_init(struct phy_device *phydev)
-@@ -627,11 +629,23 @@ static int gpy_read_status(struct phy_device *phydev)
- 
- static int gpy_config_intr(struct phy_device *phydev)
- {
-+	struct gpy_priv *priv = phydev->priv;
- 	u16 mask = 0;
-+	int ret;
-+
-+	ret = gpy_ack_interrupt(phydev);
-+	if (ret)
-+		return ret;
- 
- 	if (phydev->interrupts == PHY_INTERRUPT_ENABLED)
- 		mask = PHY_IMASK_MASK;
- 
-+	if (priv->wolopts & WAKE_MAGIC)
-+		mask |= PHY_IMASK_WOL;
-+
-+	if (priv->wolopts & WAKE_PHY)
-+		mask |= PHY_IMASK_LSTC;
-+
- 	return phy_write(phydev, PHY_IMASK, mask);
- }
- 
-@@ -678,6 +692,7 @@ static int gpy_set_wol(struct phy_device *phydev,
- 		       struct ethtool_wolinfo *wol)
- {
- 	struct net_device *attach_dev = phydev->attached_dev;
-+	struct gpy_priv *priv = phydev->priv;
- 	int ret;
- 
- 	if (wol->wolopts & WAKE_MAGIC) {
-@@ -725,6 +740,8 @@ static int gpy_set_wol(struct phy_device *phydev,
- 		ret = phy_read(phydev, PHY_ISTAT);
- 		if (ret < 0)
- 			return ret;
-+
-+		priv->wolopts |= WAKE_MAGIC;
- 	} else {
- 		/* Disable magic packet matching */
- 		ret = phy_clear_bits_mmd(phydev, MDIO_MMD_VEND2,
-@@ -732,6 +749,13 @@ static int gpy_set_wol(struct phy_device *phydev,
- 					 WOL_EN);
- 		if (ret < 0)
- 			return ret;
-+
-+		/* Disable the WOL interrupt */
-+		ret = phy_clear_bits(phydev, PHY_IMASK, PHY_IMASK_WOL);
-+		if (ret < 0)
-+			return ret;
-+
-+		priv->wolopts &= ~WAKE_MAGIC;
- 	}
- 
- 	if (wol->wolopts & WAKE_PHY) {
-@@ -748,9 +772,11 @@ static int gpy_set_wol(struct phy_device *phydev,
- 		if (ret & (PHY_IMASK_MASK & ~PHY_IMASK_LSTC))
- 			phy_trigger_machine(phydev);
- 
-+		priv->wolopts |= WAKE_PHY;
- 		return 0;
- 	}
- 
-+	priv->wolopts &= ~WAKE_PHY;
- 	/* Disable the link state change interrupt */
- 	return phy_clear_bits(phydev, PHY_IMASK, PHY_IMASK_LSTC);
- }
-@@ -758,18 +784,10 @@ static int gpy_set_wol(struct phy_device *phydev,
- static void gpy_get_wol(struct phy_device *phydev,
- 			struct ethtool_wolinfo *wol)
- {
--	int ret;
-+	struct gpy_priv *priv = phydev->priv;
- 
- 	wol->supported = WAKE_MAGIC | WAKE_PHY;
--	wol->wolopts = 0;
--
--	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, VPSPEC2_WOL_CTL);
--	if (ret & WOL_EN)
--		wol->wolopts |= WAKE_MAGIC;
--
--	ret = phy_read(phydev, PHY_IMASK);
--	if (ret & PHY_IMASK_LSTC)
--		wol->wolopts |= WAKE_PHY;
-+	wol->wolopts = priv->wolopts;
- }
- 
- static int gpy_loopback(struct phy_device *phydev, bool enable)
+I think you should drop the 'Reported-by' and 'Closes' tags because the
+issue that is getting closed is the one that you introduced in one of
+your previous version of the patch series.
+
+> 
+> Raju Lakkaraju (3):
+>   net: lan743x: disable WOL upon resume to restore full data path
+>     operation
+>   net: lan743x: Support WOL at both the PHY and MAC appropriately
+>   net: phy: mxl-gpy: Remove interrupt mask clearing from config_init
+> 
+>  .../net/ethernet/microchip/lan743x_ethtool.c  | 44 ++++++++++++--
+>  drivers/net/ethernet/microchip/lan743x_main.c | 46 ++++++++++++---
+>  drivers/net/ethernet/microchip/lan743x_main.h | 28 +++++++++
+>  drivers/net/phy/mxl-gpy.c                     | 58 ++++++++++++-------
+>  4 files changed, 144 insertions(+), 32 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+> 
+
 -- 
-2.34.1
-
+/Horatiu
