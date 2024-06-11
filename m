@@ -1,134 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B45156E4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 10:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FFB174EF4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 10:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718100320; cv=none; b=k5xieUGz/V32mT2+1Vy91vEF6G9OZYCQR/ApJhKMXQzQ6SOO1g6/45M3408A1Qfjw4QeIcJ7h1BdXGMtszURvsp9KVMTgoXxlM3jCaLwAy7rekKbS5SUgRGEWj/wLJnD0DZkrg8Pe967JpBUPpFmtShqNIwUwCh6OJSKB+fLp1A=
+	t=1718102300; cv=none; b=PJF/ie/O1MUhyNMiwfLJoBjS5FMixep4KweRgupO3LNlWID3fdqvii6BOT5fsdS87ed5IoWWLkceqgLF9yHUH5R7f6JuOEd02RM2jWq6upoFTk3eSW6vMUjs4jntaAU2P0efS5idy0708n6isJ/HUOoybvMQdhb25eFyGYX3dHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718100320; c=relaxed/simple;
-	bh=z7xGmJO7rnhCGOUXwfuTKI3+a9YP3yCgBsSXkvQaVaY=;
+	s=arc-20240116; t=1718102300; c=relaxed/simple;
+	bh=J21BSaq0b6iUfubvOJ45H+bg9QBB0htBk1F9s7SFr+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PvDjhntNOXplnI2zfW1hMOCV7Wuzaiqe/y9fGPrBmP4hMRYhfSb+raKY/41ayd7AWKPc6SKrg9gBE7+Z8Jf79Zn14F/qmZv42D6UCtEucIQOsKueySl0k7kMX69jSyHIGRI4h6TFqsZ33frppJUPOQx9JpkYjINPxwrhgRp7kUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhGNiTFi; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmO9e1QFQZx3r88KQuoYoZud5sRoLwT8PRoMnOhnUYMzvZVmaIeoq1Hz6OHWqt8IZRH2yPyf34iwcZf3/RIoDi1rHs6cqIMUlCYoBYZHc8Ccssvvfo3/VfnIYq7zsbiZ7dw3ttNvIUbm3w6TjGAxjDk9FFT7j2s5xRk0zij+tsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Peyterti; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhGNiTFi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Peyterti"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718100319; x=1749636319;
+  t=1718102298; x=1749638298;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z7xGmJO7rnhCGOUXwfuTKI3+a9YP3yCgBsSXkvQaVaY=;
-  b=YhGNiTFicONEy0kjzU2FfrwnB82Y5t2mIoQ4TmHRTatD9XbA3bxZ8GH3
-   Boz/zZgGEk+/Y+chRx8ycGC4AfJSaAOeH1sHqaXsIO9o6X8DvYbiu/zBf
-   TOpuseQAqmVfmWCHslmQI64DvrhghkjxO4VPNxqGRqKjbJdxLUTLUIWvY
-   Bh1zBP2OxeCmVK4tDZ1yz+SuFa58x3tdcxOoTx+LQ2KcaN4jw6YyJkuNO
-   yUob0//sZOnrHpwPh+LlsVG23ZEjXiimchCLMDKeN16eJL25f5ltE5GmW
-   C8vVmA6m6kmmnLiv6qljo4n9+/8WY7Khpk9L99xFWvgGFiQJfkEO1n+qB
-   g==;
-X-CSE-ConnectionGUID: 3q2VxCVEQyCuyhLn3V7SHg==
-X-CSE-MsgGUID: xPUSUEBcQ56pE1+4KPxQ9Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14594748"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=J21BSaq0b6iUfubvOJ45H+bg9QBB0htBk1F9s7SFr+I=;
+  b=PeytertihQ62Eury0cPEKlvHQWJfX1JVBfrB95HTSljoJNZ7vTaeO67o
+   UI5cKY71LDFA+JpmLf9ttG7+WM30aZX8+ejk7+yoYZBPmCBLR+PifbU59
+   /YIOO+OYlTcGNFS6N3JX4+xTthIAhqjdyescoKyb94Qfyfd5v9chQv8Qb
+   azHHQn6GCfVeFZMnBcunWl2HXaG3GDwUDQ3WmT+YTZ2YMdghQ8sKGpJjx
+   VoQb+XUKv/q+lXHIbVEBGgiaZBcQ5tQagO8UIMCJMEBUKCRQog2v+P8H8
+   jp3ct+L1XsOfRJFbsorcpUWNh9LLjKhj1q4nPFOkQoRawv6779KTO2BKN
+   w==;
+X-CSE-ConnectionGUID: nHm5+oa2TjmrxGZ4gNU2Og==
+X-CSE-MsgGUID: bc9uRTJlRHqgggwvqDdLKg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="40205333"
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="14594748"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 03:05:18 -0700
-X-CSE-ConnectionGUID: 5bvUzqKTTQ+bpYeibA3XFA==
-X-CSE-MsgGUID: SSE3ON8XRCGqRRkpNt+zsQ==
+   d="scan'208";a="40205333"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 03:38:18 -0700
+X-CSE-ConnectionGUID: jqf/2a6DQWGM4+s8zoSg3w==
+X-CSE-MsgGUID: /cDX3UYMRzWuWf4DdaKvqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="43782832"
+   d="scan'208";a="39980371"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2024 03:05:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Jun 2024 03:38:15 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGyNK-0000IE-2Y;
-	Tue, 11 Jun 2024 10:05:10 +0000
-Date: Tue, 11 Jun 2024 18:05:02 +0800
+	id 1sGytJ-0000Jq-02;
+	Tue, 11 Jun 2024 10:38:13 +0000
+Date: Tue, 11 Jun 2024 18:37:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxwell Bland <mbland@motorola.com>,
-	"open list:BPF (Safe Dynamic Programs and Tools)" <bpf@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Zi Shen Lim <zlim.lnx@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	open list <linux-kernel@vger.kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Puranjay Mohan <puranjay12@gmail.com>
-Subject: Re: [PATCH bpf-next v5 1/3] cfi: add C CFI type macro
-Message-ID: <202406111716.SluzXu9X-lkp@intel.com>
-References: <cwhnmpn5yvg6ma7mvjviy4p7z6gdoba57daeprpc4zcokfhpv2@44gvdmcfuspt>
+To: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+	linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Mukesh Ojha <quic_mojha@quicinc.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Cavitt <jonathan.cavitt@intel.com>,
+	=?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
+Subject: Re: [PATCH v5 1/2] devcoredump: Add dev_coredumpm_timeout()
+Message-ID: <202406111852.SdIM9NWt-lkp@intel.com>
+References: <20240610161133.156566-1-jose.souza@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <cwhnmpn5yvg6ma7mvjviy4p7z6gdoba57daeprpc4zcokfhpv2@44gvdmcfuspt>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240610161133.156566-1-jose.souza@intel.com>
 
-Hi Maxwell,
+Hi José,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on wireless-next/main wireless/main linus/master v6.10-rc3 next-20240611]
+[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Bland/arm64-cfi-bpf-Support-kCFI-BPF-on-arm64/20240611-021203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/cwhnmpn5yvg6ma7mvjviy4p7z6gdoba57daeprpc4zcokfhpv2%4044gvdmcfuspt
-patch subject: [PATCH bpf-next v5 1/3] cfi: add C CFI type macro
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240611/202406111716.SluzXu9X-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111716.SluzXu9X-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Roberto-de-Souza/drm-xe-Increase-devcoredump-timeout/20240611-001400
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240610161133.156566-1-jose.souza%40intel.com
+patch subject: [PATCH v5 1/2] devcoredump: Add dev_coredumpm_timeout()
+config: i386-randconfig-141-20240611 (https://download.01.org/0day-ci/archive/20240611/202406111852.SdIM9NWt-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111852.SdIM9NWt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406111716.SluzXu9X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111852.SdIM9NWt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/riscv/kernel/cfi.c:85:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-      85 | DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
+   In file included from drivers/gpu/drm/xe/xe_devcoredump.c:9:
+>> include/linux/devcoredump.h:79:6: error: no previous prototype for function 'dev_coredumpm_timeout' [-Werror,-Wmissing-prototypes]
+      79 | void dev_coredumpm_timeout(struct device *dev, struct module *owner,
+         |      ^
+   include/linux/devcoredump.h:79:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      79 | void dev_coredumpm_timeout(struct device *dev, struct module *owner,
          | ^
-         | int
->> arch/riscv/kernel/cfi.c:85:17: error: a parameter list without types is only allowed in a function definition
-      85 | DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
-         |                 ^
-   arch/riscv/kernel/cfi.c:89:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-      89 | DEFINE_CFI_TYPE(cfi_bpf_subprog_hash, __bpf_callback_fn);
-         | ^
-         | int
-   arch/riscv/kernel/cfi.c:89:17: error: a parameter list without types is only allowed in a function definition
-      89 | DEFINE_CFI_TYPE(cfi_bpf_subprog_hash, __bpf_callback_fn);
-         |                 ^
-   4 errors generated.
+         | static 
+   1 error generated.
 
 
-vim +/int +85 arch/riscv/kernel/cfi.c
+vim +/dev_coredumpm_timeout +79 include/linux/devcoredump.h
 
-    81	
-    82	/* Must match bpf_func_t / DEFINE_BPF_PROG_RUN() */
-    83	extern unsigned int __bpf_prog_runX(const void *ctx,
-    84					    const struct bpf_insn *insn);
-  > 85	DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
-    86	
+    78	
+  > 79	void dev_coredumpm_timeout(struct device *dev, struct module *owner,
+    80				   void *data, size_t datalen, gfp_t gfp,
+    81				   ssize_t (*read)(char *buffer, loff_t offset,
+    82						   size_t count, void *data,
+    83						   size_t datalen),
+    84				   void (*free)(void *data),
+    85				   unsigned long timeout)
+    86	{
+    87		free(data);
+    88	}
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
