@@ -1,138 +1,194 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE19D174EC8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 08:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBDC174EEB;
+	Tue, 11 Jun 2024 08:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718093089; cv=none; b=rZ1L8+StLQDXMdiPlHui4HVux8q0GaPn8HH3qgyAVi07LdORKClJX1EtNLJXAwvtHfzQG+MGfXBOWkQh6n3w+Y5p8wCyprYeHScecc7b896iDiQd1j8McJcE7lCTgv4p0bFSwrbh2zYkESXta1Ns27wOx1SHI8nhrQe3WnHOWBw=
+	t=1718096352; cv=none; b=Prw1fd0cCbVYOS9rJKsB8+0wZBPotNRFPneJaLZcIj7UPOYcvfTCTE1NyN0d2EtX+XCY0CjUTsLF6G47YE7QusRsM/yV3ExHKOdgRnB04qPRf7Lxp54H/tPf7ptsgEFOdgD6FnaXNfOGmVcfsajGvCna6aAein2T9yXIoyi8XX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718093089; c=relaxed/simple;
-	bh=cjDSq1fkfavKtAt7cAib4nKFIPpMZ1jL1K0Sm23/ubg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fA1GG+cf1LC6Piy7RwsKTA2KqePFV3dmYds4HbEF8CEnVdHNYTgWX1aROrpdPCaHG+YTbONNYey430yuF1O+uLKYA3+XEirBURopyCbpfGcSNQl0aVaI+E01rd828sk4dOyBZBvR1P3QPKK9gJZQp+JooFaE7Q0W2d6O6d+Lv0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=d34ckmkz; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1718096352; c=relaxed/simple;
+	bh=HYqgkl04zqLdbPcuqAZMYldfDQQSBLgVFDNzDgBP8Ag=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OBIjBw6I87iYbawUGYEXsE52AWDFj5kleAeSI9SKsnE9rZlVOI7DWcwbTf7Hq0FEkOVCFtJuRK0tJNJ5KmzpvtIdStieVvx3JxkPLpnMSslVsgk2Z7nYogun0SIxHTqu+r6wywn2DS/co5xlKgybWdOhW0XC8RTC1fF80dq/VM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBxpsiXP; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="d34ckmkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBxpsiXP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1718093085; x=1749629085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cjDSq1fkfavKtAt7cAib4nKFIPpMZ1jL1K0Sm23/ubg=;
-  b=d34ckmkzBuzgnwgaEyERl8nGgTSGz6N676jUL5POrKM8LLuu4f0m78ac
-   vD0+pylwwbhi1Dd3DMYZ0oc8XGs7F3Kv5rM5I+s2FFMZpFLiBp9zg2XBG
-   8Pmxb32lToXe4qGJBEbXRfZPpFP01Zuy/qNRcwkHuRz0d6B39/cBYNTPg
-   Ia/nQkpZQuaVZMMJ4Ef81W/5YviUcmDAHz4FbvphNAUZ9NZ3/TQ/6QemF
-   /OroHw00DOy1RcXO9eWppLCwkG8Yg7IHIYPrunBHOrsNuOBbmKjzTXTOr
-   hBZpfLqPjVSStLHn6Mv2zdX+3ss31tyk725EanAOLYZxFG41tas+JfMui
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718096350; x=1749632350;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HYqgkl04zqLdbPcuqAZMYldfDQQSBLgVFDNzDgBP8Ag=;
+  b=XBxpsiXPV31KVB7EjRN7UWyvqqR5WQHk6sepVyJMOiMd5k2vJyAqL+hx
+   Ypbz2a0/6mvqfm4OsFcPNDET4zYd39yjBMXw8gR3iuYJIc2bmr88TDdVg
+   UUTIOAyKlFGsZw4QvoFOlbH7IQ7DZigb3X2YMlR1TlC0ZcKirso4RNC4M
+   Ke24K6FjnNIbNJqF/7ZX/3z2m8O1Oxhy7AhI98vTJDfZ6ml2hu3WKImds
+   1Uk5qAs1Gzs/gHFlMciMlPTia5FVH1BQMYbYzV9+tUe45jJaQYOMEUjKP
+   1cyUyAwrAxJcjd2be9tL2WTOK77j2FIPhThnM0GIFWwKx6x50cTMj6gud
    Q==;
-X-CSE-ConnectionGUID: u76H7Qz2QNSGdqOn7lTiWw==
-X-CSE-MsgGUID: FGphlgQFRDye/ZbeONnACw==
+X-CSE-ConnectionGUID: vfkugvNhRIibyDUQx08rCg==
+X-CSE-MsgGUID: Dw7irCnEQO6q98g/iQ95gg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="40194329"
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="27247166"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jun 2024 01:04:38 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 11 Jun 2024 01:04:06 -0700
-Received: from localhost (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Tue, 11 Jun 2024 01:04:05 -0700
-Date: Tue, 11 Jun 2024 13:31:22 +0530
-From: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
-To: Horatiu Vultur <horatiu.vultur@microchip.com>
-CC: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>, <lkp@intel.com>,
-	<UNGLinuxDriver@microchip.com>, <andrew@lunn.ch>,
-	<bryan.whitehead@microchip.com>, <davem@davemloft.net>,
-	<edumazet@google.com>, <hkallweit1@gmail.com>, <hmehrtens@maxlinear.com>,
-	<kuba@kernel.org>, <linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>,
-	<lxu@maxlinear.com>, <netdev@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>, <sbauer@blackbox.su>,
-	Wojciech Drewek <wojciech.drewek@intel.com>
-Subject: Re: [PATCH net V3 0/3] net: lan743x: Fixes for multiple WOL related
- issues
-Message-ID: <ZmgEUrA6xM9vtDxD@HYD-DK-UNGSW21.microchip.com>
-References: <202406052200.w3zuc32H-lkp@intel.com>
- <20240611062753.12020-1-Raju.Lakkaraju@microchip.com>
- <20240611071051.65e5n3bn7e4zm7lq@DEN-DL-M31836.microchip.com>
+   d="scan'208";a="40194329"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 01:59:09 -0700
+X-CSE-ConnectionGUID: WmVQdflITz+at+cdjYnIuw==
+X-CSE-MsgGUID: 62seSpLyTEa8T/F7jia7XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
+   d="scan'208";a="70152225"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 11 Jun 2024 01:59:08 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGxLO-0000Fa-05;
+	Tue, 11 Jun 2024 08:59:06 +0000
+Date: Tue, 11 Jun 2024 16:59:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org
+Subject: [driver-core:const_driver 8/8] drivers/s390/cio/device.c:64:21:
+ error: initializing 'struct ccw_driver *' with an expression of type 'const
+ struct ccw_driver *' discards qualifiers
+Message-ID: <202406111607.3OiraQK0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240611071051.65e5n3bn7e4zm7lq@DEN-DL-M31836.microchip.com>
 
-Hi Horatiu,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_driver
+head:   8e41ff96c9c6e36d7f4887ad6f6224fcd889ac38
+commit: 8e41ff96c9c6e36d7f4887ad6f6224fcd889ac38 [8/8] driver core: have match() callback in struct bus_type take a const *
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240611/202406111607.3OiraQK0-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111607.3OiraQK0-lkp@intel.com/reproduce)
 
-There is no new changes except "kernel test robot" reported issue.
-
-I fix the issue and sent the patch along with other old patches.
-Also add "Reported-by" and "Closes" tags to all patches and
---in-reply-to=202406052200.w3zuc32H-lkp@intel.com.
-i.e.
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111607.3OiraQK0-lkp@intel.com/
 
-Is it sufficient? or
-Do you need to generete new version of patches ?
+All errors (new ones prefixed by >>):
 
-Thanks,
-Raju
-The 06/11/2024 09:10, Horatiu Vultur wrote:
-> Hi Raju,
-> 
-> Is this not supposed to be v4?
-> Because I can see v3 here:
-> https://www.spinics.net/lists/netdev/msg1002225.html
-> 
-> The 06/11/2024 11:57, Raju Lakkaraju wrote:
-> > This patch series implement the following fixes:
-> > 1. Disable WOL upon resume in order to restore full data path operation
-> > 2. Support WOL at both the PHY and MAC appropriately 
-> > 3. Remove interrupt mask clearing from config_init 
-> > 
-> > Patch-3 was sent seperately earlier. Review comments in link: 
-> > https://lore.kernel.org/lkml/4a565d54-f468-4e32-8a2c-102c1203f72c@lunn.ch/T/
-> > 
-> > Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>                        
-> > Reported-by: kernel test robot <lkp@intel.com>                                  
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
-> 
-> I think you should drop the 'Reported-by' and 'Closes' tags because the
-> issue that is getting closed is the one that you introduced in one of
-> your previous version of the patch series.
-> 
-> > 
-> > Raju Lakkaraju (3):
-> >   net: lan743x: disable WOL upon resume to restore full data path
-> >     operation
-> >   net: lan743x: Support WOL at both the PHY and MAC appropriately
-> >   net: phy: mxl-gpy: Remove interrupt mask clearing from config_init
-> > 
-> >  .../net/ethernet/microchip/lan743x_ethtool.c  | 44 ++++++++++++--
-> >  drivers/net/ethernet/microchip/lan743x_main.c | 46 ++++++++++++---
-> >  drivers/net/ethernet/microchip/lan743x_main.h | 28 +++++++++
-> >  drivers/net/phy/mxl-gpy.c                     | 58 ++++++++++++-------
-> >  4 files changed, 144 insertions(+), 32 deletions(-)
-> > 
-> > -- 
-> > 2.34.1
-> > 
-> > 
-> 
-> -- 
-> /Horatiu
+   In file included from drivers/s390/cio/device.c:21:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/s390/cio/device.c:27:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/s390/cio/device.c:27:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/s390/cio/device.c:27:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/s390/cio/device.c:64:21: error: initializing 'struct ccw_driver *' with an expression of type 'const struct ccw_driver *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      64 |         struct ccw_driver *cdrv = to_ccwdrv(drv);
+         |                            ^      ~~~~~~~~~~~~~~
+   13 warnings and 1 error generated.
+
+
+vim +64 drivers/s390/cio/device.c
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  55  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  56  /* The Linux driver model distinguishes between a bus type and
+^1da177e4c3f41 Linus Torvalds     2005-04-16  57   * the bus itself. Of course we only have one channel
+^1da177e4c3f41 Linus Torvalds     2005-04-16  58   * subsystem driver and one channel system per machine, but
+^1da177e4c3f41 Linus Torvalds     2005-04-16  59   * we still use the abstraction. T.R. says it's a good idea. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  60  static int
+8e41ff96c9c6e3 Greg Kroah-Hartman 2024-06-10  61  ccw_bus_match (struct device * dev, const struct device_driver * drv)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  62  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  63  	struct ccw_device *cdev = to_ccwdev(dev);
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @64  	struct ccw_driver *cdrv = to_ccwdrv(drv);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  65  	const struct ccw_device_id *ids = cdrv->ids, *found;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  66  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  67  	if (!ids)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  68  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  69  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  70  	found = ccw_device_id_match(ids, &cdev->id);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  71  	if (!found)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  72  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  73  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  74  	cdev->id.driver_info = found->driver_info;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  75  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  76  	return 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  77  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  78  
+
+:::::: The code at line 64 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
-Thanks,                                                                         
-Raju
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
