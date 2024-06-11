@@ -1,133 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C6D14E2EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 12:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB02817838A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 13:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718108184; cv=none; b=AnA1jLquAOVAiOwDr3Mx948FHAPLxzBrYLgPkOeWJE+TsRor1s7qwJl6vbJHVzXATzAWW+wh6LhV72z3ul9SGjH+ED3snYHCQElXAh5ewlO6TR99iP6qX1UgUVw6/0Eq6DCEi4lxojQmPm/9O5BC07Cfctkm64Yzo1o18kt3VAw=
+	t=1718112548; cv=none; b=NENyZsuWaPnU4OIRUkvQ4u/S57IAKDOVtMY6msupkI+z2+H1PXwf4JYNfjyIrqiN2pHnGHfNQh3+9WJxC56fhL75NJQdokyUPCzIPNwdtBDg8KtmMdq3rb2c+SOO9PFa8oupkXObvWGvenZQKTRjOhP6P0ZoiXowayIB6jdXN/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718108184; c=relaxed/simple;
-	bh=5b71ZBPr1TDpwCIeu665mxKoJgWHyJPgN+lDoMuCdEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GXxtI6qxPtvBjgsv2QIzxiAeon6to28IT0BLPJb2DVuOdzUgCUWGnOw6w7qHRL6qTI/3b6zcHSiFwkt4Clsni+dfvdNRYpCMMeeCniCc3wBdmGXqw0DHLsKhKMRK/MZJGK80jwWjGKKa6bnKHJDzbMfVBn3BJ2/QCV61umS2wvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG6Li9wb; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718112548; c=relaxed/simple;
+	bh=FHJHTwFSSQ1Uzk0cQSknAKLbZ/VGCx6cyQgAAHKhCFY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ux3JW4Dt9FidAJO79tssw1YQknlP7jr9QTenF/hgd8f2QQjr4wnA7AoEcPeEhzxXJEcl7Fzozy22rEzbQ2xHKxN/P19nKgp3cMoASSNXbRNbCLn2IiLyQygLKAlh/Ldi/WjewckrlQ2TIePSbLXEmFhhoHaN78cNJmUWXdBr8Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lb7yoKTw; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG6Li9wb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718108183; x=1749644183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5b71ZBPr1TDpwCIeu665mxKoJgWHyJPgN+lDoMuCdEQ=;
-  b=nG6Li9wbBSk0Bwfkr2n+tNNBq20b9JSseEvsZEa0gE7Z5pQ+4ovaJnnR
-   uQL0CsFyrRauhygjJWCcdOqtsG+JJPwYeMqAe6DwA1cuJ3LtR+djlLvcm
-   5C1fUzKDcZYg3OgaNwRvffGvTlrKY+HqYfmP23tWww9UnaYrsNbVunWbs
-   UNLyb16Ze1oBfsobyWxKFcGQef8OBYg+Nz+O4Kp6foyLeIJHrtqjJUk6f
-   PFnrLr/lRqUlAqo40jLO797huAprBDfCXdFxisB4HnrY9DokdMbRru6p6
-   NZ31sumE0y1V5MgY0NmUvetepy8Icoj0A6JyxXo6FbHlg8cNr1AzSyRSd
-   A==;
-X-CSE-ConnectionGUID: qo4l5uXGRt2q/EUIgrwXLA==
-X-CSE-MsgGUID: ckCbOXQaTi+91lsqDsqdVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32297231"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="32297231"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 05:16:22 -0700
-X-CSE-ConnectionGUID: lbBnx0IQSpu+4NO7yCW7dw==
-X-CSE-MsgGUID: XWVxDBsdS9S6W/BCtBEzbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="39879681"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2024 05:16:19 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sH0QD-0000Ow-1B;
-	Tue, 11 Jun 2024 12:16:17 +0000
-Date: Tue, 11 Jun 2024 20:16:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-Message-ID: <202406112047.aKSKbmw4-lkp@intel.com>
-References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lb7yoKTw"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-70421b87aa3so839117b3a.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 06:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718112546; x=1718717346; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Zam+ZOLhMJBu8iaJ0RiQaB2QzwFkxPXc6h4VHxbA8A=;
+        b=lb7yoKTwq92HzkfuVRnCa8Cfb3dE+li6ApB+1eN2Qs6nGK127Hj5nl4dd9XMyly8Lv
+         9G2e+WTeDT1WDc8UFolA9XoNTwc7IhZ0eFSaU6iACQE8YoOnslpQX4AZqvifQfQPOK53
+         onpeG2m2d43Rzg1DFz0+t/KN6/hr/zIEdleV6CI6aDOChZ7qjRu2wgbIMwiBHyZUxOzq
+         3DS8hxj/+1cCV4gr1hDDKWZHnf4VsES07YBkAy3790IniTE1bh3PF2PWMfS6ktS06WCi
+         yzRHMDLmWujDkY/XourLsx7fpOg47UVJpuxzeJxqAasZ5uz2g4jPEJlSeqpATGpfhzjB
+         riYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718112546; x=1718717346;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Zam+ZOLhMJBu8iaJ0RiQaB2QzwFkxPXc6h4VHxbA8A=;
+        b=cigPbC/cf2JWTjElyf3PIjf5IEvhpRFIETTEE1YAQOuhtSgkDFcGT3hOyHi1yiMt12
+         gYqnFJUuTWJ0sj0p/7sCnM4Z61AQzwr8NPenQB4TBNqhYpoTgVBPxaB1CNPzv2lGL01V
+         Qd3CnMd6FOb/5cUIunezRgdOmbymiz5jT3fA2Xjvp0MZag3wi28kTdRb2gd7Dh2zj3AY
+         pGzpZnjDjwTxPQjnVwICdWilpsmJa8iv0qhKVwRKpk1MNOgC6JmKNZO0TJ6mM9uNIJhy
+         jwlk3Z8BHknf8qAmnr4DkMBJEmbgKaJ/7QhPpKu5EaEIf3CfAFgMG7YyhMd7xFIbu6EJ
+         j26w==
+X-Forwarded-Encrypted: i=1; AJvYcCVrklnh8t+wXUjJFraZ+42on/kj/PbqNo4WMR39sDKxxXY0wOwfQ0hL10y7THcXwTV6KOuxTT5YhGpXxTP0AlbrEHIQ5rZT6J6aGxtSiw==
+X-Gm-Message-State: AOJu0Yw6EVd6+ltmQR65oyOBqqVuIaqIA21GA+hJZ1QzvAbMi8Iav1po
+	1D89wta+dB6iovEuhCcEcG6uSzadEcBOnt8M0cZf4bG46xSJZHo0DVTQgwxwfHMZyw/lj0nfO48
+	P+w==
+X-Google-Smtp-Source: AGHT+IHxtfcunzv7+UgJC5xHyV9xETAURb223RNAy+OgxmjeB0a212r0Mdim9/VBBHNlPVkRY3W9vCLs6Dg=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:6015:b0:704:184a:a679 with SMTP id
+ d2e1a72fcca58-704184aaa9amr41209b3a.4.1718112545841; Tue, 11 Jun 2024
+ 06:29:05 -0700 (PDT)
+Date: Tue, 11 Jun 2024 06:29:04 -0700
+In-Reply-To: <202406111054.tfC7sg5g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+Mime-Version: 1.0
+References: <202406111054.tfC7sg5g-lkp@intel.com>
+Message-ID: <ZmhRILF3iBDq2hs6@google.com>
+Subject: Re: [kvm-x86:generic 7/9] include/linux/kvm_host.h:2106:5: warning:
+ no previous prototype for 'kvm_init_irq_routing'
+From: Sean Christopherson <seanjc@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Yi Wang <foxywang@tencent.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Neil,
+On Tue, Jun 11, 2024, kernel test robot wrote:
+> tree:   https://github.com/kvm-x86/linux generic
+> head:   96545c0ccf1cdcbeeaca77399af27da12da6c833
+> commit: 2207798ccd0adc8995a71f93fd77c8ece3eb330a [7/9] KVM: Setup empty IRQ routing when creating a VM
+> config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240611/202406111054.tfC7sg5g-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111054.tfC7sg5g-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406111054.tfC7sg5g-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from arch/powerpc/include/asm/kvm_ppc.h:19,
+>                     from arch/powerpc/include/asm/dbell.h:17,
+>                     from arch/powerpc/kernel/asm-offsets.c:36:
+> >> include/linux/kvm_host.h:2106:5: warning: no previous prototype for 'kvm_init_irq_routing' [-Wmissing-prototypes]
+>     2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
+>          |     ^~~~~~~~~~~~~~~~~~~~
+>    include/linux/kvm_host.h: In function 'kvm_init_irq_routing':
+> >> include/linux/kvm_host.h:2106:44: warning: control reaches end of non-void function [-Wreturn-type]
+>     2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
+>          |                                            ^
+> --
+>    In file included from arch/powerpc/include/asm/kvm_ppc.h:19,
+>                     from arch/powerpc/include/asm/dbell.h:17,
+>                     from arch/powerpc/kernel/asm-offsets.c:36:
+> >> include/linux/kvm_host.h:2106:5: warning: no previous prototype for 'kvm_init_irq_routing' [-Wmissing-prototypes]
+>     2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
+>          |     ^~~~~~~~~~~~~~~~~~~~
+>    include/linux/kvm_host.h: In function 'kvm_init_irq_routing':
+> >> include/linux/kvm_host.h:2106:44: warning: control reaches end of non-void function [-Wreturn-type]
+>     2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
+>          |                                            ^
+> 
+> 
+> vim +/kvm_init_irq_routing +2106 include/linux/kvm_host.h
+> 
+>   2104	
+>   2105	static inline void kvm_free_irq_routing(struct kvm *kvm) {}
+> > 2106	int kvm_init_irq_routing(struct kvm *kvm) {}
+>   2107	
 
-kernel test robot noticed the following build warnings:
+Our friendly test bot beat me to build testing.  Will squash this:
 
-[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
-base:   c3f38fa61af77b49866b006939479069cd451173
-patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
-patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240611/202406112047.aKSKbmw4-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406112047.aKSKbmw4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406112047.aKSKbmw4-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 82726050fc76..eaa70e9b1218 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -2103,7 +2103,11 @@ void kvm_free_irq_routing(struct kvm *kvm);
+ #else
+ 
+ static inline void kvm_free_irq_routing(struct kvm *kvm) {}
+-int kvm_init_irq_routing(struct kvm *kvm) {}
++
++static inline int kvm_init_irq_routing(struct kvm *kvm)
++{
++       return 0;
++}
+ 
+ #endif
