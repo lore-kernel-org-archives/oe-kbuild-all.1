@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B354215ADBB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 03:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299364B;
+	Tue, 11 Jun 2024 03:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718076848; cv=none; b=C+Eta/ZbV1KtsUan2zc2JRFoOiMwA2IIkkNvriel581uTYHzAB/HyPSYoQQVorcZQYyUl1zOeeMfAmz8JB8iv8GGbKRTTfYlQxzhy59WphVPzkZDO4nU26PWT8N3LVidAAuUKno3LWsxns+mr5g9Y8EJoYwce1OXskT20dWo570=
+	t=1718077570; cv=none; b=gk73cJ9P/2m27tEPwvRolUiI/cCSGw2mEYsM2xGL4PQLbBoONNt1SRV6FLWAy/swIkHDepoimjTCMcfiNvAQDlxgXxIBNKui+TJ6XP1kEKvyzUQtF51FK2e/ZDiU4oM1bTB79Nv7O86fcur9Uzug/owej7zCg3eEJ3OcgxBeb6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718076848; c=relaxed/simple;
-	bh=vAE+07WDPxyqB81fJZN1qltLjJb9nm44MO4z0LDjGVA=;
+	s=arc-20240116; t=1718077570; c=relaxed/simple;
+	bh=98URkCeryqyl7PILu+inE+fjnACYtF+d/8/rR9ZcppE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a8eWR4wKN0m7cNQ7y8iB1C3ZxhLnG7lqHbQTcFpwczyw/ONHTJd6SyveLHsmNQTVCwQ7iT97tt7OMzygo/LEV/7y3kNCqUoayrG6CwEgfttQJK5GCi8MpDSpL/1zEbhWHB0unYc6rkqogNFQ258OTBST2WC8MeS+2+0RK0yXHcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWqGlCv1; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=dBeRdmCi7zcHxVYzMo+cz/YoiCd+gaTTolqQOKkFNI1u5X3ILUVaRGoVLbaDeWB7aimdgPrdUrpZXHoVlQqAQyQMJVjq7ciXUtTn+5aKxDzuc+PakJXKn/+J+YgikNM0r8yv1EXr1janLz5+o8bR1IHbOKA7a+H9zmHEehRBxZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brUyQs5c; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWqGlCv1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brUyQs5c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718076847; x=1749612847;
+  t=1718077567; x=1749613567;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vAE+07WDPxyqB81fJZN1qltLjJb9nm44MO4z0LDjGVA=;
-  b=UWqGlCv1t/QiyTCVV8+1g4T7ve15nlezJBSpq5QTQkTUPRo0SYzl2iG3
-   lREWY9kA9m25lJyyRQIJ5ZiRx6qX9rn2E98afbkXvQ31xbQCsEabKlwpI
-   Y+8olzLSTBd8nBQ9Kvhb2wD7OkKxY/atEN1lsbdn6KXqfRjDvnlr9LU3L
-   7K18XUNjxJmpbKFOiGkmrUMLYnvEjhg9zrP/hYG4ho98FncEiFNLNhbzt
-   s0fKLKvZmVyOCxHZc5eQkB6mLhBlqKH8dKUKA53YytUtRWfpuNQ/NAiyp
-   oAsmOdh8Uk4qxRkKzgCWkBytagSrnuxBEycmhzDZzeeiTM1nWnOyL2XUC
-   g==;
-X-CSE-ConnectionGUID: 1KjsSWzsSk60dqE2oz+l/A==
-X-CSE-MsgGUID: j8c8SGQjT6a1c9diZioYrw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32250816"
+  bh=98URkCeryqyl7PILu+inE+fjnACYtF+d/8/rR9ZcppE=;
+  b=brUyQs5c7h2soXFbpXavuvOmtQL5rTgIt8ZUnLKl1UvaPXMJuQO5yTM/
+   xB9guVNgBKK2Jcx08cjJdHD3unaR/rixtQo0JG12du5fhmaHHs9DNNw4v
+   tHkxLNkds74V2Ng4KHLojUWGTpf5kpmMaPhtBMjwGI2AqxjnWHCQzNsby
+   +tO24fsfCvhyfS/roqlYrZ0o1t9U+mLOHi99kNtlz+LLylK4oupeSHgdR
+   wmHd9+CqM19CxSUYI8pDPoI2aOPJLrKEku6NE20HTYWWhP3gszXwVgj0s
+   92um9vBwctQ7cVtlfOUvYYOhhYYktxV3jKCTqMKMYDohOxHDq9nxM0E75
+   A==;
+X-CSE-ConnectionGUID: CnCnVsDoTqeYizJSyBiELw==
+X-CSE-MsgGUID: 2GGIjgiPThWSxSAD2JU34w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="26180253"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="32250816"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 20:34:05 -0700
-X-CSE-ConnectionGUID: f0fM9jTBQZ6Aw9geOot2aw==
-X-CSE-MsgGUID: J8oCHSZiTxangS0ZIR9p3A==
+   d="scan'208";a="26180253"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 20:46:07 -0700
+X-CSE-ConnectionGUID: 3LoKLCOISf+pF56dICFeww==
+X-CSE-MsgGUID: Nmgbo9+uSwudMznKYnv0dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="39953053"
+   d="scan'208";a="43853026"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Jun 2024 20:34:03 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jun 2024 20:46:04 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGsGm-0002lc-2G;
-	Tue, 11 Jun 2024 03:34:00 +0000
-Date: Tue, 11 Jun 2024 11:33:29 +0800
+	id 1sGsSQ-0002ma-1f;
+	Tue, 11 Jun 2024 03:46:02 +0000
+Date: Tue, 11 Jun 2024 11:45:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:mgtime 7/11] include/trace/events/timestamp.h:30:41:
- warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka
- 'long long int *'} makes integer from pointer without a cast
-Message-ID: <202406111119.O9YE4EvH-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:mgtime 5/11] fs/inode.c:2125:7: warning: variable 'now_ts'
+ is used uninitialized whenever 'if' condition is false
+Message-ID: <202406111158.hCpXK8pe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,221 +64,164 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
 head:   be51a9b4d34b1383cf39064988562665bed1b954
-commit: 748dc0feb518a69ac526fedfc5436478d68320d3 [7/11] fs: add tracepoints around multigrain timestamp changes
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20240611/202406111119.O9YE4EvH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111119.O9YE4EvH-lkp@intel.com/reproduce)
+commit: 59dbbd533f4e5bd18ca3815ecd51390099914928 [5/11] SQUASH: rework the floor
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240611/202406111158.hCpXK8pe-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111158.hCpXK8pe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406111119.O9YE4EvH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111158.hCpXK8pe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/timestamp.h:153,
-                    from fs/inode.c:26:
-   include/trace/events/timestamp.h: In function 'trace_raw_output_ctime_inode_update':
-   include/trace/trace_events.h:203:39: error: expected expression before ')' token
-     203 |         trace_event_printf(iter, print);                                \
-         |                                       ^
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/events/timestamp.h:47:1: note: in expansion of macro 'TRACE_EVENT'
-      47 | TRACE_EVENT(ctime_inode_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h: In function 'trace_event_raw_event_ctime_floor_update':
->> include/trace/events/timestamp.h:30:41: warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka 'long long int *'} makes integer from pointer without a cast [-Wint-conversion]
-      30 |                 __entry->old            = old;
-         |                                         ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/trace/events/timestamp.h:31:41: warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka 'long long int *'} makes integer from pointer without a cast [-Wint-conversion]
-      31 |                 __entry->new            = new;
-         |                                         ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/trace/events/timestamp.h:32:41: warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka 'long long int *'} makes integer from pointer without a cast [-Wint-conversion]
-      32 |                 __entry->cur            = cur;
-         |                                         ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:103:
-   include/trace/events/timestamp.h: In function 'perf_trace_ctime_floor_update':
->> include/trace/events/timestamp.h:30:41: warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka 'long long int *'} makes integer from pointer without a cast [-Wint-conversion]
-      30 |                 __entry->old            = old;
-         |                                         ^
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/trace/events/timestamp.h:31:41: warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka 'long long int *'} makes integer from pointer without a cast [-Wint-conversion]
-      31 |                 __entry->new            = new;
-         |                                         ^
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/trace/events/timestamp.h:32:41: warning: assignment to 'ktime_t' {aka 'long long int'} from 'ktime_t *' {aka 'long long int *'} makes integer from pointer without a cast [-Wint-conversion]
-      32 |                 __entry->cur            = cur;
-         |                                         ^
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:27:9: note: in expansion of macro 'TP_fast_assign'
-      27 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   fs/inode.c: In function 'inode_set_ctime_current':
-   fs/inode.c:2618:49: warning: passing argument 2 of 'trace_ctime_floor_update' makes pointer from integer without a cast [-Wint-conversion]
-    2618 |                 trace_ctime_floor_update(inode, floor, now, old);
-         |                                                 ^~~~~
-         |                                                 |
-         |                                                 ktime_t {aka long long int}
-   In file included from include/trace/events/writeback.h:8,
-                    from fs/inode.c:24:
-   include/trace/events/timestamp.h:13:27: note: expected 'ktime_t *' {aka 'long long int *'} but argument is of type 'ktime_t' {aka 'long long int'}
-      13 |                  ktime_t *old,
-         |                  ~~~~~~~~~^~~
-   include/linux/tracepoint.h:256:41: note: in definition of macro '__DECLARE_TRACE'
-     256 |         static inline void trace_##name(proto)                          \
-         |                                         ^~~~~
-   include/linux/tracepoint.h:434:31: note: in expansion of macro 'PARAMS'
-     434 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |                               ^~~~~~
-   include/linux/tracepoint.h:568:9: note: in expansion of macro 'DECLARE_TRACE'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:568:29: note: in expansion of macro 'PARAMS'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |                             ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:12:9: note: in expansion of macro 'TP_PROTO'
-      12 |         TP_PROTO(struct inode *inode,
-         |         ^~~~~~~~
-   fs/inode.c:2618:56: warning: passing argument 3 of 'trace_ctime_floor_update' makes pointer from integer without a cast [-Wint-conversion]
-    2618 |                 trace_ctime_floor_update(inode, floor, now, old);
-         |                                                        ^~~
-         |                                                        |
-         |                                                        ktime_t {aka long long int}
-   include/trace/events/timestamp.h:14:27: note: expected 'ktime_t *' {aka 'long long int *'} but argument is of type 'ktime_t' {aka 'long long int'}
-      14 |                  ktime_t *new,
-         |                  ~~~~~~~~~^~~
-   include/linux/tracepoint.h:256:41: note: in definition of macro '__DECLARE_TRACE'
-     256 |         static inline void trace_##name(proto)                          \
-         |                                         ^~~~~
-   include/linux/tracepoint.h:434:31: note: in expansion of macro 'PARAMS'
-     434 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |                               ^~~~~~
-   include/linux/tracepoint.h:568:9: note: in expansion of macro 'DECLARE_TRACE'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:568:29: note: in expansion of macro 'PARAMS'
-     568 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |                             ^~~~~~
-   include/trace/events/timestamp.h:11:1: note: in expansion of macro 'TRACE_EVENT'
-      11 | TRACE_EVENT(ctime_floor_update,
-         | ^~~~~~~~~~~
-   include/trace/events/timestamp.h:12:9: note: in expansion of macro 'TP_PROTO'
-      12 |         TP_PROTO(struct inode *inode,
-         |         ^~~~~~~~
-   fs/inode.c:2618:61: warning: passing argument 4 of 'trace_ctime_floor_update' makes pointer from integer without a cast [-Wint-conversion]
+   In file included from fs/inode.c:9:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/inode.c:15:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from fs/inode.c:15:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from fs/inode.c:15:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> fs/inode.c:2125:7: warning: variable 'now_ts' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2125 |                 if ((now | I_CTIME_QUERIED) == ctime) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/inode.c:2131:28: note: uninitialized use occurs here
+    2131 |         return timestamp_truncate(now_ts, inode);
+         |                                   ^~~~~~
+   fs/inode.c:2125:3: note: remove the 'if' if its condition is always true
+    2125 |                 if ((now | I_CTIME_QUERIED) == ctime) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/inode.c:2120:6: warning: variable 'now_ts' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2120 |         if (ctime & I_CTIME_QUERIED) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/inode.c:2131:28: note: uninitialized use occurs here
+    2131 |         return timestamp_truncate(now_ts, inode);
+         |                                   ^~~~~~
+   fs/inode.c:2120:2: note: remove the 'if' if its condition is always true
+    2120 |         if (ctime & I_CTIME_QUERIED) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/inode.c:2115:6: warning: variable 'now_ts' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    2115 |         if (!is_mgtime(inode))
+         |             ^~~~~~~~~~~~~~~~~
+   fs/inode.c:2131:28: note: uninitialized use occurs here
+    2131 |         return timestamp_truncate(now_ts, inode);
+         |                                   ^~~~~~
+   fs/inode.c:2115:2: note: remove the 'if' if its condition is always false
+    2115 |         if (!is_mgtime(inode))
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+    2116 |                 goto out;
+         |                 ~~~~~~~~
+   fs/inode.c:2111:2: note: variable 'now_ts' is declared here
+    2111 |         struct timespec64 now_ts;
+         |         ^
+   16 warnings generated.
 
 
-vim +30 include/trace/events/timestamp.h
+vim +2125 fs/inode.c
 
-    10	
-    11	TRACE_EVENT(ctime_floor_update,
-    12		TP_PROTO(struct inode *inode,
-    13			 ktime_t *old,
-    14			 ktime_t *new,
-    15			 ktime_t *cur),
-    16	
-    17		TP_ARGS(inode, old, new, cur),
-    18	
-    19		TP_STRUCT__entry(
-    20			__field(dev_t,				dev)
-    21			__field(ino_t,				ino)
-    22			__field(ktime_t,			old)
-    23			__field(ktime_t,			new)
-    24			__field(ktime_t,			cur)
-    25		),
-    26	
-    27		TP_fast_assign(
-    28			__entry->dev		= inode->i_sb->s_dev;
-    29			__entry->ino		= inode->i_ino;
-  > 30			__entry->old		= old;
-    31			__entry->new		= new;
-    32			__entry->cur		= cur;
-    33		),
-    34	
-    35		TP_printk("ino=%d:%d:%lu old=%llu.%lu new=%llu.%lu cur=%llu.%lu swp=%c",
-    36			MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino,
-    37			ktime_to_timespec64(__entry->old).tv_sec,
-    38			ktime_to_timespec64(__entry->old).tv_nsec,
-    39			ktime_to_timespec64(__entry->new).tv_sec,
-    40			ktime_to_timespec64(__entry->new).tv_nsec,
-    41			ktime_to_timespec64(__entry->cur).tv_sec,
-    42			ktime_to_timespec64(__entry->cur).tv_nsec,
-    43			(__entry->old == __entry->cur) ? 'Y' : 'N'
-    44		)
-    45	);
-    46	
+59dbbd533f4e5b Jeff Layton 2024-06-10  2100  
+dc882b7e9784e0 Jeff Layton 2023-08-07  2101  /**
+59dbbd533f4e5b Jeff Layton 2024-06-10  2102   * current_time - Return FS time (possibly fine-grained)
+dc882b7e9784e0 Jeff Layton 2023-08-07  2103   * @inode: inode.
+dc882b7e9784e0 Jeff Layton 2023-08-07  2104   *
+dc882b7e9784e0 Jeff Layton 2023-08-07  2105   * Return the current time truncated to the time granularity supported by
+dc882b7e9784e0 Jeff Layton 2023-08-07  2106   * the fs, as suitable for a ctime/mtime change. If the ctime is flagged
+dc882b7e9784e0 Jeff Layton 2023-08-07  2107   * as having been QUERIED, get a fine-grained timestamp.
+dc882b7e9784e0 Jeff Layton 2023-08-07  2108   */
+59dbbd533f4e5b Jeff Layton 2024-06-10  2109  struct timespec64 current_time(struct inode *inode)
+dc882b7e9784e0 Jeff Layton 2023-08-07  2110  {
+dc882b7e9784e0 Jeff Layton 2023-08-07  2111  	struct timespec64 now_ts;
+59dbbd533f4e5b Jeff Layton 2024-06-10  2112  	ktime_t ctime, floor = READ_ONCE(ctime_floor);
+59dbbd533f4e5b Jeff Layton 2024-06-10  2113  	ktime_t now = coarse_ctime(floor);
+dc882b7e9784e0 Jeff Layton 2023-08-07  2114  
+dc882b7e9784e0 Jeff Layton 2023-08-07 @2115  	if (!is_mgtime(inode))
+dc882b7e9784e0 Jeff Layton 2023-08-07  2116  		goto out;
+dc882b7e9784e0 Jeff Layton 2023-08-07  2117  
+dc882b7e9784e0 Jeff Layton 2023-08-07  2118  	/* If nothing has queried it, then coarse time is fine */
+dc882b7e9784e0 Jeff Layton 2023-08-07  2119  	ctime = smp_load_acquire(&inode->__i_ctime);
+dc882b7e9784e0 Jeff Layton 2023-08-07  2120  	if (ctime & I_CTIME_QUERIED) {
+dc882b7e9784e0 Jeff Layton 2023-08-07  2121  		/*
+dc882b7e9784e0 Jeff Layton 2023-08-07  2122  		 * If there is no apparent change, then
+dc882b7e9784e0 Jeff Layton 2023-08-07  2123  		 * get a fine-grained timestamp.
+dc882b7e9784e0 Jeff Layton 2023-08-07  2124  		 */
+dc882b7e9784e0 Jeff Layton 2023-08-07 @2125  		if ((now | I_CTIME_QUERIED) == ctime) {
+dc882b7e9784e0 Jeff Layton 2023-08-07  2126  			ktime_get_real_ts64(&now_ts);
+dc882b7e9784e0 Jeff Layton 2023-08-07  2127  			now_ts.tv_nsec &= ~I_CTIME_QUERIED;
+dc882b7e9784e0 Jeff Layton 2023-08-07  2128  		}
+dc882b7e9784e0 Jeff Layton 2023-08-07  2129  	}
+dc882b7e9784e0 Jeff Layton 2023-08-07  2130  out:
+dc882b7e9784e0 Jeff Layton 2023-08-07  2131  	return timestamp_truncate(now_ts, inode);
+dc882b7e9784e0 Jeff Layton 2023-08-07  2132  }
+59dbbd533f4e5b Jeff Layton 2024-06-10  2133  EXPORT_SYMBOL(current_time);
+dc882b7e9784e0 Jeff Layton 2023-08-07  2134  
+
+:::::: The code at line 2125 was first introduced by commit
+:::::: dc882b7e9784e0ce8e003df1aa87468dcdc7da73 fs: add infrastructure for multigrain timestamps
+
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: Jeff Layton <jlayton@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
