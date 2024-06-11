@@ -1,143 +1,214 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9278D749C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 02:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F4115B0F1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 02:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718071668; cv=none; b=bctrV6oN5ZPStmneKCeeXWdaiHhbf3qj/AqqyHasZE33BtbDeY/tdlR7hhfY6eaegFEoSiI4/B6ud5yk1gKF0ok0CWWzYguNrPNjSOdD7oWUMRFryvRMW4cq96JQfnf2zsBnUYtFbHWT9PWGWVHpMMZTggm1+L9dDohnkM552Yg=
+	t=1718073481; cv=none; b=sptRbA3wzR9c8lYdiOKcZ3n3mEKM1dfX7xrZ8kx91JhCPFKRlfpyPMrq2f6sQE/ffrI4GaPaCZSoP0E9n5j35gf3Nqe8sD1s/bZw/81SaN+pdoHplUduaQj8JfqP2eUrzMciZXQvRfy924ICJhu6gMRDB2mjfwIZhBSrboQelKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718071668; c=relaxed/simple;
-	bh=t+FQJsYag++4WO2qxLXgPpQ0EMcj6jfCuoNIA7zG5a8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sho0n4QNIgpcUqwcL5a0fpN1zmVNT3eK0AJxYf3cm5hSeaodlpv5lrPHSpAWYReqTgyKAEnzUZ3ileiWzLyoprFlP0XKeF9FUS6LlhgooY0LoKZ5DIA1cl19lhEZzBuhvL4Kx/HtYgLYrzzBpHGdososLRw+FHADvT7oBDFvK1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lRWrh6tA; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718073481; c=relaxed/simple;
+	bh=eVp/xa3UpkoBXz1GR7xBuSg7fs4DfxD2w1sGKh1YbSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RwzO4oaCGqf0Zi/wa8Bcjk0FT7D9UaLICSVPilH6oeuEJGpwymbzCnBR9jAduTsFL39sVYXlXySDFmwrLoNs0p4ruAxQEf7Oed5k0YF5qyVWqNOZsB7B7Ssd8K20UeK4gPvRDZV6csB0yvIJXRLsvzZxfLg9MMsX0cVeK9MPRPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBzd78cU; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lRWrh6tA"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5b52b0d0dfeso2568892eaf.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 19:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718071665; x=1718676465; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V7K602fz4gBHUWwZgz6PtHdWhG4F3fJUQgT9uMqHP2k=;
-        b=lRWrh6tAc7ueL9dpHJPEi9+Z948j5zRCSeEAkX8bI0944PS3NosqxtQWfTUm0Jsk7m
-         ynUGAB/0LUVojLijgUwQgef1oF5K6Apxiq3P3Y595aQXTW2tCReoIWyf418sQ/bXCitr
-         rQ7et1F71bl2uriBEPmsAgId86jE1Vyp9e6ZCzjXq3GPc2dhL7zqpjVYIKPxVv8FhmHn
-         XPL95rcbxf5UwqqR1iN1dciXYGrCQLO2Ev/0c1OEnhMlafCeOpvwEYd4zFI4XaLdFq1P
-         wfUzicFJCEt4kqV6irOXwt09j2IS8w+N1iD+0phmRjPUnwHB1j+ToUEEU/hlu0V0Gsc7
-         mtkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718071665; x=1718676465;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V7K602fz4gBHUWwZgz6PtHdWhG4F3fJUQgT9uMqHP2k=;
-        b=LTkML5XzSoSRSA/CW41DMV7SB4d8Yvo2U9jHqFP5eO55s3YfX2sLHP+yWH1+ouGNDD
-         HcqWKBh9G3M29x/U5Vb3d+VBcPe64nt4S7v+yD7w26VgZhWiHqwmq0Fnfw9lII7kiZ76
-         jBh14NiopF+H/pcRWNDUdPSl1jn3jk+hvjEAiExBfN+Pgtr1izBcDD3qWHPvQ3AKt4Ta
-         /gP8BR9diMtb96ZhXoQaEZY5IDjBNep+UkNQ5bfXbTRzIMdFvMEpOdknXUknIZZDjImL
-         1xhnHqptomOuNobgjuJ4unZaBx8uRin6ZBLL+zq2HXwmsOIDpYjqOYOwMv4abMkT7zO8
-         myMg==
-X-Forwarded-Encrypted: i=1; AJvYcCXuHqtUJDxb3hjyGaAf8rbu9QlKfVV6GD0mA64Dlyjs5GgJZ2m7C/us5To/jTIwfcpscOK6KnFPW4uIUg2ldPJC6DK/Nd5FbZKLTrpAhw==
-X-Gm-Message-State: AOJu0Yxg7IJh9rBmjB47m3RCUNl9Vf5qLJ4JWzRqInkEotwSQ2278UXi
-	G1DDp+ar32zb+4xz8mpHCmu2Gh5RWnZ++grmZdOsbhVDbeOe9wK4fb1Ls2PcLM+cptz5svXnRKv
-	DIKRJClUYiqoKElZBrhBvXJNoAq4=
-X-Google-Smtp-Source: AGHT+IF5NJP+cpN1QZ14dVDvRLKhqj/JIMm3OyP45URA0uC4Hs/4MNcrZV5+u6AtOEjVEtzm+FJweysb15RclHZy/3E=
-X-Received: by 2002:a05:6820:1c9f:b0:5ba:e5c3:4fa6 with SMTP id
- 006d021491bc7-5bae5c35072mr6628691eaf.6.1718071665549; Mon, 10 Jun 2024
- 19:07:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBzd78cU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718073480; x=1749609480;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eVp/xa3UpkoBXz1GR7xBuSg7fs4DfxD2w1sGKh1YbSc=;
+  b=FBzd78cUr76+qHO2dHIcNsTo0MkPCicVjmBtQBHobgVSqkgTa0ithX70
+   yd3rscdYmHdN6NO4W9isESPp5kAhx4f3oFrrsy0pW/svQKC7yAGYFl7GL
+   OtOLC/laUNTvAiAzInGdqDEJp1weZku5hX7+FKpYDI1TzhVljA1NR1QTT
+   ovQxA2oWVtcek9D/xvy8VbdLuojtH65+EK3s5O9IB0+MvSB0ktKUZI3n4
+   ZFdonqALULn4ucT6AyUJkYC938rLwPyJBYiLKlnIm9jjKHIHQ/HESjR2D
+   tbgsnMRPEtymp9oc09sihryVJeQRwcXq+5nCl97DbJ+rom2eqgcECTJ6D
+   Q==;
+X-CSE-ConnectionGUID: t8M8DeHcT8yqrBCXZZ8GAA==
+X-CSE-MsgGUID: deDzwXm0TmmlLmuat+KMyA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14931786"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="14931786"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 19:37:59 -0700
+X-CSE-ConnectionGUID: QDI+IpijRhmHxGgiZTyJMg==
+X-CSE-MsgGUID: bMaWB+aLSQi4vDNlOmoQNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="39942938"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Jun 2024 19:37:57 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGrOU-0002hZ-1k;
+	Tue, 11 Jun 2024 02:37:54 +0000
+Date: Tue, 11 Jun 2024 10:36:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Weiss <luca@z3ntu.xyz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/pmi632.dtsi:155.19-163.5: Warning
+ (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202406111049.yZhTbJUJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240610003520.33839-1-dzm91@hust.edu.cn> <202406100911.QBMVtIpz-lkp@intel.com>
-In-Reply-To: <202406100911.QBMVtIpz-lkp@intel.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Tue, 11 Jun 2024 10:07:19 +0800
-Message-ID: <CAD-N9QXgU7_iCLmH5z0e78ydCkwgWiz2Mti6zDqQp9jnExiVAw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: update the translation of security-bugs
-To: kernel test robot <lkp@intel.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, oe-kbuild-all@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jun 10, 2024 at 10:07=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Dongliang,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on linus/master v6.10-rc3 next-20240607]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dongliang-Mu/docs-=
-zh_CN-update-the-translation-of-security-bugs/20240610-083729
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:    https://lore.kernel.org/r/20240610003520.33839-1-dzm91%40h=
-ust.edu.cn
-> patch subject: [PATCH v2] docs/zh_CN: update the translation of security-=
-bugs
-> reproduce: (https://download.01.org/0day-ci/archive/20240610/202406100911=
-.QBMVtIpz-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406100911.QBMVtIpz-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../=
-../networking/netlink_spec/rt_link>`
->    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../ne=
-tworking/netlink_spec/tc>`
->    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../ne=
-tworking/netlink_spec/tc>`
->    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt ref=
-erences a file that doesn't exist: Documentation/devicetree/bindings/input/=
-qcom,pm8xxx-keypad.txt
->    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm57=
-03-regulator.yaml references a file that doesn't exist: Documentation/devic=
-etree/bindings/mfd/siliconmitus,sm5703.yaml
-> >> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues=
-.rst references a file that doesn't exist: Documentation/translations/zh_CN=
-/admin-guide/security-bugs.rst
-> >> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues=
-.rst references a file that doesn't exist: Documentation/translations/zh_CN=
-/admin-guide/security-bugs.rst
-> >> Warning: Documentation/translations/zh_TW/process/submitting-patches.r=
-st references a file that doesn't exist: Documentation/translations/zh_CN/a=
-dmin-guide/security-bugs.rst
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+commit: 0c4f10917d22e6f36080617bfe71de1ae854ee58 arm64: dts: qcom: sdm632-fairphone-fp3: Add notification LED
+date:   1 year, 1 month ago
+config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240611/202406111049.yZhTbJUJ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240611/202406111049.yZhTbJUJ-lkp@intel.com/reproduce)
 
-Thanks for the report. I've sent a v3 patch with this issue fixed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111049.yZhTbJUJ-lkp@intel.com/
 
->    Warning: Documentation/userspace-api/netlink/index.rst references a fi=
-le that doesn't exist: Documentation/networking/netlink_spec/index.rst
->    Warning: Documentation/userspace-api/netlink/specs.rst references a fi=
-le that doesn't exist: Documentation/networking/netlink_spec/index.rst
->    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
-on/devicetree/bindings/reserved-memory/qcom
->    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
-on/devicetree/bindings/display/exynos/
->    Using alabaster theme
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:175.9-179.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:865.22-915.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi632.dtsi:149.9-164.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/pmi632.dtsi:155.19-163.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+
+vim +155 arch/arm64/boot/dts/qcom/pmi632.dtsi
+
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   40  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   41  &spmi_bus {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   42  	pmic@2 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   43  		compatible = "qcom,pmi632", "qcom,spmi-pmic";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   44  		reg = <0x2 SPMI_USID>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   45  		#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   46  		#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   47  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   48  		pmi632_temp: temp-alarm@2400 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   49  			compatible = "qcom,spmi-temp-alarm";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   50  			reg = <0x2400>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   51  			interrupts = <0x2 0x24 0x0 IRQ_TYPE_EDGE_BOTH>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   52  			#thermal-sensor-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   53  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   54  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   55  		pmi632_adc: adc@3100 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   56  			compatible = "qcom,spmi-adc5";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   57  			reg = <0x3100>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   58  			#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   59  			#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   60  			#io-channel-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   61  			interrupts = <0x2 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   62  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   63  			channel@0 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   64  				reg = <ADC5_REF_GND>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   65  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   66  				label = "ref_gnd";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   67  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   68  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   69  			channel@1 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   70  				reg = <ADC5_1P25VREF>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   71  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   72  				label = "vref_1p25";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   73  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   74  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   75  			channel@6 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   76  				reg = <ADC5_DIE_TEMP>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   77  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   78  				label = "die_temp";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   79  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   80  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   81  			channel@7 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   82  				reg = <ADC5_USB_IN_I>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   83  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   84  				label = "usb_in_i_uv";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   85  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   86  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   87  			channel@8 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   88  				reg = <ADC5_USB_IN_V_16>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   89  				qcom,pre-scaling = <1 16>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   90  				label = "usb_in_v_div_16";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   91  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   92  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   93  			channel@9 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   94  				reg = <ADC5_CHG_TEMP>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   95  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   96  				label = "chg_temp";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   97  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   98  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   99  			channel@4b {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  100  				reg = <ADC5_BAT_ID_100K_PU>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  101  				qcom,hw-settle-time = <200>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  102  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  103  				qcom,ratiometric;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  104  				label = "bat_id";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  105  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  106  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  107  			channel@83 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  108  				reg = <ADC5_VPH_PWR>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  109  				qcom,pre-scaling = <1 3>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  110  				label = "vph_pwr";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  111  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  112  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  113  			channel@84 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  114  				reg = <ADC5_VBAT_SNS>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  115  				qcom,pre-scaling = <1 3>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  116  				label = "vbat_sns";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  117  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  118  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  119  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  120  		pmi632_adc_tm: adc-tm@3500 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  121  			compatible = "qcom,spmi-adc-tm5";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  122  			reg = <0x3500>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  123  			interrupts = <0x2 0x35 0x0 IRQ_TYPE_EDGE_RISING>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  124  			#thermal-sensor-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  125  			#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  126  			#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  127  			status = "disabled";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  128  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  129  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  130  		pmi632_sdam_7: nvram@b600 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  131  			compatible = "qcom,spmi-sdam";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  132  			reg = <0xb600>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  133  			#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  134  			#size-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  135  			ranges = <0 0xb600 0x100>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  136  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  137  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  138  		pmi632_gpios: gpio@c000 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  139  			compatible = "qcom,pmi632-gpio", "qcom,spmi-gpio";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  140  			reg = <0xc000>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  141  			gpio-controller;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  142  			gpio-ranges = <&pmi632_gpios 0 0 8>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  143  			#gpio-cells = <2>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  144  			interrupt-controller;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  145  			#interrupt-cells = <2>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  146  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  147  	};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  148  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23 @149  	pmic@3 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  150  		compatible = "qcom,pmi632", "qcom,spmi-pmic";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  151  		reg = <0x3 SPMI_USID>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  152  		#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  153  		#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  154  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23 @155  		pmi632_lpg: pwm {
+
+:::::: The code at line 155 was first introduced by commit
+:::::: a1f0f2ebb044c7248c3f30b98de0f151505bd4bd arm64: dts: qcom: Add PMI632 PMIC
+
+:::::: TO: Luca Weiss <luca@z3ntu.xyz>
+:::::: CC: Bjorn Andersson <andersson@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
