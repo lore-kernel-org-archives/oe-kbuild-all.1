@@ -1,113 +1,108 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CB2171E66
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 07:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D081171E7A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 07:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718089884; cv=none; b=qxoRfpoUUYflyvW4ZT+Fl3Uf1PhxzlL+hDUTooGKf/HihDQ+J+L6/I60OOWnKUBJw9vNJm4ZATok+B9wGyMf+A5nw8IvL6EDCdZ13BywbEdal6m+PjMHViPOWbLQ0Pbr+0jQtJemKuarOUFXhJ3xF7PUrBYl3qgIs0XFYE8oO2c=
+	t=1718091365; cv=none; b=VfW1/0wMuVvUoh22zYRxsewwyrxpx7awx0TH93+ZRx5qHGrZWX11lIitoz7bHsAP3yuvedd6xeu1pbq4QPEVifuVSBL4tI1lHZ4tMgrIKj2Sqz5VguCd5ddKAb1k57UmltprcY5y3Nbzx8bYRQAvBW1URASnwW1M5b/yqtQUV+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718089884; c=relaxed/simple;
-	bh=S/+Xkivq6IhVJaiax56t6bbl+j9bKb4Vi8iCoKSPCuo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6sikGZNVFm3Y/XdzBVy3xjbPtNOVDnllNS9PcsHMM9xlfSNGqPVHxzsWP5QAulKkfjuh0ysLpdU7pnlu61nR32aNhGfH43hjgZbIKjuPZ+zne73ojjLSB5Jda3ZK52hmBhqf+GtSuhvF5Ones2C2mUxAW/OSUIVsYaD3Ll1qR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=fQ7lWrmr; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1718091365; c=relaxed/simple;
+	bh=h5lWjlmg4j2trX70zrGXvV0gKEBmsyN3kR6SWh2/Xik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oMJBZgKAOm+KSmjFfeoCuMLi2s30YCqslw5YPtUnThf/6sWPwUm8On9BIpipyn25XdCU62OSVw53Z+wbLr8Dc+z49D6NiwGKNRu8avo5VF2TCqHuCG7nH1skOhcyeFLwEDicAXN5OVYLA3IX5nt65p3n3rf5lISciUwy99MPRP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKd5cXl5; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="fQ7lWrmr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKd5cXl5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1718089882; x=1749625882;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718091364; x=1749627364;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S/+Xkivq6IhVJaiax56t6bbl+j9bKb4Vi8iCoKSPCuo=;
-  b=fQ7lWrmr5s3/PV5K6RvrbUrPOq0sF93xWBYB5QlUXcyYv70IlMHNy+SV
-   1rN4i4fQt4ntqSzH9DmFVHAAYxR2XROpcltJo+I/8mNiahShR6x6yO+qs
-   NnXFK4Fa5QLp4XvkCk0Ir2Fe3i4D3RGBeW1v3CVvlCt4ru0yei7HJHoNv
-   1+3kiihcM72OmMUyCJu9cjUyUbfrY8T4i0R/Bf1gN5QF524guwfObBw30
-   tO8c68jq3C4i9pl1S9ViEgDTy+Oo120G3HTGUXJOg71G6IrABfhseVps9
-   CRR4hyQC95+voQQo23143GU/UJ2L5l6eCgeWSI+1p1uJMKvc6DefCB2Lj
-   Q==;
-X-CSE-ConnectionGUID: ZAOYpDyHSrmaJOE3+iJT+w==
-X-CSE-MsgGUID: pUAy/F8kSkqqLxXpBzXmfQ==
+  bh=h5lWjlmg4j2trX70zrGXvV0gKEBmsyN3kR6SWh2/Xik=;
+  b=aKd5cXl58N/2m+3heoUmgZ6qN920lDq3wvuKJAaL7XaSVFPb9OAqZAnF
+   RXD1JqAAw6zN9QFmRLvfzP+dLubVxe4e/tSOGpoGalU98aNiY/b1r+Vsm
+   w0U6baCB+ois+1l2KnWSZATmzlYWOek6d8UUxwGG1FQqRrS+CpyYVU5Ra
+   bFnx6bNva/tZ4utYa6C/ft+7ZnIoTzz/YYUzhBvYjtNst2x9YVJtWGlVX
+   Ze4zD+kGXhFRpLUQTS2OUnMUqsNGzpILJU05KwxR53fGdl+kWzzB8eoUO
+   7gn1Jz/4B57qRIkCQkrF/diSAPec1gORJycYoacHwIXYILogSPxNczQNg
+   w==;
+X-CSE-ConnectionGUID: xzi5XhVKRSCljDSrNQyCIQ==
+X-CSE-MsgGUID: wyZr72vKT0SAEu5V3MlIWA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="25448847"
 X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="27254456"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jun 2024 00:11:21 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 11 Jun 2024 00:10:51 -0700
-Received: from localhost (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Tue, 11 Jun 2024 00:10:51 -0700
-Date: Tue, 11 Jun 2024 09:10:51 +0200
-From: Horatiu Vultur <horatiu.vultur@microchip.com>
-To: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
-CC: <lkp@intel.com>, <UNGLinuxDriver@microchip.com>, <andrew@lunn.ch>,
-	<bryan.whitehead@microchip.com>, <davem@davemloft.net>,
-	<edumazet@google.com>, <hkallweit1@gmail.com>, <hmehrtens@maxlinear.com>,
-	<kuba@kernel.org>, <linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>,
-	<lxu@maxlinear.com>, <netdev@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>, <sbauer@blackbox.su>,
-	Wojciech Drewek <wojciech.drewek@intel.com>
-Subject: Re: [PATCH net V3 0/3] net: lan743x: Fixes for multiple WOL related
- issues
-Message-ID: <20240611071051.65e5n3bn7e4zm7lq@DEN-DL-M31836.microchip.com>
-References: <202406052200.w3zuc32H-lkp@intel.com>
- <20240611062753.12020-1-Raju.Lakkaraju@microchip.com>
+   d="scan'208";a="25448847"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 00:36:04 -0700
+X-CSE-ConnectionGUID: WFtqwmd2SqGqXWeXlVpBrQ==
+X-CSE-MsgGUID: fGQrY9XXROaEisoh+KQgPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
+   d="scan'208";a="44282695"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 11 Jun 2024 00:36:00 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGw2v-0000Bd-2E;
+	Tue, 11 Jun 2024 07:35:57 +0000
+Date: Tue, 11 Jun 2024 15:35:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Beleswar Padhi <b-padhi@ti.com>, nm@ti.com, vigneshr@ti.com
+Cc: oe-kbuild-all@lists.linux.dev, kristo@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, vaishnav.a@ti.com, j-choudhary@ti.com,
+	u-kumar1@ti.com
+Subject: Re: [PATCH 1/3] arm64: dts: ti: Add R5F and C7x remote processor
+ nodes
+Message-ID: <202406111537.bNPc0hYx-lkp@intel.com>
+References: <20240607090433.488454-2-b-padhi@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240611062753.12020-1-Raju.Lakkaraju@microchip.com>
+In-Reply-To: <20240607090433.488454-2-b-padhi@ti.com>
 
-Hi Raju,
+Hi Beleswar,
 
-Is this not supposed to be v4?
-Because I can see v3 here:
-https://www.spinics.net/lists/netdev/msg1002225.html
+kernel test robot noticed the following build warnings:
 
-The 06/11/2024 11:57, Raju Lakkaraju wrote:
-> This patch series implement the following fixes:
-> 1. Disable WOL upon resume in order to restore full data path operation
-> 2. Support WOL at both the PHY and MAC appropriately 
-> 3. Remove interrupt mask clearing from config_init 
-> 
-> Patch-3 was sent seperately earlier. Review comments in link: 
-> https://lore.kernel.org/lkml/4a565d54-f468-4e32-8a2c-102c1203f72c@lunn.ch/T/
-> 
-> Reviewed-by: Wojciech Drewek <wojciech.drewek@intel.com>                        
-> Reported-by: kernel test robot <lkp@intel.com>                                  
-> Closes: https://lore.kernel.org/oe-kbuild-all/202406052200.w3zuc32H-lkp@intel.com/
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.10-rc3 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think you should drop the 'Reported-by' and 'Closes' tags because the
-issue that is getting closed is the one that you introduced in one of
-your previous version of the patch series.
+url:    https://github.com/intel-lab-lkp/linux/commits/Beleswar-Padhi/arm64-dts-ti-Add-R5F-and-C7x-remote-processor-nodes/20240607-170843
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240607090433.488454-2-b-padhi%40ti.com
+patch subject: [PATCH 1/3] arm64: dts: ti: Add R5F and C7x remote processor nodes
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240611/202406111537.bNPc0hYx-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111537.bNPc0hYx-lkp@intel.com/reproduce)
 
-> 
-> Raju Lakkaraju (3):
->   net: lan743x: disable WOL upon resume to restore full data path
->     operation
->   net: lan743x: Support WOL at both the PHY and MAC appropriately
->   net: phy: mxl-gpy: Remove interrupt mask clearing from config_init
-> 
->  .../net/ethernet/microchip/lan743x_ethtool.c  | 44 ++++++++++++--
->  drivers/net/ethernet/microchip/lan743x_main.c | 46 ++++++++++++---
->  drivers/net/ethernet/microchip/lan743x_main.h | 28 +++++++++
->  drivers/net/phy/mxl-gpy.c                     | 58 ++++++++++++-------
->  4 files changed, 144 insertions(+), 32 deletions(-)
-> 
-> -- 
-> 2.34.1
-> 
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111537.bNPc0hYx-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e000000: reg: [[0, 2113929216, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e000000: reg-names: ['l2sram'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e200000: reg: [[0, 2116026368, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dsp@7e200000: reg-names: ['l2sram'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/ti,k3-dsp-rproc.yaml#
 
 -- 
-/Horatiu
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
