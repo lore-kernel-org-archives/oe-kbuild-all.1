@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243BE824B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 19:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9BF1514C9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 21:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718135105; cv=none; b=i9Oo85U2Qx+PPuI+a8xcN1k/L3rAJJmoj8TiQa+2Xfput0GQJgr9qZeYm7+IXwZzzKF7wLZl6Tp8yQjfhtnfot2DNpUG+brXmMWFRucoTjlklVtd1lZh/eD/T8dlFAl1sUP2YQVbWsn/8ic5eroUn83kLm+yXHPOkVPWTt7RQCw=
+	t=1718140752; cv=none; b=b5yedKImMlB3PsqkHDLN8deu6c59c9/Fwz+y+OawNjWYZXmxrnwU/YTRkjBTBOIvegO18ue2+ryIfgAUwLWhv7aeHfZ2QogIuUhvFhM8CPR7jeUeGVMmxQqvg0YozrtLtAUwGXLHP1lFPRlg+ezx6AUoMM73YzWULSyEyV4uVhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718135105; c=relaxed/simple;
-	bh=+wi8w0IF+pXWB6mY91y3RmodRVf0/fG9K3LPxcjy7hc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MpnZ2SF15EO3+1wvxScjiyDoQ/Y8a3J9P7BIaBwthWgBCI0/E4PmO+5GeyUeaBGxjksDj3ibGMQrhxkqnMtXMWDdA+wf5TPDc4Hhqd3FAkQ32yQb+aqLOFnNI8y3bDEb9tbetD/x7zFFbyjHHNG7zlzt/3vp8oWgkllPOgYdjwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwLfdPZi; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1718140752; c=relaxed/simple;
+	bh=0YwnHVeYnnYkqsFj5yR3rkt1qZKqz5UK80yyjBNKra4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kPk5nfcT6WnWaYkRrlj+YPezBBYerd8f65e1tBe3TbxbxMy+B/760Ylfo5uvUedOW0yumGeaxd4cM+Kq+UEuMhXqjE6KoH0LD732OBLGJnzfVV2POyOCWZqHxb09fmNiofYAtd82DIoB87A7LLU7vGub+Wbh1tU27ERDxZDByJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OeIOsShS; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwLfdPZi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OeIOsShS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718135104; x=1749671104;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+wi8w0IF+pXWB6mY91y3RmodRVf0/fG9K3LPxcjy7hc=;
-  b=EwLfdPZiUHi+BEdNEnV7TwKZSZYSillJRfP3Nv0TVMrTZwMgAma132RP
-   D0CDAo4jlAicxzDtysVsRrobEZw88mqzZpnqJEf4Yirps+lyl0jTu4/Kl
-   7fhp7MiRNKI80Xvi5B6dW+lvF6koIot1s1PYWzIw9vL7uK5AMU+XguEIq
-   uEDG7lSdxNx/NkCxbUEqi5qnvyjKdPzQ9IS5MDDQsw6ikSwUJP9LBLgc2
-   G0PvUCulCWiZnoTpil8HFQ8yHLcft7XSpJCzjZuGnP0GGLpXO4jrwpQ7r
-   e9xfNb54LLGOdGQed3Sd4OverLPZmopMJfs9HoAAAY+evhh3k2bfpWzik
-   w==;
-X-CSE-ConnectionGUID: UY/TEUhvSlS4n+ozExG3JQ==
-X-CSE-MsgGUID: 05Uj2v5/TbOIDdxhpJsiEg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15026613"
+  t=1718140749; x=1749676749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0YwnHVeYnnYkqsFj5yR3rkt1qZKqz5UK80yyjBNKra4=;
+  b=OeIOsShSj+OmhtvYIRCMmBhWq8pLH6YgqLcHptYNstuR1hp2dB+kqFFF
+   bxZbMzrvkE+VImNZQ74EiWWaLgeAdbU2+jTQSXUxqwOQT9o02lw4TxZuZ
+   lmrhNyoVgUwB8KB9NhzWJjATEL6xxEHnn5jQ00CIpRDFDnmtx3Jb84GkS
+   NoHQtpNp+JyiUGmu0miHrdyC+UxUex9OXtH8WMTkxnf8fFstLd0VUsA2b
+   8/7Oc/CgytTk8coP5hBW0IMG7MxcQy4BrXUAgnQOEqknM25zUOebbwS4E
+   BoT5mIpsF+4zMpB73KVzs6j7zqvhFGQLJVJAZjOi20bq1ekN5FXEXrM3T
+   g==;
+X-CSE-ConnectionGUID: gyakbKSHRiKE/AEmHMO/2g==
+X-CSE-MsgGUID: t0tCqX49SnuQwvEg7WQJWg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18712983"
 X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="15026613"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 12:45:03 -0700
-X-CSE-ConnectionGUID: 3ot48CVPS9Od+gNfd3m1kA==
-X-CSE-MsgGUID: Rw/GFDzxTtWVY0QmWkP2wg==
+   d="scan'208";a="18712983"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 14:19:09 -0700
+X-CSE-ConnectionGUID: dV/LxXVrT/uRvw9vFAqaKA==
+X-CSE-MsgGUID: x64uxm5cS6KQn0xEwm3WFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="39441984"
+   d="scan'208";a="44517960"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jun 2024 12:45:02 -0700
+  by orviesa005.jf.intel.com with ESMTP; 11 Jun 2024 14:19:08 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sH7QS-0000qc-2D;
-	Tue, 11 Jun 2024 19:45:00 +0000
-Date: Wed, 12 Jun 2024 03:44:53 +0800
+	id 1sH8tV-0000uM-1h;
+	Tue, 11 Jun 2024 21:19:05 +0000
+Date: Wed, 12 Jun 2024 05:18:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.1-main 56/216]
- arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64-rtl8367.dts:49.10-103.4:
- Warning (unit_address_vs_reg): /ethernet@1b100000/mdio-bus/switch1: node has
- a reg or ranges property, but no unit name
-Message-ID: <202406120309.bW3ZVdro-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 06/16] kconfig: refactor choice value calculation
+Message-ID: <202406120445.P5QmPYgD-lkp@intel.com>
+References: <20240611175536.3518179-7-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,30 +63,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240611175536.3518179-7-masahiroy@kernel.org>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.1-main
-head:   e2c203bcd6b99556747c4d0d1fc0b190c44a5df8
-commit: 837f2016b18885de8089f8fad5300edf7728dc14 [56/216] arm64: dts: mediatek: add r64 v0.1 variant with rtl8367 switch
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240612/202406120309.bW3ZVdro-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406120309.bW3ZVdro-lkp@intel.com/reproduce)
+Hi Masahiro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on masahiroy-kbuild/kbuild]
+[also build test WARNING on masahiroy-kbuild/for-next next-20240611]
+[cannot apply to masahiroy-kbuild/fixes linus/master v6.10-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kconfig-remove-unneeded-code-in-expr_compare_type/20240612-020202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+patch link:    https://lore.kernel.org/r/20240611175536.3518179-7-masahiroy%40kernel.org
+patch subject: [PATCH 06/16] kconfig: refactor choice value calculation
+reproduce: (https://download.01.org/0day-ci/archive/20240612/202406120445.P5QmPYgD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406120309.bW3ZVdro-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406120445.P5QmPYgD-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7622.dtsi:895.27-909.4: Warning (unit_address_vs_reg): /t-phy@1a243000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64-rtl8367.dts:49.10-103.4: Warning (unit_address_vs_reg): /ethernet@1b100000/mdio-bus/switch1: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dts:75.9-77.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt7622.dtsi:530.22-541.4: Warning (unique_unit_address): /nfi@1100d000: duplicate unit-address (also used in node /spi@1100d000)
+All warnings (new ones prefixed by >>):
 
-vim +49 arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64-rtl8367.dts
+>> scripts/kconfig/symbol.c:448:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     448 |                 struct menu *choice_menu = sym_get_choice_menu(sym);
+         |                 ^
+   1 warning generated.
 
-    47	
-    48	&mdio {
-  > 49		switch1 {
+
+vim +448 scripts/kconfig/symbol.c
+
+   398	
+   399	void sym_calc_value(struct symbol *sym)
+   400	{
+   401		struct symbol_value newval, oldval;
+   402		struct property *prop;
+   403	
+   404		if (!sym)
+   405			return;
+   406	
+   407		if (sym->flags & SYMBOL_VALID)
+   408			return;
+   409	
+   410		sym->flags |= SYMBOL_VALID;
+   411	
+   412		oldval = sym->curr;
+   413	
+   414		newval.tri = no;
+   415	
+   416		switch (sym->type) {
+   417		case S_INT:
+   418			newval.val = "0";
+   419			break;
+   420		case S_HEX:
+   421			newval.val = "0x0";
+   422			break;
+   423		case S_STRING:
+   424			newval.val = "";
+   425			break;
+   426		case S_BOOLEAN:
+   427		case S_TRISTATE:
+   428			newval.val = "n";
+   429			break;
+   430		default:
+   431			sym->curr.val = sym->name;
+   432			sym->curr.tri = no;
+   433			return;
+   434		}
+   435		sym->flags &= ~SYMBOL_WRITE;
+   436	
+   437		sym_calc_visibility(sym);
+   438	
+   439		if (sym->visible != no)
+   440			sym->flags |= SYMBOL_WRITE;
+   441	
+   442		/* set default if recursively called */
+   443		sym->curr = newval;
+   444	
+   445		switch (sym_get_type(sym)) {
+   446		case S_BOOLEAN:
+   447		case S_TRISTATE:
+ > 448			struct menu *choice_menu = sym_get_choice_menu(sym);
+   449	
+   450			if (choice_menu) {
+   451				sym_calc_choice(choice_menu);
+   452				newval.tri = sym->curr.tri;
+   453			} else {
+   454				if (sym->visible != no) {
+   455					/* if the symbol is visible use the user value
+   456					 * if available, otherwise try the default value
+   457					 */
+   458					if (sym_has_value(sym)) {
+   459						newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
+   460								      sym->visible);
+   461						goto calc_newval;
+   462					}
+   463				}
+   464				if (sym->rev_dep.tri != no)
+   465					sym->flags |= SYMBOL_WRITE;
+   466				if (!sym_is_choice(sym)) {
+   467					prop = sym_get_default_prop(sym);
+   468					if (prop) {
+   469						newval.tri = EXPR_AND(expr_calc_value(prop->expr),
+   470								      prop->visible.tri);
+   471						if (newval.tri != no)
+   472							sym->flags |= SYMBOL_WRITE;
+   473					}
+   474					if (sym->implied.tri != no) {
+   475						sym->flags |= SYMBOL_WRITE;
+   476						newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
+   477						newval.tri = EXPR_AND(newval.tri,
+   478								      sym->dir_dep.tri);
+   479					}
+   480				}
+   481			calc_newval:
+   482				if (sym->dir_dep.tri < sym->rev_dep.tri)
+   483					sym_warn_unmet_dep(sym);
+   484				newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
+   485			}
+   486			if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
+   487				newval.tri = yes;
+   488			break;
+   489		case S_STRING:
+   490		case S_HEX:
+   491		case S_INT:
+   492			if (sym->visible != no && sym_has_value(sym)) {
+   493				newval.val = sym->def[S_DEF_USER].val;
+   494				break;
+   495			}
+   496			prop = sym_get_default_prop(sym);
+   497			if (prop) {
+   498				struct symbol *ds = prop_get_symbol(prop);
+   499				if (ds) {
+   500					sym->flags |= SYMBOL_WRITE;
+   501					sym_calc_value(ds);
+   502					newval.val = ds->curr.val;
+   503				}
+   504			}
+   505			break;
+   506		default:
+   507			;
+   508		}
+   509	
+   510		sym->curr = newval;
+   511		sym_validate_range(sym);
+   512	
+   513		if (memcmp(&oldval, &sym->curr, sizeof(oldval))) {
+   514			sym_set_changed(sym);
+   515			if (modules_sym == sym) {
+   516				sym_set_all_changed();
+   517				modules_val = modules_sym->curr.tri;
+   518			}
+   519		}
+   520	
+   521		if (sym_is_choice(sym))
+   522			sym->flags &= ~SYMBOL_WRITE;
+   523	}
+   524	
 
 -- 
 0-DAY CI Kernel Test Service
