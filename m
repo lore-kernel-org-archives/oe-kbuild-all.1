@@ -1,111 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698AC17578
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 02:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9278D749C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 02:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718071498; cv=none; b=NU5tzmZ5LXTHVuH/rppNNQ+Uh7OBzZjfcIuIKq0+n2TiLeyah+Vm9RII7IgmwHNOOkiVwUPQjSG6AI5HNXAVXYB5kSwz/Yv8v4M1v3t5Mq5Ca3v1oaCUynZz5nm6NSE7C9VevkpuvRCYuNRLXfvbyrSrUCl+KKUTV5MWV/hE60k=
+	t=1718071668; cv=none; b=bctrV6oN5ZPStmneKCeeXWdaiHhbf3qj/AqqyHasZE33BtbDeY/tdlR7hhfY6eaegFEoSiI4/B6ud5yk1gKF0ok0CWWzYguNrPNjSOdD7oWUMRFryvRMW4cq96JQfnf2zsBnUYtFbHWT9PWGWVHpMMZTggm1+L9dDohnkM552Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718071498; c=relaxed/simple;
-	bh=jIw2bKDp8ss8BV0kmdiPx/7a6sKRUAMaxlYTVIf369Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jtd7IovyE5imHvlmYrrGva292hSwRcXJb48XwnrXoUCN2Wq6CmRDLkHwksZthDugM2uTHfxBG/asS/gnW1aewhb6ovjwR7azpET1d/iir/Uib0sLrGkIcSW/ulvHi8kvGaOFBTQHuucMbr5qTqJ7FNvueSBNz5ZV4EXj0++Cg4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoY5Kj98; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718071668; c=relaxed/simple;
+	bh=t+FQJsYag++4WO2qxLXgPpQ0EMcj6jfCuoNIA7zG5a8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Sho0n4QNIgpcUqwcL5a0fpN1zmVNT3eK0AJxYf3cm5hSeaodlpv5lrPHSpAWYReqTgyKAEnzUZ3ileiWzLyoprFlP0XKeF9FUS6LlhgooY0LoKZ5DIA1cl19lhEZzBuhvL4Kx/HtYgLYrzzBpHGdososLRw+FHADvT7oBDFvK1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lRWrh6tA; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoY5Kj98"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718071497; x=1749607497;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jIw2bKDp8ss8BV0kmdiPx/7a6sKRUAMaxlYTVIf369Y=;
-  b=eoY5Kj98H5dAxy/9wUsI+faiUwBfQ/2MHQOjjqHkZKdls4mc6RFfS/QF
-   MXyt4OWPCNadbDe6iXVmo03ngDUUTSMCWmhZpilkdpmd66XJV2CBCd0pl
-   DkZRW4X27Yc5wW33r/xOJZ06Sz6rqF7Vs/lCS2TjVehEIdlFjrj2K7xYW
-   jbwHsdxZuGNHTB6Zi1uy5KYQYpkTTriSv629t8Q/RTHqoIWDhasdCUQwv
-   O4RhS6zTejluJGU/lBpjGm/gjP3X5KMD2Xj5jJuSK1VPrpMgkMMlpohZ8
-   Dk6Ram6gcztWGvkAf/WIbUuDPqBQpgzNgzDB7JfInnLr0v7e6GUtt5yqe
-   A==;
-X-CSE-ConnectionGUID: HbN0H5yLRyO4EO/nxqULKQ==
-X-CSE-MsgGUID: AfBl5t3VSR6xRJiSnnG+0w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14910501"
-X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="14910501"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 19:04:56 -0700
-X-CSE-ConnectionGUID: mY+JX4VzQQq756AZ3kWX4Q==
-X-CSE-MsgGUID: enVoAXmsSZSwmjXHd+K/jA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="39247748"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Jun 2024 19:04:55 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sGqsW-0002g5-2c;
-	Tue, 11 Jun 2024 02:04:52 +0000
-Date: Tue, 11 Jun 2024 10:04:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yi Wang <foxywang@tencent.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>
-Subject: [kvm-x86:generic 7/9] include/linux/kvm_host.h:2106:5: warning: no
- previous prototype for 'kvm_init_irq_routing'
-Message-ID: <202406111054.tfC7sg5g-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lRWrh6tA"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5b52b0d0dfeso2568892eaf.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jun 2024 19:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718071665; x=1718676465; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V7K602fz4gBHUWwZgz6PtHdWhG4F3fJUQgT9uMqHP2k=;
+        b=lRWrh6tAc7ueL9dpHJPEi9+Z948j5zRCSeEAkX8bI0944PS3NosqxtQWfTUm0Jsk7m
+         ynUGAB/0LUVojLijgUwQgef1oF5K6Apxiq3P3Y595aQXTW2tCReoIWyf418sQ/bXCitr
+         rQ7et1F71bl2uriBEPmsAgId86jE1Vyp9e6ZCzjXq3GPc2dhL7zqpjVYIKPxVv8FhmHn
+         XPL95rcbxf5UwqqR1iN1dciXYGrCQLO2Ev/0c1OEnhMlafCeOpvwEYd4zFI4XaLdFq1P
+         wfUzicFJCEt4kqV6irOXwt09j2IS8w+N1iD+0phmRjPUnwHB1j+ToUEEU/hlu0V0Gsc7
+         mtkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718071665; x=1718676465;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V7K602fz4gBHUWwZgz6PtHdWhG4F3fJUQgT9uMqHP2k=;
+        b=LTkML5XzSoSRSA/CW41DMV7SB4d8Yvo2U9jHqFP5eO55s3YfX2sLHP+yWH1+ouGNDD
+         HcqWKBh9G3M29x/U5Vb3d+VBcPe64nt4S7v+yD7w26VgZhWiHqwmq0Fnfw9lII7kiZ76
+         jBh14NiopF+H/pcRWNDUdPSl1jn3jk+hvjEAiExBfN+Pgtr1izBcDD3qWHPvQ3AKt4Ta
+         /gP8BR9diMtb96ZhXoQaEZY5IDjBNep+UkNQ5bfXbTRzIMdFvMEpOdknXUknIZZDjImL
+         1xhnHqptomOuNobgjuJ4unZaBx8uRin6ZBLL+zq2HXwmsOIDpYjqOYOwMv4abMkT7zO8
+         myMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXuHqtUJDxb3hjyGaAf8rbu9QlKfVV6GD0mA64Dlyjs5GgJZ2m7C/us5To/jTIwfcpscOK6KnFPW4uIUg2ldPJC6DK/Nd5FbZKLTrpAhw==
+X-Gm-Message-State: AOJu0Yxg7IJh9rBmjB47m3RCUNl9Vf5qLJ4JWzRqInkEotwSQ2278UXi
+	G1DDp+ar32zb+4xz8mpHCmu2Gh5RWnZ++grmZdOsbhVDbeOe9wK4fb1Ls2PcLM+cptz5svXnRKv
+	DIKRJClUYiqoKElZBrhBvXJNoAq4=
+X-Google-Smtp-Source: AGHT+IF5NJP+cpN1QZ14dVDvRLKhqj/JIMm3OyP45URA0uC4Hs/4MNcrZV5+u6AtOEjVEtzm+FJweysb15RclHZy/3E=
+X-Received: by 2002:a05:6820:1c9f:b0:5ba:e5c3:4fa6 with SMTP id
+ 006d021491bc7-5bae5c35072mr6628691eaf.6.1718071665549; Mon, 10 Jun 2024
+ 19:07:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240610003520.33839-1-dzm91@hust.edu.cn> <202406100911.QBMVtIpz-lkp@intel.com>
+In-Reply-To: <202406100911.QBMVtIpz-lkp@intel.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Tue, 11 Jun 2024 10:07:19 +0800
+Message-ID: <CAD-N9QXgU7_iCLmH5z0e78ydCkwgWiz2Mti6zDqQp9jnExiVAw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs/zh_CN: update the translation of security-bugs
+To: kernel test robot <lkp@intel.com>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, oe-kbuild-all@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/kvm-x86/linux generic
-head:   96545c0ccf1cdcbeeaca77399af27da12da6c833
-commit: 2207798ccd0adc8995a71f93fd77c8ece3eb330a [7/9] KVM: Setup empty IRQ routing when creating a VM
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240611/202406111054.tfC7sg5g-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111054.tfC7sg5g-lkp@intel.com/reproduce)
+On Mon, Jun 10, 2024 at 10:07=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Dongliang,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v6.10-rc3 next-20240607]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dongliang-Mu/docs-=
+zh_CN-update-the-translation-of-security-bugs/20240610-083729
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/20240610003520.33839-1-dzm91%40h=
+ust.edu.cn
+> patch subject: [PATCH v2] docs/zh_CN: update the translation of security-=
+bugs
+> reproduce: (https://download.01.org/0day-ci/archive/20240610/202406100911=
+.QBMVtIpz-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406100911.QBMVtIpz-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../=
+../networking/netlink_spec/rt_link>`
+>    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../ne=
+tworking/netlink_spec/tc>`
+>    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../ne=
+tworking/netlink_spec/tc>`
+>    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt ref=
+erences a file that doesn't exist: Documentation/devicetree/bindings/input/=
+qcom,pm8xxx-keypad.txt
+>    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm57=
+03-regulator.yaml references a file that doesn't exist: Documentation/devic=
+etree/bindings/mfd/siliconmitus,sm5703.yaml
+> >> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues=
+.rst references a file that doesn't exist: Documentation/translations/zh_CN=
+/admin-guide/security-bugs.rst
+> >> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues=
+.rst references a file that doesn't exist: Documentation/translations/zh_CN=
+/admin-guide/security-bugs.rst
+> >> Warning: Documentation/translations/zh_TW/process/submitting-patches.r=
+st references a file that doesn't exist: Documentation/translations/zh_CN/a=
+dmin-guide/security-bugs.rst
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406111054.tfC7sg5g-lkp@intel.com/
+Thanks for the report. I've sent a v3 patch with this issue fixed.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/powerpc/include/asm/kvm_ppc.h:19,
-                    from arch/powerpc/include/asm/dbell.h:17,
-                    from arch/powerpc/kernel/asm-offsets.c:36:
->> include/linux/kvm_host.h:2106:5: warning: no previous prototype for 'kvm_init_irq_routing' [-Wmissing-prototypes]
-    2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
-         |     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h: In function 'kvm_init_irq_routing':
->> include/linux/kvm_host.h:2106:44: warning: control reaches end of non-void function [-Wreturn-type]
-    2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
-         |                                            ^
---
-   In file included from arch/powerpc/include/asm/kvm_ppc.h:19,
-                    from arch/powerpc/include/asm/dbell.h:17,
-                    from arch/powerpc/kernel/asm-offsets.c:36:
->> include/linux/kvm_host.h:2106:5: warning: no previous prototype for 'kvm_init_irq_routing' [-Wmissing-prototypes]
-    2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
-         |     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h: In function 'kvm_init_irq_routing':
->> include/linux/kvm_host.h:2106:44: warning: control reaches end of non-void function [-Wreturn-type]
-    2106 | int kvm_init_irq_routing(struct kvm *kvm) {}
-         |                                            ^
-
-
-vim +/kvm_init_irq_routing +2106 include/linux/kvm_host.h
-
-  2104	
-  2105	static inline void kvm_free_irq_routing(struct kvm *kvm) {}
-> 2106	int kvm_init_irq_routing(struct kvm *kvm) {}
-  2107	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    Warning: Documentation/userspace-api/netlink/index.rst references a fi=
+le that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>    Warning: Documentation/userspace-api/netlink/specs.rst references a fi=
+le that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
+on/devicetree/bindings/reserved-memory/qcom
+>    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
+on/devicetree/bindings/display/exynos/
+>    Using alabaster theme
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
