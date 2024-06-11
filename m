@@ -1,61 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C332D63C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 04:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784AC16F91B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 04:07:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718078828; cv=none; b=alPpsWExgmo/+Q2/SdHjJ8zG8IsFkwsksRobrHOHKSVfCVPedRve1eU86BUoGyDmRPK/knnLaeLJAnlczPpdj3+TP5tGs7m2bJYqLuWscWbHITsVr1O0bitzV0EvCsuWMWNwpOUrDDY6YT8qasHquojx0nIrxSgb8/jeN9LF1cU=
+	t=1718078830; cv=none; b=vElxEClARxpx6LNNRUcRQhc9ymZMM56a7ms+pMyj2dkOFzMHgiL1uowFGr5iLYfiLPJT2bcTKS3J5DX8ms7zPCK+ZkSnVcgqeCxEoDkEKh+EYk/e209/eIw036n/ZAsCyyIxwE5dmO3xDCcVYRXZkcsstoqKn5cR+/SZWJk+DAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718078828; c=relaxed/simple;
-	bh=/5t2tjm5Ov9FxKVZC/u3A1WiDOwXfSwZBzI0Xsu4Dk4=;
+	s=arc-20240116; t=1718078830; c=relaxed/simple;
+	bh=kdoYuWFuR1WNiTggH/Th+gxDKdPDgYlVhPBlnY/yaqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nTEmjfZp9kpcG11/CZiJzIsmJ2k7shBX71fgm10t6dqaCSNZixnT9pvDcrw7bgt7nqXH4GX5XuJ5abCy5hI9WtMXp7vC3OYsp42T80P031JprMLqNMhfYHg7RwkeX8o7GBzL1gVqspeR5K4BsET3BNLbOEZQCpgSJjaMLVXSY3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1uF06VK; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=D2ejKPXHZ9hPI5M2L48rWHE5SigyAly5P9zpzDq8gi1fxGjV3FxHCTOBfez7dXe1qRV052xlSg4wQaHf1OUkTxO3jD/nzqtwMdXGBmeDh/y+i8WVgyA+Zw+8l9KD60Uemysv5c078hFpqId0EmOFprrGB0Rtu0FTzFnu/gVmFhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOPk1Klq; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1uF06VK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOPk1Klq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718078827; x=1749614827;
+  t=1718078828; x=1749614828;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/5t2tjm5Ov9FxKVZC/u3A1WiDOwXfSwZBzI0Xsu4Dk4=;
-  b=e1uF06VKwsQPRCXIkhuxEYD9ILlere/UoQjQ1LNZNlN4NHaCqcCYkKIj
-   bmiaOfwZaLLDPFxNUzXLsFs2W3nAyDMk+9F7eS04S2U+Zq2UvudYGNpKu
-   Zf49smMoMt5PVIDR2GG5lfTEIlXnQyFYl6mK7994+ztdiXmPcxD4ke+f5
-   YD9Bvf30/PER5OzvvNVRL+e6gNleeWo/jJxP4GwF2anSSe0gzO6xH9foO
-   QZFzMu/72FJ+HrPOzd+0oM5G2jpR6OaRVTJfIaHuVDfwEGnvL4xQiea6V
-   +pSAYrIjJ69h4+DV9lEdJpfadhhHhEIAB8iZBGQBf5e3mCRh3Sh9QHbyY
-   A==;
-X-CSE-ConnectionGUID: TWaSgCq0S0aIB0jsuhZkMw==
-X-CSE-MsgGUID: Oq/bvLKMRkaR6SI/fvFCHw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32303759"
+  bh=kdoYuWFuR1WNiTggH/Th+gxDKdPDgYlVhPBlnY/yaqc=;
+  b=AOPk1KlqKa/hTFB0V0kJpVjP3PhR4Xars8tF8ploI8KaNXZ1QfFo6kev
+   3wVlRy1fI2VhkZsWD1Vqa+Y2WlItpAG8pkEo3c38zdPUtgs9mM/X6Qo3H
+   5Vf1u+SE05S0rTYJX3YeCAMV5IvaOv3s3TWeD46+xgxytepB9j/MgJYGs
+   NBBZ0c8q47Xu+ocxnrmNan9tWdzvX1WkQyBXkB7KZI38FSubTypG+X6Oa
+   CnLanwWJCZntVoliEX1Zbpu0UMvGM16v0vh8vm18zOCqg0TG3YMYl6rLQ
+   TiN6otxx+KGxE9l6UnxYumA10NFgmwqSyhcsrNvm24yyLJhXsT+97Rl5B
+   g==;
+X-CSE-ConnectionGUID: xLZhIS6IRsaWbRzIC7HPcg==
+X-CSE-MsgGUID: Kg/aQrmWQIStt/7REVCHRA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32303764"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="32303759"
+   d="scan'208";a="32303764"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 21:07:06 -0700
-X-CSE-ConnectionGUID: ugDdI4CUTbKhrbzdcXRBrw==
-X-CSE-MsgGUID: oQ2SRU2vR5OFkwU412tXTw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 21:07:07 -0700
+X-CSE-ConnectionGUID: uN/l4wzFSAGmYeGlkLEnNg==
+X-CSE-MsgGUID: 8wXWaXf/Qjq5atO97jrXgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="62455097"
+   d="scan'208";a="62455100"
 Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 10 Jun 2024 21:07:05 -0700
 Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sGsml-0002nK-00;
-	Tue, 11 Jun 2024 04:07:03 +0000
-Date: Tue, 11 Jun 2024 12:06:41 +0800
+	id 1sGsmk-0002nF-2w;
+	Tue, 11 Jun 2024 04:07:02 +0000
+Date: Tue, 11 Jun 2024 12:06:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip 3960/9999]
- arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning
- (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
- in node /soc/pcie-ep@fe000000)
-Message-ID: <202406111232.BwUeUioX-lkp@intel.com>
+To: Bingbu Cao <bingbu.cao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Andreas Helbech Kleist <andreaskleist@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: ERROR: modpost: "i2c_acpi_new_device_by_fwnode"
+ [drivers/media/pci/intel/ipu-bridge.ko] undefined!
+Message-ID: <202406111148.Jbw7a5GF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,36 +65,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
-commit: 9c0fb84041f31639ecd580320f366031d0dc5ddc [3960/9999] arm64: dts: renesas: r8a774b1: Add PCIe EP nodes
-config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240611/202406111232.BwUeUioX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111232.BwUeUioX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+commit: c70281cc83d666d8c064b4c82cc94b6dc9e9f310 media: intel/ipu6: add Kconfig and Makefile
+date:   6 weeks ago
+config: x86_64-randconfig-016-20240611 (https://download.01.org/0day-ci/archive/20240611/202406111148.Jbw7a5GF-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111148.Jbw7a5GF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406111232.BwUeUioX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406111148.Jbw7a5GF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_helpers_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ref_tracker.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_fpu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/platform_profile.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/intel_soc_pmic_bxtwc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/firewire-uapi-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-smartconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/wireless-hotkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+>> ERROR: modpost: "i2c_acpi_new_device_by_fwnode" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
+>> ERROR: modpost: "i2c_find_device_by_fwnode" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IPU_BRIDGE
+   Depends on [n]: MEDIA_SUPPORT [=m] && PCI [=y] && MEDIA_PCI_SUPPORT [=y] && I2C [=n] && ACPI [=y]
+   Selected by [m]:
+   - VIDEO_INTEL_IPU6 [=m] && MEDIA_SUPPORT [=m] && PCI [=y] && MEDIA_PCI_SUPPORT [=y] && (ACPI [=y] || COMPILE_TEST [=n]) && VIDEO_DEV [=m] && X86 [=y] && X86_64 [=y] && HAS_DMA [=y]
 
 -- 
 0-DAY CI Kernel Test Service
