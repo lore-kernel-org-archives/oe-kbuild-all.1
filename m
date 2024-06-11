@@ -1,40 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDFC17334F;
-	Tue, 11 Jun 2024 14:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6869412E48
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jun 2024 14:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718116430; cv=none; b=RF2tU31/iPu97IbcUeO8i+FMlQK48zm+ziNDx3cKKmihcxhLvY5rk+Slb92aGuEGEQsL+LVXl0Ok29wGGcY7l/R+7AajdYQkxeihYLlfUzPV3kIDSfcWEb2VUVLwcXhPCQjsqA1qriOMpLU/K0QVLDYe3O1msMoj7/ipNXbwbvo=
+	t=1718117801; cv=none; b=PU7X6U4vYQ5nWflPhrobUbb/h50SvwrjZi9tr9H3OSeNsDZTpODGRFg47g0wpAz4rBxJ2y2pNsdi5YqY3ioRXp5AWvpcw+/fVZKYZJbZ2uyarQB7YUfEutOFUKIoNU8095Ge+wm8ZuAcC+8rNPx6fZbVVjNyqiNlHjyBu86gwF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718116430; c=relaxed/simple;
-	bh=1Gfmd22MdyE4c6kjHTg8DYBHk4MwC75KHF+vOLMBe68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0h2WfC341+XV4qEjD3N3lw/ekldaiPS+VVgyYv12TSB+e5dROj+kcDIsG3tElAMvuin4yVeZsVPfqmQsHpLJgr/mx3Ve8BV1rm599tss93bktk2NpDR1ltgL89+Wa/gn5QZ92DhOVAokkPry4xc7W9XmrzO3ZJ/vbJL6Xsw/VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ic5AivQK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718117801; c=relaxed/simple;
+	bh=ZFT6afnYUKqZtS6wbplz52TNW5p2BmecHlnTVIXDhdM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=j57pxsL1NG9hLP/dk+aLzMNrA16W4ruGx0aDWeqjEJCHiUK8ywo48/W8sQ21umcZn8g59mZG3QNwrSlhg323iCbMAq9TPaSn/I3eL5DridpyCfmDG3bq30LpAVFvgWIIRy0zxHbhnC0nRrtlVaFkGroKvB2vnkGeQNRVF6sJlvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llbKP1xq; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ic5AivQK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC74CC4AF49;
-	Tue, 11 Jun 2024 14:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718116430;
-	bh=1Gfmd22MdyE4c6kjHTg8DYBHk4MwC75KHF+vOLMBe68=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ic5AivQKXA+Q+xBn4RPcoGjD8bR87ZDP31B8UM+OhdbAcTJJ6HRD2kAvvecf2dAH7
-	 eCHaukta5Xy4hFl3OSBo6thu74CmTFMbR6pctVZFxg6ij+9pPmZF4sh67WvnMaaAl0
-	 DC4sBBxQN+pPVA3TSQNJtlmnPR5MM+bXOEQZS8YzesR7/yhYGPtY6sk9iFWol8DdHp
-	 D7Zqfrop1TeFwppVYREQbsTY7TDw/09U+K7zV5/vxb3469B+6Zr81tRsuGOA8vnpM3
-	 jsM1R1+KzwX2yFSqL9voPwZu8cMZ3c9b+7bEZrgAVQ85gckvw6OcdawzZxO9NrfImf
-	 DQopcU2rUtkPw==
-Date: Tue, 11 Jun 2024 08:33:47 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Keith Busch <kbusch@meta.com>, linux-pci@vger.kernel.org,
-	lukas@wunner.de, bhelgaas@google.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] PCI: pciehp: fix concurrent sub-tree removal deadlock
-Message-ID: <ZmhgS-Zyg3-3NxNI@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240610220304.3162895-2-kbusch@meta.com>
- <202406111416.XIxUrEy4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llbKP1xq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718117800; x=1749653800;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZFT6afnYUKqZtS6wbplz52TNW5p2BmecHlnTVIXDhdM=;
+  b=llbKP1xqRwf+vmAQd+m3Yky5pn+1nDOm+dT5LWI6auKL/P2hXqaW80qP
+   HBaObfPnuhmx24lmZ00Kub979pvmo06dWPL/UVBZds6eTClTJ736Qz24s
+   WzoBXfyrDu4NXwfEhNNohrN0r+2M5G/lZ5y/F5kiKv2jxGS8LWLWd1wDF
+   EOx4yqogGT1rpv2lFhHR0ObgOyPgBpLdJhRlwiNtx/x1wDN69MPPjNMs3
+   cVi2FDxsUXQ4B+17TkcWgE+PbxoE9jpOUiu0Ah1gZmzc8FEHls9ec4WfN
+   nXxilP6WLAYDmIJhdgODgc+1A75shIuft4YRSS9fwVBPrzPk5pLNT7uu+
+   g==;
+X-CSE-ConnectionGUID: A6S+ma7fRRyTbrhBgOItvQ==
+X-CSE-MsgGUID: NQ72vmiAQfCe2yFEudVfCw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14991755"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="14991755"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 07:56:39 -0700
+X-CSE-ConnectionGUID: QFTkNHpITreV8VfKp2PkzA==
+X-CSE-MsgGUID: z66X2W90S1aYfJ/QJYTwXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="39445039"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Jun 2024 07:56:37 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sH2vL-0000Yv-17;
+	Tue, 11 Jun 2024 14:56:35 +0000
+Date: Tue, 11 Jun 2024 22:55:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 175/198] {standard input}:63: Error: symbol
+ `__export_symbol___totalhigh_pages' is already defined
+Message-ID: <202406112233.GT7V4e9f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,31 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406111416.XIxUrEy4-lkp@intel.com>
 
-On Tue, Jun 11, 2024 at 02:19:09PM +0800, kernel test robot wrote:
-> url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/PCI-pciehp-fix-concurrent-sub-tree-removal-deadlock/20240611-060555
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20240610220304.3162895-2-kbusch%40meta.com
-> patch subject: [PATCH 1/2] PCI: pciehp: fix concurrent sub-tree removal deadlock
-> config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240611/202406111416.XIxUrEy4-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406111416.XIxUrEy4-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406111416.XIxUrEy4-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/pci/of.c:16:
->    drivers/pci/pci.h: In function 'pci_dev_set_disconnected':
-> >> drivers/pci/pci.h:416:9: error: implicit declaration of function 'pci_notify_disconnected'; did you mean 'pci_doe_disconnected'? [-Werror=implicit-function-declaration]
->      416 |         pci_notify_disconnected();
->          |         ^~~~~~~~~~~~~~~~~~~~~~~
->          |         pci_doe_disconnected
->    cc1: some warnings being treated as errors
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   2e3df1a7bef9c2814b80049345f2a53706f82001
+commit: dae48e2d159fa9b7d6956b72cf3ebff6cd5e0de4 [175/198] mm-highmem-reimplement-totalhigh_pages-by-walking-zones-fix
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20240611/202406112233.GT7V4e9f-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406112233.GT7V4e9f-lkp@intel.com/reproduce)
 
-Interesting, drivers/pci/of.c depends on CONFIG_OF, but not CONFIG_PCI.
-Okay, I can stub the function in that case.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406112233.GT7V4e9f-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   {standard input}: Assembler messages:
+>> {standard input}:63: Error: symbol `__export_symbol___totalhigh_pages' is already defined
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
