@@ -1,250 +1,222 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594B1BA31
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 03:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753F1257D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 03:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718161650; cv=none; b=pg5AYTOnhwv9cLXbRODbwm0MIpQGjExzbKYwcwd6RtDmbCyIQCUOktqcipMFoPiqh+vfIsYUWZnpM6p5vppxtloWh86mxVjM6obCa6VCyI+dNjoDjOe0LovqA9nvfO2v1hfhkcCbSFHX7LCEx1sXesEgB1pPyJWtZU/LGX+6qL0=
+	t=1718162308; cv=none; b=GMMwAOG99gttID1J00OGS0VdMRAuhs8Ysyixk+fHo/KeQkhFdfJJ7B+YseGpFwTY7aReHwz1bmv7GwOrg4fF8WFe5ED7DOS6UBI6BHMnPBr7w+KHuQKb6eEmA9B0RqBAzCmpgWyPBKxWaRP4VeHv8bB04TDpAm3/OITxPsDO5vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718161650; c=relaxed/simple;
-	bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXI3sWxaRKfmkS2/Q6AdQFEDGYs04oBziW69bhScgj8AaO1wr26cylVhfNi26crTlkaeXw0/AdTbGsPKbon+ihZnQWtNozkB+X2+JMAynfb3Rfu2XhW3wguJlrzJHut+jjwts8E/TWsVzKrmuEDuDm2AUZQS9z4sOxlnYpXNPjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJKsTT14; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1718162308; c=relaxed/simple;
+	bh=C9DVJf7reAGgEnAR9Yvex0LVWy2Hv3xdTTOxV0D2jD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fi8VC72Ap5Xby3ZmPlQNmTJ9wnv4t6SHmmm+xnZNw6bu25Tiws/v5cRZTnsJM1mXMsnZ3TyfVlO6ccf/VukCumJm3YhC4sC/kzI1YNO1u1XY1koW976Q2TJ5Dbm16Lm0wrDhXYbGi+1pDwTGPKxptmNX7qBl1tz4aGJHoGtis2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfscNmPi; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJKsTT14"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfscNmPi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718161646; x=1749697646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
-  b=OJKsTT14kmDbabELm+PDkgRaKKQoCNq372AOL8I+GJPpUtfzdd/D4ESu
-   NASg7y+xqmUxdLHHXAIwsouBVT4hHFzZBLAVqx9krU3IwmOR9ZTOHmM/y
-   jMe01ySPfyLo3P/QUO80Z3W4Pgq8YXwceGQLg6SaNMeqstKHXwoY8xz1P
-   u3B9T98LlxnyGq5/e8dJd9CHc+fD3fhzcMSYMU0EsIAg9FtTjHvtw52jr
-   PVNk7Q4W4kY3LGNBbXdKrlfYkd9SojmciSrzF6e5kayKB5CqRDM/t8mxL
-   r0DURfWEm0hklRgNJ4NmCmsaJA650DRmTkCp2xKqeBOBCGzejPDaxCGQy
+  t=1718162306; x=1749698306;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=C9DVJf7reAGgEnAR9Yvex0LVWy2Hv3xdTTOxV0D2jD0=;
+  b=cfscNmPi6PYDjxFj81uGhMyMGPTgcQwnvU4rroixWTiYEGaM95jG3Ey3
+   G/lOvcq+hJOxejlKx+gsKID0hZKaOwoWQlQ7NP7SnNt7EDMnav+ogCoz1
+   pSH5hPM5jAzYo97KLPDXg8xctb9q80eKpNGki2FlraUIuI9qY/BerwqhN
+   oVE7tJFN78SL7hZQkHXvG/Cxrn4Bu3moYzsBTA/ChmPg4we3gmauLqy65
+   ATYtmxYgd9Ba686hlfoW9RCexMMjWNsbKRWJfkhHBgKOnAwrK8QyuNcVs
+   P3Gfh42KKzBlS+aeJBVO6aU/SGtDF/k1H5G0bWR5X7SuL1/dHxq22I+rN
    A==;
-X-CSE-ConnectionGUID: A1N7AWIPTjidFBxquXaLhQ==
-X-CSE-MsgGUID: eOOv5FPeSeqxUrWs4fWezQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15075940"
+X-CSE-ConnectionGUID: 8epY4Sc1S1CNfUYX/sqNnQ==
+X-CSE-MsgGUID: GzJiVvi3QIqkHjC+EKioIA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15076587"
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="15075940"
+   d="scan'208";a="15076587"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 20:07:25 -0700
-X-CSE-ConnectionGUID: OwfkTZhcT+++D0cHiOGXuQ==
-X-CSE-MsgGUID: 9sDus5UPRAmuVvkHWWbMVw==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 20:18:26 -0700
+X-CSE-ConnectionGUID: s/s5tPVPSSyH4lBDAXLFgg==
+X-CSE-MsgGUID: ZS4dp8CSSMq6oVF/sNgsZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="40344945"
+   d="scan'208";a="40347398"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Jun 2024 20:07:25 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 Jun 2024 20:18:24 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHEKY-00019W-0i;
-	Wed, 12 Jun 2024 03:07:22 +0000
-Date: Wed, 12 Jun 2024 11:06:32 +0800
+	id 1sHEVC-00019m-1P;
+	Wed, 12 Jun 2024 03:18:22 +0000
+Date: Wed, 12 Jun 2024 11:17:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 06/16] kconfig: refactor choice value calculation
-Message-ID: <202406121008.8zFuX4VH-lkp@intel.com>
-References: <20240611175536.3518179-7-masahiroy@kernel.org>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:pci-regs 2/2]
+ drivers/pci/controller/pcie-microchip-host.c:1204:25: error: invalid storage
+ class for function 'mc_pcie_driver_init'
+Message-ID: <202406121143.rC64CceH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240611175536.3518179-7-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Masahiro,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on masahiroy-kbuild/kbuild]
-[also build test ERROR on masahiroy-kbuild/for-next next-20240611]
-[cannot apply to masahiroy-kbuild/fixes linus/master v6.10-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kconfig-remove-unneeded-code-in-expr_compare_type/20240612-020202
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-patch link:    https://lore.kernel.org/r/20240611175536.3518179-7-masahiroy%40kernel.org
-patch subject: [PATCH 06/16] kconfig: refactor choice value calculation
-config: i386-buildonly-randconfig-002-20240612 (attached as .config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121008.8zFuX4VH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pci-regs
+head:   18208f6cde334a1011ed8e9c94b7aeb2b18582bf
+commit: 18208f6cde334a1011ed8e9c94b7aeb2b18582bf [2/2] PCI: microchip: rework reg region handing to support using either instance 1 or 2
+config: arm64-randconfig-001-20240612 (https://download.01.org/0day-ci/archive/20240612/202406121143.rC64CceH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121143.rC64CceH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406121008.8zFuX4VH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121143.rC64CceH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   scripts/kconfig/symbol.c: In function 'sym_calc_value':
->> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct menu *choice_menu = sym_get_choice_menu(sym);
-      ^~~~~~
-   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
-   make[3]: Target 'oldconfig' not remade because of errors.
-   make[2]: *** [Makefile:695: oldconfig] Error 2 shuffle=1413228972
-   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make: Target 'oldconfig' not remade because of errors.
---
-   scripts/kconfig/symbol.c: In function 'sym_calc_value':
->> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct menu *choice_menu = sym_get_choice_menu(sym);
-      ^~~~~~
-   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
-   make[3]: Target 'olddefconfig' not remade because of errors.
-   make[2]: *** [Makefile:695: olddefconfig] Error 2 shuffle=1413228972
-   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make: Target 'olddefconfig' not remade because of errors.
+   drivers/pci/controller/pcie-microchip-host.c: In function 'mc_host_probe':
+>> drivers/pci/controller/pcie-microchip-host.c:1193:1: warning: 'alias' attribute ignored [-Wattributes]
+    1193 | MODULE_DEVICE_TABLE(of, mc_pcie_of_match);
+         | ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:32,
+                    from include/linux/pci.h:37,
+                    from include/linux/pci-ecam.h:8,
+                    from drivers/pci/controller/pcie-microchip-host.c:18:
+>> drivers/pci/controller/pcie-microchip-host.c:1204:25: error: invalid storage class for function 'mc_pcie_driver_init'
+    1204 | builtin_platform_driver(mc_pcie_driver);
+         |                         ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:285:19: note: in definition of macro 'builtin_driver'
+     285 | static int __init __driver##_init(void) \
+         |                   ^~~~~~~~
+   drivers/pci/controller/pcie-microchip-host.c:1204:1: note: in expansion of macro 'builtin_platform_driver'
+    1204 | builtin_platform_driver(mc_pcie_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pci/controller/pcie-microchip-host.c:14:
+   include/linux/module.h:131:49: error: invalid storage class for function '__inittest'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/module.h:122:41: note: in expansion of macro 'module_init'
+     122 | #define device_initcall(fn)             module_init(fn)
+         |                                         ^~~~~~~~~~~
+   include/linux/device/driver.h:289:1: note: in expansion of macro 'device_initcall'
+     289 | device_initcall(__driver##_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/platform_device.h:313:9: note: in expansion of macro 'builtin_driver'
+     313 |         builtin_driver(__platform_driver, platform_driver_register)
+         |         ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-microchip-host.c:1204:1: note: in expansion of macro 'builtin_platform_driver'
+    1204 | builtin_platform_driver(mc_pcie_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-microchip-host.c:1204:1: warning: 'alias' attribute ignored [-Wattributes]
+   drivers/pci/controller/pcie-microchip-host.c:1207:1: error: expected declaration or statement at end of input
+    1207 | MODULE_AUTHOR("Daire McNamara <daire.mcnamara@microchip.com>");
+         | ^~~~~~~~~~~~~
+   drivers/pci/controller/pcie-microchip-host.c: At top level:
+>> drivers/pci/controller/pcie-microchip-host.c:1119:12: warning: 'mc_host_probe' defined but not used [-Wunused-function]
+    1119 | static int mc_host_probe(struct platform_device *pdev)
+         |            ^~~~~~~~~~~~~
 
 
-vim +448 scripts/kconfig/symbol.c
+vim +/mc_pcie_driver_init +1204 drivers/pci/controller/pcie-microchip-host.c
 
-   398	
-   399	void sym_calc_value(struct symbol *sym)
-   400	{
-   401		struct symbol_value newval, oldval;
-   402		struct property *prop;
-   403	
-   404		if (!sym)
-   405			return;
-   406	
-   407		if (sym->flags & SYMBOL_VALID)
-   408			return;
-   409	
-   410		sym->flags |= SYMBOL_VALID;
-   411	
-   412		oldval = sym->curr;
-   413	
-   414		newval.tri = no;
-   415	
-   416		switch (sym->type) {
-   417		case S_INT:
-   418			newval.val = "0";
-   419			break;
-   420		case S_HEX:
-   421			newval.val = "0x0";
-   422			break;
-   423		case S_STRING:
-   424			newval.val = "";
-   425			break;
-   426		case S_BOOLEAN:
-   427		case S_TRISTATE:
-   428			newval.val = "n";
-   429			break;
-   430		default:
-   431			sym->curr.val = sym->name;
-   432			sym->curr.tri = no;
-   433			return;
-   434		}
-   435		sym->flags &= ~SYMBOL_WRITE;
-   436	
-   437		sym_calc_visibility(sym);
-   438	
-   439		if (sym->visible != no)
-   440			sym->flags |= SYMBOL_WRITE;
-   441	
-   442		/* set default if recursively called */
-   443		sym->curr = newval;
-   444	
-   445		switch (sym_get_type(sym)) {
-   446		case S_BOOLEAN:
-   447		case S_TRISTATE:
- > 448			struct menu *choice_menu = sym_get_choice_menu(sym);
-   449	
-   450			if (choice_menu) {
-   451				sym_calc_choice(choice_menu);
-   452				newval.tri = sym->curr.tri;
-   453			} else {
-   454				if (sym->visible != no) {
-   455					/* if the symbol is visible use the user value
-   456					 * if available, otherwise try the default value
-   457					 */
-   458					if (sym_has_value(sym)) {
-   459						newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
-   460								      sym->visible);
-   461						goto calc_newval;
-   462					}
-   463				}
-   464				if (sym->rev_dep.tri != no)
-   465					sym->flags |= SYMBOL_WRITE;
-   466				if (!sym_is_choice(sym)) {
-   467					prop = sym_get_default_prop(sym);
-   468					if (prop) {
-   469						newval.tri = EXPR_AND(expr_calc_value(prop->expr),
-   470								      prop->visible.tri);
-   471						if (newval.tri != no)
-   472							sym->flags |= SYMBOL_WRITE;
-   473					}
-   474					if (sym->implied.tri != no) {
-   475						sym->flags |= SYMBOL_WRITE;
-   476						newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
-   477						newval.tri = EXPR_AND(newval.tri,
-   478								      sym->dir_dep.tri);
-   479					}
-   480				}
-   481			calc_newval:
-   482				if (sym->dir_dep.tri < sym->rev_dep.tri)
-   483					sym_warn_unmet_dep(sym);
-   484				newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
-   485			}
-   486			if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
-   487				newval.tri = yes;
-   488			break;
-   489		case S_STRING:
-   490		case S_HEX:
-   491		case S_INT:
-   492			if (sym->visible != no && sym_has_value(sym)) {
-   493				newval.val = sym->def[S_DEF_USER].val;
-   494				break;
-   495			}
-   496			prop = sym_get_default_prop(sym);
-   497			if (prop) {
-   498				struct symbol *ds = prop_get_symbol(prop);
-   499				if (ds) {
-   500					sym->flags |= SYMBOL_WRITE;
-   501					sym_calc_value(ds);
-   502					newval.val = ds->curr.val;
-   503				}
-   504			}
-   505			break;
-   506		default:
-   507			;
-   508		}
-   509	
-   510		sym->curr = newval;
-   511		sym_validate_range(sym);
-   512	
-   513		if (memcmp(&oldval, &sym->curr, sizeof(oldval))) {
-   514			sym_set_changed(sym);
-   515			if (modules_sym == sym) {
-   516				sym_set_all_changed();
-   517				modules_val = modules_sym->curr.tri;
-   518			}
-   519		}
-   520	
-   521		if (sym_is_choice(sym))
-   522			sym->flags &= ~SYMBOL_WRITE;
-   523	}
-   524	
+bac406c34fbc90 Daire McNamara   2023-07-28  1118  
+bac406c34fbc90 Daire McNamara   2023-07-28 @1119  static int mc_host_probe(struct platform_device *pdev)
+bac406c34fbc90 Daire McNamara   2023-07-28  1120  {
+bac406c34fbc90 Daire McNamara   2023-07-28  1121  	struct device *dev = &pdev->dev;
+18208f6cde334a Conor Dooley     2024-05-27  1122  	void __iomem *axi_base_addr;
+4f0b91247f78cc Daire McNamara   2023-07-28  1123  	int ret;
+1abb722888fda4 Daire McNamara   2023-07-28  1124  	u32 val;
+6f15a9c9f94133 Daire McNamara   2021-01-25  1125  
+4f0b91247f78cc Daire McNamara   2023-07-28  1126  	port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+4f0b91247f78cc Daire McNamara   2023-07-28  1127  	if (!port)
+4f0b91247f78cc Daire McNamara   2023-07-28  1128  		return -ENOMEM;
+6f15a9c9f94133 Daire McNamara   2021-01-25  1129  
+bac406c34fbc90 Daire McNamara   2023-07-28  1130  	port->dev = dev;
+6f15a9c9f94133 Daire McNamara   2021-01-25  1131  
+18208f6cde334a Conor Dooley     2024-05-27  1132  	port->bridge_base_addr = devm_platform_ioremap_resource_byname(pdev, "bridge");
+18208f6cde334a Conor Dooley     2024-05-27  1133  	port->ctrl_base_addr = devm_platform_ioremap_resource_byname(pdev, "ctrl");
+18208f6cde334a Conor Dooley     2024-05-27  1134  	if(!IS_ERR(port->bridge_base_addr) && !IS_ERR(port->ctrl_base_addr))
+18208f6cde334a Conor Dooley     2024-05-27  1135  		goto addrs_set;
+6f15a9c9f94133 Daire McNamara   2021-01-25  1136  
+18208f6cde334a Conor Dooley     2024-05-27  1137  	/*
+18208f6cde334a Conor Dooley     2024-05-27  1138  	 * The original, incorrect, binding that lumped the control and
+18208f6cde334a Conor Dooley     2024-05-27  1139  	 * bridge addresses together still needs to be handled by the driver.
+18208f6cde334a Conor Dooley     2024-05-27  1140  	 */
+18208f6cde334a Conor Dooley     2024-05-27  1141  	axi_base_addr = devm_platform_ioremap_resource_byname(pdev, "apb");
+18208f6cde334a Conor Dooley     2024-05-27  1142  	if (IS_ERR(axi_base_addr)) {
+18208f6cde334a Conor Dooley     2024-05-27  1143  		return dev_err_probe(dev, PTR_ERR(port->bridge_base_addr),
+18208f6cde334a Conor Dooley     2024-05-27  1144  				     "both legacy apb register and ctrl/bridge regions missing");
+6f15a9c9f94133 Daire McNamara   2021-01-25  1145  
+18208f6cde334a Conor Dooley     2024-05-27  1146  	port->bridge_base_addr = axi_base_addr + MC_PCIE1_BRIDGE_ADDR;
+18208f6cde334a Conor Dooley     2024-05-27  1147  	port->ctrl_base_addr = axi_base_addr + MC_PCIE1_CTRL_ADDR;
+18208f6cde334a Conor Dooley     2024-05-27  1148  
+18208f6cde334a Conor Dooley     2024-05-27  1149  addrs_set:
+18208f6cde334a Conor Dooley     2024-05-27  1150  	mc_disable_interrupts(port);
+4f0b91247f78cc Daire McNamara   2023-07-28  1151  
+1abb722888fda4 Daire McNamara   2023-07-28  1152  	/* Allow enabling MSI by disabling MSI-X */
+18208f6cde334a Conor Dooley     2024-05-27  1153  	val = readl(port->bridge_base_addr + PCIE_PCI_IRQ_DW0);
+1abb722888fda4 Daire McNamara   2023-07-28  1154  	val &= ~MSIX_CAP_MASK;
+18208f6cde334a Conor Dooley     2024-05-27  1155  	writel(val, port->bridge_base_addr + PCIE_PCI_IRQ_DW0);
+4f0b91247f78cc Daire McNamara   2023-07-28  1156  
+1abb722888fda4 Daire McNamara   2023-07-28  1157  	/* Pick num vectors from bitfile programmed onto FPGA fabric */
+18208f6cde334a Conor Dooley     2024-05-27  1158  	val = readl(port->bridge_base_addr + PCIE_PCI_IRQ_DW0);
+1abb722888fda4 Daire McNamara   2023-07-28  1159  	val &= NUM_MSI_MSGS_MASK;
+1abb722888fda4 Daire McNamara   2023-07-28  1160  	val >>= NUM_MSI_MSGS_SHIFT;
+1abb722888fda4 Daire McNamara   2023-07-28  1161  
+1abb722888fda4 Daire McNamara   2023-07-28  1162  	port->msi.num_vectors = 1 << val;
+1abb722888fda4 Daire McNamara   2023-07-28  1163  
+1abb722888fda4 Daire McNamara   2023-07-28  1164  	/* Pick vector address from design */
+18208f6cde334a Conor Dooley     2024-05-27  1165  	port->msi.vector_phy = readl_relaxed(port->bridge_base_addr + IMSI_ADDR);
+1abb722888fda4 Daire McNamara   2023-07-28  1166  
+bac406c34fbc90 Daire McNamara   2023-07-28  1167  	ret = mc_pcie_init_clks(dev);
+bac406c34fbc90 Daire McNamara   2023-07-28  1168  	if (ret) {
+bac406c34fbc90 Daire McNamara   2023-07-28  1169  		dev_err(dev, "failed to get clock resources, error %d\n", ret);
+bac406c34fbc90 Daire McNamara   2023-07-28  1170  		return -ENODEV;
+bac406c34fbc90 Daire McNamara   2023-07-28  1171  	}
+4f0b91247f78cc Daire McNamara   2023-07-28  1172  
+bac406c34fbc90 Daire McNamara   2023-07-28  1173  	return pci_host_common_probe(pdev);
+6f15a9c9f94133 Daire McNamara   2021-01-25  1174  }
+6f15a9c9f94133 Daire McNamara   2021-01-25  1175  
+6f15a9c9f94133 Daire McNamara   2021-01-25  1176  static const struct pci_ecam_ops mc_ecam_ops = {
+6f15a9c9f94133 Daire McNamara   2021-01-25  1177  	.init = mc_platform_init,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1178  	.pci_ops = {
+6f15a9c9f94133 Daire McNamara   2021-01-25  1179  		.map_bus = pci_ecam_map_bus,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1180  		.read = pci_generic_config_read,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1181  		.write = pci_generic_config_write,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1182  	}
+6f15a9c9f94133 Daire McNamara   2021-01-25  1183  };
+6f15a9c9f94133 Daire McNamara   2021-01-25  1184  
+6f15a9c9f94133 Daire McNamara   2021-01-25  1185  static const struct of_device_id mc_pcie_of_match[] = {
+6f15a9c9f94133 Daire McNamara   2021-01-25  1186  	{
+6f15a9c9f94133 Daire McNamara   2021-01-25  1187  		.compatible = "microchip,pcie-host-1.0",
+6f15a9c9f94133 Daire McNamara   2021-01-25  1188  		.data = &mc_ecam_ops,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1189  	},
+6f15a9c9f94133 Daire McNamara   2021-01-25  1190  	{},
+6f15a9c9f94133 Daire McNamara   2021-01-25  1191  };
+6f15a9c9f94133 Daire McNamara   2021-01-25  1192  
+c049b4b37685ff Uwe Kleine-König 2022-04-20 @1193  MODULE_DEVICE_TABLE(of, mc_pcie_of_match);
+6f15a9c9f94133 Daire McNamara   2021-01-25  1194  
+6f15a9c9f94133 Daire McNamara   2021-01-25  1195  static struct platform_driver mc_pcie_driver = {
+bac406c34fbc90 Daire McNamara   2023-07-28  1196  	.probe = mc_host_probe,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1197  	.driver = {
+6f15a9c9f94133 Daire McNamara   2021-01-25  1198  		.name = "microchip-pcie",
+6f15a9c9f94133 Daire McNamara   2021-01-25  1199  		.of_match_table = mc_pcie_of_match,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1200  		.suppress_bind_attrs = true,
+6f15a9c9f94133 Daire McNamara   2021-01-25  1201  	},
+6f15a9c9f94133 Daire McNamara   2021-01-25  1202  };
+6f15a9c9f94133 Daire McNamara   2021-01-25  1203  
+6f15a9c9f94133 Daire McNamara   2021-01-25 @1204  builtin_platform_driver(mc_pcie_driver);
+
+:::::: The code at line 1204 was first introduced by commit
+:::::: 6f15a9c9f94133bee0d861a4bf25e10aaa95219d PCI: microchip: Add Microchip PolarFire PCIe controller driver
+
+:::::: TO: Daire McNamara <daire.mcnamara@microchip.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
