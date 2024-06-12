@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4971116C84B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 08:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C3484A22
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 08:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718180081; cv=none; b=CfF3vKWHC05DQoY8DbP6mTJmsWhHNBy5evUqFOqNbBRlXXmr7cCn6zOF5vXmpMgsMEzz3+ctxgvIhlFAN0WtxkD5Q/+v3D+HkTkkU8db8U91UZs5wkK1lTqd+II3orFYJiVx8tiAJ+gbojyT4zP6lnY+Gq2sV4ikYjCQI/6qr1s=
+	t=1718181171; cv=none; b=tUuZV+XAUx5AkYcUkEGgCywxis1ja/su73dfafKmN0BVfX16XD1mv0yaDyFJ1DYKiTgJwQWlvEuiZCiYr3zWTzC2+hxkPAvdivmCRgvAIETZJO8FRFmEoDm1bbaIWQChqnmVCAbnyzafSiAR5Y8DMcPm2WL20UNpQH/JXjpyxGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718180081; c=relaxed/simple;
-	bh=XgyhUDybcnkYh0iBLprCh2BW9GItJXI/hsKW3h3kYus=;
+	s=arc-20240116; t=1718181171; c=relaxed/simple;
+	bh=3+v/jwqxvY4HcsXAGyjvk7XAuLb9Q+MPeMTSwSg3Gjs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=l9ApFvJKYSHx59xbsglUcXXrKzPEZpbIsnkJXaSjnBMHCSTNdS1YIk3BarNJd86cNC7pV+tZSBKtPbxY+mit6iikhepDmPWjGyf3EYFZTe1Cvx/cWUO8FDZGiwkfHQQG6U8S+tB6mNzuE+Vazkm9b8Y0+OgcDdO9hvhiA2Jh3bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAVtSuZ1; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=XFwp1kIohWgAp8AEIxp4GdThuEDF8gYRTn4eWDV2hYZLQ8wuJ69UDv8YEJebspzbqyxq6vdCMg/TA4u57w4YIkydIDHB8pw5cVRyR/ecMvvqTsxOGVIaWWi5eJnAS6XYpFU4uPNrCuQjljQml18Wrys+xfx0QfP5mikwlbnMPQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKcOvxKL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAVtSuZ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKcOvxKL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718180080; x=1749716080;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=XgyhUDybcnkYh0iBLprCh2BW9GItJXI/hsKW3h3kYus=;
-  b=dAVtSuZ1S/CNJOCh4xH0R91KdOghxs2NlUnUse63L47fBd8qVnw59MUz
-   HcA3L5dfTqFBy1azngjSWQ2n0+mEV1Co1GtPWK5Z4f+HCLtU0ZJ0THN/7
-   rVFDjw0pbLi7K59sFz/Z11yLAztFvxNoPyloXbIpCITlb9vorhQgfiQrT
-   Fv+5aYHVzFJMaQz9xXIeEO+8VneuwcVoAstyKpD26IHz/Pry4MIeOyB/l
-   zATRFBgRWhsY2NQQTmQFv2DBINgUukQP5ViWGzS59gqXFJzpidlJ90hyg
-   tMemfTMik3QXCiU+fcvyuH+EugOPJSr3D/4L4yWpFc0hU28SF8c3AXIiu
+  t=1718181170; x=1749717170;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3+v/jwqxvY4HcsXAGyjvk7XAuLb9Q+MPeMTSwSg3Gjs=;
+  b=CKcOvxKLoqjP4S13dTUCSj92YiDep2IFdhIKFtrUDEEprqg8Fh8jSb7K
+   q6eoT4mYX5iLRM/v07109fHL/qTG5v7AUKx4bMEfY+XPXxrSSmpIa6xA1
+   KogpWtHugVT/9avJQNFksMEcTraOV+RQNZXpNniaMy6lmkEHC5mtPqSOA
+   QF1EpzAi5ThhEj+6aNPVDz1lH6WoXidgIdZVNUg2giqyMPbSxRwn8ODUm
+   yPU65i04Q9Vag8kH/mqZCafDftC5hLNhqjGs4ShDMWWL1dkwmA9mx4/Be
+   CYU4AECKbmcjl6eUZ63zkYC3677iW6dFKrRRYb4OYdmsqq9Sane+qyVqM
    w==;
-X-CSE-ConnectionGUID: PsNBx2cmRrqD+Yl8jWrfag==
-X-CSE-MsgGUID: jDMhB5EVRYOns54bErxHdg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="26336515"
+X-CSE-ConnectionGUID: twkf0oDoT+a0mbKa27Ujpg==
+X-CSE-MsgGUID: A7FDfAakTayhsIVBoUJUpw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18711094"
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="26336515"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 01:14:40 -0700
-X-CSE-ConnectionGUID: S8/7EQHhSM6Xm8fg7z+E8Q==
-X-CSE-MsgGUID: ijB6AWyvQZSdijXudgHTZg==
+   d="scan'208";a="18711094"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 01:32:40 -0700
+X-CSE-ConnectionGUID: yF0AgN7XTsWbjSOXQWkeUQ==
+X-CSE-MsgGUID: dTzdKCsqR/icdYqUwpvYSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="44652888"
+   d="scan'208";a="40184564"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2024 01:14:38 -0700
+  by orviesa006.jf.intel.com with ESMTP; 12 Jun 2024 01:32:40 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHJ7s-0001M6-1K;
-	Wed, 12 Jun 2024 08:14:36 +0000
-Date: Wed, 12 Jun 2024 16:13:59 +0800
+	id 1sHJPJ-0001N2-0L;
+	Wed, 12 Jun 2024 08:32:37 +0000
+Date: Wed, 12 Jun 2024 16:32:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: "zhai.he" <zhai.he@nxp.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] Supports to use the default CMA when the
- device-specified CMA memory is not enough.
-Message-ID: <ZmlYx-gf4dpqQLOY@67627e7c46f4>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-diff 1/3] klp-test-oneline.patch: warning: ignored
+ by one of the .gitignore files
+Message-ID: <202406121612.dtzNX0iv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240612081216.1319089-1-zhai.he@nxp.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
+head:   8d7a4a25d5c44f7e03ab4145e1957f0b0cdb8c13
+commit: 2b5c0e4bee32aa92e186b0fc146d728f2715d01a [1/3] tests
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240612/202406121612.dtzNX0iv-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121612.dtzNX0iv-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121612.dtzNX0iv-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] Supports to use the default CMA when the device-specified CMA memory is not enough.
-Link: https://lore.kernel.org/stable/20240612081216.1319089-1-zhai.he%40nxp.com
+>> klp-test-oneline.patch: warning: ignored by one of the .gitignore files
+>> klp-test.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
