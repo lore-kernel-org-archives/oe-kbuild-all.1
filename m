@@ -1,62 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA9617E444;
-	Wed, 12 Jun 2024 14:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6723D7E8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 14:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718203138; cv=none; b=AlyMvJEx4JZ4/5XbJtziSuOhdFvoe+weOczXMnLfpSZjJcJZ8OOWOdU/reX0YEQbRsLr5Pv/JGyZfWYc/5AycL3Ecl0u26WcPXFBWjG6QBsXL2atoaeM1acHnJit61+oApVPamaIlV7EoKbjiHDogaKTuUufJd1sZ5+KLfSlu5I=
+	t=1718203197; cv=none; b=gzEkHpQG+pOaiopiLkZ94pCtC4CfhhdxuLXntGYTZqBUPx/GEf8ReuPgoz4+Wmqs3BDCyk1bm3QYOAyQe0r584KOoo1AaMhL95i1EZjRhL81o2rJUUa3C4199eCls/Zhz4IDqJJ6jzkBQXCNqK6k8IFAWy9kqla20Olcx4uOhPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718203138; c=relaxed/simple;
-	bh=AHtyrNAaz8E2yK8VqdziN+klvjvgf0RMo+inp2JPpUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gpC8qmXHNAElnr2JlIncXoTK1zcXyCRA5cz+lM9oUDSSiWxxdTUcHT1nLOy2O1F2exn7coUz7r89VGhRlp3BASl96Hu7FDd1+c8YEBOqODnPpIejSX525Au/mkx7lLTrMf3y8PaY/+ZWAf+3FsHyhmSQSVyq3NWApJZDjeV9GaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPCF2hgT; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718203197; c=relaxed/simple;
+	bh=C8Pf6TJnvxaJ4Nn4K66aAeGYlXGVGIeUuoWkgeaYxbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YKNT0bD9AN8Jh9zkO6EZm48CNWvzMAoajJz5FXG/xtDolIBspvTgIHY0Yb4Y6aobZcBtKgvwWeja7SLbw5GyPDh+5dnJ1IyWiJxJt3kc5ohnvGvO1rkeC2PihM6RzIylPDAzEMVAc54ipKMoPcRxqAsRyMK0wALsz9hMxxNjHqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yx59APT7; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPCF2hgT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718203135; x=1749739135;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AHtyrNAaz8E2yK8VqdziN+klvjvgf0RMo+inp2JPpUQ=;
-  b=JPCF2hgTuKjTdmWm3xGYislz0gHiq9q9WUe9nVsx0pX4l+g5u2NJAqkr
-   G2upymtS73UklIFUkHJACg06UAvFjK4ZKugiWeuR89QbsqztENuujleeg
-   V8G3u+dV/sqzYHMOUxIXoyjZB/FG2W4yj9O0Cg29/zzGABSYhZ7FYe0Hp
-   Pj2BiLEOaKzg/jBVU82e9ZkMcWFhTdQea9dEf4Li5BiQ+kKIdUwpsX50y
-   yj9G6SgYpogtn1MO0YWlbbZxCB4TC/Q9+usFmnXx48vJcV91ekKHvbcr5
-   b1clwpNEdIxsF0ZyOwvkhIvN5eqfM4U5PzMiAZ35HVdZ6pWK+dC745dIn
-   A==;
-X-CSE-ConnectionGUID: KsfrLzmxQdWo6zFUBf/0VQ==
-X-CSE-MsgGUID: ovJOo79yQR6J81J+SYHClA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="32516979"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="32516979"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:38:55 -0700
-X-CSE-ConnectionGUID: LMAcOGVxT3Krq3DMqracTA==
-X-CSE-MsgGUID: HYAXCjQnRTeIGIIjVbh1Eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="62990041"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2024 07:38:53 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHP7j-0001cg-1O;
-	Wed, 12 Jun 2024 14:38:51 +0000
-Date: Wed, 12 Jun 2024 22:38:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steffen Klassert <steffen.klassert@secunet.com>,
-	Jianbo Liu <jianbol@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH ipsec] xfrm: Fix unregister netdevice hang on hardware
- offload.
-Message-ID: <202406122121.zejJ7IGG-lkp@intel.com>
-References: <ZmlmTTYL6AkBel4P@gauss3.secunet.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yx59APT7"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4217990f997so37867495e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 07:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718203194; x=1718807994; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ek4Yz+vlANPAH4c/dw08+ma76dKbUBNCWTM+vTMJPkg=;
+        b=Yx59APT7PzcFBu091HgnXtK3bXq8fSf486PlTUNz1a1+a6MnZ44dNshzKrhCPNv545
+         29u9SB1EUC+nLlQuKL1PWDNjka3ZQXIv/K7Pfvp8Ck7r7BUlO284va1V80SzIEduZ/Oo
+         j9C4Cw/lTcKBttjI2wCuFzVRQJxGKi0AYV6jgvBj9wKXQX7OAAmVtLDID1SDCDRdnKAE
+         JNzg+70VgGAF8kWF/FJGJ4fIWv4xOVDq3klf6sDDrsfx4WaDHQKTrCA0W3274zRDbDO+
+         axeDbBcKdZu5ai7CbEBnMwzYqPtQNMYUkzo8JWx2DvZE/00jVlFkHyAVVVaiLrpoiEvp
+         CqLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718203194; x=1718807994;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ek4Yz+vlANPAH4c/dw08+ma76dKbUBNCWTM+vTMJPkg=;
+        b=tLfpL+ys7HfxdW2B5bHFceTzSdaeZ8NNZZSTAOHTNKs5RS+82b+JsNtR31g4Ykbtpm
+         dFvMFoiO/OiCxleeT/wwn/OSx56rR/iHC7WvpKJYj01loXiTZJoywZhvgP9dP8uCZ+VZ
+         4MJihnQ13g+APt4eD0LL1daaQ+0A5lBwIzNrCka1MLjpPe/KqVhkELZHMfXPRKUX9L6N
+         oweZHSTWXbwIGxKJlXYNL8lOwtemgTxwSY+rnzQvPdjaI3xDZBs01e2pgheJhgZae3P7
+         G3UnisiOwWeyni7OBrS6NiwhohWxqmCpmU2h/UlK5NGXazNHTBO3MdJmuEryDuP0cMVZ
+         hfPA==
+X-Forwarded-Encrypted: i=1; AJvYcCXP1LTQ4Chw/sRzNUe260X5sYLAR1UHHOc+Kk4mkJwp59BM66escAb8MwwenkFsLt7WGwq/JgZG8n8k0bY/xdIGcpnY0e2fDh9nDwFWlQ==
+X-Gm-Message-State: AOJu0YwxV4gKtjbjOJsOuyj5FwwFTQWMgF/1oEZ3wFEq+XyXugteGvQQ
+	9f3scia5I2U6Mv/oPXHQhRiCiFF8GSVf+Z/r1dMgD4rAoJo+Cvl4clNE0AvTDl2PrkHJOluR3r2
+	2
+X-Google-Smtp-Source: AGHT+IHoBqFVkLgUfa4fzrXbQ2MvOOSCUpnqYXpdqs629Xjbqw2VXrzEMNGPqVF9CCj+Druqiqe2WA==
+X-Received: by 2002:a05:600c:314e:b0:422:140:f440 with SMTP id 5b1f17b1804b1-422867c0b23mr18811025e9.36.1718203193587;
+        Wed, 12 Jun 2024 07:39:53 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422871ec9e6sm29485865e9.38.2024.06.12.07.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 07:39:53 -0700 (PDT)
+Date: Wed, 12 Jun 2024 17:39:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:slub-reservations 6/12] mm/slub.c:5551
+ kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns
+ '&s->reserve_lock'.
+Message-ID: <0682f0c0-41bd-482e-8ea9-6a676766ef34@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,93 +67,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZmlmTTYL6AkBel4P@gauss3.secunet.de>
 
-Hi Steffen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on klassert-ipsec-next/master]
-[also build test ERROR on klassert-ipsec/master net/main net-next/main linus/master v6.10-rc3 next-20240612]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steffen-Klassert/xfrm-Fix-unregister-netdevice-hang-on-hardware-offload/20240612-171414
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/ZmlmTTYL6AkBel4P%40gauss3.secunet.de
-patch subject: [PATCH ipsec] xfrm: Fix unregister netdevice hang on hardware offload.
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240612/202406122121.zejJ7IGG-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406122121.zejJ7IGG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-reservations
+head:   f5877f7833fc9f8a236be339ae5bbcccdde7c850
+commit: 17f60c99bf92fbf1ed52e1c492f46cec91d14cd5 [6/12] mm, slub: implement per-cache reserves
+config: x86_64-randconfig-161-20240612 (https://download.01.org/0day-ci/archive/20240612/202406122208.joPiUJJy-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406122121.zejJ7IGG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406122208.joPiUJJy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+mm/slub.c:5551 kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns '&s->reserve_lock'.
+mm/slub.c:5551 kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns 'flags'.
 
-   In file included from net/xfrm/xfrm_state.c:19:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/riscv/include/asm/cacheflush.h:9:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   net/xfrm/xfrm_state.c:688:6: error: redefinition of 'xfrm_dev_state_delete'
-     688 | void xfrm_dev_state_delete(struct xfrm_state *x)
-         |      ^
-   include/net/xfrm.h:2022:20: note: previous definition is here
-    2022 | static inline void xfrm_dev_state_delete(struct xfrm_state *x)
-         |                    ^
->> net/xfrm/xfrm_state.c:694:8: error: no member named 'xfrmdev_ops' in 'struct net_device'
-     694 |                 dev->xfrmdev_ops->xdo_dev_state_delete(x);
-         |                 ~~~  ^
-   net/xfrm/xfrm_state.c:701:6: error: redefinition of 'xfrm_dev_state_free'
-     701 | void xfrm_dev_state_free(struct xfrm_state *x)
-         |      ^
-   include/net/xfrm.h:2026:20: note: previous definition is here
-    2026 | static inline void xfrm_dev_state_free(struct xfrm_state *x)
-         |                    ^
-   net/xfrm/xfrm_state.c:706:18: error: no member named 'xfrmdev_ops' in 'struct net_device'; did you mean 'l3mdev_ops'?
-     706 |         if (dev && dev->xfrmdev_ops) {
-         |                         ^~~~~~~~~~~
-         |                         l3mdev_ops
-   include/linux/netdevice.h:2171:27: note: 'l3mdev_ops' declared here
-    2171 |         const struct l3mdev_ops *l3mdev_ops;
-         |                                  ^
-   net/xfrm/xfrm_state.c:712:12: error: no member named 'xfrmdev_ops' in 'struct net_device'
-     712 |                 if (dev->xfrmdev_ops->xdo_dev_state_free)
-         |                     ~~~  ^
-   net/xfrm/xfrm_state.c:713:9: error: no member named 'xfrmdev_ops' in 'struct net_device'
-     713 |                         dev->xfrmdev_ops->xdo_dev_state_free(x);
-         |                         ~~~  ^
-   1 warning and 6 errors generated.
+vim +5551 mm/slub.c
 
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5512  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5513  void *kmem_cache_reserve_only_alloc_noprof(struct kmem_cache_reserve *reserve,
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5514  					   gfp_t gfp)
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5515  {
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5516  	struct kmem_cache *s = reserve->cache;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5517  	unsigned long flags;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5518  	void *obj = NULL;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5519  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5520  	spin_lock_irqsave(&s->reserve_lock, flags);
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5521  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5522  	if (!reserve->size && !s->reserve_surplus)
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5523  		goto empty_reserve;
 
-vim +694 net/xfrm/xfrm_state.c
+spin_unlock_irqrestore(&s->reserve_lock, flags);
 
-   687	
-   688	void xfrm_dev_state_delete(struct xfrm_state *x)
-   689	{
-   690		struct xfrm_dev_offload *xso = &x->xso;
-   691		struct net_device *dev = READ_ONCE(xso->dev);
-   692	
-   693		if (dev) {
- > 694			dev->xfrmdev_ops->xdo_dev_state_delete(x);
-   695			spin_lock_bh(&xfrm_state_dev_gc_lock);
-   696			hlist_add_head(&x->dev_gclist, &xfrm_state_dev_gc_list);
-   697			spin_unlock_bh(&xfrm_state_dev_gc_lock);
-   698		}
-   699	}
-   700	
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5524  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5525  	/*
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5526  	 * Should not happen, the kmem_cache reserve_size should be sum of all
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5527  	 * active struct kmem_cache_reserve's size and the shared surplus
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5528  	 */
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5529  	if (WARN_ON_ONCE(!s->reserve_size))
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5530  		goto empty_reserve;
+
+spin_unlock_irqrestore(&s->reserve_lock, flags)
+
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5531  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5532  	obj = s->reserve_freelist;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5533  	s->reserve_freelist = get_freepointer(s, obj);
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5534  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5535  	s->reserve_size--;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5536  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5537  	if (s->size)
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5538  		reserve->size--;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5539  	else
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5540  		s->reserve_surplus--;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5541  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5542  	spin_unlock_irqrestore(&s->reserve_lock, flags);
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5543  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5544  	slab_post_alloc_hook(s, NULL, gfp, 1, &obj,
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5545  		slab_want_init_on_alloc(gfp, s), s->object_size);
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5546  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5547  	/* paired with smp_rmb() in kmem_cache_reserve_free() */
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5548  	smp_wmb();
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5549  
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5550  empty_reserve:
+17f60c99bf92fbf Vlastimil Babka 2024-05-31 @5551  	return obj;
+17f60c99bf92fbf Vlastimil Babka 2024-05-31  5552  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
