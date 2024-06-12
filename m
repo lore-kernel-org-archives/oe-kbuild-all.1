@@ -1,60 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A199017FAB2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 16:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862D8180A9D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 16:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718211006; cv=none; b=j20/pKttwMPNbGoC9EGqdgIcnNaQbeXBD8iw3GxVMW2YbfIdY5oIQtB4Hu1kmNuVdHfMX+ox9Wiv1hyFod3saPmH5IkJJ8JQAGoi94uNPjSOYaB3h+m/8um8aPesPA+St+TAjGXa/tBTyIgVHel/7lWgr4CUUudOriiTwcqO3BE=
+	t=1718211006; cv=none; b=U8awEa8+MStrQWoYhxr6nyi65nuQdmke9yNvtxw85aHty5oIpwAGFRWonW9apfOKVWYbIGxMN0y+nuKrQbfuZFcNMurbhp7rnrS63gq6OU+BVXABlThgEifZlzRTdkemEyBWVeviWMLDsS+A/cibzLEQjAO41ADx+IYD53FqxaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718211006; c=relaxed/simple;
-	bh=DwlOcmQg5Taan0deGMxq9/m5pWGxi84dqDhCNcm2544=;
+	bh=2Aq3Vlrtr2oj5BbYuH7QIzUIc+4Yo924hGgXMeHqTzI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DHAq6QXagkiuGv5u8h5X8xoekklJnUggAHqSeye3hmouMJT6UjqEQU39eQhl05U6aOa7mjnbzKwH2U+ocEHCmqh/RFqXgo0bX8HYHgOgV6Lv4bgiK7CJYQCkEQWYiSOh4I46o0fbYFkTanPSrAMgKx1zDgKNWZT+TD+n0KD852E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHcdaOCJ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=duKdz5JWpyghH3P6r4zi1FVbqUVQQQNoa+zqqV9TMHxhZHLw1cltifZCX7j3XzTpyEpuzX5JHsW+IYdIUnkAlJmsnhieUKOyaKFLwZXMPmQdCWugFXQXg4yIwt3CAkkzY4ADdEbzzFyuy7fgqBlJQwUQXbPwyoP/1a8VH8i0naM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kLXnJLFR; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHcdaOCJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLXnJLFR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718211004; x=1749747004;
+  t=1718211005; x=1749747005;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DwlOcmQg5Taan0deGMxq9/m5pWGxi84dqDhCNcm2544=;
-  b=cHcdaOCJVoMKs5hACY97c8teertToc7a07u94rbhCVmQFLZ07iRgI153
-   YqMVEos7cFxsHBcK5OllRsfhNc1qY0HJi1r7e7DRGmw+/QElfvFma2AgF
-   63S+9zIj6/2b9A7XiiIEMJZMq2QhV1sUlT2YIx05z7fUtu/T6Re/mtCzR
-   K8daNeDFozKC430jaVDPZHkFysWc6SJk0oLUCK4dwwoBaFrJq0oWDATz7
-   71aPKQQrv6LaAdsJrSqokrkJiBCSCa/v9BzERe8F/VvOZigwT45NCN5l+
-   cLK/Bg+zvCiHMpUMqPYV9N0gQ2uUIs/dNA7pmpFyLo7cTw1pA34++mmwb
-   w==;
-X-CSE-ConnectionGUID: tGRChBBkT7awN3bV5TUvPg==
-X-CSE-MsgGUID: Kb7ma/AkT5O6bpmVwsmMrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15112834"
+  bh=2Aq3Vlrtr2oj5BbYuH7QIzUIc+4Yo924hGgXMeHqTzI=;
+  b=kLXnJLFR7mU5B2OAq8kSfaxx/LXE9OjrExpcj4JfFAfISS22Pb1+pQcN
+   zlmbaXyU3lsW+ivBOPd2L7VsJzJaj5y272llnYU68+Jc/pO+zAKMJ7tsV
+   lqR6Kdtcnhohph57eLpZ4mgC8NQxsmQsuoeNjXb0jNpetWgdVdwVAIMJL
+   nFPIXE/j7euPWmu3Jn4SogQTeqw0loO6KwzFKTRZFTHOG2R8GS5/spK88
+   pVHhtd64FB5OVfEu02Yc1XQs1MNh6A5cNjrtqrgm9ZrFipAQPFcQx5Nhf
+   pXFI/4Hy3pFdfzpsIoUNH8QQlgowv/y1/UrS7cxYErGCuaPiNFrdFW03k
+   Q==;
+X-CSE-ConnectionGUID: PWLKZdDsQ8ybhb7c99KEtw==
+X-CSE-MsgGUID: Ajlxag2HTU6yeAr+h7/diw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15112841"
 X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="15112834"
+   d="scan'208";a="15112841"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 09:50:02 -0700
-X-CSE-ConnectionGUID: A1klX7YCSZCN3hdjnNzR9w==
-X-CSE-MsgGUID: j6yAqT/DT3WKIPatWhfMYg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 09:50:04 -0700
+X-CSE-ConnectionGUID: r1rnJM89Th+VDoy8xLMzKA==
+X-CSE-MsgGUID: NLqFCMqaTdSodKfFcr5cQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="44243496"
+   d="scan'208";a="44243541"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 12 Jun 2024 09:50:01 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHRAc-0001jo-2W;
+	id 1sHRAc-0001jm-2L;
 	Wed, 12 Jun 2024 16:49:58 +0000
-Date: Thu, 13 Jun 2024 00:49:47 +0800
+Date: Thu, 13 Jun 2024 00:49:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:b4/dt-bindings-mfd-syscon-split 8/18]
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1137.4: Warning
- (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary
- #address-cells/#size-cells without "ranges" or child "reg" property
-Message-ID: <202406130036.cWiz9ZYW-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2180/2439]
+ arch/arm64/boot/dts/phytium/pe220x.dtsi:214.12-217.6: Warning
+ (unit_address_vs_reg): /soc/qspi@28008000/flash@0: node has a unit name, but
+ no reg property
+Message-ID: <202406130002.1tniCKTA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,245 +67,401 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux b4/dt-bindings-mfd-syscon-split
-head:   035b86aab61498947d010dd7a1dd95f7343d5477
-commit: 8604a71e32d04c70bb51e3c1a3b766416d595683 [8/18] arm64: dts: mediatek: mt8173-elm: drop PMIC's syscon node
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240613/202406130036.cWiz9ZYW-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   220ab143d3d2e3e85057a532bee9dd887a1858e7
+commit: 3523026413a8dd024663f67f000b06047b9c8567 [2180/2439] dts: phytium: Add dts for Phytium Pe220x SoCs Add initial device tree for Phytium Pe220x SoCs. Phytium Pe220x series has three specs (Pe2201/Pe2202/Pe2204), distinguished by the number of CPU core. Besides CPU cores, on-chip peripherals also vary. Thus, we split them into three separate DTBs.
+config: arm64-randconfig-003-20240612 (https://download.01.org/0day-ci/archive/20240613/202406130002.1tniCKTA-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130036.cWiz9ZYW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130002.1tniCKTA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406130036.cWiz9ZYW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406130002.1tniCKTA-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1137.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:214.12-217.6: Warning (unit_address_vs_reg): /soc/qspi@28008000/flash@0: node has a unit name, but no reg property
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:328.10-332.6: Warning (unit_address_vs_reg): /soc/gpio@28034000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:360.10-364.6: Warning (unit_address_vs_reg): /soc/gpio@28035000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:392.10-396.6: Warning (unit_address_vs_reg): /soc/gpio@28036000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:409.10-413.6: Warning (unit_address_vs_reg): /soc/gpio@28037000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:426.10-430.6: Warning (unit_address_vs_reg): /soc/gpio@28038000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:443.10-447.6: Warning (unit_address_vs_reg): /soc/gpio@28039000/porta: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/phytium/pe2201-demo-ddr4.dts:21.11-24.4: Warning (unit_address_format): /memory@00: unit name should not have leading 0s
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:494.32-501.5: Warning (simple_bus_reg): /soc/watchdog@28040000: simple-bus unit address format error, expected "28041000"
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:503.32-510.5: Warning (simple_bus_reg): /soc/watchdog@28042000: simple-bus unit address format error, expected "28043000"
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:905.20-908.5: Warning (simple_bus_reg): /soc/pmdk_dp: missing or empty reg/ranges property
+--
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:214.12-217.6: Warning (unit_address_vs_reg): /soc/qspi@28008000/flash@0: node has a unit name, but no reg property
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:328.10-332.6: Warning (unit_address_vs_reg): /soc/gpio@28034000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:360.10-364.6: Warning (unit_address_vs_reg): /soc/gpio@28035000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:392.10-396.6: Warning (unit_address_vs_reg): /soc/gpio@28036000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:409.10-413.6: Warning (unit_address_vs_reg): /soc/gpio@28037000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:426.10-430.6: Warning (unit_address_vs_reg): /soc/gpio@28038000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:443.10-447.6: Warning (unit_address_vs_reg): /soc/gpio@28039000/porta: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/phytium/pe2204-demo-ddr4-local.dts:21.11-24.4: Warning (unit_address_format): /memory@00: unit name should not have leading 0s
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:494.32-501.5: Warning (simple_bus_reg): /soc/watchdog@28040000: simple-bus unit address format error, expected "28041000"
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:503.32-510.5: Warning (simple_bus_reg): /soc/watchdog@28042000: simple-bus unit address format error, expected "28043000"
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:905.20-908.5: Warning (simple_bus_reg): /soc/pmdk_dp: missing or empty reg/ranges property
+--
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:214.12-217.6: Warning (unit_address_vs_reg): /soc/qspi@28008000/flash@0: node has a unit name, but no reg property
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:328.10-332.6: Warning (unit_address_vs_reg): /soc/gpio@28034000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:360.10-364.6: Warning (unit_address_vs_reg): /soc/gpio@28035000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:392.10-396.6: Warning (unit_address_vs_reg): /soc/gpio@28036000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:409.10-413.6: Warning (unit_address_vs_reg): /soc/gpio@28037000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:426.10-430.6: Warning (unit_address_vs_reg): /soc/gpio@28038000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:443.10-447.6: Warning (unit_address_vs_reg): /soc/gpio@28039000/porta: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/phytium/pe2202-demo-ddr4-local.dts:21.11-24.4: Warning (unit_address_format): /memory@00: unit name should not have leading 0s
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:494.32-501.5: Warning (simple_bus_reg): /soc/watchdog@28040000: simple-bus unit address format error, expected "28041000"
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:503.32-510.5: Warning (simple_bus_reg): /soc/watchdog@28042000: simple-bus unit address format error, expected "28043000"
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:905.20-908.5: Warning (simple_bus_reg): /soc/pmdk_dp: missing or empty reg/ranges property
+--
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:214.12-217.6: Warning (unit_address_vs_reg): /soc/qspi@28008000/flash@0: node has a unit name, but no reg property
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:328.10-332.6: Warning (unit_address_vs_reg): /soc/gpio@28034000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:360.10-364.6: Warning (unit_address_vs_reg): /soc/gpio@28035000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:392.10-396.6: Warning (unit_address_vs_reg): /soc/gpio@28036000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:409.10-413.6: Warning (unit_address_vs_reg): /soc/gpio@28037000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:426.10-430.6: Warning (unit_address_vs_reg): /soc/gpio@28038000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:443.10-447.6: Warning (unit_address_vs_reg): /soc/gpio@28039000/porta: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/phytium/pe2204-demo-ddr4.dts:21.11-24.4: Warning (unit_address_format): /memory@00: unit name should not have leading 0s
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:494.32-501.5: Warning (simple_bus_reg): /soc/watchdog@28040000: simple-bus unit address format error, expected "28041000"
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:503.32-510.5: Warning (simple_bus_reg): /soc/watchdog@28042000: simple-bus unit address format error, expected "28043000"
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:905.20-908.5: Warning (simple_bus_reg): /soc/pmdk_dp: missing or empty reg/ranges property
+--
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:214.12-217.6: Warning (unit_address_vs_reg): /soc/qspi@28008000/flash@0: node has a unit name, but no reg property
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:328.10-332.6: Warning (unit_address_vs_reg): /soc/gpio@28034000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:360.10-364.6: Warning (unit_address_vs_reg): /soc/gpio@28035000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:392.10-396.6: Warning (unit_address_vs_reg): /soc/gpio@28036000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:409.10-413.6: Warning (unit_address_vs_reg): /soc/gpio@28037000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:426.10-430.6: Warning (unit_address_vs_reg): /soc/gpio@28038000/porta: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:443.10-447.6: Warning (unit_address_vs_reg): /soc/gpio@28039000/porta: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/phytium/pe2202-demo-ddr4.dts:21.11-24.4: Warning (unit_address_format): /memory@00: unit name should not have leading 0s
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:494.32-501.5: Warning (simple_bus_reg): /soc/watchdog@28040000: simple-bus unit address format error, expected "28041000"
+   arch/arm64/boot/dts/phytium/pe220x.dtsi:503.32-510.5: Warning (simple_bus_reg): /soc/watchdog@28042000: simple-bus unit address format error, expected "28043000"
+>> arch/arm64/boot/dts/phytium/pe220x.dtsi:905.20-908.5: Warning (simple_bus_reg): /soc/pmdk_dp: missing or empty reg/ranges property
 
-vim +926 arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
+vim +214 arch/arm64/boot/dts/phytium/pe220x.dtsi
 
-689b937beddebf Hsin-Yi Wang               2020-02-10   924  
-689b937beddebf Hsin-Yi Wang               2020-02-10   925  &pwrap {
-2d812e9e1dfd00 Alexandre Mergnat          2023-01-02  @926  	pmic: pmic {
-689b937beddebf Hsin-Yi Wang               2020-02-10   927  		compatible = "mediatek,mt6397";
-689b937beddebf Hsin-Yi Wang               2020-02-10   928  		#address-cells = <1>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   929  		#size-cells = <1>;
-355f0a4c696584 AngeloGioacchino Del Regno 2023-10-25   930  		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_HIGH>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   931  		interrupt-controller;
-689b937beddebf Hsin-Yi Wang               2020-02-10   932  		#interrupt-cells = <2>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   933  
-689b937beddebf Hsin-Yi Wang               2020-02-10   934  		clock: mt6397clock {
-689b937beddebf Hsin-Yi Wang               2020-02-10   935  			compatible = "mediatek,mt6397-clk";
-689b937beddebf Hsin-Yi Wang               2020-02-10   936  			#clock-cells = <1>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   937  		};
-689b937beddebf Hsin-Yi Wang               2020-02-10   938  
-689b937beddebf Hsin-Yi Wang               2020-02-10   939  		pio6397: pinctrl {
-689b937beddebf Hsin-Yi Wang               2020-02-10   940  			compatible = "mediatek,mt6397-pinctrl";
-689b937beddebf Hsin-Yi Wang               2020-02-10   941  			gpio-controller;
-689b937beddebf Hsin-Yi Wang               2020-02-10   942  			#gpio-cells = <2>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   943  		};
-689b937beddebf Hsin-Yi Wang               2020-02-10   944  
-689b937beddebf Hsin-Yi Wang               2020-02-10   945  		regulator: mt6397regulator {
-689b937beddebf Hsin-Yi Wang               2020-02-10   946  			compatible = "mediatek,mt6397-regulator";
-689b937beddebf Hsin-Yi Wang               2020-02-10   947  
-689b937beddebf Hsin-Yi Wang               2020-02-10   948  			mt6397_vpca15_reg: buck_vpca15 {
-689b937beddebf Hsin-Yi Wang               2020-02-10   949  				regulator-compatible = "buck_vpca15";
-689b937beddebf Hsin-Yi Wang               2020-02-10   950  				regulator-name = "vpca15";
-689b937beddebf Hsin-Yi Wang               2020-02-10   951  				regulator-min-microvolt = < 700000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   952  				regulator-max-microvolt = <1350000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   953  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   954  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10   955  				regulator-allowed-modes = <0 1>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   956  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10   957  
-689b937beddebf Hsin-Yi Wang               2020-02-10   958  			mt6397_vpca7_reg: buck_vpca7 {
-689b937beddebf Hsin-Yi Wang               2020-02-10   959  				regulator-compatible = "buck_vpca7";
-689b937beddebf Hsin-Yi Wang               2020-02-10   960  				regulator-name = "vpca7";
-689b937beddebf Hsin-Yi Wang               2020-02-10   961  				regulator-min-microvolt = < 700000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   962  				regulator-max-microvolt = <1350000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   963  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   964  				regulator-enable-ramp-delay = <115>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   965  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10   966  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10   967  
-689b937beddebf Hsin-Yi Wang               2020-02-10   968  			mt6397_vsramca15_reg: buck_vsramca15 {
-689b937beddebf Hsin-Yi Wang               2020-02-10   969  				regulator-compatible = "buck_vsramca15";
-689b937beddebf Hsin-Yi Wang               2020-02-10   970  				regulator-name = "vsramca15";
-689b937beddebf Hsin-Yi Wang               2020-02-10   971  				regulator-min-microvolt = < 700000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   972  				regulator-max-microvolt = <1350000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   973  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   974  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10   975  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10   976  
-689b937beddebf Hsin-Yi Wang               2020-02-10   977  			mt6397_vsramca7_reg: buck_vsramca7 {
-689b937beddebf Hsin-Yi Wang               2020-02-10   978  				regulator-compatible = "buck_vsramca7";
-689b937beddebf Hsin-Yi Wang               2020-02-10   979  				regulator-name = "vsramca7";
-689b937beddebf Hsin-Yi Wang               2020-02-10   980  				regulator-min-microvolt = < 700000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   981  				regulator-max-microvolt = <1350000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   982  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   983  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10   984  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10   985  
-689b937beddebf Hsin-Yi Wang               2020-02-10   986  			mt6397_vcore_reg: buck_vcore {
-689b937beddebf Hsin-Yi Wang               2020-02-10   987  				regulator-compatible = "buck_vcore";
-689b937beddebf Hsin-Yi Wang               2020-02-10   988  				regulator-name = "vcore";
-689b937beddebf Hsin-Yi Wang               2020-02-10   989  				regulator-min-microvolt = < 700000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   990  				regulator-max-microvolt = <1350000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   991  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   992  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10   993  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10   994  
-689b937beddebf Hsin-Yi Wang               2020-02-10   995  			mt6397_vgpu_reg: buck_vgpu {
-689b937beddebf Hsin-Yi Wang               2020-02-10   996  				regulator-compatible = "buck_vgpu";
-689b937beddebf Hsin-Yi Wang               2020-02-10   997  				regulator-name = "vgpu";
-689b937beddebf Hsin-Yi Wang               2020-02-10   998  				regulator-min-microvolt = < 700000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10   999  				regulator-max-microvolt = <1350000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1000  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1001  				regulator-enable-ramp-delay = <115>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1002  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1003  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1004  			mt6397_vdrm_reg: buck_vdrm {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1005  				regulator-compatible = "buck_vdrm";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1006  				regulator-name = "vdrm";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1007  				regulator-min-microvolt = <1200000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1008  				regulator-max-microvolt = <1400000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1009  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1010  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1011  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1012  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1013  			mt6397_vio18_reg: buck_vio18 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1014  				regulator-compatible = "buck_vio18";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1015  				regulator-name = "vio18";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1016  				regulator-min-microvolt = <1620000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1017  				regulator-max-microvolt = <1980000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1018  				regulator-ramp-delay = <12500>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1019  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1020  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1021  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1022  			mt6397_vtcxo_reg: ldo_vtcxo {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1023  				regulator-compatible = "ldo_vtcxo";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1024  				regulator-name = "vtcxo";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1025  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1026  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1027  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1028  			mt6397_va28_reg: ldo_va28 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1029  				regulator-compatible = "ldo_va28";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1030  				regulator-name = "va28";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1031  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1032  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1033  			mt6397_vcama_reg: ldo_vcama {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1034  				regulator-compatible = "ldo_vcama";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1035  				regulator-name = "vcama";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1036  				regulator-min-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1037  				regulator-max-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1038  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1039  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1040  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1041  			mt6397_vio28_reg: ldo_vio28 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1042  				regulator-compatible = "ldo_vio28";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1043  				regulator-name = "vio28";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1044  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1045  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1046  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1047  			mt6397_vusb_reg: ldo_vusb {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1048  				regulator-compatible = "ldo_vusb";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1049  				regulator-name = "vusb";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1050  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1051  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1052  			mt6397_vmc_reg: ldo_vmc {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1053  				regulator-compatible = "ldo_vmc";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1054  				regulator-name = "vmc";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1055  				regulator-min-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1056  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1057  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1058  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1059  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1060  			mt6397_vmch_reg: ldo_vmch {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1061  				regulator-compatible = "ldo_vmch";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1062  				regulator-name = "vmch";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1063  				regulator-min-microvolt = <3000000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1064  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1065  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1066  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1067  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1068  			mt6397_vemc_3v3_reg: ldo_vemc3v3 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1069  				regulator-compatible = "ldo_vemc3v3";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1070  				regulator-name = "vemc_3v3";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1071  				regulator-min-microvolt = <3000000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1072  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1073  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1074  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1075  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1076  			mt6397_vgp1_reg: ldo_vgp1 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1077  				regulator-compatible = "ldo_vgp1";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1078  				regulator-name = "vcamd";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1079  				regulator-min-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1080  				regulator-max-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1081  				regulator-enable-ramp-delay = <240>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1082  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1083  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1084  			mt6397_vgp2_reg: ldo_vgp2 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1085  				regulator-compatible = "ldo_vgp2";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1086  				regulator-name = "vcamio";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1087  				regulator-min-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1088  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1089  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1090  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1091  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1092  			mt6397_vgp3_reg: ldo_vgp3 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1093  				regulator-compatible = "ldo_vgp3";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1094  				regulator-name = "vcamaf";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1095  				regulator-min-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1096  				regulator-max-microvolt = <1800000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1097  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1098  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1099  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1100  			mt6397_vgp4_reg: ldo_vgp4 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1101  				regulator-compatible = "ldo_vgp4";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1102  				regulator-name = "vgp4";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1103  				regulator-min-microvolt = <1200000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1104  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1105  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1106  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1107  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1108  			mt6397_vgp5_reg: ldo_vgp5 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1109  				regulator-compatible = "ldo_vgp5";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1110  				regulator-name = "vgp5";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1111  				regulator-min-microvolt = <1200000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1112  				regulator-max-microvolt = <3000000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1113  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1114  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1115  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1116  			mt6397_vgp6_reg: ldo_vgp6 {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1117  				regulator-compatible = "ldo_vgp6";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1118  				regulator-name = "vgp6";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1119  				regulator-min-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1120  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1121  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1122  				regulator-always-on;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1123  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1124  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1125  			mt6397_vibr_reg: ldo_vibr {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1126  				regulator-compatible = "ldo_vibr";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1127  				regulator-name = "vibr";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1128  				regulator-min-microvolt = <1300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1129  				regulator-max-microvolt = <3300000>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1130  				regulator-enable-ramp-delay = <218>;
-689b937beddebf Hsin-Yi Wang               2020-02-10  1131  			};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1132  		};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1133  
-689b937beddebf Hsin-Yi Wang               2020-02-10  1134  		rtc: mt6397rtc {
-689b937beddebf Hsin-Yi Wang               2020-02-10  1135  			compatible = "mediatek,mt6397-rtc";
-689b937beddebf Hsin-Yi Wang               2020-02-10  1136  		};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1137  	};
-689b937beddebf Hsin-Yi Wang               2020-02-10  1138  };
-689b937beddebf Hsin-Yi Wang               2020-02-10  1139  
-
-:::::: The code at line 926 was first introduced by commit
-:::::: 2d812e9e1dfd00e70c990a87c29c37db90977a5f arm64: dts: mt8173: change node name
-
-:::::: TO: Alexandre Mergnat <amergnat@baylibre.com>
-:::::: CC: Matthias Brugger <matthias.bgg@gmail.com>
+     9	
+    10	/ {
+    11		compatible = "phytium,pe220x";
+    12		interrupt-parent = <&gic>;
+    13		#address-cells = <2>;
+    14		#size-cells = <2>;
+    15	
+    16		aliases {
+    17			serial0 = &uart0;
+    18			serial1 = &uart1;
+    19			serial2 = &uart2;
+    20			serial3 = &uart3;
+    21		};
+    22	
+    23		psci {
+    24			compatible   = "arm,psci-1.0";
+    25			method       = "smc";
+    26			cpu_suspend  = <0xc4000001>;
+    27			cpu_off      = <0x84000002>;
+    28			cpu_on       = <0xc4000003>;
+    29			sys_poweroff = <0x84000008>;
+    30			sys_reset    = <0x84000009>;
+    31		};
+    32	
+    33		firmware {
+    34			scmi: scmi {
+    35				compatible = "arm,scmi";
+    36				mboxes = <&mbox 0 &mbox 1>;
+    37				mbox-names = "tx", "rx";
+    38				shmem = <&cpu_scp_hpri &cpu_scp_lpri>;
+    39				#address-cells = <1>;
+    40				#size-cells = <0>;
+    41	
+    42				scmi_dvfs: protocol@13 {
+    43					reg = <0x13>;
+    44					#clock-cells = <1>;
+    45				};
+    46	
+    47				scmi_sensors0: protocol@15 {
+    48					reg = <0x15>;
+    49					#thermal-sensor-cells = <1>;
+    50				};
+    51			};
+    52		};
+    53	
+    54		thermal-zones {
+    55			sensor0 {
+    56				polling-delay-passive = <100>;
+    57				polling-delay = <1000>;
+    58				thermal-sensors = <&scmi_sensors0 0>;
+    59			};
+    60	
+    61			sensor1 {
+    62				polling-delay-passive = <100>;
+    63				polling-delay = <1000>;
+    64				thermal-sensors = <&scmi_sensors0 1>;
+    65			};
+    66		};
+    67	
+    68		cpu: cpus {
+    69			#address-cells = <0x2>;
+    70			#size-cells = <0x0>;
+    71		};
+    72	
+    73		gic: interrupt-controller@30800000 {
+    74			compatible = "arm,gic-v3";
+    75			#interrupt-cells = <3>;
+    76			#address-cells = <2>;
+    77			#size-cells = <2>;
+    78			ranges;
+    79			interrupt-controller;
+    80			reg = <0x0 0x30800000 0 0x20000>,	/* GICD */
+    81			      <0x0 0x30880000 0 0x80000>,	/* GICR */
+    82			      <0x0 0x30840000 0 0x10000>,	/* GICC */
+    83			      <0x0 0x30850000 0 0x10000>,	/* GICH */
+    84			      <0x0 0x30860000 0 0x10000>;	/* GICV */
+    85			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
+    86	
+    87			its: gic-its@30820000 {
+    88				compatible = "arm,gic-v3-its";
+    89				msi-controller;
+    90				reg = <0x0 0x30820000 0x0 0x20000>;
+    91			};
+    92		};
+    93	
+    94		pmu {
+    95			compatible = "arm,armv8-pmuv3";
+    96			interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
+    97		};
+    98	
+    99		timer {
+   100			compatible = "arm,armv8-timer";
+   101			interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
+   102				     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
+   103				     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
+   104				     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
+   105			clock-frequency = <50000000>;
+   106		};
+   107	
+   108		clocks {
+   109			#address-cells = <2>;
+   110			#size-cells = <2>;
+   111			ranges;
+   112	
+   113			sysclk_48mhz: clk48mhz {
+   114				compatible = "fixed-clock";
+   115				#clock-cells = <0>;
+   116				clock-frequency = <48000000>;
+   117			};
+   118	
+   119			sysclk_50mhz: clk50mhz {
+   120				compatible = "fixed-clock";
+   121				#clock-cells = <0>;
+   122				clock-frequency = <50000000>;
+   123			};
+   124	
+   125			sysclk_100mhz: clk100mhz {
+   126				compatible = "fixed-clock";
+   127				#clock-cells = <0>;
+   128				clock-frequency = <100000000>;
+   129			};
+   130	
+   131			sysclk_200mhz: clk200mhz {
+   132				compatible = "fixed-clock";
+   133				#clock-cells = <0>;
+   134				clock-frequency = <200000000>;
+   135			};
+   136	
+   137			sysclk_250mhz: clk250mhz {
+   138				compatible = "fixed-clock";
+   139				#clock-cells = <0>;
+   140				clock-frequency = <250000000>;
+   141			};
+   142	
+   143			sysclk_300mhz: clk300mhz {
+   144				compatible = "fixed-clock";
+   145				#clock-cells = <0>;
+   146				clock-frequency = <300000000>;
+   147			};
+   148	
+   149			sysclk_600mhz: clk600mhz {
+   150				compatible = "fixed-clock";
+   151				#clock-cells = <0>;
+   152				clock-frequency = <600000000>;
+   153			};
+   154	
+   155			sysclk_1200mhz: clk1200mhz {
+   156				compatible = "fixed-clock";
+   157				#clock-cells = <0>;
+   158				clock-frequency = <1200000000>;
+   159			};
+   160		};
+   161	
+   162		smmu: iommu@30000000 {
+   163			compatible = "arm,smmu-v3";
+   164			reg = <0x0 0x30000000 0x0 0x800000>;
+   165			interrupts = <GIC_SPI 240 IRQ_TYPE_EDGE_RISING>,
+   166				     <GIC_SPI 239 IRQ_TYPE_EDGE_RISING>,
+   167				     <GIC_SPI 236 IRQ_TYPE_EDGE_RISING>,
+   168				     <GIC_SPI 242 IRQ_TYPE_EDGE_RISING>;
+   169			interrupt-names = "eventq", "priq", "cmdq-sync", "gerror";
+   170			dma-coherent;
+   171			#iommu-cells = <1>;
+   172		};
+   173	
+   174		soc: soc {
+   175			compatible = "simple-bus";
+   176			#address-cells = <2>;
+   177			#size-cells = <2>;
+   178			dma-coherent;
+   179			ranges;
+   180	
+   181			mmc0: mmc@28000000 {
+   182				compatible = "phytium,mci";
+   183				reg = <0x0 0x28000000 0x0 0x1000>;
+   184				interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+   185				clocks = <&sysclk_1200mhz>;
+   186				clock-names = "phytium_mci_clk";
+   187				status = "disabled";
+   188			};
+   189	
+   190			mmc1: mmc@28001000 {
+   191				compatible = "phytium,mci";
+   192				reg = <0x0 0x28001000 0x0 0x1000>;
+   193				interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+   194				clocks = <&sysclk_1200mhz>;
+   195				clock-names = "phytium_mci_clk";
+   196				status = "disabled";
+   197			};
+   198	
+   199			nand0: nand@28002000 {
+   200				compatible = "phytium,nfc";
+   201				reg = <0x0 0x28002000 0x0 0x1000>;
+   202				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
+   203				status = "disabled";
+   204			};
+   205	
+   206			qspi0: qspi@28008000 {
+   207				compatible = "phytium,qspi";
+   208				reg = <0x0 0x28008000 0x0     0x1000>,
+   209				      <0x0        0x0 0x0 0x0fffffff>;
+   210				reg-names = "qspi", "qspi_mm";
+   211				clocks = <&sysclk_50mhz>;
+   212				status = "disabled";
+   213	
+ > 214				flash@0 {
+   215					spi-rx-bus-width = <1>;
+   216					spi-max-frequency = <50000000>;
+   217				};
+   218			};
+   219	
+   220			uart0: uart@2800c000 {
+   221				compatible = "arm,pl011","arm,primecell";
+   222				reg = <0x0 0x2800c000 0x0 0x1000>;
+   223				interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+   224				clocks = <&sysclk_100mhz &sysclk_100mhz>;
+   225				clock-names = "uartclk", "apb_pclk";
+   226				status = "disabled";
+   227			};
+   228	
+   229			uart1: uart@2800d000 {
+   230				compatible = "arm,pl011","arm,primecell";
+   231				reg = <0x0 0x2800d000 0x0 0x1000>;
+   232				interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
+   233				clocks = <&sysclk_100mhz &sysclk_100mhz>;
+   234				clock-names = "uartclk", "apb_pclk";
+   235				status = "disabled";
+   236			};
+   237	
+   238			uart2: uart@2800e000 {
+   239				compatible = "arm,pl011","arm,primecell";
+   240				reg = <0x0 0x2800e000 0x0 0x1000>;
+   241				interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>;
+   242				clocks = <&sysclk_100mhz &sysclk_100mhz>;
+   243				clock-names = "uartclk", "apb_pclk";
+   244				status = "disabled";
+   245			};
+   246	
+   247			uart3: uart@2800f000 {
+   248				compatible = "arm,pl011","arm,primecell";
+   249				reg = <0x0 0x2800f000 0x0 0x1000>;
+   250				interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+   251				clocks = <&sysclk_100mhz &sysclk_100mhz>;
+   252				clock-names = "uartclk", "apb_pclk";
+   253				status = "disabled";
+   254			};
+   255	
+   256			lpc: lpc@28010000 {
+   257				compatible = "simple-mfd", "syscon";
+   258				reg = <0x0 0x28010000 0x0 0x1000>;
+   259				reg-io-width = <4>;
+   260	
+   261				#address-cells = <1>;
+   262				#size-cells = <1>;
+   263				ranges = <0x0 0x0 0x28010000 0x1000>;
+   264	
+   265				kcs0: kcs@24 {
+   266					compatible = "phytium,kcs-bmc";
+   267					reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
+   268					interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+   269					status = "disabled";
+   270				};
+   271	
+   272				kcs1: kcs@28 {
+   273					compatible = "phytium,kcs-bmc";
+   274					reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
+   275					interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+   276					status = "disabled";
+   277				};
+   278	
+   279				kcs2: kcs@2c {
+   280					compatible = "phytium,kcs-bmc";
+   281					reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
+   282					interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+   283					status = "disabled";
+   284				};
+   285	
+   286				kcs3: kcs@8c {
+   287					compatible = "phytium,kcs-bmc";
+   288					reg = <0x8c 0x1>, <0x90 0x1>, <0x94 0x1>;
+   289					interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+   290					status = "disabled";
+   291				};
+   292	
+   293				bt: bt@48 {
+   294					compatible = "phytium,bt-bmc";
+   295					reg = <0x48 0x20>;
+   296					interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+   297					status = "disabled";
+   298				};
+   299			};
+   300	
+   301			/* MIO */
+   302	
+   303			gpio0: gpio@28034000 {
+   304				compatible = "phytium,gpio";
+   305				reg = <0x0 0x28034000 0x0 0x1000>;
+   306				interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
+   307					     <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>,
+   308					     <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>,
+   309					     <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH>,
+   310					     <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>,
+   311					     <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
+   312					     <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
+   313					     <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>,
+   314					     <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+   315					     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+   316					     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
+   317					     <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>,
+   318					     <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
+   319					     <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
+   320					     <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
+   321					     <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
+   322				gpio-controller;
+   323				#gpio-cells = <2>;
+   324				#address-cells = <1>;
+   325				#size-cells = <0>;
+   326				status = "disabled";
+   327	
+ > 328				porta {
 
 -- 
 0-DAY CI Kernel Test Service
