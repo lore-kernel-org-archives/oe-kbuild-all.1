@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA32FDDC4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 02:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE7C17BB9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 02:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718159004; cv=none; b=FpO2BBU3B+xY5PHvL4DWOc7AdyTe7+DE41Meont2sYFDBHBPxal9satfQsPm9vjB5SBKv1DvVHJVz/lD6aSTIYk80TEUSwj7+jg6spk4vWRF6t+RG9nhOU0FJfatVGIjMQ7+Vk+xDnIas/lNpci8fk/SzqmL0ns0NeDedktFgok=
+	t=1718160036; cv=none; b=iNCKZWpeqhiWQdSCiOr3eDWQZegC5VG5PKtOBnPQh9X7LAqJTmyw6QfI/4DDmSSjpeEtV7uR9VrhrXMbQXphiE6ZinR+qRaVwLt9pm3rBMEWBxG8S544DneB9XCc8mBCyibUrBT7zwDM3f7ZXj8qCXu4ybK6dfhDuBXJ9co88fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718159004; c=relaxed/simple;
-	bh=dvnUQIXmpq523RBqeUxXPR0IO7yrq78SWRXBUNLB0Bc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T9EAzv39h5AsfnyQG856/hcDJt2shzo4bTGGI4cqU3PIYHpySVIVF8RhF4leV+IB1gYvJq6RJ2i+YOORFAXxEUth2/GRyw27oLCIcE4lxjNpVKeH+xt4LDIl3/d12HUJAHw64mt/4eV1Edvx2UzY2oPocGX8GNMzJcimVEoCmzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7Id5dBf; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1718160036; c=relaxed/simple;
+	bh=fbhT88WsvUNVbkWpLd+3WV1L5d6ahoTn2hYZBoffvrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=pVy4SrJKCZUIu+fDF2AXJL2kXZalxRZ4OIqVIWnDjTzRg6W7QddrVEmuJRyatlQ922jp9kmfsjuvbZkGsxDQnh1qiIfVTuVDU9zRG4SfM3sWBv+wJ44f+LlKhBixUhy0BpzoHikH8zWK8a5mj/YnoOXeqBDIwAvGRWx6NYw50Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPJ3XEt0; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7Id5dBf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPJ3XEt0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718159003; x=1749695003;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=dvnUQIXmpq523RBqeUxXPR0IO7yrq78SWRXBUNLB0Bc=;
-  b=I7Id5dBfBiIVeTNZls+j9I+xeJUFLAV5derAYUD+er0iRXOq+FjDHp8A
-   cjC8mjaUqx74cAEUqSKlPovTWScnlRKvrm/kbfwmQVMdOph7chymdRSB3
-   k7y0gBU7dS/DgK9Q2xKl63DD3g3xakMc17bGDZUpkvhGnEryqiyo65dAx
-   pDmosuq+K3ecfRWeuzrnhdAL/9D9WH9MHuKfWO3HuWGIMsmltqmVwEQqt
-   2a6aRw6IyuDmyqqGh9ljkQ3s2NJNC1ch5sSjVYlPplygn/W0HdBFRQaRb
-   3YYvw2v+TlRmHuD4IZCwbQTmEqy9yokwRVIFMOUMAMM9RHr8/YKywuH3K
-   A==;
-X-CSE-ConnectionGUID: qdusm3OUTVWDhtVFvaW+cA==
-X-CSE-MsgGUID: iBEQL3xxS4Wa+ePctBsevw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="26321440"
-X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="26321440"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 19:23:22 -0700
-X-CSE-ConnectionGUID: vh9VMqarSQGYq6uyvlTKRA==
-X-CSE-MsgGUID: JG9MiEipS8agcfUkKVGveg==
+  t=1718160034; x=1749696034;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=fbhT88WsvUNVbkWpLd+3WV1L5d6ahoTn2hYZBoffvrs=;
+  b=KPJ3XEt0RRsFHxdV5jFsKdMUheOAYP9KrFWRU85Qc/KqEe0pBeWyhPsh
+   cN3wMoEVywljyHq+UZgHM0EAJRGa37RpDZMf6WAmET3UPf3nO6gVVM8LE
+   /Oi7asl9SimNYRq3NAM+Knd6ek7CBDBWNc9MbXi3m9psLGpFjpsP+jxDD
+   xMtcvnZiG01naGLIXZQYePzgWiVYBKpHvvBw6X7SqjniMTpLWcWS50rN6
+   1LiyQVHSMhcu9cr/nQ0tzNQF1cPYRtqfReU1UigJkwh5if99u+2k12jln
+   0whmJJlvivz/CbpVSsvL0kJyXLUEtk2HnzQHaC+Aq5QgFkhH6n2UpZo2b
+   Q==;
+X-CSE-ConnectionGUID: 2XZqW1p8TVy3uy8lkHRsNA==
+X-CSE-MsgGUID: ki0MhGO1TPywCcTFB27JFA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="12031818"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="12031818"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 19:40:24 -0700
+X-CSE-ConnectionGUID: 9ogOP8iQReeIWXLqUArEPA==
+X-CSE-MsgGUID: 36D9pNkGSQGNKxnQ98j6aA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="44188406"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="39497388"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Jun 2024 19:23:21 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Jun 2024 19:40:23 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHDdu-000182-2N;
-	Wed, 12 Jun 2024 02:23:18 +0000
-Date: Wed, 12 Jun 2024 10:23:11 +0800
+	id 1sHDuP-00018n-15;
+	Wed, 12 Jun 2024 02:40:21 +0000
+Date: Wed, 12 Jun 2024 10:39:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>,
-	Manorit Chawdhry <m-chawdhry@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 252/339]
- arch/arm64/boot/dts/ti/k3-am642-phyboard-electra-rdk.dtb:
- /bus@f4000/spi@20100000/tpm@1: failed to match any schema with compatible:
- ['infineon,slb9670', 'tcg,tpm_tis-spi']
-Message-ID: <202406121018.KVnczrJW-lkp@intel.com>
+To: "zhai.he" <zhai.he@nxp.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Supports to use the default CMA when the
+ device-specified CMA memory is not enough.
+Message-ID: <ZmkKYJuK8Ofb99Rl@242c30a86391>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,26 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240612023831.810332-1-zhai.he@nxp.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   2cceab3b4473f10ed67af5ba77fdcbcff77d48d9
-commit: a82cd18e65a787340a5f9ed6f858c36ce4e51dd6 [252/339] arm64: dts: ti: k3-am642-phyboard-electra: Add TPM support
-config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240612/202406121018.KVnczrJW-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121018.KVnczrJW-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406121018.KVnczrJW-lkp@intel.com/
+Thanks for your patch.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-am642-phyboard-electra-rdk.dtb: syscon@43000000: 'mux-controller' does not match any of the regexes: '^chipid@[0-9a-f]+$', '^clock-controller@[0-9a-f]+$', '^mux-controller@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,j721e-system-controller.yaml#
->> arch/arm64/boot/dts/ti/k3-am642-phyboard-electra-rdk.dtb: /bus@f4000/spi@20100000/tpm@1: failed to match any schema with compatible: ['infineon,slb9670', 'tcg,tpm_tis-spi']
->> arch/arm64/boot/dts/ti/k3-am642-phyboard-electra-rdk.dtb: /bus@f4000/spi@20100000/tpm@1: failed to match any schema with compatible: ['infineon,slb9670', 'tcg,tpm_tis-spi']
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] Supports to use the default CMA when the device-specified CMA memory is not enough.
+Link: https://lore.kernel.org/stable/20240612023831.810332-1-zhai.he%40nxp.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
