@@ -1,61 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BC716D9D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 09:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE12E16D9D0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 10:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718184227; cv=none; b=N9j6M4R9VMNF5irdS9XBYiZtPkZ04SV0olnkpOm1itUtMJGFAFzCPU0iRK0oapjrLQ4hRKieSoB8UDzcjt3sOlta/2U7tjHNQzo+p3KkJjtHaVE7377ylgDHEpgSAcq9OaD/KQWlXoFszATzuQd7e4YeBhMIPTWsOhzekeQ14Fs=
+	t=1718186770; cv=none; b=eXQcRjzvomj2Va39rjKSU22D1v8VvSjWmfHDnawCF2FZsjv0Gv1UwKifsSvpMkh56qz+g9o563nusyY568iE7/n0nIkbH40pZIUuBYls2a6t9vKMgIKyCGivN4WabbGa1bNI+h8Omx1X3oyGGc2IOzj9RBzJvjjhK53P+WlpYy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718184227; c=relaxed/simple;
-	bh=ZvwVGq/DOAm7MLGhiAWzs091RDFEP8xc94bPoYEzRW4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sP3ZR1Gqk89O92xrYjxFeR9X5cTz7iffwYFTGF9rXPdsRFASUclqHxxsicMSh90MpAYTLwCdFIG7krQloJnX2701woTkKMnog5XuiOL0niLXtI59Rz1F/y4pDSJkBsj7p0qQ/PaEP6WhZIbBqQ75j2929izY0whOwzl1+flmI+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lojtGIjS; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718186770; c=relaxed/simple;
+	bh=1A6bZen+Pwm2rwGjsZWg11Hh3DG8ekkj4TMpCIOx3uQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hiOxIeV0A1qujvJziPzxheeTanXxL+rrFWn7qxduJ6MrA28Q9KOVVQvSzfGbZ/A8RHchoEyAuEWCiMpJ0HKa22KCgXItKLefoMnWMm59ttGIc+Q30W5GZeFHLBSl6O9vH/OjwQAAX3KQCqqloiXxsq2oyE0O5+0bjbD9Doq9m6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R4fAq5aQ; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lojtGIjS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718184225; x=1749720225;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZvwVGq/DOAm7MLGhiAWzs091RDFEP8xc94bPoYEzRW4=;
-  b=lojtGIjSH5/8H++qQ/QOtCEuJsalgpTVYSo5A906IU+qeCcpKYgyitUW
-   y01VI6hSLVwb+lkxsWel7C6YI2OJGAlY1qpX9OScQRVMWgxwd/II3Tg5K
-   IrmQZcuVoYppeXaxqoYWUUMNWhJ2wuoXqCmBN2ZXfg96qidpI2jwngj4d
-   uA20yyU4bouC8eD9GkdPVPyl1BhonUnRo5ClJDbBuJyfkPJTdZUkuNE1Z
-   twAmpMjGnF8cjsHA8ZleXeHIelj2Sy0rYf0ytyu080GT8J40+PKSSK0Mq
-   85R+UgZEDsBbCBIQI4RZuDPp71Cmdq4CREku10HN9ytjHn8/oUk6JfTJI
-   w==;
-X-CSE-ConnectionGUID: H2SLG8YNQESsUvnDDqLd3w==
-X-CSE-MsgGUID: C3El0+qUTFS2Lr3jA7LkCQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14810416"
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="14810416"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 02:23:44 -0700
-X-CSE-ConnectionGUID: 9t9oGSUXTwCXOmhjaBLNJg==
-X-CSE-MsgGUID: TQOP55KYQaGBFAfWn8TpzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="70530895"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 12 Jun 2024 02:23:42 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHKCi-0001PF-0n;
-	Wed, 12 Jun 2024 09:23:40 +0000
-Date: Wed, 12 Jun 2024 17:22:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luca Weiss <luca@z3ntu.xyz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: arch/arm64/boot/dts/qcom/pmi632.dtsi:155.19-163.5: Warning
- (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary
- #address-cells/#size-cells without "ranges" or child "reg" property
-Message-ID: <202406121706.nEgDZGXa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R4fAq5aQ"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-421d32fda86so31114875e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 03:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718186767; x=1718791567; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7GQT4sb8fOqdwN7qErmxIxCia5GY2ESmxbkweiG4mk=;
+        b=R4fAq5aQf3w6+H1PjusTwYjiJm0UDecwi+2imLg2whmoxVQkd/6B/AeRS4JJXqyYV6
+         pUr8W6/ruVoqAFlH7blwc53LpfkfQIFo13QzkT513HIb/utTjVRVFCjtxPhuMFiHggMN
+         G3oxIjYPFbNYmGDNAHg2NM+PUu5LDgJrhZLzEid/nqaCr/KnWZ/15u3VE1FoWhXhx82M
+         YVUyS+0j4HenEMgTCWX1JV6uehSoNov3kPHWDhTix6g2ldJWmM6ZTbWjc3nZ1E7k6P9A
+         ReKRC1keBRmrcxF5Iv790eACMeMhV+ONa0H24UxPbpTWru7mGrDOO60zerufHmeNemvX
+         7imw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718186767; x=1718791567;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j7GQT4sb8fOqdwN7qErmxIxCia5GY2ESmxbkweiG4mk=;
+        b=PjE4Nze/6ZY1wS2exM4tcvK14KcEwDeXuGTcr3ogX0I6YYPA6YqqttD1iSK9DSmhsL
+         jwofSOLRPju6JWa7F34OsSOLySYRJjZ2EpwQkYceAiAh7uYIkjJ8s3mm1wkaKEE3NfKQ
+         jEse1uDmnKzNfq7UhJxnZzOzj+APWSrGaJv1I2ZBvqetA23luA0nFSYCEN88eiUFOlL/
+         xtkqPwIyWJKPsIzuM7znvpKLF1QASCFXd8K+OSbEQPqTIfDNf8KTgyRGyIAeBATBMB87
+         CHo5GZrbg17yzzX195VsIuVGIMajlKiwgVgT+2+dwzpyIXsn+PTBDF/CGnTDhmUKs3I8
+         ya1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVd/uGTrS7ltFqIMU5ae0jp/GsdklPkOt1KkgzbSOExysjgXnAJUtCj/aaVcZHuKhNHeRWF/pK9OXtaM8WPio6SlcKZIprg9HSu/mgARA==
+X-Gm-Message-State: AOJu0YyRc7pVSx4G5l/APSOForU1y4iCgnmyEQ8r7m4lXMbU5lTocAAQ
+	KtyyolTocQzRud2W3thpdN9C0+18sAmdPkSYE2FRxcWT2NyDPujdFEolrXb3Q2w=
+X-Google-Smtp-Source: AGHT+IEc+w6vERYyx26ozDlBXedCJnqiKgmj86kpCTQ5mYYcm1u2cnMPFRH40yWhGkpp8pMqt5gJLg==
+X-Received: by 2002:a05:600c:4f4a:b0:421:f43d:dadd with SMTP id 5b1f17b1804b1-422867bf628mr16526785e9.33.1718186766848;
+        Wed, 12 Jun 2024 03:06:06 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874e73c7sm19643925e9.42.2024.06.12.03.06.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 03:06:05 -0700 (PDT)
+Date: Wed, 12 Jun 2024 13:06:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: oe-kbuild@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	ying.huang@intel.com, Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>, Mel Gorman <mgorman@suse.de>,
+	Ryan Roberts <ryan.roberts@arm.com>, liushixin2@huawei.com
+Subject: Re: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
+Message-ID: <81da44d7-e07d-4757-9a67-87c35b62512c@moroto.mountain>
+References: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
+ <c6df35cc-1331-4255-8ff5-898f6a911bec@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,151 +73,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c6df35cc-1331-4255-8ff5-898f6a911bec@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2ef5971ff345d3c000873725db555085e0131961
-commit: 0c4f10917d22e6f36080617bfe71de1ae854ee58 arm64: dts: qcom: sdm632-fairphone-fp3: Add notification LED
-date:   1 year, 1 month ago
-config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240612/202406121706.nEgDZGXa-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce: (https://download.01.org/0day-ci/archive/20240612/202406121706.nEgDZGXa-lkp@intel.com/reproduce)
+On Wed, Jun 12, 2024 at 10:50:02AM +0800, Kefeng Wang wrote:
+> > b99a342d4f11a5 Huang Ying        2021-04-29  5364  out_map:
+> > b99a342d4f11a5 Huang Ying        2021-04-29  5365  	/*
+> > b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 * Make it present again, depending on how arch implements
+> > b99a342d4f11a5 Huang Ying        2021-04-29  5367  	 * non-accessible ptes, some can allow access by kernel mode.
+> > b99a342d4f11a5 Huang Ying        2021-04-29  5368  	 */
+> > d2136d749d76af Baolin Wang       2024-03-29  5369  	if (folio && folio_test_large(folio))
+> > 
+> > Are folio_test_large() and folio_is_zone_device() mutually exclusive?
+> > If so then this is a false positive.  Just ignore the warning in that
+> > case.
+> > 
+> 
+> The folio in ZONE_DEVICE is not a large folio, so there is no issue for now,
+> but will fix.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406121706.nEgDZGXa-lkp@intel.com/
+If it's not an issue, then don't feel obligated to do anything.  These
+are a one time email and then I treat it as addressed.  These warnings
+are intended to be useful, not a burden.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8953.dtsi:175.9-179.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8953.dtsi:865.22-915.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pmi632.dtsi:149.9-164.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/pmi632.dtsi:155.19-163.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+regards,
+dan carpenter
 
-vim +155 arch/arm64/boot/dts/qcom/pmi632.dtsi
-
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   40  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   41  &spmi_bus {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   42  	pmic@2 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   43  		compatible = "qcom,pmi632", "qcom,spmi-pmic";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   44  		reg = <0x2 SPMI_USID>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   45  		#address-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   46  		#size-cells = <0>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   47  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   48  		pmi632_temp: temp-alarm@2400 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   49  			compatible = "qcom,spmi-temp-alarm";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   50  			reg = <0x2400>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   51  			interrupts = <0x2 0x24 0x0 IRQ_TYPE_EDGE_BOTH>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   52  			#thermal-sensor-cells = <0>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   53  		};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   54  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   55  		pmi632_adc: adc@3100 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   56  			compatible = "qcom,spmi-adc5";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   57  			reg = <0x3100>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   58  			#address-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   59  			#size-cells = <0>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   60  			#io-channel-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   61  			interrupts = <0x2 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   62  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   63  			channel@0 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   64  				reg = <ADC5_REF_GND>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   65  				qcom,pre-scaling = <1 1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   66  				label = "ref_gnd";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   67  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   68  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   69  			channel@1 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   70  				reg = <ADC5_1P25VREF>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   71  				qcom,pre-scaling = <1 1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   72  				label = "vref_1p25";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   73  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   74  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   75  			channel@6 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   76  				reg = <ADC5_DIE_TEMP>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   77  				qcom,pre-scaling = <1 1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   78  				label = "die_temp";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   79  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   80  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   81  			channel@7 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   82  				reg = <ADC5_USB_IN_I>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   83  				qcom,pre-scaling = <1 1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   84  				label = "usb_in_i_uv";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   85  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   86  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   87  			channel@8 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   88  				reg = <ADC5_USB_IN_V_16>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   89  				qcom,pre-scaling = <1 16>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   90  				label = "usb_in_v_div_16";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   91  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   92  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   93  			channel@9 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   94  				reg = <ADC5_CHG_TEMP>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   95  				qcom,pre-scaling = <1 1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   96  				label = "chg_temp";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   97  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   98  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23   99  			channel@4b {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  100  				reg = <ADC5_BAT_ID_100K_PU>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  101  				qcom,hw-settle-time = <200>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  102  				qcom,pre-scaling = <1 1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  103  				qcom,ratiometric;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  104  				label = "bat_id";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  105  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  106  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  107  			channel@83 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  108  				reg = <ADC5_VPH_PWR>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  109  				qcom,pre-scaling = <1 3>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  110  				label = "vph_pwr";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  111  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  112  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  113  			channel@84 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  114  				reg = <ADC5_VBAT_SNS>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  115  				qcom,pre-scaling = <1 3>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  116  				label = "vbat_sns";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  117  			};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  118  		};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  119  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  120  		pmi632_adc_tm: adc-tm@3500 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  121  			compatible = "qcom,spmi-adc-tm5";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  122  			reg = <0x3500>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  123  			interrupts = <0x2 0x35 0x0 IRQ_TYPE_EDGE_RISING>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  124  			#thermal-sensor-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  125  			#address-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  126  			#size-cells = <0>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  127  			status = "disabled";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  128  		};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  129  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  130  		pmi632_sdam_7: nvram@b600 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  131  			compatible = "qcom,spmi-sdam";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  132  			reg = <0xb600>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  133  			#address-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  134  			#size-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  135  			ranges = <0 0xb600 0x100>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  136  		};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  137  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  138  		pmi632_gpios: gpio@c000 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  139  			compatible = "qcom,pmi632-gpio", "qcom,spmi-gpio";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  140  			reg = <0xc000>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  141  			gpio-controller;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  142  			gpio-ranges = <&pmi632_gpios 0 0 8>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  143  			#gpio-cells = <2>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  144  			interrupt-controller;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  145  			#interrupt-cells = <2>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  146  		};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  147  	};
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  148  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  149  	pmic@3 {
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  150  		compatible = "qcom,pmi632", "qcom,spmi-pmic";
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  151  		reg = <0x3 SPMI_USID>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  152  		#address-cells = <1>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  153  		#size-cells = <0>;
-a1f0f2ebb044c7 Luca Weiss 2023-05-23  154  
-a1f0f2ebb044c7 Luca Weiss 2023-05-23 @155  		pmi632_lpg: pwm {
-
-:::::: The code at line 155 was first introduced by commit
-:::::: a1f0f2ebb044c7248c3f30b98de0f151505bd4bd arm64: dts: qcom: Add PMI632 PMIC
-
-:::::: TO: Luca Weiss <luca@z3ntu.xyz>
-:::::: CC: Bjorn Andersson <andersson@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
