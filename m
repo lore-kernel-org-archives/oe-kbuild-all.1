@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918CD28DB3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 17:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88617FBF3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 17:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718213589; cv=none; b=KiLKiR3Mx1LOZC0C/pg9HGMyzb4tedJVJMWxm1/VLZyrZ3AwMP7Nabt1At3HaFiM0FcgnRdP33U1EnyyuVzxBSQENgzjy1GkovuEGDJ3nQpppI3Q4fwRRWwd/byuODmjrTnUFHZIfyHi/Yf69SgFkcvsn+rtVlxdRcvrQbpWL2E=
+	t=1718214963; cv=none; b=OEn1glCeM075HB4OdEinn9PC/Gu73JI/hKSH7061AruJ7h0H/SjSDnHxYy8kTc7XKk1x3SOKGspM24iISulQLbHS3RWPwV8o2duLCJIi/tIBTvNp093mSSk4dq/nQ4NwNgwNfoe5Ay7XVbPUyNOnekV3Ld+yC3TBPk9JB8I/jgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718213589; c=relaxed/simple;
-	bh=Ncm9R9FLqySrRdNKFpf35i+x5Ohwb45wv0NciUtpJQc=;
+	s=arc-20240116; t=1718214963; c=relaxed/simple;
+	bh=kjXnqITOCXKQbqhL//7UtkdojvaYLKHWUvaDTgZsslk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hp5+Peuy5PBYmmbsKtDu2ndrKgy4zD5u/YIQKGVBa3wfCn4LMDOOqEZoxmn2cHVzgZW8mDlZPNMx1ejpnR5nB7yxKw2Y5+nY617snwyznnQbowc2Fg0W/j3vEeIP86BHvIxBiXVhnRh5CjOrnInz4EufaX5/YMA6dMOtHI2/Ve4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUrRTi/T; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=etOFG8dwBLklij8z4cpNneeSqdDpCBWa3deRU9qzRENJLO6m0gtMdxXA4PstqU1YzoZXBebqufgw5CD4y8v79trOuqn0rD1nTTsLXEkA9AAlJegbSD+hdfj7enOTBwvb/IA6NWTJctpeXG6JNmcpE2s3eBysVNvDbcZnqRbbC+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZnxXaSxv; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUrRTi/T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718213585; x=1749749585;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ncm9R9FLqySrRdNKFpf35i+x5Ohwb45wv0NciUtpJQc=;
-  b=BUrRTi/TleiIDVqyel/guhywaR0rix0z0Hu+pe2GbAVJvXfzdOO0B5/J
-   8rsswHNrTpEzOIUgw+suwTXHd04DitAzTXn84qDdQysrWdUOPLV7s2qPr
-   cti5dQPXEDgoj9VbrWT0ORCuKHDC1XzV3AP+kGDOrVJHgWbUKGtq9YRo0
-   6ErMdQlQVpvLvHE6UP4yR06lDVNw1PKT5IqOMTKogy6kiXo/bEaITGRvU
-   mE6A0NeOuuqJkCxLJnf2/7NWHSYMjAOHSBD7jbgk2xkXy8EaU91ac7Igm
-   EY58PBkyylwFcGDCPv9mHqSFVNH3u/WiwPSpSgnF1D1mva2CVUF6vuG/Z
-   Q==;
-X-CSE-ConnectionGUID: SBbvV5LNTcmg+2XRqc3Dvg==
-X-CSE-MsgGUID: Yps5V/2QTLq09IaNSSMVRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15148230"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="15148230"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 10:33:04 -0700
-X-CSE-ConnectionGUID: GGpewNS9RuKf0hiZKamLCQ==
-X-CSE-MsgGUID: pCcBohpMTmOor+OS/t2n+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="44255984"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Jun 2024 10:33:02 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHRqG-0001m6-1f;
-	Wed, 12 Jun 2024 17:33:00 +0000
-Date: Thu, 13 Jun 2024 01:32:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 4878/5129]
- arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb:
- dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
- is too long
-Message-ID: <202406130139.TV8i316r-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZnxXaSxv"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42172ed3597so1023045e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 10:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718214960; x=1718819760; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tvJCQXS3/Tl+3mYlxlklY6MBoMrYDOVhMrYLnEZI3dE=;
+        b=ZnxXaSxvACg8exiSxvYAKQVupzcVcH6r04jQ4e8hILzGNbAPpZdRDKXbCYC/69KOp8
+         G5O4yaPd8fL+xorn5/H/VhvWQQxlt/O0hSP4ss7m3KmpzmnK8OLJLckolkE3Z/Ohg5Nv
+         Xms69juVugDPs/xX0IuilaOGqYy4eE+13jOOSX8EFMoCLJJcsLloIvLsZLN0NAg95/+3
+         hyGDVQi1tgbFXkconVLKzwOshG9xdISCe8Efuo8DezNOfrRrp2fCkOtVtbQrjaG2KGjh
+         0yGLx+imqdo/nKo34Y8UFlVQFr1my22zMj0XMjUDZXqwNLcyHiW5CfmENx+Scuxfl9RN
+         qbvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718214960; x=1718819760;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tvJCQXS3/Tl+3mYlxlklY6MBoMrYDOVhMrYLnEZI3dE=;
+        b=BAjb5Ha11AHsz5+GHP/CpdfpT/NLQ5FqRCr5Rj4/OKcEDba8ipa9zlB39QtYlC1g90
+         xxwVeslUBqGF2gcOiOKCDR62kI6Ev43MwVQb6xzwkj2q466XzbQuYcKifBWb2w4f+0NX
+         guLzuSyxMFOYUs6pNml915Gq1N60Ifu2yO2AHQbPKT38lC8ueuuW2/f2kblWJ2bcLNDB
+         /9BVw/OkbLJXtRUL9WvTWA19A84Vw+PtVXMrIg7cchmfZxMsb/NUAFXBXJX1lqUxGswS
+         tfW9vsJ89DLZIhmHVigeO0cxzNjvymr4SelSNKaXcWmPgmsrPO3TLQxhkEQD1QtxWBVr
+         tmFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmc2LDmCnWwP4n/sooGpUtWk0qk9j82DvMFG7GdLdUdVsQiRnA8JK+vMP4dgDJz6J7tJucpqdERKZemGNqfuqBHXS2QgcvYtQVtTlhOg==
+X-Gm-Message-State: AOJu0Yz2cBJZTL6RIljT/L6oN4ffpOfUuGo196NtQG2C+hmcl7HpU/o+
+	cZUH0crwvavbduzxtMuWLP6z6IFQ0txxY7Glaqkux8X4PMbs5P2KStKpeTwx3LbvxaQll2jOj+4
+	q
+X-Google-Smtp-Source: AGHT+IFoKhOeHxPYxrsA1enZPu6y9KEeOGeQNAPrF9ALvtH32osWCLosEJykDr8cajBHUdI2GMQsIw==
+X-Received: by 2002:a05:600c:444c:b0:41b:4caa:554c with SMTP id 5b1f17b1804b1-422b6ebfc0bmr4556065e9.2.1718214959638;
+        Wed, 12 Jun 2024 10:55:59 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d2e73dsm17468817f8f.16.2024.06.12.10.55.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 10:55:59 -0700 (PDT)
+Date: Wed, 12 Jun 2024 20:55:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [trace:ring-buffer/core 7/13] kernel/trace/ring_buffer.c:1817
+ rb_meta_validate_events() error: uninitialized symbol 'head_page'.
+Message-ID: <dda74df5-db9b-42dd-8cb3-5afa641f1479@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,500 +68,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   03d44168cbd7fc57d5de56a3730427db758fc7f6
-commit: 671bc17fc4d14fed69ee86e1f7c2c972010c49ac [4878/5129] dt-bindings: fsl-qdma: Convert to yaml format
-config: arm64-randconfig-051-20240612 (https://download.01.org/0day-ci/archive/20240613/202406130139.TV8i316r-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130139.TV8i316r-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace ring-buffer/core
+head:   640e052ba42d577a7f57052dbee714cf470dd145
+commit: ab776f502cfd06bb217d62cb6f4408349246a233 [7/13] ring-buffer: Validate boot range memory events
+config: i386-randconfig-141-20240612 (https://download.01.org/0day-ci/archive/20240613/202406130130.JtTGRf7W-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406130139.TV8i316r-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406130130.JtTGRf7W-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: audio-controller@f100000: Unevaluated properties are not allowed ('dma-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1028a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: pcie-ep@3400000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: pcie-ep@3500000: compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1028a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: dma-controller@8380000: compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: dma-controller@8380000: interrupts: [[0, 43, 4], [0, 251, 4], [0, 252, 4], [0, 253, 4], [0, 254, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: audio-controller@f100000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: audio-controller@f110000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: audio-controller@f120000: dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: audio-controller@f130000: dma-names:1: 'tx' was expected
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/aux_bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/msi-controller1@1571000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/msi-controller2@1572000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/msi-controller3@1573000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: pcie@3400000: fsl,pcie-scfg:0: [23, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: pcie@3500000: fsl,pcie-scfg:0: [23, 1] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: pcie@3600000: fsl,pcie-scfg:0: [23, 2] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: dma-controller@8380000: compatible: ['fsl,ls1021a-qdma', 'fsl,ls1043a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1043a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1043a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1043a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/aux_bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/msi-controller1@1571000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/msi-controller2@1572000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/msi-controller3@1573000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3400000: fsl,pcie-scfg:0: [22, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3500000: fsl,pcie-scfg:0: [22, 1] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3600000: fsl,pcie-scfg:0: [22, 2] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: compatible: ['fsl,ls1021a-qdma', 'fsl,ls1043a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1043a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1043a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1043a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/aux_bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/msi-controller1@1571000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/msi-controller2@1572000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/msi-controller3@1573000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: pcie@3400000: fsl,pcie-scfg:0: [25, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: pcie@3500000: fsl,pcie-scfg:0: [25, 1] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: pcie@3600000: fsl,pcie-scfg:0: [25, 2] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: dma-controller@8380000: compatible: ['fsl,ls1021a-qdma', 'fsl,ls1043a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1043a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1043a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1043a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: pcie_ep@3500000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/pcie_ep@3500000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: pcie@3600000: interrupt-names:0: 'pme' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: pcie@3600000: interrupt-names:1: 'aer' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: pcie_ep@3600000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/pcie_ep@3600000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: dma-controller@8380000: compatible: ['fsl,ls1046a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1046a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: pcie_ep@3500000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/pcie_ep@3500000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: pcie@3600000: interrupt-names:0: 'pme' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: pcie@3600000: interrupt-names:1: 'aer' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: pcie_ep@3600000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/pcie_ep@3600000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: dma-controller@8380000: compatible: ['fsl,ls1046a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1046a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: pcie_ep@3500000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/pcie_ep@3500000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: pcie@3600000: interrupt-names:0: 'pme' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: pcie@3600000: interrupt-names:1: 'aer' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: pcie_ep@3600000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/pcie_ep@3600000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: dma-controller@8380000: compatible: ['fsl,ls1046a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1046a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: pcie_ep@3500000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/pcie_ep@3500000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: pcie@3600000: interrupt-names:0: 'pme' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: pcie@3600000: interrupt-names:1: 'aer' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: pcie_ep@3600000: compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/pcie_ep@3600000: failed to match any schema with compatible: ['fsl,ls1046a-pcie-ep', 'fsl,ls-pcie-ep']
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: dma-controller@8380000: compatible: ['fsl,ls1046a-qdma', 'fsl,ls1021a-qdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: dma-controller@8380000: interrupts: [[0, 153, 4], [0, 39, 4], [0, 40, 4], [0, 41, 4], [0, 42, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: dma-controller@8380000: interrupt-names: ['qdma-error', 'qdma-queue0', 'qdma-queue1', 'qdma-queue2', 'qdma-queue3'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: dma-controller@8380000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: dma-controller@8380000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: power-controller@1ee2140: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/power-controller@1ee2140: failed to match any schema with compatible: ['fsl,ls1046a-rcpm', 'fsl,qoriq-rcpm-2.1+']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/timer@29d0000: failed to match any schema with compatible: ['fsl,ls1046a-ftm-alarm']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/fman@1a00000: failed to match any schema with compatible: ['fsl,fman']
-   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/fman@1a00000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+smatch warnings:
+kernel/trace/ring_buffer.c:1817 rb_meta_validate_events() error: uninitialized symbol 'head_page'.
+
+vim +/head_page +1817 kernel/trace/ring_buffer.c
+
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1744) static void rb_meta_validate_events(struct ring_buffer_per_cpu *cpu_buffer)
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1745) {
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1746) 	struct ring_buffer_meta *meta = cpu_buffer->ring_meta;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1747) 	struct buffer_page *head_page;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1748) 	unsigned long entry_bytes = 0;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1749) 	unsigned long entries = 0;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1750) 	int ret;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1751) 	int i;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1752) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1753) 	if (!meta || !meta->head_buffer)
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1754) 		return;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1755) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1756) 	/* Do the reader page first */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1757) 	ret = rb_validate_buffer(cpu_buffer->reader_page->page, cpu_buffer->cpu);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1758) 	if (ret < 0) {
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1759) 		pr_info("Ring buffer reader page is invalid\n");
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1760) 		goto invalid;
+
+head_page not set
+
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1761) 	}
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1762) 	entries += ret;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1763) 	entry_bytes += local_read(&cpu_buffer->reader_page->page->commit);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1764) 	local_set(&cpu_buffer->reader_page->entries, ret);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1765) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1766) 	head_page = cpu_buffer->head_page;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1767) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1768) 	/* If both the head and commit are on the reader_page then we are done. */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1769) 	if (head_page == cpu_buffer->reader_page &&
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1770) 	    head_page == cpu_buffer->commit_page)
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1771) 		goto done;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1772) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1773) 	/* Iterate until finding the commit page */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1774) 	for (i = 0; i < meta->nr_subbufs + 1; i++, rb_inc_page(&head_page)) {
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1775) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1776) 		/* Reader page has already been done */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1777) 		if (head_page == cpu_buffer->reader_page)
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1778) 			continue;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1779) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1780) 		ret = rb_validate_buffer(head_page->page, cpu_buffer->cpu);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1781) 		if (ret < 0) {
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1782) 			pr_info("Ring buffer meta [%d] invalid buffer page\n",
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1783) 				cpu_buffer->cpu);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1784) 			goto invalid;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1785) 		}
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1786) 		entries += ret;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1787) 		entry_bytes += local_read(&head_page->page->commit);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1788) 		local_set(&cpu_buffer->head_page->entries, ret);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1789) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1790) 		if (head_page == cpu_buffer->commit_page)
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1791) 			break;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1792) 	}
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1793) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1794) 	if (head_page != cpu_buffer->commit_page) {
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1795) 		pr_info("Ring buffer meta [%d] commit page not found\n",
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1796) 			cpu_buffer->cpu);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1797) 		goto invalid;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1798) 	}
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1799)  done:
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1800) 	local_set(&cpu_buffer->entries, entries);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1801) 	local_set(&cpu_buffer->entries_bytes, entry_bytes);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1802) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1803) 	pr_info("Ring buffer meta [%d] is from previous boot!\n", cpu_buffer->cpu);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1804) 	return;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1805) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1806)  invalid:
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1807) 	/* The content of the buffers are invalid, reset the meta data */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1808) 	meta->head_buffer = 0;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1809) 	meta->commit_buffer = 0;
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1810) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1811) 	/* Reset the reader page */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1812) 	local_set(&cpu_buffer->reader_page->entries, 0);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1813) 	local_set(&cpu_buffer->reader_page->page->commit, 0);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1814) 
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1815) 	/* Reset all the subbuffers */
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1816) 	for (i = 0; i < meta->nr_subbufs - 1; i++, rb_inc_page(&head_page)) {
+                                                                                                                        ^^^^^^^^^
+Uninitialized here.  Btw, what's going on with nr_subbufs +/- 1?  Why
+is it + 1 earlier and - 1 here?
+
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11 @1817) 		local_set(&head_page->entries, 0);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1818) 		local_set(&head_page->page->commit, 0);
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1819) 	}
+ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1820) }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
