@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA367197
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 00:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E4219E;
+	Wed, 12 Jun 2024 00:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718151076; cv=none; b=T/SJQMtVxMU6H6RhCnh0YfiwylFoBbIFvV90tnkRoF31kHg0e91WOvW62Eshs4cre+RU/zd16WRxJDpo4EA8srYLdB23RDVDrLyiZufwreERnhm9ef56AISKOCAHHgcYEGPgbjDiB2fn0gedXjdKucdX7EO4wJugevCRgTeNrEE=
+	t=1718151137; cv=none; b=rE0ocqQyzoHnpXpp0iLvPrLLBVnQRjiea9feaF0PO2u6fo5BUd9eBItI5eFmZj4j1iLS0XqQZc7hWjyrPbuKzQE9LVNcY7Q50t+cRsI1733ahhA6Xt8ZWjDVYA6ReWpr642CycwuXlaJaW96j4EEPeJ/Y+Q/zHyzvK1i1SmHCQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718151076; c=relaxed/simple;
-	bh=R3YJNjuz885MqaYmjaeQB5co2PpKqsrJ46/dGh0FwbM=;
+	s=arc-20240116; t=1718151137; c=relaxed/simple;
+	bh=k5wk119QN6Aqg53GY6PX3O4H9QqFPFr5GmPk2r6UVEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WqfgFlKeElfiOI+JNxG379bNxXDbjGkCrX3XKLSXe6hV4O4/aZZMdRpnlz1iMtmvmehfJVhqWFf5WtCiQG2UvLhxi143E6rIXNz25uKus8xFzcpBJA1H5ZT1tiPYy5nnfrK4pTCU0iF3SjjSewd6LfS04omm1Hcj1ASk4GeaCU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMEyUnR+; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=cqryDcDSV/fYUO3zbFawgl1YOsVkz2WbRb0jHDgpbjNkoUM0Dslyq6YxvtG/wxNLUrjHFof8DATBi3OrfS9JCw9SGtku8NGiwVFrJ1kI85ggH/xidMplKfbPj9wV8TZikm1yJUfZpzV9ur1vL37D7eVj+df1LWfpzTw/PtXH1Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KeQA40mU; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMEyUnR+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KeQA40mU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718151074; x=1749687074;
+  t=1718151136; x=1749687136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R3YJNjuz885MqaYmjaeQB5co2PpKqsrJ46/dGh0FwbM=;
-  b=CMEyUnR+qGorh7jBogvxkg/7cQzbMuDi9sYmygAb8O0dlhbzEts0xYFR
-   4j5uB+FqGcp/Hb5vD4a0fyaJ5O+TvQstkVQtCzEnyqOfv3E2El/xFb1jj
-   MkEbhSxlejGu0pdOYhRglEZ/ML7s4e+9/HZVq2Nvou8yc05F3ciT3JZb8
-   1i2lCtOXSmcq3umlAVQthqt8iDxJsFuPMB8pOe3hk4k9bqtFMvCDpa8iO
-   AsSB1LuEcNNA2i2SagNOfXr8E3oOQKVrmY+DU602nxK+uYNN2zLEXclm9
-   sFrEjeCwF3+RzQZaEdx+5wnqiNPBVaVIx6TIXBszr5nUXlVNAlKpM48mX
+  bh=k5wk119QN6Aqg53GY6PX3O4H9QqFPFr5GmPk2r6UVEo=;
+  b=KeQA40mULSLhpaUTvInqqFbfdoXMHDIUrSBz1hoHJsGk0vyUBUgv1yTa
+   esgsatDPcU77rC+7YSqAtXIzEHZUKZalLnf5n1wXFModPkBC7M4hP9DM1
+   vzc9GUgoj4xBu8uxEYIW69GrL4kYgsrq1JYNI0+M55Np3+pg/h6mpFp0o
+   DVu4j+T332XkBpajS5Gr1yAJDaeU8sfOESU7VUzsuKqWbGSypDKH1de+/
+   l+ZtfLfw5xaQFcw7A2kXr0u0bd9dGDV0tusleYdaZl9x0N7nXUfEBkWJT
+   g4IjH6qy/8I2DwYwDKmYORR9oI4FOq+cQz7oP/nOZ8a2U/ThWlOXk3tPK
    g==;
-X-CSE-ConnectionGUID: kMSAuhuoRo6WYOKJjWKeEQ==
-X-CSE-MsgGUID: czW4FecmRvm4ntIvQMBL/Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14767249"
+X-CSE-ConnectionGUID: l4IUNr1WRPajn04YJtJscA==
+X-CSE-MsgGUID: 7r2rfat2Qqid92485kF10w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="37419154"
 X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="14767249"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 17:11:14 -0700
-X-CSE-ConnectionGUID: L88tY9CmT/mByVxSrQhPfg==
-X-CSE-MsgGUID: rC3mFDsUSY2dBwax2hdFnQ==
+   d="scan'208";a="37419154"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 17:12:16 -0700
+X-CSE-ConnectionGUID: UtxlO91vQ4OyEHz1hHJC5A==
+X-CSE-MsgGUID: vSbotdkjSm+DkFxPpybgUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="44032668"
+   d="scan'208";a="39472804"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Jun 2024 17:11:13 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Jun 2024 17:12:13 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHBa3-000116-0B;
-	Wed, 12 Jun 2024 00:11:11 +0000
-Date: Wed, 12 Jun 2024 08:11:10 +0800
+	id 1sHBb1-00011C-0F;
+	Wed, 12 Jun 2024 00:12:11 +0000
+Date: Wed, 12 Jun 2024 08:11:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:pcie-fix-series 2/10] include/uapi/linux/const.h:20:19:
- warning: large integer implicitly truncated to unsigned type
-Message-ID: <202406120856.AcCSUBI4-lkp@intel.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 12/17]
+ drivers/gpio/gpio-sloppy-logic-analyzer.c:316:12: error: incompatible
+ function pointer types initializing 'void (*)(struct platform_device *)'
+ with an expression of type 'int (struct platform_device *)'
+Message-ID: <202406120838.jD62wG3D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +66,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pcie-fix-series
-head:   91793dfd9508b4d9d7b2922cf1d76012848a7f58
-commit: 3ec01400bd0a58b64fcbf0bc190ea114dff2364f [2/10] PCI: microchip: Fix inbound address translation tables
-config: i386-randconfig-016-20240612 (https://download.01.org/0day-ci/archive/20240612/202406120856.AcCSUBI4-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406120856.AcCSUBI4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   fdbb3ef0d4aadf9a3374c2a892098be89e9a3abb
+commit: 7eead7ebd4fa6978d3b020b2615f0680a7e98c5e [12/17] gpio: add sloppy logic analyzer using polling
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240612/202406120838.jD62wG3D-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406120838.jD62wG3D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406120856.AcCSUBI4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406120838.jD62wG3D-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/vdso/const.h:5:0,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/clk.h:13,
-                    from drivers/pci/controller/pcie-microchip-host.c:11:
-   drivers/pci/controller/pcie-microchip-host.c: In function 'mc_pcie_setup_inbound_ranges':
->> include/uapi/linux/const.h:20:19: warning: large integer implicitly truncated to unsigned type [-Woverflow]
-    #define __AC(X,Y) (X##Y)
-                      ^
-   include/uapi/linux/const.h:21:18: note: in expansion of macro '__AC'
-    #define _AC(X,Y) __AC(X,Y)
-                     ^~~~
-   include/linux/sizes.h:46:18: note: in expansion of macro '_AC'
-    #define SZ_4G    _AC(0x100000000, ULL)
-                     ^~~
-   drivers/pci/controller/pcie-microchip-host.c:1003:39: note: in expansion of macro 'SZ_4G'
-       mc_pcie_setup_inbound_atr(0, 0, 0, SZ_4G);
-                                          ^~~~~
+>> drivers/gpio/gpio-sloppy-logic-analyzer.c:316:12: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
+     316 |         .remove = gpio_la_poll_remove,
+         |                   ^~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +20 include/uapi/linux/const.h
+vim +316 drivers/gpio/gpio-sloppy-logic-analyzer.c
 
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
-6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
-
-:::::: The code at line 20 was first introduced by commit
-:::::: 9d291e787b2b71d1b57e5fbb24ba9c70e748ed84 [PATCH] x86-64: Assembly safe page.h and pgtable.h
-
-:::::: TO: Vivek Goyal <vgoyal@in.ibm.com>
-:::::: CC: Andi Kleen <andi@basil.nowhere.org>
+   313	
+   314	static struct platform_driver gpio_la_poll_device_driver = {
+   315		.probe = gpio_la_poll_probe,
+ > 316		.remove = gpio_la_poll_remove,
+   317		.driver = {
+   318			.name = GPIO_LA_NAME,
+   319			.of_match_table = gpio_la_poll_of_match,
+   320		}
+   321	};
+   322	
 
 -- 
 0-DAY CI Kernel Test Service
