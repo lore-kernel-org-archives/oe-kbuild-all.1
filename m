@@ -1,205 +1,251 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DC74A1B;
-	Wed, 12 Jun 2024 02:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594B1BA31
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 03:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718160615; cv=none; b=PBPmtHudlMWWrkBNba3eFRRZbVtFxWcRCi6e7I6ybT7h4zb1HmZ0dW9Djidw8m2jH+z4wKdIdniKOitotuwmDv/rQt0+l91RD7y1gk26b+2rNLOZtbUbtQNhChDyUiClRrqVVMWG0x7qryZcRktRnjivPXqefW7kL6AnGHxjCEY=
+	t=1718161650; cv=none; b=pg5AYTOnhwv9cLXbRODbwm0MIpQGjExzbKYwcwd6RtDmbCyIQCUOktqcipMFoPiqh+vfIsYUWZnpM6p5vppxtloWh86mxVjM6obCa6VCyI+dNjoDjOe0LovqA9nvfO2v1hfhkcCbSFHX7LCEx1sXesEgB1pPyJWtZU/LGX+6qL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718160615; c=relaxed/simple;
-	bh=WNmbgIEW2ccQEpRrxUE+bt9lrsjKhOdoAw6JSC+8QhQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Y9lCCEe2GNRmQIEZvmaBHMB7F6PIEM63OwvHMly3ceCo7SuJCvZWUbnppSbjZ84lJscDUHPNUgE7rJ3cZR7ToYfqtV5qSI7Bb8MQn691LSMFlht38/c5tLuo7F1u45EjJ7CcZruybLoFXoo1BhMKh8jgpbdrsW3+9DGqUR2mP9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4VzVKh3ffVz2CkH1;
-	Wed, 12 Jun 2024 10:46:16 +0800 (CST)
-Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
-	by mail.maildlp.com (Postfix) with ESMTPS id C7C6314022D;
-	Wed, 12 Jun 2024 10:50:03 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 12 Jun 2024 10:50:03 +0800
-Message-ID: <c6df35cc-1331-4255-8ff5-898f6a911bec@huawei.com>
-Date: Wed, 12 Jun 2024 10:50:02 +0800
+	s=arc-20240116; t=1718161650; c=relaxed/simple;
+	bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXI3sWxaRKfmkS2/Q6AdQFEDGYs04oBziW69bhScgj8AaO1wr26cylVhfNi26crTlkaeXw0/AdTbGsPKbon+ihZnQWtNozkB+X2+JMAynfb3Rfu2XhW3wguJlrzJHut+jjwts8E/TWsVzKrmuEDuDm2AUZQS9z4sOxlnYpXNPjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJKsTT14; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJKsTT14"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718161646; x=1749697646;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
+  b=OJKsTT14kmDbabELm+PDkgRaKKQoCNq372AOL8I+GJPpUtfzdd/D4ESu
+   NASg7y+xqmUxdLHHXAIwsouBVT4hHFzZBLAVqx9krU3IwmOR9ZTOHmM/y
+   jMe01ySPfyLo3P/QUO80Z3W4Pgq8YXwceGQLg6SaNMeqstKHXwoY8xz1P
+   u3B9T98LlxnyGq5/e8dJd9CHc+fD3fhzcMSYMU0EsIAg9FtTjHvtw52jr
+   PVNk7Q4W4kY3LGNBbXdKrlfYkd9SojmciSrzF6e5kayKB5CqRDM/t8mxL
+   r0DURfWEm0hklRgNJ4NmCmsaJA650DRmTkCp2xKqeBOBCGzejPDaxCGQy
+   A==;
+X-CSE-ConnectionGUID: A1N7AWIPTjidFBxquXaLhQ==
+X-CSE-MsgGUID: eOOv5FPeSeqxUrWs4fWezQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15075940"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="15075940"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 20:07:25 -0700
+X-CSE-ConnectionGUID: OwfkTZhcT+++D0cHiOGXuQ==
+X-CSE-MsgGUID: 9sDus5UPRAmuVvkHWWbMVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="40344945"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 11 Jun 2024 20:07:25 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHEKY-00019W-0i;
+	Wed, 12 Jun 2024 03:07:22 +0000
+Date: Wed, 12 Jun 2024 11:06:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 06/16] kconfig: refactor choice value calculation
+Message-ID: <202406121008.8zFuX4VH-lkp@intel.com>
+References: <20240611175536.3518179-7-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Linux Memory Management
- List <linux-mm@kvack.org>, <ying.huang@intel.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, David Hildenbrand <david@redhat.com>, John
- Hubbard <jhubbard@nvidia.com>, Mel Gorman <mgorman@suse.de>, Ryan Roberts
-	<ryan.roberts@arm.com>, <liushixin2@huawei.com>
-References: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemf100008.china.huawei.com (7.185.36.138)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240611175536.3518179-7-masahiroy@kernel.org>
+
+Hi Masahiro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on masahiroy-kbuild/kbuild]
+[also build test ERROR on masahiroy-kbuild/for-next next-20240611]
+[cannot apply to masahiroy-kbuild/fixes linus/master v6.10-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kconfig-remove-unneeded-code-in-expr_compare_type/20240612-020202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+patch link:    https://lore.kernel.org/r/20240611175536.3518179-7-masahiroy%40kernel.org
+patch subject: [PATCH 06/16] kconfig: refactor choice value calculation
+config: i386-buildonly-randconfig-002-20240612 (attached as .config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121008.8zFuX4VH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121008.8zFuX4VH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   scripts/kconfig/symbol.c: In function 'sym_calc_value':
+>> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct menu *choice_menu = sym_get_choice_menu(sym);
+      ^~~~~~
+   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
+   make[3]: Target 'oldconfig' not remade because of errors.
+   make[2]: *** [Makefile:695: oldconfig] Error 2 shuffle=1413228972
+   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make: Target 'oldconfig' not remade because of errors.
+--
+   scripts/kconfig/symbol.c: In function 'sym_calc_value':
+>> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct menu *choice_menu = sym_get_choice_menu(sym);
+      ^~~~~~
+   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
+   make[3]: Target 'olddefconfig' not remade because of errors.
+   make[2]: *** [Makefile:695: olddefconfig] Error 2 shuffle=1413228972
+   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make: Target 'olddefconfig' not remade because of errors.
 
 
+vim +448 scripts/kconfig/symbol.c
 
-On 2024/6/10 0:03, Dan Carpenter wrote:
-> Hi Kefeng,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-fix-possible-OOB-in-numa_rebuild_large_mapping/20240607-183609
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20240607103241.1298388-1-wangkefeng.wang%40huawei.com
-> patch subject: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
-> config: mips-randconfig-r081-20240609 (https://download.01.org/0day-ci/archive/20240609/202406092325.eDrcikT8-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 13.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202406092325.eDrcikT8-lkp@intel.com/
-> 
-> smatch warnings:
-> mm/memory.c:5370 do_numa_page() error: uninitialized symbol 'nr_pages'.
-> 
-> vim +/nr_pages +5370 mm/memory.c
-> 
-> 2b7403035459c7 Souptick Joarder  2018-08-23  5265  static vm_fault_t do_numa_page(struct vm_fault *vmf)
-> d10e63f29488b0 Mel Gorman        2012-10-25  5266  {
-> 82b0f8c39a3869 Jan Kara          2016-12-14  5267  	struct vm_area_struct *vma = vmf->vma;
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5268  	struct folio *folio = NULL;
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5269  	int nid = NUMA_NO_NODE;
-> d2136d749d76af Baolin Wang       2024-03-29  5270  	bool writable = false, ignore_writable = false;
-> d2136d749d76af Baolin Wang       2024-03-29  5271  	bool pte_write_upgrade = vma_wants_manual_pte_write_upgrade(vma);
-> 90572890d20252 Peter Zijlstra    2013-10-07  5272  	int last_cpupid;
-> cbee9f88ec1b8d Peter Zijlstra    2012-10-25  5273  	int target_nid;
-> 04a8645304500b Aneesh Kumar K.V  2019-03-05  5274  	pte_t pte, old_pte;
-> d2136d749d76af Baolin Wang       2024-03-29  5275  	int flags = 0, nr_pages;
-> d10e63f29488b0 Mel Gorman        2012-10-25  5276
-> d10e63f29488b0 Mel Gorman        2012-10-25  5277  	/*
-> 6c1b748ebf27be John Hubbard      2024-02-27  5278  	 * The pte cannot be used safely until we verify, while holding the page
-> 6c1b748ebf27be John Hubbard      2024-02-27  5279  	 * table lock, that its contents have not changed during fault handling.
-> d10e63f29488b0 Mel Gorman        2012-10-25  5280  	 */
-> 82b0f8c39a3869 Jan Kara          2016-12-14  5281  	spin_lock(vmf->ptl);
-> 6c1b748ebf27be John Hubbard      2024-02-27  5282  	/* Read the live PTE from the page tables: */
-> 6c1b748ebf27be John Hubbard      2024-02-27  5283  	old_pte = ptep_get(vmf->pte);
-> 6c1b748ebf27be John Hubbard      2024-02-27  5284
-> 6c1b748ebf27be John Hubbard      2024-02-27  5285  	if (unlikely(!pte_same(old_pte, vmf->orig_pte))) {
-> 82b0f8c39a3869 Jan Kara          2016-12-14  5286  		pte_unmap_unlock(vmf->pte, vmf->ptl);
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5287  		goto out;
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5288  	}
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5289
-> 04a8645304500b Aneesh Kumar K.V  2019-03-05  5290  	pte = pte_modify(old_pte, vma->vm_page_prot);
-> d10e63f29488b0 Mel Gorman        2012-10-25  5291
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5292  	/*
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5293  	 * Detect now whether the PTE could be writable; this information
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5294  	 * is only valid while holding the PT lock.
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5295  	 */
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5296  	writable = pte_write(pte);
-> d2136d749d76af Baolin Wang       2024-03-29  5297  	if (!writable && pte_write_upgrade &&
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5298  	    can_change_pte_writable(vma, vmf->address, pte))
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5299  		writable = true;
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5300
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5301  	folio = vm_normal_folio(vma, vmf->address, pte);
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5302  	if (!folio || folio_is_zone_device(folio))
-> b99a342d4f11a5 Huang Ying        2021-04-29  5303  		goto out_map;
-> 
-> nr_pages not initialized
-> 
-> d10e63f29488b0 Mel Gorman        2012-10-25  5304
-> 6688cc05473b36 Peter Zijlstra    2013-10-07  5305  	/*
-> bea66fbd11af1c Mel Gorman        2015-03-25  5306  	 * Avoid grouping on RO pages in general. RO pages shouldn't hurt as
-> bea66fbd11af1c Mel Gorman        2015-03-25  5307  	 * much anyway since they can be in shared cache state. This misses
-> bea66fbd11af1c Mel Gorman        2015-03-25  5308  	 * the case where a mapping is writable but the process never writes
-> bea66fbd11af1c Mel Gorman        2015-03-25  5309  	 * to it but pte_write gets cleared during protection updates and
-> bea66fbd11af1c Mel Gorman        2015-03-25  5310  	 * pte_dirty has unpredictable behaviour between PTE scan updates,
-> bea66fbd11af1c Mel Gorman        2015-03-25  5311  	 * background writeback, dirty balancing and application behaviour.
-> bea66fbd11af1c Mel Gorman        2015-03-25  5312  	 */
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5313  	if (!writable)
-> 6688cc05473b36 Peter Zijlstra    2013-10-07  5314  		flags |= TNF_NO_GROUP;
-> 6688cc05473b36 Peter Zijlstra    2013-10-07  5315
-> dabe1d992414a6 Rik van Riel      2013-10-07  5316  	/*
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5317  	 * Flag if the folio is shared between multiple address spaces. This
-> dabe1d992414a6 Rik van Riel      2013-10-07  5318  	 * is later used when determining whether to group tasks together
-> dabe1d992414a6 Rik van Riel      2013-10-07  5319  	 */
-> ebb34f78d72c23 David Hildenbrand 2024-02-27  5320  	if (folio_likely_mapped_shared(folio) && (vma->vm_flags & VM_SHARED))
-> dabe1d992414a6 Rik van Riel      2013-10-07  5321  		flags |= TNF_SHARED;
-> dabe1d992414a6 Rik van Riel      2013-10-07  5322
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5323  	nid = folio_nid(folio);
-> d2136d749d76af Baolin Wang       2024-03-29  5324  	nr_pages = folio_nr_pages(folio);
-> 33024536bafd91 Huang Ying        2022-07-13  5325  	/*
-> 33024536bafd91 Huang Ying        2022-07-13  5326  	 * For memory tiering mode, cpupid of slow memory page is used
-> 33024536bafd91 Huang Ying        2022-07-13  5327  	 * to record page access time.  So use default value.
-> 33024536bafd91 Huang Ying        2022-07-13  5328  	 */
-> 33024536bafd91 Huang Ying        2022-07-13  5329  	if ((sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5330  	    !node_is_toptier(nid))
-> 33024536bafd91 Huang Ying        2022-07-13  5331  		last_cpupid = (-1 & LAST_CPUPID_MASK);
-> 33024536bafd91 Huang Ying        2022-07-13  5332  	else
-> 67b33e3ff58374 Kefeng Wang       2023-10-18  5333  		last_cpupid = folio_last_cpupid(folio);
-> f8fd525ba3a298 Donet Tom         2024-03-08  5334  	target_nid = numa_migrate_prep(folio, vmf, vmf->address, nid, &flags);
-> 98fa15f34cb379 Anshuman Khandual 2019-03-05  5335  	if (target_nid == NUMA_NO_NODE) {
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5336  		folio_put(folio);
-> b99a342d4f11a5 Huang Ying        2021-04-29  5337  		goto out_map;
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5338  	}
-> b99a342d4f11a5 Huang Ying        2021-04-29  5339  	pte_unmap_unlock(vmf->pte, vmf->ptl);
-> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5340  	writable = false;
-> d2136d749d76af Baolin Wang       2024-03-29  5341  	ignore_writable = true;
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5342
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5343  	/* Migrate to the requested node */
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5344  	if (migrate_misplaced_folio(folio, vma, target_nid)) {
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5345  		nid = target_nid;
-> 6688cc05473b36 Peter Zijlstra    2013-10-07  5346  		flags |= TNF_MIGRATED;
-> b99a342d4f11a5 Huang Ying        2021-04-29  5347  	} else {
-> 074c238177a75f Mel Gorman        2015-03-25  5348  		flags |= TNF_MIGRATE_FAIL;
-> c7ad08804fae5b Hugh Dickins      2023-06-08  5349  		vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
-> c7ad08804fae5b Hugh Dickins      2023-06-08  5350  					       vmf->address, &vmf->ptl);
-> c7ad08804fae5b Hugh Dickins      2023-06-08  5351  		if (unlikely(!vmf->pte))
-> c7ad08804fae5b Hugh Dickins      2023-06-08  5352  			goto out;
-> c33c794828f212 Ryan Roberts      2023-06-12  5353  		if (unlikely(!pte_same(ptep_get(vmf->pte), vmf->orig_pte))) {
-> b99a342d4f11a5 Huang Ying        2021-04-29  5354  			pte_unmap_unlock(vmf->pte, vmf->ptl);
-> b99a342d4f11a5 Huang Ying        2021-04-29  5355  			goto out;
-> b99a342d4f11a5 Huang Ying        2021-04-29  5356  		}
-> b99a342d4f11a5 Huang Ying        2021-04-29  5357  		goto out_map;
-> b99a342d4f11a5 Huang Ying        2021-04-29  5358  	}
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5359
-> 4daae3b4b9e49b Mel Gorman        2012-11-02  5360  out:
-> 6695cf68b15c21 Kefeng Wang       2023-09-21  5361  	if (nid != NUMA_NO_NODE)
-> d2136d749d76af Baolin Wang       2024-03-29  5362  		task_numa_fault(last_cpupid, nid, nr_pages, flags);
-> d10e63f29488b0 Mel Gorman        2012-10-25  5363  	return 0;
-> b99a342d4f11a5 Huang Ying        2021-04-29  5364  out_map:
-> b99a342d4f11a5 Huang Ying        2021-04-29  5365  	/*
-> b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 * Make it present again, depending on how arch implements
-> b99a342d4f11a5 Huang Ying        2021-04-29  5367  	 * non-accessible ptes, some can allow access by kernel mode.
-> b99a342d4f11a5 Huang Ying        2021-04-29  5368  	 */
-> d2136d749d76af Baolin Wang       2024-03-29  5369  	if (folio && folio_test_large(folio))
-> 
-> Are folio_test_large() and folio_is_zone_device() mutually exclusive?
-> If so then this is a false positive.  Just ignore the warning in that
-> case.
-> 
+   398	
+   399	void sym_calc_value(struct symbol *sym)
+   400	{
+   401		struct symbol_value newval, oldval;
+   402		struct property *prop;
+   403	
+   404		if (!sym)
+   405			return;
+   406	
+   407		if (sym->flags & SYMBOL_VALID)
+   408			return;
+   409	
+   410		sym->flags |= SYMBOL_VALID;
+   411	
+   412		oldval = sym->curr;
+   413	
+   414		newval.tri = no;
+   415	
+   416		switch (sym->type) {
+   417		case S_INT:
+   418			newval.val = "0";
+   419			break;
+   420		case S_HEX:
+   421			newval.val = "0x0";
+   422			break;
+   423		case S_STRING:
+   424			newval.val = "";
+   425			break;
+   426		case S_BOOLEAN:
+   427		case S_TRISTATE:
+   428			newval.val = "n";
+   429			break;
+   430		default:
+   431			sym->curr.val = sym->name;
+   432			sym->curr.tri = no;
+   433			return;
+   434		}
+   435		sym->flags &= ~SYMBOL_WRITE;
+   436	
+   437		sym_calc_visibility(sym);
+   438	
+   439		if (sym->visible != no)
+   440			sym->flags |= SYMBOL_WRITE;
+   441	
+   442		/* set default if recursively called */
+   443		sym->curr = newval;
+   444	
+   445		switch (sym_get_type(sym)) {
+   446		case S_BOOLEAN:
+   447		case S_TRISTATE:
+ > 448			struct menu *choice_menu = sym_get_choice_menu(sym);
+   449	
+   450			if (choice_menu) {
+   451				sym_calc_choice(choice_menu);
+   452				newval.tri = sym->curr.tri;
+   453			} else {
+   454				if (sym->visible != no) {
+   455					/* if the symbol is visible use the user value
+   456					 * if available, otherwise try the default value
+   457					 */
+   458					if (sym_has_value(sym)) {
+   459						newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
+   460								      sym->visible);
+   461						goto calc_newval;
+   462					}
+   463				}
+   464				if (sym->rev_dep.tri != no)
+   465					sym->flags |= SYMBOL_WRITE;
+   466				if (!sym_is_choice(sym)) {
+   467					prop = sym_get_default_prop(sym);
+   468					if (prop) {
+   469						newval.tri = EXPR_AND(expr_calc_value(prop->expr),
+   470								      prop->visible.tri);
+   471						if (newval.tri != no)
+   472							sym->flags |= SYMBOL_WRITE;
+   473					}
+   474					if (sym->implied.tri != no) {
+   475						sym->flags |= SYMBOL_WRITE;
+   476						newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
+   477						newval.tri = EXPR_AND(newval.tri,
+   478								      sym->dir_dep.tri);
+   479					}
+   480				}
+   481			calc_newval:
+   482				if (sym->dir_dep.tri < sym->rev_dep.tri)
+   483					sym_warn_unmet_dep(sym);
+   484				newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
+   485			}
+   486			if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
+   487				newval.tri = yes;
+   488			break;
+   489		case S_STRING:
+   490		case S_HEX:
+   491		case S_INT:
+   492			if (sym->visible != no && sym_has_value(sym)) {
+   493				newval.val = sym->def[S_DEF_USER].val;
+   494				break;
+   495			}
+   496			prop = sym_get_default_prop(sym);
+   497			if (prop) {
+   498				struct symbol *ds = prop_get_symbol(prop);
+   499				if (ds) {
+   500					sym->flags |= SYMBOL_WRITE;
+   501					sym_calc_value(ds);
+   502					newval.val = ds->curr.val;
+   503				}
+   504			}
+   505			break;
+   506		default:
+   507			;
+   508		}
+   509	
+   510		sym->curr = newval;
+   511		sym_validate_range(sym);
+   512	
+   513		if (memcmp(&oldval, &sym->curr, sizeof(oldval))) {
+   514			sym_set_changed(sym);
+   515			if (modules_sym == sym) {
+   516				sym_set_all_changed();
+   517				modules_val = modules_sym->curr.tri;
+   518			}
+   519		}
+   520	
+   521		if (sym_is_choice(sym))
+   522			sym->flags &= ~SYMBOL_WRITE;
+   523	}
+   524	
 
-The folio in ZONE_DEVICE is not a large folio, so there is no issue for 
-now, but will fix.
-
-
-
-> 8d27aa5be8ed93 Kefeng Wang       2024-06-07 @5370  		numa_rebuild_large_mapping(vmf, vma, folio, nr_pages, pte,
-> 8d27aa5be8ed93 Kefeng Wang       2024-06-07  5371  					   ignore_writable, pte_write_upgrade);
-> d2136d749d76af Baolin Wang       2024-03-29  5372  	else
-> d2136d749d76af Baolin Wang       2024-03-29  5373  		numa_rebuild_single_mapping(vmf, vma, vmf->address, vmf->pte,
-> d2136d749d76af Baolin Wang       2024-03-29  5374  					    writable);
-> b99a342d4f11a5 Huang Ying        2021-04-29  5375  	pte_unmap_unlock(vmf->pte, vmf->ptl);
-> b99a342d4f11a5 Huang Ying        2021-04-29  5376  	goto out;
-> d10e63f29488b0 Mel Gorman        2012-10-25  5377  }
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
