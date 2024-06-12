@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BC216D9CF;
-	Wed, 12 Jun 2024 09:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BC716D9D0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 09:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718184226; cv=none; b=nZMwArJpYm0WBhPV4oBmv/5TwngBIE/cwCrbTm5CF0zkq3rnIqZvBN8wmh/tCMjMMJ0YZcD4tzrXMyWi+rWxYSiwvom+2SPIas7YNKWAMyy2bTPMZvfPWOl7DiC6pkN0RqrDW7j2lbd3o8CQoXeHufLzO/YRoStf0jXx3caTi/o=
+	t=1718184227; cv=none; b=N9j6M4R9VMNF5irdS9XBYiZtPkZ04SV0olnkpOm1itUtMJGFAFzCPU0iRK0oapjrLQ4hRKieSoB8UDzcjt3sOlta/2U7tjHNQzo+p3KkJjtHaVE7377ylgDHEpgSAcq9OaD/KQWlXoFszATzuQd7e4YeBhMIPTWsOhzekeQ14Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718184226; c=relaxed/simple;
-	bh=2RQUB5p99djTQLkljiuGmo8nQAUbsFMfxfASFlupWgc=;
+	s=arc-20240116; t=1718184227; c=relaxed/simple;
+	bh=ZvwVGq/DOAm7MLGhiAWzs091RDFEP8xc94bPoYEzRW4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ebR3EdEvh9dG2xolTcefs3Bzy7csgQarvvbYDvw4QjnUbC4LC4j4wxvN8dPR1Nnga65xA1RqdaBnLdfgQGKO3ggvZ0C6DiWGwW43+61LxAALOsZ8k2LLRWj/hPvqJ+vwCsRFINQ7gjq2L9guW3Y0D2F84BDf+Z5/hHP2YwNdBn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAZ4Df+G; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=sP3ZR1Gqk89O92xrYjxFeR9X5cTz7iffwYFTGF9rXPdsRFASUclqHxxsicMSh90MpAYTLwCdFIG7krQloJnX2701woTkKMnog5XuiOL0niLXtI59Rz1F/y4pDSJkBsj7p0qQ/PaEP6WhZIbBqQ75j2929izY0whOwzl1+flmI+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lojtGIjS; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAZ4Df+G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lojtGIjS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718184224; x=1749720224;
+  t=1718184225; x=1749720225;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2RQUB5p99djTQLkljiuGmo8nQAUbsFMfxfASFlupWgc=;
-  b=AAZ4Df+GYnk+7mqOOx/q84vpR695SiE+CzADtp6akGBE0xzOWRU5PdTG
-   y3EteZc+RWz0EL3LvZ+F6lVMBZFzKpPW8+V8XCg1uZKFqJcORIzSL3uLz
-   0i3HyB1S6HrqQGfOygUqrqVQmFH3xYqEIGc43SduNvFl5DT7yvtJQHBdm
-   cpYDZycumslpeRIsPMo3r/BoSrGM2Na6C4aaaca4drMGXrAGVxcIqOhGZ
-   zN0S8DwmzWvgGQLm43BQt2EHCJpzaK8pz1bMUWCBMsPCsTYSNFZwybaQ/
-   RUx2xmaSxcJqT2ebnBtW9MvfPsQX4kltlfAbQF35nwHVghphJEbt1nLW7
+  bh=ZvwVGq/DOAm7MLGhiAWzs091RDFEP8xc94bPoYEzRW4=;
+  b=lojtGIjSH5/8H++qQ/QOtCEuJsalgpTVYSo5A906IU+qeCcpKYgyitUW
+   y01VI6hSLVwb+lkxsWel7C6YI2OJGAlY1qpX9OScQRVMWgxwd/II3Tg5K
+   IrmQZcuVoYppeXaxqoYWUUMNWhJ2wuoXqCmBN2ZXfg96qidpI2jwngj4d
+   uA20yyU4bouC8eD9GkdPVPyl1BhonUnRo5ClJDbBuJyfkPJTdZUkuNE1Z
+   twAmpMjGnF8cjsHA8ZleXeHIelj2Sy0rYf0ytyu080GT8J40+PKSSK0Mq
+   85R+UgZEDsBbCBIQI4RZuDPp71Cmdq4CREku10HN9ytjHn8/oUk6JfTJI
    w==;
-X-CSE-ConnectionGUID: jVLmmpXaTgGiert2SYiBAg==
-X-CSE-MsgGUID: M+lkVfeXT8q8mLEEnFTjvA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18795048"
+X-CSE-ConnectionGUID: H2SLG8YNQESsUvnDDqLd3w==
+X-CSE-MsgGUID: C3El0+qUTFS2Lr3jA7LkCQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14810416"
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="18795048"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 02:23:44 -0700
-X-CSE-ConnectionGUID: yioRuD7wRzGDKTS+TUD4zQ==
-X-CSE-MsgGUID: Z2+kpXtxRGmdqxfjdLCtnw==
+   d="scan'208";a="14810416"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 02:23:44 -0700
+X-CSE-ConnectionGUID: 9t9oGSUXTwCXOmhjaBLNJg==
+X-CSE-MsgGUID: TQOP55KYQaGBFAfWn8TpzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="62904471"
+   d="scan'208";a="70530895"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2024 02:23:42 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Jun 2024 02:23:42 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHKCi-0001PK-11;
+	id 1sHKCi-0001PF-0n;
 	Wed, 12 Jun 2024 09:23:40 +0000
-Date: Wed, 12 Jun 2024 17:22:55 +0800
+Date: Wed, 12 Jun 2024 17:22:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-diff 3/3] drivers/infiniband/hw/mlx5/dm.c:598:1:
- error: redefinition of '_object_methods_UVERBS_OBJECT_DM0'
-Message-ID: <202406121704.M1qPiECz-lkp@intel.com>
+To: Luca Weiss <luca@z3ntu.xyz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/pmi632.dtsi:155.19-163.5: Warning
+ (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202406121706.nEgDZGXa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,420 +65,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
-head:   8d7a4a25d5c44f7e03ab4145e1957f0b0cdb8c13
-commit: 8d7a4a25d5c44f7e03ab4145e1957f0b0cdb8c13 [3/3] todo
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240612/202406121704.M1qPiECz-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121704.M1qPiECz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2ef5971ff345d3c000873725db555085e0131961
+commit: 0c4f10917d22e6f36080617bfe71de1ae854ee58 arm64: dts: qcom: sdm632-fairphone-fp3: Add notification LED
+date:   1 year, 1 month ago
+config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240612/202406121706.nEgDZGXa-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240612/202406121706.nEgDZGXa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406121704.M1qPiECz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121706.nEgDZGXa-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:175.9-179.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:865.22-915.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi632.dtsi:149.9-164.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/pmi632.dtsi:155.19-163.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
->> warning: unknown warning option '-Wno-dangling-pointer' [-Wunknown-warning-option]
->> warning: unknown warning option '-Werror=designated-init' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wformat-truncation'? [-Wunknown-warning-option]
-   In file included from <built-in>:360:
->> <command line>:5:9: warning: redefining builtin macro [-Wbuiltin-macro-redefined]
-       5 | #define __LINE__ 0
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   23 warnings generated.
---
->> warning: unknown warning option '-Wno-dangling-pointer' [-Wunknown-warning-option]
->> warning: unknown warning option '-Werror=designated-init' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wformat-truncation'? [-Wunknown-warning-option]
-   In file included from <built-in>:360:
->> <command line>:5:9: warning: redefining builtin macro [-Wbuiltin-macro-redefined]
-       5 | #define __LINE__ 0
-         |         ^
-   6 warnings generated.
---
->> warning: unknown warning option '-Wno-dangling-pointer' [-Wunknown-warning-option]
->> warning: unknown warning option '-Werror=designated-init' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wformat-truncation'? [-Wunknown-warning-option]
-   In file included from <built-in>:360:
->> <command line>:5:9: warning: redefining builtin macro [-Wbuiltin-macro-redefined]
-       5 | #define __LINE__ 0
-         |         ^
-   In file included from arch/s390/kernel/idle.c:14:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   11 warnings generated.
---
->> warning: unknown warning option '-Wno-dangling-pointer' [-Wunknown-warning-option]
->> warning: unknown warning option '-Werror=designated-init' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wformat-truncation'? [-Wunknown-warning-option]
-   In file included from <built-in>:360:
-   <command line>:6:9: warning: redefining builtin macro [-Wbuiltin-macro-redefined]
-       6 | #define __LINE__ 0
-         |         ^
-   6 warnings generated.
---
->> warning: unknown warning option '-Wno-dangling-pointer' [-Wunknown-warning-option]
->> warning: unknown warning option '-Werror=designated-init' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wformat-truncation'? [-Wunknown-warning-option]
-   In file included from <built-in>:360:
->> <command line>:5:9: warning: redefining builtin macro [-Wbuiltin-macro-redefined]
-       5 | #define __LINE__ 0
-         |         ^
-   In file included from arch/s390/kernel/lgr.c:17:
-   In file included from arch/s390/include/asm/ipl.h:13:
-   In file included from arch/s390/include/asm/cio.h:10:
-   In file included from arch/s390/include/asm/dma-types.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/lgr.c:17:
-   In file included from arch/s390/include/asm/ipl.h:13:
-   In file included from arch/s390/include/asm/cio.h:10:
-   In file included from arch/s390/include/asm/dma-types.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/lgr.c:17:
-   In file included from arch/s390/include/asm/ipl.h:13:
-   In file included from arch/s390/include/asm/cio.h:10:
-   In file included from arch/s390/include/asm/dma-types.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   18 warnings generated.
---
->> warning: unknown warning option '-Wno-dangling-pointer' [-Wunknown-warning-option]
->> warning: unknown warning option '-Werror=designated-init' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wformat-truncation'? [-Wunknown-warning-option]
-   In file included from <built-in>:360:
->> <command line>:5:9: warning: redefining builtin macro [-Wbuiltin-macro-redefined]
-       5 | #define __LINE__ 0
-         |         ^
-   In file included from arch/s390/kernel/perf_pai_crypto.c:17:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/perf_pai_crypto.c:17:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/perf_pai_crypto.c:17:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from arch/s390/kernel/perf_pai_crypto.c:18:
-   In file included from include/linux/perf_event.h:25:
-   In file included from arch/s390/include/asm/perf_event.h:14:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2210:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   23 warnings generated.
-..
+vim +155 arch/arm64/boot/dts/qcom/pmi632.dtsi
 
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   40  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   41  &spmi_bus {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   42  	pmic@2 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   43  		compatible = "qcom,pmi632", "qcom,spmi-pmic";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   44  		reg = <0x2 SPMI_USID>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   45  		#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   46  		#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   47  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   48  		pmi632_temp: temp-alarm@2400 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   49  			compatible = "qcom,spmi-temp-alarm";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   50  			reg = <0x2400>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   51  			interrupts = <0x2 0x24 0x0 IRQ_TYPE_EDGE_BOTH>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   52  			#thermal-sensor-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   53  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   54  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   55  		pmi632_adc: adc@3100 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   56  			compatible = "qcom,spmi-adc5";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   57  			reg = <0x3100>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   58  			#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   59  			#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   60  			#io-channel-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   61  			interrupts = <0x2 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   62  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   63  			channel@0 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   64  				reg = <ADC5_REF_GND>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   65  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   66  				label = "ref_gnd";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   67  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   68  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   69  			channel@1 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   70  				reg = <ADC5_1P25VREF>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   71  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   72  				label = "vref_1p25";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   73  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   74  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   75  			channel@6 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   76  				reg = <ADC5_DIE_TEMP>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   77  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   78  				label = "die_temp";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   79  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   80  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   81  			channel@7 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   82  				reg = <ADC5_USB_IN_I>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   83  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   84  				label = "usb_in_i_uv";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   85  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   86  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   87  			channel@8 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   88  				reg = <ADC5_USB_IN_V_16>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   89  				qcom,pre-scaling = <1 16>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   90  				label = "usb_in_v_div_16";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   91  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   92  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   93  			channel@9 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   94  				reg = <ADC5_CHG_TEMP>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   95  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   96  				label = "chg_temp";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   97  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   98  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23   99  			channel@4b {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  100  				reg = <ADC5_BAT_ID_100K_PU>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  101  				qcom,hw-settle-time = <200>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  102  				qcom,pre-scaling = <1 1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  103  				qcom,ratiometric;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  104  				label = "bat_id";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  105  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  106  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  107  			channel@83 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  108  				reg = <ADC5_VPH_PWR>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  109  				qcom,pre-scaling = <1 3>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  110  				label = "vph_pwr";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  111  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  112  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  113  			channel@84 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  114  				reg = <ADC5_VBAT_SNS>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  115  				qcom,pre-scaling = <1 3>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  116  				label = "vbat_sns";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  117  			};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  118  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  119  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  120  		pmi632_adc_tm: adc-tm@3500 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  121  			compatible = "qcom,spmi-adc-tm5";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  122  			reg = <0x3500>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  123  			interrupts = <0x2 0x35 0x0 IRQ_TYPE_EDGE_RISING>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  124  			#thermal-sensor-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  125  			#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  126  			#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  127  			status = "disabled";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  128  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  129  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  130  		pmi632_sdam_7: nvram@b600 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  131  			compatible = "qcom,spmi-sdam";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  132  			reg = <0xb600>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  133  			#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  134  			#size-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  135  			ranges = <0 0xb600 0x100>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  136  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  137  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  138  		pmi632_gpios: gpio@c000 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  139  			compatible = "qcom,pmi632-gpio", "qcom,spmi-gpio";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  140  			reg = <0xc000>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  141  			gpio-controller;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  142  			gpio-ranges = <&pmi632_gpios 0 0 8>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  143  			#gpio-cells = <2>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  144  			interrupt-controller;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  145  			#interrupt-cells = <2>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  146  		};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  147  	};
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  148  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  149  	pmic@3 {
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  150  		compatible = "qcom,pmi632", "qcom,spmi-pmic";
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  151  		reg = <0x3 SPMI_USID>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  152  		#address-cells = <1>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  153  		#size-cells = <0>;
+a1f0f2ebb044c7 Luca Weiss 2023-05-23  154  
+a1f0f2ebb044c7 Luca Weiss 2023-05-23 @155  		pmi632_lpg: pwm {
 
-vim +/_object_methods_UVERBS_OBJECT_DM0 +598 drivers/infiniband/hw/mlx5/dm.c
+:::::: The code at line 155 was first introduced by commit
+:::::: a1f0f2ebb044c7248c3f30b98de0f151505bd4bd arm64: dts: qcom: Add PMI632 PMIC
 
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  561  
-18731642d4e1f7 Maor Gottlieb 2021-04-11  562  DECLARE_UVERBS_NAMED_METHOD(
-18731642d4e1f7 Maor Gottlieb 2021-04-11  563  	MLX5_IB_METHOD_DM_QUERY,
-18731642d4e1f7 Maor Gottlieb 2021-04-11  564  	UVERBS_ATTR_IDR(MLX5_IB_ATTR_QUERY_DM_REQ_HANDLE, UVERBS_OBJECT_DM,
-18731642d4e1f7 Maor Gottlieb 2021-04-11  565  			UVERBS_ACCESS_READ, UA_MANDATORY),
-18731642d4e1f7 Maor Gottlieb 2021-04-11  566  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_QUERY_DM_RESP_START_OFFSET,
-18731642d4e1f7 Maor Gottlieb 2021-04-11  567  			    UVERBS_ATTR_TYPE(u64), UA_MANDATORY),
-18731642d4e1f7 Maor Gottlieb 2021-04-11  568  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_QUERY_DM_RESP_PAGE_INDEX,
-18731642d4e1f7 Maor Gottlieb 2021-04-11  569  			    UVERBS_ATTR_TYPE(u16), UA_MANDATORY),
-18731642d4e1f7 Maor Gottlieb 2021-04-11  570  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_QUERY_DM_RESP_LENGTH,
-18731642d4e1f7 Maor Gottlieb 2021-04-11  571  			    UVERBS_ATTR_TYPE(u64), UA_MANDATORY));
-18731642d4e1f7 Maor Gottlieb 2021-04-11  572  
-831df88381f73b Maor Gottlieb 2021-04-11  573  ADD_UVERBS_ATTRIBUTES_SIMPLE(
-831df88381f73b Maor Gottlieb 2021-04-11  574  	mlx5_ib_dm, UVERBS_OBJECT_DM, UVERBS_METHOD_DM_ALLOC,
-831df88381f73b Maor Gottlieb 2021-04-11  575  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_ALLOC_DM_RESP_START_OFFSET,
-831df88381f73b Maor Gottlieb 2021-04-11  576  			    UVERBS_ATTR_TYPE(u64), UA_MANDATORY),
-831df88381f73b Maor Gottlieb 2021-04-11  577  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_ALLOC_DM_RESP_PAGE_INDEX,
-831df88381f73b Maor Gottlieb 2021-04-11  578  			    UVERBS_ATTR_TYPE(u16), UA_OPTIONAL),
-831df88381f73b Maor Gottlieb 2021-04-11  579  	UVERBS_ATTR_CONST_IN(MLX5_IB_ATTR_ALLOC_DM_REQ_TYPE,
-831df88381f73b Maor Gottlieb 2021-04-11  580  			     enum mlx5_ib_uapi_dm_type, UA_OPTIONAL));
-831df88381f73b Maor Gottlieb 2021-04-11  581  
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  582  DECLARE_UVERBS_NAMED_METHOD(
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  583  	MLX5_IB_METHOD_DM_MAP_OP_ADDR,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  584  	UVERBS_ATTR_IDR(MLX5_IB_ATTR_DM_MAP_OP_ADDR_REQ_HANDLE,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  585  			UVERBS_OBJECT_DM,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  586  			UVERBS_ACCESS_READ,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  587  			UA_MANDATORY),
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  588  	UVERBS_ATTR_PTR_IN(MLX5_IB_ATTR_DM_MAP_OP_ADDR_REQ_OP,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  589  			   UVERBS_ATTR_TYPE(u8),
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  590  			   UA_MANDATORY),
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  591  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_DM_MAP_OP_ADDR_RESP_START_OFFSET,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  592  			    UVERBS_ATTR_TYPE(u64),
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  593  			    UA_MANDATORY),
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  594  	UVERBS_ATTR_PTR_OUT(MLX5_IB_ATTR_DM_MAP_OP_ADDR_RESP_PAGE_INDEX,
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  595  			    UVERBS_ATTR_TYPE(u16),
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  596  			    UA_OPTIONAL));
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  597  
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11 @598  DECLARE_UVERBS_GLOBAL_METHODS(UVERBS_OBJECT_DM,
-18731642d4e1f7 Maor Gottlieb 2021-04-11  599  			      &UVERBS_METHOD(MLX5_IB_METHOD_DM_MAP_OP_ADDR),
-18731642d4e1f7 Maor Gottlieb 2021-04-11  600  			      &UVERBS_METHOD(MLX5_IB_METHOD_DM_QUERY));
-cea85fa5dbc2e0 Maor Gottlieb 2021-04-11  601  
-
-:::::: The code at line 598 was first introduced by commit
-:::::: cea85fa5dbc2e0206b58095c0c12ff035b11d129 RDMA/mlx5: Add support in MEMIC operations
-
-:::::: TO: Maor Gottlieb <maorg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+:::::: TO: Luca Weiss <luca@z3ntu.xyz>
+:::::: CC: Bjorn Andersson <andersson@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
