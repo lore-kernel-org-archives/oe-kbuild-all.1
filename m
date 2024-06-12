@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAEF16D9C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 09:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D2E16C875
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 09:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718183520; cv=none; b=hRnnaXMtdYF43RtMdrPPAbxPKisBcPmkKG0iyB0vifZuOi0ubV5/0xfp1ScdLizF8zgnxKL7v0lOumvysBjCqoTRgvjgtU/fcptf2ZKjldmkw1Fvn+YfFmGXgU4RpPaySXQNTwGKSbppjJM+dvRz1spKJVaDZ8g/iyWMpLFVst8=
+	t=1718184225; cv=none; b=gR6KIjKoc+sl7YExNEyZ/vubRcii5CBi8qo/Eb+mK/7JKzwc5usA/icgOpnrecV4YjVJWmpvYaNBD6fVGtFdOQhfO0+/hnnEeH1UvwlnJLqNHVzAR3frU3QQcHPGllxN2ptdtYlsvaC7WboMKVXVA7QuhAga6aLAiElGwbKzKjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718183520; c=relaxed/simple;
-	bh=uHHbRBCTiJ34kbeRIJM+Nw7RNe5FB8UcM4OyBaMx2Jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fnuTt1LwsCzwWQM3kk9RYvRAjUcHOJGfhPkGDymXu+UfBESb8Z8p15LutI63AFUaU4vcRhHrl9/60zIjMtRtgGKWqTnYgC8sjKzoT3nTowELgMr8ABQKYoIEQfm7dTNsKTgIicvLdwYVSmTKA4y7O4P3hoavLW2fs5YYve3ic7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aP8hD81w; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1718184225; c=relaxed/simple;
+	bh=g5HCYXMALQ+VResWT67U5tGDDYWeQGYwDKzP4MnMl04=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aHW+YRVcluSpB6nrfQi+b+U8rhXEXLXRgB3hE9i9gJEqifg2CeB62CFwkqhAeBTX1y1/jeTnjJzZ/X7TgdjizKLTqr+xfuMuL4ktwIQRUh7QxIEmM7BnDNnZ87Ja6lyZirnhS5bIjtV3swLH9mpr942oF5dEsJgxaU6hm8OCFPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wl/7Y8mI; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aP8hD81w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wl/7Y8mI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718183519; x=1749719519;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uHHbRBCTiJ34kbeRIJM+Nw7RNe5FB8UcM4OyBaMx2Jk=;
-  b=aP8hD81wUqk9vnaj7Xfb+SZVQsu0Eeh7XOXOoi5/pRV3R5lCK4DdWMYR
-   VXhogRALUR7EYvDNS+JTKvn48buUHkTjBbJw+6CGWoc9SKIKFnrXZunik
-   HDLiZ2D4nLdAdE99TnHv8ADpW+geXcfK8fWfx+ff3Y0o+BvzYQxJ/dS43
-   YLMtzrI8BKShWc50ai9/ZNDYOSdExGjRfqp+LYvQ1lUD6tOsIumzZ3t7B
-   BrYp/C7+xgp6dF5JUx0xFo45ipN2VG/xChAzBRhES2EBzn9Gh/d7U/86D
-   kYpUsR7eN8E5rDO0tmlh6A1FZwuJtizn8C5uMMcGdFT1mCHkaCZ1oPan+
+  t=1718184224; x=1749720224;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=g5HCYXMALQ+VResWT67U5tGDDYWeQGYwDKzP4MnMl04=;
+  b=Wl/7Y8mIa6CtzxhcyFJ2pppH0waJNVjxrZl9g1tT+0Tms7hH07I+tf6P
+   zNtG0LStNYo8jgD8va9cpTVIRxMbCP5QobWFO56UurKX36HU8tmNuzEIS
+   Q5L+cEKh+zU9559q+GLYj7LpqxXkTheBdm+PoobVJFtMMLFQzC7IUWIax
+   nyPOhr8Z91D5G+rWCB1iDQSlZq+rIwvKy5mFls/hpqF9syc2YRyzFTOGq
+   6fU1wdKdv9DDp/qvGV2uoxqTXPxULR6fhlDW+sSY0I8ZMhGkvXqcWN8k7
+   JCKXdrGqQMpiGgB9AYmtiFdEIy3hq9a3k2AqCRig2tMP2nF9i4vWdYkrx
    g==;
-X-CSE-ConnectionGUID: +t8Ih1L9RROr7nMECDhwdA==
-X-CSE-MsgGUID: 6Z9A0vhdQNWn80SsKeYGzQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="32471833"
+X-CSE-ConnectionGUID: PqY1box3T16rSKyDy6slfg==
+X-CSE-MsgGUID: dEatApHUQMmLN2Fa9w6KkQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14810414"
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="32471833"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 02:11:46 -0700
-X-CSE-ConnectionGUID: KJv0yy49TpKfXdtNEZCfqw==
-X-CSE-MsgGUID: BGIpTBxDQWG9p72u13GTVQ==
+   d="scan'208";a="14810414"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 02:23:43 -0700
+X-CSE-ConnectionGUID: twSUtPAYQiG/bxKB84xmrA==
+X-CSE-MsgGUID: ul6YLhddQaC6jF+vwViRag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="40357291"
+   d="scan'208";a="70530896"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 Jun 2024 02:11:40 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Jun 2024 02:23:42 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHK14-0001Oc-16;
-	Wed, 12 Jun 2024 09:11:38 +0000
-Date: Wed, 12 Jun 2024 17:11:20 +0800
+	id 1sHKCi-0001PI-0w
+	for oe-kbuild-all@lists.linux.dev;
+	Wed, 12 Jun 2024 09:23:40 +0000
+Date: Wed, 12 Jun 2024 17:22:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, mpe@ellerman.id.au,
-	tpearson@raptorengineering.com, alex.williamson@redhat.com,
-	linuxppc-dev@lists.ozlabs.org, aik@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
-	naveen.n.rao@linux.ibm.com, gbatra@linux.vnet.ibm.com,
-	brking@linux.vnet.ibm.com, sbhat@linux.ibm.com, aik@ozlabs.ru,
-	jgg@ziepe.ca, ruscur@russell.cc, robh@kernel.org,
-	linux-kernel@vger.kernel.org, joel@jms.id.au, kvm@vger.kernel.org,
-	msuchanek@suse.de, oohall@gmail.com, mahesh@linux.ibm.com,
-	jroedel@suse.de, vaibhav@linux.ibm.com, svaidy@linux.ibm.com
-Subject: Re: [PATCH v3 6/6] powerpc/iommu: Reimplement the
- iommu_table_group_ops for pSeries
-Message-ID: <202406121640.yr6LK5HJ-lkp@intel.com>
-References: <171810901192.1721.18057294492426295643.stgit@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/cros-sof-v4.19 2137/6555]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.o: warning: objtool:
+ amdgpu_ctx_ioctl()+0x10d5: can't find switch jump table
+Message-ID: <202406121717.bR2ThGoi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,249 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <171810901192.1721.18057294492426295643.stgit@linux.ibm.com>
 
-Hi Shivaprasad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/fixes]
-[also build test WARNING on awilliam-vfio/next awilliam-vfio/for-linus linus/master v6.10-rc3]
-[cannot apply to powerpc/next next-20240612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivaprasad-G-Bhat/powerpc-iommu-Move-pSeries-specific-functions-to-pseries-iommu-c/20240611-203313
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
-patch link:    https://lore.kernel.org/r/171810901192.1721.18057294492426295643.stgit%40linux.ibm.com
-patch subject: [PATCH v3 6/6] powerpc/iommu: Reimplement the iommu_table_group_ops for pSeries
-config: powerpc64-randconfig-001-20240612 (https://download.01.org/0day-ci/archive/20240612/202406121640.yr6LK5HJ-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121640.yr6LK5HJ-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: 47ba45da78220ca133536968121bb39fefcd1a52 [2137/6555] UPSTREAM: drm/amdgpu: rework ctx entity creation
+config: x86_64-randconfig-012-20240612 (https://download.01.org/0day-ci/archive/20240612/202406121717.bR2ThGoi-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121717.bR2ThGoi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406121640.yr6LK5HJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121717.bR2ThGoi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/powerpc/platforms/pseries/iommu.c: In function 'spapr_tce_create_table':
->> arch/powerpc/platforms/pseries/iommu.c:1953:22: warning: variable 'entries_shift' set but not used [-Wunused-but-set-variable]
-    1953 |         unsigned int entries_shift;
-         |                      ^~~~~~~~~~~~~
-   arch/powerpc/platforms/pseries/iommu.c: In function 'spapr_tce_unset_window':
->> arch/powerpc/platforms/pseries/iommu.c:2166:24: warning: variable 'pci' set but not used [-Wunused-but-set-variable]
-    2166 |         struct pci_dn *pci;
-         |                        ^~~
-
-
-vim +/entries_shift +1953 arch/powerpc/platforms/pseries/iommu.c
-
-  1940	
-  1941	static long spapr_tce_create_table(struct iommu_table_group *table_group, int num,
-  1942					   __u32 page_shift, __u64 window_size, __u32 levels,
-  1943					   struct iommu_table **ptbl)
-  1944	{
-  1945		struct pci_dev *pdev = iommu_group_get_first_pci_dev(table_group->group);
-  1946		u32 ddw_avail[DDW_APPLICABLE_SIZE];
-  1947		struct ddw_create_response create;
-  1948		unsigned long liobn, offset, size;
-  1949		unsigned long start = 0, end = 0;
-  1950		struct ddw_query_response query;
-  1951		const __be32 *default_prop;
-  1952		struct failed_ddw_pdn *fpdn;
-> 1953		unsigned int entries_shift;
-  1954		unsigned int window_shift;
-  1955		struct device_node *pdn;
-  1956		struct iommu_table *tbl;
-  1957		struct dma_win *window;
-  1958		struct property *win64;
-  1959		struct pci_dn *pci;
-  1960		u64 win_addr;
-  1961		int len, i;
-  1962		long ret;
-  1963	
-  1964		if (!is_power_of_2(window_size) || levels > 1)
-  1965			return -EINVAL;
-  1966	
-  1967		window_shift = order_base_2(window_size);
-  1968		entries_shift = window_shift - page_shift;
-  1969	
-  1970		mutex_lock(&dma_win_init_mutex);
-  1971	
-  1972		ret = -ENODEV;
-  1973	
-  1974		pdn = pci_dma_find_parent_node(pdev, table_group);
-  1975		if (!pdn || !PCI_DN(pdn)) { /* Niether of 32s|64-bit exist! */
-  1976			dev_warn(&pdev->dev, "No dma-windows exist for the node %pOF\n", pdn);
-  1977			goto out_failed;
-  1978		}
-  1979		pci = PCI_DN(pdn);
-  1980	
-  1981		/* If the enable DDW failed for the pdn, dont retry! */
-  1982		list_for_each_entry(fpdn, &failed_ddw_pdn_list, list) {
-  1983			if (fpdn->pdn == pdn) {
-  1984				dev_info(&pdev->dev, "%pOF in failed DDW device list\n", pdn);
-  1985				goto out_unlock;
-  1986			}
-  1987		}
-  1988	
-  1989		tbl = iommu_pseries_alloc_table(pci->phb->node);
-  1990		if (!tbl) {
-  1991			dev_dbg(&pdev->dev, "couldn't create new IOMMU table\n");
-  1992			goto out_unlock;
-  1993		}
-  1994	
-  1995		if (num == 0) {
-  1996			bool direct_mapping;
-  1997			/* The request is not for default window? Ensure there is no DDW window already */
-  1998			if (!is_default_window_request(table_group, page_shift, window_size)) {
-  1999				if (find_existing_ddw(pdn, &pdev->dev.archdata.dma_offset, &len,
-  2000						      &direct_mapping)) {
-  2001					dev_warn(&pdev->dev, "%pOF: 64-bit window already present.", pdn);
-  2002					ret = -EPERM;
-  2003					goto out_unlock;
-  2004				}
-  2005			} else {
-  2006				/* Request is for Default window, ensure there is no DDW if there is a
-  2007				 * need to reset. reset-pe otherwise removes the DDW also
-  2008				 */
-  2009				default_prop = of_get_property(pdn, "ibm,dma-window", NULL);
-  2010				if (!default_prop) {
-  2011					if (find_existing_ddw(pdn, &pdev->dev.archdata.dma_offset, &len,
-  2012							      &direct_mapping)) {
-  2013						dev_warn(&pdev->dev, "%pOF: Attempt to create window#0 when 64-bit window is present. Preventing the attempt as that would destroy the 64-bit window",
-  2014							 pdn);
-  2015						ret = -EPERM;
-  2016						goto out_unlock;
-  2017					}
-  2018	
-  2019					restore_default_dma_window(pdev, pdn);
-  2020	
-  2021					default_prop = of_get_property(pdn, "ibm,dma-window", NULL);
-  2022					of_parse_dma_window(pdn, default_prop, &liobn, &offset, &size);
-  2023					/* Limit the default window size to window_size */
-  2024					iommu_table_setparms_common(tbl, pci->phb->bus->number, liobn,
-  2025								    offset, 1UL << window_shift,
-  2026								    IOMMU_PAGE_SHIFT_4K, NULL,
-  2027								    &iommu_table_lpar_multi_ops);
-  2028					iommu_init_table(tbl, pci->phb->node, start, end);
-  2029	
-  2030					table_group->tables[0] = tbl;
-  2031	
-  2032					mutex_unlock(&dma_win_init_mutex);
-  2033	
-  2034					goto exit;
-  2035				}
-  2036			}
-  2037		}
-  2038	
-  2039		ret = of_property_read_u32_array(pdn, "ibm,ddw-applicable",
-  2040					&ddw_avail[0], DDW_APPLICABLE_SIZE);
-  2041		if (ret) {
-  2042			dev_info(&pdev->dev, "ibm,ddw-applicable not found\n");
-  2043			goto out_failed;
-  2044		}
-  2045		ret = -ENODEV;
-  2046	
-  2047		pr_err("%s: Calling query %pOF\n", __func__, pdn);
-  2048		ret = query_ddw(pdev, ddw_avail, &query, pdn);
-  2049		if (ret)
-  2050			goto out_failed;
-  2051		ret = -ENODEV;
-  2052	
-  2053		len = window_shift;
-  2054		if (query.largest_available_block < (1ULL << (len - page_shift))) {
-  2055			dev_dbg(&pdev->dev, "can't map window 0x%llx with %llu %llu-sized pages\n",
-  2056					1ULL << len, query.largest_available_block,
-  2057					1ULL << page_shift);
-  2058			ret = -EINVAL; /* Retry with smaller window size */
-  2059			goto out_unlock;
-  2060		}
-  2061	
-  2062		if (create_ddw(pdev, ddw_avail, &create, page_shift, len)) {
-  2063			pr_err("%s: Create ddw failed %pOF\n", __func__, pdn);
-  2064			goto out_failed;
-  2065		}
-  2066	
-  2067		win_addr = ((u64)create.addr_hi << 32) | create.addr_lo;
-  2068		win64 = ddw_property_create(DMA64_PROPNAME, create.liobn, win_addr, page_shift, len);
-  2069		if (!win64)
-  2070			goto remove_window;
-  2071	
-  2072		ret = of_add_property(pdn, win64);
-  2073		if (ret) {
-  2074			dev_err(&pdev->dev, "unable to add DMA window property for %pOF: %ld", pdn, ret);
-  2075			goto free_property;
-  2076		}
-  2077		ret = -ENODEV;
-  2078	
-  2079		window = ddw_list_new_entry(pdn, win64->value);
-  2080		if (!window)
-  2081			goto remove_property;
-  2082	
-  2083		window->direct = false;
-  2084	
-  2085		for (i = 0; i < ARRAY_SIZE(pci->phb->mem_resources); i++) {
-  2086			const unsigned long mask = IORESOURCE_MEM_64 | IORESOURCE_MEM;
-  2087	
-  2088			/* Look for MMIO32 */
-  2089			if ((pci->phb->mem_resources[i].flags & mask) == IORESOURCE_MEM) {
-  2090				start = pci->phb->mem_resources[i].start;
-  2091				end = pci->phb->mem_resources[i].end;
-  2092					break;
-  2093			}
-  2094		}
-  2095	
-  2096		/* New table for using DDW instead of the default DMA window */
-  2097		iommu_table_setparms_common(tbl, pci->phb->bus->number, create.liobn, win_addr,
-  2098					    1UL << len, page_shift, NULL, &iommu_table_lpar_multi_ops);
-  2099		iommu_init_table(tbl, pci->phb->node, start, end);
-  2100	
-  2101		pci->table_group->tables[num] = tbl;
-  2102		set_iommu_table_base(&pdev->dev, tbl);
-  2103		pdev->dev.archdata.dma_offset = win_addr;
-  2104	
-  2105		spin_lock(&dma_win_list_lock);
-  2106		list_add(&window->list, &dma_win_list);
-  2107		spin_unlock(&dma_win_list_lock);
-  2108	
-  2109		mutex_unlock(&dma_win_init_mutex);
-  2110	
-  2111		goto exit;
-  2112	
-  2113	remove_property:
-  2114		of_remove_property(pdn, win64);
-  2115	free_property:
-  2116		kfree(win64->name);
-  2117		kfree(win64->value);
-  2118		kfree(win64);
-  2119	remove_window:
-  2120		__remove_dma_window(pdn, ddw_avail, create.liobn);
-  2121	
-  2122	out_failed:
-  2123		fpdn = kzalloc(sizeof(*fpdn), GFP_KERNEL);
-  2124		if (!fpdn)
-  2125			goto out_unlock;
-  2126		fpdn->pdn = pdn;
-  2127		list_add(&fpdn->list, &failed_ddw_pdn_list);
-  2128	
-  2129	out_unlock:
-  2130		mutex_unlock(&dma_win_init_mutex);
-  2131	
-  2132		return ret;
-  2133	exit:
-  2134		/* Allocate the userspace view */
-  2135		pseries_tce_iommu_userspace_view_alloc(tbl);
-  2136		tbl->it_allocated_size = spapr_tce_get_table_size(page_shift, window_size, levels);
-  2137	
-  2138		*ptbl = iommu_tce_table_get(tbl);
-  2139	
-  2140		return 0;
-  2141	}
-  2142	
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.o: warning: objtool: amdgpu_ctx_ioctl()+0x10d5: can't find switch jump table
 
 -- 
 0-DAY CI Kernel Test Service
