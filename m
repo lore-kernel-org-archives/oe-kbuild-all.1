@@ -1,64 +1,59 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6723D7E8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 14:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FBE17FADE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 15:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718203197; cv=none; b=gzEkHpQG+pOaiopiLkZ94pCtC4CfhhdxuLXntGYTZqBUPx/GEf8ReuPgoz4+Wmqs3BDCyk1bm3QYOAyQe0r584KOoo1AaMhL95i1EZjRhL81o2rJUUa3C4199eCls/Zhz4IDqJJ6jzkBQXCNqK6k8IFAWy9kqla20Olcx4uOhPg=
+	t=1718204518; cv=none; b=mv2M3bI5vbVCuAXerm8YI1iioFDnAdlfqA2VkF0MvkidbVFfWmxi9ZBFclz8yqQokTkSaRAsjtoCawQ05RlG2E2/oVPxXH4SfnOhIHIYEM20ZSQzPf2pVfrrdju00X9tc0Ore3rjMsAusUFTxcnUm23I4w4EgT6xKVzebnnbtHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718203197; c=relaxed/simple;
-	bh=C8Pf6TJnvxaJ4Nn4K66aAeGYlXGVGIeUuoWkgeaYxbg=;
+	s=arc-20240116; t=1718204518; c=relaxed/simple;
+	bh=P2iCcJYIFySC3lnRu+Gyudav6+d7SobSe+GbjW8tfXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YKNT0bD9AN8Jh9zkO6EZm48CNWvzMAoajJz5FXG/xtDolIBspvTgIHY0Yb4Y6aobZcBtKgvwWeja7SLbw5GyPDh+5dnJ1IyWiJxJt3kc5ohnvGvO1rkeC2PihM6RzIylPDAzEMVAc54ipKMoPcRxqAsRyMK0wALsz9hMxxNjHqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yx59APT7; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=bMq0hGbqJ3xC++gXJrpYTouvXkUtWegSKlrzJFNnDmwuRKqNFMB+ehyOMjzj2GWxn9mUo5ZlqmeaP+zVYg1ka/1GBRoh77Rgv4aOHN4fqwW51gIy+YO8aeSLDdYURG4MxhPj176d54FgBNnC0aPBrmtIZzJRdowFXPQvcDl3hz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hn6/7JJ3; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yx59APT7"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4217990f997so37867495e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 07:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718203194; x=1718807994; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ek4Yz+vlANPAH4c/dw08+ma76dKbUBNCWTM+vTMJPkg=;
-        b=Yx59APT7PzcFBu091HgnXtK3bXq8fSf486PlTUNz1a1+a6MnZ44dNshzKrhCPNv545
-         29u9SB1EUC+nLlQuKL1PWDNjka3ZQXIv/K7Pfvp8Ck7r7BUlO284va1V80SzIEduZ/Oo
-         j9C4Cw/lTcKBttjI2wCuFzVRQJxGKi0AYV6jgvBj9wKXQX7OAAmVtLDID1SDCDRdnKAE
-         JNzg+70VgGAF8kWF/FJGJ4fIWv4xOVDq3klf6sDDrsfx4WaDHQKTrCA0W3274zRDbDO+
-         axeDbBcKdZu5ai7CbEBnMwzYqPtQNMYUkzo8JWx2DvZE/00jVlFkHyAVVVaiLrpoiEvp
-         CqLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718203194; x=1718807994;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ek4Yz+vlANPAH4c/dw08+ma76dKbUBNCWTM+vTMJPkg=;
-        b=tLfpL+ys7HfxdW2B5bHFceTzSdaeZ8NNZZSTAOHTNKs5RS+82b+JsNtR31g4Ykbtpm
-         dFvMFoiO/OiCxleeT/wwn/OSx56rR/iHC7WvpKJYj01loXiTZJoywZhvgP9dP8uCZ+VZ
-         4MJihnQ13g+APt4eD0LL1daaQ+0A5lBwIzNrCka1MLjpPe/KqVhkELZHMfXPRKUX9L6N
-         oweZHSTWXbwIGxKJlXYNL8lOwtemgTxwSY+rnzQvPdjaI3xDZBs01e2pgheJhgZae3P7
-         G3UnisiOwWeyni7OBrS6NiwhohWxqmCpmU2h/UlK5NGXazNHTBO3MdJmuEryDuP0cMVZ
-         hfPA==
-X-Forwarded-Encrypted: i=1; AJvYcCXP1LTQ4Chw/sRzNUe260X5sYLAR1UHHOc+Kk4mkJwp59BM66escAb8MwwenkFsLt7WGwq/JgZG8n8k0bY/xdIGcpnY0e2fDh9nDwFWlQ==
-X-Gm-Message-State: AOJu0YwxV4gKtjbjOJsOuyj5FwwFTQWMgF/1oEZ3wFEq+XyXugteGvQQ
-	9f3scia5I2U6Mv/oPXHQhRiCiFF8GSVf+Z/r1dMgD4rAoJo+Cvl4clNE0AvTDl2PrkHJOluR3r2
-	2
-X-Google-Smtp-Source: AGHT+IHoBqFVkLgUfa4fzrXbQ2MvOOSCUpnqYXpdqs629Xjbqw2VXrzEMNGPqVF9CCj+Druqiqe2WA==
-X-Received: by 2002:a05:600c:314e:b0:422:140:f440 with SMTP id 5b1f17b1804b1-422867c0b23mr18811025e9.36.1718203193587;
-        Wed, 12 Jun 2024 07:39:53 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422871ec9e6sm29485865e9.38.2024.06.12.07.39.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 07:39:53 -0700 (PDT)
-Date: Wed, 12 Jun 2024 17:39:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:slub-reservations 6/12] mm/slub.c:5551
- kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns
- '&s->reserve_lock'.
-Message-ID: <0682f0c0-41bd-482e-8ea9-6a676766ef34@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hn6/7JJ3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718204516; x=1749740516;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P2iCcJYIFySC3lnRu+Gyudav6+d7SobSe+GbjW8tfXQ=;
+  b=hn6/7JJ314ecHswmpSFmu5GyEgQoCCtAckPa42mYlKve/GVzgIDrO/Ag
+   9JU/esPonvvFm78XKu58F0v/Ol6W9iuBozJOf1epp6Kp84SFBVEKuVRsG
+   4SKoZCZULF58xUTPXUG+9bQE6TY/TcpyMMr7qWDw2EhC4q2wmgBdCfABt
+   eXUNdtEpe73GOxumJmqu8A9UH0ihdfqRMGRv1StPXyKZOOcEDJvlgtua4
+   K7DJ8d05dy0LbNNrBHL2n5FRsCll/izGK3nv4Z9GLvhWR30mGwrHXNs+i
+   nx39hidwSTkXpdf8ze+t6znw3TQxctEtGeBWBFGGD+BvPjD2Wpg7Ih60j
+   Q==;
+X-CSE-ConnectionGUID: iVfqbriwSLO4uxrbcfnPQQ==
+X-CSE-MsgGUID: Ds3GBlSTQA+9gpmO/t9bhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="32458616"
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="32458616"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 08:01:56 -0700
+X-CSE-ConnectionGUID: jl97lXE/RKaAkMG43SdVFg==
+X-CSE-MsgGUID: lK5NGkhcQeC6GJIGJhJS/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="40444683"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Jun 2024 08:01:55 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHPU0-0001dW-1N;
+	Wed, 12 Jun 2024 15:01:52 +0000
+Date: Wed, 12 Jun 2024 23:01:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [steev:lenovo-x13s-v6.10-rc3 53/74]
+ drivers/soc/qcom/qcom_pd_mapper.c:79:27: error: implicit declaration of
+ function 'kzalloc'
+Message-ID: <202406122214.IRlf9TGW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,73 +63,198 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-reservations
-head:   f5877f7833fc9f8a236be339ae5bbcccdde7c850
-commit: 17f60c99bf92fbf1ed52e1c492f46cec91d14cd5 [6/12] mm, slub: implement per-cache reserves
-config: x86_64-randconfig-161-20240612 (https://download.01.org/0day-ci/archive/20240612/202406122208.joPiUJJy-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://github.com/steev/linux lenovo-x13s-v6.10-rc3
+head:   5475612ad98c55b4a83979078f8326963b1538b6
+commit: cc7fd75b1dac0e180d13d78127035931503f6fef [53/74] soc: qcom: add pd-mapper implementation
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240612/202406122214.IRlf9TGW-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406122214.IRlf9TGW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406122208.joPiUJJy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406122214.IRlf9TGW-lkp@intel.com/
 
-smatch warnings:
-mm/slub.c:5551 kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns '&s->reserve_lock'.
-mm/slub.c:5551 kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns 'flags'.
+All error/warnings (new ones prefixed by >>):
 
-vim +5551 mm/slub.c
+   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_add_service_domain':
+>> drivers/soc/qcom/qcom_pd_mapper.c:79:27: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+      79 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                           ^~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:79:25: warning: assignment to 'struct qcom_pdm_service *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      79 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                         ^
+   drivers/soc/qcom/qcom_pd_mapper.c:89:16: warning: assignment to 'struct qcom_pdm_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      89 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+         |                ^
+>> drivers/soc/qcom/qcom_pd_mapper.c:93:25: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+      93 |                         kfree(service);
+         |                         ^~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_get_domain_list':
+>> drivers/soc/qcom/qcom_pd_mapper.c:160:13: warning: assignment to 'struct servreg_get_domain_list_resp *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     160 |         rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+         |             ^
+   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_start':
+>> drivers/soc/qcom/qcom_pd_mapper.c:585:14: warning: assignment to 'struct qcom_pdm_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     585 |         data = kzalloc(sizeof(*data), GFP_KERNEL);
+         |              ^
+   cc1: some warnings being treated as errors
 
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5512  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5513  void *kmem_cache_reserve_only_alloc_noprof(struct kmem_cache_reserve *reserve,
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5514  					   gfp_t gfp)
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5515  {
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5516  	struct kmem_cache *s = reserve->cache;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5517  	unsigned long flags;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5518  	void *obj = NULL;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5519  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5520  	spin_lock_irqsave(&s->reserve_lock, flags);
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5521  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5522  	if (!reserve->size && !s->reserve_surplus)
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5523  		goto empty_reserve;
 
-spin_unlock_irqrestore(&s->reserve_lock, flags);
+vim +/kzalloc +79 drivers/soc/qcom/qcom_pd_mapper.c
 
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5524  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5525  	/*
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5526  	 * Should not happen, the kmem_cache reserve_size should be sum of all
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5527  	 * active struct kmem_cache_reserve's size and the shared surplus
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5528  	 */
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5529  	if (WARN_ON_ONCE(!s->reserve_size))
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5530  		goto empty_reserve;
-
-spin_unlock_irqrestore(&s->reserve_lock, flags)
-
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5531  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5532  	obj = s->reserve_freelist;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5533  	s->reserve_freelist = get_freepointer(s, obj);
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5534  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5535  	s->reserve_size--;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5536  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5537  	if (s->size)
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5538  		reserve->size--;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5539  	else
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5540  		s->reserve_surplus--;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5541  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5542  	spin_unlock_irqrestore(&s->reserve_lock, flags);
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5543  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5544  	slab_post_alloc_hook(s, NULL, gfp, 1, &obj,
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5545  		slab_want_init_on_alloc(gfp, s), s->object_size);
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5546  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5547  	/* paired with smp_rmb() in kmem_cache_reserve_free() */
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5548  	smp_wmb();
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5549  
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5550  empty_reserve:
-17f60c99bf92fbf Vlastimil Babka 2024-05-31 @5551  	return obj;
-17f60c99bf92fbf Vlastimil Babka 2024-05-31  5552  
+    63	
+    64	static int qcom_pdm_add_service_domain(struct qcom_pdm_data *data,
+    65					       const char *service_name,
+    66					       const char *domain_name,
+    67					       u32 instance_id)
+    68	{
+    69		struct qcom_pdm_service *service;
+    70		struct qcom_pdm_domain *domain;
+    71	
+    72		service = qcom_pdm_find(data, service_name);
+    73		if (service) {
+    74			list_for_each_entry(domain, &service->domains, list) {
+    75				if (!strcmp(domain->name, domain_name))
+    76					return -EBUSY;
+    77			}
+    78		} else {
+  > 79			service = kzalloc(sizeof(*service), GFP_KERNEL);
+    80			if (!service)
+    81				return -ENOMEM;
+    82	
+    83			INIT_LIST_HEAD(&service->domains);
+    84			service->name = service_name;
+    85	
+    86			list_add_tail(&service->list, &data->services);
+    87		}
+    88	
+    89		domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+    90		if (!domain) {
+    91			if (list_empty(&service->domains)) {
+    92				list_del(&service->list);
+  > 93				kfree(service);
+    94			}
+    95	
+    96			return -ENOMEM;
+    97		}
+    98	
+    99		domain->name = domain_name;
+   100		domain->instance_id = instance_id;
+   101		list_add_tail(&domain->list, &service->domains);
+   102	
+   103		return 0;
+   104	}
+   105	
+   106	static int qcom_pdm_add_domain(struct qcom_pdm_data *data,
+   107				       const struct qcom_pdm_domain_data *domain)
+   108	{
+   109		int ret;
+   110		int i;
+   111	
+   112		ret = qcom_pdm_add_service_domain(data,
+   113						  TMS_SERVREG_SERVICE,
+   114						  domain->domain,
+   115						  domain->instance_id);
+   116		if (ret)
+   117			return ret;
+   118	
+   119		for (i = 0; domain->services[i]; i++) {
+   120			ret = qcom_pdm_add_service_domain(data,
+   121							  domain->services[i],
+   122							  domain->domain,
+   123							  domain->instance_id);
+   124			if (ret)
+   125				return ret;
+   126		}
+   127	
+   128		return 0;
+   129	
+   130	}
+   131	
+   132	static void qcom_pdm_free_domains(struct qcom_pdm_data *data)
+   133	{
+   134		struct qcom_pdm_service *service, *tservice;
+   135		struct qcom_pdm_domain *domain, *tdomain;
+   136	
+   137		list_for_each_entry_safe(service, tservice, &data->services, list) {
+   138			list_for_each_entry_safe(domain, tdomain, &service->domains, list) {
+   139				list_del(&domain->list);
+   140				kfree(domain);
+   141			}
+   142	
+   143			list_del(&service->list);
+   144			kfree(service);
+   145		}
+   146	}
+   147	
+   148	static void qcom_pdm_get_domain_list(struct qmi_handle *qmi,
+   149					     struct sockaddr_qrtr *sq,
+   150					     struct qmi_txn *txn,
+   151					     const void *decoded)
+   152	{
+   153		struct qcom_pdm_data *data = container_of(qmi, struct qcom_pdm_data, handle);
+   154		const struct servreg_get_domain_list_req *req = decoded;
+   155		struct servreg_get_domain_list_resp *rsp;
+   156		struct qcom_pdm_service *service;
+   157		u32 offset;
+   158		int ret;
+   159	
+ > 160		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+   161		if (!rsp)
+   162			return;
+   163	
+   164		offset = req->domain_offset_valid ? req->domain_offset : 0;
+   165	
+   166		rsp->resp.result = QMI_RESULT_SUCCESS_V01;
+   167		rsp->resp.error = QMI_ERR_NONE_V01;
+   168	
+   169		rsp->db_rev_count_valid = true;
+   170		rsp->db_rev_count = 1;
+   171	
+   172		rsp->total_domains_valid = true;
+   173		rsp->total_domains = 0;
+   174	
+   175		mutex_lock(&qcom_pdm_mutex);
+   176	
+   177		service = qcom_pdm_find(data, req->service_name);
+   178		if (service) {
+   179			struct qcom_pdm_domain *domain;
+   180	
+   181			rsp->domain_list_valid = true;
+   182			rsp->domain_list_len = 0;
+   183	
+   184			list_for_each_entry(domain, &service->domains, list) {
+   185				u32 i = rsp->total_domains++;
+   186	
+   187				if (i >= offset && i < SERVREG_DOMAIN_LIST_LENGTH) {
+   188					u32 j = rsp->domain_list_len++;
+   189	
+   190					strscpy(rsp->domain_list[j].name, domain->name,
+   191						sizeof(rsp->domain_list[i].name));
+   192					rsp->domain_list[j].instance = domain->instance_id;
+   193	
+   194					pr_debug("PDM: found %s / %d\n", domain->name,
+   195						 domain->instance_id);
+   196				}
+   197			}
+   198		}
+   199	
+   200		pr_debug("PDM: service '%s' offset %d returning %d domains (of %d)\n", req->service_name,
+   201			 req->domain_offset_valid ? req->domain_offset : -1, rsp->domain_list_len, rsp->total_domains);
+   202	
+   203		ret = qmi_send_response(qmi, sq, txn, SERVREG_GET_DOMAIN_LIST_REQ,
+   204					SERVREG_GET_DOMAIN_LIST_RESP_MAX_LEN,
+   205					servreg_get_domain_list_resp_ei, rsp);
+   206		if (ret)
+   207			pr_err("Error sending servreg response: %d\n", ret);
+   208	
+   209		mutex_unlock(&qcom_pdm_mutex);
+   210	
+   211		kfree(rsp);
+   212	}
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
