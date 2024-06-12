@@ -1,70 +1,59 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE12E16D9D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 10:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB0A16E885
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 10:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718186770; cv=none; b=eXQcRjzvomj2Va39rjKSU22D1v8VvSjWmfHDnawCF2FZsjv0Gv1UwKifsSvpMkh56qz+g9o563nusyY568iE7/n0nIkbH40pZIUuBYls2a6t9vKMgIKyCGivN4WabbGa1bNI+h8Omx1X3oyGGc2IOzj9RBzJvjjhK53P+WlpYy8=
+	t=1718186807; cv=none; b=JXwhvX2nRXAg8DaFz7lrtBScJA9D4v/Gz2i2uVw4REwLVYpK4Rej+5/XZsEKTTeTVkZN3cEhyBz4IxdNn9gY2JypfaU3N6CDlDASM1Enhs+e66SEkZkAPqcnTlWyBBUl4t7oGlCvlsBExoGAkcwWK7nqdC8dcVs4hefXQ11sm3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718186770; c=relaxed/simple;
-	bh=1A6bZen+Pwm2rwGjsZWg11Hh3DG8ekkj4TMpCIOx3uQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hiOxIeV0A1qujvJziPzxheeTanXxL+rrFWn7qxduJ6MrA28Q9KOVVQvSzfGbZ/A8RHchoEyAuEWCiMpJ0HKa22KCgXItKLefoMnWMm59ttGIc+Q30W5GZeFHLBSl6O9vH/OjwQAAX3KQCqqloiXxsq2oyE0O5+0bjbD9Doq9m6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R4fAq5aQ; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718186807; c=relaxed/simple;
+	bh=To1WttjKsXxJBBOgKpjCYe0t4R2vRFdpQUxL3hP0lnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qLlYPHi3gIOYw8E5RZmBDBcx65gRU88cBo7W7GwwhsdaoUiOyKuGZewkj96HKYVSCqUQNGLSua6CPh9EnHjCD4G5w8tUqc79RetmRXoNh89bhYzqlu2f0ZGpTuU6Jt+LTdaMHHkCnvRymzp5OHktBXaeXcuWVl+DvMJoiJ3QPv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ltpaxaka; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R4fAq5aQ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-421d32fda86so31114875e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jun 2024 03:06:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718186767; x=1718791567; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j7GQT4sb8fOqdwN7qErmxIxCia5GY2ESmxbkweiG4mk=;
-        b=R4fAq5aQf3w6+H1PjusTwYjiJm0UDecwi+2imLg2whmoxVQkd/6B/AeRS4JJXqyYV6
-         pUr8W6/ruVoqAFlH7blwc53LpfkfQIFo13QzkT513HIb/utTjVRVFCjtxPhuMFiHggMN
-         G3oxIjYPFbNYmGDNAHg2NM+PUu5LDgJrhZLzEid/nqaCr/KnWZ/15u3VE1FoWhXhx82M
-         YVUyS+0j4HenEMgTCWX1JV6uehSoNov3kPHWDhTix6g2ldJWmM6ZTbWjc3nZ1E7k6P9A
-         ReKRC1keBRmrcxF5Iv790eACMeMhV+ONa0H24UxPbpTWru7mGrDOO60zerufHmeNemvX
-         7imw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718186767; x=1718791567;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j7GQT4sb8fOqdwN7qErmxIxCia5GY2ESmxbkweiG4mk=;
-        b=PjE4Nze/6ZY1wS2exM4tcvK14KcEwDeXuGTcr3ogX0I6YYPA6YqqttD1iSK9DSmhsL
-         jwofSOLRPju6JWa7F34OsSOLySYRJjZ2EpwQkYceAiAh7uYIkjJ8s3mm1wkaKEE3NfKQ
-         jEse1uDmnKzNfq7UhJxnZzOzj+APWSrGaJv1I2ZBvqetA23luA0nFSYCEN88eiUFOlL/
-         xtkqPwIyWJKPsIzuM7znvpKLF1QASCFXd8K+OSbEQPqTIfDNf8KTgyRGyIAeBATBMB87
-         CHo5GZrbg17yzzX195VsIuVGIMajlKiwgVgT+2+dwzpyIXsn+PTBDF/CGnTDhmUKs3I8
-         ya1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVd/uGTrS7ltFqIMU5ae0jp/GsdklPkOt1KkgzbSOExysjgXnAJUtCj/aaVcZHuKhNHeRWF/pK9OXtaM8WPio6SlcKZIprg9HSu/mgARA==
-X-Gm-Message-State: AOJu0YyRc7pVSx4G5l/APSOForU1y4iCgnmyEQ8r7m4lXMbU5lTocAAQ
-	KtyyolTocQzRud2W3thpdN9C0+18sAmdPkSYE2FRxcWT2NyDPujdFEolrXb3Q2w=
-X-Google-Smtp-Source: AGHT+IEc+w6vERYyx26ozDlBXedCJnqiKgmj86kpCTQ5mYYcm1u2cnMPFRH40yWhGkpp8pMqt5gJLg==
-X-Received: by 2002:a05:600c:4f4a:b0:421:f43d:dadd with SMTP id 5b1f17b1804b1-422867bf628mr16526785e9.33.1718186766848;
-        Wed, 12 Jun 2024 03:06:06 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874e73c7sm19643925e9.42.2024.06.12.03.06.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 03:06:05 -0700 (PDT)
-Date: Wed, 12 Jun 2024 13:06:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: oe-kbuild@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	ying.huang@intel.com, Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Hildenbrand <david@redhat.com>,
-	John Hubbard <jhubbard@nvidia.com>, Mel Gorman <mgorman@suse.de>,
-	Ryan Roberts <ryan.roberts@arm.com>, liushixin2@huawei.com
-Subject: Re: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
-Message-ID: <81da44d7-e07d-4757-9a67-87c35b62512c@moroto.mountain>
-References: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
- <c6df35cc-1331-4255-8ff5-898f6a911bec@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ltpaxaka"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718186806; x=1749722806;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=To1WttjKsXxJBBOgKpjCYe0t4R2vRFdpQUxL3hP0lnc=;
+  b=LtpaxakaMCVb7FaTB50uhTQyhKpMkOKH4JJ5KjkVi5fdbF13rKngd20R
+   JExiXnWmBpOIrEHKTiiRoH6zj5f+k5akV3f0D6ngabrHXF2/R3m+q+Nh6
+   zCNAA+aMBs9+4FmoVLdgPgMGNNR4roNkvC0WVh0xQxpF+BCsVNEnZOIsT
+   aKVQGwv2IgukX2rdZ9hgZTEieRwHqd0OWrACRUK2iHzH1i02Xt5qvIUf8
+   iJbF94UO4+NREfVJzXKTQ8kgGIQQtjkibX6L4yvFqovvF6mIDFeYk63Dp
+   07kQ/Bc+wxxtfjOfr5PQjlxJ07h0bHfIKvProJSVySHwmsBS6hVJ/Neol
+   g==;
+X-CSE-ConnectionGUID: k3/cgvrfSliBX+qBP+UD8g==
+X-CSE-MsgGUID: zghu95a8SqSqLT4yJeZXuA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15070007"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="15070007"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 03:06:46 -0700
+X-CSE-ConnectionGUID: MRj5Um5HSh2ppbvaj34Fwg==
+X-CSE-MsgGUID: uEfoPTIiQCyfipFR7iPCNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="40444129"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 12 Jun 2024 03:06:45 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHKsM-0001RO-0g;
+	Wed, 12 Jun 2024 10:06:42 +0000
+Date: Wed, 12 Jun 2024 18:06:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [steev:lenovo-x13s-v6.10-rc3 53/74]
+ drivers/soc/qcom/qcom_pd_mapper.c:79:13: error: implicit declaration of
+ function 'kzalloc' is invalid in C99
+Message-ID: <202406121845.iiYY0xjK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,29 +62,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c6df35cc-1331-4255-8ff5-898f6a911bec@huawei.com>
 
-On Wed, Jun 12, 2024 at 10:50:02AM +0800, Kefeng Wang wrote:
-> > b99a342d4f11a5 Huang Ying        2021-04-29  5364  out_map:
-> > b99a342d4f11a5 Huang Ying        2021-04-29  5365  	/*
-> > b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 * Make it present again, depending on how arch implements
-> > b99a342d4f11a5 Huang Ying        2021-04-29  5367  	 * non-accessible ptes, some can allow access by kernel mode.
-> > b99a342d4f11a5 Huang Ying        2021-04-29  5368  	 */
-> > d2136d749d76af Baolin Wang       2024-03-29  5369  	if (folio && folio_test_large(folio))
-> > 
-> > Are folio_test_large() and folio_is_zone_device() mutually exclusive?
-> > If so then this is a false positive.  Just ignore the warning in that
-> > case.
-> > 
-> 
-> The folio in ZONE_DEVICE is not a large folio, so there is no issue for now,
-> but will fix.
-> 
+tree:   https://github.com/steev/linux lenovo-x13s-v6.10-rc3
+head:   5475612ad98c55b4a83979078f8326963b1538b6
+commit: cc7fd75b1dac0e180d13d78127035931503f6fef [53/74] soc: qcom: add pd-mapper implementation
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240612/202406121845.iiYY0xjK-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121845.iiYY0xjK-lkp@intel.com/reproduce)
 
-If it's not an issue, then don't feel obligated to do anything.  These
-are a one time email and then I treat it as addressed.  These warnings
-are intended to be useful, not a burden.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121845.iiYY0xjK-lkp@intel.com/
 
-regards,
-dan carpenter
+All errors (new ones prefixed by >>):
 
+>> drivers/soc/qcom/qcom_pd_mapper.c:79:13: error: implicit declaration of function 'kzalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   service = kzalloc(sizeof(*service), GFP_KERNEL);
+                             ^
+   drivers/soc/qcom/qcom_pd_mapper.c:79:11: warning: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_service *' from 'int' [-Wint-conversion]
+                   service = kzalloc(sizeof(*service), GFP_KERNEL);
+                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:89:11: error: implicit declaration of function 'kzalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+                    ^
+   drivers/soc/qcom/qcom_pd_mapper.c:89:9: warning: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_domain *' from 'int' [-Wint-conversion]
+           domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/soc/qcom/qcom_pd_mapper.c:93:4: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           kfree(service);
+                           ^
+   drivers/soc/qcom/qcom_pd_mapper.c:140:4: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           kfree(domain);
+                           ^
+   drivers/soc/qcom/qcom_pd_mapper.c:144:3: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   kfree(service);
+                   ^
+   drivers/soc/qcom/qcom_pd_mapper.c:160:8: error: implicit declaration of function 'kzalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+                 ^
+   drivers/soc/qcom/qcom_pd_mapper.c:160:6: warning: incompatible integer to pointer conversion assigning to 'struct servreg_get_domain_list_resp *' from 'int' [-Wint-conversion]
+           rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:211:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           kfree(rsp);
+           ^
+   drivers/soc/qcom/qcom_pd_mapper.c:557:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           kfree(data);
+           ^
+   drivers/soc/qcom/qcom_pd_mapper.c:585:9: error: implicit declaration of function 'kzalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           data = kzalloc(sizeof(*data), GFP_KERNEL);
+                  ^
+   drivers/soc/qcom/qcom_pd_mapper.c:585:7: warning: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_data *' from 'int' [-Wint-conversion]
+           data = kzalloc(sizeof(*data), GFP_KERNEL);
+                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:594:3: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   kfree(data);
+                   ^
+   4 warnings and 10 errors generated.
+
+
+vim +/kzalloc +79 drivers/soc/qcom/qcom_pd_mapper.c
+
+    63	
+    64	static int qcom_pdm_add_service_domain(struct qcom_pdm_data *data,
+    65					       const char *service_name,
+    66					       const char *domain_name,
+    67					       u32 instance_id)
+    68	{
+    69		struct qcom_pdm_service *service;
+    70		struct qcom_pdm_domain *domain;
+    71	
+    72		service = qcom_pdm_find(data, service_name);
+    73		if (service) {
+    74			list_for_each_entry(domain, &service->domains, list) {
+    75				if (!strcmp(domain->name, domain_name))
+    76					return -EBUSY;
+    77			}
+    78		} else {
+  > 79			service = kzalloc(sizeof(*service), GFP_KERNEL);
+    80			if (!service)
+    81				return -ENOMEM;
+    82	
+    83			INIT_LIST_HEAD(&service->domains);
+    84			service->name = service_name;
+    85	
+    86			list_add_tail(&service->list, &data->services);
+    87		}
+    88	
+    89		domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+    90		if (!domain) {
+    91			if (list_empty(&service->domains)) {
+    92				list_del(&service->list);
+  > 93				kfree(service);
+    94			}
+    95	
+    96			return -ENOMEM;
+    97		}
+    98	
+    99		domain->name = domain_name;
+   100		domain->instance_id = instance_id;
+   101		list_add_tail(&domain->list, &service->domains);
+   102	
+   103		return 0;
+   104	}
+   105	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
