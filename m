@@ -1,59 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998DC140E58
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 10:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6526314262B;
+	Thu, 13 Jun 2024 10:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718272930; cv=none; b=LGbgF7LLyqcDWvnYg53z+4QR6fnC0Fnvp+v5L8FH2k55NhZtxNqxremqY+5D483hwLy1Gi02hHstNvF9J9DOtNWSw/JCyILuIgOyh/hcEp05zk9DliEG3VubgEJm7uEahipG6QYkXqjHDAA3+o/Fak9JxVqfiG8GHPMKzEUd+g4=
+	t=1718276159; cv=none; b=agf10O9DZkGcli+pSaGtnkxnaqRWbZtMxnhszDCwb+FmAxaiOM686xbxnL8Ye8ARSQuh0d37JiD43THutoTMipVf95dLPM9b+TQNlfylnRjseGpnml3vERjAtjpma66yVY+nNnaj+Vntvdw+o6AztL4Wv4+vQBDXrkBPniVe8qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718272930; c=relaxed/simple;
-	bh=REHJVPP7PxA+Cxa2RfklbP3ILe0NBi3WD53cSguprnw=;
+	s=arc-20240116; t=1718276159; c=relaxed/simple;
+	bh=6b8ovoJTtpRLHBC4ajzYK05o5vyr6KBXY3vrPVEqJ8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TDTqaUD8JErnOjbxLNK7D8YXJXx+2YOcuPWvZsXZf/8mt+yGGIkjLR9cW3g+C3KZ6LOllMxKIRaNItSme7y8dz2hMCP6d0jFbyo6madKslWGdCSutcKBn2xpuMHhyJ10PCbgs1Zm3BWRk11CJvuCeudeS/j7xTacEUXFEu4+0Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5aBaZ+H; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=pK3LTToqtET4mq3MDrR9kbFWboUeCys4B+KvvKnLA7FIFrDtomI/TQmHXMxHMPykd56NW1z5yK11udtPqdhrxJIVgeceVINC7L+UlRolajVn43O+Z3AF29vkAZgYP15WlKYt95uF/XeIs45pDLtqo2puYIk++0aC2yf88dbZIgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SGMXyFPm; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5aBaZ+H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SGMXyFPm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718272929; x=1749808929;
+  t=1718276158; x=1749812158;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=REHJVPP7PxA+Cxa2RfklbP3ILe0NBi3WD53cSguprnw=;
-  b=R5aBaZ+H/SQit8kOSuTq1xboSM3Xbyt8UItjIrm2UBBh+/A+WFibd+K8
-   6wfCXf+eoGoPjRB25s+aaxdS0cvKXJZJLQTKsZu2EE3Lqa95IuMJl3ceI
-   nzOWTJd42O6JFFZHLKzk+/ZsdT0elpJEAChXchuMuTiJAlA0P6N62v5ke
-   lDkZh4dz2y2NosTysJQy/WhYlmu9z0kbB7IT/DzRcEuE+dUox1Cc6C24I
-   Ez9KLIASmeamYGhg2fC+ycXS8WPaiwMbdzQO17msk0HVs7mXh+3VVx3Hu
-   vjUTLSWJjG9dM53+6eigVnlTccr+Qef6NFkvFQhofPlTDuL9uwVkA58ed
+  bh=6b8ovoJTtpRLHBC4ajzYK05o5vyr6KBXY3vrPVEqJ8Q=;
+  b=SGMXyFPmJnNpYSkYA1J9tKyEGKemxDrRKFSOyqzro8c2J8M7sqFe/JBq
+   RCStm4CPi5aV2UFR4gOYgBGxk/hZ+QQ0DwAnSUtaQKNLxyAFU8+/xpyFV
+   XEJtMLHK6qfrj2sKGP18wCfuKM2wOhorrn25NDO/C7Thl6tZe+68/ZXtR
+   dXmBHrn7T0spguw6UB6kJI2PTgcPDb/C723COO3LHPuzoPtKcu7SwKKfZ
+   9tU9fwShOkapw41iJAkj2vXQD6rjyuyUeMX0zFHuS13X94ND64lNRANXF
+   9hCFWiEA0rybbDLW4AQlwWxpDJLtVscC30WCQhdiqRES3SCNI3uoWExcy
    A==;
-X-CSE-ConnectionGUID: zYbcqUzMRi+IazoCXK78Ow==
-X-CSE-MsgGUID: ZIX7uiCLQxWYR7vhmscKOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15048233"
+X-CSE-ConnectionGUID: opYX6GM4TJuSq7F5iYf6jg==
+X-CSE-MsgGUID: CiMJ/AiCRs6byMK4CRJP3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="37606712"
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="15048233"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 03:02:06 -0700
-X-CSE-ConnectionGUID: iBoarGxuTBiSoCf1xBKD6Q==
-X-CSE-MsgGUID: UxfSZwtpRpqbJ8eYkWTy0g==
+   d="scan'208";a="37606712"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 03:55:58 -0700
+X-CSE-ConnectionGUID: tnrO+fJUQeGyx0/k0IZjWg==
+X-CSE-MsgGUID: bKS/wAsASY+1gpvGdJC2ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="71300556"
+   d="scan'208";a="45228251"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Jun 2024 03:01:49 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 03:55:51 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHhH8-0002T4-37;
-	Thu, 13 Jun 2024 10:01:46 +0000
-Date: Thu, 13 Jun 2024 18:01:17 +0800
+	id 1sHi7R-0002WE-0F;
+	Thu, 13 Jun 2024 10:55:49 +0000
+Date: Thu, 13 Jun 2024 18:55:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/3] ksmbd: add durable scavenger timer
-Message-ID: <202406131718.ee85fdua-lkp@intel.com>
-References: <20240610141416.8039-2-linkinjeon@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
+Message-ID: <202406131802.9chtX0Ci-lkp@intel.com>
+References: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +81,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240610141416.8039-2-linkinjeon@kernel.org>
+In-Reply-To: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
 
-Hi Namjae,
+Hi Tomeu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Namjae-Jeon/ksmbd-add-durable-scavenger-timer/20240610-221647
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240610141416.8039-2-linkinjeon%40kernel.org
-patch subject: [PATCH 2/3] ksmbd: add durable scavenger timer
-config: s390-randconfig-r112-20240613 (https://download.01.org/0day-ci/archive/20240613/202406131718.ee85fdua-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240613/202406131718.ee85fdua-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockchip-Add-compatible-for-rockchip-rk3588-iommu/20240612-215814
+base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-6-060e48eea250%40tomeuvizoso.net
+patch subject: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
+config: arc-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_DRM_ACCEL_ROCKET-0-0 (https://download.01.org/0day-ci/archive/20240613/202406131802.9chtX0Ci-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240613/202406131802.9chtX0Ci-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131718.ee85fdua-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406131802.9chtX0Ci-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/smb/server/vfs_cache.c:40:19: sparse: sparse: symbol 'dh_wq' was not declared. Should it be static?
-   fs/smb/server/vfs_cache.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +/dh_wq +40 fs/smb/server/vfs_cache.c
-
-    36	
-    37	static bool durable_scavenger_running;
-    38	static DEFINE_MUTEX(durable_scavenger_lock);
-    39	struct task_struc *dh_task;
-  > 40	wait_queue_head_t dh_wq;
-    41	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by DRM_ACCEL_ROCKET
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+     Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
+     Selected by [y]:
+     - DRM_ACCEL_ROCKET [=y] && DRM [=y] && (ARM64 || COMPILE_TEST [=y]) && MMU [=y]
 
 -- 
 0-DAY CI Kernel Test Service
