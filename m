@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BA51428FC;
-	Thu, 13 Jun 2024 11:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094401E519
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 12:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718278735; cv=none; b=i6RiX7XdTYHh3GyTt/Qz77t9ZvL7AiMzGrY9TjO7Z+O/8siogfjAftlpJuxTWat8im03lwgq6jzbWX1tyHENKtalT4YPIiidkRxbdKGgwhbXPlZCGxX8hGJbMTe13YSbZMuXP4n62S2o16k7eoKUHQKDnxFb1l9STe8DII1Nr28=
+	t=1718282522; cv=none; b=ndixmS4jw/9qGSwuu3Hpgzq36/2Q4eU1GKHpSod4MhdqEWBV73wqLJUfFWIOKWCfDTbzng4oMRoXYpydH2nHe4OkWG3vZ6LSVhn7RzfaLD061jGSVhJQQtQ9WQAegOo1BQeb4eT6UYetvegWpQH5qbrDGv2lsU404rBqPdCK4MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718278735; c=relaxed/simple;
-	bh=kc2wGPCf8fw2xZNvSde/pA1Ba3m3HWV0VOTl3uTLzFs=;
+	s=arc-20240116; t=1718282522; c=relaxed/simple;
+	bh=ttOJfvUelXPVznHlvv9zD4MIgIfpGKyfFitOZVzl5uk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HJWhENNU6hMle+JkiD5MF2ptiCnuXonAU4f7EGlyvFF8QC73nTfZbqvtfAJgWnbZboHf9Sg+6u9SRk4jNT7GF+oXB02QtctKMbMTi5+9Z+C3aR1R/Td/HpJ8AK1gR3d2i8Na8rQKlYFs/w6Fm4nvVTuV929NPvivf6bOuJcu5u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR48vOVo; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Aw7ZKP1e9Ug6mPN3TWUCF9O4zyGSbRoZrHINqD/50k9D3TGDs5vwatbPzHGEvE+tpVjN1O9k94weoBza4ZHX7V6V7cDRb01F/gpdQ1+zlriTVxny6JqWN6GXNh88quITJZmo1vbxGkONeoziA35jBneDql9WiYy+uT5+86Te7yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=me5ueXM1; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR48vOVo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="me5ueXM1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718278734; x=1749814734;
+  t=1718282520; x=1749818520;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kc2wGPCf8fw2xZNvSde/pA1Ba3m3HWV0VOTl3uTLzFs=;
-  b=mR48vOVo3S/7R2KxSS5B1IOFzt26oshGtR4wr2SPDqbd3Z04xVYg5uBu
-   7XjO9efesWtCSjFIiAgDH22LPOxyTlMy4hjEyyazkK3CEtteEcbZL7R/p
-   laOd06zmoC1cs5B9m7rKQXe3gdN+0WP3BshXY+00D5U1uZ4CsbNZS4T0L
-   nJBk8t/MXw6SfrHr6Bng9UMmd4yi2Kfsz+0fkdp6cWXfbwn/1GdJ1/sPV
-   0Ok+OApk5CM5PLoOlaFWkV0l5Q+RnBfDjLlRdIVEGgMNaUJpofOqZWk5o
-   3JeEk7tIAo1qzK/5aHLsIYa4g0fJ7Ft2KOhZo/kTmm/TuVZUiPIDbeH8V
+  bh=ttOJfvUelXPVznHlvv9zD4MIgIfpGKyfFitOZVzl5uk=;
+  b=me5ueXM1fC6R0R6zCCY0IwZJ/Ylb14D9NqURMnxdzmNBS/zlHJC4Q1gg
+   K2ZE/W2B9loP3u/U6O7q8/AVG7qmewFviLQAl60UQjXLsP0GhcxZs1o4d
+   OUw7GzJyfygDsQIHHaQjWdGwCZfL7jCibn4cWRZ5pQewBiW5QsAL1GZqh
+   rD7nQbxrKA5340/xAo2jSnwnGOs/72u3QLbWQq0grqVjR38TIkS5ZcBFi
+   CuMfCIeDsy7fowcxVsOtUSMcNrpTtRMajcKgIuM2EIWeNrM5SzEUCt0sc
+   CaDflg+0vJp31CHT/LwFveRik2z7b4pNlA4iqjUGOtiDV/gCXqHamdX5c
    Q==;
-X-CSE-ConnectionGUID: SeKTplzPTK+BveHYD6rlTQ==
-X-CSE-MsgGUID: bzrprpk8TNWhoGwWphkJkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14967218"
+X-CSE-ConnectionGUID: JsZvXp5ZTz67tRz4juLY8Q==
+X-CSE-MsgGUID: nRHVnUQGQpmHvTXF5AxMOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="32641692"
 X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
-   d="scan'208";a="14967218"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 04:38:53 -0700
-X-CSE-ConnectionGUID: dI9Gpuq/TqytdRU56ddI/g==
-X-CSE-MsgGUID: 2DLOxBRLSG2wuP2ktDVgYw==
+   d="scan'208";a="32641692"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 05:41:59 -0700
+X-CSE-ConnectionGUID: vlyW8AXbTNWrNm1fwEx/aA==
+X-CSE-MsgGUID: ZG1SeumTQLikt+GVsApFRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
-   d="scan'208";a="39978473"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Jun 2024 04:38:52 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+   d="scan'208";a="45254690"
+Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 05:41:58 -0700
+Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHin4-0002YE-0x;
-	Thu, 13 Jun 2024 11:38:50 +0000
-Date: Thu, 13 Jun 2024 19:38:37 +0800
+	id 1sHjm7-00001u-1o;
+	Thu, 13 Jun 2024 12:41:55 +0000
+Date: Thu, 13 Jun 2024 20:41:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2key-v8 4/7] crypto/tpm2_key.c:66:46: warning:
- format specifies type 'unsigned long' but the argument has type 'size_t'
- (aka 'unsigned int')
-Message-ID: <202406131947.HQPeOX9t-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/pci/intel/ivsc/mei_csi.c:679:undefined reference to
+ `ipu_bridge_parse_ssdb'
+Message-ID: <202406132238.3hXHG7nB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,78 +63,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
-head:   d9163bc5bda8b6415ef960406b9bc952fa1b1b9f
-commit: a6354b96f28990ba3d0b8753f0f639127febccb0 [4/7] crypto: tpm2_key: Implement a robust parser
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240613/202406131947.HQPeOX9t-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131947.HQPeOX9t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2ccbdf43d5e758f8493a95252073cf9078a5fea5
+commit: 33116eb12c6b29889cc161058ae0ee4124821b6f media: ivsc: csi: Use IPU bridge
+date:   6 weeks ago
+config: x86_64-randconfig-003-20231130 (https://download.01.org/0day-ci/archive/20240613/202406132238.3hXHG7nB-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406132238.3hXHG7nB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131947.HQPeOX9t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406132238.3hXHG7nB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> crypto/tpm2_key.c:66:46: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-      66 |         pr_info("%s: header size: %lu\n", __func__, header_size);
-         |                                   ~~~               ^~~~~~~~~~~
-         |                                   %zu
-   include/linux/printk.h:537:34: note: expanded from macro 'pr_info'
-     537 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   crypto/tpm2_key.c:67:46: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-      67 |         pr_info("%s: public size: %lu\n", __func__, size);
-         |                                   ~~~               ^~~~
-         |                                   %zu
-   include/linux/printk.h:537:34: note: expanded from macro 'pr_info'
-     537 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   2 warnings generated.
+   ld: drivers/media/pci/intel/ivsc/mei_csi.o: in function `mei_csi_probe':
+>> drivers/media/pci/intel/ivsc/mei_csi.c:679:(.text+0xd8e): undefined reference to `ipu_bridge_parse_ssdb'
+>> ld: drivers/media/pci/intel/ivsc/mei_csi.c:679:(.text+0xd93): undefined reference to `ipu_bridge_init'
 
 
-vim +66 crypto/tpm2_key.c
+vim +679 drivers/media/pci/intel/ivsc/mei_csi.c
 
-    44	
-    45	int tpm2_parse_public(void *context, size_t hdrlen, u8 tag, const void *value, size_t size)
-    46	{
-    47		const void *ptr = value + sizeof(struct tpm2_public);
-    48		struct tpm2_key *work = context;
-    49		size_t header_size;
-    50	
-    51		if (!tpm2_key_valid(value, size))
-    52			return -EBADMSG;
-    53	
-    54		if (sizeof(struct tpm2_public) > size - 2)
-    55			return -EBADMSG;
-    56	
-    57		ptr += 2 + get_unaligned_be16(ptr);
-    58		header_size = ptr - value;
-    59	
-    60		if ((ptr - value) > size - 2)
-    61			return -EBADMSG;
-    62	
-    63		work->public = value;
-    64		work->public_size = size;
-    65	
-  > 66		pr_info("%s: header size: %lu\n", __func__, header_size);
-    67		pr_info("%s: public size: %lu\n", __func__, size);
-    68		return 0;
-    69	}
-    70	
+   662	
+   663	static int mei_csi_probe(struct mei_cl_device *cldev,
+   664				 const struct mei_cl_device_id *id)
+   665	{
+   666		struct device *dev = &cldev->dev;
+   667		struct pci_dev *ipu;
+   668		struct mei_csi *csi;
+   669		unsigned int i;
+   670		int ret;
+   671	
+   672		for (i = 0, ipu = NULL; !ipu && ipu6_pci_tbl[i].vendor; i++)
+   673			ipu = pci_get_device(ipu6_pci_tbl[i].vendor,
+   674					     ipu6_pci_tbl[i].device, NULL);
+   675	
+   676		if (!ipu)
+   677			return -ENODEV;
+   678	
+ > 679		ret = ipu_bridge_init(&ipu->dev, ipu_bridge_parse_ssdb);
+   680		if (ret < 0)
+   681			return ret;
+   682		if (WARN_ON(!dev_fwnode(dev)))
+   683			return -ENXIO;
+   684	
+   685		csi = devm_kzalloc(dev, sizeof(struct mei_csi), GFP_KERNEL);
+   686		if (!csi)
+   687			return -ENOMEM;
+   688	
+   689		csi->cldev = cldev;
+   690		mutex_init(&csi->lock);
+   691		init_completion(&csi->cmd_completion);
+   692	
+   693		mei_cldev_set_drvdata(cldev, csi);
+   694	
+   695		ret = mei_cldev_enable(cldev);
+   696		if (ret < 0) {
+   697			dev_err(dev, "mei_cldev_enable failed: %d\n", ret);
+   698			goto destroy_mutex;
+   699		}
+   700	
+   701		ret = mei_cldev_register_rx_cb(cldev, mei_csi_rx);
+   702		if (ret) {
+   703			dev_err(dev, "event cb registration failed: %d\n", ret);
+   704			goto err_disable;
+   705		}
+   706	
+   707		ret = mei_csi_parse_firmware(csi);
+   708		if (ret)
+   709			goto err_disable;
+   710	
+   711		csi->subdev.dev = &cldev->dev;
+   712		csi->subdev.state_lock = &csi->lock;
+   713		v4l2_subdev_init(&csi->subdev, &mei_csi_subdev_ops);
+   714		csi->subdev.internal_ops = &mei_csi_internal_ops;
+   715		v4l2_set_subdevdata(&csi->subdev, csi);
+   716		csi->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
+   717				    V4L2_SUBDEV_FL_HAS_EVENTS;
+   718		csi->subdev.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+   719		csi->subdev.entity.ops = &mei_csi_entity_ops;
+   720	
+   721		snprintf(csi->subdev.name, sizeof(csi->subdev.name),
+   722			 MEI_CSI_ENTITY_NAME);
+   723	
+   724		ret = mei_csi_init_controls(csi);
+   725		if (ret)
+   726			goto err_ctrl_handler;
+   727	
+   728		csi->pads[CSI_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+   729		csi->pads[CSI_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+   730		ret = media_entity_pads_init(&csi->subdev.entity, CSI_NUM_PADS,
+   731					     csi->pads);
+   732		if (ret)
+   733			goto err_ctrl_handler;
+   734	
+   735		ret = v4l2_subdev_init_finalize(&csi->subdev);
+   736		if (ret < 0)
+   737			goto err_entity;
+   738	
+   739		ret = v4l2_async_register_subdev(&csi->subdev);
+   740		if (ret < 0)
+   741			goto err_subdev;
+   742	
+   743		pm_runtime_enable(&cldev->dev);
+   744	
+   745		return 0;
+   746	
+   747	err_subdev:
+   748		v4l2_subdev_cleanup(&csi->subdev);
+   749	
+   750	err_entity:
+   751		media_entity_cleanup(&csi->subdev.entity);
+   752	
+   753	err_ctrl_handler:
+   754		v4l2_ctrl_handler_free(&csi->ctrl_handler);
+   755		v4l2_async_nf_unregister(&csi->notifier);
+   756		v4l2_async_nf_cleanup(&csi->notifier);
+   757	
+   758	err_disable:
+   759		mei_cldev_disable(cldev);
+   760	
+   761	destroy_mutex:
+   762		mutex_destroy(&csi->lock);
+   763	
+   764		return ret;
+   765	}
+   766	
 
 -- 
 0-DAY CI Kernel Test Service
