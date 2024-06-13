@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078A21459F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 17:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E012F50
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 19:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718298090; cv=none; b=eBlXEGZr4sErg0J8k5LtRq24LTdJ+czotonwklyx9xAQN77ZEjVYpMuLPJEiqmu9fuAMaLTyUstJdSSuTDWMACHbP50nj2MWRxDI/j9r9jDAMyB8DMZtlT+AS6fzSl5z8m++npz0qMRNmq3XUNGxdE7BlYeP7VQZMJUhmwX71d0=
+	t=1718306746; cv=none; b=M3xbyVdIxYIBAmGW2Yt6WkqNHebObXhalqghOVYcurR79lPZpjvKa5n7y6mxAIciljce/iYPYhXpqECzmi/ioDZMwyyDAsmzGhn/MmPJBWbn3vST23ey78B3gEBXtF2xcYAkD/lwhIczd8f9+/wudvFRvkpC0KV0X6rzesTVfSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718298090; c=relaxed/simple;
-	bh=1i7D9kp+qHV/NebliR7n37U+CYlcMYhSpJGoeFmJBhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M8V12suK1P75y2xCqbcbZzHafjefqf6TbFrQ5Jc7SCmjcKgUZW5qOwMPPk0s81XDlcpmGbZLj7rXUxeruh0CgFXMRYzhJNwPyL1whMBr7Cava/LD8zTzoFM9lszyucU4zLPdKS/xdY9mY7vIwzZRYHJjPeX2zQeUQ6710vQs9GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MFa39E5A; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1718306746; c=relaxed/simple;
+	bh=VC0WTxQ8xaHvRuADJJ8NAKDpVXa/w+q7KdgTGGsjC6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YL/NHZvbqrG1ehGXaPEOZeI3C5wISHc1wfdcNNGuUyZHhffAPw8b7oSsB6OXyB36jIrHZEZach3OFboKtgKCixAwUZkCJmoEPIBwdzzKPZjR1Lb58KzmzchYTQ1ddwA17XWtBMwfCAX6YRQ7viFD1STUPYckCrdVoHGmVzp1Ktk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCZ8wsIC; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFa39E5A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCZ8wsIC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718298088; x=1749834088;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1i7D9kp+qHV/NebliR7n37U+CYlcMYhSpJGoeFmJBhk=;
-  b=MFa39E5ACkuudZ4mch+3HkHh1AALGVloyeldJgzOjhduGLx6Vrydm8Gu
-   sBcidWQoL0wWpfMNjUvJIav/Pjc0em4lNHZdr209EUTn7Z7R3tLkz+9pk
-   +/LmnzXVaVPa1xEF/YPI5J9To9AVEQ+OTJI1MHnXhl8TJ1Kuxl2inZvOn
-   YuJqRWlj7PXa+sQxLGxxwB4qsuWe3onbGSHBp7m/cKRTXUzpydzePskxL
-   Qwk3CYuuOSnx7DoyYU5nY61vnssffbSiscFqhkWvoXprq9L5qMudgeHfj
-   j1CMbW5Dduz3L+g/1KqA1QDQCp2YZc4CJqndlO/FiK/sPc6Q8hJ2gLFmd
-   w==;
-X-CSE-ConnectionGUID: L6MXAEi6TIKOyBFIXios+A==
-X-CSE-MsgGUID: uN58RXg1RcS9bRZzjP5SPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="26562496"
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
-   d="scan'208";a="26562496"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 10:01:10 -0700
-X-CSE-ConnectionGUID: 5wTq+SWaSUyqK+2sxdqLXQ==
-X-CSE-MsgGUID: twm/RDWrTNm8C721pCnMUg==
+  t=1718306744; x=1749842744;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VC0WTxQ8xaHvRuADJJ8NAKDpVXa/w+q7KdgTGGsjC6g=;
+  b=oCZ8wsICgizSPqDmsW3KH0uKBdmq+rJpqsA0wv/p8LOf9DpisIrD+IEf
+   2JjN1tee12/Q8reBgSAOLwvr3PN+ZOd139dm71idris6kN10OpZvEZlkp
+   ytRO6yAhq0nJuyRoGMGnPAOMqWnkBGwCa2BNMr3QHavP5sfifav5TPV4O
+   gRp2Wn0I947KraVwSrg5lE/AWomCOVXfqQb3wAibq2rBIFfPEP/5ZXSWk
+   /15YhAtmiz5qUrKaY0aPTcSbL9eOtong8t3Fg6zsBA2/KDPgiRHP0kerN
+   d2TPLKo5MImDdwE4/zrkC7p+wCsa1h+JeIW4X4W42SiwMTjx64PcbW9gH
+   Q==;
+X-CSE-ConnectionGUID: GbjjBOjjTq679fSQq/dDWA==
+X-CSE-MsgGUID: sSpDT+83RUKv5VVa9auY7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="14894776"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
+   d="scan'208";a="14894776"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 12:25:14 -0700
+X-CSE-ConnectionGUID: NlDkBrA0Rlq0BQ28IFIQsQ==
+X-CSE-MsgGUID: PXFJewhRQcybd0z83ZvCoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
-   d="scan'208";a="71009675"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
+   d="scan'208";a="45369318"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jun 2024 10:01:08 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 12:25:12 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHnov-0000Eu-0X;
-	Thu, 13 Jun 2024 17:01:05 +0000
-Date: Fri, 14 Jun 2024 01:00:54 +0800
+	id 1sHq4L-0000KK-0A;
+	Thu, 13 Jun 2024 19:25:09 +0000
+Date: Fri, 14 Jun 2024 03:24:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.6.y-wip 6/137]
- arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatible:
- 'anyOf' conditional failed, one must be fixed:
-Message-ID: <202406140013.flg2RldT-lkp@intel.com>
+To: Rafael Passos <rafael@rcpassos.me>, davem@davemloft.net,
+	dsahern@kernel.org, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de
+Cc: oe-kbuild-all@lists.linux.dev, Rafael Passos <rafael@rcpassos.me>,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next 1/3] bpf: remove unused parameter in
+ bpf_jit_binary_pack_finalize
+Message-ID: <202406140304.4Rf0F9mg-lkp@intel.com>
+References: <7eaed3dc-28e5-409f-8f73-a1bf8acc2937@smtp-relay.sendinblue.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,98 +67,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <7eaed3dc-28e5-409f-8f73-a1bf8acc2937@smtp-relay.sendinblue.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y=
--wip
-head:   a3485fa5ed32f221e7315d1dac9da3181782c2b7
-commit: 3ac4f7eae7cadbab878fd172b1f116ae24358275 [6/137] arm64: dts: ti: k3=
--am62p-main: Add support for DSS0
-config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/arch=
-ive/20240614/202406140013.flg2RldT-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d=
-2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240614/202406140013.flg2RldT-lkp@intel.com/reproduce)
+Hi Rafael,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-Passos/bpf-remove-unused-parameter-in-__bpf_free_used_btfs/20240613-110048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/7eaed3dc-28e5-409f-8f73-a1bf8acc2937%40smtp-relay.sendinblue.com
+patch subject: [PATCH bpf-next 1/3] bpf: remove unused parameter in bpf_jit_binary_pack_finalize
+config: powerpc-mpc885_ads_defconfig (https://download.01.org/0day-ci/archive/20240614/202406140304.4Rf0F9mg-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406140304.4Rf0F9mg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406140013.flg2RldT-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406140304.4Rf0F9mg-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:383.10-392.6: Warning (graph_chi=
-ld_address): /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/port=
-s: graph node has single child node 'port@0', #address-cells/#size-cells ar=
-e not necessary
-   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:656.22-666.5: Warning (graph_c=
-hild_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single c=
-hild node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: bus@43000000: compatible: ['sys=
-con', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatib=
-le: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
-m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
-scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
-6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
-e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
-ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
-t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
-', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
-ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
-k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
-qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
-'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
-io-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
---
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: bus@43000000: compatible: ['sys=
-con', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
-000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
-le: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
-m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
-scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
-6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
-e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
-ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
-t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
-', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
-ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
-k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
-qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
-'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
-io-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
+All errors (new ones prefixed by >>):
 
---=20
+   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_int_jit_compile':
+>> arch/powerpc/net/bpf_jit_comp.c:228:50: error: passing argument 1 of 'bpf_jit_binary_pack_finalize' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     228 |                 if (bpf_jit_binary_pack_finalize(fp, fhdr, hdr)) {
+         |                                                  ^~
+         |                                                  |
+         |                                                  struct bpf_prog *
+   In file included from arch/powerpc/net/bpf_jit_comp.c:14:
+   include/linux/filter.h:1132:60: note: expected 'struct bpf_binary_header *' but argument is of type 'struct bpf_prog *'
+    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:228:21: error: too many arguments to function 'bpf_jit_binary_pack_finalize'
+     228 |                 if (bpf_jit_binary_pack_finalize(fp, fhdr, hdr)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/filter.h:1132:5: note: declared here
+    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_jit_free':
+   arch/powerpc/net/bpf_jit_comp.c:351:54: error: passing argument 1 of 'bpf_jit_binary_pack_finalize' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     351 |                         bpf_jit_binary_pack_finalize(fp, jit_data->fhdr, jit_data->hdr);
+         |                                                      ^~
+         |                                                      |
+         |                                                      struct bpf_prog *
+   include/linux/filter.h:1132:60: note: expected 'struct bpf_binary_header *' but argument is of type 'struct bpf_prog *'
+    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:351:25: error: too many arguments to function 'bpf_jit_binary_pack_finalize'
+     351 |                         bpf_jit_binary_pack_finalize(fp, jit_data->fhdr, jit_data->hdr);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/filter.h:1132:5: note: declared here
+    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/bpf_jit_binary_pack_finalize +228 arch/powerpc/net/bpf_jit_comp.c
+
+4ea76e90a97d22 Christophe Leroy 2021-03-22  222  
+90d862f370b6e9 Hari Bathini     2023-10-20  223  	fp->bpf_func = (void *)fimage;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  224  	fp->jited = 1;
+983bdc0245a29c Ravi Bangoria    2021-10-12  225  	fp->jited_len = proglen + FUNCTION_DESCR_SIZE;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  226  
+4ea76e90a97d22 Christophe Leroy 2021-03-22  227  	if (!fp->is_func || extra_pass) {
+90d862f370b6e9 Hari Bathini     2023-10-20 @228  		if (bpf_jit_binary_pack_finalize(fp, fhdr, hdr)) {
+90d862f370b6e9 Hari Bathini     2023-10-20  229  			fp = org_fp;
+90d862f370b6e9 Hari Bathini     2023-10-20  230  			goto out_addrs;
+90d862f370b6e9 Hari Bathini     2023-10-20  231  		}
+4ea76e90a97d22 Christophe Leroy 2021-03-22  232  		bpf_prog_fill_jited_linfo(fp, addrs);
+4ea76e90a97d22 Christophe Leroy 2021-03-22  233  out_addrs:
+4ea76e90a97d22 Christophe Leroy 2021-03-22  234  		kfree(addrs);
+4ea76e90a97d22 Christophe Leroy 2021-03-22  235  		kfree(jit_data);
+4ea76e90a97d22 Christophe Leroy 2021-03-22  236  		fp->aux->jit_data = NULL;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  237  	} else {
+4ea76e90a97d22 Christophe Leroy 2021-03-22  238  		jit_data->addrs = addrs;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  239  		jit_data->ctx = cgctx;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  240  		jit_data->proglen = proglen;
+90d862f370b6e9 Hari Bathini     2023-10-20  241  		jit_data->fimage = fimage;
+90d862f370b6e9 Hari Bathini     2023-10-20  242  		jit_data->fhdr = fhdr;
+90d862f370b6e9 Hari Bathini     2023-10-20  243  		jit_data->hdr = hdr;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  244  	}
+4ea76e90a97d22 Christophe Leroy 2021-03-22  245  
+4ea76e90a97d22 Christophe Leroy 2021-03-22  246  out:
+4ea76e90a97d22 Christophe Leroy 2021-03-22  247  	if (bpf_blinded)
+4ea76e90a97d22 Christophe Leroy 2021-03-22  248  		bpf_jit_prog_release_other(fp, fp == org_fp ? tmp_fp : org_fp);
+4ea76e90a97d22 Christophe Leroy 2021-03-22  249  
+4ea76e90a97d22 Christophe Leroy 2021-03-22  250  	return fp;
+4ea76e90a97d22 Christophe Leroy 2021-03-22  251  }
+983bdc0245a29c Ravi Bangoria    2021-10-12  252  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
