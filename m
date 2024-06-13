@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E012F50
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 19:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327F657C8D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 20:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718306746; cv=none; b=M3xbyVdIxYIBAmGW2Yt6WkqNHebObXhalqghOVYcurR79lPZpjvKa5n7y6mxAIciljce/iYPYhXpqECzmi/ioDZMwyyDAsmzGhn/MmPJBWbn3vST23ey78B3gEBXtF2xcYAkD/lwhIczd8f9+/wudvFRvkpC0KV0X6rzesTVfSE=
+	t=1718309296; cv=none; b=IHChV/uzuo1CM/M72dC6uvM4j7zwnzNxsN3rGCg+f0wUb/kE/88k+bQPdSqD/aozzkZkexbbgOSo57+Qyv+AoP7VZ+h3IBKdgbchbc3Gk16Yt/dYPKkfnpgz1ylfUbuq0jsCn3ukQnbhpsT+X9IVXiiiihGX7XkUijBpfpRayeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718306746; c=relaxed/simple;
-	bh=VC0WTxQ8xaHvRuADJJ8NAKDpVXa/w+q7KdgTGGsjC6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YL/NHZvbqrG1ehGXaPEOZeI3C5wISHc1wfdcNNGuUyZHhffAPw8b7oSsB6OXyB36jIrHZEZach3OFboKtgKCixAwUZkCJmoEPIBwdzzKPZjR1Lb58KzmzchYTQ1ddwA17XWtBMwfCAX6YRQ7viFD1STUPYckCrdVoHGmVzp1Ktk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCZ8wsIC; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1718309296; c=relaxed/simple;
+	bh=5b8ZN62h82iRiu4OBK1Tsk9gOFzFSAi8D8XxmjA9nq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mt8zQfJTQVCrCLu5rkbZkWBVP0Z27KOaXxxfIb06IzcWOsFcago29hwBw0WNLkdOjqdb5hq7YEY4WM0BxKEwJSPieHQgrU8F67Z5jEtVxnAvKcJBP6+vcPRyBZMGR8//UoqZfDE6FmIL0RJyDjZ+/XVLMte2YDHDlqd1LymTcZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BvKNFrhd; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCZ8wsIC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvKNFrhd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718306744; x=1749842744;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VC0WTxQ8xaHvRuADJJ8NAKDpVXa/w+q7KdgTGGsjC6g=;
-  b=oCZ8wsICgizSPqDmsW3KH0uKBdmq+rJpqsA0wv/p8LOf9DpisIrD+IEf
-   2JjN1tee12/Q8reBgSAOLwvr3PN+ZOd139dm71idris6kN10OpZvEZlkp
-   ytRO6yAhq0nJuyRoGMGnPAOMqWnkBGwCa2BNMr3QHavP5sfifav5TPV4O
-   gRp2Wn0I947KraVwSrg5lE/AWomCOVXfqQb3wAibq2rBIFfPEP/5ZXSWk
-   /15YhAtmiz5qUrKaY0aPTcSbL9eOtong8t3Fg6zsBA2/KDPgiRHP0kerN
-   d2TPLKo5MImDdwE4/zrkC7p+wCsa1h+JeIW4X4W42SiwMTjx64PcbW9gH
-   Q==;
-X-CSE-ConnectionGUID: GbjjBOjjTq679fSQq/dDWA==
-X-CSE-MsgGUID: sSpDT+83RUKv5VVa9auY7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="14894776"
+  t=1718309294; x=1749845294;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5b8ZN62h82iRiu4OBK1Tsk9gOFzFSAi8D8XxmjA9nq0=;
+  b=BvKNFrhdxVLRpp/QNjwUGhRMAIg5qUQaq2wiHNgPKI8a6NW4vZeaXO6U
+   3qegUC6Ydg9pkZdnOyP2XfMFLTLn4rOff5YdzuuqWTP7H+9xY+ON6YCH0
+   bcGSfWI7oot8ELhIWH00+xmVzvehKxkExqXbszDkH2uWfKtnpVIGpQkQt
+   L6U4j6ComcFqzxlRdFHaVq/V2hKrgXcRbNJ9nduEy3arwCMBFt5PaF9XP
+   NC0y53M7sJAw3uSwFOwcbtptc3yf784/htp416SE2xv7MHq8Cmks9ad8v
+   HniwYY0l7YVvc3BNnqzGRiGfuUBPtor/m5JKZDjw8HhX5FA05EveWWTAU
+   w==;
+X-CSE-ConnectionGUID: jglcHoc1SE2VhSN/G3Zrcw==
+X-CSE-MsgGUID: fo3vcC6VSUqzVURRnL6yjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="40576856"
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="14894776"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 12:25:14 -0700
-X-CSE-ConnectionGUID: NlDkBrA0Rlq0BQ28IFIQsQ==
-X-CSE-MsgGUID: PXFJewhRQcybd0z83ZvCoQ==
+   d="scan'208";a="40576856"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 13:08:13 -0700
+X-CSE-ConnectionGUID: SACGkGHgTmaiZpUz41muhw==
+X-CSE-MsgGUID: Mkj4y+BuQLOa73X4Mpsg7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="45369318"
+   d="scan'208";a="44790673"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 12:25:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Jun 2024 13:08:12 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHq4L-0000KK-0A;
-	Thu, 13 Jun 2024 19:25:09 +0000
-Date: Fri, 14 Jun 2024 03:24:45 +0800
+	id 1sHqjy-0000MO-0z;
+	Thu, 13 Jun 2024 20:08:10 +0000
+Date: Fri, 14 Jun 2024 04:07:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rafael Passos <rafael@rcpassos.me>, davem@davemloft.net,
-	dsahern@kernel.org, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de
-Cc: oe-kbuild-all@lists.linux.dev, Rafael Passos <rafael@rcpassos.me>,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/3] bpf: remove unused parameter in
- bpf_jit_binary_pack_finalize
-Message-ID: <202406140304.4Rf0F9mg-lkp@intel.com>
-References: <7eaed3dc-28e5-409f-8f73-a1bf8acc2937@smtp-relay.sendinblue.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-diff 2/2] check.c:11:10: fatal error: 'xxhash.h'
+ file not found
+Message-ID: <202406140428.CQoj83Ht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,96 +61,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7eaed3dc-28e5-409f-8f73-a1bf8acc2937@smtp-relay.sendinblue.com>
 
-Hi Rafael,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-Passos/bpf-remove-unused-parameter-in-__bpf_free_used_btfs/20240613-110048
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/7eaed3dc-28e5-409f-8f73-a1bf8acc2937%40smtp-relay.sendinblue.com
-patch subject: [PATCH bpf-next 1/3] bpf: remove unused parameter in bpf_jit_binary_pack_finalize
-config: powerpc-mpc885_ads_defconfig (https://download.01.org/0day-ci/archive/20240614/202406140304.4Rf0F9mg-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406140304.4Rf0F9mg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
+head:   77b952c11556f38dbdc95c25a04ff72c8fd20a1b
+commit: 77b952c11556f38dbdc95c25a04ff72c8fd20a1b [2/2] todo
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240614/202406140428.CQoj83Ht-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406140428.CQoj83Ht-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406140304.4Rf0F9mg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406140428.CQoj83Ht-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_int_jit_compile':
->> arch/powerpc/net/bpf_jit_comp.c:228:50: error: passing argument 1 of 'bpf_jit_binary_pack_finalize' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     228 |                 if (bpf_jit_binary_pack_finalize(fp, fhdr, hdr)) {
-         |                                                  ^~
-         |                                                  |
-         |                                                  struct bpf_prog *
-   In file included from arch/powerpc/net/bpf_jit_comp.c:14:
-   include/linux/filter.h:1132:60: note: expected 'struct bpf_binary_header *' but argument is of type 'struct bpf_prog *'
-    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
->> arch/powerpc/net/bpf_jit_comp.c:228:21: error: too many arguments to function 'bpf_jit_binary_pack_finalize'
-     228 |                 if (bpf_jit_binary_pack_finalize(fp, fhdr, hdr)) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/filter.h:1132:5: note: declared here
-    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_jit_free':
-   arch/powerpc/net/bpf_jit_comp.c:351:54: error: passing argument 1 of 'bpf_jit_binary_pack_finalize' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     351 |                         bpf_jit_binary_pack_finalize(fp, jit_data->fhdr, jit_data->hdr);
-         |                                                      ^~
-         |                                                      |
-         |                                                      struct bpf_prog *
-   include/linux/filter.h:1132:60: note: expected 'struct bpf_binary_header *' but argument is of type 'struct bpf_prog *'
-    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   arch/powerpc/net/bpf_jit_comp.c:351:25: error: too many arguments to function 'bpf_jit_binary_pack_finalize'
-     351 |                         bpf_jit_binary_pack_finalize(fp, jit_data->fhdr, jit_data->hdr);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/filter.h:1132:5: note: declared here
-    1132 | int bpf_jit_binary_pack_finalize(struct bpf_binary_header *ro_header,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/bpf_jit_binary_pack_finalize +228 arch/powerpc/net/bpf_jit_comp.c
-
-4ea76e90a97d22 Christophe Leroy 2021-03-22  222  
-90d862f370b6e9 Hari Bathini     2023-10-20  223  	fp->bpf_func = (void *)fimage;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  224  	fp->jited = 1;
-983bdc0245a29c Ravi Bangoria    2021-10-12  225  	fp->jited_len = proglen + FUNCTION_DESCR_SIZE;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  226  
-4ea76e90a97d22 Christophe Leroy 2021-03-22  227  	if (!fp->is_func || extra_pass) {
-90d862f370b6e9 Hari Bathini     2023-10-20 @228  		if (bpf_jit_binary_pack_finalize(fp, fhdr, hdr)) {
-90d862f370b6e9 Hari Bathini     2023-10-20  229  			fp = org_fp;
-90d862f370b6e9 Hari Bathini     2023-10-20  230  			goto out_addrs;
-90d862f370b6e9 Hari Bathini     2023-10-20  231  		}
-4ea76e90a97d22 Christophe Leroy 2021-03-22  232  		bpf_prog_fill_jited_linfo(fp, addrs);
-4ea76e90a97d22 Christophe Leroy 2021-03-22  233  out_addrs:
-4ea76e90a97d22 Christophe Leroy 2021-03-22  234  		kfree(addrs);
-4ea76e90a97d22 Christophe Leroy 2021-03-22  235  		kfree(jit_data);
-4ea76e90a97d22 Christophe Leroy 2021-03-22  236  		fp->aux->jit_data = NULL;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  237  	} else {
-4ea76e90a97d22 Christophe Leroy 2021-03-22  238  		jit_data->addrs = addrs;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  239  		jit_data->ctx = cgctx;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  240  		jit_data->proglen = proglen;
-90d862f370b6e9 Hari Bathini     2023-10-20  241  		jit_data->fimage = fimage;
-90d862f370b6e9 Hari Bathini     2023-10-20  242  		jit_data->fhdr = fhdr;
-90d862f370b6e9 Hari Bathini     2023-10-20  243  		jit_data->hdr = hdr;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  244  	}
-4ea76e90a97d22 Christophe Leroy 2021-03-22  245  
-4ea76e90a97d22 Christophe Leroy 2021-03-22  246  out:
-4ea76e90a97d22 Christophe Leroy 2021-03-22  247  	if (bpf_blinded)
-4ea76e90a97d22 Christophe Leroy 2021-03-22  248  		bpf_jit_prog_release_other(fp, fp == org_fp ? tmp_fp : org_fp);
-4ea76e90a97d22 Christophe Leroy 2021-03-22  249  
-4ea76e90a97d22 Christophe Leroy 2021-03-22  250  	return fp;
-4ea76e90a97d22 Christophe Leroy 2021-03-22  251  }
-983bdc0245a29c Ravi Bangoria    2021-10-12  252  
+>> check.c:11:10: fatal error: 'xxhash.h' file not found
+      11 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   In file included from arch/x86/special.c:4:
+   In file included from tools/objtool/include/objtool/special.h:10:
+   In file included from tools/objtool/include/objtool/check.h:11:
+   In file included from tools/objtool/include/objtool/arch.h:11:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/special.o] Error 1
+   make[6]: *** Waiting for unfinished jobs....
+   In file included from weak.c:10:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   In file included from diff.c:1:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   In file included from special.c:16:
+   In file included from tools/objtool/include/objtool/special.h:10:
+   In file included from tools/objtool/include/objtool/check.h:11:
+   In file included from tools/objtool/include/objtool/arch.h:11:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   In file included from arch/x86/orc.c:5:
+   In file included from tools/objtool/include/objtool/check.h:11:
+   In file included from tools/objtool/include/objtool/arch.h:11:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/weak.o] Error 1
+   make[5]: *** Waiting for unfinished jobs....
+   In file included from objtool.c:16:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   1 error generated.
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/objtool.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/special.o] Error 1
+   In file included from orc_gen.c:12:
+   In file included from tools/objtool/include/objtool/check.h:11:
+   In file included from tools/objtool/include/objtool/arch.h:11:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   1In file included from orc_dump.c:8:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+    error generated.
+   In file included from builtin-check.c:10:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/orc.o] Error 1
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/diff.o] Error 1
+   1 error generated.
+   In file included from elf.c:23:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/orc_gen.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/orc_dump.o] Error 1
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/builtin-check.o] Error 1
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/check.o] Error 1
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:106: tools/objtool/elf.o] Error 1
+   In file included from arch/x86/decode.c:18:
+   In file included from tools/objtool/include/objtool/check.h:11:
+   In file included from tools/objtool/include/objtool/arch.h:11:
+   In file included from tools/objtool/include/objtool/objtool.h:13:
+>> tools/objtool/include/objtool/elf.h:17:10: fatal error: 'xxhash.h' file not found
+      17 | #include <xxhash.h>
+         |          ^~~~~~~~~~
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:106: tools/objtool/arch/x86/decode.o] Error 1
+   make[5]: *** [tools/build/Makefile.build:158: arch/x86] Error 2
+   make[4]: *** [Makefile:73: tools/objtool/objtool-in.o] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
