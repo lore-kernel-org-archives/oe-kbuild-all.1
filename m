@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB5C13A24A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 20:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAB313B7A1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 21:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718309896; cv=none; b=njunqeb34HNYn9xFXhxCFnCISsB83MxZJ5t+KDtjqn96fJtJIE0axjplTJ3KoLgpJQVYjXV448obvMP+TW/bA5ZsU6jWmCHt++AL4AA+iwMc2fqLX58VaFSR45maVUshKmZLXL+/s/J25quLYC2Nx24egZn7nqJ2UQ7G6C9eA6w=
+	t=1718314282; cv=none; b=DJLWvVbtDsnJQuj1LPETTuHCBS1rfPEe+W8UnXUzjfKRKHe76PH+I7HxtYfH42raCpxwxm8TZabP8pOiR0StkrZId8Em0NDO0OekGdWTM15dtzP5ShLUV8njNnXNPPJ3Fj9XVopckpwr4m5uAp3Gxi2YXHlUCtFUBNIUbTC3JzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718309896; c=relaxed/simple;
-	bh=fud6dQo+XtIJiXmScVrxMpunnZDLk1/gqf/ZPxDsVLI=;
+	s=arc-20240116; t=1718314282; c=relaxed/simple;
+	bh=DJkYV5QHWCEDV5tO37qu3rK6dPCHFI7+QiLjVxiWIQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KlZkyYXoCSukTj3L9MBgAll8ujzNu6Da8JHmV9xuuZeTaChxAQSQbs4k7bo9hArFVn38rhqtN9dEtYYPul9Py2vrKzUnr0stWWqJGujuO6gOz12/AuE3dj73g4IOwrSay1YNBX0aiRkftLneX1yTq9N0wjLcoNfvhzftfW9Vwm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEOJwgnx; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=NuE+8KM340YA5XYO0HgTbmaNWNk5bvt96VOho6iI02Qup8Ujr1ZLUbN8rkrE7X/1NC9kGe6+alWPWZRvbZ/uH1IIBoWI9TgigjKwVcTctQQfA+uGGQ4/KWXpedkZEY7o+PBiS/QbNRoLjNkE+TubwYtBKlgQo/7ErsPipk4Zq9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnBcORMP; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEOJwgnx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnBcORMP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718309895; x=1749845895;
+  t=1718314279; x=1749850279;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fud6dQo+XtIJiXmScVrxMpunnZDLk1/gqf/ZPxDsVLI=;
-  b=AEOJwgnx7g1J52OlW72UleayZT0ey4a4BZA6LNUNWa9FXbnNxL+RdU2y
-   xItAKtUOIIsvQbKAJSmFQqWfIOjnFYgghKrwetbV3Tau1tJf2YpXo7GL9
-   F6sNbBm2N1CrisSr0UnPHjZI6nHujB23Wj6S4xnf9JCmV2JEtpdIPFsII
-   b+p8uZPa+bMJiHhTgIH9Z5Um8cfD0ONb2HGfU0Z9Xurn+vNSlkNsRX3Hu
-   cCE5DBRLhLMkmg+FNZiDpt0ApSXYq6qbABlapRSUkPqLBIhWUaZFWMGbb
-   g6jReYQPP3QIPXjA99U0sY656OvFWWhm8ePVXyHrf2MuSfgqpyPpBpcCV
-   w==;
-X-CSE-ConnectionGUID: b5GW37sATP2D0PiCZFwbCg==
-X-CSE-MsgGUID: I28bBO19QMSal6ZMRtRK6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="25841634"
+  bh=DJkYV5QHWCEDV5tO37qu3rK6dPCHFI7+QiLjVxiWIQw=;
+  b=VnBcORMP3GPXdGu4QWnnkheLv5ma5mqoq1xHay0piZsu3WAD1Wa+xUo4
+   dS3LH8N5OXLxbIlu4kwyIdpNcNgMvKD1RwoKk9P0IW86nCeAL6bsDw1nD
+   7nSA3eOaqvznxdlOTl7STg7pcwLuI6cP/UBORyHq504f3o0yihv87Aofy
+   nQw3PLCLtIOWAeEYZqRcaLWbStfbAlK1lzXs3mtJiqvPFs666CSY4c9hs
+   RNmRX3pXNee2N6r66o//2BPkWAMUzEKLuAM731VD6C+Yf/hyWzOLuUVGN
+   i1vCnYmcw3gG3XSHEkPopokgFiilodVqYdZ+bDocPz1cEG0x7exmMi8k1
+   Q==;
+X-CSE-ConnectionGUID: BlEYA9zNSPqUlhmrpG21sQ==
+X-CSE-MsgGUID: zy8916PxTRqKTrH0ZcYBXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="15145350"
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="25841634"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 13:18:14 -0700
-X-CSE-ConnectionGUID: QPBBZjLSTC2RWHBzEDh/MA==
-X-CSE-MsgGUID: revVTZ7+SOSCCxNsWs3aPg==
+   d="scan'208";a="15145350"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 14:31:19 -0700
+X-CSE-ConnectionGUID: P7x+QUZyR9Cl2RsK4dsyEQ==
+X-CSE-MsgGUID: C+GxT4BPScyQGQuPfWoAoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="40927772"
+   d="scan'208";a="40395929"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Jun 2024 13:18:12 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Jun 2024 14:31:14 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHqte-0000Mq-2B;
-	Thu, 13 Jun 2024 20:18:10 +0000
-Date: Fri, 14 Jun 2024 04:17:50 +0800
+	id 1sHs2K-0000QS-1A;
+	Thu, 13 Jun 2024 21:31:12 +0000
+Date: Fri, 14 Jun 2024 05:30:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [krzk-github:b4/dt-bindings-mfd-syscon-split 14/18]
- arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: syscon@600000000:
- mux-controller:#mux-control-cells:0:0: 1 was expected
-Message-ID: <202406140453.h7kuAeFl-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning
+ (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202406140535.1sDCMSox-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +65,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux b4/dt-bindings-mfd-syscon-split
-head:   035b86aab61498947d010dd7a1dd95f7343d5477
-commit: ad0f957a0ed5ffe701775c60d351a222d6bc5ffb [14/18] dt-bindings: soc: microchip: sparx5-cpu-syscon: Move to dedicated schema
-config: arm64-randconfig-051-20240614 (https://download.01.org/0day-ci/archive/20240614/202406140453.h7kuAeFl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406140453.h7kuAeFl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d20f6b3d747c36889b7ce75ee369182af3decb6b
+commit: 24f0f6a8059c7108d4ee3476c95db1e7ff4feb79 arm64: dts: qcom: msm8994: correct SPMI unit address
+date:   1 year, 1 month ago
+config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240614/202406140535.1sDCMSox-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240614/202406140535.1sDCMSox-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406140453.h7kuAeFl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406140535.1sDCMSox-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:104.21-483.4: Warning (unit_address_vs_reg): /axi@600000000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:124.30-138.5: Warning (unique_unit_address_if_enabled): /axi@600000000/syscon@600000000: duplicate unit-address (also used in node /axi@600000000/switch@600000000)
->> arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: syscon@600000000: mux-controller:#mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,sparx5-cpu-syscon.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: mux-controller: #mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mux/reg-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: spi@600104000: num-cs:0:0: 16 is greater than the maximum of 4
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: spi@600104000: Unevaluated properties are not allowed ('reg-shift' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: spi@0: 'spi-max-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/spi-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb125.dtb: spi@1: mux-controls: [[10], [0]] is too long
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:628.28-644.5: Warning (avoid_unnecessary_addr_size): /soc/i2c@f9928000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 --
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:104.21-483.4: Warning (unit_address_vs_reg): /axi@600000000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:124.30-138.5: Warning (unique_unit_address_if_enabled): /axi@600000000/syscon@600000000: duplicate unit-address (also used in node /axi@600000000/switch@600000000)
->> arch/arm64/boot/dts/microchip/sparx5_pcb134.dtb: syscon@600000000: mux-controller:#mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,sparx5-cpu-syscon.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134.dtb: mux-controller: #mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mux/reg-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134.dtb: spi@600104000: num-cs:0:0: 16 is greater than the maximum of 4
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134.dtb: spi@600104000: spi@e:reg:0:0: 14 is greater than the maximum of 3
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134.dtb: spi@600104000: Unevaluated properties are not allowed ('reg-shift' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134.dtb: spi@0: 'spi-max-frequency' is a required property
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 --
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:104.21-483.4: Warning (unit_address_vs_reg): /axi@600000000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:124.30-138.5: Warning (unique_unit_address_if_enabled): /axi@600000000/syscon@600000000: duplicate unit-address (also used in node /axi@600000000/switch@600000000)
->> arch/arm64/boot/dts/microchip/sparx5_pcb134_emmc.dtb: syscon@600000000: mux-controller:#mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,sparx5-cpu-syscon.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134_emmc.dtb: mux-controller: #mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mux/reg-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134_emmc.dtb: spi@600104000: num-cs:0:0: 16 is greater than the maximum of 4
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134_emmc.dtb: spi@600104000: Unevaluated properties are not allowed ('reg-shift' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134_emmc.dtb: spi@0: 'spi-max-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/spi-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb134_emmc.dtb: switch@600000000: reg-names:1: 'devices' was expected
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:232.20-235.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/memory@6c00000)
 --
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:104.21-483.4: Warning (unit_address_vs_reg): /axi@600000000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:124.30-138.5: Warning (unique_unit_address_if_enabled): /axi@600000000/syscon@600000000: duplicate unit-address (also used in node /axi@600000000/switch@600000000)
->> arch/arm64/boot/dts/microchip/sparx5_pcb135.dtb: syscon@600000000: mux-controller:#mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,sparx5-cpu-syscon.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135.dtb: mux-controller: #mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mux/reg-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135.dtb: spi@600104000: num-cs:0:0: 16 is greater than the maximum of 4
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135.dtb: spi@600104000: spi@e:reg:0:0: 14 is greater than the maximum of 3
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135.dtb: spi@600104000: Unevaluated properties are not allowed ('reg-shift' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135.dtb: spi@0: 'spi-max-frequency' is a required property
---
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:104.21-483.4: Warning (unit_address_vs_reg): /axi@600000000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/microchip/sparx5.dtsi:124.30-138.5: Warning (unique_unit_address_if_enabled): /axi@600000000/syscon@600000000: duplicate unit-address (also used in node /axi@600000000/switch@600000000)
->> arch/arm64/boot/dts/microchip/sparx5_pcb135_emmc.dtb: syscon@600000000: mux-controller:#mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,sparx5-cpu-syscon.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135_emmc.dtb: mux-controller: #mux-control-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mux/reg-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135_emmc.dtb: spi@600104000: num-cs:0:0: 16 is greater than the maximum of 4
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135_emmc.dtb: spi@600104000: Unevaluated properties are not allowed ('reg-shift' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135_emmc.dtb: spi@0: 'spi-max-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/spi-mux.yaml#
-   arch/arm64/boot/dts/microchip/sparx5_pcb135_emmc.dtb: switch@600000000: reg-names:1: 'devices' was expected
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8994.dtsi:232.20-235.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/hole2@6c00000)
+   arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dts:112.29-115.5: Warning (unique_unit_address_if_enabled): /reserved-memory/audio@cb400000: duplicate unit-address (also used in node /reserved-memory/qseecom@cb400000)
+
+vim +132 arch/arm64/boot/dts/qcom/pm8994.dtsi
+
+38757eb3ca3436 Stephen Boyd        2015-11-17   32  
+38757eb3ca3436 Stephen Boyd        2015-11-17   33  	pmic@0 {
+38757eb3ca3436 Stephen Boyd        2015-11-17   34  		compatible = "qcom,pm8994", "qcom,spmi-pmic";
+38757eb3ca3436 Stephen Boyd        2015-11-17   35  		reg = <0x0 SPMI_USID>;
+38757eb3ca3436 Stephen Boyd        2015-11-17   36  		#address-cells = <1>;
+38757eb3ca3436 Stephen Boyd        2015-11-17   37  		#size-cells = <0>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17   38  
+27414e41ba5f14 Bjorn Andersson     2017-02-17   39  		rtc@6000 {
+27414e41ba5f14 Bjorn Andersson     2017-02-17   40  			compatible = "qcom,pm8941-rtc";
+27414e41ba5f14 Bjorn Andersson     2017-02-17   41  			reg = <0x6000>, <0x6100>;
+27414e41ba5f14 Bjorn Andersson     2017-02-17   42  			reg-names = "rtc", "alarm";
+27414e41ba5f14 Bjorn Andersson     2017-02-17   43  			interrupts = <0x0 0x61 0x1 IRQ_TYPE_EDGE_RISING>;
+27414e41ba5f14 Bjorn Andersson     2017-02-17   44  		};
+27414e41ba5f14 Bjorn Andersson     2017-02-17   45  
+da3a82e35e4b24 Gustave Monce       2021-01-31   46  		pm8994_pon: pon@800 {
+2f74b3db92bef4 Vinod Koul          2018-09-10   47  			compatible = "qcom,pm8916-pon";
+2f74b3db92bef4 Vinod Koul          2018-09-10   48  			reg = <0x800>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   49  			mode-bootloader = <0x2>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   50  			mode-recovery = <0x1>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   51  
+2f74b3db92bef4 Vinod Koul          2018-09-10   52  			pwrkey {
+2f74b3db92bef4 Vinod Koul          2018-09-10   53  				compatible = "qcom,pm8941-pwrkey";
+2f74b3db92bef4 Vinod Koul          2018-09-10   54  				interrupts = <0x0 0x8 0 IRQ_TYPE_EDGE_BOTH>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   55  				debounce = <15625>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   56  				bias-pull-up;
+2f74b3db92bef4 Vinod Koul          2018-09-10   57  				linux,code = <KEY_POWER>;
+2f74b3db92bef4 Vinod Koul          2018-09-10   58  			};
+2f74b3db92bef4 Vinod Koul          2018-09-10   59  
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   60  			pm8994_resin: resin {
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   61  				compatible = "qcom,pm8941-resin";
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   62  				interrupts = <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   63  				debounce = <15625>;
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   64  				bias-pull-up;
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   65  				status = "disabled";
+f7342c7d2902b7 Konrad Dybcio       2021-02-28   66  			};
+2f74b3db92bef4 Vinod Koul          2018-09-10   67  		};
+2f74b3db92bef4 Vinod Koul          2018-09-10   68  
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   69  		pm8994_temp: temp-alarm@2400 {
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   70  			compatible = "qcom,spmi-temp-alarm";
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   71  			reg = <0x2400>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   72  			interrupts = <0x0 0x24 0x0 IRQ_TYPE_EDGE_RISING>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   73  			io-channels = <&pm8994_vadc VADC_DIE_TEMP>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   74  			io-channel-names = "thermal";
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   75  			#thermal-sensor-cells = <0>;
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   76  		};
+4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   77  
+183d4cafa711ac Konrad Dybcio       2020-10-05   78  		pm8994_vadc: adc@3100 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   79  			compatible = "qcom,spmi-vadc";
+183d4cafa711ac Konrad Dybcio       2020-10-05   80  			reg = <0x3100>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   81  			interrupts = <0x0 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   82  			#address-cells = <1>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   83  			#size-cells = <0>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   84  			#io-channel-cells = <1>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   85  
+183d4cafa711ac Konrad Dybcio       2020-10-05   86  			adc-chan@7 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   87  				reg = <VADC_VSYS>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   88  				qcom,pre-scaling = <1 3>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   89  				label = "vph_pwr";
+183d4cafa711ac Konrad Dybcio       2020-10-05   90  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05   91  			adc-chan@8 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   92  				reg = <VADC_DIE_TEMP>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   93  				label = "die_temp";
+183d4cafa711ac Konrad Dybcio       2020-10-05   94  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05   95  			adc-chan@9 {
+183d4cafa711ac Konrad Dybcio       2020-10-05   96  				reg = <VADC_REF_625MV>;
+183d4cafa711ac Konrad Dybcio       2020-10-05   97  				label = "ref_625mv";
+183d4cafa711ac Konrad Dybcio       2020-10-05   98  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05   99  			adc-chan@a {
+183d4cafa711ac Konrad Dybcio       2020-10-05  100  				reg = <VADC_REF_1250MV>;
+183d4cafa711ac Konrad Dybcio       2020-10-05  101  				label = "ref_1250mv";
+183d4cafa711ac Konrad Dybcio       2020-10-05  102  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05  103  			adc-chan@e {
+183d4cafa711ac Konrad Dybcio       2020-10-05  104  				reg = <VADC_GND_REF>;
+183d4cafa711ac Konrad Dybcio       2020-10-05  105  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05  106  			adc-chan@f {
+183d4cafa711ac Konrad Dybcio       2020-10-05  107  				reg = <VADC_VDD_VADC>;
+183d4cafa711ac Konrad Dybcio       2020-10-05  108  			};
+183d4cafa711ac Konrad Dybcio       2020-10-05  109  		};
+183d4cafa711ac Konrad Dybcio       2020-10-05  110  
+c95243eeae587c Krzysztof Kozlowski 2022-09-08  111  		pm8994_gpios: gpio@c000 {
+8939304880dee9 Konrad Dybcio       2020-10-05  112  			compatible = "qcom,pm8994-gpio", "qcom,spmi-gpio";
+0804308fdd3cf5 Stephen Boyd        2015-11-17  113  			reg = <0xc000>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  114  			gpio-controller;
+8939304880dee9 Konrad Dybcio       2020-10-05  115  			gpio-ranges = <&pm8994_gpios 0 0 22>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  116  			#gpio-cells = <2>;
+8939304880dee9 Konrad Dybcio       2020-10-05  117  			interrupt-controller;
+8939304880dee9 Konrad Dybcio       2020-10-05  118  			#interrupt-cells = <2>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  119  		};
+0804308fdd3cf5 Stephen Boyd        2015-11-17  120  
+0804308fdd3cf5 Stephen Boyd        2015-11-17  121  		pm8994_mpps: mpps@a000 {
+58d92e6e73250a Dmitry Baryshkov    2021-10-08  122  			compatible = "qcom,pm8994-mpp", "qcom,spmi-mpp";
+0804308fdd3cf5 Stephen Boyd        2015-11-17  123  			reg = <0xa000>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  124  			gpio-controller;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  125  			#gpio-cells = <2>;
+58d92e6e73250a Dmitry Baryshkov    2021-10-08  126  			gpio-ranges = <&pm8994_mpps 0 0 8>;
+8f48ceef5db929 Dmitry Baryshkov    2021-10-08  127  			interrupt-controller;
+8f48ceef5db929 Dmitry Baryshkov    2021-10-08  128  			#interrupt-cells = <2>;
+0804308fdd3cf5 Stephen Boyd        2015-11-17  129  		};
+38757eb3ca3436 Stephen Boyd        2015-11-17  130  	};
+38757eb3ca3436 Stephen Boyd        2015-11-17  131  
+38757eb3ca3436 Stephen Boyd        2015-11-17 @132  	pmic@1 {
+
+:::::: The code at line 132 was first introduced by commit
+:::::: 38757eb3ca3436e503a1ab675aad4eb10a65ae0c arm64: dts: qcom: Add pm8994, pmi8994, pm8004 PMIC skeletons
+
+:::::: TO: Stephen Boyd <sboyd@codeaurora.org>
+:::::: CC: Andy Gross <andy.gross@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
