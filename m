@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B3B9454;
-	Thu, 13 Jun 2024 02:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D44883CB9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 02:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718245054; cv=none; b=DbqzKzAKnf5KOTz+mQdGenRGWHhZ41zlqNv0XMknvN74yqoAMllFWEkKa5XBarlPalg4gLgvOiRJ2J/qtEx0Gy+0ufXWdRT7JoDazMxquKVnQ7MUvVQud++dEGmadAWwGE+dllMOCLCS+AJfiy/jZYwPctUqBAKIEFqD8QDb5ig=
+	t=1718245650; cv=none; b=bjXu59rS59SOdfIN8xCCxUhmiIGvCpBDief3GageYmfdmSrTcIqL17dMA7QzuSexCOllBg+0A1Kku+YknL/hVEeyrh67YZqFmeBwSieHqXb4R3M/X1v/6ITk1BB1zgfU6oUnalcFkhDwMUpoWSX7taTpoURBUhoVee1DlJXUe7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718245054; c=relaxed/simple;
-	bh=dNcRgajM1ThTufvj2ufbyUHlHy7G1SnZCaO8/oTcorU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KbIabV9rxp0aGk2ELAAfjWbJktERtEF18GH7T4uB0jAitBdW2opLdeTV734DRwH7rClyy5Hx77SAQPLtw0rQfF47/aNv6m31uxcjnU8blE8JmO812P2izc0iiIjOZ93gcVxZISv3W5qJoGb3WHy05DAZrgBt50SNzoBqFjXzWJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jxD8b5rX; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1718245650; c=relaxed/simple;
+	bh=MyitdAs5w/1SdP26W9R94YJNxmj8FpYKEuUoh3KiQQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ydjx7zhnN/Qdsi06Q+zGuksV3WThxNfYQf8LazNYYoak7MveKZKDrA3L6xhd6sUsEGFIRs1+MmW56e0yKkmVu9z9BYuFVFPNI2EEX4FuHt5SWPVeSjmiaTIXDauJw5Kzcj6CcaTyck9RSgmFt3QRx0FBu4qfFQD5zl6U1f4/cyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GojyD2fG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jxD8b5rX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GojyD2fG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718245053; x=1749781053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dNcRgajM1ThTufvj2ufbyUHlHy7G1SnZCaO8/oTcorU=;
-  b=jxD8b5rX2jdI8Wl0H2bynMWYlBmx5JtpnJy5t/xFO8UG2YD8EEys53iG
-   POaqQtOuM5Ov8XVYYMbmkY/3aR1q6CrbaKMLRes6GV4+Ljhk/60ZlJeGC
-   bHwDMXBA9KJ5TIUhu+UBmomiyXaLwiYxnVey9BEz3TTQL62X73egU1J+r
-   SEWUcBDW6B/RjnmU/X2w12Z273wWe9Nt17xae/ob/D7+Zlig70mS0IImj
-   Xj6qjpHdXuIMrO5mOH5MjvS55iiEUhNrPtA2ptuenvAReM2w26saiJtD+
-   FWAvjvTi7VRABX0sJsEiuzUs1lS3esmHGHoJ/DBwPSNHM1Nq0x1VT7+gI
-   Q==;
-X-CSE-ConnectionGUID: ATD3fSVLRhinAG3UHSbOGg==
-X-CSE-MsgGUID: 6/3I5W7vRXC6v5ZktDycfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="32525503"
+  t=1718245649; x=1749781649;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MyitdAs5w/1SdP26W9R94YJNxmj8FpYKEuUoh3KiQQo=;
+  b=GojyD2fG+SNO9FqmvYhas5GGcNqsQXWxRSmYxFYjbe2DCJBMCemgQT+G
+   QSvQGYihmPpG5PzT7FMLRo7WxZ9mH398CsNT8ZkDUAuEztaGy1GDgHwt/
+   0wJ6ZT35YozfqoWck8IS3NWuSEbrv92hU1drs4LAsOVscDxeFaCJtXcPR
+   X54pk8XxAqe8AtUdq9r0D7sdJUNc403GqRsLXSAM8625GOpWxd/EWZGtC
+   vSxi5v/pme0d/HGHXantXtyPnByxoTG23VxQR9JfUerzIgj0nWiVbmqmG
+   RXERdhVvS7CLNm0uPFwEEgu/KiyIAKgrwQZ7Vs0fAakL0F+uStQROGmjN
+   A==;
+X-CSE-ConnectionGUID: neVI7kAtR4WWfDAzrkVoYw==
+X-CSE-MsgGUID: Oao5+LwZQB+HUfMFiNGAJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="37559260"
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="32525503"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 19:17:33 -0700
-X-CSE-ConnectionGUID: Wd6ciDiNRgWjwlBSzg6UEA==
-X-CSE-MsgGUID: ZU5P9ltWRm+Gd7EDwPgqhw==
+   d="scan'208";a="37559260"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 19:27:28 -0700
+X-CSE-ConnectionGUID: 5oLI2+0HS/6QFZdpCsZB8A==
+X-CSE-MsgGUID: TXidP5QqRvaIu9QSx+vAJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="40451870"
+   d="scan'208";a="40089612"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Jun 2024 19:17:26 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Jun 2024 19:27:27 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHa1j-00027W-21;
-	Thu, 13 Jun 2024 02:17:23 +0000
-Date: Thu, 13 Jun 2024 10:16:48 +0800
+	id 1sHaBP-00027o-2y;
+	Thu, 13 Jun 2024 02:27:23 +0000
+Date: Thu, 13 Jun 2024 10:27:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: kunyu <kunyu@nfschina.com>, davem@davemloft.net, dsahern@kernel.org,
-	udknight@gmail.com, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	jolsa@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kunyu <kunyu@nfschina.com>
-Subject: Re: [PATCH] x86: net: bpf_jit_comp32: Remove unused 'cnt' variables
- from most functions
-Message-ID: <202406130900.iANs9YtU-lkp@intel.com>
-References: <20240612085823.28133-1-kunyu@nfschina.com>
+To: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 2/67] arch/arm64/boot/dts/ti/k3-am69-sk.dtb:
+ pcie@2900000: device-id:0:0: 45074 is not one of [45069, 45071, 45072,
+ 45075]
+Message-ID: <202406131046.2agFK8tq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,165 +63,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240612085823.28133-1-kunyu@nfschina.com>
 
-Hi kunyu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-[also build test ERROR on bpf/master net-next/main net/main linus/master v6.10-rc3 next-20240612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/kunyu/x86-net-bpf_jit_comp32-Remove-unused-cnt-variables-from-most-functions/20240612-170017
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240612085823.28133-1-kunyu%40nfschina.com
-patch subject: [PATCH] x86: net: bpf_jit_comp32: Remove unused 'cnt' variables from most functions
-config: i386-buildonly-randconfig-004-20240613 (https://download.01.org/0day-ci/archive/20240613/202406130900.iANs9YtU-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130900.iANs9YtU-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   7e02c8fab1601d4c2cc7664e26d93fce2e5228cc
+commit: 3d8a27b48060505e8c538d4343df3fd5b39c5f80 [2/67] arm64: dts: ti: k3-j784s4-main: Add PCIe nodes
+config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240613/202406131046.2agFK8tq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131046.2agFK8tq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406130900.iANs9YtU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406131046.2agFK8tq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> arch/x86/net/bpf_jit_comp32.c:214:4: error: use of undeclared identifier 'cnt'
-     214 |                         EMIT2(0x33, add_2reg(0xC0, IA32_EAX, IA32_EAX));
-         |                         ^
-   arch/x86/net/bpf_jit_comp32.c:68:24: note: expanded from macro 'EMIT2'
-      68 | #define EMIT2(b1, b2)           EMIT((b1) + ((b2) << 8), 2)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:216:4: error: use of undeclared identifier 'cnt'
-     216 |                         EMIT3(0x89, add_2reg(0x40, IA32_EBP, IA32_EAX),
-         |                         ^
-   arch/x86/net/bpf_jit_comp32.c:69:27: note: expanded from macro 'EMIT3'
-      69 | #define EMIT3(b1, b2, b3)       EMIT((b1) + ((b2) << 8) + ((b3) << 16), 3)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:219:4: error: use of undeclared identifier 'cnt'
-     219 |                         EMIT3_off32(0xC7, add_1reg(0x40, IA32_EBP),
-         |                         ^
-   arch/x86/net/bpf_jit_comp32.c:78:7: note: expanded from macro 'EMIT3_off32'
-      78 |         do { EMIT3(b1, b2, b3); EMIT(off, 4); } while (0)
-         |              ^
-   arch/x86/net/bpf_jit_comp32.c:69:27: note: expanded from macro 'EMIT3'
-      69 | #define EMIT3(b1, b2, b3)       EMIT((b1) + ((b2) << 8) + ((b3) << 16), 3)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:219:4: error: use of undeclared identifier 'cnt'
-   arch/x86/net/bpf_jit_comp32.c:78:26: note: expanded from macro 'EMIT3_off32'
-      78 |         do { EMIT3(b1, b2, b3); EMIT(off, 4); } while (0)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:224:4: error: use of undeclared identifier 'cnt'
-     224 |                         EMIT2(0x33, add_2reg(0xC0, dst, dst));
-         |                         ^
-   arch/x86/net/bpf_jit_comp32.c:68:24: note: expanded from macro 'EMIT2'
-      68 | #define EMIT2(b1, b2)           EMIT((b1) + ((b2) << 8), 2)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:226:4: error: use of undeclared identifier 'cnt'
-     226 |                         EMIT2_off32(0xC7, add_1reg(0xC0, dst),
-         |                         ^
-   arch/x86/net/bpf_jit_comp32.c:76:7: note: expanded from macro 'EMIT2_off32'
-      76 |         do { EMIT2(b1, b2); EMIT(off, 4); } while (0)
-         |              ^
-   arch/x86/net/bpf_jit_comp32.c:68:24: note: expanded from macro 'EMIT2'
-      68 | #define EMIT2(b1, b2)           EMIT((b1) + ((b2) << 8), 2)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:226:4: error: use of undeclared identifier 'cnt'
-   arch/x86/net/bpf_jit_comp32.c:76:22: note: expanded from macro 'EMIT2_off32'
-      76 |         do { EMIT2(b1, b2); EMIT(off, 4); } while (0)
-         |                             ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:241:3: error: use of undeclared identifier 'cnt'
-     241 |                 EMIT3(0x8B, add_2reg(0x40, IA32_EBP, IA32_EAX), STACK_VAR(src));
-         |                 ^
-   arch/x86/net/bpf_jit_comp32.c:69:27: note: expanded from macro 'EMIT3'
-      69 | #define EMIT3(b1, b2, b3)       EMIT((b1) + ((b2) << 8) + ((b3) << 16), 3)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:244:3: error: use of undeclared identifier 'cnt'
-     244 |                 EMIT3(0x89, add_2reg(0x40, IA32_EBP, sreg), STACK_VAR(dst));
-         |                 ^
-   arch/x86/net/bpf_jit_comp32.c:69:27: note: expanded from macro 'EMIT3'
-      69 | #define EMIT3(b1, b2, b3)       EMIT((b1) + ((b2) << 8) + ((b3) << 16), 3)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:247:3: error: use of undeclared identifier 'cnt'
-     247 |                 EMIT2(0x89, add_2reg(0xC0, dst, sreg));
-         |                 ^
-   arch/x86/net/bpf_jit_comp32.c:68:24: note: expanded from macro 'EMIT2'
-      68 | #define EMIT2(b1, b2)           EMIT((b1) + ((b2) << 8), 2)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-   arch/x86/net/bpf_jit_comp32.c:291:3: error: use of undeclared identifier 'cnt'
-     291 |                 EMIT3(0x8B, add_2reg(0x40, IA32_EBP, IA32_ECX), STACK_VAR(src));
-         |                 ^
-   arch/x86/net/bpf_jit_comp32.c:69:27: note: expanded from macro 'EMIT3'
-      69 | #define EMIT3(b1, b2, b3)       EMIT((b1) + ((b2) << 8) + ((b3) << 16), 3)
-         |                                 ^
-   arch/x86/net/bpf_jit_comp32.c:65:43: note: expanded from macro 'EMIT'
-      65 |         do { prog = emit_code(prog, bytes, len); cnt += len; } while (0)
-         |                                                  ^
-
-
-vim +/cnt +214 arch/x86/net/bpf_jit_comp32.c
-
-03f5781be2c7b7 Wang YanQing 2018-05-03  205  
-03f5781be2c7b7 Wang YanQing 2018-05-03  206  static inline void emit_ia32_mov_i(const u8 dst, const u32 val, bool dstk,
-03f5781be2c7b7 Wang YanQing 2018-05-03  207  				   u8 **pprog)
-03f5781be2c7b7 Wang YanQing 2018-05-03  208  {
-03f5781be2c7b7 Wang YanQing 2018-05-03  209  	u8 *prog = *pprog;
-03f5781be2c7b7 Wang YanQing 2018-05-03  210  
-03f5781be2c7b7 Wang YanQing 2018-05-03  211  	if (dstk) {
-03f5781be2c7b7 Wang YanQing 2018-05-03  212  		if (val == 0) {
-03f5781be2c7b7 Wang YanQing 2018-05-03  213  			/* xor eax,eax */
-03f5781be2c7b7 Wang YanQing 2018-05-03 @214  			EMIT2(0x33, add_2reg(0xC0, IA32_EAX, IA32_EAX));
-03f5781be2c7b7 Wang YanQing 2018-05-03  215  			/* mov dword ptr [ebp+off],eax */
-03f5781be2c7b7 Wang YanQing 2018-05-03  216  			EMIT3(0x89, add_2reg(0x40, IA32_EBP, IA32_EAX),
-03f5781be2c7b7 Wang YanQing 2018-05-03  217  			      STACK_VAR(dst));
-03f5781be2c7b7 Wang YanQing 2018-05-03  218  		} else {
-03f5781be2c7b7 Wang YanQing 2018-05-03  219  			EMIT3_off32(0xC7, add_1reg(0x40, IA32_EBP),
-03f5781be2c7b7 Wang YanQing 2018-05-03  220  				    STACK_VAR(dst), val);
-03f5781be2c7b7 Wang YanQing 2018-05-03  221  		}
-03f5781be2c7b7 Wang YanQing 2018-05-03  222  	} else {
-03f5781be2c7b7 Wang YanQing 2018-05-03  223  		if (val == 0)
-03f5781be2c7b7 Wang YanQing 2018-05-03  224  			EMIT2(0x33, add_2reg(0xC0, dst, dst));
-03f5781be2c7b7 Wang YanQing 2018-05-03  225  		else
-03f5781be2c7b7 Wang YanQing 2018-05-03  226  			EMIT2_off32(0xC7, add_1reg(0xC0, dst),
-03f5781be2c7b7 Wang YanQing 2018-05-03  227  				    val);
-03f5781be2c7b7 Wang YanQing 2018-05-03  228  	}
-03f5781be2c7b7 Wang YanQing 2018-05-03  229  	*pprog = prog;
-03f5781be2c7b7 Wang YanQing 2018-05-03  230  }
-03f5781be2c7b7 Wang YanQing 2018-05-03  231  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-am69-sk.dtb: pcie@2900000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+   arch/arm64/boot/dts/ti/k3-am69-sk.dtb: pcie@2910000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+   arch/arm64/boot/dts/ti/k3-am69-sk.dtb: pcie@2920000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+   arch/arm64/boot/dts/ti/k3-am69-sk.dtb: pcie@2930000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+--
+>> arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: pcie@2900000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+   arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: pcie@2910000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+   arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: pcie@2920000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
+   arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: pcie@2930000: device-id:0:0: 45074 is not one of [45069, 45071, 45072, 45075]
+   	from schema $id: http://devicetree.org/schemas/pci/ti,j721e-pci-host.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
