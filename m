@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAB313B7A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 21:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C24E5A4FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jun 2024 21:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718314282; cv=none; b=DJLWvVbtDsnJQuj1LPETTuHCBS1rfPEe+W8UnXUzjfKRKHe76PH+I7HxtYfH42raCpxwxm8TZabP8pOiR0StkrZId8Em0NDO0OekGdWTM15dtzP5ShLUV8njNnXNPPJ3Fj9XVopckpwr4m5uAp3Gxi2YXHlUCtFUBNIUbTC3JzU=
+	t=1718315538; cv=none; b=KrBpInAs8QEh5oEGURAOElXvCeodJrNbGqtfr/1D2oyU+/m0xdTGgP/a62bZwocm4tcbRkYbkudLOT4WDeGOiP9rYQKwl24wp/JE+1ZRzCfYMUNnCwCQHxWca+GX+CM8U71Kutap7N324N5g7hApdwb1gwaT+08wcnLK5zdC28Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718314282; c=relaxed/simple;
-	bh=DJkYV5QHWCEDV5tO37qu3rK6dPCHFI7+QiLjVxiWIQw=;
+	s=arc-20240116; t=1718315538; c=relaxed/simple;
+	bh=JLQy+iYE5/+hE1onqRxO8xS98OkfeLLZnCBKBalJel0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NuE+8KM340YA5XYO0HgTbmaNWNk5bvt96VOho6iI02Qup8Ujr1ZLUbN8rkrE7X/1NC9kGe6+alWPWZRvbZ/uH1IIBoWI9TgigjKwVcTctQQfA+uGGQ4/KWXpedkZEY7o+PBiS/QbNRoLjNkE+TubwYtBKlgQo/7ErsPipk4Zq9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnBcORMP; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=tr6/Q4fRscXlQvStdnbpwwwXvRJEDL7H431CY3UxXAohR1R3YE8ueFyxLj21jpFo5uzta60KQhw/0CDsEZW+4sEQNxk/QzUZLhZv9nZh5/j1JHcS7nV0LwrzO88ov3jy1Sc9u3cjGZgdq3JAIQUroAITwj1Cp81a4ZiDPnZYR0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9VO+Cg0; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnBcORMP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9VO+Cg0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718314279; x=1749850279;
+  t=1718315536; x=1749851536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DJkYV5QHWCEDV5tO37qu3rK6dPCHFI7+QiLjVxiWIQw=;
-  b=VnBcORMP3GPXdGu4QWnnkheLv5ma5mqoq1xHay0piZsu3WAD1Wa+xUo4
-   dS3LH8N5OXLxbIlu4kwyIdpNcNgMvKD1RwoKk9P0IW86nCeAL6bsDw1nD
-   7nSA3eOaqvznxdlOTl7STg7pcwLuI6cP/UBORyHq504f3o0yihv87Aofy
-   nQw3PLCLtIOWAeEYZqRcaLWbStfbAlK1lzXs3mtJiqvPFs666CSY4c9hs
-   RNmRX3pXNee2N6r66o//2BPkWAMUzEKLuAM731VD6C+Yf/hyWzOLuUVGN
-   i1vCnYmcw3gG3XSHEkPopokgFiilodVqYdZ+bDocPz1cEG0x7exmMi8k1
-   Q==;
-X-CSE-ConnectionGUID: BlEYA9zNSPqUlhmrpG21sQ==
-X-CSE-MsgGUID: zy8916PxTRqKTrH0ZcYBXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="15145350"
+  bh=JLQy+iYE5/+hE1onqRxO8xS98OkfeLLZnCBKBalJel0=;
+  b=R9VO+Cg0xaKrr0U3Vu1UdVsW6J8Z3dk17eNtEqng95PFcQ6C2Ycr777k
+   /fOJ+14R15UkhwRsXRMkl/+7lU/RSHSX+QUTqeXhoEeLiBoFR2MIY2xHx
+   vlihKVfqL7euAubpXjA8ys00vhPJr0KDN3TBSEMVH6/uPOz3HwlzLWNgr
+   4czmcz1e+p9vCVQiS6HBSYKS2UCYAJ7TA1X3s7zXdGJqiUJuRJToiZ6IP
+   hhD7SmQMLmXn/mjWZYp5gADnP/NAyv3D8ZspZcFLK3Ca7bI2iUhe5Sm5D
+   gpQN6+SGfNb/L1FwRFiO6i5rZKg98BVXYoohziH+j/JSzF2BtjtxbgKLe
+   A==;
+X-CSE-ConnectionGUID: 5W4pIU/xQi++tGwsYk9S4g==
+X-CSE-MsgGUID: hGT+FtsBQSakr4vn2iMmKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="37699366"
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="15145350"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 14:31:19 -0700
-X-CSE-ConnectionGUID: P7x+QUZyR9Cl2RsK4dsyEQ==
-X-CSE-MsgGUID: C+GxT4BPScyQGQuPfWoAoA==
+   d="scan'208";a="37699366"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 14:52:16 -0700
+X-CSE-ConnectionGUID: TEJ1UwYAQtqXJFCn4Iqzcg==
+X-CSE-MsgGUID: BWi95W8bT+yaVrUxvpkYeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="40395929"
+   d="scan'208";a="40216073"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Jun 2024 14:31:14 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Jun 2024 14:52:15 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHs2K-0000QS-1A;
-	Thu, 13 Jun 2024 21:31:12 +0000
-Date: Fri, 14 Jun 2024 05:30:37 +0800
+	id 1sHsMe-0000Qy-2M;
+	Thu, 13 Jun 2024 21:52:12 +0000
+Date: Fri, 14 Jun 2024 05:51:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning
- (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary
- #address-cells/#size-cells without "ranges" or child "reg" property
-Message-ID: <202406140535.1sDCMSox-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:b4/dt-bindings-mfd-syscon-split 16/18]
+ arch/mips/boot/dts/ingenic/cu1000-neo.dtb: mac-phy-ctrl@e8: compatible:
+ ['syscon'] is too short
+Message-ID: <202406140500.KIbBxWBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,145 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d20f6b3d747c36889b7ce75ee369182af3decb6b
-commit: 24f0f6a8059c7108d4ee3476c95db1e7ff4feb79 arm64: dts: qcom: msm8994: correct SPMI unit address
-date:   1 year, 1 month ago
-config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240614/202406140535.1sDCMSox-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce: (https://download.01.org/0day-ci/archive/20240614/202406140535.1sDCMSox-lkp@intel.com/reproduce)
+tree:   https://github.com/krzk/linux b4/dt-bindings-mfd-syscon-split
+head:   035b86aab61498947d010dd7a1dd95f7343d5477
+commit: d62bcc0529c132bdd0826953ebd81888d90c9d7f [16/18] dt-bindings: mfd: syscon: Split and enforce documenting MFD children
+config: mips-randconfig-051-20240614 (https://download.01.org/0day-ci/archive/20240614/202406140500.KIbBxWBg-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406140500.KIbBxWBg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406140535.1sDCMSox-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406140500.KIbBxWBg-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:628.28-644.5: Warning (avoid_unnecessary_addr_size): /soc/i2c@f9928000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000: mac-phy-ctrl@e8: 'mode-reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml#
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000: mac-phy-ctrl@e8: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml#
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: x1000-cgu@10000000: 'rng@d8' does not match any of the regexes: '^mac-phy-ctrl@[a-f0-9]+$', '^usb-phy@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml#
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: usb-phy@3c: 'vcc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/ingenic,phy-usb.yaml#
+>> arch/mips/boot/dts/ingenic/cu1000-neo.dtb: mac-phy-ctrl@e8: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: timer@10002000: watchdog@0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/timer/ingenic,tcu.yaml#
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: timer@10002000: watchdog@0:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ingenic,x1000-watchdog', 'ingenic,jz4780-watchdog'] is too long
+   	'ingenic,x1000-watchdog' is not one of ['ingenic,jz4740-watchdog', 'ingenic,jz4780-watchdog']
+   	'ingenic,x1000-watchdog' is not one of ['ingenic,jz4770-watchdog', 'ingenic,jz4760b-watchdog', 'ingenic,jz4760-watchdog', 'ingenic,jz4725b-watchdog']
+   	'ingenic,jz4740-watchdog' was expected
+   	from schema $id: http://devicetree.org/schemas/timer/ingenic,tcu.yaml#
+   arch/mips/boot/dts/ingenic/cu1000-neo.dtb: timer@10002000: pwm@40: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
 --
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:232.20-235.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/memory@6c00000)
---
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:343.11-1090.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:232.20-235.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/hole2@6c00000)
-   arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dts:112.29-115.5: Warning (unique_unit_address_if_enabled): /reserved-memory/audio@cb400000: duplicate unit-address (also used in node /reserved-memory/qseecom@cb400000)
-
-vim +132 arch/arm64/boot/dts/qcom/pm8994.dtsi
-
-38757eb3ca3436 Stephen Boyd        2015-11-17   32  
-38757eb3ca3436 Stephen Boyd        2015-11-17   33  	pmic@0 {
-38757eb3ca3436 Stephen Boyd        2015-11-17   34  		compatible = "qcom,pm8994", "qcom,spmi-pmic";
-38757eb3ca3436 Stephen Boyd        2015-11-17   35  		reg = <0x0 SPMI_USID>;
-38757eb3ca3436 Stephen Boyd        2015-11-17   36  		#address-cells = <1>;
-38757eb3ca3436 Stephen Boyd        2015-11-17   37  		#size-cells = <0>;
-0804308fdd3cf5 Stephen Boyd        2015-11-17   38  
-27414e41ba5f14 Bjorn Andersson     2017-02-17   39  		rtc@6000 {
-27414e41ba5f14 Bjorn Andersson     2017-02-17   40  			compatible = "qcom,pm8941-rtc";
-27414e41ba5f14 Bjorn Andersson     2017-02-17   41  			reg = <0x6000>, <0x6100>;
-27414e41ba5f14 Bjorn Andersson     2017-02-17   42  			reg-names = "rtc", "alarm";
-27414e41ba5f14 Bjorn Andersson     2017-02-17   43  			interrupts = <0x0 0x61 0x1 IRQ_TYPE_EDGE_RISING>;
-27414e41ba5f14 Bjorn Andersson     2017-02-17   44  		};
-27414e41ba5f14 Bjorn Andersson     2017-02-17   45  
-da3a82e35e4b24 Gustave Monce       2021-01-31   46  		pm8994_pon: pon@800 {
-2f74b3db92bef4 Vinod Koul          2018-09-10   47  			compatible = "qcom,pm8916-pon";
-2f74b3db92bef4 Vinod Koul          2018-09-10   48  			reg = <0x800>;
-2f74b3db92bef4 Vinod Koul          2018-09-10   49  			mode-bootloader = <0x2>;
-2f74b3db92bef4 Vinod Koul          2018-09-10   50  			mode-recovery = <0x1>;
-2f74b3db92bef4 Vinod Koul          2018-09-10   51  
-2f74b3db92bef4 Vinod Koul          2018-09-10   52  			pwrkey {
-2f74b3db92bef4 Vinod Koul          2018-09-10   53  				compatible = "qcom,pm8941-pwrkey";
-2f74b3db92bef4 Vinod Koul          2018-09-10   54  				interrupts = <0x0 0x8 0 IRQ_TYPE_EDGE_BOTH>;
-2f74b3db92bef4 Vinod Koul          2018-09-10   55  				debounce = <15625>;
-2f74b3db92bef4 Vinod Koul          2018-09-10   56  				bias-pull-up;
-2f74b3db92bef4 Vinod Koul          2018-09-10   57  				linux,code = <KEY_POWER>;
-2f74b3db92bef4 Vinod Koul          2018-09-10   58  			};
-2f74b3db92bef4 Vinod Koul          2018-09-10   59  
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   60  			pm8994_resin: resin {
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   61  				compatible = "qcom,pm8941-resin";
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   62  				interrupts = <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   63  				debounce = <15625>;
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   64  				bias-pull-up;
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   65  				status = "disabled";
-f7342c7d2902b7 Konrad Dybcio       2021-02-28   66  			};
-2f74b3db92bef4 Vinod Koul          2018-09-10   67  		};
-2f74b3db92bef4 Vinod Koul          2018-09-10   68  
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   69  		pm8994_temp: temp-alarm@2400 {
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   70  			compatible = "qcom,spmi-temp-alarm";
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   71  			reg = <0x2400>;
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   72  			interrupts = <0x0 0x24 0x0 IRQ_TYPE_EDGE_RISING>;
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   73  			io-channels = <&pm8994_vadc VADC_DIE_TEMP>;
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   74  			io-channel-names = "thermal";
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   75  			#thermal-sensor-cells = <0>;
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   76  		};
-4778b2f1a3f0c9 Konrad Dybcio       2020-10-05   77  
-183d4cafa711ac Konrad Dybcio       2020-10-05   78  		pm8994_vadc: adc@3100 {
-183d4cafa711ac Konrad Dybcio       2020-10-05   79  			compatible = "qcom,spmi-vadc";
-183d4cafa711ac Konrad Dybcio       2020-10-05   80  			reg = <0x3100>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   81  			interrupts = <0x0 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   82  			#address-cells = <1>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   83  			#size-cells = <0>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   84  			#io-channel-cells = <1>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   85  
-183d4cafa711ac Konrad Dybcio       2020-10-05   86  			adc-chan@7 {
-183d4cafa711ac Konrad Dybcio       2020-10-05   87  				reg = <VADC_VSYS>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   88  				qcom,pre-scaling = <1 3>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   89  				label = "vph_pwr";
-183d4cafa711ac Konrad Dybcio       2020-10-05   90  			};
-183d4cafa711ac Konrad Dybcio       2020-10-05   91  			adc-chan@8 {
-183d4cafa711ac Konrad Dybcio       2020-10-05   92  				reg = <VADC_DIE_TEMP>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   93  				label = "die_temp";
-183d4cafa711ac Konrad Dybcio       2020-10-05   94  			};
-183d4cafa711ac Konrad Dybcio       2020-10-05   95  			adc-chan@9 {
-183d4cafa711ac Konrad Dybcio       2020-10-05   96  				reg = <VADC_REF_625MV>;
-183d4cafa711ac Konrad Dybcio       2020-10-05   97  				label = "ref_625mv";
-183d4cafa711ac Konrad Dybcio       2020-10-05   98  			};
-183d4cafa711ac Konrad Dybcio       2020-10-05   99  			adc-chan@a {
-183d4cafa711ac Konrad Dybcio       2020-10-05  100  				reg = <VADC_REF_1250MV>;
-183d4cafa711ac Konrad Dybcio       2020-10-05  101  				label = "ref_1250mv";
-183d4cafa711ac Konrad Dybcio       2020-10-05  102  			};
-183d4cafa711ac Konrad Dybcio       2020-10-05  103  			adc-chan@e {
-183d4cafa711ac Konrad Dybcio       2020-10-05  104  				reg = <VADC_GND_REF>;
-183d4cafa711ac Konrad Dybcio       2020-10-05  105  			};
-183d4cafa711ac Konrad Dybcio       2020-10-05  106  			adc-chan@f {
-183d4cafa711ac Konrad Dybcio       2020-10-05  107  				reg = <VADC_VDD_VADC>;
-183d4cafa711ac Konrad Dybcio       2020-10-05  108  			};
-183d4cafa711ac Konrad Dybcio       2020-10-05  109  		};
-183d4cafa711ac Konrad Dybcio       2020-10-05  110  
-c95243eeae587c Krzysztof Kozlowski 2022-09-08  111  		pm8994_gpios: gpio@c000 {
-8939304880dee9 Konrad Dybcio       2020-10-05  112  			compatible = "qcom,pm8994-gpio", "qcom,spmi-gpio";
-0804308fdd3cf5 Stephen Boyd        2015-11-17  113  			reg = <0xc000>;
-0804308fdd3cf5 Stephen Boyd        2015-11-17  114  			gpio-controller;
-8939304880dee9 Konrad Dybcio       2020-10-05  115  			gpio-ranges = <&pm8994_gpios 0 0 22>;
-0804308fdd3cf5 Stephen Boyd        2015-11-17  116  			#gpio-cells = <2>;
-8939304880dee9 Konrad Dybcio       2020-10-05  117  			interrupt-controller;
-8939304880dee9 Konrad Dybcio       2020-10-05  118  			#interrupt-cells = <2>;
-0804308fdd3cf5 Stephen Boyd        2015-11-17  119  		};
-0804308fdd3cf5 Stephen Boyd        2015-11-17  120  
-0804308fdd3cf5 Stephen Boyd        2015-11-17  121  		pm8994_mpps: mpps@a000 {
-58d92e6e73250a Dmitry Baryshkov    2021-10-08  122  			compatible = "qcom,pm8994-mpp", "qcom,spmi-mpp";
-0804308fdd3cf5 Stephen Boyd        2015-11-17  123  			reg = <0xa000>;
-0804308fdd3cf5 Stephen Boyd        2015-11-17  124  			gpio-controller;
-0804308fdd3cf5 Stephen Boyd        2015-11-17  125  			#gpio-cells = <2>;
-58d92e6e73250a Dmitry Baryshkov    2021-10-08  126  			gpio-ranges = <&pm8994_mpps 0 0 8>;
-8f48ceef5db929 Dmitry Baryshkov    2021-10-08  127  			interrupt-controller;
-8f48ceef5db929 Dmitry Baryshkov    2021-10-08  128  			#interrupt-cells = <2>;
-0804308fdd3cf5 Stephen Boyd        2015-11-17  129  		};
-38757eb3ca3436 Stephen Boyd        2015-11-17  130  	};
-38757eb3ca3436 Stephen Boyd        2015-11-17  131  
-38757eb3ca3436 Stephen Boyd        2015-11-17 @132  	pmic@1 {
-
-:::::: The code at line 132 was first introduced by commit
-:::::: 38757eb3ca3436e503a1ab675aad4eb10a65ae0c arm64: dts: qcom: Add pm8994, pmi8994, pm8004 PMIC skeletons
-
-:::::: TO: Stephen Boyd <sboyd@codeaurora.org>
-:::::: CC: Andy Gross <andy.gross@linaro.org>
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000: mac-phy-ctrl@e8: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml#
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000: mac-phy-ctrl@e8: 'mode-reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml#
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: x1830-cgu@10000000: mac-phy-ctrl@e8: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/ingenic,cgu.yaml#
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: usb-phy@3c: 'vcc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/ingenic,phy-usb.yaml#
+>> arch/mips/boot/dts/ingenic/cu1830-neo.dtb: mac-phy-ctrl@e8: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: /timer@12000000: failed to match any schema with compatible: ['ingenic,x1830-ost', 'ingenic,x1000-ost']
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: timer@10002000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ingenic,x1830-tcu', 'ingenic,x1000-tcu', 'simple-mfd'] is too long
+   	'ingenic,x1830-tcu' is not one of ['ingenic,jz4740-tcu', 'ingenic,jz4725b-tcu', 'ingenic,jz4760-tcu', 'ingenic,x1000-tcu']
+   	'ingenic,x1830-tcu' is not one of ['ingenic,jz4780-tcu', 'ingenic,jz4770-tcu', 'ingenic,jz4760b-tcu']
+   	'simple-mfd' was expected
+   	'ingenic,jz4760-tcu' was expected
+   	from schema $id: http://devicetree.org/schemas/timer/ingenic,tcu.yaml#
+   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: timer@10002000: watchdog@0: Unevaluated properties are not allowed ('compatible' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
