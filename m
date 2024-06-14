@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F3512EBE3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 04:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15712146D51
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 05:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718340999; cv=none; b=GwqR0UKFb88cBMaVmAjIbG5tweResRUB//WMYy8RFVK5mXQWZZyay1Lg0R+qcaKA52Ukgp9apufPD7PBEHq9nAffYtBuzPuSBqgZhl5aDrUjuynd/RR3mPbIFP+2mvxDGuX0J4trDVS9dzYsB47yLXBTm71vthl/fuXy/BEywgQ=
+	t=1718341599; cv=none; b=drulj65GGgDocJ7nOMDSPRCbaBJxDPYCIGSjo4Ec47IVHQcABnlUYMM23uTlTT3E677DWQXz8/8SYPbA/pPEGvVdqREqsMmCyN778Oewqc0kJ9AVa4Cux74cs/T2nXNKH0IN+6keP3Ab73wchnc2j/ErC4i67FLS017gj6WVoQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718340999; c=relaxed/simple;
-	bh=IN00olVLzu5Rhvobf9IIrbCynlmQ6aHy8LkczeGsmkg=;
+	s=arc-20240116; t=1718341599; c=relaxed/simple;
+	bh=kZBqs7M5ec5oocyKq95H+8kb7DZSNtb2MOhmAJ9L+V4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IAtmZcGkCC1i7gEcM/1aklQTZancVPR+ZbkXv5XCUDiuCmCdXA619LsvgPGhlbbOoD+t9Bf/c/4Sv/qzmApvqU48ixamFobCJE9isXkR9KpqItdrX8NTddSE3D5H9JeeTPJ6hRu7/0oiNGmi7fnMYV2+OQXxW5UQs8I8BYCaGd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bp8d7T8p; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=XvfRf9pFBWMVdTcS/MRmA+h/XK1p/U2fe3SBSDPrK5Yp6EUS3O+BNi3wB9nG022/fj2IW6BUoU8X1hUHhOT+sqevNTsZjujul3a0XUQg2axpCZMwm6uUT+xCEmZG8h137+CnQwG+elHf4k4/QiFSJdAHOLmU6zEUFKo/NEUJKY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CVbGXtMJ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bp8d7T8p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CVbGXtMJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718340998; x=1749876998;
+  t=1718341598; x=1749877598;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IN00olVLzu5Rhvobf9IIrbCynlmQ6aHy8LkczeGsmkg=;
-  b=bp8d7T8piDx51KBYuQlozUcoppl1rt6Yw/zPRS5gG//VTTlTQrKqpwTg
-   qpyytvA1ConTdyZKaeQ0hDSNoEc+p0mZhgUKvbMVq/csP52sOV368K6Kj
-   fb5AY+2i32YYDA9V80sgwg5eQa/7Qc2XdiMQGdbjSUKUZnxI9hgzPx69c
-   wEarUROLzjKp+UR5YbkzY4LAy5mGe8SpHqBMlKrUwmIh9Ayhc5uU/EnBA
-   P8/lsqcr+dv8rQJQQZCELU+1yEyqAakQsy5nzLPZOjpaP7Q1EGj4zCPng
-   ysxGSp0b5+eKuJCV7O6VoquoHwxJM/2lYLW5AddIZaVGzWwh7u1/+bBB9
-   A==;
-X-CSE-ConnectionGUID: uBtoSxLbTLqHiMHnQqM5bg==
-X-CSE-MsgGUID: 73kjamdxR8e2FKLX/z4SDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="26329100"
+  bh=kZBqs7M5ec5oocyKq95H+8kb7DZSNtb2MOhmAJ9L+V4=;
+  b=CVbGXtMJVekfqnXbqNBkYyzTt577h8s5OmUX7dCe7e1D0xgNqqUs4EXF
+   Rfi7qGOzZjHEZcvW81F3Yrvy9+/cwBDaApep3ZxhvimU906uDz7wuLpBi
+   D00pqNXTGYVKd+JVhR+UVIGlgKXk7eOVLQ5nge4yA3Zwrx/lVv9XGzxPZ
+   KO5xPK8/Oqy7PwvlpSa/7MX8GFGIH7PgWtZFPWBReOKsknPQpI5P+CosC
+   2jHQ7AZQN5LtAkXxWvlKtMj+4QC3weeuEeTFYABXWesnmw/SrwJYmbw3z
+   RzUIh9yvplecbQ0bqNXLW3tCcgUTG0hDCld14GDORYPPk1oOmsSvTl5WY
+   Q==;
+X-CSE-ConnectionGUID: mWFcFhY5TZCZ1HSYgE6wNQ==
+X-CSE-MsgGUID: 58dLHXlmQ5yn29ZF+evgZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="12069404"
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="26329100"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 21:56:38 -0700
-X-CSE-ConnectionGUID: Of6X6C4DQiabhg0fA4iBfw==
-X-CSE-MsgGUID: CzvpUti9TE2FyudtAI1thg==
+   d="scan'208";a="12069404"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 22:06:38 -0700
+X-CSE-ConnectionGUID: Q24dIGuZR8e7raK7jHc6yw==
+X-CSE-MsgGUID: FWnGl2sVQKKKKSRKOFdz7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="44811795"
+   d="scan'208";a="71595192"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Jun 2024 21:56:36 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jun 2024 22:06:36 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHyzJ-0000pw-2g;
-	Fri, 14 Jun 2024 04:56:33 +0000
-Date: Fri, 14 Jun 2024 12:55:44 +0800
+	id 1sHz90-0000qK-1r;
+	Fri, 14 Jun 2024 05:06:34 +0000
+Date: Fri, 14 Jun 2024 13:06:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dongjin Kim <tobetter@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tobetter:odroid-6.1.y 28/91]
- arch/arm64/boot/dts/amlogic/meson64_odroidn2.dtsi:154.23-158.5: Warning
- (unit_address_vs_reg): /thermal-zones/cpu-thermal/trips/trip-point@0: node
- has a unit name, but no reg or ranges property
-Message-ID: <202406141205.WSNvzTRP-lkp@intel.com>
+Subject: [jlayton:mgtime 3/10] include/linux/fs.h:1612:1: error: expected
+ identifier or '(' before '{' token
+Message-ID: <202406141312.4dcVaunY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,53 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   a50c6922e2b4c1d7c895bde521d13096ba16a863
-commit: 53e390e1de685ddefa4ec9a40a60b0a1d1795b9c [28/91] ODROID-N2: arm64/dts: update device tree after v5.13
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240614/202406141205.WSNvzTRP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406141205.WSNvzTRP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
+head:   0418364991ef20583c19f070a31c0bfd69e6ff2d
+commit: 93cf54e6a44ed9fd04da6413752517c6a9e2c919 [3/10] fs: uninline inode_get_ctime and inode_set_ctime_to_ts
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240614/202406141312.4dcVaunY-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406141312.4dcVaunY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406141205.WSNvzTRP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406141312.4dcVaunY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:265.33-1539.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1731.28-2003.7: Warning (unit_address_vs_reg): /soc/bus@ff800000/sys-ctrl@0/pinctrl@14: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/amlogic/meson64_odroidn2.dtsi:154.23-158.5: Warning (unit_address_vs_reg): /thermal-zones/cpu-thermal/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson64_odroidn2.dtsi:159.23-163.5: Warning (unit_address_vs_reg): /thermal-zones/cpu-thermal/trips/trip-point@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:265.33-1539.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+Note: the jlayton/mgtime HEAD 0418364991ef20583c19f070a31c0bfd69e6ff2d builds fine.
+      It only hurts bisectability.
 
-vim +154 arch/arm64/boot/dts/amlogic/meson64_odroidn2.dtsi
+All errors (new ones prefixed by >>):
 
-   151	
-   152	&cpu_thermal {
-   153		trips {
- > 154			fan_0: trip-point@0 {
-   155				temperature = <65000>;
-   156				hysteresis = <5000>;
-   157				type = "active";
-   158			};
-   159			fan_1: trip-point@1 {
-   160				temperature = <75000>;
-   161				hysteresis = <5000>;
-   162				type = "active";
-   163			};
-   164		};
-   165		cooling-maps {
-   166			fan_cooling_map0 {
-   167				trip = <&fan_0>;
-   168				cooling-device = <&pwmfan THERMAL_NO_LIMIT 2>;
-   169			};
-   170			fan_cooling_map1 {
-   171				trip = <&fan_1>;
-   172				cooling-device = <&pwmfan 2 THERMAL_NO_LIMIT>;
-   173			};
-   174		};
-   175	};
-   176	
+   In file included from include/linux/compat.h:17,
+                    from arch/x86/include/asm/ia32.h:7,
+                    from arch/x86/include/asm/elf.h:10,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/crypto/aria.h:22,
+                    from arch/x86/kernel/asm-offsets.c:10:
+>> include/linux/fs.h:1612:1: error: expected identifier or '(' before '{' token
+    1612 | {
+         | ^
+   make[3]: *** [scripts/Makefile.build:117: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1208: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +1612 include/linux/fs.h
+
+077c212f0344ae Jeff Layton 2023-10-04  1610  
+93cf54e6a44ed9 Jeff Layton 2024-05-16  1611  struct timespec64 inode_get_ctime(const struct inode *inode);
+077c212f0344ae Jeff Layton 2023-10-04 @1612  {
+012c4fd80d5f14 Jeff Layton 2024-05-16  1613  	return ktime_to_timespec64(inode->__i_ctime);
+077c212f0344ae Jeff Layton 2023-10-04  1614  }
+077c212f0344ae Jeff Layton 2023-10-04  1615  
+
+:::::: The code at line 1612 was first introduced by commit
+:::::: 077c212f0344ae4198b2b51af128a94b614ccdf4 fs: new accessor methods for atime and mtime
+
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
