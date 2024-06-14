@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81C326AE4;
-	Fri, 14 Jun 2024 23:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B81C18735E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 23:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718407651; cv=none; b=EmS+w2YwFyefzYOoYI/OoRALSamlcKqpRriNh7hrjU1OOlJrTl53vsmla8BCv9VCXHtzzxO1AVo39HO7UZ4L7b3Ssb8umdnlD/J/p9HfZnyoyynyS+bG/BPNjlVy6ulTz3DFETzxU4WhzjTmCsRN902yY/T6CtHO634uCUgi/jw=
+	t=1718408910; cv=none; b=E57zf76lrhf7lr9Fy6DxxHtM0VudIfiarBJSepycCujtMVskKl9ItLHgmNo38F3iOvoDE8HUCwAk3hTqAE7qcwSA8gKw1MjplFyuARuEIX6+Wole9dh6I4bDmDLTYJVLWzjsU+wI84PpgcBVvd2hdgyTjAm6mdwu20MDVkwOc8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718407651; c=relaxed/simple;
-	bh=A7eXOSdNmaIjl5CGYcbjc04snYieZJPfKAn2snstOjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GxtYfyXKzKNsmvnqOJHXmOKOjAcoXMG2l+D3Hhz1ssuhrpBirfVPrZoTYBnVcm2L3yMcY//gjIc/uJZiyrdUHePbFn74SWMt+RUP01y71b+u2wzsoklwGuLJbei7hWeYBgGYT+HokIp18esrl7ZX3vGPGUqH61VeFvJfJhsDrLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBjTU8jv; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1718408910; c=relaxed/simple;
+	bh=RkJ0aSL2qb6AvKDiTltajr9e/gfCOypCBUtGcDPi10M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a/dhahqq2l0RQY6bGjyhfojbNnttHAS9LFas4U5Q19t0oGw8Szg3mgCfQqj+g97MIljf1OKXbijEX5aeB6/ieiY9LjzDEyscOBBtphgeptJdlqctQU+JOCa2nRMzKVWXNUjmoFfrq51Wm1DyoJdPdYM5YHhrQP4fNNLgeOvI6pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9PSsQvc; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBjTU8jv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9PSsQvc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718407651; x=1749943651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A7eXOSdNmaIjl5CGYcbjc04snYieZJPfKAn2snstOjQ=;
-  b=DBjTU8jv9VtbhXBzyqOqZuCRfkkP943w4cXoMiPfVboIzRYfYqk9Cwy3
-   G7uOUT0IFogXfNVpMkoYHsbLivENPqKSHyB7ZFGbUXR7h14j0UgMl778z
-   h+3aGcW9zmcnNTMK9tat0vqBN/Rf26UvjdsbfyU1+I31yypScpQo4LnK4
-   iVT10RyfQckxPBXlczVnnfHa9j2yPo0RUkIii/ly59BdMz81scVyPeoqu
-   ZYQDTxxMaSFQAW4bQMvbCiqkO9mkcYveZVnlZjfp26PuZIkLQ55O44FPB
-   2shYKOqmM4X7v+niLoja0t3SsrPJ38moqNn4VA+SJSeinrddF30ZMrxoX
-   Q==;
-X-CSE-ConnectionGUID: Ht4HdUdATn+MJKHdtu6plA==
-X-CSE-MsgGUID: nibXv2ZyTuaI8/ahBIUwdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15439269"
+  t=1718408909; x=1749944909;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RkJ0aSL2qb6AvKDiTltajr9e/gfCOypCBUtGcDPi10M=;
+  b=m9PSsQvcI2H4twcJWtdQ0RLrok+Lzi1fRA0xvU6jjbdoavdDeyKYjFJn
+   8X8NXMM6mnBuNvXD1ONXVGhPtteVphFLVW4FjLJd9ZxQbchmiuBF2EYDF
+   BSy0Gi81uaPqx013+nbybfCgXPuBVciy7iEdezYq6FVpK2gCsXdyTwENI
+   lhJ2W4WnB6m9FlURiUs2wkiJgFAngOCoRwuKMtwBlzE7H1l3NUbcLvDQ4
+   YJPAxxp1PYiTlNcal8vNbCngOfCa8R35ago0UOHR7IpEu8wZTWrb2W0Uo
+   lXyq6o3Jc25lyokZKnffHlrnlpa5rAUCK/d8dcPXiI9NdYdoYoI5GjnGp
+   A==;
+X-CSE-ConnectionGUID: 4qku1tGnSwSkc56VsjiUbA==
+X-CSE-MsgGUID: 208NTiaiSxmL/m4Mk3P8Dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="25894724"
 X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; 
-   d="scan'208";a="15439269"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 16:27:30 -0700
-X-CSE-ConnectionGUID: G3bAMsY4SIazPF/IH5/LwA==
-X-CSE-MsgGUID: VWE5NyhMQ/e/YlSc0CnXKQ==
+   d="scan'208";a="25894724"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 16:48:28 -0700
+X-CSE-ConnectionGUID: xuP+doEkStC3mL+5sAz4NQ==
+X-CSE-MsgGUID: DEOEnpUcQjSvBv0K6qHSKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; 
-   d="scan'208";a="45058145"
+   d="scan'208";a="40501642"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Jun 2024 16:27:27 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jun 2024 16:48:28 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIGKK-0001tr-34;
-	Fri, 14 Jun 2024 23:27:24 +0000
-Date: Sat, 15 Jun 2024 07:27:08 +0800
+	id 1sIGef-0001up-1W;
+	Fri, 14 Jun 2024 23:48:25 +0000
+Date: Sat, 15 Jun 2024 07:47:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, Stuart Yoder <stuyoder@gmail.com>,
-	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"open list:QORIQ DPAA2 FSL-MC BUS DRIVER" <linux-kernel@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] dt-bindings: misc: fsl,qoriq-mc: convert to yaml
- format
-Message-ID: <202406150719.nmv1rQAS-lkp@intel.com>
-References: <20240614213109.2518797-1-Frank.Li@nxp.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:spi-6.10 7/7]
+ arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: adc@0: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202406150702.FSreHlYt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,43 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240614213109.2518797-1-Frank.Li@nxp.com>
 
-Hi Frank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-misc-fsl-qoriq-mc-convert-to-yaml-format/20240615-053243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240614213109.2518797-1-Frank.Li%40nxp.com
-patch subject: [PATCH 1/1] dt-bindings: misc: fsl,qoriq-mc: convert to yaml format
-reproduce: (https://download.01.org/0day-ci/archive/20240615/202406150719.nmv1rQAS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git spi-6.10
+head:   d3ce3d4947eb18b954433276d84d8e61ef033b53
+commit: d3ce3d4947eb18b954433276d84d8e61ef033b53 [7/7] dts for adxl
+config: riscv-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240615/202406150702.FSreHlYt-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150702.FSreHlYt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150719.nmv1rQAS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406150702.FSreHlYt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt*
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: adc@0: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
