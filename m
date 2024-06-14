@@ -1,68 +1,69 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2939619AA41
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 13:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC8E146D77
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 13:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718371162; cv=none; b=olGkVkvO6wdPJV/1PHlRBvCY6Ell47OeO73JrPm85VNasQorTBqtbYUc8auLGHx3BHkw9YKztNmkkN7Zkx4K1aS/nTLFBZq1P5MRGyeiu+yzPziyHr8D0HJhTxy79BBdZ54ykJYMyB+WhYtUtq/+Dk4FUpdCzC/G9ZP7sAR/R2M=
+	t=1718371510; cv=none; b=UqBIfvDJVpouxQjvK7pQ8eI7wzjOTu4puG7SFSSCgpdIjlubdqqfi5yitGCWqWSBznIy3275cVnL+a7eYT0J/SLNopogrWPxV9HcU43zPbjZptS6+EkknPstA48x+m5DmY9Il4t2ws4R6sgXRIkP3oE5gtaozDRqEEXWGXAedxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718371162; c=relaxed/simple;
-	bh=JmJKmAuPj9kduKQFiI8tppycENgBvW3rbiZxfZzFF8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=pVW5kxqmjbar6Ckjkbtx9ZvUN5IFvnzZuancxnhO3Lc7Ftx1fWSdDVixmdw8qfng5qIuUDx3TDPE21AL4S7+HEoYOY8pPeZsmjV6FMs0XQdIgp24Serue2taRRU+GNXY5wVlB5Lw4o5HUJgR2JUVD+6vrQPqWCspp+eAkEkD4lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LKfgdRnx; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718371510; c=relaxed/simple;
+	bh=PodNgtK+CFxkcM1xg2YMWxubqXt7QosyFJw5EQkc+Os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8/1WdZd3fwQKYvjRvvt/CB4LMbzoPYxPmsC0TBFp0GKp6LNVoXznndlSLo0e8QBoYE/z4m+hn74fqXFKwjV9IwV7vbWLlcTQXlpksP0m9xPDpFHOjoEXaaZcUTrOOIJBL4TMgkbZuUHgIzM+PiNCwTIOMSqPRNyQN5cF0mB5hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+UIlMOM; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LKfgdRnx"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52bbdb15dd5so2567719e87.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 06:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718371159; x=1718975959; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hGaz9pxPn2jEVNz9zF2iF9ACAAFUCHh5HrdyKjCjJas=;
-        b=LKfgdRnxY9qJZsEEnlKDqyMq86q56edXkZmO96Wg9h6Z2J432X7UswHR1b5Wwm5ofG
-         9hh3WNmrvFWjPqQGrh0bn7P9tQr7eJHixgpLPsXSMvV/MQuwFR37r8Tv2Sf28+iaKF9D
-         CWgMhdPgogYRfaehudOkXePGb69y6YuZtubjCMDjJZaQdEgdLwtFduvjo/QLR9Z6+8kV
-         bYyrAuAUgqxh6/b2k/gRZp3C4DXM9FEReSEHEDCwcEtdYWDJjPP9A3rVcYnXmclLs0oO
-         QQ3E6jqEHdhGkT9drPbuiHqW701U2bIoMvy+r0L37zlKw76UIRCVraKRWqhTZJSgBS38
-         v4pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718371159; x=1718975959;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hGaz9pxPn2jEVNz9zF2iF9ACAAFUCHh5HrdyKjCjJas=;
-        b=qtJTjYuvNnovlay8H2yFKBERgM7F+qrxOLPELvhoU7cq6NXJRd3KlV4DIvCa5DAwxm
-         I2x0BEoyml621CopkZIWHNaOKf8xuv8fCEgreYD8eBc3xS/HHAdhLYpLPqAYvcjxdG8f
-         sD0/HH2xvKN3Smytufc2b/ebmaXCjpF9cQGs/lORKkpjIzEj/nYLSpXiZB+h8mljieCn
-         Cmi4dP4qB2rESZVhiUzOFTLtS5mRkLOyg1gwbJ+P2nNeaJwA7iObMwW8XKmEfDR/PMxT
-         10XIwYwFEsTzs5ez71uasMiRjQg2CT6/fMwYF4JXX8wc3MQUXfkQBzF4h9+MIjPFWYTI
-         XuOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrQ45f9yBcffhMeQEAc2/SSS9kjDabdN0X1eFQtFtUd/UcRnSG0KVKyqLlMh2yRyZqkMOTvdC1YAdHwekc96phkvMp09pOH387pkK9Jw==
-X-Gm-Message-State: AOJu0Yw2FOsMy+Y6XqJAzxowsFQVmWMLfC80gOmugJ7ksfZfae9XyPpl
-	w6M89JLk9L3DEfHFKWNcnUSEt3qXB+Fabkz2MXxrpKsbOOeBBV8KrIJJw95+fr0=
-X-Google-Smtp-Source: AGHT+IHfaHvlYgLtOp6uwWXhWz5Ssbw8dUeNoSDkAZ7kw+bNm9oczNvJ4ONkUSapp3ZwCM9O4Z18kA==
-X-Received: by 2002:ac2:5e22:0:b0:52c:99ed:4c9a with SMTP id 2adb3069b0e04-52ca6e99288mr1570472e87.59.1718371159118;
-        Fri, 14 Jun 2024 06:19:19 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f9e2b306sm59781315e9.16.2024.06.14.06.19.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 06:19:18 -0700 (PDT)
-Date: Fri, 14 Jun 2024 16:19:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
-	jic23@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, andy.shevchenko@gmail.com,
-	lars@metafoo.de, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nuno.a@analog.com,
-	swboyd@chromium.org, u.kleine-koenig@pengutronix.de,
-	yasin.lee.x@gmail.com, yasin.lee.x@outlook.com
-Subject: Re: [PATCH v4 2/2] iio:proximity:hx9023s: Add TYHX HX9023S sensor
- driver
-Message-ID: <bfb1a32d-be14-47e2-9cb0-4d1c75e207f6@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+UIlMOM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718371509; x=1749907509;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PodNgtK+CFxkcM1xg2YMWxubqXt7QosyFJw5EQkc+Os=;
+  b=T+UIlMOMGKtHjRlC0mSbpOQDEul+UymqUj88yAeN4QoEw2uTHxH5XdMt
+   JgiLI7jXKyRfjVHoE7BV5I/5+B0/mmR4pPLHLlNXGd/CUkApWJBicC82a
+   GWgwb5v3wzf4kJpcw9lqDVdn/zI+z2rAFhUGNxXi52v8Y91DPaa+axg8f
+   mrPE1WmNDsQIrCrKGntagcl2C6OwFeGQVCtXC2OWPDYCVhX05U3xa7TB1
+   /zQKn9TiJaO5mzg36D4MoN/LJ2927v80XRv/Rcwvoo7mWo5z+6OKiLkn3
+   fkSnIzvM+GFAajJFLkC31Q/VkSw44vUts8Kmwa5lzgUalylsfl1TRn+iq
+   g==;
+X-CSE-ConnectionGUID: GoN7s0LKQoCpFBx4aTNxJA==
+X-CSE-MsgGUID: Gu68lILCT/CqYGyfj83tdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15380524"
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
+   d="scan'208";a="15380524"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 06:25:08 -0700
+X-CSE-ConnectionGUID: 8QN9I4/STiyppCp86fjhJg==
+X-CSE-MsgGUID: oLaBGBtXR2aEW9t2ihg8PQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
+   d="scan'208";a="40635695"
+Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 14 Jun 2024 06:25:03 -0700
+Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sI6vM-0001Ln-0t;
+	Fri, 14 Jun 2024 13:25:00 +0000
+Date: Fri, 14 Jun 2024 21:24:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, mpe@ellerman.id.au,
+	tpearson@raptorengineering.com, alex.williamson@redhat.com,
+	linuxppc-dev@lists.ozlabs.org, aik@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, npiggin@gmail.com,
+	christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
+	naveen.n.rao@linux.ibm.com, gbatra@linux.vnet.ibm.com,
+	brking@linux.vnet.ibm.com, sbhat@linux.ibm.com, aik@ozlabs.ru,
+	jgg@ziepe.ca, ruscur@russell.cc, robh@kernel.org,
+	linux-kernel@vger.kernel.org, joel@jms.id.au, kvm@vger.kernel.org,
+	msuchanek@suse.de, oohall@gmail.com, mahesh@linux.ibm.com,
+	jroedel@suse.de, vaibhav@linux.ibm.com, svaidy@linux.ibm.com
+Subject: Re: [PATCH v3 6/6] powerpc/iommu: Reimplement the
+ iommu_table_group_ops for pSeries
+Message-ID: <202406142110.r97Ts8Xm-lkp@intel.com>
+References: <171810901192.1721.18057294492426295643.stgit@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,72 +72,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SN7PR12MB81017291E79E6B61A8DEC9A5A4FB2@SN7PR12MB8101.namprd12.prod.outlook.com>
+In-Reply-To: <171810901192.1721.18057294492426295643.stgit@linux.ibm.com>
 
-Hi Yasin,
+Hi Shivaprasad,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on powerpc/fixes]
+[also build test ERROR on awilliam-vfio/next awilliam-vfio/for-linus linus/master v6.10-rc3]
+[cannot apply to powerpc/next next-20240613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yasin-Lee/iio-proximity-hx9023s-Add-TYHX-HX9023S-sensor-driver/20240607-194446
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/SN7PR12MB81017291E79E6B61A8DEC9A5A4FB2%40SN7PR12MB8101.namprd12.prod.outlook.com
-patch subject: [PATCH v4 2/2] iio:proximity:hx9023s: Add TYHX HX9023S sensor driver
-config: um-randconfig-r071-20240614 (https://download.01.org/0day-ci/archive/20240614/202406142001.swm6CU40-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivaprasad-G-Bhat/powerpc-iommu-Move-pSeries-specific-functions-to-pseries-iommu-c/20240611-203313
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
+patch link:    https://lore.kernel.org/r/171810901192.1721.18057294492426295643.stgit%40linux.ibm.com
+patch subject: [PATCH v3 6/6] powerpc/iommu: Reimplement the iommu_table_group_ops for pSeries
+config: powerpc64-randconfig-r133-20240614 (https://download.01.org/0day-ci/archive/20240614/202406142110.r97Ts8Xm-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce: (https://download.01.org/0day-ci/archive/20240614/202406142110.r97Ts8Xm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406142001.swm6CU40-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406142110.r97Ts8Xm-lkp@intel.com/
 
-New smatch warnings:
-drivers/iio/proximity/hx9023s.c:666 hx9023s_property_get() error: uninitialized symbol 'i'.
-drivers/iio/proximity/hx9023s.c:976 hx9023s_trigger_handler() error: uninitialized symbol 'i'.
-drivers/iio/proximity/hx9023s.c:996 hx9023s_buffer_preenable() error: uninitialized symbol 'channels'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/iio/proximity/hx9023s.c:667 hx9023s_property_get() error: uninitialized symbol 'i'.
+   In file included from arch/powerpc/platforms/pseries/iommu.c:16:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/platforms/pseries/iommu.c:1839:47: error: use of undeclared identifier 'dev_has_iommu_table'; did you mean 'device_iommu_capable'?
+    1839 |         ret = iommu_group_for_each_dev(group, &pdev, dev_has_iommu_table);
+         |                                                      ^~~~~~~~~~~~~~~~~~~
+         |                                                      device_iommu_capable
+   include/linux/iommu.h:1079:20: note: 'device_iommu_capable' declared here
+    1079 | static inline bool device_iommu_capable(struct device *dev, enum iommu_cap cap)
+         |                    ^
+   arch/powerpc/platforms/pseries/iommu.c:1953:15: warning: variable 'entries_shift' set but not used [-Wunused-but-set-variable]
+    1953 |         unsigned int entries_shift;
+         |                      ^
+   arch/powerpc/platforms/pseries/iommu.c:2166:17: warning: variable 'pci' set but not used [-Wunused-but-set-variable]
+    2166 |         struct pci_dn *pci;
+         |                        ^
+   7 warnings and 1 error generated.
 
-vim +/i +666 drivers/iio/proximity/hx9023s.c
 
-6133aa711518da Yasin Lee 2024-06-07  650  static int hx9023s_property_get(struct hx9023s_data *data)
-6133aa711518da Yasin Lee 2024-06-07  651  {
-6133aa711518da Yasin Lee 2024-06-07  652  	int ret, i;
+vim +1839 arch/powerpc/platforms/pseries/iommu.c
 
-Needs to be initialized.  int i = 0;
-
-6133aa711518da Yasin Lee 2024-06-07  653  	u32 temp;
-6133aa711518da Yasin Lee 2024-06-07  654  	struct fwnode_handle *child;
-6133aa711518da Yasin Lee 2024-06-07  655  	struct device *dev = regmap_get_device(data->regmap);
-6133aa711518da Yasin Lee 2024-06-07  656  
-6133aa711518da Yasin Lee 2024-06-07  657  	ret = device_property_read_u32(dev, "channel-in-use", &temp);
-6133aa711518da Yasin Lee 2024-06-07  658  	if (ret)
-6133aa711518da Yasin Lee 2024-06-07  659  		return dev_err_probe(dev, ret, "Failed to read channel-in-use property\n");
-6133aa711518da Yasin Lee 2024-06-07  660  	data->chan_in_use = temp;
-6133aa711518da Yasin Lee 2024-06-07  661  
-6133aa711518da Yasin Lee 2024-06-07  662  	device_for_each_child_node(dev, child) {
-6133aa711518da Yasin Lee 2024-06-07  663  		ret = fwnode_property_read_u32(child, "channel-positive", &temp);
-6133aa711518da Yasin Lee 2024-06-07  664  		if (ret)
-6133aa711518da Yasin Lee 2024-06-07  665  			return dev_err_probe(dev, ret,
-6133aa711518da Yasin Lee 2024-06-07 @666  					"Failed to read channel-positive for channel %d\n", i);
-6133aa711518da Yasin Lee 2024-06-07  667  		data->ch_data[i].channel_positive = temp;
-6133aa711518da Yasin Lee 2024-06-07  668  
-6133aa711518da Yasin Lee 2024-06-07  669  		ret = fwnode_property_read_u32(child, "channel-negative", &temp);
-6133aa711518da Yasin Lee 2024-06-07  670  		if (ret)
-6133aa711518da Yasin Lee 2024-06-07  671  			return dev_err_probe(dev, ret,
-6133aa711518da Yasin Lee 2024-06-07  672  					"Failed to read channel-negative for channel %d\n", i);
-6133aa711518da Yasin Lee 2024-06-07  673  		data->ch_data[i].channel_negative = temp;
-6133aa711518da Yasin Lee 2024-06-07  674  
-6133aa711518da Yasin Lee 2024-06-07  675  		i++;
-6133aa711518da Yasin Lee 2024-06-07  676  	}
-6133aa711518da Yasin Lee 2024-06-07  677  
-6133aa711518da Yasin Lee 2024-06-07  678  	return 0;
-6133aa711518da Yasin Lee 2024-06-07  679  }
+  1829	
+  1830	static struct pci_dev *iommu_group_get_first_pci_dev(struct iommu_group *group)
+  1831	{
+  1832		struct pci_dev *pdev = NULL;
+  1833		int ret;
+  1834	
+  1835		/* No IOMMU group ? */
+  1836		if (!group)
+  1837			return NULL;
+  1838	
+> 1839		ret = iommu_group_for_each_dev(group, &pdev, dev_has_iommu_table);
+  1840		if (!ret || !pdev)
+  1841			return NULL;
+  1842		return pdev;
+  1843	}
+  1844	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
