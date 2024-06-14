@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C8C1474A6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 21:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464A3143C7A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 21:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718399368; cv=none; b=D7Udwu/C0mTYEYAZX122nVtSRCSUxPooUkQ29kIIiT1vpLjWUTktRSUHtDR6Y1Xf5mKjvUb9o7M2++UzCFW01jIEZNCe6Lu3aSzynh/X/LSHYXXDWpoqmann60kZXSiBvwoTnsFIwcna4iQ0nTm2X1+iFcFsD1E9ndAfawZpLEk=
+	t=1718401407; cv=none; b=CwNVtED3rYEsXBJB8qmnVSFuCEkwoaEk0e1tmfMxQcc736XRvFj2FnmtHFqOkG+AuyYwuNks9Fpc75V9I9yt1tiOK9VdxBMC5ZINMyPH0qL/lwPtTk2rTjZnH5Ylq3JISN7Z8uUn9N+ynbij/7QIvzdyMxvEGoTCc3M7iZ8c430=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718399368; c=relaxed/simple;
-	bh=FNq86m2+L/Y8MguLbUnC6HoD3GqL1CauBRcwa9sF4GA=;
+	s=arc-20240116; t=1718401407; c=relaxed/simple;
+	bh=b7yfdgOUZbl1Zbk6GCSRteATrYhtAlKxWvt4WQUJgh0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H8biDapOPlF8N3+h9XzfpOtZNLvWhVLY1chUeabldnoCR7NrE6AsBartlMxMEltlNLfSjimpGuZRHuEvNeMLNGa6T1aS1P7yHUczCBjz5UVrLL7DlzRcKfh4khF0pF4P7fiQaI+1Y9WqW+KCpVXyRGtuZTyC1gL9892vYM4WitE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzK/iKnT; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=PdxnO+zMAHu892RPXABIVO6SrhnFbr6dd+ZhHB63sjUfz2j70fthJloWs1Zcu1W0OwZimVx3/yHUxGzSvpjQp8YE7KgT4CLtb0vaHYzX3VTJ4bmWCA3gFphOQ0KMtlhLiGcMJVYLFqdSAP5jl1d4NvzsijbF3dPjlCLDP6+NBl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTJ55AkV; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzK/iKnT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTJ55AkV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718399367; x=1749935367;
+  t=1718401405; x=1749937405;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FNq86m2+L/Y8MguLbUnC6HoD3GqL1CauBRcwa9sF4GA=;
-  b=mzK/iKnTdLcUDR5nyj6TfcT87kb2BLeZinSDRCSYdTStZj7MC7KScol/
-   6OxzJ9gIdHu6mEcI9e4cCvKTzakowzHqyYD0YiPaJu67nW1f5Yoci6Ftf
-   6FrL90J6YRY5NyjB8zKHh3epbsuZrdPfu54UkWpG3DWUSaMH/AicJp/gw
-   u0HVM9qtyFwibEt9JHlO0AVpsKT8eKmuooplzk5BDFAKVuEA3ahPBxksM
-   2e9FpG6cNimo6pRH5Yzo6opcF2N1sojGnffaMaWg5MJNjFyh/LY0R2ofu
-   Vb6rlUBrxUjIUsDL2LEPhlKaZF96FowZl/9iUGF0p/t7wCf96oGEBDmtJ
-   g==;
-X-CSE-ConnectionGUID: LlJFmXvLQ96HjSvMkjeEPQ==
-X-CSE-MsgGUID: LbANjSOwTwCpADxcgORiBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15141716"
+  bh=b7yfdgOUZbl1Zbk6GCSRteATrYhtAlKxWvt4WQUJgh0=;
+  b=aTJ55AkV/17jslTvORs5n7jaFpTplW3+irtPyGp8zqbM9Ueu1bSOipAS
+   86OLles0grfs2OugZDEaG9fKAEkDAL5TjxHjfk5Dn3Jhm32T2VQPo+xdr
+   PXcumZ1BrXL70dVzjDyzEWe5gnLOD0G34cu1GNuEptzJMh3sNz8Rlbq3w
+   GHtDPC2w9uHeAQLU6l/1jODAbDacNZITXqCoDmEIV0q3qMgV91Dh4kGhM
+   LsMSPfrLQnCyn4PCFSoSYgb9hngs1SM55nEBivT8HQuzkmy1Y1Vi/L7wT
+   hueXCDFiBOXIEstrLm8neRcsmI1t8dnr3WDo07TjqSfP/TddxCcI/oyo3
+   w==;
+X-CSE-ConnectionGUID: lGcqtluqTLS2rFZViP77ZA==
+X-CSE-MsgGUID: hkR/GXamQemcG90xXU1fnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="32784498"
 X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="15141716"
+   d="scan'208";a="32784498"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 14:09:25 -0700
-X-CSE-ConnectionGUID: FBxTe8TwQ5OCB8N3E2Vs9g==
-X-CSE-MsgGUID: JDLnadtmSGipZJW8EiIzWA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 14:43:24 -0700
+X-CSE-ConnectionGUID: KEWHHKdgRzeuJNrt8R2WiQ==
+X-CSE-MsgGUID: 8aqdZSkJS9qcSXGlZEWiYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="78095555"
+   d="scan'208";a="78101967"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Jun 2024 14:09:23 -0700
+  by orviesa001.jf.intel.com with ESMTP; 14 Jun 2024 14:43:24 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIEAi-0001nZ-2L;
-	Fri, 14 Jun 2024 21:09:20 +0000
-Date: Sat, 15 Jun 2024 05:08:36 +0800
+	id 1sIEhd-0001op-1b;
+	Fri, 14 Jun 2024 21:43:21 +0000
+Date: Sat, 15 Jun 2024 05:42:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
-Subject: mm/slub.c:3905:29: error: variable 'obj_exts' set but not used
-Message-ID: <202406150444.F6neSaiy-lkp@intel.com>
+To: Steve Jeong <how2soft@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.1.y 1/91]
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts:80.17-84.4: Warning
+ (unit_address_vs_reg): /rk3568-gpiomem: node has a reg or ranges property,
+ but no unit name
+Message-ID: <202406150532.JC2IXlqX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,97 +64,179 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c286c21ff94252f778515b21b6bebe749454a852
-commit: 4b8736964640fe160724e7135dc62883bddcdace mm/slab: add allocation accounting into slab allocation and free paths
-date:   7 weeks ago
-config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20240615/202406150444.F6neSaiy-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150444.F6neSaiy-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   a50c6922e2b4c1d7c895bde521d13096ba16a863
+commit: 161dee9509736facbf1906dd1005e70e240389fa [1/91] ODROID-M1: Add /dev/gpiomem device
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240615/202406150532.JC2IXlqX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150532.JC2IXlqX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150444.F6neSaiy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406150532.JC2IXlqX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts:80.17-84.4: Warning (unit_address_vs_reg): /rk3568-gpiomem: node has a reg or ranges property, but no unit name
 
-   mm/slub.c: In function 'slab_post_alloc_hook':
->> mm/slub.c:3905:29: error: variable 'obj_exts' set but not used [-Werror=unused-but-set-variable]
-    3905 |         struct slabobj_ext *obj_exts;
-         |                             ^~~~~~~~
-   cc1: all warnings being treated as errors
+vim +80 arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts
 
-
-vim +/obj_exts +3905 mm/slub.c
-
-  3898	
-  3899	static __fastpath_inline
-  3900	void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
-  3901				  gfp_t flags, size_t size, void **p, bool init,
-  3902				  unsigned int orig_size)
-  3903	{
-  3904		unsigned int zero_size = s->object_size;
-> 3905		struct slabobj_ext *obj_exts;
-  3906		bool kasan_init = init;
-  3907		size_t i;
-  3908		gfp_t init_flags = flags & gfp_allowed_mask;
-  3909	
-  3910		/*
-  3911		 * For kmalloc object, the allocated memory size(object_size) is likely
-  3912		 * larger than the requested size(orig_size). If redzone check is
-  3913		 * enabled for the extra space, don't zero it, as it will be redzoned
-  3914		 * soon. The redzone operation for this extra space could be seen as a
-  3915		 * replacement of current poisoning under certain debug option, and
-  3916		 * won't break other sanity checks.
-  3917		 */
-  3918		if (kmem_cache_debug_flags(s, SLAB_STORE_USER | SLAB_RED_ZONE) &&
-  3919		    (s->flags & SLAB_KMALLOC))
-  3920			zero_size = orig_size;
-  3921	
-  3922		/*
-  3923		 * When slab_debug is enabled, avoid memory initialization integrated
-  3924		 * into KASAN and instead zero out the memory via the memset below with
-  3925		 * the proper size. Otherwise, KASAN might overwrite SLUB redzones and
-  3926		 * cause false-positive reports. This does not lead to a performance
-  3927		 * penalty on production builds, as slab_debug is not intended to be
-  3928		 * enabled there.
-  3929		 */
-  3930		if (__slub_debug_enabled())
-  3931			kasan_init = false;
-  3932	
-  3933		/*
-  3934		 * As memory initialization might be integrated into KASAN,
-  3935		 * kasan_slab_alloc and initialization memset must be
-  3936		 * kept together to avoid discrepancies in behavior.
-  3937		 *
-  3938		 * As p[i] might get tagged, memset and kmemleak hook come after KASAN.
-  3939		 */
-  3940		for (i = 0; i < size; i++) {
-  3941			p[i] = kasan_slab_alloc(s, p[i], init_flags, kasan_init);
-  3942			if (p[i] && init && (!kasan_init ||
-  3943					     !kasan_has_integrated_init()))
-  3944				memset(p[i], 0, zero_size);
-  3945			kmemleak_alloc_recursive(p[i], s->object_size, 1,
-  3946						 s->flags, init_flags);
-  3947			kmsan_slab_alloc(s, p[i], init_flags);
-  3948			if (need_slab_obj_ext()) {
-  3949				obj_exts = prepare_slab_obj_exts_hook(s, flags, p[i]);
-  3950	#ifdef CONFIG_MEM_ALLOC_PROFILING
-  3951				/*
-  3952				 * Currently obj_exts is used only for allocation profiling.
-  3953				 * If other users appear then mem_alloc_profiling_enabled()
-  3954				 * check should be added before alloc_tag_add().
-  3955				 */
-  3956				if (likely(obj_exts))
-  3957					alloc_tag_add(&obj_exts->ref, current->alloc_tag, s->size);
-  3958	#endif
-  3959			}
-  3960		}
-  3961	
-  3962		memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
-  3963	}
-  3964	
+    13	
+    14	/ {
+    15		model = "Hardkernel ODROID-M1";
+    16		compatible = "rockchip,rk3568-odroid-m1", "rockchip,rk3568";
+    17	
+    18		aliases {
+    19			ethernet0 = &gmac0;
+    20			i2c0 = &i2c3;
+    21			i2c3 = &i2c0;
+    22			mmc0 = &sdhci;
+    23			mmc1 = &sdmmc0;
+    24			serial0 = &uart1;
+    25			serial1 = &uart0;
+    26		};
+    27	
+    28		chosen: chosen {
+    29			stdout-path = "serial2:1500000n8";
+    30		};
+    31	
+    32		hdmi-con {
+    33			compatible = "hdmi-connector";
+    34			type = "a";
+    35	
+    36			port {
+    37				hdmi_con_in: endpoint {
+    38					remote-endpoint = <&hdmi_out_con>;
+    39				};
+    40			};
+    41		};
+    42	
+    43		leds: leds {
+    44			compatible = "gpio-leds";
+    45	
+    46			led_power: led-0 {
+    47				gpios = <&gpio0 RK_PC6 GPIO_ACTIVE_LOW>;
+    48				function = LED_FUNCTION_POWER;
+    49				color = <LED_COLOR_ID_RED>;
+    50				linux,default-trigger = "default-on";
+    51				pinctrl-names = "default";
+    52				pinctrl-0 = <&led_power_en>;
+    53			};
+    54			led_work: led-1 {
+    55				gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>;
+    56				function = LED_FUNCTION_HEARTBEAT;
+    57				color = <LED_COLOR_ID_BLUE>;
+    58				linux,default-trigger = "heartbeat";
+    59				pinctrl-names = "default";
+    60				pinctrl-0 = <&led_work_en>;
+    61			};
+    62		};
+    63	
+    64		rk809-sound {
+    65			compatible = "simple-audio-card";
+    66			simple-audio-card,format = "i2s";
+    67			simple-audio-card,name = "ODROID-M1-FRONT";
+    68			simple-audio-card,mclk-fs = <256>;
+    69			status = "okay";
+    70	
+    71			simple-audio-card,cpu {
+    72				sound-dai = <&i2s1_8ch>;
+    73			};
+    74	
+    75			simple-audio-card,codec {
+    76				sound-dai = <&rk809>;
+    77			};
+    78		};
+    79	
+  > 80		rk3568-gpiomem {
+    81			compatible = "rockchip,rk3568-gpiomem";
+    82			reg= <0x0 0xfd660000 0x0 0x1000>;
+    83			status = "okay";
+    84		};
+    85	
+    86		pcie30_avdd0v9: pcie30-avdd0v9 {
+    87			compatible = "regulator-fixed";
+    88			regulator-name = "pcie30_avdd0v9";
+    89			regulator-always-on;
+    90			regulator-boot-on;
+    91			regulator-min-microvolt = <900000>;
+    92			regulator-max-microvolt = <900000>;
+    93			vin-supply = <&vcc3v3_sys>;
+    94		};
+    95	
+    96		pcie30_avdd1v8: pcie30-avdd1v8 {
+    97		        compatible = "regulator-fixed";
+    98		        regulator-name = "pcie30_avdd1v8";
+    99			regulator-always-on;
+   100			regulator-boot-on;
+   101			regulator-min-microvolt = <1800000>;
+   102			regulator-max-microvolt = <1800000>;
+   103			vin-supply = <&vcc3v3_sys>;
+   104		};
+   105	
+   106		vcc12v_dcin: vcc12v-dcin {
+   107			compatible = "regulator-fixed";
+   108			regulator-name = "vcc12v_dcin";
+   109			regulator-always-on;
+   110			regulator-boot-on;
+   111		};
+   112	
+   113		vcc3v3_pcie: gpio-regulator {
+   114			compatible = "regulator-fixed";
+   115			regulator-name = "vcc3v3_pcie";
+   116			enable-active-high;
+   117			regulator-min-microvolt = <3300000>;
+   118			regulator-max-microvolt = <3300000>;
+   119			gpio = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>;
+   120			startup-delay-us = <5000>;
+   121			vin-supply = <&vcc12v_dcin>;
+   122		};
+   123	
+   124		vcc3v3_sys: vcc3v3-sys {
+   125			compatible = "regulator-fixed";
+   126			regulator-name = "vcc3v3_sys";
+   127			regulator-always-on;
+   128			regulator-boot-on;
+   129			regulator-min-microvolt = <3300000>;
+   130			regulator-max-microvolt = <3300000>;
+   131			vin-supply = <&vcc12v_dcin>;
+   132		};
+   133	
+   134		vcc5v0_usb: vcc5v0-usb {
+   135			compatible = "regulator-fixed";
+   136			regulator-name = "vcc5v0_usb";
+   137			regulator-always-on;
+   138			regulator-boot-on;
+   139			regulator-min-microvolt = <5000000>;
+   140			regulator-max-microvolt = <5000000>;
+   141			vin-supply = <&vcc12v_dcin>;
+   142		};
+   143	
+   144		vcc5v0_usb_host: vcc5v0-usb-host {
+   145			compatible = "regulator-fixed";
+   146			enable-active-high;
+   147			gpio = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
+   148			pinctrl-names = "default";
+   149			pinctrl-0 = <&vcc5v0_usb_host_en>;
+   150			regulator-name = "vcc5v0_usb_host";
+   151			regulator-min-microvolt = <5000000>;
+   152			regulator-max-microvolt = <5000000>;
+   153			vin-supply = <&vcc5v0_usb>;
+   154		};
+   155	
+   156		vcc5v0_usb_otg: vcc5v0-usb-otg {
+   157			compatible = "regulator-fixed";
+   158			enable-active-high;
+   159			gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
+   160			pinctrl-names = "default";
+   161			pinctrl-0 = <&vcc5v0_usb_otg_en>;
+   162			regulator-name = "vcc5v0_usb_otg";
+   163			regulator-min-microvolt = <5000000>;
+   164			regulator-max-microvolt = <5000000>;
+   165			vin-supply = <&vcc5v0_usb>;
+   166		};
+   167	};
+   168	
 
 -- 
 0-DAY CI Kernel Test Service
