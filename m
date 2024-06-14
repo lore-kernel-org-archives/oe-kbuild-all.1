@@ -1,89 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1156B1459E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 22:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A24B193081
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 23:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718404528; cv=none; b=t8Mh/W9E1vcqbcembNwriCD8DWHfg6QQegDJEVfKvTI0WWd0jY6QjbULkuEFdKef5zqZTnI7wwIMRQznLCm4x8cAoQDe9q5i5XfWnpWZuP5Hi5v/PNfHoAlgHqLGWw+2iNiuNQ7cFv5TGFlLPQxHXIqtrFvpJgHp3lOrsxOqjfM=
+	t=1718406364; cv=none; b=r9yhKIxifd006JjftEKxdv9C4cqOQ3g97h/rXr2lPN8U56mjbZ6kwXACXXkp6A6pv1zkplzKJQDhFqGo0DPDS7ei+5s/5uiDWy2sf+S8JU61p3sF99sn0cetSnvmHzK7IIGpTVJknZuqq+izD0KNjMNe06z4CSwIE7FBE6n4Sw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718404528; c=relaxed/simple;
-	bh=daSFm0rC/lfTVzVy5f4BnS7jgh3e3HyPNL03G9dV61g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j8hTVnvXEjgNTUmzMTy9J9J1Y1tzVoc4qUnPsRJ3x+2/k5aPqOfSUlB8D5HcOp5w/u89iAnmejS8RJgchL7007lb8+aYAabDh60hk3JmBkcKGiP/097IL51PyvSkDYqB/mmnji/sji5B0H2vbRdQBXbi17hZmc95IniXReHJam0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwF82E1C; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718406364; c=relaxed/simple;
+	bh=SUmAkBYRvWardrvGS/2qu3Kc80nAvgHvjxcH/UvOh0g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n88g8Juk0NHrldJ++x/o9uNbkQRNyRn4Ij60VTf1pSZQHzWrWCsxm1LGik0yx6/uzp5oCp57OscHBvjI7wTf/wAQdBXOEBggfdfp9OIadsDshPbDXDuU+JWMoeQKgXgCI3EjXq2yqfsC+i7aYQvG3Bp0z8cNeMd7V0oA9Kh2CJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v+PEfmRq; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwF82E1C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718404527; x=1749940527;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=daSFm0rC/lfTVzVy5f4BnS7jgh3e3HyPNL03G9dV61g=;
-  b=DwF82E1CMEO2uYBLnlXjSjPQFFJ93dSQce4OjXSu/VyBr4SMJCIe97GU
-   k1EqeNQhMdmVKlmvhHnkZNWYLUF8fr7VekoFlxN8uNz/MHGIM+0OlkqPu
-   vdXj4GIRUSqOAwdkABISXeNXkhvvAcjsPqJEjJ/BsAQgAiuTfTDSuPKzC
-   nTaC/8yt3VORBDbp0Lblcwwsv6B8Z1hR5rE6LmNqfSG7tTbtkjDjCFLzQ
-   fU8BNhiaF/VRqDvkh9bzkgvG0hv83oSe80Zh5WpmrEILnR7Mdt7enXENo
-   Kc3EN+etE1Z0N+sRXJZiVSjgFpyRMGEhoNNmTf1xbCs+D7SrbKXpadXjL
-   Q==;
-X-CSE-ConnectionGUID: hTo4qyl6Qpq8wugsmWER2w==
-X-CSE-MsgGUID: Sq28WnYcT768TIGKaib6+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="32788024"
-X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; 
-   d="scan'208";a="32788024"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 15:35:26 -0700
-X-CSE-ConnectionGUID: QFYUDiBPQqinxdF0YafwLA==
-X-CSE-MsgGUID: ZzV/rNY6ThquGgGkjqFGmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; 
-   d="scan'208";a="40584889"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Jun 2024 15:35:25 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIFVz-0001s9-1h;
-	Fri, 14 Jun 2024 22:35:23 +0000
-Date: Sat, 15 Jun 2024 06:35:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:qwip 9/16]
- arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: gpio@41100000:
- ngpios:0:0: 16 is not one of [14, 24, 32]
-Message-ID: <202406150651.6IyIQRWn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v+PEfmRq"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-df4d5d0b8d0so2821361276.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 16:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718406352; x=1719011152; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A/QAnEvW2whZ66fPncRxn+rv2tKS9JXM0zAtMuT5AFU=;
+        b=v+PEfmRqmo5i1MlQaSAJ/oL4LUw/Z1gr8k6BDPlEDNqYw2ODi2lq32nY1XWIwHKYW5
+         /OIuZkeVpJgDKg/f/qvvLH64cc5RFqawNnGdqjg5VMN8ChcBOEMfm53F05/tNskSvlkF
+         PzIxkerfmnQfV2ZLqC+O/EPq6bculmpW5rCyw1ZIAHNZHizL50CmKUP2mA/TomM1iswa
+         DMlDfsmXC97Cl25kbDWOyb3zczwns3Ao7LsAREgMPCCXhb9qTLl34DkfU+xMeU0C8n3O
+         5ZdiplGlwOyEd+JKTnCXQRWdfEliu5tdAz2hyC6YJEE5mHg+iBz7z1MmCv0D6Yc9ZfLi
+         2gTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718406352; x=1719011152;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A/QAnEvW2whZ66fPncRxn+rv2tKS9JXM0zAtMuT5AFU=;
+        b=XVpfunPsTSTFekc/5C7Rrgp+Uje45y/LEx1pqboxfMghC7bekpVQNRPJXsX/AZWqmB
+         aosNbdN5pOA1SyQMy7O8PfmxkHggYl/FL39hC45+8k19kt8G/uYLEKRsi3HuXXo5KuL4
+         jSRUSlFqBxlnCuNrU1gK2Nm4FyK3CIQAXcwG3t4tG9LVPXoPIkQ/rTHRus6TIUHQOnaI
+         YgOHALXKspnqTEfS/Yjj5tsGsvpdOYuryhmN9bTrMoykIZM4Xvnsz8CmJNND1TT/r4Cd
+         3ckOcgcXqYj+GOmwJpf1j8F4F8lR/JfHDUcqPK5tltyw3dSZXarQwMOtThTHpmqkMfFZ
+         jvIw==
+X-Gm-Message-State: AOJu0YztrVb8RC7T6lM98WlQ7BePjN+RN/c+FkzLaAvlIhQl5fFfZIXZ
+	wS9PZVm9s4FY4smMlRhVYI4krQSCOU2NHgT45NLAc4gRGQ2GwiwdVhiekE1TVljm/OpZEZ+l+fQ
+	xTYwTNDNs3s2Kh9TqyExR9rwYIhH8ZBqBWWWK
+X-Google-Smtp-Source: AGHT+IHCaCta4WByzbs5R68RzffwsD0q1bj7gVftUYqLyEqw/d8B0d1+6/PnRmben5rYhFeps5g0or05LZhfZU7eYME=
+X-Received: by 2002:a25:d850:0:b0:dfb:6df:bf8b with SMTP id
+ 3f1490d57ef6-dff150d631emr4005522276.0.1718406351999; Fri, 14 Jun 2024
+ 16:05:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202406150444.F6neSaiy-lkp@intel.com>
+In-Reply-To: <202406150444.F6neSaiy-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 14 Jun 2024 16:05:41 -0700
+Message-ID: <CAJuCfpHfE3d2Uf-MAZ1_nhioWhjaG2ywX82K_GePGZYN=eLTYg@mail.gmail.com>
+Subject: Re: mm/slub.c:3905:29: error: variable 'obj_exts' set but not used
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git qwip
-head:   9956455899baf6f0007d2a58feff4a61a8ff4ea9
-commit: b0d175d4bc5dc9929bf28683d37516857afea87f [9/16] riscv: dts: microchip: add an initial devicetree for the BeagleV Fire
-config: riscv-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240615/202406150651.6IyIQRWn-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150651.6IyIQRWn-lkp@intel.com/reproduce)
+On Fri, Jun 14, 2024 at 2:09=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   c286c21ff94252f778515b21b6bebe749454a852
+> commit: 4b8736964640fe160724e7135dc62883bddcdace mm/slab: add allocation =
+accounting into slab allocation and free paths
+> date:   7 weeks ago
+> config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org=
+/0day-ci/archive/20240615/202406150444.F6neSaiy-lkp@intel.com/config)
+> compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240615/202406150444.F6neSaiy-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406150444.F6neSaiy-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    mm/slub.c: In function 'slab_post_alloc_hook':
+> >> mm/slub.c:3905:29: error: variable 'obj_exts' set but not used [-Werro=
+r=3Dunused-but-set-variable]
+>     3905 |         struct slabobj_ext *obj_exts;
+>          |                             ^~~~~~~~
+>    cc1: all warnings being treated as errors
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150651.6IyIQRWn-lkp@intel.com/
+Fix is posted at
+https://lore.kernel.org/all/20240614225951.3845577-1-surenb@google.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: gpio@41100000: ngpios:0:0: 16 is not one of [14, 24, 32]
-   	from schema $id: http://devicetree.org/schemas/gpio/microchip,mpfs-gpio.yaml#
-   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: gpio@41200000: ngpios:0:0: 20 is not one of [14, 24, 32]
-   	from schema $id: http://devicetree.org/schemas/gpio/microchip,mpfs-gpio.yaml#
-   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: gpio@44000000: ngpios:0:0: 20 is not one of [14, 24, 32]
-   	from schema $id: http://devicetree.org/schemas/gpio/microchip,mpfs-gpio.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+> vim +/obj_exts +3905 mm/slub.c
+>
+>   3898
+>   3899  static __fastpath_inline
+>   3900  void slab_post_alloc_hook(struct kmem_cache *s, struct obj_cgroup=
+ *objcg,
+>   3901                            gfp_t flags, size_t size, void **p, boo=
+l init,
+>   3902                            unsigned int orig_size)
+>   3903  {
+>   3904          unsigned int zero_size =3D s->object_size;
+> > 3905          struct slabobj_ext *obj_exts;
+>   3906          bool kasan_init =3D init;
+>   3907          size_t i;
+>   3908          gfp_t init_flags =3D flags & gfp_allowed_mask;
+>   3909
+>   3910          /*
+>   3911           * For kmalloc object, the allocated memory size(object_s=
+ize) is likely
+>   3912           * larger than the requested size(orig_size). If redzone =
+check is
+>   3913           * enabled for the extra space, don't zero it, as it will=
+ be redzoned
+>   3914           * soon. The redzone operation for this extra space could=
+ be seen as a
+>   3915           * replacement of current poisoning under certain debug o=
+ption, and
+>   3916           * won't break other sanity checks.
+>   3917           */
+>   3918          if (kmem_cache_debug_flags(s, SLAB_STORE_USER | SLAB_RED_=
+ZONE) &&
+>   3919              (s->flags & SLAB_KMALLOC))
+>   3920                  zero_size =3D orig_size;
+>   3921
+>   3922          /*
+>   3923           * When slab_debug is enabled, avoid memory initializatio=
+n integrated
+>   3924           * into KASAN and instead zero out the memory via the mem=
+set below with
+>   3925           * the proper size. Otherwise, KASAN might overwrite SLUB=
+ redzones and
+>   3926           * cause false-positive reports. This does not lead to a =
+performance
+>   3927           * penalty on production builds, as slab_debug is not int=
+ended to be
+>   3928           * enabled there.
+>   3929           */
+>   3930          if (__slub_debug_enabled())
+>   3931                  kasan_init =3D false;
+>   3932
+>   3933          /*
+>   3934           * As memory initialization might be integrated into KASA=
+N,
+>   3935           * kasan_slab_alloc and initialization memset must be
+>   3936           * kept together to avoid discrepancies in behavior.
+>   3937           *
+>   3938           * As p[i] might get tagged, memset and kmemleak hook com=
+e after KASAN.
+>   3939           */
+>   3940          for (i =3D 0; i < size; i++) {
+>   3941                  p[i] =3D kasan_slab_alloc(s, p[i], init_flags, ka=
+san_init);
+>   3942                  if (p[i] && init && (!kasan_init ||
+>   3943                                       !kasan_has_integrated_init()=
+))
+>   3944                          memset(p[i], 0, zero_size);
+>   3945                  kmemleak_alloc_recursive(p[i], s->object_size, 1,
+>   3946                                           s->flags, init_flags);
+>   3947                  kmsan_slab_alloc(s, p[i], init_flags);
+>   3948                  if (need_slab_obj_ext()) {
+>   3949                          obj_exts =3D prepare_slab_obj_exts_hook(s=
+, flags, p[i]);
+>   3950  #ifdef CONFIG_MEM_ALLOC_PROFILING
+>   3951                          /*
+>   3952                           * Currently obj_exts is used only for al=
+location profiling.
+>   3953                           * If other users appear then mem_alloc_p=
+rofiling_enabled()
+>   3954                           * check should be added before alloc_tag=
+_add().
+>   3955                           */
+>   3956                          if (likely(obj_exts))
+>   3957                                  alloc_tag_add(&obj_exts->ref, cur=
+rent->alloc_tag, s->size);
+>   3958  #endif
+>   3959                  }
+>   3960          }
+>   3961
+>   3962          memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
+>   3963  }
+>   3964
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
