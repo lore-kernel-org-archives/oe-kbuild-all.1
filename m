@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BD719D8A5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 03:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE288479
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 04:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718335355; cv=none; b=q0wIknYBw97n7z4cBdWFIRZ9g8LdqZ95Mah6kHErQ9QhMtYDFRchwqNANDL7Yhba+oj7UUKL6vOSR0Yicr/NtBHxXV4/l7qbwgJUggppSG+cOIU634NGpCGLVDHOTKIW7oYa8BJCuBxyp+XEis3A9u1DO8ZQyfybbDwRFC2SS3Y=
+	t=1718339749; cv=none; b=bT22mZDt+7ckQc5CZT+h/UxmgfvZ0No06ns1szaRnGWglkmpw0CfxkgFaZSHt/gBzS41Oned+qXRmGiOG3Kwn3NR1Nk815B0e6a+amDHFlK445St7nxZYoVt8S+KzIs2QB3ibQiNJKxCeWyqwTUU02dY3lgUn1BsBeknNaDqXiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718335355; c=relaxed/simple;
-	bh=t09F/OVkxDf8D/S7yzTq2m9l6Tf8TAwus4haD+2glRk=;
+	s=arc-20240116; t=1718339749; c=relaxed/simple;
+	bh=gqg2WHROdhZ4NqBu+wx8/cgTSTN2v3aYZHkdN7I7Ies=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j+/XBLCxMNzDufomDr8+zyBJKFiMMgMN/yOfkVcSlVTG8ZN1A+pqhD7srYe24n9D7GP+4o4KmKcPRDn/oPwu2i/hCMw8FFUB8S/2VHHctmVMgxMyxzcVEHtEclnqlrnUR7hgI/y5ZtLdks9+wtxA3G/afOswU0t0xXykCQgF38w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBP17ZlF; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=qy7mNbYgzFvf4fp74N7WMkxOxOnS6DTHCDr1i2izvo1ZCF2IwcHjFr8N6V6wPDul5/U+cByYeeUXEzuRL92EfO3+Zdea8GevNUhBl3D3sdN3kBp7GdlPPfxkgaZ66I/JOBtYzT2n+4tz6xXwk0E1qJ1+Z4sMgLpdcxeLNd7Mvkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eOBJjuUS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBP17ZlF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eOBJjuUS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718335353; x=1749871353;
+  t=1718339747; x=1749875747;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t09F/OVkxDf8D/S7yzTq2m9l6Tf8TAwus4haD+2glRk=;
-  b=KBP17ZlFoD+G9UGoam6UIg66UPiu06EmkE7nJkqnpbAGQl56YGNKl98c
-   GbAw2AKCqJg1H8GqilqgrjvOMuZHyGkvKQa6oBPF0GjCMeWxQpffVHXv9
-   XrCftZKEvqKwP/w2svORKXOv9WF/+wjhfqZ5/ZRwf0lEUsNWQREVJeZgm
-   ezBdOOi5NJFTBlVhTzFciJy+pj5l1zP/Rf6yinmgyfk8OYMUqEyJOMm9k
-   waW5niKvoInH5e3Qu/u13VK3OW70ZBXav6A1pvkOx+yHIWYtmlRQHfqkh
-   G8SwW60svNyH3TGxxS/aDvRG5D0EBS9rc33LQfO1/z0R/RE/4HOsFhz71
+  bh=gqg2WHROdhZ4NqBu+wx8/cgTSTN2v3aYZHkdN7I7Ies=;
+  b=eOBJjuUS53djDnwfu46sN0qiWOSVUrCF8nu8b4qRxgd89iEFXJw71rj7
+   nlnB1occOZoO3lOGV/jSXDIx3PSmLqFFJcU8dO0ug6PGthTHpTNEE7j+q
+   7BL8Yi3akJfaYna7AAaXHvRZZUib7PWLB56qVSyZyig+1VJCPQIGgB2CX
+   7/YZE3M0/qMjMRqnY4/Ha5d6HZPI8f0dWxbAI3Cmn8StKK/Lo35SAAq/J
+   FzEJPMQhzRZODb507xkKs96dKc9ebTYtud1JF4uczzHmo2cz1p5j2Moc6
+   G0kyEZ48xCVDK21guxnwFc9vbU5MuFvsBm3kFs7zoxhO40u4tsrs90U46
    A==;
-X-CSE-ConnectionGUID: tD2sd4qfTjOAoHszTxe9sg==
-X-CSE-MsgGUID: ZtAHQFjkTomy4v0FqBdbOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="15339273"
+X-CSE-ConnectionGUID: fbnDBoRASoSrWvt/b81O2A==
+X-CSE-MsgGUID: pNHQZ57VQkGRo8TRFeakpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="25884699"
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="15339273"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 20:22:32 -0700
-X-CSE-ConnectionGUID: C9B+AjowTciEa/Jr/qmBlw==
-X-CSE-MsgGUID: wHEwVoCvR9CAsFQbqEsRNw==
+   d="scan'208";a="25884699"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 21:35:38 -0700
+X-CSE-ConnectionGUID: JTcmXgUKTIOk3m5Hc9f3NQ==
+X-CSE-MsgGUID: dPLqfhc7R7m4sXn19XHoog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="44745021"
+   d="scan'208";a="40872763"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Jun 2024 20:22:31 -0700
+  by orviesa006.jf.intel.com with ESMTP; 13 Jun 2024 21:35:35 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHxWH-0000lM-0T;
-	Fri, 14 Jun 2024 03:22:29 +0000
-Date: Fri, 14 Jun 2024 11:22:00 +0800
+	id 1sHyey-0000p4-1Q;
+	Fri, 14 Jun 2024 04:35:32 +0000
+Date: Fri, 14 Jun 2024 12:34:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip 3959/9999]
- arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: Warning
- (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
- in node /soc/pcie-ep@fe000000)
-Message-ID: <202406141125.0kYGqZqT-lkp@intel.com>
+To: "steve.jeong" <jkhpro1003@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.1.y 62/91]
+ arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dts:16.5-15: Warning
+ (reg_format): /fragment@0/__overlay__/spidev@0:reg: property has invalid
+ length (4 bytes) (#address-cells == 2, #size-cells == 1)
+Message-ID: <202406141215.2TdZyfCc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,36 +64,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
-commit: b99c0f465b6398b36ed3bef6fac8ad2078cd3bfc [3959/9999] arm64: dts: renesas: r8a774a1: Add PCIe EP nodes
-config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240614/202406141125.0kYGqZqT-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   a50c6922e2b4c1d7c895bde521d13096ba16a863
+commit: 0f3e23be0aac626b96e1f5fcee1620c5bcf9b799 [62/91] ODROID-M1: dtb/dtbo: Add spi overlay
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240614/202406141215.2TdZyfCc-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406141125.0kYGqZqT-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406141215.2TdZyfCc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406141125.0kYGqZqT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406141215.2TdZyfCc-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+>> arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dts:16.5-15: Warning (reg_format): /fragment@0/__overlay__/spidev@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+>> arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dts:13.21-19.6: Warning (avoid_default_addr_size): /fragment@0/__overlay__/spidev@0: Relying on default #address-cells value
+>> arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dts:13.21-19.6: Warning (avoid_default_addr_size): /fragment@0/__overlay__/spidev@0: Relying on default #size-cells value
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dtbo: Warning (unique_unit_address): Failed prerequisite 'avoid_default_addr_size'
+
+vim +16 arch/arm64/boot/dts/rockchip/overlays/odroidm1/spi0.dts
+
+     3	
+     4	/ {
+     5		fragment@0 {
+     6			target = <&spi0>;
+     7	
+     8			__overlay__ {
+     9				status = "okay";
+    10	
+    11				pinctrl-0 = <&spi0m1_cs0 &spi0m1_pins>;
+    12	
+  > 13				spidev: spidev@0 {
+    14					status = "okay";
+    15					compatible = "odroid,spi-dev";
+  > 16					reg = <0>;
 
 -- 
 0-DAY CI Kernel Test Service
