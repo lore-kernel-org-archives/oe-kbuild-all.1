@@ -1,154 +1,175 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DF9107B6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 15:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149282E83F;
+	Fri, 14 Jun 2024 16:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718380703; cv=none; b=KM0A5NFn36zvoBW/ALN6qJO9smNdMEm7R80gBAq4krEhVrLWGIyQYZU+Ky4yc2ahoXKtP2crN6FyEBCNbSM1wZomdm9PJK+PNbDSdFodg1u/bmjIZDjEcQe1PD/3Xpn8ltLt0cR445FnWrN6iFMjQvQGlCRwqxKd1ejQLdb7M/Q=
+	t=1718380991; cv=none; b=BW4dG0Av5dOb344dAvhA9vWRytar9vptN996jqxXCOPv0MUxZGayOFqCQ2+v5h2xee4/opFGtMNd3ag9J4eCxMc5EVXz3ZopS6c1VnaAK5dQaUr62HUh6grJ0OWYkF/4IEUZziSnZEPQJF31mQ2atsdlyJ2Uwzyxrt/URrpn0CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718380703; c=relaxed/simple;
-	bh=P5ZZeYq1Hcarnjg1zUZDHvQhJDrcePSdv/b05UC94wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lYpCwbNN4uFqvQ2WOA0lDRheU9OdlsVlOz5EqVBVsc640cgR97fsBf45StRI2adVCIrQQqda6H8PScl36WP+VL1sIQwaDdQ/CxwybDdPBDena9Wrcbl+CC0cYQJwd8FJZO0mHb+MnQCeK0dv98EACN6sFk9bmySdJo9jeZgoRZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=QogjhcQZ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1718380991; c=relaxed/simple;
+	bh=9A/jqOqBS9MCf4eOyP7DggQr5hwvAQA+gRex7aJt6Gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cxFibAHCsU4Ov6hc/7Vjk9d+MFkezxSO1XaXQRMMrSSmoCMaeTkGmw9KinzzzKrCLhTFZ6p358zQZeA9d8b3MjUqNbc9X43zO4NoaPaJRRqL/8A9vd0pYgKRxbo1wWMJfyDBP0FZsjQ6CCOsd09YyaabycuDHvnMJX3qBdyzYAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W9cTosgg; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="QogjhcQZ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1338B40E0184;
-	Fri, 14 Jun 2024 15:58:20 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 4hcUFizNbnIE; Fri, 14 Jun 2024 15:58:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1718380696; bh=kExfgvDa0XNhn/Wyl8YL68c+5vjLVXtGlJyAV4u3X9Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QogjhcQZarJ54cy6XEFvO4wXaTf5oumhjbPfnulvt8fjiAgQFSlC2Zd93Dan1vj+r
-	 H3jKc7x0re18A3SxY0+lfywnIEdFeHn33Leu7+oz4IejuP2GFWK7M9t+619dzPAcBn
-	 giPcgY/ScONmcFVZv1N2hNjywJ3oVB6UoRDiIogkS+JELalzxE2q6eaR3T9J1HMEjW
-	 Kef/tzQj9GeYsO8of/GSQFoAkzMBOZn0C/q9zyENZpvr9Kr4+mwQO7fUq1kHQDwFpt
-	 GqhSAr+qug2GV/M+KNb40Jy0XTI96D9l3eVH7POTVPnBUBIHAeu8HDbS/U69qDCzr+
-	 j2sTtJgOEnbBnbfd+cCRG4tQSxixKOE1q00tdvUpFBqzoGuqd3ePOuch0nxNhuC1lb
-	 qk1WGTEmgySpBvzFEro4j3vxjx1iYKJe397pN0sSQPWNUwAxpIWxmFHn9Y+5eEyDl6
-	 Z1JfO+MRbkSNFGHvpNuOMklCv0WXqq0RTWJMjhPH0DyAn0ZPxMMtaWx/c8WgUheIwE
-	 nFOZyfgjl7NnfNJ36+dGzBsfSugR+3j8Rd8AMNASdcl2lyRParaTeQY4cIPCo7tykL
-	 6lBL6/GKN4D7LfiSRX1+TrEmgQq1WPTORPzsJb/osiGH5+cU8uaAo0IHjo+T7IGW+A
-	 GZ9HAN9KksNun1WZ5JfieaL8=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C278B40E00C9;
-	Fri, 14 Jun 2024 15:58:09 +0000 (UTC)
-Date: Fri, 14 Jun 2024 17:58:04 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sean Christopherson <seanjc@google.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [tip:x86/alternatives 14/14] arch/x86/kvm/kvm.o: warning:
- objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
-Message-ID: <20240614155804.GBZmxojDwTJig1ENBl@fat_crate.local>
-References: <202406141648.jO9qNGLa-lkp@intel.com>
- <20240614152228.GAZmxgNPmozj7UzRdV@fat_crate.local>
- <ZmxjOxhPy67QOh5Q@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W9cTosgg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718380989; x=1749916989;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9A/jqOqBS9MCf4eOyP7DggQr5hwvAQA+gRex7aJt6Gs=;
+  b=W9cTosggterU745xQNLH4OlzLgCk8yUvscVjVGWz+n8d8QnTLpqgayG4
+   I2iRygwl5ZJ4b3uhVl6wEHPTT3bGg8T9cH6nVq8EJoOp79E99eqRIm0C4
+   becuezRPHPqBIAaQrrPLqcY7lTx0+qe93DxR9fXYuvm+sGfm6cuuqDOPi
+   24VZ84WaTu0SSsp2CVZMjM6ySYM1I34Fcp453XfLtcY686kXTuxCeFZzA
+   fIPzF9JuPqPoKhJgaaUa717DsbJhDfRXpPcw0B0wGRDMzfPQoFmYZdT+2
+   GDHkywwq1rX2b02sH+M8PiZ+hNzer5MfvR09yO/uWyRojM/NkX4NIG7uV
+   A==;
+X-CSE-ConnectionGUID: SqXFts4LSN6ieZoZAGuwzw==
+X-CSE-MsgGUID: 3s+3vVToQUSd+X5WDGrhRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15398683"
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
+   d="scan'208";a="15398683"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 09:03:08 -0700
+X-CSE-ConnectionGUID: hMcYBMsRRaWhPzBhSoCGTw==
+X-CSE-MsgGUID: jmqHEHkZTxizZcPWWKVlOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
+   d="scan'208";a="40642374"
+Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jun 2024 09:03:07 -0700
+Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sI9OK-0001TW-36;
+	Fri, 14 Jun 2024 16:03:04 +0000
+Date: Sat, 15 Jun 2024 00:02:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.10-rc1 98/114]
+ drivers/platform/arm64/mpam/mpam_resctrl.c:350:14: warning: result of
+ comparison of constant 65536 with expression of type 'u16' (aka 'unsigned
+ short') is always false
+Message-ID: <202406150007.xsDBcEKC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZmxjOxhPy67QOh5Q@google.com>
 
-On Fri, Jun 14, 2024 at 08:35:23AM -0700, Sean Christopherson wrote:
-> That function does create a stack frame, just without using FRAME_BEGIN/END so
-> it's not dependent on using frame pointers.  Ironically, the intent is to try and
-> placate objtool.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.10-rc1
+head:   d9ba67a1a8dc6551a0b3254a8f2ee9993ad17957
+commit: 3b87a689f7311e64ff9a94ca9d22fb33aefcb372 [98/114] arm_mpam: resctrl: Add resctrl_arch_rmid_read() and resctrl_arch_reset_rmid()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240615/202406150007.xsDBcEKC-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150007.xsDBcEKC-lkp@intel.com/reproduce)
 
-Sneaky.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406150007.xsDBcEKC-lkp@intel.com/
 
-> IIUC, this warning just stared showing up with the alternatives changes?
+All warnings (new ones prefixed by >>):
 
-Yeah, perhaps the other one triggered this one too but it wasn't in the 0day
-report. The two warnings I reproduced here are:
+   In file included from drivers/platform/arm64/mpam/mpam_resctrl.c:6:
+   In file included from include/linux/arm_mpam.h:7:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/arm64/mpam/mpam_resctrl.c:350:14: warning: result of comparison of constant 65536 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+     350 |         if (cfg.mon == USE_RMID_IDX)
+         |             ~~~~~~~ ^  ~~~~~~~~~~~~
+   6 warnings generated.
 
-arch/x86/kvm/kvm.o: warning: objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
-vmlinux.o: warning: objtool: .altinstr_replacement+0x2eb: call without frame pointer save/setup
 
-and the other one is caused by the alternatives missing ASM_CALL_CONSTRAINT %rsp
-handing into the inline asm.
+vim +350 drivers/platform/arm64/mpam/mpam_resctrl.c
 
-> Does CALL_NOSPEC generate different code now?
-
-Hm, so I've been staring at this for a long time today and maybe I've veered off
-into the weeds already ... :-\
-
-So we use the asm variant of that CALL_NOSPEC thing:
-
-.globl vmx_do_interrupt_irqoff ; .balign 16, 0x90;; ; vmx_do_interrupt_irqoff: endbr64
- VMX_DO_EVENT_IRQOFF CALL_NOSPEC rdi
-.type vmx_do_interrupt_irqoff STT_FUNC ; .set .L__sym_size_vmx_do_interrupt_irqoff, .-vmx_do_interrupt_irqoff ; .size vmx_do_interrupt_irqoff, .L__sym_size_vmx_do_interrupt_irqoff
-
-with
-
-.macro CALL_NOSPEC reg:req
-
- __CS_PREFIX \reg
- call __x86_indirect_thunk_\reg
-
-.endm
-
-so the end-result is, what, this perhaps?
-
-ffffffff81070e20 <vmx_do_interrupt_irqoff>:
-ffffffff81070e20:       f3 0f 1e fa             endbr64
-ffffffff81070e24:       55                      push   %rbp
-ffffffff81070e25:       48 89 e5                mov    %rsp,%rbp
-
-<--- new stack frame
-
-ffffffff81070e28:       48 83 e4 f0             and    $0xfffffffffffffff0,%rsp
-ffffffff81070e2c:       6a 18                   push   $0x18
-ffffffff81070e2e:       55                      push   %rbp
-ffffffff81070e2f:       9c                      pushf
-ffffffff81070e30:       6a 10                   push   $0x10
-
-push things on the stack...
-
-ffffffff81070e32:       e8 09 67 60 00          call   ffffffff81677540 <__x86_indirect_thunk_rdi>
-ffffffff81070e37:       48 89 ec                mov    %rbp,%rsp
-ffffffff81070e3a:       5d                      pop    %rbp
-
-restore stack.
-
-ffffffff81070e3b:       e9 30 68 60 00          jmp    ffffffff81677670 <__x86_return_thunk>
-
-So that function has a proper stack frame.
-
-Why doesn't objtool recognize that?
-
-I betcha it is something with that has_valid_stack_frame() from
-
-                        if (opts.stackval && func && !is_special_call(insn) &&
-                            !has_valid_stack_frame(&state)) {
-                                WARN_INSN(insn, "call without frame pointer save/setup");
-                                return 1;
-                        }
-
-the objtool check. And I see "cfi" there and my brain says "nope". :)
-
-Hmmm.
+   321	
+   322	int resctrl_arch_rmid_read(struct rdt_resource	*r, struct rdt_domain *d,
+   323				   u32 closid, u32 rmid, enum resctrl_event_id eventid,
+   324				   u64 *val, void *arch_mon_ctx)
+   325	{
+   326		int err;
+   327		u64 cdp_val;
+   328		struct mon_cfg cfg;
+   329		struct mpam_resctrl_dom *dom;
+   330		u32 mon = *(u32 *)arch_mon_ctx;
+   331		enum mpam_device_features type;
+   332	
+   333		resctrl_arch_rmid_read_context_check();
+   334	
+   335		dom = container_of(d, struct mpam_resctrl_dom, resctrl_dom);
+   336	
+   337		switch (eventid) {
+   338		case QOS_L3_OCCUP_EVENT_ID:
+   339			type = mpam_feat_msmon_csu;
+   340			break;
+   341		case QOS_L3_MBM_LOCAL_EVENT_ID:
+   342		case QOS_L3_MBM_TOTAL_EVENT_ID:
+   343			type = mpam_feat_msmon_mbwu;
+   344			break;
+   345		default:
+   346			return -EINVAL;
+   347		}
+   348	
+   349		cfg.mon = mon;
+ > 350		if (cfg.mon == USE_RMID_IDX)
+   351			cfg.mon = resctrl_arch_rmid_idx_encode(closid, rmid);
+   352	
+   353		cfg.match_pmg = true;
+   354		cfg.pmg = rmid;
+   355	
+   356		if (cdp_enabled) {
+   357			cfg.partid = closid << 1;
+   358			err = mpam_msmon_read(dom->comp, &cfg, type, val);
+   359			if (err)
+   360				return err;
+   361	
+   362			cfg.partid += 1;
+   363			err = mpam_msmon_read(dom->comp, &cfg, type, &cdp_val);
+   364			if (!err)
+   365				*val += cdp_val;
+   366		} else {
+   367			cfg.partid = closid;
+   368			err = mpam_msmon_read(dom->comp, &cfg, type, val);
+   369		}
+   370	
+   371		return err;
+   372	}
+   373	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
