@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D90019ADB3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 18:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6828B19CD0F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 18:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718390479; cv=none; b=MZvHM0xdCuDl53oHL/iUrq/8/4KyZ/fSGf+ezRX455q9cSChqwxB94Wrbe5xKHxQS/kO8SIzImwP44eEE7fAzVChOrV7Sqs0mbydk4L4Zrfleksw4TurqWgqQFTjiLbHzwVLtfclSMKTAUshBk/fJv5/br/3RBIctERd0v8+tRY=
+	t=1718391140; cv=none; b=kUo/Nb9aRKJHxoquiSOWE6sJX41obkbVD3uekQXfH0VBWpLU0BN+e44mHnadWmfg1N1xOVi2MwxUjn0Xn1/v17FhwpQ0qQL2uzm9j/dnJJqhpAURpTJDUPE3XSCKbvG5yWJH7hveA8R1IpQaRJw0Ozadnoq1GQoHyznjHOK5h1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718390479; c=relaxed/simple;
-	bh=xcgqXB+fFDVnW44QLUSGc/aOCG4sU5iQfMpsp1YcmSY=;
+	s=arc-20240116; t=1718391140; c=relaxed/simple;
+	bh=gTRp0oEK5wXV0bYIo+OM0KA2Yr5a+Ku+qugNuN66d5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bE0rxBiT8/L+2PWtmAl1iXb7gw7CeX9khqM66Yq4AVMTupjQmw6gvGQPUqvKuEfxSCkwyY7QtJOh8pfmp/UyseLteKJrJLMpbgTa+0NeTjujLc7fxi/0F9agzb6/NYgyKc5WmwpDioYTdWDvebWLqRcVZ5ODP/JGXyZfXHr1tSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShtMLdkA; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=OxjeYsY/jzTCFmwl8dTmXf2bHgtvzjkpyV2iVFiknl+hf3nphoGR60jYNhV6y86xhXllPaoQm4sqwD6v43sFgwZceDl2RVoqNDvdYNXbD/8/RM/yT9z3qrEMM782FhIGo9d3i5O79f9TyZXX/KTEY8vWsvS4Gyf41nouJhjPrwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVj1O7vx; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShtMLdkA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVj1O7vx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718390478; x=1749926478;
+  t=1718391138; x=1749927138;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xcgqXB+fFDVnW44QLUSGc/aOCG4sU5iQfMpsp1YcmSY=;
-  b=ShtMLdkAu4E/nrlkRIN0LOc3qqOELfd0BAxNUyrFiKoR4GUn7q1+dkIN
-   1Exha17qogyLcGpHZTPmVJEnI7B5hIitDAbpdkH44XEPPPQo60wSMbzBy
-   ILVwPJcVcmGtvP6NbHZSKtM1kOC9ZzkfStvfKmueF6QvTx0J7pKUbJhpL
-   UonmaXEbmn79ffOfatD4m8JqZKa2I88wxvog43OYGf0k6W5FSj2BaAuJv
-   KKop8AmbvKvQEnrCa4nXWTSrd8ABx8R0QEpEHq7fe6F+JNHyH3e8KyX+G
-   l65qZ0XW4bGrC37G9R02ywMM/3VQQFRjj2CEsBn7qKJEL+dIiItogj8Pw
-   w==;
-X-CSE-ConnectionGUID: 3JTogHqJTE6uvLxXQufRRg==
-X-CSE-MsgGUID: /sJ73weyTbOKmeGQXZr6lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15168869"
+  bh=gTRp0oEK5wXV0bYIo+OM0KA2Yr5a+Ku+qugNuN66d5s=;
+  b=PVj1O7vxmGgnDZsHge//l1ULVLIaXxbq20pmsHOX+1RfmHQAERV44hZJ
+   0U6etUSP+L+yFt11I1YAF6nP7HAa9tnRmFE1oHvTYifX0QPWnx2/X1LS6
+   0LW2TIA39uupKCw6L3paEZe360SBN6m/yHzfHejBdjTxguh681ArdxTle
+   YhvW+JJP2UbssVU19BlOOMzWgW+RwuYpK8Vlmhy3hc2mlPhf4He2LDMvl
+   Iv7sGHXgqogLb5QK3mK1wX+64U+HzKcYBCVD1d0O7d6dmLFH2L7H9b2tj
+   VQThQBaKQl2cHtqpCsrIT4JTaV89iSDRignOzedNoUsziv3dT9cULm7BV
+   g==;
+X-CSE-ConnectionGUID: S0bfE7r/SiKXOXg4jJzUTA==
+X-CSE-MsgGUID: PMbLBaFmQNOOsqmtI7VSXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="32770689"
 X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="15168869"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 11:41:17 -0700
-X-CSE-ConnectionGUID: ECg+ImR2TcuWfvnnr/zy5w==
-X-CSE-MsgGUID: wS/16icIRJ2MwPRLlhCsqw==
+   d="scan'208";a="32770689"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 11:52:18 -0700
+X-CSE-ConnectionGUID: sJLR7JFuS+eQALuIFkziiw==
+X-CSE-MsgGUID: VX82SCqDTOGqv26nKm/b5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="40673832"
+   d="scan'208";a="44956975"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jun 2024 11:41:16 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 14 Jun 2024 11:52:16 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIBrN-0001ev-1j;
-	Fri, 14 Jun 2024 18:41:13 +0000
-Date: Sat, 15 Jun 2024 02:40:46 +0800
+	id 1sIC22-0001fl-0f;
+	Fri, 14 Jun 2024 18:52:14 +0000
+Date: Sat, 15 Jun 2024 02:51:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip 3958/9999]
- arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: Warning
- (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
- in node /soc/pcie-ep@fe000000)
-Message-ID: <202406150208.OekUsAB9-lkp@intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [drm-intel:for-linux-next-gt 3/3]
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c:943:32: sparse: sparse: Using
+ plain integer as NULL pointer
+Message-ID: <202406150232.r9Of4ebo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,24 +65,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
-commit: 5d63770a26dcbf9965903c2df51f1aaf176c53f8 [3958/9999] arm64: dts: renesas: r8a774c0: Add PCIe EP node
-config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240615/202406150208.OekUsAB9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150208.OekUsAB9-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
+head:   05da7d9f717bcb03c457379fa8a61c1689dab86c
+commit: 05da7d9f717bcb03c457379fa8a61c1689dab86c [3/3] drm/i915/gem: Downgrade stolen lmem setup warning
+config: x86_64-randconfig-122-20240614 (https://download.01.org/0day-ci/archive/20240615/202406150232.r9Of4ebo-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150232.r9Of4ebo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150208.OekUsAB9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406150232.r9Of4ebo-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
---
->> arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
---
->> arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:943:32: sparse: sparse: Using plain integer as NULL pointer
+
+vim +943 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+
+   889	
+   890	struct intel_memory_region *
+   891	i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+   892				   u16 instance)
+   893	{
+   894		struct intel_uncore *uncore = &i915->uncore;
+   895		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+   896		resource_size_t dsm_size, dsm_base, lmem_size;
+   897		struct intel_memory_region *mem;
+   898		resource_size_t io_start, io_size;
+   899		resource_size_t min_page_size;
+   900		int ret;
+   901	
+   902		if (WARN_ON_ONCE(instance))
+   903			return ERR_PTR(-ENODEV);
+   904	
+   905		if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
+   906			return ERR_PTR(-ENXIO);
+   907	
+   908		if (HAS_LMEMBAR_SMEM_STOLEN(i915) || IS_DG1(i915)) {
+   909			lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
+   910		} else {
+   911			resource_size_t lmem_range;
+   912	
+   913			lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
+   914			lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
+   915			lmem_size *= SZ_1G;
+   916		}
+   917	
+   918		if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
+   919			/*
+   920			 * MTL dsm size is in GGC register.
+   921			 * Also MTL uses offset to GSMBASE in ptes, so i915
+   922			 * uses dsm_base = 8MBs to setup stolen region, since
+   923			 * DSMBASE = GSMBASE + 8MB.
+   924			 */
+   925			ret = mtl_get_gms_size(uncore);
+   926			if (ret < 0) {
+   927				drm_err(&i915->drm, "invalid MTL GGC register setting\n");
+   928				return ERR_PTR(ret);
+   929			}
+   930	
+   931			dsm_base = SZ_8M;
+   932			dsm_size = (resource_size_t)(ret * SZ_1M);
+   933	
+   934			GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
+   935			GEM_BUG_ON((dsm_base + dsm_size) > lmem_size);
+   936		} else {
+   937			/* Use DSM base address instead for stolen memory */
+   938			dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
+   939			if (lmem_size < dsm_base) {
+   940				drm_dbg(&i915->drm,
+   941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
+   942					lmem_size, dsm_base);
+ > 943				return 0;
+   944			}
+   945			dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
+   946		}
+   947	
+   948		if (i915_direct_stolen_access(i915)) {
+   949			drm_dbg(&i915->drm, "Using direct DSM access\n");
+   950			io_start = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
+   951			io_size = dsm_size;
+   952		} else if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
+   953			io_start = 0;
+   954			io_size = 0;
+   955		} else {
+   956			io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
+   957			io_size = dsm_size;
+   958		}
+   959	
+   960		min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
+   961							I915_GTT_PAGE_SIZE_4K;
+   962	
+   963		mem = intel_memory_region_create(i915, dsm_base, dsm_size,
+   964						 min_page_size,
+   965						 io_start, io_size,
+   966						 type, instance,
+   967						 &i915_region_stolen_lmem_ops);
+   968		if (IS_ERR(mem))
+   969			return mem;
+   970	
+   971		intel_memory_region_set_name(mem, "stolen-local");
+   972	
+   973		mem->private = true;
+   974	
+   975		return mem;
+   976	}
+   977	
 
 -- 
 0-DAY CI Kernel Test Service
