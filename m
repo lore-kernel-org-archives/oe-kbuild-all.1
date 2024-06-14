@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC8E146D77
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jun 2024 13:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158364C8B;
+	Fri, 14 Jun 2024 13:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718371510; cv=none; b=UqBIfvDJVpouxQjvK7pQ8eI7wzjOTu4puG7SFSSCgpdIjlubdqqfi5yitGCWqWSBznIy3275cVnL+a7eYT0J/SLNopogrWPxV9HcU43zPbjZptS6+EkknPstA48x+m5DmY9Il4t2ws4R6sgXRIkP3oE5gtaozDRqEEXWGXAedxs=
+	t=1718372707; cv=none; b=ctFaVaOYFc0l1R23jj8nLvlC74aTqWHV3P2vJ/zE5PLmr1lURIF2atfbHKB01ux+q7VF3nIM05RNhIiOtE8jZN0amMTcblBB1MNtiWyvLdIXfonujnhWRai84zuujOuP9ilMaqiQTlYmmQcMjbXUvxhDCz+mKhJvB/Su3HvH+fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718371510; c=relaxed/simple;
-	bh=PodNgtK+CFxkcM1xg2YMWxubqXt7QosyFJw5EQkc+Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j8/1WdZd3fwQKYvjRvvt/CB4LMbzoPYxPmsC0TBFp0GKp6LNVoXznndlSLo0e8QBoYE/z4m+hn74fqXFKwjV9IwV7vbWLlcTQXlpksP0m9xPDpFHOjoEXaaZcUTrOOIJBL4TMgkbZuUHgIzM+PiNCwTIOMSqPRNyQN5cF0mB5hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+UIlMOM; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1718372707; c=relaxed/simple;
+	bh=XVVxIjRw8aXnuO07fuMvjc8nOL4O5SMnmgXVfzEFIOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zu7esOxT2LUyB1vSUSVyKdN1/E1vCklIbwT8d7R4KHSmZDuxXYgrzTe1f3YiBDf7wg2K+JhGK8/jL7J6AA+AapQjZLE5sekNnbpgHBYo7ocpO9ZTrFKmAD5weLR2UCXEemYcg/y+EC3dNNgiledwtq0DX4uBzKcN2CM9MS0L/M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxRRkXK7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+UIlMOM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxRRkXK7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718371509; x=1749907509;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PodNgtK+CFxkcM1xg2YMWxubqXt7QosyFJw5EQkc+Os=;
-  b=T+UIlMOMGKtHjRlC0mSbpOQDEul+UymqUj88yAeN4QoEw2uTHxH5XdMt
-   JgiLI7jXKyRfjVHoE7BV5I/5+B0/mmR4pPLHLlNXGd/CUkApWJBicC82a
-   GWgwb5v3wzf4kJpcw9lqDVdn/zI+z2rAFhUGNxXi52v8Y91DPaa+axg8f
-   mrPE1WmNDsQIrCrKGntagcl2C6OwFeGQVCtXC2OWPDYCVhX05U3xa7TB1
-   /zQKn9TiJaO5mzg36D4MoN/LJ2927v80XRv/Rcwvoo7mWo5z+6OKiLkn3
-   fkSnIzvM+GFAajJFLkC31Q/VkSw44vUts8Kmwa5lzgUalylsfl1TRn+iq
-   g==;
-X-CSE-ConnectionGUID: GoN7s0LKQoCpFBx4aTNxJA==
-X-CSE-MsgGUID: Gu68lILCT/CqYGyfj83tdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15380524"
+  t=1718372705; x=1749908705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XVVxIjRw8aXnuO07fuMvjc8nOL4O5SMnmgXVfzEFIOc=;
+  b=IxRRkXK7vR07l5s9bQbcM0LINoUT1/JDixdJWEAE61GSWu48BBk16LWW
+   stsBUpzNYw+7Lmyzmi6VTkBx9l3/UfGG+NArMwcN7UeziCaDAz9HEKDry
+   LQ1UBF8i4OtKRn90qkt4Y7/4ajtZLo+7KirKCgmjobu2VtcSwn7eByBRv
+   rtCMhYitWDaNVG9gvXTCCi4INH0caYWw1f60ABQEbtfjMT4Ig2aQi0F2k
+   tWzLr/50nMTSRpIioYlF4QOKYiISqFoe/4wYKkn+ecw6R5YJre+VMh0v2
+   HhjRdzUTtANXkaKJMPraSZSORSoLLEGDP/zjcZb+TI61HiG1ppe2y9GEv
+   w==;
+X-CSE-ConnectionGUID: jHBg2inwRoWgwBwQH/bnAA==
+X-CSE-MsgGUID: wHKWcO/RRlOmcdF6r71ppA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="18178295"
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="scan'208";a="15380524"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 06:25:08 -0700
-X-CSE-ConnectionGUID: 8QN9I4/STiyppCp86fjhJg==
-X-CSE-MsgGUID: oLaBGBtXR2aEW9t2ihg8PQ==
+   d="scan'208";a="18178295"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 06:45:04 -0700
+X-CSE-ConnectionGUID: yBmByUFKTdC+Ch3m8ZoOqw==
+X-CSE-MsgGUID: sh1KYdidSzO3tgwB33fSqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="scan'208";a="40635695"
+   d="scan'208";a="40430738"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Jun 2024 06:25:03 -0700
+  by orviesa010.jf.intel.com with ESMTP; 14 Jun 2024 06:45:03 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sI6vM-0001Ln-0t;
-	Fri, 14 Jun 2024 13:25:00 +0000
-Date: Fri, 14 Jun 2024 21:24:07 +0800
+	id 1sI7Ei-0001MZ-2H;
+	Fri, 14 Jun 2024 13:45:00 +0000
+Date: Fri, 14 Jun 2024 21:44:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, mpe@ellerman.id.au,
-	tpearson@raptorengineering.com, alex.williamson@redhat.com,
-	linuxppc-dev@lists.ozlabs.org, aik@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
-	naveen.n.rao@linux.ibm.com, gbatra@linux.vnet.ibm.com,
-	brking@linux.vnet.ibm.com, sbhat@linux.ibm.com, aik@ozlabs.ru,
-	jgg@ziepe.ca, ruscur@russell.cc, robh@kernel.org,
-	linux-kernel@vger.kernel.org, joel@jms.id.au, kvm@vger.kernel.org,
-	msuchanek@suse.de, oohall@gmail.com, mahesh@linux.ibm.com,
-	jroedel@suse.de, vaibhav@linux.ibm.com, svaidy@linux.ibm.com
-Subject: Re: [PATCH v3 6/6] powerpc/iommu: Reimplement the
- iommu_table_group_ops for pSeries
-Message-ID: <202406142110.r97Ts8Xm-lkp@intel.com>
-References: <171810901192.1721.18057294492426295643.stgit@linux.ibm.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.10-rc1 65/114]
+ drivers/platform/arm64/mpam/mpam_devices.c:318:17: warning: result of
+ comparison of constant 18446744073709551615 with expression of type 'u32'
+ (aka 'unsigned int') is always false
+Message-ID: <202406142148.278A1iXo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,35 +63,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <171810901192.1721.18057294492426295643.stgit@linux.ibm.com>
 
-Hi Shivaprasad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on powerpc/fixes]
-[also build test ERROR on awilliam-vfio/next awilliam-vfio/for-linus linus/master v6.10-rc3]
-[cannot apply to powerpc/next next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivaprasad-G-Bhat/powerpc-iommu-Move-pSeries-specific-functions-to-pseries-iommu-c/20240611-203313
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
-patch link:    https://lore.kernel.org/r/171810901192.1721.18057294492426295643.stgit%40linux.ibm.com
-patch subject: [PATCH v3 6/6] powerpc/iommu: Reimplement the iommu_table_group_ops for pSeries
-config: powerpc64-randconfig-r133-20240614 (https://download.01.org/0day-ci/archive/20240614/202406142110.r97Ts8Xm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.10-rc1
+head:   d9ba67a1a8dc6551a0b3254a8f2ee9993ad17957
+commit: 80bb394628b9df80413dcc6f0b9198177355c199 [65/114] arm_mpam: Add the class and component structures for ris firmware described
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240614/202406142148.278A1iXo-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce: (https://download.01.org/0day-ci/archive/20240614/202406142110.r97Ts8Xm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406142148.278A1iXo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406142110.r97Ts8Xm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406142148.278A1iXo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/platforms/pseries/iommu.c:16:
+   In file included from drivers/platform/arm64/mpam/mpam_devices.c:6:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
    In file included from include/linux/mm.h:2253:
    include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
      500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
@@ -125,40 +107,65 @@ All errors (new ones prefixed by >>):
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
      529 |                            NR_VM_NUMA_EVENT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/powerpc/platforms/pseries/iommu.c:1839:47: error: use of undeclared identifier 'dev_has_iommu_table'; did you mean 'device_iommu_capable'?
-    1839 |         ret = iommu_group_for_each_dev(group, &pdev, dev_has_iommu_table);
-         |                                                      ^~~~~~~~~~~~~~~~~~~
-         |                                                      device_iommu_capable
-   include/linux/iommu.h:1079:20: note: 'device_iommu_capable' declared here
-    1079 | static inline bool device_iommu_capable(struct device *dev, enum iommu_cap cap)
-         |                    ^
-   arch/powerpc/platforms/pseries/iommu.c:1953:15: warning: variable 'entries_shift' set but not used [-Wunused-but-set-variable]
-    1953 |         unsigned int entries_shift;
-         |                      ^
-   arch/powerpc/platforms/pseries/iommu.c:2166:17: warning: variable 'pci' set but not used [-Wunused-but-set-variable]
-    2166 |         struct pci_dn *pci;
-         |                        ^
-   7 warnings and 1 error generated.
+>> drivers/platform/arm64/mpam/mpam_devices.c:318:17: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     318 |                         if (cache_id == ~0UL) {
+         |                             ~~~~~~~~ ^  ~~~~
+   6 warnings generated.
 
 
-vim +1839 arch/powerpc/platforms/pseries/iommu.c
+vim +318 drivers/platform/arm64/mpam/mpam_devices.c
 
-  1829	
-  1830	static struct pci_dev *iommu_group_get_first_pci_dev(struct iommu_group *group)
-  1831	{
-  1832		struct pci_dev *pdev = NULL;
-  1833		int ret;
-  1834	
-  1835		/* No IOMMU group ? */
-  1836		if (!group)
-  1837			return NULL;
-  1838	
-> 1839		ret = iommu_group_for_each_dev(group, &pdev, dev_has_iommu_table);
-  1840		if (!ret || !pdev)
-  1841			return NULL;
-  1842		return pdev;
-  1843	}
-  1844	
+   282	
+   283	/*
+   284	 * The cacheinfo structures are only populated when CPUs are online.
+   285	 * This helper walks the device tree to include offline CPUs too.
+   286	 */
+   287	static int get_cpumask_from_cache_id(u32 cache_id, u32 cache_level,
+   288					     cpumask_t *affinity)
+   289	{
+   290		int cpu, err;
+   291		u32 iter_level;
+   292		int iter_cache_id;
+   293		struct device_node *iter;
+   294	
+   295		if (!acpi_disabled)
+   296			return acpi_pptt_get_cpumask_from_cache_id(cache_id, affinity);
+   297	
+   298		for_each_possible_cpu(cpu) {
+   299			iter = of_get_cpu_node(cpu, NULL);
+   300			if (!iter) {
+   301				pr_err("Failed to find cpu%d device node\n", cpu);
+   302				return -ENOENT;
+   303			}
+   304	
+   305			while ((iter = of_find_next_cache_node(iter))) {
+   306				err = of_property_read_u32(iter, "cache-level",
+   307							   &iter_level);
+   308				if (err || (iter_level != cache_level)) {
+   309					of_node_put(iter);
+   310					continue;
+   311				}
+   312	
+   313				/*
+   314				 * get_cpu_cacheinfo_id() isn't ready until sometime
+   315				 * during device_initcall(). Use cache_of_get_id().
+   316				 */
+   317				iter_cache_id = cache_of_get_id(iter);
+ > 318				if (cache_id == ~0UL) {
+   319					of_node_put(iter);
+   320					continue;
+   321				}
+   322	
+   323				if (iter_cache_id == cache_id)
+   324					cpumask_set_cpu(cpu, affinity);
+   325	
+   326				of_node_put(iter);
+   327			}
+   328		}
+   329	
+   330		return 0;
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
