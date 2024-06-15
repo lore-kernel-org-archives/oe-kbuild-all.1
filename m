@@ -1,61 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960284437
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 22:25:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED48717C74
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 22:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718490346; cv=none; b=Pkhd82JLP1sipRXAbGrWfRjQAAcxsvCSQTQJL572JORSUEbn2dpT9+d43J95dDZoHSyOPxYmCPKLZRJSR3Utxex8VtOpiTY1+esl8XyTBjfKDiApp9d+gn5pOg2N1omshwKz3itut9jesL/ykDi/COR/JP6h1HqZzcB1nKuR8RI=
+	t=1718490348; cv=none; b=EOmfl1Azl73kPEsiErqHiiRTzXKqn5Z+SsMrbs8D6M8lJC1t5/sF7MxgImpmo2FWis0pqnoF6Trbu6NQ2pY6clLahveotHlEiqxA8bFoEe9jwpKWp98G/WZP5o5J3+XexVjjyNVBsWBJet2XC5rSqS11AbCb+FSUf6e4u7Xr9WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718490346; c=relaxed/simple;
-	bh=+fCJIW3S5GyO7UzKj/xgMrA5pYAkABqpt5I7TSmJFWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lJI7FFeOBPi7hsPpwQtCaVISX8Svohm113vm3FwMC/YapqC2pVeiRbd5gD3B6srp5NW3/nrgLZe7fiP/hTZ6uXalRdWNLl/LZzW/NmRXja69FJX0kRrWs2+JiXzxSDUTl3J0lMytj5J0nvKxCf8Lb2yRB1222c9SIdyFUB37GxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLSM33se; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1718490348; c=relaxed/simple;
+	bh=A2hstDhQZ5S0gwxbLbj2Jb2iBUIkoWski4QLeEnDEe8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pCnWCHIotsJqon/oSUzvEuXCkom+aVnQh9h6G0kc58Ba0HOkxtqYi3Sk15syFeX5GKPWctx+iLSagEWcsoPWVfY98Ja2l6g1Efa2tKoPcRuFSBfNcMdHQQWCgzYoEiOR9Q4QO+MFQAulyWVZBuq0+Sw/c6hWiyEO+RQfuBX4wsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwbYSZgg; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLSM33se"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwbYSZgg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718490345; x=1750026345;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+fCJIW3S5GyO7UzKj/xgMrA5pYAkABqpt5I7TSmJFWU=;
-  b=dLSM33seSRswBzlRnA6mR4h9XjdBanF26FBlWmgYXPrq6jFkgG7Cy7/g
-   WbgY+GPWmP5ry0cQ94ux92H1FKHkxVY9yYdUxTpvz92xqKWa5RWSzD1+e
-   3Kj+7hhOJo5KUyAYtRw9+aYjL2ffIkeVTYzqqrLBE3zgutkZlzST4uMxF
-   MG1/fGGr2hROvMYrCuLE0bIp98HT2xGZqvrh7ETrny9AbVmUMlOs8fumF
-   Q2s1g+V4CX5JdKDKLgSJ1NVERyH0fuBioEnNMpGXmioqIwkphTWkX6co/
-   5PSIBGRkMCISLcr8SeGwh8l3c6Hhtln5Zn96GUowUzfS3WPK9jRIyIWh1
-   A==;
-X-CSE-ConnectionGUID: FL2sMwM7RwiUBeHxWsWWWA==
-X-CSE-MsgGUID: e2AEgGoIQJOo5LeiCNTvLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="26753945"
+  t=1718490347; x=1750026347;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A2hstDhQZ5S0gwxbLbj2Jb2iBUIkoWski4QLeEnDEe8=;
+  b=HwbYSZgg3jiODoQa0v9UgSkKEf6+Yw6bPHDYbU9xhq0tevCQaPhTUgaR
+   MddlsGGVRRYZDlQVlUzYLCO8N4+/HlLwyoV8sgZ4hZY//QbQsulNE5QBs
+   M0fGQScYfzU8rkK2i6umyXdmM8g4fEWwZdrfgUVI6CvCNjDw1DvmDeVeh
+   xMcfYrfPE2sTDsccls1WxHDdidCQzm5omqlnS+tGYinxEKfHrulVWPU0W
+   qyKW3Frl/H323udOGiSlbyJ498vZgqeXor/DE5aM4VNtN2qcktxx7E/ID
+   IJwyZ43yB9UpjRTihCRBQEjB/c/DI89ENeDq7ondCO7vwIH7N+D2P8MRB
+   Q==;
+X-CSE-ConnectionGUID: V86AgU2+QKOEACWROoZAVQ==
+X-CSE-MsgGUID: /cbLxEnEQhKwWdRhjL+iqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="26753946"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="26753945"
+   d="scan'208";a="26753946"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 15:25:44 -0700
-X-CSE-ConnectionGUID: 3XJEeev+SKunK9gkQyqjbw==
-X-CSE-MsgGUID: vx+GB1b5REmpoBC9AVoiHA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 15:25:46 -0700
+X-CSE-ConnectionGUID: jlBJ7J+9TPamy2WuDkvQaw==
+X-CSE-MsgGUID: aa5eA/D6RIW0bhjpE6l7zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="45767369"
+   d="scan'208";a="45767365"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 15 Jun 2024 15:25:43 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIbq7-0000Yo-2X;
+	id 1sIbq7-0000Yt-2r;
 	Sat, 15 Jun 2024 22:25:39 +0000
-Date: Sun, 16 Jun 2024 06:25:16 +0800
+Date: Sun, 16 Jun 2024 06:25:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Suraj Kandpal <suraj.kandpal@intel.com>,
-	Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: [linux-next:master 4467/5501] ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/xe/xe.ko] undefined!
-Message-ID: <202406160658.NW4Zao4r-lkp@intel.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
+	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
+	alexandre.belloni@bootlin.com, magnus.damm@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
+Message-ID: <202406160533.s4RRLDes-lkp@intel.com>
+References: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,125 +69,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6906a84c482f098d31486df8dc98cead21cce2d0
-commit: 1676ecd303acca213852156fed0873c265d88512 [4467/5501] drm/i915: Compute CMRR and calculate vtotal
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240616/202406160658.NW4Zao4r-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160658.NW4Zao4r-lkp@intel.com/reproduce)
+Hi Claudiu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on geert-renesas-drivers/renesas-clk]
+[also build test WARNING on geert-renesas-devel/next linus/master v6.10-rc3 next-20240613]
+[cannot apply to abelloni/rtc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/clk-renesas-r9a08g045-Add-clock-reset-and-power-domain-support-for-the-VBATTB-IP/20240614-152418
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+patch link:    https://lore.kernel.org/r/20240614071932.1014067-5-claudiu.beznea.uj%40bp.renesas.com
+patch subject: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
+config: arm64-randconfig-r131-20240615 (https://download.01.org/0day-ci/archive/20240616/202406160533.s4RRLDes-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240616/202406160533.s4RRLDes-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160658.NW4Zao4r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160533.s4RRLDes-lkp@intel.com/
 
-Note: the linux-next/master HEAD 6906a84c482f098d31486df8dc98cead21cce2d0 builds fine.
-      It may have been fixed somewhere.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/renesas/clk-vbattb.c:132:35: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long [usertype] size @@     got restricted gfp_t @@
+   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     expected unsigned long [usertype] size
+   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     got restricted gfp_t
+>> drivers/clk/renesas/clk-vbattb.c:132:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned long @@
+   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     expected restricted gfp_t [usertype] gfp
+   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     got unsigned long
+   drivers/clk/renesas/clk-vbattb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+vim +132 drivers/clk/renesas/clk-vbattb.c
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/interconnect_qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/icc-rpmh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/edac/layerscape_edac_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/ux500/snd-soc-ux500-plat-msp-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/xe/xe.ko] undefined!
+   119	
+   120	static int vbattb_clk_probe(struct platform_device *pdev)
+   121	{
+   122		struct clk_parent_data parent_data = { .fw_name = "vbattb_xtal" };
+   123		struct device_node *np = pdev->dev.of_node;
+   124		struct device *dev = &pdev->dev;
+   125		struct clk_init_data init = {};
+   126		struct vbattb_clk *vbclk;
+   127		u32 load_capacitance;
+   128		struct clk_hw *hw;
+   129		bool bypass;
+   130		int ret;
+   131	
+ > 132		vbclk = devm_kzalloc(dev, GFP_KERNEL, sizeof(*vbclk));
+   133		if (!vbclk)
+   134			return -ENOMEM;
+   135	
+   136		vbclk->regmap = syscon_node_to_regmap(np->parent);
+   137		if (IS_ERR(vbclk->regmap))
+   138			return PTR_ERR(vbclk->regmap);
+   139	
+   140		bypass = of_property_read_bool(np, "renesas,vbattb-osc-bypass");
+   141		ret = of_property_read_u32(np, "renesas,vbattb-load-nanofarads", &load_capacitance);
+   142		if (ret)
+   143			return ret;
+   144	
+   145		ret = vbattb_clk_validate_load_capacitance(vbclk, load_capacitance);
+   146		if (ret)
+   147			return ret;
+   148	
+   149		ret = devm_pm_runtime_enable(dev);
+   150		if (ret)
+   151			return ret;
+   152	
+   153		ret = pm_runtime_resume_and_get(dev);
+   154		if (ret)
+   155			return ret;
+   156	
+   157		regmap_update_bits(vbclk->regmap, VBATTB_BKSCCR, VBATTB_BKSCCR_SOSEL,
+   158				   bypass ? VBATTB_BKSCCR_SOSEL : 0);
+   159	
+   160		init.name = "vbattclk";
+   161		init.ops = &vbattb_clk_ops;
+   162		init.parent_data = &parent_data;
+   163		init.num_parents = 1;
+   164		init.flags = 0;
+   165	
+   166		vbclk->hw.init = &init;
+   167		hw = &vbclk->hw;
+   168	
+   169		spin_lock_init(&vbclk->lock);
+   170	
+   171		ret = devm_clk_hw_register(dev, hw);
+   172		if (ret)
+   173			goto rpm_put;
+   174	
+   175		ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, hw);
+   176		if (ret)
+   177			goto rpm_put;
+   178	
+   179		return 0;
+   180	
+   181	rpm_put:
+   182		pm_runtime_put(dev);
+   183		return ret;
+   184	}
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
