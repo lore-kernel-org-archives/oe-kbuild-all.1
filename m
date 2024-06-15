@@ -1,118 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ECDC2C8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 09:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F31310A11
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 09:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718443852; cv=none; b=QSv4oWhhZJJYEO4Sj1Vzjlhwdw0Pwl3YXANC3ulWOHKMOLiXQUQ0x6mQDDbWKQ9kFLV2Mnx+H3N84I2NwciczIsO03YFLweVL+CRHPrItnnQXKlSPpyfWHFlQYFSpdUbPnXMcpK26VSSeOMjC0Uaf9CoRdjY5vav+l5HmtVF9gM=
+	t=1718445085; cv=none; b=eG92rHuoaz2AYlvCIAQFnGBBszkvglapxRPdHx4SfJ5dMOjNA01vitk8OwXJtmDe1AVt1C13qdaIBXPzEnhE4s6XoqE+jk26D2iCl0mnJpAj+BFclavl+1nOZCyBFXFpikV2YGZwuFuUa6w8RxZ5SjWEQI+549yjj6yfIXiipY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718443852; c=relaxed/simple;
-	bh=9Fk4R055OphpTnIydoJiGtR35m5L9phQh3P/WyaSOLM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tg/QQcimzuqe3kackFbvlzSOFaJNQRDZ5nZgXvcvkHXULtsXjQXLQM8rwhk1ef9uqWkPI0HZJTPg+HXFxswfIgfQzhfOTErBxNb6ZzEw2cIKyXPPMemTDn5xzSfywm3AA7oxW3iAoVCIvVfyD6HZt0ZXwDni9m5tFJlrG4xQyJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cD7YLvu6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718445085; c=relaxed/simple;
+	bh=A86QEglFU+5q1lBhHjKS00k1rjWlLfbjIcdqz0weqMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RdaiaOulGgsmzcjncKy2PMjWpah6gY4BbLOuv6yzGkhFZQMASv3MuTHNHOPZ55SVyKV/WGuk/TE4zvdCYFetyQu76mn2pBMv4KpTSsL4rRvav/6dLCq8qrip0K9lBv4/dUDko2k5bPY74xPeshFLphplJvoLuCZ0oQRPNtvxdkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oo9lnlmE; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cD7YLvu6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 937E2C116B1;
-	Sat, 15 Jun 2024 09:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718443851;
-	bh=9Fk4R055OphpTnIydoJiGtR35m5L9phQh3P/WyaSOLM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cD7YLvu62wL8Hr3oRrlgD/4QbIawAvg0+W3h/NpsiGxZtxsLanfyIaf49oBmQMi8O
-	 0Yf3CSRMvJUuxAMY9o/VSgpNI2Av1P35fc7MQdHIzDFyn1CAVAmSaB5TIdwGuJOy4I
-	 f/lK2YyQWIOLtY7PrdMMGBs6YP+1Bc7So6iqjgTzsV8/AtFw9hX9kOsL9+5x1p32Tx
-	 sCsDqSEKYu/igZDJ8+gZxeYVlAclwLw3/qtbOfLGiXyzlA3nIiOoajpJpeeWnC8ZO7
-	 v8DjvDSJe9y563GvlO500HsuJLejCCZAt7dYkHL029kAe1esN+8CzEfGWEdDCYzjj0
-	 V11HrD3Yh8VFQ==
-Message-ID: <1fcb8eb0-add5-4b0d-8aba-98db7b6677fc@kernel.org>
-Date: Sat, 15 Jun 2024 11:30:48 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oo9lnlmE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718445082; x=1749981082;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A86QEglFU+5q1lBhHjKS00k1rjWlLfbjIcdqz0weqMc=;
+  b=Oo9lnlmEJ8nROEp9i7aBJbRlPgz+6hpwdw7U3974vuoW6o6uJNh5Ialw
+   WEbKGHsuUsw7XyNHqBi/pDLq5l0UFmyu7/ZRv/weedCeAoERuvYrBQFWu
+   lU0pZkyiK4wBlzp2wvqdGZOn7dmeXWY+RR4bgeMSkoIKAuGRVpo94qKW6
+   srgPDzxnQ6ziv/+wEgG3bwCu5H2sbIupQTqiq9Idv06rcD9/3HcNpgt84
+   cUy28iO8z1bODyLanzBc/aG9coDSnhP37LqM5Z7pyx0VDitadUEfTxDnl
+   8i6EKfmMHb5nDPQDq5/UO/wBCqWp8ZM6gPGwq57F3rTVARmUbUng5amHI
+   Q==;
+X-CSE-ConnectionGUID: StRHPUUMQHKfWs2oVi70vA==
+X-CSE-MsgGUID: LRgX0P/CScCFlCapK5G6cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="26018706"
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="26018706"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 02:51:21 -0700
+X-CSE-ConnectionGUID: FAacNhoxR/q+lj/DqVBtfA==
+X-CSE-MsgGUID: YWFhz1YiTVSHChLkSZhzeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="71524827"
+Received: from lkp-server01.sh.intel.com (HELO 0bcb674f05cd) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 15 Jun 2024 02:51:21 -0700
+Received: from kbuild by 0bcb674f05cd with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sIQ46-00001S-1Q;
+	Sat, 15 Jun 2024 09:51:18 +0000
+Date: Sat, 15 Jun 2024 17:51:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:b4/dt-bindings-mfd-syscon-split 16/18]
+ arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: medianoc_ade@f4520000:
+ compatible: ['syscon'] is too short
+Message-ID: <202406151747.rFjJodGP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [mediatek:v6.10-next/dts64 44/53]
- arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /soc/syscon@10006000: failed to
- match any schema with compatible: ['mediatek,mt8365-scpsys', 'syscon',
- 'simple-mfd']
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Mergnat <amergnat@baylibre.com>
-References: <202406151352.R650eixq-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202406151352.R650eixq-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15/06/2024 04:59, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.10-next/dts64
-> head:   2f950510411a33d98eea28c22d7880eeb48adb61
-> commit: b5ded35667ce9eb330083116e67af1f2f7886102 [44/53] arm64: dts: mediatek: mt8365: use a specific SCPSYS compatible
-> config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151352.R650eixq-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-> dtschema version: 2024.6.dev1+g833054f
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151352.R650eixq-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151352.R650eixq-lkp@intel.com/
-> 
+tree:   https://github.com/krzk/linux b4/dt-bindings-mfd-syscon-split
+head:   035b86aab61498947d010dd7a1dd95f7343d5477
+commit: d62bcc0529c132bdd0826953ebd81888d90c9d7f [16/18] dt-bindings: mfd: syscon: Split and enforce documenting MFD children
+config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151747.rFjJodGP-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151747.rFjJodGP-lkp@intel.com/reproduce)
 
-MFD patches are pending.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406151747.rFjJodGP-lkp@intel.com/
 
-I have doubts that kernel test robot reports on each, known DTS failure
-are useful.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: soc: usbphy: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: soc: replicator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: soc: stub_clock: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/acpu_sctrl@f6504000: failed to match any schema with compatible: ['hisilicon,hi6220-acpu-sctrl', 'syscon']
+>> arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: medianoc_ade@f4520000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/stub_clock: failed to match any schema with compatible: ['hisilicon,hi6220-stub-clk']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dma@f7370000: failed to match any schema with compatible: ['hisilicon,k3-dma-1.0']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: pinmux@f7010000: pinctrl-single,gpio-range: [[32, 80, 8, 0], [32, 88, 8, 0], [32, 96, 8, 0], [32, 104, 8, 0], [32, 112, 8, 0], [32, 120, 2, 0], [32, 2, 6, 1], [32, 8, 8, 1], [32, 0, 1, 1], [32, 16, 7, 1], [32, 23, 3, 1], [32, 28, 5, 1], [32, 33, 3, 1], [32, 43, 5, 1], [32, 48, 8, 1], [32, 56, 8, 1], [32, 74, 6, 1], [32, 122, 1, 1], [32, 126, 1, 1], [32, 127, 8, 1], [32, 135, 8, 1], [32, 143, 8, 1], [32, 151, 8, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: spi@f7106000: Unevaluated properties are not allowed ('bus-id', 'enable-dma' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-pl022.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39: 'avdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39: 'dvdd-supply' is a required property
+--
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /mbigen_pcie@a0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /mbigen_dsa@c0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: serial@2f8: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: usb@a7030000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: usb@a7020000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: sds_ctrl@c2200000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /soc/mdio@603c0000: failed to match any schema with compatible: ['hisilicon,hns-mdio']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /soc/dsa@c5000000: failed to match any schema with compatible: ['hisilicon,hns-dsaf-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /soc/sas@c3000000: failed to match any schema with compatible: ['hisilicon,hip06-sas-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /soc/sas@a2000000: failed to match any schema with compatible: ['hisilicon,hip06-sas-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /soc/sas@a3000000: failed to match any schema with compatible: ['hisilicon,hip06-sas-v2']
+--
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@8,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@400,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@408,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@c0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/serial@602b0000: failed to match any schema with compatible: ['arm,sbsa-uart']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7030000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7020000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: dsa_cpld@78000010: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: sds_ctrl@c2200000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/mdio@603c0000: failed to match any schema with compatible: ['hisilicon,hns-mdio']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/dsa@c5000000: failed to match any schema with compatible: ['hisilicon,hns-dsaf-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: port@0: mc-mac-mask: b'\xff\xf0\x00\x00\x00\x00' is not of type 'object', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: port@1: mc-mac-mask: b'\xff\xf0\x00\x00\x00\x00' is not of type 'object', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: port@4: mc-mac-mask: b'\xff\xf0\x00\x00\x00\x00' is not of type 'object', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: port@5: mc-mac-mask: b'\xff\xf0\x00\x00\x00\x00' is not of type 'object', 'array', 'boolean', 'null'
+--
+>> arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: syscfg-pctl@10005000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: pinctrl@1000b000: 'ethernet', 'gpiodefault', 'i2c0', 'i2c2' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: /soc/syscon@15000000: failed to match any schema with compatible: ['mediatek,mt8167-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8167-vdecsys', 'syscon']
+--
+   	'mediatek,mt8516-topckgen' is not one of ['mediatek,mt2701-topckgen', 'mediatek,mt2712-topckgen', 'mediatek,mt6765-topckgen', 'mediatek,mt6779-topckgen', 'mediatek,mt6795-topckgen', 'mediatek,mt7629-topckgen', 'mediatek,mt7981-topckgen', 'mediatek,mt7986-topckgen', 'mediatek,mt7988-mcusys', 'mediatek,mt7988-topckgen', 'mediatek,mt8167-topckgen', 'mediatek,mt8183-topckgen']
+   	'mediatek,mt2701-topckgen' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,topckgen.yaml#
+   arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dtb: apmixedsys@10018000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8516-apmixedsys', 'syscon'] is too long
+   	['mediatek,mt8516-apmixedsys', 'syscon'] is too short
+   	'mediatek,mt7623-apmixedsys' was expected
+   	'mediatek,mt8516-apmixedsys' is not one of ['mediatek,mt2701-apmixedsys', 'mediatek,mt2712-apmixedsys', 'mediatek,mt6765-apmixedsys', 'mediatek,mt6779-apmixedsys', 'mediatek,mt6795-apmixedsys', 'mediatek,mt7629-apmixedsys', 'mediatek,mt8167-apmixedsys', 'mediatek,mt8183-apmixedsys']
+   	'mediatek,mt2701-apmixedsys' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,apmixedsys.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dtb: syscfg-pctl@10005000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dtb: pinctrl@1000b000: 'ethernet', 'gpiodefault', 'i2c0', 'i2c2' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: soc: aon-gate: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: soc: disp-gate: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: soc: apahb-gate: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: soc: apapb-gate: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: soc: agcp-gate: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@20210000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@402b0000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@402e0000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@40400000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@415e0000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@61100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@62100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@63100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: syscon@70b00000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: ap-apb@70000000: $nodename:0: 'ap-apb@70000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: ap-ahb: $nodename:0: 'ap-ahb' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/ap-ahb/dma-controller@20100000: failed to match any schema with compatible: ['sprd,sc9860-dma']
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/ap-ahb/sdio@50430000: failed to match any schema with compatible: ['sprd,sdhci-r11']
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: aon: $nodename:0: 'aon' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/aon/spi@40030000/pmic@0: failed to match any schema with compatible: ['sprd,sc2731']
 
-Best regards,
-Krzysztof
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
