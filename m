@@ -1,60 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8E34594D;
-	Sat, 15 Jun 2024 13:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D445946F;
+	Sat, 15 Jun 2024 13:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718457742; cv=none; b=UjSgF+cIpx8USg4wURF5P8+n2f1PU3OPKF2rpTAOhkLWFB8HGUxzVVgiIrDDggqchU6z6n9Ahl4hJxf2Rn2v7JxVYf8pK9CZIRK9S6ISYbA1SMz3xQzTj1MlJB/obH26BbQarmIxojc6oFsXxWA1FmTB75angYbmOOmMvv6MwOs=
+	t=1718459725; cv=none; b=I59QbSQhJbKbMMs0hvoRz8YFOBWyivRo5kKB38SeVKE5iKO0FfmrJVnrGAySN3Sj93JmLtrqqrQkdFdWLY5K/KToI2byE3cPe6iC4RSY5SBN7JSWFIBbY3WKfgQsB4xY0dWLdLZ+ArBYg3LbsiJu7BYc6FZlRVaHoQoYS3yGXZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718457742; c=relaxed/simple;
-	bh=PNSYu5iRNRE25o/6n2QfHZ/h2Qw06F9X3mZkPPP04FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mEf6LGrnmws5ErZAq8FUQqnw+r4H/aSJBCjpI3i9kPH0IuXFGujJRDZad8o3MGjG7ru1c5TdwaHy6DMDdPr6cgDxJIfcMtSPJHIHe85pCGmdgdSh1JTreMsbaW/LC0Bbw53O/YyPpsakjBKDw6QvhGH7Euua4n27fNyg6AmpHR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCsEYllF; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1718459725; c=relaxed/simple;
+	bh=o2zni6lmU6brxTe62oPbpr/wNnVyUniYuEMKpQZnOmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TyThjsJbVeGzzov0u1EcC3EPJJjZtaS1ygsYdAKVOI32eMwj4Zrj4lKz6cqFn7VrKQ+jxrblm0TQZ3aGXjrV78kNqyMp2vNErLTUzKdO7Mv0tgdsWQiS4MoAMXzySxY50eQgxbPvR5Lg5mzoaWu+haCXmylZws2k0awHKdzsTWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ai/hAGqb; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCsEYllF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ai/hAGqb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718457740; x=1749993740;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PNSYu5iRNRE25o/6n2QfHZ/h2Qw06F9X3mZkPPP04FI=;
-  b=aCsEYllFmJZjx6FIZJ+zuaVbO/omMF530pXP3pXfeBTBz5L3k3yhCXui
-   F/8WzuoO140QZxcwOlZ1Tyy12L7CpVcTZ2QgrTwrUDASUhM7smZMI9Kk0
-   x0mc7MWCnR/Dm4F20cFIWHfKavgueyGNM8uPOnIWBze94cx6SVEymbLie
-   VBr6twFDSPfcTIQKEETnYs83WtmUubei/CYzzyLjw0C7FFK7sMCuTwQn9
-   rPH4biAJ8v5kWuLrl7aePnwdB0An3liUjnf5miMwNHO0MTEDz3bkrTAEm
-   rvFPg83/kSrrxPk+/YyZkfb4T0jt9fip/6vFHkQwus2s4gul82kffYLzy
-   A==;
-X-CSE-ConnectionGUID: baO9fJ7cQmy9BR3ufB8sKg==
-X-CSE-MsgGUID: rDkpXbNaQsa8Ig/8a6j7OA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15071063"
+  t=1718459723; x=1749995723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o2zni6lmU6brxTe62oPbpr/wNnVyUniYuEMKpQZnOmQ=;
+  b=ai/hAGqbww4RcVptOnfayU1o+TDDLZZsSD2kJGDZKhDLB381oDeJrkzX
+   /X+23SO772j7Bhb/uSk5N2TfYq2OZeqUZNCYEf6avaIMDxC5j2yY7khBI
+   TEoguSNFzTUIOSUxHstQqeXAkyvCT3oGYjtMKL27mJ0oVCz3ehHHLOQzQ
+   EpC8ZK7M+9JY+xZTLh2u0QLa+yW676bMXriI/Ic9QdXDY5ZH2sD9uzUR3
+   JwEVBoqveeKeSX1FYlDjEVvakSJhpVsx22UfuxQfpg4mYSJ7NT7kN5agM
+   T2WNla0s0Nb5wYzo7nyHk6FVWW9JuhPJwDnASgQcYOMsHlLt18Krle/FM
+   Q==;
+X-CSE-ConnectionGUID: 4MkFnTiURFqVxWIchdiKpg==
+X-CSE-MsgGUID: aJqDadEvTICxb46XXwKFcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="40760309"
 X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="15071063"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 06:22:19 -0700
-X-CSE-ConnectionGUID: kmM0SGTKRp2A/gETUt3g3w==
-X-CSE-MsgGUID: gmNzsIDHQVial082eRuoUg==
+   d="scan'208";a="40760309"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 06:55:22 -0700
+X-CSE-ConnectionGUID: Z1nASWauRT2SWTLC7u9Yow==
+X-CSE-MsgGUID: AAqhFvwAQbO9qsOphaSZhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="40697718"
+   d="scan'208";a="40630041"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jun 2024 06:22:17 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2024 06:55:19 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sITMF-00003q-1w;
-	Sat, 15 Jun 2024 13:22:15 +0000
-Date: Sat, 15 Jun 2024 21:22:00 +0800
+	id 1sITsC-00005N-21;
+	Sat, 15 Jun 2024 13:55:16 +0000
+Date: Sat, 15 Jun 2024 21:55:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	"Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: [tip:x86/vmware 4/8] ld.lld: error: undefined symbol:
- vmware_hypercall_slow
-Message-ID: <202406152101.ioasijN1-lkp@intel.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Alexey Charkov <alchark@gmail.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	Detlev Casanova <detlev.casanova@collabora.com>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Message-ID: <202406152129.dV4K8R5k-lkp@intel.com>
+References: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,29 +78,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vmware
-head:   ef08e7dc21307b226b5280d5e8cfea687bfd2866
-commit: e5ac9008b79c59235c34494e555419665022f5e1 [4/8] drm/vmwgfx: Use VMware hypercall API
-config: i386-buildonly-randconfig-001-20240615 (https://download.01.org/0day-ci/archive/20240615/202406152101.ioasijN1-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152101.ioasijN1-lkp@intel.com/reproduce)
+Hi Detlev,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on robh/for-next linus/master v6.10-rc3 next-20240613]
+[cannot apply to media-tree/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-rockchip-Introduce-the-rkvdec2-driver/20240615-100124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20240615015734.1612108-2-detlev.casanova%40collabora.com
+patch subject: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240615/202406152129.dV4K8R5k-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152129.dV4K8R5k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406152101.ioasijN1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406152129.dV4K8R5k-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: vmware_hypercall_slow
-   >>> referenced by vmwgfx_msg.c
-   >>>               drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:(vmw_host_get_guestinfo) in archive vmlinux.a
-   >>> referenced by vmwgfx_msg.c
-   >>>               drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:(vmw_host_get_guestinfo) in archive vmlinux.a
-   >>> referenced by vmwgfx_msg.c
-   >>>               drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:(vmw_send_msg) in archive vmlinux.a
-   >>> referenced 13 more times
+   drivers/staging/media/rkvdec2/rkvdec2-h264.c: In function 'rkvdec2_write_regs':
+>> drivers/staging/media/rkvdec2/rkvdec2-h264.c:563:9: error: implicit declaration of function '__iowrite32_copy_full'; did you mean '__iowrite32_copy'? [-Werror=implicit-function-declaration]
+     563 |         __iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_REGS,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         __iowrite32_copy
+   cc1: some warnings being treated as errors
+
+
+vim +563 drivers/staging/media/rkvdec2/rkvdec2-h264.c
+
+   557	
+   558	static void rkvdec2_write_regs(struct rkvdec2_ctx *ctx)
+   559	{
+   560		struct rkvdec2_dev *rkvdec = ctx->dev;
+   561		struct rkvdec2_h264_ctx *h264_ctx = ctx->priv;
+   562	
+ > 563		__iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_REGS,
+   564				      &h264_ctx->regs.common,
+   565				      sizeof(h264_ctx->regs.common));
+   566		__iowrite32_copy_full(rkvdec->regs + OFFSET_CODEC_PARAMS_REGS,
+   567				      &h264_ctx->regs.h264_param,
+   568				      sizeof(h264_ctx->regs.h264_param));
+   569		__iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_ADDR_REGS,
+   570				      &h264_ctx->regs.common_addr,
+   571				      sizeof(h264_ctx->regs.common_addr));
+   572		__iowrite32_copy_full(rkvdec->regs + OFFSET_CODEC_ADDR_REGS,
+   573				      &h264_ctx->regs.h264_addr,
+   574				      sizeof(h264_ctx->regs.h264_addr));
+   575		__iowrite32_copy_full(rkvdec->regs + OFFSET_POC_HIGHBIT_REGS,
+   576				      &h264_ctx->regs.h264_highpoc,
+   577				      sizeof(h264_ctx->regs.h264_highpoc));
+   578	}
+   579	
 
 -- 
 0-DAY CI Kernel Test Service
