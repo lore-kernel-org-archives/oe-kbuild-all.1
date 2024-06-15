@@ -1,291 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFF56FD0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 07:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88AA18C08
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 08:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718437553; cv=none; b=h0kJp05G4vf4IonbTXNsKfe8TJtslePKBzMPGmuawvCVbGkbJwNlfi5oCo2XK+zDS37UZxf9nGMHqcJ2FGAF/Ag0LgbBgIdA7HNPXbwrtl+YH12DKriuf2cysJ0WVdbHkXnYnn+Vden0YbNUpAr9YczjIImUxmhwtzOAo4rGsx0=
+	t=1718438964; cv=none; b=WlgX1gyzFdzfYkQOHsmXZ8U/hTURTBqLHy1Hz7AY67uf1DQeXekc2RgomrJY8TRSkwpypVWkLxRLqgvD0wFd8UWaaWJ4vlPbcT8MknFDE+ErZSmtp+dkfeMX/GAbWGZIswfJHV4hYvOD0F95JE6YIkNGADxncJ/cI630l4ozWwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718437553; c=relaxed/simple;
-	bh=2QWp218TQ6iL7oCIb+G2RdY0JWngZV8m5mtrDf5uuHI=;
+	s=arc-20240116; t=1718438964; c=relaxed/simple;
+	bh=n83mPvWjimvPBHYnbxfFpH0H3iDBwKsj2ER4c+LtfiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaYkhDYqpMUb/cUpSiaenwXzeLkkz2+fFyYvz+1Ne6e+pE02zp/5s9F+izczHjDfyP170uQiWXQApwkVGpYHssCrd5o9ebUAbw3+BYvUsrkIm+yZzrv8aZ8Xaw0ZLM8YaNAuDGNxplsbtbJ7Ud9kNA/lCI5eIUEDb5TjjkXlIEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dc0xqPkS; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oPU+LP9VABeA630yAzfrj2Bln4ZT2XaccfgN6Eun8p7B+KSiyprx/hDuiV1WTGmSDuM74OAACDe7e2reQoLFCGhlSdqeV/BKcYXVWqDezf36+8f0oHD6VodmBhEmmZoYm72/UJImgVbJ5W6WhfW/TMq7+MWb+UwyrvrvY9nD21Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hykZg915; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dc0xqPkS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718437551; x=1749973551;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2QWp218TQ6iL7oCIb+G2RdY0JWngZV8m5mtrDf5uuHI=;
-  b=Dc0xqPkSqiH3KMJPi5b/K+NX8YRCGPMRIvqzy9WNIsFXQr47ANjLmRs9
-   8wEfvJvRXxNZHEQycK/FFDBTJmFyBF7/bFjUqtINtUUWm0Lb7ZDvre7v7
-   rzNWLLuiElYYuwf+Y53VokeroXyRD2fAJoV4jCiGfpzr4OluM60YGhc8o
-   bLL49t64s0hXhKEKKKNXVWp/P5fP4JIvlq3e/pimwqiAbRfECP4sXx7+A
-   XJz0K1dsfkUfwvWFzjnRyA7SqoH8vRkg68NYZC20Yz/o8QhGQHmB+CXc8
-   OX/pO4zC8nnK1z6i3vFTdy0bpS/9VuGVfGlMe0NP9QmavwVn6Ni260wdb
-   w==;
-X-CSE-ConnectionGUID: tNsR8i9rRC+RLyl23bK4BQ==
-X-CSE-MsgGUID: b0Uv+ufLR+GHAqJlOTWyfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="40750872"
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="40750872"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 00:45:51 -0700
-X-CSE-ConnectionGUID: fF81jBCoQIqBE5HIZGhZ+g==
-X-CSE-MsgGUID: U2oIDit8R3W6fV2+v0COoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="40579094"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2024 00:45:48 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIO6c-0002Kl-19;
-	Sat, 15 Jun 2024 07:45:46 +0000
-Date: Sat, 15 Jun 2024 15:45:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 01/12] drm/ttm: Allow TTM LRU list nodes of different
- types
-Message-ID: <202406151512.Smo5bzLx-lkp@intel.com>
-References: <20240614102548.4364-2-thomas.hellstrom@linux.intel.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hykZg915"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3E93140E0218;
+	Sat, 15 Jun 2024 08:09:19 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Wp64XGPxSjvQ; Sat, 15 Jun 2024 08:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1718438955; bh=OhaztBundoMh26NQ9MzVLPt0712eh6MJFjegOkfhMeg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hykZg915vWAWbeEQLbvUJ79MJlbFiIPpAdX+q03XGICtbXTMe+ZIfw7vXWgpJBy6x
+	 /v2lbQiH60AE8IC4el+G5Xw0V7CUx54NZm0Li+YZ1o5XbhxzQDxNW+fMPPP2zJkaAP
+	 4rfYd2HKhQ1c460ZGMrJAL5G4/4FxBUH6x/LYVYZQqnRz92E8FlCg3KxpAxempgW1S
+	 aD/osz6TBQmiQ0Klint9NCjGRxDQj7J0KrnALst6FxSJGjYdFg8hjJJJoH0Qge1XNI
+	 HQjsmQcM2DTx3rm03ITuBJ0DWcCFgp88KYxyeM2RSfjCFb8yBC0V/TJxRPCDd5B5fo
+	 wLcBM5KrIxTPFVCim1RGrxWnbTkm4xMDraQYiZu6fWNrAy15fCzrde7dmiTCBnmmXY
+	 zSONVMbzSRddYz7qbJMlWyl2eKZBtBGGTAzjFHqdbiwkSeS9157LaON8YmrObXFvip
+	 DRaaMMwsFiB0oyw8YEvBUxTSG2GCepprJ+omUiU53koVvppr0JnNs6bEkmjJcya/MT
+	 bt5HnsMAapiNkTJAK0LtM46JC3e2yf93ZaajRydbqUh1vCKvuDt+ppLYk/HK502bu4
+	 ZNssVc0+XRh7yDVqNRBk3M20t+jk5k9zs6eBm+TboLr5btsIgUpLiE1fa4g0GiZLvh
+	 0/sgRCKHW4UGM3QTG6K036pc=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AB0D740E01D6;
+	Sat, 15 Jun 2024 08:09:08 +0000 (UTC)
+Date: Sat, 15 Jun 2024 10:09:02 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Sean Christopherson <seanjc@google.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: Re: [tip:x86/alternatives 14/14] arch/x86/kvm/kvm.o: warning:
+ objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
+Message-ID: <20240615080902.GAZm1MHvXQ30rm1Nnk@fat_crate.local>
+References: <202406141648.jO9qNGLa-lkp@intel.com>
+ <20240614152228.GAZmxgNPmozj7UzRdV@fat_crate.local>
+ <ZmxjOxhPy67QOh5Q@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240614102548.4364-2-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <ZmxjOxhPy67QOh5Q@google.com>
 
-Hi Thomas,
+On Fri, Jun 14, 2024 at 08:35:23AM -0700, Sean Christopherson wrote:
+> > I know Sean had a patchset to cleanup that gunk. Sean?
+> 
+> That series was just for the actual VM-Enter/VM-Exit path. 
 
-kernel test robot noticed the following build errors:
+Right, about that. I still see:
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on linus/master v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+vmlinux.o: warning: objtool: svm_vcpu_enter_exit+0xb0: call to sev_es_host_save_area() leaves .noinstr.text section
+vmlinux.o: warning: objtool: svm_vcpu_enter_exit+0xbf: call to sev_es_host_save_area.isra.0() leaves .noinstr.text section
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240614-182911
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20240614102548.4364-2-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH v4 01/12] drm/ttm: Allow TTM LRU list nodes of different types
-config: loongarch-randconfig-001-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151512.Smo5bzLx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151512.Smo5bzLx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406151512.Smo5bzLx-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/drm/ttm/ttm_resource.h:29,
-                    from drivers/gpu/drm/ttm/tests/ttm_resource_test.c:5:
-   drivers/gpu/drm/ttm/tests/ttm_resource_test.c: In function 'ttm_resource_fini_basic':
->> drivers/gpu/drm/ttm/tests/ttm_resource_test.c:201:44: error: passing argument 1 of 'list_empty' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     201 |         KUNIT_ASSERT_TRUE(test, list_empty(&res->lru));
-         |                                            ^~~~~~~~~
-         |                                            |
-         |                                            struct ttm_lru_item *
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/kunit/test.h:668:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     668 |         KUNIT_UNARY_ASSERTION(test,                                            \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1232:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
-    1232 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1229:9: note: in expansion of macro 'KUNIT_ASSERT_TRUE_MSG'
-    1229 |         KUNIT_ASSERT_TRUE_MSG(test, condition, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_resource_test.c:201:9: note: in expansion of macro 'KUNIT_ASSERT_TRUE'
-     201 |         KUNIT_ASSERT_TRUE(test, list_empty(&res->lru));
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/list.h:371:54: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     371 | static inline int list_empty(const struct list_head *head)
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_kunit_helpers.h:10,
-                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h:13,
-                    from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:17:
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_basic':
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:268:38: error: passing argument 1 of 'list_is_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     268 |                         list_is_last(&res1->lru, &man->lru[bo->priority]), 1);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct ttm_lru_item *
-   include/kunit/test.h:707:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     707 |         const typeof(left) __left = (left);                                    \
-         |                      ^~~~
-   include/kunit/test.h:1271:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1271 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1268:9: note: in expansion of macro 'KUNIT_ASSERT_EQ_MSG'
-    1268 |         KUNIT_ASSERT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:267:9: note: in expansion of macro 'KUNIT_ASSERT_EQ'
-     267 |         KUNIT_ASSERT_EQ(test,
-         |         ^~~~~~~~~~~~~~~
-   In file included from include/linux/mutex.h:15,
-                    from include/linux/ww_mutex.h:20,
-                    from include/linux/dma-resv.h:42,
-                    from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:5:
-   include/linux/list.h:352:56: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     352 | static inline int list_is_last(const struct list_head *list, const struct list_head *head)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:268:38: error: passing argument 1 of 'list_is_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     268 |                         list_is_last(&res1->lru, &man->lru[bo->priority]), 1);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct ttm_lru_item *
-   include/kunit/test.h:707:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     707 |         const typeof(left) __left = (left);                                    \
-         |                                      ^~~~
-   include/kunit/test.h:1271:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1271 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1268:9: note: in expansion of macro 'KUNIT_ASSERT_EQ_MSG'
-    1268 |         KUNIT_ASSERT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:267:9: note: in expansion of macro 'KUNIT_ASSERT_EQ'
-     267 |         KUNIT_ASSERT_EQ(test,
-         |         ^~~~~~~~~~~~~~~
-   include/linux/list.h:352:56: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     352 | static inline int list_is_last(const struct list_head *list, const struct list_head *head)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_pinned':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:305:38: error: passing argument 1 of 'list_is_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     305 |                         list_is_last(&res2->lru, &priv->ttm_dev->pinned), 1);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct ttm_lru_item *
-   include/kunit/test.h:707:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     707 |         const typeof(left) __left = (left);                                    \
-         |                      ^~~~
-   include/kunit/test.h:1271:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1271 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1268:9: note: in expansion of macro 'KUNIT_ASSERT_EQ_MSG'
-    1268 |         KUNIT_ASSERT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:304:9: note: in expansion of macro 'KUNIT_ASSERT_EQ'
-     304 |         KUNIT_ASSERT_EQ(test,
-         |         ^~~~~~~~~~~~~~~
-   include/linux/list.h:352:56: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     352 | static inline int list_is_last(const struct list_head *list, const struct list_head *head)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:305:38: error: passing argument 1 of 'list_is_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     305 |                         list_is_last(&res2->lru, &priv->ttm_dev->pinned), 1);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct ttm_lru_item *
-   include/kunit/test.h:707:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     707 |         const typeof(left) __left = (left);                                    \
-         |                                      ^~~~
-   include/kunit/test.h:1271:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1271 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1268:9: note: in expansion of macro 'KUNIT_ASSERT_EQ_MSG'
-    1268 |         KUNIT_ASSERT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:304:9: note: in expansion of macro 'KUNIT_ASSERT_EQ'
-     304 |         KUNIT_ASSERT_EQ(test,
-         |         ^~~~~~~~~~~~~~~
-   include/linux/list.h:352:56: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     352 | static inline int list_is_last(const struct list_head *list, const struct list_head *head)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:309:38: error: passing argument 1 of 'list_is_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     309 |                         list_is_last(&res1->lru, &priv->ttm_dev->pinned), 1);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct ttm_lru_item *
-   include/kunit/test.h:707:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     707 |         const typeof(left) __left = (left);                                    \
-         |                      ^~~~
-   include/kunit/test.h:1271:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1271 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1268:9: note: in expansion of macro 'KUNIT_ASSERT_EQ_MSG'
-    1268 |         KUNIT_ASSERT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:308:9: note: in expansion of macro 'KUNIT_ASSERT_EQ'
-     308 |         KUNIT_ASSERT_EQ(test,
-         |         ^~~~~~~~~~~~~~~
-   include/linux/list.h:352:56: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     352 | static inline int list_is_last(const struct list_head *list, const struct list_head *head)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:309:38: error: passing argument 1 of 'list_is_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     309 |                         list_is_last(&res1->lru, &priv->ttm_dev->pinned), 1);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct ttm_lru_item *
-   include/kunit/test.h:707:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     707 |         const typeof(left) __left = (left);                                    \
-         |                                      ^~~~
-   include/kunit/test.h:1271:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1271 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1268:9: note: in expansion of macro 'KUNIT_ASSERT_EQ_MSG'
-    1268 |         KUNIT_ASSERT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:308:9: note: in expansion of macro 'KUNIT_ASSERT_EQ'
-     308 |         KUNIT_ASSERT_EQ(test,
-         |         ^~~~~~~~~~~~~~~
-   include/linux/list.h:352:56: note: expected 'const struct list_head *' but argument is of type 'struct ttm_lru_item *'
-     352 | static inline int list_is_last(const struct list_head *list, const struct list_head *head)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-
-
-vim +/list_empty +201 drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  180  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  181  static void ttm_resource_fini_basic(struct kunit *test)
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  182  {
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  183  	struct ttm_resource_test_priv *priv = test->priv;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  184  	struct ttm_resource *res;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  185  	struct ttm_buffer_object *bo;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  186  	struct ttm_place *place;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  187  	struct ttm_resource_manager *man;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  188  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  189  	ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, 0);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  190  	bo = priv->bo;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  191  	place = priv->place;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  192  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  193  	man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  194  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  195  	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  196  	KUNIT_ASSERT_NOT_NULL(test, res);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  197  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  198  	ttm_resource_init(bo, place, res);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  199  	ttm_resource_fini(man, res);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  200  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29 @201  	KUNIT_ASSERT_TRUE(test, list_empty(&res->lru));
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  202  	KUNIT_ASSERT_EQ(test, man->usage, 0);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  203  }
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  204  
+in allyesconfig builds....
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
