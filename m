@@ -1,120 +1,156 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4983219F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 14:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CFD17BB6;
+	Sat, 15 Jun 2024 14:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718462045; cv=none; b=r5ArONLCpgwwVBlXCG/OVZYRGKYbkrYfEu6GBCAcBCg3OqvmH7qU/QhAyGFKrQzKhfaxVMlsZT3lG6RRSXb0spDngXQ4ggOR86FdGX/n3H2bbGMwsvFa4MHC+9h7Pyzp0hFfE7XwtKGz3NEj95fGjrYaPY+UuLjhkfkXPEh+6Vg=
+	t=1718462244; cv=none; b=oBwEOztMLAWMXFjUn1DNV+nHHF4alPvJJFVSMbKjH1Co1/hC8ix0rGxh5ViVsOyV2kn6sANspCr9k2jvyOhl/E/zGBVpM2plyRCaF0sm1CzQ+7BjpRfUUIAZJH5HPdkAEFB8cAU4J740y/oCQD5T0BIdiqPCfSLUNpmUQ8dP12Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718462045; c=relaxed/simple;
-	bh=wUZ38S4ZuxVqieN4UmFB71GK3eHrGdHmsxZZYqpHpKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tmDFMk5ROjzbfXVc8IKKNAbFX9G49DbAAicz6wicAd/STkbIuHrIhCurPOrfLDCIy1Yhsf2XUexbxEIQfhPIIKJAGHmh2nNKE7+bhGJrqTaTYAdHpYVITqrVJt1Yyydd3vR00vANntrhFEuF0OgIp5GTMIu4t/y1zSpnul6fD0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=XesT/Xhr; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1718462244; c=relaxed/simple;
+	bh=MKVxvS2/HovPtnDMLu179z601iEVS0BEy0RDlCq6b0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SeS131OrxOPlM69fC/fDwpQPkH/yQklvLaX+IjPXOoEjHniqzmW14R6yidysoiUjQSPpNwGqWC0thdfzyvw2fReakenvI+e4iNqySarkRsp8PzDLyQDyrJwNXH66T2qtlgSvj5ZLD0MWx4J/rB7jt6SYzr7EyiW6gU94QLiTriA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ljZ+cKVT; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="XesT/Xhr"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8973740E0218;
-	Sat, 15 Jun 2024 14:33:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bX2TYO_bIYyc; Sat, 15 Jun 2024 14:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1718462035; bh=oVaEk+dXYvf+fWg/6/lea+PK2ojpwPj5LmoJ72jXxkA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XesT/Xhr4wT597myLesiyRD662YO6mo3w8DtOhi9PyGzbYXy+zIzdyrXSVidrToyH
-	 lnfYjusMQxrUz6ybm1yUq8EFIEQBO9xOV+73ojl+wH92kwnGP0tLaoh4qjE1abpZ59
-	 emM2T/0gSEmemdVeXvZ05Kcqr22TeJhAdr7DuTO0nlt+asI2yk5ynF680eO+QawWan
-	 pEbSF+VJ1H6z6+bSANOA7Y796VGkB5zxtks+loku/TwCvQTo11SPzNyLiUUdFxA6Rh
-	 r6O3DPFFthciHfz/ZotvZoOZClyYn/byim3BtfUM6fcoKPxLZVWKkgoK5vGzwJljhC
-	 S2YoqRjqXOKIHiNvm+MHmLEkqebnYBuYjJXdCTqOOW6Uyl4buVaaXP2l39ad4hwQm3
-	 iBmdpdmGhBhtYwdRLVv0deaQHHxU0Dj1Zs4M4v8RZZGYlD3Ro+iRb6YeHy4sISDYzs
-	 2rL4xZCv2IqO9tfVbPcTgZ4UZWKuFSig2i5PmSxNjbpaso9nTZG/Zu3AYhQtWW8bs8
-	 PNMjYdxlWb5TLUtmbnECSnTVRzPI2t1gNKQLpoOxrL60hb66fw8ueXZqP61CQO6bCs
-	 Nbl/IVFF3iXQzIZL/XqfPwa9C2825O3cqYPSThgqqmVyJTYcaEppc1hpzrkShN6lFX
-	 Hh9rkjSCCG7/5P9DhTdxswE0=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7920240E01D6;
-	Sat, 15 Jun 2024 14:33:50 +0000 (UTC)
-Date: Sat, 15 Jun 2024 16:33:44 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [tip:x86/vmware 4/8] vmwgfx_msg.c:undefined reference to
- `vmware_hypercall_slow'
-Message-ID: <20240615143344.GDZm2mSB-qyB0Vt28Q@fat_crate.local>
-References: <202406152104.FxakP1MB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ljZ+cKVT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718462243; x=1749998243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MKVxvS2/HovPtnDMLu179z601iEVS0BEy0RDlCq6b0M=;
+  b=ljZ+cKVTlIPe6/tyIoha6f5rgx4PCBOV3llvkf7MwSSxgqRlw9nATzxV
+   SaxuqyGg3BXTtR3MMJkL/Fv+vFNxmbg6XjMxha0TsjpY3BMYf9ZahY5cC
+   ZeOXbcZMwz9N0d7kEht6g/l/fXAHGWXuH2IkyGeweQvynNMxgQckSwBoG
+   icWW4OjmLr//XQv8nT5vFqYc6JtA+Uzmkdf3Shm0Si1RZDPYZN7eYtpST
+   pCb+wZ+snCCAyLLRUnnaWIua0iBXnLse516WbeQHG9rynrvgy1n+Pi5tT
+   J2sg87nHDnBTDl3UtpDI4YdYTV09GniII/Mz9GzB89T0b1pbV1r28BU06
+   g==;
+X-CSE-ConnectionGUID: LgMu1N7CRG6rkivCKT2GfA==
+X-CSE-MsgGUID: KJn0RGrpRHy89LH8mkYzPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="37869939"
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="37869939"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 07:37:22 -0700
+X-CSE-ConnectionGUID: q7c1du4/SGKzWvU/jwasEw==
+X-CSE-MsgGUID: K5BHr9kdTtS20QxbZZQzag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="45709166"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 15 Jun 2024 07:37:21 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sIUWt-00007G-0T;
+	Sat, 15 Jun 2024 14:37:19 +0000
+Date: Sat, 15 Jun 2024 22:36:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [pinchartl:nxp/v6.10/dev/rpi-cam-mipi 46/81]
+ drivers/media/i2c/ar0144.c:470:6: warning: variable 'ret' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <202406152210.BoPs7o2U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406152104.FxakP1MB-lkp@intel.com>
 
-On Sat, Jun 15, 2024 at 09:22:00PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vmware
-> head:   ef08e7dc21307b226b5280d5e8cfea687bfd2866
-> commit: e5ac9008b79c59235c34494e555419665022f5e1 [4/8] drm/vmwgfx: Use VMware hypercall API
-> config: i386-buildonly-randconfig-002-20240615 (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/config)
-> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_open_channel.constprop.0':
-> >> vmwgfx_msg.c:(.text+0x203): undefined reference to `vmware_hypercall_slow'
->    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
->    vmwgfx_msg.c:(.text+0x46f): undefined reference to `vmware_hypercall_slow'
-> >> ld: vmwgfx_msg.c:(.text+0x49c): undefined reference to `vmware_hypercall_slow'
->    ld: vmwgfx_msg.c:(.text+0x4c3): undefined reference to `vmware_hypercall_slow'
->    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_close_channel':
->    vmwgfx_msg.c:(.text+0x580): undefined reference to `vmware_hypercall_slow'
->    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x729): more undefined references to `vmware_hypercall_slow' follow
->    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
->    regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
->    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
->    regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
->    ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
->    regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
->    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
->    regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
->    ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
->    ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for REGMAP_SPI
->    Depends on [n]: SPI [=n]
->    Selected by [y]:
->    - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
-> 
-> -- 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git nxp/v6.10/dev/rpi-cam-mipi
+head:   5a42e32f7a80b2729b81fa757c9531a7ec7127f9
+commit: a082838244bc3478b888d88e932e5afe6a361b49 [46/81] media: i2c: ar0144: Refactor s_stream
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240615/202406152210.BoPs7o2U-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152210.BoPs7o2U-lkp@intel.com/reproduce)
 
-Zapping tip:x86/vmware from the tip/master lineup for the time being, until this
-is fixed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406152210.BoPs7o2U-lkp@intel.com/
 
-Thx 0day guys for reporting.
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/i2c/ar0144.c:470:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     470 |         if (enable) {
+         |             ^~~~~~
+   drivers/media/i2c/ar0144.c:489:9: note: uninitialized use occurs here
+     489 |         return ret;
+         |                ^~~
+   drivers/media/i2c/ar0144.c:470:2: note: remove the 'if' if its condition is always true
+     470 |         if (enable) {
+         |         ^~~~~~~~~~~
+     471 |                 ret = pm_runtime_resume_and_get(sensor->dev);
+     472 |                 if (ret < 0)
+     473 |                         goto unlock;
+     474 | 
+     475 |                 ret = ar0144_start_streaming(sensor, state);
+     476 |                 if (ret) {
+     477 |                         dev_err(sensor->dev, "Failed to start streaming: %d\n",
+     478 |                                 ret);
+     479 |                         pm_runtime_put_sync(sensor->dev);
+     480 |                 }
+     481 |         } else {
+         |           ~~~~~~
+     482 |                 ar0144_stop_streaming(sensor);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     483 |                 pm_runtime_mark_last_busy(sensor->dev);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     484 |                 pm_runtime_put_autosuspend(sensor->dev);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     485 |         }
+         |         ~
+   drivers/media/i2c/ar0144.c:466:9: note: initialize the variable 'ret' to silence this warning
+     466 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+
+
+vim +470 drivers/media/i2c/ar0144.c
+
+   457	
+   458	/* -----------------------------------------------------------------------------
+   459	 * V4L2 subdev operations
+   460	 */
+   461	
+   462	static int ar0144_s_stream(struct v4l2_subdev *subdev, int enable)
+   463	{
+   464		struct ar0144 *sensor = to_ar0144(subdev);
+   465		struct v4l2_subdev_state *state;
+   466		int ret;
+   467	
+   468		state = v4l2_subdev_lock_and_get_active_state(subdev);
+   469	
+ > 470		if (enable) {
+   471			ret = pm_runtime_resume_and_get(sensor->dev);
+   472			if (ret < 0)
+   473				goto unlock;
+   474	
+   475			ret = ar0144_start_streaming(sensor, state);
+   476			if (ret) {
+   477				dev_err(sensor->dev, "Failed to start streaming: %d\n",
+   478					ret);
+   479				pm_runtime_put_sync(sensor->dev);
+   480			}
+   481		} else {
+   482			ar0144_stop_streaming(sensor);
+   483			pm_runtime_mark_last_busy(sensor->dev);
+   484			pm_runtime_put_autosuspend(sensor->dev);
+   485		}
+   486	
+   487	unlock:
+   488		v4l2_subdev_unlock_state(state);
+   489		return ret;
+   490	}
+   491	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
