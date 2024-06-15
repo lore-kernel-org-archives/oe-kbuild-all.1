@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AA416426
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 19:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91C71870
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 19:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718479661; cv=none; b=VEnp9BZHwrZpurEYfVi8q94gCbUyuGWvke0Sjl28aUWaNap5twnjcSGkrUurk3c3eN3dempmTsQy1cd9ReOPsPzo4kfmnGHs4UjY/GmN+o3bWtxRG48fVQFNFwKTC4GCnGCrg2Ws+Lb12DXLKYiaDNBdM/B9PWy6B4ReHz81flA=
+	t=1718481461; cv=none; b=fiRyojupLgLpAdMBJrrTHRcgOOYo2wyVn99x/KEPvXKUF/v3XUCnCT7NpU3QPah9S1k6vytsfqtvPgVisioG/q9AASIqllyrICHr5pv8BhPVr9jL5oezQF/mIP1nHrRyxGO6jnobikdFDaLFym1+7GdZHPu8mWggMKaOUtYZN2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718479661; c=relaxed/simple;
-	bh=1HwrW5+9yPlEKkXZvDv6QiUUlplU0qOLF4+5aoIPUIc=;
+	s=arc-20240116; t=1718481461; c=relaxed/simple;
+	bh=B24VexTxacsSAV52adzDcjF4o4fTU0nSSrsVMLU4/pM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nFH6EQX2qXlH975FZNwFzskJII0oW2JDrK624lkF/3IBubBKC9tq8l7XcMhXi3q/LSlJS5O09+PDg4aezj8E8/x2CNJugMc17tVMYJ+eRwJH21J2ms7pm2J6YDIzNjctWP3R61bg2078zZAoq5CRA1AwJ8J02jwxtn30Vg05Vqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+LRfG4H; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=k+/IqWWCAokABaKSjCjBgI8k5P1ar4KaO9NPRqVB2281/avYIh80/aW2c79MAEyHwrsNmLEa6X5Y3gBRla6jTMAW9UmkcGpBJwD90YIFRQ7LLtA91d/NGxhDYb9mq7ZfQHml1Xw99nerlt9gwcO9EA1FXC0CS70dF9+BnqiApS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WoOM+s/x; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+LRfG4H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WoOM+s/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718479659; x=1750015659;
+  t=1718481459; x=1750017459;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1HwrW5+9yPlEKkXZvDv6QiUUlplU0qOLF4+5aoIPUIc=;
-  b=f+LRfG4H8lsQqW9gtTlc/iNTpTvce1qdUyC7lj+qlROwDnlNHdtQ0H7Q
-   TKzJJudnj5CYUAhE24EvCOehEnmEXpUZej9I4NcwdcZywPD1C+Ld483WC
-   PgcQlSW3flc217gbL2R1xS2QkKhTY5UrbDMB9lA9se5W6w6+JuUmjGPr/
-   sn+Bf4c7v91KlTAuysQAAs/QjyPsf9Nb4t/yui37gdxKzmLZHIjoZTtNy
-   IEkonMTMeVFRza47XOPTf0lmyx9kpa3EgtahmlgwSFV1AC2ctBqvYzMr1
-   5RupqeIffPTOkKvzY3yg2oBDyMIvLzbVnS6E/1we2SpwSzwnIByJSfE6i
-   Q==;
-X-CSE-ConnectionGUID: YaNcjqWMQiWYo0Kg2v2RLQ==
-X-CSE-MsgGUID: eUnALswsQ4yQYdaGyRHxPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15080454"
+  bh=B24VexTxacsSAV52adzDcjF4o4fTU0nSSrsVMLU4/pM=;
+  b=WoOM+s/x/p3XMxqbVDIayaaBoKIDFjN1G1hnJMA2xYh0+qnC6JN1J6ra
+   cQiXkZ952lJYA7P6lVeHuOropBPESnsY+VRmbTTZXu0GyZoqTwcnxePiB
+   Wjghtjc62o5cZxYMve66pbOElYqSt3MrRTBA4K2nThJHX4++3jryECO22
+   P+XH/gZmJPZ/dhs7YeSAkfCCipv3COsbw2IaXzu1sacTx962hu6SfVgvd
+   whW8vEnpq3lpme1PruxcKetG6vfQRhgoSS+cMcmmYmbVgfr1bQ0MKteAJ
+   Pi1WMtuE2m/K7HDFI+O9Jjv4ttgJw5frNFpkSh8YRQBWJ68oGtFQZ07ca
+   g==;
+X-CSE-ConnectionGUID: IlWvj/1BQte3I/YJke7F4w==
+X-CSE-MsgGUID: aFNrtrlKRVKG3Dwu/GOsVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="25933806"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="15080454"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 12:27:38 -0700
-X-CSE-ConnectionGUID: r10GnI6eTZSyBiR8Q4ZJRA==
-X-CSE-MsgGUID: GSLEzf7VR4G7wQw4vQxkXQ==
+   d="scan'208";a="25933806"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 12:57:38 -0700
+X-CSE-ConnectionGUID: zqAnu6nuRY6H11it20lC9Q==
+X-CSE-MsgGUID: DELfMQu/ReOpRW1Ir8vEjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="41302212"
+   d="scan'208";a="41494326"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Jun 2024 12:27:36 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Jun 2024 12:57:37 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIZ3m-0000R8-15;
-	Sat, 15 Jun 2024 19:27:34 +0000
-Date: Sun, 16 Jun 2024 03:26:43 +0800
+	id 1sIZWp-0000SY-1B;
+	Sat, 15 Jun 2024 19:57:35 +0000
+Date: Sun, 16 Jun 2024 03:57:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Unnathi Chalicheemala <quic_uchalich@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [qcom:drivers-for-6.11 16/20]
- arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: system-cache-controller@19200000:
- reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128,
- 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too
- short
-Message-ID: <202406160346.FmNRhxL5-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/000-devicetree 34/184]
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi:230.29-235.4: Warning
+ (simple_bus_reg): /soc@200000000/display-subsystem: missing or empty
+ reg/ranges property
+Message-ID: <202406160352.Ck2lXV4K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,134 +64,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-6.11
-head:   75287992f58a74271a083fef0356bc81d629f671
-commit: c190f390a852a2b892dbc8a70fed08118ef056ff [16/20] dt-bindings: arm: msm: Add llcc Broadcast_AND register
-config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240616/202406160346.FmNRhxL5-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160346.FmNRhxL5-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   7a67f4836b8673379e8014405fc0a17abea55160
+commit: a9c1572548f5a0f1751dd003c44f586b1137e442 [34/184] arch: arm64: apple: t600x: Add display controller related device tree nodes
+config: arm64-randconfig-001-20240607 (https://download.01.org/0day-ci/archive/20240616/202406160352.Ck2lXV4K-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160352.Ck2lXV4K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160346.FmNRhxL5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160352.Ck2lXV4K-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3112.11-3122.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3112.11-3122.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8450.dtsi:3112.11-3122.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:2942.27-3016.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:2942.27-3016.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: pcie-1-phy-aux-clk: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
-   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8650.dtsi:3523.27-3579.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 624951296, 0, 2097152], [0, 622854144, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8650.dtsi:3523.27-3579.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 624951296, 0, 2097152], [0, 622854144, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:227.14-243.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:245.14-254.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/apple/t600x-die0.dtsi:230.29-235.4: Warning (simple_bus_reg): /soc@200000000/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:137.42-140.7: Warning (unique_unit_address_if_enabled): /soc@200000000/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc@200000000/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:13.10-20.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:69.10-78.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:95.10-104.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:121.10-130.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:147.10-156.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3c/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6002-j375d.dts:41.10-50.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@39/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6002-j375d.dts:68.10-77.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3a/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+
+vim +230 arch/arm64/boot/dts/apple/t600x-die0.dtsi
+
+ > 230		display: display-subsystem {
 
 -- 
 0-DAY CI Kernel Test Service
