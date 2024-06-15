@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F127E6;
-	Sat, 15 Jun 2024 00:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162C08F6B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 01:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718412694; cv=none; b=XFt0/DM7PuqkZXnxHDc6wJDrqoVncEOumfn9W2tL0bA+efXi6YV8mpkuxzqT4froFVeiDhN+lj5b11WUi+ywY68VTP/b0INrFTm+4d9JNeyyQnVWQG+8EHZf8XoaZyXm14kd01SbJ/ajfz7yDEBzAupeD7cCJfEqfgT8OA45qcg=
+	t=1718413957; cv=none; b=Ip9MqfIvDYEPvt9UHL3l5P3aI49HTtftfIj9zzw+WFrbdwPCjJCevx9V+SS/ATypyhmQNoBBcYVIxjYo+Zdwj+VWCw83hyMfs9r/MkA/tXTFi8pZthbvTKm6Rt6QPDq3H6GfO7m4zTJE2jsBc067rgylmKSPAqOWipt5xJD4Sc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718412694; c=relaxed/simple;
-	bh=z8D5EY31SsiOMa0EUjSh7k6u0JcFPVH31zJTPgDh93g=;
+	s=arc-20240116; t=1718413957; c=relaxed/simple;
+	bh=rfzBmgbHAMPQkiZCITiLda71VjNNReV1BqVTJOOG75Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z9ZEkyiWTORVYo1vDmYbfrZefl6gpyqH0PiP87eLjdr7YKNSGmkyDMZsltayYOtel4hakTK4OG9JGpxgFL/nndk2+FeT+SR6hhhgMUlmAJ3wGUi6GgDzEf3qEP1ATs2LBympEZz+y63JDuiUixILsXwgwjcS3RUnWN0WVoj7AHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eOFJyC1f; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=MlG9BRXYrk6o1KndS15Otz6FowJi45OlOnetFDpd7BpIRK6a7VGoiR75Yn09XSdrMrxny572P1/lee46bbwab7NOZZVV9TcGJVToA8eV06t2A9WLCGyZp/iKOcWs7i2g3WoLizys9L0mFWMu7f63Gk0KfSfkY4C9MzTqQfqXAuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKgTns/7; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eOFJyC1f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKgTns/7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718412692; x=1749948692;
+  t=1718413955; x=1749949955;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z8D5EY31SsiOMa0EUjSh7k6u0JcFPVH31zJTPgDh93g=;
-  b=eOFJyC1fHd1O9yNW5KbtXPFIqQIsTTPJiApzFt2p6j5395lo3gXh2AX+
-   D8TrAHqyyusY7NI6App5dLpwt5rnBNSytAlmanmDbqFHDBfZZof5MKpxh
-   XFYZeFbBX0qLvX4T+4MHPMU6C7HeJ+NSr8FwcA/tKG0M6Hcfhr0Es1COz
-   87BvFXSrLy8RjOns8sqtM3iCBaeWCPORlKds7AJ9hAEk8LjFG1Fif8kMS
-   YhVxu/grPlObrOUw4lCzAsNRfLeILneqQbBYHWJ6E1Gi63dSss+BJhR+8
-   Ye1FSdLT3aERZ+I2clrghH2y02TzO2E5svMqgF9KeNVMU998c7CHKgr2X
+  bh=rfzBmgbHAMPQkiZCITiLda71VjNNReV1BqVTJOOG75Y=;
+  b=UKgTns/7CU98IoqHmryaInlsHjkedmAfBRpq19zctiyc5lXWALuMp6kO
+   1iF9jAs05d/D0+x56PeoEiMhSaC6bd3cRJy/7iwIHH/6ZphtVWDzyXoC7
+   7BpIu13322JZb1qiRrviFY1X0lKzeulXpVseBXGhQ8ZFZKAtlF7pzZhKs
+   IEWHQXVSzaalb656x3+hBA1HAJOTxSyembCAqUNgLsCCaS9FyRlPK2wMb
+   WCUmxwG0BAoJDN1BwstVFUYmshv6CMcgAf1CUCmqc0PbQaXeD4ltyjXN+
+   S2EhE2xuaTz7+H/kXghSKVoSyRbwoIxO/VrY+95LZqS9u+aiPrmAM+H2l
    Q==;
-X-CSE-ConnectionGUID: 76uGqKVWRw+QpCtP+xFwZA==
-X-CSE-MsgGUID: Ae4oWk3hRmalbWx33HQ/KQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="25956931"
+X-CSE-ConnectionGUID: DSSjzhRMTlmv5V2NC7wiOA==
+X-CSE-MsgGUID: hqaT1LRLRueAiUSuaC8Qmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="25900741"
 X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; 
-   d="scan'208";a="25956931"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 17:51:31 -0700
-X-CSE-ConnectionGUID: F97hyTeRSCyIFH7ihj3D1w==
-X-CSE-MsgGUID: G9/12J2ZQl+qpDihP4q7DA==
+   d="scan'208";a="25900741"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 18:12:35 -0700
+X-CSE-ConnectionGUID: vchjrgOxRv+YezchNHiPrw==
+X-CSE-MsgGUID: waDvhR2JSkuGfMsVz6ZTBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; 
-   d="scan'208";a="41341141"
+   d="scan'208";a="45042264"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Jun 2024 17:51:31 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 14 Jun 2024 18:12:33 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIHdg-0001xd-1E;
-	Sat, 15 Jun 2024 00:51:28 +0000
-Date: Sat, 15 Jun 2024 08:51:24 +0800
+	id 1sIHy1-0001yP-0d;
+	Sat, 15 Jun 2024 01:12:29 +0000
+Date: Sat, 15 Jun 2024 09:12:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-diff 2/2] ERROR: modpost:
- "__early_static_cpu_has__thunk" [drivers/cpufreq/longhaul.ko] undefined!
-Message-ID: <202406150858.B7EpvqIu-lkp@intel.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [steev:lenovo-x13s-v6.10-rc3 53/74]
+ drivers/soc/qcom/qcom_pd_mapper.c:519:34: warning: 'qcom_pdm_domains'
+ defined but not used
+Message-ID: <202406150947.QT4HmG1q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,120 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
-head:   cd5c807b4be90882e7b15d95233f31122e12d6b0
-commit: cd5c807b4be90882e7b15d95233f31122e12d6b0 [2/2] todo
-config: i386-randconfig-014-20240615 (https://download.01.org/0day-ci/archive/20240615/202406150858.B7EpvqIu-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150858.B7EpvqIu-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux lenovo-x13s-v6.10-rc3
+head:   959d8c14d75729561f5ce6f4c79055e18dd652cb
+commit: cc7fd75b1dac0e180d13d78127035931503f6fef [53/74] soc: qcom: add pd-mapper implementation
+config: m68k-randconfig-r111-20240614 (https://download.01.org/0day-ci/archive/20240615/202406150947.QT4HmG1q-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240615/202406150947.QT4HmG1q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150858.B7EpvqIu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406150947.QT4HmG1q-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/bcachefs/mean_and_variance_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/crypto_simd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/dtlk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1542.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/firewire-uapi-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/misc/soc_button_array.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
->> ERROR: modpost: "__early_static_cpu_has__thunk" [drivers/cpufreq/longhaul.ko] undefined!
+   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_add_service_domain':
+   drivers/soc/qcom/qcom_pd_mapper.c:79:27: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+      79 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                           ^~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:79:25: warning: assignment to 'struct qcom_pdm_service *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      79 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                         ^
+   drivers/soc/qcom/qcom_pd_mapper.c:89:16: warning: assignment to 'struct qcom_pdm_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      89 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+         |                ^
+   drivers/soc/qcom/qcom_pd_mapper.c:93:25: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+      93 |                         kfree(service);
+         |                         ^~~~~
+         |                         kvfree
+   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_get_domain_list':
+   drivers/soc/qcom/qcom_pd_mapper.c:160:13: warning: assignment to 'struct servreg_get_domain_list_resp *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     160 |         rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+         |             ^
+   drivers/soc/qcom/qcom_pd_mapper.c: In function 'qcom_pdm_start':
+   drivers/soc/qcom/qcom_pd_mapper.c:585:14: warning: assignment to 'struct qcom_pdm_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     585 |         data = kzalloc(sizeof(*data), GFP_KERNEL);
+         |              ^
+   drivers/soc/qcom/qcom_pd_mapper.c: At top level:
+>> drivers/soc/qcom/qcom_pd_mapper.c:519:34: warning: 'qcom_pdm_domains' defined but not used [-Wunused-const-variable=]
+     519 | static const struct of_device_id qcom_pdm_domains[] = {
+         |                                  ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/qcom_pdm_domains +519 drivers/soc/qcom/qcom_pd_mapper.c
+
+   518	
+ > 519	static const struct of_device_id qcom_pdm_domains[] = {
+   520		{ .compatible = "qcom,apq8064", .data = NULL, },
+   521		{ .compatible = "qcom,apq8074", .data = NULL, },
+   522		{ .compatible = "qcom,apq8084", .data = NULL, },
+   523		{ .compatible = "qcom,apq8096", .data = msm8996_domains, },
+   524		{ .compatible = "qcom,msm8226", .data = NULL, },
+   525		{ .compatible = "qcom,msm8974", .data = NULL, },
+   526		{ .compatible = "qcom,msm8996", .data = msm8996_domains, },
+   527		{ .compatible = "qcom,msm8998", .data = msm8998_domains, },
+   528		{ .compatible = "qcom,qcm2290", .data = qcm2290_domains, },
+   529		{ .compatible = "qcom,qcs404", .data = qcs404_domains, },
+   530		{ .compatible = "qcom,sc7180", .data = sc7180_domains, },
+   531		{ .compatible = "qcom,sc7280", .data = sc7280_domains, },
+   532		{ .compatible = "qcom,sc8180x", .data = sc8180x_domains, },
+   533		{ .compatible = "qcom,sc8280xp", .data = sc8280xp_domains, },
+   534		{ .compatible = "qcom,sda660", .data = sdm660_domains, },
+   535		{ .compatible = "qcom,sdm660", .data = sdm660_domains, },
+   536		{ .compatible = "qcom,sdm670", .data = sdm670_domains, },
+   537		{ .compatible = "qcom,sdm845", .data = sdm845_domains, },
+   538		{ .compatible = "qcom,sm4250", .data = sm6115_domains, },
+   539		{ .compatible = "qcom,sm6115", .data = sm6115_domains, },
+   540		{ .compatible = "qcom,sm6350", .data = sm6350_domains, },
+   541		{ .compatible = "qcom,sm8150", .data = sm8150_domains, },
+   542		{ .compatible = "qcom,sm8250", .data = sm8250_domains, },
+   543		{ .compatible = "qcom,sm8350", .data = sm8350_domains, },
+   544		{ .compatible = "qcom,sm8450", .data = sm8350_domains, },
+   545		{ .compatible = "qcom,sm8550", .data = sm8550_domains, },
+   546		{ .compatible = "qcom,sm8650", .data = sm8550_domains, },
+   547		{},
+   548	};
+   549	
 
 -- 
 0-DAY CI Kernel Test Service
