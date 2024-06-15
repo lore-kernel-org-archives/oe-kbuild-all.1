@@ -1,138 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584311773A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 20:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CEC1773A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 20:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718483983; cv=none; b=lnLn/1arIPbdX0i8BjNvq0akVU0khpDJqJfnKULbV9skn5wdg1Kvt9TLABx/R61MJltBrSdn/7JcR1P9VAW2va6EOHASA92qYHelgp7RmfzTVAReS3DD8DLp+yWem2X4mBgUnSll0Im7lvzhFQ4wi7PQ8yanttolvQ3X2aw7Bqo=
+	t=1718484079; cv=none; b=epAN+YWoosCofkTYHY3rX7mU8cYwjyBlGabpEWukC+XwiqFyR6o/WKYgi3AHvSondqg6IoQUDqdZi1NJyQIbOpqWtjeRUC9/nmWy/CbisifuJvxEsvrcaLE4x6Fmc+ALLFsSgWIq316ZzDY5+xs1tvLVTzLb6H1ZAQknlkgXhm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718483983; c=relaxed/simple;
-	bh=qd4NEeb+U65z39T5/339lgNXtSh+YefaQ6v6SAKts80=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W1wTPcZlmtUxlw5XH29uo3zZyTGG55IVcWYYm+vzoczudSDnxo9WHpKgyMFbWS3yPiPgk6HudJ4qBG+6XeXb85EsuID0Oynh0J0FyQ174SHsIV688C3jA31qba38LPWbhyvfLwdmkT8VdKyrF9TcyZisecEO0lGgUsiSHqgccoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEhmk56v; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718484079; c=relaxed/simple;
+	bh=41/OChH0rngz/yclsHybbNmGkPUMEbh5tsSA3lPC0ok=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ub7pvWQj2l3QCV3F5B161O7r2ZiPd+c7NAzxkNqze7Vq17zs9qvmGSTWQbsKkhyDZkl947XYCh8lJU8AnTA2A+aiqgE0aNZImp5xPnlEOhOPO1J6+oLqNJrMo8pP48u89jmZtPf6dsrOXmgS6qPlhJu4/Ge5nGkGDsjK3rBE1h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=E6yN4Dh0; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEhmk56v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718483980; x=1750019980;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qd4NEeb+U65z39T5/339lgNXtSh+YefaQ6v6SAKts80=;
-  b=jEhmk56vb2tI88utMEhO2x5KB8xOaCGgS2FrR21vWnb5mRGuF+YfdYE3
-   pX7ZMIGg5mPpTtjTmoj0/Dwfh/t3vj8Sq5jnuW2r+hKgFhQh832GgnfZV
-   e0Ly1EqE2VW6mQsG8IFWC8IlQZUxWAkwmxdBjMxvQmRVvhfNl9iWCohZU
-   96V2HGtCvc4vjbv/xiivIuOoHAPRWUtJbPD7BbUNLim0HsMtJkxQu1IzR
-   06+akO7qr8Ee0ZlMRoYmi3Cun/oh3ybBdA7GNp7jxKLrG0N/g3GoZj11n
-   hJcuKljKxXovI/LPS8BtjN9oRf+QS18+fNwKEZkz9qKXsZ1KcEu8E4Rn3
-   w==;
-X-CSE-ConnectionGUID: wukcNi/wT1OnGSV981KJ5Q==
-X-CSE-MsgGUID: xlqvhUawQIm9DBlxWVIgIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="40772038"
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="40772038"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 13:39:40 -0700
-X-CSE-ConnectionGUID: c3zCVU2lTD6XpyVXvL1Gfg==
-X-CSE-MsgGUID: 4PytUqB8R56oq7G5t0GCWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="45253857"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Jun 2024 13:39:38 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIaBU-0000U5-16;
-	Sat, 15 Jun 2024 20:39:36 +0000
-Date: Sun, 16 Jun 2024 04:39:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1606/22937]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:2626:5: sparse:
- sparse: symbol 'hclge_set_all_vf_rst' was not declared. Should it be static?
-Message-ID: <202406160405.uc8O581O-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="E6yN4Dh0"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7042a8ad9f5so2840370b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 13:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1718484077; x=1719088877; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=NyfSuUkK9NXU2IrSjh8qgcwbYQ1cIHDSzfqUIvRuMUU=;
+        b=E6yN4Dh01LiC/LVV5Wna83CmT2kvTyKh3p8Ga4ls6a6Mc7djEwtAJvQVbZ0yhMYs86
+         te0JSdUrmjARkXE8wMIQM8VdfnlkkRi1a1EHdWhyOkRFOP53YVdyyNghACP4Cwc/SUxS
+         qgrJUJdsjj9V8FCzRzsEWq9Ekemn/CL5vt9R4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718484077; x=1719088877;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NyfSuUkK9NXU2IrSjh8qgcwbYQ1cIHDSzfqUIvRuMUU=;
+        b=nx0+stDeXAVlsSsORhGITR5MldmDyT19AUsYIu31Ga6Kml8BAAS3/Elp7utbqhSZfS
+         YjBkbc+oYrEBlBrokJY+Kcwff0wGAnKErs/w/4qbDwYpp+Nz2Af8ZpFUgj18nx5ko4/3
+         WOT0C53HdVTWcH2fJDBQlO/OrBIG7cSFGNHAfb5NunclhrEVwJ2BRjhOiYUuRL6i9Gl1
+         e+Cr3ie/+Pk9aJqZHBTLa6YU88kKbf9Lz17QJFi2LMi/tG05R9+Z/lLJ5dRKJSPZLVbk
+         LRktO6fcDURlkb8g83ymQlXadGEAZuUj03cZwCZ6cH55Hg/WJt4SuTnfq01jsDoW25aq
+         R8XQ==
+X-Gm-Message-State: AOJu0Yz+cMdl9r2bGKFqDXr7PbhLTgSFkpPDaUXYpWE/gwOpKSlHsrFN
+	TQ94cRVzX0t2B3d3GQforAnW6XcL2oWWNpUM4+Z7PusNuw+axgRuw5Jt6NAN3g==
+X-Google-Smtp-Source: AGHT+IF+7A+KVLHOiMRbHsDYWc+FMlLvRmcXJ0M26QAAWNC8lbV4d7s/ByARHqsa9Fq4biYYbN8a5w==
+X-Received: by 2002:a05:6a21:19f:b0:1b8:5967:45cd with SMTP id adf61e73a8af0-1bae7e7a23bmr9501831637.13.1718484076743;
+        Sat, 15 Jun 2024 13:41:16 -0700 (PDT)
+Received: from [192.168.0.212] ([50.35.46.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc96ce30sm5047610b3a.79.2024.06.15.13.41.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Jun 2024 13:41:16 -0700 (PDT)
+Message-ID: <327b5f58-441a-434e-ac07-615ba9a1e3f2@broadcom.com>
+Date: Sat, 15 Jun 2024 13:41:14 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tip:x86/vmware 4/8] vmwgfx_msg.c:undefined reference to
+ `vmware_hypercall_slow'
+To: Borislav Petkov <bp@alien8.de>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org
+References: <202406152104.FxakP1MB-lkp@intel.com>
+ <20240615143344.GDZm2mSB-qyB0Vt28Q@fat_crate.local>
+Content-Language: en-US
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <20240615143344.GDZm2mSB-qyB0Vt28Q@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   745a3c567e1c329d131a8896642475f3916d020a
-commit: 09262653590358d6bd64c121600490fcfa3312b3 [1606/22937] driver: hns3: update hns3 driver from drivers
-config: arm64-randconfig-r111-20240615 (https://download.01.org/0day-ci/archive/20240616/202406160405.uc8O581O-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240616/202406160405.uc8O581O-lkp@intel.com/reproduce)
+Thanks for the report and provided .config file.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160405.uc8O581O-lkp@intel.com/
+The problem with DRM_VMWGFX=y when HYPERVISOR_GUEST is not set, i.e 
+arch/x86/kernel/cpu/vmware.c is not built.
+It is even a problem today. For VMWARE_HYPERCALL alternative to work, 
+vmware guest code must set cpu capabilities properly.
+The kernel based on the current config file will not work on a SEV-ES 
+enabled machine.
+DRM_VMWGFX must depend on HYPERVISOR_GUEST similarly to VMWARE_BALLOON, 
+MOUSE_PS2_VMMOUSE and
+PTP_1588_CLOCK_VMW.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:39:22: sparse: sparse: symbol 'ae_algo' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:238:34: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:239:34: sparse: sparse: cast from restricted __be16
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:2220:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] sfp_speed @@
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:2220:16: sparse:     expected unsigned int [usertype]
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:2220:16: sparse:     got restricted __le32 [usertype] sfp_speed
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:2626:5: sparse: sparse: symbol 'hclge_set_all_vf_rst' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3098:6: sparse: sparse: symbol 'hclge_reset_fail' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:8088:21: sparse: sparse: symbol 'hclge_ops' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:2626:5: warning: no previous prototype for 'hclge_set_all_vf_rst' [-Wmissing-prototypes]
-    2626 | int hclge_set_all_vf_rst(struct hclge_dev *hdev, bool reset)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3098:6: warning: no previous prototype for 'hclge_reset_fail' [-Wmissing-prototypes]
-    3098 | bool hclge_reset_fail(struct hnae3_handle *handle)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:8176:5: warning: no previous prototype for 'hclge_init' [-Wmissing-prototypes]
-    8176 | int hclge_init(void)
-         |     ^~~~~~~~~~
+Borislav, I'm going to send a fix shortly. It has to be applied before 
+this patchset.
 
-vim +/hclge_set_all_vf_rst +2626 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+Thanks,
+--Alexey
 
-  2625	
-> 2626	int hclge_set_all_vf_rst(struct hclge_dev *hdev, bool reset)
-  2627	{
-  2628		int i;
-  2629	
-  2630		for (i = hdev->num_vmdq_vport + 1; i < hdev->num_alloc_vport; i++) {
-  2631			struct hclge_vport *vport = &hdev->vport[i];
-  2632			int ret;
-  2633	
-  2634			/* Send cmd to set/clear VF's FUNC_RST_ING */
-  2635			ret = hclge_set_vf_rst(hdev, vport->vport_id, reset);
-  2636			if (ret) {
-  2637				dev_err(&hdev->pdev->dev,
-  2638					"set vf(%d) rst failded %d!\n",
-  2639					vport->vport_id, ret);
-  2640				return ret;
-  2641			}
-  2642	
-  2643			if (!reset)
-  2644				continue;
-  2645	
-  2646			/* Inform VF to process the reset.
-  2647			 * hclge_inform_reset_assert_to_vf may fail if VF
-  2648			 * driver is not loaded.
-  2649			 */
-  2650			ret = hclge_inform_reset_assert_to_vf(vport);
-  2651			if (ret)
-  2652				dev_warn(&hdev->pdev->dev,
-  2653					 "inform reset to vf(%d) failded %d!\n",
-  2654					 vport->vport_id, ret);
-  2655		}
-  2656	
-  2657		return 0;
-  2658	}
-  2659	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 6/15/24 7:33 AM, Borislav Petkov wrote:
+> On Sat, Jun 15, 2024 at 09:22:00PM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vmware
+>> head:   ef08e7dc21307b226b5280d5e8cfea687bfd2866
+>> commit: e5ac9008b79c59235c34494e555419665022f5e1 [4/8] drm/vmwgfx: Use VMware hypercall API
+>> config: i386-buildonly-randconfig-002-20240615 (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/config)
+>> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_open_channel.constprop.0':
+>>>> vmwgfx_msg.c:(.text+0x203): undefined reference to `vmware_hypercall_slow'
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
+>>     vmwgfx_msg.c:(.text+0x46f): undefined reference to `vmware_hypercall_slow'
+>>>> ld: vmwgfx_msg.c:(.text+0x49c): undefined reference to `vmware_hypercall_slow'
+>>     ld: vmwgfx_msg.c:(.text+0x4c3): undefined reference to `vmware_hypercall_slow'
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_close_channel':
+>>     vmwgfx_msg.c:(.text+0x580): undefined reference to `vmware_hypercall_slow'
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x729): more undefined references to `vmware_hypercall_slow' follow
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
+>>     regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
+>>     regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
+>>     regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
+>>     regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
+>>     ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
+>>     ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
+>>
+>> Kconfig warnings: (for reference only)
+>>     WARNING: unmet direct dependencies detected for REGMAP_SPI
+>>     Depends on [n]: SPI [=n]
+>>     Selected by [y]:
+>>     - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+>>
+>> -- 
+> 
+> Zapping tip:x86/vmware from the tip/master lineup for the time being, until this
+> is fixed.
+> 
+> Thx 0day guys for reporting.
+> 
