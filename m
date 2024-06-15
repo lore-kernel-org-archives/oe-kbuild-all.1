@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F150881E;
-	Sat, 15 Jun 2024 18:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AA416426
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 19:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718474678; cv=none; b=Isl5PnSnhxvDcJY5ZbMWhWVKXX9wrDM9FA7p1X2mVg9hx79TTdhJ7+vmBBihql01d1spkXjgd/cMjGBro0HaKS1y/gcG/bbTXH8e3eff9ERJA62U5OwMav4FXJiixpsYW+vtZf+bcw6Ha7SYFhwCzdfQKS6gXVs1OG5yfZ52CiU=
+	t=1718479661; cv=none; b=VEnp9BZHwrZpurEYfVi8q94gCbUyuGWvke0Sjl28aUWaNap5twnjcSGkrUurk3c3eN3dempmTsQy1cd9ReOPsPzo4kfmnGHs4UjY/GmN+o3bWtxRG48fVQFNFwKTC4GCnGCrg2Ws+Lb12DXLKYiaDNBdM/B9PWy6B4ReHz81flA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718474678; c=relaxed/simple;
-	bh=oyqGpECu9sSJX+1MFXlkOC1YcQnSCGTgdSSt7G2X3ek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J5RZI1vIcvpIvJpiN6P/v6qOj+l7Twe3J3jSAu3z7KHQEqyAU7d/hae1Q4jpOHYlvUosr+vNjHQl3w1L1KyHld9PEWhejXUWfQD+X+uamCxRm++psb9Ni6zZzI37CudoM6tZMM5zjfy1aClb5aWXGVXU1abMZF3MWRMkrlR39hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mf41acdW; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1718479661; c=relaxed/simple;
+	bh=1HwrW5+9yPlEKkXZvDv6QiUUlplU0qOLF4+5aoIPUIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nFH6EQX2qXlH975FZNwFzskJII0oW2JDrK624lkF/3IBubBKC9tq8l7XcMhXi3q/LSlJS5O09+PDg4aezj8E8/x2CNJugMc17tVMYJ+eRwJH21J2ms7pm2J6YDIzNjctWP3R61bg2078zZAoq5CRA1AwJ8J02jwxtn30Vg05Vqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+LRfG4H; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mf41acdW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+LRfG4H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718474677; x=1750010677;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oyqGpECu9sSJX+1MFXlkOC1YcQnSCGTgdSSt7G2X3ek=;
-  b=Mf41acdW9geC7DsmfGjf2LRHg1EOPSdFYOfC/G4tsQv3jo6gxA4K9+p5
-   g8UDiNtiNKEK8FWJkxS69NT71LvxInOhaQrzCjMZf/CBewkgj4f44AP7i
-   K9HxD2VHpyBtKTfdmnZd+iOOftJDIEiHldLnP3jKgpnxhDKeUJJaiQrsq
-   vz8Tl4ckgXcgCcoz5XrDib2kFMOqVCW4g9azuTOvbd7mIiO11e0KqJrpE
-   eb/CnO0HNPgvBy3Sg5rX7OSMsk+gL0ySI/S4EkZwRgjrC9gJATxHHhuma
-   hYyOrS76Zt8aWIbV7Yj4RHufyVjLg2WN0+bt8mwc8OR4DGuiN2/Psqwx4
+  t=1718479659; x=1750015659;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1HwrW5+9yPlEKkXZvDv6QiUUlplU0qOLF4+5aoIPUIc=;
+  b=f+LRfG4H8lsQqW9gtTlc/iNTpTvce1qdUyC7lj+qlROwDnlNHdtQ0H7Q
+   TKzJJudnj5CYUAhE24EvCOehEnmEXpUZej9I4NcwdcZywPD1C+Ld483WC
+   PgcQlSW3flc217gbL2R1xS2QkKhTY5UrbDMB9lA9se5W6w6+JuUmjGPr/
+   sn+Bf4c7v91KlTAuysQAAs/QjyPsf9Nb4t/yui37gdxKzmLZHIjoZTtNy
+   IEkonMTMeVFRza47XOPTf0lmyx9kpa3EgtahmlgwSFV1AC2ctBqvYzMr1
+   5RupqeIffPTOkKvzY3yg2oBDyMIvLzbVnS6E/1we2SpwSzwnIByJSfE6i
    Q==;
-X-CSE-ConnectionGUID: pObAint5RB+IHE8xx+9i+g==
-X-CSE-MsgGUID: zGVuj5qYRkuEHzK3BPGnuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15187701"
+X-CSE-ConnectionGUID: YaNcjqWMQiWYo0Kg2v2RLQ==
+X-CSE-MsgGUID: eUnALswsQ4yQYdaGyRHxPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15080454"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="15187701"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 11:04:37 -0700
-X-CSE-ConnectionGUID: A26Et5dgSLi26d/ZHQNoew==
-X-CSE-MsgGUID: 9gra+hgFQXiMfeJD+h+rkw==
+   d="scan'208";a="15080454"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 12:27:38 -0700
+X-CSE-ConnectionGUID: r10GnI6eTZSyBiR8Q4ZJRA==
+X-CSE-MsgGUID: GSLEzf7VR4G7wQw4vQxkXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="71588247"
+   d="scan'208";a="41302212"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Jun 2024 11:04:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 15 Jun 2024 12:27:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIXlO-0000Mu-0m;
-	Sat, 15 Jun 2024 18:04:30 +0000
-Date: Sun, 16 Jun 2024 02:03:39 +0800
+	id 1sIZ3m-0000R8-15;
+	Sat, 15 Jun 2024 19:27:34 +0000
+Date: Sun, 16 Jun 2024 03:26:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charles Wang <charles.goodix@gmail.com>, dmitry.torokhov@gmail.com,
-	dan.carpenter@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dianders@chromium.org, robh@kernel.org, krzk+dt@kernel.org,
-	jikos@kernel.org, bentiss@kernel.org, hbarnor@chromium.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Charles Wang <charles.goodix@gmail.com>
-Subject: Re: [PATCH v4 1/2] HID: hid-goodix: Add Goodix HID-over-SPI driver
-Message-ID: <202406160446.MeGfJeG1-lkp@intel.com>
-References: <20240614121538.236727-2-charles.goodix@gmail.com>
+To: Unnathi Chalicheemala <quic_uchalich@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [qcom:drivers-for-6.11 16/20]
+ arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: system-cache-controller@19200000:
+ reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128,
+ 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too
+ short
+Message-ID: <202406160346.FmNRhxL5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,187 +65,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240614121538.236727-2-charles.goodix@gmail.com>
 
-Hi Charles,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Wang/HID-hid-goodix-Add-Goodix-HID-over-SPI-driver/20240614-201949
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20240614121538.236727-2-charles.goodix%40gmail.com
-patch subject: [PATCH v4 1/2] HID: hid-goodix: Add Goodix HID-over-SPI driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240616/202406160446.MeGfJeG1-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-6.11
+head:   75287992f58a74271a083fef0356bc81d629f671
+commit: c190f390a852a2b892dbc8a70fed08118ef056ff [16/20] dt-bindings: arm: msm: Add llcc Broadcast_AND register
+config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240616/202406160346.FmNRhxL5-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160446.MeGfJeG1-lkp@intel.com/reproduce)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160346.FmNRhxL5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160446.MeGfJeG1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160346.FmNRhxL5-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/hid/hid-goodix-spi.c:9:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/hid/hid-goodix-spi.c:9:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/hid/hid-goodix-spi.c:9:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/hid/hid-goodix-spi.c:9:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/hid/hid-goodix-spi.c:148:4: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
-     147 |                 dev_err(ts->dev, "read data len exceed limit %ld",
-         |                                                              ~~~
-         |                                                              %u
-     148 |                         sizeof(ts->xfer_buf) - GOODIX_SPI_READ_PREFIX_LEN);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/hid/hid-goodix-spi.c:182:4: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
-     181 |                 dev_err(ts->dev, "write data len exceed limit %ld",
-         |                                                               ~~~
-         |                                                               %u
-     182 |                         sizeof(ts->xfer_buf) - GOODIX_SPI_WRITE_PREFIX_LEN);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/hid/hid-goodix-spi.c:606:44: warning: variable 'error' is uninitialized when used here [-Wuninitialized]
-     606 |                 dev_err(ts->dev, "failed read data, %d", error);
-         |                                                          ^~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/hid/hid-goodix-spi.c:556:11: note: initialize the variable 'error' to silence this warning
-     556 |         int error;
-         |                  ^
-         |                   = 0
->> drivers/hid/hid-goodix-spi.c:801:23: error: use of undeclared identifier 'goodix_spi_pm_ops'; did you mean 'goodix_spi_probe'?
-     801 |                 .pm = pm_sleep_ptr(&goodix_spi_pm_ops),
-         |                                     ^~~~~~~~~~~~~~~~~
-         |                                     goodix_spi_probe
-   include/linux/pm.h:476:65: note: expanded from macro 'pm_sleep_ptr'
-     476 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                                                                 ^
-   include/linux/kernel.h:48:38: note: expanded from macro 'PTR_IF'
-      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^
-   drivers/hid/hid-goodix-spi.c:655:12: note: 'goodix_spi_probe' declared here
-     655 | static int goodix_spi_probe(struct spi_device *spi)
-         |            ^
->> drivers/hid/hid-goodix-spi.c:801:9: error: incompatible pointer types initializing 'const struct dev_pm_ops *' with an expression of type 'int (*)(struct spi_device *)' [-Werror,-Wincompatible-pointer-types]
-     801 |                 .pm = pm_sleep_ptr(&goodix_spi_pm_ops),
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pm.h:476:28: note: expanded from macro 'pm_sleep_ptr'
-     476 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:48:27: note: expanded from macro 'PTR_IF'
-      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   10 warnings and 2 errors generated.
-
-
-vim +801 drivers/hid/hid-goodix-spi.c
-
-   795	
-   796	static struct spi_driver goodix_spi_driver = {
-   797		.driver = {
-   798			.name = "goodix-spi-hid",
-   799			.acpi_match_table = ACPI_PTR(goodix_spi_acpi_match),
-   800			.of_match_table = of_match_ptr(goodix_spi_of_match),
- > 801			.pm = pm_sleep_ptr(&goodix_spi_pm_ops),
-   802		},
-   803		.probe =	goodix_spi_probe,
-   804		.remove =	goodix_spi_remove,
-   805		.shutdown =	goodix_spi_shutdown,
-   806		.id_table =	goodix_spi_ids,
-   807	};
-   808	module_spi_driver(goodix_spi_driver);
-   809	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1d87000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3112.11-3122.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1d87000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3112.11-3122.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3149.27-3220.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3241.27-3293.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3112.11-3122.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: phy@1c0e000: clock-output-names: ['pcie_1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: system-cache-controller@19200000: reg: [[0, 421527552, 0, 524288], [0, 425721856, 0, 524288], [0, 422576128, 0, 524288], [0, 426770432, 0, 524288], [0, 429916160, 0, 524288]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: system-cache-controller@19200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:2942.27-3016.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:2942.27-3016.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3037.27-3092.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: pcie-1-phy-aux-clk: 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:3523.27-3579.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 624951296, 0, 2097152], [0, 622854144, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:3523.27-3579.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: phy@1c0e000: clock-output-names: ['pcie1_pipe_clk'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: phy@1c0e000: #clock-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 624951296, 0, 2097152], [0, 622854144, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
