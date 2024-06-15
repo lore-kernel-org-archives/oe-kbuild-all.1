@@ -1,110 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5678F48
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 21:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505EC53389
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 21:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718487163; cv=none; b=YQHUZYmnkrX+O9aJ9mQc9U7USawRwvutaSmxzmmVwAznIelcv8ncLrwPKfaexDZbMyAHCndNfvfSBoTLxMGeUKw6vxOyLihLt+hBjjXcsKKqO3GuJpptk7S91rdcaFiQUsz9B9ckplCQfja4y0fFu3235lUOA4o18IdrJPA8sEo=
+	t=1718487712; cv=none; b=NQ6s1bRMzndWK+PUY6xxiyi6Xk8ovfkVb174aaJAdymLCctnxqXJ+HeO8ezcaoQiOotqP4a52zSaLUewa2496ZJN3HWY5ee1gIoOtxDuDz/btpohrxp0CdXRNg65oV0zMXAYAMloPiwl5EN4nU6qz541TA1NAr8tiF51peaswmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718487163; c=relaxed/simple;
-	bh=HS/lnGgylVv1Om5+x7Qd31jiEA26xfZWgIamPGJ1Jc0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=To5YprXRf1ZKaE54NDoP/+/FuYjS/UGvInYuklkRTxR2YiH8MaQZTGPK0jAy8h+ChOhgntWn/8D1fc5gYi8GFOCNe0lFj/pARtFbPICyJPC9W68/k9y/fNF/ZAep94yX6Un/aWxhmc26HQ5NJm6i1rnWQ24mnpBLUhn75yf8jQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dN8J8At2; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718487712; c=relaxed/simple;
+	bh=XS1BRZN1SjBQqYx8cKsHHYq7gvoU3NEtzp4uXV72Gsk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eKEa4VxqgBb/TMVwjQedzOi7XBtDVt8WMZ0pqtF6s7T0AdcULN/ADDdbwxkT5tVRrBS+bqBsAxy+IIw7jDUJSTO34FFRGsGetS18pDdn/Bh4yRhLBRCKabZqHWQ+PxsUyjhn0bjZv+yJYpWOuNQFgb4/6TmfAXISM42WzG26sXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=OZR0Wb11; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dN8J8At2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718487161; x=1750023161;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HS/lnGgylVv1Om5+x7Qd31jiEA26xfZWgIamPGJ1Jc0=;
-  b=dN8J8At2/nulgJtlhwdYbYaA2z8SLglt825eh6BErr41gBApTnpZMN79
-   9WXkmx9kR+yuqGF45S5un1R5Rhiy+n9Z2WTNS2S1ex9e+/i5RoerbWDJs
-   658wpq13/kNVw+PJ8IZObUb04luGPJZaxrYrTQHJ2IIDgXUkyeoZs7Txc
-   nadhLQSNHPu5oGaKRkf/+YAe5RtCRPusPneaGbtLmcX7BfzCfiKZOH6WK
-   N8xwvFA8LjP098URGS3CfCPHXRBlcjwtWwOU4a5eMc7ORe07NMtNFur2y
-   qI1SfBkohMV/4EbWhLhIMaC4lf51vnkBBc5O4ED6DJRktTIBuFduGdy5a
-   Q==;
-X-CSE-ConnectionGUID: v2Ca0q1OTx+NI2Rgc+lflw==
-X-CSE-MsgGUID: MQtmAF36S/SL4gVSRooBzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15232187"
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="15232187"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 14:32:41 -0700
-X-CSE-ConnectionGUID: /vI0ZxLJSS+q0o1VOp98lg==
-X-CSE-MsgGUID: k//wrxanQneXN+VFBIhlHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="45369906"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Jun 2024 14:32:40 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIb0o-0000Ww-13;
-	Sat, 15 Jun 2024 21:32:38 +0000
-Date: Sun, 16 Jun 2024 05:32:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.9-rc 4/18]
- arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb:
- thermal@1100c800: clocks: [[4, 27], [4, 44], [4, 45]] is too long
-Message-ID: <202406160503.RX25DrrC-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="OZR0Wb11"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3d21b3da741so1833786b6e.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 14:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1718487710; x=1719092510; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=T5ucE0W5TgTryjSxB4HJKh3yQO0XyVzTKVYePiu3SYU=;
+        b=OZR0Wb11Z2poqoAZFNZeggTZGm0wYkzk7V77Dxj8CN1k1m1V8/oe2ZNj+5GAzNwWNw
+         86Mmpdn1sAjieWRGrFXRsCkh9stDIaw5uX3DDQuqmgqkiA5QCSfBf9sOQL9q8jHpZdNF
+         //OazqaDNf7ZmWpVkOE4av464pjgxGEC4aqW8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718487710; x=1719092510;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T5ucE0W5TgTryjSxB4HJKh3yQO0XyVzTKVYePiu3SYU=;
+        b=lxNKUxOaKZM4N9oKQTEeeQfeHkF7+GI8DXTXC3BEZF2cAooqHkUMQ5ZasSHLg9lWA8
+         TY+ATW89fkv4ibhOmoejRsdbaEwLNsxYBPfHD8bY/qJsfgdAGsfHM02Wrfbc8oFmOr4U
+         ocRLBoDj8GXQHK7/w7mKtyGOYq+qhOHd/wwVBakEeItSPP5xWP9KXYEDzDniuGbf2vvz
+         UTXXBaEuYEEEAZl2DIIG68kKB4fB0/KyMlp3CVv0KjVvd/VCY+eMekQMd/Q9Y+fld073
+         etTpkBViJ/UgQtjfXbVTQ3ZLMZMuwRK2m5Fz5zHRRaKJkLaKC8HUSTSFNIrbEIbW9rzK
+         pOfg==
+X-Gm-Message-State: AOJu0Yw8e8xaNI285dsGjm4Dwgl7ZP4T2RK5qOQqMxDjoX1FViIB0PRz
+	3KwCBtbyGeqbOFTAoRZQBcakA0vNSCpTj06mVGyDdQnoy7H4QvvW4WIdHUEQfg==
+X-Google-Smtp-Source: AGHT+IFoDRGbZRhAmMsNK5qfCiBeSc9/VPI+7uFmZyY6h4XyY+k/1XfZY+EzFO1TxwRhAVkawVWeSA==
+X-Received: by 2002:a05:6358:6f06:b0:197:df0e:f23c with SMTP id e5c5f4694b2df-19fa9de65dcmr819174555d.11.1718487710046;
+        Sat, 15 Jun 2024 14:41:50 -0700 (PDT)
+Received: from [192.168.0.212] ([50.35.46.55])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4c45ac600sm6330432a91.5.2024.06.15.14.41.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Jun 2024 14:41:49 -0700 (PDT)
+Message-ID: <ed6e1387-3d8c-4ebc-b8e0-f8fbfc4d00c3@broadcom.com>
+Date: Sat, 15 Jun 2024 14:41:47 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tip:x86/vmware 4/8] vmwgfx_msg.c:undefined reference to
+ `vmware_hypercall_slow'
+To: Borislav Petkov <bp@alien8.de>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org
+References: <202406152104.FxakP1MB-lkp@intel.com>
+ <20240615143344.GDZm2mSB-qyB0Vt28Q@fat_crate.local>
+Content-Language: en-US
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <20240615143344.GDZm2mSB-qyB0Vt28Q@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-rc
-head:   7ac5df1cf4f8eb850cc08b207445dc351ecb8943
-commit: 24799d4f3f3b0665ff10e63ebff88d019ad5f619 [4/18] arm64: dts: add r3mini
-config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240616/202406160503.RX25DrrC-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160503.RX25DrrC-lkp@intel.com/reproduce)
+SPI warnings/errors are introduced by commit e77603d5468b90 ("iio: dac: 
+support the ad9739a RF DAC")
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160503.RX25DrrC-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:432.19-446.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r3mini', 'mediatek,mt7986a']
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: eeprom@50: Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: thermal@1100c800: clocks: [[4, 27], [4, 44], [4, 45]] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: thermal@1100c800: clock-names: ['therm', 'auxadc', 'adc_32k'] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: thermal@1100c800: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: syscon@15000000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,ethsys.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: ethernet@15100000: Unevaluated properties are not allowed ('#reset-cells' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: ethernet-phy@14: leds:led@0:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-   	'netdev' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk', 'none', 'torch', 'usb-gadget', 'usb-host', 'usbport']
-   	'netdev' does not match '^cpu[0-9]*$'
-   	'netdev' does not match '^hci[0-9]+-power$'
-   	'netdev' does not match '^mmc[0-9]+$'
-   	'netdev' does not match '^phy[0-9]+tx$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: ethernet-phy@14: leds:led@0: Unevaluated properties are not allowed ('linux,default-trigger' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 6/15/24 7:33 AM, Borislav Petkov wrote:
+> On Sat, Jun 15, 2024 at 09:22:00PM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vmware
+>> head:   ef08e7dc21307b226b5280d5e8cfea687bfd2866
+>> commit: e5ac9008b79c59235c34494e555419665022f5e1 [4/8] drm/vmwgfx: Use VMware hypercall API
+>> config: i386-buildonly-randconfig-002-20240615 (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/config)
+>> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_open_channel.constprop.0':
+>>>> vmwgfx_msg.c:(.text+0x203): undefined reference to `vmware_hypercall_slow'
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
+>>     vmwgfx_msg.c:(.text+0x46f): undefined reference to `vmware_hypercall_slow'
+>>>> ld: vmwgfx_msg.c:(.text+0x49c): undefined reference to `vmware_hypercall_slow'
+>>     ld: vmwgfx_msg.c:(.text+0x4c3): undefined reference to `vmware_hypercall_slow'
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_close_channel':
+>>     vmwgfx_msg.c:(.text+0x580): undefined reference to `vmware_hypercall_slow'
+>>     ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x729): more undefined references to `vmware_hypercall_slow' follow
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
+>>     regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
+>>     regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
+>>     regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
+>>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
+>>     regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
+>>     ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
+>>     ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
+>>
+>> Kconfig warnings: (for reference only)
+>>     WARNING: unmet direct dependencies detected for REGMAP_SPI
+>>     Depends on [n]: SPI [=n]
+>>     Selected by [y]:
+>>     - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+>>
+>> -- 
+> 
+> Zapping tip:x86/vmware from the tip/master lineup for the time being, until this
+> is fixed.
+> 
+> Thx 0day guys for reporting.
+> 
