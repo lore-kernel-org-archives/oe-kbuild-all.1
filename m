@@ -1,117 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD878F48
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 14:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4983219F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 14:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718460984; cv=none; b=SngEG7r4EQtbn/aCDTJGltNT29f5sjj4IckZelHM1MkAoU+wNih7zq3yB7pu10GkI5LOfWwQ8dKSAMWGabbRz/wDhQSmSgEp3hewfNAH9R8jgpwlsVj25vkMdSVYBBykoBUeuylyYRC9zD2z9p8sLfpTYorDtvVxtPcMFB9mAa8=
+	t=1718462045; cv=none; b=r5ArONLCpgwwVBlXCG/OVZYRGKYbkrYfEu6GBCAcBCg3OqvmH7qU/QhAyGFKrQzKhfaxVMlsZT3lG6RRSXb0spDngXQ4ggOR86FdGX/n3H2bbGMwsvFa4MHC+9h7Pyzp0hFfE7XwtKGz3NEj95fGjrYaPY+UuLjhkfkXPEh+6Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718460984; c=relaxed/simple;
-	bh=2PdPs5D3zk2jVTH3i8G1upMUono6TCGema1uOV+7Chc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MkA+qcMwPFKruLksTZw88YhWz/7nszkYPkl2PIrPZLw0lx6mh5PgTZZTKycGzS6eXe+2mkc9Ip2yrdoh/NS0sbq/BciuLBgAFxZJLGngyZXfXAB79WYqQHSgrd/fhdKpF644kX7sph79y6ceeH+T+d/kI3X3sAhm95wbvE8guOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VpEWhFnj; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718462045; c=relaxed/simple;
+	bh=wUZ38S4ZuxVqieN4UmFB71GK3eHrGdHmsxZZYqpHpKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmDFMk5ROjzbfXVc8IKKNAbFX9G49DbAAicz6wicAd/STkbIuHrIhCurPOrfLDCIy1Yhsf2XUexbxEIQfhPIIKJAGHmh2nNKE7+bhGJrqTaTYAdHpYVITqrVJt1Yyydd3vR00vANntrhFEuF0OgIp5GTMIu4t/y1zSpnul6fD0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=XesT/Xhr; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VpEWhFnj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718460982; x=1749996982;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2PdPs5D3zk2jVTH3i8G1upMUono6TCGema1uOV+7Chc=;
-  b=VpEWhFnj3yw2di+xAyqr9VHHtFZr0bQ+ypybK9sHtD+hL1z+YxKqXWB/
-   qbUtz6mPgAqQWUdeHQczc67snc24B4vVQrWE+EWLEZUpgEl3twEEYSpQ+
-   DW5VJpTHGyq7TNWMjCBmmi3uUZCAGLjjZ3bNKTxZTPrJeMvTVAahod/ov
-   knnR9TpNICv4p3of0iKlg+fkr7xk5TTyBCEHWkt3bP4DxL52zU93ahZu+
-   6A7PF3w7/NRgnw8Alx8o/BrZ3v70cXC5IDxrT9NICk3IF0qGk8Z/cWs2Y
-   Mdz0PpBIFYictTKDqs8KT0XWepRS9sT1LwZy99eFo6SKeoOMZ2V9/TS6V
-   Q==;
-X-CSE-ConnectionGUID: Vq2lD1N6QyuLWPfXS/Hg+A==
-X-CSE-MsgGUID: uJn/NaTPSyiAtWsBwk/nKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="40761397"
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="40761397"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 07:16:21 -0700
-X-CSE-ConnectionGUID: e3uwu9foSP6QklLcEP0v8A==
-X-CSE-MsgGUID: Qphep6ZcTw6EPozlkL99Uw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="40884243"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Jun 2024 07:16:20 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIUCY-00006I-0w;
-	Sat, 15 Jun 2024 14:16:18 +0000
-Date: Sat, 15 Jun 2024 22:15:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 4839/5501] mm/shmem.c:139:24: warning:
- 'huge_shmem_orders_lock' defined but not used
-Message-ID: <202406152213.CoQNZR6z-lkp@intel.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="XesT/Xhr"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8973740E0218;
+	Sat, 15 Jun 2024 14:33:59 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id bX2TYO_bIYyc; Sat, 15 Jun 2024 14:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1718462035; bh=oVaEk+dXYvf+fWg/6/lea+PK2ojpwPj5LmoJ72jXxkA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XesT/Xhr4wT597myLesiyRD662YO6mo3w8DtOhi9PyGzbYXy+zIzdyrXSVidrToyH
+	 lnfYjusMQxrUz6ybm1yUq8EFIEQBO9xOV+73ojl+wH92kwnGP0tLaoh4qjE1abpZ59
+	 emM2T/0gSEmemdVeXvZ05Kcqr22TeJhAdr7DuTO0nlt+asI2yk5ynF680eO+QawWan
+	 pEbSF+VJ1H6z6+bSANOA7Y796VGkB5zxtks+loku/TwCvQTo11SPzNyLiUUdFxA6Rh
+	 r6O3DPFFthciHfz/ZotvZoOZClyYn/byim3BtfUM6fcoKPxLZVWKkgoK5vGzwJljhC
+	 S2YoqRjqXOKIHiNvm+MHmLEkqebnYBuYjJXdCTqOOW6Uyl4buVaaXP2l39ad4hwQm3
+	 iBmdpdmGhBhtYwdRLVv0deaQHHxU0Dj1Zs4M4v8RZZGYlD3Ro+iRb6YeHy4sISDYzs
+	 2rL4xZCv2IqO9tfVbPcTgZ4UZWKuFSig2i5PmSxNjbpaso9nTZG/Zu3AYhQtWW8bs8
+	 PNMjYdxlWb5TLUtmbnECSnTVRzPI2t1gNKQLpoOxrL60hb66fw8ueXZqP61CQO6bCs
+	 Nbl/IVFF3iXQzIZL/XqfPwa9C2825O3cqYPSThgqqmVyJTYcaEppc1hpzrkShN6lFX
+	 Hh9rkjSCCG7/5P9DhTdxswE0=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7920240E01D6;
+	Sat, 15 Jun 2024 14:33:50 +0000 (UTC)
+Date: Sat, 15 Jun 2024 16:33:44 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [tip:x86/vmware 4/8] vmwgfx_msg.c:undefined reference to
+ `vmware_hypercall_slow'
+Message-ID: <20240615143344.GDZm2mSB-qyB0Vt28Q@fat_crate.local>
+References: <202406152104.FxakP1MB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202406152104.FxakP1MB-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6906a84c482f098d31486df8dc98cead21cce2d0
-commit: dfe69b2f4ed49aee4a46f09010f7888ee289083d [4839/5501] mm: shmem: add multi-size THP sysfs interface for anonymous shmem
-config: mips-randconfig-r034-20220430 (https://download.01.org/0day-ci/archive/20240615/202406152213.CoQNZR6z-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152213.CoQNZR6z-lkp@intel.com/reproduce)
+On Sat, Jun 15, 2024 at 09:22:00PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/vmware
+> head:   ef08e7dc21307b226b5280d5e8cfea687bfd2866
+> commit: e5ac9008b79c59235c34494e555419665022f5e1 [4/8] drm/vmwgfx: Use VMware hypercall API
+> config: i386-buildonly-randconfig-002-20240615 (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/config)
+> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152104.FxakP1MB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_open_channel.constprop.0':
+> >> vmwgfx_msg.c:(.text+0x203): undefined reference to `vmware_hypercall_slow'
+>    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
+>    vmwgfx_msg.c:(.text+0x46f): undefined reference to `vmware_hypercall_slow'
+> >> ld: vmwgfx_msg.c:(.text+0x49c): undefined reference to `vmware_hypercall_slow'
+>    ld: vmwgfx_msg.c:(.text+0x4c3): undefined reference to `vmware_hypercall_slow'
+>    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_close_channel':
+>    vmwgfx_msg.c:(.text+0x580): undefined reference to `vmware_hypercall_slow'
+>    ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x729): more undefined references to `vmware_hypercall_slow' follow
+>    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
+>    regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
+>    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
+>    regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
+>    ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
+>    regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
+>    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
+>    regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
+>    ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
+>    ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for REGMAP_SPI
+>    Depends on [n]: SPI [=n]
+>    Selected by [y]:
+>    - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+> 
+> -- 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406152213.CoQNZR6z-lkp@intel.com/
+Zapping tip:x86/vmware from the tip/master lineup for the time being, until this
+is fixed.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/spinlock.h:89,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from mm/shmem.c:24:
->> mm/shmem.c:139:24: warning: 'huge_shmem_orders_lock' defined but not used [-Wunused-variable]
-     139 | static DEFINE_SPINLOCK(huge_shmem_orders_lock);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:43:44: note: in definition of macro 'DEFINE_SPINLOCK'
-      43 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
-         |                                            ^
-   mm/shmem.c:138:22: warning: 'huge_shmem_orders_within_size' defined but not used [-Wunused-variable]
-     138 | static unsigned long huge_shmem_orders_within_size __read_mostly;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/shmem.c:136:22: warning: 'huge_shmem_orders_madvise' defined but not used [-Wunused-variable]
-     136 | static unsigned long huge_shmem_orders_madvise __read_mostly;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/shmem.c:135:22: warning: 'huge_shmem_orders_always' defined but not used [-Wunused-variable]
-     135 | static unsigned long huge_shmem_orders_always __read_mostly;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/huge_shmem_orders_lock +139 mm/shmem.c
-
-   133	
-   134	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-   135	static unsigned long huge_shmem_orders_always __read_mostly;
-   136	static unsigned long huge_shmem_orders_madvise __read_mostly;
-   137	static unsigned long huge_shmem_orders_inherit __read_mostly;
-   138	static unsigned long huge_shmem_orders_within_size __read_mostly;
- > 139	static DEFINE_SPINLOCK(huge_shmem_orders_lock);
-   140	#endif
-   141	
+Thx 0day guys for reporting.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
