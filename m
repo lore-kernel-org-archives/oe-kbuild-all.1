@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52711B963;
-	Sat, 15 Jun 2024 08:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FEA179AA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 08:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718439473; cv=none; b=P5kKJODme1Lo2+TR+N2FRv52vSZv6XhN0/TWPRION+fy6DQOYbhx3OT7IOIROLCPZHjjSVRvnBdwyiUJE7BzYILev7+Jxk0qGjQ4xhdyIPde511CPp/VjgfkgIpV3K+HXQzbI3sHXxOFZfWvSr96G+jr3fvLdjVDrxvBsTT1VPA=
+	t=1718440134; cv=none; b=c4uCZLW0Kc0ktPLWoHr499Pn98jARXti/28+8FeWlp0nprwyJkcJlf4x11c97yFTaWncfY6phgo9PRHI3Mf6/tERFL5Aw7htr+7MF79ShXxa/SEwOPRSCO3Z3580IEPGo0ceM7e0N5LjPy5i/SJjAVE6mYRr+oYHU/mrVZBjfFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718439473; c=relaxed/simple;
-	bh=ztzIW+nBrv85EAmIVlKgjtahKcpyOcLSEe+KsSq8Cmk=;
+	s=arc-20240116; t=1718440134; c=relaxed/simple;
+	bh=+NMD3AB2gRo4fOJAxwNR/km09x7thoPmJpIfHTcNx8w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EaFw4tb9X24wR77ldvZS6ttUEdGVJ5okgnWQjppjj8M4PKhZ0VUMwuKSS8yrjAIOAhTsJe2yX12CgE5f/XMeGyakXQmqf1Fa+lHHX3qBtuM6F6paSIvVAPenxm+BJrDrW1sL+V3lQrWmO6IokXVSM2Onlm0gSvciDluhOoOxUyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vc1fYdfY; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=elTRe+/VZyerY3Dni5Ss8Fw5YtC0flOxhpO860Kqn6G0PZ/R5+GkBrLVlqNk2D1i5fso8UT7G6j8UEkbCSnTIEk0HHxqZVue0prh0mSCGiEXgUD5Zy/PhGuMHCk2leOxNbo/++3KfU/sQrm5B84kU1hmN5dzgtDAyr0lzAu8p4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8QbDbF+; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vc1fYdfY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8QbDbF+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718439472; x=1749975472;
+  t=1718440132; x=1749976132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ztzIW+nBrv85EAmIVlKgjtahKcpyOcLSEe+KsSq8Cmk=;
-  b=Vc1fYdfYvUZKyFVp8xyAar49DDTg5wri2qBnwEGqwhghMVsDEwgUzBKZ
-   6zwciM5qzGpUUi1Y2V+peclpnp4NyQ+GFnbsapWyzrXR1N1ERKAvkYsJW
-   WkG0Wx2XQZTI30inbuXqy1fmdEejhbg/6H29pGMR/8QuNK7P6DzF0ky40
-   euTBPaEJW1mb9sxJLsvjzGaulCcFxcMzh9qWXt7kLVN6cmHTTYw2cXkYe
-   4wUAW18Ieya3J9NhFZirJUKpxqBq/frrNWWidHa5NPQ5T4Xy7VpKlPPqD
-   cHxASIMTMR7iJKunW6hzRPnKJG/wKTUCevyuRIUCWh8nvf29781w5un5y
+  bh=+NMD3AB2gRo4fOJAxwNR/km09x7thoPmJpIfHTcNx8w=;
+  b=X8QbDbF+L65tzeZoR1nTIwjO0sgOwLmExJutLNQF4dv54C1JOB917mzH
+   /hEM4O02pwwNxune6rpbVEPs7yNgGraEk4FexW8BLsGBt8IF+Na6OlMyx
+   TLV6e/njL1tRv6xrmb/AvOOssBwT/JQFMV1nRxujsurxxT9EpLvxHNaNe
+   WZEUWYWY/UhDAe8NtVNmvpHVgzBcVP1vO0V5XBLuDzXY3l/tpZF+H3LK/
+   Xmg7vjVVX2U1JuxuJVuXINtZGkJQ+kD7QijlfaHiCS2il7qaTDMM+OwMe
+   X7TAggdCZ+sKS1cwx7rsza7IbNcqgLttj5bCQYcXitcULx9Vym4GWTg8c
    A==;
-X-CSE-ConnectionGUID: niuNa2D+QZ2o18Q3uQKZzw==
-X-CSE-MsgGUID: 098amJOqQGmOkgTk01XE8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15563276"
+X-CSE-ConnectionGUID: tA4IqUv9Q7G0qKBJn3+oFw==
+X-CSE-MsgGUID: K8YyM5GwQsGwtDEc/pxVaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="26449538"
 X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="15563276"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 01:17:51 -0700
-X-CSE-ConnectionGUID: 2cjg/osAQ6G20c6gqt1H5A==
-X-CSE-MsgGUID: jMY2Y9clQNO+6Cd5tF8kRA==
+   d="scan'208";a="26449538"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 01:28:51 -0700
+X-CSE-ConnectionGUID: ZhAbc6dVRnG2vF7LVzMdHA==
+X-CSE-MsgGUID: Wd2rgCoWS3y/SqpyfLknHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="78214498"
+   d="scan'208";a="40880354"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jun 2024 01:17:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Jun 2024 01:28:50 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIObb-0002Mz-2f;
-	Sat, 15 Jun 2024 08:17:47 +0000
-Date: Sat, 15 Jun 2024 16:17:33 +0800
+	id 1sIOmG-0002Nd-1F;
+	Sat, 15 Jun 2024 08:28:48 +0000
+Date: Sat, 15 Jun 2024 16:28:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org
-Subject: [drm-misc:topic/rust-drm 3/21] error[E0050]: method `init` has 1
- parameter but the declaration in trait
- `rust_doctest_kernel_build_assert_rs_0::kernel::Module::init` has 2
-Message-ID: <202406151629.Uqt0YkZz-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.10-rc1 61/114] drivers/acpi/pptt.c:478:5:
+ sparse: sparse: symbol 'num_repainted_cache_ids' was not declared. Should it
+ be static?
+Message-ID: <202406151647.s3fUsF0u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,34 +63,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
-head:   2e2592fb7d2165e68073020066789bd8860678d0
-commit: f79700d8c6eee68d6d2c0eb92113211d22501860 [3/21] rust: pass module name to `Module::init`
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240615/202406151629.Uqt0YkZz-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151629.Uqt0YkZz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.10-rc1
+head:   d9ba67a1a8dc6551a0b3254a8f2ee9993ad17957
+commit: 05c8de8ab35ff351c69806553124e6d2b44a6d98 [61/114] ACPI / PPTT: Repainted cache ids from firmware to be less ugly
+config: arm64-randconfig-r111-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151647.s3fUsF0u-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce: (https://download.01.org/0day-ci/archive/20240615/202406151647.s3fUsF0u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406151629.Uqt0YkZz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406151647.s3fUsF0u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/acpi/pptt.c:478:5: sparse: sparse: symbol 'num_repainted_cache_ids' was not declared. Should it be static?
+>> drivers/acpi/pptt.c:479:27: sparse: sparse: symbol 'repainted_cache_ids' was not declared. Should it be static?
+   drivers/acpi/pptt.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
->> error[E0050]: method `init` has 1 parameter but the declaration in trait `rust_doctest_kernel_build_assert_rs_0::kernel::Module::init` has 2
-   --> rust/doctests_kernel_generated.rs:1649:1
-   |
-   1649 | / kernel::module_phy_driver! {
-   1650 | |     drivers: [PhySample],
-   1651 | |     device_table: [
-   1652 | |         DeviceId::new_with_driver::<PhySample>()
-   ...    |
-   1657 | |     license: "GPL",
-   1658 | | }
-   | |_^ expected 2 parameters, found 1
-   |
->> = note: `init` from trait: `fn(&'static rust_doctest_kernel_build_assert_rs_0::kernel::prelude::CStr, &'static rust_doctest_kernel_build_assert_rs_0::kernel::ThisModule) -> core::result::Result<Self, rust_doctest_kernel_build_assert_rs_0::kernel::error::Error>`
-   = note: this error originates in the macro `kernel::module_phy_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+vim +/num_repainted_cache_ids +478 drivers/acpi/pptt.c
+
+   477	
+ > 478	u32 num_repainted_cache_ids;
+ > 479	struct repainted_cache_id *repainted_cache_ids;
+   480	
 
 -- 
 0-DAY CI Kernel Test Service
