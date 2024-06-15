@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED48717C74
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 22:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABC1182BD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 22:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718490348; cv=none; b=EOmfl1Azl73kPEsiErqHiiRTzXKqn5Z+SsMrbs8D6M8lJC1t5/sF7MxgImpmo2FWis0pqnoF6Trbu6NQ2pY6clLahveotHlEiqxA8bFoEe9jwpKWp98G/WZP5o5J3+XexVjjyNVBsWBJet2XC5rSqS11AbCb+FSUf6e4u7Xr9WQ=
+	t=1718491606; cv=none; b=XT07JYpcltSwxj/nju0uovCp4JNO4P+mCfGPByEC57mUFiKMF9K7ELHD4fVSnQSSuD3Tv3YdtXHUplbSmkSeMnEDZsb6J24UgWo49LeYEWbJunr+Q+7RNZmeCe39wr4cDt0KPU+x0X9SNGLAX0okH07bTLlhJd1bgb07lstUuwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718490348; c=relaxed/simple;
-	bh=A2hstDhQZ5S0gwxbLbj2Jb2iBUIkoWski4QLeEnDEe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCnWCHIotsJqon/oSUzvEuXCkom+aVnQh9h6G0kc58Ba0HOkxtqYi3Sk15syFeX5GKPWctx+iLSagEWcsoPWVfY98Ja2l6g1Efa2tKoPcRuFSBfNcMdHQQWCgzYoEiOR9Q4QO+MFQAulyWVZBuq0+Sw/c6hWiyEO+RQfuBX4wsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwbYSZgg; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1718491606; c=relaxed/simple;
+	bh=EvE1L1siCc4A2L+gr67FgFcfgUZZrOSJGMrh7KtYrFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sPEfOp8F8krVeCkAsw2MDR4sIFfrmP0gN3kHkCJRDo80eqqRcKvBYclK11z0CEGaad4OvpsEHgrq/s6dUTkm3LYddGAO7Ye/8mp38NfGPV2Jf4N3lyskaZpGNW7edVMY7XnwB0HiqOUjiMmdvNry76cGu/fBNtd5ehiCYglOLyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGnGJ+xS; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwbYSZgg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGnGJ+xS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718490347; x=1750026347;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A2hstDhQZ5S0gwxbLbj2Jb2iBUIkoWski4QLeEnDEe8=;
-  b=HwbYSZgg3jiODoQa0v9UgSkKEf6+Yw6bPHDYbU9xhq0tevCQaPhTUgaR
-   MddlsGGVRRYZDlQVlUzYLCO8N4+/HlLwyoV8sgZ4hZY//QbQsulNE5QBs
-   M0fGQScYfzU8rkK2i6umyXdmM8g4fEWwZdrfgUVI6CvCNjDw1DvmDeVeh
-   xMcfYrfPE2sTDsccls1WxHDdidCQzm5omqlnS+tGYinxEKfHrulVWPU0W
-   qyKW3Frl/H323udOGiSlbyJ498vZgqeXor/DE5aM4VNtN2qcktxx7E/ID
-   IJwyZ43yB9UpjRTihCRBQEjB/c/DI89ENeDq7ondCO7vwIH7N+D2P8MRB
-   Q==;
-X-CSE-ConnectionGUID: V86AgU2+QKOEACWROoZAVQ==
-X-CSE-MsgGUID: /cbLxEnEQhKwWdRhjL+iqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="26753946"
+  t=1718491604; x=1750027604;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EvE1L1siCc4A2L+gr67FgFcfgUZZrOSJGMrh7KtYrFs=;
+  b=dGnGJ+xSbeMDdjcNZxIiE3Ka579m8qRGGJZhXwqBWevuB5O54CFT52OU
+   siIeJP8kkP3wSqnCotmtiYvPtcZ4BtSsPfz0sWXwWAjeErCaH2vo+6E0c
+   wx3ZMZ/lruwwbvDkjWzAGdx4sHUTRSoKy69elYjFjHOmLzbxf0FpSyrSy
+   wPMEvxFA51Kfb6+k+WmvrWWX5Sj2EAMNYW7NnhZZMbc9+T9WYz/u/p8/O
+   MUyuqhkUSGOcBuN8nI4BvaRe7ht2lGUIDuomnE6O+5t28/0PlKx9YzMUQ
+   EKW0sVEGpJfP6MQk6ujlXsFmEYFbzbIZTubM6aqYalZAgOippq6g+vuUJ
+   w==;
+X-CSE-ConnectionGUID: oQ9ly88aQyCT5HlJJsWjEw==
+X-CSE-MsgGUID: EelGY3qeSbuOWXdsl6d3lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="32830322"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="26753946"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 15:25:46 -0700
-X-CSE-ConnectionGUID: jlBJ7J+9TPamy2WuDkvQaw==
-X-CSE-MsgGUID: aa5eA/D6RIW0bhjpE6l7zg==
+   d="scan'208";a="32830322"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 15:46:43 -0700
+X-CSE-ConnectionGUID: 54CfKwejQ2mxHBHyprRJ7g==
+X-CSE-MsgGUID: WEnVNAfzTKi0nj/nyuXitg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="45767365"
+   d="scan'208";a="40713204"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Jun 2024 15:25:43 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Jun 2024 15:46:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIbq7-0000Yt-2r;
-	Sat, 15 Jun 2024 22:25:39 +0000
-Date: Sun, 16 Jun 2024 06:25:15 +0800
+	id 1sIcAS-0000Za-13;
+	Sat, 15 Jun 2024 22:46:40 +0000
+Date: Sun, 16 Jun 2024 06:46:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
-	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
-	alexandre.belloni@bootlin.com, magnus.damm@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
-Message-ID: <202406160533.s4RRLDes-lkp@intel.com>
-References: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.19.y-cip 3960/9999]
+ arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning
+ (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
+ in node /soc/pcie-ep@fe000000)
+Message-ID: <202406160607.zGwsjolY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,112 +64,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
 
-Hi Claudiu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on geert-renesas-drivers/renesas-clk]
-[also build test WARNING on geert-renesas-devel/next linus/master v6.10-rc3 next-20240613]
-[cannot apply to abelloni/rtc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/clk-renesas-r9a08g045-Add-clock-reset-and-power-domain-support-for-the-VBATTB-IP/20240614-152418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-patch link:    https://lore.kernel.org/r/20240614071932.1014067-5-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
-config: arm64-randconfig-r131-20240615 (https://download.01.org/0day-ci/archive/20240616/202406160533.s4RRLDes-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
+head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
+commit: 9c0fb84041f31639ecd580320f366031d0dc5ddc [3960/9999] arm64: dts: renesas: r8a774b1: Add PCIe EP nodes
+config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240616/202406160607.zGwsjolY-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240616/202406160533.s4RRLDes-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160607.zGwsjolY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160533.s4RRLDes-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160607.zGwsjolY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/renesas/clk-vbattb.c:132:35: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long [usertype] size @@     got restricted gfp_t @@
-   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     expected unsigned long [usertype] size
-   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     got restricted gfp_t
->> drivers/clk/renesas/clk-vbattb.c:132:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned long @@
-   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     expected restricted gfp_t [usertype] gfp
-   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     got unsigned long
-   drivers/clk/renesas/clk-vbattb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-
-vim +132 drivers/clk/renesas/clk-vbattb.c
-
-   119	
-   120	static int vbattb_clk_probe(struct platform_device *pdev)
-   121	{
-   122		struct clk_parent_data parent_data = { .fw_name = "vbattb_xtal" };
-   123		struct device_node *np = pdev->dev.of_node;
-   124		struct device *dev = &pdev->dev;
-   125		struct clk_init_data init = {};
-   126		struct vbattb_clk *vbclk;
-   127		u32 load_capacitance;
-   128		struct clk_hw *hw;
-   129		bool bypass;
-   130		int ret;
-   131	
- > 132		vbclk = devm_kzalloc(dev, GFP_KERNEL, sizeof(*vbclk));
-   133		if (!vbclk)
-   134			return -ENOMEM;
-   135	
-   136		vbclk->regmap = syscon_node_to_regmap(np->parent);
-   137		if (IS_ERR(vbclk->regmap))
-   138			return PTR_ERR(vbclk->regmap);
-   139	
-   140		bypass = of_property_read_bool(np, "renesas,vbattb-osc-bypass");
-   141		ret = of_property_read_u32(np, "renesas,vbattb-load-nanofarads", &load_capacitance);
-   142		if (ret)
-   143			return ret;
-   144	
-   145		ret = vbattb_clk_validate_load_capacitance(vbclk, load_capacitance);
-   146		if (ret)
-   147			return ret;
-   148	
-   149		ret = devm_pm_runtime_enable(dev);
-   150		if (ret)
-   151			return ret;
-   152	
-   153		ret = pm_runtime_resume_and_get(dev);
-   154		if (ret)
-   155			return ret;
-   156	
-   157		regmap_update_bits(vbclk->regmap, VBATTB_BKSCCR, VBATTB_BKSCCR_SOSEL,
-   158				   bypass ? VBATTB_BKSCCR_SOSEL : 0);
-   159	
-   160		init.name = "vbattclk";
-   161		init.ops = &vbattb_clk_ops;
-   162		init.parent_data = &parent_data;
-   163		init.num_parents = 1;
-   164		init.flags = 0;
-   165	
-   166		vbclk->hw.init = &init;
-   167		hw = &vbclk->hw;
-   168	
-   169		spin_lock_init(&vbclk->lock);
-   170	
-   171		ret = devm_clk_hw_register(dev, hw);
-   172		if (ret)
-   173			goto rpm_put;
-   174	
-   175		ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, hw);
-   176		if (ret)
-   177			goto rpm_put;
-   178	
-   179		return 0;
-   180	
-   181	rpm_put:
-   182		pm_runtime_put(dev);
-   183		return ret;
-   184	}
-   185	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
 
 -- 
 0-DAY CI Kernel Test Service
