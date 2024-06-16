@@ -1,61 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B6A29401
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 23:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398AF7344C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 23:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718579462; cv=none; b=WUmsB1OqqZqJTJL4VrMFDSnCxwmaP3uc1Ln8gybgC+DJkZmko18BRltoxrPVJqWvfeyKGIftWW5AoT4Np7NoTxg/bLWQ2JadJrJW1/efKLKvHlA94z0Em2OkQLdgRDX3SP2k80jw6novkK+mU7espw0NFA6++1cgfjC1edif/Iw=
+	t=1718579464; cv=none; b=N9e6jaSWOixPx2Tive1OjRrVT4lfNMXYs0jHXRWW6qgfbI78DQGsOIXlImPv7P0U4pDIpYswg6XDcvkVALxRSwwReg07Fkl4roiHrCVQb/8kyZk0Yly7ifzP2VLyJ/+8MkN1qSNshE5h4BkUs89XkZleKPp4+niodiUckFwgBBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718579462; c=relaxed/simple;
-	bh=r+KIyh/RBhpE5QafG9FlloOv2yigHKp1EDuLsaFspTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eQ3P4iewj5Al1ybw8HeNFulv6LyDAo1Z/1vx0q8Z17Ah+oxXexwIMwlIIM5z1ej89IWDoS3bgqKRXlvVV4cihny9X3uRdgLfkT4iaG5jQuvBz3AWM/Jx8D8E3skX94e79o8AUrrhTUnrGVPJy5dSb0lZ7mGZmS2mH+IzrHpXOmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BAEjMn6Z; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1718579464; c=relaxed/simple;
+	bh=kiJ5EIGClrXHrM1eGznIeYjyxqgXT0POFZivmUkpMXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RMEZKEVQ4ccsXa3DgEbJnNH9sqcd4rLUxp3I8GGz6XMyNQTjg1WNxMhT5hmiREd4Y4lqdh7QGd1TJIGhppuosidS5A/mbKOkSoExa58cKlRCf6Vp4DN0IlSpt6bMGJMaR0nPKf41qhuSRX9N6rfeGxHGB4tftXdE8hJwtQW5NlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7bkup2X; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BAEjMn6Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7bkup2X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718579460; x=1750115460;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=r+KIyh/RBhpE5QafG9FlloOv2yigHKp1EDuLsaFspTk=;
-  b=BAEjMn6ZaySsblGWp0GPQ7sOJV8s489FXYqV16+fvOOZXbJi61sSSih4
-   0f6rPB9ZbUi5CiSrgJ9rBa0qESsZiYwPhHuYrOyJVCnYNrIUBNS2iPkst
-   eyDCjSTf7xileuktblMr72Ur37YrDd6WSdtBmr7WeY/fRhBy2UOCyM0GQ
-   vcF4AZ8pdccPTSwXTNLDiPh/UQFsBt08eudywlq/hpvQkNZWCCmg5kqHI
-   VKeliC+9rTJBZzdKISvn3WHLiEt/csAr/pd1uQghBZnWa1yzUkBx9p8cu
-   4ZHWC8Mu7WoHQqqmK8D6B0KrEgs7QCpZQkgZS+Ss0ZHwjxNUIi+EnK050
-   w==;
-X-CSE-ConnectionGUID: 4UXMrjHJTeyyyrpVfjkW2g==
-X-CSE-MsgGUID: MMlGzUhqR8SBNVx0pqm/Wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="26794703"
+  t=1718579461; x=1750115461;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kiJ5EIGClrXHrM1eGznIeYjyxqgXT0POFZivmUkpMXA=;
+  b=W7bkup2X+tWWtyGzE2G2GMxmy4wvdKWTVrHSzMnUQMqlkJZvjzT02fMg
+   KigP5L1XTpoaw4VvrJRChtOmH0m2lWk7t2IH1EOXujUWMm8XmXqSdq05u
+   Jxt7lWsD+I98aV4t71SXWARlS/CjAob9bIKTk9zeKtcrkN/OWMTCqzEzW
+   Skk8RFXWiyH9BrL5eccUrPxPKD4Jzfh0Vqd13ycCkDYiuJG3Vec9vVWtm
+   ex734WF67fAFZEmPb/o/19mUYWEj/xyw//pBhU3s+mulvvS83GwoGAm/1
+   XStQogdHNVJt+SNahO0yIeHg0zp45WVGst+hI3WDL9p1agEZVYMs7wOZL
+   A==;
+X-CSE-ConnectionGUID: kjW0/z6XSSqSPELhNiT8GA==
+X-CSE-MsgGUID: N/8sSCydQpa/jVgf0r5YnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="26794704"
 X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="26794703"
+   d="scan'208";a="26794704"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 16:10:59 -0700
-X-CSE-ConnectionGUID: HKRoRXTqRy2FU4tgqKr2vA==
-X-CSE-MsgGUID: KWBEmDLbRwmbqQqjaQBeBg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 16:11:00 -0700
+X-CSE-ConnectionGUID: oXTleuhGQOaPOFVzz3WhRw==
+X-CSE-MsgGUID: rEslq/9nRjmd64uvoExcXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="41747755"
+   d="scan'208";a="41747756"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 16 Jun 2024 16:10:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIz1T-0003SU-0g;
+	id 1sIz1T-0003SX-0v;
 	Sun, 16 Jun 2024 23:10:55 +0000
-Date: Mon, 17 Jun 2024 07:10:44 +0800
+Date: Mon, 17 Jun 2024 07:10:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brandon Brnich <b-brnich@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y 4/39] arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb:
- video-codec@30210000: 'sram-size' does not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202406170735.zJfT8GjB-lkp@intel.com>
+To: Charles Wang <charles.goodix@gmail.com>, dmitry.torokhov@gmail.com,
+	dan.carpenter@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, dianders@chromium.org, robh@kernel.org,
+	krzk+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org,
+	hbarnor@chromium.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: Re: [PATCH v4 1/2] HID: hid-goodix: Add Goodix HID-over-SPI driver
+Message-ID: <202406170607.MJX7Ze54-lkp@intel.com>
+References: <20240614121538.236727-2-charles.goodix@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,97 +67,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240614121538.236727-2-charles.goodix@gmail.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.=
-6.y
-head:   eeca5715c9a5b742423bd83ed587fac26268771c
-commit: b76af846b8e23e7fe05cb647587843371638b7a9 [4/39] arm64: dts: ti: k3-=
-am62p-main: SRAM Allocation for VPU
-config: arm64-randconfig-051-20240616 (https://download.01.org/0day-ci/arch=
-ive/20240617/202406170735.zJfT8GjB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240617/202406170735.zJfT8GjB-lkp@intel.com/reproduce)
+Hi Charles,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.10-rc4 next-20240613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Wang/HID-hid-goodix-Add-Goodix-HID-over-SPI-driver/20240614-201949
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240614121538.236727-2-charles.goodix%40gmail.com
+patch subject: [PATCH v4 1/2] HID: hid-goodix: Add Goodix HID-over-SPI driver
+config: i386-randconfig-r122-20240617 (https://download.01.org/0day-ci/archive/20240617/202406170607.MJX7Ze54-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170607.MJX7Ze54-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406170735.zJfT8GjB-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406170607.MJX7Ze54-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: 'interrupts' doe=
-s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: Unevaluated pro=
-perties are not allowed ('interrupt-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: {'compatible': =
-['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interru=
-pts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]=
-], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'=
-], 'pinctrl-0': [[18]], 'interrupts-extended': [[1, 0, 178, 4], [19, 456]],=
- 'interrupt-names': ['irq', 'wakeup'], 'bootph-all': True, 'phandle': [[116=
-]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['=
-interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: {'compatible': =
-['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interru=
-pts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]=
-], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'=
-], 'pinctrl-0': [[18]], 'interrupts-extended': [[1, 0, 178, 4], [19, 456]],=
- 'interrupt-names': ['irq', 'wakeup'], 'bootph-all': True, 'phandle': [[116=
-]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['=
-interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: video-codec@30210000: 'sram-siz=
-e' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
---
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
-le: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
-m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
-scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
-6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
-e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
-ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
-t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
-', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
-ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
-k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
-qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
-'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
-io-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: compatible: 'one=
-Of' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: 'interrupts' doe=
-s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: video-codec@30210000: 'sram-siz=
-e' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-goodix-spi.c:771:1: sparse: sparse: symbol 'goodix_spi_pm_ops' was not declared. Should it be static?
 
---=20
+vim +/goodix_spi_pm_ops +771 drivers/hid/hid-goodix-spi.c
+
+   770	
+ > 771	EXPORT_GPL_SIMPLE_DEV_PM_OPS(goodix_spi_pm_ops,
+   772				     goodix_spi_suspend, goodix_spi_resume);
+   773	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
