@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137341847
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 00:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DB01849
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 00:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718497867; cv=none; b=TcGskB/lAjNb0T5xzDKgwJ++NpXv1IWQ3eAwQ4JtOnXVtEn0LMsMZdS5t/cQdoCEemS59o0nehpKfaETNEae2ZFAX+lFzuYMX7qhvd8WgCLUaoE5zliS8ZA0VwPtVcmBKFh5LVyyPAO3hR25BzlQxTeUfj0cdBwi+b7uQArePnA=
+	t=1718498470; cv=none; b=HH5r5hvDdxTE8pGfnXY69uemE4LYsZns5wJn8t5Yj+sG355TVA3MdMhlZC3xaRjfrIvZlomkHXzk62l16J3aDGFJyCKzDKer5ote0sskpKqb6etBrt0o2HIS28TqoJ5vZPhOshlfBiP+4WJ5SFwKHiIqS1sSJeqFrlKcEECwY9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718497867; c=relaxed/simple;
-	bh=61U4i+Kcvdb02RQR71uZoLqvxxTIBLvqeWCHg/mLG+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u1h9bTTfUPzPup3q97oNik4WFItjJVcTf0HxyD5E8u7LJXO55n+68rZtkYALQBev07La76mfWjvLz2wff765OJ+T5pBVgPw9tZqWjtl3vbhgEhvt1mBZ7ScsjolzGkZP1yhxzC9p/MKLoL7tMb0rsdB9BrtyUz0pxz7BQk50vac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8GKPww1; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1718498470; c=relaxed/simple;
+	bh=80XxlEDYtt1XhtOCHEj2fkh3ftEPNrBzkDjxXzMkpG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lOxRdXUkqGonQYX3ZEPbWr6GwC8svbpV0VowfLAbkFGHKegLqifcp0mJ3ahsDQ96iFPDN/PdmNAB+KE1x2ZNAnEnE/YFYGWS+oq6fVRPuFTfueIbbBkgq9qcEwZI+mGz58fSni1ZMeo1EhM6vo8c3roLGlG/rJE2Nvll/XF31tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IY1gDDpp; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8GKPww1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IY1gDDpp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718497866; x=1750033866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=61U4i+Kcvdb02RQR71uZoLqvxxTIBLvqeWCHg/mLG+0=;
-  b=Y8GKPww1hGJ8kchxXOlpZbUAdGW22OJ4jKxVNzGmqH+O+c7LrK5jhU/P
-   uOLuwVZ02Sc+kmB9M5rdAUM4gE8v1XkRRf5vmDazjqf++vQocwsophusb
-   3rWSm+N4P+yuvRcXbvGMosz9eOId8j0DCyNj7DpZHkIoiEtnC7g8Z6W6i
-   N6sG/YV8+eafC5/DgOkXilxiLzFcMRAykfAmWXqETBwKqGNaZ1YT4UynU
-   enHmgo2xMiFumP3l9RgZRwtYB5DvKSs7kCCvw+qIpNIaxYVXOj8RX3iUC
-   wfuSuIlBGbqy9XC2TmAfmVx1yIrAzXkNX3WDf43Bizla/cGNkdI2WwBfS
+  t=1718498468; x=1750034468;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=80XxlEDYtt1XhtOCHEj2fkh3ftEPNrBzkDjxXzMkpG8=;
+  b=IY1gDDppdTugANPAWyvCUivGinSkaK5jK0dFh9HsIkftcJM4kIY2Pz0B
+   ZgX9eNsidGM/aVDZ/uHudEwep514fSaK+aCB435vHx5g1oHbMijsg9iHF
+   jiVb7oWvLRClk6GMd/QwZ5qMumTw50RAYCLXQ57KzZmPGdDzOpBGa6JxA
+   F5r/VPyQAE7yWAH387T9YVAoVTqKI1pYIQGndOW9GRJOmVtF1u+KjsMAr
+   BGfk2sgcrTmOEh88mhybV94mJGWh6Lp7K8EDdNBlaywiqYJOL14gt4Xw6
+   XokRVkdkb6AjkypbugtyxB6WtZF1ua0DRPdON3AI9Sv2lqoa95Htkr/yM
    A==;
-X-CSE-ConnectionGUID: kaNw95r5T5uBDaP14YF0Rg==
-X-CSE-MsgGUID: 550TZ3dETESJo1QcpuZgJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15510331"
+X-CSE-ConnectionGUID: gElnIZT0T9CYp94Vy0XVHQ==
+X-CSE-MsgGUID: Y9mx5/s1TFOWvv6+LXA4ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="12092981"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="15510331"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:31:05 -0700
-X-CSE-ConnectionGUID: 4IXpp7juQDifAE0kp6Ud8g==
-X-CSE-MsgGUID: YCoENG85QAOZ3FMVVSvn5w==
+   d="scan'208";a="12092981"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:41:08 -0700
+X-CSE-ConnectionGUID: EyIdXvsbQVeCVwFOr2lbTA==
+X-CSE-MsgGUID: YghvtLYNQEGr1d1qUBqQAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="45967982"
+   d="scan'208";a="40954586"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jun 2024 17:31:05 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 Jun 2024 17:41:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIdnS-0000eh-1d;
-	Sun, 16 Jun 2024 00:31:02 +0000
-Date: Sun, 16 Jun 2024 08:30:14 +0800
+	id 1sIdx8-0000fI-2x;
+	Sun, 16 Jun 2024 00:41:02 +0000
+Date: Sun, 16 Jun 2024 08:40:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:for-6.11/block 5/6] error[E0425]: cannot find function
- `blk_queue_logical_block_size` in crate `bindings`
-Message-ID: <202406160833.Ci7STDjD-lkp@intel.com>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Animesh Agarwal <animeshagarwal28@gmail.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to
+ dtschema
+Message-ID: <202406160820.L8HvSS8W-lkp@intel.com>
+References: <20240614033812.51312-3-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +70,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240614033812.51312-3-animeshagarwal28@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.11/block
-head:   5e3b7009f116f684ac6b93d8924506154f3b1f6d
-commit: e3e72fe4cb1d1b7399fab0e98166b8bfcddb9ec7 [5/6] Merge branch 'for-6.11/block-limits' into for-6.11/block
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240616/202406160833.Ci7STDjD-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160833.Ci7STDjD-lkp@intel.com/reproduce)
+Hi Animesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.10-rc3 next-20240613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Agarwal/ASoC-dt-bindings-realtek-rt5514-Convert-to-dtschema/20240614-114128
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240614033812.51312-3-animeshagarwal28%40gmail.com
+patch subject: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to dtschema
+config: arm-randconfig-051-20240614 (https://download.01.org/0day-ci/archive/20240616/202406160820.L8HvSS8W-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160820.L8HvSS8W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160833.Ci7STDjD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160820.L8HvSS8W-lkp@intel.com/
 
-Note: the axboe-block/for-6.11/block HEAD 5e3b7009f116f684ac6b93d8924506154f3b1f6d builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find function `blk_queue_logical_block_size` in crate `bindings`
-   --> rust/kernel/block/mq/gen_disk.rs:147:23
-   |
-   147 |             bindings::blk_queue_logical_block_size((*gendisk).queue, self.logical_block_size)
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `blk_queue_physical_block_size` in crate `bindings`
-   --> rust/kernel/block/mq/gen_disk.rs:153:23
-   |
-   153 |             bindings::blk_queue_physical_block_size((*gendisk).queue, self.physical_block_size)
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4280000: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4280800: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4281000: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: dma-controller@d42a0800: Unevaluated properties are not allowed ('iram' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/dma/marvell,mmp-dma.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/axi@d4200000/ap-sp@d4290000: failed to match any schema with compatible: ['olpc,ap-sp']
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/apb@d4000000: failed to match any schema with compatible: ['mrvl,apb-bus', 'simple-bus']
+>> arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: audio-codec@1a: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5631.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/apb@d4000000/i2c@d4034000/accelerometer@1d: failed to match any schema with compatible: ['st,lis331dlh', 'st,lis3lv02d']
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: gpio-keys: 'lid', 'tablet_mode' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /i2c/camera@21: failed to match any schema with compatible: ['ovti,ov7670']
 
 -- 
 0-DAY CI Kernel Test Service
