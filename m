@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F532F2A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 05:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B9D163AA7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 05:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718515941; cv=none; b=O+sGprQ1W9LQbMLEiLcCHvwMPUdB3KZEUt2hitj0PX1s95FZXC6n/ozDYpT316QmYt3SZbL30P6v9tu1n7KGKBN5NPVlFFgJnRgFEi/Hn/V/NfRrHREbplJ92gkjWtkhk/NXuCJB/IFoZKnnwFoKyIg5i8JXn2LmCS5HRSB52LQ=
+	t=1718516544; cv=none; b=g7NXIp7kcOIEA3Y2ysAH6DvK9Bxh0I8mB9grnP9xD/AHC7ndRR7p17zsgvAcXRNTG+NtrfOzZxmucjeDqlGfifdrA7asnmkjT4GWQoEa9ykep3yOl77D5fUvpjM7IRw6Z2Nia0E4xKzdyU8uED86N7G7Ky1pQLEt3Gmq0Hcy6xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718515941; c=relaxed/simple;
-	bh=G0Y5swl864YFgyj2L1V1JdxPFcK6UhVAgPd4Ra0JXyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ovuhSuRokD605VKzoa9OaQyQdI3Af+9uCDLs7CLCKBaJLH6tDUpxrbcxjdo4qcR++bdJq7kDUphCVtVfk5wkh6fDuqhW7Ad38aUZXRk1vvtXNESJzQyS6seYfrW6Xg69iRiUmeuPPvsneBaBar4lC/y06klz5+97+stzsVjnxVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dluTYDHl; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1718516544; c=relaxed/simple;
+	bh=g1O0x727UHaUeoGQ2xBEP03d/wnL/6bZ8hAO9Xh6FC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQ53TKgvhKVFygr4XLt1agFkb8G183KsR6/5diccoSFSCQ4FS45k8VrrRHmIfs07CN3MMZt8Wn/uTUnwRbOxjS21RnUQ2TLJIqxQMIu6iCBtR1bw5EQP/9j15OwMs3hLu2cfdAf0AwvExOafHUWsxfIswEitKosMwuvN4wj0Qu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G91z+T83; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dluTYDHl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G91z+T83"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718515939; x=1750051939;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G0Y5swl864YFgyj2L1V1JdxPFcK6UhVAgPd4Ra0JXyw=;
-  b=dluTYDHlvXs4t3+MNyLaucYYkCIArxjdCMI0hqTq1Sn27uaJbHGBashk
-   dWfCdmtJv/7K1i91PbwHIlTieWhJnGyo680Cu7NepAvWrz1DyJdPLV864
-   Q/0jQezZ60Gr9CugV5abeV0JQUQ75UnwwVKUc3JG5Uq4OKkYs0TYf25d8
-   jGmYskxKLGDdc0WwRN+y66niRvMBAb21nxstuYg+NxV6TvR6wTLcU8j8s
-   gEjg3Sh1P8CVfT0pkrW+1MhEdPpyMqpiU/YpPW/KUSNOm4VckWoOf8nhw
-   8sAG2isDUqiH3rlLdc98GasR1ds7wStM4ttqLlbV2BwvEzxZm/Ox7pB5U
+  t=1718516542; x=1750052542;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g1O0x727UHaUeoGQ2xBEP03d/wnL/6bZ8hAO9Xh6FC8=;
+  b=G91z+T83s5/CulC1DWourzJHsKJVWEZC34toK1yOQA331l8c1egysLk1
+   W/SHsdl38eaQEqydk+HxnoteUQxsluwZlc4YegRFRXb/B3TeYF43btLNB
+   e3MQzssfrq1VZ1RoDJV3sAjfma1y7jFBSLFmDfI4txYVVMcSXEONkbRJT
+   nvLLZd7D3aIFT8TlEiEWG/UMPwk4aGkpBFl9LYN+CuoMzIbkLop75gvnP
+   r4TdA2VQmgY+BQk+IZmzFmamNQ7gt3M55sfJ+sOeiwNcUc/OAGd5RsetY
+   tJKhwwvLCFYNnBlPTFo0YduTvJ7Z6ycpOSIXQF1HzsnlqOXqJNir+hNfX
    g==;
-X-CSE-ConnectionGUID: Pw1aQi/XQ9KtNPAhy/Vaxg==
-X-CSE-MsgGUID: wwjYPoKPTTGwZHHVadr9dw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15338837"
+X-CSE-ConnectionGUID: OKbZMyGNTLiOz0HG/r4KkA==
+X-CSE-MsgGUID: duIy8UDmQW21jS7d+1nW1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="26049330"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="15338837"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 22:32:19 -0700
-X-CSE-ConnectionGUID: 3VJ2GD20T3G8jwStFEVPWw==
-X-CSE-MsgGUID: Rk9SqLrXS4mRw5RtzRXL6w==
+   d="scan'208";a="26049330"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 22:42:21 -0700
+X-CSE-ConnectionGUID: N0ar4n4jSw2aWmiol6yv/w==
+X-CSE-MsgGUID: dcN5wMWaTCS34QeZSQ6dLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="78366162"
+   d="scan'208";a="41615846"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jun 2024 22:32:17 -0700
+  by orviesa007.jf.intel.com with ESMTP; 15 Jun 2024 22:42:19 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIiUw-0000uE-2y;
-	Sun, 16 Jun 2024 05:32:14 +0000
-Date: Sun, 16 Jun 2024 13:31:42 +0800
+	id 1sIiee-0000uo-1v;
+	Sun, 16 Jun 2024 05:42:16 +0000
+Date: Sun, 16 Jun 2024 13:42:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Yang <leoyang.li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>, Frank Li <Frank.Li@nxp.com>
-Subject: arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb:
- /memory-controller@ffe1e000/nand@1,0: failed to match any schema with
- compatible: ['fsl,ifc-nand']
-Message-ID: <202406161358.doiL0s2D-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>
+Subject: Re: [PATCH v5 05/20] leds: leds-lp55xx: generalize load_engine
+ function
+Message-ID: <202406161332.pjUUlreJ-lkp@intel.com>
+References: <20240615231152.28201-6-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,109 +69,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240615231152.28201-6-ansuelsmth@gmail.com>
 
-Hi Li,
+Hi Christian,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a3e18a540541325a8c8848171f71e0d45ad30b2c
-commit: acb354fe97e5aa6d9534b601ce18ef7866f25c4d powerpc: dts: fsl: rename ifc node name to be memory-controller
-date:   6 weeks ago
-config: powerpc-randconfig-051-20240612 (https://download.01.org/0day-ci/archive/20240616/202406161358.doiL0s2D-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161358.doiL0s2D-lkp@intel.com/reproduce)
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.10-rc3]
+[cannot apply to lee-leds/for-leds-next pavel-leds/for-next next-20240613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-leds-lp55xx-limit-pwr-sel-property-to-ti-lp8501/20240616-071915
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240615231152.28201-6-ansuelsmth%40gmail.com
+patch subject: [PATCH v5 05/20] leds: leds-lp55xx: generalize load_engine function
+config: arc-randconfig-002-20240616 (https://download.01.org/0day-ci/archive/20240616/202406161332.pjUUlreJ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161332.pjUUlreJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406161358.doiL0s2D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406161332.pjUUlreJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsl/p1010rdb.dtsi:212.24-216.4: Warning (simple_bus_reg): /soc@ffe00000/ethernet@b2000: missing or empty reg/ranges property
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /: memory: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /: memory: False schema does not allow {'device_type': ['memory']}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /: failed to match any schema with compatible: ['fsl,P1010RDB']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /memory-controller@ffe1e000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /memory-controller@ffe1e000/cpld@3,0: failed to match any schema with compatible: ['fsl,p1010rdb-cpld']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000: failed to match any schema with compatible: ['fsl,p1010-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: eeprom@50: compatible: ['st,24c256', 'atmel,24c256'] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb.dtsi:212.24-216.4: Warning (simple_bus_reg): /soc@fffe00000/ethernet@b2000: missing or empty reg/ranges property
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /: memory: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /: memory: False schema does not allow {'device_type': ['memory']}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /: failed to match any schema with compatible: ['fsl,P1010RDB']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /memory-controller@fffe1e000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /memory-controller@fffe1e000/cpld@3,0: failed to match any schema with compatible: ['fsl,p1010rdb-cpld']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000: failed to match any schema with compatible: ['fsl,p1010-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: eeprom@50: compatible: ['st,24c256', 'atmel,24c256'] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb.dtsi:212.24-216.4: Warning (simple_bus_reg): /soc@ffe00000/ethernet@b2000: missing or empty reg/ranges property
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /: memory: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /: memory: False schema does not allow {'device_type': ['memory']}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /: failed to match any schema with compatible: ['fsl,P1010RDB-PB']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /memory-controller@ffe1e000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /memory-controller@ffe1e000/cpld@3,0: failed to match any schema with compatible: ['fsl,p1010rdb-cpld']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000: failed to match any schema with compatible: ['fsl,p1010-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: eeprom@50: compatible: ['st,24c256', 'atmel,24c256'] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb.dtsi:212.24-216.4: Warning (simple_bus_reg): /soc@fffe00000/ethernet@b2000: missing or empty reg/ranges property
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /: memory: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /: memory: False schema does not allow {'device_type': ['memory']}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /: failed to match any schema with compatible: ['fsl,P1010RDB-PB']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /memory-controller@fffe1e000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /memory-controller@fffe1e000/cpld@3,0: failed to match any schema with compatible: ['fsl,p1010rdb-cpld']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000: failed to match any schema with compatible: ['fsl,p1010-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: eeprom@50: compatible: ['st,24c256', 'atmel,24c256'] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_wait_opmode_done':
+   drivers/leds/leds-lp55xx-common.c:71:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      71 |         int ret;
+         |             ^~~
+   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_load_engine':
+>> drivers/leds/leds-lp55xx-common.c:39:40: error: implicit declaration of function 'FIELD_PREP_CONST' [-Werror=implicit-function-declaration]
+      39 | #define   LP55xx_MODE_LOAD_ENG         FIELD_PREP_CONST(LP55xx_MODE_ENG_MASK, 0x1)
+         |                                        ^~~~~~~~~~~~~~~~
+   drivers/leds/leds-lp55xx-common.c:103:15: note: in expansion of macro 'LP55xx_MODE_LOAD_ENG'
+     103 |         val = LP55xx_MODE_LOAD_ENG << LP55xx_MODE_ENGn_SHIFT(idx, cfg->reg_op_mode.shift);
+         |               ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for REGMAP_SPI
+   Depends on [n]: SPI [=n]
+   Selected by [y]:
+   - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+
+
+vim +/FIELD_PREP_CONST +39 drivers/leds/leds-lp55xx-common.c
+
+    28	
+    29	/*
+    30	 * Program Memory Operations
+    31	 * Same Mask for each engine for both mode and exec
+    32	 * ENG1        GENMASK(3, 2)
+    33	 * ENG2        GENMASK(5, 4)
+    34	 * ENG3        GENMASK(7, 6)
+    35	 */
+    36	#define LP55xx_MODE_DISABLE_ALL_ENG	0x0
+    37	#define LP55xx_MODE_ENG_MASK           GENMASK(1, 0)
+    38	#define   LP55xx_MODE_DISABLE_ENG      FIELD_PREP_CONST(LP55xx_MODE_ENG_MASK, 0x0)
+  > 39	#define   LP55xx_MODE_LOAD_ENG         FIELD_PREP_CONST(LP55xx_MODE_ENG_MASK, 0x1)
+    40	#define   LP55xx_MODE_RUN_ENG          FIELD_PREP_CONST(LP55xx_MODE_ENG_MASK, 0x2)
+    41	#define   LP55xx_MODE_HALT_ENG         FIELD_PREP_CONST(LP55xx_MODE_ENG_MASK, 0x3)
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
