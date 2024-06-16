@@ -1,131 +1,117 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AA616D9AA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 09:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC1F51021
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 09:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718529158; cv=none; b=GnDzkTlcI8kHik/3kc7oiIl50uftAZL4LmpsprmaLp5ncDymh7fkfvbX1NaNrAfBG7mHBwpqgpESydjn93S3xKE3B86v3DYzsvaRstEZG60O5fPaqTE4i6YQyiymXFi2CaQOsKgS3uBWxX75kAl4aLdS2mNZSPOG2yjjaftnKx8=
+	t=1718531832; cv=none; b=Lm1AAQI47az3Z7bteeZOVyyOqNCHB4UxLasdNg5qrDU7+ZnibD21w2ReBHJIsNReyVFxyf9WfmLRRhLqIVg1v0JaS3l4mrrZbxUpsV449pVuHKVno1D0Dh72i0gZnhVtIX3NZwC2HurYXVNihsk9ETb5DgMS3EIPkqWUHrNtb7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718529158; c=relaxed/simple;
-	bh=+z62tjy2vxumRKSsg9vWvPyWHPQ8iFomJ/EHU/Jefjk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B+B4fctvO393v0fleGPrTpu/pd9zl8m8X6U+w8psbMZ92tyZF6wfMP0OJbu3vzEQO3cfgk0uzxbLiy+v8k3pItXDZeyMRebNYYvtbawEX39pHnPK2Nihldg71dYUAeKRgVFI9ArHdUQY5ytjGX5PP63tORTpE3zvBLBL+UoT9Is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-63127fc434aso29165427b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 02:12:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718529154; x=1719133954;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=By6v0+YnSgsH+RWah/gSqD/GguB9CLtqyolfWDQlUF8=;
-        b=lXBcSYjRXA/+EBzWWP6h5s+SWSdCq7+ICMp6FnKybFauLTrp5zw+lc59bzCM9VoqLY
-         DMQbX8ZWGiHEWPDghbreiyfXuui7fjr5/5ZqXnFCTFUZaMrZuq0lLa7pL8tqqhES+FWG
-         P3bor9HNMfaW44S73Sdfou2hVi/NvXl2/l7LN2KuQoewRj9x367iANWN/motvCKluxqg
-         GlwT8C2fGljC4Zi+bspSTWnxr7X7gmFhmBdxcP8h/XgCwiEK/n/b858/e0y1KolbqOqX
-         lyjzj4DoB9WstXdkS1Rm4Stm1oK7he/TkMN06mQ3fHt6X+nJ5dSYvW0+gGw2MFcKg5mz
-         M34g==
-X-Forwarded-Encrypted: i=1; AJvYcCUjdMHHwGz45fko/Z+xI+9RM7vMCzq2QlSh1nxPoXO06OxDz63zx6jEaIVwgJOXTT+MS8X8qYQT3i1q9+ZwMQODzkD5GP/KpduISp+KsQ==
-X-Gm-Message-State: AOJu0Yzd6s/DEBoJYwXZ4eXG+AaKevpGoDxYhAa0Lj9Kou8OL61tYEbz
-	jpyYGRll5II1X8gd9r1GFjhko5M46HtDmTPQDizNphVE9sX66PYxZXl6dERW
-X-Google-Smtp-Source: AGHT+IGWaxfLG+h9GhAGo8MFtbc+F6BmYe92S4i3wkBZnydKwzgwVwg7+aylfoeCxFwRmO21/GVc7A==
-X-Received: by 2002:a0d:d513:0:b0:615:6d2c:2cf6 with SMTP id 00721157ae682-6322470faf0mr56504607b3.47.1718529154042;
-        Sun, 16 Jun 2024 02:12:34 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6311a446e2asm10370747b3.88.2024.06.16.02.12.33
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Jun 2024 02:12:33 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dff305df675so816594276.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 02:12:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWr1BKf/7bn5G8bYpUK4eN7Nb+DaIovnNLeQbKBshWhd8xn/pKV855xf4Gt0owe3tbo5Zs3zXstdZLXXQLuXvjozMstVD1iBYgvzPPD1Q==
-X-Received: by 2002:a25:3dc4:0:b0:dfe:32ba:a877 with SMTP id
- 3f1490d57ef6-dff153c36a6mr5976090276.32.1718529152591; Sun, 16 Jun 2024
- 02:12:32 -0700 (PDT)
+	s=arc-20240116; t=1718531832; c=relaxed/simple;
+	bh=n/Au18raakBp+HsNt+AbLM6n8EKaKj3RTRxJIaUudBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WNjtSmrSO1fbH11ZiYOrnRejMtQgXynrcE1jXUOyxwmljUe+h2Yq4VEPnSbHgfiySwh+nB6mN/Rm08+HxMEE074beb6/qB/RDJYGXKVha+G3sU121LlOaB7cTXiXMiF5Vopsi6nxubNkH6DVfJOL7qdL0XwUD1OxQUcQ7It+27s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ekQDuora; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ekQDuora"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718531830; x=1750067830;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n/Au18raakBp+HsNt+AbLM6n8EKaKj3RTRxJIaUudBc=;
+  b=ekQDuoraq3ZyVRRQ6d5oVQ1K6QMGXZdYQxjbxEUqEviBivqclY9m6gnk
+   9ZRQba1dv26vAOw9zbQbTLO2TUCqeRVOhJUPJUZv2ijhhAWLyZscLq7nG
+   FH6mw0YYfJnl0GHNFeTahq51Ccyu5ADLjS3tBPteVm38B38BBDX8rp+CB
+   Kg+HqRcEXLiJc/uJBYae07tFWkK/s3CoVnhNQ9pCfYKGJ25u5evrhRtwQ
+   eO5SzrwdxzD7hEOXdEyVtUX16hKUsqCqJvDzA+A4BaLEABo3tJvDQr/0K
+   0bnL7BW2dyBzC4zbbufQP5PCnwrIox6zjAyFs9X5q0U42fYqa4smIxlO6
+   Q==;
+X-CSE-ConnectionGUID: OrI/5suMQMGvM1wUJBZKeQ==
+X-CSE-MsgGUID: T3vlrV8mQkWycZQnvb2tAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="32919310"
+X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
+   d="scan'208";a="32919310"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 02:57:09 -0700
+X-CSE-ConnectionGUID: 1IsY5VeWT2qBvlApalV2/Q==
+X-CSE-MsgGUID: 2oqAp+tBTFWvWRyVq9KwNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
+   d="scan'208";a="40866255"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 16 Jun 2024 02:57:08 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sImdF-0002ba-2K;
+	Sun, 16 Jun 2024 09:57:05 +0000
+Date: Sun, 16 Jun 2024 17:56:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dhruva Gole <d-gole@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 27/137]
+ arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000: Unevaluated
+ properties are not allowed ('interrupt-names' was unexpected)
+Message-ID: <202406161722.aUdgluzY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert+renesas@glider.be>
- <202406151811.yEIZ6203-lkp@intel.com> <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 16 Jun 2024 11:12:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
-Message-ID: <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
-To: kernel test robot <lkp@intel.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jun 16, 2024 at 11:08=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Sat, Jun 15, 2024 at 12:55=E2=80=AFPM kernel test robot <lkp@intel.com=
-> wrote:
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on drm-misc/drm-misc-next]
-> > [cannot apply to linus/master v6.10-rc3 next-20240613]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoev=
-en/drm-panic-Fix-uninitialized-drm_scanout_buffer-set_pixel-crash/20240614-=
-032053
-> > base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> > patch link:    https://lore.kernel.org/r/3121082eb4beb461773ebb6f656ed9=
-b4286967ee.1718305355.git.geert%2Brenesas%40glider.be
-> > patch subject: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset(=
-)
-> > config: x86_64-randconfig-003-20240615 (https://download.01.org/0day-ci=
-/archive/20240615/202406151811.yEIZ6203-lkp@intel.com/config)
-> > compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240615/202406151811.yEIZ6203-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406151811.yEIZ6203-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
-> >    depmod: ERROR: Found 2 modules in dependency cycles!
->
-> Oops, so DRM core cannot call any of the helpers, and DRM_PANIC
-> selecting DRM_KMS_HELPER was wrong in the first place?
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   8086474caf5dc2570a947669acf226d319cd0651
+commit: d3fb67ae1841457efd01c7b7125fdf349eb23208 [27/137] arm64: dts: ti: k3-am62x-sk-common: enable uart as wakeup source
+config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240616/202406161722.aUdgluzY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161722.aUdgluzY-lkp@intel.com/reproduce)
 
-Q: So how does this work with DRM_PANIC calling
-   drm_fb_helper_emergency_disable()?
-A: drm_fb_helper_emergency_disable() is a dummy if
-   !CONFIG_DRM_FBDEV_EMULATION, so I guess no one tried to build
-   a failing randconfig with CONFIG_DRM_FBDEV_EMULATION=3Dy yet.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406161722.aUdgluzY-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+>> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'bootph-all': True, 'pinctrl-names': ['default'], 'pinctrl-0': [[12]], 'interrupts-extended': [[1, 0, 178, 4], [13, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[111]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+>> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'bootph-all': True, 'pinctrl-names': ['default'], 'pinctrl-0': [[12]], 'interrupts-extended': [[1, 0, 178, 4], [13, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[111]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
+--
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: serial@2800000: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'bootph-all': True, 'pinctrl-names': ['default'], 'pinctrl-0': [[12]], 'interrupts-extended': [[1, 0, 178, 4], [13, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[109]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'bootph-all': True, 'pinctrl-names': ['default'], 'pinctrl-0': [[12]], 'interrupts-extended': [[1, 0, 178, 4], [13, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[109]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
