@@ -1,173 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E33B53A9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 01:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DBD2E403
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 01:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718500449; cv=none; b=gSSuAIG0JiF4t3ue9Mn7NGw+jOf0QfmuPdJVaZh08vRcqB/VEwcIPKhdojlKBiyakX7hYSiqABAbvh3vQPBAUDAW8CZDyubFK86QpCSUBSwHcCnj9C5Z9WljGF9wbFqr6+K6keGUHw9RuK2ZR91v+s82ZBJZsHTlsCKCnG8aM2U=
+	t=1718501139; cv=none; b=Ar/7PwRB8hs2qi7/lUaScvxP7t0hG9ISsdRawMkKAAGOcvd6T3XKN8w8WVtWn63zGXfIrGJGcMVDpe7p8Dk/Om0lHc8b1vToguNsRy7Yy3WZ2aPhZ4yCS5cyyoz4rn96gIgMLyoaEt1TXxCb2Jb8VzYosthYSZyDNIQfObd280w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718500449; c=relaxed/simple;
-	bh=YmcRsVPE+SKTtfmTSvmVZVTeJrnyqEuZtnP3mmE0aNk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EOldB8+6oV5ODWwyEXPPQ9+Hox+fxkQB7ZT45mKRvk4yz41+oYPmoDhFScpggWaM+R9Na3kadT9R3Z69E4yq83tk3o4E16o2FBgVqSgVH1WnGC5LQklBawOVOtL4VCeqNxETaVRn6644uaOZ20U/uFf+H2OmG404HhOIJ0LDP/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3tmhb2t; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718501139; c=relaxed/simple;
+	bh=JHe8PmT8CAiOYlGo1cndu3zZ4OloPw3FeLHc2NnF29Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Lxw55NrOMWvaJT3eNQXVYnDDhlEy5B8HPQ0uv7Hhtr5BNZGGjesprM79QZsswpOu88+FeOz+SwKO1BH+fnfdmETE3I5xmatitpZB6u/zieDCs0Xq60sIV+wDe0EgBeRYNy2Em/96t/eW82S9ue1y5nuO2+kMY2F7KwfjCUsszok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=eiEDJCiz; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3tmhb2t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718500447; x=1750036447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YmcRsVPE+SKTtfmTSvmVZVTeJrnyqEuZtnP3mmE0aNk=;
-  b=a3tmhb2tfAwTopgiSiyvEt0lRYYnWDiYlzZz1fjOg0uP5aW63VukBgFF
-   lF5YvoB2ZUhyvmlnwvTpluMplFtBMxb0XubSFfsNfTlSLQimrUuZx0ik3
-   52tIYG66kEQ1pSCrpSiHETA1yXa2QDCbYbrMV9a0xolqcBv4PTgQtQFEh
-   ewpXyRW1CPEE9B2GkO2CjNVSNL84XianDZUw4s3KbtkTDO1TT6hPIvtJG
-   WLBPKJY6E2l9CmFRSlrgRkMrsONcTHHKN8PAVG/4Jpem1hDw422Gao7EP
-   cL5s8swNx3VagORxneFM2/IYlljT4A51OalI8A/sK8C4mHUUl0mxcWOVy
-   w==;
-X-CSE-ConnectionGUID: 17ua+fLeRF+jUFfMzYojyA==
-X-CSE-MsgGUID: 1yNWNrdeS/e5TlWyj5EqMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="19147413"
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="19147413"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 18:14:06 -0700
-X-CSE-ConnectionGUID: QnRs7oD4QMuvL9O2rDvAwg==
-X-CSE-MsgGUID: ZPyW4EzORviTlzILVRP+cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="40715310"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2024 18:14:05 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIeT5-0000gG-1S;
-	Sun, 16 Jun 2024 01:14:03 +0000
-Date: Sun, 16 Jun 2024 09:13:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-6.11 10/18] fs/nfs/internal.h:464:14:
- warning: variable 'supported' set but not used
-Message-ID: <202406160929.IL54LGrq-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="eiEDJCiz"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-797b24b8944so292179285a.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jun 2024 18:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1718501136; x=1719105936; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vmh7B10VjitCXi5UnMX7IBHWWNFhALchrxl9IDbnSME=;
+        b=eiEDJCizejo81BwpGYugLuCVw6LQSS1hLgjtfvA+xPw7GxJojbLFx5WolQeocMBg7F
+         0zgEjHn9NKxdxiPsY3ZKunRE1q1z9yrzTd+X234y0t1iay/w/js88X+siXvtPTumdryQ
+         PnKrvZsG4fqD7LYSicE+N187wI4V+5BwTuVKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718501136; x=1719105936;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vmh7B10VjitCXi5UnMX7IBHWWNFhALchrxl9IDbnSME=;
+        b=MLCdnDwFRUTac22Js7Boc+8YFmWwV87eoOFLxiN/fRUiZjwL4KXA4IY4jbhZtJ2lkd
+         rcXszA/055qM4G9bNYxaDM0QlAmibMSw7NSBAMWh25+kax8pKTTN2E05To2QDPsd0996
+         gcZfa+Z2lWQuFKQD5b41q61KB/tGzlQ9Xe37bow/FYl20/XmTdsVIVQhrhCYd+VwU+s8
+         yY8Udoxn9ekmO73RYQRSEtfI0BehY7ZArdbBsGAPUMLppQgFMrcKDIgUPg6wD9orGbav
+         L1zhWTKvjv4S/ZLNsONUCb4fB3NSNA4+DMqYzyy6AYjxW3aFJNpJV/Tfw3X7yXaWSN9U
+         RU/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVuPf0DLv/iV+MachdjP4eBlE7KPX6fP7LHoMwEBziXWz4Xzi28vKFdff68/IILnIz5D0KIvJp0cJ693JKTlDr0Ovo61FFVpDN7Y0DqRg==
+X-Gm-Message-State: AOJu0YwhCLByX0+fMpi6M5MRFOyNh9ztOD8xMMthr+VGM594teyaKOWX
+	eHvZYzjQdg/AcuQ0P82YQ+uVJ7lpbqzSVnqiRc0cSXJfZnV4g4PhleoGNDmNQQ==
+X-Google-Smtp-Source: AGHT+IF3o2n1vuAWzivHA2bQV4+Plh7YsZ6B36O+Td3GL1zNvsydHY+4muaeP2QpJFgYTbtdwi7YNA==
+X-Received: by 2002:a05:622a:130a:b0:43a:b542:d1dd with SMTP id d75a77b69052e-44216af8850mr64153021cf.36.1718501136510;
+        Sat, 15 Jun 2024 18:25:36 -0700 (PDT)
+Received: from amakhalov-build-vm.eng.vmware.com ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-441f310dae0sm32256121cf.97.2024.06.15.18.25.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Jun 2024 18:25:35 -0700 (PDT)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org,
+	bp@alien8.de,
+	bcm-kernel-feedback-list@broadcom.com,
+	lkp@intel.com
+Cc: zack.rusin@broadcom.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	linux-iio@vger.kernel.org,
+	jic23@kernel.org,
+	lars@metafoo.de,
+	nuno.sa@analog.com,
+	dragos.bogdan@analog.com,
+	anshulusr@gmail.com,
+	andrea.collamati@gmail.com,
+	oe-kbuild-all@lists.linux.dev,
+	x86@kernel.org,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>
+Subject: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
+Date: Sat, 15 Jun 2024 18:25:10 -0700
+Message-Id: <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.4
+In-Reply-To: <202406152104.FxakP1MB-lkp@intel.com>
+References: <202406152104.FxakP1MB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-6.11
-head:   f9ea1e47a8aea89bbafd64779ba1280308029425
-commit: 2ee1065487f33a5c39677ce54ca9f6740045c28e [10/18] nfs: implement v3 and v4 client support for NFS_LOCALIO_PROGRAM
-config: sparc-randconfig-002-20240616 (https://download.01.org/0day-ci/archive/20240616/202406160929.IL54LGrq-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160929.IL54LGrq-lkp@intel.com/reproduce)
+VMWARE_HYPERCALL alternative will not work as intended without
+VMware guest code initialization.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160929.IL54LGrq-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
+Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
-
-   In file included from fs/nfs/nfs4proc.c:61:
-   fs/nfs/internal.h: In function 'nfs_init_localioclient':
->> fs/nfs/internal.h:464:14: warning: variable 'supported' set but not used [-Wunused-but-set-variable]
-     464 |         bool supported = false;
-         |              ^~~~~~~~~
-   fs/nfs/nfs4proc.c: In function 'nfs4_proc_create_session':
-   fs/nfs/nfs4proc.c:9308:19: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-    9308 |         unsigned *ptr;
-         |                   ^~~
---
-   In file included from fs/nfs/direct.c:59:
-   fs/nfs/internal.h: In function 'nfs_init_localioclient':
->> fs/nfs/internal.h:464:14: warning: variable 'supported' set but not used [-Wunused-but-set-variable]
-     464 |         bool supported = false;
-         |              ^~~~~~~~~
---
-   In file included from fs/nfs/localio.c:26:
-   fs/nfs/internal.h: In function 'nfs_init_localioclient':
->> fs/nfs/internal.h:464:14: warning: variable 'supported' set but not used [-Wunused-but-set-variable]
-     464 |         bool supported = false;
-         |              ^~~~~~~~~
-   fs/nfs/localio.c: In function 'nfs_local_probe':
-   fs/nfs/localio.c:295:49: error: 'net' undeclared (first use in this function)
-     295 |                     !nfsd_uuid_is_local(&uuid, &net))
-         |                                                 ^~~
-   fs/nfs/localio.c:295:49: note: each undeclared identifier is reported only once for each function it appears in
-   fs/nfs/localio.c:295:22: error: too many arguments to function 'nfsd_uuid_is_local'
-     295 |                     !nfsd_uuid_is_local(&uuid, &net))
-         |                      ^~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/localio.c:18:
-   include/linux/nfslocalio.h:27:6: note: declared here
-      27 | bool nfsd_uuid_is_local(const uuid_t *uuid);
-         |      ^~~~~~~~~~~~~~~~~~
---
-   In file included from fs/nfs/flexfilelayout/flexfilelayoutdev.c:15:
-   fs/nfs/flexfilelayout/../internal.h: In function 'nfs_init_localioclient':
->> fs/nfs/flexfilelayout/../internal.h:464:14: warning: variable 'supported' set but not used [-Wunused-but-set-variable]
-     464 |         bool supported = false;
-         |              ^~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c: In function 'nfs4_ff_alloc_deviceid_node':
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:55:16: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      55 |         int i, ret = -ENOMEM;
-         |                ^~~
---
-   In file included from fs/nfs/flexfilelayout/flexfilelayout.c:22:
-   fs/nfs/flexfilelayout/../internal.h: In function 'nfs_init_localioclient':
->> fs/nfs/flexfilelayout/../internal.h:464:14: warning: variable 'supported' set but not used [-Wunused-but-set-variable]
-     464 |         bool supported = false;
-         |              ^~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_layout_io_track_ds_error':
-   fs/nfs/flexfilelayout/flexfilelayout.c:1290:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1290 |         int err;
-         |             ^~~
---
-   In file included from fs/nfs/filelayout/filelayoutdev.c:35:
-   fs/nfs/filelayout/../internal.h: In function 'nfs_init_localioclient':
->> fs/nfs/filelayout/../internal.h:464:14: warning: variable 'supported' set but not used [-Wunused-but-set-variable]
-     464 |         bool supported = false;
-         |              ^~~~~~~~~
-
-
-vim +/supported +464 fs/nfs/internal.h
-
-   454	
-   455	#if IS_ENABLED(CONFIG_NFS_LOCALIO)
-   456	/*
-   457	 * Initialise an NFS localio client connection.
-   458	 * Inlined here to allow nfs[34]client.c to share this code.
-   459	 */
-   460	static __always_inline void
-   461	nfs_init_localioclient(struct nfs_client *clp,
-   462			       const struct rpc_program *program, u32 vers)
-   463	{
- > 464		bool supported = false;
-   465	
-   466		if (unlikely(!IS_ERR(clp->cl_rpcclient_localio))) {
-   467			supported = true;
-   468			goto out;
-   469		}
-   470		clp->cl_rpcclient_localio = rpc_bind_new_program(clp->cl_rpcclient,
-   471								program, vers);
-   472		if (IS_ERR(clp->cl_rpcclient_localio))
-   473			goto out;
-   474		/* No errors! Assume that localio is supported */
-   475		supported = true;
-   476	out:
-   477		dfprintk_rcu(CLIENT, "%s: server (%s) %s NFS v%u LOCALIO\n", __func__,
-   478			rpc_peeraddr2str(clp->cl_rpcclient, RPC_DISPLAY_ADDR),
-   479			(supported ? "supports" : "does not support"), vers);
-   480	}
-   481	
-
+diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kconfig
+index faddae3d6ac2..6f1ac940cbae 100644
+--- a/drivers/gpu/drm/vmwgfx/Kconfig
++++ b/drivers/gpu/drm/vmwgfx/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_VMWGFX
+ 	tristate "DRM driver for VMware Virtual GPU"
+ 	depends on DRM && PCI && MMU
+-	depends on X86 || ARM64
++	depends on (X86 && HYPERVISOR_GUEST) || ARM64
+ 	select DRM_TTM
+ 	select DRM_TTM_HELPER
+ 	select MAPPING_DIRTY_HELPERS
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.4
+
