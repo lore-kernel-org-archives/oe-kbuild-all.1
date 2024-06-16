@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D0D1843
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 00:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137341847
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 00:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718497211; cv=none; b=cGTEmrb9VyxanV6F0pOMjR93AJc5z4f4sVJbrY2vRRhXZ77/POi18bxqQBjxH6vwvKkWZUbbm2CWpaRyrNxo3CDlpAuo4MBCduKpFhHbp+ieO4LVpe5AKYXUp/QwWK0kQCVAfZvvpUWX1ynJJlwjzJvqkomes3agPafJoVpGm80=
+	t=1718497867; cv=none; b=TcGskB/lAjNb0T5xzDKgwJ++NpXv1IWQ3eAwQ4JtOnXVtEn0LMsMZdS5t/cQdoCEemS59o0nehpKfaETNEae2ZFAX+lFzuYMX7qhvd8WgCLUaoE5zliS8ZA0VwPtVcmBKFh5LVyyPAO3hR25BzlQxTeUfj0cdBwi+b7uQArePnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718497211; c=relaxed/simple;
-	bh=wwA+OqE2v6eOVsJjxE41uJDGwJ6LUdWs0oez7vI8tJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bbfnmhp07YwFBeBw5JFuFEf/lU4/5dQIf86IlF9X8ySpAqTqVrSSdjlL+ZMDjs0KZos7f2HdZ1G4tpg00tkxF+sahCwE3be/SEtVrt57gLvv9sLRfj3L0jc2UAvOUaU+0KKJYMLIJbCfwF70gapQSUD8/WRxNAjTTjIQlvgaT08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QgBw352i; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1718497867; c=relaxed/simple;
+	bh=61U4i+Kcvdb02RQR71uZoLqvxxTIBLvqeWCHg/mLG+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u1h9bTTfUPzPup3q97oNik4WFItjJVcTf0HxyD5E8u7LJXO55n+68rZtkYALQBev07La76mfWjvLz2wff765OJ+T5pBVgPw9tZqWjtl3vbhgEhvt1mBZ7ScsjolzGkZP1yhxzC9p/MKLoL7tMb0rsdB9BrtyUz0pxz7BQk50vac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8GKPww1; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QgBw352i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8GKPww1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718497208; x=1750033208;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wwA+OqE2v6eOVsJjxE41uJDGwJ6LUdWs0oez7vI8tJ0=;
-  b=QgBw352iVT0HwrQRoEottbxGdouw5JMoUF8Pk/fp+exg6Q93X3KYR0GX
-   rVA4Ad2TUcStQTj0MaNxYa95wEPEY5NcVhpM410t/ywwiYHlJI6/htsnW
-   Rq+HQmhEoaseVMKH5MJAXBBISAslLLC3/LtSBiDjksKaN3l4T5gUIhlCR
-   w1wQa2NQLdWS3ANFyK9rQD7ugDWpWtpORVz4MbSH2VF8+C/8yvlyT4x/2
-   E5UeBadZXLxcwrIlele6XZ0Pj8cNvtJcUxBOlos9E8pni6TIo9lDsuFdI
-   Fd5GNVFtLvs8Lv8F8J4WGrIveeZjab+zZaM24uGMQBX9w8V0vykqcD7GU
-   w==;
-X-CSE-ConnectionGUID: 82q/iQ3ERjiuXUUrcnIZTw==
-X-CSE-MsgGUID: zjgXBPgmR4+RAoV+39wmew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="19145766"
+  t=1718497866; x=1750033866;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=61U4i+Kcvdb02RQR71uZoLqvxxTIBLvqeWCHg/mLG+0=;
+  b=Y8GKPww1hGJ8kchxXOlpZbUAdGW22OJ4jKxVNzGmqH+O+c7LrK5jhU/P
+   uOLuwVZ02Sc+kmB9M5rdAUM4gE8v1XkRRf5vmDazjqf++vQocwsophusb
+   3rWSm+N4P+yuvRcXbvGMosz9eOId8j0DCyNj7DpZHkIoiEtnC7g8Z6W6i
+   N6sG/YV8+eafC5/DgOkXilxiLzFcMRAykfAmWXqETBwKqGNaZ1YT4UynU
+   enHmgo2xMiFumP3l9RgZRwtYB5DvKSs7kCCvw+qIpNIaxYVXOj8RX3iUC
+   wfuSuIlBGbqy9XC2TmAfmVx1yIrAzXkNX3WDf43Bizla/cGNkdI2WwBfS
+   A==;
+X-CSE-ConnectionGUID: kaNw95r5T5uBDaP14YF0Rg==
+X-CSE-MsgGUID: 550TZ3dETESJo1QcpuZgJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15510331"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="19145766"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:20:08 -0700
-X-CSE-ConnectionGUID: Dsk+HKVsTIOhZ4M66bYGxg==
-X-CSE-MsgGUID: fZPz2K0uQQih11sk8bAk1w==
+   d="scan'208";a="15510331"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:31:05 -0700
+X-CSE-ConnectionGUID: 4IXpp7juQDifAE0kp6Ud8g==
+X-CSE-MsgGUID: YCoENG85QAOZ3FMVVSvn5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="41529016"
+   d="scan'208";a="45967982"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jun 2024 17:20:05 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Jun 2024 17:31:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIdcn-0000dm-2e;
-	Sun, 16 Jun 2024 00:20:01 +0000
-Date: Sun, 16 Jun 2024 08:19:46 +0800
+	id 1sIdnS-0000eh-1d;
+	Sun, 16 Jun 2024 00:31:02 +0000
+Date: Sun, 16 Jun 2024 08:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
-	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
-	alexandre.belloni@bootlin.com, magnus.damm@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
-Message-ID: <202406160847.Ns62KOVc-lkp@intel.com>
-References: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:for-6.11/block 5/6] error[E0425]: cannot find function
+ `blk_queue_logical_block_size` in crate `bindings`
+Message-ID: <202406160833.Ci7STDjD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,112 +61,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
 
-Hi Claudiu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on geert-renesas-drivers/renesas-clk]
-[also build test WARNING on geert-renesas-devel/next linus/master v6.10-rc3 next-20240613]
-[cannot apply to abelloni/rtc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/clk-renesas-r9a08g045-Add-clock-reset-and-power-domain-support-for-the-VBATTB-IP/20240614-152418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-patch link:    https://lore.kernel.org/r/20240614071932.1014067-5-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
-config: mips-randconfig-r122-20240616 (https://download.01.org/0day-ci/archive/20240616/202406160847.Ns62KOVc-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240616/202406160847.Ns62KOVc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.11/block
+head:   5e3b7009f116f684ac6b93d8924506154f3b1f6d
+commit: e3e72fe4cb1d1b7399fab0e98166b8bfcddb9ec7 [5/6] Merge branch 'for-6.11/block-limits' into for-6.11/block
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240616/202406160833.Ci7STDjD-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160833.Ci7STDjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160847.Ns62KOVc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160833.Ci7STDjD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/renesas/clk-vbattb.c:132:35: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] size @@     got restricted gfp_t @@
-   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     expected unsigned int [usertype] size
-   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     got restricted gfp_t
->> drivers/clk/renesas/clk-vbattb.c:132:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned int @@
-   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     expected restricted gfp_t [usertype] gfp
-   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     got unsigned int
-   drivers/clk/renesas/clk-vbattb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+Note: the axboe-block/for-6.11/block HEAD 5e3b7009f116f684ac6b93d8924506154f3b1f6d builds fine.
+      It only hurts bisectability.
 
-vim +132 drivers/clk/renesas/clk-vbattb.c
+All errors (new ones prefixed by >>):
 
-   119	
-   120	static int vbattb_clk_probe(struct platform_device *pdev)
-   121	{
-   122		struct clk_parent_data parent_data = { .fw_name = "vbattb_xtal" };
-   123		struct device_node *np = pdev->dev.of_node;
-   124		struct device *dev = &pdev->dev;
-   125		struct clk_init_data init = {};
-   126		struct vbattb_clk *vbclk;
-   127		u32 load_capacitance;
-   128		struct clk_hw *hw;
-   129		bool bypass;
-   130		int ret;
-   131	
- > 132		vbclk = devm_kzalloc(dev, GFP_KERNEL, sizeof(*vbclk));
-   133		if (!vbclk)
-   134			return -ENOMEM;
-   135	
-   136		vbclk->regmap = syscon_node_to_regmap(np->parent);
-   137		if (IS_ERR(vbclk->regmap))
-   138			return PTR_ERR(vbclk->regmap);
-   139	
-   140		bypass = of_property_read_bool(np, "renesas,vbattb-osc-bypass");
-   141		ret = of_property_read_u32(np, "renesas,vbattb-load-nanofarads", &load_capacitance);
-   142		if (ret)
-   143			return ret;
-   144	
-   145		ret = vbattb_clk_validate_load_capacitance(vbclk, load_capacitance);
-   146		if (ret)
-   147			return ret;
-   148	
-   149		ret = devm_pm_runtime_enable(dev);
-   150		if (ret)
-   151			return ret;
-   152	
-   153		ret = pm_runtime_resume_and_get(dev);
-   154		if (ret)
-   155			return ret;
-   156	
-   157		regmap_update_bits(vbclk->regmap, VBATTB_BKSCCR, VBATTB_BKSCCR_SOSEL,
-   158				   bypass ? VBATTB_BKSCCR_SOSEL : 0);
-   159	
-   160		init.name = "vbattclk";
-   161		init.ops = &vbattb_clk_ops;
-   162		init.parent_data = &parent_data;
-   163		init.num_parents = 1;
-   164		init.flags = 0;
-   165	
-   166		vbclk->hw.init = &init;
-   167		hw = &vbclk->hw;
-   168	
-   169		spin_lock_init(&vbclk->lock);
-   170	
-   171		ret = devm_clk_hw_register(dev, hw);
-   172		if (ret)
-   173			goto rpm_put;
-   174	
-   175		ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, hw);
-   176		if (ret)
-   177			goto rpm_put;
-   178	
-   179		return 0;
-   180	
-   181	rpm_put:
-   182		pm_runtime_put(dev);
-   183		return ret;
-   184	}
-   185	
+>> error[E0425]: cannot find function `blk_queue_logical_block_size` in crate `bindings`
+   --> rust/kernel/block/mq/gen_disk.rs:147:23
+   |
+   147 |             bindings::blk_queue_logical_block_size((*gendisk).queue, self.logical_block_size)
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `blk_queue_physical_block_size` in crate `bindings`
+   --> rust/kernel/block/mq/gen_disk.rs:153:23
+   |
+   153 |             bindings::blk_queue_physical_block_size((*gendisk).queue, self.physical_block_size)
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
