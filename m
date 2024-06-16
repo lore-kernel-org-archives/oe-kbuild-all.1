@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98DF1843;
-	Sun, 16 Jun 2024 06:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BB73D6B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 07:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718517802; cv=none; b=U18AItz71mwbxi6OmD/diuwt6LTkjxBegF6XW9to1EYAdSdYwscewdf+YiTIxOugX8Z7d1rVvvadNzAROtRLiKEkfNnd92w2YZE/ZKidBX4XfC2wOkaAQZpFcQCBnRX7gCbYGQbfeBVBr7oa7PwwkaCYa9AdQfkmPQmM74gAWLo=
+	t=1718522213; cv=none; b=TkoMzlEug6oB+1A3y87jJqR6YeM3UZN7lXuU7wjyOS3cIzim06UXsLleyNIDR6si1Lk7rqcdxoS61UziLwREDl2D/83BF11OCAdsAj8bew9fmvHbdXJVjjKX3/DoaKwIcs4lw1m0X2+a+0qDKV6KSooSdttpwbHIyCbKQbN0KmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718517802; c=relaxed/simple;
-	bh=K/ni8LSVOYgXxTrdjn8CCbKK4xGr4LQCEH5An9qKEvA=;
+	s=arc-20240116; t=1718522213; c=relaxed/simple;
+	bh=YMXgrQFOGRFNPtmJcgKgJ6z5DFIXLWQNxQPtQESdiSs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ar4zgLX3wr616OKRM9+tU/ZeZiaaWS8rLizokI41yBKkijPSJpZAf2ytQlhRSTKWdTFq66YIr2B75jTFDSxseUn2EPMjuDpoq4j8u2I/Wb6cTobOlnoUI3ipC4o3OVR2oXJYo59G+ikuMaCt23HO1V4FfpSutEekuRAH5dm6C8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQbDXXr9; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=nsZHfNz4vXG10zTqBLm/Atkx/En4OnDiZNycfcrAj3xy8fKPir4Kw28gN3Yyo2pnvzsm+ZOORaaJxOoCaODDykP2gQMo6fID78Yg1q0bqMUErby48upz/9RN+5T3HP2iEziKAvXJwpn2X8UFP6TxiHNqWcbkG5nv6Xm9kHrg5Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWvARvql; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQbDXXr9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWvARvql"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718517800; x=1750053800;
+  t=1718522212; x=1750058212;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K/ni8LSVOYgXxTrdjn8CCbKK4xGr4LQCEH5An9qKEvA=;
-  b=jQbDXXr9HfHEkdKI4YR2S7SzaBJEOqsyM+yEvaXwmkdIavvpnvmNhdDl
-   GqixwRwEBCIWvLK3pJd3tpg/iuTgmhP/OHFnX3PktNaypgUu1a8xXm6Xu
-   7VYnZot/1kTi7ERweDmsqeQl83EYJObim8nF+L9D6OkRyX2NrHkuBjm8u
-   77UvwwBDWjPbaOYgE4k/CazLW2WfTPPoF0gATyB0bG5p9dhCw+z9fIhAl
-   ESbANZDgS72WQbQXQJtcTTYJHXxkKEZ5JdRjMKJGRZYcRUqtEgQqTsqi6
-   oVkRa/p54xGDrqksuwtzKwKENvQtvTIWB9lrFxzSYNCoxp2qCH/oaKREV
+  bh=YMXgrQFOGRFNPtmJcgKgJ6z5DFIXLWQNxQPtQESdiSs=;
+  b=RWvARvqlQoSp1+hHLXHxmw+h9V/OLX/GNELlv2MqPpB6asctEQ2DRTrU
+   hIm9LAUIr7yqcmA0t5fefNReB61xIPIv8qB82c3a86GgwZw0cfhd6XvpA
+   5JrXY4EumMdY8Var4aknrhS8R9MbbVAMcJe5CyZ/Ksd7eKbQH33+vaPOm
+   AYeM3OkCwd2G5z4Lc0nu8ddOI6Ly90+67KP9tWHb0m3hXIp+AcCXiMsBq
+   4xMIudMqA3cu/cxeQ950GuUXxwfWzTPpTN+iIbOr4FwufTuE+naODwpvZ
+   NpSAx6YW5nSSTiGMj43FAwsWtzMQBQreewtLecxDAREQ2AD7eJH6UTT52
    g==;
-X-CSE-ConnectionGUID: 2ReZbIByQGytxpI+iJpG5w==
-X-CSE-MsgGUID: mgtUmczTRqurMxJIuqafjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15597987"
+X-CSE-ConnectionGUID: qUx6gQlwTkWweHQIaqdf+w==
+X-CSE-MsgGUID: zl3SewNzRRiU6mVBeKzFoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15208240"
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="15597987"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 23:03:20 -0700
-X-CSE-ConnectionGUID: q9yjWNs8Q/ipO5p6yzHukA==
-X-CSE-MsgGUID: Hlhb8nUdSEaL7VfZN7Fpvg==
+   d="scan'208";a="15208240"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 00:16:51 -0700
+X-CSE-ConnectionGUID: Equ1GKbCSK+OSJ/Jkw8EEg==
+X-CSE-MsgGUID: Z1x3OCeHQzm+9MzcxF2qoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="45825662"
+   d="scan'208";a="40839756"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Jun 2024 23:03:19 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Jun 2024 00:16:48 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIiyy-0000vO-34;
-	Sun, 16 Jun 2024 06:03:16 +0000
-Date: Sun, 16 Jun 2024 14:02:55 +0800
+	id 1sIk86-0001zp-33;
+	Sun, 16 Jun 2024 07:16:46 +0000
+Date: Sun, 16 Jun 2024 15:16:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 9/47] mm/damon/core.c:705: warning: expecting
- prototype for damon_commit_quota_goals(). Prototype was for
- damos_commit_quota_goals() instead
-Message-ID: <202406161331.PjF4uMpc-lkp@intel.com>
+To: Rahul T R <r-ravikumar@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>, Nikhil Devshatwar <nikhil.nd@ti.com>,
+	Jayesh Choudhary <j-choudhary@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 39/67]
+ arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: pinctrl@11c000:
+ 'dp0-pins-default', 'main-i2c4-pins-default' do not match any of the
+ regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+Message-ID: <202406161530.ENVOsRqk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +66,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   dc8dc5011c1230b2f3b20c53eec91368ee9836b4
-commit: 7b2776f2db539d498b8ed2c9e4e40c5f2c42296d [9/47] mm/damon/core: implement DAMOS quota goals online commit function
-config: i386-buildonly-randconfig-001-20240616 (https://download.01.org/0day-ci/archive/20240616/202406161331.PjF4uMpc-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161331.PjF4uMpc-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   8086474caf5dc2570a947669acf226d319cd0651
+commit: 5763cc02b9687b2724c2ddd3060bf2cdc136caf5 [39/67] arm64: dts: ti: k3-j721s2-common-proc-board: add DP0 to j721s2 evm
+config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240616/202406161530.ENVOsRqk-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161530.ENVOsRqk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406161331.PjF4uMpc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406161530.ENVOsRqk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> mm/damon/core.c:705: warning: expecting prototype for damon_commit_quota_goals(). Prototype was for damos_commit_quota_goals() instead
-
-
-vim +705 mm/damon/core.c
-
-   691	
-   692	/**
-   693	 * damon_commit_quota_goals() - Commit DAMOS quota goals to another quota.
-   694	 * @dst:	The commit destination DAMOS quota.
-   695	 * @src:	The commit source DAMOS quota.
-   696	 *
-   697	 * Copies user-specified parameters for quota goals from @src to @dst.  Users
-   698	 * should use this function for quota goals-level parameters update of running
-   699	 * DAMON contexts, instead of manual in-place updates.
-   700	 *
-   701	 * This function should be called from parameters-update safe context, like
-   702	 * DAMON callbacks.
-   703	 */
-   704	int damos_commit_quota_goals(struct damos_quota *dst, struct damos_quota *src)
- > 705	{
-   706		struct damos_quota_goal *dst_goal, *next, *src_goal, *new_goal;
-   707		int i = 0, j = 0;
-   708	
-   709		damos_for_each_quota_goal_safe(dst_goal, next, dst) {
-   710			src_goal = damos_nth_quota_goal(i++, src);
-   711			if (src_goal)
-   712				damos_commit_quota_goal(dst_goal, src_goal);
-   713			else
-   714				damos_destroy_quota_goal(dst_goal);
-   715		}
-   716		damos_for_each_quota_goal_safe(src_goal, next, src) {
-   717			if (j++ < i)
-   718				continue;
-   719			new_goal = damos_new_quota_goal(
-   720					src_goal->metric, src_goal->target_value);
-   721			if (!new_goal)
-   722				return -ENOMEM;
-   723			damos_add_quota_goal(dst, new_goal);
-   724		}
-   725		return 0;
-   726	}
-   727	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: pinctrl@11c000: 'dp0-pins-default', 'main-i2c4-pins-default' do not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
