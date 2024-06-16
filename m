@@ -1,84 +1,96 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F773A8CB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 10:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63D41411DE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 10:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718533136; cv=none; b=RM/2/N9oKzKXleQ06TLGuz71CCzk6ZxLWwYb09z3DE8sqBWesJFVg9lggweMw5l2xVnN7v8/jWhCvWGwHtyRwMYKRawUdtUHoNB9H+icGfH7NH1khlztJEm+fMfFrTcsjTpZA2g5lAln2+NuoiHvyAJj259I39aEhIiyWbGZAms=
+	t=1718535013; cv=none; b=cFOZBVR/BUZ0MvL7+Fy4Mph9wtZJbjSUUpqedcm7cQ8RMpg+2w4EacNMZ8UvFmXazwmp1DJURy20K3nqnweBiHwYrapADioUjc5NIMkLyvEtMO16VhmArVp/d+riL9WBx/BJacwtr61qOitFtOumyH3cmqJqXSINFRGKjMHva98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718533136; c=relaxed/simple;
-	bh=dpSVKzcy8lgXSiApirUM1+EjWFhLJ8jcu2KS/9WFTlM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fdZpMXXJrQnr+VlZFNp5u6jlENBH6YNfCLnvYPO15xFJs8YMRuyWukACq1kMUy2YcTdbA+GH/F+ZyxBMkZy6Bo6TKJIDYMuaERi2bPvx+BqtzkNDmTsuG/lL94ow8jTIEp9LMa9n7qn6KgpiT6oJ5UbFXNZcqXLkZGGG6wqhr1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKY2Tj8d; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718535013; c=relaxed/simple;
+	bh=brr90q5Tq4BAbS8NN0Xp7TRm0S0CFYQq5NLpZFBrjLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J9nCwlp/MXy2+eSWrgcDVi9w9JkWUdwb5w2nUsUFhcz7XoXK6LoXZVwSvsBUOilzOpoD3PBwevfoMWJOeCFKKIx7cDOXPhDxNwyDPay22vqv17CrkqIdvfOiZy+7u7W+OX4rkWpyhuXpQzObbVID0Wuf16UBmJgGaDgIAnMjTeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OASCkUsd; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKY2Tj8d"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2c2dee9d9cfso3091067a91.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jun 2024 03:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718533134; x=1719137934; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EQiiGkPR1cOhuwccnCPSboJqnrnEfKZSO+pVGQ9Simg=;
-        b=IKY2Tj8dlonmw15UDFFQO8i8xC/wI19cOkcsmtF9Nfxl7Mp25RJGbzCsqrLK3AECME
-         U+l9zVDwRst6o73GCKoCNQSvruo1rfXir1QuNqcY+kNnqnybi8d7A5ogm5R3YqrXd6gv
-         fB5fCoew7CYQULJ3tQlGbYD2nPNgf+MpLuBxq24Lnx8lpEITFHAyZ2Ca7QUwM2wIM7bD
-         N+qHzLyN8KdCYKa6WN1TO/NFVwnDi6qxwE74R81hUwJQgkYU1n2/qBy/I+OPa65IUEUC
-         yg8y4sQt3ViqVKjeyAQbSsonzvGNDDs/gf08QvIZNagfWjDv9AAY4YrH+fk01LZECXqq
-         93eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718533134; x=1719137934;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EQiiGkPR1cOhuwccnCPSboJqnrnEfKZSO+pVGQ9Simg=;
-        b=hKoGDuTDbxWmTs37bOPLD3Dz2WuAVEC20wYq/DJFM7H5CmLGGHwUnGjbJ3gFza+i+T
-         KKOTo1kyAxWEve8ZrEF2B1RAWZ8smmLTtirwZ+eYDWkGG1+1i5jSC81lk6FeivMS4am7
-         m4haj3IbaAmESmcxBlSPE0oDiKp46PsdTpyT9Y7+5bJB1uhMk51zVYJYCsY2BHpkWhQW
-         +6PvH7wCPkoVj5cWMBah917pLbKvE8VgqvDhwzAelTsuc4tF8dyarYfZ4vGj3qcXN03x
-         c0ncf+IwnS6UpVT6055ZXP39VANm/kxahLct7mLJ6LvI5riQgJGTaSqpV66VbfVUujVl
-         I2Og==
-X-Forwarded-Encrypted: i=1; AJvYcCVbM2gR9XSKqrI/CQzuO8Ccek8aOx82JbtaLPzw8mlp2qG4YgPs0n4SDPVS+O8ddX1GwrRxed4cz/2mg9BlWPh1yhoy3AdUw74ILl41PA==
-X-Gm-Message-State: AOJu0Yw2xtwQ5nSSMmb3/edm92bxKAIaCv138tgWvcaCCoA4pX0jFOIE
-	7tMYtSnl+sfQSBVuaJjjCz0PDRw9AJd6oXNuXFLEgQdftvLDvuSStROxllZmNvR6ycOjG3gY7vx
-	cCM6VdQN/zXjnDzZws8Hqi6gIBw4=
-X-Google-Smtp-Source: AGHT+IFf0/ET6ShVs0FlDrOnBX8qXyLvnTl41W9j1v3eYDECrSVgXTJvMGO5X71rgiXTOtlGdATEdSjhJVn55YQMNYQ=
-X-Received: by 2002:a17:90a:640e:b0:2c2:f081:f849 with SMTP id
- 98e67ed59e1d1-2c4db1320fdmr6091701a91.2.1718533134157; Sun, 16 Jun 2024
- 03:18:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OASCkUsd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718535012; x=1750071012;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=brr90q5Tq4BAbS8NN0Xp7TRm0S0CFYQq5NLpZFBrjLw=;
+  b=OASCkUsd7CaNLjieiu40crGBBvAYiWxIYlCYcWbtrvdJAsmoG5Tb03Vp
+   vLhjZL+ZfkdIj+1mKOrLsdIfhcON05Ltwr5of681RU0uP8LB2pmbwYkOi
+   CiwTI0rYqam2oGr8T6S2clKA1KBy2kz1FxW1tPJjjkxLrHNjoS3WcGc2t
+   TJ0pBtjlNqqEdloYBj3ufXcxUBtc0BLExh3EU909XU65wbnqifrrmX3SP
+   xQJc5C5C2TbINl0wU0w1IcZoXEdcJywn2fJMd7Z/3NZKg0CNIBiWhOgIa
+   hbtB/KpR4386uaUdgzcL5iHqYULnQxIw+A/bVc5QyMgSNAjzbihfD7k8u
+   g==;
+X-CSE-ConnectionGUID: jas3RbXrR6SSuJizca3QZQ==
+X-CSE-MsgGUID: F7L3oYP4QU6A9xLKHjAUqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15347681"
+X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
+   d="scan'208";a="15347681"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 03:50:11 -0700
+X-CSE-ConnectionGUID: Fi42dMPHTauhxqbBopEsJQ==
+X-CSE-MsgGUID: UWsrWVrLSoW6y8YXA2SFmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
+   d="scan'208";a="41048590"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2024 03:50:09 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sInSZ-0002eA-17;
+	Sun, 16 Jun 2024 10:50:07 +0000
+Date: Sun, 16 Jun 2024 18:49:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>
+Subject: arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb:
+ clock-controller@11010000: #power-domain-cells:0:0: 1 was expected
+Message-ID: <202406161842.rJqdaHKy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202406161537.8SBTYvQm-lkp@intel.com>
-In-Reply-To: <202406161537.8SBTYvQm-lkp@intel.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 16 Jun 2024 12:18:41 +0200
-Message-ID: <CANiq72nLzt65vonFv8s1kxcOd3rxOfcVUC3ApaxWJg8XjmOjVw@mail.gmail.com>
-Subject: Re: error: <unknown>:0:0: in function _RNvMNtCs5QSdWC790r4_4core3f32f7next_up
- float (float): SSE register return with SSE disabled
-To: kernel test robot <lkp@intel.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jun 16, 2024 at 9:40=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> >> error: <unknown>:0:0: in function _RNvMNtCs5QSdWC790r4_4core3f32f7next=
-_up float (float): SSE register return with SSE disabled
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a3e18a540541325a8c8848171f71e0d45ad30b2c
+commit: f33dca9ed6f41c8acf2c17c402738deddb7d7c28 dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells = <1> for RZ/G3S
+date:   7 weeks ago
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240616/202406161842.rJqdaHKy-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161842.rJqdaHKy-lkp@intel.com/reproduce)
 
-Thanks! The fix is queued already:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406161842.rJqdaHKy-lkp@intel.com/
 
-    https://lore.kernel.org/rust-for-linux/20240529093336.4075206-1-davidgo=
-w@google.com/
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: clock-controller@11010000: #power-domain-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: pinctrl@11030000: eth0: 'anyOf' conditional failed, one must be fixed:
+   	'mux', 'tx_ctl', 'txc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: pinctrl@11030000: key-1-gpio-hog: 'anyOf' conditional failed, one must be fixed:
+   	'input' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	True is not of type 'object'
+   	[[144, 1]] is not of type 'object'
+   	['key-1-gpio-irq'] is not of type 'object'
 
-Cheers,
-Miguel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
