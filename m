@@ -1,65 +1,59 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982D518FDB1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 07:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FFF18FDBD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 07:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718609426; cv=none; b=Fkz8LGXza7lWWJCdUAPGKMeSZ23llUlShY4zRoQ4L935YAOm/iDinLp5GxJqgjecJ5+PgfQjyB2Hp8lVWfaNjnFsCwQ8Bc0eGU7sGiVpVPirlYQE2YH0RuG32VuSmcmzvETt2GkRWqRDld46guYn2xIUTLQeB1KiKMvHba7i3tk=
+	t=1718609601; cv=none; b=NNMMS5LK9dtdDP9Xt1jMQ4rz4E78UQ1wO0WoXu/eZJD2VqMNxbJd8nNCIhrAeVy8F/iFsxvA6YUNpv3FkRkO4SMEYveQo5tL8cTrOYmlRkq5ovokMGLqdNOe42VuTilBw36oO3JL/SQOKeK5D3oMSqZx01sXUtlBOWgj/3/shnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718609426; c=relaxed/simple;
-	bh=gEldI8SY6eGQdXXA08PGCTyjYAYBvdvuimrdpkVw3aE=;
+	s=arc-20240116; t=1718609601; c=relaxed/simple;
+	bh=tnw8KJfIC0QaKsEcAmnbEoCX/ETKGVtP6MF9dkMum/M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tP9sTwe3VOKjgJOM1/QqJ7REPQWj8K1/JGTBO1I7CC0cGnESGeS+h2h2yHevAGmzJ+vD/zMiTa2qkxJQIYmOsz8JiaL8Mw1QcTCudo/+RjWPxByv1i9CeoZIPY3Q8hAbIq+ZgkAPCnN9SDo+PHVrLdk19v/eM473Svi95QUXnQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TILLe/Hx; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=kXK2BuHXP9pgHBisPPnBNe7qEX7aQXKyPmfSzgve9LJKMcCNmypHwvRfZ5uSPt0N+EuhQg8quiBkyytCO2DZe5XwKrYy3mrZvVgjLphQ8yoz1Y3Ar+cbmLFM+N5f7hknFDtTfx+rUx51zb8FsfcOn2AcLj1jQolMMz2WhKYn/VM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ocB3GAva; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TILLe/Hx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718609423;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nH7NF47wiN5yYt3CYf79aIVqL/Dl6DPgZQONYE92Y0w=;
-	b=TILLe/HxTG0bCM8HqNM7SJ0QZxk7e+R7YAu/p6ZWrx+gwctI24KKTRUQW19x4h2MvFsrQy
-	zv1/TeogNYSWg0U5V53+FAcIj7X4gDY2kwsKSLXfA08+HLH1OyaeBB64E+rALC6k3g23Ac
-	xNXqWtG6nrtObBy+MupMU3rwMDwULh4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-cB2Yu01nN2ehaaSjZwvKtQ-1; Mon, 17 Jun 2024 03:29:40 -0400
-X-MC-Unique: cB2Yu01nN2ehaaSjZwvKtQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-421739476b3so35338935e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 00:29:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ocB3GAva"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-35f2d723ef0so3412946f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 00:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718609595; x=1719214395; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qFAO7hjZrJD4X05uwsexfWcIBbA0sH4Zj3/d1Zhwfts=;
+        b=ocB3GAvan4oPykIAmvkYhSdIWRcwLAMuWBYf5e6FnyNRxx6FdS+qioPqlVexRzX+Ye
+         qOC7H5SP17SBFqcRUWsbDdZ3gyUxWIeL7SbF5+zlCdXQ0TndUjR83oPQQWiAfPI3vXmY
+         eFsTzfnxrCu0V3mwt2Rzt/kCxE5v/BFc8vXmkWpTQJhWG79/rYcayYj6MftdiHt/Fzy7
+         X0zZxv1jB7LfhY29uDTryB2SNHJV0lsUzwqULMidkjLtUklLvmHO4oWB6wJlIj2ADbKF
+         ARtoUwPuq6TjPw15bz48lsuEYMBMbs6Jh79DGRzArU2Q07ZEvbHBiTiJBUm+dhg5oqzD
+         VV/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718609380; x=1719214180;
+        d=1e100.net; s=20230601; t=1718609595; x=1719214395;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nH7NF47wiN5yYt3CYf79aIVqL/Dl6DPgZQONYE92Y0w=;
-        b=kZqPghUjAGywSJ3b6Kt1Ui1S7rPtXdYc629dr5K83noUPpf0hgcgX+PkoYo/KMf71X
-         ifDy+UXNFdivoZ+DdzY2O46lTl+gaSVcMZeYf4ygmXceVU8x46iU5pNFKlheO7K4+YoM
-         UmYuXf+ACtY50GMyE6lkTKSnEcl3Oho7xmIg9w6harFU6ui99snQbYLKHbYf0XRUI1gq
-         Rm6DkqYbFCAaSb2rg4WICgbvGjVOchflA2+IHCr+9k1emeL76NIS9ZMEyEJ+Y32/wEru
-         EdLsXqW6jOees4FBmwsp6AVQfASS5rqvoaw7fcMZ5xgWkFHqktvTh00J+1dFiJQX40Fm
-         v7Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgNBIfFlvcO7lHRp4mRG2PjM9KHsWypUMF8NDBbYs14/TL+9j9vhAkezPYUjNl43SYZ/tRG7IbZMV5WVd+1eSviy+BmKVBIQAZjuQVkg==
-X-Gm-Message-State: AOJu0Yz2dIbD9VA0B8yOF52s5daiQ58AwRr84+cozKNtqWvffPnmr9P6
-	0K/GygrEvn03UCdChFj9b7Ow+lFHOdwzIOCrC3IRr+miJMvbYuN8DCsekzBu0npZkMu83iV0a9b
-	U+lnLXjmZ8TqE8cUuCkmbHx+mVQ+wpxFj/kuuIaXFGmoWBU56zPOd7TJ6gDhMqq0=
-X-Received: by 2002:a05:600c:3514:b0:421:7bb1:eb9b with SMTP id 5b1f17b1804b1-42304844abfmr95161305e9.28.1718609379785;
-        Mon, 17 Jun 2024 00:29:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNol8wq1CXKJ8SwcNyP7NAVPlUEp/Y2i/P5kX0p598nmFsmM+2aodmq6E1g2pO2gIIdkl2YQ==
-X-Received: by 2002:a05:600c:3514:b0:421:7bb1:eb9b with SMTP id 5b1f17b1804b1-42304844abfmr95161155e9.28.1718609379373;
-        Mon, 17 Jun 2024 00:29:39 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6320bd8sm150669275e9.32.2024.06.17.00.29.38
+        bh=qFAO7hjZrJD4X05uwsexfWcIBbA0sH4Zj3/d1Zhwfts=;
+        b=cVZZV29kQtMcju3udfkhScyAThcmlNOFfOW/uQ4nv77rONDFAR2/0+ZJYEx2cvPIcg
+         LeqJWPpa4Zn0hIeJ+bo8UwQ8GrKb1aLTA2slEYL93rjIe96WYFnlT0Y+zVp7GO6dbcTl
+         HIrtPxlnE8/A3/BCCSJE0jT/rvrNTxlXkpbbawZIjdmG73niXvYQhG7cY5ihVY3lgnUp
+         7V8KEy7GZKldkQoNZoG8qtGMIn7q8Ff9rtkQhZqyXiQTUkoveqZlqJSqVMInJGDesmQ9
+         MjJ9qAkq0NbZYaUxRkj6ConIxApZyBvuIpukuoF4yrjlRFZLXx8yA1b2xOC5rwfxPVxK
+         A3tA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJr1dmznheT0ZjkG450eEkYpBj9AYpF+4uOVAr0++dQvMzU7I0a8gxZpq7LzDR9fg0cJN1lcxGGor6n/i0bI8RdJ26T2nMcpDWS2KhrQ==
+X-Gm-Message-State: AOJu0YwECO2M1e7z6Qu2iBIGj/nLyyHFthTUGYRIaeEEBeVuS6tSayR4
+	DCI2aKexfVh0YpMZSokh9oeDYTqeaU3RB6etnHQST2Zwvk2pwjgJpniqe+e5e18=
+X-Google-Smtp-Source: AGHT+IGV5JrEkxcxq5+1SfbTzayMIALViJH5MkFKfNBIodGAdkmP3L2n4Rl0JQqWgY60pp/FOR8bwg==
+X-Received: by 2002:a05:6000:47:b0:35f:1bc3:50b0 with SMTP id ffacd0b85a97d-3607a7844e7mr6344442f8f.63.1718609595419;
+        Mon, 17 Jun 2024 00:33:15 -0700 (PDT)
+Received: from [192.168.1.70] ([84.102.31.231])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750934a4sm11225143f8f.10.2024.06.17.00.33.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 00:29:38 -0700 (PDT)
-Message-ID: <cb70ad62-e927-4020-b2d9-84b7c7a607bf@redhat.com>
-Date: Mon, 17 Jun 2024 09:29:37 +0200
+        Mon, 17 Jun 2024 00:33:14 -0700 (PDT)
+Message-ID: <71d53ff6-fdae-440d-b60d-3ae6f0c881d9@baylibre.com>
+Date: Mon, 17 Jun 2024 09:33:12 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,108 +61,40 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- kernel test robot <lkp@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert+renesas@glider.be>
- <202406151811.yEIZ6203-lkp@intel.com>
- <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
- <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [mediatek:v6.10-next/dts64 51/53] Error:
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi:2399.29-30 syntax error
+To: kernel test robot <lkp@intel.com>, Nicolas Pitre <npitre@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <202406142304.D63dr3NH-lkp@intel.com>
+Content-Language: en-US
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <202406142304.D63dr3NH-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+On 6/14/24 17:10, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.10-next/dts64
+> head:   2f950510411a33d98eea28c22d7880eeb48adb61
+> commit: d7c1bde38bf37a59551cfd52cfdb5bd974b17431 [51/53] arm64: dts: mediatek: mt8186: add default thermal zones
+> config: arm64-randconfig-004-20240614 (https://download.01.org/0day-ci/archive/20240614/202406142304.D63dr3NH-lkp@intel.com/config)
+> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406142304.D63dr3NH-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406142304.D63dr3NH-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> Error: arch/arm64/boot/dts/mediatek/mt8186.dtsi:2399.29-30 syntax error
+>     FATAL ERROR: Unable to parse input tree
+>
 
+This dt-binding patch has not been applied:
+https://lore.kernel.org/all/20240603-mtk-thermal-mt818x-dtsi-v7-1-8c8e3c7a3643@baylibre.com/
 
-On 16/06/2024 11:12, Geert Uytterhoeven wrote:
-> On Sun, Jun 16, 2024 at 11:08 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
->> On Sat, Jun 15, 2024 at 12:55 PM kernel test robot <lkp@intel.com> wrote:
->>> kernel test robot noticed the following build errors:
->>>
->>> [auto build test ERROR on drm-misc/drm-misc-next]
->>> [cannot apply to linus/master v6.10-rc3 next-20240613]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/drm-panic-Fix-uninitialized-drm_scanout_buffer-set_pixel-crash/20240614-032053
->>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>> patch link:    https://lore.kernel.org/r/3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert%2Brenesas%40glider.be
->>> patch subject: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
->>> config: x86_64-randconfig-003-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151811.yEIZ6203-lkp@intel.com/config)
->>> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151811.yEIZ6203-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151811.yEIZ6203-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>>> depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
->>>     depmod: ERROR: Found 2 modules in dependency cycles!
->>
->> Oops, so DRM core cannot call any of the helpers, and DRM_PANIC
->> selecting DRM_KMS_HELPER was wrong in the first place?
-> 
-> Q: So how does this work with DRM_PANIC calling
->     drm_fb_helper_emergency_disable()?
-> A: drm_fb_helper_emergency_disable() is a dummy if
->     !CONFIG_DRM_FBDEV_EMULATION, so I guess no one tried to build
->     a failing randconfig with CONFIG_DRM_FBDEV_EMULATION=y yet.
+This is why this error is raised.
 
-drm_fb_helper_emergency_disable() is part of the series
-https://patchwork.freedesktop.org/series/132720/
-which, after discussing it on IRC with sima and Javier, is not a good 
-solution, and is abandoned.
-
-I think the "select DRM_KMS_HELPER" is a leftover from earlier version 
-of drm_panic, that used the color conversion function from 
-drm_kms_helper, but that has changed in v10 and later.
-
-drm_panic is called from the drm_core code, so in fact it can't depends 
-on the kms helper.
-
-I don't see a good solution to workaround this circular dependency, 
-maybe depends on DRM_KMS_HELPER being built-in ? (so that means drm_core 
-will also be built-in). But that means platform that build drm core as 
-module, won't be able to use drm_panic.
-
-There are a few of them in the kernel tree:
-rg -l CONFIG_DRM=m
-arch/powerpc/configs/85xx/stx_gp3_defconfig
-arch/powerpc/configs/ppc6xx_defconfig
-arch/powerpc/configs/skiroot_defconfig
-arch/powerpc/configs/pmac32_defconfig
-arch/mips/configs/ci20_defconfig
-arch/arc/configs/axs101_defconfig
-arch/arc/configs/axs103_smp_defconfig
-arch/riscv/configs/defconfig
-arch/parisc/configs/generic-32bit_defconfig
-arch/arm/configs/davinci_all_defconfig
-arch/arm/configs/omap2plus_defconfig
-arch/arm/configs/pxa_defconfig
-arch/arm64/configs/defconfig
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-
--- 
-
-Jocelyn
-
+Julien
