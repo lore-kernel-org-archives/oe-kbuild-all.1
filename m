@@ -1,103 +1,180 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25AB199251
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 21:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE5B8480
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 21:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718659112; cv=none; b=DbnEJFhNDDmjEa6F0DtBacrQZ3nPcrpuqg+tyUvqUGnRFpJhs/d2JSuQSfbvZVEucbgoYlx+3IEW1Lxw0jRSDtt15JZGBlpWRxxFD5JFcPbumpa0At5LWGeqNLpNmJaOwE+L3I2AQS/izfp8hG7L1FLd21vG8A8ePCiEvpHLfcw=
+	t=1718660472; cv=none; b=OXSuUzsNXo/f+l4KzbYWX80TaxB2+tl4ya98/C1lDLHt6X/zx+sS4DrdVuqQKhaoxlbhz9gnU/5isuUcsF45p8hDLPBy0IyUG/Ogq2aXhtAb8tVQPg8uU2HBILj0G4dF1iElJMo8V9z2iiC77RfgG+/fGt5ZzLXYv7lrgi3iiN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718659112; c=relaxed/simple;
-	bh=W5rBoTuXPRCST+ZPRx9kVTvjgC7klXt/2ifotpzvINY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hHuUMzPHUX7dJViRMehbjoVt2tNcVH9VPRkrIULkuO63jmYUBx+oc2diBLPcFIOWelFsT5jkeRfbMKfUTBBpIaeE1AElOgSUcH3+iyriO3L9Y7Igx8/lvKEYKEEwkJos8lM8UgAnUaIU/D6b6Roh285LcjRAC+LHtNuLWQrJLp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UM8T/G+l; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1718660472; c=relaxed/simple;
+	bh=3Oe2tPyGmHCuCYCzWRg4oVXrWOQF0GJeXYWjicaeSSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=boCHE8j25NV6BBunMjyzDPcItr9LpfwppAtCAiTSDa5lcvCDS4w1VtuteeLAzHXDyuMig7JU7n9UeUF8C8/maShjLXyWtZamgYIHhPomV1HHULAiPS2PpOVYmwYXbelvL5zsONaClmLgB8w0lHmxcf5KY4l3w+jvDldt+OF4XX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnJ1njYL; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UM8T/G+l"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 73A3D40E01F9;
-	Mon, 17 Jun 2024 21:18:28 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id tde_eHHVuoG1; Mon, 17 Jun 2024 21:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1718659105; bh=yK+oTJoi5DGuEHt6jESCPtqmrBbsMm4vga3QYTDWOxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UM8T/G+lPTeB4SuRGoE9vf9I0FOvyUQYpL1yVCD9HjVhLj3m6C9Px/9ZAaCG3oD9r
-	 7GNAh0JUIAYea7bhql07cHV4dy7cg4qq1KsW+KGO3fkl41zA+tu3W+AyfTL8EkS865
-	 Geg/Tl0Uoy5Uru/g1xSLXiHlZ7wKhnjK5kXtfeE4Xt8xmDG3qn9uX96v0Zvc0jKdj8
-	 nQZ0omgR81Zf4qk9Jc/q4x9DOuPCoj+Y+OiLyCk95I8JTQ1g2b7zQ7uE0A7nTRFdAw
-	 xdHSIhxRABsU5W5jPbFXRk++KLT3cysJwxZj8Npn1S1kPtEnzrqMMsPD7ilEFMF6Pj
-	 uL212OxyfMOFSX8pnLYfuSWIB3NLrASeQBTTN5/+SUF0fMP/NZUsfWc6f7I3rOZ9hA
-	 dGwTvdoT4jHyq/hJ5HxV97DYtJI/hxvXvFTv8g3XhDl63gqx3Rbdz52juifyYrycjN
-	 V3Tr6oX9GkotHVirBjsLg8XZgA6nOWUOWovabnqKFpSWBJI1GOlgEkfeQuIaO0vwK2
-	 qAQUwBnGHKYEb9CZYXJfTi95JVErV6fUHDHj911kk9KF68/TdALRWEGR5XXGsV5FxI
-	 gOmnUB/5NcsdYd4qKHxKveeHHSSZNZUG1j8hAymip8/kS+5pXjo2KrJsh9No6ALasN
-	 2wfhgOcsSqKNmIrzdJN9Hz0w=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EAB3E40E0185;
-	Mon, 17 Jun 2024 21:18:04 +0000 (UTC)
-Date: Mon, 17 Jun 2024 23:17:58 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	lkp@intel.com, zack.rusin@broadcom.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
-	jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
-	dragos.bogdan@analog.com, anshulusr@gmail.com,
-	andrea.collamati@gmail.com, oe-kbuild-all@lists.linux.dev,
-	x86@kernel.org
-Subject: Re: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
-Message-ID: <20240617211758.GKZnCoBvT2enGx5p5r@fat_crate.local>
-References: <202406152104.FxakP1MB-lkp@intel.com>
- <20240616012511.198243-1-alexey.makhalov@broadcom.com>
- <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local>
- <0a29389e-8ba2-48c5-bb26-381de58a62fb@broadcom.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnJ1njYL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718660470; x=1750196470;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3Oe2tPyGmHCuCYCzWRg4oVXrWOQF0GJeXYWjicaeSSE=;
+  b=lnJ1njYLPykCgzLgKTaamfg2ZhjGAR+qgGd3Bs43aEAbV+q57e+NbM1I
+   EDAt/d35js36VRTZIl9C8adLVYM4YweA+LwXhx+jrBKcYZxS60pPgrXR7
+   g2kxickPPMXnCDCZqZuB5Dtx+uHJE+qGM3KzLmvc/d1C4yAKL6Y0SQ1pG
+   AUMsXiczVTERrVhL0qlmo6pedjXoxDC+CaLD5zd0jKysSSc2jt79XT8xR
+   Ie6RNVFFfHMuX9V7rLlmbbFOeWkg/XgXHf0PRdwBz60w0SwTQiZyS0lMn
+   zckHK/J5xQBDgQtq8LRNfAJAKOLOQyRL5fGwSZ/MX2IrvpJ3zz4mQYHOA
+   Q==;
+X-CSE-ConnectionGUID: zuiGSXqpQIyeg6pATFv1NQ==
+X-CSE-MsgGUID: IkVyyli9RaOiscaydJw8hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="19327846"
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="19327846"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 14:41:09 -0700
+X-CSE-ConnectionGUID: qKNeq6wlS2mXl8hnQbPyoQ==
+X-CSE-MsgGUID: 8yvM7NmtQNaiJMPCsD0tng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="41421053"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Jun 2024 14:41:07 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJK64-0004tp-2b;
+	Mon, 17 Jun 2024 21:41:04 +0000
+Date: Tue, 18 Jun 2024 05:40:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vibhore Vardhan <vibhore@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>, Dhruva Gole <d-gole@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 30/137]
+ arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: compatible: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202406180516.H6FGNj8Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0a29389e-8ba2-48c5-bb26-381de58a62fb@broadcom.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 17, 2024 at 01:51:23PM -0700, Alexey Makhalov wrote:
-> Not really a gcc related, but the matter of a config file. It is
-> reproducible if CONFIG_HYPERVISOR_GUEST not set, but CONFIG_DRM_VMWGFX=y.
-> And this combination was allowed before the fix.
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y=
+-wip
+head:   28ca41014f923e6e0e314492899b7cda49439c39
+commit: 21354a5e32c40bc97c8e602cb2174dc9ede672d3 [30/137] HACK: arm64: dts:=
+ ti: Configure am62p pinctrl-single for wake-up interrupts
+config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/arch=
+ive/20240618/202406180516.H6FGNj8Q-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d=
+2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240618/202406180516.H6FGNj8Q-lkp@intel.com/reproduce)
 
-Using their config:
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406180516.H6FGNj8Q-lkp@i=
+ntel.com/
 
-$ grep -E "(CONFIG_DRM_VMWGFX|CONFIG_HYPERVISOR_GUEST)" .config
-# CONFIG_HYPERVISOR_GUEST is not set
-CONFIG_DRM_VMWGFX=y
-CONFIG_DRM_VMWGFX_MKSSTATS=y
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:669.22-679.5: Warning (graph_c=
+hild_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single c=
+hild node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: bus@43000000: compatible: ['sys=
+con', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: compatible: 'one=
+Of' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: 'interrupts' doe=
+s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
+--
+   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:1215.21-1218.5: Warning (graph=
+_child_address): /bus@f0000/dss@30220000/ports: graph node has single child=
+ node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: bus@43000000: compatible: ['sys=
+con', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: compatible: 'one=
+Of' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: 'interrupts' doe=
+s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
 
-$ make ...
-
-  OBJCOPY arch/x86/boot/setup.bin
-  BUILD   arch/x86/boot/bzImage
-Kernel: arch/x86/boot/bzImage is ready  (#2)
-$ gcc --version
-gcc (Debian 13.2.0-25) 13.2.0
-$
-
-So no, I can't reproduce with my compiler.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
