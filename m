@@ -1,94 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AFC1990C9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 22:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CE3188CD1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 22:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718664258; cv=none; b=gYvAVM0sHDA0R1Wzb1KvkRSvca+sIwu26U4mhoF8ATtGLMFn5tRhM8Chuy6HT91OamyCv4urXfZh8O5eDFTJixmnh6jPJ+70pM5QIaf0dRSSPO1xswq1NCrnSeX7Y74QHgQxtb0WoHwmYSGhr32AbRZ2cwi0IiyhAmchG/LwiDQ=
+	t=1718664545; cv=none; b=DIAWaK1WxMW9NWNwBNJSr53BvwEKFk8JokZwGICJ46YWrKSseQNMaL35Wm1mmxtTKouI1gvKPH5yJ1yBmEjoIixiIyHBAT2uGpvJkpqLLxGB0cdoKEtwkT/G4ysQqPbCKijaITAsaai6rJibLD7N9QSS858J2jQuUA3FoJfn0gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718664258; c=relaxed/simple;
-	bh=vIxoYuZE/tG3s6phwieJZFZaHyismGLyLKy1d/Yueec=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZMepOKIaAWhSDZhz0+U2W9ZjTjbGfFHedHPVFmNICghG34axRuKq9NXpOfmNPtIhLedo1gdSJAHSBxbQki9ypXkHNjbDaitMg17OxDu93qTAes86jrilF4ZATqVUl8bgiZCVECurooptIRttYMPngmWWxpBAYS2a6WwdvERpg/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JebxRW3u; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718664545; c=relaxed/simple;
+	bh=ueYzZgbvAUNDZkrGEz6vOlDUxD8uOeTU0sliktE6zI0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dsi+XtJc6IwsiNbz3qZeim50mDcWdlW6lPPM/r2JXHlkNLLM+sw0dnS6jP+ScYfCEyLaHH//094HP9GSvbhxNAiN4sY2esaGMoftAtCdHMr7UtIZU7Lv0kfXnSpZQNxa3guHa70khLMxP/p1DNAfaqXeCsxnlI8mJ66jCGbN1cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=D2UCKum0; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JebxRW3u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718664257; x=1750200257;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vIxoYuZE/tG3s6phwieJZFZaHyismGLyLKy1d/Yueec=;
-  b=JebxRW3uEmu6575pDsRa4njU0+nJzRCr8kCOSq5ikihSvv0SmJO25Jni
-   FENmEsrICsLIEt1jhL4cKoRbw11SShvluJ4lQ51eIKupztBNLN8270wFU
-   j25LCOr+XOwT/8nH4eD7nzHI2kwZm/4m5GMPWLq5AB3aAS2PKa6mb9eZX
-   ptB1FBv6XttvI0aols9SJQ6E7ywO/mdeuDObC52LEBSSC16ghZFHTlsmD
-   DHHMT6TyEJ0lwF318c5EVcjByub4UXDgEUEDM/RfBYl02o9sO1P8goInO
-   zeTS0wpjw5be08LJlJGcPIkKRYPkXvrIARPgYpQJeLVJoajehyhZzZzbS
-   Q==;
-X-CSE-ConnectionGUID: FmqvXiUIQTa9XsNQU868qA==
-X-CSE-MsgGUID: 5mKgrloSTQeQ+HUNil2SYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15232066"
-X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="15232066"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 15:44:16 -0700
-X-CSE-ConnectionGUID: iI5W11cGR4+pQnrV8svXQQ==
-X-CSE-MsgGUID: CxXDoh1vQ1mYSwj6kulWxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="45783512"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Jun 2024 15:44:15 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJL5A-0004xl-37;
-	Mon, 17 Jun 2024 22:44:12 +0000
-Date: Tue, 18 Jun 2024 06:44:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rohit Agarwal <rohiagar@qti.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
-Subject: [qcom:arm64-for-6.11 58/211] arch/arm64/boot/dts/qcom/sdx75-idp.dtb:
- /soc@0/dma-controller@900000: failed to match any schema with compatible:
- ['qcom,sdx75-gpi-dma', 'qcom,sm6350-gpi-dma']
-Message-ID: <202406180637.OdryJK6f-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="D2UCKum0"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-797a8cfc4ecso301865885a.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 15:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1718664543; x=1719269343; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xM8jG/UsV813oqKhDlzQa/ArpF3gbsVPG1rs8S8vCkE=;
+        b=D2UCKum0g+MsWMhBW1UpN10xksth6CGDbtxyuh+vKXUIeR2fxWQFafHpvIDlnOXGg5
+         I9kpcnVJbYqPl+6tZ3swHdUaM0YpICVyuJ8X8Zyra7O8yvPEKd4rvwtrsgpMve1nHGuw
+         CeKuJuJT8Tzr0g01uOLzb2YKcmz7lMJUoIXjk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718664543; x=1719269343;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xM8jG/UsV813oqKhDlzQa/ArpF3gbsVPG1rs8S8vCkE=;
+        b=bjPybaue9D8mqrDRtRLUoyjrqJX9k3uQq6P8Ce+B/pQb5MgvyuuAVYfFH1sDln2Ro5
+         vwzFt0OsVIwH5ZwiqxjkD0pK6fPaGDSwc6T2aLmqdhuavXfZn0AVijDTXe3CwGdsrPtF
+         +3v9h7V1cBUFtjtBwJOJzPNEmyMqL8Ydnp7yyPsNENv/eP2O1Y0PHgUQl86QsPtHyNcJ
+         TZ3PtUZUZecoYsWuVdfpBMfzVbgiV5sRwmboc8xfvcdePITKjAiSVgSegJI9kwHmXHj4
+         LiIFQH026ueV0uwMOA8Zx3UMGvZVfsVzB24B/T5SCq8ZNpIsMgDBTYltCuERa4mQN+Hn
+         OIGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVu1Emu/J3oZRLut2ibNOUBCZY4wr8AO3fJTPWQ7mHz2Fhh+5LNxwMBOTqxvdjCIVoHaF5Ox5ElRmun7a9YaM6u9ZaNksMO46Pj2HI92g==
+X-Gm-Message-State: AOJu0YzNY2UsfSL6elDJii0honEFP6hNCrw8arc5VTgIA0zAtCsRg7Zv
+	oVOv+M2puX1aqoAhY17Dqx5Hnudzs15J5gLnz1+63ubF3vOcD5nATLXXVeZyeg==
+X-Google-Smtp-Source: AGHT+IG1TVLwkGCX9fV8eplKGeOZTo6xGldUqIBRIebpDcT4omSEc99laqur9v3lhz3IaqOpqZt9Sw==
+X-Received: by 2002:a05:6214:2d0b:b0:6b4:35fa:cc17 with SMTP id 6a1803df08f44-6b435faccf0mr3968436d6.20.1718664543067;
+        Mon, 17 Jun 2024 15:49:03 -0700 (PDT)
+Received: from [10.66.192.68] ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5ee1327sm60264676d6.118.2024.06.17.15.48.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 15:49:02 -0700 (PDT)
+Message-ID: <25275668-0441-4015-9a94-aab305865fae@broadcom.com>
+Date: Mon, 17 Jun 2024 15:48:56 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ lkp@intel.com, zack.rusin@broadcom.com, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
+ jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
+ dragos.bogdan@analog.com, anshulusr@gmail.com, andrea.collamati@gmail.com,
+ oe-kbuild-all@lists.linux.dev, x86@kernel.org
+References: <202406152104.FxakP1MB-lkp@intel.com>
+ <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+ <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local>
+ <0a29389e-8ba2-48c5-bb26-381de58a62fb@broadcom.com>
+ <20240617211758.GKZnCoBvT2enGx5p5r@fat_crate.local>
+Content-Language: en-US
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <20240617211758.GKZnCoBvT2enGx5p5r@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.11
-head:   f55a758fd355c1b5ed7c73434a99ae07d5741226
-commit: e07c4a702eb0abbb200c07593cfc429338ec42bf [58/211] arm64: dts: qcom: sdx75: Support for I2C and SPI
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240618/202406180637.OdryJK6f-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406180637.OdryJK6f-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406180637.OdryJK6f-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/sdx75-idp.dtb: /soc@0/dma-controller@900000: failed to match any schema with compatible: ['qcom,sdx75-gpi-dma', 'qcom,sm6350-gpi-dma']
-   arch/arm64/boot/dts/qcom/sdx75-idp.dtb: /soc@0/mmc@8804000: failed to match any schema with compatible: ['qcom,sdx75-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/sdx75-idp.dtb: usb@a6f8800: interrupt-names:0: 'pwr_event' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sdx75-idp.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sdx75-idp.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sdx75-idp.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sdx75-idp.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
+On 6/17/24 2:17 PM, Borislav Petkov wrote:
+> On Mon, Jun 17, 2024 at 01:51:23PM -0700, Alexey Makhalov wrote:
+>> Not really a gcc related, but the matter of a config file. It is
+>> reproducible if CONFIG_HYPERVISOR_GUEST not set, but CONFIG_DRM_VMWGFX=y.
+>> And this combination was allowed before the fix.
+> 
+> Using their config:
+> 
+> $ grep -E "(CONFIG_DRM_VMWGFX|CONFIG_HYPERVISOR_GUEST)" .config
+> # CONFIG_HYPERVISOR_GUEST is not set
+> CONFIG_DRM_VMWGFX=y
+> CONFIG_DRM_VMWGFX_MKSSTATS=y
+> 
+> $ make ...
+> 
+>    OBJCOPY arch/x86/boot/setup.bin
+>    BUILD   arch/x86/boot/bzImage
+> Kernel: arch/x86/boot/bzImage is ready  (#2)
+> $ gcc --version
+> gcc (Debian 13.2.0-25) 13.2.0
+> $
+> 
+> So no, I can't reproduce with my compiler.
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That is interesting! Happy to debug it, but unfortunately I can not 
+reproduce your "good" compilation without the fix.
+I tried
+"gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0" in Ubuntu, and
+"gcc (GCC) 12.2.0" in Photon OS.
+All of them fail with an "undefined reference to `vmware_hypercall_slow'"
