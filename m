@@ -1,140 +1,92 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005E919048D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 09:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570B374D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 09:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718615103; cv=none; b=bK0FC5Lpojb6S9lvPgoLNbHWsF6oSMiCURmVzNkCUfQsbQooLlr9G+7TAMSHVAkYskB0qhv/axz/gpn2tF+mrBgWbDTT4hDF31b2GrtNnLghqJxfBW1Qu1rcfCyGUmiEBux17cvgHQ0OZuu8H+7y+J5iQ3nZmaNF1Jwz5ftWWOk=
+	t=1718615238; cv=none; b=jZbQOL+S1ALruPkwSQkJAdtSHadkGWn4r2T2K16PYAFN31OSdGWN1GxR32RlhVyb7YDFA0MLOhwGi/zmdqOIPhB58Ws9o3KGeawyx+kFQlddheJKhy/LJQ3AY5KXI7aYf7j823uXnifu8b2s0TRTimcd5AItL6Nos+gIQg0U0hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718615103; c=relaxed/simple;
-	bh=bJyr/aO6dAr6Q8n3K309ag9Uvh8BkTlic8lhxJq16yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyW64fDJRF1hXI2VDWR7UJqiIzURK4pt1Ak4H8FXxraZag2HBQcfDXI7xyikFozJpqBWUdddYvBafjNv1EnA/BcryUg8E8efmzdrNP91i47//6Bw6lhdhIAgVBXDf/oSOvBrBvnjq5woz24jy1JSRERJip3rrGwqMLSxuP3z4Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=fM9YY5+S; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1718615238; c=relaxed/simple;
+	bh=uAQbbcIqNpXnkSCnO6//UjEy+YKXYTzeRlkoVBc1lrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ldELO8zsgR1GN+CJiSywkiDL8cfQ5TApKlhlItXu/R9eF/LCCwxgqYKXlYwBQzL0rMUkHrkxQQke7f/kLufa0vEzSFW396D0jdtmsexhJOvUEsOqEhm2wiA0cRT7MnCYJRgPVhOtVuYfUcqGQHYhxkADySIJMorbop5w7bUM9ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rj/n7+XC; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="fM9YY5+S"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4D8D840E01A5;
-	Mon, 17 Jun 2024 09:04:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ObG_vPpV5sYZ; Mon, 17 Jun 2024 09:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1718615095; bh=6PftBkAsybJq5wobZkn4YNmGhgUEBQQ3Lg1pMZ4UKX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fM9YY5+Sbw/y7zIIoxZQBPodCHfF2Ldl8dPnYAml/QDIIh2OADxEVudmDT1VwmB6s
-	 l3foABm6DKNhMwUFo876QaWuasTe44MBjvYFZGLAokceOiyv+qlgVVwIxjXMo6zaJg
-	 sRZ1ITda+OH7iDt3t768G9rbbx9lh0D4fCEn1SlkVCdgeXjvzXGXhzHZ59iWKb2peW
-	 aGmIOEyCL2zzGwDmGP+IXZ1Sl17YFAHOBppf5+NXd6em8xW6HecPviRK2E76kAPF/2
-	 y5DsgotF4l8N4oVxZtLBB152PrrfW1N+H1YZ0oVyZtW0LcFfFoBYyVEpmIuSYtj/sQ
-	 mbrJKYqCqb3loUiG4VgL9oyjgoZEuWV40R9jdkRvtrReXOFTJhqeFE0gfGAwptpANh
-	 M6HAowoYUV1bBLDEQbxeammlyiNvqiTOCmbvza0KtTtTz0q4jEc/DP5lyBaW7P/lz/
-	 rpmqHGS/wkwG5naT1mMscb33dK9iUON4wGOX1bCW8P6NBjJvhzS7lOP5NIKpE1NUbh
-	 nML1aoGd4gqFp/1BRNSP0V7SBNILWGUmbiOzUhdchKuxjfIQvdEv4J/8RKG9txAxi2
-	 14CULug0iz/GGVvMDPEa6k0/2n1CJmQ4mK2HSfP8cHxjEJQX76ijX9VX6K+AAOpRmX
-	 ag2yM21XKxhJ31JBWVD/gAFE=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EDA2940E0219;
-	Mon, 17 Jun 2024 09:04:34 +0000 (UTC)
-Date: Mon, 17 Jun 2024 11:04:28 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	lkp@intel.com, zack.rusin@broadcom.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
-	jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
-	dragos.bogdan@analog.com, anshulusr@gmail.com,
-	andrea.collamati@gmail.com, oe-kbuild-all@lists.linux.dev,
-	x86@kernel.org
-Subject: Re: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
-Message-ID: <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
-References: <202406152104.FxakP1MB-lkp@intel.com>
- <20240616012511.198243-1-alexey.makhalov@broadcom.com>
- <20240616012511.198243-2-alexey.makhalov@broadcom.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rj/n7+XC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718615236; x=1750151236;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uAQbbcIqNpXnkSCnO6//UjEy+YKXYTzeRlkoVBc1lrI=;
+  b=Rj/n7+XCTWUaPiwUsK0+l8QERVB3EXnZy/+X9l+sbSbt+X8/c9dRiiS0
+   fnFCvFtNAq9oQXnSPOr69pLHfHyMJbPgRt05zBcRSI3OZ5MVSuSMI6Ngp
+   QWs+TgYwO8w9zS679giDWJqqe6jmtMMJaQ9n4aLADON2ELCwvYcJfWyQD
+   LIpZM2rOWZIDyD+6q9iGX82pl1/n2J+vGgUIEVcQd7SIwoxsGpRSIbDOq
+   a0GU62x0jDPIGQfc6BlYqCV8g0D0Y3eZVEbcR2AonpcdRRbP0I5OTXiw9
+   cNIhcN0cG/SK4P6W1WtaRFa6vvACJHNsXFWyYpSZb20l8xEw5xCiTEZsv
+   Q==;
+X-CSE-ConnectionGUID: GAsnc64GSzOsuPPIYjYOcg==
+X-CSE-MsgGUID: CPsS1EbIQSiPfZ5BOh7K/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="19218173"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="19218173"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 02:07:15 -0700
+X-CSE-ConnectionGUID: i1m0ZUiVRaefJ0sQsDtNuw==
+X-CSE-MsgGUID: 3qT0YW8HTfS51l6xuT8uJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="71905559"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 17 Jun 2024 02:07:15 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJ8KW-00045C-15;
+	Mon, 17 Jun 2024 09:07:12 +0000
+Date: Mon, 17 Jun 2024 17:06:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-ak4619-for-upstream-2024-06-17-2 9/11]
+ arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: ak4619@10:
+ Unevaluated properties are not allowed ('clock-names', 'clocks' were
+ unexpected)
+Message-ID: <202406171614.rGKOLcGD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240616012511.198243-2-alexey.makhalov@broadcom.com>
 
-On Sat, Jun 15, 2024 at 06:25:11PM -0700, Alexey Makhalov wrote:
-> 0-DAY CI Kernel Test automation reported an issue:
-> 
->    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
->    regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
->    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
->    regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
->    ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
->    regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
->    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
->    regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
->    ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
->    ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for REGMAP_SPI
->    Depends on [n]: SPI [=n]
->    Selected by [y]:
->    - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
-> 
-> The issue is caused by CONFIG_AD9739A=y when CONFIG_SPI is not set.
-> 
-> Add explicit dependency on SPI and conditional selection of REGMAP_SPI.
-> 
-> Fixes: e77603d5468b ("iio: dac: support the ad9739a RF DAC")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
-> Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
-> ---
->  drivers/iio/dac/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
-> index 3c2bf620f00f..d095f4d26e49 100644
-> --- a/drivers/iio/dac/Kconfig
-> +++ b/drivers/iio/dac/Kconfig
-> @@ -133,8 +133,8 @@ config AD5624R_SPI
->  
->  config AD9739A
->  	tristate "Analog Devices AD9739A RF DAC spi driver"
-> -	depends on SPI || COMPILE_TEST
-> -	select REGMAP_SPI
-> +	depends on SPI
-> +	select REGMAP_SPI if SPI_MASTER
->  	select IIO_BACKEND
->  	help
->  	  Say yes here to build support for Analog Devices AD9739A Digital-to
-> -- 
+tree:   https://github.com/morimoto/linux sound-ak4619-for-upstream-2024-06-17-2
+head:   004e7f70e20761ef45826aaf35289dcd0be4e73d
+commit: d90489e8af6381bf640917e9fc7f85a389877c08 [9/11] arm64: dts: renesas: gray-hawk-single: Add Sound support
+config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171614.rGKOLcGD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171614.rGKOLcGD-lkp@intel.com/reproduce)
 
-FWIW, I appreciate it you fixing other breakages. However, there's a patch for
-that already, on its way:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406171614.rGKOLcGD-lkp@intel.com/
 
-https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=fixes-togreg&id=75183e461ce033605c3e85518a9f3d4e4ef848a3
-
-Don't get discouraged, though, when fixing something that is not in our
-immediate area of interest!
-
-:-)
-
-Thx.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: ak4619@10: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ak4619.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: mux: 'mux-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/simple-audio-mux.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: mux: 'mux-gpio' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-audio-mux.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: sound: 'aux-devs' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card2.yaml#
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
