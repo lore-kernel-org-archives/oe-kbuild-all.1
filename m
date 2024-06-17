@@ -1,124 +1,162 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122F06F06E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 12:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B072195FD2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 12:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718626763; cv=none; b=F6Ev092faDpDoxjQltoxPp+5rZ1AmtKFwT/RGmnZzgJHYJsRtpHYXIrPuQ0a1b6twxei9tLPHJCjlrOeUoXDYqJSNqN/iENs1t9E+weP1S01HGPeR3zlMUwHvsyLeko4A25GfqJQLiFXag6FBBnhSwCakhulHiI69y+r0worW9o=
+	t=1718628007; cv=none; b=HG4RAVQ7ukMnhyiTp1RSYXepi4hDANxK9lRM28+9hWT4WXmhyhPdiPVhPxn44U3u8VlI31EN+fucKbZq6OaLvzxc5Wbaxl4z6YW1b5xefYA/g7oe29wGuFm1T3SRpUuWizJjka0PkQYexirJpn+G/C+w8YttEll5PIQhpemlcdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718626763; c=relaxed/simple;
-	bh=xzhvDkEpDZrgRThMoaFSSMxMV4Dp4LP6yDwE0eNMl/M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZZOzRGRfy8kDdHyz5VA6GzxAVen9nHAq4MDqqf6g+0R6bKNQuuVYMxGl+3eLjaFyCa60vyx3/9vGHjdHkTWBV7yYV3cdev2dMOQcFN3cCuBIovtHgEITuXSj8TFBLFpbhu/ca436WZ1nfK5G+XHRSy2zyt0riClV7LJO/UntXm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-632597a42b4so21321257b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 05:19:21 -0700 (PDT)
+	s=arc-20240116; t=1718628007; c=relaxed/simple;
+	bh=ZLxsnURrc56BEggCT7SD+0+Rz9q8qW0YMtLdksIGfi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=W0+EmlUzp/BCv0qxeMLQQ4VTefVTcF4Ks0LPL3k0d8jGt6U1HZu0NdVyXoGffmS1u7NCmR0BDdbfuwTJYuK13+lnMbbHdalQy0QEl2qDa4QEGzCiySbucY98q6OvZlxStdOWYXn7//MPaAbAnIiHyu1SEU0PkvVqA8kQoyZNNEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hb1RJ/Y3; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hb1RJ/Y3"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52bc035a7ccso4604080e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 05:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718628004; x=1719232804; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5+HRYUPCMJcQBkT1cpfHbyTOHaJe2a6elgfsZtQuCyQ=;
+        b=hb1RJ/Y3z4bN7Nxf9d2sVI5mziqTdGvzY+EC5gjjeQv44TOJVuqJWrDsEygPhXopd6
+         jagdijsfGEQN3G60IJi64tMsR6ZC9VPiUbkVut0d/zYuWgCS8hJOBFSQnAVapXKs8J6G
+         +Zxn7zxyBOIVFWUXxXl4yixrUAz2wxD22BKdiyNJtsitubiDoBt6iLhgpv+FUXhBNZk8
+         EFMw8DZvbLi451VEus/ByKe/Grv9Pd29sfqN2Z2V++nnVUkdTiB/a/u8otl8RlHV/uiD
+         cQ5HfXXu8N7/q8D4UBwZZw1VxTzdTxSxz6BSMoWZxbMKgugMMM3+BGfl5i0wQKPmMbvw
+         qcVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718626760; x=1719231560;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1HNNvRS4bV8hMNb+Fj9cM3FroLQToBVMjslpHHwlSo4=;
-        b=M0p1/zra0tkc5cT0NUid5KuFgtYRPXiICKaHiPsECwSYg6oLwIwA32Hg9x37hQ1v83
-         6NxpC5Lvf2gaU+7NAWjCDUyg47/lM9wdVrvYnTLXUefmIUwOiPyln1pUciCgXW/cQRdz
-         RwX8LoLGP55BGZxdlrepVMTx14Veop0EDDUmFuZZFSn8uB4MIGa3+4m4SZJsIPzuVwHM
-         yXDjXGlrVrGCrr8gdbBeYz81EXSGi+kGYgt9ZdWente+pG4uCOuSLC9Jd92UAI21LZu0
-         NBte55flI4BGYUvKPsgJQf03DrIIggROVhj9l4vXOLNMgMd3ZoJqOoB/SUiGqy1se4jk
-         ZX5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVZmksXki8ADLHR5NW6cmdeAGOX+3Xe0IFSZjBgY4j94+qSLeL3Qb+64u5qZPqkkLEBaGVAo5LgXoFX4aad449XazAbm0iopwj0rde9HA==
-X-Gm-Message-State: AOJu0YwzntDlXiK6WACp1Mfvgud3E+IL6bH2IHguZDmmBGD6Wy6/0JTy
-	4tajD+2A9T9IZ4KHasLgncphIAmDu5J44mE/25kL7g/FjT0MxRM8WQHAgbZs
-X-Google-Smtp-Source: AGHT+IFkfyeQ2Czz0K7P/YXmbeDFlTRgqXcQ/STFOxLQ4cHHm8+eOQObVfYBcULYGcTfzz/AKikHWA==
-X-Received: by 2002:a81:a906:0:b0:631:5204:ca08 with SMTP id 00721157ae682-63205fe3cf5mr58030707b3.16.1718626758546;
-        Mon, 17 Jun 2024 05:19:18 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-63118e99735sm13813907b3.68.2024.06.17.05.19.18
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 05:19:18 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dfa71ded97bso3181768276.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 05:19:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbYNwhbDnybmw3CcWVIllt8ugWmF5fL0m8ZOjibGS8mXpjHXpaJUCTy3SsoSzuZxM4t0JPLkDfUy8aaCh9hpBVrAjroLrbEuzTEQo+aQ==
-X-Received: by 2002:a25:ae9d:0:b0:dfd:a57a:7317 with SMTP id
- 3f1490d57ef6-dfefec05f90mr7752620276.9.1718626757882; Mon, 17 Jun 2024
- 05:19:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718628004; x=1719232804;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5+HRYUPCMJcQBkT1cpfHbyTOHaJe2a6elgfsZtQuCyQ=;
+        b=GiaB4jnhceT4vUd2t5EMxwVL35nHv/SYyRL46Oo+l69g5GRF4zyXsoXzSrpL1WtpPN
+         KLnYKfl32iaWa084CcYTv06ZE7grB/UzQGqemUNP8XH4kotn583ZLPcLVh+V906mXYft
+         GDzr9GMMD/8azFih3mjGPtrkcv0p8BjuZw5sbHWKITkXW23CToDIR/IKPJ4F4/U3KxCh
+         E2wePq+E/D+TmcFnpHNN6N/1M2QhRCD7pIK92tpkbBaN73HVkCB1d5fGv7m2tx4pKSLz
+         ATmLSt92JZS3YRWlsrLa545hlzGGj3o6/iYzJz5PvgicRaCjsvh6zdfQt9fp3BovpZvt
+         WIeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVopAgvX4U/hGLxjsZ9/Cn5YvIr3cBXcDORceik0SAjXOLbF3jS3PGNG9exr3RJdt3gBz+6Vb8ZTB0l57A8APt+rW3aKid6YAkGDgyhww==
+X-Gm-Message-State: AOJu0YybV7I8i/2HQWa2TkyaAU0QXzv/HHKwXYiOa39Cr2ntAN8FNYpZ
+	uMOoYkyKpBYK043v/CcDJVERjrYvJsIzz7oxlPZ2da3jxs5uaNHV6zMs+Eh9uQw=
+X-Google-Smtp-Source: AGHT+IEKA7l6WX6SW03YB8EoOZxMGnJYTWom862f2gBPbXByGN/uJeOvL1EIFy31l26ZxHY1P1j1gQ==
+X-Received: by 2002:a19:f809:0:b0:52c:89ff:10bf with SMTP id 2adb3069b0e04-52ca6e999e7mr5401497e87.67.1718628003665;
+        Mon, 17 Jun 2024 05:40:03 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4246b67f0aesm27013865e9.45.2024.06.17.05.40.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 05:40:03 -0700 (PDT)
+Date: Mon, 17 Jun 2024 15:39:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	Singo Chang <singo.chang@mediatek.com>,
+	Nancy Lin <nancy.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH 1/2] mailbox: Add power_get/power_put API to mbox_chan_ops
+Message-ID: <71bb6f07-39b8-41b4-a743-66c7c5a6524d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202406171924.M6q32pv6-lkp@intel.com>
-In-Reply-To: <202406171924.M6q32pv6-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Jun 2024 14:19:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXocnjMw67acsehOpZKXSrCE6ci1-Z3wgNQrBRH_TeTYQ@mail.gmail.com>
-Message-ID: <CAMuHMdXocnjMw67acsehOpZKXSrCE6ci1-Z3wgNQrBRH_TeTYQ@mail.gmail.com>
-Subject: Re: [morimoto:renesas-bsp/v6.1.94-2024-06-17 52/661]
- drivers/iommu/ipmmu-vmsa.c:485:undefined reference to `free_io_pgtable_ops'
-To: kernel test robot <lkp@intel.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240614040133.24967-2-jason-jh.lin@mediatek.com>
 
-On Mon, Jun 17, 2024 at 1:24=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.94-2024-06-17
-> head:   6ce189abfade2a17cc6b84c39ec1d82e4be871b2
-> commit: d623e64054303ef67c85496510b46687497508ab [52/661] riscv: Kconfig.=
-socs: Add ARCH_RENESAS kconfig option
-> config: riscv-randconfig-002-20240617 (https://download.01.org/0day-ci/ar=
-chive/20240617/202406171924.M6q32pv6-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240617/202406171924.M6q32pv6-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406171924.M6q32pv6-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
-n_destroy_context':
-> >> drivers/iommu/ipmmu-vmsa.c:485:(.text+0x98e): undefined reference to `=
-free_io_pgtable_ops'
->    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
-n_allocate_context':
-> >> drivers/iommu/ipmmu-vmsa.c:342:(.text+0xf5e): undefined reference to `=
-alloc_io_pgtable_ops'
->
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
->    Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST =
-[=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
->    Selected by [y]:
->    - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] ||=
- COMPILE_TEST [=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
+Hi Jason-JH.Lin,
 
-Missing backport of commit e332003bb216a9f9 ("iommu: Make IPMMU_VMSA
-dependencies more strict").
+kernel test robot noticed the following build warnings:
 
-Gr{oetje,eeting}s,
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-                        Geert
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/mailbox-Add-power_get-power_put-API-to-mbox_chan_ops/20240614-120412
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240614040133.24967-2-jason-jh.lin%40mediatek.com
+patch subject: [PATCH 1/2] mailbox: Add power_get/power_put API to mbox_chan_ops
+config: x86_64-randconfig-161-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151520.TDnOFFbV-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406151520.TDnOFFbV-lkp@intel.com/
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+smatch warnings:
+drivers/mailbox/mailbox.c:485 mbox_request_channel() error: 'chan' dereferencing possible ERR_PTR()
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+vim +/chan +485 drivers/mailbox/mailbox.c
+
+2b6d83e2b8b7de Jassi Brar      2014-06-12  444  struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  445  {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  446  	struct device *dev = cl->dev;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  447  	struct mbox_controller *mbox;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  448  	struct of_phandle_args spec;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  449  	struct mbox_chan *chan;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  450  	int ret;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  451  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  452  	if (!dev || !dev->of_node) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  453  		pr_debug("%s: No owner device node\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  454  		return ERR_PTR(-ENODEV);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  455  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  456  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  457  	mutex_lock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  458  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  459  	if (of_parse_phandle_with_args(dev->of_node, "mboxes",
+2b6d83e2b8b7de Jassi Brar      2014-06-12  460  				       "#mbox-cells", index, &spec)) {
+b6d83e2b8b7de Jassi Brar      2014-06-12  461  		dev_dbg(dev, "%s: can't parse \"mboxes\" property\n", __func__);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  462  		mutex_unlock(&con_mutex);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  463  		return ERR_PTR(-ENODEV);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  464  	}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  465  
+2d805fc1c6b2ec Benson Leung    2015-05-04  466  	chan = ERR_PTR(-EPROBE_DEFER);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  467  	list_for_each_entry(mbox, &mbox_cons, node)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  468  		if (mbox->dev->of_node == spec.np) {
+2b6d83e2b8b7de Jassi Brar      2014-06-12  469  			chan = mbox->of_xlate(mbox, &spec);
+8ed82e23875e60 Mikko Perttunen 2018-11-28  470  			if (!IS_ERR(chan))
+2b6d83e2b8b7de Jassi Brar      2014-06-12  471  				break;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  472  		}
+2b6d83e2b8b7de Jassi Brar      2014-06-12  473  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  474  	of_node_put(spec.np);
+2b6d83e2b8b7de Jassi Brar      2014-06-12  475  
+2d805fc1c6b2ec Benson Leung    2015-05-04  476  	if (IS_ERR(chan)) {
+2d805fc1c6b2ec Benson Leung    2015-05-04  477  		mutex_unlock(&con_mutex);
+2d805fc1c6b2ec Benson Leung    2015-05-04  478  		return chan;
+2d805fc1c6b2ec Benson Leung    2015-05-04  479  	}
+2d805fc1c6b2ec Benson Leung    2015-05-04  480  
+85a953806557db Elliot Berman   2023-04-10  481  	ret = __mbox_bind_client(chan, cl);
+85a953806557db Elliot Berman   2023-04-10  482  	if (ret)
+2b6d83e2b8b7de Jassi Brar      2014-06-12  483  		chan = ERR_PTR(ret);
+
+change is set to error pointer
+
+2b6d83e2b8b7de Jassi Brar      2014-06-12  484  
+9c57f48cd805b1 Jason-JH.Lin    2024-06-14 @485  	if (chan->mbox->ops->power_put)
+                                                            ^^^^^^
+Dereferenced on the next line
+
+9c57f48cd805b1 Jason-JH.Lin    2024-06-14  486  		chan->mbox->ops->power_put(chan);
+9c57f48cd805b1 Jason-JH.Lin    2024-06-14  487  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  488  	mutex_unlock(&con_mutex);
+9c57f48cd805b1 Jason-JH.Lin    2024-06-14  489  
+2b6d83e2b8b7de Jassi Brar      2014-06-12  490  	return chan;
+2b6d83e2b8b7de Jassi Brar      2014-06-12  491  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
