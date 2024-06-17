@@ -1,85 +1,164 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0E615B57F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 14:39:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51659154C00
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 15:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718635195; cv=none; b=gPY4XvceEnrg1GYTShY2xgX73vESUdK5c4sFPw3bk6z6/qgNR3dyXFhI/gRHYv+mHvxyh+yh7TKbjQ/wdl5tN1fOb3CTQGbs8FLaptsIAjT/fPDC02J72n8/ce7Ldna29UPR3buI2bA0o9UoNqJEVPyZ47AFxxmLhCBYrCIYGtw=
+	t=1718638034; cv=none; b=o8OkH7Rv/8h63A/pKFV0iJcdpRH25RaKF6V3O9yExZ7UtC/luHXs62Ln/1wHhqJiTXqOn9EYk2BMzfvzx4T/6ItQcAp5iSDDhiC8+vz0p3cqZ1R7PwnpxNdyXMUvKbxNi/pN6Gkqf7K53YiBe8uYc3bhekXHg0Q2kZ/DG8aGDb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718635195; c=relaxed/simple;
-	bh=P80Zpu9tv1bMMBDh+ONi23eSh4o+SJsPhThAatrGgAA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Btl2BnH4r3KC/6juinfyd+j3wiUSg7HWBow/V/AlFcp3NUENAFMW+s/bxKmi9Dr30pavAs7gzZpGTX8b5iPTjpWBF/+hZvZwqJZ4eTBomZYWep2I2hR1kAyycN7EcSYBq5c5/j8ZNJ6KB5raMxLZHm6DbT+jEPouQHJT94HEzUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vgotBcXr; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718638034; c=relaxed/simple;
+	bh=t5T1afTeUGGZr6aWMsHih32loJy6sN0Iafkw6jUzAoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FAm/Y6yz3mde6vo40h/DVz5PJj8R1ft7C0ev223ez78tPJJccBiOFsErNlNEoyRpONZWSKnVKMEV6uuR2Q9mY2W8s2OnTg6P4ubw97ru1ONzKOR/h08MDAPeaKejL4wMY1Snc8cap10V4ynZNYns88mjANjJyeAGZGZx4vKt+as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UcO6XhwC; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vgotBcXr"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-632b6ff93e4so54412487b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 07:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718635193; x=1719239993; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vHyuZMITfnIkev2GvBkEnYE0p556d103ol755fiJd7Q=;
-        b=vgotBcXrI2oY6ZYKGniDKP0LlneArGHGPBcRzWNP9aZbNour4czbP+bdJp2d4DsE0a
-         JjrFZfKB/keNz1aUYg02utZDLAdfkpfe4gYCssMFgUlosMOUCyud/oaN32SwUxQiuR4+
-         Kg52fyJjwhp8lmTcxgzFtYOBitUSvchqd8j6zojFThOD0/fHbNAao6zPtBJhSdfodk1s
-         iGn8s62B9ofTYLFs3Vk4Q7hLJbjOEkrsPl5PELyEYWToYdYlPBuoOcMPgQQ+1eb7LKXg
-         RVTfHptf6aU7YyL0FEeREV+J3jUlUvzqF7wx1+tBG8naP+F0nEVToORHlEKK8psg5C5w
-         vB7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718635193; x=1719239993;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vHyuZMITfnIkev2GvBkEnYE0p556d103ol755fiJd7Q=;
-        b=bWUIJiuzPf6SXIEABlxkUhPKDAHSUnBqCpy/cZYLFg9sY06mNbYNXhDho5dPhDm5cX
-         sVUUPDToAQMIbUUWWc5VKwev57x7vxm/4BIfPSnmPmDPa6d5Qw93SAjKzgbHTeYwDdSw
-         8O4K2rSVO8InyFdhY6FzLe42ZPRSyawKWvUKWafGQ/SaGh9/oP3DhNdyBy8gg+kGu02i
-         f5prQS8y9SEWDQMUAm4C6NSUpAipiDadEO4ptaNxFExAuf9Xc4QCYsC6s56t4jziuX30
-         pHuR1ZfAmnIUGQnDmo65+GfeUFcJQTVegVSGT2JN8lUSPxPgNNgJuP+J7Hl43Sx1ZfPD
-         3cyg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCcevI/XYQKHinWmi14DL1+rDxvU4TZLFP/7u0wnUrfDjxOCKHLoyQVs/nYktOSEOz7qWB5ObVv/MLooJSciOc8zlypTGz23bavoBRFw==
-X-Gm-Message-State: AOJu0Yz+QiSQB7GYO0cedfkYLAmQ2/CqJUHlAkuptbTGRbSEMTN6/Lfj
-	/6BQXx5dWyu/9nlTme4M3rTN59XiX0aSWN5fk+Gl9pc+eDbu6FpI/rcxZ/6UmXp2scPtTQHFuA3
-	kMA==
-X-Google-Smtp-Source: AGHT+IGRkKuEbgZAbZlwQNI71faOZATSKDWCbKCMCbXhO0niCQ7K0aLbEl6u7tzApvz62D/KMq/FQjTcEF4=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:f88:b0:dfb:1c1c:abf9 with SMTP id
- 3f1490d57ef6-dff1534bb30mr3070719276.2.1718635193015; Mon, 17 Jun 2024
- 07:39:53 -0700 (PDT)
-Date: Mon, 17 Jun 2024 07:39:51 -0700
-In-Reply-To: <20240615080902.GAZm1MHvXQ30rm1Nnk@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UcO6XhwC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718638032; x=1750174032;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t5T1afTeUGGZr6aWMsHih32loJy6sN0Iafkw6jUzAoQ=;
+  b=UcO6XhwC010W5QfQSkpLEU9CnAkG66VGMYWhFMZeopl0VVE+G3b5g0iP
+   Z+GuSd5BRn8ljuAUdxYeyg2VX31lGi+UPSGOVtYYUaWEn92CY4Gy10Nxg
+   N1y+iw0aecRysBBgcLyT/b2Sh+F7Bxxcx6US6pMKPcoH99BeALWGna+7P
+   iTFjqoOzMgcKH5Xo60KesgHddYfk46PR/ijNETpdmKM2r8OtS2StJ5WsB
+   3lZsxdeaOdnT+XEcimhSclqnCIp6226KZktmpW6OXPW24BQs+XRrf4R76
+   AbQ73rToI2EyiE697JY7RlX+xvqk3MEs/ktSk4lr4QThfDj4c6QUYelAd
+   A==;
+X-CSE-ConnectionGUID: H5JPey5VT5+LZmdby/ryyA==
+X-CSE-MsgGUID: k3uYfGccRBmAdPwTMkiyeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="18386152"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="18386152"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 08:27:12 -0700
+X-CSE-ConnectionGUID: CEzzdJjJRHmzivVegYhcGA==
+X-CSE-MsgGUID: nts52lgsQzKm1xWwQpOU+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="41917734"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 17 Jun 2024 08:27:10 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJEGB-0004cX-1r;
+	Mon, 17 Jun 2024 15:27:07 +0000
+Date: Mon, 17 Jun 2024 23:26:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Shawn Guo <shawnguo@kernel.org>
+Subject: [shawnguo:imx/dt64 47/54]
+ arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb:
+ hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was
+ unexpected)
+Message-ID: <202406172345.jqpgCtaI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202406141648.jO9qNGLa-lkp@intel.com> <20240614152228.GAZmxgNPmozj7UzRdV@fat_crate.local>
- <ZmxjOxhPy67QOh5Q@google.com> <20240615080902.GAZm1MHvXQ30rm1Nnk@fat_crate.local>
-Message-ID: <ZnBKtwvvKXXK2b2u@google.com>
-Subject: Re: [tip:x86/alternatives 14/14] arch/x86/kvm/kvm.o: warning:
- objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
-From: Sean Christopherson <seanjc@google.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: kernel test robot <lkp@intel.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Jun 15, 2024, Borislav Petkov wrote:
-> On Fri, Jun 14, 2024 at 08:35:23AM -0700, Sean Christopherson wrote:
-> > > I know Sean had a patchset to cleanup that gunk. Sean?
-> > 
-> > That series was just for the actual VM-Enter/VM-Exit path. 
-> 
-> Right, about that. I still see:
-> 
-> vmlinux.o: warning: objtool: svm_vcpu_enter_exit+0xb0: call to sev_es_host_save_area() leaves .noinstr.text section
-> vmlinux.o: warning: objtool: svm_vcpu_enter_exit+0xbf: call to sev_es_host_save_area.isra.0() leaves .noinstr.text section
-> 
-> in allyesconfig builds....
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt64
+head:   0565d20cd8c22e44ca42937be08bfc0349e31521
+commit: 62814204c6aebe0b5a71f3ee7360e08a8b60e275 [47/54] arm64: dts: freescale: imx8mp-verdin: add HDMI support
+config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240617/202406172345.jqpgCtaI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406172345.jqpgCtaI-lkp@intel.com/reproduce)
 
-Gah, sev_es_host_save_area() needs to be tagged __always_inline.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406172345.jqpgCtaI-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
