@@ -1,241 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999C0190484
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 08:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005E919048D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 09:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718614580; cv=none; b=dI8KxRIy/5i7LGHAxrTdhSGEPAB1Aaoc1/ul4z/YEVc9cpkCTFvG7uKfV+pzN1GFL7k4mUl1Pwu0ZWfc3a0AdhZEUK3gqc1fATzt8K75Xp4Tjjr1C2T4oWMPxsdj8g8DXWIkFkfYDcYVAqWacUZYwSABKrKioesEpy9A56KzXM8=
+	t=1718615103; cv=none; b=bK0FC5Lpojb6S9lvPgoLNbHWsF6oSMiCURmVzNkCUfQsbQooLlr9G+7TAMSHVAkYskB0qhv/axz/gpn2tF+mrBgWbDTT4hDF31b2GrtNnLghqJxfBW1Qu1rcfCyGUmiEBux17cvgHQ0OZuu8H+7y+J5iQ3nZmaNF1Jwz5ftWWOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718614580; c=relaxed/simple;
-	bh=iERXw9yHRm3MUsndaGXJDN2oB3Rv+8jZf9mPMmTagrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KETefu6fNG4lqXiMUI0lU3r7kjll56BEHaAkDMm9wFQCrp6miPr5I5K1t0nVnwesBEYjQQglSI5osENu9v/cC467MVcXIKvyq6RuzHjFSlCxhoKzV8Hvfw3Uks4mO32tBiRhiTRphFBoqpGiyCrPUenSznIOTUF6ykPevEAOMD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqJb9J5l; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718615103; c=relaxed/simple;
+	bh=bJyr/aO6dAr6Q8n3K309ag9Uvh8BkTlic8lhxJq16yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyW64fDJRF1hXI2VDWR7UJqiIzURK4pt1Ak4H8FXxraZag2HBQcfDXI7xyikFozJpqBWUdddYvBafjNv1EnA/BcryUg8E8efmzdrNP91i47//6Bw6lhdhIAgVBXDf/oSOvBrBvnjq5woz24jy1JSRERJip3rrGwqMLSxuP3z4Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=fM9YY5+S; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqJb9J5l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718614578; x=1750150578;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iERXw9yHRm3MUsndaGXJDN2oB3Rv+8jZf9mPMmTagrk=;
-  b=YqJb9J5loe18TYIjFGBZw86DcTJUhd5QnGYcqAfjOVSq4bSn+2p0Hbjd
-   hmy8d8FkwKV6RudttnC8cywmkKj/QBVroHAwIaw4NcYkYdIO5M0XULglX
-   c39oMXgw1L7foWftQfajFJ5agyoOGTnT6S+brAiuVcb1IYMwaT52fZGTA
-   vHA3RccXZ4deA8WWsJqOIJfu0ZIziGbbbzQozk1HPpHf5AhS84nIImHfq
-   H+NtsEn5A8hrRKmxN1hrz8PEuGZCpyPDg3Wg6yEd8ZMb0FTgLUaHWf+c9
-   mZKXw24F2mAKCDWRJprioNc+kEt/DrrMCb8OnlFR3w9ibueVlaRS9ouUY
-   A==;
-X-CSE-ConnectionGUID: gioUM1j+RayMfSAr3xSkoQ==
-X-CSE-MsgGUID: rW7L2xRUT6Cw9VY21zAMgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="26063045"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="26063045"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 01:56:18 -0700
-X-CSE-ConnectionGUID: v10BGFwCQrmku2jt6UceUA==
-X-CSE-MsgGUID: 8/JJ/1LXRlCRC6oFiVpJdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="46064906"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Jun 2024 01:56:14 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJ89r-00044O-2J;
-	Mon, 17 Jun 2024 08:56:11 +0000
-Date: Mon, 17 Jun 2024 16:55:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [linux-next:master 4414/5501]
- arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb:
- interrupt-controller@32fc2000: power-domains: False schema does not allow
- [[121, 0]]
-Message-ID: <202406171621.GZGy0npM-lkp@intel.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="fM9YY5+S"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4D8D840E01A5;
+	Mon, 17 Jun 2024 09:04:59 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ObG_vPpV5sYZ; Mon, 17 Jun 2024 09:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1718615095; bh=6PftBkAsybJq5wobZkn4YNmGhgUEBQQ3Lg1pMZ4UKX0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fM9YY5+Sbw/y7zIIoxZQBPodCHfF2Ldl8dPnYAml/QDIIh2OADxEVudmDT1VwmB6s
+	 l3foABm6DKNhMwUFo876QaWuasTe44MBjvYFZGLAokceOiyv+qlgVVwIxjXMo6zaJg
+	 sRZ1ITda+OH7iDt3t768G9rbbx9lh0D4fCEn1SlkVCdgeXjvzXGXhzHZ59iWKb2peW
+	 aGmIOEyCL2zzGwDmGP+IXZ1Sl17YFAHOBppf5+NXd6em8xW6HecPviRK2E76kAPF/2
+	 y5DsgotF4l8N4oVxZtLBB152PrrfW1N+H1YZ0oVyZtW0LcFfFoBYyVEpmIuSYtj/sQ
+	 mbrJKYqCqb3loUiG4VgL9oyjgoZEuWV40R9jdkRvtrReXOFTJhqeFE0gfGAwptpANh
+	 M6HAowoYUV1bBLDEQbxeammlyiNvqiTOCmbvza0KtTtTz0q4jEc/DP5lyBaW7P/lz/
+	 rpmqHGS/wkwG5naT1mMscb33dK9iUON4wGOX1bCW8P6NBjJvhzS7lOP5NIKpE1NUbh
+	 nML1aoGd4gqFp/1BRNSP0V7SBNILWGUmbiOzUhdchKuxjfIQvdEv4J/8RKG9txAxi2
+	 14CULug0iz/GGVvMDPEa6k0/2n1CJmQ4mK2HSfP8cHxjEJQX76ijX9VX6K+AAOpRmX
+	 ag2yM21XKxhJ31JBWVD/gAFE=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EDA2940E0219;
+	Mon, 17 Jun 2024 09:04:34 +0000 (UTC)
+Date: Mon, 17 Jun 2024 11:04:28 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+	lkp@intel.com, zack.rusin@broadcom.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
+	jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
+	dragos.bogdan@analog.com, anshulusr@gmail.com,
+	andrea.collamati@gmail.com, oe-kbuild-all@lists.linux.dev,
+	x86@kernel.org
+Subject: Re: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
+Message-ID: <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
+References: <202406152104.FxakP1MB-lkp@intel.com>
+ <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+ <20240616012511.198243-2-alexey.makhalov@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20240616012511.198243-2-alexey.makhalov@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6906a84c482f098d31486df8dc98cead21cce2d0
-commit: 285c645d842c5a15d3be2d653faaa5f68d81be1f [4414/5501] dt-bindings: interrupt-controller: fsl,irqsteer: Add imx8mp/imx8qxp support
-config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171621.GZGy0npM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171621.GZGy0npM-lkp@intel.com/reproduce)
+On Sat, Jun 15, 2024 at 06:25:11PM -0700, Alexey Makhalov wrote:
+> 0-DAY CI Kernel Test automation reported an issue:
+> 
+>    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
+>    regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
+>    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
+>    regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
+>    ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
+>    regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
+>    ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
+>    regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
+>    ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
+>    ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for REGMAP_SPI
+>    Depends on [n]: SPI [=n]
+>    Selected by [y]:
+>    - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+> 
+> The issue is caused by CONFIG_AD9739A=y when CONFIG_SPI is not set.
+> 
+> Add explicit dependency on SPI and conditional selection of REGMAP_SPI.
+> 
+> Fixes: e77603d5468b ("iio: dac: support the ad9739a RF DAC")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
+> Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
+> ---
+>  drivers/iio/dac/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
+> index 3c2bf620f00f..d095f4d26e49 100644
+> --- a/drivers/iio/dac/Kconfig
+> +++ b/drivers/iio/dac/Kconfig
+> @@ -133,8 +133,8 @@ config AD5624R_SPI
+>  
+>  config AD9739A
+>  	tristate "Analog Devices AD9739A RF DAC spi driver"
+> -	depends on SPI || COMPILE_TEST
+> -	select REGMAP_SPI
+> +	depends on SPI
+> +	select REGMAP_SPI if SPI_MASTER
+>  	select IIO_BACKEND
+>  	help
+>  	  Say yes here to build support for Analog Devices AD9739A Digital-to
+> -- 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406171621.GZGy0npM-lkp@intel.com/
+FWIW, I appreciate it you fixing other breakages. However, there's a patch for
+that already, on its way:
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: hdmi@3d: 'v3p3-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: /soc@0/bus@30800000/mmc@30b40000/wifi@1: failed to match any schema with compatible: ['marvell,sd8997']
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[121, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: sai@30c30000: Unevaluated properties are not allowed ('#clock-cells' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[120, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[94, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[96, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:261.9-273.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[129, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:261.9-273.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: typec@3d: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/extcon/extcon-ptn5150.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[133, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[114, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[83, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[117, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: /extcon-usb0: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
---
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[90, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[101, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[104, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[106, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[107, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[126, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[98, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[104, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[106, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[112, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw7905-2x.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[100, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[135, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[135, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[134, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[133, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[140, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[140, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[139, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: interrupt-controller@32fc2000: power-domains: False schema does not allow [[138, 0]]
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=fixes-togreg&id=75183e461ce033605c3e85518a9f3d4e4ef848a3
+
+Don't get discouraged, though, when fixing something that is not in our
+immediate area of interest!
+
+:-)
+
+Thx.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
