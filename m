@@ -1,39 +1,59 @@
-Received: from mail-177131.yeah.net (mail-177131.yeah.net [123.58.177.131])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A80112AD39
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 03:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=123.58.177.131
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F311D68F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 04:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718594425; cv=none; b=ohG9FLlLtY762kvBPJ83Xtxti1M2PAeOT+oYCM4MRAYwCRgYRqLCbjG/DsVFMqo+Uulsw3+uV99Y4lplZEA1MKLvMXDwpNBUYmUTe1bAGJN99QwlVyDAbW8JkUcjx2QlboD8JNxFctQSxF9K6S5q6YvxwhbwAKFRmieX03Rsivg=
+	t=1718597154; cv=none; b=IR85rY6Ih+ChH/+rX7dki8/BO7/BcNJK/qdVFozBWvmxAzcn80MnZaROgyp0gBS64xrcaf3IUxP6s3yF2xw2dfZct6Bk9olcX4MJxHZOpDYyO3AOOHZXP98UOW+/OkhQa78nmoJNBkmO1CA+9BqyJ4gCkNxgy5I/mr84dgyEIUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718594425; c=relaxed/simple;
-	bh=x9eknM+uiJM3s5JSZ6S6xiskJ+mQ1NC6nhqDxlhqTw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vc3S9mWCfkH5PBhbojivWi6cYm6NhzT5hO6BEqScoLJy5IxUuJll9P9YcO9ldTa7/gaqnWRNs9PW056g9FjMmbjFzOWPM1IPgAYynTO54wAeOFDSEn17+rtUN4ABIQGi4a8/D+KW547UoNvXoNCMiIZrfGx/pbwk8V8SOsjFVEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=pP55n7+p; arc=none smtp.client-ip=123.58.177.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1718597154; c=relaxed/simple;
+	bh=TSGjTWRGl3UzeOTpq3goQV9/J0p5qKB7x/+JohkUuQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RXLhzYFUrwQO/8YjulS6yP/IQdOkrbxRwyUDL8dxh8UU9sFqJghGN+YVxB6sKasep2YrxLPKIeYu8mkZVIbyrJl5b6rfumKacUkJZOPxqCkq/0OOYHBdbP3MHOEPLqWhrE1vPITeNfreTp1BDwg7iydrDFv5MBP+GXj3zmiWTYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCjIiqRk; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="pP55n7+p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=2nkcSds7QxdWnyjawm44xlH4USScH8xdTFKg7s8rIUA=;
-	b=pP55n7+p+wwwFvPTd5ZFkcSML30jTbKN1MQj9OT+XOqqzwK5KBozPl91bkL5Vl
-	hWS7BqtWQvv0G2/hj2lZqNig09j3Qg+BEw2vPr+ZmY4XbdFEIquPTnLQ9jygvbHQ
-	/YXiAt9Ih/2l1Kta/uJSlI+J8aeptZBOJQXEmBITSfuZo=
-Received: from dragon (unknown [114.216.76.201])
-	by smtp1 (Coremail) with SMTP id ClUQrAD3HyBiq29m+_kMCA--.57528S3;
-	Mon, 17 Jun 2024 11:20:03 +0800 (CST)
-Date: Mon, 17 Jun 2024 11:20:02 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: kernel test robot <lkp@intel.com>
-Cc: Marek Vasut <marex@denx.de>, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [shawnguo:imx/dt64 27/42]
- arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: hdmi@32fd8000:
- Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
-Message-ID: <Zm+rYkorx7K9dtIA@dragon>
-References: <202406171104.SmweUTX3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCjIiqRk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718597152; x=1750133152;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TSGjTWRGl3UzeOTpq3goQV9/J0p5qKB7x/+JohkUuQY=;
+  b=jCjIiqRkixNHSB6puzDLBO9L2ZRpwabY7S90Yn56OSXQylemmjJ1teQr
+   7cqMR6VkTqKrdQLOUikSmvhjibQXSQjKKiLAEd56YNbxlE9OAcqtm/Bis
+   lh8Gu7NXs4ADguq4J4Cu371ouCEoRLRd9m3pwhgTIml+fvd95+W6SMG6J
+   kDPFjrOPOC6ObxdCY4pRF8LttK090PvsvGdoG8OT7jvsZsk9hAnmF77Kt
+   nFbHv0agD8sDD0eB8JNc2i3p8PoqTuxdNj59LsKpUjHRSEbwuHPRcVxHq
+   Fps/l8N9qPKycqPdwAUaZJXWoFYXSA4zH8GN5b5+MgmR/LdPFmjbCn77Y
+   g==;
+X-CSE-ConnectionGUID: H7MWjIk2TQKe6gK+EQjKfQ==
+X-CSE-MsgGUID: DXy6NVbdRzeWmFUv59HMow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="19268216"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="19268216"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 21:05:51 -0700
+X-CSE-ConnectionGUID: KmggOPhJQqGBHd+txmMDAQ==
+X-CSE-MsgGUID: kOBkaKqwT4erjRkPjKFGSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="41213017"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 16 Jun 2024 21:05:51 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJ3cq-0003mC-0p;
+	Mon, 17 Jun 2024 04:05:48 +0000
+Date: Mon, 17 Jun 2024 12:05:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 11561/22937]
+ drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:597:53: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202406171104.ZG6iVFTd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,50 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406171104.SmweUTX3-lkp@intel.com>
-X-CM-TRANSID:ClUQrAD3HyBiq29m+_kMCA--.57528S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCw13WF17AF4rCr4fGrWfKrg_yoW5CrWxpF
-	1UCFnrWrZYgF4xW39Fgwn09wn0vws3Ar15uw1UG34jkrW29F9rJF4S9r98Wr1j9r1IgayS
-	yF1xZw1Sqwn8XaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jaCJPUUUUU=
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiFQYBZV6NnP-buwAAsn
 
-Hi Marek,
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   745a3c567e1c329d131a8896642475f3916d020a
+commit: fb55aa477dfa7f488f112a8b87116962d623ff63 [11561/22937] net: hns3: place cae regconfig-related implementations in an independent file
+config: arm64-randconfig-r111-20240615 (https://download.01.org/0day-ci/archive/20240617/202406171104.ZG6iVFTd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240617/202406171104.ZG6iVFTd-lkp@intel.com/reproduce)
 
-Should I drop the patch or is it bindings that need to be updated?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406171104.ZG6iVFTd-lkp@intel.com/
 
-Shawn
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:51:14: sparse: sparse: symbol 'g_hns3_cae_class' was not declared. Should it be static?
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:52:13: sparse: sparse: symbol 'g_hns3_cae_cdev' was not declared. Should it be static?
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:55:5: sparse: sparse: symbol 'g_hns3_cae_init_flag' was not declared. Should it be static?
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:56:5: sparse: sparse: symbol 'g_hns3_cae_ref_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:94:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got void *in_buff @@
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:94:43: sparse:     expected void const [noderef] <asn:1> *from
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:94:43: sparse:     got void *in_buff
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:137:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:1> *to @@     got void *out_buf @@
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:137:32: sparse:     expected void [noderef] <asn:1> *to
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:137:32: sparse:     got void *out_buf
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:224:5: sparse: sparse: symbol 'hns3_cae_get_commit_id' was not declared. Should it be static?
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:343:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got void * @@
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:343:38: sparse:     expected void const [noderef] <asn:1> *from
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:343:38: sparse:     got void *
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:579:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 @@     got unsigned int @@
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:579:30: sparse:     expected restricted __le32
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:579:30: sparse:     got unsigned int
+>> drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:597:53: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 @@
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:597:53: sparse:     expected unsigned int
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:597:53: sparse:     got restricted __le32
+   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c:224:5: warning: no previous prototype for 'hns3_cae_get_commit_id' [-Wmissing-prototypes]
+     224 | int hns3_cae_get_commit_id(struct hnae3_handle *handle, u8 *commit_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
-On Mon, Jun 17, 2024 at 11:04:05AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt64
-> head:   152f7a9908b11ff55f3feb357a5f6ff84f90e69b
-> commit: 11af40dc13f328c76648e16b8c8a6902b35bbd8c [27/42] arm64: dts: imx8mp: Enable HDMI on i.MX8MP DHCOM PDK2 and PDK3
-> config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171104.SmweUTX3-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 13.2.0
-> dtschema version: 2024.6.dev1+g833054f
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171104.SmweUTX3-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406171104.SmweUTX3-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->    arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:261.9-273.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->    arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
->    	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-> >> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
->    	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
-> --
->    arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:261.9-273.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->    arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: typec@3d: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
->    	from schema $id: http://devicetree.org/schemas/extcon/extcon-ptn5150.yaml#
->    arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
->    	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-> >> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
->    	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +597 drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_lib.c
 
+   558	
+   559	int hns3_cae_common_cmd_send(struct hns3_nic_priv *net_priv, void *buf_in,
+   560				     u32 in_size, void *buf_out, u32 out_size)
+   561	{
+   562	#define MAX_DESC_DATA_LEN       6
+   563		struct cmd_desc_param *param_in;
+   564		struct hclge_vport *vport;
+   565		struct hclge_dev *hdev;
+   566		struct hclge_desc desc;
+   567		bool check;
+   568		int ret;
+   569		int i;
+   570	
+   571		check = !buf_in || in_size < sizeof(struct cmd_desc_param);
+   572		vport = hns3_cae_get_vport(net_priv->ae_handle);
+   573		hdev = vport->back;
+   574	
+   575		param_in = (struct cmd_desc_param *)buf_in;
+   576		hns3_cae_cmd_setup_basic_desc(&desc, param_in->fw_dw_opcode,
+   577					      param_in->is_read);
+   578		for (i = 0; i < MAX_DESC_DATA_LEN; i++)
+   579			desc.data[i] = param_in->reg_desc.data[i];
+   580		ret = hns3_cae_cmd_send(hdev, &desc, 1);
+   581		if (ret) {
+   582			dev_err(&hdev->pdev->dev, "%s, ret is %d.\n", __func__,
+   583				ret);
+   584			return ret;
+   585		}
+   586		if (param_in->is_read) {
+   587			struct cmd_desc_param *param_out =
+   588						(struct cmd_desc_param *)buf_out;
+   589	
+   590			check = !buf_out || out_size < sizeof(struct cmd_desc_param);
+   591			if (check) {
+   592				pr_err("input param buf_out error in %s function\n",
+   593				       __func__);
+   594				return -EFAULT;
+   595			}
+   596			for (i = 0; i < MAX_DESC_DATA_LEN; i++)
+ > 597				param_out->reg_desc.data[i] = desc.data[i];
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
