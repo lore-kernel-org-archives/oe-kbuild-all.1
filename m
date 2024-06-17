@@ -1,141 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51014194A5A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 11:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122F06F06E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 12:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718624090; cv=none; b=VIUxJ54R9CntAMouKc+I+MEumJJq0t5CKmsWglIG/AVAaQyVGGsZFvnaS5Gz6yF8I2wn/Dk4U8D0ImSLYnbHZtYdq8mt5C8GCvhnAPYnj5DkBZ78eeyGgJFeefBo7C1t6GYu2hf5mwrYNEwjl2cynjlkUQ4DlZekDrPLhHYjFfA=
+	t=1718626763; cv=none; b=F6Ev092faDpDoxjQltoxPp+5rZ1AmtKFwT/RGmnZzgJHYJsRtpHYXIrPuQ0a1b6twxei9tLPHJCjlrOeUoXDYqJSNqN/iENs1t9E+weP1S01HGPeR3zlMUwHvsyLeko4A25GfqJQLiFXag6FBBnhSwCakhulHiI69y+r0worW9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718624090; c=relaxed/simple;
-	bh=0jId0a55uaWiJleIvuFAp7uQffIjPdI/Ww2Wmybckx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oL9tPIfe7GuLK0ebsQCprg3PcTF9GlKcKONjkwmt62OkE5ocFRUY0MDgCPr0/3lGoF9vS4rmFw8h/oRw7dCWcvyEY14E8rRWdK9zGz4Ba24mBDktV2IStlabbUCZ1s7HiWlTVDsra6F1zaoypbGTif5hw5477xcoHtJZ1x0LG+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bELuhYh7; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bELuhYh7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718624088; x=1750160088;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0jId0a55uaWiJleIvuFAp7uQffIjPdI/Ww2Wmybckx8=;
-  b=bELuhYh7XykUM0BiQF9UDGrfnbCZ6Lzs559ctU42KfI1u1R/k9ktGImi
-   E5Z8hmXyUMiIrtEOtbl75VROgOoKnPH+ihhyHtYy3b2W8WDLhnk3xx1UZ
-   ZvZJW7NaB0ushr6ilq7fESgacTX+YyRqtAw/9sV0rm4fyagsoLxFYMcqA
-   iZzcjj93kJxXc4kWhNLMBfBklcfQWA7F18ILb3Em+hQ/Nmb3HhP8WtoNa
-   645KHz1N6HF5UmO1sUl65XoeDFvJkKBfqxoGFaf7ugbRGgSuA5rYgSuRn
-   h7FisD4Jpb8fY7rVm6QkPekFeUFMxklF3JQC5qO93bBIF0TkVwdoZ/mpJ
-   A==;
-X-CSE-ConnectionGUID: 2JX7z4/8QyCdTGderi6wjw==
-X-CSE-MsgGUID: 40ctGi/ATZ2WFZtb77VgRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15411183"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="15411183"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 04:34:47 -0700
-X-CSE-ConnectionGUID: E2+bi//pTLy/iZHHsXQ5NA==
-X-CSE-MsgGUID: 5FEHokIsRdCLQF89Jyr7oQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="45698928"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Jun 2024 04:34:46 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJAdG-0004ET-29;
-	Mon, 17 Jun 2024 11:34:42 +0000
-Date: Mon, 17 Jun 2024 19:34:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yasin Lee <yasin.lee.x@outlook.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	Yasin Lee <yasin.lee.x@gmail.com>
-Subject: Re: [PATCH v5 3/3] iio:proximity:hx9023s: Add TYHX HX9023S sensor
- driver
-Message-ID: <202406171946.qe83Tde0-lkp@intel.com>
-References: <SN7PR12MB8101D4BC788B5954608D677DA4CC2@SN7PR12MB8101.namprd12.prod.outlook.com>
+	s=arc-20240116; t=1718626763; c=relaxed/simple;
+	bh=xzhvDkEpDZrgRThMoaFSSMxMV4Dp4LP6yDwE0eNMl/M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZZOzRGRfy8kDdHyz5VA6GzxAVen9nHAq4MDqqf6g+0R6bKNQuuVYMxGl+3eLjaFyCa60vyx3/9vGHjdHkTWBV7yYV3cdev2dMOQcFN3cCuBIovtHgEITuXSj8TFBLFpbhu/ca436WZ1nfK5G+XHRSy2zyt0riClV7LJO/UntXm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-632597a42b4so21321257b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 05:19:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718626760; x=1719231560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1HNNvRS4bV8hMNb+Fj9cM3FroLQToBVMjslpHHwlSo4=;
+        b=M0p1/zra0tkc5cT0NUid5KuFgtYRPXiICKaHiPsECwSYg6oLwIwA32Hg9x37hQ1v83
+         6NxpC5Lvf2gaU+7NAWjCDUyg47/lM9wdVrvYnTLXUefmIUwOiPyln1pUciCgXW/cQRdz
+         RwX8LoLGP55BGZxdlrepVMTx14Veop0EDDUmFuZZFSn8uB4MIGa3+4m4SZJsIPzuVwHM
+         yXDjXGlrVrGCrr8gdbBeYz81EXSGi+kGYgt9ZdWente+pG4uCOuSLC9Jd92UAI21LZu0
+         NBte55flI4BGYUvKPsgJQf03DrIIggROVhj9l4vXOLNMgMd3ZoJqOoB/SUiGqy1se4jk
+         ZX5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVZmksXki8ADLHR5NW6cmdeAGOX+3Xe0IFSZjBgY4j94+qSLeL3Qb+64u5qZPqkkLEBaGVAo5LgXoFX4aad449XazAbm0iopwj0rde9HA==
+X-Gm-Message-State: AOJu0YwzntDlXiK6WACp1Mfvgud3E+IL6bH2IHguZDmmBGD6Wy6/0JTy
+	4tajD+2A9T9IZ4KHasLgncphIAmDu5J44mE/25kL7g/FjT0MxRM8WQHAgbZs
+X-Google-Smtp-Source: AGHT+IFkfyeQ2Czz0K7P/YXmbeDFlTRgqXcQ/STFOxLQ4cHHm8+eOQObVfYBcULYGcTfzz/AKikHWA==
+X-Received: by 2002:a81:a906:0:b0:631:5204:ca08 with SMTP id 00721157ae682-63205fe3cf5mr58030707b3.16.1718626758546;
+        Mon, 17 Jun 2024 05:19:18 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-63118e99735sm13813907b3.68.2024.06.17.05.19.18
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 05:19:18 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dfa71ded97bso3181768276.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 05:19:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWbYNwhbDnybmw3CcWVIllt8ugWmF5fL0m8ZOjibGS8mXpjHXpaJUCTy3SsoSzuZxM4t0JPLkDfUy8aaCh9hpBVrAjroLrbEuzTEQo+aQ==
+X-Received: by 2002:a25:ae9d:0:b0:dfd:a57a:7317 with SMTP id
+ 3f1490d57ef6-dfefec05f90mr7752620276.9.1718626757882; Mon, 17 Jun 2024
+ 05:19:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN7PR12MB8101D4BC788B5954608D677DA4CC2@SN7PR12MB8101.namprd12.prod.outlook.com>
+References: <202406171924.M6q32pv6-lkp@intel.com>
+In-Reply-To: <202406171924.M6q32pv6-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Jun 2024 14:19:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXocnjMw67acsehOpZKXSrCE6ci1-Z3wgNQrBRH_TeTYQ@mail.gmail.com>
+Message-ID: <CAMuHMdXocnjMw67acsehOpZKXSrCE6ci1-Z3wgNQrBRH_TeTYQ@mail.gmail.com>
+Subject: Re: [morimoto:renesas-bsp/v6.1.94-2024-06-17 52/661]
+ drivers/iommu/ipmmu-vmsa.c:485:undefined reference to `free_io_pgtable_ops'
+To: kernel test robot <lkp@intel.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Yasin,
+On Mon, Jun 17, 2024 at 1:24=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.94-2024-06-17
+> head:   6ce189abfade2a17cc6b84c39ec1d82e4be871b2
+> commit: d623e64054303ef67c85496510b46687497508ab [52/661] riscv: Kconfig.=
+socs: Add ARCH_RENESAS kconfig option
+> config: riscv-randconfig-002-20240617 (https://download.01.org/0day-ci/ar=
+chive/20240617/202406171924.M6q32pv6-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240617/202406171924.M6q32pv6-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406171924.M6q32pv6-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
+n_destroy_context':
+> >> drivers/iommu/ipmmu-vmsa.c:485:(.text+0x98e): undefined reference to `=
+free_io_pgtable_ops'
+>    riscv64-linux-ld: drivers/iommu/ipmmu-vmsa.o: in function `ipmmu_domai=
+n_allocate_context':
+> >> drivers/iommu/ipmmu-vmsa.c:342:(.text+0xf5e): undefined reference to `=
+alloc_io_pgtable_ops'
+>
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+>    Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST =
+[=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
+>    Selected by [y]:
+>    - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] ||=
+ COMPILE_TEST [=3Dn] && !GENERIC_ATOMIC64 [=3Dn])
 
-kernel test robot noticed the following build warnings:
+Missing backport of commit e332003bb216a9f9 ("iommu: Make IPMMU_VMSA
+dependencies more strict").
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.10-rc4 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Gr{oetje,eeting}s,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yasin-Lee/dt-bindings-iio-proximity-Add-hx9023s-binding/20240616-154122
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/SN7PR12MB8101D4BC788B5954608D677DA4CC2%40SN7PR12MB8101.namprd12.prod.outlook.com
-patch subject: [PATCH v5 3/3] iio:proximity:hx9023s: Add TYHX HX9023S sensor driver
-config: arm64-randconfig-r132-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171946.qe83Tde0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240617/202406171946.qe83Tde0-lkp@intel.com/reproduce)
+                        Geert
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406171946.qe83Tde0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/proximity/hx9023s.c:955:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 @@     got int diff @@
-   drivers/iio/proximity/hx9023s.c:955:44: sparse:     expected restricted __be16
-   drivers/iio/proximity/hx9023s.c:955:44: sparse:     got int diff
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-vim +955 drivers/iio/proximity/hx9023s.c
-
-   931	
-   932	static irqreturn_t hx9023s_trigger_handler(int irq, void *private)
-   933	{
-   934		struct iio_poll_func *pf = private;
-   935		struct iio_dev *indio_dev = pf->indio_dev;
-   936		struct hx9023s_data *data = iio_priv(indio_dev);
-   937		struct device *dev = regmap_get_device(data->regmap);
-   938		int ret;
-   939		unsigned int bit, i = 0;
-   940	
-   941		guard(mutex)(&data->mutex);
-   942		ret = hx9023s_sample(data);
-   943		if (ret) {
-   944			dev_warn(dev, "sampling failed\n");
-   945			goto out;
-   946		}
-   947	
-   948		ret = hx9023s_get_prox_state(data);
-   949		if (ret) {
-   950			dev_warn(dev, "get prox failed\n");
-   951			goto out;
-   952		}
-   953	
-   954		for_each_set_bit(bit, indio_dev->active_scan_mask, indio_dev->masklength)
- > 955			data->buffer.channels[i++] = data->ch_data[indio_dev->channels[bit].channel].diff;
-   956	
-   957		iio_push_to_buffers_with_timestamp(indio_dev, &data->buffer, pf->timestamp);
-   958	
-   959	out:
-   960		iio_trigger_notify_done(indio_dev->trig);
-   961	
-   962		return IRQ_HANDLED;
-   963	}
-   964	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
