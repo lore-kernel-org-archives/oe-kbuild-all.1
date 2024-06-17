@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC5A33C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 01:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2941EC2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 01:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718586329; cv=none; b=fQ1zTQbpNGU8yBM6dGc0xPexeK6D8DT0+yd3WQN7bSvM6t1uFNeI8in0rJQJ2rePtpOusRcymaf5o3M/fhTy3abalggR3GDLuuN71JQLeLIIqw/R9MbFzNZ9t8L+RUSiSp/0NBK3l7kbhE8hYfnTW3bZNQ2M8hF07s+vyNHsjvs=
+	t=1718587644; cv=none; b=LbCfhg7BFwuy26gINIL2Y/vLAffXBo3NVvB9Y6MhVLHI/wbph2HQ+I5IzW5N6fLZQvaLx1GMTNLofSJA13jM+XwvNkhMhrHiFji6lzEOG0I4Ed4yPHrm/WMHj7Ns52FqP6ygv9TZcC4c9cO+SfveSON9rJaSMGQuTM8aZEPzpZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718586329; c=relaxed/simple;
-	bh=qnCn82ABjmEXbcVD/7sbHxm944K/zrwaklVSgYdy8GA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8OcSUWkN6SsmSv60756Z4OCKnb7Kv1GLt9ftVFT3cKPLfTMjg/zYP63WxiJtI8gez6JRG3O61ODmsSvdvmMxH1ofnEAU6kuEbseFeBgbnxJQZyQZnbOU0J9HntAIDT06iV8h483dgR4wJus4+WV/r8BPMOhPi4o9DS6o7sISZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ke/ofuJo; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1718587644; c=relaxed/simple;
+	bh=LrXuJLEfRxg5esabaA6yjKO0hRRImkBLHfYnuoYucNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tHd3pBKrMF0HUpNE4YwCnNRisQWhh9d2/kEdGel5+Lsxdnet/Asiu3aMeDYC18H+svahMWcPnrZ+3KNxPa3P6wJYFOFZbGCSwg2zEMtVQ6M987LUJsPqgKQ8qs1O3s1R05rWGnN1JCCBKgaNwk5k0HkvkgNb+oGIEAkEc9uv3Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8GXakVW; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ke/ofuJo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8GXakVW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718586329; x=1750122329;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qnCn82ABjmEXbcVD/7sbHxm944K/zrwaklVSgYdy8GA=;
-  b=Ke/ofuJoDzmVtx1KYFJDUT6TVv5bWHRQ7WZNxEEQzbo1TIr5LbeXQvgy
-   462llbmpZsuqzWiOYZFsFSEaeVkHFb05NTx2bfrnFxSatoZqibepvPmor
-   3qAShqicKJxRn0BNgyzoDpxQ3tA86YgktfUqwThwSO8CkJdjbv81Ngy2g
-   2oGR5ywR5GQXAfXKv98rDSDEr4Fz5v/HrP/Re90e2s5r5VRpn52/MP4yC
-   ZMYJevE0pDcfWnRXbMn1eZr7A6JMg99MREKguYrQcQhsy6awiv/eBdAGL
-   dROzj9nWpGT6Okh/0apnZSB5ZFjhbWCD/n1aIcnQGOV0bYRBy6QFVyM6z
+  t=1718587642; x=1750123642;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LrXuJLEfRxg5esabaA6yjKO0hRRImkBLHfYnuoYucNY=;
+  b=O8GXakVWcCxir8xu6bHJLhk4qsUbLeoJR0ESHDbHwNuZvqOLOZmkbRjv
+   9VWOBlggc5JW4F8D0vYZrVgokXGS76oH5Z4NoFNA0MKw0xPIrZugbOPec
+   joADZAEq+7+Nf0uUe8lY3X4F3toMurH9Q0mZPV3lwN7MfiPZ3n5sfy97V
+   MB7jSUx6Kh6IAcLTrOWQFzxZon5H/9Y8D11WBjPL6Wcgv3HI3lofn5frF
+   HZB6SeNOoT/dU7JjEns/WFwR2p1+v1tKRU2275/uCG+paravT8hacCsPa
+   /zkZfA9kQs38PR7Fv1HwwExC+wUKCsynqCVnpwyH/3qyEBnQDdNVE/UVN
    w==;
-X-CSE-ConnectionGUID: 1mtBMIG7SPOveHEH+1gZ7Q==
-X-CSE-MsgGUID: ivNg/hOlRMWbWdbn1fg5kQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12100297"
+X-CSE-ConnectionGUID: ylgjkcUQRa+IGogSmINewA==
+X-CSE-MsgGUID: Q4SHObwTStmJ/U11oGsnAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="26823461"
 X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="12100297"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 18:05:28 -0700
-X-CSE-ConnectionGUID: A63o/OJYSIW+malhA+HpBQ==
-X-CSE-MsgGUID: Q5RBf2xVQieMKj4HVDC7+w==
+   d="scan'208";a="26823461"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 18:27:22 -0700
+X-CSE-ConnectionGUID: o28hvfRXR8CJv4YlakT+9Q==
+X-CSE-MsgGUID: NLyvh/lHQ8C8Lc3bzOKuWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="41155848"
+   d="scan'208";a="41526895"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2024 18:05:24 -0700
+  by orviesa006.jf.intel.com with ESMTP; 16 Jun 2024 18:27:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJ0oD-0003ZS-2x;
-	Mon, 17 Jun 2024 01:05:21 +0000
-Date: Mon, 17 Jun 2024 09:04:38 +0800
+	id 1sJ19S-0003bx-0M;
+	Mon, 17 Jun 2024 01:27:18 +0000
+Date: Mon, 17 Jun 2024 09:27:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vanillan Wang <songjinjian@hotmail.com>,
-	chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org, ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, Jinjian Song <jinjian.song@fibocom.com>
-Subject: Re: [net-next v1] net: wwan: t7xx: Add debug port
-Message-ID: <202406170854.MYWoYsla-lkp@intel.com>
-References: <MEYP282MB269762C5070B97CD769C8CD5BBC22@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 10/10] include/linux/ktime.h:97:undefined reference
+ to `__cmpxchg_called_with_bad_pointer'
+Message-ID: <202406170902.SWu5FPNp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,81 +61,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MEYP282MB269762C5070B97CD769C8CD5BBC22@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
 
-Hi Vanillan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vanillan-Wang/net-wwan-t7xx-Add-debug-port/20240614-175858
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/MEYP282MB269762C5070B97CD769C8CD5BBC22%40MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
-patch subject: [net-next v1] net: wwan: t7xx: Add debug port
-config: x86_64-randconfig-161-20240617 (https://download.01.org/0day-ci/archive/20240617/202406170854.MYWoYsla-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   e065024d98fb20ab5427053b3829c6a819534922
+commit: e065024d98fb20ab5427053b3829c6a819534922 [10/10] fs: add percpu counters to count fine vs. coarse timestamps
+config: sh-polaris_defconfig (https://download.01.org/0day-ci/archive/20240617/202406170902.SWu5FPNp-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170902.SWu5FPNp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406170854.MYWoYsla-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406170902.SWu5FPNp-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wwan/t7xx/t7xx_port_debug.c:153 port_char_write() warn: unsigned 'txq_mtu' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +/txq_mtu +153 drivers/net/wwan/t7xx/t7xx_port_debug.c
+   sh4-linux-ld: fs/inode.o: in function `ktime_compare':
+>> include/linux/ktime.h:97:(.text+0x1244): undefined reference to `__cmpxchg_called_with_bad_pointer'
 
-   132	
-   133	static ssize_t port_char_write(struct file *file, const char __user *buf,
-   134				       size_t count, loff_t *ppos)
-   135	{
-   136		unsigned int header_len = sizeof(struct ccci_header);
-   137		size_t  offset, txq_mtu, chunk_len = 0;
-   138		struct t7xx_port *port;
-   139		struct sk_buff *skb;
-   140		bool blocking;
-   141		int ret;
-   142	
-   143		port = file->private_data;
-   144	
-   145		blocking = !(file->f_flags & O_NONBLOCK);
-   146		if (!blocking)
-   147			return -EAGAIN;
-   148	
-   149		if (!port->chan_enable)
-   150			return -EINVAL;
-   151	
-   152		txq_mtu = t7xx_get_port_mtu(port);
- > 153		if (txq_mtu < 0)
-   154			return -EINVAL;
-   155	
-   156		for (offset = 0; offset < count; offset += chunk_len) {
-   157			chunk_len = min(count - offset, txq_mtu - header_len);
-   158	
-   159			skb = __dev_alloc_skb(chunk_len + header_len, GFP_KERNEL);
-   160			if (!skb)
-   161				return -ENOMEM;
-   162	
-   163			ret = copy_from_user(skb_put(skb, chunk_len), buf + offset, chunk_len);
-   164	
-   165			if (ret) {
-   166				dev_kfree_skb(skb);
-   167				return -EFAULT;
-   168			}
-   169	
-   170			ret = t7xx_port_send_skb(port, skb, 0, 0);
-   171			if (ret) {
-   172				if (ret == -EBUSY && !blocking)
-   173					ret = -EAGAIN;
-   174				dev_kfree_skb_any(skb);
-   175				return ret;
-   176			}
-   177		}
-   178	
-   179		return count;
-   180	}
-   181	
+
+vim +97 include/linux/ktime.h
+
+97fc79f97b1111 Thomas Gleixner 2006-01-09   82  
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   83  /**
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   84   * ktime_compare - Compares two ktime_t variables for less, greater or equal
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   85   * @cmp1:	comparable1
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   86   * @cmp2:	comparable2
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   87   *
+36019265cf81cd Yacine Belkadi  2013-07-24   88   * Return: ...
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   89   *   cmp1  < cmp2: return <0
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   90   *   cmp1 == cmp2: return 0
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   91   *   cmp1  > cmp2: return >0
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   92   */
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   93  static inline int ktime_compare(const ktime_t cmp1, const ktime_t cmp2)
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   94  {
+2456e855354415 Thomas Gleixner 2016-12-25   95  	if (cmp1 < cmp2)
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   96  		return -1;
+2456e855354415 Thomas Gleixner 2016-12-25  @97  	if (cmp1 > cmp2)
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   98  		return 1;
+398f382c0a5bd6 Daniel Borkmann 2012-10-28   99  	return 0;
+398f382c0a5bd6 Daniel Borkmann 2012-10-28  100  }
+398f382c0a5bd6 Daniel Borkmann 2012-10-28  101  
+
+:::::: The code at line 97 was first introduced by commit
+:::::: 2456e855354415bfaeb7badaa14e11b3e02c8466 ktime: Get rid of the union
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
