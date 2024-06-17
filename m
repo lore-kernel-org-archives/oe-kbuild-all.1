@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E049E1891BD;
-	Mon, 17 Jun 2024 17:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC2718FC96
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 17:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718645920; cv=none; b=iqv0lUlFW/O9ls/+Bo8kYC3BXh9lnJeobmGqEBTCsnnxJdk8qmIENmap5qD1Ujo14iXptDHFFBMMNS2EwuxSn/YScd3TU6SS4ciZiWvogl1aoYPM7FHElsM6qFPJ2lUjyRfpOFyqq13IF1ZyTgLdEZfaTY9byLAdo0UTLOx5nAU=
+	t=1718646820; cv=none; b=pLP39uBxU1e+RWM3DrlPJDFrNGjetrVv+Z4S9SxvaBq+HPTUVu3AihMSFzVl2Yz7pfxgxZ8aCy63E9wow3BgoNoucvtILTOO8+YMhfZB8wLYZUzyh5PW56SZhJya6rcpZzYX754pteFr0BEL7RA6eXAYIXN7MM574i5v57Vl3Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718645920; c=relaxed/simple;
-	bh=ohF55oU0RYpuXbvAuI/ketm5NP7zWNWqe6VRHyy+bFo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LZqnoDhgr4UUeFpIhFKAWIXfNlpXaKeDXWOgbJsSeGtPUg9+9GUlnESWb15fNuZCcYtQC7cLkDSQO4pUSjWL2TdyCpWTQ8eWf41MTazZi2V/S6t3PbpHvg/86wmfUI8dMoKs/BK0zAhMGf9E+nThkhstLdmeM6JTNZkPyEz+1JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCZ4gdIC; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1718646820; c=relaxed/simple;
+	bh=21z+yJX9Awch+ig2npsLWEd4yKihFGLpjYFN62Zpsec=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n/4kDkOE3iX0ImCOCsN7ARD00lmj9Xc5qFigTqVD+KesjGRXy+f3+CFKOXQk9h5nQ/4N0C2pOu1jF7fQbqjuDyMKetuPQX7J3DWo4Xms3DgQq0eMSt5XS7qr7Ca7BW6iIkXL+HJPVVvGS7FohYaJ50fGb4Dkvs/A4TwKTs7+x3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpfZrEjo; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCZ4gdIC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpfZrEjo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718645919; x=1750181919;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ohF55oU0RYpuXbvAuI/ketm5NP7zWNWqe6VRHyy+bFo=;
-  b=GCZ4gdICimWwZt6B0UKuS0kfSeG5vNehPot7BqJ9zFfrLEG4H53DaONX
-   1WJzt3LzH9cLuFbvj7hCZYnbBSbRcUF/DmRLGRU/jWnqQUuzOPIHfz26r
-   zkMODVNa88kGCFjAQEy+b6lhcWy0Kls/HlA5auuNvEtSaMQabHT+u2rs/
-   nNk54Jn/GXWe/psvQgWtQqgCCoTr/odfJeR7tOHiF3IwlPsULPLTEcd7e
-   V842E+OG1VX5Eq5Zxcc/l88k0YpMbfodRXKz44oc5pzTwgr1mc7J7dxEk
-   oCJm3GtG9lDBnaMRlKZC9ph/R1MLTCmQWQ9C2hK1gNBKLRUXNm/Nx4lfh
-   A==;
-X-CSE-ConnectionGUID: WHlKphokSQGtMEnVRU2L/w==
-X-CSE-MsgGUID: 9+GI2fUQTLW1oQcTpzZmDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="26116020"
+  t=1718646818; x=1750182818;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=21z+yJX9Awch+ig2npsLWEd4yKihFGLpjYFN62Zpsec=;
+  b=ZpfZrEjoHzUnrR+iS+3sJ/7oaEBlOxa6S4qN3Kbc7aieLu8sr8mwHkyY
+   5wC7IdYfoutChUDh6M9xzkx1HXEc6Wa5blw5l9AF6rSF/1fzWhmFeclR8
+   KKEPlK9rXbs8J3lFX8wouOt4H6HwQV9rNCuYaZP/jr7+dPxXSa0P01GmW
+   ZoYV2AvLsBc9yKWRz4PS0YRhcYeDfziffOEtCCupYgMYeBGBk4B6+4bSq
+   s8btkZviAejMxsz4O9yXptmC3shJW7JgycJMu4WuflvZRO5umunMM7Szw
+   E7nxMRslDG4T6seTBYea2AhdD71P4xum3l7B8698GC3aMv0l2Z4x8xjgd
+   w==;
+X-CSE-ConnectionGUID: vzjw3pGMQmuozSIoW/VPhw==
+X-CSE-MsgGUID: r3vIfPd8S42WPumsZ2f91Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15256675"
 X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="26116020"
+   d="scan'208";a="15256675"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 10:38:36 -0700
-X-CSE-ConnectionGUID: K/D4Rkz+RGqS8+tHM0+C4Q==
-X-CSE-MsgGUID: aAoqCE02Qey1QD61Rrs23Q==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 10:53:37 -0700
+X-CSE-ConnectionGUID: licqy3GLS/Cc0klXvpqobA==
+X-CSE-MsgGUID: LXVfzdzwR+6j9aSCIbu6Gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="46386307"
+   d="scan'208";a="46388311"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Jun 2024 10:38:34 -0700
+  by orviesa004.jf.intel.com with ESMTP; 17 Jun 2024 10:53:35 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJGJM-0004jp-1P;
-	Mon, 17 Jun 2024 17:38:32 +0000
-Date: Tue, 18 Jun 2024 01:38:12 +0800
+	id 1sJGXt-0004kb-04;
+	Mon, 17 Jun 2024 17:53:33 +0000
+Date: Tue, 18 Jun 2024 01:53:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Phil Sutter <phil@nwl.cc>, Florian Westphal <fw@strlen.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netfilter-devel@vger.kernel.org, Fabio <pedretti.fabio@gmail.com>
-Subject: Re: [nf-next PATCH 2/2] netfilter: xt_recent: Largely lift
- restrictions on max hitcount value
-Message-ID: <202406180137.ATtQZimm-lkp@intel.com>
-References: <20240613143254.26622-3-phil@nwl.cc>
+To: Brandon Brnich <b-brnich@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 147/150]
+ arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb:
+ /bus@100000/video-encoder@4200000: failed to match any schema with
+ compatible: ['img,vxe384']
+Message-ID: <202406180125.BwtLcbRb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,152 +64,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240613143254.26622-3-phil@nwl.cc>
 
-Hi Phil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on nf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Sutter/netfilter-xt_reent-Reduce-size-of-struct-recent_entry-nstamps/20240613-223955
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git master
-patch link:    https://lore.kernel.org/r/20240613143254.26622-3-phil%40nwl.cc
-patch subject: [nf-next PATCH 2/2] netfilter: xt_recent: Largely lift restrictions on max hitcount value
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240618/202406180137.ATtQZimm-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406180137.ATtQZimm-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   28ca41014f923e6e0e314492899b7cda49439c39
+commit: 6b5073591fcfff7245ee9a2d504cd3b2e3a897e3 [147/150] arm64: dts: ti: Video Encoder/Decoder
+config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240618/202406180125.BwtLcbRb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406180125.BwtLcbRb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406180137.ATtQZimm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406180125.BwtLcbRb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from net/netfilter/xt_recent.c:14:
-   In file included from include/linux/ip.h:16:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:9:
-   In file included from include/linux/mm.h:1719:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/netfilter/xt_recent.c:14:
-   In file included from include/linux/ip.h:16:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     464 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     477 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/netfilter/xt_recent.c:14:
-   In file included from include/linux/ip.h:16:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     490 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/netfilter/xt_recent.c:14:
-   In file included from include/linux/ip.h:16:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     501 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     511 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     521 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     609 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     617 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     625 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     634 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     643 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     652 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> net/netfilter/xt_recent.c:738:38: warning: result of comparison of constant 4294967296 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
-     738 |         if (!ip_list_tot || ip_pkt_list_tot >= XT_RECENT_MAX_NSTAMPS)
-         |                             ~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~
-   18 warnings generated.
-
-
-vim +738 net/netfilter/xt_recent.c
-
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  731  
-d3c5ee6d545b53 net/ipv4/netfilter/ipt_recent.c Jan Engelhardt   2007-12-04  732  static int __init recent_mt_init(void)
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  733  {
-404bdbfd242cb9 net/ipv4/netfilter/ipt_recent.c Patrick McHardy  2006-05-29  734  	int err;
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  735  
-abc86d0f99242b net/netfilter/xt_recent.c       Florian Westphal 2014-11-24  736  	BUILD_BUG_ON_NOT_POWER_OF_2(XT_RECENT_MAX_NSTAMPS);
-abc86d0f99242b net/netfilter/xt_recent.c       Florian Westphal 2014-11-24  737  
-abc86d0f99242b net/netfilter/xt_recent.c       Florian Westphal 2014-11-24 @738  	if (!ip_list_tot || ip_pkt_list_tot >= XT_RECENT_MAX_NSTAMPS)
-404bdbfd242cb9 net/ipv4/netfilter/ipt_recent.c Patrick McHardy  2006-05-29  739  		return -EINVAL;
-404bdbfd242cb9 net/ipv4/netfilter/ipt_recent.c Patrick McHardy  2006-05-29  740  	ip_list_hash_size = 1 << fls(ip_list_tot);
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  741  
-7d07d5632b672c net/netfilter/xt_recent.c       Alexey Dobriyan  2010-01-18  742  	err = register_pernet_subsys(&recent_net_ops);
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  743  	if (err)
-404bdbfd242cb9 net/ipv4/netfilter/ipt_recent.c Patrick McHardy  2006-05-29  744  		return err;
-7d07d5632b672c net/netfilter/xt_recent.c       Alexey Dobriyan  2010-01-18  745  	err = xt_register_matches(recent_mt_reg, ARRAY_SIZE(recent_mt_reg));
-7d07d5632b672c net/netfilter/xt_recent.c       Alexey Dobriyan  2010-01-18  746  	if (err)
-7d07d5632b672c net/netfilter/xt_recent.c       Alexey Dobriyan  2010-01-18  747  		unregister_pernet_subsys(&recent_net_ops);
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  748  	return err;
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  749  }
-^1da177e4c3f41 net/ipv4/netfilter/ipt_recent.c Linus Torvalds   2005-04-16  750  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:1896.21-1912.4: Warning (simple_bus_reg): /bus@100000/dsi@48000000: simple-bus unit address format error, expected "4800000"
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:1963.20-1964.5: Warning (graph_child_address): /bus@100000/dss@4a00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: /bus@100000/video-encoder@4200000: failed to match any schema with compatible: ['img,vxe384']
+>> arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: /bus@100000/video-decoder@4300000: failed to match any schema with compatible: ['img,d5500-vxd']
+--
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:1896.21-1912.4: Warning (simple_bus_reg): /bus@100000/dsi@48000000: simple-bus unit address format error, expected "4800000"
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:2322.34-2331.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dtb: /bus@100000/video-encoder@4200000: failed to match any schema with compatible: ['img,vxe384']
+>> arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dtb: /bus@100000/video-decoder@4300000: failed to match any schema with compatible: ['img,d5500-vxd']
+   arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dtb: pinctrl@a40000: 'mcu-cpsw-cpts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+--
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:1896.21-1912.4: Warning (simple_bus_reg): /bus@100000/dsi@48000000: simple-bus unit address format error, expected "4800000"
+   arch/arm64/boot/dts/ti/k3-j721e-sk.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j721e-sk.dtb: /bus@100000/video-encoder@4200000: failed to match any schema with compatible: ['img,vxe384']
+>> arch/arm64/boot/dts/ti/k3-j721e-sk.dtb: /bus@100000/video-decoder@4300000: failed to match any schema with compatible: ['img,d5500-vxd']
 
 -- 
 0-DAY CI Kernel Test Service
