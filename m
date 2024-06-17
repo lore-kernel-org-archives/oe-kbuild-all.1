@@ -1,117 +1,90 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E106B1B3745
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 13:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F54379CE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 14:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718632045; cv=none; b=fES01atuu/ezQmAM/vr9FA5czrvE0pv5YocY55sx/aTV0Nfc42yW8914bErjNJzEDBTNvsr4BCuNIdK5WLNa8WjXZ19QUMKfQRAZHFgrGckQ7kEx5HhU0V7lntsAjyeJ10CZ6JdVYBpMC5IxfA4WSL4zRZRpmsrTr8YBn4x32GQ=
+	t=1718632917; cv=none; b=U34agfoAuWdgLZU9itNRrdz1aNlOY/cyOkZBs6EpQgUQm8rYVqlu0GjBZVGj84b5dANDnT9Wxn0CjziH4SSmJgvS1unxgHPB3zop6tWroa2F8aBMnMCO3XE/IkEexVljQifmEcylhD4DPQEKRh3PwSgAAserN4iqhAWJC5fy1zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718632045; c=relaxed/simple;
-	bh=3SUojPKHMWFnVEtUmzCvJ0XJVYHWg9uufwDXcUrW4n0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l0YfYHu0rFWVDf9widP3QPRZ8PIjMnG5rHsScJDszpvoiZvhcVT1Tnhoh48ELae2CaLLvxWlI2oYgjzLUYAH0irOyyWbmn3rUFIwLzscv3JL541Ug1qNavQSya4QDViEoFBdALtcU1MbjP5u7/7PNv6M4TH5v2lBFl/7vqjxm+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Nl93wmA9; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1718632917; c=relaxed/simple;
+	bh=PiiQTqYCm+BsI884E1XTBes/JM/gA5Y+/jguTN51xN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VOtihcn0u37tZf1+sVSWounjqSuJbTwpv6q8p2fxMlWCQG7QYzqSevy0+JK6khc9Sv4YF+AhaT9//ZOStk6eDZEJIWJ8YD2T91SPpzQh0xeKo6Ksr0SsF3bT8r25fm8tiWF2NYGWAImPBuckkpFRCuFc2nLTY12yjXT4DUv7QIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHXCJftO; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Nl93wmA9"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfea5f628e9so4889106276.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 06:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1718632043; x=1719236843; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4HcMYFgMjLj9bfVN/vNd/auegls9+ix6qtJM9yIB3tE=;
-        b=Nl93wmA9ZsKLMb5EXjTDG4Sg+6/BxCHBs8p2GxNKOsysmm6b2J4nDdFaItLu6fpwr2
-         JcdujXpJf75cIadOgu6bxA3EFAKLdzd9Q88L6FMLNXaiV2hLTxWSPTYXJpMgZ3sT4LLV
-         B6+pKQCGYv2KE228gUHClg65Vrl5VEfjCaGV8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718632043; x=1719236843;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4HcMYFgMjLj9bfVN/vNd/auegls9+ix6qtJM9yIB3tE=;
-        b=Z1o+sYMz2gqPz6d8/8TXLlfTockl855bubqr0R1k0zKu0GeoJ6TGu80jpNUipdYsQ2
-         2LkBZ6MnkCOVF5xsCPTjT3yqDRCb61dfY1MLIAS6y2UGmX8gX7Mzbct8cXdSWtf8OFRx
-         bWLKrjGx4xrcH+8PPK9FSNe3d/fp80qjMhf+tienA+XTnetuMbQ3a16FbvoJEYLrqDRG
-         HPNOEQVYGOPDPoWoIggjdGjrYeOFF+K9ZZAT4pUr4t0LCNc/phhE7RWoqN5OQPlA47LM
-         SrE7iCRoqhgAApwFHjiugRjU0cRZd60l9KUEroP6FjQpg4kcxOWHZwLKqeeuaJ4je5vt
-         Nwuw==
-X-Forwarded-Encrypted: i=1; AJvYcCUh7A0ZxpDglSq6Dn5Y14jEJLpAMTl8SGgp9OaoPYeR0oDIVxYW9YghXUAO5joshJKcsM/lb0kasEVlv2cDvBvMkfDx9kNH2OZVAfrUvw==
-X-Gm-Message-State: AOJu0Yy8czLgv91OsaFC2lAvIopkECPP/+PivzOxWHxTMZtFXbj3B14J
-	gj2KCqHoVjZsyHobGemXQ/NejOhyeVbr4ZU1ld3z8Af6GxTVDWfwcu3eWwFGxPTck9hUD6gluwc
-	5Yg3rKCqPLRXbv+4v2iOCX2ZZed/Fc4b3GnWW
-X-Google-Smtp-Source: AGHT+IEn0uy3dwK2KhLXw7MEv8zGGNIiTaQBsPR2kW9tDB4MUQUymoB6SG2mXCXggR/NMBj1eOnEsZO0JKSQmlhOkf0=
-X-Received: by 2002:a25:df48:0:b0:df7:7a90:26c5 with SMTP id
- 3f1490d57ef6-dff153b3999mr8205865276.32.1718632042819; Mon, 17 Jun 2024
- 06:47:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHXCJftO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718632916; x=1750168916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PiiQTqYCm+BsI884E1XTBes/JM/gA5Y+/jguTN51xN0=;
+  b=LHXCJftOWRkk8x2e85RdE25l8N27l9GDUF80QSjO+nCxXWQdptfEAHrB
+   0nkmY7Z+AzyqhYzQih3szHoD2RO+zeZKyCZHVArVi9svSsgf4c+i6O1My
+   ojUnyskggbSaxUsllpzzs1Tx1kVks/iPs3smBI6leXB1FmfNJ1kSdQOgg
+   ikY34hABmZiL9LemAovsxRsED+XDX65iTNChNV+jHbRKEjZ4CHRCHIloh
+   CNHiW8GOTCSErTFGJqG1Ub0wYC28DTUWeMwyrew0+xjiy2e9tv8tfA8g1
+   /U+0UMGSMGyWNve7JpDv2txNz2SUbx8H55FyVpN3DUrT3PO9fBBA2eCNj
+   A==;
+X-CSE-ConnectionGUID: oE2FbkniQ0KlOmdapohIig==
+X-CSE-MsgGUID: wavPnNs6SMO4OFlUlZqLZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12109880"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="12109880"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 07:01:55 -0700
+X-CSE-ConnectionGUID: YsLccodAQHG5AKv20DDjvQ==
+X-CSE-MsgGUID: jOhT04epQBmUbwaiTRYOGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="41142218"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Jun 2024 07:01:54 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJCvf-0004MK-2v;
+	Mon, 17 Jun 2024 14:01:51 +0000
+Date: Mon, 17 Jun 2024 22:01:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
+Subject: [qcom:arm64-for-6.11 56/211]
+ arch/arm64/boot/dts/qcom/sdm450-lenovo-tbx605f.dtb: iommu@1c48000:
+ compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202406172111.ksHbU0JR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202406152104.FxakP1MB-lkp@intel.com> <20240616012511.198243-1-alexey.makhalov@broadcom.com>
- <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local> <20240617100150.GDZnAJjoH5wZKu2OAV@fat_crate.local>
-In-Reply-To: <20240617100150.GDZnAJjoH5wZKu2OAV@fat_crate.local>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 17 Jun 2024 09:47:12 -0400
-Message-ID: <CABQX2QNT+rDC3M7UPWwT_XRb8iXiihk4iczfcO9iokUFhn0DJw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
-To: Borislav Petkov <bp@alien8.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Alexey Makhalov <alexey.makhalov@broadcom.com>, linux-kernel@vger.kernel.org, 
-	bcm-kernel-feedback-list@broadcom.com, lkp@intel.com, 
-	dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org, jic23@kernel.org, 
-	lars@metafoo.de, nuno.sa@analog.com, dragos.bogdan@analog.com, 
-	anshulusr@gmail.com, andrea.collamati@gmail.com, 
-	oe-kbuild-all@lists.linux.dev, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jun 17, 2024 at 6:02=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> On Mon, Jun 17, 2024 at 11:07:09AM +0200, Borislav Petkov wrote:
-> > On Sat, Jun 15, 2024 at 06:25:10PM -0700, Alexey Makhalov wrote:
-> > > VMWARE_HYPERCALL alternative will not work as intended without
-> > > VMware guest code initialization.
-> > >
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-l=
-kp@intel.com/
-> > > Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
-> > > ---
-> > >  drivers/gpu/drm/vmwgfx/Kconfig | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/=
-Kconfig
-> > > index faddae3d6ac2..6f1ac940cbae 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/Kconfig
-> > > +++ b/drivers/gpu/drm/vmwgfx/Kconfig
-> > > @@ -2,7 +2,7 @@
-> > >  config DRM_VMWGFX
-> > >     tristate "DRM driver for VMware Virtual GPU"
-> > >     depends on DRM && PCI && MMU
-> > > -   depends on X86 || ARM64
-> > > +   depends on (X86 && HYPERVISOR_GUEST) || ARM64
-> > >     select DRM_TTM
-> > >     select DRM_TTM_HELPER
-> > >     select MAPPING_DIRTY_HELPERS
-> > > --
-> >
-> > Right, I'll queue this soon but it doesn't reproduce here with gcc-11 o=
-r gcc-13.
-> > This must be something gcc-9 specific or so...
->
-> Actually, that's a DRM patch.
->
-> Folks in To: ok to carry this though the tip tree?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.11
+head:   f55a758fd355c1b5ed7c73434a99ae07d5741226
+commit: 7ddab80e115086c0f2f37fa5a95466d0885d66d2 [56/211] arm64: dts: qcom: sdm450: add Lenovo Smart Tab M10 DTS
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240617/202406172111.ksHbU0JR-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406172111.ksHbU0JR-lkp@intel.com/reproduce)
 
-That's fine with me. Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406172111.ksHbU0JR-lkp@intel.com/
 
-z
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sdm450-lenovo-tbx605f.dtb: /: failed to match any schema with compatible: ['lenovo,tbx605f', 'qcom,sdm450']
+>> arch/arm64/boot/dts/qcom/sdm450-lenovo-tbx605f.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
