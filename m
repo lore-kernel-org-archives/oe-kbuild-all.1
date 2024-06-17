@@ -1,62 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA121862
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 06:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AA3181B99
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 06:04:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718604242; cv=none; b=ZpUldf/eRFz52GLUc+R9hOVrlWZFTTN4SBlnf8IBEjbhzn+2t9GZbkydYiG3PM+H+4LJcdhqy5qGy9tVv0cbd/CYv0ESUy2bZWcNi7KnkrRahOWMtgVoDFme0SSdIpjPWPUtY9hr+RiKrQHdi8juommyGIgVKO4/ujvGe0cCpD0=
+	t=1718604244; cv=none; b=HIqCoLd98XGNq+O/YP+eveDZ6EZAyapwjb5J2fRMJpjlDBHjCiddB8DXIU1Zq7QgEjliLYfCJACo5sPJLGFmVhH/t7B0NKN/6nGskDy5PKl5GXF96Hm4VIMRGK3Ny43DnUf8Cm4EJW44hrbzHbB+oiFAYU4HWWp4efWHNXB+bqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718604242; c=relaxed/simple;
-	bh=hMaBG2+UlcZUZTztnByWCd1Zr2GoTZisJWaj3dzdfNc=;
+	s=arc-20240116; t=1718604244; c=relaxed/simple;
+	bh=gFQzlfXbPhy3eaJ1CGLmAPB9tW/+ImFN04WdO7CXcu0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A5d1/LBAkkizsQZfL8lbhHsNfwDXRPrybMh1XhKcE96qKpefMqa937dt6SMPhyYlxENWd8KKEULUAUwo1BNXFyiONfhwb0JJh1VHUHkEH+Z8czCpYEc2l+XCcbL4xJY4Fx7+3fVAhqhseQvpGCJ6+2UYjrPNQI4KK+/+bd7BrSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzCYIs8P; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=sOH+NcGVQsz8fv+fqEnjAysXoceE4cSSXP42HQbwx+ExY8hw4LaX6UFRWyjeAaIgbDIHA93knHcaCB0A9ZJlPyFp33nYiIVShaMYdKqn7WiTDUyiLUX/mOVngwbcuFJ9lwRz3T1mJuF+ob87K+jg0cvusGCpStdzFgS7M0XEYxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a2L06PaG; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzCYIs8P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2L06PaG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718604240; x=1750140240;
+  t=1718604243; x=1750140243;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hMaBG2+UlcZUZTztnByWCd1Zr2GoTZisJWaj3dzdfNc=;
-  b=JzCYIs8PHz8hPGsYrAsB1VMfHqirbUpD//PjNzDopPelt5IEpBCRnP+X
-   VLG4MmNRTncr1N28HTC9x07EG5oDFYML1ILzF/Gx5UYgJAaFZA2JnmbCC
-   Q915iE/+ZzSW8CWKrgXy5sgqM+fLJnyB1gJCeHVsaNd9RoB220TWjWgOP
-   bFD5JnmbA9zcMIHlgz5J5ccHVmnw/GMx7IFn3NWiIrBGFYmBmJoa4sPHl
-   rzw05YSCtZ8fFF2oJjfdNE9bsIhliGvWERjkzZBrsaCYHOYk280RZqLwL
-   hfeGmiWvine5bdwk3t06HKysZ/HJKs6EnwGZxd9Z7SmxW37mayWr5bGdm
-   Q==;
-X-CSE-ConnectionGUID: 9baPMk8BSBakC2Q5kXCY5Q==
-X-CSE-MsgGUID: W5ME/elVQqyMjdVKHGNVxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12103515"
+  bh=gFQzlfXbPhy3eaJ1CGLmAPB9tW/+ImFN04WdO7CXcu0=;
+  b=a2L06PaG8/cpLH0OiA7raHd32ZAOYIM4ozABqobe76pmm2twVPk1/Ssd
+   rF6N65mfYoTSbA2GLLTpuYWGVXKuYRQIEMUuVs8wHdjkeAUgbmHhLpYDp
+   tyN5W6H31folRJHUJ7CoXq/c6jyY1IzNgL13J8RcA7SDFIpby9zHwKGP0
+   X5iKIhJJNP6XeM65nROFHz267Z50/rOtqpfK1G8nPkPsVrYQvRHgs1onM
+   uURLtGrYW49VXmT9UMSjzMvTqOEYWO3SJeMmtBqxspzrRnhyHr2w2Bc/2
+   Llbd0Lm+0EHctRM2y98FG+gWOb/XpgYMx5i4BDxGkMR5T2uhjqHgekLAo
+   w==;
+X-CSE-ConnectionGUID: JWGAoUiaS7qi/MLJfdXyCw==
+X-CSE-MsgGUID: RmuZyWSaSxi3y+QqwWLbJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12103516"
 X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="12103515"
+   d="scan'208";a="12103516"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 23:03:59 -0700
-X-CSE-ConnectionGUID: lAjZ5ulWThqyj83DlunquQ==
-X-CSE-MsgGUID: ESpXd40KRv+fjX7SGmH3bQ==
+X-CSE-ConnectionGUID: YW76bUDPR9aoeoud4p5IVA==
+X-CSE-MsgGUID: W4U+1g5PReGjPZzogHsV3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="41805146"
+   d="scan'208";a="41805143"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 16 Jun 2024 23:03:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJ5T9-0003s9-0b;
+	id 1sJ5T9-0003s6-0T;
 	Mon, 17 Jun 2024 06:03:55 +0000
-Date: Mon, 17 Jun 2024 14:03:28 +0800
+Date: Mon, 17 Jun 2024 14:03:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [drm-intel:for-linux-next-gt 3/5]
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: error: format specifies
- type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned
- int')
-Message-ID: <202406171328.vXSQfddX-lkp@intel.com>
+To: Brandon Brnich <b-brnich@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y 5/39]
+ arch/arm64/boot/dts/ti/k3-am68-sk-base-board.dtb: video-codec@4210000:
+ 'sram-size' does not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202406171359.yRNMhBby-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,144 +64,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
-head:   ae45f07cade1a5853ff6fd745bbd86a64cc82643
-commit: 05da7d9f717bcb03c457379fa8a61c1689dab86c [3/5] drm/i915/gem: Downgrade stolen lmem setup warning
-config: i386-randconfig-053-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171328.vXSQfddX-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171328.vXSQfddX-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y
+head:   eeca5715c9a5b742423bd83ed587fac26268771c
+commit: 5b0a1aef35118e4e68d811fc40c8789690e981a5 [5/39] arm64: dts: ti: k3-j721s2-main: SRAM Allocation for VPU
+config: arm64-randconfig-051-20240616 (https://download.01.org/0day-ci/archive/20240617/202406171359.yRNMhBby-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171359.yRNMhBby-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406171328.vXSQfddX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406171359.yRNMhBby-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: error: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Werror,-Wformat]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                    ~~~~
-         |                                                                                                    %u
-     942 |                                 lmem_size, dsm_base);
-         |                                 ^~~~~~~~~
-   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
-     522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:16: error: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Werror,-Wformat]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                                       ~~~~
-         |                                                                                                                       %u
-     942 |                                 lmem_size, dsm_base);
-         |                                            ^~~~~~~~
-   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
-     522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   2 errors generated.
-
-
-vim +942 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-
-   889	
-   890	struct intel_memory_region *
-   891	i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
-   892				   u16 instance)
-   893	{
-   894		struct intel_uncore *uncore = &i915->uncore;
-   895		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-   896		resource_size_t dsm_size, dsm_base, lmem_size;
-   897		struct intel_memory_region *mem;
-   898		resource_size_t io_start, io_size;
-   899		resource_size_t min_page_size;
-   900		int ret;
-   901	
-   902		if (WARN_ON_ONCE(instance))
-   903			return ERR_PTR(-ENODEV);
-   904	
-   905		if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
-   906			return ERR_PTR(-ENXIO);
-   907	
-   908		if (HAS_LMEMBAR_SMEM_STOLEN(i915) || IS_DG1(i915)) {
-   909			lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
-   910		} else {
-   911			resource_size_t lmem_range;
-   912	
-   913			lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
-   914			lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
-   915			lmem_size *= SZ_1G;
-   916		}
-   917	
-   918		if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
-   919			/*
-   920			 * MTL dsm size is in GGC register.
-   921			 * Also MTL uses offset to GSMBASE in ptes, so i915
-   922			 * uses dsm_base = 8MBs to setup stolen region, since
-   923			 * DSMBASE = GSMBASE + 8MB.
-   924			 */
-   925			ret = mtl_get_gms_size(uncore);
-   926			if (ret < 0) {
-   927				drm_err(&i915->drm, "invalid MTL GGC register setting\n");
-   928				return ERR_PTR(ret);
-   929			}
-   930	
-   931			dsm_base = SZ_8M;
-   932			dsm_size = (resource_size_t)(ret * SZ_1M);
-   933	
-   934			GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
-   935			GEM_BUG_ON((dsm_base + dsm_size) > lmem_size);
-   936		} else {
-   937			/* Use DSM base address instead for stolen memory */
-   938			dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   939			if (lmem_size < dsm_base) {
-   940				drm_dbg(&i915->drm,
-   941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
- > 942					lmem_size, dsm_base);
-   943				return 0;
-   944			}
-   945			dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
-   946		}
-   947	
-   948		if (i915_direct_stolen_access(i915)) {
-   949			drm_dbg(&i915->drm, "Using direct DSM access\n");
-   950			io_start = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   951			io_size = dsm_size;
-   952		} else if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
-   953			io_start = 0;
-   954			io_size = 0;
-   955		} else {
-   956			io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
-   957			io_size = dsm_size;
-   958		}
-   959	
-   960		min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
-   961							I915_GTT_PAGE_SIZE_4K;
-   962	
-   963		mem = intel_memory_region_create(i915, dsm_base, dsm_size,
-   964						 min_page_size,
-   965						 io_start, io_size,
-   966						 type, instance,
-   967						 &i915_region_stolen_lmem_ops);
-   968		if (IS_ERR(mem))
-   969			return mem;
-   970	
-   971		intel_memory_region_set_name(mem, "stolen-local");
-   972	
-   973		mem->private = true;
-   974	
-   975		return mem;
-   976	}
-   977	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-am68-sk-base-board.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-am68-sk-base-board.dtb: video-codec@4210000: 'sram-size' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
+>> arch/arm64/boot/dts/ti/k3-am68-sk-base-board.dtb: navss-sram@30000000: $nodename:0: 'navss-sram@30000000' does not match '^sram(@.*)?'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/ti/k3-am68-sk-base-board.dtb: fixedregulator-dp0-pwr: 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+--
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: pinctrl@11c000: 'dp0-pins-default', 'main-i2c4-pins-default' do not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: video-codec@4210000: 'sram-size' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
+>> arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: navss-sram@30000000: $nodename:0: 'navss-sram@30000000' does not match '^sram(@.*)?'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
