@@ -1,190 +1,125 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2128480
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 20:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85058535C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 20:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718657335; cv=none; b=qVYumP7YdSEMPIyv6kf3syElb5q8XJ4/JuxdLAFq59S+RLChlyh5yflUiQWOClvnYDncTwnAPKLGtz430La5GJYR6B+nxSw9uoyTJTexknWlvVUlBS0lWGHhzf3AN2G8WyqbMJKgcD8gNjrl9irS/1FAVZLIp2fm4LoICN4rI3g=
+	t=1718657346; cv=none; b=o1vqbNuiw609gqquYFt2QIazMFIhs9mt7Ys9rPrGYXKYxQVdi9QDKcaq7vdIN3B/0K4E2vAboH+JoobHwcpN7Qb1aQmlUGYkA0dwEfSpYJV5Kog0O7C7JUVxkIVdKyQ8uPsriiIDbqM4PrHp04GvDStfBYFcb4rHCPSkPJSw6/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718657335; c=relaxed/simple;
-	bh=+wg5rGWnub6d6ueoxs/8H2knoEi7JkxL+8IPuLbzhZo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MgBJX3+77GxHyRRAiEOR2Up1tK9/TF1RAwUtLkL5sGymAB4Ob6y60xN1YaPOvp9Z4Du035IIS2YtKpAVxp88rzI0BLAY6AmUrzNsWEqNxgwa9kNW6KxfmlVLlXSb/thIez+OzQlpupuq49WWcvDJpoAjfD1n+Zdf0VUkcjjbl4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=EupUgJ45; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1718657346; c=relaxed/simple;
+	bh=ndD2twqik+Xr25AK4HN/YROEVSogiu/QM2guH89kvK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aTJU0jG6PZmzLLzd55gUsAtdVM+4XKDX4J5xIxszCzeQ+wb/wnOxWkRbXwdw1bvvrRq0cNudfg+Jtg2pjuYJoFLPJmNglpCicfz29ljKIOztzbeN3vMh0yDC2LRv30n4XO4n44gl9QwfEuwYwox4HOGfHM/idfvvIfLuVcyOzCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwY0EuoD; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="EupUgJ45"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-35e1fcd0c0fso3857813f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 13:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1718657332; x=1719262132; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Prxca8WsXgeUFt4L2M3lgOG9HB9DoX/SrgkfE/LHB8=;
-        b=EupUgJ45qCXOfqV1lmqgtspJl7RWCzCOpgFWXViTNq1/vPEVaiksriJaahWiy6+bGO
-         p/WQy43SAYiV6dcS97DScec6lRLNMQ1QCCkzu8yPfvgpVuABfke0GDfgnsmDyV9xEYc+
-         W5Ixgw/Z/2M+nfQkvZLgvQVsHGGVm3etxfSb8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718657332; x=1719262132;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Prxca8WsXgeUFt4L2M3lgOG9HB9DoX/SrgkfE/LHB8=;
-        b=Q9THe+F17H3LLA14r/rlN0eIoZ75b72nry9EfhH27HDcv3FSzVGoaFmzd1nWw+JA6d
-         cGB9rUCAC/pjMH3G6crKFdYCMzwaOBKI4JHiCeBeAyB7XhVfwa4EoUyz2dMinSKhvXMb
-         32HCr2Ny/5YKLXVj2B40f5b0OYVAZoE9IDmYos50Neyp2SliFqOOeShK71nqxtzX/4JR
-         vwvA8Sm/G865ZS8aJn5s2nexVmJVvKvG7cRU6RsD7PU4Lw6yqIzGkON6H50637qNMM2s
-         +M9aZMcUoWKjDdK6+/mifjWAGc8gtP7vFCYjIQE62LBqww1Ai3c+AfAyFhf4Xby9RHk1
-         hkPg==
-X-Forwarded-Encrypted: i=1; AJvYcCUShRA+DTmAEMCryTCA+pp/szNG62EvEoVcqo6gXZonMiQM/ZyPbvB5g9x0DgkVl4N9xxJf704aeAY4Ld0dortHe5WiQiVOleJ5oi6jRA==
-X-Gm-Message-State: AOJu0Yx4cnwbERcHQBSpq1w1PVKM3uLETJ2DbIRQ9aUqhPniLqbo6G4m
-	8WNj3N8FV+rTxrXUOMyQD1NkosGZnMAfIAw8nWUZHvN3ldqTP2xpMyrczA0Mqg==
-X-Google-Smtp-Source: AGHT+IHEU62suYWnRXwKdzpdAXSz5KBYd2epiiTyciPo+/4BqNzGad5ovJJPFBopMPwoL4rztkfXKQ==
-X-Received: by 2002:a5d:4b83:0:b0:360:7557:3239 with SMTP id ffacd0b85a97d-3607a763270mr7051286f8f.20.1718657332016;
-        Mon, 17 Jun 2024 13:48:52 -0700 (PDT)
-Received: from [10.66.192.68] ([192.19.161.250])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56db62e5sm547701466b.84.2024.06.17.13.48.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 13:48:51 -0700 (PDT)
-Message-ID: <19e8a6dd-b0d4-4e88-9ad2-e38787a5aee8@broadcom.com>
-Date: Mon, 17 Jun 2024 13:48:38 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwY0EuoD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718657344; x=1750193344;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ndD2twqik+Xr25AK4HN/YROEVSogiu/QM2guH89kvK0=;
+  b=CwY0EuoDYo5yhDaq8gDMEDZYXcKXykWodjP9c9MtWQEJfUjctGubched
+   tlrmAZwczLjTurvQo5LbpBwkHssNQ3F4A2UMgSv1oRJDJYnViozMfQNsy
+   0hGv8cd4vaSYTvEw7Sh5zsIkM2MWN7IWYuVy3k0RB9bjSmhqJuwCoOLZT
+   XtaJ2cjzWMQu6q2hosdJOkxZ71q2xEwTjhuslrcA9yyOnU0f51iZ8hTOd
+   QQ8Jh15P9zN39ojDd3nsi7hmPRQvHlx+uTIfc6vDCp0Im2xsncESLSkBm
+   bZ3NkeoauQL3yvyJL9jNaAs5vXq7aon3tMcTpG0WC1ixQ6CeWluBTLqzU
+   g==;
+X-CSE-ConnectionGUID: 3gVk3wdTTs281JtdXOX+Lg==
+X-CSE-MsgGUID: WDvTNTiaRXq9B6c96yYRrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15273196"
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="15273196"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 13:49:03 -0700
+X-CSE-ConnectionGUID: HAO95jJlRHKwuowmZAhEew==
+X-CSE-MsgGUID: FMUGFlV9T8WWaBYnQ0FoUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="45845765"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 17 Jun 2024 13:49:01 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJJHf-0004s9-0E;
+	Mon, 17 Jun 2024 20:48:59 +0000
+Date: Tue, 18 Jun 2024 04:48:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Nan <linan122@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Song Liu <song@kernel.org>
+Subject: [linux-next:master 4403/5501] drivers/md/md.c:620:21-22: Unneeded
+ semicolon
+Message-ID: <202406180407.xZHCKGBJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- lkp@intel.com, zack.rusin@broadcom.com, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
- jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
- dragos.bogdan@analog.com, anshulusr@gmail.com, andrea.collamati@gmail.com,
- oe-kbuild-all@lists.linux.dev, x86@kernel.org
-References: <202406152104.FxakP1MB-lkp@intel.com>
- <20240616012511.198243-1-alexey.makhalov@broadcom.com>
- <20240616012511.198243-2-alexey.makhalov@broadcom.com>
- <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
-Content-Language: en-US
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
- 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 EuY0
-In-Reply-To: <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6906a84c482f098d31486df8dc98cead21cce2d0
+commit: 611d5cbc0b35a752e657a83eebadf40d814d006b [4403/5501] md: fix deadlock between mddev_suspend and flush bio
+config: x86_64-randconfig-101-20240618 (https://download.01.org/0day-ci/archive/20240618/202406180407.xZHCKGBJ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406180407.xZHCKGBJ-lkp@intel.com/
 
-On 6/17/24 2:04 AM, Borislav Petkov wrote:
-> On Sat, Jun 15, 2024 at 06:25:11PM -0700, Alexey Makhalov wrote:
->> 0-DAY CI Kernel Test automation reported an issue:
->>
->>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
->>     regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
->>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
->>     regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
->>     ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
->>     regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
->>     ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
->>     regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
->>     ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
->>     ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
->>
->> Kconfig warnings: (for reference only)
->>     WARNING: unmet direct dependencies detected for REGMAP_SPI
->>     Depends on [n]: SPI [=n]
->>     Selected by [y]:
->>     - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
->>
->> The issue is caused by CONFIG_AD9739A=y when CONFIG_SPI is not set.
->>
->> Add explicit dependency on SPI and conditional selection of REGMAP_SPI.
->>
->> Fixes: e77603d5468b ("iio: dac: support the ad9739a RF DAC")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
->> Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
->> ---
->>   drivers/iio/dac/Kconfig | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
->> index 3c2bf620f00f..d095f4d26e49 100644
->> --- a/drivers/iio/dac/Kconfig
->> +++ b/drivers/iio/dac/Kconfig
->> @@ -133,8 +133,8 @@ config AD5624R_SPI
->>   
->>   config AD9739A
->>   	tristate "Analog Devices AD9739A RF DAC spi driver"
->> -	depends on SPI || COMPILE_TEST
->> -	select REGMAP_SPI
->> +	depends on SPI
->> +	select REGMAP_SPI if SPI_MASTER
->>   	select IIO_BACKEND
->>   	help
->>   	  Say yes here to build support for Analog Devices AD9739A Digital-to
->> -- 
-> 
-> FWIW, I appreciate it you fixing other breakages. However, there's a patch for
-> that already, on its way:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=fixes-togreg&id=75183e461ce033605c3e85518a9f3d4e4ef848a3
-> 
-> Don't get discouraged, though, when fixing something that is not in our
-> immediate area of interest!
-> 
-> :-)
-> 
-> Thx.
-> 
+cocci warnings: (new ones prefixed by >>)
+>> drivers/md/md.c:620:21-22: Unneeded semicolon
 
-Lesson learned and noted for next time to address only related/new 
-warnings and errors. Thanks!
+vim +620 drivers/md/md.c
+
+   588	
+   589	static void md_submit_flush_data(struct work_struct *ws)
+   590	{
+   591		struct mddev *mddev = container_of(ws, struct mddev, flush_work);
+   592		struct bio *bio = mddev->flush_bio;
+   593	
+   594		/*
+   595		 * must reset flush_bio before calling into md_handle_request to avoid a
+   596		 * deadlock, because other bios passed md_handle_request suspend check
+   597		 * could wait for this and below md_handle_request could wait for those
+   598		 * bios because of suspend check
+   599		 */
+   600		spin_lock_irq(&mddev->lock);
+   601		mddev->prev_flush_start = mddev->start_flush;
+   602		mddev->flush_bio = NULL;
+   603		spin_unlock_irq(&mddev->lock);
+   604		wake_up(&mddev->sb_wait);
+   605	
+   606		if (bio->bi_iter.bi_size == 0) {
+   607			/* an empty barrier - all done */
+   608			bio_endio(bio);
+   609		} else {
+   610			bio->bi_opf &= ~REQ_PREFLUSH;
+   611	
+   612			/*
+   613			 * make_requst() will never return error here, it only
+   614			 * returns error in raid5_make_request() by dm-raid.
+   615			 * Since dm always splits data and flush operation into
+   616			 * two separate io, io size of flush submitted by dm
+   617			 * always is 0, make_request() will not be called here.
+   618			 */
+   619			if (WARN_ON_ONCE(!mddev->pers->make_request(mddev, bio)))
+ > 620				bio_io_error(bio);;
+   621		}
+   622	
+   623		/* The pair is percpu_ref_get() from md_flush_request() */
+   624		percpu_ref_put(&mddev->active_io);
+   625	}
+   626	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
