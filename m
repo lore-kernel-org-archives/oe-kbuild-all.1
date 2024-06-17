@@ -1,161 +1,92 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2C118F2DE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 20:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3859618F2F9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 21:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718657494; cv=none; b=X6CKTJtJRULNTlYAqv/9HhJLcDUe2KGxUW0kfKK0T8OdHWrj1wJ3c2MvWucLaImwo+vYLW+c5lUcST4FRNN4zW1hfYHqkSFFo6JDorGIE9cSbfzHmL/JD+RQYjGDbo+q5686dG9s2y6VHOU0SEfPb4kQ92zAwJUjEjmvi2/ET2U=
+	t=1718658164; cv=none; b=WTZNhql47ALL3ElQWBXqw4lx5P3b7o3mbWU/7WoZGm03IkXUFIsyJ1okV6qvFo/gHQVIytn0adlXxxN5U5tCaaAIvJ/DGLsPIV1Sg7T8TIYxcrwnKY+6rZv5fYQ+nSvtXHW/H/GxAd3pvrBv/U/OTbzThjwkjD4oFdDPZS0FgX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718657494; c=relaxed/simple;
-	bh=LyKnD3LAy3V/v8ppmgZZJpAYDGHShWxpLZ5v6b5EdtQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EZNv+/qlRCvhzB7l8UHMTd0GGaPn/WEXtjqIVCFt/0mSJoh1+jejfgodC6NFXDIEpSbW3ASeect0cW+wOWQCe7TKKN1/3oJKjnOFi4YyeA1UCDk8+ZcIrRfE/8Jf4nCIMq50JxBvXOxa+Xlq89F2mm3XB02gAXU2ilwDYMhY/gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=HhYwN1/U; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1718658164; c=relaxed/simple;
+	bh=VucRNFIxwzNewu+nyisVdX1Y/LQWRgeR1kLEOH4Y1l0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ISHFdDZkFm/TIqmyhJbwlj5ocPtjiwzKFKsxJWWUY4hU4dggCPxyEqwkyzXypePsw2d6spgjMcL8edAV/bO0GmDwLrWpwYBJyHSOIGmV7IDyoIVeP14oNm4DNHlb4443ZvBOi7e28KdxncrU6LGOrk0UuHkWvZcb5gPY+GJQ1uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZhM2AqyE; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="HhYwN1/U"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dfea5f628e9so5357816276.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 13:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1718657492; x=1719262292; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=6uZGstIzMbek/hZ0Jyl0Zw33pXjjTwL+ORiKeFMqa6U=;
-        b=HhYwN1/UX7m+MZjqROqaJlp2+7V0fraKYNHBA1CAfiow8c6BnX8WoxHGCqI8PDcCX+
-         7Px4IM8Lm/V/oKl3zlqTk68xe6nSrZbhbZICafyaBQt7Cn+U2LC3rGW6YNL3QaEqIYcx
-         dCkVZdPy/SqXu99ikU4CIT+7Y0AM3l35TysXg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718657492; x=1719262292;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6uZGstIzMbek/hZ0Jyl0Zw33pXjjTwL+ORiKeFMqa6U=;
-        b=glN3j1tc7PyEK+2CqgvtPOVSFI+ZFgMYYtS7Slen7i4oBvN5TD/c7Jp+BKTHcFl5Dm
-         BbeqLYR/hZSB3i5IxalHJR0/bXmD7CH+exLPqYk57XKSuRcotUtRGgU0AIX7SGeJPd5t
-         k9/pN3rKRdDpgqWW7J3Mwpy0TLEABIOKP5FoUhYgFxwJ8yj5Tu3+JS1seh8DttKtkr6M
-         UwrPFRgmLP7AALPLVK+BktS+LHi7nr7VyqxZNNWFxmhH4D+NMdmTJIx+hcWBuqH9yVwt
-         leZs0nmM60VtLXK2DOKbNwLtla4hdo+bcdHaElvWeF0bHi7pwKDoPfYU2Sl422If3Z9/
-         eRpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGUDAEe7slX14C+H8ZVEjh4YT94QsY14vYn2JOv2t9c76gXXKMeSxY1CWP51oXKN4S8TTiNa2WxBjrThNqy+I+/hh2l+ziVJKnVSdBQw==
-X-Gm-Message-State: AOJu0YxydyRYubNIaSh71pQ8cU0d+ZcD/oasybGGc4tGfOYRzC9biRNk
-	Xf6bJnoGltCns9tLhJva1LO2KDWVIKV/skKRPXfHbqpBsO2iKGe3ykgjkg7lJg==
-X-Google-Smtp-Source: AGHT+IEB2XRahobNADcCOiZuh1yBLWd0NjcJ81ZAhERrZb2HRCuh0TdKtXd6UmzEyeamsjryHFf8YA==
-X-Received: by 2002:a25:905:0:b0:dfb:c16:9e95 with SMTP id 3f1490d57ef6-dff1524c362mr10194308276.7.1718657492230;
-        Mon, 17 Jun 2024 13:51:32 -0700 (PDT)
-Received: from [10.66.192.68] ([192.19.161.250])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5ee04f2sm59327046d6.114.2024.06.17.13.51.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 13:51:31 -0700 (PDT)
-Message-ID: <0a29389e-8ba2-48c5-bb26-381de58a62fb@broadcom.com>
-Date: Mon, 17 Jun 2024 13:51:23 -0700
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZhM2AqyE"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 64DE540E021A;
+	Mon, 17 Jun 2024 21:02:39 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id NQ3WlfuETGmc; Mon, 17 Jun 2024 21:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1718658156; bh=9xpQOfZZA/mdg5w3/+ttfZjxJn4+6vAUkviGsraw77c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZhM2AqyErdDkMFRKVkIORNvSKlCtivkYQFjyDB9ZUwCfNMs6C6y+PgwIxLOGm76S7
+	 LawNB3jCh6kX2wqa8lDNIx6oM6jdKKC1tLUtmdKdAuyahTeysbO7eI+AaW2PT2dwUS
+	 dWpRbaXf3cPZba2QcNTDmREVegJRXw57zeLyLN/KF7dstLeNt4PGMu5vNvPatykl7F
+	 DaV1E6wnZx9yrEzOkMnMXBXvyb4M6f4M1YarnYGIvc/UE1Y03V1pwYDlRxc4Fakhv9
+	 bIr3bTDkzgxihiWrAxwXnSmv8j9xBnl6iaUZ5AXizwiNBy+Q1+FwbOPJLQXCsX69t1
+	 c2cLcpjnnQOBTDKBEdPGrvTWNvekcKKdxcdEUaUiDBgQWAUPeb4qlZFLLTfV5rBuzg
+	 RGx+YxRsGUpEqNhZr0Ow+pAFfaaeTGZPNi/shvduRiszO37dmRD5g+qrpLOa7U3/qp
+	 iOXX/D+CCfQo/pgRxX7ZLL87FMdePu2RjI8gEkIpOvpFJfaQOL4eiha2m4pvvQOrai
+	 X15nYtZHrgsrZrCkxdapoSMxBOFIEufFl96219+0KGXvca6Ry4Jy9fqinHT3/Mmhye
+	 8e+mR8Kiv7S888osVRVbqkR7WoU4IXscZ/TsTAgVgmunMxR0IK/C+HM1NyjMSWfRE1
+	 OHgqvol/Ffe9cSe4s6F5IbXk=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0372F40E0185;
+	Mon, 17 Jun 2024 21:02:15 +0000 (UTC)
+Date: Mon, 17 Jun 2024 23:02:08 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+	lkp@intel.com, zack.rusin@broadcom.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
+	jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
+	dragos.bogdan@analog.com, anshulusr@gmail.com,
+	andrea.collamati@gmail.com, oe-kbuild-all@lists.linux.dev,
+	x86@kernel.org
+Subject: Re: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
+Message-ID: <20240617210208.GJZnCkUIsiXmaQxxPE@fat_crate.local>
+References: <202406152104.FxakP1MB-lkp@intel.com>
+ <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+ <20240616012511.198243-2-alexey.makhalov@broadcom.com>
+ <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
+ <19e8a6dd-b0d4-4e88-9ad2-e38787a5aee8@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- lkp@intel.com, zack.rusin@broadcom.com, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
- jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
- dragos.bogdan@analog.com, anshulusr@gmail.com, andrea.collamati@gmail.com,
- oe-kbuild-all@lists.linux.dev, x86@kernel.org
-References: <202406152104.FxakP1MB-lkp@intel.com>
- <20240616012511.198243-1-alexey.makhalov@broadcom.com>
- <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local>
-Content-Language: en-US
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
- xsFNBGVo9lkBEACeouRIm6Q3QTvjcnPczfBqgLffURstVJz5nqjnrNR4T+8dwNrZB8PTgOWA
- QdGV4bIyqtNG7UHQuZ7sVKr2tx0gYJyQ5uZgncEHB5YIuhQ/CyAHrVmO+5/0/xWCLI0g44rF
- ZJqsYw2JQ2+vayTWbR65rkOiKL8GOVFNZanDg80BRh6qCmCEMXd/tymxvgnvWpHtxMgukexk
- 4vV9nV4XhxRVYdpLk8mBxsh+AEbHE+nbWgIuJDrmrZDGI2Dha7JFoB0Mi6hbbYd9BdkcHKQ7
- 6c+S1xOrZL3jX7OIFhb4NNnEOhh8/+BDlyby478p6YsimNa7TgAUbrygGyfVG8usrZy8SvO+
- vUbVQwqjcJaCK1xazK12dfuZm2kSMJUrJqa9ng6OMjkE2/WrtnK8ruFNSCdytzbuheT0nYUJ
- Uwy84cU4p2K/N2C4vYjcn+IT+l1BFr5FViKYruoRLVH6zK/WOoZjA+Fc6tdM5nC1pgSB9c7h
- XLQqDSzYPzk3nqeHWG1qJ0Hu7pscIrjxyNTIZ5le0TlpblJdoRcL5maDNw22yle8m4D18ERF
- VrqNoqwW8fObMCHbd6C3m75lzerq1HhrSvLyU4UfprEyAcjOI1C0319SXfYlXDjKXRQyaDZP
- wxln8uShSitSSnx0AsSAjcUa8Cc7km81+G2WSK3S2wVIAN11awARAQABzS5BbGV4ZXkgTWFr
- aGFsb3YgPGFsZXhleS5tYWtoYWxvdkBicm9hZGNvbS5jb20+wsGNBBMBCAA3FiEEjLzRtST/
- a5u42vOKbM7yHr5SJ3cFAmVo9lwFCQ0oaIACGwMECwkIBwUVCAkKCwUWAgMBAAAKCRBszvIe
- vlInd0jTD/9bZtjehewLRrW3dRDAbLG/+J5g1K4X5qQPfAo42NrhZQlOTibL7ixwq7NSXynZ
- V4Iu9jHAW++KXjxJzkg7zjBf9OOvvgCpqZGKYgWNvHHnX4eIVh8Ikp5JtvGPMBcRv7lJA5co
- kb+RHo9iRrB1dvRIOsP1SlGS85SiNA0yvmgqwbigLDmDRSWtvvt9XPwU1iqF+1OopT3UE10i
- /z+qE2ogcw2ADveBovq2W4JeQEBvlETwDKOdh8Q3UBHOqrZUrL7YjpUxgmb89FcjdDzUU95I
- fCB5YxF0hUctxFH5Uujh2F4qk0m2rp7+aOGtxWCJUqkHXjgpOoxyn0FPZiZlDkst84NO5OSI
- 5ZFPwaFqxUrFF+cFCY2O/UE2gpoK9Lt3gYNK6o2WIAtufuiYVdK6lANMkBgZ+t2fDLIN147a
- 172zu8XnyJMTo+tVfUjxwqynoR/NSWpVPs0Ck3K0LGjQE0tJ6HZrH0vudXk3YaiqW+D4CtGh
- I17Pk0h6x8LCdjmWmuDXoc99ezOEFSyWuTHjAYxx3cmgSUyIhdHtimuf0CVLTcFoBErb/5pJ
- zjb11Cj0HP87FMH57bnD3qyfkBMOB6tztfdt3vkCBaWkxaiTGXNhwr4IiLUoi90yIdXDMcTj
- /gvnjXgN+31iYgPWgTOdUEQud0DwDwuDwkzx/0x4sF1Dfc7BTQRlaPZcARAAuGkoYKWcrCh8
- 5RffedM6uBZ4p5Z4+RVj05uq7hlAwhHUpLP/XGbgNzhJP375Lonmnuyg2x7oHxfiwOohuuiA
- MnhSeEXn2qWZJuHosrYxs9y2zyiE/GTUAcqKiYBFa/96zOaZjHpNuQ5qSHYL64WhqvtmCQYg
- fL+jes2Z4IXl2R7MrN9OE+G3A3pOAo8TZKUEmlUV85fSmgopIX+hCiSQmRNRtp2jK6hd2+38
- YAXc+eRxYgXKaWX5zeBgNrfM7Oxeh/0iWRZPWstTvVH2xMlzywOB3e/fqg+Q3NlPGDrTyHoc
- L86ZELSLcMTFn+RXw8lX8oVjTcQA0M8sQHB5g0JEWtMsFjnQZkJGCfeh0Odbn/F8nZ6LQQtu
- +fjc/4n9vRun+PZjdhd3W9ZM9D87W9XJg9txIaYnoUXBLLpHK/OirFfr5cJTUf4svtE3EVXb
- x6P9vr7zqUbE0f76h1eDPmyMwFAuibIXhNoEoKQtEjLX9aKgKYny3hczRiuQpA+6U4oTNn4S
- /CEqphLPT53aMH0w4x0CebMPozf24ZE9YphdX8ECclLBlDL1/zx2xKrJNw8v6wdXMSfsybBW
- 98b5b1eVBk1uc1UMlpDl7AIHyCMTjL9Ha85eoya/Hk9l93aVHgK04hOBY2ED1/ZRpj0M5P5m
- tNX1JqZunpyvKooT1PrJr4UAEQEAAcLBfAQYAQgAJhYhBIy80bUk/2ubuNrzimzO8h6+Uid3
- BQJlaPZeBQkNKGiAAhsMAAoJEGzO8h6+Uid3SDoQAI3XXqsehWKvyAVeGXPxmkk+Suos/nJC
- xZWjp4U2xbbegBnNWladZoNdlVW/WV+FSFsN5IWztxQTWBMI12A0dx+Ooi9PSIANnlN+gQsA
- 9WeQ5iDNveEHZyK1GmuqZ3M3YZ1r3T2KyzTnPPZQ1B8gMQ442bOBWe077MqtLaC0J1jHyWHU
- j6BbUCAyR2/OCV/n1bH4wYIm2lgrOd2WuzoAGvju+j2g7hMRxw/xeHeu8S0czHuEZ0dC6fR1
- ZKUOw03+mM/xRzL1be6RVS9AF7R5oDd11RrTOb7k14z0inFqSRrRwzOPKcuMxrApcquar336
- 3FQuLcJLjBo/SAOh2JatOkkwkw5PZseqdwcAk5+wcCbdYy8J8ttR04iV1FzrdQp8HbVxGNo7
- AlDn1qtoHzvJHSQG51tbXWfLIi1ek3tpwJWj08+Zo+M47X6B65g7wdrwCiiFfclhXhI1eJNy
- fqqZgi3rxgu4sc5lmR846emZ/Tx85/nizqWCv7xUBxQwmhRPZRW+37vS2OLpyrTtBj3/tEM9
- m9GMmTZqaJFeK7WCpprJV4jNHpWZuNAsQrdK1MrceIxb0/6wYe0xK79lScxms+zs9pGTrO4U
- 5RoS4gXK65ECcBH8/mumV6oBmLrNxKUrzTczdo9PnkmRyZcAa6AndbjmQDznwxvTZu2LjMPC EuY0
-In-Reply-To: <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <19e8a6dd-b0d4-4e88-9ad2-e38787a5aee8@broadcom.com>
 
+On Mon, Jun 17, 2024 at 01:48:38PM -0700, Alexey Makhalov wrote:
+> > Don't get discouraged, though, when fixing something that is not in our
+> > immediate area of interest!
+> > 
+> > :-)
+>
+> Lesson learned and noted for next time to address only related/new warnings
+> and errors. Thanks!
 
+I actually meant the exact opposite. :-)
 
-On 6/17/24 2:07 AM, Borislav Petkov wrote:
-> On Sat, Jun 15, 2024 at 06:25:10PM -0700, Alexey Makhalov wrote:
->> VMWARE_HYPERCALL alternative will not work as intended without
->> VMware guest code initialization.
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
->> Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
->> ---
->>   drivers/gpu/drm/vmwgfx/Kconfig | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kconfig
->> index faddae3d6ac2..6f1ac940cbae 100644
->> --- a/drivers/gpu/drm/vmwgfx/Kconfig
->> +++ b/drivers/gpu/drm/vmwgfx/Kconfig
->> @@ -2,7 +2,7 @@
->>   config DRM_VMWGFX
->>   	tristate "DRM driver for VMware Virtual GPU"
->>   	depends on DRM && PCI && MMU
->> -	depends on X86 || ARM64
->> +	depends on (X86 && HYPERVISOR_GUEST) || ARM64
->>   	select DRM_TTM
->>   	select DRM_TTM_HELPER
->>   	select MAPPING_DIRTY_HELPERS
->> -- 
-> 
-> Right, I'll queue this soon but it doesn't reproduce here with gcc-11 or gcc-13.
-> This must be something gcc-9 specific or so...
-> 
+-- 
+Regards/Gruss,
+    Boris.
 
-Not really a gcc related, but the matter of a config file. It is 
-reproducible if CONFIG_HYPERVISOR_GUEST not set, but 
-CONFIG_DRM_VMWGFX=y. And this combination was allowed before the fix.
-
-Regards,
---Alexey
+https://people.kernel.org/tglx/notes-about-netiquette
