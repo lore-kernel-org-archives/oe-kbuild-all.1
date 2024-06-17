@@ -1,96 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8B2188CC3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 07:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982D518FDB1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 07:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718609229; cv=none; b=T9ngRySFlk686ZZAKdzN00XhRw3wM2S3F0Qr+TALSdyaNLNtFfYidhtgQLKMYP1zDTruMpcPnKSNqpHywtzzzNE2IOt16ndbrKlRhxyYwrjm7emhf+TA4vYbdri/Imt/TunlNLojZMxzni4sQYt9k4rFBJ99dLCnA/Eod3Vjxck=
+	t=1718609426; cv=none; b=Fkz8LGXza7lWWJCdUAPGKMeSZ23llUlShY4zRoQ4L935YAOm/iDinLp5GxJqgjecJ5+PgfQjyB2Hp8lVWfaNjnFsCwQ8Bc0eGU7sGiVpVPirlYQE2YH0RuG32VuSmcmzvETt2GkRWqRDld46guYn2xIUTLQeB1KiKMvHba7i3tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718609229; c=relaxed/simple;
-	bh=nIVFTNXtn+daedQzednP+mKjjfCDH8XXmoaENDsTl84=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WZc0N8FRUFbcXYPIbXnodYnEx3LfST158HsUvX4uOAxTDcQFlJjSVrQEjw1F06TGwCwG1rQuGd4kWq+A6qMVA4ZwgtoazE0j/SWU7rlm8LEjUdtaS+Y+87yRRaMhnxg4ejQ9lNJLAAuYsQfjjoCMhaeRCDBOUM5iBK9WlFgLrgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QUvSVy4O; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718609426; c=relaxed/simple;
+	bh=gEldI8SY6eGQdXXA08PGCTyjYAYBvdvuimrdpkVw3aE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tP9sTwe3VOKjgJOM1/QqJ7REPQWj8K1/JGTBO1I7CC0cGnESGeS+h2h2yHevAGmzJ+vD/zMiTa2qkxJQIYmOsz8JiaL8Mw1QcTCudo/+RjWPxByv1i9CeoZIPY3Q8hAbIq+ZgkAPCnN9SDo+PHVrLdk19v/eM473Svi95QUXnQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TILLe/Hx; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QUvSVy4O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718609228; x=1750145228;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nIVFTNXtn+daedQzednP+mKjjfCDH8XXmoaENDsTl84=;
-  b=QUvSVy4O+DZu+BvIqgcZSCRewwpvXr9G6Xblj1ifoRRt+ZIO8zdjpEOj
-   tEELgR3+CKnp8V1bKMjHkA7/2+r6G7NTLeEKpl93uPV/bZV2ucAksPHMf
-   NmTsRv5181+w+scRWb378P3rqW9gcHu3DOpD2dn27nliYL7zQYRu5UOje
-   Fue9eG34zGnDDVf5c+KDLaqDJ47+DOw/I0TBBPF3u0ALGvzUb8ZUG29gE
-   zmMFLgu4YnFYWka6p6GkXYWlDgj1uG89MntKumdvAjikaWpS3df3OTToB
-   NlkVXfXG+a/fEZOz6nJ2PLiR1nUO/F8LeVjIoSebV6aZl2MQglylLU0Q4
-   g==;
-X-CSE-ConnectionGUID: 4ThlrL3ZSsax5JiI+zsMrQ==
-X-CSE-MsgGUID: V5Lz/kN8Qj67OTfqvQE/1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="32966277"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="32966277"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 00:27:07 -0700
-X-CSE-ConnectionGUID: mk2sjiVoTZCnitUmnE02oQ==
-X-CSE-MsgGUID: HbOZ9OiGQ0SDHH3WBB1dsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="72317766"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Jun 2024 00:27:06 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJ6lb-0003xC-25;
-	Mon, 17 Jun 2024 07:27:03 +0000
-Date: Mon, 17 Jun 2024 15:26:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vibhore Vardhan <vibhore@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.6.y-wip 29/137]
- arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: Unevaluated
- properties are not allowed ('interrupt-names' was unexpected)
-Message-ID: <202406171513.3mtoUpWz-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TILLe/Hx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718609423;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nH7NF47wiN5yYt3CYf79aIVqL/Dl6DPgZQONYE92Y0w=;
+	b=TILLe/HxTG0bCM8HqNM7SJ0QZxk7e+R7YAu/p6ZWrx+gwctI24KKTRUQW19x4h2MvFsrQy
+	zv1/TeogNYSWg0U5V53+FAcIj7X4gDY2kwsKSLXfA08+HLH1OyaeBB64E+rALC6k3g23Ac
+	xNXqWtG6nrtObBy+MupMU3rwMDwULh4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-cB2Yu01nN2ehaaSjZwvKtQ-1; Mon, 17 Jun 2024 03:29:40 -0400
+X-MC-Unique: cB2Yu01nN2ehaaSjZwvKtQ-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-421739476b3so35338935e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 00:29:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718609380; x=1719214180;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nH7NF47wiN5yYt3CYf79aIVqL/Dl6DPgZQONYE92Y0w=;
+        b=kZqPghUjAGywSJ3b6Kt1Ui1S7rPtXdYc629dr5K83noUPpf0hgcgX+PkoYo/KMf71X
+         ifDy+UXNFdivoZ+DdzY2O46lTl+gaSVcMZeYf4ygmXceVU8x46iU5pNFKlheO7K4+YoM
+         UmYuXf+ACtY50GMyE6lkTKSnEcl3Oho7xmIg9w6harFU6ui99snQbYLKHbYf0XRUI1gq
+         Rm6DkqYbFCAaSb2rg4WICgbvGjVOchflA2+IHCr+9k1emeL76NIS9ZMEyEJ+Y32/wEru
+         EdLsXqW6jOees4FBmwsp6AVQfASS5rqvoaw7fcMZ5xgWkFHqktvTh00J+1dFiJQX40Fm
+         v7Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgNBIfFlvcO7lHRp4mRG2PjM9KHsWypUMF8NDBbYs14/TL+9j9vhAkezPYUjNl43SYZ/tRG7IbZMV5WVd+1eSviy+BmKVBIQAZjuQVkg==
+X-Gm-Message-State: AOJu0Yz2dIbD9VA0B8yOF52s5daiQ58AwRr84+cozKNtqWvffPnmr9P6
+	0K/GygrEvn03UCdChFj9b7Ow+lFHOdwzIOCrC3IRr+miJMvbYuN8DCsekzBu0npZkMu83iV0a9b
+	U+lnLXjmZ8TqE8cUuCkmbHx+mVQ+wpxFj/kuuIaXFGmoWBU56zPOd7TJ6gDhMqq0=
+X-Received: by 2002:a05:600c:3514:b0:421:7bb1:eb9b with SMTP id 5b1f17b1804b1-42304844abfmr95161305e9.28.1718609379785;
+        Mon, 17 Jun 2024 00:29:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHNol8wq1CXKJ8SwcNyP7NAVPlUEp/Y2i/P5kX0p598nmFsmM+2aodmq6E1g2pO2gIIdkl2YQ==
+X-Received: by 2002:a05:600c:3514:b0:421:7bb1:eb9b with SMTP id 5b1f17b1804b1-42304844abfmr95161155e9.28.1718609379373;
+        Mon, 17 Jun 2024 00:29:39 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6320bd8sm150669275e9.32.2024.06.17.00.29.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 00:29:38 -0700 (PDT)
+Message-ID: <cb70ad62-e927-4020-b2d9-84b7c7a607bf@redhat.com>
+Date: Mon, 17 Jun 2024 09:29:37 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ kernel test robot <lkp@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert+renesas@glider.be>
+ <202406151811.yEIZ6203-lkp@intel.com>
+ <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
+ <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
-head:   038aa785c74b05cb8f4b574c972272e77a6dfb57
-commit: 57d9a072c594dc724aeef091148af1635ee6207e [29/137] arm64: dts: ti: k3-am62a7-sk: enable uart as wakeup source
-config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240617/202406171513.3mtoUpWz-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171513.3mtoUpWz-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406171513.3mtoUpWz-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: syscon@43000000: 'syscon@4008', 'syscon@4018' do not match any of the regexes: '^chipid@[0-9a-f]+$', '^clock-controller@[0-9a-f]+$', '^mux-controller@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,j721e-system-controller.yaml#
-   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
->> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[13]], 'interrupts-extended': [[1, 0, 178, 4], [14, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[103]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
->> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[13]], 'interrupts-extended': [[1, 0, 178, 4], [14, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[103]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
+On 16/06/2024 11:12, Geert Uytterhoeven wrote:
+> On Sun, Jun 16, 2024 at 11:08 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+>> On Sat, Jun 15, 2024 at 12:55 PM kernel test robot <lkp@intel.com> wrote:
+>>> kernel test robot noticed the following build errors:
+>>>
+>>> [auto build test ERROR on drm-misc/drm-misc-next]
+>>> [cannot apply to linus/master v6.10-rc3 next-20240613]
+>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>> And when submitting patch, we suggest to use '--base' as documented in
+>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/drm-panic-Fix-uninitialized-drm_scanout_buffer-set_pixel-crash/20240614-032053
+>>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+>>> patch link:    https://lore.kernel.org/r/3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert%2Brenesas%40glider.be
+>>> patch subject: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
+>>> config: x86_64-randconfig-003-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151811.yEIZ6203-lkp@intel.com/config)
+>>> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151811.yEIZ6203-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151811.yEIZ6203-lkp@intel.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>>> depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
+>>>     depmod: ERROR: Found 2 modules in dependency cycles!
+>>
+>> Oops, so DRM core cannot call any of the helpers, and DRM_PANIC
+>> selecting DRM_KMS_HELPER was wrong in the first place?
+> 
+> Q: So how does this work with DRM_PANIC calling
+>     drm_fb_helper_emergency_disable()?
+> A: drm_fb_helper_emergency_disable() is a dummy if
+>     !CONFIG_DRM_FBDEV_EMULATION, so I guess no one tried to build
+>     a failing randconfig with CONFIG_DRM_FBDEV_EMULATION=y yet.
+
+drm_fb_helper_emergency_disable() is part of the series
+https://patchwork.freedesktop.org/series/132720/
+which, after discussing it on IRC with sima and Javier, is not a good 
+solution, and is abandoned.
+
+I think the "select DRM_KMS_HELPER" is a leftover from earlier version 
+of drm_panic, that used the color conversion function from 
+drm_kms_helper, but that has changed in v10 and later.
+
+drm_panic is called from the drm_core code, so in fact it can't depends 
+on the kms helper.
+
+I don't see a good solution to workaround this circular dependency, 
+maybe depends on DRM_KMS_HELPER being built-in ? (so that means drm_core 
+will also be built-in). But that means platform that build drm core as 
+module, won't be able to use drm_panic.
+
+There are a few of them in the kernel tree:
+rg -l CONFIG_DRM=m
+arch/powerpc/configs/85xx/stx_gp3_defconfig
+arch/powerpc/configs/ppc6xx_defconfig
+arch/powerpc/configs/skiroot_defconfig
+arch/powerpc/configs/pmac32_defconfig
+arch/mips/configs/ci20_defconfig
+arch/arc/configs/axs101_defconfig
+arch/arc/configs/axs103_smp_defconfig
+arch/riscv/configs/defconfig
+arch/parisc/configs/generic-32bit_defconfig
+arch/arm/configs/davinci_all_defconfig
+arch/arm/configs/omap2plus_defconfig
+arch/arm/configs/pxa_defconfig
+arch/arm64/configs/defconfig
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Jocelyn
+
