@@ -1,124 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFE319068F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 13:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E106B1B3745
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 13:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718631956; cv=none; b=CYPzmSlSCN0JCn17g897L5N8b8fN18umLkrgV5ldjy2AhA4mE7BxZSsrPf1TAA6g9QGteqFkYh2i2uj9wsfweKAH9HffM4PksEJNIiHOvqUWL+JmyPWWg9OuAcQWDyUaF+IJEc2S8lbmwjCi0MkdunL3Mu0LTTisyKeRGS2gwjk=
+	t=1718632045; cv=none; b=fES01atuu/ezQmAM/vr9FA5czrvE0pv5YocY55sx/aTV0Nfc42yW8914bErjNJzEDBTNvsr4BCuNIdK5WLNa8WjXZ19QUMKfQRAZHFgrGckQ7kEx5HhU0V7lntsAjyeJ10CZ6JdVYBpMC5IxfA4WSL4zRZRpmsrTr8YBn4x32GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718631956; c=relaxed/simple;
-	bh=uxUyG9w3kzRRDkCmDR9ae5S/qbGPu4o5T0wPuhZOZm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M9jZfAg5SfSQFySVYf4V3TBud4YH2RrLaMeF8U8pUzNhNWF2DrkphiO8d9Wa4RfZl/mh+38LLjo7CbAicBwPoQ8ZOFvZahn+F6gCzeyk9T5BULR2psXSWY2Uw7QZUE7aDjf5FYfmSCrZpfcZGCKI6tXb2VXYgMSS1SUpgNrcNCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4FWWIGl; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718632045; c=relaxed/simple;
+	bh=3SUojPKHMWFnVEtUmzCvJ0XJVYHWg9uufwDXcUrW4n0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l0YfYHu0rFWVDf9widP3QPRZ8PIjMnG5rHsScJDszpvoiZvhcVT1Tnhoh48ELae2CaLLvxWlI2oYgjzLUYAH0irOyyWbmn3rUFIwLzscv3JL541Ug1qNavQSya4QDViEoFBdALtcU1MbjP5u7/7PNv6M4TH5v2lBFl/7vqjxm+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Nl93wmA9; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4FWWIGl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718631954; x=1750167954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uxUyG9w3kzRRDkCmDR9ae5S/qbGPu4o5T0wPuhZOZm4=;
-  b=m4FWWIGlGGVbWNWRZBG1ZnFWiEBVfpv64QJHDn0TX8ctBzyRAx7I+sZm
-   DExisWi1Jvv23UKvQ068BnxVXU//4D3F7L7mVhkPiHo71Oqn7yP2UpWOx
-   tFLJzzvbpai5XRCPgiWsJ6sMN1rgEuQ5blDJO63pR9+34+fcjZ2o+llOd
-   JhBAfl94jiMxwVoLj0iqNM7gF2+NdrEfLpN2stXrnIyh+luovVd88xtUm
-   RV2GNDjAuSzoMSWvEk0kwLR4geP5AVFJcpj78+0l5kAS639dqApwCK2iX
-   TT/BkyMxgIcaoIlSzaRyfwoUxVOcFkNismlmjxiaKzgMYYRaRsYlWQaEL
-   Q==;
-X-CSE-ConnectionGUID: 0FdgHVeaSaS/teNM/VLxrA==
-X-CSE-MsgGUID: z9nDO0QVTMKOydCRYC4C7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15423004"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="15423004"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 06:45:54 -0700
-X-CSE-ConnectionGUID: yRDSuFj8TKGtE6IfgTep9g==
-X-CSE-MsgGUID: 3AxYSsRuSoWIkXxrMDqhRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="64394193"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Jun 2024 06:45:49 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJCg7-0004LF-26;
-	Mon, 17 Jun 2024 13:45:47 +0000
-Date: Mon, 17 Jun 2024 21:45:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel.sneddon@linux.intel.com,
-	tony.luck@intel.com, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>
-Subject: Re: [PATCH PATCH 1/9] x86/cpu/topology: Add x86_cpu_type to struct
- cpuinfo_topology
-Message-ID: <202406172100.6R91rhbf-lkp@intel.com>
-References: <20240617-add-cpu-type-v1-1-b88998c01e76@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Nl93wmA9"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfea5f628e9so4889106276.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 06:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1718632043; x=1719236843; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4HcMYFgMjLj9bfVN/vNd/auegls9+ix6qtJM9yIB3tE=;
+        b=Nl93wmA9ZsKLMb5EXjTDG4Sg+6/BxCHBs8p2GxNKOsysmm6b2J4nDdFaItLu6fpwr2
+         JcdujXpJf75cIadOgu6bxA3EFAKLdzd9Q88L6FMLNXaiV2hLTxWSPTYXJpMgZ3sT4LLV
+         B6+pKQCGYv2KE228gUHClg65Vrl5VEfjCaGV8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718632043; x=1719236843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4HcMYFgMjLj9bfVN/vNd/auegls9+ix6qtJM9yIB3tE=;
+        b=Z1o+sYMz2gqPz6d8/8TXLlfTockl855bubqr0R1k0zKu0GeoJ6TGu80jpNUipdYsQ2
+         2LkBZ6MnkCOVF5xsCPTjT3yqDRCb61dfY1MLIAS6y2UGmX8gX7Mzbct8cXdSWtf8OFRx
+         bWLKrjGx4xrcH+8PPK9FSNe3d/fp80qjMhf+tienA+XTnetuMbQ3a16FbvoJEYLrqDRG
+         HPNOEQVYGOPDPoWoIggjdGjrYeOFF+K9ZZAT4pUr4t0LCNc/phhE7RWoqN5OQPlA47LM
+         SrE7iCRoqhgAApwFHjiugRjU0cRZd60l9KUEroP6FjQpg4kcxOWHZwLKqeeuaJ4je5vt
+         Nwuw==
+X-Forwarded-Encrypted: i=1; AJvYcCUh7A0ZxpDglSq6Dn5Y14jEJLpAMTl8SGgp9OaoPYeR0oDIVxYW9YghXUAO5joshJKcsM/lb0kasEVlv2cDvBvMkfDx9kNH2OZVAfrUvw==
+X-Gm-Message-State: AOJu0Yy8czLgv91OsaFC2lAvIopkECPP/+PivzOxWHxTMZtFXbj3B14J
+	gj2KCqHoVjZsyHobGemXQ/NejOhyeVbr4ZU1ld3z8Af6GxTVDWfwcu3eWwFGxPTck9hUD6gluwc
+	5Yg3rKCqPLRXbv+4v2iOCX2ZZed/Fc4b3GnWW
+X-Google-Smtp-Source: AGHT+IEn0uy3dwK2KhLXw7MEv8zGGNIiTaQBsPR2kW9tDB4MUQUymoB6SG2mXCXggR/NMBj1eOnEsZO0JKSQmlhOkf0=
+X-Received: by 2002:a25:df48:0:b0:df7:7a90:26c5 with SMTP id
+ 3f1490d57ef6-dff153b3999mr8205865276.32.1718632042819; Mon, 17 Jun 2024
+ 06:47:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617-add-cpu-type-v1-1-b88998c01e76@linux.intel.com>
+References: <202406152104.FxakP1MB-lkp@intel.com> <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+ <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local> <20240617100150.GDZnAJjoH5wZKu2OAV@fat_crate.local>
+In-Reply-To: <20240617100150.GDZnAJjoH5wZKu2OAV@fat_crate.local>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Mon, 17 Jun 2024 09:47:12 -0400
+Message-ID: <CABQX2QNT+rDC3M7UPWwT_XRb8iXiihk4iczfcO9iokUFhn0DJw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
+To: Borislav Petkov <bp@alien8.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Alexey Makhalov <alexey.makhalov@broadcom.com>, linux-kernel@vger.kernel.org, 
+	bcm-kernel-feedback-list@broadcom.com, lkp@intel.com, 
+	dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org, jic23@kernel.org, 
+	lars@metafoo.de, nuno.sa@analog.com, dragos.bogdan@analog.com, 
+	anshulusr@gmail.com, andrea.collamati@gmail.com, 
+	oe-kbuild-all@lists.linux.dev, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pawan,
+On Mon, Jun 17, 2024 at 6:02=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Mon, Jun 17, 2024 at 11:07:09AM +0200, Borislav Petkov wrote:
+> > On Sat, Jun 15, 2024 at 06:25:10PM -0700, Alexey Makhalov wrote:
+> > > VMWARE_HYPERCALL alternative will not work as intended without
+> > > VMware guest code initialization.
+> > >
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-l=
+kp@intel.com/
+> > > Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
+> > > ---
+> > >  drivers/gpu/drm/vmwgfx/Kconfig | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/=
+Kconfig
+> > > index faddae3d6ac2..6f1ac940cbae 100644
+> > > --- a/drivers/gpu/drm/vmwgfx/Kconfig
+> > > +++ b/drivers/gpu/drm/vmwgfx/Kconfig
+> > > @@ -2,7 +2,7 @@
+> > >  config DRM_VMWGFX
+> > >     tristate "DRM driver for VMware Virtual GPU"
+> > >     depends on DRM && PCI && MMU
+> > > -   depends on X86 || ARM64
+> > > +   depends on (X86 && HYPERVISOR_GUEST) || ARM64
+> > >     select DRM_TTM
+> > >     select DRM_TTM_HELPER
+> > >     select MAPPING_DIRTY_HELPERS
+> > > --
+> >
+> > Right, I'll queue this soon but it doesn't reproduce here with gcc-11 o=
+r gcc-13.
+> > This must be something gcc-9 specific or so...
+>
+> Actually, that's a DRM patch.
+>
+> Folks in To: ok to carry this though the tip tree?
 
-kernel test robot noticed the following build errors:
+That's fine with me. Thanks.
 
-[auto build test ERROR on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawan-Gupta/x86-cpu-topology-Add-x86_cpu_type-to-struct-cpuinfo_topology/20240617-172542
-base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-patch link:    https://lore.kernel.org/r/20240617-add-cpu-type-v1-1-b88998c01e76%40linux.intel.com
-patch subject: [PATCH PATCH 1/9] x86/cpu/topology: Add x86_cpu_type to struct cpuinfo_topology
-config: i386-buildonly-randconfig-003-20240617 (https://download.01.org/0day-ci/archive/20240617/202406172100.6R91rhbf-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406172100.6R91rhbf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406172100.6R91rhbf-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/x86/kernel/cpu/topology_common.c: In function 'topo_set_cpu_type':
->> arch/x86/kernel/cpu/topology_common.c:145:21: error: 'X86_CPU_TYPE_UNKNOWN' undeclared (first use in this function)
-     145 |  c->topo.cpu_type = X86_CPU_TYPE_UNKNOWN;
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/topology_common.c:145:21: note: each undeclared identifier is reported only once for each function it appears in
->> arch/x86/kernel/cpu/topology_common.c:148:41: error: 'X86_CPU_TYPE_INTEL_SHIFT' undeclared (first use in this function)
-     148 |   c->topo.cpu_type = cpuid_eax(0x1a) >> X86_CPU_TYPE_INTEL_SHIFT;
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/X86_CPU_TYPE_UNKNOWN +145 arch/x86/kernel/cpu/topology_common.c
-
-   142	
-   143	static void topo_set_cpu_type(struct cpuinfo_x86 *c)
-   144	{
- > 145		c->topo.cpu_type = X86_CPU_TYPE_UNKNOWN;
-   146	
-   147		if (c->x86_vendor == X86_VENDOR_INTEL && cpuid_eax(0) >= 0x1a)
- > 148			c->topo.cpu_type = cpuid_eax(0x1a) >> X86_CPU_TYPE_INTEL_SHIFT;
-   149	}
-   150	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+z
