@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B96A197A82;
-	Mon, 17 Jun 2024 13:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFE319068F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 13:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718630695; cv=none; b=tRrmTfa2OWj/PqlsGm/jVepelKA3ckDrSYlBWYtHTizYoatNQnN+8/mTCoi6vGx+btXw860AuAbelcjLe56FCBVZYMs0cYZSx32hVjKwexqpmC2ulEtPSbj4nSO/2XvRgmbaTixBhx/IRvgy09YfYEFueEi0E8qhnOybEq6bYJU=
+	t=1718631956; cv=none; b=CYPzmSlSCN0JCn17g897L5N8b8fN18umLkrgV5ldjy2AhA4mE7BxZSsrPf1TAA6g9QGteqFkYh2i2uj9wsfweKAH9HffM4PksEJNIiHOvqUWL+JmyPWWg9OuAcQWDyUaF+IJEc2S8lbmwjCi0MkdunL3Mu0LTTisyKeRGS2gwjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718630695; c=relaxed/simple;
-	bh=3W7OKXAyhdPAO8/WbYF1gIWUxeS2ZzVMV22aj1YWSPw=;
+	s=arc-20240116; t=1718631956; c=relaxed/simple;
+	bh=uxUyG9w3kzRRDkCmDR9ae5S/qbGPu4o5T0wPuhZOZm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H21BhmQaBnN2tn70XxQ25Y8FmoKz3Nl13pZdLaIiLlYqh+7sJZvbmctSCFJU/Eu4uCrCjDhCJaR36hsMBoj7K1t6VDonk7p+xu2VSQesotoVXbQ+yjD8wZfQKmR3mxYkErLunT0vr0Da0Td1YaBEPxRqaLXTw0Z6+n43mGKj3Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MOOivvcY; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=M9jZfAg5SfSQFySVYf4V3TBud4YH2RrLaMeF8U8pUzNhNWF2DrkphiO8d9Wa4RfZl/mh+38LLjo7CbAicBwPoQ8ZOFvZahn+F6gCzeyk9T5BULR2psXSWY2Uw7QZUE7aDjf5FYfmSCrZpfcZGCKI6tXb2VXYgMSS1SUpgNrcNCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4FWWIGl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MOOivvcY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4FWWIGl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718630694; x=1750166694;
+  t=1718631954; x=1750167954;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3W7OKXAyhdPAO8/WbYF1gIWUxeS2ZzVMV22aj1YWSPw=;
-  b=MOOivvcYQUY3oqHCTbuRtvglayhtkHYI9zkY8QrpdtB27syy4duzUME4
-   uwAajMiElokhpzyMeSjN7Q8sddWb3wT+EeNn3rVUjI6C64D9n9P4wy4Iu
-   rukunao0vCaaR2qKpSSLRHzvl/9iB4zHqvZ7yrgtupak4xmod0IvGuFYH
-   o/cab5XVEL1Y+gwhfszLk26jyuqph32z5T9dU/y1RyVk4c/5LwAxXGvMO
-   LcbIUk9QMppJ2brifwUynJTP66x0JHnRpq8oaAesWjG7qS2QXZ5WONs3y
-   /g26dZQR31FWPm4lUhi9SHCOnFXdr9pC3pW5ktzI6z17INoU6pXpVJDu4
+  bh=uxUyG9w3kzRRDkCmDR9ae5S/qbGPu4o5T0wPuhZOZm4=;
+  b=m4FWWIGlGGVbWNWRZBG1ZnFWiEBVfpv64QJHDn0TX8ctBzyRAx7I+sZm
+   DExisWi1Jvv23UKvQ068BnxVXU//4D3F7L7mVhkPiHo71Oqn7yP2UpWOx
+   tFLJzzvbpai5XRCPgiWsJ6sMN1rgEuQ5blDJO63pR9+34+fcjZ2o+llOd
+   JhBAfl94jiMxwVoLj0iqNM7gF2+NdrEfLpN2stXrnIyh+luovVd88xtUm
+   RV2GNDjAuSzoMSWvEk0kwLR4geP5AVFJcpj78+0l5kAS639dqApwCK2iX
+   TT/BkyMxgIcaoIlSzaRyfwoUxVOcFkNismlmjxiaKzgMYYRaRsYlWQaEL
    Q==;
-X-CSE-ConnectionGUID: 7koTjzxhTAWTe+SC8Lgc+A==
-X-CSE-MsgGUID: OMZ9RnfxQC+1WXfRe8Klkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="18372706"
+X-CSE-ConnectionGUID: 0FdgHVeaSaS/teNM/VLxrA==
+X-CSE-MsgGUID: z9nDO0QVTMKOydCRYC4C7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15423004"
 X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="18372706"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 06:24:53 -0700
-X-CSE-ConnectionGUID: PPRLjr1UQsmF05dkhgQ1ZA==
-X-CSE-MsgGUID: eC9cEVyMRymH4ArabPUkbg==
+   d="scan'208";a="15423004"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 06:45:54 -0700
+X-CSE-ConnectionGUID: yRDSuFj8TKGtE6IfgTep9g==
+X-CSE-MsgGUID: 3AxYSsRuSoWIkXxrMDqhRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="41072411"
+   d="scan'208";a="64394193"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Jun 2024 06:24:49 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Jun 2024 06:45:49 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJCLm-0004KB-34;
-	Mon, 17 Jun 2024 13:24:46 +0000
-Date: Mon, 17 Jun 2024 21:24:20 +0800
+	id 1sJCg7-0004LF-26;
+	Mon, 17 Jun 2024 13:45:47 +0000
+Date: Mon, 17 Jun 2024 21:45:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	daniel.sneddon@linux.intel.com, tony.luck@intel.com,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, daniel.sneddon@linux.intel.com,
+	tony.luck@intel.com, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-perf-users@vger.kernel.org,
 	Josh Poimboeuf <jpoimboe@kernel.org>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -65,7 +64,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andrew Cooper <andrew.cooper3@citrix.com>
 Subject: Re: [PATCH PATCH 1/9] x86/cpu/topology: Add x86_cpu_type to struct
  cpuinfo_topology
-Message-ID: <202406172104.aOlpCnvb-lkp@intel.com>
+Message-ID: <202406172100.6R91rhbf-lkp@intel.com>
 References: <20240617-add-cpu-type-v1-1-b88998c01e76@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -87,24 +86,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Pawan-Gupta/x86-cpu-topol
 base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
 patch link:    https://lore.kernel.org/r/20240617-add-cpu-type-v1-1-b88998c01e76%40linux.intel.com
 patch subject: [PATCH PATCH 1/9] x86/cpu/topology: Add x86_cpu_type to struct cpuinfo_topology
-config: i386-buildonly-randconfig-004-20240617 (https://download.01.org/0day-ci/archive/20240617/202406172104.aOlpCnvb-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406172104.aOlpCnvb-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20240617 (https://download.01.org/0day-ci/archive/20240617/202406172100.6R91rhbf-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406172100.6R91rhbf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406172104.aOlpCnvb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406172100.6R91rhbf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/cpu/topology_common.c:145:21: error: use of undeclared identifier 'X86_CPU_TYPE_UNKNOWN'
-     145 |         c->topo.cpu_type = X86_CPU_TYPE_UNKNOWN;
-         |                            ^
->> arch/x86/kernel/cpu/topology_common.c:148:41: error: use of undeclared identifier 'X86_CPU_TYPE_INTEL_SHIFT'
-     148 |                 c->topo.cpu_type = cpuid_eax(0x1a) >> X86_CPU_TYPE_INTEL_SHIFT;
-         |                                                       ^
-   2 errors generated.
+   arch/x86/kernel/cpu/topology_common.c: In function 'topo_set_cpu_type':
+>> arch/x86/kernel/cpu/topology_common.c:145:21: error: 'X86_CPU_TYPE_UNKNOWN' undeclared (first use in this function)
+     145 |  c->topo.cpu_type = X86_CPU_TYPE_UNKNOWN;
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/topology_common.c:145:21: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/x86/kernel/cpu/topology_common.c:148:41: error: 'X86_CPU_TYPE_INTEL_SHIFT' undeclared (first use in this function)
+     148 |   c->topo.cpu_type = cpuid_eax(0x1a) >> X86_CPU_TYPE_INTEL_SHIFT;
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/X86_CPU_TYPE_UNKNOWN +145 arch/x86/kernel/cpu/topology_common.c
