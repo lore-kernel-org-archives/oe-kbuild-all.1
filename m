@@ -1,71 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754711BF31
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 14:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75601137903
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 14:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718632921; cv=none; b=RMx/GriQ0q4cWqHomuUuQkLdPegKRAMvklDHJZzmoFTvwOCgBfYjRUzo6oq8LChzaw6e/ClnPV+PV4c87FFB9RSQfcfPWPYg98HgqZSKCyNxg9IQzYgy5JxBCpsWSzwxa94gbhemPUAqYbYfC31cplr/VjZf5NT9IhB5bXGs0zI=
+	t=1718633220; cv=none; b=bfxd5Pe7WWmlra6icO3dk+ow6F95827HgV5PR5Zeq4R3ZMyC0jWJtIUPc2MjR44UL6jJPEeOzIIYmPcRcgraJx8LGS7xWeqfR6UgYXIhxPf08NHB3+S5lAHZOmXHpuisOWdL11hf0Ht0Ggp+LbGVIrt9T8IzKp75rw1eqtsi3mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718632921; c=relaxed/simple;
-	bh=+5sMLlQjXiSMPvX/MsyRTJLDa/2Lz5M1r4ucStNkDvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N4mVX0pn4sAFrxcjSH2X+K1C0pZYI2zIGeDWpwst8XIT/18T4RdRBR20ZztzEqdxs/aFb+I7ler6Y4TROiTM4eH/UfDmdFfBMhSfJSTaUjxB9dpKmHVfqMiNRcZRmLLsMHVvYy4dzozrORG048tYZ8YLlQVThszV5001biXcUC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rsc3o/oY; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718633220; c=relaxed/simple;
+	bh=pMyfw1dfiGA1QZu8PBrMPuuOqPTctUixdoLBvWN885M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=WAqKZZrHnKt5FnchauXxJnzfpGMoqmJHpPZ1rIQN7qu9/70eEIiWFyWgjDPoDJOLrCLnWDg6/BdWEiLIhOLRwjJbEi2FLB6jIEGl3vrxQKHUwDso/1QXaz+SHzc4qWpRyN9UssV8ev7FSX7Pj+v+JjriAwDSvDJpNF4gh6ZU2IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=csNSLk+C; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rsc3o/oY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718632918; x=1750168918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+5sMLlQjXiSMPvX/MsyRTJLDa/2Lz5M1r4ucStNkDvc=;
-  b=Rsc3o/oYYGZNT8lyN0KYI6/hqTbwiBOgTfkI/WpDqNQRJofAqClV1GBm
-   fTsPiDgNUF//piBwkUgAxkpXLubLAkdU+borJmK42sAJD5sh+jaZe8N8z
-   JScAy7h2ipQj0oZ766Da7dV+yPZa4/GeefDXVpiihnTJkeslCpYDT2b2j
-   exXEivj55avVzgm2EiIJ0tWSsym6LNp9YHNFBzUCmB5R6VI8+vpHmt9jf
-   MOG4XUdoeR3cNYQH1076nI63A6klZ2c1M7NP5nxnSuzakD0TsXlN9kxlZ
-   +vz7egyZky+nb3H6MSiRGmH+uU9SCS9bo6J07nfugm1ayTRsy5YmOhnHo
-   Q==;
-X-CSE-ConnectionGUID: Gik0VauVTdmuxY0en7MiXw==
-X-CSE-MsgGUID: KZ2o5R1hReW/trFuAiqxmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="26854373"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="26854373"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 07:01:58 -0700
-X-CSE-ConnectionGUID: cbI57oqLSgWWTV2s2HHveQ==
-X-CSE-MsgGUID: xQJ3PNCfRoGXp2R8jjn5FQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="41304066"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Jun 2024 07:01:54 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJCvf-0004MH-2e;
-	Mon, 17 Jun 2024 14:01:51 +0000
-Date: Mon, 17 Jun 2024 22:01:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel.sneddon@linux.intel.com,
-	tony.luck@intel.com, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>
-Subject: Re: [PATCH PATCH 2/9] cpufreq: intel_pstate: Use topology_cpu_type()
- to get cpu-type
-Message-ID: <202406172134.ICqkbkNm-lkp@intel.com>
-References: <20240617-add-cpu-type-v1-2-b88998c01e76@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="csNSLk+C"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-35f2c9e23d3so3607426f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 07:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718633217; x=1719238017; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xfzEPFl0/Y3VgT03Y8o10XG4X345RRemIWVH9KFw+jI=;
+        b=csNSLk+CqO0Q4hqBO/BM0qCNW7hggaQE3Y+HX1b2pFQ4DfVD9N2Z/05fgqf0kJoMlZ
+         c3GXTLGESGqHkn4IMED9NohU90mXhvBFbXvfY6068K+fH/Gwsqou7Kf9/YbJ8EP7XnGR
+         OiIrR/MjiJKTZSG6nNTi3RYmle+ma2I9HYUsSFTcjTBruUhykUMcQaDCOQXjnOcnzszu
+         bwzPtRt/3PlS6/EAv8tKFSRLp1B1iGO0MWYmfWn9BY3kVi5BcWzhIXlERHE6E00Y3sRB
+         vekabAcYPI/axO3+zjtGQQNP2GE244fRiKIPVEUOGWL9K7NXDOVbv068SKoghcjA1kFL
+         gP0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718633217; x=1719238017;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xfzEPFl0/Y3VgT03Y8o10XG4X345RRemIWVH9KFw+jI=;
+        b=rWx3q3uC5cAfqrQmHdUvXMJdzmbS6U2LSrQp8LopeUJ+BJw9V4ju0KyUWpqNOB3E03
+         MGeC8vLChh4HfKUvMLcdoj5Jsj4yxjxqbqjIVwE1syzHMaGOYB+9oWif3E1kDka6IdcN
+         zJdN89h0HVUyHR6E9KE6LQMi3I9IntyTnKhXeTNG0mLCW68qeBA4+sfEcKLvuK56OlBr
+         1Pgd1OyM+05svOra0Ho0teHOIT/BHbx7aacKmAtB7bvozasV0IkafikgsecM+4lo6aOB
+         u2RwDjEdCOUrqBPqeImZqkOz/2SU8T5FV5IGAoMcem6560RkGnnDf4EXstcoC2L65cxa
+         XMug==
+X-Forwarded-Encrypted: i=1; AJvYcCWijXd6w4TycWuvHBeM5T0ZAb6lLrKtY0XskTKKJujlvyx4CL4RToBFVBX0pV7BWvNjgjZRrSnRD4bENM86gSwDeWD2U4G6KQosnw/UVA==
+X-Gm-Message-State: AOJu0YyIfVNGV5T5n8kOsHcBv19E28OOGthk01rO62m3x3g6/yldN89Z
+	0gZzshjrcJsyeROShj39kCqGmP16AURFZQo3i8yoycAqB73dGjTUNEYVj6FMBmo=
+X-Google-Smtp-Source: AGHT+IHDZbXCFBXwbnXcDrWZn2ocDbHY0hBSBHWSG0CtmvrPKMVAjIMtcKtYZ5slFz12ytWdZUf88g==
+X-Received: by 2002:adf:f705:0:b0:35f:32af:d79 with SMTP id ffacd0b85a97d-36071901363mr11440363f8f.27.1718633216594;
+        Mon, 17 Jun 2024 07:06:56 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607509c8fbsm11886296f8f.43.2024.06.17.07.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 07:06:56 -0700 (PDT)
+Date: Mon, 17 Jun 2024 17:06:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
+	trondmy@kernel.org, anna@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH] nfs: remove dead code for the old swap over NFS
+ implementation
+Message-ID: <975db363-b830-499b-89f8-9d843da47427@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,66 +67,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240617-add-cpu-type-v1-2-b88998c01e76@linux.intel.com>
+In-Reply-To: <20240615080827.1239935-1-hch@lst.de>
 
-Hi Pawan,
+Hi Christoph,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawan-Gupta/x86-cpu-topology-Add-x86_cpu_type-to-struct-cpuinfo_topology/20240617-172542
-base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-patch link:    https://lore.kernel.org/r/20240617-add-cpu-type-v1-2-b88998c01e76%40linux.intel.com
-patch subject: [PATCH PATCH 2/9] cpufreq: intel_pstate: Use topology_cpu_type() to get cpu-type
-config: i386-buildonly-randconfig-001-20240617 (https://download.01.org/0day-ci/archive/20240617/202406172134.ICqkbkNm-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406172134.ICqkbkNm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/nfs-remove-dead-code-for-the-old-swap-over-NFS-implementation/20240615-161031
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20240615080827.1239935-1-hch%40lst.de
+patch subject: [PATCH] nfs: remove dead code for the old swap over NFS implementation
+config: x86_64-randconfig-161-20240616 (https://download.01.org/0day-ci/archive/20240616/202406162226.EHq7u0eB-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406172134.ICqkbkNm-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406162226.EHq7u0eB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/nfs/write.c:737 nfs_inode_remove_request() warn: variable dereferenced before check 'folio' (see line 734)
 
-   drivers/cpufreq/intel_pstate.c: In function 'hwp_get_cpu_scaling':
->> drivers/cpufreq/intel_pstate.c:1959:25: error: 'X86_CPU_TYPE_INTEL_CORE' undeclared (first use in this function)
-    1959 |         if (cpu_type == X86_CPU_TYPE_INTEL_CORE)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/intel_pstate.c:1959:25: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/cpufreq/intel_pstate.c:1963:25: error: 'X86_CPU_TYPE_INTEL_ATOM' undeclared (first use in this function)
-    1963 |         if (cpu_type == X86_CPU_TYPE_INTEL_ATOM)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+vim +/folio +737 fs/nfs/write.c
 
+^1da177e4c3f41 Linus Torvalds          2005-04-16  728  static void nfs_inode_remove_request(struct nfs_page *req)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  729  {
+6a6d4644ce935d Scott Mayhew            2023-10-11  730  	struct nfs_inode *nfsi = NFS_I(nfs_page_to_inode(req));
+6a6d4644ce935d Scott Mayhew            2023-10-11  731  
+20633f042fd090 Weston Andros Adamson   2014-05-15  732  	if (nfs_page_group_sync_on_bit(req, PG_REMOVE)) {
+0c493b5cf16e28 Trond Myklebust         2023-01-19  733  		struct folio *folio = nfs_page_to_folio(req->wb_head);
+a43a94f57a0e00 Christoph Hellwig       2024-06-15 @734  		struct address_space *mapping = folio->mapping;
+                                                                                                        ^^^^^^^^^^^^^^
+Dereference
 
-vim +/X86_CPU_TYPE_INTEL_CORE +1959 drivers/cpufreq/intel_pstate.c
+^1da177e4c3f41 Linus Torvalds          2005-04-16  735  
+600f111ef51dc2 Matthew Wilcox (Oracle  2023-11-17  736) 		spin_lock(&mapping->i_private_lock);
+a43a94f57a0e00 Christoph Hellwig       2024-06-15 @737  		if (likely(folio)) {
+                                                                                   ^^^^^
+Checked too late
 
-  1953	
-  1954	static int hwp_get_cpu_scaling(int cpu)
-  1955	{
-  1956		u8 cpu_type = topology_cpu_type(cpu);
-  1957	
-  1958		/* P-cores have a smaller perf level-to-freqency scaling factor. */
-> 1959		if (cpu_type == X86_CPU_TYPE_INTEL_CORE)
-  1960			return hybrid_scaling_factor;
-  1961	
-  1962		/* Use default core scaling for E-cores */
-> 1963		if (cpu_type == X86_CPU_TYPE_INTEL_ATOM)
-  1964			return core_get_scaling();
-  1965	
-  1966		/*
-  1967		 * If reached here, this system is either non-hybrid (like Tiger
-  1968		 * Lake) or hybrid-capable (like Alder Lake or Raptor Lake) with
-  1969		 * no E cores (in which case CPUID for hybrid support is 0).
-  1970		 *
-  1971		 * The CPPC nominal_frequency field is 0 for non-hybrid systems,
-  1972		 * so the default core scaling will be used for them.
-  1973		 */
-  1974		return intel_pstate_cppc_get_scaling(cpu);
-  1975	}
-  1976	
+0c493b5cf16e28 Trond Myklebust         2023-01-19  738  			folio->private = NULL;
+0c493b5cf16e28 Trond Myklebust         2023-01-19  739  			folio_clear_private(folio);
+0c493b5cf16e28 Trond Myklebust         2023-01-19  740  			clear_bit(PG_MAPPED, &req->wb_head->wb_flags);
+29418aa4bd487c Mel Gorman              2012-07-31  741  		}
+600f111ef51dc2 Matthew Wilcox (Oracle  2023-11-17  742) 		spin_unlock(&mapping->i_private_lock);
+20633f042fd090 Weston Andros Adamson   2014-05-15  743  	}
+17089a29a25a3b Weston Andros Adamson   2014-07-11  744  
+33ea5aaa87cdae ZhangXiaoxu             2019-09-26  745  	if (test_and_clear_bit(PG_INODE_REF, &req->wb_flags)) {
+6a6d4644ce935d Scott Mayhew            2023-10-11  746  		atomic_long_dec(&nfsi->nrequests);
+dd1b2026323a2d Jeff Layton             2023-09-19  747  		nfs_release_request(req);
+33ea5aaa87cdae ZhangXiaoxu             2019-09-26  748  	}
+^1da177e4c3f41 Linus Torvalds          2005-04-16  749  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
