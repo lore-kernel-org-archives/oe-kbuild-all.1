@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4C533FD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 01:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC5A33C7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jun 2024 01:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718586329; cv=none; b=G44DlLDk/qH5tIPAauqdZAuuRQe82HHLfGenvrn4ZAJInKULeB/PcdZ+HkOIwfxUqUxFYd/ySeWlpuyraKCdXOe5yMv+Y2xGGDs1E4o2DIPxZnBROycj4HErz1iqWAe+B7YkVAf3hA3HPlc7+XryG+lvwZKd3QgTjUoN6t1ukOM=
+	t=1718586329; cv=none; b=fQ1zTQbpNGU8yBM6dGc0xPexeK6D8DT0+yd3WQN7bSvM6t1uFNeI8in0rJQJ2rePtpOusRcymaf5o3M/fhTy3abalggR3GDLuuN71JQLeLIIqw/R9MbFzNZ9t8L+RUSiSp/0NBK3l7kbhE8hYfnTW3bZNQ2M8hF07s+vyNHsjvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718586329; c=relaxed/simple;
-	bh=+6qdQyl2ATNElvhmWETwyD5YgaSpfjO1cHFYCtgyL28=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZUh0WJuldwhc7Lf7pO6D57nKKZ8qEjmecWiu64PAvwKJKc/QGQIIKEMx5TvyKAtsD9GfrYbgY3A/Bld0PqVvaRCjSgbus3PqHmASWnFkJyuxSaECdob5I7Uia1qrTUYZ7INYs7WZgUzaVLhKWRWpENZP3TbuLZBc1bIUXmwAPNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPQ54Fvi; arc=none smtp.client-ip=192.198.163.16
+	bh=qnCn82ABjmEXbcVD/7sbHxm944K/zrwaklVSgYdy8GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c8OcSUWkN6SsmSv60756Z4OCKnb7Kv1GLt9ftVFT3cKPLfTMjg/zYP63WxiJtI8gez6JRG3O61ODmsSvdvmMxH1ofnEAU6kuEbseFeBgbnxJQZyQZnbOU0J9HntAIDT06iV8h483dgR4wJus4+WV/r8BPMOhPi4o9DS6o7sISZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ke/ofuJo; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPQ54Fvi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ke/ofuJo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718586327; x=1750122327;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+6qdQyl2ATNElvhmWETwyD5YgaSpfjO1cHFYCtgyL28=;
-  b=XPQ54FviyK7uxKhlK/yCyCOGadWEPdA1YNwkByuLKt9OPRUpch4H4b4e
-   DOyryl36aCvQdGE+d4QJeKOx+DTZxXxejcrztmJWQQqekAc3ap2X6gZx5
-   xRsrf3OjyjxB3ru9+WObvWw5Ck6BYgTD1s3SAVCJm4cOk2uM+/27R0R4o
-   vDdAMRl+t4VM7M+tln0WMxLvPt84jabrDQsI/riKGy0gv7kFFYjrftpK5
-   zwPCQO8GO3bhcx2POnFoU6OgvWyyFw0Kb/zR+eW01mHHZSgwcQ2CQfIiY
-   EI/pfllNGOPmQ+dbUwx3LrMTuTJETNb4W1rRAJrUlXmbAgChWBDcQhNsD
-   Q==;
-X-CSE-ConnectionGUID: CV5rkUgnQeingPiJHboI4A==
-X-CSE-MsgGUID: cwPhwluMQv6xnzltkeungw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12100293"
+  t=1718586329; x=1750122329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qnCn82ABjmEXbcVD/7sbHxm944K/zrwaklVSgYdy8GA=;
+  b=Ke/ofuJoDzmVtx1KYFJDUT6TVv5bWHRQ7WZNxEEQzbo1TIr5LbeXQvgy
+   462llbmpZsuqzWiOYZFsFSEaeVkHFb05NTx2bfrnFxSatoZqibepvPmor
+   3qAShqicKJxRn0BNgyzoDpxQ3tA86YgktfUqwThwSO8CkJdjbv81Ngy2g
+   2oGR5ywR5GQXAfXKv98rDSDEr4Fz5v/HrP/Re90e2s5r5VRpn52/MP4yC
+   ZMYJevE0pDcfWnRXbMn1eZr7A6JMg99MREKguYrQcQhsy6awiv/eBdAGL
+   dROzj9nWpGT6Okh/0apnZSB5ZFjhbWCD/n1aIcnQGOV0bYRBy6QFVyM6z
+   w==;
+X-CSE-ConnectionGUID: 1mtBMIG7SPOveHEH+1gZ7Q==
+X-CSE-MsgGUID: ivNg/hOlRMWbWdbn1fg5kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12100297"
 X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="12100293"
+   d="scan'208";a="12100297"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 18:05:26 -0700
-X-CSE-ConnectionGUID: cTH+TTkPTWqSF7f21q83RQ==
-X-CSE-MsgGUID: upyYUvY3Rei67S36PcLhpA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 18:05:28 -0700
+X-CSE-ConnectionGUID: A63o/OJYSIW+malhA+HpBQ==
+X-CSE-MsgGUID: Q5RBf2xVQieMKj4HVDC7+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="41155845"
+   d="scan'208";a="41155848"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2024 18:05:25 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2024 18:05:24 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJ0oF-0003ZV-0b;
-	Mon, 17 Jun 2024 01:05:23 +0000
-Date: Mon, 17 Jun 2024 09:04:39 +0800
+	id 1sJ0oD-0003ZS-2x;
+	Mon, 17 Jun 2024 01:05:21 +0000
+Date: Mon, 17 Jun 2024 09:04:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 7438/22937]
- drivers/net/phy/.tmp_ax88796b.o: warning: objtool: missing symbol for
- section .exit.text
-Message-ID: <202406170809.fyaOQ9ZM-lkp@intel.com>
+To: Vanillan Wang <songjinjian@hotmail.com>,
+	chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org, ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, Jinjian Song <jinjian.song@fibocom.com>
+Subject: Re: [net-next v1] net: wwan: t7xx: Add debug port
+Message-ID: <202406170854.MYWoYsla-lkp@intel.com>
+References: <MEYP282MB269762C5070B97CD769C8CD5BBC22@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +69,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <MEYP282MB269762C5070B97CD769C8CD5BBC22@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   745a3c567e1c329d131a8896642475f3916d020a
-commit: 56e625aa545a24e8d3fa44b5fbcdedd88e443dcc [7438/22937] net: phy: rename Asix Electronics PHY driver
-config: x86_64-buildonly-randconfig-004-20240614 (https://download.01.org/0day-ci/archive/20240617/202406170809.fyaOQ9ZM-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170809.fyaOQ9ZM-lkp@intel.com/reproduce)
+Hi Vanillan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vanillan-Wang/net-wwan-t7xx-Add-debug-port/20240614-175858
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/MEYP282MB269762C5070B97CD769C8CD5BBC22%40MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
+patch subject: [net-next v1] net: wwan: t7xx: Add debug port
+config: x86_64-randconfig-161-20240617 (https://download.01.org/0day-ci/archive/20240617/202406170854.MYWoYsla-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406170809.fyaOQ9ZM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406170854.MYWoYsla-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/wwan/t7xx/t7xx_port_debug.c:153 port_char_write() warn: unsigned 'txq_mtu' is never less than zero.
 
->> drivers/net/phy/.tmp_ax88796b.o: warning: objtool: missing symbol for section .exit.text
+vim +/txq_mtu +153 drivers/net/wwan/t7xx/t7xx_port_debug.c
+
+   132	
+   133	static ssize_t port_char_write(struct file *file, const char __user *buf,
+   134				       size_t count, loff_t *ppos)
+   135	{
+   136		unsigned int header_len = sizeof(struct ccci_header);
+   137		size_t  offset, txq_mtu, chunk_len = 0;
+   138		struct t7xx_port *port;
+   139		struct sk_buff *skb;
+   140		bool blocking;
+   141		int ret;
+   142	
+   143		port = file->private_data;
+   144	
+   145		blocking = !(file->f_flags & O_NONBLOCK);
+   146		if (!blocking)
+   147			return -EAGAIN;
+   148	
+   149		if (!port->chan_enable)
+   150			return -EINVAL;
+   151	
+   152		txq_mtu = t7xx_get_port_mtu(port);
+ > 153		if (txq_mtu < 0)
+   154			return -EINVAL;
+   155	
+   156		for (offset = 0; offset < count; offset += chunk_len) {
+   157			chunk_len = min(count - offset, txq_mtu - header_len);
+   158	
+   159			skb = __dev_alloc_skb(chunk_len + header_len, GFP_KERNEL);
+   160			if (!skb)
+   161				return -ENOMEM;
+   162	
+   163			ret = copy_from_user(skb_put(skb, chunk_len), buf + offset, chunk_len);
+   164	
+   165			if (ret) {
+   166				dev_kfree_skb(skb);
+   167				return -EFAULT;
+   168			}
+   169	
+   170			ret = t7xx_port_send_skb(port, skb, 0, 0);
+   171			if (ret) {
+   172				if (ret == -EBUSY && !blocking)
+   173					ret = -EAGAIN;
+   174				dev_kfree_skb_any(skb);
+   175				return ret;
+   176			}
+   177		}
+   178	
+   179		return count;
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
