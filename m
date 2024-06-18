@@ -1,70 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3CC131E38;
-	Tue, 18 Jun 2024 13:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4229E1A8C34
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 14:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718717955; cv=none; b=QYk5Xm1ba1mM5MI8J2kF1XdAv+aX8S5lEfwl9lIfZq8PnUb1egR86slsemP2NcM0KXpOTLwtLJ96XPuuWh9siDl6+8F3O3emWawYRf1E+yEZ0sQ8fFvaehDZtrtAzS+F+Axu5Bt4KHnqKDidmFcJw8lx12v8H6kWVpciZTUGYEM=
+	t=1718719320; cv=none; b=i4Vc09XLsk+grf6m8vVHuHJkHGbiIDDgUoXcGEWpZwiU/lhpOT8xZ6m+tatM+XxriJEAmfnrr9AaIAxr2/nvZ6TjxKsq3OnUnzxUZS5G/45rSKVJcnDee66exOFbHYKgaBPCg7GMy10LlB8p9cqUNmiHttC5uvcn1rmFmcw0SQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718717955; c=relaxed/simple;
-	bh=iAfRy8gkHYKnalZbae1lHo5/Dx4Sx6rI8FqrdYS6OF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0uS4lgNkt/ZuO4W4v5AagfhqkDTt363V3f3XGdiE7xn+EJNaazeg1ubItMkovCvzY0jB4HgTT34F+Hc1bU0mMANnae7tKNcb4ytWvZDFgEHI+OpcSR/WB1o5MeFT1NRylyv/RUU8+1az671LUcNZ4HIdXeJKLYbv4DaQUv5zwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDzdwsew; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1718719320; c=relaxed/simple;
+	bh=SNFO8c647yA6lQhAZIsoVkweIXo2za5vaPlNpE0P5yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TtwIhD0wrW47XOcpdBuy6Qc7dMXIE6B+ucJsaH91gAfFmd1y017Ndh1lKaNWzFNm5ahXfryXDZq4XNfg/hdA5Ldyijj840TKwellvnvoN+ZLdr546j13Y6wb4bldDJ9VuvlLdOeRFdsd5//m5p/EitEdwFbf4n16sJn45GL2q2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYaI9pEo; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDzdwsew"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYaI9pEo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718717954; x=1750253954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iAfRy8gkHYKnalZbae1lHo5/Dx4Sx6rI8FqrdYS6OF8=;
-  b=PDzdwsewue07fR43kpqd7So1QBtIcdwwGgjE+PT/+fnfc5+x6IPjnjKU
-   tMkC9/NOWWsZbJ9op7hRwvPQ3AjVJSohBOos/OiuhEKK01T5FZL9cXcyh
-   UHjen4eBAQCZgXKXvM4xBoY4Eq8HzRRGVff/5N6PkwYqjCph0t0Tyro2u
-   Nq7YZ1roRtQkovxp4eMYFFBR3sBd+xrcxO4EGbjgZKU6iGrGeJPdarT8S
-   K/txLXMot++svJ54SaQH2OAq9EKhvyB3/fja0Jp7at2Oy41zKzF3tq+Rg
-   JOjPSCRCHS49fBGgCzo42pjcNFH2pB7M5cLaN0I1Yamj79Re5ns0vHhaF
-   w==;
-X-CSE-ConnectionGUID: B2ArV0hYT++mQw7gr35hYQ==
-X-CSE-MsgGUID: mfGN98maSMSfuj+mKZyykA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15307209"
+  t=1718719318; x=1750255318;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SNFO8c647yA6lQhAZIsoVkweIXo2za5vaPlNpE0P5yk=;
+  b=NYaI9pEoPQxhgZcih3hTbg9yGd5R96Bdi5dHmoivQEl+D7lcZgv6A6ih
+   qjkaQI3oYShhBmkNj02VLyMlVkmTiTMmRXb8iiNgplehGMnH7vSTIJ45W
+   7Tg59hh8p2RRUFe7xuz4EwS05f9IvCUQ7EaBLoFyXdbLzv2ubYlLEiBRk
+   doDmFsbioNeacKLRNUN7bWD+mmpfN1hXSDgSrg8FalldKpuS7Je3GselH
+   bGxKF9ljXuP3EH2kpefM1BtBDwdeLerrfdNjfu7/LNy7XdIkq+FayBHcO
+   2ZYVDqlXrHNQpX+VuXEZJA9L8Z2nTMiuD+ccFaDCPXbsx7x3N7txcG5S9
+   Q==;
+X-CSE-ConnectionGUID: WmIX4kvcTs65sadBhhFkZQ==
+X-CSE-MsgGUID: eeVdFaTqTSqUwuL+7RZFJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15310925"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="15307209"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 06:39:13 -0700
-X-CSE-ConnectionGUID: lgsvN0plTlGnaOetNYulWw==
-X-CSE-MsgGUID: ovIT9vj4SKOSTSKkvw7Z9w==
+   d="scan'208";a="15310925"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 07:01:58 -0700
+X-CSE-ConnectionGUID: J9JVXLx/RIKX0c7ZQOG5nw==
+X-CSE-MsgGUID: 1dv9njJPTK6GDz8vZdSqAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="72306808"
+   d="scan'208";a="41665141"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2024 06:38:54 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 Jun 2024 07:01:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJZ2x-0005Yb-2h;
-	Tue, 18 Jun 2024 13:38:51 +0000
-Date: Tue, 18 Jun 2024 21:38:35 +0800
+	id 1sJZPF-0005Zt-1Z;
+	Tue, 18 Jun 2024 14:01:53 +0000
+Date: Tue, 18 Jun 2024 22:01:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andre Przywara <andre.przywara@arm.com>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor
- address fields
-Message-ID: <202406182149.eAIruF9N-lkp@intel.com>
-References: <20240616220719.26641-3-andre.przywara@arm.com>
+To: Brandon Brnich <b-brnich@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y 4/39] arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb:
+ video-codec@30210000: 'sram-size' does not match any of the regexes:
+ 'pinctrl-[0-9]+'
+Message-ID: <202406182118.Uww7ZRp4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,133 +64,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240616220719.26641-3-andre.przywara@arm.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andre,
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.=
+6.y
+head:   eeca5715c9a5b742423bd83ed587fac26268771c
+commit: b76af846b8e23e7fe05cb647587843371638b7a9 [4/39] arm64: dts: ti: k3-=
+am62p-main: SRAM Allocation for VPU
+config: arm64-randconfig-051-20240616 (https://download.01.org/0day-ci/arch=
+ive/20240618/202406182118.Uww7ZRp4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240618/202406182118.Uww7ZRp4-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on sunxi/sunxi/for-next]
-[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.10-rc4 next-20240617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-bindings-crypto-sun8i-ce-Add-compatible-for-H616/20240617-061144
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20240616220719.26641-3-andre.przywara%40arm.com
-patch subject: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor address fields
-config: mips-randconfig-r121-20240618 (https://download.01.org/0day-ci/archive/20240618/202406182149.eAIruF9N-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce: (https://download.01.org/0day-ci/archive/20240618/202406182149.eAIruF9N-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406182149.eAIruF9N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406182118.Uww7ZRp4-lkp@i=
+ntel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 @@
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     expected unsigned int [usertype] val
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     got restricted __le32
+dtcheck warnings: (new ones prefixed by >>)
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: 'interrupts' doe=
+s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: Unevaluated pro=
+perties are not allowed ('interrupt-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: {'compatible': =
+['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interru=
+pts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]=
+], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'=
+], 'pinctrl-0': [[18]], 'interrupts-extended': [[1, 0, 178, 4], [19, 456]],=
+ 'interrupt-names': ['irq', 'wakeup'], 'bootph-all': True, 'phandle': [[116=
+]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['=
+interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: {'compatible': =
+['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interru=
+pts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]=
+], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'=
+], 'pinctrl-0': [[18]], 'interrupts-extended': [[1, 0, 178, 4], [19, 456]],=
+ 'interrupt-names': ['irq', 'wakeup'], 'bootph-all': True, 'phandle': [[116=
+]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['=
+interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: video-codec@30210000: 'sram-siz=
+e' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
+--
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: compatible: 'one=
+Of' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: 'interrupts' doe=
+s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: video-codec@30210000: 'sram-siz=
+e' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
 
-vim +175 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-
-   167	
-   168		mutex_lock(&ce->mlock);
-   169	
-   170		v = readl(ce->base + CE_ICR);
-   171		v |= 1 << flow;
-   172		writel(v, ce->base + CE_ICR);
-   173	
-   174		reinit_completion(&ce->chanlist[flow].complete);
- > 175		writel(sun8i_ce_desc_addr(ce, ce->chanlist[flow].t_phy),
-   176		       ce->base + CE_TDQ);
-   177	
-   178		ce->chanlist[flow].status = 0;
-   179		/* Be sure all data is written before enabling the task */
-   180		wmb();
-   181	
-   182		/* Only H6 needs to write a part of t_common_ctl along with "1", but since it is ignored
-   183		 * on older SoCs, we have no reason to complicate things.
-   184		 */
-   185		v = 1 | ((le32_to_cpu(ce->chanlist[flow].tl->t_common_ctl) & 0x7F) << 8);
-   186		writel(v, ce->base + CE_TLR);
-   187		mutex_unlock(&ce->mlock);
-   188	
-   189		wait_for_completion_interruptible_timeout(&ce->chanlist[flow].complete,
-   190				msecs_to_jiffies(ce->chanlist[flow].timeout));
-   191	
-   192		if (ce->chanlist[flow].status == 0) {
-   193			dev_err(ce->dev, "DMA timeout for %s (tm=%d) on flow %d\n", name,
-   194				ce->chanlist[flow].timeout, flow);
-   195			err = -EFAULT;
-   196		}
-   197		/* No need to lock for this read, the channel is locked so
-   198		 * nothing could modify the error value for this channel
-   199		 */
-   200		v = readl(ce->base + CE_ESR);
-   201		switch (ce->variant->esr) {
-   202		case ESR_H3:
-   203			/* Sadly, the error bit is not per flow */
-   204			if (v) {
-   205				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
-   206				err = -EFAULT;
-   207				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
-   208					       cet, sizeof(struct ce_task), false);
-   209			}
-   210			if (v & CE_ERR_ALGO_NOTSUP)
-   211				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
-   212			if (v & CE_ERR_DATALEN)
-   213				dev_err(ce->dev, "CE ERROR: data length error\n");
-   214			if (v & CE_ERR_KEYSRAM)
-   215				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
-   216			break;
-   217		case ESR_A64:
-   218		case ESR_D1:
-   219		case ESR_H5:
-   220		case ESR_R40:
-   221			v >>= (flow * 4);
-   222			v &= 0xF;
-   223			if (v) {
-   224				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
-   225				err = -EFAULT;
-   226				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
-   227					       cet, sizeof(struct ce_task), false);
-   228			}
-   229			if (v & CE_ERR_ALGO_NOTSUP)
-   230				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
-   231			if (v & CE_ERR_DATALEN)
-   232				dev_err(ce->dev, "CE ERROR: data length error\n");
-   233			if (v & CE_ERR_KEYSRAM)
-   234				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
-   235			break;
-   236		case ESR_H6:
-   237			v >>= (flow * 8);
-   238			v &= 0xFF;
-   239			if (v) {
-   240				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
-   241				err = -EFAULT;
-   242				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
-   243					       cet, sizeof(struct ce_task), false);
-   244			}
-   245			if (v & CE_ERR_ALGO_NOTSUP)
-   246				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
-   247			if (v & CE_ERR_DATALEN)
-   248				dev_err(ce->dev, "CE ERROR: data length error\n");
-   249			if (v & CE_ERR_KEYSRAM)
-   250				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
-   251			if (v & CE_ERR_ADDR_INVALID)
-   252				dev_err(ce->dev, "CE ERROR: address invalid\n");
-   253			if (v & CE_ERR_KEYLADDER)
-   254				dev_err(ce->dev, "CE ERROR: key ladder configuration error\n");
-   255			break;
-   256		}
-   257	
-   258		return err;
-   259	}
-   260	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
