@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2F415E5CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 18:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBBE1171C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 18:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718736200; cv=none; b=B/Q7UY/ySN3Od592aGgnzN//Pat6cQmXbnNKAwXVuIqEWYkjuN9s78XB4eqboUF3jw8p256FtIMPn/W3ACptvXYCoHNKiAvGANHNlabebOG47pkvRqi2DHdYiPxGHhWBarCF3Au0vbejPex2RHawon3LXvi3SumrqpHkaK+7py0=
+	t=1718736386; cv=none; b=fNcDGzz5TpK9aWynUkVR2wKPUrSoGPUvs1UsqkCyDHDeLITq8RqmULqohR8xgLidUhyN53YQ+3cOwcKId6ezEoSnRj8dFkuO9kJhLlMHkuKhc9mcbJhgz6ROtpgR/1Tx3TU2dWVBeKIC4a9NdOx/FgadW95peNfendPL2KFYe+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718736200; c=relaxed/simple;
-	bh=syPdddcvoJAv5ZV1H+1ZVDIWYhW3iUt4Xk6kLGSZgio=;
+	s=arc-20240116; t=1718736386; c=relaxed/simple;
+	bh=4KUosT8FHpsSBEBSDP661Op3DgOv/1F+86N5kqZqP98=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O+VHIdl4MU+ibe4ZrBEzBrvDpLoMGbntSozejTj4VvAVGQfZhQNJ9jRW8xe24iUdDWqmUsy72iUrE+ywoq/HiBSJ47g8U8lQaM6auGU0TqBtwhbIp1N5DiNAiLP9rwz9QqXDnVn7ZSsXFsCpPTCKKzPipVEX/JPiqmyY5S4v1xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNHd1ubx; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=GmodZav48TuQdDLXfuxxCdcv5u5u4Dv7o7LBJ7XlVuQP6ZbYzI+E5fmVVFO4/fgATnXKw6KbeMIqkyDZblGLQkCKUnYP+hWpiVp9f05FaXVzXZY1+2X1KMN9tCZAwwM6oOtgD5SB25JAHx61Ra6G7QkzAfgibLad6IjkvYTe7mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cKt6SeUH; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNHd1ubx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718736198; x=1750272198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=syPdddcvoJAv5ZV1H+1ZVDIWYhW3iUt4Xk6kLGSZgio=;
-  b=hNHd1ubxiwxHnpGp/tbaC+sRurczsYdUiYWUUNwLhnvvODaQiiKH/Vlx
-   sjjgrr1FFwRB2fm4fEWx6RFGcvVAB1E4w4Bihey8aGNz0YX3UcCtqPbUN
-   ELo4JMTZlOIvIgWp19AErvSMB51AZf9FyyH860ObygVXieHwG5zYxZqnT
-   ElChhlZFM/pduat2V/zYZBnU9VEiWrG3ZF2+TDJVu4TVSTDVi+1/oWixJ
-   1TqrVFmWXslGDB4wZzw/flk/+RJUg4tBahmJODPx0bBIYHkwUnY3F8ldD
-   9XEjfaHa0CHFc8UsszRv7yK8hzpyoIybmTvChqk6cErf9ZMl3C895Tnzm
-   Q==;
-X-CSE-ConnectionGUID: lhSPvdP+QzKCjK4tvDJOJg==
-X-CSE-MsgGUID: fgBnuHd4QfGwupHZ/BBCBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="33178212"
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="33178212"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 11:43:17 -0700
-X-CSE-ConnectionGUID: LD8nGl8LSKuf/2w0lkHYOA==
-X-CSE-MsgGUID: rPWjU4koTJC5wOxY7gkggw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="42362486"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jun 2024 11:43:16 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJdnV-0005pu-1p;
-	Tue, 18 Jun 2024 18:43:13 +0000
-Date: Wed, 19 Jun 2024 02:42:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [linux-next:master 3099/6864] drivers/media/i2c/imx283.c:443:30:
- error: initializer element is not constant
-Message-ID: <202406190227.5wktkZE2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cKt6SeUH"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-35f2d723ef0so4857883f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 11:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718736383; x=1719341183; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ls7/SB0JX9BuhqtReW7zJ3OlsmhJIpdPXXBdLDpYTr4=;
+        b=cKt6SeUHf8e5li8bA2q5iQBOGzCvlQKAhWMpq255Liz8nKr3AmDgYPoXeyN82RmKgR
+         CrrSG/r6XaK8FJjAHkob0y+7qflojWDQZDHBIAxRjrAxIizBskMV9RAJ81q7tKFDOG6g
+         uUvi65iEQuImz3uETcMBEAFxiHO9g9NvfUW92MoY153U6fYFqD9qvpO+f457ZTYTMMOb
+         yAPZLP/DTSB2t5e6F0JQVze2XDZl5++KJqUBSe8SnV7cz3rrFAOPruW2lWUhdj54bRIs
+         LIvXI5GZfW+pdtg7WHEkNWvfoGH3ahJy0DSi+6VyIdssrWXM78UqpPUEhxfavp4R8rDP
+         0C1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718736383; x=1719341183;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ls7/SB0JX9BuhqtReW7zJ3OlsmhJIpdPXXBdLDpYTr4=;
+        b=rTUScTocO1mWDiqBD+ll0s+HTllte1u5zNaVeGYXEBcyhliPrNQv4CTg5ZHKY63+3c
+         2+2RB84POeUpbGSXUPZAsE4fInJberSRbyT6TAe4PWE+1TqaPqPj6iu/eO5IxWlso3cI
+         MQA0Q9SsdWyJA8o1pl2b7sl2i+sdgGqgKXd8PZknIu36oYY9Ntdg6YQ3sLGUO9Mb4RAU
+         QramffYAgyRzUjgM7YpSs3k636lnRKXRWIgqK1DI04FF4U9mDT8XKCtCOZFuNx+NP1lp
+         SmDBoFpJqk8tuVmxUXv2b0h25xniVlXMe3nW3r6+ZU3yLkL7exWyz36U6b9z4c7bjW4N
+         Xh/w==
+X-Forwarded-Encrypted: i=1; AJvYcCULFGYu00VGk11LuIAnt4nEGD0E108tm4Vm45HsI2++ECCUursd/JiT6K7XgoRIB0WhfZ5S0c6UFB4fGFotFKcGFFqq7QAwdj6/Mrk7Nw==
+X-Gm-Message-State: AOJu0YxPvP+TKjPkVb3BWDhUYg4Px1+be2b+ZOrWoE4QIUE5WNBlaYnU
+	jSuANWR64LaYqXfS59fXTmnN09yGzyzusJIiEC8uq3cuSfIrfT6nCDKBXiIqluE=
+X-Google-Smtp-Source: AGHT+IELO++/aiXHXuy8U1++adT+kJodLvIH3Zal6efe7UqAK/9LQxLhxHwwdtBDKJANNKD1CT0oBA==
+X-Received: by 2002:adf:f98c:0:b0:35f:20da:e1a2 with SMTP id ffacd0b85a97d-36317b7d57dmr276692f8f.30.1718736383291;
+        Tue, 18 Jun 2024 11:46:23 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750acd7csm14826877f8f.52.2024.06.18.11.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 11:46:23 -0700 (PDT)
+Date: Tue, 18 Jun 2024 21:46:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:nfs-buffered-write-cleanups 8/8] fs/nfs/write.c:569
+ nfs_lock_and_join_requests() error: uninitialized symbol 'subreq'.
+Message-ID: <20b78a17-38c4-4d59-9e36-314795302af9@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,163 +66,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0c52056d9f77508cb6d4d68d3fc91c6c08ec71af
-commit: ccb4eb4496fa94a9131c63ad0c412ebfe7f9ac35 [3099/6864] media: i2c: Add imx283 camera sensor driver
-config: i386-buildonly-randconfig-006-20240619 (https://download.01.org/0day-ci/archive/20240619/202406190227.5wktkZE2-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406190227.5wktkZE2-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git nfs-buffered-write-cleanups
+head:   724a9166a85d96c9fa6377fe9c042b72da816c90
+commit: 724a9166a85d96c9fa6377fe9c042b72da816c90 [8/8] nfs: don't reuse partially completed requests in nfs_lock_and_join_requests
+config: x86_64-randconfig-161-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190139.SC6Lhg4h-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406190227.5wktkZE2-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406190139.SC6Lhg4h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+fs/nfs/write.c:569 nfs_lock_and_join_requests() error: uninitialized symbol 'subreq'.
 
->> drivers/media/i2c/imx283.c:443:30: error: initializer element is not constant
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-      .left = rect.left + ((rect.width - (_width)) / 2), \
-              ^~~~
-   drivers/media/i2c/imx283.c:443:30: note: (near initialization for 'supported_modes_12bit[0].crop.left')
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-      .left = rect.left + ((rect.width - (_width)) / 2), \
-              ^~~~
->> drivers/media/i2c/imx283.c:443:30: error: initializer element is not constant
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-      .top = rect.top + ((rect.height - (_height)) / 2), \
-             ^~~~
-   drivers/media/i2c/imx283.c:443:30: note: (near initialization for 'supported_modes_12bit[0].crop.top')
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-      .top = rect.top + ((rect.height - (_height)) / 2), \
-             ^~~~
-   drivers/media/i2c/imx283.c:471:30: error: initializer element is not constant
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-      .left = rect.left + ((rect.width - (_width)) / 2), \
-              ^~~~
-   drivers/media/i2c/imx283.c:471:30: note: (near initialization for 'supported_modes_12bit[1].crop.left')
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-      .left = rect.left + ((rect.width - (_width)) / 2), \
-              ^~~~
-   drivers/media/i2c/imx283.c:471:30: error: initializer element is not constant
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-      .top = rect.top + ((rect.height - (_height)) / 2), \
-             ^~~~
-   drivers/media/i2c/imx283.c:471:30: note: (near initialization for 'supported_modes_12bit[1].crop.top')
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-      .top = rect.top + ((rect.height - (_height)) / 2), \
-             ^~~~
-   drivers/media/i2c/imx283.c:492:30: error: initializer element is not constant
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-      .left = rect.left + ((rect.width - (_width)) / 2), \
-              ^~~~
-   drivers/media/i2c/imx283.c:492:30: note: (near initialization for 'supported_modes_10bit[0].crop.left')
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-      .left = rect.left + ((rect.width - (_width)) / 2), \
-              ^~~~
-   drivers/media/i2c/imx283.c:492:30: error: initializer element is not constant
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-      .top = rect.top + ((rect.height - (_height)) / 2), \
-             ^~~~
-   drivers/media/i2c/imx283.c:492:30: note: (near initialization for 'supported_modes_10bit[0].crop.top')
-      .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                 ^
-   drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-      .top = rect.top + ((rect.height - (_height)) / 2), \
-             ^~~~
+vim +/subreq +569 fs/nfs/write.c
 
+0c493b5cf16e28 Trond Myklebust       2023-01-19  535  static struct nfs_page *nfs_lock_and_join_requests(struct folio *folio)
+e00ed89d7bd59c Trond Myklebust       2020-03-30  536  {
+15b8fdc56a662f Christoph Hellwig     2024-06-14  537  	struct inode *inode = folio->mapping->host;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  538  	struct nfs_page *head, *subreq;
+b193a78ddb5ee7 Trond Myklebust       2023-09-04  539  	struct nfs_commit_info cinfo;
+724a9166a85d96 Christoph Hellwig     2024-06-16  540  	bool removed;
+e00ed89d7bd59c Trond Myklebust       2020-03-30  541  	int ret;
+d458138353726e Weston Andros Adamson 2014-07-11  542  
+e00ed89d7bd59c Trond Myklebust       2020-03-30  543  	/*
+e00ed89d7bd59c Trond Myklebust       2020-03-30  544  	 * A reference is taken only on the head request which acts as a
+e00ed89d7bd59c Trond Myklebust       2020-03-30  545  	 * reference to the whole page group - the group will not be destroyed
+e00ed89d7bd59c Trond Myklebust       2020-03-30  546  	 * until the head reference is released.
+e00ed89d7bd59c Trond Myklebust       2020-03-30  547  	 */
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  548  retry:
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  549  	head = nfs_folio_find_head_request(folio);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  550  	if (!head)
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  551  		return NULL;
+d458138353726e Weston Andros Adamson 2014-07-11  552  
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  553  	while (!nfs_lock_request(head)) {
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  554  		ret = nfs_wait_on_request(head);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  555  		if (ret < 0)
+e00ed89d7bd59c Trond Myklebust       2020-03-30  556  			return ERR_PTR(ret);
+b5bab9bf91324a Trond Myklebust       2017-07-17  557  	}
+b5bab9bf91324a Trond Myklebust       2017-07-17  558  
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  559  	/* Ensure that nobody removed the request before we locked it */
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  560  	if (head != folio->private) {
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  561  		nfs_unlock_and_release_request(head);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  562  		goto retry;
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  563  	}
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  564  
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  565  	ret = nfs_page_group_lock(head);
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  566  	if (ret < 0)
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  567  		goto out_unlock;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  568  
+724a9166a85d96 Christoph Hellwig     2024-06-16 @569  	removed = test_bit(PG_REMOVE, &subreq->wb_flags);
+                                                                                       ^^^^^^
+Uninitialized until next line.
 
-vim +443 drivers/media/i2c/imx283.c
-
-   409	
-   410	#define CENTERED_RECTANGLE(rect, _width, _height)			\
-   411		{								\
-   412			.left = rect.left + ((rect.width - (_width)) / 2),	\
-   413			.top = rect.top + ((rect.height - (_height)) / 2),	\
-   414			.width = (_width),					\
-   415			.height = (_height),					\
-   416		}
-   417	
-   418	/* Mode configs */
-   419	static const struct imx283_mode supported_modes_12bit[] = {
-   420		{
-   421			/* 20MPix 21.40 fps readout mode 0 */
-   422			.mode = IMX283_MODE_0,
-   423			.bpp = 12,
-   424			.width = 5472,
-   425			.height = 3648,
-   426			.min_hmax = 5914, /* 887 @ 480MHz/72MHz */
-   427			.min_vmax = 3793, /* Lines */
-   428	
-   429			.veff = 3694,
-   430			.vst = 0,
-   431			.vct = 0,
-   432	
-   433			.hbin_ratio = 1,
-   434			.vbin_ratio = 1,
-   435	
-   436			/* 20.00 FPS */
-   437			.default_hmax = 6000, /* 900 @ 480MHz/72MHz */
-   438			.default_vmax = 4000,
-   439	
-   440			.min_shr = 11,
-   441			.horizontal_ob = 96,
-   442			.vertical_ob = 16,
- > 443			.crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-   444		},
-   445		{
-   446			/*
-   447			 * Readout mode 2 : 2/2 binned mode (2736x1824)
-   448			 */
-   449			.mode = IMX283_MODE_2,
-   450			.bpp = 12,
-   451			.width = 2736,
-   452			.height = 1824,
-   453			.min_hmax = 2414, /* Pixels (362 * 480MHz/72MHz + padding) */
-   454			.min_vmax = 3840, /* Lines */
-   455	
-   456			/* 50.00 FPS */
-   457			.default_hmax = 2500, /* 375 @ 480MHz/72Mhz */
-   458			.default_vmax = 3840,
-   459	
-   460			.veff = 1824,
-   461			.vst = 0,
-   462			.vct = 0,
-   463	
-   464			.hbin_ratio = 2,
-   465			.vbin_ratio = 2,
-   466	
-   467			.min_shr = 12,
-   468			.horizontal_ob = 48,
-   469			.vertical_ob = 4,
-   470	
-   471			.crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-   472		},
-   473	};
-   474	
+724a9166a85d96 Christoph Hellwig     2024-06-16  570  
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  571  	/* lock each request in the page group */
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  572  	for (subreq = head->wb_this_page;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  573  	     subreq != head;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  574  	     subreq = subreq->wb_this_page) {
+724a9166a85d96 Christoph Hellwig     2024-06-16  575  		if (test_bit(PG_REMOVE, &subreq->wb_flags))
+724a9166a85d96 Christoph Hellwig     2024-06-16  576  			removed = true;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  577  		ret = nfs_page_group_lock_subreq(head, subreq);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  578  		if (ret < 0)
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  579  			goto out_unlock;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  580  	}
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  581  
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  582  	nfs_page_group_unlock(head);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
