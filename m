@@ -1,102 +1,137 @@
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98B61E517;
-	Tue, 18 Jun 2024 15:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D377B23777
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 15:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718724541; cv=none; b=H6Y9/t43xnQ4UtDK0GB46fgQekZbU/YMAPvk7QFkhF/A8tDEfkT3XH3Dc+doV3/2dtIqCmAbsbLK2aGADKafEtGYRfB/yOsXbb2eM+eNip1+gFyZ1XjFky42XvFdzRYbecnwCgHdrIOxFZwgQxYa83xEvdzun5ij/q4oX+CMZzg=
+	t=1718724966; cv=none; b=OyUxpgwimkkVDakVop1BZFbDYRynNWKpboW8c+fWGYtwMYUY7UyYK0iB2gac+oZHz9gBVCS2ZBS9qyhwNqLAqj+nrakTbfWF4JxUXmVQOTbIRRDFiwQA/8eQbV67HQQhXErad/Te8UwlB5bD3OyM3j1nsMWA9ynZCqs+5T61sJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718724541; c=relaxed/simple;
-	bh=13hdQyWfgxJICumaih7VaGeSrILSJFdl7Sg+tkoPVU0=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=D/CUpS6/ruXSSj5cZ7jhfNvkjAUeMs7xtEQfQ1SRcoxM6bXUnmpqmuLRBdKKsMDEZewkGtynhNJyfKHs4N8MJYlvaTTDEXOem0ikONBLt705qQc5yUY3rvxXWOpGRQVQPZUA+7Rzg50oaA3cBY1Y0BO+O3HxWs7ICWQRyqgyUEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=JBKxnnQx; arc=none smtp.client-ip=213.133.104.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
+	s=arc-20240116; t=1718724966; c=relaxed/simple;
+	bh=9xitzs2XP+tmm+IuN0TS9nByjEfgmdiyBA9RBD7PxMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bf8zKUZy1CzCI0OzDTfEKVuJZIZWhVw/zhTsA4vIF9ni91cKp0J8ymNIK7FBmHZd2Oo3Jo0Hj7qUrFVWv9kHnNXT+vAUEi+gnWeHN4FNKuZEtkOEhWi83VMN3HI8GIM7B84DzX7RZZ0qkS4GKHnLkwjzh582UM9ZJZldXRfwxOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgUnDNoD; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="JBKxnnQx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=BLV0h1fNLCoeUnyzO6M9mrj9v0YKFdisy8TTAF7xWVU=; b=JBKxnnQxBqQZeKUZfu0w9l1bdO
-	FJQSnjYMtdB9cUV9RjAluHyTNF10qD0fnvIfv5GaOIWXqEMNOq2IU+AKFbvn+xyMb0gt5qaxZmEDd
-	G5X7mweYfFFpkjF+/04hAOwcLOdBJCcnCkTeM6p5M/4jhVQ3DLPJT9A4KlsXpgsXwtwU/lOEGwgdP
-	5gNungk9++TyxmAaoAnAQ+UV6ng3urZpzHAN5ewXAsLaAwwFt8hc4IY5Wq6PUwh437sJSX2gS+ZC/
-	HuEEQt/ilxPihL2MIa9ewJ4CAGEMKLN9ajGNHJlZW8974KwxlHb+l9ctg/hLLOoAzC70OhLBvT8Z8
-	DjpiTAOw==;
-Received: from sslproxy07.your-server.de ([78.47.199.104])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1sJalM-000A5w-JM; Tue, 18 Jun 2024 17:28:48 +0200
-Received: from [178.197.248.18] (helo=linux.home)
-	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1sJalM-000EyV-18;
-	Tue, 18 Jun 2024 17:28:48 +0200
-Subject: Re: [PATCH v2 bpf] bpf: Fix remap of arena.
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- kernel test robot <lkp@intel.com>
-Cc: bpf <bpf@vger.kernel.org>, oe-kbuild-all@lists.linux.dev,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@kernel.org>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Eddy Z <eddyz87@gmail.com>, Pengfei Xu <pengfei.xu@intel.com>,
- Barret Rhoden <brho@google.com>, Kernel Team <kernel-team@fb.com>
-References: <20240617171812.76634-1-alexei.starovoitov@gmail.com>
- <202406181248.u80sRLXy-lkp@intel.com>
- <CAADnVQK0fLbhqRuLDEVj3dPpg46xR0KRmty0hJNQ2G04yeAKLw@mail.gmail.com>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <7e18a1f4-8385-2245-a72c-04f026ec01fd@iogearbox.net>
-Date: Tue, 18 Jun 2024 17:28:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgUnDNoD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718724963; x=1750260963;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9xitzs2XP+tmm+IuN0TS9nByjEfgmdiyBA9RBD7PxMc=;
+  b=kgUnDNoDiaJm/QfyTCxDiChQqCtUGs8BIvG5ayckcMqOZxMYHlThj+fx
+   wost3JBsJyCc9H3oHS3ZamIX3X/iwjjZQHRQg/V9aXHpmzOovvoghd1N9
+   uzq9it3C5RB9ePmN/rITtTrLlXPhGXTF6aPsJxec5Prw1y1YAjFIoLliI
+   5xJlPNZ2yi2HT45vZxA7GOE/nnZEa725fn31xNxppNRmW1xdRU5sUfB2K
+   oCA7waGmvFhNc/zE1/3ZMTywAobOcWRqJ/JNiAdbu64QK7UsT0dybR8Sb
+   xSHkZogJd9oZId0PcDxlfKsg8MlJ8NevfuCxtzr/8o1YY5sUQqLMCcWvU
+   g==;
+X-CSE-ConnectionGUID: +xZGMAArQ6CY45vRagNAuA==
+X-CSE-MsgGUID: NlB7G0QfQo2XPqS/o20caA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26196615"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="26196615"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 08:36:00 -0700
+X-CSE-ConnectionGUID: 3+P37hqnRW+JgIqDhHMpNA==
+X-CSE-MsgGUID: 1nGun8BAQ8erbKUipAGrYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="41460722"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Jun 2024 08:35:59 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJasG-0005dd-24;
+	Tue, 18 Jun 2024 15:35:56 +0000
+Date: Tue, 18 Jun 2024 23:35:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts:93.20-127.4:
+ Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30:
+ unnecessary #address-cells/#size-cells without "ranges" or child "reg"
+ property
+Message-ID: <202406182328.xfDfqYOF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAADnVQK0fLbhqRuLDEVj3dPpg46xR0KRmty0hJNQ2G04yeAKLw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27309/Mon Jun 17 10:30:25 2024)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/18/24 4:49 PM, Alexei Starovoitov wrote:
-> On Mon, Jun 17, 2024 at 9:43 PM kernel test robot <lkp@intel.com> wrote:
->>
->> Hi Alexei,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on bpf/master]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/bpf-Fix-remap-of-arena/20240618-012054
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
->> patch link:    https://lore.kernel.org/r/20240617171812.76634-1-alexei.starovoitov%40gmail.com
->> patch subject: [PATCH v2 bpf] bpf: Fix remap of arena.
->> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240618/202406181248.u80sRLXy-lkp@intel.com/config)
->> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406181248.u80sRLXy-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202406181248.u80sRLXy-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     kernel/bpf/arena.c: In function 'arena_vm_open':
->>>> kernel/bpf/arena.c:235:27: warning: unused variable 'arena' [-Wunused-variable]
->>       235 |         struct bpf_arena *arena = container_of(map, struct bpf_arena, map);
->>           |                           ^~~~~
-> 
-> Daniel or Andrii,
-> could you please remove this line while applying?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d54351c64e8f9794e8838196036a2de3d752fce
+commit: 5017b8cdb7ebeb32d7f12a05b34d58662e137dbe arm64: dts: qcom: msm8916-longcheer-l8910: Enable RGB LED
+date:   8 months ago
+config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240618/202406182328.xfDfqYOF-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240618/202406182328.xfDfqYOF-lkp@intel.com/reproduce)
 
-Ok, done, both lines actually.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406182328.xfDfqYOF-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:1592.27-1640.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts:93.20-127.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:463.26-466.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:478.26-481.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:491.26-494.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:503.26-506.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:1579.11-1589.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+
+vim +93 arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts
+
+    89	
+    90	&blsp_i2c2 {
+    91		status = "okay";
+    92	
+  > 93		led-controller@30 {
+    94			compatible = "kinetic,ktd2026";
+    95			reg = <0x30>;
+    96			#address-cells = <1>;
+    97			#size-cells = <0>;
+    98	
+    99			vin-supply = <&pm8916_l17>;
+   100			vio-supply = <&pm8916_l6>;
+   101	
+   102			pinctrl-0 = <&status_led_default>;
+   103			pinctrl-names = "default";
+   104	
+   105			multi-led {
+   106				color = <LED_COLOR_ID_RGB>;
+   107				function = LED_FUNCTION_STATUS;
+   108	
+   109				#address-cells = <1>;
+   110				#size-cells = <0>;
+   111	
+   112				led@0 {
+   113					reg = <0>;
+   114					color = <LED_COLOR_ID_RED>;
+   115				};
+   116	
+   117				led@1 {
+   118					reg = <1>;
+   119					color = <LED_COLOR_ID_GREEN>;
+   120				};
+   121	
+   122				led@2 {
+   123					reg = <2>;
+   124					color = <LED_COLOR_ID_BLUE>;
+   125				};
+   126			};
+   127		};
+   128	};
+   129	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
