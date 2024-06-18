@@ -1,253 +1,208 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12olkn2036.outbound.protection.outlook.com [40.92.23.36])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEA77345D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 12:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.23.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718712327; cv=fail; b=VfyGyxaikLzslMCnbq0eiVGRo/Tje3wYevAUeEoV4fyMX+3L+F2f7568aWYBsN9XpemrkB3+LgpmeNjT/tT9WKLcPy0vAPvlGEq3Fyl3UBunpQh+mq2rv+KUbT2pd8NXnPpzxRpf4v5hO4kXSj9lJ/O7EMDiWbj/v3mRl8aw+KE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718712327; c=relaxed/simple;
-	bh=AU/tAjqJbGUN2h1c7ekJ+CYla+AobS07/Hm8JIYxjlU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CNfh1b1Q1krFnpAQWVRtH/SAtJHrJeAE/DbCYcyuCHHjFQcBtC8mKvaucOzkPN4kRvZZshQyW3ry7kpdBkCrwPbnxaZHe4Z2KHVgoJyCj4mAFw18OgngVAn2yeXsHOlKztNMeD4AT10W3QeAXs8W2Oj0B31N8wgoa2VYiaJ2jX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=KVm2sfvO; arc=fail smtp.client-ip=40.92.23.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2DD8121B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 12:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718713494; cv=none; b=Hg2bomzN2CeP3JdYK8w1KyqgyHy+sFRKmiD3aHv8ivS5i22NIfVbANvIpmZoU/jZCKlNXfGMejIlYiflmtwYalVc5Y9kg6XjfjtyPQ8J73KI0IXtnXrGKL5RgublMkncqnW3fMw1tiIAoyEcGTRsmyvwjr/kAuQHqAHrNurOqqA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718713494; c=relaxed/simple;
+	bh=o7SwzaL//wOaTtBrzy+LvyipfRZrFJ3fWNXXisi3+aM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7ocA6m9wMVyN9tOjrkGsWU6OI8e50AVDFnyVw8Xdi5q782D5StI0QVr8klLxuPf3huvK7+Kc5IR8mOD/JLvc/QRMqIWcDlUvcfbxRUFR5rqZ4Emi4+j9HrnMw6yN58LirThC2IxjURM3YDWjlkralCJc6LaK9PQtIAaawAuTEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFUyCilU; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="KVm2sfvO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FQbZtpoQ+PSQn7pkwGwZkRHXFQKf6+jhh4e/51aOBwAU4fUWfWSd1V5C+9MxkzRa1LJJC32ZoJveFPPZA4l+ab1iWZcbgXdoVWuHeHfHs8HNA7K5C7aOG0U0cMkhuFPpfd6Nuepjpc0MpIRToJgKE1K4WqYwxIQpOUBh7KGqFSRZs+fHjYPACHu5h1DHoswLcDh6Zx/sf0JG9W5cthuOTN+HArpvvMtK7VcZ6y+ZrRtKymRnSr/kpLpM4iumTFN7ZpCjn/6J7doZpmfLa9B2LHCb9eUcugpIkItIkcy4TWTEzuFMWrC9gVMEQM37OX4vQcKg2ABLOBowPXHJxzXZ9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1zXH04wzzGel1jsED1gLaXtxLrZ7HCf4x2tq0XT3oQ0=;
- b=Pl1AYCou69em+9YSq64ulQzYdNQUl8dixko3MnMPetfV5HT9V+11gCdt9XKhSXWLFKtI6BTAbE7vKCYxxNr7WLJgnU3Qhfw8cgaukw+V08ek7HEoze9ua9pSl5hzZJlNgKqeSJynYEoR3fa/UrHpsLvTVltpblQpnOZJxmXVNWYYll6yHweHbbKYR6fjR02HswGC/xs5ksLV8eP8d23S4iV60a5LUHDdrqvLCUzOt3lyFyH2h6tHsJ9tAS26AsSRis6yn4RKked31LAsBEDTbv0e++n5+GUKLNUZl6X5/lRDZCzXfiqr4JMdmK8Q5JPvxL4llqDAnS5BopceK5KEog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1zXH04wzzGel1jsED1gLaXtxLrZ7HCf4x2tq0XT3oQ0=;
- b=KVm2sfvO5aWfh8OR3iqCyRvZTe7oVdDmnnEYNtyu1N/k6F+l1xTfwJlVH8f+DFgg7sgeGtVI5Aa0DDQliaCeRnG+mrO9I7VM32Gc5oaAJ047KkPNti8TEqOuCY4nVMoEdZhwxXn3pICaP8gCUrpMHzs+XJ2yGqLU26l1GCblsL2xpLHQ8dwmxBxkRtefPbmgZ1ZssGoIC/xeU5h4/KMYrGiblI1vs8oscmPNNIs4Zp3DRvPwgC0lVmNfjLd157Xnqi72+BiZLCse/1kwJb70rSwE4dw2P0ojVT88jviutL2eltm1Z38TF9idCHdZ9VdmnJilghirpbUdHD1AcUfRsg==
-Received: from SN7PR12MB8101.namprd12.prod.outlook.com (2603:10b6:806:321::7)
- by CH3PR12MB8660.namprd12.prod.outlook.com (2603:10b6:610:177::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
- 2024 12:05:22 +0000
-Received: from SN7PR12MB8101.namprd12.prod.outlook.com
- ([fe80::fdb:e120:f99c:c899]) by SN7PR12MB8101.namprd12.prod.outlook.com
- ([fe80::fdb:e120:f99c:c899%5]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
- 12:05:22 +0000
-Message-ID:
- <SN7PR12MB810159A22C9814AA7FC1AB96A4CE2@SN7PR12MB8101.namprd12.prod.outlook.com>
-Date: Tue, 18 Jun 2024 20:05:13 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] iio:proximity:hx9023s: Add TYHX HX9023S sensor
- driver
-To: Jonathan Cameron <jic23@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- Yasin Lee <yasin.lee.x@gmail.com>
-References: <SN7PR12MB8101D4BC788B5954608D677DA4CC2@SN7PR12MB8101.namprd12.prod.outlook.com>
- <202406171946.qe83Tde0-lkp@intel.com> <20240617202248.35994484@jic23-huawei>
-Content-Language: en-US
-From: Yasin Lee <yasin.lee.x@outlook.com>
-In-Reply-To: <20240617202248.35994484@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TMN: [tcurI1lzZRfz6zIKdzWFDEGMHflUqkMuVVIe2J5drZ//L7lZ+pe4fzNxfOIQz6bk]
-X-ClientProxiedBy: SG2PR02CA0101.apcprd02.prod.outlook.com
- (2603:1096:4:92::17) To SN7PR12MB8101.namprd12.prod.outlook.com
- (2603:10b6:806:321::7)
-X-Microsoft-Original-Message-ID:
- <bc4fd213-78b3-4bf8-bfb6-b31b60965d54@outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFUyCilU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718713493; x=1750249493;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o7SwzaL//wOaTtBrzy+LvyipfRZrFJ3fWNXXisi3+aM=;
+  b=JFUyCilUCH1W+foz5WcEm+ljD392yHc5EBfqggc+j3DLVWCuMw3i1E14
+   2pHLdofUM2OcWK5Tv3Uofm5Ie/hLXBjxu3UWMLXHnlo8jRUzwTV6qBck5
+   GZu45CQe6nwwoeZdJZYKQfZVg+3V/D8fjSeVyusNAGgDDFWys2Fo0Rxcg
+   dM9FsUBQy+zcd/wIS06Xac39wp/oH80CUNBMsgyZ7z5ss8+NVSCCJialY
+   vIqCBENB8KHoY+AxBABzmP78xUVKhwjYjQZkNi+6ke1VUbbWPVgvK4u3I
+   JO0v2/+33NuSLSsd4NMeAA5OLDK2sg2mwyo4T/954nx/qOrZSfrvkzL5N
+   Q==;
+X-CSE-ConnectionGUID: hCeYj0z5Q9uw6cPY305h6Q==
+X-CSE-MsgGUID: qiu9Z+9UQoCiF/zTRd62iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15348921"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="15348921"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 05:24:52 -0700
+X-CSE-ConnectionGUID: m9OktrGURPeOhr6uyCNYMQ==
+X-CSE-MsgGUID: NAkiw1SDSPmfVTMbRqovZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="46076739"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jun 2024 05:24:52 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJXtI-0005Ur-1e;
+	Tue, 18 Jun 2024 12:24:48 +0000
+Date: Tue, 18 Jun 2024 20:24:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	pavel@ucw.cz, lee@kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 2/2] leds: Add LED1202 I2C driver
+Message-ID: <202406181953.mXAkCdSy-lkp@intel.com>
+References: <ZnCoBAG2TNiIz1xE@admins-Air>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8101:EE_|CH3PR12MB8660:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9745ef0e-8e92-4f7d-507c-08dc8f8eee39
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199025|3412199022|4302099010|440099025|1602099009;
-X-Microsoft-Antispam-Message-Info:
-	EehFTZ7jyWP/io5+d5iZiGotlGlekvmai0POcnxv70mAM44daEWROvVXWHPgiyBB0IwuXJniPIrrqAIeARLx4viSYFMFVb4g0NhuXHAu8L5ytJL0ezZyC6HSKg5fHV9Yc8CHCnw4dKrs2oWoshxNBQqKUAckiSWWlX+j1ASch0LlTNf0ZgVRnBdxoRWNimA81p9xjOMVkVRQjc2G3iPWqjcRNDxQxrbCMJPxmrYQyzWfYEj2ZoX6du/ANIZtS/iuwHnP4o4mtg1D9V+i6J76D6TM2snu2lPSiidCFrOCz34o+uydq/HRQT83VfGzyj1IqY81SAiQQNrzPSprpkW9fHvEzBoUpNZ+3jdoEu3vzWfPxb5+Yzw2s4ShuochH293KVmzMy7asoQ1aLoRTFTSAa85za3DUTMvRrdg8/rruDysbMqdKZKCYe+xf70RVNmH5r79PKh/Cf8uXWNBYxXMI6SRtXfK/WG9mfGzlpglNREg6J3hGz+lF/DBCzqW1/ZwnHX8vGBngoo7r1wEoNmto3mXNUXT3QbFp703BhTvcKBJGyOrJe/b/rC5USCSUJcPt2ZiTKShI+uVL4cj0bOAOQWsGSIgKfVwL6UJ6LWLIG8sxoiAt7KAfDiacsCbSywZTd42F53hk8ugWUCONPSpoJL6CPodfVRM8YXViknpoNhacvzQ3RurV9fePG5IIhr0IpfZ+XY+IQOFUX3YwJv/FQ==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MEZSeFQwSm15VGpkWFhQMnd0dW5PZk1mNGpJaGNZSVNubkN5VW53eWV1Nzcv?=
- =?utf-8?B?ZDI0S0xiRlNHZWVIT3B3MlVyQnMwV1F1MGhleDZEYVY3VGwySE5rbU1kckcy?=
- =?utf-8?B?WURISXhjeWxuWUxZZkZXekxFSC9ZMlp4TEp4c1dORFZnOVBxWXpvOVM4eXo2?=
- =?utf-8?B?eFFTUWxuaUJCQTU5d25YNGNnaEx5eWZlaXJPV292MFd2bGdUaVFoc3BqNnFn?=
- =?utf-8?B?eHJaTmF3VGxFZXZHZmp4SzBsdlFRVUdwaDZqUDNmSXMxenlwNGkrQTM4WXZT?=
- =?utf-8?B?djV1VkRjclQ0eU54V1d2bFZ4aWFqLzc0dWlDNG1qM1J5aXh1SGNxOGJZSHdL?=
- =?utf-8?B?T2pMTzczY0E4bGJqMDNWMkt1ZmJ3Vm0yV05KaHpiekxWMjVYbDIzaEpnRXJv?=
- =?utf-8?B?Mk4vdkVmaEpsbVBIRU1KREUrVnhGdHhzakZyUUlua0pMQ1RnOGk3WWFRd3hU?=
- =?utf-8?B?d1VkK0d6UWE2bnhBcEZRaUcvT1QzWjhQMVNPeS8wbU5TYWFocWNuY25BTUtP?=
- =?utf-8?B?ZXNhTnhwdW1rSUdaVWFESC9qd0w0WHBOWVMvcVA4bGpuRlZpUmpRdlRvbVJk?=
- =?utf-8?B?c0pBVVZLNERIdEtoUmtJNS8yYW1pdVVZWUZxQ3hTM3lkZWYyS2pxV0p4OE00?=
- =?utf-8?B?NG4zRmZINEJUNjhuR2hxTHJCT1FHOWdRR3Y0eFovNDdxSk5LMnpWYTRzZ2NB?=
- =?utf-8?B?YVJHYXFPWEVTano3TTFxamNUM3pKbFBCY0xmSVV2aWtMVEJaZjlqYmh2RHRz?=
- =?utf-8?B?Z2YxeHFwMy8xYS9GcFBnRkU2a1JxUlRrQ1JDL01XaTBvTFU3SEUyZTBtaDha?=
- =?utf-8?B?eXBleFR0NVI0Q0ZLWm1iQ0VmbFF3RjI0VWFqSXpKeEdSSzU2dkgzcGZNeUs5?=
- =?utf-8?B?VjZzYmNqNi9wbjhQTExIVzlZaFZEMU56aHdyUkZJd2FnN2hTbzlWdnFaS2Zx?=
- =?utf-8?B?ZDQvczN1SjJad2RXR3NhVS9DNGJEN3h3Vnc5V1lBbU5Yc2pvVjlNNGRHamRW?=
- =?utf-8?B?TXBUTk1FNVB0TUtMWE1DWlNqcnN1YjFKaEFncWdJOE5tYytFNll3Vk1YZUpV?=
- =?utf-8?B?Rk1iSzE2cG5kUUtNUllXVllRemV1M1k5NXlIZHdIbnUyeFpXTkZVMEExREk2?=
- =?utf-8?B?K0Nkc1FjZkx1US9QZGhVZnEraWNLNjFGUnd2ejJkU1lwVXljbk9QRU9XQk9Y?=
- =?utf-8?B?SXU5UllyTmNpMzBkM2NKNEw5THZ0U05BQW40WVlRVVlpd01LUnNleUlWaWRt?=
- =?utf-8?B?czBGTmJFT0xXSGkyU1JERUowMVU0Q2J2d3h6azhwS0dqSDBJUnljUDJOOWl3?=
- =?utf-8?B?MlFidm10K010RFk3bEpOR1JlNk80YkNRZlRiWTZSbDVxUytjSmZCSjFSbzBN?=
- =?utf-8?B?RkFWZkJxbUVRSDlNTlk2UVMraG1wemdHRjJiTFVwdkxxNURmZ1dNak1QR3o5?=
- =?utf-8?B?RktuZGhvSnUzSFZ3QlJCTGtSS0E5QTJUL0tiYm5wUDFabUVOQmsxc3Mvc2t6?=
- =?utf-8?B?MUxnV0RzNGVBY2l1enNxNGZvaHJMZldWd1RXckNVeUhFb3B5aFNFL0dHR2Yv?=
- =?utf-8?B?QjkrSGoyL2xzUml6QVZmTklWY1FXdnpueHBjMmdGMzRmelZiNDlqQkE2TUl2?=
- =?utf-8?B?OCtMazVNRU5pS2JnY0VYZm5UVDlid29rMTdrbDQ4U2dtZ2RKY2ZkRlBpZ0FE?=
- =?utf-8?B?azR4Q0NDN0VwYnp2VXpyaGpMWVpMcndhRFZjcTlEKzlKaC91MGZ1bysvVnJt?=
- =?utf-8?Q?qHTN92AWwGxelc3gCWWjrENlbosiIEPOARxsQkz?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9745ef0e-8e92-4f7d-507c-08dc8f8eee39
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 12:05:22.8253
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8660
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZnCoBAG2TNiIz1xE@admins-Air>
+
+Hi Vicentiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on robh/for-next linus/master v6.10-rc4 next-20240617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/leds-Add-LED1202-I2C-driver/20240618-052035
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/ZnCoBAG2TNiIz1xE%40admins-Air
+patch subject: [PATCH v1 2/2] leds: Add LED1202 I2C driver
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240618/202406181953.mXAkCdSy-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406181953.mXAkCdSy-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406181953.mXAkCdSy-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/leds/leds-led1202.c:7:
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/kernel.h:396:10: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     396 |          BUILD_BUG_ON_ZERO((perms) > 0777) +                                    \
+         |          ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:221:26: note: in expansion of macro 'VERIFY_OCTAL_PERMISSIONS'
+     221 |                  .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },             \
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:158:52: note: in expansion of macro '__ATTR'
+     158 |         struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+         |                                                    ^~~~~~
+   drivers/leds/leds-led1202.c:373:8: note: in expansion of macro 'DEVICE_ATTR'
+     373 | static DEVICE_ATTR(led_device_regsdump, 0x00444, ll1202_show_all_registers,
+         |        ^~~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/kernel.h:399:10: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     399 |          BUILD_BUG_ON_ZERO((((perms) >> 3) & 4) < ((perms) & 4)) +              \
+         |          ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:221:26: note: in expansion of macro 'VERIFY_OCTAL_PERMISSIONS'
+     221 |                  .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },             \
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:158:52: note: in expansion of macro '__ATTR'
+     158 |         struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+         |                                                    ^~~~~~
+   drivers/leds/leds-led1202.c:373:8: note: in expansion of macro 'DEVICE_ATTR'
+     373 | static DEVICE_ATTR(led_device_regsdump, 0x00444, ll1202_show_all_registers,
+         |        ^~~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/kernel.h:396:10: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     396 |          BUILD_BUG_ON_ZERO((perms) > 0777) +                                    \
+         |          ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:221:26: note: in expansion of macro 'VERIFY_OCTAL_PERMISSIONS'
+     221 |                  .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },             \
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:158:52: note: in expansion of macro '__ATTR'
+     158 |         struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+         |                                                    ^~~~~~
+   drivers/leds/leds-led1202.c:375:8: note: in expansion of macro 'DEVICE_ATTR'
+     375 | static DEVICE_ATTR(patt_sequence_repetition, 0x00444 | 0x00200,
+         |        ^~~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/kernel.h:399:10: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     399 |          BUILD_BUG_ON_ZERO((((perms) >> 3) & 4) < ((perms) & 4)) +              \
+         |          ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:221:26: note: in expansion of macro 'VERIFY_OCTAL_PERMISSIONS'
+     221 |                  .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },             \
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:158:52: note: in expansion of macro '__ATTR'
+     158 |         struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+         |                                                    ^~~~~~
+   drivers/leds/leds-led1202.c:375:8: note: in expansion of macro 'DEVICE_ATTR'
+     375 | static DEVICE_ATTR(patt_sequence_repetition, 0x00444 | 0x00200,
+         |        ^~~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/kernel.h:396:10: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     396 |          BUILD_BUG_ON_ZERO((perms) > 0777) +                                    \
+         |          ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:221:26: note: in expansion of macro 'VERIFY_OCTAL_PERMISSIONS'
+     221 |                  .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },             \
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:158:52: note: in expansion of macro '__ATTR'
+     158 |         struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+         |                                                    ^~~~~~
+   drivers/leds/leds-led1202.c:378:8: note: in expansion of macro 'DEVICE_ATTR'
+     378 | static DEVICE_ATTR(current_mA, 0x00444, ll1202_show_channel_mA_current, NULL);
+         |        ^~~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/kernel.h:399:10: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     399 |          BUILD_BUG_ON_ZERO((((perms) >> 3) & 4) < ((perms) & 4)) +              \
+         |          ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:221:26: note: in expansion of macro 'VERIFY_OCTAL_PERMISSIONS'
+     221 |                  .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },             \
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:158:52: note: in expansion of macro '__ATTR'
+     158 |         struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+         |                                                    ^~~~~~
+   drivers/leds/leds-led1202.c:378:8: note: in expansion of macro 'DEVICE_ATTR'
+     378 | static DEVICE_ATTR(current_mA, 0x00444, ll1202_show_channel_mA_current, NULL);
+         |        ^~~~~~~~~~~
 
 
-On 2024/6/18 03:22, Jonathan Cameron wrote:
-> On Mon, 17 Jun 2024 19:34:30 +0800
-> kernel test robot <lkp@intel.com> wrote:
->
->> Hi Yasin,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on jic23-iio/togreg]
->> [also build test WARNING on robh/for-next linus/master v6.10-rc4 next-20240613]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Yasin-Lee/dt-bindings-iio-proximity-Add-hx9023s-binding/20240616-154122
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
->> patch link:    https://lore.kernel.org/r/SN7PR12MB8101D4BC788B5954608D677DA4CC2%40SN7PR12MB8101.namprd12.prod.outlook.com
->> patch subject: [PATCH v5 3/3] iio:proximity:hx9023s: Add TYHX HX9023S sensor driver
->> config: arm64-randconfig-r132-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171946.qe83Tde0-lkp@intel.com/config)
->> compiler: aarch64-linux-gcc (GCC) 13.2.0
->> reproduce: (https://download.01.org/0day-ci/archive/20240617/202406171946.qe83Tde0-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202406171946.qe83Tde0-lkp@intel.com/
->>
->> sparse warnings: (new ones prefixed by >>)
->>>> drivers/iio/proximity/hx9023s.c:955:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 @@     got int diff @@
->>     drivers/iio/proximity/hx9023s.c:955:44: sparse:     expected restricted __be16
->>     drivers/iio/proximity/hx9023s.c:955:44: sparse:     got int diff
->>
->> vim +955 drivers/iio/proximity/hx9023s.c
->>
->>     931	
->>     932	static irqreturn_t hx9023s_trigger_handler(int irq, void *private)
->>     933	{
->>     934		struct iio_poll_func *pf = private;
->>     935		struct iio_dev *indio_dev = pf->indio_dev;
->>     936		struct hx9023s_data *data = iio_priv(indio_dev);
->>     937		struct device *dev = regmap_get_device(data->regmap);
->>     938		int ret;
->>     939		unsigned int bit, i = 0;
->>     940	
->>     941		guard(mutex)(&data->mutex);
->>     942		ret = hx9023s_sample(data);
->>     943		if (ret) {
->>     944			dev_warn(dev, "sampling failed\n");
->>     945			goto out;
->>     946		}
->>     947	
->>     948		ret = hx9023s_get_prox_state(data);
->>     949		if (ret) {
->>     950			dev_warn(dev, "get prox failed\n");
->>     951			goto out;
->>     952		}
->>     953	
->>     954		for_each_set_bit(bit, indio_dev->active_scan_mask, indio_dev->masklength)
->>   > 955			data->buffer.channels[i++] = data->ch_data[indio_dev->channels[bit].channel].diff;
->>     956	
-> This looks very odd.  Diff is an int filled with get_unaligned_le16()
-> which you then write to a __be16 here.
->
-> It should remain little endian, if that is appropriate, throughout.
->
-> Also, very long line. Use a local variable for
-> indio_dev->channels[bit].channel.
-Hi Jonathan,
+vim +16 include/linux/build_bug.h
 
-I reviewed the code and saw that data->buffer.channels[i] needs to be 
-filled with the MSB and LSB of the diff data register. I can read the 
-two bytes of diff data using regmap_bulk_read and fill 
-data->buffer.channels[i]. However, the diff data register in this chip 
-is multiplexed with the low pass data register. Thus, in some cases, 
-diff data can't be directly read and must be calculated as the 
-difference between low pass data and baseline data. Therefore, I can't 
-directly store the register value in data->buffer.channels[i]. I plan to 
-make the following changes to the code. Do you think this is feasible?
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
 
-@@ -141,7 +141,7 @@ struct hx9023s_data {
-         bool trigger_enabled;
-
-         struct {
--               __be16 channels[HX9023S_CH_NUM];
-+               __le16 channels[HX9023S_CH_NUM];
-                 s64 ts __aligned(8);
-         } buffer;
-
-@@ -936,7 +936,7 @@ static irqreturn_t hx9023s_trigger_handler(int irq, 
-void *private)
-         struct hx9023s_data *data = iio_priv(indio_dev);
-         struct device *dev = regmap_get_device(data->regmap);
-         int ret;
--       unsigned int bit, i = 0;
-+       unsigned int bit, index, i = 0;
-
-         guard(mutex)(&data->mutex);
-         ret = hx9023s_sample(data);
-@@ -951,8 +951,10 @@ static irqreturn_t hx9023s_trigger_handler(int irq, 
-void *private)
-                 goto out;
-         }
-
--       for_each_set_bit(bit, indio_dev->active_scan_mask, 
-indio_dev->masklength)
--               data->buffer.channels[i++] = 
-data->ch_data[indio_dev->channels[bit].channel].diff;
-+       for_each_set_bit(bit, indio_dev->active_scan_mask, 
-indio_dev->masklength) {
-+               index = indio_dev->channels[bit].channel;
-+               data->buffer.channels[i++] = 
-cpu_to_le16(data->ch_data[index].diff);
-+       }
-
-         iio_push_to_buffers_with_timestamp(indio_dev, &data->buffer, 
-pf->timestamp);
-
-Best regards,
-Yasin Lee
->>     957		iio_push_to_buffers_with_timestamp(indio_dev, &data->buffer, pf->timestamp);
->>     958	
->>     959	out:
->>     960		iio_trigger_notify_done(indio_dev->trig);
->>     961	
->>     962		return IRQ_HANDLED;
->>     963	}
->>     964	
->>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
