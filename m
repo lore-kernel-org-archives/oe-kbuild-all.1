@@ -1,174 +1,126 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7CA16D4F2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 20:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E991741E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 20:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718741161; cv=none; b=Vnj9jVQ2tAbp2mxAkBfEBp4wxc1DRCr5z1ZuxFaO2MaIYix7lzsQu9S+t6IehALI4xv6rqggPlbsGbmKVQJeAnejHbfTrBeGCoigFs6OzSRsojekK/bdfvOG5riyd8U1ZAh4m5CXUfj4N3oxqXmtNF/5/2sGsIowdZLokgM9ruw=
+	t=1718743285; cv=none; b=p57ebcIyoKE43Q21SYuS9oPjlgSqwW/jtglk9Vm/oKNhX2soudFs0Op9yZ2bhtKxPyuN5HFHu0oRJ+ZY8NyE4GutYhoaRmVWHcVp5KbVd/HGS9t5rbWnqaafJH8LRIEvRhRB9nnFCx9X/+lxRklvAHP7KlUUq5LV90gce4Dqou8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718741161; c=relaxed/simple;
-	bh=8U4MSGuxqWWSmiUPJd9aKzBNjP/BbAfdaShtMWYb1UI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ftS54Vt0TvVd4doV7y089+4+7qnnQCcnnoIudSrdVeHRcbHQdSi1+/KgWbYXg3/i8CPzIxWAVyDzS+3Us4I3qA57JJ5fBy6Fnqo2Kq3AgBOmzpDvpjk2u4NiRYDwDQD4xd+mwoIE+6V7en3OugpeVr+0Y0U581Q16OCll6Sp+q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=cstjTSA5; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1718743285; c=relaxed/simple;
+	bh=5BEAbyszyrKS3pJHZigmyoShOGTRPMnWf0tcHt4Q2q0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Lp32yq8ibl30lPCCDpZrBN9GeKu2tliai4RZG4bvWQSpE+AAu0AszAHhog1FDc56p+Xz+4czDbmKoxGReGFNBSlO7FJ1ClPve0oRj9I+j5Vhi8IFxp8ROey+zVvxoWPl5npx2som5Hs9IZGgdfvcG7N0cXmMvYo29+7YLAJsuOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcX55INv; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="cstjTSA5"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 90F8440E01F9;
-	Tue, 18 Jun 2024 20:05:56 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 45eeiO18hMPn; Tue, 18 Jun 2024 20:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1718741152; bh=Lb9oaHDz6g5o9gk7L0CZU58Y47qnYQz9v3gzUb/WuRw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cstjTSA5jvHj8L1Jx8tS40sgjGO9BPR7BMbX/4phHstZezskwL/zvxpl+ENZj7/Lq
-	 pW/xU5IA0a9aYp0ljqLbxbH8bRJUXYKlf4o/7E8S3xl24ylsPh7CdVhn47NkGfUZ9V
-	 Q/uUbbenFVjVW2iZ3rjdASTeEAH4Izbu+ZnJ079y6LafgFBuBQsYyZn+fYJ7F0DIvv
-	 rGm+nC8FRAZWT5O0jueYfiDAsxQ3MTa5QEC08cMrxLL9ja9DfitwHSq7yeOCs9PWYE
-	 Kh5jjhzFACSfAi1C/0EkELuO3D97K9DbBr6dU1TBhckGpiiFtQ9oRod0zxype9dJq7
-	 eEHKz/0YaJ9LHte0Z767zAMri3e/foYXToCM8V/yw/MnxnHRBeVgMJLsz/szWs8718
-	 9QCJzOxensq30kOqf1DNkvXT0GHOqhz025aDGzg1r2Z+8QJKam0+zMZiYY9zJRCQmh
-	 1e2oMp2sUwuxasSvUwCpfN9IfaDyiiCAyT2xfL8EUdQimjbaXzEifFpDUetG3zLmLD
-	 CU0SdYFInYqJB84RNwAUvrN0NpDg0KB3PittE/nMypk3bDTLhnTewMuvS89g3SatfX
-	 /AHGpCg1TqR2SCTMNzPicVMwVwkKTQsdEmxyVwW7upL3s6zl/fYtnC4CUynenDz2iy
-	 UEM9W/DhlAD1eK4OJgWcJ+n8=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 61FB240E021A;
-	Tue, 18 Jun 2024 20:05:45 +0000 (UTC)
-Date: Tue, 18 Jun 2024 22:05:39 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [PATCH] x86/alternatives, kvm: Fix a couple of CALLs without a frame
- pointer
-Message-ID: <20240618200539.GHZnHok3nr60R4BXSK@fat_crate.local>
-References: <202406141648.jO9qNGLa-lkp@intel.com>
- <20240614152228.GAZmxgNPmozj7UzRdV@fat_crate.local>
- <20240618104234.GF31592@noisy.programming.kicks-ass.net>
- <20240618104700.GT12673@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcX55INv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718743283; x=1750279283;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5BEAbyszyrKS3pJHZigmyoShOGTRPMnWf0tcHt4Q2q0=;
+  b=CcX55INv/xCIlTGl1Aw8yu3S8j8RCKmiGCOqaCVqnLA8Sow3cNoL4/Dn
+   kBVqWX/dWdbYEEeFMDVs8Va0VF5GlxejhgG6qYlrCXC4MlDypYsyMIncO
+   6MdZVffSs2u2CXTppc6EzeAZSC4bTzHA5oCdc8iOd7klJR8e9Nu0J6jEY
+   t2e/qItVbFiavEgNldx9tRPQOUfF+WPPoXQqsIQb17BO/deegcTW/Y4qN
+   gOd+K5DAcNRgrHZ47GoiAw2BnLNSYFeHqnJ3zyx8r/Qs5mi58XSTSAyt8
+   1tN3nbA+/3xC83K5GC1oSn2RYOwa1lLqljrwHq/gbjqRduOm+dcSw4No4
+   w==;
+X-CSE-ConnectionGUID: GE2IyX7/QhWb0Luj9IU7sg==
+X-CSE-MsgGUID: WT94l8SAQ9mEwgfF660pVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15770730"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="15770730"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 13:41:22 -0700
+X-CSE-ConnectionGUID: b8AN/fX0S7Ke8AFr/umcFg==
+X-CSE-MsgGUID: hx9u4RZSTAOCNIXVPBw5cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="79143858"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 18 Jun 2024 13:41:21 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJfdm-0005tu-1M;
+	Tue, 18 Jun 2024 20:41:18 +0000
+Date: Wed, 19 Jun 2024 04:41:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4994/6864]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/gpu@13000000: failed to
+ match any schema with compatible: ['mediatek,mt8188-mali',
+ 'arm,mali-valhall-jm']
+Message-ID: <202406190419.8e8c4kWk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618104700.GT12673@noisy.programming.kicks-ass.net>
 
-Ok, I was able to scratch up this from the whole shebang:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0c52056d9f77508cb6d4d68d3fc91c6c08ec71af
+commit: c05dd14a2c4bf9c6ba9814cf6a4fdd6a48f1060d [4994/6864] arm64: dts: mediatek: mt8188: Add support for Mali GPU on Panfrost
+config: arm64-randconfig-051-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190419.8e8c4kWk-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406190419.8e8c4kWk-lkp@intel.com/reproduce)
 
----
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Tue, 18 Jun 2024 21:57:27 +0200
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406190419.8e8c4kWk-lkp@intel.com/
 
-objtool complains:
-
-  arch/x86/kvm/kvm.o: warning: objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
-  vmlinux.o: warning: objtool: .altinstr_replacement+0x2eb: call without frame pointer save/setup
-
-Make sure rSP is an output operand to the respective asm() statements.
-
-The test_cc() hunk courtesy of peterz. Also from him add some helpful
-debugging info to the documentation.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406141648.jO9qNGLa-lkp@intel.com/
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
----
- arch/x86/include/asm/alternative.h      |  2 +-
- arch/x86/kernel/alternative.c           |  2 +-
- arch/x86/kvm/emulate.c                  |  2 +-
- tools/objtool/Documentation/objtool.txt | 19 +++++++++++++++++++
- 4 files changed, 22 insertions(+), 3 deletions(-)
-
-diff --git a/arch/x86/include/asm/alternative.h b/arch/x86/include/asm/alternative.h
-index 89fa50d27a08..8cff4626478b 100644
---- a/arch/x86/include/asm/alternative.h
-+++ b/arch/x86/include/asm/alternative.h
-@@ -248,7 +248,7 @@ static inline int alternatives_text_reserved(void *start, void *end)
-  */
- #define alternative_call(oldfunc, newfunc, ft_flags, output, input...)	\
- 	asm_inline volatile(ALTERNATIVE("call %c[old]", "call %c[new]", ft_flags) \
--		: output : [old] "i" (oldfunc), [new] "i" (newfunc), ## input)
-+		: output, ASM_CALL_CONSTRAINT : [old] "i" (oldfunc), [new] "i" (newfunc), ## input)
- 
- /*
-  * Like alternative_call, but there are two features and respective functions.
-diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-index 37596a417094..333b16181357 100644
---- a/arch/x86/kernel/alternative.c
-+++ b/arch/x86/kernel/alternative.c
-@@ -1657,7 +1657,7 @@ static noinline void __init alt_reloc_selftest(void)
- 	 */
- 	asm_inline volatile (
- 		ALTERNATIVE("", "lea %[mem], %%" _ASM_ARG1 "; call __alt_reloc_selftest;", X86_FEATURE_ALWAYS)
--		: /* output */
-+		: ASM_CALL_CONSTRAINT
- 		: [mem] "m" (__alt_reloc_selftest_addr)
- 		: _ASM_ARG1
- 	);
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index 5d4c86133453..c8cc578646d0 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -1069,7 +1069,7 @@ static __always_inline u8 test_cc(unsigned int condition, unsigned long flags)
- 
- 	flags = (flags & EFLAGS_MASK) | X86_EFLAGS_IF;
- 	asm("push %[flags]; popf; " CALL_NOSPEC
--	    : "=a"(rc) : [thunk_target]"r"(fop), [flags]"r"(flags));
-+	    : "=a"(rc), ASM_CALL_CONSTRAINT : [thunk_target]"r"(fop), [flags]"r"(flags));
- 	return rc;
- }
- 
-diff --git a/tools/objtool/Documentation/objtool.txt b/tools/objtool/Documentation/objtool.txt
-index fe39c2a8ef0d..7c3ee959b63c 100644
---- a/tools/objtool/Documentation/objtool.txt
-+++ b/tools/objtool/Documentation/objtool.txt
-@@ -284,6 +284,25 @@ the objtool maintainers.
- 
-    Otherwise the stack frame may not get created before the call.
- 
-+   objtool can help with pinpointing the exact function where it happens:
-+
-+   $ OBJTOOL_ARGS="--verbose" make arch/x86/kvm/
-+
-+   arch/x86/kvm/kvm.o: warning: objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
-+   arch/x86/kvm/kvm.o: warning: objtool:   em_loop.part.0+0x29: (alt)
-+   arch/x86/kvm/kvm.o: warning: objtool:   em_loop.part.0+0x0: <=== (sym)
-+    LD [M]  arch/x86/kvm/kvm-intel.o
-+   0000 0000000000028220 <em_loop.part.0>:
-+   0000    28220:  0f b6 47 61             movzbl 0x61(%rdi),%eax
-+   0004    28224:  3c e2                   cmp    $0xe2,%al
-+   0006    28226:  74 2c                   je     28254 <em_loop.part.0+0x34>
-+   0008    28228:  48 8b 57 10             mov    0x10(%rdi),%rdx
-+   000c    2822c:  83 f0 05                xor    $0x5,%eax
-+   000f    2822f:  48 c1 e0 04             shl    $0x4,%rax
-+   0013    28233:  25 f0 00 00 00          and    $0xf0,%eax
-+   0018    28238:  81 e2 d5 08 00 00       and    $0x8d5,%edx
-+   001e    2823e:  80 ce 02                or     $0x2,%dh
-+   ...
- 
- 2. file.o: warning: objtool: .text+0x53: unreachable instruction
- 
--- 
-2.43.0
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8188-mali', 'arm,mali-valhall-jm']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000: $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14f00000: $nodename:0: 'clock-controller@14f00000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8188-mali', 'arm,mali-valhall-jm']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000: $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14f00000: $nodename:0: 'clock-controller@14f00000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
