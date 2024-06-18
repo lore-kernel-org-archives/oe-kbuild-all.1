@@ -1,61 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180A2155738
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 12:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3CC131E38;
+	Tue, 18 Jun 2024 13:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718715480; cv=none; b=qLzeOAnXvyg8f5ByMAq1DZiGt9w6h4stHTfiU+jzR0hLDX5oTCH2JlRPeQkbNA3oeN/B67SNDqGVWup17EWQzes7hXlhmOULSyypzQmnPpvqgg190sMQWvjm94D2PMy5j+K24kmEDO/ggJC3DNVMGiBljFOyzQMEYKmJkO/ZI28=
+	t=1718717955; cv=none; b=QYk5Xm1ba1mM5MI8J2kF1XdAv+aX8S5lEfwl9lIfZq8PnUb1egR86slsemP2NcM0KXpOTLwtLJ96XPuuWh9siDl6+8F3O3emWawYRf1E+yEZ0sQ8fFvaehDZtrtAzS+F+Axu5Bt4KHnqKDidmFcJw8lx12v8H6kWVpciZTUGYEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718715480; c=relaxed/simple;
-	bh=4FAdW6dgpwEIh5osXVF4sosLC0cSbmbrAp1A1JQNv5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kjT0ENQDXuuvy5MXomnESmMbEJGGyO7Ao9Em1xiFxIOAejoaXe1z0xHH4M//vbFwOEdGAciga9JpylQ1M5nKhByswTbUgPMeoeOqua2FdL23+uWpsieAjgVUPAX5WmW7H/PKngiLLfTSA3F4jaHYScMu4BakkgumlZHxT1B6v3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcmooJgV; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1718717955; c=relaxed/simple;
+	bh=iAfRy8gkHYKnalZbae1lHo5/Dx4Sx6rI8FqrdYS6OF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j0uS4lgNkt/ZuO4W4v5AagfhqkDTt363V3f3XGdiE7xn+EJNaazeg1ubItMkovCvzY0jB4HgTT34F+Hc1bU0mMANnae7tKNcb4ytWvZDFgEHI+OpcSR/WB1o5MeFT1NRylyv/RUU8+1az671LUcNZ4HIdXeJKLYbv4DaQUv5zwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDzdwsew; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcmooJgV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDzdwsew"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718715479; x=1750251479;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4FAdW6dgpwEIh5osXVF4sosLC0cSbmbrAp1A1JQNv5U=;
-  b=LcmooJgVrvmHZrAkpr1Vsm5bmniUXqrI34rvaCg+iIsFyVFaLJ2SJupi
-   iNSqkh2Mj7OhUrPisCGDDXOpAeSS/l8jud5kLKjMs946t7ORplnSXwFHn
-   +6j3Tes32Zlr+7khNUcx/tzP8f2Kt3+BTjIfDR0lxiTJ7gMQjAf1cPI9P
-   rEnqSe7WIQHl2zr/TLMxKzdMiA3cSk8pVDiz10WcaTjJdHBDAJzd97b9u
-   zK5XY4rEO92RznxpvnLZo5mZgF73SJ7QJ/Kj6HrMRBb6lUt7Rla3kfNfE
-   /SeoQN7MdVrz+NKoXurJghfNeMsL/8loqiY2TdpjJx4H8qYN/7JDFSDOO
-   Q==;
-X-CSE-ConnectionGUID: lpJy19ZKS7i56DNhGmLmow==
-X-CSE-MsgGUID: jo5sLe7fQgytq6aSp2FB/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="26272162"
+  t=1718717954; x=1750253954;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iAfRy8gkHYKnalZbae1lHo5/Dx4Sx6rI8FqrdYS6OF8=;
+  b=PDzdwsewue07fR43kpqd7So1QBtIcdwwGgjE+PT/+fnfc5+x6IPjnjKU
+   tMkC9/NOWWsZbJ9op7hRwvPQ3AjVJSohBOos/OiuhEKK01T5FZL9cXcyh
+   UHjen4eBAQCZgXKXvM4xBoY4Eq8HzRRGVff/5N6PkwYqjCph0t0Tyro2u
+   Nq7YZ1roRtQkovxp4eMYFFBR3sBd+xrcxO4EGbjgZKU6iGrGeJPdarT8S
+   K/txLXMot++svJ54SaQH2OAq9EKhvyB3/fja0Jp7at2Oy41zKzF3tq+Rg
+   JOjPSCRCHS49fBGgCzo42pjcNFH2pB7M5cLaN0I1Yamj79Re5ns0vHhaF
+   w==;
+X-CSE-ConnectionGUID: B2ArV0hYT++mQw7gr35hYQ==
+X-CSE-MsgGUID: mfGN98maSMSfuj+mKZyykA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15307209"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="26272162"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 05:57:54 -0700
-X-CSE-ConnectionGUID: exUqzZAbT0WDj2kgvB8Hfg==
-X-CSE-MsgGUID: s7D9idNSR2irnW42aU0Low==
+   d="scan'208";a="15307209"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 06:39:13 -0700
+X-CSE-ConnectionGUID: lgsvN0plTlGnaOetNYulWw==
+X-CSE-MsgGUID: ovIT9vj4SKOSTSKkvw7Z9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="42019584"
+   d="scan'208";a="72306808"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2024 05:57:52 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2024 06:38:54 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJYPF-0005We-2p;
-	Tue, 18 Jun 2024 12:57:49 +0000
-Date: Tue, 18 Jun 2024 20:57:30 +0800
+	id 1sJZ2x-0005Yb-2h;
+	Tue, 18 Jun 2024 13:38:51 +0000
+Date: Tue, 18 Jun 2024 21:38:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip 3959/9999]
- arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: Warning
- (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
- in node /soc/pcie-ep@fe000000)
-Message-ID: <202406182040.Qg508jcq-lkp@intel.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor
+ address fields
+Message-ID: <202406182149.eAIruF9N-lkp@intel.com>
+References: <20240616220719.26641-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,37 +73,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240616220719.26641-3-andre.przywara@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
-commit: b99c0f465b6398b36ed3bef6fac8ad2078cd3bfc [3959/9999] arm64: dts: renesas: r8a774a1: Add PCIe EP nodes
-config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240618/202406182040.Qg508jcq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406182040.Qg508jcq-lkp@intel.com/reproduce)
+Hi Andre,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.10-rc4 next-20240617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-bindings-crypto-sun8i-ce-Add-compatible-for-H616/20240617-061144
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20240616220719.26641-3-andre.przywara%40arm.com
+patch subject: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor address fields
+config: mips-randconfig-r121-20240618 (https://download.01.org/0day-ci/archive/20240618/202406182149.eAIruF9N-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce: (https://download.01.org/0day-ci/archive/20240618/202406182149.eAIruF9N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406182040.Qg508jcq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406182149.eAIruF9N-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 @@
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     expected unsigned int [usertype] val
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     got restricted __le32
+
+vim +175 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+
+   167	
+   168		mutex_lock(&ce->mlock);
+   169	
+   170		v = readl(ce->base + CE_ICR);
+   171		v |= 1 << flow;
+   172		writel(v, ce->base + CE_ICR);
+   173	
+   174		reinit_completion(&ce->chanlist[flow].complete);
+ > 175		writel(sun8i_ce_desc_addr(ce, ce->chanlist[flow].t_phy),
+   176		       ce->base + CE_TDQ);
+   177	
+   178		ce->chanlist[flow].status = 0;
+   179		/* Be sure all data is written before enabling the task */
+   180		wmb();
+   181	
+   182		/* Only H6 needs to write a part of t_common_ctl along with "1", but since it is ignored
+   183		 * on older SoCs, we have no reason to complicate things.
+   184		 */
+   185		v = 1 | ((le32_to_cpu(ce->chanlist[flow].tl->t_common_ctl) & 0x7F) << 8);
+   186		writel(v, ce->base + CE_TLR);
+   187		mutex_unlock(&ce->mlock);
+   188	
+   189		wait_for_completion_interruptible_timeout(&ce->chanlist[flow].complete,
+   190				msecs_to_jiffies(ce->chanlist[flow].timeout));
+   191	
+   192		if (ce->chanlist[flow].status == 0) {
+   193			dev_err(ce->dev, "DMA timeout for %s (tm=%d) on flow %d\n", name,
+   194				ce->chanlist[flow].timeout, flow);
+   195			err = -EFAULT;
+   196		}
+   197		/* No need to lock for this read, the channel is locked so
+   198		 * nothing could modify the error value for this channel
+   199		 */
+   200		v = readl(ce->base + CE_ESR);
+   201		switch (ce->variant->esr) {
+   202		case ESR_H3:
+   203			/* Sadly, the error bit is not per flow */
+   204			if (v) {
+   205				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
+   206				err = -EFAULT;
+   207				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+   208					       cet, sizeof(struct ce_task), false);
+   209			}
+   210			if (v & CE_ERR_ALGO_NOTSUP)
+   211				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+   212			if (v & CE_ERR_DATALEN)
+   213				dev_err(ce->dev, "CE ERROR: data length error\n");
+   214			if (v & CE_ERR_KEYSRAM)
+   215				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
+   216			break;
+   217		case ESR_A64:
+   218		case ESR_D1:
+   219		case ESR_H5:
+   220		case ESR_R40:
+   221			v >>= (flow * 4);
+   222			v &= 0xF;
+   223			if (v) {
+   224				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
+   225				err = -EFAULT;
+   226				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+   227					       cet, sizeof(struct ce_task), false);
+   228			}
+   229			if (v & CE_ERR_ALGO_NOTSUP)
+   230				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+   231			if (v & CE_ERR_DATALEN)
+   232				dev_err(ce->dev, "CE ERROR: data length error\n");
+   233			if (v & CE_ERR_KEYSRAM)
+   234				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
+   235			break;
+   236		case ESR_H6:
+   237			v >>= (flow * 8);
+   238			v &= 0xFF;
+   239			if (v) {
+   240				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
+   241				err = -EFAULT;
+   242				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+   243					       cet, sizeof(struct ce_task), false);
+   244			}
+   245			if (v & CE_ERR_ALGO_NOTSUP)
+   246				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+   247			if (v & CE_ERR_DATALEN)
+   248				dev_err(ce->dev, "CE ERROR: data length error\n");
+   249			if (v & CE_ERR_KEYSRAM)
+   250				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
+   251			if (v & CE_ERR_ADDR_INVALID)
+   252				dev_err(ce->dev, "CE ERROR: address invalid\n");
+   253			if (v & CE_ERR_KEYLADDER)
+   254				dev_err(ce->dev, "CE ERROR: key ladder configuration error\n");
+   255			break;
+   256		}
+   257	
+   258		return err;
+   259	}
+   260	
 
 -- 
 0-DAY CI Kernel Test Service
