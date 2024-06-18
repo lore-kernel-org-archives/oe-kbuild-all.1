@@ -1,443 +1,253 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12olkn2036.outbound.protection.outlook.com [40.92.23.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B4D14374C;
-	Tue, 18 Jun 2024 11:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718710319; cv=none; b=izo4vUSCGZNvkU4gvM/YUXGIjwNVowOvhEF7GOTgNBkgMILchGfmsBBIivkaPf1RTEZZ6km5Hf1GPhJyZfDVvzySo1b5GD1YCyu9f97Me1rVOhlHYDH9CyE3bEVu8lhG1AoZOeqmD6UMeY0Eowu0N8ulXkqjMtsbyYHZQoCEZjs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718710319; c=relaxed/simple;
-	bh=+u+w++YM6IO4jdHfMRRceq5IF1mr3qwlKMhbvu6kNKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qpGuckiqGEIg4KUPqUFzPkiOzTz31yVsgSYhPL4aGiFfGFxJ1HjHKgc7wFA0xDLHxtvOkZx4baCG029yrZTxHv8JqfqlOo7DUX61XSL2ZB3sP60faeCbR+0DVHG9PuW7zrpwCEoiVDZ6TrlMj77rrM7to1MJ3oKoooI8+VJwZ5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lLlXO0Bi; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEA77345D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 12:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.23.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718712327; cv=fail; b=VfyGyxaikLzslMCnbq0eiVGRo/Tje3wYevAUeEoV4fyMX+3L+F2f7568aWYBsN9XpemrkB3+LgpmeNjT/tT9WKLcPy0vAPvlGEq3Fyl3UBunpQh+mq2rv+KUbT2pd8NXnPpzxRpf4v5hO4kXSj9lJ/O7EMDiWbj/v3mRl8aw+KE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718712327; c=relaxed/simple;
+	bh=AU/tAjqJbGUN2h1c7ekJ+CYla+AobS07/Hm8JIYxjlU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CNfh1b1Q1krFnpAQWVRtH/SAtJHrJeAE/DbCYcyuCHHjFQcBtC8mKvaucOzkPN4kRvZZshQyW3ry7kpdBkCrwPbnxaZHe4Z2KHVgoJyCj4mAFw18OgngVAn2yeXsHOlKztNMeD4AT10W3QeAXs8W2Oj0B31N8wgoa2VYiaJ2jX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=KVm2sfvO; arc=fail smtp.client-ip=40.92.23.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lLlXO0Bi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718710316; x=1750246316;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+u+w++YM6IO4jdHfMRRceq5IF1mr3qwlKMhbvu6kNKk=;
-  b=lLlXO0BiK6y6wc8KfLiR2uqbhMqpHvZQULeOMZOnTcq1xrYfEnqgCaGn
-   1ZyzzPm4m9T+HG1/KCAIr1CpTb6gH7e8i+RNO0vAUF/rM7SF3hRYlslJl
-   Iyl/UaMZCXQFOwGzXBjjsIkSFDCiGDBOYJweQphmxZD1oin62pnPHbaGq
-   zhjlOhH1jHv662PPSWsJYt1I5+JZBAc140cj4e9adrPLtwVrvG/xIFK+v
-   3wXPC2GoYwqPDu0gWlmzGgYtp5KA/vANvubj862/LsJYVXz4c+KcXy5Ci
-   vD2nQutNOQ0eVukmSNx+i1IxC50aX9btq6bne9oOe12KCG95SUCIL5ge+
-   w==;
-X-CSE-ConnectionGUID: AwhkC/iHTlK/qHbFt+7EsQ==
-X-CSE-MsgGUID: oupDKMSnSUenMG5sDBPnzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="26209675"
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="26209675"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 04:31:55 -0700
-X-CSE-ConnectionGUID: hxTG5oDVQwWQ1SxGr5TtFg==
-X-CSE-MsgGUID: rI+zvokSR1eQHDd6UcOhWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="42236567"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jun 2024 04:31:49 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJX3z-0005Sf-0B;
-	Tue, 18 Jun 2024 11:31:47 +0000
-Date: Tue, 18 Jun 2024 19:31:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Roman Kisel <romank@linux.microsoft.com>, akpm@linux-foundation.org,
-	apais@linux.microsoft.com, ardb@kernel.org, bigeasy@linutronix.de,
-	brauner@kernel.org, ebiederm@xmission.com, jack@suse.cz,
-	keescook@chromium.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	nagvijay@microsoft.com, oleg@redhat.com, tandersen@netflix.com,
-	vincent.whitchurch@axis.com, viro@zeniv.linux.org.uk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	apais@microsoft.com, ssengar@microsoft.com, sunilmut@microsoft.com,
-	vdso@hexbites.dev
-Subject: Re: [PATCH 1/1] binfmt_elf, coredump: Log the reason of the failed
- core dumps
-Message-ID: <202406181954.9Z65WD4Z-lkp@intel.com>
-References: <20240617234133.1167523-2-romank@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="KVm2sfvO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FQbZtpoQ+PSQn7pkwGwZkRHXFQKf6+jhh4e/51aOBwAU4fUWfWSd1V5C+9MxkzRa1LJJC32ZoJveFPPZA4l+ab1iWZcbgXdoVWuHeHfHs8HNA7K5C7aOG0U0cMkhuFPpfd6Nuepjpc0MpIRToJgKE1K4WqYwxIQpOUBh7KGqFSRZs+fHjYPACHu5h1DHoswLcDh6Zx/sf0JG9W5cthuOTN+HArpvvMtK7VcZ6y+ZrRtKymRnSr/kpLpM4iumTFN7ZpCjn/6J7doZpmfLa9B2LHCb9eUcugpIkItIkcy4TWTEzuFMWrC9gVMEQM37OX4vQcKg2ABLOBowPXHJxzXZ9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1zXH04wzzGel1jsED1gLaXtxLrZ7HCf4x2tq0XT3oQ0=;
+ b=Pl1AYCou69em+9YSq64ulQzYdNQUl8dixko3MnMPetfV5HT9V+11gCdt9XKhSXWLFKtI6BTAbE7vKCYxxNr7WLJgnU3Qhfw8cgaukw+V08ek7HEoze9ua9pSl5hzZJlNgKqeSJynYEoR3fa/UrHpsLvTVltpblQpnOZJxmXVNWYYll6yHweHbbKYR6fjR02HswGC/xs5ksLV8eP8d23S4iV60a5LUHDdrqvLCUzOt3lyFyH2h6tHsJ9tAS26AsSRis6yn4RKked31LAsBEDTbv0e++n5+GUKLNUZl6X5/lRDZCzXfiqr4JMdmK8Q5JPvxL4llqDAnS5BopceK5KEog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1zXH04wzzGel1jsED1gLaXtxLrZ7HCf4x2tq0XT3oQ0=;
+ b=KVm2sfvO5aWfh8OR3iqCyRvZTe7oVdDmnnEYNtyu1N/k6F+l1xTfwJlVH8f+DFgg7sgeGtVI5Aa0DDQliaCeRnG+mrO9I7VM32Gc5oaAJ047KkPNti8TEqOuCY4nVMoEdZhwxXn3pICaP8gCUrpMHzs+XJ2yGqLU26l1GCblsL2xpLHQ8dwmxBxkRtefPbmgZ1ZssGoIC/xeU5h4/KMYrGiblI1vs8oscmPNNIs4Zp3DRvPwgC0lVmNfjLd157Xnqi72+BiZLCse/1kwJb70rSwE4dw2P0ojVT88jviutL2eltm1Z38TF9idCHdZ9VdmnJilghirpbUdHD1AcUfRsg==
+Received: from SN7PR12MB8101.namprd12.prod.outlook.com (2603:10b6:806:321::7)
+ by CH3PR12MB8660.namprd12.prod.outlook.com (2603:10b6:610:177::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
+ 2024 12:05:22 +0000
+Received: from SN7PR12MB8101.namprd12.prod.outlook.com
+ ([fe80::fdb:e120:f99c:c899]) by SN7PR12MB8101.namprd12.prod.outlook.com
+ ([fe80::fdb:e120:f99c:c899%5]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
+ 12:05:22 +0000
+Message-ID:
+ <SN7PR12MB810159A22C9814AA7FC1AB96A4CE2@SN7PR12MB8101.namprd12.prod.outlook.com>
+Date: Tue, 18 Jun 2024 20:05:13 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] iio:proximity:hx9023s: Add TYHX HX9023S sensor
+ driver
+To: Jonathan Cameron <jic23@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ Yasin Lee <yasin.lee.x@gmail.com>
+References: <SN7PR12MB8101D4BC788B5954608D677DA4CC2@SN7PR12MB8101.namprd12.prod.outlook.com>
+ <202406171946.qe83Tde0-lkp@intel.com> <20240617202248.35994484@jic23-huawei>
+Content-Language: en-US
+From: Yasin Lee <yasin.lee.x@outlook.com>
+In-Reply-To: <20240617202248.35994484@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN: [tcurI1lzZRfz6zIKdzWFDEGMHflUqkMuVVIe2J5drZ//L7lZ+pe4fzNxfOIQz6bk]
+X-ClientProxiedBy: SG2PR02CA0101.apcprd02.prod.outlook.com
+ (2603:1096:4:92::17) To SN7PR12MB8101.namprd12.prod.outlook.com
+ (2603:10b6:806:321::7)
+X-Microsoft-Original-Message-ID:
+ <bc4fd213-78b3-4bf8-bfb6-b31b60965d54@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617234133.1167523-2-romank@linux.microsoft.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8101:EE_|CH3PR12MB8660:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9745ef0e-8e92-4f7d-507c-08dc8f8eee39
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199025|3412199022|4302099010|440099025|1602099009;
+X-Microsoft-Antispam-Message-Info:
+	EehFTZ7jyWP/io5+d5iZiGotlGlekvmai0POcnxv70mAM44daEWROvVXWHPgiyBB0IwuXJniPIrrqAIeARLx4viSYFMFVb4g0NhuXHAu8L5ytJL0ezZyC6HSKg5fHV9Yc8CHCnw4dKrs2oWoshxNBQqKUAckiSWWlX+j1ASch0LlTNf0ZgVRnBdxoRWNimA81p9xjOMVkVRQjc2G3iPWqjcRNDxQxrbCMJPxmrYQyzWfYEj2ZoX6du/ANIZtS/iuwHnP4o4mtg1D9V+i6J76D6TM2snu2lPSiidCFrOCz34o+uydq/HRQT83VfGzyj1IqY81SAiQQNrzPSprpkW9fHvEzBoUpNZ+3jdoEu3vzWfPxb5+Yzw2s4ShuochH293KVmzMy7asoQ1aLoRTFTSAa85za3DUTMvRrdg8/rruDysbMqdKZKCYe+xf70RVNmH5r79PKh/Cf8uXWNBYxXMI6SRtXfK/WG9mfGzlpglNREg6J3hGz+lF/DBCzqW1/ZwnHX8vGBngoo7r1wEoNmto3mXNUXT3QbFp703BhTvcKBJGyOrJe/b/rC5USCSUJcPt2ZiTKShI+uVL4cj0bOAOQWsGSIgKfVwL6UJ6LWLIG8sxoiAt7KAfDiacsCbSywZTd42F53hk8ugWUCONPSpoJL6CPodfVRM8YXViknpoNhacvzQ3RurV9fePG5IIhr0IpfZ+XY+IQOFUX3YwJv/FQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MEZSeFQwSm15VGpkWFhQMnd0dW5PZk1mNGpJaGNZSVNubkN5VW53eWV1Nzcv?=
+ =?utf-8?B?ZDI0S0xiRlNHZWVIT3B3MlVyQnMwV1F1MGhleDZEYVY3VGwySE5rbU1kckcy?=
+ =?utf-8?B?WURISXhjeWxuWUxZZkZXekxFSC9ZMlp4TEp4c1dORFZnOVBxWXpvOVM4eXo2?=
+ =?utf-8?B?eFFTUWxuaUJCQTU5d25YNGNnaEx5eWZlaXJPV292MFd2bGdUaVFoc3BqNnFn?=
+ =?utf-8?B?eHJaTmF3VGxFZXZHZmp4SzBsdlFRVUdwaDZqUDNmSXMxenlwNGkrQTM4WXZT?=
+ =?utf-8?B?djV1VkRjclQ0eU54V1d2bFZ4aWFqLzc0dWlDNG1qM1J5aXh1SGNxOGJZSHdL?=
+ =?utf-8?B?T2pMTzczY0E4bGJqMDNWMkt1ZmJ3Vm0yV05KaHpiekxWMjVYbDIzaEpnRXJv?=
+ =?utf-8?B?Mk4vdkVmaEpsbVBIRU1KREUrVnhGdHhzakZyUUlua0pMQ1RnOGk3WWFRd3hU?=
+ =?utf-8?B?d1VkK0d6UWE2bnhBcEZRaUcvT1QzWjhQMVNPeS8wbU5TYWFocWNuY25BTUtP?=
+ =?utf-8?B?ZXNhTnhwdW1rSUdaVWFESC9qd0w0WHBOWVMvcVA4bGpuRlZpUmpRdlRvbVJk?=
+ =?utf-8?B?c0pBVVZLNERIdEtoUmtJNS8yYW1pdVVZWUZxQ3hTM3lkZWYyS2pxV0p4OE00?=
+ =?utf-8?B?NG4zRmZINEJUNjhuR2hxTHJCT1FHOWdRR3Y0eFovNDdxSk5LMnpWYTRzZ2NB?=
+ =?utf-8?B?YVJHYXFPWEVTano3TTFxamNUM3pKbFBCY0xmSVV2aWtMVEJaZjlqYmh2RHRz?=
+ =?utf-8?B?Z2YxeHFwMy8xYS9GcFBnRkU2a1JxUlRrQ1JDL01XaTBvTFU3SEUyZTBtaDha?=
+ =?utf-8?B?eXBleFR0NVI0Q0ZLWm1iQ0VmbFF3RjI0VWFqSXpKeEdSSzU2dkgzcGZNeUs5?=
+ =?utf-8?B?VjZzYmNqNi9wbjhQTExIVzlZaFZEMU56aHdyUkZJd2FnN2hTbzlWdnFaS2Zx?=
+ =?utf-8?B?ZDQvczN1SjJad2RXR3NhVS9DNGJEN3h3Vnc5V1lBbU5Yc2pvVjlNNGRHamRW?=
+ =?utf-8?B?TXBUTk1FNVB0TUtMWE1DWlNqcnN1YjFKaEFncWdJOE5tYytFNll3Vk1YZUpV?=
+ =?utf-8?B?Rk1iSzE2cG5kUUtNUllXVllRemV1M1k5NXlIZHdIbnUyeFpXTkZVMEExREk2?=
+ =?utf-8?B?K0Nkc1FjZkx1US9QZGhVZnEraWNLNjFGUnd2ejJkU1lwVXljbk9QRU9XQk9Y?=
+ =?utf-8?B?SXU5UllyTmNpMzBkM2NKNEw5THZ0U05BQW40WVlRVVlpd01LUnNleUlWaWRt?=
+ =?utf-8?B?czBGTmJFT0xXSGkyU1JERUowMVU0Q2J2d3h6azhwS0dqSDBJUnljUDJOOWl3?=
+ =?utf-8?B?MlFidm10K010RFk3bEpOR1JlNk80YkNRZlRiWTZSbDVxUytjSmZCSjFSbzBN?=
+ =?utf-8?B?RkFWZkJxbUVRSDlNTlk2UVMraG1wemdHRjJiTFVwdkxxNURmZ1dNak1QR3o5?=
+ =?utf-8?B?RktuZGhvSnUzSFZ3QlJCTGtSS0E5QTJUL0tiYm5wUDFabUVOQmsxc3Mvc2t6?=
+ =?utf-8?B?MUxnV0RzNGVBY2l1enNxNGZvaHJMZldWd1RXckNVeUhFb3B5aFNFL0dHR2Yv?=
+ =?utf-8?B?QjkrSGoyL2xzUml6QVZmTklWY1FXdnpueHBjMmdGMzRmelZiNDlqQkE2TUl2?=
+ =?utf-8?B?OCtMazVNRU5pS2JnY0VYZm5UVDlid29rMTdrbDQ4U2dtZ2RKY2ZkRlBpZ0FE?=
+ =?utf-8?B?azR4Q0NDN0VwYnp2VXpyaGpMWVpMcndhRFZjcTlEKzlKaC91MGZ1bysvVnJt?=
+ =?utf-8?Q?qHTN92AWwGxelc3gCWWjrENlbosiIEPOARxsQkz?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9745ef0e-8e92-4f7d-507c-08dc8f8eee39
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 12:05:22.8253
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8660
 
-Hi Roman,
 
-kernel test robot noticed the following build warnings:
+On 2024/6/18 03:22, Jonathan Cameron wrote:
+> On Mon, 17 Jun 2024 19:34:30 +0800
+> kernel test robot <lkp@intel.com> wrote:
+>
+>> Hi Yasin,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on jic23-iio/togreg]
+>> [also build test WARNING on robh/for-next linus/master v6.10-rc4 next-20240613]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Yasin-Lee/dt-bindings-iio-proximity-Add-hx9023s-binding/20240616-154122
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+>> patch link:    https://lore.kernel.org/r/SN7PR12MB8101D4BC788B5954608D677DA4CC2%40SN7PR12MB8101.namprd12.prod.outlook.com
+>> patch subject: [PATCH v5 3/3] iio:proximity:hx9023s: Add TYHX HX9023S sensor driver
+>> config: arm64-randconfig-r132-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171946.qe83Tde0-lkp@intel.com/config)
+>> compiler: aarch64-linux-gcc (GCC) 13.2.0
+>> reproduce: (https://download.01.org/0day-ci/archive/20240617/202406171946.qe83Tde0-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406171946.qe83Tde0-lkp@intel.com/
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>>>> drivers/iio/proximity/hx9023s.c:955:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 @@     got int diff @@
+>>     drivers/iio/proximity/hx9023s.c:955:44: sparse:     expected restricted __be16
+>>     drivers/iio/proximity/hx9023s.c:955:44: sparse:     got int diff
+>>
+>> vim +955 drivers/iio/proximity/hx9023s.c
+>>
+>>     931	
+>>     932	static irqreturn_t hx9023s_trigger_handler(int irq, void *private)
+>>     933	{
+>>     934		struct iio_poll_func *pf = private;
+>>     935		struct iio_dev *indio_dev = pf->indio_dev;
+>>     936		struct hx9023s_data *data = iio_priv(indio_dev);
+>>     937		struct device *dev = regmap_get_device(data->regmap);
+>>     938		int ret;
+>>     939		unsigned int bit, i = 0;
+>>     940	
+>>     941		guard(mutex)(&data->mutex);
+>>     942		ret = hx9023s_sample(data);
+>>     943		if (ret) {
+>>     944			dev_warn(dev, "sampling failed\n");
+>>     945			goto out;
+>>     946		}
+>>     947	
+>>     948		ret = hx9023s_get_prox_state(data);
+>>     949		if (ret) {
+>>     950			dev_warn(dev, "get prox failed\n");
+>>     951			goto out;
+>>     952		}
+>>     953	
+>>     954		for_each_set_bit(bit, indio_dev->active_scan_mask, indio_dev->masklength)
+>>   > 955			data->buffer.channels[i++] = data->ch_data[indio_dev->channels[bit].channel].diff;
+>>     956	
+> This looks very odd.  Diff is an int filled with get_unaligned_le16()
+> which you then write to a __be16 here.
+>
+> It should remain little endian, if that is appropriate, throughout.
+>
+> Also, very long line. Use a local variable for
+> indio_dev->channels[bit].channel.
+Hi Jonathan,
 
-[auto build test WARNING on 831bcbcead6668ebf20b64fdb27518f1362ace3a]
+I reviewed the code and saw that data->buffer.channels[i] needs to be 
+filled with the MSB and LSB of the diff data register. I can read the 
+two bytes of diff data using regmap_bulk_read and fill 
+data->buffer.channels[i]. However, the diff data register in this chip 
+is multiplexed with the low pass data register. Thus, in some cases, 
+diff data can't be directly read and must be calculated as the 
+difference between low pass data and baseline data. Therefore, I can't 
+directly store the register value in data->buffer.channels[i]. I plan to 
+make the following changes to the code. Do you think this is feasible?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/binfmt_elf-coredump-Log-the-reason-of-the-failed-core-dumps/20240618-074419
-base:   831bcbcead6668ebf20b64fdb27518f1362ace3a
-patch link:    https://lore.kernel.org/r/20240617234133.1167523-2-romank%40linux.microsoft.com
-patch subject: [PATCH 1/1] binfmt_elf, coredump: Log the reason of the failed core dumps
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240618/202406181954.9Z65WD4Z-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406181954.9Z65WD4Z-lkp@intel.com/reproduce)
+@@ -141,7 +141,7 @@ struct hx9023s_data {
+         bool trigger_enabled;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406181954.9Z65WD4Z-lkp@intel.com/
+         struct {
+-               __be16 channels[HX9023S_CH_NUM];
++               __le16 channels[HX9023S_CH_NUM];
+                 s64 ts __aligned(8);
+         } buffer;
 
-All warnings (new ones prefixed by >>):
+@@ -936,7 +936,7 @@ static irqreturn_t hx9023s_trigger_handler(int irq, 
+void *private)
+         struct hx9023s_data *data = iio_priv(indio_dev);
+         struct device *dev = regmap_get_device(data->regmap);
+         int ret;
+-       unsigned int bit, i = 0;
++       unsigned int bit, index, i = 0;
 
-   In file included from fs/coredump.c:6:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/coredump.c:816:32: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     815 |         pr_info("Core dump to |%s: vma_count %d, vma_data_size %lu, written %lld bytes, pos %lld\n",
-         |                                                                ~~~
-         |                                                                %zu
-     816 |                 cn.corename, cprm.vma_count, cprm.vma_data_size, cprm.written, cprm.pos);
-         |                                              ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:537:34: note: expanded from macro 'pr_info'
-     537 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   2 warnings generated.
+         guard(mutex)(&data->mutex);
+         ret = hx9023s_sample(data);
+@@ -951,8 +951,10 @@ static irqreturn_t hx9023s_trigger_handler(int irq, 
+void *private)
+                 goto out;
+         }
 
+-       for_each_set_bit(bit, indio_dev->active_scan_mask, 
+indio_dev->masklength)
+-               data->buffer.channels[i++] = 
+data->ch_data[indio_dev->channels[bit].channel].diff;
++       for_each_set_bit(bit, indio_dev->active_scan_mask, 
+indio_dev->masklength) {
++               index = indio_dev->channels[bit].channel;
++               data->buffer.channels[i++] = 
+cpu_to_le16(data->ch_data[index].diff);
++       }
 
-vim +816 fs/coredump.c
+         iio_push_to_buffers_with_timestamp(indio_dev, &data->buffer, 
+pf->timestamp);
 
-   521	
-   522	int do_coredump(const kernel_siginfo_t *siginfo)
-   523	{
-   524		struct core_state core_state;
-   525		struct core_name cn;
-   526		struct mm_struct *mm = current->mm;
-   527		struct linux_binfmt * binfmt;
-   528		const struct cred *old_cred;
-   529		struct cred *cred;
-   530		int retval;
-   531		int ispipe;
-   532		size_t *argv = NULL;
-   533		int argc = 0;
-   534		/* require nonrelative corefile path and be extra careful */
-   535		bool need_suid_safe = false;
-   536		bool core_dumped = false;
-   537		static atomic_t core_dump_count = ATOMIC_INIT(0);
-   538		struct coredump_params cprm = {
-   539			.siginfo = siginfo,
-   540			.limit = rlimit(RLIMIT_CORE),
-   541			/*
-   542			 * We must use the same mm->flags while dumping core to avoid
-   543			 * inconsistency of bit flags, since this flag is not protected
-   544			 * by any locks.
-   545			 */
-   546			.mm_flags = mm->flags,
-   547			.vma_meta = NULL,
-   548			.cpu = raw_smp_processor_id(),
-   549		};
-   550	
-   551		audit_core_dumps(siginfo->si_signo);
-   552	
-   553		binfmt = mm->binfmt;
-   554		if (!binfmt || !binfmt->core_dump) {
-   555			retval = -ENOEXEC;
-   556			goto fail;
-   557		}
-   558		if (!__get_dumpable(cprm.mm_flags)) {
-   559			retval = -EACCES;
-   560			goto fail;
-   561		}
-   562	
-   563		cred = prepare_creds();
-   564		if (!cred) {
-   565			retval = -EPERM;
-   566			goto fail;
-   567		}
-   568		/*
-   569		 * We cannot trust fsuid as being the "true" uid of the process
-   570		 * nor do we know its entire history. We only know it was tainted
-   571		 * so we dump it as root in mode 2, and only into a controlled
-   572		 * environment (pipe handler or fully qualified path).
-   573		 */
-   574		if (__get_dumpable(cprm.mm_flags) == SUID_DUMP_ROOT) {
-   575			/* Setuid core dump mode */
-   576			cred->fsuid = GLOBAL_ROOT_UID;	/* Dump root private */
-   577			need_suid_safe = true;
-   578		}
-   579	
-   580		retval = coredump_wait(siginfo->si_signo, &core_state);
-   581		if (retval < 0)
-   582			goto fail_creds;
-   583	
-   584		old_cred = override_creds(cred);
-   585	
-   586		ispipe = format_corename(&cn, &cprm, &argv, &argc);
-   587	
-   588		if (ispipe) {
-   589			int argi;
-   590			int dump_count;
-   591			char **helper_argv;
-   592			struct subprocess_info *sub_info;
-   593	
-   594			if (ispipe < 0) {
-   595				printk(KERN_WARNING "format_corename failed\n");
-   596				printk(KERN_WARNING "Aborting core\n");
-   597				retval = ispipe;
-   598				goto fail_unlock;
-   599			}
-   600	
-   601			if (cprm.limit == 1) {
-   602				/* See umh_pipe_setup() which sets RLIMIT_CORE = 1.
-   603				 *
-   604				 * Normally core limits are irrelevant to pipes, since
-   605				 * we're not writing to the file system, but we use
-   606				 * cprm.limit of 1 here as a special value, this is a
-   607				 * consistent way to catch recursive crashes.
-   608				 * We can still crash if the core_pattern binary sets
-   609				 * RLIM_CORE = !1, but it runs as root, and can do
-   610				 * lots of stupid things.
-   611				 *
-   612				 * Note that we use task_tgid_vnr here to grab the pid
-   613				 * of the process group leader.  That way we get the
-   614				 * right pid if a thread in a multi-threaded
-   615				 * core_pattern process dies.
-   616				 */
-   617				printk(KERN_WARNING
-   618					"Process %d(%s) has RLIMIT_CORE set to 1\n",
-   619					task_tgid_vnr(current), current->comm);
-   620				printk(KERN_WARNING "Aborting core\n");
-   621				retval = -EPERM;
-   622				goto fail_unlock;
-   623			}
-   624			cprm.limit = RLIM_INFINITY;
-   625	
-   626			dump_count = atomic_inc_return(&core_dump_count);
-   627			if (core_pipe_limit && (core_pipe_limit < dump_count)) {
-   628				printk(KERN_WARNING "Pid %d(%s) over core_pipe_limit\n",
-   629				       task_tgid_vnr(current), current->comm);
-   630				printk(KERN_WARNING "Skipping core dump\n");
-   631				retval = -E2BIG;
-   632				goto fail_dropcount;
-   633			}
-   634	
-   635			helper_argv = kmalloc_array(argc + 1, sizeof(*helper_argv),
-   636						    GFP_KERNEL);
-   637			if (!helper_argv) {
-   638				printk(KERN_WARNING "%s failed to allocate memory\n",
-   639				       __func__);
-   640				retval = -ENOMEM;
-   641				goto fail_dropcount;
-   642			}
-   643			for (argi = 0; argi < argc; argi++)
-   644				helper_argv[argi] = cn.corename + argv[argi];
-   645			helper_argv[argi] = NULL;
-   646	
-   647			retval = -ENOMEM;
-   648			sub_info = call_usermodehelper_setup(helper_argv[0],
-   649							helper_argv, NULL, GFP_KERNEL,
-   650							umh_pipe_setup, NULL, &cprm);
-   651			if (sub_info)
-   652				retval = call_usermodehelper_exec(sub_info,
-   653								  UMH_WAIT_EXEC);
-   654	
-   655			kfree(helper_argv);
-   656			if (retval) {
-   657				printk(KERN_INFO "Core dump to |%s pipe failed\n",
-   658				       cn.corename);
-   659				goto close_fail;
-   660			}
-   661		} else {
-   662			struct mnt_idmap *idmap;
-   663			struct inode *inode;
-   664			int open_flags = O_CREAT | O_WRONLY | O_NOFOLLOW |
-   665					 O_LARGEFILE | O_EXCL;
-   666	
-   667			if (cprm.limit < binfmt->min_coredump) {
-   668				retval = -E2BIG;
-   669				goto fail_unlock;
-   670			}
-   671	
-   672			if (need_suid_safe && cn.corename[0] != '/') {
-   673				printk(KERN_WARNING "Pid %d(%s) can only dump core "\
-   674					"to fully qualified path!\n",
-   675					task_tgid_vnr(current), current->comm);
-   676				printk(KERN_WARNING "Skipping core dump\n");
-   677				retval = -EPERM;
-   678				goto fail_unlock;
-   679			}
-   680	
-   681			/*
-   682			 * Unlink the file if it exists unless this is a SUID
-   683			 * binary - in that case, we're running around with root
-   684			 * privs and don't want to unlink another user's coredump.
-   685			 */
-   686			if (!need_suid_safe) {
-   687				/*
-   688				 * If it doesn't exist, that's fine. If there's some
-   689				 * other problem, we'll catch it at the filp_open().
-   690				 */
-   691				do_unlinkat(AT_FDCWD, getname_kernel(cn.corename));
-   692			}
-   693	
-   694			/*
-   695			 * There is a race between unlinking and creating the
-   696			 * file, but if that causes an EEXIST here, that's
-   697			 * fine - another process raced with us while creating
-   698			 * the corefile, and the other process won. To userspace,
-   699			 * what matters is that at least one of the two processes
-   700			 * writes its coredump successfully, not which one.
-   701			 */
-   702			if (need_suid_safe) {
-   703				/*
-   704				 * Using user namespaces, normal user tasks can change
-   705				 * their current->fs->root to point to arbitrary
-   706				 * directories. Since the intention of the "only dump
-   707				 * with a fully qualified path" rule is to control where
-   708				 * coredumps may be placed using root privileges,
-   709				 * current->fs->root must not be used. Instead, use the
-   710				 * root directory of init_task.
-   711				 */
-   712				struct path root;
-   713	
-   714				task_lock(&init_task);
-   715				get_fs_root(init_task.fs, &root);
-   716				task_unlock(&init_task);
-   717				cprm.file = file_open_root(&root, cn.corename,
-   718							   open_flags, 0600);
-   719				path_put(&root);
-   720			} else {
-   721				cprm.file = filp_open(cn.corename, open_flags, 0600);
-   722			}
-   723			if (IS_ERR(cprm.file)) {
-   724				retval = PTR_ERR(cprm.file);
-   725				goto fail_unlock;
-   726			}
-   727	
-   728			inode = file_inode(cprm.file);
-   729			if (inode->i_nlink > 1) {
-   730				retval = -EMLINK;
-   731				goto close_fail;
-   732			}
-   733			if (d_unhashed(cprm.file->f_path.dentry)) {
-   734				retval = -EEXIST;
-   735				goto close_fail;
-   736			}
-   737			/*
-   738			 * AK: actually i see no reason to not allow this for named
-   739			 * pipes etc, but keep the previous behaviour for now.
-   740			 */
-   741			if (!S_ISREG(inode->i_mode)) {
-   742				retval = -EISDIR;
-   743				goto close_fail;
-   744			}
-   745			/*
-   746			 * Don't dump core if the filesystem changed owner or mode
-   747			 * of the file during file creation. This is an issue when
-   748			 * a process dumps core while its cwd is e.g. on a vfat
-   749			 * filesystem.
-   750			 */
-   751			idmap = file_mnt_idmap(cprm.file);
-   752			if (!vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode),
-   753					    current_fsuid())) {
-   754				pr_info_ratelimited("Core dump to %s aborted: cannot preserve file owner\n",
-   755						    cn.corename);
-   756				retval = -EPERM;
-   757				goto close_fail;
-   758			}
-   759			if ((inode->i_mode & 0677) != 0600) {
-   760				pr_info_ratelimited("Core dump to %s aborted: cannot preserve file permissions\n",
-   761						    cn.corename);
-   762				retval = -EPERM;
-   763				goto close_fail;
-   764			}
-   765			if (!(cprm.file->f_mode & FMODE_CAN_WRITE)) {
-   766				retval = -EACCES;
-   767				goto close_fail;
-   768			}
-   769			retval = do_truncate(idmap, cprm.file->f_path.dentry,
-   770					0, 0, cprm.file);
-   771			if (retval)
-   772				goto close_fail;
-   773		}
-   774	
-   775		/* get us an unshared descriptor table; almost always a no-op */
-   776		/* The cell spufs coredump code reads the file descriptor tables */
-   777		retval = unshare_files();
-   778		if (retval)
-   779			goto close_fail;
-   780		if (!dump_interrupted()) {
-   781			/*
-   782			 * umh disabled with CONFIG_STATIC_USERMODEHELPER_PATH="" would
-   783			 * have this set to NULL.
-   784			 */
-   785			if (!cprm.file) {
-   786				pr_info("Core dump to |%s disabled\n", cn.corename);
-   787				retval = -EPERM;
-   788				goto close_fail;
-   789			}
-   790			if (!dump_vma_snapshot(&cprm)) {
-   791				pr_err("Can't get VMA snapshot for core dump |%s\n", cn.corename);
-   792				retval = -EACCES;
-   793				goto close_fail;
-   794			}
-   795	
-   796			file_start_write(cprm.file);
-   797			core_dumped = binfmt->core_dump(&cprm);
-   798			/*
-   799			 * Ensures that file size is big enough to contain the current
-   800			 * file postion. This prevents gdb from complaining about
-   801			 * a truncated file if the last "write" to the file was
-   802			 * dump_skip.
-   803			 */
-   804			if (cprm.to_skip) {
-   805				cprm.to_skip--;
-   806				dump_emit(&cprm, "", 1);
-   807			}
-   808			file_end_write(cprm.file);
-   809			free_vma_snapshot(&cprm);
-   810		} else {
-   811			pr_err("Core dump to |%s has been interrupted\n", cn.corename);
-   812			retval = -EAGAIN;
-   813			goto fail;
-   814		}
-   815		pr_info("Core dump to |%s: vma_count %d, vma_data_size %lu, written %lld bytes, pos %lld\n",
- > 816			cn.corename, cprm.vma_count, cprm.vma_data_size, cprm.written, cprm.pos);
-   817		if (ispipe && core_pipe_limit)
-   818			wait_for_dump_helpers(cprm.file);
-   819	
-   820		retval = 0;
-   821	
-   822	close_fail:
-   823		if (cprm.file)
-   824			filp_close(cprm.file, NULL);
-   825	fail_dropcount:
-   826		if (ispipe)
-   827			atomic_dec(&core_dump_count);
-   828	fail_unlock:
-   829		kfree(argv);
-   830		kfree(cn.corename);
-   831		coredump_finish(core_dumped);
-   832		revert_creds(old_cred);
-   833	fail_creds:
-   834		put_cred(cred);
-   835	fail:
-   836		return retval;
-   837	}
-   838	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Yasin Lee
+>>     957		iio_push_to_buffers_with_timestamp(indio_dev, &data->buffer, pf->timestamp);
+>>     958	
+>>     959	out:
+>>     960		iio_trigger_notify_done(indio_dev->trig);
+>>     961	
+>>     962		return IRQ_HANDLED;
+>>     963	}
+>>     964	
+>>
