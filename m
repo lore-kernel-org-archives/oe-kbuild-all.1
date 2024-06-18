@@ -1,62 +1,61 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBBE1171C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 18:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA47916D9A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 19:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718736386; cv=none; b=fNcDGzz5TpK9aWynUkVR2wKPUrSoGPUvs1UsqkCyDHDeLITq8RqmULqohR8xgLidUhyN53YQ+3cOwcKId6ezEoSnRj8dFkuO9kJhLlMHkuKhc9mcbJhgz6ROtpgR/1Tx3TU2dWVBeKIC4a9NdOx/FgadW95peNfendPL2KFYe+0=
+	t=1718740162; cv=none; b=V5o435kFmIZTHuBnWlVPjbriZtvq9J0DkI2qDgyPuHVe8NRbMX4mpMb8bwrMDZewDETDVjaWbt6yJ0Ke2MXcQ73acDfJktg2Unu1UuhPRwFA9CqZM674zF6kElWUM20fvx0a3gzM13I5dsf7OeG4oOzHt6Wzrk53nncEPARebNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718736386; c=relaxed/simple;
-	bh=4KUosT8FHpsSBEBSDP661Op3DgOv/1F+86N5kqZqP98=;
+	s=arc-20240116; t=1718740162; c=relaxed/simple;
+	bh=a8Htxg/75kwOzhRF/3fh8jq4LPd17JVTY7ZBnXyRME0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GmodZav48TuQdDLXfuxxCdcv5u5u4Dv7o7LBJ7XlVuQP6ZbYzI+E5fmVVFO4/fgATnXKw6KbeMIqkyDZblGLQkCKUnYP+hWpiVp9f05FaXVzXZY1+2X1KMN9tCZAwwM6oOtgD5SB25JAHx61Ra6G7QkzAfgibLad6IjkvYTe7mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cKt6SeUH; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=X2QntMEi2Gu7AUQdN+hBziI6C0NaThHpE5Inr8O0BwVJctxx+j9cIQRDm+j5YrofHwp1vnfmlkRRJX1koo8sCOiyMBPiHQTlkRliK4Dy6agIss0/FIkAdsIOQa/JilQUPXx3eKZW1arD4Xd/8xGTEer4gABHxdRy1dtmiODZGXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=np1P09sT; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cKt6SeUH"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-35f2d723ef0so4857883f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 11:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718736383; x=1719341183; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ls7/SB0JX9BuhqtReW7zJ3OlsmhJIpdPXXBdLDpYTr4=;
-        b=cKt6SeUHf8e5li8bA2q5iQBOGzCvlQKAhWMpq255Liz8nKr3AmDgYPoXeyN82RmKgR
-         CrrSG/r6XaK8FJjAHkob0y+7qflojWDQZDHBIAxRjrAxIizBskMV9RAJ81q7tKFDOG6g
-         uUvi65iEQuImz3uETcMBEAFxiHO9g9NvfUW92MoY153U6fYFqD9qvpO+f457ZTYTMMOb
-         yAPZLP/DTSB2t5e6F0JQVze2XDZl5++KJqUBSe8SnV7cz3rrFAOPruW2lWUhdj54bRIs
-         LIvXI5GZfW+pdtg7WHEkNWvfoGH3ahJy0DSi+6VyIdssrWXM78UqpPUEhxfavp4R8rDP
-         0C1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718736383; x=1719341183;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ls7/SB0JX9BuhqtReW7zJ3OlsmhJIpdPXXBdLDpYTr4=;
-        b=rTUScTocO1mWDiqBD+ll0s+HTllte1u5zNaVeGYXEBcyhliPrNQv4CTg5ZHKY63+3c
-         2+2RB84POeUpbGSXUPZAsE4fInJberSRbyT6TAe4PWE+1TqaPqPj6iu/eO5IxWlso3cI
-         MQA0Q9SsdWyJA8o1pl2b7sl2i+sdgGqgKXd8PZknIu36oYY9Ntdg6YQ3sLGUO9Mb4RAU
-         QramffYAgyRzUjgM7YpSs3k636lnRKXRWIgqK1DI04FF4U9mDT8XKCtCOZFuNx+NP1lp
-         SmDBoFpJqk8tuVmxUXv2b0h25xniVlXMe3nW3r6+ZU3yLkL7exWyz36U6b9z4c7bjW4N
-         Xh/w==
-X-Forwarded-Encrypted: i=1; AJvYcCULFGYu00VGk11LuIAnt4nEGD0E108tm4Vm45HsI2++ECCUursd/JiT6K7XgoRIB0WhfZ5S0c6UFB4fGFotFKcGFFqq7QAwdj6/Mrk7Nw==
-X-Gm-Message-State: AOJu0YxPvP+TKjPkVb3BWDhUYg4Px1+be2b+ZOrWoE4QIUE5WNBlaYnU
-	jSuANWR64LaYqXfS59fXTmnN09yGzyzusJIiEC8uq3cuSfIrfT6nCDKBXiIqluE=
-X-Google-Smtp-Source: AGHT+IELO++/aiXHXuy8U1++adT+kJodLvIH3Zal6efe7UqAK/9LQxLhxHwwdtBDKJANNKD1CT0oBA==
-X-Received: by 2002:adf:f98c:0:b0:35f:20da:e1a2 with SMTP id ffacd0b85a97d-36317b7d57dmr276692f8f.30.1718736383291;
-        Tue, 18 Jun 2024 11:46:23 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750acd7csm14826877f8f.52.2024.06.18.11.46.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jun 2024 11:46:23 -0700 (PDT)
-Date: Tue, 18 Jun 2024 21:46:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:nfs-buffered-write-cleanups 8/8] fs/nfs/write.c:569
- nfs_lock_and_join_requests() error: uninitialized symbol 'subreq'.
-Message-ID: <20b78a17-38c4-4d59-9e36-314795302af9@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="np1P09sT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718740161; x=1750276161;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a8Htxg/75kwOzhRF/3fh8jq4LPd17JVTY7ZBnXyRME0=;
+  b=np1P09sTr/6sVX8anJV3aXTrAFF8nseuZHddE52t1ixw4yW6l/uq8vCU
+   YWzbYBAtRfOV8jzU8UK7Ae5DOUVo4U4/05q79mNTp0HPFxp9SCe1FaPVx
+   JV48cTONwYbXSMWn+4fZ4HhvmRyqdYKrwDTca9pvtBWbf7LbV7zvyTAlu
+   wnn2ydJqsrm6D1CI6/VqHb2zjqJ9m+2N5yC+Ao+fZvQs+LrCK3+dNK24a
+   jF1i0/8QeSNPXmIJAD9TxstcJJ56q/76ndgYhxjzF9DGwO7vqgj/2uKQE
+   rnUuVxRuhKM6+0U5/IxPfLY2RsR0x+5/VnWNrN5TypJ58hRDzoeTXpL77
+   g==;
+X-CSE-ConnectionGUID: +YljMXgTTCyJj4imUDSSVg==
+X-CSE-MsgGUID: TP5PoaNURMS8fZpmN8fQ3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="41054704"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="41054704"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 12:49:19 -0700
+X-CSE-ConnectionGUID: vR6t1DalSfKPJG45+89k0w==
+X-CSE-MsgGUID: /bwHiep9ScehJaBRDLsnJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="46792603"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2024 12:49:17 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJepP-0005s2-1o;
+	Tue, 18 Jun 2024 19:49:15 +0000
+Date: Wed, 19 Jun 2024 03:48:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [morimoto:renesas-bsp/v6.1.94-2024-06-18-2 76/663]
+ arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/phy@e6444000: failed
+ to match any schema with compatible: ['renesas,r8a779f0-ether-serdes']
+Message-ID: <202406190324.USkOEaOU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,76 +65,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/misc.git nfs-buffered-write-cleanups
-head:   724a9166a85d96c9fa6377fe9c042b72da816c90
-commit: 724a9166a85d96c9fa6377fe9c042b72da816c90 [8/8] nfs: don't reuse partially completed requests in nfs_lock_and_join_requests
-config: x86_64-randconfig-161-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190139.SC6Lhg4h-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.94-2024-06-18-2
+head:   5e7236cba4333897587247b8cb1c26e5e90fb4c0
+commit: 05caf0cfd7ff4ee1f78c5a4810ec40891a970cc4 [76/663] arm64: dts: renesas: r8a779f0: Add Ethernet Switch and SERDES nodes
+config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240619/202406190324.USkOEaOU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406190324.USkOEaOU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406190139.SC6Lhg4h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406190324.USkOEaOU-lkp@intel.com/
 
-New smatch warnings:
-fs/nfs/write.c:569 nfs_lock_and_join_requests() error: uninitialized symbol 'subreq'.
-
-vim +/subreq +569 fs/nfs/write.c
-
-0c493b5cf16e28 Trond Myklebust       2023-01-19  535  static struct nfs_page *nfs_lock_and_join_requests(struct folio *folio)
-e00ed89d7bd59c Trond Myklebust       2020-03-30  536  {
-15b8fdc56a662f Christoph Hellwig     2024-06-14  537  	struct inode *inode = folio->mapping->host;
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  538  	struct nfs_page *head, *subreq;
-b193a78ddb5ee7 Trond Myklebust       2023-09-04  539  	struct nfs_commit_info cinfo;
-724a9166a85d96 Christoph Hellwig     2024-06-16  540  	bool removed;
-e00ed89d7bd59c Trond Myklebust       2020-03-30  541  	int ret;
-d458138353726e Weston Andros Adamson 2014-07-11  542  
-e00ed89d7bd59c Trond Myklebust       2020-03-30  543  	/*
-e00ed89d7bd59c Trond Myklebust       2020-03-30  544  	 * A reference is taken only on the head request which acts as a
-e00ed89d7bd59c Trond Myklebust       2020-03-30  545  	 * reference to the whole page group - the group will not be destroyed
-e00ed89d7bd59c Trond Myklebust       2020-03-30  546  	 * until the head reference is released.
-e00ed89d7bd59c Trond Myklebust       2020-03-30  547  	 */
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  548  retry:
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  549  	head = nfs_folio_find_head_request(folio);
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  550  	if (!head)
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  551  		return NULL;
-d458138353726e Weston Andros Adamson 2014-07-11  552  
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  553  	while (!nfs_lock_request(head)) {
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  554  		ret = nfs_wait_on_request(head);
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  555  		if (ret < 0)
-e00ed89d7bd59c Trond Myklebust       2020-03-30  556  			return ERR_PTR(ret);
-b5bab9bf91324a Trond Myklebust       2017-07-17  557  	}
-b5bab9bf91324a Trond Myklebust       2017-07-17  558  
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  559  	/* Ensure that nobody removed the request before we locked it */
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  560  	if (head != folio->private) {
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  561  		nfs_unlock_and_release_request(head);
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  562  		goto retry;
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  563  	}
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  564  
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  565  	ret = nfs_page_group_lock(head);
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  566  	if (ret < 0)
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  567  		goto out_unlock;
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  568  
-724a9166a85d96 Christoph Hellwig     2024-06-16 @569  	removed = test_bit(PG_REMOVE, &subreq->wb_flags);
-                                                                                       ^^^^^^
-Uninitialized until next line.
-
-724a9166a85d96 Christoph Hellwig     2024-06-16  570  
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  571  	/* lock each request in the page group */
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  572  	for (subreq = head->wb_this_page;
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  573  	     subreq != head;
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  574  	     subreq = subreq->wb_this_page) {
-724a9166a85d96 Christoph Hellwig     2024-06-16  575  		if (test_bit(PG_REMOVE, &subreq->wb_flags))
-724a9166a85d96 Christoph Hellwig     2024-06-16  576  			removed = true;
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  577  		ret = nfs_page_group_lock_subreq(head, subreq);
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  578  		if (ret < 0)
-fe5ab688ce8408 Christoph Hellwig     2024-06-16  579  			goto out_unlock;
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  580  	}
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  581  
-7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  582  	nfs_page_group_unlock(head);
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/phy@e6444000: failed to match any schema with compatible: ['renesas,r8a779f0-ether-serdes']
+>> arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/ethernet@e6880000: failed to match any schema with compatible: ['renesas,r8a779f0-ether-switch']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
