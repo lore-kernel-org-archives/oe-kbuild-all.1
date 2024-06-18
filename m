@@ -1,61 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4229E1A8C34
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 14:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBB82139AC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 14:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718719320; cv=none; b=i4Vc09XLsk+grf6m8vVHuHJkHGbiIDDgUoXcGEWpZwiU/lhpOT8xZ6m+tatM+XxriJEAmfnrr9AaIAxr2/nvZ6TjxKsq3OnUnzxUZS5G/45rSKVJcnDee66exOFbHYKgaBPCg7GMy10LlB8p9cqUNmiHttC5uvcn1rmFmcw0SQc=
+	t=1718719982; cv=none; b=fbrrY/SaX7c9pJ7a4DtN40BD5vmd6GRwoK9xOliNYw1AqCg3a1yYYR1kn6Fcu9SzR4aY8YbyvmiRN1iKXvF1CPAzwKeT7XKCBlpHNpl+JkWyy86qD33IVbYA4cl2ZOcnDWqIitNFUCD72HsqeWTjDBuDvnfH5ROCJ6T2VzzmxKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718719320; c=relaxed/simple;
-	bh=SNFO8c647yA6lQhAZIsoVkweIXo2za5vaPlNpE0P5yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TtwIhD0wrW47XOcpdBuy6Qc7dMXIE6B+ucJsaH91gAfFmd1y017Ndh1lKaNWzFNm5ahXfryXDZq4XNfg/hdA5Ldyijj840TKwellvnvoN+ZLdr546j13Y6wb4bldDJ9VuvlLdOeRFdsd5//m5p/EitEdwFbf4n16sJn45GL2q2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYaI9pEo; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1718719982; c=relaxed/simple;
+	bh=lLz9t87GAV8WZCzP6X8aC19L9aHIUDZG7fDqmJ8BeO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tMD7W7cG9KCap8NT+WLca5GISSpI+DwvH/1+vd8Y2b+PqVztu77m04kBajEpd38k3soswpMSZ7UbSx0Xhu1pqO0sOxroxfXFhDeEOVsFT3nRz2w+ewRVavDycE0MYs0KEljRlbh0NEs8bfgpm69iGF+66T9jn7XpVBiCgRcFe6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1uJ0Y6Y; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYaI9pEo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1uJ0Y6Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718719318; x=1750255318;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SNFO8c647yA6lQhAZIsoVkweIXo2za5vaPlNpE0P5yk=;
-  b=NYaI9pEoPQxhgZcih3hTbg9yGd5R96Bdi5dHmoivQEl+D7lcZgv6A6ih
-   qjkaQI3oYShhBmkNj02VLyMlVkmTiTMmRXb8iiNgplehGMnH7vSTIJ45W
-   7Tg59hh8p2RRUFe7xuz4EwS05f9IvCUQ7EaBLoFyXdbLzv2ubYlLEiBRk
-   doDmFsbioNeacKLRNUN7bWD+mmpfN1hXSDgSrg8FalldKpuS7Je3GselH
-   bGxKF9ljXuP3EH2kpefM1BtBDwdeLerrfdNjfu7/LNy7XdIkq+FayBHcO
-   2ZYVDqlXrHNQpX+VuXEZJA9L8Z2nTMiuD+ccFaDCPXbsx7x3N7txcG5S9
-   Q==;
-X-CSE-ConnectionGUID: WmIX4kvcTs65sadBhhFkZQ==
-X-CSE-MsgGUID: eeVdFaTqTSqUwuL+7RZFJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15310925"
+  t=1718719981; x=1750255981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lLz9t87GAV8WZCzP6X8aC19L9aHIUDZG7fDqmJ8BeO4=;
+  b=S1uJ0Y6YE3ks8OiR4xVbiY8YjmUYA9Z5AKNTA3vmggXofOrUo9IlwH7r
+   vpcPGL12grb63hjIBZrxnBO7mhT4CD5+mfvRwGYAIIPfeRq8JBKVB0NUB
+   CdOarSucRwBlTlqr41dXj+WWTxXLfa16OuRIQ579S4kEh1BeC1Mp0ujtQ
+   0yrDTqHPNQkeurbP0NKQc+1KoX/9pmfuUY/A0b+IzYmKKxfSThhBWLDhf
+   dVjwSZ4lrylF5WZFHRJtrLeVcEEgr+zkjoe+92RD6djkoe/z/nmjbuYv5
+   vKstgroFVaHpbiWnt6qUAshwh8Vq0BOOn024xcR28h8lWQZD1mh1k972u
+   A==;
+X-CSE-ConnectionGUID: O0s4cUKJT26hJioYIySv2A==
+X-CSE-MsgGUID: igLVLangRqW4j++by4NfjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15439253"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="15310925"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 07:01:58 -0700
-X-CSE-ConnectionGUID: J9JVXLx/RIKX0c7ZQOG5nw==
-X-CSE-MsgGUID: 1dv9njJPTK6GDz8vZdSqAQ==
+   d="scan'208";a="15439253"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 07:13:01 -0700
+X-CSE-ConnectionGUID: L/KDT+eqS0C7agofXOHiUg==
+X-CSE-MsgGUID: +V223NW8S3C6Fq4nSjr71w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="41665141"
+   d="scan'208";a="45928171"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jun 2024 07:01:56 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jun 2024 07:12:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJZPF-0005Zt-1Z;
-	Tue, 18 Jun 2024 14:01:53 +0000
-Date: Tue, 18 Jun 2024 22:01:20 +0800
+	id 1sJZZt-0005aN-36;
+	Tue, 18 Jun 2024 14:12:53 +0000
+Date: Tue, 18 Jun 2024 22:12:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brandon Brnich <b-brnich@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y 4/39] arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb:
- video-codec@30210000: 'sram-size' does not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202406182118.Uww7ZRp4-lkp@intel.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Mehdi Djait <mehdi.djait.k@gmail.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] docs: iio: add documentation for adxl380 driver
+Message-ID: <202406182244.fOy7IrR8-lkp@intel.com>
+References: <20240618105150.38141-3-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,97 +76,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240618105150.38141-3-antoniu.miclaus@analog.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.=
-6.y
-head:   eeca5715c9a5b742423bd83ed587fac26268771c
-commit: b76af846b8e23e7fe05cb647587843371638b7a9 [4/39] arm64: dts: ti: k3-=
-am62p-main: SRAM Allocation for VPU
-config: arm64-randconfig-051-20240616 (https://download.01.org/0day-ci/arch=
-ive/20240618/202406182118.Uww7ZRp4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240618/202406182118.Uww7ZRp4-lkp@intel.com/reproduce)
+Hi Antoniu,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.10-rc4]
+[cannot apply to jic23-iio/togreg next-20240617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-accel-add-ADXL380-driver/20240618-194141
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240618105150.38141-3-antoniu.miclaus%40analog.com
+patch subject: [PATCH 3/3] docs: iio: add documentation for adxl380 driver
+reproduce: (https://download.01.org/0day-ci/archive/20240618/202406182244.fOy7IrR8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406182118.Uww7ZRp4-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406182244.fOy7IrR8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: 'interrupts' doe=
-s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: Unevaluated pro=
-perties are not allowed ('interrupt-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: {'compatible': =
-['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interru=
-pts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]=
-], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'=
-], 'pinctrl-0': [[18]], 'interrupts-extended': [[1, 0, 178, 4], [19, 456]],=
- 'interrupt-names': ['irq', 'wakeup'], 'bootph-all': True, 'phandle': [[116=
-]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['=
-interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: serial@2800000: {'compatible': =
-['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interru=
-pts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]=
-], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'=
-], 'pinctrl-0': [[18]], 'interrupts-extended': [[1, 0, 178, 4], [19, 456]],=
- 'interrupt-names': ['irq', 'wakeup'], 'bootph-all': True, 'phandle': [[116=
-]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['=
-interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: video-codec@30210000: 'sram-siz=
-e' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
---
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
-le: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
-m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
-scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
-6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
-e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
-ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
-t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
-', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
-ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
-k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
-qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
-'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
-io-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: compatible: 'one=
-Of' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: 'interrupts' doe=
-s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
-aml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: video-codec@30210000: 'sram-siz=
-e' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
- to match any schema with compatible: ['ti,am62p51-dss']
+All warnings (new ones prefixed by >>):
 
---=20
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>> Warning: Documentation/iio/adxl380.rst references a file that doesn't exist: Documentation/iio/iio_tools.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Using alabaster theme
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
