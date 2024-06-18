@@ -1,229 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2085.outbound.protection.outlook.com [40.107.113.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85136C8F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 01:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718672908; cv=none; b=uFcdoKDKecUBKLso4W7dr73Dyv6nzhccOkg4VxggWcqFIt+1dr1NzYX7R68EHb/+jhcHIj1A28TtGofNoN47SENrMQL9kz1ss6NZfM9X1OR11M/N0qKPkcDpr7kjCaVMQA7vAN8SKZHOH9AOiRd3LfjZ7d1fWFHeRiOG3rz6Sio=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718672908; c=relaxed/simple;
-	bh=dS5esjXfFNI3UiXP2jKde5U1Ifn9NAvclfAm559dwIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k2eO0JGvoIkHuNk6srIHav1RjSPPCaMJQ5BGz/3uzBhV+R/kbxv2gt9GLpG1OQdAp6a4WG9acZVW5PECTrFMraaVpKGhXvuVsvWPfeI4KkHXWybTdPjBjFsuyVF+MfN3gXStDsXXrzZP2I57Rm9IoqNg5U6ybFZLHLdHELDPKzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jdZNFtXC; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E914C6D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 01:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718672951; cv=fail; b=aPkHbR++3HhynhhvsQ4vw1I3Q/oe6k5ggSKD7zAoO9oQVZVgu1itVhJHp3Qi3etPXMrpQfmXOFo/qO6uWUfpROAMxi3Ij2oiM0dx64iagLCcNIvHvD54lPArlklkcq9sm6rDeG7jUqQRZM07Jxir9vwncSojelC7mPWzFhbJzNA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718672951; c=relaxed/simple;
+	bh=cr9KiXu9ojh80OxMNKeyRY2hRijgiPjpYUZUvZ9htBA=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=eYIftlsi0oXXPASeSGeBetBsUCSqss0YcI46ows2d8kacjUCKQeFWUYPbvMj112jceBLl33eEnkBzLopR4b6xaCXMnhDSTHDrbINFlQGWJFadR3JAPe7QIa5Nxf5NzibrHcpQfFatXcKaS+Mni9PXASHlbpJnqHN24ad5rFGMaI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=IGIWx4bG; arc=fail smtp.client-ip=40.107.113.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jdZNFtXC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718672907; x=1750208907;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dS5esjXfFNI3UiXP2jKde5U1Ifn9NAvclfAm559dwIw=;
-  b=jdZNFtXCrWvN0WdMwoOVprp7xVqbAzZCLympLUfcIpA419mgdqX7pWVE
-   GgAw1faqQ26MLc6eYyiPWU190Ared8/vw07RWE3fcI++75IUOep+kzvdC
-   E212tMW3CQSckM6gKmEmE5z3xow/gM1Sk1iRKpIxCVNI20egyzRkZCjeK
-   aOdnMnCL40TpxzA4pr2I7RsiCFqTjX6LROcEWEKbdr9CyZlwd/LmXKVRT
-   /XzH8bCT2DlrTdZshUTmu55xkEQswXrLQsVDBzpX/vhxBjdbuo7Sn5nmp
-   7OShbXG8eQfJFemuWzx8ntd5A1egMYIw1f80BOXFY+ghUWTsN6/gfAnyV
-   A==;
-X-CSE-ConnectionGUID: MkxZWaVhSTyTMD+dY5YKsA==
-X-CSE-MsgGUID: VpAqaJfmRReMFRKb9WJMMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="26939617"
-X-IronPort-AV: E=Sophos;i="6.08,246,1712646000"; 
-   d="scan'208";a="26939617"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 18:08:26 -0700
-X-CSE-ConnectionGUID: kc2BPfYhTjaj1CjVKw3gOQ==
-X-CSE-MsgGUID: dRzlPVyGToeRLFHCwNsNuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,246,1712646000"; 
-   d="scan'208";a="72123463"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Jun 2024 18:08:24 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJNKe-00054l-1q;
-	Tue, 18 Jun 2024 01:08:20 +0000
-Date: Tue, 18 Jun 2024 09:07:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, bingbu.cao@linux.intel.com,
-	dave.stevenson@raspberrypi.com, daxing.li@intel.com,
-	hao.yao@intel.com
-Subject: Re: [PATCH v3] media: i2c: Add ar0234 camera sensor driver
-Message-ID: <202406180807.dvu7E34U-lkp@intel.com>
-References: <20240614080941.3938212-1-dongcheng.yan@intel.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="IGIWx4bG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cLOfEsec6quQEkCpkJlAlcHSCZQJ1HWrzDPFwAQ9FQCiGJ7VtnMRAmtBjcUsGYFkyxCgsbPs4EFg+l9MUuU7XSQTwcwtZQuZfOIRQQuJFtO79ip+7hCfmw4w8UMmOhvq0NuWMkbOp2BSoHtplKrUBU3B7EKdA88Zm5kTvlyQVIaQqfuN2drlBvvoiHltszMEW9FzKaI63DHmBanmlVePNJ5mxBiy1anYVE8gBnYbbYG9BhupaPKk2qppEdZmFg6OD7lQKlkZ5umoy0RDqvEcSZGYWVcXX/j3L1z3h3fvmxkqSm3vWrbDiRAppS45tSX6b7DLx/uOGboW/nx0X/ampQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JxUIJM6sGzQ8lFjcCbIkCNg36bcQg8iYDbD7LUuu1v8=;
+ b=VbWoeVTOCLCL9AkviFHesmEobQP6jlZZaOC/rpEydWwMfNmgc5HvkKGWSseymgWBMXMiQcNla95xoM87XAFIldH3sRsw8RCqrjAbIvwUdDY0r9qkQV/ibPVviTAjaw+g2Ujze7YQdZNl8+M16mU6tKfGgezBtPXdHRPh1q+jp8famemO+39kE7gklhnFnQvCBPBrqu10EP9T+LWyvnc4gVdFp4XC0qkVWMIbPczG8JjW5uJqrX3TSR6Wc3xBXFK0ho3l308uRB/kzCJLPue2tU54AxxkN/MCyQNilcYLnHQWvsookCLP9CzGbuvTt3h4ud8LtEx+bntczWpZHn1bdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JxUIJM6sGzQ8lFjcCbIkCNg36bcQg8iYDbD7LUuu1v8=;
+ b=IGIWx4bGJq4l6ypvXfvYpVLxTG2Dv0vYXr5CdmT5rhzwm5DXl5ApjKOxrPHCuMY3vFl2i15OaSUufKWCew1a4A+DeD+tlp2oE157iMqv8B83oLNq6V1z+9kSVbycxNEFi9fJEoKkPy9QUrRa2gCvfNcmrDXdpW7CWhMt8WOmxbA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY3PR01MB12117.jpnprd01.prod.outlook.com
+ (2603:1096:400:3cf::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
+ 2024 01:09:05 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
+ 01:09:05 +0000
+Message-ID: <87a5jj3vm6.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Guo Ren <guoren@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [morimoto:renesas-bsp/v6.1.94-2024-06-17 52/661] drivers/iommu/ipmmu-vmsa.c:485:undefined reference to `free_io_pgtable_ops'
+In-Reply-To: <CAMuHMdXocnjMw67acsehOpZKXSrCE6ci1-Z3wgNQrBRH_TeTYQ@mail.gmail.com>
+References: <202406171924.M6q32pv6-lkp@intel.com>
+	<CAMuHMdXocnjMw67acsehOpZKXSrCE6ci1-Z3wgNQrBRH_TeTYQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 18 Jun 2024 01:09:05 +0000
+X-ClientProxiedBy: TYCP286CA0326.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3b7::10) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240614080941.3938212-1-dongcheng.yan@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB12117:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2740f93-f5db-4db1-eca3-08dc8f333fd0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230037|366013|52116011|376011|1800799021|38350700011;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?hbYJY61fmeexqqaBqxJUFSFUsRB7Sy2SdAdEQRVE2axbYEHlBzRgFi2UkPFs?=
+ =?us-ascii?Q?Brc7S2Yp7lpWMaeATWifU/CRWS2ycsJexOyqmOlD/Qik7bjYicMWG7CI6ZBC?=
+ =?us-ascii?Q?Aro9opwLXPklCPsUblT3DWsaLV9FVu1ZiJwm1jlvpsGo450f9EOXAJCnymax?=
+ =?us-ascii?Q?F1c3MIUxGJnKHQOMvPPGKjHVmCHC4T80ca8lk35boXE1ZTWC2QomXba0F0xC?=
+ =?us-ascii?Q?YsI4y4HO2nL9UUHUazNdqCK56vybbU0ghZlFgO+YPbrwNJTpqUUKJ+K/uxBq?=
+ =?us-ascii?Q?S846bjhBjeNkhHBtWQU/LlBGVFBtbvSg1vL/T5QIQdK+Kc0xbkEoAzZro5yb?=
+ =?us-ascii?Q?m9g9BJUWwGR2J0Nff+Zftf1pa1Ibca8sx5/aInop8/GAxZPd/acwRpPE6qdp?=
+ =?us-ascii?Q?bu9/NnrEZHYbJoSycYNfTTVDe3wc6HbGXNkUWrIxm/hOVxyKj2nDa5nnzr39?=
+ =?us-ascii?Q?8p5mQUxc/PDxjj1N9nKiS1brHhGPh0aU5p9vg39GsvA2Y8Bq8kX0QNyzdHCN?=
+ =?us-ascii?Q?+Fn/cXTBYjqwQKWKkysEILICXYhypryQYq3K13PpGhzr5SXFV1wWBdxZSAm9?=
+ =?us-ascii?Q?WAnENKa8WGFTKtVhLxxqRXMj3RSUJ0fdAMMjBPjJZaUGeuNn76W61F7n1CwL?=
+ =?us-ascii?Q?e5uKkEcAn0XVCvdbSNJ/s6cg58r0ANYku7cu2NzXkL2n22ADIxLmB0mJuvsT?=
+ =?us-ascii?Q?5MoRYynPVsWSHMcCMfQHRnZdoRoOBrbzDGrO7AoLiypTCGy4duwBuVYKgQc0?=
+ =?us-ascii?Q?nmb2v1ukxlgHkVI761XNamAeJ2T/QiSFr8bz+aelP8g5XbnpCn1OXt6vjLmi?=
+ =?us-ascii?Q?1Odc5VPDcC0EIbwSLXTNTE42/YFJk5WaJJTNzfGLd9cXvNUlkeZZWtudRLbL?=
+ =?us-ascii?Q?a2VE0J3AtQ5PA4Yfqw8DPgdPjIUckd0Mw0SGuGP9ZWx939tLeftrKpMxHjBu?=
+ =?us-ascii?Q?EXXRHKR4flHq7Mp37Lg+UYKZPCkH61QGV8q8Uy/qyTVHhrc6+7e40ReaRHEF?=
+ =?us-ascii?Q?/GJeI/8SYer+4TAskzmrSt489Z9pMirvjMWjzFgv3P781uVpSiQ2Aase0g6a?=
+ =?us-ascii?Q?fqYVxkm02FiynmHNCuj2q+e/3ukGhTfL7anUVIucJ0XCSSdKJnC822hUk7YD?=
+ =?us-ascii?Q?KRoMupYvC+jSHmRpS/eCtgbsp1ZGhU+fm+Htqata/2NK7nyA3FXuTQCvQ9I2?=
+ =?us-ascii?Q?ahgB4ZCWRCTuIOZnFByX33S3E06930FyM75HgNTg06lelWYGb/VeofvznbUi?=
+ =?us-ascii?Q?E1VG7ZiSdSSK2TUJ/xsMISaY4HA/SLS9bkY0gWLuDzMao5JSUmvIX8zVjDSU?=
+ =?us-ascii?Q?usj0/5JPbk2/IT+bP6QmTh+7UZjJMA14CCpbuIk98bMH3qgrIYPfVH+e0sjS?=
+ =?us-ascii?Q?DZePNLc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(52116011)(376011)(1800799021)(38350700011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?kCbaMen8ZaMSlJ/QdnZA9/zNdqG6e6m6RBUOCknBNc77/33ovaVXfc7gfMBT?=
+ =?us-ascii?Q?w0yEQGQ8EsiFURAM3/URLSUsvyucb3vBHxniZyuT9buol9l/j26AozEgFeje?=
+ =?us-ascii?Q?/wfY7rZjvs/ciGJicD114t+j724TlPsx2Hragbsu50JB6ibW4D5CRHlaSiip?=
+ =?us-ascii?Q?G7jozFjygxh1aoNrkFkfBUt1V2qMwkfJX6XilsgrhvIVfGCdZk6H7/sA6lgO?=
+ =?us-ascii?Q?+bPCNW3D8TXbmLA6FzUB/rciVwJtlDQtXP2TKanSjGj+ATJgdKM+fk5uxS/2?=
+ =?us-ascii?Q?1IzHtiSHwfZkOuatu7BJ0N6Cpv8f9j1w3N4ehaF+HwCRG2czjPhedmazznvE?=
+ =?us-ascii?Q?xi+j4sDd8R5CPpb7vXMm8y+aBosN1GbUbn3bHdiEhEOzaNo79xK/5xlDUtIb?=
+ =?us-ascii?Q?VH3V+r9qMdCJRcRsdvl6eK3htUuQOmSi3Byykj4ONPLfKePHE1xJSXipqZVa?=
+ =?us-ascii?Q?n36fZTHbm5aj1ttYPDJxP5ZI1mC6LJ8M+BXlEncmz/W52Ig1ifzTukqFFF8j?=
+ =?us-ascii?Q?s8YWu/PN+dVNf1RSgmzLwiSvc5b9HzCYHOKevj/BfjxZmPYl3RhkLS9qPwel?=
+ =?us-ascii?Q?mUFKK2QS8HcagOVO1k/jNzoMkQAO+L+AhzRHRzYORYKQYkKzogabkrtC3IZw?=
+ =?us-ascii?Q?d/dqXrZ4exHwbhpU1pEA9CgZWnOcDVvQ/uoYcHT1mEjUTOZ6EynLIJSBTebC?=
+ =?us-ascii?Q?vnOReEip78qR/lmesjkUc+h7uW3lBt6ajzMy2M8XyZh99pmQx8Qvkj+7wtGy?=
+ =?us-ascii?Q?N2ZEIDtEdjR94812FYWauVWLu6vNjqSWINApJhmEHHNkfZPzjcyhLeDvpf0U?=
+ =?us-ascii?Q?My3aCvSjBB8NSNi5jKbBdASeVcsaJV52t2XTXSiQaxAXXb7SgU00TQZYGlzN?=
+ =?us-ascii?Q?D83re61w8gU1xqLrUGR+uRC5PomHPG8iLeXoXNogX19wd4EM3bPHw7MC9C/G?=
+ =?us-ascii?Q?LXj+pTHSTAcJISxKlGfEBeEtcP85W2sKmzrUHKw2Kjy1LUJFru/B6Ng6Yjzv?=
+ =?us-ascii?Q?LHkyV4CtjlP2iBkdANT3WO0w/va3CGxX0GyILDCbPuqSyWE5yRYlEr0I2tjb?=
+ =?us-ascii?Q?Lfca8TuE7twB1PPc+MLgF6ngnxXP+pd3/kC5ZPQC73ErEz5HCkcY3ZHb+m2G?=
+ =?us-ascii?Q?uhi05d2L0xovY923z6Zw+YJaLnvxAOtzMp0EM60kWQCSH7/IHaM2Ho6Mh34C?=
+ =?us-ascii?Q?tk3K5K9i6eiXkdLD/kRC5uKXSGKkagTp04gD8V3W3lMi2RDTi6HNTYlmbKGU?=
+ =?us-ascii?Q?PvPWRfXDXHqem0RQr6Ojeuq6VFzYMpkPCVBwduc3lfXbcw3sroRX0kEB56D3?=
+ =?us-ascii?Q?pdr/rFRyYmpyQZ1ay6iNqLwhcnf0rCyE5rOoDjBIGU+S8pvf8zQJIKXQFY2A?=
+ =?us-ascii?Q?p6pNS8S1UDsiEMb0+w532HjH26m4MpXoBChXvLsZF40oGk0h1MfLQcyVUT0k?=
+ =?us-ascii?Q?+2uvkGVQ9LXPACF4cemi6JokESAZFY2RSmi30XPSECYv8Vgx5Bt/pBLDap4x?=
+ =?us-ascii?Q?6PwEHZ49VC2UO9W0UOLZwlw9DvHlcEQxDbSogN9EEluEd1tkHO/SyzjTCIoD?=
+ =?us-ascii?Q?EeRJ4F9ea4iWUbND+ZYM0Wn9PlifVUR5iuBsb6Y2e/InE0Jda48cE8OXOKyC?=
+ =?us-ascii?Q?oq0id2UecC7sWxSnVtl9OO4=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2740f93-f5db-4db1-eca3-08dc8f333fd0
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 01:09:05.7647
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FCXNXCvOvHGgwHqrjpmgpu9rI7c0q5pnrRNgsfI86QstUhdH3kJ5g+7IkoYoOVM7mb7YLBOd548C7O+3y9z2c9pFm7XFX0eNb1d1rlW9LpNFFjQPoNtKa6Wi0euny9EI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB12117
 
-Hi Dongcheng,
 
-kernel test robot noticed the following build errors:
+Hi Geert
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on sailus-media-tree/master linuxtv-media-stage/master linus/master v6.10-rc4 next-20240617]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > Kconfig warnings: (for reference only)
+> >    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+> >    Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
+> >    Selected by [y]:
+> >    - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
+> 
+> Missing backport of commit e332003bb216a9f9 ("iommu: Make IPMMU_VMSA
+> dependencies more strict").
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-Add-ar0234-camera-sensor-driver/20240614-161208
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240614080941.3938212-1-dongcheng.yan%40intel.com
-patch subject: [PATCH v3] media: i2c: Add ar0234 camera sensor driver
-config: powerpc64-randconfig-r064-20240618 (https://download.01.org/0day-ci/archive/20240618/202406180807.dvu7E34U-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406180807.dvu7E34U-lkp@intel.com/reproduce)
+Thanks !
+I have backported it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406180807.dvu7E34U-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/media/i2c/ar0234.c:508:3: error: expected expression
-                   u64 reg;
-                   ^
->> drivers/media/i2c/ar0234.c:511:12: error: use of undeclared identifier 'reg'; did you mean 'ret'?
-                                  &reg, NULL);
-                                   ^~~
-                                   ret
-   drivers/media/i2c/ar0234.c:464:6: note: 'ret' declared here
-           int ret;
-               ^
-   drivers/media/i2c/ar0234.c:515:3: error: use of undeclared identifier 'reg'; did you mean 'ret'?
-                   reg &= ~(AR0234_ORIENTATION_HFLIP |
-                   ^~~
-                   ret
-   drivers/media/i2c/ar0234.c:464:6: note: 'ret' declared here
-           int ret;
-               ^
-   drivers/media/i2c/ar0234.c:518:4: error: use of undeclared identifier 'reg'; did you mean 'ret'?
-                           reg |= AR0234_ORIENTATION_HFLIP;
-                           ^~~
-                           ret
-   drivers/media/i2c/ar0234.c:464:6: note: 'ret' declared here
-           int ret;
-               ^
-   drivers/media/i2c/ar0234.c:520:4: error: use of undeclared identifier 'reg'; did you mean 'ret'?
-                           reg |= AR0234_ORIENTATION_VFLIP;
-                           ^~~
-                           ret
-   drivers/media/i2c/ar0234.c:464:6: note: 'ret' declared here
-           int ret;
-               ^
-   drivers/media/i2c/ar0234.c:523:5: error: use of undeclared identifier 'reg'; did you mean 'ret'?
-                                   reg, NULL);
-                                   ^~~
-                                   ret
-   drivers/media/i2c/ar0234.c:464:6: note: 'ret' declared here
-           int ret;
-               ^
-   6 errors generated.
-
-
-vim +508 drivers/media/i2c/ar0234.c
-
-   455	
-   456	static int ar0234_set_ctrl(struct v4l2_ctrl *ctrl)
-   457	{
-   458		struct ar0234 *ar0234 =
-   459			container_of(ctrl->handler, struct ar0234, ctrl_handler);
-   460		struct i2c_client *client = v4l2_get_subdevdata(&ar0234->sd);
-   461		s64 exposure_max, exposure_def;
-   462		struct v4l2_subdev_state *state;
-   463		const struct v4l2_mbus_framefmt *format;
-   464		int ret;
-   465	
-   466		state = v4l2_subdev_get_locked_active_state(&ar0234->sd);
-   467		format = v4l2_subdev_state_get_format(state, 0);
-   468	
-   469		/* Propagate change of current control to all related controls */
-   470		if (ctrl->id == V4L2_CID_VBLANK) {
-   471			/* Update max exposure while meeting expected vblanking */
-   472			exposure_max = format->height + ctrl->val -
-   473				       AR0234_EXPOSURE_MAX_MARGIN;
-   474			exposure_def = format->height - AR0234_EXPOSURE_MAX_MARGIN;
-   475			__v4l2_ctrl_modify_range(ar0234->exposure,
-   476						 ar0234->exposure->minimum,
-   477						 exposure_max, ar0234->exposure->step,
-   478						 exposure_def);
-   479		}
-   480	
-   481		/* V4L2 controls values will be applied only when power is already up */
-   482		if (!pm_runtime_get_if_in_use(&client->dev))
-   483			return 0;
-   484	
-   485		switch (ctrl->id) {
-   486		case V4L2_CID_ANALOGUE_GAIN:
-   487			ret = cci_write(ar0234->regmap, AR0234_REG_ANALOG_GAIN,
-   488					ctrl->val, NULL);
-   489			break;
-   490	
-   491		case V4L2_CID_DIGITAL_GAIN:
-   492			ret = cci_write(ar0234->regmap, AR0234_REG_GLOBAL_GAIN,
-   493					ctrl->val, NULL);
-   494			break;
-   495	
-   496		case V4L2_CID_EXPOSURE:
-   497			ret = cci_write(ar0234->regmap, AR0234_REG_EXPOSURE,
-   498					ctrl->val, NULL);
-   499			break;
-   500	
-   501		case V4L2_CID_VBLANK:
-   502			ret = cci_write(ar0234->regmap, AR0234_REG_VTS,
-   503					ar0234->cur_mode->height + ctrl->val, NULL);
-   504			break;
-   505	
-   506		case V4L2_CID_HFLIP:
-   507		case V4L2_CID_VFLIP:
- > 508			u64 reg;
-   509	
-   510			ret = cci_read(ar0234->regmap, AR0234_REG_ORIENTATION,
- > 511				       &reg, NULL);
-   512			if (ret)
-   513				break;
-   514	
-   515			reg &= ~(AR0234_ORIENTATION_HFLIP |
-   516				 AR0234_ORIENTATION_VFLIP);
-   517			if (ar0234->hflip->val)
-   518				reg |= AR0234_ORIENTATION_HFLIP;
-   519			if (ar0234->vflip->val)
-   520				reg |= AR0234_ORIENTATION_VFLIP;
-   521	
-   522			ret = cci_write(ar0234->regmap, AR0234_REG_ORIENTATION,
-   523					reg, NULL);
-   524			break;
-   525	
-   526		case V4L2_CID_TEST_PATTERN:
-   527			ret = cci_write(ar0234->regmap, AR0234_REG_TEST_PATTERN,
-   528					ar0234_test_pattern_val[ctrl->val], NULL);
-   529			break;
-   530	
-   531		default:
-   532			ret = -EINVAL;
-   533			break;
-   534		}
-   535	
-   536		pm_runtime_put(&client->dev);
-   537	
-   538		return ret;
-   539	}
-   540	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you for your help !!
+Best regards
+---
+Kuninori Morimoto
