@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AB543165
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 06:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171C1D9527
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 06:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718692302; cv=none; b=iHgpbtJMyfOtyHllizGIIO0B7dbREb/fkIwABr3flSu+kMT1ovuxvXoiIQIJf6kBjDJxYrKYoSSLmWXhYdjcfiVFjM2tL3+StJyAfTmExLSOWZb/U/eNP0Y4pdExHz0ID7CxDZWVXGHqC2quEVK8XMAsNM/AlbZ1nTd1c41Fga0=
+	t=1718692303; cv=none; b=GMpHE0VFGKGtIRHUwi7P2UZZ86u8t1ZiNtbJwuPRWX/KlcPNRDxm3cusbWjK0WfHOnxoIsiDHVZol622VYaHTa+e6txi2YnkTkob60Hs15liD6+Y7CKA5s3fzE4YIzGDW0VuLchULfsS1OXCD/trSHyeZgafUZzfzrg6S48bg+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718692302; c=relaxed/simple;
-	bh=p8O9Jwkx8+GAXoI8bhTSOZIxgTdtERpQR7OR2KsP17M=;
+	s=arc-20240116; t=1718692303; c=relaxed/simple;
+	bh=+9BEmFLvkHp1rrmOVr1+O2tVPl9qginM3D5upIuNXvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VcGGFnfiJbOqEkoNCmbgYbtYT6g55EWjcUa9jUBruW44ji9PM8EjN431YSM+goXcNzfeRMlnEWcrETx2f4HJG3HQmY2ZA5Y/98J8WSBJmhAnTmLgAfyBaiy/z/XumtglGGJggBKYRiUmTV5twItB79Jqi30uHS2sxlDHYa8HIIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAVKQHF6; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=ujF0JT/F026fx1teCoHaW6CsDnpvzbVLs7Z74vciANmGU5EH/omPoqPvFcDKSL4ptJEWnLUTxctnuN/sL5SWitYsZa0Wre4x2BAQABMeaxaWeiu2ptgI7yhAre613ROUp+2CxfRHRjsnI9PNmw00fdZJ+1Buk2U0PETGGn2/Og0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZ3rzwIe; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAVKQHF6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZ3rzwIe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718692301; x=1750228301;
+  t=1718692299; x=1750228299;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p8O9Jwkx8+GAXoI8bhTSOZIxgTdtERpQR7OR2KsP17M=;
-  b=nAVKQHF6llpv1Ff65uE7nziDg7MC+hNG+WSTBHx1Mqlc1yezgCYlshWT
-   UlmKZNEgfn98NYwJsXx4OsKrEBhUN8NmXcqkxO1OvIQwIC2YE18hZLpGi
-   Ts3WNWOY733tg5q23vbWaWXAWegGBRQ4s4lMQMXcIv5HKtEOQTytlJNcH
-   DhgRupGpz/pfvaJwg/w7VGTzS7vEg/vreWhh3bGD3Kak/vfp3t7oKXyRH
-   XwNDGjutWpew1zjnCUcKJutqNlTiocZrNC9yEFyL2AySSI2yXHyYe5Blf
-   m5zOZa7wwRMzFVMDo/wENQG8ZZ0RG+IF2jo9bDIq/Y0mrwMLF5lyWXRQz
+  bh=+9BEmFLvkHp1rrmOVr1+O2tVPl9qginM3D5upIuNXvs=;
+  b=WZ3rzwIeR7DPyIEFJkDKjcCaCjVvRKzHb1qajZ+t5/5o4/ab+c5RCLRS
+   u03dHQwv4WkV22hdrFU8lu0jBe7fYsBjByFL5Wxh9Oy/EnPn9No3tmcCM
+   g+EwGk+NTsTFgfMOyk5g7pyGGUwGHm9pIClzv++426udfu8eoR8GsExoT
+   8ASVvuDYSd3BFIkzJ9co8psqAYpbYWSDU1JTs3t9VHlzPYODfDAvzyc1F
+   bA+aVH1InN5VoH3MMj06Yuz+3dQBrnl6KGWSUfpnIPVzO1i7qFDjDkYx3
+   KyrXSv5X0MNEJptvKRffVdp1nLIwVyUACS11zLFZ/R88lYckwEM+PN5L1
    Q==;
-X-CSE-ConnectionGUID: XGvxTjr8R5OrqQuG8Xo5nQ==
-X-CSE-MsgGUID: WrfFW7p+Rbmbai4KLC03Pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15419527"
+X-CSE-ConnectionGUID: k4tke4suTWCjlNp1k6No2w==
+X-CSE-MsgGUID: 81CCjnybTMCbDMIos0uRcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="26177568"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="15419527"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 23:31:38 -0700
-X-CSE-ConnectionGUID: s+P/mnA+S7qXdMmQMGk3wA==
-X-CSE-MsgGUID: whedfBPjTsOdUz/xSaWkYw==
+   d="scan'208";a="26177568"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 23:31:38 -0700
+X-CSE-ConnectionGUID: bmkPsbdMT6+VAOG0yVQzfQ==
+X-CSE-MsgGUID: ueux+ytFT2S3WM+13A7jyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="42144588"
+   d="scan'208";a="41537141"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Jun 2024 23:31:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jun 2024 23:31:37 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJSNS-0005Gw-1q;
+	id 1sJSNS-0005Gr-1K;
 	Tue, 18 Jun 2024 06:31:34 +0000
-Date: Tue, 18 Jun 2024 14:30:43 +0800
+Date: Tue, 18 Jun 2024 14:30:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/2] mm/vmscan.c:6575:53: error:
- 'struct scan_control' has no member named 'android_vendor_data1'
-Message-ID: <202406181635.F7vzsyPJ-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Shawn Guo <shawnguo@kernel.org>
+Subject: [shawnguo:imx/dt64 49/54]
+ arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/mmc@1560000: failed
+ to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+Message-ID: <202406181422.ek55MsQ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,107 +64,659 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   7ee86e5b15bf7d3e3970570ab1886afb42b898e0
-commit: 047f3eded89ec3a0095877a7b4c4f79d52c55289 [1/2] ANDROID: mm: create vendor hooks for memory reclaim
-config: i386-randconfig-141-20240618 (https://download.01.org/0day-ci/archive/20240618/202406181635.F7vzsyPJ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406181635.F7vzsyPJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt64
+head:   0565d20cd8c22e44ca42937be08bfc0349e31521
+commit: caed3b59419989b624566cdfcc2049bb1d435b70 [49/54] arm64: dts: layerscape: Change node name from 'esdhc' to 'mmc'
+config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240618/202406181422.ek55MsQ8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240618/202406181422.ek55MsQ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406181635.F7vzsyPJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406181422.ek55MsQ8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
-   mm/vmscan.c: In function 'should_continue_reclaim':
->> mm/vmscan.c:6575:53: error: 'struct scan_control' has no member named 'android_vendor_data1'
-    6575 |         trace_android_vh_should_continue_reclaim(&sc->android_vendor_data1,
-         |                                                     ^~
-   mm/vmscan.c: In function 'modify_scan_control':
-   mm/vmscan.c:6936:49: error: 'struct scan_control' has no member named 'android_vendor_data1'
-    6936 |         trace_android_vh_modify_scan_control(&sc->android_vendor_data1,
-         |                                                 ^~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-
-
-vim +6575 mm/vmscan.c
-
-  6517	
-  6518	/*
-  6519	 * Reclaim/compaction is used for high-order allocation requests. It reclaims
-  6520	 * order-0 pages before compacting the zone. should_continue_reclaim() returns
-  6521	 * true if more pages should be reclaimed such that when the page allocator
-  6522	 * calls try_to_compact_pages() that it will have enough free pages to succeed.
-  6523	 * It will give up earlier than that if there is difficulty reclaiming pages.
-  6524	 */
-  6525	static inline bool should_continue_reclaim(struct pglist_data *pgdat,
-  6526						unsigned long nr_reclaimed,
-  6527						struct scan_control *sc)
-  6528	{
-  6529		unsigned long pages_for_compaction;
-  6530		unsigned long inactive_lru_pages;
-  6531		int z;
-  6532		bool continue_reclaim = true;
-  6533	
-  6534		/* If not in reclaim/compaction mode, stop */
-  6535		if (!in_reclaim_compaction(sc))
-  6536			return false;
-  6537	
-  6538		/*
-  6539		 * Stop if we failed to reclaim any pages from the last SWAP_CLUSTER_MAX
-  6540		 * number of pages that were scanned. This will return to the caller
-  6541		 * with the risk reclaim/compaction and the resulting allocation attempt
-  6542		 * fails. In the past we have tried harder for __GFP_RETRY_MAYFAIL
-  6543		 * allocations through requiring that the full LRU list has been scanned
-  6544		 * first, by assuming that zero delta of sc->nr_scanned means full LRU
-  6545		 * scan, but that approximation was wrong, and there were corner cases
-  6546		 * where always a non-zero amount of pages were scanned.
-  6547		 */
-  6548		if (!nr_reclaimed)
-  6549			return false;
-  6550	
-  6551		/* If compaction would go ahead or the allocation would succeed, stop */
-  6552		for (z = 0; z <= sc->reclaim_idx; z++) {
-  6553			struct zone *zone = &pgdat->node_zones[z];
-  6554			if (!managed_zone(zone))
-  6555				continue;
-  6556	
-  6557			/* Allocation can already succeed, nothing to do */
-  6558			if (zone_watermark_ok(zone, sc->order, min_wmark_pages(zone),
-  6559					      sc->reclaim_idx, 0))
-  6560				return false;
-  6561	
-  6562			if (compaction_suitable(zone, sc->order, sc->reclaim_idx))
-  6563				return false;
-  6564		}
-  6565	
-  6566		/*
-  6567		 * If we have not reclaimed enough pages for compaction and the
-  6568		 * inactive lists are large enough, continue reclaiming
-  6569		 */
-  6570		pages_for_compaction = compact_gap(sc->order);
-  6571		inactive_lru_pages = node_page_state(pgdat, NR_INACTIVE_FILE);
-  6572		if (can_reclaim_anon_pages(NULL, pgdat->node_id, sc))
-  6573			inactive_lru_pages += node_page_state(pgdat, NR_INACTIVE_ANON);
-  6574	
-> 6575		trace_android_vh_should_continue_reclaim(&sc->android_vendor_data1,
-  6576			&sc->nr_to_reclaim, &sc->nr_reclaimed, &continue_reclaim);
-  6577		if (!continue_reclaim)
-  6578			return false;
-  6579	
-  6580		return inactive_lru_pages > pages_for_compaction;
-  6581	}
-  6582	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: serial@0: Unevaluated properties are not allowed ('clock-sc16is7xx' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/nxp,sc16is7xx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-frwy.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/spi@2100000/flash@2: failed to match any schema with compatible: ['en25s64', 'jedec,spi-nor']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/mmc@1580000: failed to match any schema with compatible: ['fsl,ls1012a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: crypto@1700000: rtic@60000:reg: [[393216, 256], [396800, 24]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1012a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1012a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1012a-rdb.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@20:reg:0:0: 32 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@40:reg:0:0: 64 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@60:reg:0:0: 96 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@80:reg:0:0: 128 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: mdio-mux-emi1@54: mdio@a0:reg:0:0: 160 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1043a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1043a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: bman-portals@508000000: $nodename:0: 'bman-portals@508000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@0: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@10000: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@20000: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/bman-portals@508000000/bman-portal@30000: failed to match any schema with compatible: ['fsl,bman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1043a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/memory-controller@1530000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1043ardb-cpld']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1043a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1043a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: bman-portals@508000000: $nodename:0: 'bman-portals@508000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@0: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@10000: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@20000: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/bman-portals@508000000/bman-portal@30000: failed to match any schema with compatible: ['fsl,bman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a.dtsi:17.19-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1550000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/clocking@1ee1000: failed to match any schema with compatible: ['fsl,ls1043a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1043a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1043a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: bman-portals@508000000: $nodename:0: 'bman-portals@508000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@0: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@10000: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@20000: failed to match any schema with compatible: ['fsl,bman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/bman-portals@508000000/bman-portal@30000: failed to match any schema with compatible: ['fsl,bman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/memory-controller@1530000/nand@0,0: failed to match any schema with compatible: ['fsl,ifc-nand']
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-frwy.dtb: /soc/qman-portals@500000000/qman-portal@50000: failed to match any schema with compatible: ['fsl,qman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1046aqds-fpga', 'fsl,fpga-qixis', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1046aqds-fpga', 'fsl,fpga-qixis', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@1:reg:0:0: 32 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@2:reg:0:0: 64 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@3:reg:0:0: 96 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: mdio-mux-emi1: mdio@5:reg:0:0: 128 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-qds.dtb: /soc/qman-portals@500000000/qman-portal@50000: failed to match any schema with compatible: ['fsl,qman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/memory-controller@1530000/nand@0,0: failed to match any schema with compatible: ['fsl,ifc-nand']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1046ardb-cpld']
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-rdb.dtb: /soc/qman-portals@500000000/qman-portal@50000: failed to match any schema with compatible: ['fsl,qman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a.dtsi:17.19-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1550000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: thermal-zones: 'core-cluster', 'ddr-controller', 'fman', 'sec', 'serdes' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/mmc@1560000: failed to match any schema with compatible: ['fsl,ls1046a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman@1880000: failed to match any schema with compatible: ['fsl,qman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/bman@1890000: failed to match any schema with compatible: ['fsl,bman']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: qman-portals@500000000: $nodename:0: 'qman-portals@500000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@0: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@30000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@40000: failed to match any schema with compatible: ['fsl,qman-portal']
+   arch/arm64/boot/dts/freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb: /soc/qman-portals@500000000/qman-portal@50000: failed to match any schema with compatible: ['fsl,qman-portal']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/memory-controller@2240000/nand@2,0: failed to match any schema with compatible: ['fsl,ifc-nand']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/memory-controller@2240000/board-control@3,0: failed to match any schema with compatible: ['fsl,ls1088aqds-fpga', 'fsl,fpga-qixis']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/memory-controller@2240000/board-control@3,0: failed to match any schema with compatible: ['fsl,ls1088aqds-fpga', 'fsl,fpga-qixis']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-qds.dtb: /soc/pcie-ep@3600000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/memory-controller@2240000/nand@0,0: failed to match any schema with compatible: ['fsl,ifc-nand']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/memory-controller@2240000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1088ardb-fpga', 'fsl,fpga-qixis']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/memory-controller@2240000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1088ardb-fpga', 'fsl,fpga-qixis']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-rdb.dtb: /soc/pcie-ep@3600000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: gpio@76: 'admin_led_lower' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: admin_led_lower: $nodename:0: 'admin_led_lower' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: flash@0: partitions: Unevaluated properties are not allowed ('partition@5C0000' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: flash@0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'partitions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-ten64.dtb: /soc/pcie-ep@3600000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1088a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1088a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1088a-gpio', 'fsl,qoriq-gpio']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1088a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls1088a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: pcie-ep@3400000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/pcie-ep@3400000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: pcie-ep@3500000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/pcie-ep@3500000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: pcie-ep@3600000: compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb: /soc/pcie-ep@3600000: failed to match any schema with compatible: ['fsl,ls1088a-pcie-ep', 'fsl,ls-pcie-ep']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+--
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+--
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/sata@3200000: failed to match any schema with compatible: ['fsl,ls2080a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb: /soc/sata@3210000: failed to match any schema with compatible: ['fsl,ls2080a-ahci']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb: pcie@3400000: compatible: ['fsl,ls2080a-pcie', 'fsl,ls2085a-pcie'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
+--
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+--
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c2b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c2f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c33000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c37000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c3b000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c3f000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mdio@8c43000: failed to match any schema with compatible: ['fsl,fman-memac-mdio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/fsl-mc@80c000000: failed to match any schema with compatible: ['fsl,qoriq-mc']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls2080a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls2080a-gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/syscon@1f70000: failed to match any schema with compatible: ['fsl,lx2160a-isc', 'syscon']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/i2c@2000000/i2c-mux@77/i2c@7/i2c-mux@75/i2c@0/spi@28: failed to match any schema with compatible: ['nxp,sc18is602b']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/syscon@1f70000: failed to match any schema with compatible: ['fsl,lx2160a-isc', 'syscon']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/i2c@2000000/i2c-mux@77/i2c@7/i2c-mux@75/i2c@0/spi@28: failed to match any schema with compatible: ['nxp,sc18is602b']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+--
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: fan-temperature-ctrlr@18: '#cooling-cells', 'cooling-max-state', 'cooling-min-state' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/i2c@2000000/i2c-mux@77/i2c@2/regulator@5c: failed to match any schema with compatible: ['lltc,ltc3882']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+--
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: fan-temperature-ctrlr@18: '#cooling-cells', 'cooling-max-state', 'cooling-min-state' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/i2c@2000000/i2c-mux@77/i2c@2/regulator@5c: failed to match any schema with compatible: ['lltc,ltc3882']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,lx2160aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,lx2160aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,lx2160a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/syscon@1f70000: failed to match any schema with compatible: ['fsl,lx2160a-isc', 'syscon']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: can@2180000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: can@2190000: 'can-transceiver' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/can/fsl,flexcan.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,lx2160a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/syscon@1f70000: failed to match any schema with compatible: ['fsl,lx2160a-isc', 'syscon']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,lx2160aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,lx2160aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+--
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,lx2160a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/syscon@1f70000: failed to match any schema with compatible: ['fsl,lx2160a-isc', 'syscon']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: interrupt-controller@14: interrupt-map: [[0, 0, 1, 0, 0, 4, 1, 0], [1, 0, 1, 4, 2, 0, 1, 0], [2, 4, 3, 0, 1, 0, 3, 4], [4, 0, 1, 0, 4, 4, 5, 0], [1, 0, 5, 4, 6, 0, 1, 0], [6, 4, 7, 0, 1, 0, 7, 4], [8, 0, 1, 0, 8, 4, 9, 0], [1, 0, 9, 4, 10, 0, 1, 0], [10, 4, 11, 0, 1, 0, 11, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,ls-extirq.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/spi@2120000: failed to match any schema with compatible: ['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls2080a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: power-controller@1e34040: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: /soc/power-controller@1e34040: failed to match any schema with compatible: ['fsl,lx2160a-rcpm', 'fsl,qoriq-rcpm-2.1+']
 
 -- 
 0-DAY CI Kernel Test Service
