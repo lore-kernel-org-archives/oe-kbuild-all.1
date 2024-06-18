@@ -1,77 +1,112 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5DD2139C1;
-	Tue, 18 Jun 2024 14:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178932139AF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 14:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718722050; cv=none; b=ULBw8YYt3pmftiRH9XytWXfdtpjw+1TKnm7K6tK2rIvYnDGknWP5F9QGIcYFP5JCsi4UdWFuaC/H32NkHe/CdvSnVJN9Pdof0lNhXhzVCRG3FJcfwEZv19daK3EMMNhno45ofTYjUFB21dyXK2WYJBNyZORqnk6dJ/0xrfMuE8A=
+	t=1718722173; cv=none; b=shn7HE4SGVm2wxEuusGgcp5trylRBrVt1Gxs9DoGC17qHfJ54QGky7y5gejhZYGzbY0loVl09iqr3uSs0oXoRXm6VXBXY5mAHiC6908ho+o3PAkaXrucATWIyELfJF/StFTmQWj2vNozzeYwL72tTqAy8ynBPKSR2cz0avRRKdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718722050; c=relaxed/simple;
-	bh=myu6xZvuOueiOeI/zuBpHoigAXpFoMmCHfmmMU2esHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MWHKZkn/aL5AXPOamQ5Duc/lWqoiSQzWG22b8aXABoqI4otXDPFXuCFA38glyCLF4OUnbfa6nan7X7eeQCsHQFCyZiVVU2wORUwRejV1g7Gnh+hR4hoXJYRD6f3G8i66lEAxphlGF7J57iha7epku5+KLBRWwnBK0fYNudmjjGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hxlk5Xnt; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718722173; c=relaxed/simple;
+	bh=C9hqSTGvMVbL0dDjMjl6s/vq07dKxRgXZkPRd3ns2YE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sL8SwzGqGUYikW1PYrNRVcNWc6r6pGsTiu9ZQ5VGPU4K6LMVzdoaxhjetxVyM7/vwAJEePPG1ukYUDPOBfZ1QZ88IJgOC9FQdV0w2Ew72moktjQiTg1v3f+fHlK5dWo0u3qXx9iUxC1G+7SREZmNQaGk8dpm1btc1WBAMZlwSqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDZdR1Qo; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hxlk5Xnt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=OtT3nVi9iMcyV1QuTZeqb4wNAUsd0ByuA1faKCP5kQU=; b=hxlk5Xnt9tliDr6NBa2dxOeael
-	XHxh4CnBhElen4Xxx47JR8TxIUDiNd8t+XrEWc1XYtPx+hoCnGAgdXY5qHwvBEWO//rpvwGg8t4CI
-	xr6mSgAXsJCckOgdh/yEDgLptZ1i5qUxZBF5psZvx+6uQzaZnTNhLNrH2dWXGOWadwF3dlCZfrW59
-	00r301h9v4+LRhYx2TeJ7OAl1mg6/UI0JQatdW4hi2vkgBAv7VgSdTo2LH2Gta3qeTNh45JKG1U6X
-	UTYI16Lt7gkdtYLQjxCUKx1ms27GgePBoXkHOnw3FbpNPYlIwEShAyH5/Sp/7uQ2D4YLfOV89dW45
-	1KvUDjrw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJa7J-00000003SfV-1AlH;
-	Tue, 18 Jun 2024 14:47:25 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 62E90300886; Tue, 18 Jun 2024 16:47:24 +0200 (CEST)
-Date: Tue, 18 Jun 2024 16:47:24 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Borislav Petkov <bp@alien8.de>, kernel test robot <lkp@intel.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [tip:x86/alternatives 14/14] arch/x86/kvm/kvm.o: warning:
- objtool: .altinstr_replacement+0xc5: call without frame pointer save/setup
-Message-ID: <20240618144724.GG31592@noisy.programming.kicks-ass.net>
-References: <202406141648.jO9qNGLa-lkp@intel.com>
- <20240614152228.GAZmxgNPmozj7UzRdV@fat_crate.local>
- <20240618104234.GF31592@noisy.programming.kicks-ass.net>
- <ZnGYsdiOYjLJBX1n@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDZdR1Qo"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-36226e98370so366683f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 07:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718722170; x=1719326970; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QqCSehTywUbdinyS1VSJf8CsGxImjeg52RwkLRKBR8M=;
+        b=LDZdR1QooCvye6kWmRXhz+R1BrORh8pRrrnAi7Eurs8wDi43KBOc8ej5agLMAxPtBk
+         iQTpZQdhd//wNCOHZix5sF/84m/CwEesKTtcF3sdwYBpr5jLMYrpe/mY/brJwzQPX4BB
+         LYfdBGYQgJ+clSMEkgTzo7fcYaDZ1xHp1ruu4JZm6YnBnyAzKOYUSOjcq3vZBaJto9fE
+         8QNOJP3FYdZlk6ZMhPVJ6sR/Og1DdH5xoI7I6wSPbf3axnUAixnBKpyNGDxVyaMopuI7
+         XxFzBt4K5Lq6MT26vuekiIgUSYwQv/yG6h/yqVR6aQ8yWGcaa5ls9vyqH02Zavb9sbBj
+         ou8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718722170; x=1719326970;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QqCSehTywUbdinyS1VSJf8CsGxImjeg52RwkLRKBR8M=;
+        b=ZItAxbFuTO2/rFHWj05JsXPWfE1xcwf2PRaVa/mIu/F/lY07cmnGg/2iU9qOL1dzkt
+         utGAvre2IRkAHw1bfQeSjXBUWs5kt/xPL6fLYzdmP4uyl5KTWDcN9NPik9QDUZLmRtA3
+         XNGCLRSQUqs6zt5jnGNXRy/N5G5d8MZGJrXAZtOqx7U4WtWlRtmNekXJF2EcYzdl4lUb
+         fxe11NjwOieG9GcKZUH9oKkJDHrmg0r7EInuUcDEyZUF23iKDjXGwnrjrWkwyDCFokfw
+         7x7RcynTWkWmvWA225FL0oo5UCGfKjQcZhfKpF2juFG3+vMsK1Q9vU0vl9JhB+cnry/b
+         C1Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3h23sTiteXGtyLCw+963HK88DkN4sUfMmeNNo3OKh5HMR5rBjWEeDXBMqiEaZ5a5ftcMaYLAxKPyhDLe3LipvMHrAQDyqtchG5lEfsg==
+X-Gm-Message-State: AOJu0YxV8s+gKcaobxHQSdH1YEJjgARwKnkny0lj8LA/PCZJV7t7tTPH
+	SfmOyr1hb/wHIozUai7QWZ1WfRTJyjcz6qzLdYPiOMEqG/GrBrc3iyLHUzvMsCq6zzj3wAO40W8
+	yA9pZuHXobZA2vqDyN0WsMeeQFCw=
+X-Google-Smtp-Source: AGHT+IGNGyiHR5ERlKdy3RB+H4nV5RPK52+deMJQ0y2JvTeFBlJgxVW8xIu698HIuv6JP7sZjy/a89wggL4veSk3vcA=
+X-Received: by 2002:a05:6000:cc4:b0:35f:1d40:82fa with SMTP id
+ ffacd0b85a97d-3607a743affmr9417259f8f.18.1718722170184; Tue, 18 Jun 2024
+ 07:49:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZnGYsdiOYjLJBX1n@google.com>
+References: <20240617171812.76634-1-alexei.starovoitov@gmail.com> <202406181248.u80sRLXy-lkp@intel.com>
+In-Reply-To: <202406181248.u80sRLXy-lkp@intel.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 18 Jun 2024 07:49:18 -0700
+Message-ID: <CAADnVQK0fLbhqRuLDEVj3dPpg46xR0KRmty0hJNQ2G04yeAKLw@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf] bpf: Fix remap of arena.
+To: kernel test robot <lkp@intel.com>
+Cc: bpf <bpf@vger.kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@kernel.org>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Eddy Z <eddyz87@gmail.com>, 
+	Pengfei Xu <pengfei.xu@intel.com>, Barret Rhoden <brho@google.com>, Kernel Team <kernel-team@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 18, 2024 at 07:24:49AM -0700, Sean Christopherson wrote:
-> On Tue, Jun 18, 2024, Peter Zijlstra wrote:
+On Mon, Jun 17, 2024 at 9:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Alexei,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on bpf/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov=
+/bpf-Fix-remap-of-arena/20240618-012054
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git maste=
+r
+> patch link:    https://lore.kernel.org/r/20240617171812.76634-1-alexei.st=
+arovoitov%40gmail.com
+> patch subject: [PATCH v2 bpf] bpf: Fix remap of arena.
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240618=
+/202406181248.u80sRLXy-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240618/202406181248.u80sRLXy-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406181248.u80sRLXy-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    kernel/bpf/arena.c: In function 'arena_vm_open':
+> >> kernel/bpf/arena.c:235:27: warning: unused variable 'arena' [-Wunused-=
+variable]
+>      235 |         struct bpf_arena *arena =3D container_of(map, struct b=
+pf_arena, map);
+>          |                           ^~~~~
 
-> > Also, notably, this patch:
-> > 
-> >   https://lkml.kernel.org/r/20231204093732.323101886@infradead.org
-> > 
-> > cures things.
-> 
-> Speaking of that series, do you need/want any help pushing it along?  I ran into
-> build issues[*] and didn't have the cycles to fully figure things out at the time.
-
-Right, saw that. Life caught up with me for a bit and now I'm struggling
-with this giant backlog of things.
-
-That is to say, if you have cycles for this, then please. Otherwise,
-I'll get to it eventually.
-
-
-
+Daniel or Andrii,
+could you please remove this line while applying?
