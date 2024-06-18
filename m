@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D377B23777
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 15:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240777764E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 16:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718724966; cv=none; b=OyUxpgwimkkVDakVop1BZFbDYRynNWKpboW8c+fWGYtwMYUY7UyYK0iB2gac+oZHz9gBVCS2ZBS9qyhwNqLAqj+nrakTbfWF4JxUXmVQOTbIRRDFiwQA/8eQbV67HQQhXErad/Te8UwlB5bD3OyM3j1nsMWA9ynZCqs+5T61sJw=
+	t=1718728810; cv=none; b=kgFEFDrNbkhZGORMSJy/2WWhEwUZyuwjNh3Q8wG1eobhfddI239mqikCw8ph5NqWSwEWa5En3vAHxcsj1EhVuyfr870KHkHIz5MMcjd3V9Aef6nMhkzgRl/+o/dwhnLn985VOKwLMqCrb7EIHk1YlMShwzCAcUVKkex3nQrbKIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718724966; c=relaxed/simple;
-	bh=9xitzs2XP+tmm+IuN0TS9nByjEfgmdiyBA9RBD7PxMc=;
+	s=arc-20240116; t=1718728810; c=relaxed/simple;
+	bh=lfGwpboJIZvnNozny8lj51El7mjKNdu7E7ipcnS8v8E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bf8zKUZy1CzCI0OzDTfEKVuJZIZWhVw/zhTsA4vIF9ni91cKp0J8ymNIK7FBmHZd2Oo3Jo0Hj7qUrFVWv9kHnNXT+vAUEi+gnWeHN4FNKuZEtkOEhWi83VMN3HI8GIM7B84DzX7RZZ0qkS4GKHnLkwjzh582UM9ZJZldXRfwxOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgUnDNoD; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=os3ZMEn6AI70qotVT04h0OGylpa++b5G/emay4E6jSu3QGx/vKBaKq06WVq7DTbrj6I9sZpEMSJ+qbxn33B9+2WyAOSnlpwjUjWHwfD5Pxe0aD4kPbOEZn1xYGdHmRXpQWYfEPhhtcMioeUK0Z1jmeVAV36wKbtkC5x1aEtAPi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XE1dWDqV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgUnDNoD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XE1dWDqV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718724963; x=1750260963;
+  t=1718728808; x=1750264808;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9xitzs2XP+tmm+IuN0TS9nByjEfgmdiyBA9RBD7PxMc=;
-  b=kgUnDNoDiaJm/QfyTCxDiChQqCtUGs8BIvG5ayckcMqOZxMYHlThj+fx
-   wost3JBsJyCc9H3oHS3ZamIX3X/iwjjZQHRQg/V9aXHpmzOovvoghd1N9
-   uzq9it3C5RB9ePmN/rITtTrLlXPhGXTF6aPsJxec5Prw1y1YAjFIoLliI
-   5xJlPNZ2yi2HT45vZxA7GOE/nnZEa725fn31xNxppNRmW1xdRU5sUfB2K
-   oCA7waGmvFhNc/zE1/3ZMTywAobOcWRqJ/JNiAdbu64QK7UsT0dybR8Sb
-   xSHkZogJd9oZId0PcDxlfKsg8MlJ8NevfuCxtzr/8o1YY5sUQqLMCcWvU
-   g==;
-X-CSE-ConnectionGUID: +xZGMAArQ6CY45vRagNAuA==
-X-CSE-MsgGUID: NlB7G0QfQo2XPqS/o20caA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26196615"
+  bh=lfGwpboJIZvnNozny8lj51El7mjKNdu7E7ipcnS8v8E=;
+  b=XE1dWDqVcZTl/hDNzKvxyZlA5qYviv3WvgfvoXu+J2RoZt5QMapr8rjk
+   WPcmJv3rw76IErL/avo3WKKWDK60uhUGF7QNLRIS5ukYek2m0SfJQZ/9/
+   DpHxIuxNYHOOnaQBqw9MlncNJeUKh0cyxxosnxh2jzOzKyyC9N/CdaWBX
+   qt1NOzsn2onUWPtVT6vNsnp2VwHA6ki+dqGAghxdQ69juef/Du6aeEqXa
+   4SwVs36gYG+QJWsP+R+fjKISj4yPUr7p79KvHtaqRI4s7nW9N2PwsNc5c
+   OO+gjSEqkaE1fsSGXBSYQkfsPtyhkCgThU7/bvG1+ht8UPTrB0uKCYctR
+   A==;
+X-CSE-ConnectionGUID: v+VWF3/OS1mlVHHp2AEkFQ==
+X-CSE-MsgGUID: o9WUImC9R0y0/pwhmAGgHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27039225"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="26196615"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 08:36:00 -0700
-X-CSE-ConnectionGUID: 3+P37hqnRW+JgIqDhHMpNA==
-X-CSE-MsgGUID: 1nGun8BAQ8erbKUipAGrYA==
+   d="scan'208";a="27039225"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 09:40:07 -0700
+X-CSE-ConnectionGUID: gM1toMzWRuyx220vxic/pw==
+X-CSE-MsgGUID: yKfcGQkETWOzvd04maxJUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="41460722"
+   d="scan'208";a="41713676"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Jun 2024 08:35:59 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 Jun 2024 09:40:06 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJasG-0005dd-24;
-	Tue, 18 Jun 2024 15:35:56 +0000
-Date: Tue, 18 Jun 2024 23:35:16 +0800
+	id 1sJbsK-0005iq-1h;
+	Tue, 18 Jun 2024 16:40:04 +0000
+Date: Wed, 19 Jun 2024 00:39:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts:93.20-127.4:
- Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30:
- unnecessary #address-cells/#size-cells without "ranges" or child "reg"
- property
-Message-ID: <202406182328.xfDfqYOF-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4991/6864]
+ arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000:
+ 'clock-names' is a required property
+Message-ID: <202406190037.pVMRi4dB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,71 +64,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3d54351c64e8f9794e8838196036a2de3d752fce
-commit: 5017b8cdb7ebeb32d7f12a05b34d58662e137dbe arm64: dts: qcom: msm8916-longcheer-l8910: Enable RGB LED
-date:   8 months ago
-config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240618/202406182328.xfDfqYOF-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce: (https://download.01.org/0day-ci/archive/20240618/202406182328.xfDfqYOF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0c52056d9f77508cb6d4d68d3fc91c6c08ec71af
+commit: 75c183f5dd6a1722d172bcdca01db7fd1ae97d36 [4991/6864] arm64: dts: mediatek: mt8188: Add Global Command Engine mailboxes
+config: arm64-randconfig-051-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190037.pVMRi4dB-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406190037.pVMRi4dB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406182328.xfDfqYOF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406190037.pVMRi4dB-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1592.27-1640.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts:93.20-127.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:463.26-466.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:478.26-481.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:491.26-494.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:503.26-506.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1579.11-1589.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-
-vim +93 arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts
-
-    89	
-    90	&blsp_i2c2 {
-    91		status = "okay";
-    92	
-  > 93		led-controller@30 {
-    94			compatible = "kinetic,ktd2026";
-    95			reg = <0x30>;
-    96			#address-cells = <1>;
-    97			#size-cells = <0>;
-    98	
-    99			vin-supply = <&pm8916_l17>;
-   100			vio-supply = <&pm8916_l6>;
-   101	
-   102			pinctrl-0 = <&status_led_default>;
-   103			pinctrl-names = "default";
-   104	
-   105			multi-led {
-   106				color = <LED_COLOR_ID_RGB>;
-   107				function = LED_FUNCTION_STATUS;
-   108	
-   109				#address-cells = <1>;
-   110				#size-cells = <0>;
-   111	
-   112				led@0 {
-   113					reg = <0>;
-   114					color = <LED_COLOR_ID_RED>;
-   115				};
-   116	
-   117				led@1 {
-   118					reg = <1>;
-   119					color = <LED_COLOR_ID_GREEN>;
-   120				};
-   121	
-   122				led@2 {
-   123					reg = <2>;
-   124					color = <LED_COLOR_ID_BLUE>;
-   125				};
-   126			};
-   127		};
-   128	};
-   129	
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000: $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
 
 -- 
 0-DAY CI Kernel Test Service
