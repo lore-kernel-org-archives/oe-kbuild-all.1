@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E991741E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 20:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D3C16CD09
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 21:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718743285; cv=none; b=p57ebcIyoKE43Q21SYuS9oPjlgSqwW/jtglk9Vm/oKNhX2soudFs0Op9yZ2bhtKxPyuN5HFHu0oRJ+ZY8NyE4GutYhoaRmVWHcVp5KbVd/HGS9t5rbWnqaafJH8LRIEvRhRB9nnFCx9X/+lxRklvAHP7KlUUq5LV90gce4Dqou8=
+	t=1718744547; cv=none; b=f6l0X61FkL73/evcvMExJ6Kyc+a9yNP17sKzotvUh0xKj4Ir+WV3IMPpx+J2YyeliRlsAbm46POF6hD0Rr6BaEtydp/4wXdiNY1n++xWEjIw9Zuw4340jDVw7o/L7A8F6nXqO8ZPlknwTGCup2W9edCPW6ciB++iDyyZvSTX974=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718743285; c=relaxed/simple;
-	bh=5BEAbyszyrKS3pJHZigmyoShOGTRPMnWf0tcHt4Q2q0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lp32yq8ibl30lPCCDpZrBN9GeKu2tliai4RZG4bvWQSpE+AAu0AszAHhog1FDc56p+Xz+4czDbmKoxGReGFNBSlO7FJ1ClPve0oRj9I+j5Vhi8IFxp8ROey+zVvxoWPl5npx2som5Hs9IZGgdfvcG7N0cXmMvYo29+7YLAJsuOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcX55INv; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1718744547; c=relaxed/simple;
+	bh=ZtlWpZazkZMr9hjqcT0x7ELefnO6avTkg5CabtOR7jo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AWgC6OynGS4dgOLth9at3k3clvfD3WemLV5mvwyqbgI57sVpoJTCM8KlRnPQ2tWsqBKwSIdREJsCw9rHP9nGtk1IjOT5Kc16+JFb2d8To7YafovTYqv+ChnGDElL+O3R2CgWIg4apGW3RCNelQPaPyKHgPxAXp4Z/9A30pJKrME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERsVAp+o; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcX55INv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERsVAp+o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718743283; x=1750279283;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5BEAbyszyrKS3pJHZigmyoShOGTRPMnWf0tcHt4Q2q0=;
-  b=CcX55INv/xCIlTGl1Aw8yu3S8j8RCKmiGCOqaCVqnLA8Sow3cNoL4/Dn
-   kBVqWX/dWdbYEEeFMDVs8Va0VF5GlxejhgG6qYlrCXC4MlDypYsyMIncO
-   6MdZVffSs2u2CXTppc6EzeAZSC4bTzHA5oCdc8iOd7klJR8e9Nu0J6jEY
-   t2e/qItVbFiavEgNldx9tRPQOUfF+WPPoXQqsIQb17BO/deegcTW/Y4qN
-   gOd+K5DAcNRgrHZ47GoiAw2BnLNSYFeHqnJ3zyx8r/Qs5mi58XSTSAyt8
-   1tN3nbA+/3xC83K5GC1oSn2RYOwa1lLqljrwHq/gbjqRduOm+dcSw4No4
-   w==;
-X-CSE-ConnectionGUID: GE2IyX7/QhWb0Luj9IU7sg==
-X-CSE-MsgGUID: WT94l8SAQ9mEwgfF660pVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15770730"
+  t=1718744545; x=1750280545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZtlWpZazkZMr9hjqcT0x7ELefnO6avTkg5CabtOR7jo=;
+  b=ERsVAp+o8h7vhcfNej+RfKaCtpSe2Eh3qlTX4kazs8wTlyiTW8lN/1Nv
+   cF9tSoRfG8Fn3QGHCppKiYEdk0EC9j9XmV4jTVZyMcNU4BJIghdaJ2USE
+   pwRYZYNq+YeFYMuU9O5punaLAQHj0qNfFOr3g5t0vJ3mp9XLZMlpzYzBA
+   I6N8GjD0Gh++DzAvEAOPc/ZNX2SnD6QwGqP6/2ANVUUBHjLJKt5sS1BJ5
+   NpQA0lmXo2wO62L9RC4RVUVz5klH4STP1wNfqlJeCrwnZkpl7p8cXaPJ6
+   prCWQs9ZhLAsLAD9UPBHLC6w/a3BEEav57YQrE5ja4GqKo7S7OLqziUx3
+   A==;
+X-CSE-ConnectionGUID: cie0YrLwQpGs7n/OvLJLMA==
+X-CSE-MsgGUID: bCqMwys+SKqoiyMBWWcNeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="41061983"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="15770730"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 13:41:22 -0700
-X-CSE-ConnectionGUID: b8AN/fX0S7Ke8AFr/umcFg==
-X-CSE-MsgGUID: hx9u4RZSTAOCNIXVPBw5cw==
+   d="scan'208";a="41061983"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 14:02:24 -0700
+X-CSE-ConnectionGUID: +GH3mnq+RBOf6kxw23WGQQ==
+X-CSE-MsgGUID: oyGdrqUoRKKa7VmngOHzwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="79143858"
+   d="scan'208";a="42394361"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jun 2024 13:41:21 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Jun 2024 14:02:22 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJfdm-0005tu-1M;
-	Tue, 18 Jun 2024 20:41:18 +0000
-Date: Wed, 19 Jun 2024 04:41:16 +0800
+	id 1sJfy7-0005uQ-0t;
+	Tue, 18 Jun 2024 21:02:19 +0000
+Date: Wed, 19 Jun 2024 05:02:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 4994/6864]
- arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/gpu@13000000: failed to
- match any schema with compatible: ['mediatek,mt8188-mali',
- 'arm,mali-valhall-jm']
-Message-ID: <202406190419.8e8c4kWk-lkp@intel.com>
+To: Douglas Anderson <dianders@chromium.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, kgdb-bugreport@lists.sourceforge.net,
+	Douglas Anderson <dianders@chromium.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Jason Wessel <jason.wessel@windriver.com>,
+	Thorsten Blum <thorsten.blum@toblux.com>,
+	Yuran Pereira <yuran.pereira@hotmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 11/13] kdb: Abstract out parsing for mdWcN
+Message-ID: <202406190433.U3alc3Xi-lkp@intel.com>
+References: <20240617173426.11.I899d035485269f5110a3323fbb1680fbba718e4c@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,62 +69,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240617173426.11.I899d035485269f5110a3323fbb1680fbba718e4c@changeid>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0c52056d9f77508cb6d4d68d3fc91c6c08ec71af
-commit: c05dd14a2c4bf9c6ba9814cf6a4fdd6a48f1060d [4994/6864] arm64: dts: mediatek: mt8188: Add support for Mali GPU on Panfrost
-config: arm64-randconfig-051-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190419.8e8c4kWk-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406190419.8e8c4kWk-lkp@intel.com/reproduce)
+Hi Douglas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.10-rc4]
+[also build test WARNING on linus/master next-20240618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/kdb-Get-rid-of-minlen-for-the-md-command/20240618-084245
+base:   v6.10-rc4
+patch link:    https://lore.kernel.org/r/20240617173426.11.I899d035485269f5110a3323fbb1680fbba718e4c%40changeid
+patch subject: [PATCH 11/13] kdb: Abstract out parsing for mdWcN
+config: arc-randconfig-001-20240619 (https://download.01.org/0day-ci/archive/20240619/202406190433.U3alc3Xi-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406190433.U3alc3Xi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406190419.8e8c4kWk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406190433.U3alc3Xi-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8188-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000: $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8188-vppsys0'] is too short
-   	'mediatek,mt8195-mmsys' was expected
-   	'mediatek,mt7623-mmsys' was expected
-   	'mediatek,mt8195-vdosys0' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14f00000: $nodename:0: 'clock-controller@14f00000' does not match '^syscon@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt8188-scpsys', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8188-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000: $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8188-vppsys0'] is too short
-   	'mediatek,mt8195-mmsys' was expected
-   	'mediatek,mt7623-mmsys' was expected
-   	'mediatek,mt8195-vdosys0' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14f00000: $nodename:0: 'clock-controller@14f00000' does not match '^syscon@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+All warnings (new ones prefixed by >>):
+
+>> kernel/debug/kdb/kdb_main.c:1606: warning: Function parameter or struct member 'bytesperword' not described in 'kdb_md_parse_arg0'
+
+
+vim +1606 kernel/debug/kdb/kdb_main.c
+
+  1593	
+  1594	/**
+  1595	 * kdb_md_parse_arg0() - Parse argv[0] for "md" command
+  1596	 *
+  1597	 * @cmd:         The name of the command, like "md"
+  1598	 * @arg0:        The value of argv[0].
+  1599	 * @repeat:      If argv0 modifies repeat count we'll adjust here.
+  1600	 * @bytesperword Ifargv0 modifies bytesperword we'll adjust here.
+  1601	 *
+  1602	 * Return: true if this was a valid cmd; false otherwise.
+  1603	 */
+  1604	static bool kdb_md_parse_arg0(const char *cmd, const char *arg0,
+  1605				      int *repeat, int *bytesperword)
+> 1606	{
+  1607		int cmdlen = strlen(cmd);
+  1608	
+  1609		/* arg0 must _start_ with the command string or it's a no-go. */
+  1610		if (strncmp(cmd, arg0, cmdlen) != 0)
+  1611			return false;
+  1612	
+  1613		/* If it's just the base command, we're done and it's good. */
+  1614		if (arg0[cmdlen] == '\0')
+  1615			return true;
+  1616	
+  1617		/*
+  1618		 * The first byte after the base command must be bytes per word, a
+  1619		 * digit. The actual value of bytesperword will be validated later.
+  1620		 */
+  1621		if (!isdigit(arg0[cmdlen]))
+  1622			return false;
+  1623		*bytesperword = (int)(arg0[cmdlen] - '0');
+  1624		cmdlen++;
+  1625	
+  1626		/* After the bytes per word must be end of string or a 'c'. */
+  1627		if (arg0[cmdlen] == '\0')
+  1628			return true;
+  1629		if (arg0[cmdlen] != 'c')
+  1630			return false;
+  1631		cmdlen++;
+  1632	
+  1633		/* After the "c" is the repeat. */
+  1634		return kstrtouint(arg0 + cmdlen, 10, repeat) == 0;
+  1635	}
+  1636	
 
 -- 
 0-DAY CI Kernel Test Service
