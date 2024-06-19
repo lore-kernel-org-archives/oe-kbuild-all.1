@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA694C630
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 05:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8631DA53
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 05:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718773487; cv=none; b=A/i08lARWZ/Ts9WqawNYGmpSVS6Uzky/uft3KL5cCANND0GIiI7CWJr6EzGDXowbIKZfetu+os5k88AqBO7KrhlfXd/RlN9iMgZcO9SvANm2nvi54Nl3qRQu5x2ChlqNTCUOX+Aro1haccjx3RdLOgVWk1flLiIakpMQ/mDGCtw=
+	t=1718774146; cv=none; b=LGoI0eaYoDMXDmpk7fGeE4CFZpgW+Tyl6PQQ1shVUVikcq6XMH1PxGZWvHNWJQ9zsq0hm6A5vW3YQsBIcZCUzCM/x8o1qgK/MWvo9oPvfQCz0Cdo8CB0hXUUajbzJ5v04xCHRxEbJZnwRs9R4cFK+GULfWKX8DuVLCPVSH4gFbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718773487; c=relaxed/simple;
-	bh=p51oRDz22xeoe62hM9HlFARnR46e1x1RyJPcOzWjy3U=;
+	s=arc-20240116; t=1718774146; c=relaxed/simple;
+	bh=TL1LD2iCTY2phX4axZb2rSAcIuxvrdQ6F7zmXGItjHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A9OYS8RqI6eWZqseZtlFuETjuqbymkvINzI/pWYlyQr9K6fMe3iLGl9G4La8HkkVAKfy3pnsm/0m+AxnKvemd75Ct2o6Td1FM6OZ7rCvTKUz1GUAxLBNcKfPdbBFHYrarCjgMrjyyCVrkcBP5V1AR8p+aRHCYddTL7sGfnD9n6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1oUTPoR; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=CaS/NRaIiDT7tmj+G3sdVBwY8hmxayKzqLGiApIyPMRnrXQtn5COW30i5xK9R07pOGSdOWVqhU67M85+Bf+toGXuwBljEROEoNHurs88egS1lYTYv0V07DYEYiFtum8gZwDDX2F2Gr2QRR6v/9HeTP1psx1HcXGIPYvxIDpRPcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fx1zwz01; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1oUTPoR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fx1zwz01"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718773485; x=1750309485;
+  t=1718774145; x=1750310145;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p51oRDz22xeoe62hM9HlFARnR46e1x1RyJPcOzWjy3U=;
-  b=Y1oUTPoR3+TLNMSFAEDEUy/Sx0MUL9oTFV1oXgNop5Lp66w1OYdji78l
-   IzLGsRjUiYP+DwhlG0fBr2c36fXRN95KxwkVySsR0BMVHKxmXygNzKKYD
-   NBdBSZC+xYo1NXaCbPi88wRFEQg2PqKP59ARG+MZLi1NNvT4Mwl9b6XiB
-   DVcRCNDJ027nQMVbbgYS/DuoZdLzFAqw7znUL/DJgZms7m6hIp6maqJdV
-   GE6zK3rCHwPPtkINd7hMCOxommMU+SPgVE/kUVseMycBJGc9Bql5SItdg
-   V7zeBU7ecBdPKT1wdm86w/fMp5+HyFQLzRqxcRn5UHNSsu7k7azo0fWSL
-   A==;
-X-CSE-ConnectionGUID: Jd0YiXisRjOv7KrK19H3pw==
-X-CSE-MsgGUID: YZm2AM3+S+iNpmznLjHnug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15524531"
+  bh=TL1LD2iCTY2phX4axZb2rSAcIuxvrdQ6F7zmXGItjHE=;
+  b=Fx1zwz01h6LeLeHeLXVX4k2div8tVZbUSWZyWhOk6M/h67fCFy8zqy08
+   SWPYE8/MKB/TaA7H/8uNuOG0ZrrJlqqtFfkgBuTiKUBb4TnpPWKgKSdqO
+   jVhUoH6tzaOU0cpopfNmtsEQ8r4LogORcLsAxlzf2Kgv2lxBJTDOvQCdz
+   HUTpgsOFolM8NjSdvo/808cbjLyYVJAOBULxguvNySfP0dA1T6lxD/o3I
+   GYdzadmiPRRx1PJn4we9dzOuXAIQNJ3yQam7DhLtnqkCbub3+cdxMHhaZ
+   syucTDctXC4oGeGluvQj/yCuSM/tZn4v4SN5d12q6eYk7CeL7r/0qSNMO
+   Q==;
+X-CSE-ConnectionGUID: t23gANPQTVme/bNVIehQFg==
+X-CSE-MsgGUID: q9aDI9OLTRS0OODnNA5YmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="19563866"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="15524531"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 22:04:44 -0700
-X-CSE-ConnectionGUID: CBEZgsCHSJS9MaDYBoeNOQ==
-X-CSE-MsgGUID: 2I7wS6DLSYmWdqYh4d6BZw==
+   d="scan'208";a="19563866"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 22:15:44 -0700
+X-CSE-ConnectionGUID: +NIkGp8LQR2PpvdyxUNVGg==
+X-CSE-MsgGUID: w+e0CqctSNu7OyoRcudklQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="46914722"
+   d="scan'208";a="72536611"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2024 22:04:43 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2024 22:15:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJnUu-0006J7-1U;
-	Wed, 19 Jun 2024 05:04:40 +0000
-Date: Wed, 19 Jun 2024 13:04:34 +0800
+	id 1sJnfY-0006JO-2G;
+	Wed, 19 Jun 2024 05:15:40 +0000
+Date: Wed, 19 Jun 2024 13:15:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 15323/22974]
- drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:181:6:
- sparse: sparse: symbol 'hclge_ext_init' was not declared. Should it be
- static?
-Message-ID: <202406191251.tnS3pNVS-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts:127.20-161.4:
+ Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30:
+ unnecessary #address-cells/#size-cells without "ranges" or child "reg"
+ property
+Message-ID: <202406191339.vptigQww-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,79 +66,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   9e57bb4473766dca5e26f8b78853f38dd62d1aa3
-commit: c3acbb84d1aa72a112cdfb9479ae744b21a92751 [15323/22974] net: hns3: adds support for setting pf max tx rate via sysfs
-config: arm64-randconfig-r111-20240615 (https://download.01.org/0day-ci/archive/20240619/202406191251.tnS3pNVS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240619/202406191251.tnS3pNVS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   92e5605a199efbaee59fb19e15d6cc2103a04ec2
+commit: a21796c631734ea5cf62507e63a2479261880514 arm64: dts: qcom: msm8939-longcheer-l9100: Enable RGB LED
+date:   8 months ago
+config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240619/202406191339.vptigQww-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240619/202406191339.vptigQww-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191251.tnS3pNVS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191339.vptigQww-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:140:44: sparse: sparse: mixing different enum types:
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:140:44: sparse:    unsigned int enum hnae3_reset_type
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:140:44: sparse:    unsigned int enum hnae3_event_type_custom
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:97:6: sparse: sparse: symbol 'hclge_reset_event_it' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:148:6: sparse: sparse: symbol 'hclge_reset_done_it' was not declared. Should it be static?
->> drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:181:6: sparse: sparse: symbol 'hclge_ext_init' was not declared. Should it be static?
->> drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:186:6: sparse: sparse: symbol 'hclge_ext_uninit' was not declared. Should it be static?
->> drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:195:6: sparse: sparse: symbol 'hclge_ext_reset_done' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:204:5: sparse: sparse: symbol 'hclge_init_it' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:97:6: warning: no previous prototype for 'hclge_reset_event_it' [-Wmissing-prototypes]
-      97 | void hclge_reset_event_it(struct pci_dev *pdev, struct hnae3_handle *handle)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c: In function 'hclge_reset_event_it':
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:140:44: warning: implicit conversion from 'enum hnae3_reset_type' to 'enum hnae3_event_type_custom' [-Wenum-conversion]
-     140 |                 nic_call_event(netdev, hdev->reset_level);
-         |                                        ~~~~^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c: At top level:
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:148:6: warning: no previous prototype for 'hclge_reset_done_it' [-Wmissing-prototypes]
-     148 | bool hclge_reset_done_it(struct hnae3_handle *handle, bool done)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:181:6: warning: no previous prototype for 'hclge_ext_init' [-Wmissing-prototypes]
-     181 | void hclge_ext_init(struct hnae3_handle *handle)
-         |      ^~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:186:6: warning: no previous prototype for 'hclge_ext_uninit' [-Wmissing-prototypes]
-     186 | void hclge_ext_uninit(struct hnae3_handle *handle)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:195:6: warning: no previous prototype for 'hclge_ext_reset_done' [-Wmissing-prototypes]
-     195 | void hclge_ext_reset_done(struct hnae3_handle *handle)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c:204:5: warning: no previous prototype for 'hclge_init_it' [-Wmissing-prototypes]
-     204 | int hclge_init_it(void)
-         |     ^~~~~~~~~~~~~
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:1284.27-1333.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts:127.20-161.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:496.26-499.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s6-p1@a1: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s6-p2@a1)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:516.26-519.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s8-p1@a4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s8-p2@a4)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:541.24-544.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/mode@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:551.26-554.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s0-p1@d1: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p1@d1)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:571.26-574.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s3-p1@d4)
 
-vim +/hclge_ext_init +181 drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3pf/hclge_main_it.c
+vim +127 arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
 
-   179	
-   180	#ifdef CONFIG_HNS3_TEST
- > 181	void hclge_ext_init(struct hnae3_handle *handle)
-   182	{
-   183		hclge_sysfs_init(handle);
-   184	}
-   185	
- > 186	void hclge_ext_uninit(struct hnae3_handle *handle)
-   187	{
-   188		struct hclge_vport *vport = hclge_get_vport(handle);
-   189		struct hclge_dev *hdev = vport->back;
-   190	
-   191		hclge_reset_pf_rate(hdev);
-   192		hclge_sysfs_uninit(handle);
-   193	}
-   194	
- > 195	void hclge_ext_reset_done(struct hnae3_handle *handle)
-   196	{
-   197		struct hclge_vport *vport = hclge_get_vport(handle);
-   198		struct hclge_dev *hdev = vport->back;
-   199	
-   200		hclge_resume_pf_rate(hdev);
-   201	}
-   202	#endif
-   203	
+   123	
+   124	&blsp_i2c2 {
+   125		status = "okay";
+   126	
+ > 127		led-controller@30 {
+   128			compatible = "kinetic,ktd2026";
+   129			reg = <0x30>;
+   130			#address-cells = <1>;
+   131			#size-cells = <0>;
+   132	
+   133			vin-supply = <&pm8916_l17>;
+   134			vio-supply = <&pm8916_l6>;
+   135	
+   136			pinctrl-0 = <&status_led_default>;
+   137			pinctrl-names = "default";
+   138	
+   139			multi-led {
+   140				color = <LED_COLOR_ID_RGB>;
+   141				function = LED_FUNCTION_STATUS;
+   142	
+   143				#address-cells = <1>;
+   144				#size-cells = <0>;
+   145	
+   146				led@0 {
+   147					reg = <0>;
+   148					color = <LED_COLOR_ID_RED>;
+   149				};
+   150	
+   151				led@1 {
+   152					reg = <1>;
+   153					color = <LED_COLOR_ID_GREEN>;
+   154				};
+   155	
+   156				led@2 {
+   157					reg = <2>;
+   158					color = <LED_COLOR_ID_BLUE>;
+   159				};
+   160			};
+   161		};
+   162	};
+   163	
 
 -- 
 0-DAY CI Kernel Test Service
