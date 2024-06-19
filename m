@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA5915A848
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 21:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E19B55884
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 21:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718831627; cv=none; b=nu/9Dqz1snWFLB5YHGdCpVd3zhqwlNmXANSbe1VTpqjoLmCXG5FZ4mQtisOmkZytewRYTn02NLuBVQLMwng2qebk5Xl5wCnEmqxHMGowi5UwAdL81ObYSB87kBOuctgiONQjV+aR0zuMxVbl12Fmky8HiysoGNq0Pud7lYZE5yU=
+	t=1718832947; cv=none; b=RjZy8o67QOCFDZpuuN34fSCNGr42bmHeiMCgqMG5HSzl++vBnyWaFGHu5dk8TDP6WdvrxXLKDcGNHbHmxBl3E2oiPdeZ+5pGUTx+xmJQ6Y1TbquoeFEgSxGtHo64sNysxkqW9sLAaOAgF245IeHSaSZ8XRLzFrMT1BVtmjExrnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718831627; c=relaxed/simple;
-	bh=IgmpTFeB47Ft/oBLT/pU6bWANYtSsllcXWa2+aBIjTY=;
+	s=arc-20240116; t=1718832947; c=relaxed/simple;
+	bh=IVLWGrQdrwxSxrECnzIWel80hY9K41v1LW8UYZES0Ag=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nI7djK8cK6jxTehNxQ7qOaP7hjcmBc7jfCLONzu72QeQLhdlR94Cxu6iRzlVpkbTlQuTm3ieT8Pj7ywY0hIfbyVrWL8Uh7UmPZpPiMpGuxpVQ+CxD7PbNkbyXLKva/72uRrLnBg+SjGtuNYgfEjSJuYEIf1BPpKW2HZiHM9KrYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asXmr0/A; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=PpI1zqXPV0ITxdRpRkXjv+w5SYYpYZDVbIl0AakJjNX5E+UfUofoeYq8qocAthXFHiJ9eDH9FfjMULN5Q8pzpXRBRPpFTltMAZUfLs3MW2BkHunRH5G6ptRJWaPdxsM4kBFkXe63dZGwvEStYGnGyKt+OaVk0lKZZ8Y55yx/JF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FXIfplUb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asXmr0/A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FXIfplUb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718831625; x=1750367625;
+  t=1718832945; x=1750368945;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IgmpTFeB47Ft/oBLT/pU6bWANYtSsllcXWa2+aBIjTY=;
-  b=asXmr0/Abnh/DXV8NdJS78hkATwLIrQ/7wQ7GMBH6RT9+la8JqOq3PlH
-   Wv4/ndP+/cz+nxgkaJLPpjrf3QdpGzUI9e54a3h09sZazjQMDol9oqAsM
-   +flSkERuPN3K8kcWPk0W0ZpG9n5qhJMAuPJYI9iFt+XQvHX3cGn046XJj
-   +33ZYjX2EOMVytVXdG70fNB2PrAWvXsH/wPyoJE0w/GZ3xM1o1yAXQWmX
-   O/ymAuTefpTuvl7Ak5vQxEreB3Q055HELnG8awRfuWJ23mzEIoTX7ueXe
-   94qIsGxFgYmKrxL+96XaeEnzMvA6EhiYXfx/Fo9j7pnqdGpp7GfeE+Z1I
-   A==;
-X-CSE-ConnectionGUID: HWChsktpQXGyz+utoHq5Ow==
-X-CSE-MsgGUID: 9iUC7XFZShKHtfwlbWJzqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15617221"
+  bh=IVLWGrQdrwxSxrECnzIWel80hY9K41v1LW8UYZES0Ag=;
+  b=FXIfplUbu9mWmuYalkrbhcOgFwMbdFMpYAS+ViH8asIKp+StugLYwQQ8
+   FVxFWllb1xy7+AcFGB38Jkp6enTz1ZEunSf/F904SjsSOU1FZMkwOo810
+   vzRjTFnbimMJAAH11QCIcl71hP4afRQDObsbo9Xp7uSnQJdjjUqee5f6t
+   DNkf+s94zRAbKF5/XiTQB+fBmClkvHCE255qLym8Pzn/NF93jH17csTV4
+   V6kHLbG0+oZK23NFL2LYvCPDzGSuI1DJiN20q9wJ6gIKf60nsyOqq931/
+   YeTPehfUl7YdOfy7BKQCUNHoFYpmIjTU0O1G8CrVsk8EK1pqVl7HSh4K4
+   Q==;
+X-CSE-ConnectionGUID: Jz8RzQfdRAOq3Lqov1lkXA==
+X-CSE-MsgGUID: GZIefCBlSNi/ikWRT4tZRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15929788"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15617221"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 14:13:45 -0700
-X-CSE-ConnectionGUID: tRySNNJCTwuWWfAB/z+WOQ==
-X-CSE-MsgGUID: gT8rpP7gS5yjtuQPH46ppg==
+   d="scan'208";a="15929788"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 14:35:44 -0700
+X-CSE-ConnectionGUID: t8AxtTr9RPKl7eP9/pZjIQ==
+X-CSE-MsgGUID: /FZzdGeLRV2wsOOiZeqmfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42693817"
+   d="scan'208";a="65278305"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 14:13:42 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2024 14:35:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK2cd-00070A-32;
-	Wed, 19 Jun 2024 21:13:39 +0000
-Date: Thu, 20 Jun 2024 05:12:47 +0800
+	id 1sK2xw-00071Q-1q;
+	Wed, 19 Jun 2024 21:35:40 +0000
+Date: Thu, 20 Jun 2024 05:34:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jianhua Lu <lujianhua000@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi:647.9-658.5:
- Warning (graph_child_address):
- /soc@0/spmi@c440000/pmic@2/typec@1500/connector/ports: graph node has single
- child node 'port@0', #address-cells/#size-cells are not necessary
-Message-ID: <202406200530.bulGai7K-lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [linux-nvme:nvme-6.11 10/16] drivers/nvme/target/debugfs.c:16:15:
+ sparse: sparse: symbol 'nvmet_debugfs' was not declared. Should it be
+ static?
+Message-ID: <202406200501.5DrFu8Fu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,63 +66,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e5b3efbe1ab1793bb49ae07d56d0973267e65112
-commit: 69652787279d64b0b0cc350fdfb34c503e40653c arm64: dts: qcom: sm8250-xiaomi-elish: Add pm8150b type-c node and enable usb otg
-date:   7 months ago
-config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240620/202406200530.bulGai7K-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200530.bulGai7K-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/nvme.git nvme-6.11
+head:   30576c4bdf564c6afef97a6306e5aae7f2fd744b
+commit: 7586ba95433d12335aa71bfc0ff61654a79797aa [10/16] nvmet: add debugfs support
+config: mips-randconfig-r111-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200501.5DrFu8Fu-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200501.5DrFu8Fu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200530.bulGai7K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200501.5DrFu8Fu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3466.14-3474.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4874.27-4926.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:165.9-180.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3118.14-3128.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3165.13-3175.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3378.13-3388.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3733.13-3743.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi:647.9-658.5: Warning (graph_child_address): /soc@0/spmi@c440000/pmic@2/typec@1500/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/debugfs.c:16:15: sparse: sparse: symbol 'nvmet_debugfs' was not declared. Should it be static?
 
-vim +647 arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi
+vim +/nvmet_debugfs +16 drivers/nvme/target/debugfs.c
 
-   630	
-   631	&pm8150b_typec {
-   632		vdd-pdphy-supply = <&vreg_l2a_3p1>;
-   633		status = "okay";
-   634	
-   635		connector {
-   636			compatible = "usb-c-connector";
-   637	
-   638			power-role = "source";
-   639			data-role = "dual";
-   640			self-powered;
-   641	
-   642			source-pdos = <PDO_FIXED(5000, 3000,
-   643						 PDO_FIXED_DUAL_ROLE |
-   644						 PDO_FIXED_USB_COMM |
-   645						 PDO_FIXED_DATA_SWAP)>;
-   646	
- > 647			ports {
-   648				#address-cells = <1>;
-   649				#size-cells = <0>;
-   650	
-   651				port@0 {
-   652					reg = <0>;
-   653	
-   654					pm8150b_role_switch_in: endpoint {
-   655						remote-endpoint = <&usb_1_role_switch_out>;
-   656					};
-   657				};
-   658			};
-   659		};
-   660	};
-   661	
+    15	
+  > 16	struct dentry *nvmet_debugfs;
+    17	
 
 -- 
 0-DAY CI Kernel Test Service
