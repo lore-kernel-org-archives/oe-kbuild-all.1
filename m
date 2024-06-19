@@ -1,64 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F7D15530C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 18:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8162D156F40
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 18:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718821000; cv=none; b=GGNQuaJ2UOLZfd3HlrtVdLLHkZUt9GkYITmOEkH+lGAu6EDmOBtWebhDogxiN7kfNqjPPIzJag5pPHAn6S5jq+WGVoSXikfdIa9wF/OXkJBBSIJB3u1bmsVq/kbVRzFbJQn/Cwqo9fGKwMjL0YoeG6AyT+zWtrKaLx7HeuN2N3c=
+	t=1718821660; cv=none; b=KZnk7fuhKt6e7763oNZbyKeLUNXS2uZp5nowODLt1BJQOmA5jZ/guXpeScsf9vJ+LzHDsyFX5bDaooVC9pE8tSi/+71jmoc0I6l+Q4WtXvLsneUuBZN443Rv/6SpoJWug4KUk8pWLspCbO/ejB8uNbPRR6SK1bwWQhnCwfAmxL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718821000; c=relaxed/simple;
-	bh=63aVaK+yhLs7whgGbzIahQ7hJxL2q5fTzr6NiBxNoqo=;
+	s=arc-20240116; t=1718821660; c=relaxed/simple;
+	bh=ePMdXyYG5VP9699OyXIjL4DJdrxVOUDFWzBVFuvKuew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B6Xa/zYoqO5g1K0R4HFdHFW2TEt0csWUiyVHlSW9FUdDegzGhoQIcwqydgd6hkfUR9yfwnLdGx3xbpKrWs0A/qpNpzv960ghS2hIsfy0+yd+4sg3JK+nrLdHqV28R64Lm4zpNhoTx/ZG0gK7l7v+Bcs33LhK9gin0VkNC5smOkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QxNkDTp/; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=I8Uin40rSTuFLEvQiyZ0Gv8ROrZIFEoegauLkl5vFtVntASELbr7ubUTeC5WFgPg8lcNdx6hgTGEmQcupyizAtHYYCKna6lB+30oRevmq3AFrmCmDXi8TDbEH3bYcOQilED536yCgEoXO4nV6R+WM37Rs1YrdfDF+gExK/Wz+mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LbWNVg2W; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QxNkDTp/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LbWNVg2W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718820999; x=1750356999;
+  t=1718821658; x=1750357658;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=63aVaK+yhLs7whgGbzIahQ7hJxL2q5fTzr6NiBxNoqo=;
-  b=QxNkDTp/eQoETKvO0W9uNoKwy3+sudKot2qbezLpZ5KbE2JCC7BIQF4c
-   xWvbpdeBHTzqMR8o3F5H5uIqQXRF4pXytkORsB2sdjcc9X5mDX/EoKZu2
-   oQD0DYYMEo/6eTa34zQaGGteH5/ubOLSXt1qH0ISHt8/KA4k+nxUuaZU1
-   CjNsThS2sNrA8IT1d9+tbY1uqGigDr9JLfzn3i9H0iX/N5yMDqWsIPn4b
-   518haJx8IBLae8c3FwXiPTB21zWqPKkoDkS1JE+Ew6wPHAss8urT90bu1
-   CzcV75fV9G+38CEtlRjVFBpKfA4zPjeucw4c0Jr9nauK+tK3Rfbh/vtbb
-   w==;
-X-CSE-ConnectionGUID: bEbHMhOzSXys6+qthY5zuA==
-X-CSE-MsgGUID: Qfcjj+DJTFGa50mGWAG7sg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="27194618"
+  bh=ePMdXyYG5VP9699OyXIjL4DJdrxVOUDFWzBVFuvKuew=;
+  b=LbWNVg2W174Ibp7nD5sfYQ+dq5pnef2KPA5Sknr7DNfWD23/8t2YuLiI
+   8fhtvUbYvodPT2lIYX5yEFNpMG6a62Y+li9GiDCkaNjAzyXMgQK/mcHSK
+   EDPXyKiSHg0MBzMOkJXxd0l871tlOA1N85j6S5F3EUai3mtXCja3h7hf+
+   jEWddl7j9XzhM+sk3pScMvO3dgqUQFlzsXNCdUgXJsixyA+PkCGeQghcT
+   hIyuRqRbFCAIEEhr1Q69c2ooiX3kXsR88SYGiszt1wGjCLjO3eChtgwrq
+   WZz1jigLyWgq8TP2xlar+JtyYqb6lxXZttXSv7mzhxYaqCwqMnd8NXPbF
+   g==;
+X-CSE-ConnectionGUID: ukWN5QoaROKno6tdWqlg5A==
+X-CSE-MsgGUID: RA0/0H6xT1S233cVgHSg6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="41178776"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="27194618"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 11:16:38 -0700
-X-CSE-ConnectionGUID: IAzn4UM8TRCpkJBi84Bhog==
-X-CSE-MsgGUID: Ixqc/qhbQ0qIV3IMcJ0Cxw==
+   d="scan'208";a="41178776"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 11:27:38 -0700
+X-CSE-ConnectionGUID: ILNZl8P+Q3GMl7+ZHFDZUg==
+X-CSE-MsgGUID: nrkcKSQpRwmJ/hGixWRnVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="46365037"
+   d="scan'208";a="42697044"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Jun 2024 11:16:34 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Jun 2024 11:27:35 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJzrE-0006rM-0t;
-	Wed, 19 Jun 2024 18:16:32 +0000
-Date: Thu, 20 Jun 2024 02:15:34 +0800
+	id 1sK01s-0006s6-2H;
+	Wed, 19 Jun 2024 18:27:32 +0000
+Date: Thu, 20 Jun 2024 02:26:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuntao Dai <d1581209858@live.com>, jassisinghbrar@gmail.com,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	unicorn_wang@outlook.com, inochiama@outlook.com,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	Yuntao Dai <d1581209858@live.com>
-Subject: Re: [PATCH 3/3] mailbox: sophgo: add mailbox driver for cv18x SoCs
-Message-ID: <202406200221.v3RvI4Qb-lkp@intel.com>
-References: <SYBP282MB2238F93AB57A398E322644C3C4CE2@SYBP282MB2238.AUSP282.PROD.OUTLOOK.COM>
+To: Kanak Shilledar <kanakshilledar@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kanak Shilledar <kanakshilledar@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: i2c: convert to dt schema
+Message-ID: <202406200223.QexMAKqr-lkp@intel.com>
+References: <20240619154941.144011-2-kanakshilledar@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,136 +69,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SYBP282MB2238F93AB57A398E322644C3C4CE2@SYBP282MB2238.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <20240619154941.144011-2-kanakshilledar@gmail.com>
 
-Hi Yuntao,
+Hi Kanak,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
 [also build test WARNING on linus/master v6.10-rc4 next-20240619]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuntao-Dai/dt-bindings-mailbox-add-Sophgo-cv18x-SoCs-mailbox/20240618-232307
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/SYBP282MB2238F93AB57A398E322644C3C4CE2%40SYBP282MB2238.AUSP282.PROD.OUTLOOK.COM
-patch subject: [PATCH 3/3] mailbox: sophgo: add mailbox driver for cv18x SoCs
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240620/202406200221.v3RvI4Qb-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200221.v3RvI4Qb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanak-Shilledar/dt-bindings-i2c-convert-to-dt-schema/20240620-000339
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240619154941.144011-2-kanakshilledar%40gmail.com
+patch subject: [PATCH] dt-bindings: i2c: convert to dt schema
+reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200223.QexMAKqr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200221.v3RvI4Qb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200223.QexMAKqr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/mailbox/cv1800b-mailbox.c: In function 'cv1800b_mbox_send_data':
->> drivers/mailbox/cv1800b-mailbox.c:83:19: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      83 |         int idx = (int)chan->con_priv;
-         |                   ^
-   drivers/mailbox/cv1800b-mailbox.c: In function 'cv1800b_mbox_probe':
->> drivers/mailbox/cv1800b-mailbox.c:160:48: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     160 |                 mb->mbox.chans[idx].con_priv = (void *)idx;
-         |                                                ^
-
-
-vim +83 drivers/mailbox/cv1800b-mailbox.c
-
-    79	
-    80	static int cv1800b_mbox_send_data(struct mbox_chan *chan, void *data)
-    81	{
-    82		struct cv1800b_mbox *mbox = dev_get_drvdata(chan->mbox->dev);
-  > 83		int idx = (int)chan->con_priv;
-    84		u8 en, valid;
-    85		u64 *addr = (u64 *)(mbox->mbox_base + MAILBOX_CONTEXT_OFFSET) + idx;
-    86	
-    87		memcpy_toio(addr, data, 8);
-    88	
-    89		valid = 1 << idx;
-    90		writeb(valid, mbox->mbox_base + MBOX_SET_CLR_REG(mbox->sendto));
-    91		en = readb(mbox->mbox_base + MBOX_EN_REG(mbox->sendto));
-    92		writeb(en | valid, mbox->mbox_base + MBOX_EN_REG(mbox->sendto));
-    93		writeb(valid, mbox->mbox_base + MBOX_SET_REG);
-    94	
-    95		return 0;
-    96	}
-    97	
-    98	static bool cv1800b_last_tx_done(struct mbox_chan *chan)
-    99	{
-   100		return true;
-   101	}
-   102	
-   103	static const struct mbox_chan_ops cv1800b_mbox_chan_ops = {
-   104		.send_data = cv1800b_mbox_send_data,
-   105		.last_tx_done = cv1800b_last_tx_done,
-   106	};
-   107	
-   108	static const struct of_device_id cv1800b_mbox_of_match[] = {
-   109		{ .compatible = "sophgo,cv1800b-mailbox", },
-   110		{},
-   111	};
-   112	MODULE_DEVICE_TABLE(of, cv1800b_mbox_of_match);
-   113	
-   114	static int cv1800b_mbox_probe(struct platform_device *pdev)
-   115	{
-   116		struct device *dev = &pdev->dev;
-   117		struct cv1800b_mbox *mb;
-   118		int irq, idx, err, cpu;
-   119	
-   120		if (!dev->of_node)
-   121			return -ENODEV;
-   122	
-   123		mb = devm_kzalloc(dev, sizeof(*mb), GFP_KERNEL);
-   124		if (!mb)
-   125			return -ENOMEM;
-   126	
-   127		mb->mbox_base = devm_of_iomap(dev, dev->of_node, 0, NULL);
-   128		if (IS_ERR(mb->mbox_base))
-   129			return dev_err_probe(dev, PTR_ERR(mb->mbox_base),
-   130					     "Failed to map resource\n");
-   131	
-   132		err = of_property_read_s32(dev->of_node, "sendto", &cpu);
-   133		if (err)
-   134			return dev_err_probe(dev, err,
-   135					     "Failed to find <sendto> in of_node\n");
-   136	
-   137		mb->sendto = cpu;
-   138	
-   139		err = of_property_read_s32(dev->of_node, "recvid", &cpu);
-   140		if (err) {
-   141			return dev_err_probe(dev, err,
-   142					     "Failed to find <recvid> in of_node\n");
-   143		}
-   144		mb->recvid = cpu;
-   145	
-   146		mb->mbox.dev = dev;
-   147		mb->mbox.num_chans = MAILBOX_MAX_CHAN;
-   148		mb->mbox.chans = mb->chans;
-   149		mb->mbox.ops = &cv1800b_mbox_chan_ops;
-   150		mb->mbox.txdone_poll = true;
-   151	
-   152		irq = platform_get_irq_byname(pdev, "mailbox");
-   153		err = devm_request_threaded_irq(dev, irq, cv1800b_mbox_irq,
-   154						cv1800b_mbox_isr, IRQF_ONESHOT,
-   155						dev_name(&pdev->dev), mb);
-   156		if (err < 0)
-   157			return dev_err_probe(dev, err, "Failed to register irq\n");
-   158	
-   159		for (idx = 0; idx < MAILBOX_MAX_CHAN; idx++)
- > 160			mb->mbox.chans[idx].con_priv = (void *)idx;
-   161	
-   162		err = devm_mbox_controller_register(dev, &mb->mbox);
-   163		if (err)
-   164			return dev_err_probe(dev, err, "Failed to register mailbox\n");
-   165	
-   166		platform_set_drvdata(pdev, mb);
-   167		return 0;
-   168	}
-   169	
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i2c/i2c-lpc2k.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
