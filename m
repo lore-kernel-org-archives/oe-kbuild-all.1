@@ -1,149 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88717A55
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 20:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6314C1DA23
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 21:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718827783; cv=none; b=ItbtCMzDSnvcpEJUMQa1+cTif9nHPE2ewZ3jT6LYSVbGLwSBDV66oJ9wM5zTS/3ZCXw/SdPmWYou1lOvoNcEh8Ni3Lm5mzlo2g3zFzPDfx5j8PWVAlx+Rqb0dxNNWJDK821QExDe7z+XP16hy9YHXB27k+l0oHEMRDKTaZptj0g=
+	t=1718831223; cv=none; b=rZVCF1N81G4ZeaR18Kwy+spyvKuOXM45USk9ygD2zmjINUpOBfmpx56WC3DzMp4DatDwfdOGGgleqP8RpGtric6gH3MeniNvj0G82xsFu5Jl3ddd1NgBuNmUO+1RMuH+fLQClGacq9TUgXwpZUxkVvHnr093GfFExGP/+xTRT98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718827783; c=relaxed/simple;
-	bh=1egkmuccAhB2tTJHm0Cw8yu6+yKw8UybriYu5XdpFDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DGLdY3r/bNXP4YXLLU9wPQ5O+DgbWnD10drZbaHZZtxOTR3C2qoONRqlb74zDcO89Z6vQKFKmKRbKkYI+X06pgTb3VJT3H3153YlC6LZ+jQ3nwTWMEY/dOvnszqqPX3mxm1gNN1SlX94zw4dE/Hl8kwo3sC3bskxglzJsSlVZBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DrMAQS7S; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718831223; c=relaxed/simple;
+	bh=Id2c5+TkEkGLnTdJlWxvcv7CatC8JE9ewiUZwHunvWc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ME6QZEQwDOA7qAIOR+cM/B4x4xcCLmlt87LayspleroppeyYbCAyL3SnhS3++DAN/TqY1QgQgASiX7lYuHEGcxvf0/2nBjkkUFcN/It1pH8O1dUdlh++z1W5MkNNYPWR1JwxhfMVRKGqvjK3D8ouDqdNadsXzPEqTRiadU1DLAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHF8Zybw; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DrMAQS7S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718827782; x=1750363782;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1egkmuccAhB2tTJHm0Cw8yu6+yKw8UybriYu5XdpFDs=;
-  b=DrMAQS7SIMJRhKNjJRz384DaoJbqB73CBO7WC8rgCk4LCG5yX2/oXTYH
-   JJNR8HTIoCHTCV7p62vLto/YwxzbCadKJ8MY7JDZSaNqnaZ93fNuAkE+s
-   wqGd5xmFDR6IZrZC/rzX/FDSz2oZJsqEmCf4LCGUdxD8v+e/9VudSYNLY
-   kTs9DRjJUFvl7yovdfvsg8e8hLYR2VIQq1iJ0axMc9a32V0cabNiCdHuH
-   ZLB3vKztfEudFnP0dC04gECyDvoKn6/XWtKlBtFmWJTVsYFa6IfPsg4MB
-   3zqrp5+n9akY7wBifZy8JiX6bIJfLxf8a97DBt+ZHdIKIZet+S2elZSUu
-   A==;
-X-CSE-ConnectionGUID: vXEtwtSvShWMTFXEo+72pg==
-X-CSE-MsgGUID: xooztvaRQZ64b8S1XRgClg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15900829"
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15900829"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 13:09:41 -0700
-X-CSE-ConnectionGUID: YB0w+ziSQcyva9XV0qMRUA==
-X-CSE-MsgGUID: vWozgc0lTrS6IoDCvI5JCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="65261429"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2024 13:09:39 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sK1cf-0006ws-1T;
-	Wed, 19 Jun 2024 20:09:37 +0000
-Date: Thu, 20 Jun 2024 04:09:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Subject: [linux-next:master 6397/7105] drivers/gpu/drm/xe/xe_oa.c:388:25:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202406200413.W16nHKXV-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHF8Zybw"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f6fada63a6so1651875ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 14:07:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718831222; x=1719436022; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YJ8YE+ClvGwcyb1zAHMiV6hSznoZItrne+dyoJbbTB0=;
+        b=OHF8Zybw53fRW7hMKpvx+hEOtcoEApEwisxPc4xs0Ch1M2Hu27SqBpfjCX1qQt+x3U
+         mUTwESDuNc3o30WTb8CpGQ91BbfV6tBFj6n/hzDAmI50iwcfOMZ03+tmSTsxewWq8llq
+         mV4VhinpIip1UY8NpsoYtxxMAzz+dYDgyZlbnMKaw2rCyqP52CEeLrpqEUSz/p1/QnNG
+         himsL+PylUFhBy1yGGxDeSJ8OElreHPiLNhos07apAQy8gybC1ASwt5hsc63FfEuLeAS
+         uRl7UUwQmwfbwe6FeJwL9MnGs6VUIkftnw1qCKFgdRAgQNv837vlZHNikVrdRLraYAsF
+         EBQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718831222; x=1719436022;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YJ8YE+ClvGwcyb1zAHMiV6hSznoZItrne+dyoJbbTB0=;
+        b=utIWA/B2iU/S3w3TwOrInF8EdMo4LAn7XnASkpgC7rsSW2xuSQvTrkxlQ56adetnkb
+         RuvxkccJjrV7Rrq3SW0/T6kJH/2zAA1oPREgVba372tTffl6v38C3oUTc7UdKwiPz5+U
+         IDuruJf13AJuwVo07OzvdeaEUBWOXJm2h++gvgfmYhcxoCGEjoJwMoXQIPlZBcva1UTR
+         J+FR9wfVp0d+ILgLeyYuaoXJosGw5nCzJVifql+qbw+LHkvAGV/HVl1XMqT/XgqFUTdt
+         b5uYPGYHOTdvVkk5n2n3IPgA3Aq1E02edm2RDOssLKwIaWdJ7FXD7mHqGrANA5tcinAX
+         FJnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDs+2+8TnXBzc2yF1A4LH2s6JriPfouFMgS+OQLs6g35drNbJFeBVQ0P6EHhgSeGMI+iw/vZ1eJTLUmNBY9VuCbdaIQkecDxgJdP9JQQ==
+X-Gm-Message-State: AOJu0Yy7J8Idd8G0+RBPdLKHUeqc9Y3pZDEUtO/YOt+5/OiMr4wNupI2
+	UHIqRLIojrqbBYkHGyBjPXIcQTzqzrVlR21A1OOtHIp8Nip6htt/
+X-Google-Smtp-Source: AGHT+IGka42sQSuDxfJUhRxDzJXo7wfvmG0yeUaYHfbYX3PGtZXgjzFXMPWo+hdA3oASFuHN0mKivQ==
+X-Received: by 2002:a17:902:f549:b0:1f7:234b:4f47 with SMTP id d9443c01a7336-1f9aa3e7017mr37429365ad.27.1718831221651;
+        Wed, 19 Jun 2024 14:07:01 -0700 (PDT)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9a78657aasm25893525ad.0.2024.06.19.14.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 14:07:01 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: lkp@intel.com
+Cc: akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	oe-kbuild-all@lists.linux.dev,
+	v-songbaohua@oppo.com
+Subject: Re: [linux-next:master 6728/7105] mm/rmap.c:1413: warning: Function parameter or struct member 'flags' not described in 'folio_add_new_anon_rmap'
+Date: Thu, 20 Jun 2024 09:06:41 +1200
+Message-Id: <20240619210641.62542-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202406200059.tVU9semU-lkp@intel.com>
+References: <202406200059.tVU9semU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2102cb0d050d34d50b9642a3a50861787527e922
-commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 [6397/7105] drm/xe/oa/uapi: Add/remove OA config perf ops
-config: powerpc-randconfig-r111-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200413.W16nHKXV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200413.W16nHKXV-lkp@intel.com/reproduce)
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   2102cb0d050d34d50b9642a3a50861787527e922
+> commit: 41bb9aa5f614423659ced668d0f1ff0c1da6552e [6728/7105] mm: extend rmap flags arguments for folio_add_new_anon_rmap
+> config: arm-pxa910_defconfig (https://download.01.org/0day-ci/archive/20240620/202406200059.tVU9semU-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200059.tVU9semU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406200059.tVU9semU-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> mm/rmap.c:1413: warning: Function parameter or struct member 'flags' not described in 'folio_add_new_anon_rmap'
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200413.W16nHKXV-lkp@intel.com/
+Hi, Thanks very much for the report!
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_oa.c:388:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
-   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     expected unsigned long long [usertype] *ptr
-   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     got void [noderef] __user *
->> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [noderef] __user *_gu_addr @@     got unsigned long long [usertype] *ptr @@
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected unsigned long long [noderef] __user *_gu_addr
-   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
+Would you test if the below patch fix the WARNING?
 
-vim +388 drivers/gpu/drm/xe/xe_oa.c
+From: Barry Song <v-songbaohua@oppo.com>
+Date: Thu, 20 Jun 2024 08:57:55 +1200
+Subject: [PATCH] mm: fix the missing doc for flags of
+ folio_add_new_anon_rmap()
 
-   377	
-   378	/**
-   379	 * xe_oa_remove_config_ioctl - Removes one OA config
-   380	 * @dev: @drm_device
-   381	 * @data: pointer to struct @drm_xe_perf_param
-   382	 * @file: @drm_file
-   383	 */
-   384	int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
-   385	{
-   386		struct xe_oa *oa = &to_xe_device(dev)->oa;
-   387		struct xe_oa_config *oa_config;
- > 388		u64 arg, *ptr = u64_to_user_ptr(data);
-   389		int ret;
-   390	
-   391		if (!oa->xe) {
-   392			drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
-   393			return -ENODEV;
-   394		}
-   395	
-   396		if (xe_perf_stream_paranoid && !perfmon_capable()) {
-   397			drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
-   398			return -EACCES;
-   399		}
-   400	
- > 401		ret = get_user(arg, ptr);
-   402		if (XE_IOCTL_DBG(oa->xe, ret))
-   403			return ret;
-   404	
-   405		ret = mutex_lock_interruptible(&oa->metrics_lock);
-   406		if (ret)
-   407			return ret;
-   408	
-   409		oa_config = idr_find(&oa->metrics_idr, arg);
-   410		if (!oa_config) {
-   411			drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
-   412			ret = -ENOENT;
-   413			goto err_unlock;
-   414		}
-   415	
-   416		WARN_ON(arg != oa_config->id);
-   417	
-   418		sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
-   419		idr_remove(&oa->metrics_idr, arg);
-   420	
-   421		mutex_unlock(&oa->metrics_lock);
-   422	
-   423		drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
-   424	
-   425		xe_oa_config_put(oa_config);
-   426	
-   427		return 0;
-   428	
-   429	err_unlock:
-   430		mutex_unlock(&oa->metrics_lock);
-   431		return ret;
-   432	}
-   433	
+Fix mm/rmap.c:1413: warning: Function parameter or struct member
+'flags' not described in 'folio_add_new_anon_rmap'.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202406200059.tVU9semU-lkp@intel.com/
+Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+---
+ mm/rmap.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 9b7310120ccb..df1a43295c85 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1390,6 +1390,7 @@ void folio_add_anon_rmap_pmd(struct folio *folio, struct page *page,
+  * @folio:	The folio to add the mapping to.
+  * @vma:	the vm area in which the mapping is added
+  * @address:	the user virtual address mapped
++ * @flags:	The rmap flags
+  *
+  * Like folio_add_anon_rmap_*() but must only be called on *new* folios.
+  * This means the inc-and-test can be bypassed.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
