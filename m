@@ -1,137 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8631DA53
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 05:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFDC4315F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 05:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718774146; cv=none; b=LGoI0eaYoDMXDmpk7fGeE4CFZpgW+Tyl6PQQ1shVUVikcq6XMH1PxGZWvHNWJQ9zsq0hm6A5vW3YQsBIcZCUzCM/x8o1qgK/MWvo9oPvfQCz0Cdo8CB0hXUUajbzJ5v04xCHRxEbJZnwRs9R4cFK+GULfWKX8DuVLCPVSH4gFbk=
+	t=1718776672; cv=none; b=rdTGkjbvj96hubgIFFcOG/mWtT+VhBQm2D3x/RC39YOB69tBZ7R804rlTRv5lqlF+8urpb9XuetFexAa8BHXazLlXP7i5rUSX6SlHh3FTEzhD8YYS9iWKoeEf4Wf7hfRn08WLgewKfv+vEYEUWWeodaWlLQu6ELvM9lNQy5/+fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718774146; c=relaxed/simple;
-	bh=TL1LD2iCTY2phX4axZb2rSAcIuxvrdQ6F7zmXGItjHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CaS/NRaIiDT7tmj+G3sdVBwY8hmxayKzqLGiApIyPMRnrXQtn5COW30i5xK9R07pOGSdOWVqhU67M85+Bf+toGXuwBljEROEoNHurs88egS1lYTYv0V07DYEYiFtum8gZwDDX2F2Gr2QRR6v/9HeTP1psx1HcXGIPYvxIDpRPcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fx1zwz01; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718776672; c=relaxed/simple;
+	bh=scEJE+FtrAipbWWuCOlW7sNdiWYp1YNxGU1Wofz9Sk0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZscjgEWsjofrkBsZmnEqG1Dsij2J2fvT6NmGepWp/gaqQ1uiOdGwyDMKQFhETyGGLnL6yiTVcJtxG7AUJS3JpM76u9zRzmibSJdW93ffUyHjCPssYX5iHi2Rk6Or48losKKZL8Aswq1E0k2pFx57ptr3WeGOfLTJ8iJmUXuxNmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUK/Fg7s; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fx1zwz01"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718774145; x=1750310145;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TL1LD2iCTY2phX4axZb2rSAcIuxvrdQ6F7zmXGItjHE=;
-  b=Fx1zwz01h6LeLeHeLXVX4k2div8tVZbUSWZyWhOk6M/h67fCFy8zqy08
-   SWPYE8/MKB/TaA7H/8uNuOG0ZrrJlqqtFfkgBuTiKUBb4TnpPWKgKSdqO
-   jVhUoH6tzaOU0cpopfNmtsEQ8r4LogORcLsAxlzf2Kgv2lxBJTDOvQCdz
-   HUTpgsOFolM8NjSdvo/808cbjLyYVJAOBULxguvNySfP0dA1T6lxD/o3I
-   GYdzadmiPRRx1PJn4we9dzOuXAIQNJ3yQam7DhLtnqkCbub3+cdxMHhaZ
-   syucTDctXC4oGeGluvQj/yCuSM/tZn4v4SN5d12q6eYk7CeL7r/0qSNMO
-   Q==;
-X-CSE-ConnectionGUID: t23gANPQTVme/bNVIehQFg==
-X-CSE-MsgGUID: q9aDI9OLTRS0OODnNA5YmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="19563866"
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="19563866"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 22:15:44 -0700
-X-CSE-ConnectionGUID: +NIkGp8LQR2PpvdyxUNVGg==
-X-CSE-MsgGUID: w+e0CqctSNu7OyoRcudklQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="72536611"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2024 22:15:42 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJnfY-0006JO-2G;
-	Wed, 19 Jun 2024 05:15:40 +0000
-Date: Wed, 19 Jun 2024 13:15:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts:127.20-161.4:
- Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30:
- unnecessary #address-cells/#size-cells without "ranges" or child "reg"
- property
-Message-ID: <202406191339.vptigQww-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUK/Fg7s"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4217d808034so54842535e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 22:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718776669; x=1719381469; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=scEJE+FtrAipbWWuCOlW7sNdiWYp1YNxGU1Wofz9Sk0=;
+        b=gUK/Fg7szhtt7YoeaunoYRl2AS0Hb8k22dXeTDTLXQoqbFvDYqX6RHOk1djrpXBr0T
+         mP4E8Rb5ayUsU1X0cmJFaBUOzlsKSik8bPWzSCmRPRUKxKcVguvr2S1RrgE1mqh+o7N8
+         iQq73s30HSj+bn0VvEiH8axVz8olcnApLgApkGCU6gGZ676gOxGN7hzrH/jX7XVe4MM/
+         Ty5ZGTF9ROseuPnElvYGzJw6N3xk/GwKywnrie/tm5Sg1H8sY6KUmZdQ1BR21XZiYa9T
+         KvCzEenDRKmxXCyE4MrsIwaGUR1igErU8Rije1N28Z13yS2UBAiWSQh6gGPKI++UUYUF
+         xBPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718776669; x=1719381469;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=scEJE+FtrAipbWWuCOlW7sNdiWYp1YNxGU1Wofz9Sk0=;
+        b=jV2JuQh/45RBs4ELniCXrpfX7UWJYiIdbazhHhf26Dttbw+t8qS4R511pYj107+PJt
+         XYvLoJnbIuDGZI7BHMXtXBUvpYUnmWUZEzxP4p6GfEj6jNz097NNT7YWd1HlmMaRn1Vr
+         zOF75TEKlVVMcL0gTGXOPOBuJ1GLs4yx+FLHGt3CkEitAdBVfyTcjjPkXkfnYMpD9J3T
+         Ust8MqGUr8zO0I9OPtP1GgeCluRo3GH8lOukKiouJGm1+lfCVqXUTCWsJAFqlNb20JMq
+         HAouTAUYjce8cSe7zpQOy5yYWuYaWTB556qZFMczoMwqGEbRN9H4/qZf//CUPySZrdpm
+         dODQ==
+X-Gm-Message-State: AOJu0YxJBCM/ugk5WwzL5TF6S8Sgfm72sZOjkKPaKJ5TUCXA3RZjz7W6
+	LuBKsyi6xmjDsGx78DtR4dPTw2qJOqhaDMk4ofMWPOIjitaXRUvu
+X-Google-Smtp-Source: AGHT+IGUWmG2ozlLnkr7/lTelYMt1DNSd/pixvzBkdl27mVAYbqX6fLVIuUMu0W+3eqBG/aY2Mqy9w==
+X-Received: by 2002:a05:600c:1c98:b0:423:791:f446 with SMTP id 5b1f17b1804b1-4247507a087mr9346335e9.7.1718776668365;
+        Tue, 18 Jun 2024 22:57:48 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874de68asm254670625e9.29.2024.06.18.22.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 22:57:48 -0700 (PDT)
+Message-ID: <7b20ed6c17fc7e7a023eb2d305ee699a81a2a2ce.camel@gmail.com>
+Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface
+ infrastructure
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: kernel test robot <lkp@intel.com>, Paul Cercueil <paul@crapouillou.net>,
+  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, Nuno Sa
+ <nuno.sa@analog.com>, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Wed, 19 Jun 2024 07:57:47 +0200
+In-Reply-To: <202406191014.9JAzwRV6-lkp@intel.com>
+References: <20240618100302.72886-4-paul@crapouillou.net>
+	 <202406191014.9JAzwRV6-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   92e5605a199efbaee59fb19e15d6cc2103a04ec2
-commit: a21796c631734ea5cf62507e63a2479261880514 arm64: dts: qcom: msm8939-longcheer-l9100: Enable RGB LED
-date:   8 months ago
-config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240619/202406191339.vptigQww-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce: (https://download.01.org/0day-ci/archive/20240619/202406191339.vptigQww-lkp@intel.com/reproduce)
+On Wed, 2024-06-19 at 11:15 +0800, kernel test robot wrote:
+> Hi Paul,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on jic23-iio/togreg]
+> [also build test ERROR on vkoul-dmaengine/next linus/master v6.10-rc4 nex=
+t-
+> 20240618]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Ad=
+d-API-function-dmaengine_prep_peripheral_dma_vec/20240618-180602
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/jic23/i=
+io.git=C2=A0togreg
+> patch link:=C2=A0=C2=A0=C2=A0
+> https://lore.kernel.org/r/20240618100302.72886-4-paul%40crapouillou.net
+> patch subject: [PATCH v11 3/7] iio: core: Add new DMABUF interface infras=
+tructure
+> config: x86_64-randconfig-161-20240619
+> (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-l=
+kp@intel.c
+> om/config)
+> compiler: clang version 18.1.5
+> (https://github.com/llvm/llvm-project=C2=A0617a15a9eac96088ae5e9134248d82=
+36e34b91b1)
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-l=
+kp@intel.c
+> om/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202406191014.9JAzwRV6-lkp@intel.c=
+om/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> > > drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from thi=
+s goto
+> > > statement to its label
+> =C2=A0=C2=A0=C2=A0 1715 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_dmabuf_unmap_atta=
+chment;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ ^
+> =C2=A0=C2=A0 drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasse=
+s initialization of
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191339.vptigQww-lkp@intel.com/
+I guess the compiler produces code that will run the cleanup function on an
+uninitialized variable. I would then go back to plain mutex() instead of mo=
+ving
+guard() to a place where it does not make sense only to shut up the warning=
+s.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8939.dtsi:1284.27-1333.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts:127.20-161.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8939.dtsi:496.26-499.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s6-p1@a1: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s6-p2@a1)
-   arch/arm64/boot/dts/qcom/msm8939.dtsi:516.26-519.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s8-p1@a4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s8-p2@a4)
-   arch/arm64/boot/dts/qcom/msm8939.dtsi:541.24-544.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/mode@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   arch/arm64/boot/dts/qcom/msm8939.dtsi:551.26-554.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s0-p1@d1: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p1@d1)
-   arch/arm64/boot/dts/qcom/msm8939.dtsi:571.26-574.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s3-p1@d4)
+- Nuno S=C3=A1
 
-vim +127 arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
 
-   123	
-   124	&blsp_i2c2 {
-   125		status = "okay";
-   126	
- > 127		led-controller@30 {
-   128			compatible = "kinetic,ktd2026";
-   129			reg = <0x30>;
-   130			#address-cells = <1>;
-   131			#size-cells = <0>;
-   132	
-   133			vin-supply = <&pm8916_l17>;
-   134			vio-supply = <&pm8916_l6>;
-   135	
-   136			pinctrl-0 = <&status_led_default>;
-   137			pinctrl-names = "default";
-   138	
-   139			multi-led {
-   140				color = <LED_COLOR_ID_RGB>;
-   141				function = LED_FUNCTION_STATUS;
-   142	
-   143				#address-cells = <1>;
-   144				#size-cells = <0>;
-   145	
-   146				led@0 {
-   147					reg = <0>;
-   148					color = <LED_COLOR_ID_RED>;
-   149				};
-   150	
-   151				led@1 {
-   152					reg = <1>;
-   153					color = <LED_COLOR_ID_GREEN>;
-   154				};
-   155	
-   156				led@2 {
-   157					reg = <2>;
-   158					color = <LED_COLOR_ID_BLUE>;
-   159				};
-   160			};
-   161		};
-   162	};
-   163	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
