@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914CC4CB35
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 03:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB35B2139D3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 03:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718767006; cv=none; b=ZJRuapRmPmPms4ymvCwixBqNj0BgQGDFAY3G8H7mgjEPFsOfSZfV/CLgL7d42GJ74GJ/5c5KhKoiLDRupMumy4wVZmDv/NV+a8lZhWBQ/FWY3XbfMjoRY5q4zDcOyWSTi0CEfdWZxh4NcXA37QQqBWECaEnqHhvV5MBGD+eBjF4=
+	t=1718768983; cv=none; b=bw51xKgpOktQEeTJlNJxN5jWHcQwD3Dsw6A3kiI8K3wWoD9NVDyFwTPyMyuyGcrh6LB7/SnSvAKJMU7sEIVVyqc1SRC542b6l1BZPQLlazMD7NLdo7D9vqPx/akZd4qJk2WxBSx3qrWMx4dyjjFCqtxpOhhkzXVuD47cefTcMjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718767006; c=relaxed/simple;
-	bh=evre/A62rleMBzK6LSljo40VULixCUjb6n/TUkE6G4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqtuvmSILaqg9VN2DIfyCrigONjEDTBJ//PqJF+t72QcVwCHggQRfNXOZpCBGVX8lqhAxHFBZ//m4m2N4N/clUTCFcPcPT+xykbw0uPIaCYYGsKZsRo4yiC2NE8l4pmgWA7w3EK0XOD6N/aYTWH6jBpljSKxhsOJ158/Ck8Cu6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eb9gDpUo; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1718768983; c=relaxed/simple;
+	bh=QXkSVgStsUG9fYT331CI3KiuTyOcT9EhyIjOJUjiO4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fXNwPUlFymA5VOfYUHTp4znOi19YNdENV1KrLIK3M//l/usBPHtv4CO4nMEQkAzR4HcZBevMTUGyeru6ebdEQB+6X7eTRBb0sEzqWnqXXIsFn9Y7POsIHsFNURkwtCV+hDsJv486DSYBfrEsrymVL0rzcHndA6yUCjdJzrQ30ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C59xcf3/; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eb9gDpUo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C59xcf3/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718767005; x=1750303005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=evre/A62rleMBzK6LSljo40VULixCUjb6n/TUkE6G4s=;
-  b=Eb9gDpUonlBb7QELGJCqzwR73HnH2MRxgx3IG6mRbNRIcFZeLvxy8xeS
-   1vc7722S5+1lBQlWsHNjslrEwSba1d09aVaAaFIzLOwfUMvszHsiq6Fyn
-   nOgoOSejizgfQtErHT10VNn4ZA3dssvENqJxmLkp0APOuM4VNT+PugxJq
-   wNacK4SkSBjAwKZQkHueBrxVPUFYJODhTmZWEMZsoqHEqhPunYWIfYjA/
-   UQ8TFPVKBajAMiIU6n7wKYYI5r9D4OYK19PTC27cJ3F1RLbfatXWfLA3q
-   I6VQSb+tsYTJDhICJ2VVusnqvAfiHtbEotJ1aa7GMcU+mInDYgIf4L22s
-   g==;
-X-CSE-ConnectionGUID: bGNMpdgRQxqv6epb+2i99g==
-X-CSE-MsgGUID: qSPrVeNTT1OcnmbwtQPh5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26363851"
+  t=1718768981; x=1750304981;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QXkSVgStsUG9fYT331CI3KiuTyOcT9EhyIjOJUjiO4c=;
+  b=C59xcf3/xQrPjt7rylRp1hljjszo08Njw9AgqXxrieqFJMFzxbiVMwGJ
+   z954/x2zeiyPmKQSEEWLCO20khBD10QDl9KdriPG9xoPrYZkxIl4j49qN
+   WTwWgE1tEg+vUPM4KJJUnq3u7TgvOIyW0BVIXaCqCrWrCUADHfQXu+9ls
+   Niyd4LVgYKc60Fcu50P8RKEN6pnTh/coDI5H64roc8atvKlkkEd9IhmWL
+   pUGKnBaAEqlBueAnYyLUURu8UdAA1Nj910aS7tc4TgHM6N3ky9bojcGIQ
+   0tfoGsICfYAm0drzepUsC3VgGfziH0619x31Sc/cA2CnNqUReI4K5XADN
+   A==;
+X-CSE-ConnectionGUID: c9lGc/CWSjSyoMZ/7azfWA==
+X-CSE-MsgGUID: hVuxXOV2ThCVCscg1TQGRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27087150"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="26363851"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 20:16:42 -0700
-X-CSE-ConnectionGUID: fhao++heQveyGaZRRaQIKA==
-X-CSE-MsgGUID: jTxQrE6WQRe3T6I1xWYmlA==
+   d="scan'208";a="27087150"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 20:49:41 -0700
+X-CSE-ConnectionGUID: fWBddMlARjqvtEjSvhQHcQ==
+X-CSE-MsgGUID: aTl78yIaT0OGdr4D3qSamQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="46893909"
+   d="scan'208";a="46721246"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2024 20:16:39 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 Jun 2024 20:49:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJloK-0006Dd-1P;
-	Wed, 19 Jun 2024 03:16:36 +0000
-Date: Wed, 19 Jun 2024 11:15:53 +0800
+	id 1sJmKH-0006Fi-1w;
+	Wed, 19 Jun 2024 03:49:37 +0000
+Date: Wed, 19 Jun 2024 11:49:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Nuno Sa <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface
- infrastructure
-Message-ID: <202406191014.9JAzwRV6-lkp@intel.com>
-References: <20240618100302.72886-4-paul@crapouillou.net>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [plbossart-sound:sdw/fix-link-power-up 4/4]
+ drivers/soundwire/intel_ace2x.c:133:6: warning: variable 'clock_source' set
+ but not used
+Message-ID: <202406191114.f7jLI1wM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,242 +62,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618100302.72886-4-paul@crapouillou.net>
 
-Hi Paul,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on vkoul-dmaengine/next linus/master v6.10-rc4 next-20240618]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Add-API-function-dmaengine_prep_peripheral_dma_vec/20240618-180602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240618100302.72886-4-paul%40crapouillou.net
-patch subject: [PATCH v11 3/7] iio: core: Add new DMABUF interface infrastructure
-config: x86_64-randconfig-161-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-lkp@intel.com/config)
+tree:   https://github.com/plbossart/sound sdw/fix-link-power-up
+head:   e29ccf331968bbdc45bda006cfe4da3c8618baf2
+commit: e29ccf331968bbdc45bda006cfe4da3c8618baf2 [4/4] soundwire: intel_ace2x: revert power-up sequence
+config: i386-buildonly-randconfig-002-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191114.f7jLI1wM-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191114.f7jLI1wM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191014.9JAzwRV6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191114.f7jLI1wM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
-    1715 |                 goto err_dmabuf_unmap_attachment;
-         |                 ^
-   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
-         |         ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-     164 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
-     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:126:1: note: expanded from here
-     126 | __UNIQUE_ID_guard696
-         | ^
-   drivers/iio/industrialio-buffer.c:1704:3: error: cannot jump from this goto statement to its label
-    1704 |                 goto err_resv_unlock;
-         |                 ^
-   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
-         |         ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-     164 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
-     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:126:1: note: expanded from here
-     126 | __UNIQUE_ID_guard696
-         | ^
-   drivers/iio/industrialio-buffer.c:1695:3: error: cannot jump from this goto statement to its label
-    1695 |                 goto err_dmabuf_detach;
-         |                 ^
-   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
-         |         ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-     164 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
-     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:126:1: note: expanded from here
-     126 | __UNIQUE_ID_guard696
-         | ^
-   drivers/iio/industrialio-buffer.c:1690:3: error: cannot jump from this goto statement to its label
-    1690 |                 goto err_dmabuf_put;
-         |                 ^
-   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
-         |         ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-     164 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
-     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:126:1: note: expanded from here
-     126 | __UNIQUE_ID_guard696
-         | ^
-   drivers/iio/industrialio-buffer.c:1684:3: error: cannot jump from this goto statement to its label
-    1684 |                 goto err_free_priv;
-         |                 ^
-   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
-         |         ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-     164 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
-     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
+>> drivers/soundwire/intel_ace2x.c:133:6: warning: variable 'clock_source' set but not used [-Wunused-but-set-variable]
+     133 |         u32 clock_source;
+         |             ^
+   1 warning generated.
 
 
-vim +1715 drivers/iio/industrialio-buffer.c
+vim +/clock_source +133 drivers/soundwire/intel_ace2x.c
 
-  1655	
-  1656	static int iio_buffer_attach_dmabuf(struct iio_dev_buffer_pair *ib,
-  1657					    int __user *user_fd, bool nonblock)
-  1658	{
-  1659		struct iio_dev *indio_dev = ib->indio_dev;
-  1660		struct iio_buffer *buffer = ib->buffer;
-  1661		struct dma_buf_attachment *attach;
-  1662		struct iio_dmabuf_priv *priv, *each;
-  1663		struct dma_buf *dmabuf;
-  1664		int err, fd;
-  1665	
-  1666		if (!buffer->access->attach_dmabuf
-  1667		    || !buffer->access->detach_dmabuf
-  1668		    || !buffer->access->enqueue_dmabuf)
-  1669			return -EPERM;
-  1670	
-  1671		if (copy_from_user(&fd, user_fd, sizeof(fd)))
-  1672			return -EFAULT;
-  1673	
-  1674		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-  1675		if (!priv)
-  1676			return -ENOMEM;
-  1677	
-  1678		spin_lock_init(&priv->lock);
-  1679		priv->context = dma_fence_context_alloc(1);
-  1680	
-  1681		dmabuf = dma_buf_get(fd);
-  1682		if (IS_ERR(dmabuf)) {
-  1683			err = PTR_ERR(dmabuf);
-  1684			goto err_free_priv;
-  1685		}
-  1686	
-  1687		attach = dma_buf_attach(dmabuf, indio_dev->dev.parent);
-  1688		if (IS_ERR(attach)) {
-  1689			err = PTR_ERR(attach);
-  1690			goto err_dmabuf_put;
-  1691		}
-  1692	
-  1693		err = iio_dma_resv_lock(dmabuf, nonblock);
-  1694		if (err)
-  1695			goto err_dmabuf_detach;
-  1696	
-  1697		priv->dir = buffer->direction == IIO_BUFFER_DIRECTION_IN
-  1698			? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-  1699	
-  1700		priv->sgt = dma_buf_map_attachment(attach, priv->dir);
-  1701		if (IS_ERR(priv->sgt)) {
-  1702			err = PTR_ERR(priv->sgt);
-  1703			dev_err(&indio_dev->dev, "Unable to map attachment: %d\n", err);
-  1704			goto err_resv_unlock;
-  1705		}
-  1706	
-  1707		kref_init(&priv->ref);
-  1708		priv->buffer = buffer;
-  1709		priv->attach = attach;
-  1710		attach->importer_priv = priv;
-  1711	
-  1712		priv->block = buffer->access->attach_dmabuf(buffer, attach);
-  1713		if (IS_ERR(priv->block)) {
-  1714			err = PTR_ERR(priv->block);
-> 1715			goto err_dmabuf_unmap_attachment;
-  1716		}
-  1717	
-  1718		dma_resv_unlock(dmabuf->resv);
-  1719	
-  1720		guard(mutex)(&buffer->dmabufs_mutex);
-  1721	
-  1722		/*
-  1723		 * Check whether we already have an attachment for this driver/DMABUF
-  1724		 * combo. If we do, refuse to attach.
-  1725		 */
-  1726		list_for_each_entry(each, &buffer->dmabufs, entry) {
-  1727			if (each->attach->dev == indio_dev->dev.parent
-  1728			    && each->attach->dmabuf == dmabuf) {
-  1729				/*
-  1730				 * We unlocked the reservation object, so going through
-  1731				 * the cleanup code would mean re-locking it first.
-  1732				 * At this stage it is simpler to free the attachment
-  1733				 * using iio_buffer_dma_put().
-  1734				 */
-  1735				iio_buffer_dmabuf_put(attach);
-  1736				return -EBUSY;
-  1737			}
-  1738		}
-  1739	
-  1740		/* Otherwise, add the new attachment to our dmabufs list. */
-  1741		list_add(&priv->entry, &buffer->dmabufs);
-  1742	
-  1743		return 0;
-  1744	
-  1745	err_dmabuf_unmap_attachment:
-  1746		dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
-  1747	err_resv_unlock:
-  1748		dma_resv_unlock(dmabuf->resv);
-  1749	err_dmabuf_detach:
-  1750		dma_buf_detach(dmabuf, attach);
-  1751	err_dmabuf_put:
-  1752		dma_buf_put(dmabuf);
-  1753	err_free_priv:
-  1754		kfree(priv);
-  1755	
-  1756		return err;
-  1757	}
-  1758	
+4e024a8cfb184d Pierre-Louis Bossart 2023-01-20  126  
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  127  static int intel_link_power_up(struct sdw_intel *sdw)
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  128  {
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  129  	struct sdw_bus *bus = &sdw->cdns.bus;
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  130  	struct sdw_master_prop *prop = &bus->prop;
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  131  	u32 *shim_mask = sdw->link_res->shim_mask;
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  132  	unsigned int link_id = sdw->instance;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20 @133  	u32 clock_source;
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  134  	u32 syncprd;
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  135  	int ret;
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  136  
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  137  	if (prop->mclk_freq % 6000000) {
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  138  		if (prop->mclk_freq % 2400000) {
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  139  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24_576;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  140  			clock_source = SDW_SHIM2_MLCS_CARDINAL_CLK;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  141  		} else {
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  142  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  143  			clock_source = SDW_SHIM2_MLCS_XTAL_CLK;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  144  		}
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  145  	} else {
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  146  		syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_96;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  147  		clock_source = SDW_SHIM2_MLCS_AUDIO_PLL_CLK;
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  148  	}
+4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  149  
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  150  	mutex_lock(sdw->link_res->shim_lock);
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  151  
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  152  	if (!*shim_mask) {
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  153  		/* we first need to program the SyncPRD/CPU registers */
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  154  		dev_dbg(sdw->cdns.dev, "first link up, programming SYNCPRD\n");
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  155  
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  156  		ret =  hdac_bus_eml_sdw_set_syncprd_unlocked(sdw->link_res->hbus, syncprd);
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  157  		if (ret < 0) {
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  158  			dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_set_syncprd failed: %d\n",
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  159  				__func__, ret);
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  160  			goto out;
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  161  		}
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  162  	}
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  163  
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  164  	ret = hdac_bus_eml_sdw_power_up_unlocked(sdw->link_res->hbus, link_id);
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  165  	if (ret < 0) {
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  166  		dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_power_up failed: %d\n",
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  167  			__func__, ret);
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  168  		goto out;
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  169  	}
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  170  
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  171  	//intel_shim_vs_set_clock_source(sdw, clock_source);
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  172  
+e29ccf331968bb Pierre-Louis Bossart 2024-06-18  173  	if (!*shim_mask) {
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  174  		/* SYNCPU will change once link is active */
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  175  		ret =  hdac_bus_eml_sdw_wait_syncpu_unlocked(sdw->link_res->hbus);
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  176  		if (ret < 0) {
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  177  			dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_wait_syncpu failed: %d\n",
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  178  				__func__, ret);
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  179  			goto out;
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  180  		}
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  181  	}
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  182  
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  183  	*shim_mask |= BIT(link_id);
+5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  184  
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  185  	sdw->cdns.link_up = true;
+2749185d559c59 Pierre-Louis Bossart 2023-01-16  186  
+2749185d559c59 Pierre-Louis Bossart 2023-01-16  187  	intel_shim_vs_init(sdw);
+2749185d559c59 Pierre-Louis Bossart 2023-01-16  188  
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  189  out:
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  190  	mutex_unlock(sdw->link_res->shim_lock);
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  191  
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  192  	return ret;
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  193  }
+bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  194  
+
+:::::: The code at line 133 was first introduced by commit
+:::::: 4e6a966b12d959187f68694a8821f5bcbef3beff soundwire: intel_ace2x: move and extend clock selection
+
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
