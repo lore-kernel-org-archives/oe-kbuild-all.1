@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852D926AC6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 02:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E6D224DD;
+	Wed, 19 Jun 2024 02:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718763760; cv=none; b=ptgQih1gOLUQl7PQikOcI/+uv796MGiNgZZUQ5uSOaYPDar1r6t1LjufC4JwEE8dHYBPyhUMJJck14nl44BjPaq2JUNXsyODoPMZwYpt+bgoK7DjGp0gX6tEQqaV7hwqlFrWMkQvvDzqIrne3Z9TSqg6TI6E771q5uyLQtA9aF8=
+	t=1718763777; cv=none; b=owAVafwWVeYg1IJ3q7X/7EUm8rNRWl8hZ9HJG6NmvBZetvDyWhCUDeaiR4K+UYrnjk7K1dOxftkCjE9UFXaoATN6hj9Rj0QjaZlklwjbJmrvvrBMD4XKcHuj+hZWVYIeILu08RDS9+CQItORHrYXHcQPrQ37p3ebZjzRRJnmsVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718763760; c=relaxed/simple;
-	bh=CU7uJ0gZc+b5ULBIews5u93ULLY/f68dr+OQtivL0Fg=;
+	s=arc-20240116; t=1718763777; c=relaxed/simple;
+	bh=cumVxvDyCpDGybvIjNFloLsnnrG5RJs4g9d6vPcATa0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m/8UnMdQchty0fX/2itMEBNEz8tUP+machw3LWWQPSxRdJ7PdHKQVDg2DFT9zM5Mk8zKMqwfDawM7fLNqcCBFECiaSvmSTLDRfiTI2vGI95NvYG6FDffGToWyg3ugIRR/rLmRTnbECzOS4I7CgmtuyEm58S/L9cR2CJ6quvWAKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXdWxBfe; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=SAh9FSR0ku6PywgItTRvjINvMsYEdDEF3zfDTsnLoPKpm7sDr4yONW33hNNJ9lk2w4rfNmUJBRcHQLHoJx61INgJEfjX+j1+LKkIXcSscSrGyccgsTufJltW6lP46/H5iCq7iWMJiq6/Be8gJZU04jX5B1r62sQth4Egl7ZncKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jlqkvINq; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXdWxBfe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlqkvINq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718763759; x=1750299759;
+  t=1718763775; x=1750299775;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CU7uJ0gZc+b5ULBIews5u93ULLY/f68dr+OQtivL0Fg=;
-  b=gXdWxBfep7YJbspA1CMPXKSk8cNVSUpsnc4DqB6QWM68MrDVqWbhje68
-   bqn7KOfIhutXa/JS0TfybfhlnqhB0s5a30XPDWQkBPpG8T+dIF/M81+y3
-   L9BhtZPPl0hlrZ2xtbsACB1vaTJ6VmsmJxTWLP4JV8XYuBk36yMdpJJJ9
-   fZpRaaGncRs1sBTkHzS0In6QH/sg/1f7d/UXXV/6OW+BFBSggwYRajBH0
-   +yxmaID38gwLtaB0inZ2XN3FX+Qh/qG6gAlClLZfyRMNW2yt0m3gtLDm7
-   aUPN+YhNr0XZSOm+dnwHO/UPV7n86uJ1/gt8RYOCJjAucVsQDCfxr+ttD
+  bh=cumVxvDyCpDGybvIjNFloLsnnrG5RJs4g9d6vPcATa0=;
+  b=jlqkvINq9irDolAD9UCbtJBzv6w0Xa8/nX4CH324wF/mK5Izmvg3nYIP
+   j8ZdJAClnZvqbJcVCADvWV39weicEbFpZN8uqiX2GfSV+I7jfrJCbO05V
+   ACcOuNQZttQ2XTiCviKWFPQO8LSh/XL5S3028O9arCk1dHSbZkCZRFqG6
+   tI6qgZH2dVAkXkLPr6IDJs51C1IxzGZmxG5hKrVQXVpu2z3593ijvs9/h
+   P/1qUEzWQEzIgOdD9lVsAXHtxbv4vftrqSpaZDUET/r1NUDTgLFBlkJvX
+   /ECptK+PbPcN716hxaJroywEP1kB0uOtzw6bwb9I4LzJlzQ6RtQ+tjSN7
    A==;
-X-CSE-ConnectionGUID: 9cUtsanVRbKfIvLA5PHXMg==
-X-CSE-MsgGUID: 2JJyvHBATRWnI455i8vVUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27081878"
+X-CSE-ConnectionGUID: L8cM31cbSeGH9aH42cvp7g==
+X-CSE-MsgGUID: n/ChDBCkTA6v5/4puRbwTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27081911"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="27081878"
+   d="scan'208";a="27081911"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 19:22:38 -0700
-X-CSE-ConnectionGUID: G0L47fdPQtS7bljCGe7YFA==
-X-CSE-MsgGUID: DH+ccEOBSbO9Fd1CnZYGPA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 19:22:54 -0700
+X-CSE-ConnectionGUID: VJ/RhYvMR+yK80yCs3VpOQ==
+X-CSE-MsgGUID: hNXR2/GdTK6atoqwwO53tA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="46186226"
+   d="scan'208";a="46186315"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Jun 2024 19:22:37 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Jun 2024 19:22:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJky2-0006Ak-1h;
+	id 1sJky2-0006Am-1n;
 	Wed, 19 Jun 2024 02:22:34 +0000
-Date: Wed, 19 Jun 2024 10:21:44 +0800
+Date: Wed, 19 Jun 2024 10:21:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 14909/22966]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:9556:5: sparse:
- sparse: symbol 'hclge_reset_tqp_cmd' was not declared. Should it be static?
-Message-ID: <202406191011.L7AJtzLw-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:rmap_id 10/10] include/linux/rmap.h:653:4: error:
+ call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202406191246.kwAalz2y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,210 +63,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   26bfb7d9b0ef31487312e8e9e6eb097acaf5d739
-commit: 729f96a4e0c32f1c1bfa60e4ff485aa91890963d [14909/22966] net: hns3: optimize the process of queue reset
-config: arm64-randconfig-r111-20240615 (https://download.01.org/0day-ci/archive/20240619/202406191011.L7AJtzLw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240619/202406191011.L7AJtzLw-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux rmap_id
+head:   28522f2898f6be45285b138912245f743d2118b5
+commit: d7bf123ba843ca74ae36377c58b495264fdb3dbd [10/10] rmap_id
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240619/202406191246.kwAalz2y-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191246.kwAalz2y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191011.L7AJtzLw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191246.kwAalz2y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3345:5: sparse: sparse: symbol 'hclge_set_all_vf_rst' was not declared. Should it be static?
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:9556:5: sparse: sparse: symbol 'hclge_reset_tqp_cmd' was not declared. Should it be static?
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:9603:5: sparse: sparse: symbol 'hclge_reset_rcb' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11592:21: sparse: sparse: symbol 'hclge_ops' was not declared. Should it be static?
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3345:5: warning: no previous prototype for 'hclge_set_all_vf_rst' [-Wmissing-prototypes]
-    3345 | int hclge_set_all_vf_rst(struct hclge_dev *hdev, bool reset)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:9556:5: warning: no previous prototype for 'hclge_reset_tqp_cmd' [-Wmissing-prototypes]
-    9556 | int hclge_reset_tqp_cmd(struct hnae3_handle *handle)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:9603:5: warning: no previous prototype for 'hclge_reset_rcb' [-Wmissing-prototypes]
-    9603 | int hclge_reset_rcb(struct hnae3_handle *handle)
-         |     ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11699:5: warning: no previous prototype for 'hclge_init' [-Wmissing-prototypes]
-   11699 | int hclge_init(void)
-         |     ^~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_strings':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:668:50: warning: '%s' directive output may be truncated writing up to 3359 bytes into a region of size 32 [-Wformat-truncation=]
-     668 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                                                  ^~
-   In function 'hclge_comm_get_strings',
-       inlined from 'hclge_get_strings' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:774:7:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:668:17: note: 'snprintf' output between 1 and 3360 bytes into a destination of size 32
-     668 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_cmd.h:9,
-                    from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:18:
-   In function 'hclge_func_reset_cmd',
-       inlined from 'hclge_reset_prepare_wait' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3608:9:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:26: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-   drivers/net/ethernet/hisilicon/hns3/hnae3.h:720:18: note: in definition of macro 'hnae3_set_field'
-     720 |                 (origin) &= (~(mask)); 35-      |                  ^~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:9: note: in expansion of macro 'hnae3_set_bit'
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_prepare_wait':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3462:27: note: at offset 8 into object 'desc' of size 32
-    3462 |         struct hclge_desc desc;
-         |                           ^~~~
-   In function 'hclge_func_reset_cmd',
-       inlined from 'hclge_reset_prepare_wait' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3608:9:
-   drivers/net/ethernet/hisilicon/hns3/hnae3.h:721:26: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-     721 |                 (origin) |= ((val) << (shift)) & (mask); 47-      |                 ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hnae3.h:726:9: note: in expansion of macro 'hnae3_set_field'
-     726 |         hnae3_set_field((origin), (0x1 << (shift)), (shift), (val))
-         |         ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:9: note: in expansion of macro 'hnae3_set_bit'
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_prepare_wait':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3462:27: note: at offset 8 into object 'desc' of size 32
-    3462 |         struct hclge_desc desc;
-         |                           ^~~~
-   In function 'hclge_func_reset_cmd',
-       inlined from 'hclge_reset_prepare_wait' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3608:9:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3468:29: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-    3468 |         req->fun_reset_vfid = func_id;
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_prepare_wait':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3462:27: note: at offset 8 into object 'desc' of size 32
-    3462 |         struct hclge_desc desc;
-         |                           ^~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_func_reset_cmd':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:26: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-         |                          ^~
-   drivers/net/ethernet/hisilicon/hns3/hnae3.h:720:18: note: in definition of macro 'hnae3_set_field'
-     720 |                 (origin) &= (~(mask)); 73-      |                  ^~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:9: note: in expansion of macro 'hnae3_set_bit'
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3462:27: note: at offset 8 into object 'desc' of size 32
-    3462 |         struct hclge_desc desc;
-         |                           ^~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:26: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-         |                          ^~
-   drivers/net/ethernet/hisilicon/hns3/hnae3.h:721:18: note: in definition of macro 'hnae3_set_field'
-     721 |                 (origin) |= ((val) << (shift)) & (mask); 85-      |                  ^~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3467:9: note: in expansion of macro 'hnae3_set_bit'
-    3467 |         hnae3_set_bit(req->mac_func_reset, HCLGE_CFG_RESET_FUNC_B, 1);
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3462:27: note: at offset 8 into object 'desc' of size 32
-    3462 |         struct hclge_desc desc;
-         |                           ^~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3468:12: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-    3468 |         req->fun_reset_vfid = func_id;
-         |            ^~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:3462:27: note: at offset 8 into object 'desc' of size 32
-    3462 |         struct hclge_desc desc;
-         |                           ^~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_rcb':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:9619:26: warning: array subscript 'struct hclge_reset_cmd[0]' is partly outside array bounds of 'struct hclge_desc[1]' [-Warray-bounds=]
-    9619 |         hnae3_set_bit(req->fun_reset_rcb, HCLGE_CFG_RESET_RCB_B, 1);
-         |                          ^~
-   drivers/net/ethernet/hisilicon/hns3/hnae3.h:720:18: note: in definition of macro 'hnae3_set_field'
+All errors (new ones prefixed by >>):
 
-vim +/hclge_reset_tqp_cmd +9556 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+   In file included from mm/filemap.c:40:
+>> include/linux/rmap.h:653:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     653 |                         folio_large_mapcount_dup(folio, orig_nr_pages,
+         |                         ^
+   include/linux/rmap.h:653:4: note: did you mean 'folio_large_mapcount_sub'?
+   include/linux/rmap.h:477:20: note: 'folio_large_mapcount_sub' declared here
+     477 | static inline void folio_large_mapcount_sub(struct folio *folio,
+         |                    ^
+   include/linux/rmap.h:665:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     665 |                         folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+         |                         ^
+   include/linux/rmap.h:767:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     767 |                         folio_large_mapcount_dup(folio, orig_nr_pages,
+         |                         ^
+   include/linux/rmap.h:785:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     785 |                         folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+         |                         ^
+   4 errors generated.
+--
+   In file included from mm/memory.c:57:
+   In file included from include/linux/ksm.h:14:
+>> include/linux/rmap.h:653:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     653 |                         folio_large_mapcount_dup(folio, orig_nr_pages,
+         |                         ^
+   include/linux/rmap.h:653:4: note: did you mean 'folio_large_mapcount_sub'?
+   include/linux/rmap.h:477:20: note: 'folio_large_mapcount_sub' declared here
+     477 | static inline void folio_large_mapcount_sub(struct folio *folio,
+         |                    ^
+   include/linux/rmap.h:665:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     665 |                         folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+         |                         ^
+   include/linux/rmap.h:767:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     767 |                         folio_large_mapcount_dup(folio, orig_nr_pages,
+         |                         ^
+   include/linux/rmap.h:785:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     785 |                         folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+         |                         ^
+>> mm/memory.c:3593:13: error: call to undeclared function '__folio_large_mapped_shared_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3593 |                         shared = __folio_large_mapped_shared_locked(folio, vma->vm_mm);
+         |                                  ^
+   5 errors generated.
+--
+   In file included from mm/mremap.c:15:
+   In file included from include/linux/ksm.h:14:
+>> include/linux/rmap.h:653:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     653 |                         folio_large_mapcount_dup(folio, orig_nr_pages,
+         |                         ^
+   include/linux/rmap.h:653:4: note: did you mean 'folio_large_mapcount_sub'?
+   include/linux/rmap.h:477:20: note: 'folio_large_mapcount_sub' declared here
+     477 | static inline void folio_large_mapcount_sub(struct folio *folio,
+         |                    ^
+   include/linux/rmap.h:665:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     665 |                         folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+         |                         ^
+   include/linux/rmap.h:767:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     767 |                         folio_large_mapcount_dup(folio, orig_nr_pages,
+         |                         ^
+   include/linux/rmap.h:785:4: error: call to undeclared function 'folio_large_mapcount_dup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     785 |                         folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+         |                         ^
+   In file included from mm/mremap.c:16:
+   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   2 warnings and 4 errors generated.
 
-  9555	
-> 9556	int hclge_reset_tqp_cmd(struct hnae3_handle *handle)
-  9557	{
-  9558		struct hclge_vport *vport = hclge_get_vport(handle);
-  9559		struct hclge_dev *hdev = vport->back;
-  9560		u16 reset_try_times = 0;
-  9561		int reset_status;
-  9562		u16 queue_gid;
-  9563		int ret;
-  9564		u16 i;
-  9565	
-  9566		for (i = 0; i < handle->kinfo.num_tqps; i++) {
-  9567			queue_gid = hclge_covert_handle_qid_global(handle, i);
-  9568			ret = hclge_reset_tqp_cmd_send(hdev, queue_gid, true);
-  9569			if (ret) {
-  9570				dev_err(&hdev->pdev->dev,
-  9571					"failed to send reset tqp cmd, ret = %d\n",
-  9572					ret);
-  9573				return ret;
-  9574			}
-  9575	
-  9576			while (reset_try_times++ < HCLGE_TQP_RESET_TRY_TIMES) {
-  9577				reset_status = hclge_get_reset_status(hdev, queue_gid);
-  9578				if (reset_status)
-  9579					break;
-  9580	
-  9581				/* Wait for tqp hw reset */
-  9582				usleep_range(1000, 1200);
-  9583			}
-  9584	
-  9585			if (reset_try_times >= HCLGE_TQP_RESET_TRY_TIMES) {
-  9586				dev_err(&hdev->pdev->dev,
-  9587					"wait for tqp hw reset timeout\n");
-  9588				return -ETIME;
-  9589			}
-  9590	
-  9591			ret = hclge_reset_tqp_cmd_send(hdev, queue_gid, false);
-  9592			if (ret) {
-  9593				dev_err(&hdev->pdev->dev,
-  9594					"failed to deassert soft reset, ret = %d\n",
-  9595					ret);
-  9596				return ret;
-  9597			}
-  9598			reset_try_times = 0;
-  9599		}
-  9600		return 0;
-  9601	}
-  9602	
-> 9603	int hclge_reset_rcb(struct hnae3_handle *handle)
-  9604	{
-  9605	#define HCLGE_RESET_RCB_NOT_SUPPORT	0U
-  9606	#define HCLGE_RESET_RCB_SUCCESS		1U
-  9607		struct hclge_vport *vport = hclge_get_vport(handle);
-  9608		struct hclge_dev *hdev = vport->back;
-  9609		struct hclge_reset_cmd *req;
-  9610		struct hclge_desc desc;
-  9611		u8 return_status;
-  9612		u16 queue_gid;
-  9613		int ret;
-  9614	
-  9615		queue_gid = hclge_covert_handle_qid_global(handle, 0);
-  9616	
-  9617		req = (struct hclge_reset_cmd *)desc.data;
-  9618		hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_RST_TRIGGER, false);
-  9619		hnae3_set_bit(req->fun_reset_rcb, HCLGE_CFG_RESET_RCB_B, 1);
-  9620		req->fun_reset_rcb_vqid_start = cpu_to_le16(queue_gid);
-  9621		req->fun_reset_rcb_vqid_num = cpu_to_le16(handle->kinfo.num_tqps);
-  9622	
-  9623		ret = hclge_cmd_send(&hdev->hw, &desc, 1);
-  9624		if (ret) {
-  9625			dev_err(&hdev->pdev->dev,
-  9626				"failed to send rcb reset cmd, ret = %d\n", ret);
-  9627			return ret;
-  9628		}
-  9629	
-  9630		return_status = req->fun_reset_rcb_return_status;
-  9631		if (return_status == HCLGE_RESET_RCB_SUCCESS)
-  9632			return 0;
-  9633	
-  9634		if (return_status != HCLGE_RESET_RCB_NOT_SUPPORT) {
-  9635			dev_err(&hdev->pdev->dev, "failed to reset rcb, ret = %u\n",
-  9636				return_status);
-  9637			return -EIO;
-  9638		}
-  9639	
-  9640		/* if reset rcb cmd is unsupported, we need to send reset tqp cmd
-  9641		 * again to reset all tqps
-  9642		 */
-  9643		return hclge_reset_tqp_cmd(handle);
-  9644	}
-  9645	
+
+vim +/folio_large_mapcount_dup +653 include/linux/rmap.h
+
+   631	
+   632	static __always_inline void __folio_dup_file_rmap(struct folio *folio,
+   633			struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
+   634			enum rmap_level level)
+   635	{
+   636		const int orig_nr_pages = nr_pages;
+   637	
+   638		__folio_rmap_sanity_checks(folio, page, nr_pages, level);
+   639	
+   640		switch (level) {
+   641		case RMAP_LEVEL_PTE:
+   642			if (!folio_test_large(folio)) {
+   643				atomic_inc(&page->_mapcount);
+   644				break;
+   645			}
+   646	
+   647			do {
+   648				atomic_inc(&page->_mapcount);
+   649			} while (page++, --nr_pages > 0);
+   650	
+   651			if (IS_ENABLED(CONFIG_RMAP_ID)) {
+   652				folio_large_mapcount_lock(folio);
+ > 653				folio_large_mapcount_dup(folio, orig_nr_pages,
+   654							 dst_vma->vm_mm);
+   655				folio_large_mapcount_unlock(folio);
+   656			} else {
+   657				atomic_add(orig_nr_pages, &folio->_large_mapcount);
+   658			}
+   659			break;
+   660		case RMAP_LEVEL_PMD:
+   661			if (IS_ENABLED(CONFIG_RMAP_ID)) {
+   662				folio_large_mapcount_lock(folio);
+   663				atomic_set(&folio->_entire_mapcount,
+   664					   atomic_read(&folio->_entire_mapcount) + 1);
+   665				folio_large_mapcount_dup(folio, 1, dst_vma->vm_mm);
+   666				folio_large_mapcount_unlock(folio);
+   667			} else {
+   668				atomic_inc(&folio->_entire_mapcount);
+   669				atomic_inc(&folio->_large_mapcount);
+   670			}
+   671			break;
+   672		}
+   673	}
+   674	
 
 -- 
 0-DAY CI Kernel Test Service
