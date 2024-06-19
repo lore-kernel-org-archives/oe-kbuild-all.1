@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DF1179AE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 04:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD8A1CFAF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 04:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718771624; cv=none; b=il3bdvUESKHVFieOCIOHJiFMIwiJ35wdFQ5Q0lYnhmbNHyf5aR24Iq2vkWGYOGhJ91OxtkI045JUunFcpTtQmjGlCKso0kPBsM9AYhUyUsCfRKab+HkE72wdgEuvoLi4d6r0VD/TD3ZczRHNdjn3Ac9TWb83klzEYJvK4P+aLmk=
+	t=1718772885; cv=none; b=UarzxlSjdQAeRiIIYnNz4yrhY4T8iVWS+r+coU5qmkgVNRePJ8xEHi+Yv9yyE2o5XaV8D0XR4KtPiFBzFevmW2FeIHKxbmXRy3zuF1XZMajpVhqbNu8cE6G5kseVXYWNC/i2vlyPNpyaN61zJCdPgHEXnbM82ziZeeoxuD1KEpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718771624; c=relaxed/simple;
-	bh=VGZJiAFJAqXfJBqJMs76AsYIPeLVd4IvB4ptQsOCzIU=;
+	s=arc-20240116; t=1718772885; c=relaxed/simple;
+	bh=mQyZxOt9avvAml5LUDYikd868ojxOAVLHYikTny3104=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QfJSwEJ7hr0VAp8XYLIyXWa7V4TBxRhhDu14Nq0LPz4mZuHxlh2D4SXw5/I0T97GDqjJtPyIEgWPWgNRvu9t+zZg2fw8iVKQma9qnzk7xanmU1+0V0DvFVSvAGBsjwKgkPaMcH21tD374iuelV99YjOEapZHWMHrrgn32o+zMpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cklgkSUF; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=BIPg38SubrIG4GCETNuXWiT6mhdCKbwIntMla2ZOw8de82vjM0iG+YCw5mtt6iwdoikp9OflaTmYObTXtgK7hLRj9PiFmhAPylbTLfp+VucRv8+lTpT9490Iu9lWVMjz+nTm8whfAKcAKVtKIDIX9qZGrCD2f1bpA85nBkzza1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gvrp9My6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cklgkSUF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gvrp9My6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718771623; x=1750307623;
+  t=1718772884; x=1750308884;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VGZJiAFJAqXfJBqJMs76AsYIPeLVd4IvB4ptQsOCzIU=;
-  b=cklgkSUFj7oqJrCBIlse6VSbBzefvi9bX49Tt5OLjpz4Pl+PlOx8RvLM
-   Zhr9SYjqUmgYiJBV8jZeLgz/zCVUl6g7mhsElzloCEO0jupNYTVYkwXoc
-   r+BEiFPz8sC1X/GtbYLYhrZRV3I00/AAgw29x2pIoIzwuW+UWFK38BQQZ
-   MpBuTIeam40EKNUQCZX+H1JbbasIKsbygN4i5ukCiuj3nDH01KDrOfdoq
-   SsNu1nAW8mYK+2NvHZFGeXsR7d3Tt4tthB203C0Qo7dsrOV7JJ544bizr
-   MIeB0j/2rPCKME8qSNvJl17B/LnGUrfZqQTUwLN7DlQfYeoO9+jWZP9Wp
+  bh=mQyZxOt9avvAml5LUDYikd868ojxOAVLHYikTny3104=;
+  b=Gvrp9My61GSbIHYq5xwxkaLUQVTWO7KZAzhJIW0mHlfC9tfnH0Q1p8ZV
+   dgbkeWfemi5rlmMduTRXZBuLh8dBtMHvK6TwltbUZoUJd2qm2AEUnacDC
+   mEQKRFBQC75Nx3XTE1dsvPEbU2WTPO2ZyhpZLgJhZwLufhQQrZC/m2qW8
+   578X9lSB7m1DNbX8dDNghEyWJsmOVN3xccRM78FFsFgaJOiMPezoDMaV9
+   JyG9MpucixNG/IA1OGA6Px7Anj4xLEdayAoMf6oa88H3hwE++5DAuQefw
+   fH/9IJ9uR1CudtytxdeLVqhmSVqeyBa/F9PrD55wpZWhZC2vqv+JqQFe0
    Q==;
-X-CSE-ConnectionGUID: Ip8bs6twSHGaR9nFGS0Amg==
-X-CSE-MsgGUID: NrWEIvr1S5au63cEyY1qcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26369438"
+X-CSE-ConnectionGUID: F5YcjioBQ0OuHaEdzobtvA==
+X-CSE-MsgGUID: //reQrF3T162e5M1Rd8naA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15809817"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="26369438"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 21:33:42 -0700
-X-CSE-ConnectionGUID: rsJV3hRgT2Wxwkvl9w2n0Q==
-X-CSE-MsgGUID: PPOXf1fLStKHOe4eByYB0w==
+   d="scan'208";a="15809817"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 21:54:43 -0700
+X-CSE-ConnectionGUID: ZObbpFyBSyyEwQwXzKNCaA==
+X-CSE-MsgGUID: krkUmayFR0GHtd1OZxCw8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="65020273"
+   d="scan'208";a="46344420"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Jun 2024 21:33:41 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jun 2024 21:54:41 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJn0t-0006Hu-0F;
-	Wed, 19 Jun 2024 04:33:39 +0000
-Date: Wed, 19 Jun 2024 12:33:13 +0800
+	id 1sJnLD-0006Ig-2h;
+	Wed, 19 Jun 2024 04:54:39 +0000
+Date: Wed, 19 Jun 2024 12:54:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/backpointers.c:396:21: warning: 'bucket.offset' is used
- uninitialized
-Message-ID: <202406191248.wSUI6f8j-lkp@intel.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.19.y-cip 3960/9999]
+ arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning
+ (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
+ in node /soc/pcie-ep@fe000000)
+Message-ID: <202406191212.6GuxO8QV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +65,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   92e5605a199efbaee59fb19e15d6cc2103a04ec2
-commit: 633cf069445d95384d88e9ff40f395c001f8b2b7 bcachefs: Kill bch2_dev_bkey_exists() in backpointer code
-date:   6 weeks ago
-config: um-randconfig-r081-20240305 (https://download.01.org/0day-ci/archive/20240619/202406191248.wSUI6f8j-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191248.wSUI6f8j-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
+head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
+commit: 9c0fb84041f31639ecd580320f366031d0dc5ddc [3960/9999] arm64: dts: renesas: r8a774b1: Add PCIe EP nodes
+config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240619/202406191212.6GuxO8QV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191212.6GuxO8QV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191248.wSUI6f8j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191212.6GuxO8QV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   fs/bcachefs/backpointers.c: In function 'bch2_check_btree_backpointer':
->> fs/bcachefs/backpointers.c:396:21: warning: 'bucket.offset' is used uninitialized [-Wuninitialized]
-     396 |         struct bpos bucket;
-         |                     ^~~~~~
-
-
-vim +396 fs/bcachefs/backpointers.c
-
-   386	
-   387	static int bch2_check_btree_backpointer(struct btree_trans *trans, struct btree_iter *bp_iter,
-   388						struct bkey_s_c k)
-   389	{
-   390		struct bch_fs *c = trans->c;
-   391		struct btree_iter alloc_iter = { NULL };
-   392		struct bkey_s_c alloc_k;
-   393		struct printbuf buf = PRINTBUF;
-   394		int ret = 0;
-   395	
- > 396		struct bpos bucket;
-   397		if (!bp_pos_to_bucket_nodev_noerror(c, k.k->p, &bucket)) {
-   398			if (fsck_err(c, backpointer_to_missing_device,
-   399				     "backpointer for missing device:\n%s",
-   400				     (bch2_bkey_val_to_text(&buf, c, k), buf.buf)))
-   401				ret = bch2_btree_delete_at(trans, bp_iter, 0);
-   402			goto out;
-   403		}
-   404	
-   405		alloc_k = bch2_bkey_get_iter(trans, &alloc_iter, BTREE_ID_alloc, bucket, 0);
-   406		ret = bkey_err(alloc_k);
-   407		if (ret)
-   408			goto out;
-   409	
-   410		if (fsck_err_on(alloc_k.k->type != KEY_TYPE_alloc_v4, c,
-   411				backpointer_to_missing_alloc,
-   412				"backpointer for nonexistent alloc key: %llu:%llu:0\n%s",
-   413				alloc_iter.pos.inode, alloc_iter.pos.offset,
-   414				(bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
-   415			ret = bch2_btree_delete_at(trans, bp_iter, 0);
-   416			goto out;
-   417		}
-   418	out:
-   419	fsck_err:
-   420		bch2_trans_iter_exit(trans, &alloc_iter);
-   421		printbuf_exit(&buf);
-   422		return ret;
-   423	}
-   424	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
 
 -- 
 0-DAY CI Kernel Test Service
