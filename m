@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB35B2139D3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 03:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA121E517
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 03:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718768983; cv=none; b=bw51xKgpOktQEeTJlNJxN5jWHcQwD3Dsw6A3kiI8K3wWoD9NVDyFwTPyMyuyGcrh6LB7/SnSvAKJMU7sEIVVyqc1SRC542b6l1BZPQLlazMD7NLdo7D9vqPx/akZd4qJk2WxBSx3qrWMx4dyjjFCqtxpOhhkzXVuD47cefTcMjo=
+	t=1718768984; cv=none; b=ISn9NDatcsYB5r2d5qS7tFJEq6ItVAPzFZfXf+kqpBdfzsgWYyAhXYHmuetq7RdhPFUBlo3bRu3irIxm0B4kgdfiiRtT0pEeYwfrtovKZJKvmsA3wbTtn3tMwl1Qiuo+J1Aet27paiNKYKHleCy2nTgmJknqadIwetrHGxwXm1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718768983; c=relaxed/simple;
-	bh=QXkSVgStsUG9fYT331CI3KiuTyOcT9EhyIjOJUjiO4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fXNwPUlFymA5VOfYUHTp4znOi19YNdENV1KrLIK3M//l/usBPHtv4CO4nMEQkAzR4HcZBevMTUGyeru6ebdEQB+6X7eTRBb0sEzqWnqXXIsFn9Y7POsIHsFNURkwtCV+hDsJv486DSYBfrEsrymVL0rzcHndA6yUCjdJzrQ30ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C59xcf3/; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1718768984; c=relaxed/simple;
+	bh=MUw+ibmYoJb8MKDQAZ5k87pJkkiazzfMgw22529YSAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bgrtb7SnvR09/CvKpGNSuA2t+rHv8LuPrbLBKZbLXiYG0qcQnW29RmtNaJZCHnrbSl1hvopckloMCVLgJtX5wWFNyiX6TYowZolyytMvyjX+mrIsHX4vDG085giRIJ8u0bLvJLHAVXe64Qxi+0yOQLge/HhWDrrXMQEZSHL3kdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJlWUhSn; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C59xcf3/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJlWUhSn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718768981; x=1750304981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QXkSVgStsUG9fYT331CI3KiuTyOcT9EhyIjOJUjiO4c=;
-  b=C59xcf3/xQrPjt7rylRp1hljjszo08Njw9AgqXxrieqFJMFzxbiVMwGJ
-   z954/x2zeiyPmKQSEEWLCO20khBD10QDl9KdriPG9xoPrYZkxIl4j49qN
-   WTwWgE1tEg+vUPM4KJJUnq3u7TgvOIyW0BVIXaCqCrWrCUADHfQXu+9ls
-   Niyd4LVgYKc60Fcu50P8RKEN6pnTh/coDI5H64roc8atvKlkkEd9IhmWL
-   pUGKnBaAEqlBueAnYyLUURu8UdAA1Nj910aS7tc4TgHM6N3ky9bojcGIQ
-   0tfoGsICfYAm0drzepUsC3VgGfziH0619x31Sc/cA2CnNqUReI4K5XADN
-   A==;
-X-CSE-ConnectionGUID: c9lGc/CWSjSyoMZ/7azfWA==
-X-CSE-MsgGUID: hVuxXOV2ThCVCscg1TQGRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27087150"
+  t=1718768983; x=1750304983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MUw+ibmYoJb8MKDQAZ5k87pJkkiazzfMgw22529YSAU=;
+  b=iJlWUhSnIJqvr2Kra7UHLmh9LANi6HrKipdEnpFcJ4g6sUakKyHiXnqc
+   0IkUdDiD9TeybOjgLV6kwcje/EkgLzXNyibh4aVmXiHp3JCs7vH1uo5VG
+   jwV6+2e0bmthYHR7DdebdwuResUD+APLEc1+v3oZy816v7CnKeyt9zXnQ
+   0nMj0s5lrJCaKOByDPKfuwKICxHLFaNk2Y+auhpUwKDi/eO0zhnB0CN62
+   ZnyuuTZ2bXprtT7zgAsYwSYKk2GkZncJp5IDJqGb2DYfNFgWyegGaOQFI
+   icjdI4PfjcY0+ahRuRr41zZaLug6lJ8Z+9TqAESrcC933Q2PgBoTijAZM
+   Q==;
+X-CSE-ConnectionGUID: An3BaAPiSVCsiJNBGaORoQ==
+X-CSE-MsgGUID: y2bykjUUSxeRRann4GleWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15814077"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="27087150"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 20:49:41 -0700
-X-CSE-ConnectionGUID: fWBddMlARjqvtEjSvhQHcQ==
-X-CSE-MsgGUID: aTl78yIaT0OGdr4D3qSamQ==
+   d="scan'208";a="15814077"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 20:49:42 -0700
+X-CSE-ConnectionGUID: IC5iXBdERSG61vk2c5M2yA==
+X-CSE-MsgGUID: kdhh/Va1RCGuBjiFC0VBNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="46721246"
+   d="scan'208";a="42483704"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 Jun 2024 20:49:40 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Jun 2024 20:49:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJmKH-0006Fi-1w;
+	id 1sJmKH-0006Fr-2I;
 	Wed, 19 Jun 2024 03:49:37 +0000
-Date: Wed, 19 Jun 2024 11:49:16 +0800
+Date: Wed, 19 Jun 2024 11:49:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/fix-link-power-up 4/4]
- drivers/soundwire/intel_ace2x.c:133:6: warning: variable 'clock_source' set
- but not used
-Message-ID: <202406191114.f7jLI1wM-lkp@intel.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, geert@linux-m68k.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] zorro: Use str_plural() in amiga_zorro_probe()
+Message-ID: <202406191127.BtrdVDxQ-lkp@intel.com>
+References: <20240618073205.65303-1-jiapeng.chong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,104 +65,299 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240618073205.65303-1-jiapeng.chong@linux.alibaba.com>
 
-tree:   https://github.com/plbossart/sound sdw/fix-link-power-up
-head:   e29ccf331968bbdc45bda006cfe4da3c8618baf2
-commit: e29ccf331968bbdc45bda006cfe4da3c8618baf2 [4/4] soundwire: intel_ace2x: revert power-up sequence
-config: i386-buildonly-randconfig-002-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191114.f7jLI1wM-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191114.f7jLI1wM-lkp@intel.com/reproduce)
+Hi Jiapeng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on geert-m68k/for-next]
+[also build test ERROR on geert-m68k/for-linus gerg-m68knommu/for-next linus/master v6.10-rc4 next-20240618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/zorro-Use-str_plural-in-amiga_zorro_probe/20240618-181203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git for-next
+patch link:    https://lore.kernel.org/r/20240618073205.65303-1-jiapeng.chong%40linux.alibaba.com
+patch subject: [PATCH] zorro: Use str_plural() in amiga_zorro_probe()
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240619/202406191127.BtrdVDxQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191127.BtrdVDxQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191114.f7jLI1wM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191127.BtrdVDxQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/soundwire/intel_ace2x.c:133:6: warning: variable 'clock_source' set but not used [-Wunused-but-set-variable]
-     133 |         u32 clock_source;
-         |             ^
-   1 warning generated.
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/zorro/zorro.c:11:
+   drivers/zorro/zorro.c: In function 'amiga_zorro_probe':
+>> drivers/zorro/zorro.c:155:37: error: implicit declaration of function 'str_plural' [-Werror=implicit-function-declaration]
+     155 |                  zorro_num_autocon, str_plural(zorro_num_autocon));
+         |                                     ^~~~~~~~~~
+   include/linux/printk.h:436:33: note: in definition of macro 'printk_index_wrap'
+     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:537:9: note: in expansion of macro 'printk'
+     537 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/zorro/zorro.c:154:9: note: in expansion of macro 'pr_info'
+     154 |         pr_info("Zorro: Probing AutoConfig expansion devices: %u device%s\n",
+         |         ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%s' expects argument of type 'char *', but argument 3 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:436:25: note: in definition of macro 'printk_index_wrap'
+     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:537:9: note: in expansion of macro 'printk'
+     537 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:537:16: note: in expansion of macro 'KERN_INFO'
+     537 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/zorro/zorro.c:154:9: note: in expansion of macro 'pr_info'
+     154 |         pr_info("Zorro: Probing AutoConfig expansion devices: %u device%s\n",
+         |         ^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/clock_source +133 drivers/soundwire/intel_ace2x.c
+vim +/str_plural +155 drivers/zorro/zorro.c
 
-4e024a8cfb184d Pierre-Louis Bossart 2023-01-20  126  
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  127  static int intel_link_power_up(struct sdw_intel *sdw)
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  128  {
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  129  	struct sdw_bus *bus = &sdw->cdns.bus;
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  130  	struct sdw_master_prop *prop = &bus->prop;
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  131  	u32 *shim_mask = sdw->link_res->shim_mask;
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  132  	unsigned int link_id = sdw->instance;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20 @133  	u32 clock_source;
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  134  	u32 syncprd;
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  135  	int ret;
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  136  
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  137  	if (prop->mclk_freq % 6000000) {
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  138  		if (prop->mclk_freq % 2400000) {
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  139  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24_576;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  140  			clock_source = SDW_SHIM2_MLCS_CARDINAL_CLK;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  141  		} else {
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  142  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  143  			clock_source = SDW_SHIM2_MLCS_XTAL_CLK;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  144  		}
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  145  	} else {
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  146  		syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_96;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  147  		clock_source = SDW_SHIM2_MLCS_AUDIO_PLL_CLK;
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  148  	}
-4e6a966b12d959 Pierre-Louis Bossart 2023-09-20  149  
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  150  	mutex_lock(sdw->link_res->shim_lock);
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  151  
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  152  	if (!*shim_mask) {
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  153  		/* we first need to program the SyncPRD/CPU registers */
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  154  		dev_dbg(sdw->cdns.dev, "first link up, programming SYNCPRD\n");
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  155  
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  156  		ret =  hdac_bus_eml_sdw_set_syncprd_unlocked(sdw->link_res->hbus, syncprd);
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  157  		if (ret < 0) {
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  158  			dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_set_syncprd failed: %d\n",
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  159  				__func__, ret);
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  160  			goto out;
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  161  		}
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  162  	}
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  163  
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  164  	ret = hdac_bus_eml_sdw_power_up_unlocked(sdw->link_res->hbus, link_id);
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  165  	if (ret < 0) {
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  166  		dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_power_up failed: %d\n",
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  167  			__func__, ret);
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  168  		goto out;
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  169  	}
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  170  
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  171  	//intel_shim_vs_set_clock_source(sdw, clock_source);
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  172  
-e29ccf331968bb Pierre-Louis Bossart 2024-06-18  173  	if (!*shim_mask) {
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  174  		/* SYNCPU will change once link is active */
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  175  		ret =  hdac_bus_eml_sdw_wait_syncpu_unlocked(sdw->link_res->hbus);
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  176  		if (ret < 0) {
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  177  			dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_wait_syncpu failed: %d\n",
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  178  				__func__, ret);
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  179  			goto out;
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  180  		}
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  181  	}
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  182  
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  183  	*shim_mask |= BIT(link_id);
-5772df7f0fe716 Pierre-Louis Bossart 2023-01-16  184  
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  185  	sdw->cdns.link_up = true;
-2749185d559c59 Pierre-Louis Bossart 2023-01-16  186  
-2749185d559c59 Pierre-Louis Bossart 2023-01-16  187  	intel_shim_vs_init(sdw);
-2749185d559c59 Pierre-Louis Bossart 2023-01-16  188  
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  189  out:
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  190  	mutex_unlock(sdw->link_res->shim_lock);
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  191  
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  192  	return ret;
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  193  }
-bb2ec5644697a8 Pierre-Louis Bossart 2023-01-10  194  
-
-:::::: The code at line 133 was first introduced by commit
-:::::: 4e6a966b12d959187f68694a8821f5bcbef3beff soundwire: intel_ace2x: move and extend clock selection
-
-:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-:::::: CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+  > 11	#include <linux/module.h>
+    12	#include <linux/types.h>
+    13	#include <linux/kernel.h>
+    14	#include <linux/init.h>
+    15	#include <linux/zorro.h>
+    16	#include <linux/bitops.h>
+    17	#include <linux/string.h>
+    18	#include <linux/platform_device.h>
+    19	#include <linux/dma-mapping.h>
+    20	#include <linux/slab.h>
+    21	
+    22	#include <asm/byteorder.h>
+    23	#include <asm/setup.h>
+    24	#include <asm/amigahw.h>
+    25	
+    26	#include "zorro.h"
+    27	
+    28	
+    29	    /*
+    30	     *  Zorro Expansion Devices
+    31	     */
+    32	
+    33	unsigned int zorro_num_autocon;
+    34	struct zorro_dev_init zorro_autocon_init[ZORRO_NUM_AUTO] __initdata;
+    35	struct zorro_dev *zorro_autocon;
+    36	
+    37	
+    38	    /*
+    39	     *  Zorro bus
+    40	     */
+    41	
+    42	struct zorro_bus {
+    43		struct device dev;
+    44		struct zorro_dev devices[];
+    45	};
+    46	
+    47	
+    48	    /*
+    49	     *  Find Zorro Devices
+    50	     */
+    51	
+    52	struct zorro_dev *zorro_find_device(zorro_id id, struct zorro_dev *from)
+    53	{
+    54		struct zorro_dev *z;
+    55	
+    56		if (!zorro_num_autocon)
+    57			return NULL;
+    58	
+    59		for (z = from ? from+1 : &zorro_autocon[0];
+    60		     z < zorro_autocon+zorro_num_autocon;
+    61		     z++)
+    62			if (id == ZORRO_WILDCARD || id == z->id)
+    63				return z;
+    64		return NULL;
+    65	}
+    66	EXPORT_SYMBOL(zorro_find_device);
+    67	
+    68	
+    69	    /*
+    70	     *  Bitmask indicating portions of available Zorro II RAM that are unused
+    71	     *  by the system. Every bit represents a 64K chunk, for a maximum of 8MB
+    72	     *  (128 chunks, physical 0x00200000-0x009fffff).
+    73	     *
+    74	     *  If you want to use (= allocate) portions of this RAM, you should clear
+    75	     *  the corresponding bits.
+    76	     *
+    77	     *  Possible uses:
+    78	     *      - z2ram device
+    79	     *      - SCSI DMA bounce buffers
+    80	     *
+    81	     *  FIXME: use the normal resource management
+    82	     */
+    83	
+    84	DECLARE_BITMAP(zorro_unused_z2ram, 128);
+    85	EXPORT_SYMBOL(zorro_unused_z2ram);
+    86	
+    87	
+    88	static void __init mark_region(unsigned long start, unsigned long end,
+    89				       int flag)
+    90	{
+    91		if (flag)
+    92			start += Z2RAM_CHUNKMASK;
+    93		else
+    94			end += Z2RAM_CHUNKMASK;
+    95		start &= ~Z2RAM_CHUNKMASK;
+    96		end &= ~Z2RAM_CHUNKMASK;
+    97	
+    98		if (end <= Z2RAM_START || start >= Z2RAM_END)
+    99			return;
+   100		start = start < Z2RAM_START ? 0x00000000 : start-Z2RAM_START;
+   101		end = end > Z2RAM_END ? Z2RAM_SIZE : end-Z2RAM_START;
+   102		while (start < end) {
+   103			u32 chunk = start>>Z2RAM_CHUNKSHIFT;
+   104	
+   105			if (flag)
+   106				set_bit(chunk, zorro_unused_z2ram);
+   107			else
+   108				clear_bit(chunk, zorro_unused_z2ram);
+   109			start += Z2RAM_CHUNKSIZE;
+   110		}
+   111	}
+   112	
+   113	
+   114	static struct resource __init *zorro_find_parent_resource(
+   115		struct platform_device *bridge, struct zorro_dev *z)
+   116	{
+   117		int i;
+   118	
+   119		for (i = 0; i < bridge->num_resources; i++) {
+   120			if (resource_contains(&bridge->resource[i], &z->resource))
+   121				return &bridge->resource[i];
+   122		}
+   123	
+   124		return &iomem_resource;
+   125	}
+   126	
+   127	static int __init amiga_zorro_probe(struct platform_device *pdev)
+   128	{
+   129		struct zorro_bus *bus;
+   130		struct zorro_dev_init *zi;
+   131		struct zorro_dev *z;
+   132		struct resource *r;
+   133		unsigned int i;
+   134		int error;
+   135	
+   136		/* Initialize the Zorro bus */
+   137		bus = kzalloc(struct_size(bus, devices, zorro_num_autocon),
+   138			      GFP_KERNEL);
+   139		if (!bus)
+   140			return -ENOMEM;
+   141	
+   142		zorro_autocon = bus->devices;
+   143		bus->dev.parent = &pdev->dev;
+   144		dev_set_name(&bus->dev, zorro_bus_type.name);
+   145		error = device_register(&bus->dev);
+   146		if (error) {
+   147			pr_err("Zorro: Error registering zorro_bus\n");
+   148			put_device(&bus->dev);
+   149			kfree(bus);
+   150			return error;
+   151		}
+   152		platform_set_drvdata(pdev, bus);
+   153	
+   154		pr_info("Zorro: Probing AutoConfig expansion devices: %u device%s\n",
+ > 155			 zorro_num_autocon, str_plural(zorro_num_autocon));
+   156	
+   157		/* First identify all devices ... */
+   158		for (i = 0; i < zorro_num_autocon; i++) {
+   159			zi = &zorro_autocon_init[i];
+   160			z = &zorro_autocon[i];
+   161	
+   162			z->rom = zi->rom;
+   163			z->id = (be16_to_cpu(z->rom.er_Manufacturer) << 16) |
+   164				(z->rom.er_Product << 8);
+   165			if (z->id == ZORRO_PROD_GVP_EPC_BASE) {
+   166				/* GVP quirk */
+   167				unsigned long magic = zi->boardaddr + 0x8000;
+   168	
+   169				z->id |= *(u16 *)ZTWO_VADDR(magic) & GVP_PRODMASK;
+   170			}
+   171			z->slotaddr = zi->slotaddr;
+   172			z->slotsize = zi->slotsize;
+   173			sprintf(z->name, "Zorro device %08x", z->id);
+   174			zorro_name_device(z);
+   175			z->resource = DEFINE_RES_MEM_NAMED(zi->boardaddr, zi->boardsize, z->name);
+   176			r = zorro_find_parent_resource(pdev, z);
+   177			error = request_resource(r, &z->resource);
+   178			if (error && !(z->rom.er_Type & ERTF_MEMLIST))
+   179				dev_err(&bus->dev,
+   180					"Address space collision on device %s %pR\n",
+   181					z->name, &z->resource);
+   182			z->dev.parent = &bus->dev;
+   183			z->dev.bus = &zorro_bus_type;
+   184			z->dev.id = i;
+   185			switch (z->rom.er_Type & ERT_TYPEMASK) {
+   186			case ERT_ZORROIII:
+   187				z->dev.coherent_dma_mask = DMA_BIT_MASK(32);
+   188				break;
+   189	
+   190			case ERT_ZORROII:
+   191			default:
+   192				z->dev.coherent_dma_mask = DMA_BIT_MASK(24);
+   193				break;
+   194			}
+   195			z->dev.dma_mask = &z->dev.coherent_dma_mask;
+   196		}
+   197	
+   198		/* ... then register them */
+   199		for (i = 0; i < zorro_num_autocon; i++) {
+   200			z = &zorro_autocon[i];
+   201			error = device_register(&z->dev);
+   202			if (error) {
+   203				dev_err(&bus->dev, "Error registering device %s\n",
+   204					z->name);
+   205				put_device(&z->dev);
+   206				continue;
+   207			}
+   208		}
+   209	
+   210		/* Mark all available Zorro II memory */
+   211		zorro_for_each_dev(z) {
+   212			if (z->rom.er_Type & ERTF_MEMLIST)
+   213				mark_region(zorro_resource_start(z),
+   214					    zorro_resource_end(z)+1, 1);
+   215		}
+   216	
+   217		/* Unmark all used Zorro II memory */
+   218		for (i = 0; i < m68k_num_memory; i++)
+   219			if (m68k_memory[i].addr < 16*1024*1024)
+   220				mark_region(m68k_memory[i].addr,
+   221					    m68k_memory[i].addr+m68k_memory[i].size,
+   222					    0);
+   223	
+   224		return 0;
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
