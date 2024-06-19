@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EC0158A3B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 18:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88717A55
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 20:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718822860; cv=none; b=GcDfa6TmrP8Ppo1kXF3k2ssVM7zInkdEsXtsmJQwrSGSAGUiB/israNlS+rB0aZXRpUBBPgQvPMdfARlCU4rG5gA2VzWESGiyFUbaaavABFqYoZLLcnqOHGgimchDY2kWpiNFG1mI+RPD8OdycvCWYjW5Dp+1F4k0F5/H0RbyDA=
+	t=1718827783; cv=none; b=ItbtCMzDSnvcpEJUMQa1+cTif9nHPE2ewZ3jT6LYSVbGLwSBDV66oJ9wM5zTS/3ZCXw/SdPmWYou1lOvoNcEh8Ni3Lm5mzlo2g3zFzPDfx5j8PWVAlx+Rqb0dxNNWJDK821QExDe7z+XP16hy9YHXB27k+l0oHEMRDKTaZptj0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718822860; c=relaxed/simple;
-	bh=wbMyDG5iL1ubrOxZPFFVfATGRe/acyyQxkVrftz3F9k=;
+	s=arc-20240116; t=1718827783; c=relaxed/simple;
+	bh=1egkmuccAhB2tTJHm0Cw8yu6+yKw8UybriYu5XdpFDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V4j3Vetc43dDStVgZ5pWxKvnBEw2CG/8wEl2MvOCh+pmFzKR25PPVgpw5GqWE27TBwe/hjLbVqRTjD1ZuUPeLwljfign41b5z2bWMScQfpA2dKTcBfLX013mM+S52NqnKprRrN+1bjDiLAeRx+20P3YIDN6sKzdXBBPQSmf3Hzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYN9d0Ea; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=DGLdY3r/bNXP4YXLLU9wPQ5O+DgbWnD10drZbaHZZtxOTR3C2qoONRqlb74zDcO89Z6vQKFKmKRbKkYI+X06pgTb3VJT3H3153YlC6LZ+jQ3nwTWMEY/dOvnszqqPX3mxm1gNN1SlX94zw4dE/Hl8kwo3sC3bskxglzJsSlVZBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DrMAQS7S; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYN9d0Ea"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DrMAQS7S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718822858; x=1750358858;
+  t=1718827782; x=1750363782;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wbMyDG5iL1ubrOxZPFFVfATGRe/acyyQxkVrftz3F9k=;
-  b=LYN9d0EagsuI6KWCPJMLTOo33nDfMY7yYwHeuO2+0zY6oO+L05XQkBAe
-   Ax76cy+AsEUO51Mr2F+iaDOktAhZygFpKJ6P/hkoj/arFLqHsZ465Xyzx
-   piWgCzLl/NOJxmAh7Edqdp4/znIpxSVU/6aQt7Lrgp4z2XuovA0KG+18N
-   jqLxkMXsymdEfNoCYqT401FwFgNo39IVvkIK2vy9rpwQJWTfbpsMgfTSb
-   5qEUQ+Tf9pVYNuE33+fmVCnPhenmLSdcXMi8x4xtZkUdFO3Hk5/5aTnxH
-   BAdGP6PscANxzN2ihuvqWhPbmTubhwPWKx0TNKcRK+AvIxZQQ+A1ZlWr8
-   w==;
-X-CSE-ConnectionGUID: M54Yl6wkTcC1H4/hE0PzqQ==
-X-CSE-MsgGUID: gqxYWZ/aS+qmwn7FeD2GLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15651809"
+  bh=1egkmuccAhB2tTJHm0Cw8yu6+yKw8UybriYu5XdpFDs=;
+  b=DrMAQS7SIMJRhKNjJRz384DaoJbqB73CBO7WC8rgCk4LCG5yX2/oXTYH
+   JJNR8HTIoCHTCV7p62vLto/YwxzbCadKJ8MY7JDZSaNqnaZ93fNuAkE+s
+   wqGd5xmFDR6IZrZC/rzX/FDSz2oZJsqEmCf4LCGUdxD8v+e/9VudSYNLY
+   kTs9DRjJUFvl7yovdfvsg8e8hLYR2VIQq1iJ0axMc9a32V0cabNiCdHuH
+   ZLB3vKztfEudFnP0dC04gECyDvoKn6/XWtKlBtFmWJTVsYFa6IfPsg4MB
+   3zqrp5+n9akY7wBifZy8JiX6bIJfLxf8a97DBt+ZHdIKIZet+S2elZSUu
+   A==;
+X-CSE-ConnectionGUID: vXEtwtSvShWMTFXEo+72pg==
+X-CSE-MsgGUID: xooztvaRQZ64b8S1XRgClg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15900829"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15651809"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 11:47:37 -0700
-X-CSE-ConnectionGUID: QU8WNEkNTY6CSvkcuBlcRw==
-X-CSE-MsgGUID: Avx3X7Y4TFaQ966xQ1z7UQ==
+   d="scan'208";a="15900829"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 13:09:41 -0700
+X-CSE-ConnectionGUID: YB0w+ziSQcyva9XV0qMRUA==
+X-CSE-MsgGUID: vWozgc0lTrS6IoDCvI5JCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42664695"
+   d="scan'208";a="65261429"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 11:47:36 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2024 13:09:39 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK0LF-0006sk-1I;
-	Wed, 19 Jun 2024 18:47:33 +0000
-Date: Thu, 20 Jun 2024 02:47:26 +0800
+	id 1sK1cf-0006ws-1T;
+	Wed, 19 Jun 2024 20:09:37 +0000
+Date: Thu, 20 Jun 2024 04:09:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip 3965/9999]
- arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning
- (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
- in node /soc/pcie-ep@fe000000)
-Message-ID: <202406200241.uDl27sIk-lkp@intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Subject: [linux-next:master 6397/7105] drivers/gpu/drm/xe/xe_oa.c:388:25:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202406200413.W16nHKXV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,24 +64,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
-commit: 200c1bf10773209d5919db7cb98c4983607486cc [3965/9999] arm64: dts: renesas: r8a774e1: Add PCIe EP nodes
-config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240620/202406200241.uDl27sIk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200241.uDl27sIk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2102cb0d050d34d50b9642a3a50861787527e922
+commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 [6397/7105] drm/xe/oa/uapi: Add/remove OA config perf ops
+config: powerpc-randconfig-r111-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200413.W16nHKXV-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200413.W16nHKXV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200241.uDl27sIk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200413.W16nHKXV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
---
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_oa.c:388:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     expected unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     got void [noderef] __user *
+>> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [noderef] __user *_gu_addr @@     got unsigned long long [usertype] *ptr @@
+   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected unsigned long long [noderef] __user *_gu_addr
+   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
+
+vim +388 drivers/gpu/drm/xe/xe_oa.c
+
+   377	
+   378	/**
+   379	 * xe_oa_remove_config_ioctl - Removes one OA config
+   380	 * @dev: @drm_device
+   381	 * @data: pointer to struct @drm_xe_perf_param
+   382	 * @file: @drm_file
+   383	 */
+   384	int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+   385	{
+   386		struct xe_oa *oa = &to_xe_device(dev)->oa;
+   387		struct xe_oa_config *oa_config;
+ > 388		u64 arg, *ptr = u64_to_user_ptr(data);
+   389		int ret;
+   390	
+   391		if (!oa->xe) {
+   392			drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+   393			return -ENODEV;
+   394		}
+   395	
+   396		if (xe_perf_stream_paranoid && !perfmon_capable()) {
+   397			drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
+   398			return -EACCES;
+   399		}
+   400	
+ > 401		ret = get_user(arg, ptr);
+   402		if (XE_IOCTL_DBG(oa->xe, ret))
+   403			return ret;
+   404	
+   405		ret = mutex_lock_interruptible(&oa->metrics_lock);
+   406		if (ret)
+   407			return ret;
+   408	
+   409		oa_config = idr_find(&oa->metrics_idr, arg);
+   410		if (!oa_config) {
+   411			drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
+   412			ret = -ENOENT;
+   413			goto err_unlock;
+   414		}
+   415	
+   416		WARN_ON(arg != oa_config->id);
+   417	
+   418		sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+   419		idr_remove(&oa->metrics_idr, arg);
+   420	
+   421		mutex_unlock(&oa->metrics_lock);
+   422	
+   423		drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
+   424	
+   425		xe_oa_config_put(oa_config);
+   426	
+   427		return 0;
+   428	
+   429	err_unlock:
+   430		mutex_unlock(&oa->metrics_lock);
+   431		return ret;
+   432	}
+   433	
 
 -- 
 0-DAY CI Kernel Test Service
