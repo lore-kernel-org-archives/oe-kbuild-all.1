@@ -1,124 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F66B46441
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 06:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D266D558BA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 06:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718778056; cv=none; b=UgAVmAHsPa0/pYeMQIZW4rgG7PnD7iN0wz8ndr5fqhnt/HyCEltZVsAXj++BpqvZ20GOAfJWqaNr37GVmNU3wsrZqsc241E3pSM7WWtaWSsuJH7grHfsjxXdQkKjd0JgyNQKO+xk6MkLkbF5ARtIf3j0yE4dvx1bWts+/OkoJCQ=
+	t=1718780064; cv=none; b=XnvvPuP/GxjeJl9pyO+OmsdQEJ7s/Np40ljQEtqzw9diZMdwLOfTvyhQ9wNUsn1NpOfmppAdS4HRGtAMVXWpQlR9LAAQBHxyxlae7FkUpctrDC16R4zHiDFCWi4KFNkz/LktyH3Rq7f6wpgsUCFYZt37ljy+cx0dtSf0Xlplc8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718778056; c=relaxed/simple;
-	bh=XFD15cCIqpCDpe/sTFNoNkjJnF9APKmPNvjg+90uazc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pbI4KgrJo9wNhBs72dQ7QrLCgETmGQfTnfB3z1nq+QuGXxdhmR+duXaeEKKXX5N3MpIP/G2qQafRIu4X6FHwwX5D3IUVMux5wtwYZy4eNu85xrlfsT/DJjRHBTaDU1fyTQ5UomX2TwfGgQrJLF6QAgxvcYZSEuOpcwmOeQ5khro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGijIjTL; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGijIjTL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718778054; x=1750314054;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XFD15cCIqpCDpe/sTFNoNkjJnF9APKmPNvjg+90uazc=;
-  b=WGijIjTLJ64qAcv4r2c1pza9yQ2kQjzbw5N9rq4dwqy7Fexa+91HgiJJ
-   /eDJHsFMLZmHsJywZp6ad8HCsV76r+ETjtv/d4Gu1/sz9w15pbfCAeIzp
-   D39DaRwGM2Aqm5G5Nnprjvh8It6TzaCosfV5Z9/P3OoTWXDRtafVrvGRZ
-   WvFzn5J2apseTxowC+s93ElzK1bwg+NeRihk7EAXrFwejiGDbYCAHwtte
-   z5PkSzDskg77eSHef3uFAFOA0QsXnOL8b+niiWe//mxsiOGAODdkJW21K
-   vX+OxcQ7C6aQD88MJTAizRrSu5q4cSWHVVI66/7HOo4JsW/1NekTBuNWU
-   A==;
-X-CSE-ConnectionGUID: StnZ4nnmQjGS/JcVjbWveA==
-X-CSE-MsgGUID: AacA0ijIQc2W751XCYM22g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15841500"
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="15841500"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 23:20:54 -0700
-X-CSE-ConnectionGUID: vhrBS1pSRFaDc2hrE5DTxA==
-X-CSE-MsgGUID: 4xWa3a2QTESJ40qFT14cAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="46751499"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 Jun 2024 23:20:50 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJogZ-0006ML-28;
-	Wed, 19 Jun 2024 06:20:47 +0000
-Date: Wed, 19 Jun 2024 14:20:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomer Maimon <tmaimon77@gmail.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, p.zabel@pengutronix.de, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, tali.perry1@gmail.com,
-	joel@jms.id.au, venture@google.com, yuenn@google.com,
-	benjaminfair@google.com
-Cc: oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>
-Subject: Re: [PATCH v25 1/3] dt-bindings: reset: npcm: add clock properties
-Message-ID: <202406191439.3NcnExKM-lkp@intel.com>
-References: <20240618185819.2155595-2-tmaimon77@gmail.com>
+	s=arc-20240116; t=1718780064; c=relaxed/simple;
+	bh=Sx2UXOz0oyl+MsN9FuifoeeuLfPHUUwKdiPA21nFUNY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nHN2O4vw421CK8jA52iEm39dI2vGR/B0VAcYfzxxEy6eDdOmwgNyihkc2Rggn1JPwRLdiEeGxEkBZ5B78aehWo2Xxigd5tUlUWlYrn3067BmQUv2TS+xgRNADbVY0PrVxCG+esULRGRXShg9ulQA8pl509cdQGtaP1ZZiF7RCdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-62a2424ecb8so69263287b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 23:54:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718780060; x=1719384860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2D9BRYYxrpNCLmFabRquCtCYqyuJXZUuWMiaC25V2Ng=;
+        b=reKCdfX/J5vw6GFy9a5U4W0eWUUdfB7BOTOHFDfil0t2Qo47Rb0FOufH3oQ8xsItw7
+         4WM85gpyG7DrJ4aPhxqqkvy1izcznYNgDjkpnPQfna7oRGE8pbwYQGKnK4SFOliNNxTz
+         zaZoNC362ZXZmFs6lt+5IVMsJb310YHotVsVfxc0Yx6aV7EZVYTxQcab313CZPnknbCr
+         u5woUEf/vT3+QF0c1OuCUG43zPd92TeVEY3SC1vqHGa4aLTR6MQyYSq9I/NuFTT1vBtK
+         BMK0d3X0GRe45hwcD0JS6DmZs5pCvm7hKLs9iTbeXqKCcfPUYgJAqZ2S8vn253pAouh5
+         0pfg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/j0dAyb+9wjyVnIb8ZTX+HRDM3FBeurf8QGpKbuO/U8lMyJ/l562QlQy3wHX02Mkx11SauQOmpgCErNZo5qEeDUpsrUEZhPrwcqm7zQ==
+X-Gm-Message-State: AOJu0Yy5OceY2Au4BziR8WPfHI3HdOvAxPZOGrq0RZn4z9trvDHKnD0N
+	dvzJ1Qz9jJuw/qMC1g6iY/4zsXfreR1JOdp4D9z1jM38iAFfnS9TjSZS72DN
+X-Google-Smtp-Source: AGHT+IGc7PMFiPj//kf89yP5BSmsYJSaYSr5ySRg6hK/QY1ntwYOGf/s8Tu3Y6/NyOQ/cZ290m+x1A==
+X-Received: by 2002:a0d:d505:0:b0:630:2749:2f52 with SMTP id 00721157ae682-63a8db0f86amr17436747b3.5.1718780060406;
+        Tue, 18 Jun 2024 23:54:20 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-63118da456fsm20189797b3.56.2024.06.18.23.54.20
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Jun 2024 23:54:20 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-62a2424ecb8so69263107b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jun 2024 23:54:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWqztz57kychtpgszyHASjf9YiFzdHNuzOECm5RHWe04XJ2Xt9Dl3qzAtFVJh64ChukLvLP8fUwfnpTMjXd5zoRiNZfoyDo5si9TR4MzQ==
+X-Received: by 2002:a0d:dac4:0:b0:62c:f82b:553f with SMTP id
+ 00721157ae682-63a8e7a4468mr18412857b3.31.1718780059989; Tue, 18 Jun 2024
+ 23:54:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240618185819.2155595-2-tmaimon77@gmail.com>
+References: <202406190324.USkOEaOU-lkp@intel.com>
+In-Reply-To: <202406190324.USkOEaOU-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 19 Jun 2024 08:54:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXZW1FQmBBzaJvgGANyAEQ-PJni9_qKsn4BgzvvBLJtEQ@mail.gmail.com>
+Message-ID: <CAMuHMdXZW1FQmBBzaJvgGANyAEQ-PJni9_qKsn4BgzvvBLJtEQ@mail.gmail.com>
+Subject: Re: [morimoto:renesas-bsp/v6.1.94-2024-06-18-2 76/663]
+ arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/phy@e6444000: failed to
+ match any schema with compatible: ['renesas,r8a779f0-ether-serdes']
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, oe-kbuild-all@lists.linux.dev, 
+	kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomer,
+Hi Morimoto-san,
 
-kernel test robot noticed the following build warnings:
+On Tue, Jun 18, 2024 at 9:49=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.94-2024-06-18-=
+2
+> head:   5e7236cba4333897587247b8cb1c26e5e90fb4c0
+> commit: 05caf0cfd7ff4ee1f78c5a4810ec40891a970cc4 [76/663] arm64: dts: ren=
+esas: r8a779f0: Add Ethernet Switch and SERDES nodes
+> config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/ar=
+chive/20240619/202406190324.USkOEaOU-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> dtschema version: 2024.6.dev1+g833054f
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240619/202406190324.USkOEaOU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406190324.USkOEaOU-lkp=
+@intel.com/
+>
+> dtcheck warnings: (new ones prefixed by >>)
+> >> arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/phy@e6444000: fa=
+iled to match any schema with compatible: ['renesas,r8a779f0-ether-serdes']
+> >> arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/ethernet@e688000=
+0: failed to match any schema with compatible: ['renesas,r8a779f0-ether-swi=
+tch']
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master pza/reset/next v6.10-rc4 next-20240618]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Missing backports (from v6.2):
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomer-Maimon/dt-bindings-reset-npcm-add-clock-properties/20240619-093532
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20240618185819.2155595-2-tmaimon77%40gmail.com
-patch subject: [PATCH v25 1/3] dt-bindings: reset: npcm: add clock properties
-config: arm64-randconfig-051-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191439.3NcnExKM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191439.3NcnExKM-lkp@intel.com/reproduce)
+d7abac084536b6d7 dt-bindings: phy: renesas: Document Renesas Ethernet SERDE=
+S
+f9edd82774c0c8dd dt-bindings: net: renesas: Document Renesas Ethernet Switc=
+h
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191439.3NcnExKM-lkp@intel.com/
+Upstream also has a few more changes to drivers/net/ethernet/renesas/rswitc=
+h.c
+and drivers/phy/renesas/r8a779f0-ether-serdes.c you may want to backport.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi:63.7-177.5: Warning (simple_bus_reg): /ahb/apb: simple-bus unit address format error, expected "f0000000"
-   arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi:50.35-55.5: Warning (unique_unit_address_if_enabled): /ahb/reset-controller@f0801000: duplicate unit-address (also used in node /ahb/clock-controller@f0801000)
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /: memory@0: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: system-controller@f0800000: compatible: ['nuvoton,npcm845-gcr', 'syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/nuvoton/nuvoton,npcm-gcr.yaml#
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: interrupt-controller@dfff9000: 'ppi-partitions' does not match any of the regexes: '^v2m@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic.yaml#
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: ahb: apb:ranges: [[0, 0, 4026531840, 3145728], [4293918720, 0, 4293918720, 90112]] is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: reset-controller@f0801000: '#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/reset/nuvoton,npcm750-reset.yaml#
->> arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: reset-controller@f0801000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/reset/nuvoton,npcm750-reset.yaml#
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: timer@8000: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/nuvoton,npcm7xx-timer.yaml#
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/apb/watchdog@801c: failed to match any schema with compatible: ['nuvoton,npcm845-wdt', 'nuvoton,npcm750-wdt']
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/apb/watchdog@801c: failed to match any schema with compatible: ['nuvoton,npcm845-wdt', 'nuvoton,npcm750-wdt']
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/apb/watchdog@901c: failed to match any schema with compatible: ['nuvoton,npcm845-wdt', 'nuvoton,npcm750-wdt']
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/apb/watchdog@901c: failed to match any schema with compatible: ['nuvoton,npcm845-wdt', 'nuvoton,npcm750-wdt']
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/apb/watchdog@a01c: failed to match any schema with compatible: ['nuvoton,npcm845-wdt', 'nuvoton,npcm750-wdt']
-   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/apb/watchdog@a01c: failed to match any schema with compatible: ['nuvoton,npcm845-wdt', 'nuvoton,npcm750-wdt']
+Gr{oetje,eeting}s,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
