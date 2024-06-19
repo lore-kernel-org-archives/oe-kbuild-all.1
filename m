@@ -1,126 +1,130 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6314C1DA23
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 21:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA5915A848
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 21:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718831223; cv=none; b=rZVCF1N81G4ZeaR18Kwy+spyvKuOXM45USk9ygD2zmjINUpOBfmpx56WC3DzMp4DatDwfdOGGgleqP8RpGtric6gH3MeniNvj0G82xsFu5Jl3ddd1NgBuNmUO+1RMuH+fLQClGacq9TUgXwpZUxkVvHnr093GfFExGP/+xTRT98=
+	t=1718831627; cv=none; b=nu/9Dqz1snWFLB5YHGdCpVd3zhqwlNmXANSbe1VTpqjoLmCXG5FZ4mQtisOmkZytewRYTn02NLuBVQLMwng2qebk5Xl5wCnEmqxHMGowi5UwAdL81ObYSB87kBOuctgiONQjV+aR0zuMxVbl12Fmky8HiysoGNq0Pud7lYZE5yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718831223; c=relaxed/simple;
-	bh=Id2c5+TkEkGLnTdJlWxvcv7CatC8JE9ewiUZwHunvWc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ME6QZEQwDOA7qAIOR+cM/B4x4xcCLmlt87LayspleroppeyYbCAyL3SnhS3++DAN/TqY1QgQgASiX7lYuHEGcxvf0/2nBjkkUFcN/It1pH8O1dUdlh++z1W5MkNNYPWR1JwxhfMVRKGqvjK3D8ouDqdNadsXzPEqTRiadU1DLAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHF8Zybw; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718831627; c=relaxed/simple;
+	bh=IgmpTFeB47Ft/oBLT/pU6bWANYtSsllcXWa2+aBIjTY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nI7djK8cK6jxTehNxQ7qOaP7hjcmBc7jfCLONzu72QeQLhdlR94Cxu6iRzlVpkbTlQuTm3ieT8Pj7ywY0hIfbyVrWL8Uh7UmPZpPiMpGuxpVQ+CxD7PbNkbyXLKva/72uRrLnBg+SjGtuNYgfEjSJuYEIf1BPpKW2HZiHM9KrYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asXmr0/A; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHF8Zybw"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f6fada63a6so1651875ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 14:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718831222; x=1719436022; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YJ8YE+ClvGwcyb1zAHMiV6hSznoZItrne+dyoJbbTB0=;
-        b=OHF8Zybw53fRW7hMKpvx+hEOtcoEApEwisxPc4xs0Ch1M2Hu27SqBpfjCX1qQt+x3U
-         mUTwESDuNc3o30WTb8CpGQ91BbfV6tBFj6n/hzDAmI50iwcfOMZ03+tmSTsxewWq8llq
-         mV4VhinpIip1UY8NpsoYtxxMAzz+dYDgyZlbnMKaw2rCyqP52CEeLrpqEUSz/p1/QnNG
-         himsL+PylUFhBy1yGGxDeSJ8OElreHPiLNhos07apAQy8gybC1ASwt5hsc63FfEuLeAS
-         uRl7UUwQmwfbwe6FeJwL9MnGs6VUIkftnw1qCKFgdRAgQNv837vlZHNikVrdRLraYAsF
-         EBQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718831222; x=1719436022;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YJ8YE+ClvGwcyb1zAHMiV6hSznoZItrne+dyoJbbTB0=;
-        b=utIWA/B2iU/S3w3TwOrInF8EdMo4LAn7XnASkpgC7rsSW2xuSQvTrkxlQ56adetnkb
-         RuvxkccJjrV7Rrq3SW0/T6kJH/2zAA1oPREgVba372tTffl6v38C3oUTc7UdKwiPz5+U
-         IDuruJf13AJuwVo07OzvdeaEUBWOXJm2h++gvgfmYhcxoCGEjoJwMoXQIPlZBcva1UTR
-         J+FR9wfVp0d+ILgLeyYuaoXJosGw5nCzJVifql+qbw+LHkvAGV/HVl1XMqT/XgqFUTdt
-         b5uYPGYHOTdvVkk5n2n3IPgA3Aq1E02edm2RDOssLKwIaWdJ7FXD7mHqGrANA5tcinAX
-         FJnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDs+2+8TnXBzc2yF1A4LH2s6JriPfouFMgS+OQLs6g35drNbJFeBVQ0P6EHhgSeGMI+iw/vZ1eJTLUmNBY9VuCbdaIQkecDxgJdP9JQQ==
-X-Gm-Message-State: AOJu0Yy7J8Idd8G0+RBPdLKHUeqc9Y3pZDEUtO/YOt+5/OiMr4wNupI2
-	UHIqRLIojrqbBYkHGyBjPXIcQTzqzrVlR21A1OOtHIp8Nip6htt/
-X-Google-Smtp-Source: AGHT+IGka42sQSuDxfJUhRxDzJXo7wfvmG0yeUaYHfbYX3PGtZXgjzFXMPWo+hdA3oASFuHN0mKivQ==
-X-Received: by 2002:a17:902:f549:b0:1f7:234b:4f47 with SMTP id d9443c01a7336-1f9aa3e7017mr37429365ad.27.1718831221651;
-        Wed, 19 Jun 2024 14:07:01 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9a78657aasm25893525ad.0.2024.06.19.14.06.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 14:07:01 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: lkp@intel.com
-Cc: akpm@linux-foundation.org,
-	linux-mm@kvack.org,
-	oe-kbuild-all@lists.linux.dev,
-	v-songbaohua@oppo.com
-Subject: Re: [linux-next:master 6728/7105] mm/rmap.c:1413: warning: Function parameter or struct member 'flags' not described in 'folio_add_new_anon_rmap'
-Date: Thu, 20 Jun 2024 09:06:41 +1200
-Message-Id: <20240619210641.62542-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <202406200059.tVU9semU-lkp@intel.com>
-References: <202406200059.tVU9semU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asXmr0/A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718831625; x=1750367625;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IgmpTFeB47Ft/oBLT/pU6bWANYtSsllcXWa2+aBIjTY=;
+  b=asXmr0/Abnh/DXV8NdJS78hkATwLIrQ/7wQ7GMBH6RT9+la8JqOq3PlH
+   Wv4/ndP+/cz+nxgkaJLPpjrf3QdpGzUI9e54a3h09sZazjQMDol9oqAsM
+   +flSkERuPN3K8kcWPk0W0ZpG9n5qhJMAuPJYI9iFt+XQvHX3cGn046XJj
+   +33ZYjX2EOMVytVXdG70fNB2PrAWvXsH/wPyoJE0w/GZ3xM1o1yAXQWmX
+   O/ymAuTefpTuvl7Ak5vQxEreB3Q055HELnG8awRfuWJ23mzEIoTX7ueXe
+   94qIsGxFgYmKrxL+96XaeEnzMvA6EhiYXfx/Fo9j7pnqdGpp7GfeE+Z1I
+   A==;
+X-CSE-ConnectionGUID: HWChsktpQXGyz+utoHq5Ow==
+X-CSE-MsgGUID: 9iUC7XFZShKHtfwlbWJzqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15617221"
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="15617221"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 14:13:45 -0700
+X-CSE-ConnectionGUID: tRySNNJCTwuWWfAB/z+WOQ==
+X-CSE-MsgGUID: gT8rpP7gS5yjtuQPH46ppg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="42693817"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 14:13:42 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sK2cd-00070A-32;
+	Wed, 19 Jun 2024 21:13:39 +0000
+Date: Thu, 20 Jun 2024 05:12:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jianhua Lu <lujianhua000@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi:647.9-658.5:
+ Warning (graph_child_address):
+ /soc@0/spmi@c440000/pmic@2/typec@1500/connector/ports: graph node has single
+ child node 'port@0', #address-cells/#size-cells are not necessary
+Message-ID: <202406200530.bulGai7K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   2102cb0d050d34d50b9642a3a50861787527e922
-> commit: 41bb9aa5f614423659ced668d0f1ff0c1da6552e [6728/7105] mm: extend rmap flags arguments for folio_add_new_anon_rmap
-> config: arm-pxa910_defconfig (https://download.01.org/0day-ci/archive/20240620/202406200059.tVU9semU-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200059.tVU9semU-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406200059.tVU9semU-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> mm/rmap.c:1413: warning: Function parameter or struct member 'flags' not described in 'folio_add_new_anon_rmap'
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e5b3efbe1ab1793bb49ae07d56d0973267e65112
+commit: 69652787279d64b0b0cc350fdfb34c503e40653c arm64: dts: qcom: sm8250-xiaomi-elish: Add pm8150b type-c node and enable usb otg
+date:   7 months ago
+config: arm64-randconfig-r113-20240606 (https://download.01.org/0day-ci/archive/20240620/202406200530.bulGai7K-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200530.bulGai7K-lkp@intel.com/reproduce)
 
-Hi, Thanks very much for the report!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200530.bulGai7K-lkp@intel.com/
 
-Would you test if the below patch fix the WARNING?
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8250.dtsi:3466.14-3474.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8250.dtsi:4874.27-4926.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm8150b.dtsi:165.9-180.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8250.dtsi:3118.14-3128.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8250.dtsi:3165.13-3175.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8250.dtsi:3378.13-3388.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8250.dtsi:3733.13-3743.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi:647.9-658.5: Warning (graph_child_address): /soc@0/spmi@c440000/pmic@2/typec@1500/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
 
-From: Barry Song <v-songbaohua@oppo.com>
-Date: Thu, 20 Jun 2024 08:57:55 +1200
-Subject: [PATCH] mm: fix the missing doc for flags of
- folio_add_new_anon_rmap()
+vim +647 arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi
 
-Fix mm/rmap.c:1413: warning: Function parameter or struct member
-'flags' not described in 'folio_add_new_anon_rmap'.
+   630	
+   631	&pm8150b_typec {
+   632		vdd-pdphy-supply = <&vreg_l2a_3p1>;
+   633		status = "okay";
+   634	
+   635		connector {
+   636			compatible = "usb-c-connector";
+   637	
+   638			power-role = "source";
+   639			data-role = "dual";
+   640			self-powered;
+   641	
+   642			source-pdos = <PDO_FIXED(5000, 3000,
+   643						 PDO_FIXED_DUAL_ROLE |
+   644						 PDO_FIXED_USB_COMM |
+   645						 PDO_FIXED_DATA_SWAP)>;
+   646	
+ > 647			ports {
+   648				#address-cells = <1>;
+   649				#size-cells = <0>;
+   650	
+   651				port@0 {
+   652					reg = <0>;
+   653	
+   654					pm8150b_role_switch_in: endpoint {
+   655						remote-endpoint = <&usb_1_role_switch_out>;
+   656					};
+   657				};
+   658			};
+   659		};
+   660	};
+   661	
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406200059.tVU9semU-lkp@intel.com/
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
----
- mm/rmap.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 9b7310120ccb..df1a43295c85 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1390,6 +1390,7 @@ void folio_add_anon_rmap_pmd(struct folio *folio, struct page *page,
-  * @folio:	The folio to add the mapping to.
-  * @vma:	the vm area in which the mapping is added
-  * @address:	the user virtual address mapped
-+ * @flags:	The rmap flags
-  *
-  * Like folio_add_anon_rmap_*() but must only be called on *new* folios.
-  * This means the inc-and-test can be bypassed.
 -- 
-2.34.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
