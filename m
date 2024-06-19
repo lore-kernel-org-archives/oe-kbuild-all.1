@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177E715B574
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 22:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9724882869
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 22:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718836862; cv=none; b=JEDpwHNR2G75JJ/HJo7QCZVMIhjs4PFTV3G3IgFuIMTtVgTOHhfZzlHjMS6lbZHOLlM8M4tWtrZ+b1gF+DOLS7esVdB0nHVatZswuA1J1gpkrB6/dP2O5l3TleWo+eEF9UqO0wc+DGco3JhAe1c1ME/3P9TqaaT39wcCu1MqR4A=
+	t=1718837524; cv=none; b=EPlZme8o95p/1tZQo3lbywFxOKOvVWli94ZP95Uk6Yf5FgLdw2iD2OQtEWJ/XlP7KM+3l9Yo0BkW1+JhkKn/0ULJfegvDqvxdM21xNsZ5YPZemlGHWtuOFUo2ysYYxdy5kXysYXre9yv9IBK07M7TODS30APTLeqFBe5b11zVOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718836862; c=relaxed/simple;
-	bh=Z3V2YEWjIUIyTe7vCln7wvCpu5r50bXJUh9xJ5cmzYI=;
+	s=arc-20240116; t=1718837524; c=relaxed/simple;
+	bh=hz/Ub6qykNJpOqlQI49DPOFgZluMHHDpuTsjeBK0Xws=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=swsJ7Xow2bzw8hITDKns71Xc2GN2+3gP1tO1YtsxVXOjzOHpe6wHC5N0HdMstVpAC+axLpjyDHIRq7bo6wuba4hKvnyFmB3De1QIFbLxqe4hS+Kngrk05zcFMRbcLUrwpceo/mdWBLuyPdQXKYh2hRIWYU9yg4BKNTh8zFB0bWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Npsk8xFc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=DWUsV/NpokdcjB1WSPehtvQQrO60vnM7Qqkl54fkqUldZ5dXrVZjlh12DO1wjgwYn19XLk6oFC05Xjwd6thoiPctWPNU7JTT0iqRQzfKxIKsSDgYdHCLBCV85ONfRsG+NwKGayikY6K+rnol9KMUvxfIXw0WlaWFaenlFzjKFxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmCPPKmq; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Npsk8xFc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmCPPKmq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718836861; x=1750372861;
+  t=1718837522; x=1750373522;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z3V2YEWjIUIyTe7vCln7wvCpu5r50bXJUh9xJ5cmzYI=;
-  b=Npsk8xFcG3bnrpbjRLjIMXL4+MQ4w6bPzUi3vH3RdRCQeJPrWZMDOG+P
-   go4JCH2j9WGmzIMva7hZtRepEmjWFto8d7008IRZ1rYsWyFQTc02bunbl
-   k5zrlSTvkwpdVhr6ZOdd1dyc11NVn+hlfAba9/9JIGg6m2zxb+ScFwUiF
-   YR2kMZy0WYB/IKSl6VCTyxVRXOUR/RIipXriH452twvwKZCrcGhBmO8hE
-   3ZLFXujGiVNvAl7D1SJw1Q3HAYDjFK4RRLFqcPjkf3V25r/sqXCqTyBkP
-   PpHagTu4iLeIep2EOkeZ7q1aNpsRDUr0SPHK6EaZg8lqkZoIwbFDg5pK/
-   g==;
-X-CSE-ConnectionGUID: etvo+JwoTua/p+nF/P3zOQ==
-X-CSE-MsgGUID: X12+0CpSRaSXKKrLP+y7og==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15766957"
+  bh=hz/Ub6qykNJpOqlQI49DPOFgZluMHHDpuTsjeBK0Xws=;
+  b=lmCPPKmqVWRtfbj4r2IokUpv7nVSIKVZ/j5ROem8Ki9io6qidBdUlMIK
+   ArAx49xrT7OK+tASSV8ZIg9oPb+pK1LUp1q+782KNSZErn5B0EzWSKy/m
+   9cLQWNX+mOJs8uzf1HWVyzyUUN+bcOj/FmfcM/TDp/wlpB6XiWBIlMUlU
+   uiDH1MrrbJQ/xQhTN6SOoK0z1g2kh+cG6SM6Z69tYTp7e+9H8bSGsH5Vh
+   zuYoLGtR8/r/poTsuwSjdbMj6tD42FyKP2HY3ln+7CbocMthx/s0LTxA9
+   ZKhVs9zoGNb7jo/1U1mvq7uDsU4tOaBS22lHz0ggU9ZseUiFFzKdJwA+F
+   w==;
+X-CSE-ConnectionGUID: hvsPjOKaQ4mmnEVqM5Cjlg==
+X-CSE-MsgGUID: igsGkrcYRVSSrZvNvio13Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="27201113"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15766957"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 15:40:59 -0700
-X-CSE-ConnectionGUID: ajpBgmfuTfiZ+Jcfx8rmDA==
-X-CSE-MsgGUID: WL+4kHWcS0iwqIcB52X6RA==
+   d="scan'208";a="27201113"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 15:51:59 -0700
+X-CSE-ConnectionGUID: JbWlesIzT/ispUxzLZmsvA==
+X-CSE-MsgGUID: 1nxtQMcrQgG7sDCCXs4Q+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42710026"
+   d="scan'208";a="41899359"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 15:40:58 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Jun 2024 15:51:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK3z5-00073l-1Q;
-	Wed, 19 Jun 2024 22:40:55 +0000
-Date: Thu, 20 Jun 2024 06:40:19 +0800
+	id 1sK49j-00074c-37;
+	Wed, 19 Jun 2024 22:51:55 +0000
+Date: Thu, 20 Jun 2024 06:51:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
 Subject: drivers/net/pse-pd/pd692x0.c:1193:undefined reference to
  `firmware_upload_unregister'
-Message-ID: <202406200632.f52Pa3HR-lkp@intel.com>
+Message-ID: <202406200632.hSChnX0g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,14 +67,14 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   e5b3efbe1ab1793bb49ae07d56d0973267e65112
 commit: 9a993845189004a923b78d0df643e47970147337 net: pse-pd: Add PD692x0 PSE controller driver
 date:   9 weeks ago
-config: i386-randconfig-006-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200632.f52Pa3HR-lkp@intel.com/config)
+config: i386-randconfig-006-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200632.hSChnX0g-lkp@intel.com/config)
 compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200632.f52Pa3HR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200632.hSChnX0g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200632.f52Pa3HR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200632.hSChnX0g-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
