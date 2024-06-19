@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8162D156F40
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 18:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EC0158A3B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 18:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718821660; cv=none; b=KZnk7fuhKt6e7763oNZbyKeLUNXS2uZp5nowODLt1BJQOmA5jZ/guXpeScsf9vJ+LzHDsyFX5bDaooVC9pE8tSi/+71jmoc0I6l+Q4WtXvLsneUuBZN443Rv/6SpoJWug4KUk8pWLspCbO/ejB8uNbPRR6SK1bwWQhnCwfAmxL4=
+	t=1718822860; cv=none; b=GcDfa6TmrP8Ppo1kXF3k2ssVM7zInkdEsXtsmJQwrSGSAGUiB/israNlS+rB0aZXRpUBBPgQvPMdfARlCU4rG5gA2VzWESGiyFUbaaavABFqYoZLLcnqOHGgimchDY2kWpiNFG1mI+RPD8OdycvCWYjW5Dp+1F4k0F5/H0RbyDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718821660; c=relaxed/simple;
-	bh=ePMdXyYG5VP9699OyXIjL4DJdrxVOUDFWzBVFuvKuew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I8Uin40rSTuFLEvQiyZ0Gv8ROrZIFEoegauLkl5vFtVntASELbr7ubUTeC5WFgPg8lcNdx6hgTGEmQcupyizAtHYYCKna6lB+30oRevmq3AFrmCmDXi8TDbEH3bYcOQilED536yCgEoXO4nV6R+WM37Rs1YrdfDF+gExK/Wz+mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LbWNVg2W; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1718822860; c=relaxed/simple;
+	bh=wbMyDG5iL1ubrOxZPFFVfATGRe/acyyQxkVrftz3F9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V4j3Vetc43dDStVgZ5pWxKvnBEw2CG/8wEl2MvOCh+pmFzKR25PPVgpw5GqWE27TBwe/hjLbVqRTjD1ZuUPeLwljfign41b5z2bWMScQfpA2dKTcBfLX013mM+S52NqnKprRrN+1bjDiLAeRx+20P3YIDN6sKzdXBBPQSmf3Hzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYN9d0Ea; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LbWNVg2W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYN9d0Ea"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718821658; x=1750357658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ePMdXyYG5VP9699OyXIjL4DJdrxVOUDFWzBVFuvKuew=;
-  b=LbWNVg2W174Ibp7nD5sfYQ+dq5pnef2KPA5Sknr7DNfWD23/8t2YuLiI
-   8fhtvUbYvodPT2lIYX5yEFNpMG6a62Y+li9GiDCkaNjAzyXMgQK/mcHSK
-   EDPXyKiSHg0MBzMOkJXxd0l871tlOA1N85j6S5F3EUai3mtXCja3h7hf+
-   jEWddl7j9XzhM+sk3pScMvO3dgqUQFlzsXNCdUgXJsixyA+PkCGeQghcT
-   hIyuRqRbFCAIEEhr1Q69c2ooiX3kXsR88SYGiszt1wGjCLjO3eChtgwrq
-   WZz1jigLyWgq8TP2xlar+JtyYqb6lxXZttXSv7mzhxYaqCwqMnd8NXPbF
-   g==;
-X-CSE-ConnectionGUID: ukWN5QoaROKno6tdWqlg5A==
-X-CSE-MsgGUID: RA0/0H6xT1S233cVgHSg6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="41178776"
+  t=1718822858; x=1750358858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wbMyDG5iL1ubrOxZPFFVfATGRe/acyyQxkVrftz3F9k=;
+  b=LYN9d0EagsuI6KWCPJMLTOo33nDfMY7yYwHeuO2+0zY6oO+L05XQkBAe
+   Ax76cy+AsEUO51Mr2F+iaDOktAhZygFpKJ6P/hkoj/arFLqHsZ465Xyzx
+   piWgCzLl/NOJxmAh7Edqdp4/znIpxSVU/6aQt7Lrgp4z2XuovA0KG+18N
+   jqLxkMXsymdEfNoCYqT401FwFgNo39IVvkIK2vy9rpwQJWTfbpsMgfTSb
+   5qEUQ+Tf9pVYNuE33+fmVCnPhenmLSdcXMi8x4xtZkUdFO3Hk5/5aTnxH
+   BAdGP6PscANxzN2ihuvqWhPbmTubhwPWKx0TNKcRK+AvIxZQQ+A1ZlWr8
+   w==;
+X-CSE-ConnectionGUID: M54Yl6wkTcC1H4/hE0PzqQ==
+X-CSE-MsgGUID: gqxYWZ/aS+qmwn7FeD2GLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15651809"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="41178776"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 11:27:38 -0700
-X-CSE-ConnectionGUID: ILNZl8P+Q3GMl7+ZHFDZUg==
-X-CSE-MsgGUID: nrkcKSQpRwmJ/hGixWRnVQ==
+   d="scan'208";a="15651809"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 11:47:37 -0700
+X-CSE-ConnectionGUID: QU8WNEkNTY6CSvkcuBlcRw==
+X-CSE-MsgGUID: Avx3X7Y4TFaQ966xQ1z7UQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42697044"
+   d="scan'208";a="42664695"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Jun 2024 11:27:35 -0700
+  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 11:47:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK01s-0006s6-2H;
-	Wed, 19 Jun 2024 18:27:32 +0000
-Date: Thu, 20 Jun 2024 02:26:42 +0800
+	id 1sK0LF-0006sk-1I;
+	Wed, 19 Jun 2024 18:47:33 +0000
+Date: Thu, 20 Jun 2024 02:47:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanak Shilledar <kanakshilledar@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kanak Shilledar <kanakshilledar@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: i2c: convert to dt schema
-Message-ID: <202406200223.QexMAKqr-lkp@intel.com>
-References: <20240619154941.144011-2-kanakshilledar@gmail.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.19.y-cip 3965/9999]
+ arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning
+ (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
+ in node /soc/pcie-ep@fe000000)
+Message-ID: <202406200241.uDl27sIk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,37 +64,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240619154941.144011-2-kanakshilledar@gmail.com>
 
-Hi Kanak,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v6.10-rc4 next-20240619]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanak-Shilledar/dt-bindings-i2c-convert-to-dt-schema/20240620-000339
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240619154941.144011-2-kanakshilledar%40gmail.com
-patch subject: [PATCH] dt-bindings: i2c: convert to dt schema
-reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200223.QexMAKqr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
+head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
+commit: 200c1bf10773209d5919db7cb98c4983607486cc [3965/9999] arm64: dts: renesas: r8a774e1: Add PCIe EP nodes
+config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240620/202406200241.uDl27sIk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200241.uDl27sIk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200223.QexMAKqr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200241.uDl27sIk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i2c/i2c-lpc2k.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Using alabaster theme
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+--
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
 
 -- 
 0-DAY CI Kernel Test Service
