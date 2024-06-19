@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FED342ABB;
-	Wed, 19 Jun 2024 02:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9A15588B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 03:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718765684; cv=none; b=BPgfyg0OGzMgJCa6UsQOLgem8dfBASWu8ds1KIKRQa4zCjBCvpTfwBOxLVFgnCHD/REQHs0jEYx/8IvSYJgBAZIJY7WEY8p9Qogz/DufwvrOzA1pgQpvxKLXMOHx76jKyEbUck5lER/noSERaw+j2mIV31G5r6FaHYCizdUUkSY=
+	t=1718766341; cv=none; b=nMEW281EMxTnpHKP+S9IdGklE6BfVczWo20U9L0nkN/zLFREu+j8NKLekWZPdKi5aPaQMW7uKnDNvbPZloGQVXsdilhelRN+XcHYnNCv+Qsn5W9SA862aciGpnmKJXvUQQ6P6zvG74OGYDIJ3aa7bfILlvQueJGvCSTd8JuTRu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718765684; c=relaxed/simple;
-	bh=ruiJuo0TcIPww1MKnKhDXKjJpEPkKk7FFb1iT/KeR1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BZ7cO9omln9venX/dP7HTOAqPLfQVf2waxipZ5GcoiBFeLDPatzbE50FKO8Lt8nrzC2edWVUNaZz9WuRhBzFXBBOXIAUmCR4wEmVsksoNrZVLvxn5/YKiHQUW5znQ7w5+eI70XW2JXrKF0CGA04yCX5MWEVxzKyWoA2nMFtVE54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIrbL4kZ; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1718766341; c=relaxed/simple;
+	bh=lytLsnJCEF9bT9br0xwdKz/SO/lr9xa+bBi6ToRosrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KHYtYolqSgKMe/Kq3zoh8eJPtJNivu7wWQ+/P2335K7IU1aHcJ+S0TObGG818eYXqiF9mhOnZo8XErRiJmaqZqMhM2wXher09NDfM+kSW60gmEyofPL6xgljXoUM3ndIT8h+jeja+2RPAKRMtOmptg2c5IwCBM3zjbT6psocvLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCgX1u6+; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIrbL4kZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCgX1u6+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718765682; x=1750301682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ruiJuo0TcIPww1MKnKhDXKjJpEPkKk7FFb1iT/KeR1I=;
-  b=KIrbL4kZ3bH10kAUukPQniCzEdRyOQ4IyU5t7WNtlIwQTiGvf3ca0BsZ
-   9fbcrMsDKYWbO185AEg1vknMDv2ouTHbXLQsbEwnWIHjAsVMthbmpOBgg
-   +1hq8oTUfSEX5ggj6fT+h50/FcOK7PTCBrqH5hY9wqOYsEQe67agbSD3J
-   L7PeTGPdgE5T86ql05fMcag2IPFM5pPQktR7opC/zKQ9TYZqenjyQiNC6
-   SLuR552WBt3KnDYplhw061DoLZIi6AujCOZ7Upt3dq6FHfpnpwBF6vYOh
-   K4yaHO7xPf9JqCrKQxlbqjjftoBEvpAutfglAU8vnulaezkER4WVWJuel
-   w==;
-X-CSE-ConnectionGUID: dQzX3LouQRCAumQmSn2cxQ==
-X-CSE-MsgGUID: Uy+xupooQ9SDYbiTNkp7mQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27098705"
+  t=1718766340; x=1750302340;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lytLsnJCEF9bT9br0xwdKz/SO/lr9xa+bBi6ToRosrQ=;
+  b=TCgX1u6+QVPP7yXem1WG+R+dbRCdW9b8mkduYFSsoVBpbClf0hVLOm7c
+   9a2Lcx0OqJXeVB+xUJyyPgL8eLV1rOjHrK46Gr0w/R8BHBLeh8Io5AKeu
+   QnfAfbKDQWdjHer4nG8SpBp2BsBRKdSz65qetaBfrPk6CN7ZOVfGX+4GL
+   9wNvBSe4yxJDPED03XlCXJRtJFnK6VdD3jf6B4yXKs8RSJ/CXYm4uKoxl
+   DaN1V3dYyTG8pmrghyIkRXA32Zk1AmDQmpg4iYGZUbxxYF6fmLregL3cq
+   g9x59CDfEXbi8lIBJh+N6wlThwDA8zvMFj1lFdOIcIR1XWjCN5N/nH48a
+   A==;
+X-CSE-ConnectionGUID: MGKY0WmLRXeHUvPTCopx1w==
+X-CSE-MsgGUID: i2MOj9IYShSoSYot8DjsQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15915554"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="27098705"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 19:54:41 -0700
-X-CSE-ConnectionGUID: REFS4McYQWKbyGSnAE9OGA==
-X-CSE-MsgGUID: ve6VOm3WTSi6RXgIBjiO6Q==
+   d="scan'208";a="15915554"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 20:05:39 -0700
+X-CSE-ConnectionGUID: fYy1Q1CoQMiiGLeXv9mH/A==
+X-CSE-MsgGUID: p6R4CAISTsS7o8aQLHyg3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="41860800"
+   d="scan'208";a="46143808"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jun 2024 19:54:38 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jun 2024 20:05:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJlT1-0006Cw-34;
-	Wed, 19 Jun 2024 02:54:35 +0000
-Date: Wed, 19 Jun 2024 10:53:55 +0800
+	id 1sJldg-0006DK-0S;
+	Wed, 19 Jun 2024 03:05:36 +0000
+Date: Wed, 19 Jun 2024 11:04:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Manikantan R <quic_manrav@quicinc.com>
-Subject: Re: [PATCH 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of enabling
- vi channels
-Message-ID: <202406191005.yMuWtspN-lkp@intel.com>
-References: <20240618-lpass-wsa-vi-v1-2-416a6f162c81@linaro.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [morimoto:renesas-bsp/v6.6.34-2024-06-17 40/132]
+ arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000:
+ 'clock-names' is a required property
+Message-ID: <202406191144.R8rzUVFA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,100 +63,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618-lpass-wsa-vi-v1-2-416a6f162c81@linaro.org>
 
-Hi Srinivas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-codecs-lpass-wsa-macro-Fix-vi-feedback-rate/20240618-221030
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240618-lpass-wsa-vi-v1-2-416a6f162c81%40linaro.org
-patch subject: [PATCH 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of enabling vi channels
-config: i386-buildonly-randconfig-002-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191005.yMuWtspN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191005.yMuWtspN-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux renesas-bsp/v6.6.34-2024-06-17
+head:   caf7f9c42b2dc056f352a35527e2efc1e4ffd4b6
+commit: d93edb32c83e6adee60580eeddbd0471ba65bd7a [40/132] arm64: dts: renesas: r8a779g0: white-hawk: Enable PCIe Host ch0
+config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/archive/20240619/202406191144.R8rzUVFA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191144.R8rzUVFA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191005.yMuWtspN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191144.R8rzUVFA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   sound/soc/codecs/lpass-wsa-macro.c:999:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     999 |         default:
-         |         ^
-   sound/soc/codecs/lpass-wsa-macro.c:999:2: note: insert 'break;' to avoid fall-through
-     999 |         default:
-         |         ^
-         |         break; 
->> sound/soc/codecs/lpass-wsa-macro.c:1238:6: warning: variable 'tx_reg0' set but not used [-Wunused-but-set-variable]
-    1238 |         u32 tx_reg0, tx_reg1;
-         |             ^
->> sound/soc/codecs/lpass-wsa-macro.c:1238:15: warning: variable 'tx_reg1' set but not used [-Wunused-but-set-variable]
-    1238 |         u32 tx_reg0, tx_reg1;
-         |                      ^
-   3 warnings generated.
-
-
-vim +/tx_reg0 +1238 sound/soc/codecs/lpass-wsa-macro.c
-
-0c27e978419e7e Srinivas Kandagatla 2024-06-18  1231  
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1232  static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1233  					struct snd_kcontrol *kcontrol,
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1234  					int event)
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1235  {
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1236  	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1237  	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05 @1238  	u32 tx_reg0, tx_reg1;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1239  	u32 rate_val;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1240  
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1241  	switch (wsa->pcm_rate_vi) {
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1242  	case 8000:
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1243  		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1244  		break;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1245  	case 16000:
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1246  		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1247  		break;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1248  	case 24000:
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1249  		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1250  		break;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1251  	case 32000:
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1252  		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1253  		break;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1254  	case 48000:
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1255  		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1256  		break;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1257  	default:
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1258  		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1259  		break;
-2881dae5fbb091 Srinivas Kandagatla 2024-06-18  1260  	}
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1261  
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1262  	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1263  		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1264  		tx_reg1 = CDC_WSA_TX1_SPKR_PROT_PATH_CTL;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1265  	} else if (test_bit(WSA_MACRO_TX1, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1266  		tx_reg0 = CDC_WSA_TX2_SPKR_PROT_PATH_CTL;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1267  		tx_reg1 = CDC_WSA_TX3_SPKR_PROT_PATH_CTL;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1268  	}
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1269  
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1270  	switch (event) {
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1271  	case SND_SOC_DAPM_POST_PMU:
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1272  			/* Enable V&I sensing */
-0c27e978419e7e Srinivas Kandagatla 2024-06-18  1273  		wsa_macro_enable_disable_vi_feedback(component, true, rate_val);
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1274  		break;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1275  	case SND_SOC_DAPM_POST_PMD:
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1276  		/* Disable V&I sensing */
-0c27e978419e7e Srinivas Kandagatla 2024-06-18  1277  		wsa_macro_enable_disable_vi_feedback(component, false, rate_val);
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1278  		break;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1279  	}
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1280  
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1281  	return 0;
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1282  }
-2c4066e5d428d4 Srinivas Kandagatla 2020-11-05  1283  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: reg-names:2: 'atu' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: reg-names:3: 'dma' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: reg-names:4: 'app' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: reg-names: ['dbi', 'atu', 'dma', 'app', 'config'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: clocks: [[8, 1, 624]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d0000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d8000: compatible:0: 'renesas,r8a779f0-pcie' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d8000: compatible:1: 'renesas,r8a779g0-pcie' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d8000: compatible: ['renesas,r8a779g0-pcie', 'renesas,rcar-gen4-pcie'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d8000: reg: [[0, 3864887296, 0, 12288], [0, 3864899584, 0, 8192], [0, 3864907776, 0, 4608], [0, 3864912384, 0, 3584], [0, 4002414592, 0, 4194304]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/rcar-gen4-pci-host.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: pcie@e65d8000: reg-names:1: 'dbi2' was expected
 
 -- 
 0-DAY CI Kernel Test Service
