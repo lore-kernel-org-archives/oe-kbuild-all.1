@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D79D53E24
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 04:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DF1179AE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jun 2024 04:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718770365; cv=none; b=rxMRdhodtCIyeA2aow978EsycmsJTHsQhp2mUtPwMDnzdmi+7bncQ4x7o0g7kYmKsO5yrd3PMdbMGojouZPRbWv6M8zICgxlWSeIF2tbv1IXxbXlFjbvKFQLqCLVBn2YosYZMrqyPwO9wNSBj2vzxXf3jQM2F1J9/9xrCQfXQ5s=
+	t=1718771624; cv=none; b=il3bdvUESKHVFieOCIOHJiFMIwiJ35wdFQ5Q0lYnhmbNHyf5aR24Iq2vkWGYOGhJ91OxtkI045JUunFcpTtQmjGlCKso0kPBsM9AYhUyUsCfRKab+HkE72wdgEuvoLi4d6r0VD/TD3ZczRHNdjn3Ac9TWb83klzEYJvK4P+aLmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718770365; c=relaxed/simple;
-	bh=TjRIGzB3ovP4QWg67Avhbs4XVIQmPJBe2HW1g1vRxMQ=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=atrfMEVjHr7bLpddvVKy3gYekJunfB4nn0tpfh39XSeQTwg41BWNfAzQib0uhoVmNZBF098af5LTsoWpJ5beJkSaCyF+YNxuuDnvdnEakvivZYZg7yYJr70UefKtPLWHwc5Wb1igx3JJp1rhePt1zx0kfNA9XQmnRPBZ3Ex2O6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IAA/m50z; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1718771624; c=relaxed/simple;
+	bh=VGZJiAFJAqXfJBqJMs76AsYIPeLVd4IvB4ptQsOCzIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QfJSwEJ7hr0VAp8XYLIyXWa7V4TBxRhhDu14Nq0LPz4mZuHxlh2D4SXw5/I0T97GDqjJtPyIEgWPWgNRvu9t+zZg2fw8iVKQma9qnzk7xanmU1+0V0DvFVSvAGBsjwKgkPaMcH21tD374iuelV99YjOEapZHWMHrrgn32o+zMpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cklgkSUF; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IAA/m50z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cklgkSUF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718770363; x=1750306363;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=TjRIGzB3ovP4QWg67Avhbs4XVIQmPJBe2HW1g1vRxMQ=;
-  b=IAA/m50zdUrv5FiCCap5TSd8PBRJAnPpdi+3NfZnmZRxQpRXVb/jCqYB
-   EPL+9YdkePqs6KO23lrahTEpIUUP80rh8mOx8tZxIEPufzlJ7PrxpUcxz
-   itCnaqawwjR/Y6NKoPzbrvv8Bgqd6SLnCBrkl/GLBiB3Tj8WlHDSjwV04
-   ioaqJMxdVPF+6fZ6hciMYrmKjkoQqanv0AEpyZ9hLNQltWeNwLEhURSL4
-   BtuHzKQj4uL/lHM6EeO/0pYUz7dPRsvVQ878iqUeNJqsI2/u4PZbquomF
-   LuiXEz5vHh60JSH1AdvnU4Vp+kAxh5enGYHSd5vLWM26/ODLGfecY3wkm
+  t=1718771623; x=1750307623;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VGZJiAFJAqXfJBqJMs76AsYIPeLVd4IvB4ptQsOCzIU=;
+  b=cklgkSUFj7oqJrCBIlse6VSbBzefvi9bX49Tt5OLjpz4Pl+PlOx8RvLM
+   Zhr9SYjqUmgYiJBV8jZeLgz/zCVUl6g7mhsElzloCEO0jupNYTVYkwXoc
+   r+BEiFPz8sC1X/GtbYLYhrZRV3I00/AAgw29x2pIoIzwuW+UWFK38BQQZ
+   MpBuTIeam40EKNUQCZX+H1JbbasIKsbygN4i5ukCiuj3nDH01KDrOfdoq
+   SsNu1nAW8mYK+2NvHZFGeXsR7d3Tt4tthB203C0Qo7dsrOV7JJ544bizr
+   MIeB0j/2rPCKME8qSNvJl17B/LnGUrfZqQTUwLN7DlQfYeoO9+jWZP9Wp
    Q==;
-X-CSE-ConnectionGUID: PcwU00PtR4ekLZxzOUGY9Q==
-X-CSE-MsgGUID: lNqeUhDBTQiTMjsyy0xYRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15815523"
+X-CSE-ConnectionGUID: Ip8bs6twSHGaR9nFGS0Amg==
+X-CSE-MsgGUID: NrWEIvr1S5au63cEyY1qcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26369438"
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="15815523"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 21:12:42 -0700
-X-CSE-ConnectionGUID: Gh/ghZgTRmmMJMc7qC/L8Q==
-X-CSE-MsgGUID: 8xiie9q4QjCUNVI/YZ1QSg==
+   d="scan'208";a="26369438"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 21:33:42 -0700
+X-CSE-ConnectionGUID: rsJV3hRgT2Wxwkvl9w2n0Q==
+X-CSE-MsgGUID: PPOXf1fLStKHOe4eByYB0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="42487637"
+   d="scan'208";a="65020273"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jun 2024 21:12:40 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Jun 2024 21:33:41 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJmgY-0006H4-1Z;
-	Wed, 19 Jun 2024 04:12:38 +0000
-Date: Wed, 19 Jun 2024 12:12:16 +0800
+	id 1sJn0t-0006Hu-0F;
+	Wed, 19 Jun 2024 04:33:39 +0000
+Date: Wed, 19 Jun 2024 12:33:13 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>, Dhruva Gole <d-gole@ti.com>
-Subject: [ti:ti-linux-6.6.y-wip 26/137]
- arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: pinctrl@f4000: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202406191240.2smUw5B5-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/backpointers.c:396:21: warning: 'bucket.offset' is used
+ uninitialized
+Message-ID: <202406191248.wSUI6f8j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,155 +62,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
-head:   28ca41014f923e6e0e314492899b7cda49439c39
-commit: f28f187ba0d18eddf04f2a71515f09924ee1e67d [26/137] HACK: arm64: dts: ti: Configure am62 pinctrl-single for wake-up interrupts
-config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/archive/20240619/202406191240.2smUw5B5-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191240.2smUw5B5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   92e5605a199efbaee59fb19e15d6cc2103a04ec2
+commit: 633cf069445d95384d88e9ff40f395c001f8b2b7 bcachefs: Kill bch2_dev_bkey_exists() in backpointer code
+date:   6 weeks ago
+config: um-randconfig-r081-20240305 (https://download.01.org/0day-ci/archive/20240619/202406191248.wSUI6f8j-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191248.wSUI6f8j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406191240.2smUw5B5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191248.wSUI6f8j-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:338.10-348.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62-main.dtsi:651.22-661.5: Warning (graph_child_address): /bus@f0000/dwc3-usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-mallow.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-mallow.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-mallow.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-mallow.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-mallow.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-yavia.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-yavia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-yavia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-yavia.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-yavia.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-mallow.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-mallow.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-mallow.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-mallow.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-mallow.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-yavia.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-yavia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-yavia.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-yavia.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-yavia.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
---
-   arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:338.10-348.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62-main.dtsi:651.22-661.5: Warning (graph_child_address): /bus@f0000/dwc3-usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: pinctrl@f4000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ti,am654-padconf'] is too short
-   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+All warnings (new ones prefixed by >>):
+
+   fs/bcachefs/backpointers.c: In function 'bch2_check_btree_backpointer':
+>> fs/bcachefs/backpointers.c:396:21: warning: 'bucket.offset' is used uninitialized [-Wuninitialized]
+     396 |         struct bpos bucket;
+         |                     ^~~~~~
+
+
+vim +396 fs/bcachefs/backpointers.c
+
+   386	
+   387	static int bch2_check_btree_backpointer(struct btree_trans *trans, struct btree_iter *bp_iter,
+   388						struct bkey_s_c k)
+   389	{
+   390		struct bch_fs *c = trans->c;
+   391		struct btree_iter alloc_iter = { NULL };
+   392		struct bkey_s_c alloc_k;
+   393		struct printbuf buf = PRINTBUF;
+   394		int ret = 0;
+   395	
+ > 396		struct bpos bucket;
+   397		if (!bp_pos_to_bucket_nodev_noerror(c, k.k->p, &bucket)) {
+   398			if (fsck_err(c, backpointer_to_missing_device,
+   399				     "backpointer for missing device:\n%s",
+   400				     (bch2_bkey_val_to_text(&buf, c, k), buf.buf)))
+   401				ret = bch2_btree_delete_at(trans, bp_iter, 0);
+   402			goto out;
+   403		}
+   404	
+   405		alloc_k = bch2_bkey_get_iter(trans, &alloc_iter, BTREE_ID_alloc, bucket, 0);
+   406		ret = bkey_err(alloc_k);
+   407		if (ret)
+   408			goto out;
+   409	
+   410		if (fsck_err_on(alloc_k.k->type != KEY_TYPE_alloc_v4, c,
+   411				backpointer_to_missing_alloc,
+   412				"backpointer for nonexistent alloc key: %llu:%llu:0\n%s",
+   413				alloc_iter.pos.inode, alloc_iter.pos.offset,
+   414				(bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+   415			ret = bch2_btree_delete_at(trans, bp_iter, 0);
+   416			goto out;
+   417		}
+   418	out:
+   419	fsck_err:
+   420		bch2_trans_iter_exit(trans, &alloc_iter);
+   421		printbuf_exit(&buf);
+   422		return ret;
+   423	}
+   424	
 
 -- 
 0-DAY CI Kernel Test Service
