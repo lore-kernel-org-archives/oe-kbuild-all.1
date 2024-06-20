@@ -1,61 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E29B1990A8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 08:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCB31991B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 08:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718872727; cv=none; b=n11UiJOjGoxDb4ufGnGKmuLkJVrCvCpOveU1+dJsiaSwj1l7DuLDh/jG1w1m66r9yQ9JY5Y6xkuQSDmODMTAk8ClRHwlVEqTYY/YDuxxTIw8J9Yed2pidsAxDGCoTH0T5NC5TZje9S5FTjeR1wUZBj8Ijym7Un3WlyGRGWFKzgQ=
+	t=1718872728; cv=none; b=Q7eVmIVFDfwBm7sVAx22awftqQjx9Ro3UAulz3kvWVBeOVipjqBWgci9TvSCTaTEIbvZmJVzB/s7QQF8nocpPi7DETvMIAsBkt70yZe9qbjXFLoJ1WvJELjTQVsHg+YTr8+1OgB1KPmnTb7AdUsxRx/AOL74W929DSM35nUrspo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718872727; c=relaxed/simple;
-	bh=DryLwhhu1GhT4grY4oZrSPjSGtBtBEecMMCQiZSy+As=;
+	s=arc-20240116; t=1718872728; c=relaxed/simple;
+	bh=nUNb37LQf/rFfh4F+DXuEcF+KXMQ2p9VQrsoqy0ECq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OEQGIMMIy22I6R8rJk6DvPVykDjLqSxX6fSqWEs2itw8rRUlF5xzB/3E92fULquVbtJUib9DrZNxosMuvrENfz8xMGzOLqXDAVt19vkvCKE/gKWJCu/s57cxu0jbu8Itfu6xn69nZeqyKgp5u4jJp0IDLXMntjEeq3ZRBREU+IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzyuU47Q; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=FRzvPA7Po5H/g2rSY/xit0Dte+/On2IP+kqzDOkIF9BNIQwPF/KAjEkw/ly5EXn/tZuFRnbZE1YchpscaWIda7FHZDSAz/bKo7NwZMkORN8X42VjBF2CwYN56YEIZEMb34z0bdZcBzxT689LsdczYueaMQ/z5+p8Hrx/zfyEGE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlovZTbg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzyuU47Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlovZTbg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718872725; x=1750408725;
+  t=1718872727; x=1750408727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DryLwhhu1GhT4grY4oZrSPjSGtBtBEecMMCQiZSy+As=;
-  b=KzyuU47Qmog1yjVYjk3UhhdulF9vspFPB6vMZw43VTu0G7vRB4/WKPeg
-   TFB7kJYIX78dnoHn/aL8k/yzWouEG8L8Ubq2pGImLRTD/bjZXwqgdWVYc
-   wHfgCeduDtflVKBwffoVDzBa8r/uIpoCvz2dtJ1z34kZzUmIFtPAUL1ct
-   gwAb8qMig2o6ub59nhl09P1rFUwKrpPYwmsmhhKq3HT/UFMBVQA0x0P8y
-   dKLdns7tNMpaLfsM2cQjozhAcrahKEmpjy98idENb2uJf0PZd4olKr3Bh
-   0igijlPrFrrlsVXKbh/gL0nIQ+VdG6WASLZQkjomUdPmks9gf+jTzjOoT
-   A==;
-X-CSE-ConnectionGUID: 3jo8KhjgSxmglGL6cOTjwQ==
-X-CSE-MsgGUID: NQlgTiVDSpywDzGCwgJE3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="12159288"
+  bh=nUNb37LQf/rFfh4F+DXuEcF+KXMQ2p9VQrsoqy0ECq0=;
+  b=SlovZTbghfAQFdRPG62r4G62NFBbOubSA2UkZgtLxztxlf5rEkPa2KMD
+   IOnHhI0iqrRzvWcF13eAR4V80XsqnvRiTD5kc4Xf54EGj6/s9YCQZwKhg
+   42W0kMi+Ior9pLrzFf+rL2Lr1kAngwuUUZLmgU3uEwo4S9NdPdpK9grs7
+   LGp/BIueyHoaQGEahNo0mkXVcXPFEnTEeU2YpD3zKxbzvcg0fcfdf0Moa
+   VctznBPe94aK44u73H3tKoHLTkiPLi/ONFfw0QZXiWFkFuX0+pIhOiFNf
+   6Rmqx5pFh7PFRu1eAAJ4qkAuXj0U/rKUKGiWX7t3XBcF8p9FWg4gvawkT
+   Q==;
+X-CSE-ConnectionGUID: GfHp/wH4RBS6Zs9AEY8u5Q==
+X-CSE-MsgGUID: xanUqmAVQRihQnKUs+Ld8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="12159289"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="12159288"
+   d="scan'208";a="12159289"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 01:38:45 -0700
-X-CSE-ConnectionGUID: FwWPb1XIQimZdHO7H9fRHA==
-X-CSE-MsgGUID: cgXSOuwfQM+CAEn72wmtRw==
+X-CSE-ConnectionGUID: KzsQpKClSqyGQ6QHLerIGw==
+X-CSE-MsgGUID: yVvjWm7VS9udSAx3nG4bXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="46619327"
+   d="scan'208";a="46619326"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2024 01:38:43 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKDJZ-0007Rm-1m;
+	id 1sKDJZ-0007Ro-1r;
 	Thu, 20 Jun 2024 08:38:41 +0000
 Date: Thu, 20 Jun 2024 16:37:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip 4248/9999]
- arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning
- (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used
- in node /soc/pcie-ep@fe000000)
-Message-ID: <202406201657.IFEpVZNL-lkp@intel.com>
+To: "Luke D. Jones" <luke@ljones.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>
+Subject: [hid:for-next 1/2]
+ include/linux/platform_data/x86/asus-wmi.h:174:64: warning: missing braces
+ around initializer
+Message-ID: <202406201647.E2BChvPJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,21 +64,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
-commit: 77ed2ae0b7460ff740b3590e53a0f857b2be4dbb [4248/9999] arm64: dts: renesas: Add HiHope RZ/G2H board with idk-1110wr display
-config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240620/202406201657.IFEpVZNL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201657.IFEpVZNL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+head:   fa9057ccb9c323816e0f2599a2d91f5c856b0004
+commit: bda38f9a41d89b47dce54932f88d0e0edee00cae [1/2] HID: asus: use hid for brightness control on keyboard
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240620/202406201647.E2BChvPJ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201647.E2BChvPJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201657.IFEpVZNL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201647.E2BChvPJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/hid/hid-asus.c:29:
+>> include/linux/platform_data/x86/asus-wmi.h:174:64: warning: missing braces around initializer [-Wmissing-braces]
+     174 | static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+         |                                                                ^
+
+
+vim +174 include/linux/platform_data/x86/asus-wmi.h
+
+   173	
+ > 174	static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+   175		{
+   176			.matches = {
+   177				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
+   178			},
+   179		},
+   180		{
+   181			.matches = {
+   182				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
+   183			},
+   184		},
+   185		{
+   186			.matches = {
+   187				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
+   188			},
+   189		},
+   190		{
+   191			.matches = {
+   192				DMI_MATCH(DMI_BOARD_NAME, "GA403"),
+   193			},
+   194		},
+   195		{
+   196			.matches = {
+   197				DMI_MATCH(DMI_BOARD_NAME, "GU605"),
+   198			},
+   199		},
+   200		{
+   201			.matches = {
+   202				DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+   203			},
+   204		},
+   205		NULL,
+   206	};
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
