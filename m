@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC183DDBB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 03:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BE12D058;
+	Thu, 20 Jun 2024 03:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718854097; cv=none; b=QYIYAzFd43ChTcdUhKec2/c8kjRHadx7djyywsH68BufuI/k8ci7CwqYoChMvwkj64us/+5Z9/QaES1lxdDFJzKzCcJyZasYoQsgnXUDA76yDN6+892SqtNHhEHBiMNBnTqSKhGoIrtQv0+ea+iIlW1ZvEKeANOckvanT+ZaAmw=
+	t=1718855418; cv=none; b=QOQTPZPl4DcCuuf9JOCSRIEFnhpedN2LcNCgYl2bVoeLKP7kOK6gmznCGM7zj0/9DO85RgI6i19svK1m7vhTfgBgCbrzD8SKkRSFQVYrWuZvdLsdMcF2s73KHkY0O19E6NRpp1D+v4+fj3lbojz9P57mEXB6pyZ4rPjJ8ow2Wi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718854097; c=relaxed/simple;
-	bh=vp8t5n8rFVShQT8gyp2X5h16GPqlHOy09DNcnwnr8sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+S7xcfoZiJYcBX6g4N8kt/0XhGTAU0BWFjEz9c1dCqjx/87GXfPT/vmCh8rJu5OCxC8NuDwxoTq+TBqUGEl6zuEyk7rxjnRR7+wRBpMyXrQ5VH1WmpiUjFjWHxnd6sj0bWhFlAC76q9nNLJ3L5V8q1Nm1E7LTxw7+VBSrfZL3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l9gqrc/A; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1718855418; c=relaxed/simple;
+	bh=H894Zspz5UBEiWWh6fNUgt0nJIyEJlyCKc1nNqaMzBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WPR5TvU4bgldN3HdqRpilrjNGHQzQNH32JUo8OP7gdIU2EooECXbv4Fku0isn/xRj23pnA28N9nl9azWZcg9QSNkA5Zzls00lNJ9LgXK3/tUND+JrW9UA1kzPnopK9lLeaLJ0DVt68u2+twSvlkvLhPaENGOCBdxFKK1lRZHXnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0gwxpaj; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l9gqrc/A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0gwxpaj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718854095; x=1750390095;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vp8t5n8rFVShQT8gyp2X5h16GPqlHOy09DNcnwnr8sk=;
-  b=l9gqrc/AGuoz1jLsBKka/D0953eJEMoiIc3WFK8Npy9i2ZyDgu6Kio2G
-   Rd2k+g8WpnGwOwIXvJuhZ3aIRT3KSTLKbkotbVoknj3YA5do8ECIkQ3PW
-   op6OcYiLswVM1YJebu4w2Oxnl6Bwq3ACkcViarVXN8QnvolIoJCJq0Ypi
-   FGf6r7y03FsSrcVycR+zV3w3vkfD2by2menrgjKl1+MZH6Lkn7To8Le1b
-   G36wOQeEtiv35xFMvQpl0eqthy81mAL2lnqBOEOd47eXCcMxt6eR46oTW
-   QLvSpZ6Q0MDd6ncEQIdeDtnKh5CS6/dfQDTQDlkwbplf+H439CdoTKJk7
+  t=1718855416; x=1750391416;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H894Zspz5UBEiWWh6fNUgt0nJIyEJlyCKc1nNqaMzBE=;
+  b=j0gwxpaj6wslfEhh15LCiFhWbYrHFQahdlCkyyeegeE7GMsRaN9ccs0E
+   XDo4IBHTWcP8KjYEl0lX4D2mnouXEk8nRQzpd0dNFaMre7ueRtIkOPIom
+   orYpgcCnoK38Bxh+GpPO0BxSwldsBohi44ePGm5xC+oKipcV7eeN4fFlI
+   TrTjSGJBV50y3PVOD5nS8O572VJPR0PPoEvcxyFfIo0SKPeZ57Uk7bHuZ
+   0TFpA7SGN8S0A7jqST54cluaHBj+pWHQU1XTC2WDF9wRuicjoGe801q3i
+   LABVeTld2TLnUACw7pY/jOJ8VQ0oCjb2L8vW0Znw0PIahe307XRmKnJqg
    A==;
-X-CSE-ConnectionGUID: CSBw6xPfR5iUdzALgGl5Xg==
-X-CSE-MsgGUID: afxuklaFQcqv7O8ZpaFxtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="12156133"
+X-CSE-ConnectionGUID: uoDokxSgQVqsq3I4ycRhPA==
+X-CSE-MsgGUID: iBuppbn0TfGJ0tWTbxXYTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="41216476"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="12156133"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 20:28:15 -0700
-X-CSE-ConnectionGUID: 1G7Zoa7hRYuQ+/ydfUKMQQ==
-X-CSE-MsgGUID: BUFuuXQdR+2iQYQx8Tq75g==
+   d="scan'208";a="41216476"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 20:50:15 -0700
+X-CSE-ConnectionGUID: lrLOjxd3QW6249qKp9k4yQ==
+X-CSE-MsgGUID: bJtd32KSSE2wJ/C3EDchJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="41966318"
+   d="scan'208";a="42221975"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Jun 2024 20:28:12 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 19 Jun 2024 20:50:13 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK8T4-0007Gw-08;
-	Thu, 20 Jun 2024 03:28:10 +0000
-Date: Thu, 20 Jun 2024 11:27:22 +0800
+	id 1sK8oN-0007He-1B;
+	Thu, 20 Jun 2024 03:50:11 +0000
+Date: Thu, 20 Jun 2024 11:49:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anand Moon <linux.amoon@gmail.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Anand Moon <linux.amoon@gmail.com>,
-	linux-pci@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] PCI: rockchip: Simplify reset control handling by
- using reset_control_bulk*() function
-Message-ID: <202406201156.PPCyjK8r-lkp@intel.com>
-References: <20240618164133.223194-3-linux.amoon@gmail.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2024.06.18a 20/34]
+ kernel/time/clocksource.c:1167:36: error: use of undeclared identifier
+ 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
+Message-ID: <202406201149.s6KWE7XP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,73 +63,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618164133.223194-3-linux.amoon@gmail.com>
 
-Hi Anand,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.10-rc4 next-20240619]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/PCI-rockchip-Simplify-reset-control-handling-by-using-reset_control_bulk-function/20240619-014145
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240618164133.223194-3-linux.amoon%40gmail.com
-patch subject: [PATCH v1 2/3] PCI: rockchip: Simplify reset control handling by using reset_control_bulk*() function
-config: arc-randconfig-001-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201156.PPCyjK8r-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201156.PPCyjK8r-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.06.18a
+head:   f29bcafffef0ecc8a5d2cdc1bbef9a6889225263
+commit: 5800c05045dbfeb8c9e571c6b47e8d7dd0d0691d [20/34] clocksource: Take advantage of always-defined CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+config: arm-randconfig-002-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201149.s6KWE7XP-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201149.s6KWE7XP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201156.PPCyjK8r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201149.s6KWE7XP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/controller/pcie-rockchip-ep.c:20:
->> drivers/pci/controller/pcie-rockchip.h:319:41: error: array type has incomplete element type 'struct reset_control_bulk_data'
-     319 |         struct  reset_control_bulk_data pm_rsts[ROCKCHIP_NUM_PM_RSTS];
-         |                                         ^~~~~~~
-   drivers/pci/controller/pcie-rockchip.h:320:41: error: array type has incomplete element type 'struct reset_control_bulk_data'
-     320 |         struct  reset_control_bulk_data core_rsts[ROCKCHIP_NUM_CORE_RSTS];
-         |                                         ^~~~~~~~~
-   drivers/pci/controller/pcie-rockchip.h:321:31: error: array type has incomplete element type 'struct clk_bulk_data'
-     321 |         struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
-         |                               ^~~~
+>> kernel/time/clocksource.c:1167:36: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
+    1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
+         |                                                  ^
+   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
+     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+         |                            ^
+   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
+     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+         |                         ^
+   kernel/time/clocksource.c:1168:33: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
+    1168 |                         cs->uncertainty_margin = 2 * WATCHDOG_MAX_SKEW;
+         |                                                      ^
+   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
+     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+         |                            ^
+   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
+     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+         |                         ^
+   kernel/time/clocksource.c:1172:44: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
+    1172 |         WARN_ON_ONCE(cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW);
+         |                                                   ^
+   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
+     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+         |                            ^
+   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
+     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+         |                         ^
+   3 errors generated.
 
 
-vim +319 drivers/pci/controller/pcie-rockchip.h
+vim +/CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US +1167 kernel/time/clocksource.c
 
-   313	
-   314	struct rockchip_pcie {
-   315		void	__iomem *reg_base;		/* DT axi-base */
-   316		void	__iomem *apb_base;		/* DT apb-base */
-   317		bool    legacy_phy;
-   318		struct  phy *phys[MAX_LANE_NUM];
- > 319		struct  reset_control_bulk_data pm_rsts[ROCKCHIP_NUM_PM_RSTS];
-   320		struct  reset_control_bulk_data core_rsts[ROCKCHIP_NUM_CORE_RSTS];
-   321		struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
-   322		struct	regulator *vpcie12v; /* 12V power supply */
-   323		struct	regulator *vpcie3v3; /* 3.3V power supply */
-   324		struct	regulator *vpcie1v8; /* 1.8V power supply */
-   325		struct	regulator *vpcie0v9; /* 0.9V power supply */
-   326		struct	gpio_desc *ep_gpio;
-   327		u32	lanes;
-   328		u8      lanes_map;
-   329		int	link_gen;
-   330		struct	device *dev;
-   331		struct	irq_domain *irq_domain;
-   332		int     offset;
-   333		void    __iomem *msg_region;
-   334		phys_addr_t msg_bus_addr;
-   335		bool is_rc;
-   336		struct resource *mem_res;
-   337	};
-   338	
+734efb467b31e5 John Stultz      2006-06-26  1107  
+d7e81c269db899 John Stultz      2010-05-07  1108  /**
+fba9e07208c0f9 John Stultz      2015-03-11  1109   * __clocksource_update_freq_scale - Used update clocksource with new freq
+b1b73d095084e7 Kusanagi Kouichi 2011-12-19  1110   * @cs:		clocksource to be registered
+d7e81c269db899 John Stultz      2010-05-07  1111   * @scale:	Scale factor multiplied against freq to get clocksource hz
+d7e81c269db899 John Stultz      2010-05-07  1112   * @freq:	clocksource frequency (cycles per second) divided by scale
+d7e81c269db899 John Stultz      2010-05-07  1113   *
+852db46d55e85b John Stultz      2010-07-13  1114   * This should only be called from the clocksource->enable() method.
+d7e81c269db899 John Stultz      2010-05-07  1115   *
+d7e81c269db899 John Stultz      2010-05-07  1116   * This *SHOULD NOT* be called directly! Please use the
+fba9e07208c0f9 John Stultz      2015-03-11  1117   * __clocksource_update_freq_hz() or __clocksource_update_freq_khz() helper
+fba9e07208c0f9 John Stultz      2015-03-11  1118   * functions.
+d7e81c269db899 John Stultz      2010-05-07  1119   */
+fba9e07208c0f9 John Stultz      2015-03-11  1120  void __clocksource_update_freq_scale(struct clocksource *cs, u32 scale, u32 freq)
+d7e81c269db899 John Stultz      2010-05-07  1121  {
+c0e299b1a91cbd Thomas Gleixner  2011-05-20  1122  	u64 sec;
+f8935983f11050 John Stultz      2015-03-11  1123  
+f8935983f11050 John Stultz      2015-03-11  1124  	/*
+f8935983f11050 John Stultz      2015-03-11  1125  	 * Default clocksources are *special* and self-define their mult/shift.
+f8935983f11050 John Stultz      2015-03-11  1126  	 * But, you're not special, so you should specify a freq value.
+f8935983f11050 John Stultz      2015-03-11  1127  	 */
+f8935983f11050 John Stultz      2015-03-11  1128  	if (freq) {
+d7e81c269db899 John Stultz      2010-05-07  1129  		/*
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1130  		 * Calc the maximum number of seconds which we can run before
+f8935983f11050 John Stultz      2015-03-11  1131  		 * wrapping around. For clocksources which have a mask > 32-bit
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1132  		 * we need to limit the max sleep time to have a good
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1133  		 * conversion precision. 10 minutes is still a reasonable
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1134  		 * amount. That results in a shift value of 24 for a
+f8935983f11050 John Stultz      2015-03-11  1135  		 * clocksource with mask >= 40-bit and f >= 4GHz. That maps to
+362fde0410377e John Stultz      2015-03-11  1136  		 * ~ 0.06ppm granularity for NTP.
+d7e81c269db899 John Stultz      2010-05-07  1137  		 */
+362fde0410377e John Stultz      2015-03-11  1138  		sec = cs->mask;
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1139  		do_div(sec, freq);
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1140  		do_div(sec, scale);
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1141  		if (!sec)
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1142  			sec = 1;
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1143  		else if (sec > 600 && cs->mask > UINT_MAX)
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1144  			sec = 600;
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1145  
+d7e81c269db899 John Stultz      2010-05-07  1146  		clocks_calc_mult_shift(&cs->mult, &cs->shift, freq,
+724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1147  				       NSEC_PER_SEC / scale, sec * scale);
+f8935983f11050 John Stultz      2015-03-11  1148  	}
+2e27e793e280ff Paul E. McKenney 2021-05-27  1149  
+2e27e793e280ff Paul E. McKenney 2021-05-27  1150  	/*
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1151  	 * If the uncertainty margin is not specified, calculate it.  If
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1152  	 * both scale and freq are non-zero, calculate the clock period, but
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1153  	 * bound below at 2*WATCHDOG_MAX_SKEW, that is, 500ppm by default.
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1154  	 * However, if either of scale or freq is zero, be very conservative
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1155  	 * and take the tens-of-milliseconds WATCHDOG_THRESHOLD value
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1156  	 * for the uncertainty margin.  Allow stupidly small uncertainty
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1157  	 * margins to be specified by the caller for testing purposes,
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1158  	 * but warn to discourage production use of this capability.
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1159  	 *
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1160  	 * Bottom line:  The sum of the uncertainty margins of the
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1161  	 * watchdog clocksource and the clocksource under test will be at
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1162  	 * least 500ppm by default.  For more information, please see the
+ababe5f6bfbf3e Borislav Petkov  2024-06-12  1163  	 * comment preceding CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US above.
+2e27e793e280ff Paul E. McKenney 2021-05-27  1164  	 */
+2e27e793e280ff Paul E. McKenney 2021-05-27  1165  	if (scale && freq && !cs->uncertainty_margin) {
+2e27e793e280ff Paul E. McKenney 2021-05-27  1166  		cs->uncertainty_margin = NSEC_PER_SEC / (scale * freq);
+2e27e793e280ff Paul E. McKenney 2021-05-27 @1167  		if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
+2e27e793e280ff Paul E. McKenney 2021-05-27  1168  			cs->uncertainty_margin = 2 * WATCHDOG_MAX_SKEW;
+2e27e793e280ff Paul E. McKenney 2021-05-27  1169  	} else if (!cs->uncertainty_margin) {
+2e27e793e280ff Paul E. McKenney 2021-05-27  1170  		cs->uncertainty_margin = WATCHDOG_THRESHOLD;
+2e27e793e280ff Paul E. McKenney 2021-05-27  1171  	}
+2e27e793e280ff Paul E. McKenney 2021-05-27  1172  	WARN_ON_ONCE(cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW);
+2e27e793e280ff Paul E. McKenney 2021-05-27  1173  
+d65670a78cdbfa John Stultz      2011-10-31  1174  	/*
+362fde0410377e John Stultz      2015-03-11  1175  	 * Ensure clocksources that have large 'mult' values don't overflow
+362fde0410377e John Stultz      2015-03-11  1176  	 * when adjusted.
+d65670a78cdbfa John Stultz      2011-10-31  1177  	 */
+d65670a78cdbfa John Stultz      2011-10-31  1178  	cs->maxadj = clocksource_max_adjustment(cs);
+f8935983f11050 John Stultz      2015-03-11  1179  	while (freq && ((cs->mult + cs->maxadj < cs->mult)
+f8935983f11050 John Stultz      2015-03-11  1180  		|| (cs->mult - cs->maxadj > cs->mult))) {
+d65670a78cdbfa John Stultz      2011-10-31  1181  		cs->mult >>= 1;
+d65670a78cdbfa John Stultz      2011-10-31  1182  		cs->shift--;
+d65670a78cdbfa John Stultz      2011-10-31  1183  		cs->maxadj = clocksource_max_adjustment(cs);
+d65670a78cdbfa John Stultz      2011-10-31  1184  	}
+d65670a78cdbfa John Stultz      2011-10-31  1185  
+f8935983f11050 John Stultz      2015-03-11  1186  	/*
+f8935983f11050 John Stultz      2015-03-11  1187  	 * Only warn for *special* clocksources that self-define
+f8935983f11050 John Stultz      2015-03-11  1188  	 * their mult/shift values and don't specify a freq.
+f8935983f11050 John Stultz      2015-03-11  1189  	 */
+f8935983f11050 John Stultz      2015-03-11  1190  	WARN_ONCE(cs->mult + cs->maxadj < cs->mult,
+f8935983f11050 John Stultz      2015-03-11  1191  		"timekeeping: Clocksource %s might overflow on 11%% adjustment\n",
+f8935983f11050 John Stultz      2015-03-11  1192  		cs->name);
+f8935983f11050 John Stultz      2015-03-11  1193  
+fb82fe2fe85887 John Stultz      2015-03-11  1194  	clocksource_update_max_deferment(cs);
+8cc8c525ad4e7b John Stultz      2015-03-11  1195  
+45bbfe64ea564a Joe Perches      2015-05-25  1196  	pr_info("%s: mask: 0x%llx max_cycles: 0x%llx, max_idle_ns: %lld ns\n",
+8cc8c525ad4e7b John Stultz      2015-03-11  1197  		cs->name, cs->mask, cs->max_cycles, cs->max_idle_ns);
+852db46d55e85b John Stultz      2010-07-13  1198  }
+fba9e07208c0f9 John Stultz      2015-03-11  1199  EXPORT_SYMBOL_GPL(__clocksource_update_freq_scale);
+852db46d55e85b John Stultz      2010-07-13  1200  
+
+:::::: The code at line 1167 was first introduced by commit
+:::::: 2e27e793e280ff12cb5c202a1214c08b0d3a0f26 clocksource: Reduce clocksource-skew threshold
+
+:::::: TO: Paul E. McKenney <paulmck@kernel.org>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
