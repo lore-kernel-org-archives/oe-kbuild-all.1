@@ -1,73 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEFA1BA87B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 18:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872E11B143E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 19:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718909365; cv=none; b=oXGiys8jkuEigv03POiCuHzQE5loxdyUiaHFBy5U/yRAYXhR9MAJu+l6L8wq3KdceRHv5czmsvnDM7BI9AdUZKk5fIgskz0Uf0XpXvy3VR9XAd8/4NNc5NHlArbeYc4Q0AFdLbSB9GXlP7RXHJNCLn9MkUvaJtmBHsW+oULy9G4=
+	t=1718910623; cv=none; b=Q54CGEkbW9Y1rkzMM68oTmqgSTYv/V5OpS2IKE2z1a/6gat8M/16sYhMhYN6QqN9d5WSCOAu160pYKPTejoSbQDEaC5i1n8YSdnmzfyTZKoJ+Ib9OJ5WjbRGtq/Sfvh+rsAsPDnCBz4eBQ7ADXsPPP94jv+zlC1bkhcVHK80FH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718909365; c=relaxed/simple;
-	bh=QJZpOt1LOMceNB+eu4dXjCRhvIJzEQIZT+qwmbq+i78=;
+	s=arc-20240116; t=1718910623; c=relaxed/simple;
+	bh=nsiAro+XfkBJNZ2EERxONuDImugxiBGO2+gZtb5YmNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QgwYXUpC9ei2SaBIY+em3comxeXAjfDUR/lukKHgFRVMP3TJ1rCcEDwS460PiC7YnsYy8DHcZ6IRidfwUjsoIyjpGoh4aZNfdIjAoPDZ/aewRzKIGRM3v6yyZ5k6sT4GSEobtgBfCA9ro24SiAYkIK3Wih++gNPK3ZzSFxqWb6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVFpxnuY; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMZZRm0YXpd0KnDlZcg0ISWskjabEbI6VB3lpkRsGgmUhWu9dWAxjqaOWuV5dNwtOMz9DtlYYqyED3CutVS8fqbYHG/bcqbQnfoY0Rp+aAO4qIII0s8HSi0Sfbrt8GZrLa/TMaA7vgPDMmC9FZPWkobNunWFc+TS1Vm0wTq48PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBLjtMng; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVFpxnuY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBLjtMng"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718909361; x=1750445361;
+  t=1718910621; x=1750446621;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QJZpOt1LOMceNB+eu4dXjCRhvIJzEQIZT+qwmbq+i78=;
-  b=MVFpxnuYYuLl0+zk4+obi4UJH8690PhA46OgIIUoW/0/B5KoXfLqhITI
-   mQfsqHTwBc6075vnN9j3yR9HWdvemPymqCxJr2LElaw31p/T2es1Mssu8
-   OR6W+IGAcrwGVwsolRFDoawiSfrhNZYdllyP/EYeQVHwNeG9R/xxfualh
-   I9kZwEBK3KgsauxZVX/ji69XMGVgj9HpN5suBcP/krvAcmViG5RQ4aNlb
-   FqJFz0vQiOfwJHqIKFfILZTrGyLvBA4VqkS78hnLj++FU8r4yeiMXf0sQ
-   dxwNjafywcTypJeUAMm11WEDLUE1pCfKzdFS80k3CHMQLxgOoIZJymC8t
+  bh=nsiAro+XfkBJNZ2EERxONuDImugxiBGO2+gZtb5YmNI=;
+  b=QBLjtMngO8+VL9s6NXSl8SAqa9EZKFtd06lVQop/s34Nb9xd7/UkbqoH
+   C9JLpqcL+Gp02U8toMnr63jp2DwxBbMyv3gklzOnM1qG9XWPnE4XwxZPV
+   N/JeJTu0NbPhi55r4ZKYUM8HhfHD6Kd6MQHB7K/ytjMx4GCjWtL7m8jk/
+   kew7FQZigroxKh2AWqQdCSB4kTMzaCEZtKQD83A9rvvh+vEQUO/uL8BuJ
+   zzEAJ+PV+YkdihfLP+p2gUFU1BL7peCqLhbhktUqQcHp79/2vEKFWBWUI
+   cu6ofPv+TexxxffIJHEvC0dcUeMXDYq7oWKAMfiH1Yx7xRRS9ppLkBJnM
    Q==;
-X-CSE-ConnectionGUID: 2fA4jhuxQPqHn8riD7oeug==
-X-CSE-MsgGUID: rDqiDHcaQwCkS2L9ydklmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="15620472"
+X-CSE-ConnectionGUID: I23MhtcfTCGtO1tjzVPbnQ==
+X-CSE-MsgGUID: Vxw67bvGRPCMjYjh19ZRIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16063725"
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="15620472"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 11:49:20 -0700
-X-CSE-ConnectionGUID: PKCHph8YRaCCUr9ccXCaPQ==
-X-CSE-MsgGUID: fgMPy6ybS9GH7Oj6y/eFvg==
+   d="scan'208";a="16063725"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 12:10:20 -0700
+X-CSE-ConnectionGUID: k37ejxC7SQWivIj3nv7kHA==
+X-CSE-MsgGUID: 2oMm/pfYSUWqApjD78bdQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="42197407"
+   d="scan'208";a="73552734"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Jun 2024 11:49:17 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 Jun 2024 12:10:18 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKMqQ-0007qP-1Q;
-	Thu, 20 Jun 2024 18:49:14 +0000
-Date: Fri, 21 Jun 2024 02:48:36 +0800
+	id 1sKNAm-0007rI-11;
+	Thu, 20 Jun 2024 19:10:16 +0000
+Date: Fri, 21 Jun 2024 03:10:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pascal Paillet <p.paillet@foss.st.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
+To: Simon Trimmer <simont@opensource.cirrus.com>
 Cc: Paul Gazzillo <paul@pgazz.com>,
 	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, p.paillet@foss.st.com,
-	Etienne Carriere <etienne.carriere@foss.st.com>
-Subject: Re: [PATCH 4/4] arm64: stm32: enable scmi regulator for stm32
-Message-ID: <202406210259.JQqO3vyI-lkp@intel.com>
-References: <20240619083602.33007-5-p.paillet@foss.st.com>
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
+Message-ID: <202406210255.gseBZ33b-lkp@intel.com>
+References: <20240619161602.117452-1-simont@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,37 +64,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240619083602.33007-5-p.paillet@foss.st.com>
+In-Reply-To: <20240619161602.117452-1-simont@opensource.cirrus.com>
 
-Hi Pascal,
+Hi Simon,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on atorgue-stm32/stm32-next robh/for-next linus/master v6.10-rc4 next-20240620]
-[cannot apply to arm-perf/for-next/perf]
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on linus/master v6.10-rc4]
+[cannot apply to tiwai-sound/for-linus next-20240620]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pascal-Paillet/dt-bindings-add-STM32MP25-regulator-bindings/20240619-163908
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20240619083602.33007-5-p.paillet%40foss.st.com
-patch subject: [PATCH 4/4] arm64: stm32: enable scmi regulator for stm32
-config: arm64-kismet-CONFIG_REGULATOR_ARM_SCMI-CONFIG_ARCH_STM32-0-0 (https://download.01.org/0day-ci/archive/20240621/202406210259.JQqO3vyI-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240621/202406210259.JQqO3vyI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Trimmer/ALSA-hda-cs35l56-Select-SERIAL_MULTI_INSTANTIATE/20240620-001810
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240619161602.117452-1-simont%40opensource.cirrus.com
+patch subject: [PATCH] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
+config: alpha-kismet-CONFIG_SERIAL_MULTI_INSTANTIATE-CONFIG_SND_HDA_SCODEC_CS35L56_SPI-0-0 (https://download.01.org/0day-ci/archive/20240621/202406210255.gseBZ33b-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240621/202406210255.gseBZ33b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406210259.JQqO3vyI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406210255.gseBZ33b-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for REGULATOR_ARM_SCMI when selected by ARCH_STM32
-   WARNING: unmet direct dependencies detected for REGULATOR_ARM_SCMI
-     Depends on [n]: REGULATOR [=n] && ARM_SCMI_PROTOCOL [=y] && OF [=y]
+>> kismet: WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE when selected by SND_HDA_SCODEC_CS35L56_SPI
+   WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE
+     Depends on [n]: X86_PLATFORM_DEVICES [=n] && I2C [=n] && SPI [=y] && ACPI
      Selected by [y]:
-     - ARCH_STM32 [=y]
+     - SND_HDA_SCODEC_CS35L56_SPI [=y] && SOUND [=y] && SND [=y] && SND_HDA [=y] && SPI_MASTER [=y] && (ACPI || COMPILE_TEST [=y]) && SND_SOC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
