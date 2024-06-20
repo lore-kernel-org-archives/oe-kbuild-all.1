@@ -1,108 +1,119 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B21B3727;
-	Thu, 20 Jun 2024 16:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5C9156256
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 16:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718901233; cv=none; b=GtPdR0l2TlPMMrs2SZ1ZuHX3yW0XCkiFYuVbNX8zvz7w8VAO7Lx0j/ClYT9iWIwEJRBZly7m3vX8We/hYPn1MF+20xkK6RCQchij0EUZPWXVcJKPB7mSDUFO5QCuNe+Fo2IsItZjWzPvnfOqg2wW7nfxSwuDW25WQaULPGm9EcA=
+	t=1718901983; cv=none; b=sPUVPvitRjcp+5e5TR8FONf7MCS5FG9nXrFGeEE9LOMcV+fEaGoOcjNZrB2hWOOcYRzWKvtjP9lcUwRTsM+0NAOZ2j1RUbn8AgnSImBGfMLbW/RcbftxP6BVxmvbgfMNJ/DBDLG2dl//eKKt+Dg66N0xrfdyv3Ss5wLKwmdLkbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718901233; c=relaxed/simple;
-	bh=uGqy7zfNB+grtryFih/VB1IHVnD5ET/9Jx8TxfjQS3U=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=WPzCcJwf48l2NQiNC0hNSLeNvlm9V4MtTm9rcBwAYd+wz71eyugKBrpHO/OE9ogBjyKIULRVfkpHqscapBIHaQAD0MLfttGnzmOa7QpJtMLU8vrtXVR6KVPsFWrLC/CTSXScSH70WTzp7IrawUwrEavWTYAudf8ZzgJ2RYtXL4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=U4wfLMhE; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="U4wfLMhE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718901173; x=1719505973; i=markus.elfring@web.de;
-	bh=dykB42Sd3Re8NZvckvEK5UPju/y5TnSdBQ5mULG1s+g=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=U4wfLMhEqGf/E6owLCEXzYfF2p1eof2l1Z1G0B174YWML31y+GstGgGuYseaK8W5
-	 20FjbUI51rhZFM/28AFVsOiUflRpo83Rn3OgQoxAOTnb3g4rCdnjKgRkkrFoptmA2
-	 XahFJvFmysdUjmll65ysQyG0wA30G5LkHfCpFpDcMXEPuYRheckabK3Bnbj29/XRy
-	 s8cEOUpflyJg4v6av1dhi9v6MJ+5oKPRKDumtHuZKYPBEtbAjnDrXKOTAQp/CRc8U
-	 afrD8aAjsd9o5gqOIC8jqOkZDW5djEwDw3eSxD2ahX7c5mULcFLtBxoeqorJy9eRM
-	 t4QWjn5FdXYQDSTIHQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MAtsZ-1sE27I0wDR-0008e4; Thu, 20
- Jun 2024 18:32:53 +0200
-Message-ID: <ca3efef9-9720-46be-a59d-a9a4c5873ea2@web.de>
-Date: Thu, 20 Jun 2024 18:32:48 +0200
+	s=arc-20240116; t=1718901983; c=relaxed/simple;
+	bh=54aGWPISAvctBRblmf+0XFEa7/fqePVDOYydqE9rpFY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LW3y/UZLvZjRaS+r5H+5vIhyC470C1zJBUKFKHmbk7apC23mqVSiAZvuf3qiWrkt7Pq4R318l6iFazSJJuCZg6drprxBldnCBOv7Y9z4BIA/kpN/X/sQZhV83+97Gnia7BidsZ98LnqleAXhxBgS3YeOfX90aHKE2e/Sg/7/lpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-63267c30eaaso10812307b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 09:46:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718901980; x=1719506780;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ALZMaxnKCu7LTyW4d3fTVKB34Y+6JED2cwcIVU/tvvk=;
+        b=hglA9yrs2MT67Ia2CWZynsy9h2glxLLM1xOsj5b4SDafR/gBTugu1x35xWM9oCOZ6J
+         X3s8+UCLb6RCz2UTI16JIIdXp+e/HphzLNCsrC1o2Yx/8uK1GCmPTuMgx0T9FDuioSN3
+         DIfUt7Jhqt/IQzaK8jOLFScHNsCYitFZXM9bHVbiP8p28pDbCl+/Pl3IWfNyX26untmi
+         k+KWh/jopGlDtjO+jRO1vfh61CWbBK1NFbKYPaBCJyr4Y8tobQvYiNqYOWegdAYmTId2
+         bZLy12bcpwZaW5gOI5wSLeemi5Am9bcouO7pKRikQP5y0hOI7HotS56HMHzTLzpuQEz0
+         SlGA==
+X-Gm-Message-State: AOJu0Yx2rfdDoBYJeA2JZAoxY66avGh14Rbi8i1lxBfL0ZDw97TT7B7/
+	hM8GOy6T06tFIT2NCKjL3poep6JX3513lSL8Pz80aJtYVFckJIdcrdrsJEGg
+X-Google-Smtp-Source: AGHT+IFkoFB5kArhzMH8cp+ULcq+73sZWj7oXool3qnNVw2w9oHue4QEX3MORuNmHDNCUYermifEzg==
+X-Received: by 2002:a81:b049:0:b0:63b:ab20:bc7e with SMTP id 00721157ae682-63bab20bf0bmr40631197b3.41.1718901979972;
+        Thu, 20 Jun 2024 09:46:19 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6311918f652sm31316057b3.74.2024.06.20.09.46.19
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jun 2024 09:46:19 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-632bcf111ffso10848597b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 09:46:19 -0700 (PDT)
+X-Received: by 2002:a81:71c4:0:b0:617:cbc7:26fe with SMTP id
+ 00721157ae682-63a8dd02bd3mr61802667b3.16.1718901978494; Thu, 20 Jun 2024
+ 09:46:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <20240620122726.41232-4-paul@crapouillou.net>
-Subject: Re: [PATCH v12 3/7] iio: core: Add new DMABUF interface
- infrastructure
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240620122726.41232-4-paul@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
+References: <202406210035.ag62hCvj-lkp@intel.com>
+In-Reply-To: <202406210035.ag62hCvj-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Jun 2024 18:46:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVrO9ecPf7C=YLHqQ1j8hyhzm6Amhyvebd8+8pEkHje1g@mail.gmail.com>
+Message-ID: <CAMuHMdVrO9ecPf7C=YLHqQ1j8hyhzm6Amhyvebd8+8pEkHje1g@mail.gmail.com>
+Subject: Re: [morimoto:renesas-bsp/v6.1.94-2024-06-20 177/676]
+ arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: /soc/i2c@e6510000/i2c-mux@71/i2c@7/audio-codec@44:
+ failed to match any schema with compatible: ['ti,pcm3168a']
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jeIzi8pMUjRRHbkEI2McLlbFKS2rmTp2/YbWVN/pPMg1625Dmrm
- OG7fNtWabJLFJVITv55DtECwqQZJrxQqDrkpXx1tYmjLmWo4ibjIqLpK0G+tPWF+YQKJOXl
- X/CPLEcXcpigj9lmdLnvVZNThD1kaIAPXqRFU2Mb7gXvFj8W0tg2Gte24rlJ9rwFjO2p3Zk
- 42RBmPZVkFpHq88jk31og==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+eTpu5gHISo=;FvPn9BFx0q8Vg3ZhRq6hxBpzKLZ
- U2PEJ659y+nj6QPHJYsDL+YEaJTPpXHTxgx6wRviFNOe4p3/yROsBK76+gOunzodRdYeS4BqN
- oqOr6J/RHfTPEXsFWBtO6kASEmubf1Q41aTy8TiKAUINr1QroIcBFlzv/5ZilBf1bC70Xq5rk
- PMPyOq3IPqtZymss7xyFlSsMHwNImQGNG7dxgDakPJ+qL5eyXplYP4YuPxOVuuAct/LjZ9Gau
- DZiIvmiYP7esUvAlxG+TEcIRU/PtAjKKQhug9NCEd5TKnVm69K4Qb2HhnEeXKpkRj2P6U72KT
- 0QaXQFFOo3nzYNw79cseCq+B01LfPyQdgOL+KnMH7zqbNRj4l8yvKgmaoAPCuZcSrdH36XWVU
- lBWsQTVodUo8YwquewptgmXQzdsXxHPk7DtPS7ZCb1V6K97ErqY4YLuLZUhN/iUxYoeQfVGiP
- FrVafcM/vpkCyDDwWhZbe6+JMh3E34KA1VhP+GVSozJFNemH8EpBfAg/2fWwaPhNYGcdrDpSv
- SA9mzcvxhJAmKx8wYLLpobtdCTY9jqrut8pJK708A93fxLx0xs4hd70TkjFBvSSiXPBYIWHn/
- 1YkHWswiiSMk0yoIsTfqJLMShiF4KbmgnsC6pRmm/BC9IzyM/D5Z7acm/ZZv9elLpcEaq8ot8
- qcadgr7f040EA2OAa5Fg1S7qcIiBuMJf3+BTtU32X/J7fvZuSrfUpdzQP18EP0rFvVsZoWgnd
- vBqsqXpRfJ4XaA+vWxJqcfF/6rvwut9TAVZ5+LVezjZ2rnOhPwpLeyfoZbHPMKVgxtfRZy9Cm
- JumtidR4NTrYbH8Eyja37pmb4PkQs/jVIkjk5wy+K3LytLQTq2LT+/Scao1DN2M88q
 
-=E2=80=A6
-> v11:
-=E2=80=A6
->     - Use guard(mutex)
+On Thu, Jun 20, 2024 at 6:29=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.94-2024-06-20
+> head:   d0503e6510818ad3d8f152b7825e5110b81d8f7c
+> commit: 25b834b52bc2a786b5d268be3f66bfea36efd68d [177/676] arm64: dts: re=
+nesas: ulcb-kf: Fix pca9548 i2c-mux node names
+> config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/ar=
+chive/20240621/202406210035.ag62hCvj-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> dtschema version: 2024.6.dev1+g833054f
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240621/202406210035.ag62hCvj-lkp@intel.com/reproduce)
 >
-> v12:
->     - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
->       as it uses cleanup GOTOs
-=E2=80=A6
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406210035.ag62hCvj-lkp=
+@intel.com/
+>
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm64/boot/dts/renesas/r8a77951.dtsi:2770.25-2795.5: Warning (uni=
+que_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in=
+ node /soc/pcie-ep@fe000000)
+>    arch/arm64/boot/dts/renesas/r8a77951.dtsi:2797.25-2822.5: Warning (uni=
+que_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in=
+ node /soc/pcie-ep@ee800000)
+>    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: codec@10: 'port' doe=
+s not match any of the regexes: '^asahi-kasei,in[1-2]-single-end$', '^asahi=
+-kasei,out[1-6]-single-end$', 'pinctrl-[0-9]+'
+>         from schema $id: http://devicetree.org/schemas/sound/ak4613.yaml#
+> >> arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: /soc/i2c@e6510000/i2=
+c-mux@71/i2c@7/audio-codec@44: failed to match any schema with compatible: =
+['ti,pcm3168a']
 
-I would find it nice if better design options could gain acceptance.
-Will the chances grow to adjust scopes another bit for involved variables
-in such function implementations?
+Missing backports:
 
-A) Enclosing a source code part with extra curly brackets?
+13a7d9e992fa47bb ASoC: dt-bindings: ti,pcm3168a: Convert to json-schema
+7b71da59122c3ab8 ASoC: dt-bindings: Add missing
+(unevaluated|additional)Properties on child node schemas
 
-B) scoped_guard()?
-   https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup=
-.h#L137
+Gr{oetje,eeting}s,
 
-C) Moving a locked source code part into a separate function implementatio=
-n?
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Regards,
-Markus
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
