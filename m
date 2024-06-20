@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581A918EAB;
-	Thu, 20 Jun 2024 02:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5331E526
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 02:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718850135; cv=none; b=Ey1jA1Kpv63DMIgZlkWuZdkztJDfb4XoF65Dk5O9TBH33Y5IhhKg5R6RPA3vrN7mCxctx72JW4t3soNYQAj3aOguBsrRkXsUlpYJyWZ6KITnTQmzhU7SfFO1EOna1aL9Ns5lq4zjZE07B9ZV+2AKRml5oi8w9Yhx3SQ06RzYz0M=
+	t=1718850793; cv=none; b=e/GC+cz1kBmROt2vaP4Cx2ryFPnXyirphoEHIq6tnLMY0nK+ZBiVHsBnV157Ab5K0AgLU4jXhHU1yI+y/MQgI+bVLVCq1UFycwXTzuyWGKV3UFRLXaoEiVYwfPM9zOKqxOg+o2eKd9b29vE/LexmT527S05+XtalwpQQI/zZCeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718850135; c=relaxed/simple;
-	bh=dKbEaKq1AAheLsSQ6WpmmhLpozL0m55WKntbANAb6To=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bofwkCli7ADgKf16YRueP3HyydGVnMDOaC/+S96Az8pP1/VN58TI2pfddtiv7wfbSQatPqOicUcOODg2bCFsow6tbOOcYDu3fkkK/luC+ocriaVz/mDcFWdnekbhuZLW+TJJTFna195ILfGsi9kjMjP72pPbkJyfhFes/XH0Ngs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jK+mmDZY; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1718850793; c=relaxed/simple;
+	bh=SMkR1O0QE7WLTB+swNTh34HIL8vuJgRvNeiHw5yeszs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p/GNC1rOcrCHM1DumF1Kaqzq7BTSx9myptOf+hx8md+8NMSvzNlmXbjPe77KMx24sLjOTota4ozGbUieAgZLqxFpsBICkASMyezmzw2YUtOYMxVaPe0ui3zQq5UZj7qpDTnxIN7bQfl3TcO1iExaHk4LxEifbtNTnaVy2+JXrNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+w1kRi8; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jK+mmDZY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+w1kRi8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718850133; x=1750386133;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dKbEaKq1AAheLsSQ6WpmmhLpozL0m55WKntbANAb6To=;
-  b=jK+mmDZY0V4t4ZRNnzXeJXaIBVqPFtCXEKt15fjYOBHu78ITx95ldyb0
-   8PK12Ehk5nyZH2JWy4FP9+NW5bhwFxX2RMRUjx6QpRCmJqlDrmCV7TVLN
-   3VFSLjEsBH0tFK0OTQGtNubQqCOm+/G7ogXC2cJfHxX0ZTmTdwMYOear7
-   6QH8iLzgKvMu/kZmnh076TXAp/qDDX7IYy0bbJgTUfsxbKMQoSGPmnwXT
-   k4Byv4N5IUS/SYUbBdgWdxY+v8JI1gKp5aVUyYgaHVX97E06axzrImJTB
-   amygjQL5ZbBc48/kogo85nKXSizy8atHqKP2n136yQSJEAvnBmWpr956N
-   Q==;
-X-CSE-ConnectionGUID: 4bQ0difATL20207ovNOxNA==
-X-CSE-MsgGUID: 4K8bUp32QqCP9w9N14/Pkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="16037601"
+  t=1718850792; x=1750386792;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SMkR1O0QE7WLTB+swNTh34HIL8vuJgRvNeiHw5yeszs=;
+  b=e+w1kRi8Pj4tqKtxzTMXiEMynVNlW+A5UvS9UV/AtU0CVJLrliYaQXQn
+   ++W2ytqQCLbwpcOsJqYOPXDHkDLL44Ump6MbZtG3JjZyQuR3c71XmuCNw
+   52H+jZ+AHYDWNMP/PUrrg1KS4qzG1prYj6guMRH/XG3/S/9COZ1RYV+a7
+   31RP0iFnkCTSkZA5W64qofWmFAFwUbyC+AXO0y2Me6cgVaJxPg8NQrQmQ
+   7RpuVfgZwEq+P3hWIVH34v80padJax/AWdE0a/3/U/uo5qeZOlwvr7RkQ
+   8XilQGjoo2VTNIJ+VggDNGji+8fqMRP0yPplkpA/ds+8O11Ao0mPAl+g/
+   A==;
+X-CSE-ConnectionGUID: pnlr7/k0R7yFJaVueMZ6sQ==
+X-CSE-MsgGUID: 6D6IMCvCT66u/aXMdVzF1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15926259"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="16037601"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 19:22:10 -0700
-X-CSE-ConnectionGUID: WYW8/UUrRDWF2kcTiWQZFg==
-X-CSE-MsgGUID: KIssvq5RSy+5UXS564MQKg==
+   d="scan'208";a="15926259"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 19:33:11 -0700
+X-CSE-ConnectionGUID: c2ksaAtlTxK8O4ZTXNkeRQ==
+X-CSE-MsgGUID: 2W407GraQpCOtfU8YrCQUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42192106"
+   d="scan'208";a="47006204"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2024 19:22:08 -0700
+  by orviesa003.jf.intel.com with ESMTP; 19 Jun 2024 19:33:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK7R8-0007Da-1w;
-	Thu, 20 Jun 2024 02:22:06 +0000
-Date: Thu, 20 Jun 2024 10:21:16 +0800
+	id 1sK7bn-0007EI-0F;
+	Thu, 20 Jun 2024 02:33:07 +0000
+Date: Thu, 20 Jun 2024 10:32:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leo Li <sunpeng.li@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [agd5f:drm-next 804/888]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:371:20: error:
- unused function 'reverse_planes_order'
-Message-ID: <202406201059.TfQMDQvN-lkp@intel.com>
+To: Mark Watson <markus.c.watson@gmail.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] dt-bindings: misc: axi-fifo: Add binding for AXI-Stream
+ FIFO
+Message-ID: <202406201053.hc3wOYdz-lkp@intel.com>
+References: <ZnOAgM+zacF6u1x7@laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,45 +65,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZnOAgM+zacF6u1x7@laptop>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   1ecef5589320fd56af599b624d59c355d162ac7b
-commit: 38e0c3df6dbd36e69d38f67853cdd1bb6110d05f [804/888] drm/amd/display: Move PRIMARY plane zpos higher
-config: x86_64-buildonly-randconfig-001-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201059.TfQMDQvN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201059.TfQMDQvN-lkp@intel.com/reproduce)
+Hi Mark,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.10-rc4 next-20240619]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Watson/dt-bindings-misc-axi-fifo-Add-binding-for-AXI-Stream-FIFO/20240620-090916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/ZnOAgM%2BzacF6u1x7%40laptop
+patch subject: [PATCH] dt-bindings: misc: axi-fifo: Add binding for AXI-Stream FIFO
+config: arc-randconfig-051-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201053.hc3wOYdz-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201053.hc3wOYdz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201059.TfQMDQvN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201053.hc3wOYdz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:371:20: error: unused function 'reverse_planes_order' [-Werror,-Wunused-function]
-     371 | static inline void reverse_planes_order(struct dc_surface_update *array_of_surface_update,
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/reverse_planes_order +371 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
-
-a85ba00538cd4b Nikola Cornij    2021-03-15  370  
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16 @371  static inline void reverse_planes_order(struct dc_surface_update *array_of_surface_update,
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16  372  					int planes_count)
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16  373  {
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16  374  	int i, j;
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16  375  
-8866d62716c918 Jiapeng Chong    2023-03-09  376  	for (i = 0, j = planes_count - 1; i < j; i++, j--)
-8866d62716c918 Jiapeng Chong    2023-03-09  377  		swap(array_of_surface_update[i], array_of_surface_update[j]);
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16  378  }
-bb46a6a9bab134 Rodrigo Siqueira 2023-02-16  379  
-
-:::::: The code at line 371 was first introduced by commit
-:::::: bb46a6a9bab134b9d15043ea8fa9d6c276e938b8 drm/amd/display: Ensure that planes are in the same order
-
-:::::: TO: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,axi-str-rxd-tdata-width: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,axi-str-txc-tdata-width: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,axi-str-txd-tdata-width: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,data-interface-type: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,has-axis-tdest: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,has-axis-tid: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,has-axis-tkeep: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,has-axis-tstrb: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,has-axis-tuser: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,s-axi-id-width: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,s-axi4-data-width: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,select-xpm: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,use-rx-cut-through: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,use-rx-data: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,use-tx-ctrl: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,use-tx-cut-through: missing type definition
+>> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s-4.1.yaml: xlnx,use-tx-data: missing type definition
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
