@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47613838A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 05:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FE1111A1;
+	Thu, 20 Jun 2024 06:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718863060; cv=none; b=HkyS4xJTmkKUGSMfApGOkZkDwb+ulFKQWJlEMEGSvEarolW+fdLwI9t+KQb1vXXxXS3ZOx0scD4WSDfBGl+XGgGcIhmrXtIE9zeJYnRixh6/taJG5kdpU3jfeMJC95ivL07omPJC5nYfLrkDvN3072olEN4t4qUqOlojKIBUBdM=
+	t=1718864320; cv=none; b=e9VVSRccfBr/eMy6S9FGs3Bu98hB1dB4ivOAbfDYnYCJKYSU1a2nVnmzXcbLd6/tZFDjxEtadh4VV7WbvQ9cWhK/9LP/0CXMNfL0mgMHLlO7E3HPfvSzFDDS7+gsroYHoBVbAV/DNe8GRpzxC0Lwt9qkHsf58nYBeB8XfTeBsrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718863060; c=relaxed/simple;
-	bh=zMCFp8zCllWXZJOLn+ox9s+gLl+0FUepfCkgfmEOmGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C5Djm5T8OFtvDMz33LA3HNBKFxktCL773VX2X9I5psa84bp9Zohnf4HL4iQe7F55bwoIzhEhuWf9jdXOjTEinxen5v1r441DlM1m8QslkmBlbt7pqX77ZWr9DwuPQ11BRQ/b1I/XtlZTQT1d9AYauWazuWl408lWGzaOISyO1g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxgTjgPY; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1718864320; c=relaxed/simple;
+	bh=yfqVUN8sg32yr2yCpZpkroOFWCo56dRtfu0lzYaaTGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Wl4pi53QyH2abymp6o7JCoBWWgGPSwX1HRYuzCNMP0f1OrNcLiDYRf1yq++4q32czNdyyvX35aNQxGQN7dniE2xxnAb0T3Ji4MgtmjBHR2VfgXUUa+6CnFwcnFM9uXrQ0VupYI49kbcO8FzyIGwsm5AGSQSK/J5N44JRh9nPKx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dEqA1U1h; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxgTjgPY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dEqA1U1h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718863059; x=1750399059;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zMCFp8zCllWXZJOLn+ox9s+gLl+0FUepfCkgfmEOmGU=;
-  b=RxgTjgPYoVV8iCGOnQ/T7++dSQmB0B6ePTQU6x49nnL8hx0WHAri0mSb
-   cXVXrxkYjgO3auOaycLjRO/ZUx+7y3EMoT4pAdziFirqss/N3y3TBWUig
-   WOLuwQtycbStOUHjnzNsiM2KZocBBjv1CwVdIyxTjPoWEbqDkUKTbbfUn
-   DP7F/zyD/MSL7LphhQ94AN9R7mmZUfChcht9pJvWp3nTQXDlDSP7JNrEt
-   1g80rOTLN4dw19xSHR/fXXbx/GfREKPSUMXn0YRs2jRy7oHSEbPKmaLdr
-   Bz/NN8uEVCdXwB0c5mmmywBQLURfQ0Jpbp7BzulB+dfY8FH9OdbBT7aKY
-   w==;
-X-CSE-ConnectionGUID: QvoY7GdoRVGMz/c+sz4PCQ==
-X-CSE-MsgGUID: 1A+FKnsfTxSQsgAaRy6PBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15585022"
+  t=1718864318; x=1750400318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yfqVUN8sg32yr2yCpZpkroOFWCo56dRtfu0lzYaaTGQ=;
+  b=dEqA1U1hHKHgDpQizS9q53Z+0jcvxm31s2giNBzRiePcdZqbwmb1/as6
+   Qa/ST5NUBAbG+reV2SaQPnn/cLd1NqChWmzqLbSvlU3iu0LGwietOjiff
+   SjOLw86Pm0XT9C5Y20fEAAfzZO1kcrftmcgKksavoQ7OOPwtf2K4ok73Q
+   VfSOuKycUMMz8Q/WkMK628GtDbMpOcUGkMhmM/WkpOsK6GI7xfPV32Cw6
+   JEx5LxuabL44ccmVGDtrZzN89AOQOmdDIJYtYhgal1wRQuS8QNVKk0JkQ
+   6yMRzcVl0ZrdEV8/qkcOo8Sz5Qsv2BhLTOVqALgNJLvCz6s203ufHkglT
+   g==;
+X-CSE-ConnectionGUID: V0dbpH1gREaSqiE4UbWsIg==
+X-CSE-MsgGUID: JWinLDJfSFqVialFiqiGfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="41225655"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15585022"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 22:57:38 -0700
-X-CSE-ConnectionGUID: xNu0A6xbT2qdW0R8iq+V0Q==
-X-CSE-MsgGUID: Cca+h7QjQquGw6LR94NR2g==
+   d="scan'208";a="41225655"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 23:18:37 -0700
+X-CSE-ConnectionGUID: oHk5aynXQq+May8+xoV1Xg==
+X-CSE-MsgGUID: bye25CQMRyKFxSDVSdT7sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42792780"
+   d="scan'208";a="42249609"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 22:57:35 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Jun 2024 23:18:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKAnb-0007Mk-34;
-	Thu, 20 Jun 2024 05:57:31 +0000
-Date: Thu, 20 Jun 2024 13:57:02 +0800
+	id 1sKB7x-0007NS-1j;
+	Thu, 20 Jun 2024 06:18:33 +0000
+Date: Thu, 20 Jun 2024 14:17:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomer Maimon <tmaimon77@gmail.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, p.zabel@pengutronix.de, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, tali.perry1@gmail.com,
-	joel@jms.id.au, venture@google.com, yuenn@google.com,
-	benjaminfair@google.com
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	openbmc@lists.ozlabs.org, Tomer Maimon <tmaimon77@gmail.com>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v25 2/3] reset: npcm: register npcm8xx clock auxiliary
- bus device
-Message-ID: <202406201328.SGrN27to-lkp@intel.com>
-References: <20240618185819.2155595-3-tmaimon77@gmail.com>
+To: "Luke D. Jones" <luke@ljones.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>
+Subject: [hid:for-next 1/2] include/linux/platform_data/x86/asus-wmi.h:205:2:
+ warning: suggest braces around initialization of subobject
+Message-ID: <202406201404.NGl8SOi4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,39 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618185819.2155595-3-tmaimon77@gmail.com>
 
-Hi Tomer,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on linus/master pza/reset/next v6.10-rc4 next-20240619]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomer-Maimon/dt-bindings-reset-npcm-add-clock-properties/20240619-093532
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20240618185819.2155595-3-tmaimon77%40gmail.com
-patch subject: [PATCH v25 2/3] reset: npcm: register npcm8xx clock auxiliary bus device
-config: arm64-randconfig-003-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201328.SGrN27to-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201328.SGrN27to-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+head:   fa9057ccb9c323816e0f2599a2d91f5c856b0004
+commit: bda38f9a41d89b47dce54932f88d0e0edee00cae [1/2] HID: asus: use hid for brightness control on keyboard
+config: i386-buildonly-randconfig-006-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201404.NGl8SOi4-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201404.NGl8SOi4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201328.SGrN27to-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201404.NGl8SOi4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: drivers/reset/reset-npcm.o: in function `npcm_rc_probe':
-   reset-npcm.c:(.text+0xce8): undefined reference to `auxiliary_device_init'
->> reset-npcm.c:(.text+0xce8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `auxiliary_device_init'
->> aarch64-linux-ld: reset-npcm.c:(.text+0xd30): undefined reference to `__auxiliary_device_add'
->> reset-npcm.c:(.text+0xd30): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__auxiliary_device_add'
+   In file included from drivers/hid/hid-asus.c:29:
+>> include/linux/platform_data/x86/asus-wmi.h:205:2: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+     205 |         NULL,
+         |         ^~~~
+         |         {   }
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +205 include/linux/platform_data/x86/asus-wmi.h
+
+   173	
+   174	static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+   175		{
+   176			.matches = {
+   177				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
+   178			},
+   179		},
+   180		{
+   181			.matches = {
+   182				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
+   183			},
+   184		},
+   185		{
+   186			.matches = {
+   187				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
+   188			},
+   189		},
+   190		{
+   191			.matches = {
+   192				DMI_MATCH(DMI_BOARD_NAME, "GA403"),
+   193			},
+   194		},
+   195		{
+   196			.matches = {
+   197				DMI_MATCH(DMI_BOARD_NAME, "GU605"),
+   198			},
+   199		},
+   200		{
+   201			.matches = {
+   202				DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+   203			},
+   204		},
+ > 205		NULL,
+   206	};
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
