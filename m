@@ -1,61 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872E11B143E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 19:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E774922EED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 19:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718910623; cv=none; b=Q54CGEkbW9Y1rkzMM68oTmqgSTYv/V5OpS2IKE2z1a/6gat8M/16sYhMhYN6QqN9d5WSCOAu160pYKPTejoSbQDEaC5i1n8YSdnmzfyTZKoJ+Ib9OJ5WjbRGtq/Sfvh+rsAsPDnCBz4eBQ7ADXsPPP94jv+zlC1bkhcVHK80FH4=
+	t=1718911074; cv=none; b=cwnhwz7gM2hG8vsFzY9lEdoZhIbwe6koLYemg0ZlnXpLSNOtlEoLjEz/KMudwIW1z151sithG33SKl9ew6htUDO9Msos3yHI56/uyiygkFhXEpqV10yAaQVf4Q0GHBAjbsAwCeIMBIlxcTWXbqBN7QTSp7E9GqxBat8sKHpH4g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718910623; c=relaxed/simple;
-	bh=nsiAro+XfkBJNZ2EERxONuDImugxiBGO2+gZtb5YmNI=;
+	s=arc-20240116; t=1718911074; c=relaxed/simple;
+	bh=fjIKQBZ8aS574U980p1psHIQnmOidZjhtzKkLeN6lsU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMZZRm0YXpd0KnDlZcg0ISWskjabEbI6VB3lpkRsGgmUhWu9dWAxjqaOWuV5dNwtOMz9DtlYYqyED3CutVS8fqbYHG/bcqbQnfoY0Rp+aAO4qIII0s8HSi0Sfbrt8GZrLa/TMaA7vgPDMmC9FZPWkobNunWFc+TS1Vm0wTq48PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBLjtMng; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hp+wFO4TbBkzvJtemkkkuP5OrZJRgWH6qkJOpM24iGw+/t5ejd1aC7LTD2fvv0h//QAeO8m72JpweHQ7ymQgFEOiUR2UuHk1MJ8ZA9VlxGLHQG5dpQqbWc0hUQuK0uUcY+BP1JYS1kWzv7TsxjYkJsKaQ5NkmNbZLBbE6uGm+OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCe/4yrI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBLjtMng"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718910621; x=1750446621;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nsiAro+XfkBJNZ2EERxONuDImugxiBGO2+gZtb5YmNI=;
-  b=QBLjtMngO8+VL9s6NXSl8SAqa9EZKFtd06lVQop/s34Nb9xd7/UkbqoH
-   C9JLpqcL+Gp02U8toMnr63jp2DwxBbMyv3gklzOnM1qG9XWPnE4XwxZPV
-   N/JeJTu0NbPhi55r4ZKYUM8HhfHD6Kd6MQHB7K/ytjMx4GCjWtL7m8jk/
-   kew7FQZigroxKh2AWqQdCSB4kTMzaCEZtKQD83A9rvvh+vEQUO/uL8BuJ
-   zzEAJ+PV+YkdihfLP+p2gUFU1BL7peCqLhbhktUqQcHp79/2vEKFWBWUI
-   cu6ofPv+TexxxffIJHEvC0dcUeMXDYq7oWKAMfiH1Yx7xRRS9ppLkBJnM
-   Q==;
-X-CSE-ConnectionGUID: I23MhtcfTCGtO1tjzVPbnQ==
-X-CSE-MsgGUID: Vxw67bvGRPCMjYjh19ZRIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16063725"
-X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="16063725"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 12:10:20 -0700
-X-CSE-ConnectionGUID: k37ejxC7SQWivIj3nv7kHA==
-X-CSE-MsgGUID: 2oMm/pfYSUWqApjD78bdQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="73552734"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Jun 2024 12:10:18 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sKNAm-0007rI-11;
-	Thu, 20 Jun 2024 19:10:16 +0000
-Date: Fri, 21 Jun 2024 03:10:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
-Message-ID: <202406210255.gseBZ33b-lkp@intel.com>
-References: <20240619161602.117452-1-simont@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCe/4yrI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 696E1C2BD10;
+	Thu, 20 Jun 2024 19:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718911073;
+	bh=fjIKQBZ8aS574U980p1psHIQnmOidZjhtzKkLeN6lsU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZCe/4yrI2e/WItKv2hviNSg2i7gX0ehFVvslZUhThMWsbPlUs4u+4PLM1Zap86xKb
+	 6XNd6MDwD9qzb2DVQzX+VV24PesCIra1LMvxWsHFzR4c20GzTDR4VsJKvi5PVUMeUi
+	 o4FGAs+Q12mUHPGln9n4X4nNmsJVEulvnECmMt3PUNaeyQovdKaTsvZ7d1uQ4C8sgx
+	 WgmazKll9Sp/1jDx+vRYeQNTRjKMXsIYszOH//LwRIi2PtXOTDdSwsHkab5NxOouL0
+	 geJX1zOzcyDl6NyMyAEht0HwEy/lPzzg4VHuzkGhgDeIT8AVBBP32yeW4AYqmPpvd8
+	 2d+M17ByKDl4Q==
+Date: Thu, 20 Jun 2024 12:17:52 -0700
+From: Kees Cook <kees@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [kees:dev/next-20240618/kmem_buckets-v5 3/6] mm/util.c:614:
+ warning: Excess function parameter 'size' description in '__kvmalloc_node'
+Message-ID: <202406201216.314524B29@keescook>
+References: <202406201631.5E0Dfzma-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,38 +42,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240619161602.117452-1-simont@opensource.cirrus.com>
+In-Reply-To: <202406201631.5E0Dfzma-lkp@intel.com>
 
-Hi Simon,
+On Thu, Jun 20, 2024 at 02:17:50PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/next-20240618/kmem_buckets-v5
+> head:   c823e15736071e9b694fc62be0c80cbda6a4e344
+> commit: c69b01349ace4e0a92fc0f019668cd696776bbce [3/6] mm/slab: Introduce kvmalloc_buckets_node() that can take kmem_buckets argument
+> config: m68k-randconfig-r081-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201631.5E0Dfzma-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201631.5E0Dfzma-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406201631.5E0Dfzma-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/util.c:614: warning: Excess function parameter 'size' description in '__kvmalloc_node'
 
-kernel test robot noticed the following build warnings:
+Ah yes, the argument macro was confusing kern-doc. I've squashed this
+fix for v6:
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on linus/master v6.10-rc4]
-[cannot apply to tiwai-sound/for-linus next-20240620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 95a59ac78f82..2791f8195203 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1729,6 +1729,7 @@ sub dump_function($$) {
+     $prototype =~ s/__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +//;
+     $prototype =~ s/__(?:re)?alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\) +//;
+     $prototype =~ s/__diagnose_as\s*\(\s*\S+\s*(?:,\s*\d+\s*)*\) +//;
++    $prototype =~ s/DECL_BUCKET_PARAMS\s*\(\s*(\S+)\s*,\s*(\S+)\s*\)/$1, $2/;
+     my $define = $prototype =~ s/^#\s*define\s+//; #ak added
+     $prototype =~ s/__attribute_const__ +//;
+     $prototype =~ s/__attribute__\s*\(\(
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Trimmer/ALSA-hda-cs35l56-Select-SERIAL_MULTI_INSTANTIATE/20240620-001810
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240619161602.117452-1-simont%40opensource.cirrus.com
-patch subject: [PATCH] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
-config: alpha-kismet-CONFIG_SERIAL_MULTI_INSTANTIATE-CONFIG_SND_HDA_SCODEC_CS35L56_SPI-0-0 (https://download.01.org/0day-ci/archive/20240621/202406210255.gseBZ33b-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240621/202406210255.gseBZ33b-lkp@intel.com/reproduce)
+Thanks!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406210255.gseBZ33b-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE when selected by SND_HDA_SCODEC_CS35L56_SPI
-   WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE
-     Depends on [n]: X86_PLATFORM_DEVICES [=n] && I2C [=n] && SPI [=y] && ACPI
-     Selected by [y]:
-     - SND_HDA_SCODEC_CS35L56_SPI [=y] && SOUND [=y] && SND [=y] && SND_HDA [=y] && SPI_MASTER [=y] && (ACPI || COMPILE_TEST [=y]) && SND_SOC [=y]
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
