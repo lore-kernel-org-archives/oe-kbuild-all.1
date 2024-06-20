@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738DC3D0C5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 06:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFB03BBEB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 06:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718864983; cv=none; b=TOF8O+wuAfshs6GsIdY/gZKnGtaYgLKAIzmu9CsqveMGisgYjxZMLDrZo/D5znACVAQv70WQ/GlM10NXC9nl9cNfKvfIsWG4m5h2Ee8mX5S6izrcfOkul3ywkD/8NZHHBNGNkh5ZU9LwRaZ7uH1NlSnisz+UJdrZT27SKlsedEM=
+	t=1718865640; cv=none; b=iiOucXyn+F+b+AkLbwueicc/D3/9apZ/YwgR/VTbM0J7izNpUSgC0FCTZRa/4AUQJAtO6GRWkT2UIK9MThlqnflOyMl+Em0X+jrFMY456ETBBjP6yMTqpiIQo1nREdVllIr8KSKataYZ2Iev/G3nEiUZmpLFvbYSbApSWOtF2eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718864983; c=relaxed/simple;
-	bh=+ifqHEMdiknxEzGlwAtc+V5/msMnN6CtvpwhXeolp3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icVtuQQpYAjB5FBuuu3M5Lh6+JdvHbGR6H5UU1/di167NNINDIk+4fADxx+EyFDhAhI0K3/cEYmanm/jhPf3z5bcmfankK5C/Ez1YqxyT/kiSmNCjZGMVUWE5P6iNSc53mlVvQKT7sv043Bjj24T0/5AputqlWtHSRfrdTWUZdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LiB0GFQO; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1718865640; c=relaxed/simple;
+	bh=PYIgdG0raNWqxdlAtKDKrCrpPo0zCAn/gTwsxN5Ye4A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=N5Seqrywoa+RDH96Zd6XrdI24/M1cSn/ZG2zFRDc+unD+/PTAeu59z86Nv2ueMUVGx2mrhyuTN1C6c36/FCHuurwkBB6oS6kHjqLFh5k1FQ2D80vC0j9NMEhyUHdccdeRbf1MDsQZwXHIakhrdBII7nnwxEBPADV0kOefdloIn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDsX7f+4; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LiB0GFQO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDsX7f+4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718864981; x=1750400981;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+ifqHEMdiknxEzGlwAtc+V5/msMnN6CtvpwhXeolp3Y=;
-  b=LiB0GFQOrXez3xszeeSDRirftem/YgJfmk5hi6L3jXq7QfLqJHKTO3cR
-   3RwCQ1NfOKIkjSk+Q5xgl4W9kyjp9V7qTNPs0ku3VFjVc5j2Ua2Ur/+Ye
-   JGmwwBhiByg5USFhEAMQd8F/xECOqBNQdC1wLSRikZnXQtPYbRT+V0bf/
-   Pq0GAOznB3EB3cyf2vWX2Jec8/c1hPnxCludQQ0mQWVwfgKG+QlZEH4wk
-   y6dySlNIgorSCF+aV5iRY0xj0+kUzd0yrVszKVIF3LM3E1F2oIKH7EYKE
-   kEYOTRmP3VT5O2840NLAqXDwzZZFPwiybWBTf1AwgTtYPaqIbTolwnnWh
-   w==;
-X-CSE-ConnectionGUID: 6UA07U0KRZyk1mvqss53CA==
-X-CSE-MsgGUID: MkqsztQTTj+oB6rCA3VyUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15795359"
+  t=1718865639; x=1750401639;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PYIgdG0raNWqxdlAtKDKrCrpPo0zCAn/gTwsxN5Ye4A=;
+  b=CDsX7f+4606g/vzoyG0UF+AHoJR+TcVrjMfMRh+h30nAzaV4Brk074ay
+   YFmjeeJLkOuWXuoa7yeZV2UH+CfP3jltpRVFYp2ws+FPfS/pv6QYf6IE3
+   AdHhMRgYy1AUfXJa/HpafWJq2KcWYzy6Nqqf3gfhcLUagAVKK4HAGVSrA
+   JYiVa2Z/6f9ZYLz3Cnw3xiVmS8zalIF8UcP7DyZQE0crFWs0cijaz9luA
+   stLTWjoBNlpLYz5leuQcbCIPzXle74DfMlmXbfltvPjJDaHD4NMnDdZqp
+   kuBe8DPliKgeIE5dUxvmdxIrHjnjpRAfrl5KDlQM6SvA+OVquUUAc73/I
+   g==;
+X-CSE-ConnectionGUID: K7ySxwqFRdamSXj8Ks1UfQ==
+X-CSE-MsgGUID: CD7rgSVpTOCkylIywHLfIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15962740"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15795359"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 23:29:40 -0700
-X-CSE-ConnectionGUID: NtJzaDOFRCCIzXGdFcXiJw==
-X-CSE-MsgGUID: dcWuGTf9ROOwgMy3GGFnlw==
+   d="scan'208";a="15962740"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 23:40:38 -0700
+X-CSE-ConnectionGUID: 2zYBjpCsTKONdg21GjR05w==
+X-CSE-MsgGUID: 09SAHE0DQ/KTSBazv5ovqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42800402"
+   d="scan'208";a="79615104"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 23:29:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Jun 2024 23:40:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKBIc-0007O9-07;
-	Thu, 20 Jun 2024 06:29:34 +0000
-Date: Thu, 20 Jun 2024 14:28:40 +0800
+	id 1sKBTG-0007OY-1D;
+	Thu, 20 Jun 2024 06:40:34 +0000
+Date: Thu, 20 Jun 2024 14:40:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrei Simion <andrei.simion@microchip.com>, brgl@bgdev.pl,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Andrei Simion <andrei.simion@microchip.com>
-Subject: Re: [PATCH 2/3] ARM: dts: at91: at91-sama7g5ek: add EEPROMs
-Message-ID: <202406201413.tFxSruVt-lkp@intel.com>
-References: <20240619072231.6876-3-andrei.simion@microchip.com>
+To: Vibhore Vardhan <vibhore@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>, Dhruva Gole <d-gole@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 30/137]
+ arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: compatible: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202406201432.zsdZW8wS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,89 +64,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240619072231.6876-3-andrei.simion@microchip.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrei,
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y=
+-wip
+head:   9c49bc21672dbb6da549befaa30f95e8ed3c80e8
+commit: 21354a5e32c40bc97c8e602cb2174dc9ede672d3 [30/137] HACK: arm64: dts:=
+ ti: Configure am62p pinctrl-single for wake-up interrupts
+config: arm64-randconfig-051-20240609 (https://download.01.org/0day-ci/arch=
+ive/20240620/202406201432.zsdZW8wS-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d=
+2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240620/202406201432.zsdZW8wS-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0c52056d9f77508cb6d4d68d3fc91c6c08ec71af]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Simion/eeprom-at24-avoid-adjusting-offset-for-24AA025E-48-64/20240619-153030
-base:   0c52056d9f77508cb6d4d68d3fc91c6c08ec71af
-patch link:    https://lore.kernel.org/r/20240619072231.6876-3-andrei.simion%40microchip.com
-patch subject: [PATCH 2/3] ARM: dts: at91: at91-sama7g5ek: add EEPROMs
-config: arm-randconfig-004-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201413.tFxSruVt-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201413.tFxSruVt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201413.tFxSruVt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201432.zsdZW8wS-lkp@i=
+ntel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/microchip/at91-sama7g5ek.dts:407.22-425.5: Warning (avoid_unnecessary_addr_size): /soc/flexcom@e2818000/i2c@600/eeprom@52: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm/boot/dts/microchip/at91-sama7g5ek.dts:427.22-445.5: Warning (avoid_unnecessary_addr_size): /soc/flexcom@e2818000/i2c@600/eeprom@53: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:669.22-679.5: Warning (graph_c=
+hild_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single c=
+hild node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: bus@43000000: compatible: ['sys=
+con', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: compatible: 'one=
+Of' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@f4000: 'interrupts' doe=
+s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
+--
+   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:1215.21-1218.5: Warning (graph=
+_child_address): /bus@f0000/dss@30220000/ports: graph node has single child=
+ node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: bus@43000000: compatible: ['sys=
+con', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/bus@b00000/bus@43000=
+000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-=
+phy-ctrl', 'syscon']
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: dss-oldi-io-ctrl@8600: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'amd,pensando-elba-syscon', 'brc=
+m,cru-clkset', 'freecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-sy=
+scfg', 'fsl,imx93-wakeupmix-syscfg', 'hisilicon,dsa-subctrl', 'hisilicon,hi=
+6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hp=
+e,gxp-sysreg', 'intel,lgm-syscon', 'marvell,armada-3700-usb2-host-misc', 'm=
+ediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,m=
+t8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,sparx5-cpu-syscon=
+', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'ro=
+ckchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,r=
+k3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3399-=
+qos', 'rockchip,rk3568-qos', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', =
+'starfive,jh7100-sysmain', 'ti,am625-dss-oldi-io-ctrl', 'ti,am654-dss-oldi-=
+io-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: compatible: 'one=
+Of' conditional failed, one must be fixed:
+   	['ti,am654-padconf'] is too short
+   	'ti,am654-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+>> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: pinctrl@f4000: 'interrupts' doe=
+s not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.y=
+aml#
+   arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /bus@f0000/dss@30200000: failed=
+ to match any schema with compatible: ['ti,am62p51-dss']
 
-vim +407 arch/arm/boot/dts/microchip/at91-sama7g5ek.dts
-
-   394	
-   395	&flx8 {
-   396		atmel,flexcom-mode = <ATMEL_FLEXCOM_MODE_TWI>;
-   397		status = "okay";
-   398	
-   399		i2c8: i2c@600 {
-   400			pinctrl-names = "default";
-   401			pinctrl-0 = <&pinctrl_i2c8_default>;
-   402			i2c-analog-filter;
-   403			i2c-digital-filter;
-   404			i2c-digital-filter-width-ns = <35>;
-   405			status = "okay";
-   406	
- > 407			eeprom0: eeprom@52 {
-   408				compatible = "atmel,24mac02e4";
-   409				reg = <0x52>;
-   410				#address-cells = <1>;
-   411				#size-cells = <1>;
-   412				size = <256>;
-   413				pagesize = <16>;
-   414				vcc-supply = <&vdd_3v3>;
-   415	
-   416				nvmem-layout {
-   417					compatible = "fixed-layout";
-   418					#address-cells = <1>;
-   419					#size-cells = <1>;
-   420	
-   421					eeprom0_eui48: eui48@fa {
-   422						reg = <0xfa 0x6>;
-   423					};
-   424				};
-   425			};
-   426	
-   427			eeprom1: eeprom@53 {
-   428				compatible = "atmel,24mac02e4";
-   429				reg = <0x53>;
-   430				#address-cells = <1>;
-   431				#size-cells = <1>;
-   432				size = <256>;
-   433				pagesize = <16>;
-   434				vcc-supply = <&vdd_3v3>;
-   435	
-   436				nvmem-layout {
-   437					compatible = "fixed-layout";
-   438					#address-cells = <1>;
-   439					#size-cells = <1>;
-   440	
-   441					eeprom1_eui48: eui48@fa {
-   442						reg = <0xfa 0x6>;
-   443					};
-   444				};
-   445			};
-   446		};
-   447	};
-   448	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
