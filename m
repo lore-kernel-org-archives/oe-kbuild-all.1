@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC7E757EE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 21:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1158005C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 21:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718920352; cv=none; b=PswN/MQzofBsbY8g3IqL332tosJzIS2FzxcMahhWsQGf/WhEmxJ44TS97/DWSMHtzUIQfNvafZb8/jiPYhKkaNC/g1VOuvUcAz1RwuJ8CGI80uhjB8QzXsedcNp4sIqkxPuVTL5ab5BPdmgR+ogZBGSICOyESbBy1C8tW9F9lak=
+	t=1718920352; cv=none; b=VU2s3uKRDUJeSTEXLPs2mlTNjymP9DActeUeUiK4fRiqXe4/exW+aihOgZ9kd4E9pyyWIjH6sB/4xQJVWQLcTtwZtzey1Gn4OBDyXkaCGGMd3lX+/K+zEBCKIiKtjURZtBZa/S/M+doZvQNrYg+9xCFtKT7XgJ5TSzxbXuUEcB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718920352; c=relaxed/simple;
-	bh=biNvZsCPgD7ZdDC7AsxF4WjSw2vngcLozJvjFedal3Q=;
+	bh=1xr33NxwobrQmX+WhfzZx/NNqZFGe24F/Yl+mzXnQmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TbttUMwMhsW4XdZLudT1a3wV39mwTN21z9S0yyfeBtP++znsijZgL4X6JZFN6ry+H4FXyxAhxU9JDzjmFPtVr5yH0HTre81i49fPMtf748hMWusuS5tKv+4U2MIZkvvCxMlWwWa5c25oaP2Prx201bnB/5z9cuDhL893xeRDkJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dl8XlEUC; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Qfb1H4r7K/Dj+p4YnyFfuew7wD1ZIHd43nC7na0WRC7HP6V8qRSh7ScjVajbn1tRyacjnNat6FRbkjSpuFancw38E4NoNYdToHVU6+oOXbltEyaOeY8jBKxkb5mF1DZTT+zY8dbJjFWDo9R+ik6nkwl9OOQWf05nY66zLvUvc9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixb4LA7w; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dl8XlEUC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixb4LA7w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718920350; x=1750456350;
+  t=1718920351; x=1750456351;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=biNvZsCPgD7ZdDC7AsxF4WjSw2vngcLozJvjFedal3Q=;
-  b=Dl8XlEUCTZTPLUlfjN4oSRsHIEr+XDjBQ9zEUQ/30Q2N7qSJO6HWjABZ
-   KPhAjIffpgmdzsvY8pm3ETwM1FVj9QTPd6rw3Igqc8BeGM3NaylYZa+wD
-   Dva/1KBd8M1Nt4dk4ET6WLLbKXVblghgDjHWEwdnIInd1lkq5w96IxfdL
-   Vqi7oSydMl0W4WPon2dmgMRDQ7F6/Qzf+sMVfUcd1m9OURzHW3ZARvC5p
-   mHbky0+I2AE+Ge0W8E2Rj1tsfb8kd7/c57NVEDwx0Hg/xlKimE+4llDX6
-   YJQxbgqZvP88dSN30CxWkM/LdodQh6TTGSL/4S5YNNGpxHKEwScB9eZyz
+  bh=1xr33NxwobrQmX+WhfzZx/NNqZFGe24F/Yl+mzXnQmM=;
+  b=ixb4LA7wOMPGVp8cHoH0Z2waqy1oc/ZAt+Eapjfc8hzuwtKx1jsSKvyN
+   MKSExvx9qwSVm/1nziSEM1Q46vsbhsxG3rb3/b4wMCDMcnwt4dvaLbwar
+   oXBqrVF63Bzo3QaBtJo8FjC3sl7bq3HmxECYmXt6ziwSlolPcnZ+RixTU
+   T/VCd5wV7rsqc8u3/e97Ou13r9keaCni8/rMAKDcangjDrPGKeG/0bQ5P
+   44enEmfozc7Kw94IoNGwLYsgks/nHl/CQQPXidc3Nsv3LiY/AoSbhXVxG
+   wnr95QuFnbNdP7CTwVlkGMz1i3ae9FyuQf0hTVImKw2gJvOjmNSGBGawo
    g==;
-X-CSE-ConnectionGUID: z7Bn6tL2RAOvWmTGTvhPkg==
-X-CSE-MsgGUID: J/CLV3WQQSmH6bN8MZu71A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16047340"
+X-CSE-ConnectionGUID: 63N6TfE/TPqzaUojygX3pA==
+X-CSE-MsgGUID: KXzNUC1mRXiLU4kPYKCAaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16075694"
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="16047340"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 14:52:30 -0700
-X-CSE-ConnectionGUID: V9CssooERt2sfbyHoKWBjQ==
-X-CSE-MsgGUID: nUeNf7LzSKKnAMtbTcKvxA==
+   d="scan'208";a="16075694"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 14:52:30 -0700
+X-CSE-ConnectionGUID: DjZbpNEdTb+r1XKXG9l1ww==
+X-CSE-MsgGUID: I8Uv4yEwRUSsNptRzirKVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="42288502"
+   d="scan'208";a="47569498"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Jun 2024 14:52:29 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Jun 2024 14:52:28 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKPhi-0007z4-0U;
+	id 1sKPhi-0007z7-0r;
 	Thu, 20 Jun 2024 21:52:26 +0000
-Date: Fri, 21 Jun 2024 05:52:21 +0800
+Date: Fri, 21 Jun 2024 05:52:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>
-Subject: [linux-next:master 7032/7397]
- arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi:652.22-662.5: Warning
- (graph_child_address): /bus@f0000/usb@f900000/usb@31000000: graph node has
- single child node 'port@0', #address-cells/#size-cells are not necessary
-Message-ID: <202406210537.pWYvKBwC-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:migrate_misplaced 3/11] mm/pagewalk.c:891:7:
+ error: implicit declaration of function 'is_pmd_migration_entry'; did you
+ mean 'list_first_entry'?
+Message-ID: <202406210822.KcNY87FE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,31 +63,227 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b992b79ca8bc336fa8e2c80990b5af80ed8f36fd
-commit: 3ad6579f106db8f94fb8495063cb4b0f0eaaaa9a [7032/7397] arm64: dts: ti: am62p: Rename am62p-{}.dtsi to am62p-j722s-common-{}.dtsi
-config: arm64-randconfig-001-20230929 (https://download.01.org/0day-ci/archive/20240621/202406210537.pWYvKBwC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210537.pWYvKBwC-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux migrate_misplaced
+head:   1cdf378b2096345dcb6cddabd16a16fb93bb6299
+commit: 57e15cac22902c7324d90c148cdb109b9d2ff362 [3/11] mm/pagewalk: introduce folio_walk_start() + folio_walk_end()
+config: i386-buildonly-randconfig-002-20240621 (https://download.01.org/0day-ci/archive/20240621/202406210822.KcNY87FE-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210822.KcNY87FE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406210537.pWYvKBwC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406210822.KcNY87FE-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:367.10-376.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi:652.22-662.5: Warning (graph_child_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+All error/warnings (new ones prefixed by >>):
 
-vim +652 arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
+   mm/pagewalk.c: In function 'folio_walk_start':
+>> mm/pagewalk.c:891:7: error: implicit declaration of function 'is_pmd_migration_entry'; did you mean 'list_first_entry'? [-Werror=implicit-function-declaration]
+          is_pmd_migration_entry(*pmd)) {
+          ^~~~~~~~~~~~~~~~~~~~~~
+          list_first_entry
+>> mm/pagewalk.c:892:24: error: implicit declaration of function 'pmd_to_swp_entry'; did you mean '__pte_to_swp_entry'? [-Werror=implicit-function-declaration]
+       swp_entry_t entry = pmd_to_swp_entry(*pmd);
+                           ^~~~~~~~~~~~~~~~
+                           __pte_to_swp_entry
+>> mm/pagewalk.c:892:24: error: invalid initializer
+>> mm/pagewalk.c:894:11: error: implicit declaration of function 'pfn_swap_entry_to_page'; did you mean '__swp_entry_to_pte'? [-Werror=implicit-function-declaration]
+       page = pfn_swap_entry_to_page(entry);
+              ^~~~~~~~~~~~~~~~~~~~~~
+              __swp_entry_to_pte
+>> mm/pagewalk.c:894:9: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+       page = pfn_swap_entry_to_page(entry);
+            ^
+>> mm/pagewalk.c:922:23: error: implicit declaration of function 'pte_to_swp_entry'; did you mean '__pte_to_swp_entry'? [-Werror=implicit-function-declaration]
+      swp_entry_t entry = pte_to_swp_entry(ptent);
+                          ^~~~~~~~~~~~~~~~
+                          __pte_to_swp_entry
+   mm/pagewalk.c:922:23: error: invalid initializer
+>> mm/pagewalk.c:925:7: error: implicit declaration of function 'is_migration_entry'; did you mean 'list_first_entry'? [-Werror=implicit-function-declaration]
+          is_migration_entry(entry)) {
+          ^~~~~~~~~~~~~~~~~~
+          list_first_entry
+   mm/pagewalk.c:926:9: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+       page = pfn_swap_entry_to_page(entry);
+            ^
+   cc1: some warnings being treated as errors
 
-c1453d3c3e9baf arch/arm64/boot/dts/ti/k3-am62p-main.dtsi Roger Quadros 2024-04-12 @652  		usb0: usb@31000000 {
 
-:::::: The code at line 652 was first introduced by commit
-:::::: c1453d3c3e9baf538b5f978c9e7cc24e47cc877e arm64: dts: ti: k3-am62p: add the USB sub-system
+vim +891 mm/pagewalk.c
 
-:::::: TO: Roger Quadros <rogerq@kernel.org>
-:::::: CC: Nishanth Menon <nm@ti.com>
+   767	
+   768	/*
+   769	 * folio_walk_start - walk the page tables to a folio
+   770	 * @vma: the VMA.
+   771	 * @addr: the virtual address to use for the page table walk.
+   772	 * @fw: filled with information on success.
+   773	 *
+   774	 * Walk the page tables and lookup a mapped folio.
+   775	 *
+   776	 * As default, returns only folios that are not special (e.g., not the
+   777	 * zeropage) and never returns folios that are supposed to be ignored by the
+   778	 * VM (e.g., VM_PFNMAP, weird devmap stuff) -- see vm_normal_page(). If
+   779	 * requested, zeropages will be returned as well.
+   780	 *
+   781	 * As default, this function only considers present page table entries.
+   782	 * If requested, it will also consider migration entries, but one has to
+   783	 * be a bit careful, especially with large folios that might get concurrently
+   784	 * split.
+   785	 *
+   786	 * Other entries are ignored and result in -ENOENT. Similarly if no suitable
+   787	 * folio is mapped (e.g., zeropage without FW_ZEROPAGE), -ENOENT is returned.
+   788	 * That is, -ENOENT might either indicate "there is nothing" or "there is
+   789	 * nothing applicable we can return".
+   790	 *
+   791	 * On success, @fw is filled and the function returns the folio while the PTL
+   792	 * is still held and folio_walk_end() must be called to clean up, like
+   793	 * releasing any held locks. The returned folio must *not* be used after the
+   794	 * call to folio_walk_end(), unless a short-term folio reference is taken before
+   795	 * that call. Note that the folio may get unmapped immediately after calling
+   796	 * folio_walk_end().
+   797	 *
+   798	 * This function must *not* be used as a naive replacement for
+   799	 * get_user_pages() / pin_user_pages(), especially not to perform DMA or
+   800	 * carelessly modify page content. This function may *only* be used to grab
+   801	 * short-term folio references, never to grab long-term folio references.
+   802	 *
+   803	 * Using the page table entry pointers in @fw for reading or modifying the
+   804	 * entry should be avoided where possible: however, for the purpose of
+   805	 * temporarily clearing the entry or setting/clearing access/dirty bits,
+   806	 * there might be valid use cases.
+   807	 *
+   808	 * The mmap lock must be held in read mode.
+   809	 *
+   810	 * Return: folio pointer on success. -ENOENT if no suitable folio was found and
+   811	 * -EAGAIN on invalid inputs. Never returns 0.
+   812	 */
+   813	struct folio *folio_walk_start(struct vm_area_struct *vma, unsigned long addr,
+   814			struct folio_walk *fw, folio_walk_flags_t flags)
+   815	{
+   816		enum folio_walk_level level;
+   817		pte_t *pte = NULL, ptent;
+   818		unsigned long offset = 0;
+   819		bool writable = false;
+   820		struct page *page;
+   821		spinlock_t *ptl;
+   822		void *entryp;
+   823		pgd_t *pgd;
+   824		p4d_t *p4d;
+   825		pud_t *pud;
+   826		pmd_t *pmd;
+   827	
+   828		mmap_assert_locked(vma->vm_mm);
+   829	
+   830		if (addr < vma->vm_start || addr >= vma->vm_end)
+   831			return ERR_PTR(-EINVAL);
+   832	
+   833		if (is_vm_hugetlb_page(vma))
+   834			return folio_walk_start_hugetlb(vma, addr, fw, flags);
+   835	
+   836		pgd = pgd_offset(vma->vm_mm, addr);
+   837		if (pgd_none_or_clear_bad(pgd))
+   838			return ERR_PTR(-ENOENT);
+   839		p4d = p4d_offset(pgd, addr);
+   840		if (p4d_none_or_clear_bad(p4d))
+   841			return ERR_PTR(-ENOENT);
+   842		pud = pud_offset(p4d, addr);
+   843		if (pud_none_or_clear_bad(pud))
+   844			return ERR_PTR(-ENOENT);
+   845		if (pud_leaf(*pud)) {
+   846			ptl = pud_lock(vma->vm_mm, pud);
+   847	
+   848			/*
+   849			 * We might have raced with split_huge_pud() that could have
+   850			 * zapped the page table. Note that we currently never replace
+   851			 * a PUD leaf by a filled page table like we do for anonymous
+   852			 * THPs.
+   853			 */
+   854			if (!pud_present(*pud) || !pud_leaf(*pud) || pud_devmap(*pud)) {
+   855				spin_unlock(ptl);
+   856				return ERR_PTR(-ENOENT);
+   857			}
+   858	
+   859			entryp = pud;
+   860			level = FW_LEVEL_PUD;
+   861			page = pud_page(*pud);
+   862			offset = addr & (PUD_SIZE - 1);
+   863			writable = pud_write(*pud);
+   864			goto found;
+   865		}
+   866		pmd = pmd_offset(pud, addr);
+   867		if (pmd_none(*pmd))
+   868			return ERR_PTR(-ENOENT);
+   869	
+   870		ptl = pmd_trans_huge_lock(pmd, vma);
+   871		if (ptl) {
+   872			if (pmd_none(*pmd)) {
+   873				spin_unlock(ptl);
+   874				return ERR_PTR(-ENOENT);
+   875			}
+   876	
+   877			entryp = pmd;
+   878			level = FW_LEVEL_PMD;
+   879			if (pmd_present(*pmd)) {
+   880				offset = addr & (PMD_SIZE - 1);
+   881				writable = pmd_write(*pmd);
+   882				page = vm_normal_page_pmd(vma, addr, *pmd);
+   883				if (page) {
+   884					goto found;
+   885				} else if ((flags & FW_ZEROPAGE) &&
+   886					    is_huge_zero_pmd(*pmd)) {
+   887					page = pfn_to_page(pmd_pfn(*pmd));
+   888					goto found;
+   889				}
+   890			} else if ((flags & FW_MIGRATION_ENTRIES) &&
+ > 891				   is_pmd_migration_entry(*pmd)) {
+ > 892				swp_entry_t entry = pmd_to_swp_entry(*pmd);
+   893	
+ > 894				page = pfn_swap_entry_to_page(entry);
+   895				if (page) {
+   896					offset = addr & (PMD_SIZE - 1);
+   897					goto found;
+   898				}
+   899			}
+   900			spin_unlock(ptl);
+   901			return ERR_PTR(-ENOENT);
+   902		}
+   903	
+   904		pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+   905		if (!pte)
+   906			return ERR_PTR(-ENOENT);
+   907		entryp = pte;
+   908		level = FW_LEVEL_PTE;
+   909	
+   910		ptent = ptep_get(pte);
+   911		if (pte_present(ptent)) {
+   912			page = vm_normal_page(vma, addr, ptent);
+   913			writable = pte_write(ptent);
+   914			if (page) {
+   915				goto found;
+   916			} else if ((flags & FW_ZEROPAGE) &&
+   917				   is_zero_pfn(pte_pfn(ptent))) {
+   918				page = pfn_to_page(pmd_pfn(*pmd));
+   919				goto found;
+   920			}
+   921		} else if (!pte_none(ptent)) {
+ > 922			swp_entry_t entry = pte_to_swp_entry(ptent);
+   923	
+   924			if ((flags & FW_MIGRATION_ENTRIES) &&
+ > 925			    is_migration_entry(entry)) {
+   926				page = pfn_swap_entry_to_page(entry);
+   927				if (page) {
+   928					offset = 0;
+   929					goto found;
+   930				}
+   931			}
+   932		}
+   933		pte_unmap_unlock(pte, ptl);
+   934		return ERR_PTR(-ENOENT);
+   935	found:
+   936		return fill_folio_walk(fw, page, offset, writable, vma, ptl, entryp,
+   937				       level);
+   938	}
+   939	
 
 -- 
 0-DAY CI Kernel Test Service
