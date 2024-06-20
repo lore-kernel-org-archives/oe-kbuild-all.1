@@ -1,82 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60B51B375A;
-	Thu, 20 Jun 2024 17:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3FF1B4C46;
+	Thu, 20 Jun 2024 17:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718903129; cv=none; b=h77ZpcYfn00VrSsGrHSu0OuF2KkNzfPjLMdXSrO7TbHOpLBWYht7ipDwsy3PyQWcpfw05uCoFeqtwKOFo1mzmxze0Ni2Vb2u/4mFn5lkO+igKsRexoiM7QZT+12S/THxW79zEP4I8/crWda5kguR6CnPMOAdS1oNvLjP+N0oEXo=
+	t=1718904752; cv=none; b=nBKhlLZpgbYs/Kahzl5MNCVSD+Ap0M0RhjzhtZjli09a3K5T0oWTwqRweopJoXvwP12U9qVSbvYDkpfGE2zlZttPuo13DhpsMFuwoIsgeqt8aBArQkoBrYDbmuaRjSkucn34Hcoj8KfOzyvNwpyVl8B1hA4jCVi6yDQ25b2Dk70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718903129; c=relaxed/simple;
-	bh=dEOA48ijsQW6/PEVP2tDx2FHmbFwZ3VWxLbybt5q2Gc=;
+	s=arc-20240116; t=1718904752; c=relaxed/simple;
+	bh=oFO9G2nRTwhWJIbyUtKnqB3LSa7KnG7okU5Gl/bU6lk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+r1YjwaihhvyxFUUXXC9oRjXBAOrhLvI0Gjv+9giV6opBHT8/fvfrjCvUola+PEbbtud+047/ZXX2vQuvEwCFSp8rIP1b6hBpACrCUfZT1Aj1JeGEcm/XLWaapR8KTAaz0XTsOuPquDvOt2/c4stBkRaIQh9cyTbCt5CsWs6x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sxwbJctm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X8QDPLdtfuHJLLgi2VmLcjIEKkEtbBeYHHwjcszSYiyEw+v2ImgfTKrN00kwr3/1cpiSqFjS3re9dDVYBWQt7Fjvy0VpBb/JJMJuDzejbliPUOanswmHR3F9sBx34id9Z0N46DRmDcvtel4JiSei/YtwENfvCzLwE41HIWRgQEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCWdw6au; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sxwbJctm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F37C32786;
-	Thu, 20 Jun 2024 17:05:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718903129;
-	bh=dEOA48ijsQW6/PEVP2tDx2FHmbFwZ3VWxLbybt5q2Gc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sxwbJctmVpQc2cHDrejJwmRLLgiN4/IqvoqHWnjbNTTcfGeWUf120kJOYRM0+b/D8
-	 aYzVnvBpcjwsiNJV4vwKU9T8UzfZJ5xbjZkFWtqqapxNJUmbfPiX+lLvLBZWNM/XR4
-	 snmtxbaocXFVtbJ+wNaqTSF5Sdyz3Md94Atsi2ClD2lTyWs9feke0eA4lFS2aI3HdU
-	 mx7y84Itr0OR06oAcI9xOGeb4MvgRsYtuib57M/REcT0vztdoLGGSnXGUb2oXg7yXP
-	 DhTbM1NgGaHRgGhJpo+O1EJWqrwL1HsY60AQWEPtbJk1br8M75OGeFegWRgan6dRgg
-	 l+/18t4+nEiew==
-Date: Thu, 20 Jun 2024 18:05:22 +0100
-From: Lee Jones <lee@kernel.org>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com,
-	Paul Cercueil <paul@crapouillou.net>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Message-ID: <20240620170522.GU3029315@google.com>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
- <ZnRUSaHJhz7XLcKa@matsya>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCWdw6au"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718904750; x=1750440750;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oFO9G2nRTwhWJIbyUtKnqB3LSa7KnG7okU5Gl/bU6lk=;
+  b=TCWdw6auSASFpv9dDQhhDPwllLUYzk64BJrniHpCjiqym5ET+Tl9GqK9
+   y4HnQLQpRUBaMQDGkSnYIOCD5081rrlSTTgcI/2WJ9fQJ57hENqRd/P7g
+   3kJcsJ19fNimW97ofkDsgnkgcCXH142eLeu7B9tEyFH3aWH8kgo2GEfg+
+   miiUmYpQGkMSaaS2wRTUzidb3Ajp2egyQdCe6jZZT3uSDd/QxiBUkYcxG
+   e+8nNz5pGrY/0k7QMFCv6QDqi/1+ReZunQtiLGTJ7Zf/PqTsuDgd2FWa8
+   eFjkuMdYLVLaBEl3el89hCiVMVl94v98qsdem1VAO7X970s601fTrd3Bq
+   Q==;
+X-CSE-ConnectionGUID: RcdtxeBvRm6yBFiDcGbZaA==
+X-CSE-MsgGUID: HRp3dZ1cQwGJje+DaTw2jA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="19684101"
+X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
+   d="scan'208";a="19684101"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 10:32:29 -0700
+X-CSE-ConnectionGUID: 718kP6xuREe79HcLq81ntA==
+X-CSE-MsgGUID: cdf+326NRLmYXOBmkXIRiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
+   d="scan'208";a="47268510"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 20 Jun 2024 10:32:15 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKLds-0007nc-1O;
+	Thu, 20 Jun 2024 17:32:12 +0000
+Date: Fri, 21 Jun 2024 01:31:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anand Moon <linux.amoon@gmail.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anand Moon <linux.amoon@gmail.com>, linux-pci@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] PCI: rockchip: Simplify clock handling by using
+ clk_bulk*() function
+Message-ID: <202406210131.rxenHeBG-lkp@intel.com>
+References: <20240618164133.223194-2-linux.amoon@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZnRUSaHJhz7XLcKa@matsya>
+In-Reply-To: <20240618164133.223194-2-linux.amoon@gmail.com>
 
-On Thu, 20 Jun 2024, Vinod Koul wrote:
+Hi Anand,
 
-> On 20-06-24, 12:45, Markus Elfring wrote:
-> > …
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
-> > >     1715 |                 goto err_dmabuf_unmap_attachment;
-> > …
-> > 
-> > Which software design options would you like to try out next
-> > so that such a questionable compilation error message will be avoided finally?
-> 
-> The one where all emails from Markus go to dev/null
+kernel test robot noticed the following build errors:
 
-Play nice please.
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.10-rc4 next-20240619]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  Documentation/process/code-of-conduct.rst
+url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/PCI-rockchip-Simplify-reset-control-handling-by-using-reset_control_bulk-function/20240619-014145
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240618164133.223194-2-linux.amoon%40gmail.com
+patch subject: [PATCH v1 1/3] PCI: rockchip: Simplify clock handling by using clk_bulk*() function
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240621/202406210131.rxenHeBG-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210131.rxenHeBG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406210131.rxenHeBG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/pci/controller/pcie-rockchip-ep.c:20:
+>> drivers/pci/controller/pcie-rockchip.h:311:28: error: array has incomplete element type 'struct clk_bulk_data'
+     311 |         struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
+         |                                   ^
+   drivers/pci/controller/pcie-rockchip.h:311:10: note: forward declaration of 'struct clk_bulk_data'
+     311 |         struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
+         |                 ^
+   1 error generated.
+
+
+vim +311 drivers/pci/controller/pcie-rockchip.h
+
+   298	
+   299	struct rockchip_pcie {
+   300		void	__iomem *reg_base;		/* DT axi-base */
+   301		void	__iomem *apb_base;		/* DT apb-base */
+   302		bool    legacy_phy;
+   303		struct  phy *phys[MAX_LANE_NUM];
+   304		struct	reset_control *core_rst;
+   305		struct	reset_control *mgmt_rst;
+   306		struct	reset_control *mgmt_sticky_rst;
+   307		struct	reset_control *pipe_rst;
+   308		struct	reset_control *pm_rst;
+   309		struct	reset_control *aclk_rst;
+   310		struct	reset_control *pclk_rst;
+ > 311		struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
+   312		struct	regulator *vpcie12v; /* 12V power supply */
+   313		struct	regulator *vpcie3v3; /* 3.3V power supply */
+   314		struct	regulator *vpcie1v8; /* 1.8V power supply */
+   315		struct	regulator *vpcie0v9; /* 0.9V power supply */
+   316		struct	gpio_desc *ep_gpio;
+   317		u32	lanes;
+   318		u8      lanes_map;
+   319		int	link_gen;
+   320		struct	device *dev;
+   321		struct	irq_domain *irq_domain;
+   322		int     offset;
+   323		void    __iomem *msg_region;
+   324		phys_addr_t msg_bus_addr;
+   325		bool is_rc;
+   326		struct resource *mem_res;
+   327	};
+   328	
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
