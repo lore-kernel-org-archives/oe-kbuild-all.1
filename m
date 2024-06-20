@@ -1,60 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BE12D058;
-	Thu, 20 Jun 2024 03:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BC737E;
+	Thu, 20 Jun 2024 05:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718855418; cv=none; b=QOQTPZPl4DcCuuf9JOCSRIEFnhpedN2LcNCgYl2bVoeLKP7kOK6gmznCGM7zj0/9DO85RgI6i19svK1m7vhTfgBgCbrzD8SKkRSFQVYrWuZvdLsdMcF2s73KHkY0O19E6NRpp1D+v4+fj3lbojz9P57mEXB6pyZ4rPjJ8ow2Wi4=
+	t=1718859813; cv=none; b=FtxnZA9bY74Ec926A6yomdB3ElYZcXWmAWjSj637ErOZ3zKHHboUK9octOySPLXrmn+Y9MfhmBjRNCy9CxVDYlQKm4YQ5F3FBYeK/96cb/1iTA6Lk6gj225a5hUvf9aDEzmdTLcSbL6XwDCv6hOIOEx2WmCMnS2z6pIzPGvTs2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718855418; c=relaxed/simple;
-	bh=H894Zspz5UBEiWWh6fNUgt0nJIyEJlyCKc1nNqaMzBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WPR5TvU4bgldN3HdqRpilrjNGHQzQNH32JUo8OP7gdIU2EooECXbv4Fku0isn/xRj23pnA28N9nl9azWZcg9QSNkA5Zzls00lNJ9LgXK3/tUND+JrW9UA1kzPnopK9lLeaLJ0DVt68u2+twSvlkvLhPaENGOCBdxFKK1lRZHXnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0gwxpaj; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718859813; c=relaxed/simple;
+	bh=um6EzRG9rDhQ70hgDPX52v6t9bSpMx3cOEYUndWjFL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ScyLxT0BXrZ6tsNKjWKESxxV6JTJgLifcobiMlAtLxtUwhLr61OpkHAyW+Kw0EctBPGT1rABHpob7G/BNo5P1K7d9flIA7Q526ongBJlf1QpDPtfay70PHFCbq0eF2rPx9tQBShf7fXd0q2esKenxehQ27yJfq1sHCbR+6321KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JL67l15s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0gwxpaj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718855416; x=1750391416;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H894Zspz5UBEiWWh6fNUgt0nJIyEJlyCKc1nNqaMzBE=;
-  b=j0gwxpaj6wslfEhh15LCiFhWbYrHFQahdlCkyyeegeE7GMsRaN9ccs0E
-   XDo4IBHTWcP8KjYEl0lX4D2mnouXEk8nRQzpd0dNFaMre7ueRtIkOPIom
-   orYpgcCnoK38Bxh+GpPO0BxSwldsBohi44ePGm5xC+oKipcV7eeN4fFlI
-   TrTjSGJBV50y3PVOD5nS8O572VJPR0PPoEvcxyFfIo0SKPeZ57Uk7bHuZ
-   0TFpA7SGN8S0A7jqST54cluaHBj+pWHQU1XTC2WDF9wRuicjoGe801q3i
-   LABVeTld2TLnUACw7pY/jOJ8VQ0oCjb2L8vW0Znw0PIahe307XRmKnJqg
-   A==;
-X-CSE-ConnectionGUID: uoDokxSgQVqsq3I4ycRhPA==
-X-CSE-MsgGUID: iBuppbn0TfGJ0tWTbxXYTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="41216476"
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="41216476"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 20:50:15 -0700
-X-CSE-ConnectionGUID: lrLOjxd3QW6249qKp9k4yQ==
-X-CSE-MsgGUID: bJtd32KSSE2wJ/C3EDchJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42221975"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Jun 2024 20:50:13 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sK8oN-0007He-1B;
-	Thu, 20 Jun 2024 03:50:11 +0000
-Date: Thu, 20 Jun 2024 11:49:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2024.06.18a 20/34]
- kernel/time/clocksource.c:1167:36: error: use of undeclared identifier
- 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-Message-ID: <202406201149.s6KWE7XP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JL67l15s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEFDAC2BD10;
+	Thu, 20 Jun 2024 05:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718859812;
+	bh=um6EzRG9rDhQ70hgDPX52v6t9bSpMx3cOEYUndWjFL0=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=JL67l15sZBWcbTDbpNV9MiSZRqIaG79TZUqutfE/7Bjkx4e/5x5vV4kveA+/xvV9S
+	 wESqiZ43/u8R5dcMOcMpWhE19HSUgNaig07G+CrOfv+/vIq+cwVu6EpKcTt+LuQ+zd
+	 ssPFmpc5ug99NwmLKPlKGlD6IidbhGHTXRcZzGjHcuiKAQT81ofNungDgxtHLGsgty
+	 YsKkD+uLq8TQ5LbC5S4DTB1j9dR+ofXp0y+Vq6qsb3blvlQ/hlyJshwuINVvbzY54z
+	 P2SKTRkiutnldKng15WtA5u+ir0AvWoy4Ytw56HIIDAeJAj7pknzgzpRsxw9wfHu2u
+	 Y6KCLSlo6zE/Q==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 5E24DCE0F65; Wed, 19 Jun 2024 22:03:32 -0700 (PDT)
+Date: Wed, 19 Jun 2024 22:03:32 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2024.06.18a 20/34]
+ kernel/time/clocksource.c:136:25: error:
+ 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US' undeclared
+Message-ID: <0fa70ce4-afa6-42e8-b6ab-e32dcbabb56e@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202406201116.d69O9imA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,154 +46,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202406201116.d69O9imA-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.06.18a
-head:   f29bcafffef0ecc8a5d2cdc1bbef9a6889225263
-commit: 5800c05045dbfeb8c9e571c6b47e8d7dd0d0691d [20/34] clocksource: Take advantage of always-defined CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-config: arm-randconfig-002-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201149.s6KWE7XP-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201149.s6KWE7XP-lkp@intel.com/reproduce)
+On Thu, Jun 20, 2024 at 11:16:36AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.06.18a
+> head:   f29bcafffef0ecc8a5d2cdc1bbef9a6889225263
+> commit: 5800c05045dbfeb8c9e571c6b47e8d7dd0d0691d [20/34] clocksource: Take advantage of always-defined CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+> config: arc-randconfig-002-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201116.d69O9imA-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201116.d69O9imA-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406201116.d69O9imA-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    kernel/time/clocksource.c: In function '__clocksource_update_freq_scale':
+> >> kernel/time/clocksource.c:136:25: error: 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US' undeclared (first use in this function)
+>      136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/time/clocksource.c:137:28: note: in expansion of macro 'MAX_SKEW_USEC'
+>      137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+>          |                            ^~~~~~~~~~~~~
+>    kernel/time/clocksource.c:1167:50: note: in expansion of macro 'WATCHDOG_MAX_SKEW'
+>     1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
+>          |                                                  ^~~~~~~~~~~~~~~~~
+>    kernel/time/clocksource.c:136:25: note: each undeclared identifier is reported only once for each function it appears in
+>      136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/time/clocksource.c:137:28: note: in expansion of macro 'MAX_SKEW_USEC'
+>      137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+>          |                            ^~~~~~~~~~~~~
+>    kernel/time/clocksource.c:1167:50: note: in expansion of macro 'WATCHDOG_MAX_SKEW'
+>     1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
+>          |                                                  ^~~~~~~~~~~~~~~~~
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201149.s6KWE7XP-lkp@intel.com/
+I have dropped this patch, and thank you for your testing!
 
-All errors (new ones prefixed by >>):
+								Thanx, Paul
 
->> kernel/time/clocksource.c:1167:36: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-    1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
-         |                                                  ^
-   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
-     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
-         |                            ^
-   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
-     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-         |                         ^
-   kernel/time/clocksource.c:1168:33: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-    1168 |                         cs->uncertainty_margin = 2 * WATCHDOG_MAX_SKEW;
-         |                                                      ^
-   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
-     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
-         |                            ^
-   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
-     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-         |                         ^
-   kernel/time/clocksource.c:1172:44: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-    1172 |         WARN_ON_ONCE(cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW);
-         |                                                   ^
-   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
-     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
-         |                            ^
-   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
-     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-         |                         ^
-   3 errors generated.
-
-
-vim +/CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US +1167 kernel/time/clocksource.c
-
-734efb467b31e5 John Stultz      2006-06-26  1107  
-d7e81c269db899 John Stultz      2010-05-07  1108  /**
-fba9e07208c0f9 John Stultz      2015-03-11  1109   * __clocksource_update_freq_scale - Used update clocksource with new freq
-b1b73d095084e7 Kusanagi Kouichi 2011-12-19  1110   * @cs:		clocksource to be registered
-d7e81c269db899 John Stultz      2010-05-07  1111   * @scale:	Scale factor multiplied against freq to get clocksource hz
-d7e81c269db899 John Stultz      2010-05-07  1112   * @freq:	clocksource frequency (cycles per second) divided by scale
-d7e81c269db899 John Stultz      2010-05-07  1113   *
-852db46d55e85b John Stultz      2010-07-13  1114   * This should only be called from the clocksource->enable() method.
-d7e81c269db899 John Stultz      2010-05-07  1115   *
-d7e81c269db899 John Stultz      2010-05-07  1116   * This *SHOULD NOT* be called directly! Please use the
-fba9e07208c0f9 John Stultz      2015-03-11  1117   * __clocksource_update_freq_hz() or __clocksource_update_freq_khz() helper
-fba9e07208c0f9 John Stultz      2015-03-11  1118   * functions.
-d7e81c269db899 John Stultz      2010-05-07  1119   */
-fba9e07208c0f9 John Stultz      2015-03-11  1120  void __clocksource_update_freq_scale(struct clocksource *cs, u32 scale, u32 freq)
-d7e81c269db899 John Stultz      2010-05-07  1121  {
-c0e299b1a91cbd Thomas Gleixner  2011-05-20  1122  	u64 sec;
-f8935983f11050 John Stultz      2015-03-11  1123  
-f8935983f11050 John Stultz      2015-03-11  1124  	/*
-f8935983f11050 John Stultz      2015-03-11  1125  	 * Default clocksources are *special* and self-define their mult/shift.
-f8935983f11050 John Stultz      2015-03-11  1126  	 * But, you're not special, so you should specify a freq value.
-f8935983f11050 John Stultz      2015-03-11  1127  	 */
-f8935983f11050 John Stultz      2015-03-11  1128  	if (freq) {
-d7e81c269db899 John Stultz      2010-05-07  1129  		/*
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1130  		 * Calc the maximum number of seconds which we can run before
-f8935983f11050 John Stultz      2015-03-11  1131  		 * wrapping around. For clocksources which have a mask > 32-bit
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1132  		 * we need to limit the max sleep time to have a good
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1133  		 * conversion precision. 10 minutes is still a reasonable
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1134  		 * amount. That results in a shift value of 24 for a
-f8935983f11050 John Stultz      2015-03-11  1135  		 * clocksource with mask >= 40-bit and f >= 4GHz. That maps to
-362fde0410377e John Stultz      2015-03-11  1136  		 * ~ 0.06ppm granularity for NTP.
-d7e81c269db899 John Stultz      2010-05-07  1137  		 */
-362fde0410377e John Stultz      2015-03-11  1138  		sec = cs->mask;
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1139  		do_div(sec, freq);
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1140  		do_div(sec, scale);
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1141  		if (!sec)
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1142  			sec = 1;
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1143  		else if (sec > 600 && cs->mask > UINT_MAX)
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1144  			sec = 600;
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1145  
-d7e81c269db899 John Stultz      2010-05-07  1146  		clocks_calc_mult_shift(&cs->mult, &cs->shift, freq,
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1147  				       NSEC_PER_SEC / scale, sec * scale);
-f8935983f11050 John Stultz      2015-03-11  1148  	}
-2e27e793e280ff Paul E. McKenney 2021-05-27  1149  
-2e27e793e280ff Paul E. McKenney 2021-05-27  1150  	/*
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1151  	 * If the uncertainty margin is not specified, calculate it.  If
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1152  	 * both scale and freq are non-zero, calculate the clock period, but
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1153  	 * bound below at 2*WATCHDOG_MAX_SKEW, that is, 500ppm by default.
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1154  	 * However, if either of scale or freq is zero, be very conservative
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1155  	 * and take the tens-of-milliseconds WATCHDOG_THRESHOLD value
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1156  	 * for the uncertainty margin.  Allow stupidly small uncertainty
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1157  	 * margins to be specified by the caller for testing purposes,
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1158  	 * but warn to discourage production use of this capability.
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1159  	 *
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1160  	 * Bottom line:  The sum of the uncertainty margins of the
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1161  	 * watchdog clocksource and the clocksource under test will be at
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1162  	 * least 500ppm by default.  For more information, please see the
-ababe5f6bfbf3e Borislav Petkov  2024-06-12  1163  	 * comment preceding CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US above.
-2e27e793e280ff Paul E. McKenney 2021-05-27  1164  	 */
-2e27e793e280ff Paul E. McKenney 2021-05-27  1165  	if (scale && freq && !cs->uncertainty_margin) {
-2e27e793e280ff Paul E. McKenney 2021-05-27  1166  		cs->uncertainty_margin = NSEC_PER_SEC / (scale * freq);
-2e27e793e280ff Paul E. McKenney 2021-05-27 @1167  		if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
-2e27e793e280ff Paul E. McKenney 2021-05-27  1168  			cs->uncertainty_margin = 2 * WATCHDOG_MAX_SKEW;
-2e27e793e280ff Paul E. McKenney 2021-05-27  1169  	} else if (!cs->uncertainty_margin) {
-2e27e793e280ff Paul E. McKenney 2021-05-27  1170  		cs->uncertainty_margin = WATCHDOG_THRESHOLD;
-2e27e793e280ff Paul E. McKenney 2021-05-27  1171  	}
-2e27e793e280ff Paul E. McKenney 2021-05-27  1172  	WARN_ON_ONCE(cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW);
-2e27e793e280ff Paul E. McKenney 2021-05-27  1173  
-d65670a78cdbfa John Stultz      2011-10-31  1174  	/*
-362fde0410377e John Stultz      2015-03-11  1175  	 * Ensure clocksources that have large 'mult' values don't overflow
-362fde0410377e John Stultz      2015-03-11  1176  	 * when adjusted.
-d65670a78cdbfa John Stultz      2011-10-31  1177  	 */
-d65670a78cdbfa John Stultz      2011-10-31  1178  	cs->maxadj = clocksource_max_adjustment(cs);
-f8935983f11050 John Stultz      2015-03-11  1179  	while (freq && ((cs->mult + cs->maxadj < cs->mult)
-f8935983f11050 John Stultz      2015-03-11  1180  		|| (cs->mult - cs->maxadj > cs->mult))) {
-d65670a78cdbfa John Stultz      2011-10-31  1181  		cs->mult >>= 1;
-d65670a78cdbfa John Stultz      2011-10-31  1182  		cs->shift--;
-d65670a78cdbfa John Stultz      2011-10-31  1183  		cs->maxadj = clocksource_max_adjustment(cs);
-d65670a78cdbfa John Stultz      2011-10-31  1184  	}
-d65670a78cdbfa John Stultz      2011-10-31  1185  
-f8935983f11050 John Stultz      2015-03-11  1186  	/*
-f8935983f11050 John Stultz      2015-03-11  1187  	 * Only warn for *special* clocksources that self-define
-f8935983f11050 John Stultz      2015-03-11  1188  	 * their mult/shift values and don't specify a freq.
-f8935983f11050 John Stultz      2015-03-11  1189  	 */
-f8935983f11050 John Stultz      2015-03-11  1190  	WARN_ONCE(cs->mult + cs->maxadj < cs->mult,
-f8935983f11050 John Stultz      2015-03-11  1191  		"timekeeping: Clocksource %s might overflow on 11%% adjustment\n",
-f8935983f11050 John Stultz      2015-03-11  1192  		cs->name);
-f8935983f11050 John Stultz      2015-03-11  1193  
-fb82fe2fe85887 John Stultz      2015-03-11  1194  	clocksource_update_max_deferment(cs);
-8cc8c525ad4e7b John Stultz      2015-03-11  1195  
-45bbfe64ea564a Joe Perches      2015-05-25  1196  	pr_info("%s: mask: 0x%llx max_cycles: 0x%llx, max_idle_ns: %lld ns\n",
-8cc8c525ad4e7b John Stultz      2015-03-11  1197  		cs->name, cs->mask, cs->max_cycles, cs->max_idle_ns);
-852db46d55e85b John Stultz      2010-07-13  1198  }
-fba9e07208c0f9 John Stultz      2015-03-11  1199  EXPORT_SYMBOL_GPL(__clocksource_update_freq_scale);
-852db46d55e85b John Stultz      2010-07-13  1200  
-
-:::::: The code at line 1167 was first introduced by commit
-:::::: 2e27e793e280ff12cb5c202a1214c08b0d3a0f26 clocksource: Reduce clocksource-skew threshold
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +/CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US +136 kernel/time/clocksource.c
+> 
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  119  
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  120  /*
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  121   * Maximum permissible delay between two readouts of the watchdog
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  122   * clocksource surrounding a read of the clocksource being validated.
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  123   * This delay could be due to SMIs, NMIs, or to VCPU preemptions.  Used as
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  124   * a lower bound for cs->uncertainty_margin values when registering clocks.
+> c37e85c135cead4 Paul E. McKenney 2022-12-06  125   *
+> c37e85c135cead4 Paul E. McKenney 2022-12-06  126   * The default of 500 parts per million is based on NTP's limits.
+> c37e85c135cead4 Paul E. McKenney 2022-12-06  127   * If a clocksource is good enough for NTP, it is good enough for us!
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  128   *
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  129   * In other words, by default, even if a clocksource is extremely
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  130   * precise (for example, with a sub-nanosecond period), the maximum
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  131   * permissible skew between the clocksource watchdog and the clocksource
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  132   * under test is not permitted to go below the 500ppm minimum defined
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  133   * by MAX_SKEW_USEC.  This 500ppm minimum may be overridden using the
+> ababe5f6bfbf3eb Borislav Petkov  2024-06-12  134   * CLOCKSOURCE_WATCHDOG_MAX_SKEW_US Kconfig option.
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  135   */
+> fc153c1c58cb8c3 Waiman Long      2021-12-05 @136  #define MAX_SKEW_USEC	CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+> fc153c1c58cb8c3 Waiman Long      2021-12-05  137  #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+> 2e27e793e280ff1 Paul E. McKenney 2021-05-27  138  
+> 
+> :::::: The code at line 136 was first introduced by commit
+> :::::: fc153c1c58cb8c3bb3b443b4d7dc3211ff5f65fc clocksource: Add a Kconfig option for WATCHDOG_MAX_SKEW
+> 
+> :::::: TO: Waiman Long <longman@redhat.com>
+> :::::: CC: Paul E. McKenney <paulmck@kernel.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
