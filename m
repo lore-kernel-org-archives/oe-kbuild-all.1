@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE86FC0C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 12:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D471AC44F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 12:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718885463; cv=none; b=qzc5vFtwjmYOFnUArRkBDDRyDAc9Jk63Hp6aY0Djty4nWDWW1MRmK1/KpCo23kBAMXsiEPwMFXvx9vDhMz45Wv3EyFs6R7xF2hxcjdu5gS7GD6K2JUJrWbYDCcVeJnHXZbvSvXDVAQhleDW1y31w7Y/GVrXUEcxJQXvtIufhvHo=
+	t=1718888345; cv=none; b=I2ZkPjHWCUO2KWbpbCzfqypfpvH7QPML0C/GK/1dNHz7uucFaAxKSfiJ+Y5HcegEbQGsuPVPhY7mbct3SAVqei09aPEO6vNHU4KhQve5WfiVZ0to+k5K6IXUIDykHl5H7rwzGqQl+AZAwmCOBO8LZStK3rdFic+s127Se2duN7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718885463; c=relaxed/simple;
-	bh=vLx0PEQgO76OAZvPd7vME17a8IY3nCPvPp6pxr+wG9M=;
+	s=arc-20240116; t=1718888345; c=relaxed/simple;
+	bh=zHfRPyfsr0uK3wHn68RXpeKQQIaoO2xCTX1YSzLO4tw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G9GItEwn5g+DGNHQM+bxFyvvhh1xt20Ye+9zqM28JZq18it+J9RMNiXgDRZ0KYjiywAlRjQiLD7zOpDLzEubYeAowG4R3bgFeaGFEbX/KeSvn++vd2cNEXPiXU83eEr3lw0sBEhT9FDotU9pIwAzr/A4MWKPhcjulIBSL5ETz/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rb8lilmb; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=RxalZQfjqvQg8HySz37Hffop4wyhd5NmdAS7R6Hr9eJCUECWpIaJjytd2NRPMY0H1ay5vDCm7Ghqu1NN7sRwej6lgqhhYEsftr99ga5agOpiZtEGJXlvNRTAc+V3X36V1436T9on2sw7WPI7tiMJacPhD5mcCqasIG15NXZw5TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=COwd+jVK; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rb8lilmb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="COwd+jVK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718885461; x=1750421461;
+  t=1718888343; x=1750424343;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vLx0PEQgO76OAZvPd7vME17a8IY3nCPvPp6pxr+wG9M=;
-  b=Rb8lilmbl5yFqIGHlck4KUhDhJLkeb82IsIWFZFnhMpLk0aWHxcFMnIO
-   CWQ0S8YYs4EASVsO4vkzNMYXtLQvyeZUlmXUXWyB22x7NzhmlUuBukMa3
-   c5cGSIa45N8/JeTFfIvvEK2kmdcSS93PItDamj8rCssY+zN9KnK0GAUcr
-   YHPLkBpyoxBRB7xMFXRtfar9jYCeU3zDFL+LdnZEP1BDuyRsPHpObr/pP
-   uqWkGCEI9je/6iNwwv5lvxowyVs0kktprceX8HDTMOFSf8yg7Iq/JHU47
-   OiFE24RX+tcDKD+sbxSdqLL9iD5mBRTRGi1WRt49phi3yKT97o29X2UQO
-   w==;
-X-CSE-ConnectionGUID: ohg7gR0oSoWaV1lvpxntIQ==
-X-CSE-MsgGUID: 31UPJw6dT4OzwKkgsnQQMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="19632948"
+  bh=zHfRPyfsr0uK3wHn68RXpeKQQIaoO2xCTX1YSzLO4tw=;
+  b=COwd+jVKN1WaGpb0leOGScF4jtvvbtAOz1qdpdZlJzKmCR6HU9r2em4m
+   STbLPh1Pnd7C0T2ahqwaBpSvutBiPNlNba0O7yr4Z7/e3abEQWkeKywgw
+   8S0TPINcZh4MIHCrcMwKLrsLyKnTvMCWbFe5NA+sf/BrkqI9LL+mSVdSJ
+   7ckkfACZWfXFUQFP8wWVNFMt8dsVC6vRhS3iODuhjaMAl0DI5pbvajzbt
+   RmTN6QmiMw7Z6qGS81JXsGYJ875epcYvO2LAxZpjvC1ylszccWbbUjeF2
+   vxtfY/M0OOIKKdWFBQ8fKxwTiAzbrDRjvIvJz7tNqBdow4zXo1XhedmRj
+   A==;
+X-CSE-ConnectionGUID: ZS8eDIE/QpKsUnJyCLCgwQ==
+X-CSE-MsgGUID: kCNEf9FjT6Kne0Jp4TENHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="19640165"
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="19632948"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 05:11:00 -0700
-X-CSE-ConnectionGUID: qziVTCdwTSugh9gtsTWKPQ==
-X-CSE-MsgGUID: Gg/uw8eORPmixavddrpmXw==
+   d="scan'208";a="19640165"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 05:59:02 -0700
+X-CSE-ConnectionGUID: F+DM7j8hQfa6ZRwi+CXx2A==
+X-CSE-MsgGUID: pZ7peDL4TFafotyqd8wNRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="46672742"
+   d="scan'208";a="73437673"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2024 05:10:59 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 Jun 2024 05:59:01 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKGcz-0007aU-0s;
-	Thu, 20 Jun 2024 12:10:57 +0000
-Date: Thu, 20 Jun 2024 20:10:20 +0800
+	id 1sKHNS-0007c6-0b;
+	Thu, 20 Jun 2024 12:58:58 +0000
+Date: Thu, 20 Jun 2024 20:58:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/000-devicetree 81/184]
- arch/arm64/boot/dts/apple/t602x-common.dtsi:573.28-576.5: Warning
- (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or
- ranges property, but no unit name
-Message-ID: <202406201932.8AN4lzh7-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:b4/dt-bindings-mfd-syscon-split 7/8]
+ arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: syscon@f9011000:
+ compatible: ['syscon'] is too short
+Message-ID: <202406202032.Dvhah0uI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,51 +63,167 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
-commit: 87d8ffbd5bb8f0a5e8fe2033790882065cb64f98 [81/184] arm64: dts: apple: Add initial t6022 support
-config: arm64-randconfig-001-20240607 (https://download.01.org/0day-ci/archive/20240620/202406201932.8AN4lzh7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201932.8AN4lzh7-lkp@intel.com/reproduce)
+tree:   https://github.com/krzk/linux b4/dt-bindings-mfd-syscon-split
+head:   0f4f5cdbae0695ae8533aec60f629593d2c818f8
+commit: 09928d5821f837e08a75e5ffab3d16d05893aac9 [7/8] dt-bindings: mfd: syscon: Split and enforce documenting MFD children
+config: arm-randconfig-051-20240619 (https://download.01.org/0day-ci/archive/20240620/202406202032.Dvhah0uI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406202032.Dvhah0uI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201932.8AN4lzh7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406202032.Dvhah0uI-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t602x-common.dtsi:573.28-576.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/apple/t602x-common.dtsi:578.34-581.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/apple/t602x-common.dtsi:583.22-586.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:294.14-310.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:312.14-321.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t602x-die0.dtsi:323.29-328.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t602x-die0.dtsi:91.42-94.7: Warning (unique_unit_address_if_enabled): /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:12.10-14.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
 --
->> arch/arm64/boot/dts/apple/t602x-common.dtsi:573.28-576.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/apple/t602x-common.dtsi:578.34-581.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/apple/t602x-common.dtsi:583.22-586.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:403.14-426.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:428.14-437.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t602x-die0.dtsi:323.29-328.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t602x-die0.dtsi:91.42-94.7: Warning (unique_unit_address_if_enabled): /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t602x-common.dtsi:12.10-14.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-
-vim +573 arch/arm64/boot/dts/apple/t602x-common.dtsi
-
- > 573			uat_handoff: uat-handoff {
-   574				reg = <0 0 0 0>;
-   575				no-map;
-   576			};
-   577	
- > 578			uat_pagetables: uat-pagetables {
-   579				reg = <0 0 0 0>;
-   580				no-map;
-   581			};
-   582	
- > 583			uat_ttbs: uat-ttbs {
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: pm8941@0: gpio@c000: 'otg' does not match any of the regexes: '-hog(-[0-9]+)?$', '-state$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: gpio@c000: 'otg' does not match any of the regexes: '-hog(-[0-9]+)?$', '-state$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,pmic-gpio.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: otg: $nodename:0: 'otg' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: panel@0: 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: /: qcom,board-id: False schema does not allow [[8, 0]]
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: /: qcom,msm-id: False schema does not allow [[194, 65536]]
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: pma8084@0: 'pwrkey@800' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pinctrl-[0-9]+', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: pwrkey@800: Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/input/qcom,pm8941-pwrkey.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: /soc/display-subsystem@fd900000/dsi@fd922800/panel@0: failed to match any schema with compatible: ['samsung,s6e3fa2']
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: pma8084@0: 'pwrkey@800' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pinctrl-[0-9]+', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: pwrkey@800: Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/input/qcom,pm8941-pwrkey.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: /soc/display-subsystem@fd900000/dsi@fd922800/panel@0: failed to match any schema with compatible: ['samsung,s6e3fa2']
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s5-p2_backup@e3: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/mode_backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s6-p2_backup@e4: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s7-p2_backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p1_backup@442: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p1_backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s4-p1_backup@444: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s5-p1_backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s8-p1_backup@448: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s9-p1_backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/qfprom@fc4bc000/s1-p2_backup@44c: duplicate unit-address (also used in node /soc/qfprom@fc4bc000/s2-p2_backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: l2-cache: Unevaluated properties are not allowed ('qcom,saw' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: syscon@f9011000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
