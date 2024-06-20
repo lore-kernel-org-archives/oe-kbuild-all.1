@@ -1,67 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331674685
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 00:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43149EEA6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 01:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718844906; cv=none; b=fX/35wUBjZsAf5KrpFzoDDWOndNRmdzjiwb8gONI8Fg+sHH2ZBCBQEEcrom1EigLPkkTtcx21VtWJg/+c5UJ3/AcUME7MdJw6MV7een2/gMXWL6HzEbJKKUPf74bDu1VIadQverc8mL8YtkSiPGd8zqoOiI1CCSRrxo1g1Vg1yo=
+	t=1718846888; cv=none; b=GGKWx41zA1Dw7DV4wFcqykFbfLD+LmZ5vBR7MbDLm4QNKWy0mFR6NlT3lx1z4IBYTLs/m+m5UiCjZl8y0B3FbI80CrT7TYFeB61UO44hpQRqZLMxRZBhvcWGV83K9Zc8EwqamHVyQTi/5lAMOVWfPDA7CdJTXezJfr1mdpprf2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718844906; c=relaxed/simple;
-	bh=n1QL+U4fIPrZYaKvpV4ICwIHrMT2ebrPVzqIB4RJsnY=;
+	s=arc-20240116; t=1718846888; c=relaxed/simple;
+	bh=tah7JHMloHYyyuXUkIuQdAVfA3S4etDUcECfCntNUiA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NC5B+6+gZ+SrxDy9SQvBXtdO/SGvDCKOJwh18FTYoyJNxkQSSXALHtEoiGSmNjtKnRS5B66RYaKDy0eUbxUZdl9qXXoL7bqDRjfZfNS6bdlJWmiBe49VWn5TD/66e5TGcQi+GFoYlv1zlrHjk0P9VRnrtAYGa+f4qPosDSrzi7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWjqmSpq; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=axCVs1ondF6ydrPez64avgisdGFmALer1OCHQ48xbFPoS7SqNOR2EPzHMZskaXI4T899NtAoSkmvfjCogRKnYAKEj4ggiR1DCrOJqPqPxZb5hOJuUFm8ApB/Ylv60D6ZZ4RPX464otONe0J0gcHP/ZZPAJRd0XjGt3K6TfOzUes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C9aSaS2z; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWjqmSpq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C9aSaS2z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718844905; x=1750380905;
+  t=1718846886; x=1750382886;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=n1QL+U4fIPrZYaKvpV4ICwIHrMT2ebrPVzqIB4RJsnY=;
-  b=DWjqmSpqpKtZMgyEBhLmetD1EbJ+gZtSpIs2TQCuI+bmjP8alYBeFRfP
-   mUPsVBITkusbcsxk1+JID1gqLXiUC+PXizGvirG5j0lMmpR+PD126o/Zx
-   fbjyfe6kS/Jla4f3L+2xfk/rjC11dhERzaSsQyLxK39eJJr2bU4vPnQUn
-   DOw1ymDpvVswMIQWj1nFc4ZNEjzTk1ggOtjTYwncESAW3s5+KgtEusLe6
-   hlgpKdsdsNze113HX/x8SvMt11bxUacvoJdCiV2NC5PTIVEoNHbjWUxSr
-   BrB9vKvu4dHf0XPZzYNM/fS2ocrz9PJ/9NLJV94MscdGZ+LnUpXxSty5k
-   g==;
-X-CSE-ConnectionGUID: tGwFFvgLSpuEKQFeu/rRCA==
-X-CSE-MsgGUID: 4JfiZWsVTLahNao2rVGlUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15514238"
+  bh=tah7JHMloHYyyuXUkIuQdAVfA3S4etDUcECfCntNUiA=;
+  b=C9aSaS2zKpSoxBDsfUpXOMkRoOoU+pz0Ge7FZ+Pk8lBLjLBOngZGc739
+   AsCyEmQTzVhbYV9VKXpG1axXN5747YmMT4RSuE7i4VO7tmrSn6wx4zX7O
+   gQp5GT2SUwmYQpo5P35ggpbnbu8ESu+AxsR01GBaa5SnPS3htG+eHbPNW
+   1/t29gPQjuwDa2WLbXLVZfBUOOqvZlt4eB0ej5wZxPU08aL14Cpu6Rvod
+   voKBJtixxyAhyZ4lu90HzSpe/OEzkDjLN1ACwLGaLrjgYdw4dg7T/4k5w
+   lyr+O7U1UoynZy/f3Ir82Ky9xqEfm437znHLN2UABImGYrurluHxxdfTW
+   w==;
+X-CSE-ConnectionGUID: OUk8kK3NTduKo4U7yFmauQ==
+X-CSE-MsgGUID: IDqybr7PSmKKjmmmh2FheA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="33349847"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15514238"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 17:55:05 -0700
-X-CSE-ConnectionGUID: bgKIzhe/QEqEMRzkBBOe4w==
-X-CSE-MsgGUID: HhCXmOfMS9+Uk2hXQFvTwg==
+   d="scan'208";a="33349847"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 18:28:06 -0700
+X-CSE-ConnectionGUID: B1iPLfK6S7Wzu53SOwNG0w==
+X-CSE-MsgGUID: WIg/bWvsRvSNbC4fn8CN6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="73267832"
+   d="scan'208";a="65328322"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jun 2024 17:55:02 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2024 18:28:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK64p-00079O-1x;
-	Thu, 20 Jun 2024 00:54:59 +0000
-Date: Thu, 20 Jun 2024 08:54:30 +0800
+	id 1sK6am-0007Bl-2k;
+	Thu, 20 Jun 2024 01:28:00 +0000
+Date: Thu, 20 Jun 2024 09:27:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anand Moon <linux.amoon@gmail.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: oe-kbuild-all@lists.linux.dev, Anand Moon <linux.amoon@gmail.com>,
-	linux-pci@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] PCI: rockchip: Simplify clock handling by using
- clk_bulk*() function
-Message-ID: <202406200818.CQ7DXNSZ-lkp@intel.com>
-References: <20240618164133.223194-2-linux.amoon@gmail.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: sa8775p-ride-r3: add new board file
+Message-ID: <202406200921.dxATkjA1-lkp@intel.com>
+References: <20240619183255.34107-3-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,72 +69,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618164133.223194-2-linux.amoon@gmail.com>
+In-Reply-To: <20240619183255.34107-3-brgl@bgdev.pl>
 
-Hi Anand,
+Hi Bartosz,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.10-rc4 next-20240619]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.10-rc4 next-20240619]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/PCI-rockchip-Simplify-reset-control-handling-by-using-reset_control_bulk-function/20240619-014145
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240618164133.223194-2-linux.amoon%40gmail.com
-patch subject: [PATCH v1 1/3] PCI: rockchip: Simplify clock handling by using clk_bulk*() function
-config: arc-randconfig-001-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200818.CQ7DXNSZ-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200818.CQ7DXNSZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/arm64-dts-qcom-move-common-parts-for-sa8775p-ride-variants-into-a-dtsi/20240620-023438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240619183255.34107-3-brgl%40bgdev.pl
+patch subject: [PATCH 2/2] arm64: dts: qcom: sa8775p-ride-r3: add new board file
+config: arm64-randconfig-051-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200921.dxATkjA1-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200921.dxATkjA1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200818.CQ7DXNSZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406200921.dxATkjA1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/pci/controller/pcie-rockchip-ep.c:20:
->> drivers/pci/controller/pcie-rockchip.h:311:31: error: array type has incomplete element type 'struct clk_bulk_data'
-     311 |         struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
-         |                               ^~~~
-
-
-vim +311 drivers/pci/controller/pcie-rockchip.h
-
-   298	
-   299	struct rockchip_pcie {
-   300		void	__iomem *reg_base;		/* DT axi-base */
-   301		void	__iomem *apb_base;		/* DT apb-base */
-   302		bool    legacy_phy;
-   303		struct  phy *phys[MAX_LANE_NUM];
-   304		struct	reset_control *core_rst;
-   305		struct	reset_control *mgmt_rst;
-   306		struct	reset_control *mgmt_sticky_rst;
-   307		struct	reset_control *pipe_rst;
-   308		struct	reset_control *pm_rst;
-   309		struct	reset_control *aclk_rst;
-   310		struct	reset_control *pclk_rst;
- > 311		struct  clk_bulk_data clks[ROCKCHIP_NUM_CLKS];
-   312		struct	regulator *vpcie12v; /* 12V power supply */
-   313		struct	regulator *vpcie3v3; /* 3.3V power supply */
-   314		struct	regulator *vpcie1v8; /* 1.8V power supply */
-   315		struct	regulator *vpcie0v9; /* 0.9V power supply */
-   316		struct	gpio_desc *ep_gpio;
-   317		u32	lanes;
-   318		u8      lanes_map;
-   319		int	link_gen;
-   320		struct	device *dev;
-   321		struct	irq_domain *irq_domain;
-   322		int     offset;
-   323		void    __iomem *msg_region;
-   324		phys_addr_t msg_bus_addr;
-   325		bool is_rc;
-   326		struct resource *mem_res;
-   327	};
-   328	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: usb@a4f8800: interrupt-names: ['pwr_event', 'hs_phy_irq', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: phy-mode:0: 'ocsgmii' is not one of ['internal', 'mii', 'gmii', 'sgmii', 'psgmii', 'qsgmii', 'qusgmii', 'tbi', 'rev-mii', 'rmii', 'rev-rmii', 'moca', 'rgmii', 'rgmii-id', 'rgmii-rxid', 'rgmii-txid', 'rtbi', 'smii', 'xgmii', 'trgmii', '1000base-x', '2500base-x', '5gbase-r', 'rxaui', 'xaui', '10gbase-kr', 'usxgmii', '10gbase-r', '25gbase-r']
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: Unevaluated properties are not allowed ('phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: phy-mode:0: 'ocsgmii' is not one of ['internal', 'mii', 'gmii', 'sgmii', 'psgmii', 'qsgmii', 'qusgmii', 'tbi', 'rev-mii', 'rmii', 'rev-rmii', 'moca', 'rgmii', 'rgmii-id', 'rgmii-rxid', 'rgmii-txid', 'rtbi', 'smii', 'xgmii', 'trgmii', '1000base-x', '2500base-x', '5gbase-r', 'rxaui', 'xaui', '10gbase-kr', 'usxgmii', '10gbase-r', '25gbase-r']
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: phy-mode:0: 'ocsgmii' is not one of ['internal', 'mii', 'gmii', 'sgmii', 'psgmii', 'qsgmii', 'qusgmii', 'tbi', 'rev-mii', 'rmii', 'rev-rmii', 'moca', 'rgmii', 'rgmii-id', 'rgmii-rxid', 'rgmii-txid', 'rtbi', 'smii', 'xgmii', 'trgmii', '1000base-x', '2500base-x', '5gbase-r', 'rxaui', 'xaui', '10gbase-kr', 'usxgmii', '10gbase-r', '25gbase-r']
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: phy-mode:0: 'ocsgmii' is not one of ['internal', 'mii', 'gmii', 'sgmii', 'psgmii', 'qsgmii', 'qusgmii', 'tbi', 'rev-mii', 'rmii', 'rev-rmii', 'moca', 'rgmii', 'rgmii-id', 'rgmii-rxid', 'rgmii-txid', 'rtbi', 'smii', 'xgmii', 'trgmii', '1000base-x', '2500base-x', '5gbase-r', 'rxaui', 'xaui', '10gbase-kr', 'usxgmii', '10gbase-r', '25gbase-r']
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
