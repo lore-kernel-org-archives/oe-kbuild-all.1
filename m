@@ -1,67 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FD119B3E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 14:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A991AD486
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 15:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718894480; cv=none; b=iOrvWdDdVCGq5V5p1+myrHrzmoFVsAhR4So3vJdWJEycS6yDrWJ6WIJfpt/Zi5+ckVMHXF1BgiOtMQ7YH9ctwqVZZA6QN4/4xWwudfFMZwzCTw9buonspadko6wrhb0gfG7Mi2xHbB4gtfdbf/aVI9lD8JUBufgxZmkZe2XxXyI=
+	t=1718896463; cv=none; b=q3Yk8MPyN8TjeZt10+Tu3JAtd/y998kqaapKFyPi8qRTq+yf+odG+sjch7+ZrTqbCahCisz5WQNhLCdzSb/gLHhmdJJiGSyKlwmkFQCvcd8/bmCKYD9AO4BPYmPan1q77HV87wc8F7i/4JsLU1vt9d3Tz8vxCLq/6Sw+OoRw84g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718894480; c=relaxed/simple;
-	bh=5ScJcEVT9hBda7ysTACD45tqpz9ZSLw8J/lH+rGCEh0=;
+	s=arc-20240116; t=1718896463; c=relaxed/simple;
+	bh=hchd0yzgV/Lu9QC2uQ3ylV/jLOxjSf3niBC2u+cVng8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fhc9VBcrvigN07F0du8ok6wQw1S2SIpcxrayj+vhhcaFBFTWHuRifuZ6Kcnv1K4kJtd9vueuGMY1QR17mN5Uuk5/lfsQHTg7Z9tkZDnU7u5OPhT6Rnef5eCHXmyFuzjLk+xKzN8XYDBm7knhabVca85vn06tXCvyCbtBksu2N1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwwT/lPb; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=hjt4rMs7sqH9mCN225Xx6nZ49uWTQJz9OQT3P9o6N04pgNBpj+gTPlzZtK0Z9mupyWd4d2Jck/mX0iTQBMAnKsUFZrRPv/bt+MQ6DxKlKUdrNGrTdcesGNSgqlLz4/00wrA7k7XOLEl/2+CKx16fLqf1Kn8xXktyZPluiSotTDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4KL8xx1; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwwT/lPb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4KL8xx1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718894479; x=1750430479;
+  t=1718896461; x=1750432461;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5ScJcEVT9hBda7ysTACD45tqpz9ZSLw8J/lH+rGCEh0=;
-  b=iwwT/lPb1ysTk0Ke0c0DEcVzcoQcLJHMD5Sd4XRJsBf+vusxV7dZ5cj/
-   qJIpH4ZAhEfLlFPpCDAHpS0u4g9xoFWGhwrJs6/kTObmlqATwehQVLBVk
-   hJ5nCnMiDRkwmhTLXG5+XOhHhF1wDxFHrc2WjA/u6+j8J23bUJVcAP7TH
-   SC9YqFsNLGWPmvfjeNjpSKehlkhKhYTGjhkAr907gmpKKBhkUi67NehaI
-   pkhZSFno9XwA8gWCBXvoHSSEfysDJavkY/yetSY7FehgLOqyZlVW7aNvO
-   BkDuf3NorYaMdEBKC5rf70Hj/zGK9mfKEXnLttpUpMS44GRLO94GbXHYW
-   Q==;
-X-CSE-ConnectionGUID: Q1NjdCMrStSWS6Q/pZawSQ==
-X-CSE-MsgGUID: g6NdmGz7RnW0ykagx40q4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="33415606"
+  bh=hchd0yzgV/Lu9QC2uQ3ylV/jLOxjSf3niBC2u+cVng8=;
+  b=G4KL8xx1wlRWPmhDPyB3s35Y4wemuEKGYdD/ZV8Kghp1Ysg88tj8CbiO
+   1An2EMJrFa6kcZeIHxbdZOS1g4rrpVUo6ptYA1lGK3PzdGzK85TgAYsVM
+   VcjVIc0j2etD311/QFg1437vbwrjjyez1yTpNmd0GHZbESC7TSn0Wuc09
+   Ted4k+adK7OpZUkMx9BUTdWVrHsWLj32Pe4kx40+NJ7+NrnbRPo3GxvNd
+   kT9RaqeU8/WY1t0/9JW8bBRT8pzJvnloZ60zp9X9OvRM/xrRFjF76TRei
+   IpjDMmAWbHbDDPyonzBMlx9FIK8VFPcT235lWXbehkehmpDIaJ+jZRY4F
+   w==;
+X-CSE-ConnectionGUID: mE/385CQSDSEt4uJE96MBg==
+X-CSE-MsgGUID: fzkALpgRSJ6EnRlizCBfgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="15756668"
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="33415606"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 07:41:09 -0700
-X-CSE-ConnectionGUID: F04vPV/tToidaLxiCN1z4w==
-X-CSE-MsgGUID: bTefi67oRq2jOEwZb0FxVQ==
+   d="scan'208";a="15756668"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 08:14:10 -0700
+X-CSE-ConnectionGUID: OkY8lUvwSuq2jPMqeWG5wA==
+X-CSE-MsgGUID: /JRLTXRCQlGqqL3nnQ75FQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; 
-   d="scan'208";a="73000408"
+   d="scan'208";a="42213460"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Jun 2024 07:41:07 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 20 Jun 2024 08:14:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKIyG-0007gK-2k;
-	Thu, 20 Jun 2024 14:41:04 +0000
-Date: Thu, 20 Jun 2024 22:40:28 +0800
+	id 1sKJUD-0007hU-2G;
+	Thu, 20 Jun 2024 15:14:05 +0000
+Date: Thu, 20 Jun 2024 23:13:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
+To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] net: dsa: mv88e6xxx: Add FID map cache
-Message-ID: <202406202033.cdjd66Gh-lkp@intel.com>
-References: <20240620002826.213013-1-aryan.srivastava@alliedtelesis.co.nz>
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] mctp pcc: Implement MCTP over PCC Transport
+Message-ID: <202406202206.9e7oGmfh-lkp@intel.com>
+References: <20240619200552.119080-4-admiyo@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,54 +69,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240620002826.213013-1-aryan.srivastava@alliedtelesis.co.nz>
+In-Reply-To: <20240619200552.119080-4-admiyo@os.amperecomputing.com>
 
-Hi Aryan,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main linus/master v6.10-rc4 next-20240619]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.10-rc4 next-20240619]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aryan-Srivastava/net-dsa-mv88e6xxx-Add-FID-map-cache/20240620-083100
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240620002826.213013-1-aryan.srivastava%40alliedtelesis.co.nz
-patch subject: [PATCH v1] net: dsa: mv88e6xxx: Add FID map cache
-config: arm-randconfig-003-20240620 (https://download.01.org/0day-ci/archive/20240620/202406202033.cdjd66Gh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406202033.cdjd66Gh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20240620-040816
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240619200552.119080-4-admiyo%40os.amperecomputing.com
+patch subject: [PATCH v2 3/3] mctp pcc: Implement MCTP over PCC Transport
+config: arm64-kismet-CONFIG_ACPI-CONFIG_MCTP_TRANSPORT_PCC-0-0 (https://download.01.org/0day-ci/archive/20240620/202406202206.9e7oGmfh-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240620/202406202206.9e7oGmfh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406202033.cdjd66Gh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406202206.9e7oGmfh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/dsa/mv88e6xxx/chip.c: In function 'mv88e6xxx_atu_new':
->> drivers/net/dsa/mv88e6xxx/chip.c:1960:13: warning: unused variable 'err' [-Wunused-variable]
-    1960 |         int err;
-         |             ^~~
-
-
-vim +/err +1960 drivers/net/dsa/mv88e6xxx/chip.c
-
-  1957	
-  1958	static int mv88e6xxx_atu_new(struct mv88e6xxx_chip *chip, u16 *fid)
-  1959	{
-> 1960		int err;
-  1961	
-  1962		*fid = find_first_zero_bit(chip->fid_bitmap, MV88E6XXX_N_FID);
-  1963		if (unlikely(*fid >= mv88e6xxx_num_databases(chip)))
-  1964			return -ENOSPC;
-  1965	
-  1966		/* Clear the database */
-  1967		return mv88e6xxx_g1_atu_flush(chip, *fid, true);
-  1968	}
-  1969	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ACPI when selected by MCTP_TRANSPORT_PCC
+   WARNING: unmet direct dependencies detected for ACPI
+     Depends on [n]: ARCH_SUPPORTS_ACPI [=n]
+     Selected by [y]:
+     - MCTP_TRANSPORT_PCC [=y] && NETDEVICES [=y] && MCTP [=y]
 
 -- 
 0-DAY CI Kernel Test Service
