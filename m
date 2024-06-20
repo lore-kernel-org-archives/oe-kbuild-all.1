@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCB31991B8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 08:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33964558A5;
+	Thu, 20 Jun 2024 09:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718872728; cv=none; b=Q7eVmIVFDfwBm7sVAx22awftqQjx9Ro3UAulz3kvWVBeOVipjqBWgci9TvSCTaTEIbvZmJVzB/s7QQF8nocpPi7DETvMIAsBkt70yZe9qbjXFLoJ1WvJELjTQVsHg+YTr8+1OgB1KPmnTb7AdUsxRx/AOL74W929DSM35nUrspo=
+	t=1718874650; cv=none; b=C+kDrJy+aTiTRK4m8NtgVMWBpkI7VJZJ1yoOqEby1AM5HgiAcGjpDx83Aflg7CyAOLDPq5A315gGR3KajoydYKxy7OAys/hM3Af0QDPecmwapQSMGOpwonXSdMaIDwSsX1vLr3fhOfRVoNbA91Bk3iqhRh9sTPm/Wcs9NgWozdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718872728; c=relaxed/simple;
-	bh=nUNb37LQf/rFfh4F+DXuEcF+KXMQ2p9VQrsoqy0ECq0=;
+	s=arc-20240116; t=1718874650; c=relaxed/simple;
+	bh=F456sOBBBjZh63C7WsovySLUgG91hs7pxxwqdFRbBLk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FRzvPA7Po5H/g2rSY/xit0Dte+/On2IP+kqzDOkIF9BNIQwPF/KAjEkw/ly5EXn/tZuFRnbZE1YchpscaWIda7FHZDSAz/bKo7NwZMkORN8X42VjBF2CwYN56YEIZEMb34z0bdZcBzxT689LsdczYueaMQ/z5+p8Hrx/zfyEGE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlovZTbg; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=CqGLn3IHaXgKw/NdBBMSyxw80MunKEsWAEEhAykyj3yqDCxevkyA3IPTIH2J5CBNGKZ7r77V7XZMcG9bYrAWm4QdmwBBnxRitT8v4a/4NY1Cx9U9h3a+mdib+mAHjRK/BMTJM5q23CeyLwE121FevULysrK3Y8aF/9S5iE8Hjn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asV1Iqia; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlovZTbg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asV1Iqia"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718872727; x=1750408727;
+  t=1718874649; x=1750410649;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nUNb37LQf/rFfh4F+DXuEcF+KXMQ2p9VQrsoqy0ECq0=;
-  b=SlovZTbghfAQFdRPG62r4G62NFBbOubSA2UkZgtLxztxlf5rEkPa2KMD
-   IOnHhI0iqrRzvWcF13eAR4V80XsqnvRiTD5kc4Xf54EGj6/s9YCQZwKhg
-   42W0kMi+Ior9pLrzFf+rL2Lr1kAngwuUUZLmgU3uEwo4S9NdPdpK9grs7
-   LGp/BIueyHoaQGEahNo0mkXVcXPFEnTEeU2YpD3zKxbzvcg0fcfdf0Moa
-   VctznBPe94aK44u73H3tKoHLTkiPLi/ONFfw0QZXiWFkFuX0+pIhOiFNf
-   6Rmqx5pFh7PFRu1eAAJ4qkAuXj0U/rKUKGiWX7t3XBcF8p9FWg4gvawkT
-   Q==;
-X-CSE-ConnectionGUID: GfHp/wH4RBS6Zs9AEY8u5Q==
-X-CSE-MsgGUID: xanUqmAVQRihQnKUs+Ld8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="12159289"
+  bh=F456sOBBBjZh63C7WsovySLUgG91hs7pxxwqdFRbBLk=;
+  b=asV1IqiaLSy6d6uBxqNVe7oDfq3YO3qy3rYv1O3Z0NOU6OBdzQwJ61br
+   S3sgO3eOamzB4Dq5VXF0H+c8y3BDH7VvHivhxy6Z78ZK0UKVCLTZNJh8X
+   c0yiBgdi7yEZ8qIjOkJHgxgVgkk9O17v9QNFUnCH/C0aRNRCeg3t+QSo7
+   wnD1K2a/ds0gv1T8tdUfDVFDgVN9iGFtk4X1FEhmg/ayfkIpfQNzy5FDm
+   Pa39bi/d1oNLqxU0WgWt++d41kkqut0HZr1CgjWGltk/wD6J3OMKLAUsh
+   a+ZquGxxDXWh0n/lnuivx5ajmnlt5pw6/VIFv8/3TSoSi3CX22hKSGyM3
+   A==;
+X-CSE-ConnectionGUID: dGFkmdMwSnOyS8RnlWDLwg==
+X-CSE-MsgGUID: GFQRmjJcS5WYOafy1dDs+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15958780"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="12159289"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 01:38:45 -0700
-X-CSE-ConnectionGUID: KzsQpKClSqyGQ6QHLerIGw==
-X-CSE-MsgGUID: yVvjWm7VS9udSAx3nG4bXw==
+   d="scan'208";a="15958780"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 02:10:48 -0700
+X-CSE-ConnectionGUID: QY7/vDlOS/WPvS+fPiIUvA==
+X-CSE-MsgGUID: 9TICgInqTuG3NLLQJPcGYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="46619326"
+   d="scan'208";a="42837542"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2024 01:38:43 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 Jun 2024 02:10:45 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKDJZ-0007Ro-1r;
-	Thu, 20 Jun 2024 08:38:41 +0000
-Date: Thu, 20 Jun 2024 16:37:46 +0800
+	id 1sKDoY-0007TI-0c;
+	Thu, 20 Jun 2024 09:10:42 +0000
+Date: Thu, 20 Jun 2024 17:10:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Luke D. Jones" <luke@ljones.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>
-Subject: [hid:for-next 1/2]
- include/linux/platform_data/x86/asus-wmi.h:174:64: warning: missing braces
- around initializer
-Message-ID: <202406201647.E2BChvPJ-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:for-next 51/55] error[E0425]: cannot find value
+ `QUEUE_FLAG_NONROT` in crate `bindings`
+Message-ID: <202406201714.7ufo4LvK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,63 +62,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-head:   fa9057ccb9c323816e0f2599a2d91f5c856b0004
-commit: bda38f9a41d89b47dce54932f88d0e0edee00cae [1/2] HID: asus: use hid for brightness control on keyboard
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240620/202406201647.E2BChvPJ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201647.E2BChvPJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+head:   43ccacc7be96b71bf8c1461036034f1174be2f4d
+commit: 69c34f07e45f2d52d9a41991867a1e5a85bbaaf3 [51/55] Merge branch 'for-6.11/block-limits' into for-6.11/block
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240620/202406201714.7ufo4LvK-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201714.7ufo4LvK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406201647.E2BChvPJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201714.7ufo4LvK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/hid/hid-asus.c:29:
->> include/linux/platform_data/x86/asus-wmi.h:174:64: warning: missing braces around initializer [-Wmissing-braces]
-     174 | static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
-         |                                                                ^
-
-
-vim +174 include/linux/platform_data/x86/asus-wmi.h
-
-   173	
- > 174	static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
-   175		{
-   176			.matches = {
-   177				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
-   178			},
-   179		},
-   180		{
-   181			.matches = {
-   182				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
-   183			},
-   184		},
-   185		{
-   186			.matches = {
-   187				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
-   188			},
-   189		},
-   190		{
-   191			.matches = {
-   192				DMI_MATCH(DMI_BOARD_NAME, "GA403"),
-   193			},
-   194		},
-   195		{
-   196			.matches = {
-   197				DMI_MATCH(DMI_BOARD_NAME, "GU605"),
-   198			},
-   199		},
-   200		{
-   201			.matches = {
-   202				DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
-   203			},
-   204		},
-   205		NULL,
-   206	};
-   207	
+>> error[E0425]: cannot find value `QUEUE_FLAG_NONROT` in crate `bindings`
+   --> rust/kernel/block/mq/gen_disk.rs:159:61
+   |
+   159  |             unsafe { bindings::blk_queue_flag_set(bindings::QUEUE_FLAG_NONROT, (*gendisk).queue) };
+   |                                                             ^^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `QUEUE_FLAG_NOMERGES`
+   |
+   ::: rust/bindings/bindings_generated.rs:9538:1
+   |
+   9538 | pub const QUEUE_FLAG_NOMERGES: u32 = 3;
+   | ---------------------------------- similarly named constant `QUEUE_FLAG_NOMERGES` defined here
+--
+>> error[E0425]: cannot find value `QUEUE_FLAG_NONROT` in crate `bindings`
+   --> rust/kernel/block/mq/gen_disk.rs:165:58
+   |
+   165  |                 bindings::blk_queue_flag_clear(bindings::QUEUE_FLAG_NONROT, (*gendisk).queue)
+   |                                                          ^^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `QUEUE_FLAG_NOMERGES`
+   |
+   ::: rust/bindings/bindings_generated.rs:9538:1
+   |
+   9538 | pub const QUEUE_FLAG_NOMERGES: u32 = 3;
+   | ---------------------------------- similarly named constant `QUEUE_FLAG_NOMERGES` defined here
 
 -- 
 0-DAY CI Kernel Test Service
