@@ -1,119 +1,98 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5C9156256
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 16:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B611B14FA;
+	Thu, 20 Jun 2024 16:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718901983; cv=none; b=sPUVPvitRjcp+5e5TR8FONf7MCS5FG9nXrFGeEE9LOMcV+fEaGoOcjNZrB2hWOOcYRzWKvtjP9lcUwRTsM+0NAOZ2j1RUbn8AgnSImBGfMLbW/RcbftxP6BVxmvbgfMNJ/DBDLG2dl//eKKt+Dg66N0xrfdyv3Ss5wLKwmdLkbM=
+	t=1718902550; cv=none; b=mq5H+qTFp5AUbD+iDliJdXjKRNiLePyV7EcMM/XmHSnfPqs3Uu1L/aZ2unOjCYlduVoVtxzRGMNGzLg2cEW7Y44hoVtsu/B23DneeD+z/qVcxWFmWsMrmXSx8ZCKuQKMD1rmxW2RtlFjtG5CFeJ1Qb41XDyPmS1VUo2X2vOUFRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718901983; c=relaxed/simple;
-	bh=54aGWPISAvctBRblmf+0XFEa7/fqePVDOYydqE9rpFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LW3y/UZLvZjRaS+r5H+5vIhyC470C1zJBUKFKHmbk7apC23mqVSiAZvuf3qiWrkt7Pq4R318l6iFazSJJuCZg6drprxBldnCBOv7Y9z4BIA/kpN/X/sQZhV83+97Gnia7BidsZ98LnqleAXhxBgS3YeOfX90aHKE2e/Sg/7/lpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-63267c30eaaso10812307b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 09:46:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718901980; x=1719506780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ALZMaxnKCu7LTyW4d3fTVKB34Y+6JED2cwcIVU/tvvk=;
-        b=hglA9yrs2MT67Ia2CWZynsy9h2glxLLM1xOsj5b4SDafR/gBTugu1x35xWM9oCOZ6J
-         X3s8+UCLb6RCz2UTI16JIIdXp+e/HphzLNCsrC1o2Yx/8uK1GCmPTuMgx0T9FDuioSN3
-         DIfUt7Jhqt/IQzaK8jOLFScHNsCYitFZXM9bHVbiP8p28pDbCl+/Pl3IWfNyX26untmi
-         k+KWh/jopGlDtjO+jRO1vfh61CWbBK1NFbKYPaBCJyr4Y8tobQvYiNqYOWegdAYmTId2
-         bZLy12bcpwZaW5gOI5wSLeemi5Am9bcouO7pKRikQP5y0hOI7HotS56HMHzTLzpuQEz0
-         SlGA==
-X-Gm-Message-State: AOJu0Yx2rfdDoBYJeA2JZAoxY66avGh14Rbi8i1lxBfL0ZDw97TT7B7/
-	hM8GOy6T06tFIT2NCKjL3poep6JX3513lSL8Pz80aJtYVFckJIdcrdrsJEGg
-X-Google-Smtp-Source: AGHT+IFkoFB5kArhzMH8cp+ULcq+73sZWj7oXool3qnNVw2w9oHue4QEX3MORuNmHDNCUYermifEzg==
-X-Received: by 2002:a81:b049:0:b0:63b:ab20:bc7e with SMTP id 00721157ae682-63bab20bf0bmr40631197b3.41.1718901979972;
-        Thu, 20 Jun 2024 09:46:19 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6311918f652sm31316057b3.74.2024.06.20.09.46.19
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jun 2024 09:46:19 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-632bcf111ffso10848597b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 09:46:19 -0700 (PDT)
-X-Received: by 2002:a81:71c4:0:b0:617:cbc7:26fe with SMTP id
- 00721157ae682-63a8dd02bd3mr61802667b3.16.1718901978494; Thu, 20 Jun 2024
- 09:46:18 -0700 (PDT)
+	s=arc-20240116; t=1718902550; c=relaxed/simple;
+	bh=A1JugA1kRbqTImg1GS9MvseGGROAflYsVVNFO9Eymkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G1OIB23y+u8n5ZGgMPmk9FPXAwPaOy8IELis8G2WcWcg3Xq0F0c0OsA8PdrrHkZSOdtHHBQqJOROWAfVlChEA9Oj8TKShcZXtvZ2u7WGlYy/ZimxftnyEhj5adZwL3XN26ZC2wVjdL7sNmNXsa+t883foDXqRxrzDJ8o9Ukvimw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bm9r+DOm; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bm9r+DOm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2819EC2BD10;
+	Thu, 20 Jun 2024 16:55:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718902550;
+	bh=A1JugA1kRbqTImg1GS9MvseGGROAflYsVVNFO9Eymkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bm9r+DOm3vNepyZmG6ENkJXODJ4erYYCurb/sueiOicXug5YBaF/ZvsWc1kuf2Bcx
+	 84y2DMPf20XLlr9NkTnq01iTYH1oalYb+0VTdEwIUt594ddvmUTF/fxe5JoXObxsVJ
+	 d7cMvBf8j/iSaw3cX0DcJ0fNU2V1UZpXbRisL6NxpjIwFUcebeVUmn49MjtOvoU1Sw
+	 uZjN7cj1B6rpKCAajFXds+/ZDgPokPiCJfAnV2BD57EBsEdORYnqCwmtfJ3f+TPNr/
+	 z0vae4nXfKteATQ3j7XBGOFASQy28ozvvsOGctSX3IJ0p5avNpqkSYg0K3y2JRkDFJ
+	 uRs1NWFNQVb7A==
+Date: Thu, 20 Jun 2024 17:55:43 +0100
+From: Lee Jones <lee@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v12 3/7] iio: core: Add new DMABUF interface
+ infrastructure
+Message-ID: <20240620165543.GR3029315@google.com>
+References: <20240620122726.41232-4-paul@crapouillou.net>
+ <ca3efef9-9720-46be-a59d-a9a4c5873ea2@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202406210035.ag62hCvj-lkp@intel.com>
-In-Reply-To: <202406210035.ag62hCvj-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Jun 2024 18:46:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVrO9ecPf7C=YLHqQ1j8hyhzm6Amhyvebd8+8pEkHje1g@mail.gmail.com>
-Message-ID: <CAMuHMdVrO9ecPf7C=YLHqQ1j8hyhzm6Amhyvebd8+8pEkHje1g@mail.gmail.com>
-Subject: Re: [morimoto:renesas-bsp/v6.1.94-2024-06-20 177/676]
- arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: /soc/i2c@e6510000/i2c-mux@71/i2c@7/audio-codec@44:
- failed to match any schema with compatible: ['ti,pcm3168a']
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ca3efef9-9720-46be-a59d-a9a4c5873ea2@web.de>
 
-On Thu, Jun 20, 2024 at 6:29=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.94-2024-06-20
-> head:   d0503e6510818ad3d8f152b7825e5110b81d8f7c
-> commit: 25b834b52bc2a786b5d268be3f66bfea36efd68d [177/676] arm64: dts: re=
-nesas: ulcb-kf: Fix pca9548 i2c-mux node names
-> config: arm64-randconfig-051-20240617 (https://download.01.org/0day-ci/ar=
-chive/20240621/202406210035.ag62hCvj-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 13.2.0
-> dtschema version: 2024.6.dev1+g833054f
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240621/202406210035.ag62hCvj-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406210035.ag62hCvj-lkp=
-@intel.com/
->
-> dtcheck warnings: (new ones prefixed by >>)
->    arch/arm64/boot/dts/renesas/r8a77951.dtsi:2770.25-2795.5: Warning (uni=
-que_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in=
- node /soc/pcie-ep@fe000000)
->    arch/arm64/boot/dts/renesas/r8a77951.dtsi:2797.25-2822.5: Warning (uni=
-que_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in=
- node /soc/pcie-ep@ee800000)
->    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: codec@10: 'port' doe=
-s not match any of the regexes: '^asahi-kasei,in[1-2]-single-end$', '^asahi=
--kasei,out[1-6]-single-end$', 'pinctrl-[0-9]+'
->         from schema $id: http://devicetree.org/schemas/sound/ak4613.yaml#
-> >> arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: /soc/i2c@e6510000/i2=
-c-mux@71/i2c@7/audio-codec@44: failed to match any schema with compatible: =
-['ti,pcm3168a']
+On Thu, 20 Jun 2024, Markus Elfring wrote:
 
-Missing backports:
+> …
+> > v11:
+> …
+> >     - Use guard(mutex)
+> >
+> > v12:
+> >     - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
+> >       as it uses cleanup GOTOs
+> …
+> 
+> I would find it nice if better design options could gain acceptance.
+> Will the chances grow to adjust scopes another bit for involved variables
+> in such function implementations?
+> 
+> A) Enclosing a source code part with extra curly brackets?
+> 
+> B) scoped_guard()?
+>    https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h#L137
+> 
+> C) Moving a locked source code part into a separate function implementation?
 
-13a7d9e992fa47bb ASoC: dt-bindings: ti,pcm3168a: Convert to json-schema
-7b71da59122c3ab8 ASoC: dt-bindings: Add missing
-(unevaluated|additional)Properties on child node schemas
+I think it would help your cause if you quoted the exact piece of code
+you're referring to.  Then tone down the language a bit - keep it as
+simple and natural as you can.
 
-Gr{oetje,eeting}s,
+Ex 1: Please place curly brackets around this section to aid with <reason>
 
-                        Geert
+Ex 2: To save N lines of clean-up, please use scoped_guard()
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Ex 3: Moving out this chunk to another function would help with <reason>
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Etc.
+
+-- 
+Lee Jones [李琼斯]
