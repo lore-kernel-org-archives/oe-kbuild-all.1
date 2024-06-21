@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D108216D33A;
-	Fri, 21 Jun 2024 10:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3109982D72
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 11:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718966223; cv=none; b=nU6g+3pLT+CWkxCkG91mNaUX/A+Tvumpku+mzRMIpPSgO5ICS91euPz9N3kuYU2JDXX50CwLURU77tuAMYYQl7jpa+PldhtheZCi0B+jKEm5vAWrYP+f7BkGJ0cdd0Cuwk/dUxUQPZyaVb8rmeeLYvjHVykh7EdlvfaADutdoeg=
+	t=1718968144; cv=none; b=FU4KSqPgT38K8AQN4OE8+sAA2/rGwQH70TEoriAQkhpnmmSV2mV9pYHEAcHAT04z2gtbzBoVDyrzCAYWMYm/WHgOpdeAAhP51itXqx4T0sYSzaTB/5zr/LTw6fepgno+S1kpKPCTj+uI+Nnmw+W4bvtxqTcG/drdC+UIaMIDWN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718966223; c=relaxed/simple;
-	bh=tZpjYMvrOzZxe5tS8XoMzGxFQgrVwTSKZizhwHVeYBA=;
+	s=arc-20240116; t=1718968144; c=relaxed/simple;
+	bh=yDYlFE01p1NJetOUbhfKrAtq9Jp++NBdF0O5R0O638c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lsKDzZlz6DG5PxjCkUJ7qFplrFTIAPFR9mL/T106cDSHvcjx1q0NGTPgqfiSdkSBtXG6RnTHTuBQrEYki+UQ8C6cJk2ww11Bobm34ZTlRkHVfDPExUQ+FAQEVWvLzqbF3HPVBZw/y2tkNoq0Kr+An5hgN3Smu6LbxJsZT3o33WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FO9I+OX/; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=dDX8Yq5nrkwQJDrRbrpbZdDf1A2a8BoHR+bkpcOlF2/XQ/FherKcSZxPKemZSQV/mAiqBSifGtQwa13Rt7gR1yXJRvAzNC0KzTfkTrA+CsuhBoa37AtNhnNhK4z6mNqQ2DFHy7vplrRzm3iAYzDnqL+lbApqLAcJwPfwPBP0IWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YauWFvi+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FO9I+OX/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YauWFvi+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718966221; x=1750502221;
+  t=1718968142; x=1750504142;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tZpjYMvrOzZxe5tS8XoMzGxFQgrVwTSKZizhwHVeYBA=;
-  b=FO9I+OX/LbDxXUL6hw+SM1sLyD7TZvgkm8c04umNtMOzZ4mHAGcFhPlj
-   +J94dfK7QkJrXjXG7wbVyi+NLcrxRD50kHN70q98R3HOQpU48bTvjd25M
-   c1wiid/CMxONqfaqYL04P5t6TPYWPG5UTOwCjaPtFS+NDD1z6REHVV/WA
-   2JmvkGfygIPStU+XXd94jquDXFVzxfNVqeW9zlBgU1a6JkJ6dKh05KkX1
-   Dbt+R9O+BX1/r/rMan/el0dyn2XZNvcnucQ/4a4g1zRCeDSEoWNMCbO6P
-   lYZOYdzOp6lGO6woRbkfZm5T7tdA0J+Uw9e0r1Q+QHvBpmeXkcwIzsWQy
+  bh=yDYlFE01p1NJetOUbhfKrAtq9Jp++NBdF0O5R0O638c=;
+  b=YauWFvi+BZpoEgXie5NtjNr1wBhfrlpyTyZnUDlOI4Uuz5rgB9zAV18J
+   aeV2b7d3cxhlqJ0DpdKHWt6WvnmsM7bsbo07e/MKScEyxblcai6yMOhmV
+   kNAKEmkFTwM28qsfNtCQI4NcQp/eYFrnkwE80OFVLjG8BIsM8GdWww0gN
+   hiP9XGFcq/FwH6t1O2ZeKp9ZSwgmmyJeJFR4nSzCRTbehiyo/KDKmbmly
+   QK9joeM1CDilD2AIbFB6nt+XBb6MuhtpDepMXn1eAGN21JWRRW4cmK+pr
+   MXfMs2jIdSuuU57lpPXMISJRkyBOQkOwRn1fm+YImFLuTVktZV7HBurUE
    A==;
-X-CSE-ConnectionGUID: A+OC9SfcS1CZgP68YtNmMw==
-X-CSE-MsgGUID: 7AwBcWqHTS24Vst7pbA7gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="18902406"
+X-CSE-ConnectionGUID: V/WKrk77SNmPYNc8AeVqbA==
+X-CSE-MsgGUID: 2Xd0v22mSPKzZmheZByC/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="38518580"
 X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
-   d="scan'208";a="18902406"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 03:37:00 -0700
-X-CSE-ConnectionGUID: 3Y/64gknR+uAuGGmUswNuQ==
-X-CSE-MsgGUID: Oi9Mtse2T/KeDOz+NldDmQ==
+   d="scan'208";a="38518580"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 04:09:02 -0700
+X-CSE-ConnectionGUID: lOAsTjorQsSlofnMJsJLPQ==
+X-CSE-MsgGUID: 27Fw1+9PSK6WsTt5K4U9Qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
-   d="scan'208";a="42630550"
+   d="scan'208";a="42653619"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Jun 2024 03:36:59 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 Jun 2024 04:08:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKbdZ-0008TK-0n;
-	Fri, 21 Jun 2024 10:36:57 +0000
-Date: Fri, 21 Jun 2024 18:36:24 +0800
+	id 1sKc8X-0008UI-2t;
+	Fri, 21 Jun 2024 11:08:57 +0000
+Date: Fri, 21 Jun 2024 19:08:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:to-build 2/15] ld.lld: error: undefined symbol:
- __ia32_compat_sys_io_pgetevents_time64
-Message-ID: <202406211852.a1e7U4K8-lkp@intel.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.19.y-cip 5982/9999]
+ arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning
+ (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node has
+ single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+Message-ID: <202406211935.SB0iWrcw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to-build
-head:   c2dd777003347c510f9fecc965fb3e65d7c79a43
-commit: 15153fb4dbea2439f889a2edf580c245559de325 [2/15] syscalls: fix compat_sys_io_pgetevents_time64 usage
-config: x86_64-randconfig-013-20240621 (https://download.01.org/0day-ci/archive/20240621/202406211852.a1e7U4K8-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406211852.a1e7U4K8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
+head:   80b2464ae89aaaa73b7a2daa3526c1ed9971ab5a
+commit: b43409d51c992069a74741fea9b6b20ab1154b2a [5982/9999] arm64: dts: renesas: r8a774e1: Add VIN and CSI-2 nodes
+config: arm64-randconfig-001-20240609 (https://download.01.org/0day-ci/archive/20240621/202406211935.SB0iWrcw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406211935.SB0iWrcw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406211852.a1e7U4K8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406211935.SB0iWrcw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: __ia32_compat_sys_io_pgetevents_time64
-   >>> referenced by syscall_32.c:38 (arch/x86/entry/syscall_32.c:38)
-   >>>               vmlinux.o:(ia32_sys_call)
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+--
+   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+--
+   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (unique_unit_address): /soc/pcie@fe000000: duplicate unit-address (also used in node /soc/pcie-ep@fe000000)
+   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (unique_unit_address): /soc/pcie@ee800000: duplicate unit-address (also used in node /soc/pcie-ep@ee800000)
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
 
 -- 
 0-DAY CI Kernel Test Service
