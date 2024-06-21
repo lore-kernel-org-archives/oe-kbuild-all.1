@@ -1,82 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568A359155
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 20:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0193E12C54B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 21:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719002071; cv=none; b=gNIKaF/JwGIi/JjdEEFhDE2ryB7zIXPTi7P6us71U+jRTeEBNBoJUxEvLKd48bKS8tJFz3kZ5NXTXg6w+PjY5TU/I8108J0JLNW/h9DwXOpx7m6QyPcFTnDYAJcjjWnP/PwPbyY4nvMq+KtZy6zu5EI2VZ9pYDAB36vDvE7o4To=
+	t=1719004525; cv=none; b=i6jLtO05MWV2Ad60KrkiMoxDHchwDIIvLfsMLd1slj5i1fdXsdujauRqfUOp5m93JLaWmpG6fAHhM1VPAVPt8JvQ+Sa7+kx/Ngr+XWskKR6S3GmdpwI8kdx03TtHv/oaBEF04kfWO7EMRBK1D7CnZS/jp7yfP7CsoKUO27Whf5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719002071; c=relaxed/simple;
-	bh=g+pouUiiT7AeZC4HcBnx+iVl1hBdooJPKlXz8f+L6E4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+BUgS7WfWgWo2QLEJx/yOr4a5N4khbW3mMWQGzd9rQUHwdyTxkza+M+q4fUo+pEua6ZlMPTzn4URoveCzHx+EIAOkHh8Mx/MT2Vmwh3N8zRi/20UXLOjLC9YO8R8Qbn4n5bbq7zMbm8agYqlhtduPGHD0F82qhL9KebakoG12E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SD438gxj; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1719004525; c=relaxed/simple;
+	bh=fxvFSHyHhmn/eryMFOppkvCTE3FriwF1zljqbYypgNE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gfYIsV85jkEUIPbpm3GtDrggepDfPZ4pOfx2pE7JzlD7sg+GFnmiY8SaDKgvKw5AsetvX8HiiVrsCDCn13QTHFnVEXFTwIqanj6fSV0XS/dWeyDFGB2dI94qaLWbe4Qrxmq/vovq9iAuExiKuD9YZ56qdpxk0nnJjkCdyx7yDiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AsipR8eH; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SD438gxj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AsipR8eH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719002069; x=1750538069;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g+pouUiiT7AeZC4HcBnx+iVl1hBdooJPKlXz8f+L6E4=;
-  b=SD438gxjfaW0H6Ot29Y7gVWTQfsjT7ugHgQL5YNXNfYpGc4GF5TqneXN
-   q+PV3Dubj5Ses4G05Iod2ROHaONSjMu/fuvcAjk6nWpVJ0ViXbhtEXViW
-   uSOZdRIJUkzodAC2Ezcqt9twg1Wk63Zy0IRVOWxa892rRi6beYh+p3u4i
-   zFYpTzhJgMl9eBzzZzuc4eg9nsf5t7dkwTE6g2hpf9jhgeNEomolpniip
-   quXHH/PlFiY4u6tZLM2TprIxymZxLaJogiS2FkOTl/J5kH3QHg2PNtVS9
-   Li5xAiJV7G0VS5gJIQJA8b7M5LZCbqe+FWAvmjGimrnS1YZoxiULTlX7p
-   g==;
-X-CSE-ConnectionGUID: zb6KOJ9MRJ2/iyDkxpbElQ==
-X-CSE-MsgGUID: HCSjq+UhQ1u+q1FIv27aNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="16285625"
+  t=1719004524; x=1750540524;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fxvFSHyHhmn/eryMFOppkvCTE3FriwF1zljqbYypgNE=;
+  b=AsipR8eH7Y8ngTqbcd+Saef1Kl1I7FG+8TRL8g9zzjw4+iAOmYXpdkQk
+   PNR9u0g3wQEyMym+pA5H0s6Y94LfbL488TdvT5NKeNq4dSbnxCcPQymzL
+   RvL+T1D2jx3EALkbm0EA0dK0lD3PMIw3TBAsaWprP2t31zR6mW97h6YTx
+   vssZzMwoAni72jl+x6VDYXBxlouS4uTRfwqay0pbM8hm66E7t82bevRpJ
+   GgohXyUJUyOB8zxHgRRLXXvOU9s1yBoKA1GY/HCXT8Lzfw7SZ8tYtZ3re
+   thKGRVOEq5Aj2RrA+bXoS68EEnq/Rwx3KqIZCB7HLVZNl+x0RyPDxukDI
+   Q==;
+X-CSE-ConnectionGUID: P/Rvp2J1QmqA7m9Zu5iWWQ==
+X-CSE-MsgGUID: ffEeDiUCRdmzUMCbOHTJpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="15814073"
 X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
-   d="scan'208";a="16285625"
+   d="scan'208";a="15814073"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 13:34:28 -0700
-X-CSE-ConnectionGUID: vjURhEvVTDqAJ4kaNuOtEg==
-X-CSE-MsgGUID: LfHac5txTsiEbj3rI22Gnw==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 14:15:23 -0700
+X-CSE-ConnectionGUID: Psgg5KnLRBK/RCO/GCPMIQ==
+X-CSE-MsgGUID: UzpoBPfmRgWOkbHscOo+Kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
-   d="scan'208";a="73910113"
+   d="scan'208";a="73918129"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Jun 2024 13:34:22 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Jun 2024 14:15:22 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKkxf-0008za-1z;
-	Fri, 21 Jun 2024 20:34:19 +0000
-Date: Sat, 22 Jun 2024 04:33:31 +0800
+	id 1sKlbM-00090g-16;
+	Fri, 21 Jun 2024 21:15:20 +0000
+Date: Sat, 22 Jun 2024 05:14:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 17/23] mfd: add s2dos series core driver
-Message-ID: <202406220455.UpxNyPhg-lkp@intel.com>
-References: <20240618-starqltechn_integration_upstream-v3-17-e3f6662017ac@gmail.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:rust/cpufreq-dt 14/26] error[E0425]: cannot find function
+ `clk_get` in crate `bindings`
+Message-ID: <202406220556.9WHpEeYw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,80 +61,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-17-e3f6662017ac@gmail.com>
 
-Hi Dzmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6906a84c482f098d31486df8dc98cead21cce2d0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20240618-222456
-base:   6906a84c482f098d31486df8dc98cead21cce2d0
-patch link:    https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-17-e3f6662017ac%40gmail.com
-patch subject: [PATCH v3 17/23] mfd: add s2dos series core driver
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240622/202406220455.UpxNyPhg-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220455.UpxNyPhg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
+head:   628de6b80d860108301bd4b60aab350d3e0e9e5e
+commit: f7ab4a39ec5b92abb428e639d69830b4d078234b [14/26] rust: Add bindings for clk framework
+config: x86_64-randconfig-005-20240622 (https://download.01.org/0day-ci/archive/20240622/202406220556.9WHpEeYw-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220556.9WHpEeYw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406220455.UpxNyPhg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406220556.9WHpEeYw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mfd/s2dos-core.c: In function 's2dos05_i2c_probe':
->> drivers/mfd/s2dos-core.c:88:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      88 |         int ret = 0;
-         |             ^~~
-
-
-vim +/ret +88 drivers/mfd/s2dos-core.c
-
-    79	
-    80	
-    81	static int s2dos05_i2c_probe(struct i2c_client *i2c)
-    82	{
-    83		struct s2dos_core *s2dos05;
-    84		struct regmap *regmap;
-    85		struct device *dev = &i2c->dev;
-    86	
-    87		unsigned int reg_data;
-  > 88		int ret = 0;
-    89	
-    90		s2dos05 = kzalloc(sizeof(struct s2dos_core), GFP_KERNEL);
-    91		if (!s2dos05)
-    92			return -ENOMEM;
-    93	
-    94		regmap = devm_regmap_init_i2c(i2c, &s2dos05_regmap_config);
-    95		if (IS_ERR(regmap)) {
-    96			dev_err(dev, "Unable to initialise I2C Regmap\n");
-    97			return PTR_ERR(regmap);
-    98		}
-    99		s2dos05->regmap = regmap;
-   100	
-   101		if (regmap_read(regmap, S2DOS05_REG_DEV_ID, &reg_data) < 0) {
-   102			dev_err(dev,
-   103				"device not found on this channel (this is not an error)\n");
-   104			ret = -ENODEV;
-   105		} else {
-   106			dev_info(dev, "%s device found with id: .0x%x\n",
-   107					__func__, reg_data);
-   108		}
-   109	
-   110		i2c_set_clientdata(i2c, s2dos05);
-   111	
-   112		debugfs_file = debugfs_create_file("s2dos05-regs",
-   113					0664, NULL, (void *)s2dos05,
-   114					  &s2dos05_debugfs_fops);
-   115		if (!debugfs_file)
-   116			dev_err(dev, "Failed to create debugfs file\n");
-   117	
-   118		return mfd_add_devices(dev, -1, s2dos05_devs,
-   119				ARRAY_SIZE(s2dos05_devs), NULL, 0, NULL);
-   120	}
-   121	
+>> error[E0425]: cannot find function `clk_get` in crate `bindings`
+   --> rust/kernel/clk.rs:29:23
+   |
+   29 |             bindings::clk_get(dev.as_raw(), con_id)
+   |                       ^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `clk_put` in crate `bindings`
+   --> rust/kernel/clk.rs:42:28
+   |
+   42 |         unsafe { bindings::clk_put(self.0) };
+   |                            ^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
