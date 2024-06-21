@@ -1,108 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D84155C82;
-	Fri, 21 Jun 2024 08:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CC916D4FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 08:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718958081; cv=none; b=uvR69YPPPOthDPfPWxtY+NiN/Bj6sxTf/wqtojvFGN1tvUSgwnuhZnG9rDXU9iMVbJ9FyMOnS5+ibEX5C7y5XQNribDwRf9xLmqhdi+8pimTsWaQVUTgdUP6uLRHWVc72U6PYhe7EQgD+LBE2e8hvZwnS5UHT3I8vxvt+hTyOdU=
+	t=1718959918; cv=none; b=Dr0Un2rKbeRuXR7VfawSBUPeaTCMqxrjvivp8tPvGqaMSB1sbpFCxVhK9oxohS4u+0AVIOFYvxAHIk1nUhGf1ka9FwmpOsGj28zN7F01RJaPWOpMGAtKd/fJLblCiPCJE88wuljpvN8MSzFOrj6TqbqjFFUgR3/U8fFK2C8/Qps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718958081; c=relaxed/simple;
-	bh=QMtf0T6uDNCP6ThgxIUGFi47LfMO2/ulDirJ4mXjisY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UHkfZjYs+MKj7nwMqD2vGeW2c3pbILR8EAr3bE83VLXzpSd9z6/XdkVyHOjTDvDFI5UfFi1wVCp33Dtf6Qgtl4mFl67nKMjqUIDrVNfoZ/KppQ8QlxYiFOkQaXIiF3LKApsfB6MJfTKUavDgkslqkflDjjai0sk63OaAxIRFl8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VZFGUieu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718959918; c=relaxed/simple;
+	bh=dwuY4Gn9sV3isswhFRY5J36Uv3UysT2RnyLRvdGl3nQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gsPpWealXNXyrVT2YEux1YpAH0xM2uME4oLAuZ3PGf9Uo4Tlw6rTFKt09RkKKo4KoQiVhy0yOYtg+WqYo79T68PuGg2H/ERJhBNesvnMQVhwLtgmdHfEU4XFNQ999PzBAJhUF9Bwwj03N8tn38O1ovDoLt9D3Wj3zm9lHVvLGNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8jisj3P; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VZFGUieu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9536C4AF08;
-	Fri, 21 Jun 2024 08:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718958080;
-	bh=QMtf0T6uDNCP6ThgxIUGFi47LfMO2/ulDirJ4mXjisY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VZFGUieuixjnwWRarKrkMmWzTsHwOPQHkDnxJwsAOSI5Jhnj99ryVH33FrLocz8Vn
-	 ajhhezpNAxlr4qrsLKoW8egu3wGklMisIPIGR7fvy4gfhGh2kxFSubfki8EmLTGeqC
-	 FyNF6c+n9pHbcHgwI9omP7yG8Dbu5r7NL+bHQnZpXGWmAiNXQIhI61MO4uI4v+LAfB
-	 xgTleMqki5tjcafqHOsHci8B6Shewb4T8SEsWCMvgeQoX2/IGg/+pD/hxyZbRFdj/5
-	 60fqXFWW8FllRMXbMhWzg2/S3kF8EDze2ZQgoDbnj5FdlGcCcVmJHaUnZsK3Nklji7
-	 ujcmBQOVYa8Nw==
-Date: Fri, 21 Jun 2024 09:21:14 +0100
-From: Lee Jones <lee@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: lkp@intel.com, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [RFC] Patch review challenges
-Message-ID: <20240621082114.GH1318296@google.com>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
- <ZnRUSaHJhz7XLcKa@matsya>
- <20240620170522.GU3029315@google.com>
- <ZnUnFeum1Z2ahm9M@matsya>
- <ebddd644-b9b1-4a87-a2e7-dcf255f4184d@web.de>
- <20240621075123.GG1318296@google.com>
- <302ce128-a0ef-41b4-9808-210a83bc6a48@web.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8jisj3P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718959916; x=1750495916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dwuY4Gn9sV3isswhFRY5J36Uv3UysT2RnyLRvdGl3nQ=;
+  b=N8jisj3PdFbH4ACoAlOIQbMgewTGjGZ+FyZFeCumVLfqNAN8++5mRdKl
+   2EqfqtsXhq30hZlcc6xEBlZaT4yfo/RBxvLbRfAmKgTq8+5WgwIlWi37x
+   tFuvu/AGaYFI+LDDPpfseZmFNRVU8geGJzuIEI/kvvc6YIbC3zKZItpOE
+   8KFKNXWtsiw0GXFLdhLhgC/4odnEwfvtZC0/vkFrN+igdQeFO2bz9cLem
+   xKP8DsvK7wtlbN0sIOubtvsZ/PknsHXFMHhD9DJ/mJ3GzZv2psJbinTfk
+   eALwgKiAePn5yTZoawNfuuorqX8MBfQ2b+G/8oMNfnHHibcMmPKOytMIp
+   g==;
+X-CSE-ConnectionGUID: LOxn84TETkOz7yEVe/6wpA==
+X-CSE-MsgGUID: /8Nk4QD8Td2GILIZ5+T8nQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="38506825"
+X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
+   d="scan'208";a="38506825"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 01:51:56 -0700
+X-CSE-ConnectionGUID: uc4fGjnLQpmgBhKYtx6VYA==
+X-CSE-MsgGUID: gdjMse7kRd+qGL5PIeW5KA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
+   d="scan'208";a="42624668"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Jun 2024 01:51:53 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKZzs-0008PC-32;
+	Fri, 21 Jun 2024 08:51:52 +0000
+Date: Fri, 21 Jun 2024 16:51:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:to-build 2/15]
+ ./arch/x86/include/generated/asm/syscalls_32.h:417:undefined reference to
+ `__ia32_compat_sys_io_pgetevents_time64'
+Message-ID: <202406211657.Z89ja9Dt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <302ce128-a0ef-41b4-9808-210a83bc6a48@web.de>
 
-On Fri, 21 Jun 2024, Markus Elfring wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to-build
+head:   c2dd777003347c510f9fecc965fb3e65d7c79a43
+commit: 15153fb4dbea2439f889a2edf580c245559de325 [2/15] syscalls: fix compat_sys_io_pgetevents_time64 usage
+config: x86_64-randconfig-001-20240621 (https://download.01.org/0day-ci/archive/20240621/202406211657.Z89ja9Dt-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406211657.Z89ja9Dt-lkp@intel.com/reproduce)
 
-> > The issue is one of communication and the way reviews are conducted.
-> >
-> > Reviewing other people's work is challenging and requires a certain
-> > skill-set, of which _excellent_ communication skills are non-negotiable.
-> 
-> Patch feedback and change tolerance can vary also according to involved communities.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406211657.Z89ja9Dt-lkp@intel.com/
 
-Agreed.
+All errors (new ones prefixed by >>):
 
-For this community, I suggest you build your skills for a while longer.
-
-> > Why not concentrate on more complex submissions for a while and grow
-> > your repertoire of common review points,
-> 
-> Further collateral evolution can be considered there depending on
-> corresponding development resources.
-> 
-> > rather than repeating the same few over and over?
-> 
-> Some factors are probably known also according to corresponding statistics.
-> Several contributors are stumbling on recurring improvement possibilities
-> in published information.
-
-Right, this will always be true, however the few you've picked up on
-are not important enough to keep reiterating.  By doing so, you're
-receiving undesirable attention.
-
-> > Reading other, more experienced maintainer's reviews would also be a good use
-> > of your time.
-> 
-> I am trying to influence adjustments in desirable directions for a while.
-
-Never stop trying to improve.
-
-
-These are only my opinions of course.  Take the advice or leave it.
-
-There's no need to reply to this.
+   ld: vmlinux.o: in function `ia32_sys_call':
+>> ./arch/x86/include/generated/asm/syscalls_32.h:417:(.text+0x8370): undefined reference to `__ia32_compat_sys_io_pgetevents_time64'
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
