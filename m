@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE0182D68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC4D82D72
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 02:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718935878; cv=none; b=im2IiBCWSrjgui9FknQ2f8g8javOGnEpQj0g1uYa9A/zHJ/PTnR9OCLQUZAeCD0ru1l7PqU1cGJiyyn3VXnd7nd5OHbNl5hwBiKGXe2Dzz+g6V/VvG1ELEjXETSliZ4rWJ49nTd/qSyVkHQ+k7oJGWBdqtN/2vL1tj06cqNRhmk=
+	t=1718935878; cv=none; b=JrwMK4ZsBrJ8vqJY7dHJkuo85AV19LcWlZykondjQGOGIHJMlFCBvq9CEkyFYYpyTWMV3ZsqR9H8DqTa1dQ68bW3T0uF5unEKS8tC6okKDtH2vDp6Y8jLgo9b81o/MjRUy2AiuVSnAJVsK+wQ3C7s9CTZupLWUM1hUDreQeE534=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718935878; c=relaxed/simple;
-	bh=YdzBh/5RVl/BIDyrMEwfRAJkOcmZL/gpjFcnPbvW2ec=;
+	bh=fkKBRMexMoyD9QY0ZJWI0+TIJvk0CtIJBIpPafxJcGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GQlu29IuzsIGTf84lnh2W7FIcDlTuEuk8yTafhirSYRCFe6/Ikosbip5Gdwzg8aI3t5C5vlt9RivOrsu4CUQ1D8d031zw1DMewP8AhFlEjxX9/madtems4jvotmWi/gxInFkuUPspRs7QolZqEHkag3tDcImXAY3F/skdZV8Zkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/geZVt0; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=UZ5b+TyAbBk2KUoUe4cOqP73R14Q5ajVCmFhEnzx4z26XKno+Yd36/75EBeSzaLm+qEYbp2j83N3qLxvmUCRLHvZwy4LfCVdI+sWpPgiIhAlVerD+b/vA+bxapSzqsUuOR/se+qeo9kMMGXCw5DI26yjYdDpx6nHlzV31D5H9Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNk37aeL; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/geZVt0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNk37aeL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718935876; x=1750471876;
+  t=1718935877; x=1750471877;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YdzBh/5RVl/BIDyrMEwfRAJkOcmZL/gpjFcnPbvW2ec=;
-  b=k/geZVt0rT+mpYeOfsuVQN5Cy9l81kHqpfve0MqLGzxXf26azuD38X6f
-   UAHifSnjWl5RfFBQXycHwVt50qHhj39Kmxj5tdy3GNLyyMmbGeNHijdLE
-   dRDX16b+aUzA/l/JSNSZXSGpiSQhUOlvF9p9iRJTZP6mHauZn0n39O53c
-   CoMUW/xx9OUNgDnFybj+wzttonLXqwozrZ22bF2AbPxc3pyPmuMqxiloZ
-   nvJ7l0W1h4dcbFhhEXUs5oZt+sRfIHCDNGl5JH8ny2ezbOgLDUO3qvRAx
-   rlhrpBUE8ybAk+FZk1YAwtFoJtgewhIvgw2NN/AdMernFnT8X+Upb99nY
-   Q==;
-X-CSE-ConnectionGUID: RM1Tw0+CTkG9U4Bgu14WJA==
-X-CSE-MsgGUID: nSszWZJgRFWYV4KLE632Sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16096255"
+  bh=fkKBRMexMoyD9QY0ZJWI0+TIJvk0CtIJBIpPafxJcGc=;
+  b=kNk37aeLA22+Njlyjm/XTFdeuUj58mQBpVG9IEOQSRq5hSweKsOrscIs
+   bLZpJaN5K1XXCMj9ZoKsrnnsmAWGtOWTuBa0VXPlsJXIP7KT58wPMegcZ
+   K+H6II6VLIz1Q406HXKekm7d38m9jobKJPTPyf6FGTziQ7YpjKegjBJ+a
+   U0aJ1qR+sd08o3X8DzZMAYwb/1io+angpUcXkFV6+1IpymWgDxb0jzz/v
+   zGMnY8mUduFcFI43GGlfopjVzo/LnnDbZI7wCUOSHPZT6oDEj1HspAR+o
+   l+asoLV2RbVABORZe/MneJ9GL/gEEJbFZA+FaDjPB/ppaOhkYS06y/JRn
+   w==;
+X-CSE-ConnectionGUID: Nm6R+3SqTLSj+f6e9wCCEQ==
+X-CSE-MsgGUID: TujlQ+peQje1NaS3fclgig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16096259"
 X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="16096255"
+   d="scan'208";a="16096259"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 19:11:14 -0700
-X-CSE-ConnectionGUID: Jru93vvqTXSeIwpcgClhlQ==
-X-CSE-MsgGUID: VYtWRDn7Q1W72lreVktjZg==
+X-CSE-ConnectionGUID: sKUfL5J5TiqCMbrDHoOtbA==
+X-CSE-MsgGUID: 6bmLjkmTSd6szs9DTv6Cew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="42522758"
+   d="scan'208";a="42522754"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 20 Jun 2024 19:11:12 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKTk6-000870-1T;
+	id 1sKTk6-00086w-15;
 	Fri, 21 Jun 2024 02:11:10 +0000
-Date: Fri, 21 Jun 2024 10:10:36 +0800
+Date: Fri, 21 Jun 2024 10:10:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kairui Song <kasong@tencent.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Huang, Ying" <ying.huang@intel.com>
-Subject: [linux-next:master 6383/7397] mm/page_io.c:283:41: error: implicit
- declaration of function 'swap_dev_pos'
-Message-ID: <202406210911.j0JhlO0N-lkp@intel.com>
+To: Prasanth Babu Mantena <p-mantena@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 77/88]
+ arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning
+ (avoid_unnecessary_addr_size):
+ /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202406210927.u0QMtkFV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,154 +66,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b992b79ca8bc336fa8e2c80990b5af80ed8f36fd
-commit: d2b0c82185149e17ca3efc51c74c643c21668d63 [6383/7397] mm/swap: get the swap device offset directly
-config: x86_64-randconfig-014-20240202 (https://download.01.org/0day-ci/archive/20240621/202406210911.j0JhlO0N-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210911.j0JhlO0N-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   a71ffc827394d68b5d873555d67674f0b5868430
+commit: 0741ba93d7db69bc8e084f822ed3be35b86de6a0 [77/88] arm64: dts: k3-j721s2: Add node for OSPI NAND Flash
+config: arm64-randconfig-051-20240620 (https://download.01.org/0day-ci/archive/20240621/202406210927.u0QMtkFV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210927.u0QMtkFV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406210911.j0JhlO0N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406210927.u0QMtkFV-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning (avoid_unnecessary_addr_size): /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi:1926.34-1935.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: syscon@40f00000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: pinctrl@11c000: 'dp0-pins-default', 'main-i2c4-pins-default' do not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: video-codec@4210000: 'sram-size' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
+   arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dtb: navss-sram@30000000: $nodename:0: 'navss-sram@30000000' does not match '^sram(@.*)?'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
 
-   mm/page_io.c:78:5: warning: no previous prototype for 'generic_swapfile_activate' [-Wmissing-prototypes]
-      78 | int generic_swapfile_activate(struct swap_info_struct *sis,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_io.c:179:5: error: redefinition of 'swap_writepage'
-     179 | int swap_writepage(struct page *page, struct writeback_control *wbc)
-         |     ^~~~~~~~~~~~~~
-   In file included from mm/page_io.c:28:
-   mm/swap.h:105:19: note: previous definition of 'swap_writepage' with type 'int(struct page *, struct writeback_control *)'
-     105 | static inline int swap_writepage(struct page *p, struct writeback_control *wbc)
-         |                   ^~~~~~~~~~~~~~
-   mm/page_io.c: In function 'swap_writepage':
-   mm/page_io.c:209:9: error: implicit declaration of function '__swap_writepage'; did you mean 'swap_writepage'? [-Werror=implicit-function-declaration]
-     209 |         __swap_writepage(folio, wbc);
-         |         ^~~~~~~~~~~~~~~~
-         |         swap_writepage
-   mm/page_io.c: At top level:
-   mm/page_io.c:252:5: warning: no previous prototype for 'sio_pool_init' [-Wmissing-prototypes]
-     252 | int sio_pool_init(void)
-         |     ^~~~~~~~~~~~~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/page_io.c:14:
-   mm/page_io.c: In function 'sio_write_complete':
->> mm/page_io.c:283:41: error: implicit declaration of function 'swap_dev_pos' [-Werror=implicit-function-declaration]
-     283 |                                    ret, swap_dev_pos(page_swap_entry(page)));
-         |                                         ^~~~~~~~~~~~
-   include/linux/printk.h:436:33: note: in definition of macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:658:17: note: in expansion of macro 'printk'
-     658 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:672:9: note: in expansion of macro 'printk_ratelimited'
-     672 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   mm/page_io.c:282:17: note: in expansion of macro 'pr_err_ratelimited'
-     282 |                 pr_err_ratelimited("Write error %ld on dio swapfile (%llu)\n",
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/kern_levels.h:5:25: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 3 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:436:25: note: in definition of macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:658:17: note: in expansion of macro 'printk'
-     658 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:672:9: note: in expansion of macro 'printk_ratelimited'
-     672 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:672:28: note: in expansion of macro 'KERN_ERR'
-     672 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                            ^~~~~~~~
-   mm/page_io.c:282:17: note: in expansion of macro 'pr_err_ratelimited'
-     282 |                 pr_err_ratelimited("Write error %ld on dio swapfile (%llu)\n",
-         |                 ^~~~~~~~~~~~~~~~~~
-   mm/page_io.c: In function 'swap_writepage_bdev_sync':
-   mm/page_io.c:343:33: error: implicit declaration of function 'swap_folio_sector'; did you mean 'zswap_folio_swapin'? [-Werror=implicit-function-declaration]
-     343 |         bio.bi_iter.bi_sector = swap_folio_sector(folio);
-         |                                 ^~~~~~~~~~~~~~~~~
-         |                                 zswap_folio_swapin
-   mm/page_io.c: At top level:
-   mm/page_io.c:375:6: warning: no previous prototype for '__swap_writepage' [-Wmissing-prototypes]
-     375 | void __swap_writepage(struct folio *folio, struct writeback_control *wbc)
-         |      ^~~~~~~~~~~~~~~~
-   mm/page_io.c:375:6: warning: conflicting types for '__swap_writepage'; have 'void(struct folio *, struct writeback_control *)'
-   mm/page_io.c:209:9: note: previous implicit declaration of '__swap_writepage' with type 'void(struct folio *, struct writeback_control *)'
-     209 |         __swap_writepage(folio, wbc);
-         |         ^~~~~~~~~~~~~~~~
-   mm/page_io.c:393:6: error: redefinition of 'swap_write_unplug'
-     393 | void swap_write_unplug(struct swap_iocb *sio)
-         |      ^~~~~~~~~~~~~~~~~
-   mm/swap.h:80:20: note: previous definition of 'swap_write_unplug' with type 'void(struct swap_iocb *)'
-      80 | static inline void swap_write_unplug(struct swap_iocb *sio)
-         |                    ^~~~~~~~~~~~~~~~~
-   mm/page_io.c: In function 'swap_read_folio_fs':
-   mm/page_io.c:440:25: error: implicit declaration of function 'swap_read_unplug'; did you mean 'swap_write_unplug'? [-Werror=implicit-function-declaration]
-     440 |                         swap_read_unplug(sio);
-         |                         ^~~~~~~~~~~~~~~~
-         |                         swap_write_unplug
-   mm/page_io.c: At top level:
-   mm/page_io.c:496:6: error: redefinition of 'swap_read_folio'
-     496 | void swap_read_folio(struct folio *folio, bool synchronous,
-         |      ^~~~~~~~~~~~~~~
-   mm/swap.h:76:20: note: previous definition of 'swap_read_folio' with type 'void(struct folio *, bool,  struct swap_iocb **)' {aka 'void(struct folio *, _Bool,  struct swap_iocb **)'}
-      76 | static inline void swap_read_folio(struct folio *folio, bool do_poll,
-         |                    ^~~~~~~~~~~~~~~
-   mm/page_io.c:537:6: warning: no previous prototype for '__swap_read_unplug' [-Wmissing-prototypes]
-     537 | void __swap_read_unplug(struct swap_iocb *sio)
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +523 arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi
 
-
-vim +/swap_dev_pos +283 mm/page_io.c
-
-   264	
-   265	static void sio_write_complete(struct kiocb *iocb, long ret)
-   266	{
-   267		struct swap_iocb *sio = container_of(iocb, struct swap_iocb, iocb);
-   268		struct page *page = sio->bvec[0].bv_page;
-   269		int p;
-   270	
-   271		if (ret != sio->len) {
-   272			/*
-   273			 * In the case of swap-over-nfs, this can be a
-   274			 * temporary failure if the system has limited
-   275			 * memory for allocating transmit buffers.
-   276			 * Mark the page dirty and avoid
-   277			 * folio_rotate_reclaimable but rate-limit the
-   278			 * messages but do not flag PageError like
-   279			 * the normal direct-to-bio case as it could
-   280			 * be temporary.
-   281			 */
-   282			pr_err_ratelimited("Write error %ld on dio swapfile (%llu)\n",
- > 283					   ret, swap_dev_pos(page_swap_entry(page)));
-   284			for (p = 0; p < sio->pages; p++) {
-   285				page = sio->bvec[p].bv_page;
-   286				set_page_dirty(page);
-   287				ClearPageReclaim(page);
-   288			}
-   289		}
-   290	
-   291		for (p = 0; p < sio->pages; p++)
-   292			end_page_writeback(sio->bvec[p].bv_page);
-   293	
-   294		mempool_free(sio, sio_pool);
-   295	}
-   296	
+   463	
+   464	&ospi0 {
+   465		status = "okay";
+   466		pinctrl-names = "default";
+   467		pinctrl-0 = <&mcu_fss0_ospi0_pins_default>;
+   468	
+   469		ospi0_nor: flash@0 {
+   470			compatible = "jedec,spi-nor";
+   471			reg = <0x0>;
+   472			spi-tx-bus-width = <8>;
+   473			spi-rx-bus-width = <8>;
+   474			spi-max-frequency = <25000000>;
+   475			cdns,tshsl-ns = <60>;
+   476			cdns,tsd2d-ns = <60>;
+   477			cdns,tchsh-ns = <60>;
+   478			cdns,tslch-ns = <60>;
+   479			cdns,read-delay = <4>;
+   480	
+   481			partitions {
+   482				compatible = "fixed-partitions";
+   483				#address-cells = <1>;
+   484				#size-cells = <1>;
+   485	
+   486				partition@0 {
+   487					label = "ospi.tiboot3";
+   488					reg = <0x0 0x80000>;
+   489				};
+   490	
+   491				partition@80000 {
+   492					label = "ospi.tispl";
+   493					reg = <0x80000 0x200000>;
+   494				};
+   495	
+   496				partition@280000 {
+   497					label = "ospi.u-boot";
+   498					reg = <0x280000 0x400000>;
+   499				};
+   500	
+   501				partition@680000 {
+   502					label = "ospi.env";
+   503					reg = <0x680000 0x40000>;
+   504				};
+   505	
+   506				partition@6c0000 {
+   507					label = "ospi.env.backup";
+   508					reg = <0x6c0000 0x40000>;
+   509				};
+   510	
+   511				partition@800000 {
+   512					label = "ospi.rootfs";
+   513					reg = <0x800000 0x37c0000>;
+   514				};
+   515	
+   516				partition@3fc0000 {
+   517					label = "ospi.phypattern";
+   518					reg = <0x3fc0000 0x40000>;
+   519				};
+   520			};
+   521		};
+   522	
+ > 523		ospi0_nand: nand@0 {
+   524			compatible = "spi-nand";
+   525			reg = <0x0>;
+   526			spi-tx-bus-width = <8>;
+   527			spi-rx-bus-width = <8>;
+   528			spi-max-frequency = <25000000>;
+   529			cdns,tshsl-ns = <60>;
+   530			cdns,tsd2d-ns = <60>;
+   531			cdns,tchsh-ns = <60>;
+   532			cdns,tslch-ns = <60>;
+   533			cdns,read-delay = <2>;
+   534			#address-cells = <1>;
+   535			#size-cells = <1>;
+   536			status = "disabled";
+   537	
+   538			partitions {
+   539				compatible = "fixed-partitions";
+   540				#address-cells = <1>;
+   541				#size-cells = <1>;
+   542	
+   543				partition@0 {
+   544					label = "ospi_nand.tiboot3";
+   545					reg = <0x0 0x80000>;
+   546				};
+   547	
+   548				partition@80000 {
+   549					label = "ospi_nand.tispl";
+   550					reg = <0x80000 0x200000>;
+   551				};
+   552	
+   553				partition@280000 {
+   554					label = "ospi_nand.u-boot";
+   555					reg = <0x280000 0x400000>;
+   556				};
+   557	
+   558				partition@680000 {
+   559					label = "ospi_nand.env";
+   560					reg = <0x680000 0x40000>;
+   561				};
+   562	
+   563				partition@6c0000 {
+   564					label = "ospi_nand.env.backup";
+   565					reg = <0x6c0000 0x40000>;
+   566				};
+   567	
+   568				partition@2000000 {
+   569					label = "ospi_nand.rootfs";
+   570					reg = <0x2000000 0x5fc0000>;
+   571				};
+   572	
+   573				partition@7fc0000 {
+   574					label = "ospi_nand.phypattern";
+   575					reg = <0x7fc0000 0x40000>;
+   576				};
+   577			};
+   578		};
+   579	};
+   580	
 
 -- 
 0-DAY CI Kernel Test Service
