@@ -1,77 +1,60 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B07136E21
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 06:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F8412C498
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 06:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718952331; cv=none; b=b8VHHxGC4wgk1N3Q6Ul86BW6bkPVEwmOespZzrdxF5d0A/MrRWOozc4mWdmguxl4FMcgopTHrER/kFEM3gWbZceDU8k/CoSYIcKT91/Iyu7G9su7iBlOkwAtbeWlnvV2nZ3iNHFOQI/gdWs7LwZn8eTKlyx/NIVrMD8KK3CtawA=
+	t=1718952354; cv=none; b=Yvp22hjBSb21uCs69QtBFqjWjfapXlN275MBQWt9VVekU75eYYLEgR4hpGf8KZvJBHNldMKw9eDjLxgvivtfmUPRHwVzVXjl65eZ06xPAdZblHhNRLMAPRNH2kmbsWJOlrxQA9mcPpGacu373DUuDjsESmNic2mTbhUVhY5PL2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718952331; c=relaxed/simple;
-	bh=CpakMGBjVArJKEohlvyKPx8MWVCmNQuSsutsRiluHbQ=;
+	s=arc-20240116; t=1718952354; c=relaxed/simple;
+	bh=6VaR9qGwVZkxnzUAAYhAY+AY6Qnv3N8ZFxrLMYNAAZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bwCt97xupfbJ5eJUUTaUkwfxieDgjH1vawCp4YYv5qgjvjVEbEDAOzMO0DHtSyxrs1+X9HvFfSONGvmUatvehTdjKkpT5d9Dj8cwDlyPRowrZ3iaUCW9Xl909S+3Ic2whhTWjFV4FIC8+WJDI8ULHKiinBHY46vjbOGEiL87Qnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TPOvWivc; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=lzE+woQISWkzN2CMheZmYCQ6iXdyvWxDiLptKjMjltGjQWH2DBore8+UDkukkLI9SN2fH2oGW9LWBS728W4MuuKvzmouM1GBXNba/96rzfMBRs9Uv42nd5Kp7xddf27FIf1HeRHIhxqIoR51beVIMx4UCIExy+tHZMlndWRzhyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaOPazvL; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TPOvWivc"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a6f7720e6e8so190688766b.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 23:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718952328; x=1719557128; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LOYpscBQcVLtcb6ya8dy1caHHgeSBmzhIDNmZBhcMlI=;
-        b=TPOvWivc9d8BTvUEdrKpfreU46ulsEsUuidGGhtuD+MO/ITmcz2o1IQ1WkmJnS17Sf
-         ipyj8cdblPLWBhRwrZzB7dkHZlHvJ3VciFNzX4zonmgd/wwrhYReX5602p2AdbrO3sw6
-         7KQd58wEYqf60QKcpzPUl072uZsDg1nZL2qr9CLe78JWLD4eljdKVuTlfond4XreNcUU
-         yYmQl5DFYDEtTgq0M8B1+ps6HvWBEwIvkbbbOAQJ71bijTVRvBDaok9E3JQBweaEir3+
-         9mFdlo6SQ3KDpqtN+cEF/Y1uawmSaroh1ezr1SIc2iqygvmIG4+Uh3MpHd7dv2GAQz1v
-         o6DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718952328; x=1719557128;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LOYpscBQcVLtcb6ya8dy1caHHgeSBmzhIDNmZBhcMlI=;
-        b=ehB45qJZRavwrSPk4RzjXaAoWFYKVrWuy+nQWod+6aTjKX7kxNoN4n02F+miYtq8XO
-         Uyu+gb4evOWC8XTJ9h5v7LE6hLO3f4Ao9mvzd/GDLxlEJZ0Sv578YeERgXuPAWs+AcxC
-         9uC/AX5U1Y71j4B5Kynd6LlqJ3E8A2nGfbj8Ro5NG/TYpc8fmRD56yN8oNBQETSAVqY2
-         bLt8PNQEiCCMPXqvF7dV39FkVHgbYtCg9mEnh15lIX8Vg8u2ZgC4RwWFq+qDEXtK7fpP
-         TsWgnXyXWn+27ryTXfYAxO6YtO6OsotlTpcURMj4K0Bdadoumhc8rMRZNmtUG7EaFIu/
-         EzTw==
-X-Forwarded-Encrypted: i=1; AJvYcCVb3zYABzXDffzeu4evPJPRfKLNh11cifmHlfkT9WcX90a7HwxunlUiES9n95RZDTgUPH6L7wrXgK+UsX9RoEYqs14E+bHyPUxbBo0T7Q==
-X-Gm-Message-State: AOJu0YwuZjuUQ03NNW0IU/MRbZryXHo90kJQjj8ogG7L5/x7UkhbmTDr
-	hDcaKAzFxKl3vtN8fq7NfLausSNimBfSuQknNQIM6g4G/0SnPep43r3KU4eFN60=
-X-Google-Smtp-Source: AGHT+IE/RW1qpDBHJvcW0UivXwa6iqk3KIN1A0ymm7K1Pe8/Mtu6FQAOmwoZl7dSUg6M4QXhNlB/5A==
-X-Received: by 2002:a17:907:874e:b0:a6f:ab9c:7779 with SMTP id a640c23a62f3a-a6fab9c7942mr627533266b.9.1718952328231;
-        Thu, 20 Jun 2024 23:45:28 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560908sm48090766b.184.2024.06.20.23.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 23:45:27 -0700 (PDT)
-Date: Fri, 21 Jun 2024 09:45:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Hironori KIKUCHI <kikuchan98@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hironori KIKUCHI <kikuchan98@gmail.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] drm/panel: st7701: Add support for SPI for
- configuration
-Message-ID: <dceac1a6-25bf-4d04-a049-4c67846027f2@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaOPazvL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718952353; x=1750488353;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6VaR9qGwVZkxnzUAAYhAY+AY6Qnv3N8ZFxrLMYNAAZY=;
+  b=kaOPazvLLfsJp+ZTp0tXHRNVr81avdCsoC9ykmulbB9zF2EZ4ySN13mS
+   L/toS0vOG8nSCg8b86fbem6NXkX+yYNwNEoRDH5NvhF4mMmL6sHDjPmhr
+   XB+qdsoOKcjYEY3A4SFhUkOg2f/eUq4AV99XwQCqfOehOIFATdW8LCwwx
+   sViKItSB1j6i+VwH/KcgZ5ve3w2Zop1+/wDA5exHkVqJ79lY1O4JbYmMj
+   dEzxtKbQ7m3sC1CA88kVntyfxoVh8qPNVFqKR0WYqDF2dhHXRlEpP2e5t
+   2ROH3gZPXqfA7v85G5RrmSuuflBbThYOOU6LT0kk28cRgwtosMM7nuzaw
+   w==;
+X-CSE-ConnectionGUID: RtG2ZikjR0Cd10tR7rw/2Q==
+X-CSE-MsgGUID: ZN7UfuJSRZGIEG5eW85RkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="16112979"
+X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
+   d="scan'208";a="16112979"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 23:45:52 -0700
+X-CSE-ConnectionGUID: iwKFpjfUQ9mhyzLw44D3ig==
+X-CSE-MsgGUID: Jw6sXk2xQ669pR1qIURAaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
+   d="scan'208";a="47020391"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 20 Jun 2024 23:45:50 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKY1s-0008Ie-0M;
+	Fri, 21 Jun 2024 06:45:48 +0000
+Date: Fri, 21 Jun 2024 14:45:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/000-devicetree 105/184]
+ arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning
+ (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges
+ property, but no unit name
+Message-ID: <202406211404.sKKxVnVg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,66 +63,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618081515.1215552-3-kikuchan98@gmail.com>
 
-Hi Hironori,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hironori-KIKUCHI/dt-bindings-display-st7701-Add-Anbernic-RG28XX-panel/20240618-161849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240618081515.1215552-3-kikuchan98%40gmail.com
-patch subject: [PATCH v1 2/3] drm/panel: st7701: Add support for SPI for configuration
-config: i386-randconfig-141-20240621 (https://download.01.org/0day-ci/archive/20240621/202406210841.Q17G5ISz-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: 52edad018f60b03d03b158825bbe928343a1b7a2 [105/184] arm64: dts: ISP platform configs
+config: arm64-randconfig-001-20240607 (https://download.01.org/0day-ci/archive/20240621/202406211404.sKKxVnVg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406211404.sKKxVnVg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406210841.Q17G5ISz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406211404.sKKxVnVg-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/panel/panel-sitronix-st7701.c:1076 st7701_dsi_probe() warn: passing zero to 'dev_err_probe'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t600x-common.dtsi:439.28-442.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-common.dtsi:444.34-447.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-common.dtsi:449.22-452.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:403.14-426.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:428.14-437.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:243.29-248.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:147.42-150.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
+   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.28-417.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:419.34-422.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:424.22-427.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103-j313.dts:123.14-140.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8103-j313.dts:142.14-151.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8103.dtsi:604.30-609.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8103.dtsi:1013.43-1016.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/panic-count@2)
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:573.28-576.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:578.34-581.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:583.22-586.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:403.14-426.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:428.14-437.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:377.29-382.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:91.42-94.7: Warning (unique_unit_address_if_enabled): /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/panic-count@2)
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:12.10-14.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.28-417.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:419.34-422.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:424.22-427.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103-j293.dts:179.14-198.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8103-j293.dts:200.14-209.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8103.dtsi:604.30-609.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8103.dtsi:1013.43-1016.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/panic-count@2)
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:455.28-458.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112.dtsi:460.34-463.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112.dtsi:465.22-468.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112-j413.dts:156.14-175.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112-j413.dts:177.14-186.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:698.30-704.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:1009.28-1085.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8112.dtsi:1049.43-1052.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:455.28-458.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112.dtsi:460.34-463.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112.dtsi:465.22-468.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112-j415.dts:168.14-191.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112-j415.dts:193.14-202.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:698.30-704.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:1009.28-1085.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8112.dtsi:1049.43-1052.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:455.28-458.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112.dtsi:460.34-463.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112.dtsi:465.22-468.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8112-j493.dts:160.14-179.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112-j493.dts:181.14-190.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:698.30-704.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:1009.28-1085.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8112.dtsi:1049.43-1052.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.28-417.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:419.34-422.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:424.22-427.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103-j457.dts:91.14-100.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8103.dtsi:604.30-609.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8103.dtsi:1013.43-1016.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/panic-count@2)
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.28-417.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:419.34-422.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103.dtsi:424.22-427.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t8103-j456.dts:118.14-127.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8103.dtsi:604.30-609.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8103.dtsi:1013.43-1016.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@f/legacy_nvmem@9f00/panic-count@2)
+   arch/arm64/boot/dts/apple/t8103.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
 
-vim +/dev_err_probe +1076 drivers/gpu/drm/panel/panel-sitronix-st7701.c
+vim +18 arch/arm64/boot/dts/apple/isp-common.dtsi
 
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1062  static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1063  {
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1064  	struct st7701 *st7701;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1065  	int err;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1066  
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1067  	err = st7701_probe(&dsi->dev, DRM_MODE_CONNECTOR_DSI);
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1068  	if (err)
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1069  		return err;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1070  
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1071  	st7701 = dev_get_drvdata(&dsi->dev);
-849b2e3ff96982 Jagan Teki       2019-01-25  1072  	st7701->dsi = dsi;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1073  	st7701->write_command = st7701_dsi_write;
-849b2e3ff96982 Jagan Teki       2019-01-25  1074  
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1075  	if (!st7701->desc->lanes)
-433b7d46874577 Hironori KIKUCHI 2024-06-18 @1076  		return dev_err_probe(&dsi->dev, err, "This panel is not for MIPI DSI\n");
-                                                                                                ^^^
--EINVAL?
-
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1077  
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1078  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1079  			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1080  	dsi->format = st7701->desc->format;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1081  	dsi->lanes = st7701->desc->lanes;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1082  
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1083  	mipi_dsi_set_drvdata(dsi, st7701);
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1084  
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1085  	err = mipi_dsi_attach(dsi);
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1086  	if (err)
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1087  		return dev_err_probe(&dsi->dev, err, "Failed to init MIPI DSI\n");
-c62102165dd792 Marek Vasut      2022-10-15  1088  
-c62102165dd792 Marek Vasut      2022-10-15  1089  	return 0;
-433b7d46874577 Hironori KIKUCHI 2024-06-18  1090  }
+  > 18			isp_heap: isp-heap {
+    19				compatible = "apple,asc-mem";
+    20				/* Filled in by bootloder */
+    21				reg = <0 0 0 0>;
+    22				no-map;
+    23			};
+    24		};
+    25	};
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
