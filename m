@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C5D2C6BD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 23:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC25317C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 00:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718927196; cv=none; b=a/XbwuK+rikqiX2znj5qCEEHul2Z2wQguiIEP9CTEtn2Yqaq4ZhaPy4JQ1/eHymRjRgzcdBWyUdX+hDooSuseH0hnQG/CUK3J2rlagMsH6tssNlSvbKP1JVcmO0uvNafUhDA/8LQJsIA+hFercZbw48YLxz+7UZiQGtUoLHhu/I=
+	t=1718928597; cv=none; b=nKvjcPA04nSYVBIV387MRdI5JHQponDKa55H1LLdzOyIrUe1d0w/pEz6PYItYZJ+M8aZjcjmDgRfzQRPtNZVdX/Asffzt4lrvrbtzZpj17/yH/7wnTuGjLzqp77QAnIZ/DFzz14Y/XBGzKuhch4Br3gafKXmEKWRws8Sb0fndzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718927196; c=relaxed/simple;
-	bh=2bpWyHIZOsgubBVePt47OHtU+kJ8Myxt9Kt0c50kCT4=;
+	s=arc-20240116; t=1718928597; c=relaxed/simple;
+	bh=6E24uIgbm9Pueu+lVJKEVGKxtKK5CQYyIvkUyzQHVC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YHc13XSB0S650Ftz+j45ONvpo6AOxJkXzfDH/2Wk65k5vP07jldMACXXs4X3nWFS6dIbDWRppAzlVaUlh9LcI7vnJW38OsUSNo2N18MkeKT31SSb7QYsjpEDiddc9LLA+1lvy742JqMkMe7kF6ZErBs8EuY1M3Z6PmmRQMT/b4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jj3K2/k6; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=HLbb05+QS63ezCCvtlr0RBHwMwiWQLcT5x6JV9eIsrc6ghDnbM/dK+s6mAGnNzPJEaOgqsi5xZKgr4LkQ1fugCnA1kYINNVGIQ82crPdjt4rosfJtda4FZq8xRxRigGR/nh6ZRaMWMUiHVk+pJKYXBLR9QHld4DOf4kGKB1R33s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oo3/FDI+; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jj3K2/k6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oo3/FDI+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718927195; x=1750463195;
+  t=1718928594; x=1750464594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2bpWyHIZOsgubBVePt47OHtU+kJ8Myxt9Kt0c50kCT4=;
-  b=jj3K2/k6M4ZZVRamMu1xx8SYx1tDNxZYP9c91XgPr0/h0q16Eam0STXm
-   dS7wutUnwWlswuKBL9GwXA0Mk0evQgs9Dh0H0zc/BNpBxlVe6xXBQKKXJ
-   8NQR4t4EYUZ54rJ5VYTBIk+6LU3SGG/OoABQdHQIyeaegJYX1/bcC3/Q3
-   HW/KacolukruewO4dDqqADYUCn8eMsamThWnrEEQM58homimHZd/fy9ot
-   WMR8xOXTfRxzO2iotAxHoW3jx/6N1yyURZdwqZQ83qTJY8V+Kz7ifSlAv
-   tuA6OjSRXCKDEkdgidi6cXprZtVBo8qYj+UYnAl62xlsUkM+oVPZdGXka
-   g==;
-X-CSE-ConnectionGUID: r/TYzXMrQu64+a1mmv/qAA==
-X-CSE-MsgGUID: hc4jLEbzTnK9O+0tzl+2fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="15771441"
+  bh=6E24uIgbm9Pueu+lVJKEVGKxtKK5CQYyIvkUyzQHVC8=;
+  b=Oo3/FDI+/Tf3ZXir+Vd1FUyYV+bOul9EBbP4KmsOagpmoJPnNhtM86sM
+   4MFimKvgOSAsS/Jov6VOAXah+0z3yC3le+g5VoBFoiiWmsEvmqajjuP6X
+   jKw+un1aKS5BQ+vQMazJeMTsAzNAwsyx6fSAtAiNpiOXfGe5/AjUfZ/8B
+   4h5qCWNydUEXokXt+QSlAmgldAuFgar1bxY8l8xJ0JfebWg5mIptsFAnS
+   QqXjo5RM66KV89Ke4h9WwVSQ7nT/nl5vdKJBSRb5XJryga67bP4Z/FPvY
+   Mu1qAQtnNrPcvMiXk5DMWJ5JPB2AJ5hUTZdjuhk5vX39FcQqj+gkDNco3
+   Q==;
+X-CSE-ConnectionGUID: +k2lIaOGS8qLoAKsTUV8Yg==
+X-CSE-MsgGUID: PT/OM48wTn+oAN4xBfxIzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="15823291"
 X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="15771441"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 16:46:35 -0700
-X-CSE-ConnectionGUID: btvds8KaRZCUDcyrrR0QDQ==
-X-CSE-MsgGUID: FQGSAHy5SGioMGLmMk9zOg==
+   d="scan'208";a="15823291"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 17:09:54 -0700
+X-CSE-ConnectionGUID: q90uwV3jT+mvGc14VBU7LA==
+X-CSE-MsgGUID: n+8BYeWjRPaNNll5SmqDKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="65654087"
+   d="scan'208";a="42866463"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Jun 2024 16:46:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 20 Jun 2024 17:09:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKRU6-00081m-2V;
-	Thu, 20 Jun 2024 23:46:30 +0000
-Date: Fri, 21 Jun 2024 07:46:07 +0800
+	id 1sKRqg-00082s-0W;
+	Fri, 21 Jun 2024 00:09:50 +0000
+Date: Fri, 21 Jun 2024 08:09:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [bluetooth-next:master 14/15]
- arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddrfacmn-supply' is a
- required property
-Message-ID: <202406210706.WvRRDs6P-lkp@intel.com>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: ERROR: modpost: "acpi_spi_count_resources"
+ [drivers/platform/x86/serial-multi-instantiate.ko] undefined!
+Message-ID: <202406210732.ozgk8IMK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,55 +63,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-head:   4029dba6b6f105e052272bed37bc82f0ce3e0de3
-commit: 251180e6dba54e9bc83b2e85680c536e7ae02219 [14/15] dt-bindings: net: bluetooth: qualcomm: describe regulators for QCA6390
-config: arm64-randconfig-051-20240620 (https://download.01.org/0day-ci/archive/20240621/202406210706.WvRRDs6P-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210706.WvRRDs6P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   50736169ecc8387247fe6a00932852ce7b057083
+commit: 9b1effff19cdf2230d3ecb07ff4038a0da32e9cc ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
+date:   16 hours ago
+config: x86_64-randconfig-005-20240114 (https://download.01.org/0day-ci/archive/20240621/202406210732.ozgk8IMK-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210732.ozgk8IMK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406210706.WvRRDs6P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406210732.ozgk8IMK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4837.27-4908.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4929.27-4981.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:165.9-180.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddpmu-supply', 'vddrfa0p9-supply', 'vddrfa1p3-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddbtcmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: bluetooth: 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4837.27-4908.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4929.27-4981.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:165.9-180.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: bluetooth: 'vddpmu-supply', 'vddrfa0p9-supply', 'vddrfa1p3-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: bluetooth: 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: bluetooth: 'vddbtcmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: bluetooth: 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: bluetooth: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: bluetooth: 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/intel_soc_pmic_bxtwc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/of_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/fprobe/fprobe_example.o
+>> ERROR: modpost: "acpi_spi_count_resources" [drivers/platform/x86/serial-multi-instantiate.ko] undefined!
+>> ERROR: modpost: "acpi_spi_device_alloc" [drivers/platform/x86/serial-multi-instantiate.ko] undefined!
+>> ERROR: modpost: "spi_add_device" [drivers/platform/x86/serial-multi-instantiate.ko] undefined!
+>> ERROR: modpost: "spi_unregister_device" [drivers/platform/x86/serial-multi-instantiate.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE
+   Depends on [n]: X86_PLATFORM_DEVICES [=y] && I2C [=y] && SPI [=n] && ACPI [=y]
+   Selected by [m]:
+   - SND_HDA_SCODEC_CS35L56_I2C [=m] && SOUND [=y] && SND [=y] && SND_HDA [=m] && I2C [=y] && (ACPI [=y] || COMPILE_TEST [=n]) && SND_SOC [=m]
 
 -- 
 0-DAY CI Kernel Test Service
