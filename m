@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9646412DD9B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 05:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7172A8FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 05:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718946632; cv=none; b=PR0czfgeD8XuIl3FnALWWOxLt88cgHYJov8MkQ/D5n3FhjXlvI4Fj6JUezsQyVX42GylihPIXYIXwcQjH+xziRWY/BHty2kAebby0xDIYuL8VwPyHcotML4M7xUKy3SND96//InGimKl8HljPLyw1qSjxUFpOt+tPZDlkdInkWQ=
+	t=1718947291; cv=none; b=lrqq0xLToejWft8Z6V88E67WCgkDS3Xb+n0R2TJGpqzOfRDa7c7kK0fqAZA7MSVMtA33ZzMFhBd2YNzDmp0IeAACISzkNrrfxuqc60MVqGg5q40lVUuiPEakhq8uDg+EGA6xv4CbVIqKV5lN5wMA9Jh3+f7kkJ62xr7xobcrvSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718946632; c=relaxed/simple;
-	bh=pKaiAEfFDU0H2ETeOoMNS0ELNWb0IhX0WT9weeitPT0=;
+	s=arc-20240116; t=1718947291; c=relaxed/simple;
+	bh=XGNbnrG3mPLYGp4QcHWT6BgieKkkXJY8bncVVhyHPj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h62mCtg8se6eV/gD5nsuB+0UDypu6Mss49s/qzv2jedDRWBhr0B6Zl8pJecHvRlCaJbDz7OOr0x/Pz064+PNSF0yZYteF2zLiyTX9RXPc41lvj1237XmN/XIVAaM8yivBkEabXqYprDi+vjhcPdspc0uisJ2jqkbrO8w5KDNuxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VT7N18Lt; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=FTtiHolo7UKhENwhOtBMesmO6b0ZfrsHBQpfs6sZMJQ8GpKCvBpTqlOa9hTgpSvFFuHFxjUTUIkaAXXyb6twu6MRLpeWsdNJSylvS65+Lo7mKYIO2bBohVvVdw9qQXuXHP3qpe3t3UhP7l70xpLkDdb0mm6+W9mCudUm8wlD/H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xk7+6Ybs; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VT7N18Lt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xk7+6Ybs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718946630; x=1750482630;
+  t=1718947289; x=1750483289;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pKaiAEfFDU0H2ETeOoMNS0ELNWb0IhX0WT9weeitPT0=;
-  b=VT7N18Ltl3sgIvHUUtGTef4oazBVhc6LE4PyyLkiluyjibtDoEd0KAlP
-   d/oE7GZcj/5a2G+I7TkTwBX3u+GptB09n8SXhSclZmjXT0/CPPJufGTR1
-   WZPOODtLz+8+v6NouKLlXAl9bRn//jm3y1i1qHTCUY7K7+3JIV6pH9r0Y
-   AXGzzBck7DQ2kFCofursrRGPPorxT7dcNInbai1UZXCPRaBqfJrMGqIed
-   ZvZUj3KQ+4OItR5AUH/NvY2L5BPt1cKg+FEF5GxUgH/GvDGKfOq46ZvmW
-   mwOZ4LlNdfUmNd4TO/XFt8LoBkC3kSJLgmVm2b+llze9i3aRnjepvFr+2
-   A==;
-X-CSE-ConnectionGUID: uAMK+j/kT4aFCbecS6Im1Q==
-X-CSE-MsgGUID: 7uzJV+UvRmyYSOl3Of/mxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="19846216"
+  bh=XGNbnrG3mPLYGp4QcHWT6BgieKkkXJY8bncVVhyHPj4=;
+  b=Xk7+6Ybs5LepBGNnwdPQHxmXKQDq+FBRRzno6AKPCsHv0OwmyqKvTMOX
+   CwO4K6v00mBqVJ3oNQYcS496HXPA3S8aqiOyHvv8MFzh8jatEAamGgy1u
+   sB8MkwaX0vI2L6H/ubcayMGMbFPFw35FTZ+SW+MlDH/f6FFrqvHBxKpRg
+   4UuEiT2NB9SH+7FF9xhomg4OkOm9UxiwJpC/myvlWp4SkMxBCOlMkJuBg
+   yLvROxAYv8mnRvW1eSRN+SfOQ6hw1BV1WwyTOy8J/sYt/Z4bjjuSoUqYm
+   Ol4Q+27bd7RebdNuGtZuo9M+a7AHFSinGuKtI7IRthwhFdtC6a/zOe8My
+   Q==;
+X-CSE-ConnectionGUID: MMWQkCGwQLGntEGrZ5X7GQ==
+X-CSE-MsgGUID: F3OxrG28SGSub+0gfdgh7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="18874426"
 X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="19846216"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 22:10:28 -0700
-X-CSE-ConnectionGUID: qOomTsCCQdip5HSDmjW+lw==
-X-CSE-MsgGUID: mtWOS9vGT/SDgcYn9K346A==
+   d="scan'208";a="18874426"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 22:21:29 -0700
+X-CSE-ConnectionGUID: 95nESI63TZ+qnUft4Hm/qA==
+X-CSE-MsgGUID: HWK4KPGSQWmm8QogM6LjoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="42294551"
+   d="scan'208";a="42395645"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jun 2024 22:10:27 -0700
+  by orviesa010.jf.intel.com with ESMTP; 20 Jun 2024 22:21:27 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKWXY-0008Fg-38;
-	Fri, 21 Jun 2024 05:10:24 +0000
-Date: Fri, 21 Jun 2024 13:09:29 +0800
+	id 1sKWiD-0008Fu-0b;
+	Fri, 21 Jun 2024 05:21:25 +0000
+Date: Fri, 21 Jun 2024 13:20:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Lu Jialin <lujialin4@huawei.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2514/10358] ld.lld: error: undefined symbol:
- sched_settag
-Message-ID: <202406211329.ROMqS1XO-lkp@intel.com>
+Subject: [cip:linux-5.10.y-cip 28/40]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:54:45: error: cannot assign to
+ non-static data member 'driver' with const-qualified type 'const struct
+ drm_driver *'
+Message-ID: <202406211319.JXgbToeK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   79e1c0e468a9c6fa0ca8d1a329bbba9c40f4d84d
-commit: 34239429b1253e3d19cebf15277f46916519b1c2 [2514/10358] sched: programmable: Add user interface of task tag
-config: x86_64-randconfig-076-20240621 (https://download.01.org/0day-ci/archive/20240621/202406211329.ROMqS1XO-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip
+head:   7efd94878682c61791c3ca7f047afa30cde60f2c
+commit: 2a78ff0b0ab60ac2fb3cc6ea6b4895e2a7e7e769 [28/40] drm: Allow const struct drm_driver
+config: i386-buildonly-randconfig-003-20240621 (https://download.01.org/0day-ci/archive/20240621/202406211319.JXgbToeK-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406211329.ROMqS1XO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406211319.JXgbToeK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406211329.ROMqS1XO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406211319.JXgbToeK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: sched_settag
-   >>> referenced by base.c:3697 (fs/proc/base.c:3697)
-   >>>               vmlinux.o:(pid_tag_write)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:54:45: error: cannot assign to non-static data member 'driver' with const-qualified type 'const struct drm_driver *'
+      54 |         adev_to_drm(adev)->driver->driver_features &= ~DRIVER_ATOMIC;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   include/drm/drm_device.h:89:27: note: non-static data member 'driver' declared const here
+      89 |         const struct drm_driver *driver;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:558:6: warning: no previous prototype for function 'amdgpu_virt_update_vf2pf_work_item' [-Wmissing-prototypes]
+     558 | void amdgpu_virt_update_vf2pf_work_item(struct work_struct *work)
+         |      ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:558:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     558 | void amdgpu_virt_update_vf2pf_work_item(struct work_struct *work)
+         | ^
+         | static 
+   1 warning and 1 error generated.
+
+
+vim +54 drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+
+a16f8f11c599cd pding         2017-10-24  47  
+bc992ba5a3c19c Xiangliang Yu 2017-01-12  48  void amdgpu_virt_init_setting(struct amdgpu_device *adev)
+bc992ba5a3c19c Xiangliang Yu 2017-01-12  49  {
+06465d8ec91a88 Xiangliang Yu 2017-01-11  50  	/* enable virtual display */
+02f6efb47856cd Emily Deng    2020-03-25  51  	if (adev->mode_info.num_crtc == 0)
+06465d8ec91a88 Xiangliang Yu 2017-01-11  52  		adev->mode_info.num_crtc = 1;
+06465d8ec91a88 Xiangliang Yu 2017-01-11  53  	adev->enable_virtual_display = true;
+4a580877bdcb83 Luben Tuikov  2020-08-24 @54  	adev_to_drm(adev)->driver->driver_features &= ~DRIVER_ATOMIC;
+213cacefcd5c78 Xiangliang Yu 2017-04-21  55  	adev->cg_flags = 0;
+213cacefcd5c78 Xiangliang Yu 2017-04-21  56  	adev->pg_flags = 0;
+bc992ba5a3c19c Xiangliang Yu 2017-01-12  57  }
+bc992ba5a3c19c Xiangliang Yu 2017-01-12  58  
+
+:::::: The code at line 54 was first introduced by commit
+:::::: 4a580877bdcb837e7a3754ae20798dcfccb44e80 drm/amdgpu: Get DRM dev from adev by inline-f
+
+:::::: TO: Luben Tuikov <luben.tuikov@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
