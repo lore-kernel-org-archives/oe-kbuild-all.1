@@ -1,119 +1,87 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C25E16B39F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 06:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE34B14038F;
+	Fri, 21 Jun 2024 07:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718952966; cv=none; b=opBlyIkcVhP0lNRdDu8B6zgAcqxs6h2Y2OswmAVTPahzTOKrIj5EwNFHFhaoe8RQ7INIt+xSRmZL6t4Ih2IRb+z8za57nt6T+SyAp1tJc8tCs8kFilw89/m6b0+Cdwu3WU2JTNCTRSv3Rf5o5R9+ZxdmQgIc7TZd8sGG45rptgw=
+	t=1718953755; cv=none; b=kNz81AyO+ZN1y08ONMVG3znUJ7udcceOEQr/VDWKYhn8wBbugRnzKCIHyKM+wD/S+gBnKP7WAeSrb9cEtQXpFqZ6Ep+7sjQRHvbQN+SYVmBMohWxgP7Kh1IqNDAb2cZz6NPT1qUfeaSotODsoAgVSMT4KfX9tG4NKi/f13i6cVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718952966; c=relaxed/simple;
-	bh=NH3ylXNGLSIMC/oRVBcD5/gB+Ar9gTmcj8mpeoFRSd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SNVLW0YRShC3NE0yLOC+CW6zi1Ixb8tE9GoWkWZVTwthjGFQyNm2RF5CL69TbSXg8P8IA+vF6X7arp7WiMo2hmxANE78XmelX+S4VF2wpaHsDW9Zo9kN8WHEAHZ4KCj25pKoNT8/lsLESp7/p2tKecMWjknFOE7nuCurLOBHkqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qS8LNWHE; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718953755; c=relaxed/simple;
+	bh=u0vhe0zqMs5Sy8rTYox/NGGE8oBJtjiHtJOPAUxZARU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOp1h026NeLFiCw/jfUWq3+6SJV4W7fABoN9cicoHTSjFc09K4QcwdJa3hyWQQeDmNgzp/G3ZJIL8kUo4UBVvwDcPqmRf1jfz7tqgc1+fRmCJUFjufOVf9+Gwlkk5T92Mb6SawAHctMxA6D8o005CwEo1QnyXYBo2501Tmn/nw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNq1eGwh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qS8LNWHE"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111b0so902833a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jun 2024 23:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718952962; x=1719557762; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1QM25iSV6b/cpz3jsOy311CfCTtPU7qo9cxLPbw8s8M=;
-        b=qS8LNWHE0zN52xUpw56Ju1imlQA26YuGu0CN7ilrZtkjV/u/zS/5iS/Pjt2tOaYJxE
-         u3TG34HbiXPi9hIOQlOM76DpsPCAgwg/QKWZgITRMftxZiwefFJTRTHNbmgOOQmZ7IMs
-         g5X4IKDVjd57V3EjqjUmRSRK9tv22eEvGEFuE6nZQSAxQXJB06L45LQtD1ZsTfrZLz0G
-         e+hcZBbIR5bUjL/iocPydRYtJ1bFH6nEtTbn+FKPs28LDI6/oyFFMXe2JldG+a60jVdq
-         Xv/0GL0/W1VHAExvHnlIFCM0i0N2PluqExBIIPU4dfSET8wbQfIipV/mARrU59XIQCdz
-         GftA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718952962; x=1719557762;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1QM25iSV6b/cpz3jsOy311CfCTtPU7qo9cxLPbw8s8M=;
-        b=hjm/3sixdbzEiS5URzueqtyHtuDDy8Tyx8eNUxTQ1ENA5kxIF/cYmq2CvVuoW+nRJs
-         m7oQvEsO70clp1+b0pXt/oA0WqS4Wsnvm6xWR5E7nRdlHP/UMtbY+82YfZzoXqoEsOAw
-         NlGfpZCWr8bxt7kcwz22JO2wTRjtpE7GBQdWrQcKH05Qn1wRkBSQWnGraxq9C1Jb2SlB
-         brM9kzAfLp562aMxGwwu2qR+tJA+j09/GUy37M0MvoYCZ+ThaxT10PLMeDyy+KLib7qt
-         hbL3fVsVqCNRTzU5CLgMPY1oHbgIkBmaCJ2OlNKZD1rgqR+pII2I4T25Pq8G7oYW7TXU
-         f22w==
-X-Forwarded-Encrypted: i=1; AJvYcCUvJqjnCkKo+77vU/hY/67XyM0Zl1X5WRupPZIG7e7a/717EvPwcY+Z/+4o024//pDMMRX9t1YyRVebO5/YG/1XBh1q4Ra7P/HEzXyb2A==
-X-Gm-Message-State: AOJu0Yw1eKY3LrIB29xrRwVv9YMeJOkFsP3Hqh/fv1pSOHcwaou6xMSU
-	jrL+ZZk2ewXy3cZt9B71/r59W24bqEVg9BpMN0qF4JIFDPSELWtLWqCDT38g6L0=
-X-Google-Smtp-Source: AGHT+IEb9Kw7v2f9ae5w+aFM9k6CKZh0sAVlev/5KNdvVFuaZI2MEfVROx2OxQKfjsNffXNhDPznJw==
-X-Received: by 2002:a50:96cf:0:b0:57c:5874:4f5c with SMTP id 4fb4d7f45d1cf-57d07ea857fmr6189880a12.32.1718952962307;
-        Thu, 20 Jun 2024 23:56:02 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d30474546sm522021a12.50.2024.06.20.23.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 23:56:01 -0700 (PDT)
-Date: Fri, 21 Jun 2024 09:55:58 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Danielle Ratson <danieller@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next v6 9/9] ethtool: Add ability to flash
- transceiver modules' firmware
-Message-ID: <7a33c661-55d3-4420-821e-267ddc95bd56@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNq1eGwh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D8AC2BBFC;
+	Fri, 21 Jun 2024 07:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718953754;
+	bh=u0vhe0zqMs5Sy8rTYox/NGGE8oBJtjiHtJOPAUxZARU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lNq1eGwhTNeOpkK9YsjekhMnPYqCfAedSVRmRHNMbdf4aeB/9D+zs1CrdzzASh6C4
+	 Maf7DhWqeLVEpF4KQEehVBKMm1cJoVh9EPYfS+yepq3tAEjsydKxiI4rtjYFzFLCuR
+	 K4G7MpuUTZdEm6yo6puU+n7u/0RTXerFzKxf55Nsf5kairPX2eyXlOQi8bBhCAYjqc
+	 X/twLc6wl8sQTLvX/olSZYVRPkvixcmITIyfJDSYgj16lS797Ip960DrepCfU7mH7Q
+	 6MKx+CIt1g2fhTe1olIQIEbjsh0QvACjeCVEG6doqO9oc6g6olhnMMeO5Qjbw2BTHF
+	 Qcz/Pt9DgHS/w==
+Date: Fri, 21 Jun 2024 12:39:09 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com,
+	Paul Cercueil <paul@crapouillou.net>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <ZnUnFeum1Z2ahm9M@matsya>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+ <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
+ <ZnRUSaHJhz7XLcKa@matsya>
+ <20240620170522.GU3029315@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240619121727.3643161-10-danieller@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240620170522.GU3029315@google.com>
 
-Hi Danielle,
+On 20-06-24, 18:05, Lee Jones wrote:
+> On Thu, 20 Jun 2024, Vinod Koul wrote:
+> 
+> > On 20-06-24, 12:45, Markus Elfring wrote:
+> > > …
+> > > > All errors (new ones prefixed by >>):
+> > > >
+> > > >>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
+> > > >     1715 |                 goto err_dmabuf_unmap_attachment;
+> > > …
+> > > 
+> > > Which software design options would you like to try out next
+> > > so that such a questionable compilation error message will be avoided finally?
+> > 
+> > The one where all emails from Markus go to dev/null
+> 
+> Play nice please.
 
-kernel test robot noticed the following build warnings:
+Would love to... but Markus has been repeat offender
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danielle-Ratson/ethtool-Add-ethtool-operation-to-write-to-a-transceiver-module-EEPROM/20240619-202527
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240619121727.3643161-10-danieller%40nvidia.com
-patch subject: [PATCH net-next v6 9/9] ethtool: Add ability to flash transceiver modules' firmware
-config: x86_64-randconfig-161-20240620 (https://download.01.org/0day-ci/archive/20240621/202406211244.fPBtKk4s-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406211244.fPBtKk4s-lkp@intel.com/
-
-New smatch warnings:
-net/ethtool/module.c:208 module_flash_fw_work_list_add() warn: inconsistent returns '&module_fw_flash_work_list_lock'.
-
-vim +208 net/ethtool/module.c
-
-d55d0c47876a6d Danielle Ratson 2024-06-19  191  static int
-d55d0c47876a6d Danielle Ratson 2024-06-19  192  module_flash_fw_work_list_add(struct ethtool_module_fw_flash *module_fw,
-d55d0c47876a6d Danielle Ratson 2024-06-19  193  			      struct genl_info *info)
-d55d0c47876a6d Danielle Ratson 2024-06-19  194  {
-d55d0c47876a6d Danielle Ratson 2024-06-19  195  	struct ethtool_module_fw_flash *work;
-d55d0c47876a6d Danielle Ratson 2024-06-19  196  
-d55d0c47876a6d Danielle Ratson 2024-06-19  197  	/* First, check if already registered. */
-d55d0c47876a6d Danielle Ratson 2024-06-19  198  	spin_lock(&module_fw_flash_work_list_lock);
-d55d0c47876a6d Danielle Ratson 2024-06-19  199  	list_for_each_entry(work, &module_fw_flash_work_list, list) {
-d55d0c47876a6d Danielle Ratson 2024-06-19  200  		if (work->fw_update.ntf_params.portid == info->snd_portid &&
-d55d0c47876a6d Danielle Ratson 2024-06-19  201  		    work->fw_update.dev == module_fw->fw_update.dev)
-
-	spin_unlock(&module_fw_flash_work_list_lock);
-
-d55d0c47876a6d Danielle Ratson 2024-06-19  202  			return -EALREADY;
-d55d0c47876a6d Danielle Ratson 2024-06-19  203  	}
-d55d0c47876a6d Danielle Ratson 2024-06-19  204  
-d55d0c47876a6d Danielle Ratson 2024-06-19  205  	list_add_tail(&module_fw->list, &module_fw_flash_work_list);
-d55d0c47876a6d Danielle Ratson 2024-06-19  206  	spin_unlock(&module_fw_flash_work_list_lock);
-d55d0c47876a6d Danielle Ratson 2024-06-19  207  
-d55d0c47876a6d Danielle Ratson 2024-06-19 @208  	return 0;
-d55d0c47876a6d Danielle Ratson 2024-06-19  209  }
+Sadly, I am yet to see a constructive approach or even better a helpful
+patch which improve something, rather than vague suggestions on the list
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+~Vinod
