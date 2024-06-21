@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B17736127
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 22:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E28416F0E1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 23:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719009629; cv=none; b=X8wkJFJZv0K6Ze0er9R0aD5zuaprwzOUw4+sSAeFofPU+kYja0vEpTj0qIqn+/gXXhvAuLmkwb5YMW+78xjq3EehXyuwIAvCXwf18Ct+pwW6VCD8uFgCWYEkKTeZ3hCZSpaoz/gg+xV7LOhPIcr14WYmfmfDxpZY2ZS7rmF4n84=
+	t=1719011429; cv=none; b=jvjwoxL0e28cN1s93NzKYBJQX/qj8YVB6IdIXFPJ3hgxv3A+HZslmstyUxhqeip67zB1rIEK75YM0Up4SEWYVAU9wTb/b854dSk0vIEHg12Q6lIxJYjiV3EdMmcWjh2Nbe5FchHU/Zq+7SdARU3Pca0hIiWZ4XBAW0+Rj0tACdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719009629; c=relaxed/simple;
-	bh=xhKywG54LUBe3sCv28QI9lDB1EE7hwNdY8BX/I/BQRk=;
+	s=arc-20240116; t=1719011429; c=relaxed/simple;
+	bh=6VvJIiqtPcTS6sdxjZwfOrOBGF9I5dl/MUdhWSuQ0jw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gqeejqEF/bNuYCY610SL6yv1n4+s5ybKquyvYWd8RQN1TzhX9h/4bXocfx+NrxoHmgQPnwLRck2aeKf+v4/KC02/go6QvJaGdG/wuAVKbPppxR+HAldfmg6TEFL657EYzBPfAgiXhWbDW7LaeIbJIrUFWCdr+LUY9/ptnZIXATw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dipou+IV; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=pqUXP4+mhz6516bAf0Tj0KsP8EbnZLZu7UU+9cKupLerhYZHiTDaomKzRMScEbAbca4o1cuiX45ypQbw9eAeeMaXzhbn2c7X0K9QmqeCQ/UMQgJUxa1SKSJvWOfl2TDlKOpAN7K7Z4G48ThaFB6ORzJgjuwpmR9v0r/+Yj2yE0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WF4M2MjR; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dipou+IV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WF4M2MjR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719009627; x=1750545627;
+  t=1719011428; x=1750547428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xhKywG54LUBe3sCv28QI9lDB1EE7hwNdY8BX/I/BQRk=;
-  b=Dipou+IVLu816gbP7N7qJ+FZCzawnX0/w/EcOArWi8537SL2GzxO3ZlT
-   zjJnPjhnNt31QIhszBcj5VO0b+l9Ty6SRMWAQLzyRTvIm6cubU70Lr5vT
-   noSvrAHu4sMcXUKrYlJ6RG345ZEHMlyTstbuvqxh02B2/4xchn5o/waxm
-   Q0+kd7Qg7KrD3iA+GQ8P1Gm5S03/BBVoezIi+y6+/GRoj1BIY6a9NQSXv
-   hEHojSAzCsiKfOW0gLwQjkT+VeW7Y3He6aEkbG1U7dSJCmJuE7XnLx+LH
-   g6J4rTD9VcvEl60Ab5mZBOrmwg9Qto7p5H7TRbp3yHLI9MLw1N4+Z0W5j
-   w==;
-X-CSE-ConnectionGUID: 21TeVtA+REm5c8/LW8zolg==
-X-CSE-MsgGUID: LrHhiY1pRzukWuWXpcDhbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="33606177"
+  bh=6VvJIiqtPcTS6sdxjZwfOrOBGF9I5dl/MUdhWSuQ0jw=;
+  b=WF4M2MjRPHv48t1XCF/BFhRprw0bgI2nW6sAeT5IUgG+v0C8+4oE7etH
+   F543+W64pl6TAnUv88s8JdUW+yepyvekaCeSsISuBoQvs3FKHEIIPHj4Z
+   sWrU0NGO50Ug48Rp2NenEqKb33ypdRELwI6fug86MXYUxRsDIcVOJX4gJ
+   032X+5Xv8Mu0jtgxTHKRS3rQPT+A/wVTFGr5mrqw5PbC0bitgS+6Y19Ah
+   oObtYF0I5EK5tN1ftvthLR+iaj9JGaBb0VH7AJkhe14FIqf87fLGgedkp
+   StxepMk3L2cQKOy9fwBHUlugOIN/Ux8v73p1+Cd9+O90TfZ2jPTTIJZD7
+   g==;
+X-CSE-ConnectionGUID: K5gxLAU8T4aMQl+h1s3j7Q==
+X-CSE-MsgGUID: pcOr41MQSFe8si+TkeAMJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="38582433"
 X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="33606177"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 15:40:26 -0700
-X-CSE-ConnectionGUID: C9fzyKKxQGGaeL5M9OkB8Q==
-X-CSE-MsgGUID: OOHxVyg5TEmO/daCfRs0kQ==
+   d="scan'208";a="38582433"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 16:10:27 -0700
+X-CSE-ConnectionGUID: OQKENDD7RGi5xk0zpnwyBQ==
+X-CSE-MsgGUID: EIXzfnf8TsSoVfbPNHc0Lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="65967223"
+   d="scan'208";a="42698086"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Jun 2024 15:40:24 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 21 Jun 2024 16:10:25 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKmve-00095i-2I;
-	Fri, 21 Jun 2024 22:40:22 +0000
-Date: Sat, 22 Jun 2024 06:39:23 +0800
+	id 1sKnOh-00096k-19;
+	Fri, 21 Jun 2024 23:10:23 +0000
+Date: Sat, 22 Jun 2024 07:10:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin Zeng <xin.zeng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Yahui Cao <yahui.cao@intel.com>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Subject: ERROR: modpost: "qat_vfmig_suspend"
- [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
-Message-ID: <202406220635.PsQbyfY9-lkp@intel.com>
+To: James Chapman <jchapman@katalix.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Tom Parkin <tparkin@katalix.com>
+Subject: [linux-next:master 7577/7797] net/l2tp/l2tp_core.c:1298:9: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202406220754.evK8Hrjw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,128 +64,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   35bb670d65fc0f80c62383ab4f2544cec85ac57a
-commit: bb208810b1abf1c84870cfbe1cc9cf1a1d35c607 vfio/qat: Add vfio_pci driver for Intel QAT SR-IOV VF devices
-date:   8 weeks ago
-config: x86_64-randconfig-076-20240622 (https://download.01.org/0day-ci/archive/20240622/202406220635.PsQbyfY9-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220635.PsQbyfY9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f76698bd9a8ca01d3581236082d786e9a6b72bb7
+commit: d18d3f0a24fc4a3513495892ab1a3753628b341b [7577/7797] l2tp: replace hlist with simple list for per-tunnel session list
+config: i386-randconfig-062-20240622 (https://download.01.org/0day-ci/archive/20240622/202406220754.evK8Hrjw-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220754.evK8Hrjw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406220635.PsQbyfY9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406220754.evK8Hrjw-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> net/l2tp/l2tp_core.c:1298:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct list_head const *list @@     got struct list_head [noderef] __rcu *pos @@
+   net/l2tp/l2tp_core.c:1298:9: sparse:     expected struct list_head const *list
+   net/l2tp/l2tp_core.c:1298:9: sparse:     got struct list_head [noderef] __rcu *pos
+>> net/l2tp/l2tp_core.c:1298:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct list_head [noderef] __rcu *pos @@     got struct list_head *next @@
+   net/l2tp/l2tp_core.c:1298:9: sparse:     expected struct list_head [noderef] __rcu *pos
+   net/l2tp/l2tp_core.c:1298:9: sparse:     got struct list_head *next
+>> net/l2tp/l2tp_core.c:1299:27: sparse: sparse: cast removes address space '__rcu' of expression
+>> net/l2tp/l2tp_core.c:1298:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct list_head [noderef] __rcu *pos @@     got struct list_head *[assigned] tmp @@
+   net/l2tp/l2tp_core.c:1298:9: sparse:     expected struct list_head [noderef] __rcu *pos
+   net/l2tp/l2tp_core.c:1298:9: sparse:     got struct list_head *[assigned] tmp
+   net/l2tp/l2tp_core.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+>> net/l2tp/l2tp_core.c:1298:9: sparse: sparse: dereference of noderef expression
+>> net/l2tp/l2tp_core.c:1298:9: sparse: sparse: dereference of noderef expression
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/events/intel/intel-uncore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/events/intel/intel-cstate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/crypto/curve25519-x86_64.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm-intel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-intel-lgm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/acpi_tad.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/sis-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/via-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_mbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_wt_hint.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cpuidle/cpuidle-haltpoll.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
->> ERROR: modpost: "qat_vfmig_suspend" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_load_state" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_reset" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_save_setup" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_destroy" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_close" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_cleanup" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_load_setup" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_open" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
->> ERROR: modpost: "qat_vfmig_resume" [drivers/vfio/pci/qat/qat_vfio_pci.ko] undefined!
-WARNING: modpost: suppressed 1 unresolved symbol warnings because there were too many)
+vim +1298 net/l2tp/l2tp_core.c
+
+  1287	
+  1288	/* When the tunnel is closed, all the attached sessions need to go too.
+  1289	 */
+  1290	static void l2tp_tunnel_closeall(struct l2tp_tunnel *tunnel)
+  1291	{
+  1292		struct l2tp_session *session;
+  1293		struct list_head __rcu *pos;
+  1294		struct list_head *tmp;
+  1295	
+  1296		spin_lock_bh(&tunnel->list_lock);
+  1297		tunnel->acpt_newsess = false;
+> 1298		list_for_each_safe(pos, tmp, &tunnel->session_list) {
+> 1299			session = list_entry(pos, struct l2tp_session, list);
+  1300			list_del_init(&session->list);
+  1301			spin_unlock_bh(&tunnel->list_lock);
+  1302			l2tp_session_delete(session);
+  1303			spin_lock_bh(&tunnel->list_lock);
+  1304		}
+  1305		spin_unlock_bh(&tunnel->list_lock);
+  1306	}
+  1307	
 
 -- 
 0-DAY CI Kernel Test Service
