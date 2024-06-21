@@ -1,98 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A1C1422D6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 06:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F44F1667F2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 06:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718950472; cv=none; b=Jx7q5I3NoQJAbsy/43tgdz8dordIqR7x6WmPJpf7bAO0joUdt9ggaUN4w44n/TEXs4Nr8tJnMMPGf+xiM6961IqeHucp5H8Cs+zqbzo+pRzmol4TU9Fg7+1uNW65oei8X7BfXjvz7ASuRYyGmDy6Dv+hWJzif+9ulIyr63NbRMI=
+	t=1718950905; cv=none; b=RiJlU9Wbj4Lbd9c33gMcrsEnhzqmElDpkCJW0ZQrzSW8gRquRnZti6elw+DaAhY7KCMolOSC52oxf2SA/s7iWjdto7YZYXCyswtUdXzX4GUPzKg63D5vz8Pgo1BDiMd7SJWX/OJ+rA2+/pNdOAoxIbHwNlilAZloWa3gfko59ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718950472; c=relaxed/simple;
-	bh=XUogZ+0KzAF6srsP8iSp4pG8wF+DXoZN6K0+TCxPntI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ncLO6LRQWSchdmNMuBIONf0VSZ1UzGG5r4AMAIVOGZy13GkBZYOes5Zds8OhoDSJMiwCT1o4plpcKOono2UHflmxTxN4dsTyX2+fVD27kK2npibOQOj38MEAx6rz0UiXSdcX0mLu1C7vxtqe7baPb3vafRGp6ySJrMmL2+VY0Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5zv/Llc; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5zv/Llc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718950471; x=1750486471;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XUogZ+0KzAF6srsP8iSp4pG8wF+DXoZN6K0+TCxPntI=;
-  b=b5zv/Llc05UgGr/hXF7byugJTEbLp6k4usfTijpbEyNFDUfsL+N8ecSc
-   P0fINHR5YegEBc+RfvkhnPOabZYp6hhv2/bdUb+xLloMtsPOi072uqjMM
-   +bLmBMJjN40ZUcummIUu0NmQlfC+gBlUfZXd2RUo9VPu6K10O/mw+yYBW
-   jOL0U4WaPUFr7lt5jE5qQwuDoQZ7rtsUAH/ZAcK7D0I64Yo0ZZrplfbsG
-   QQYQFZgBYW6Le7MCDDVQyhrCICvq/xqSTQz7Wfhvp7VWeN3OtNI/shQWo
-   +6y4qzFf/wFwAW3rJ/VeKZ3fVMfQ8zrr1XX4Z8ozuHQu7l4xL2kGmyfkt
-   A==;
-X-CSE-ConnectionGUID: Pkdb0QWCQhekhRRvMO4mZA==
-X-CSE-MsgGUID: uTsp26FOS+maCb9BFRqVjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="15946707"
-X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="15946707"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 23:14:31 -0700
-X-CSE-ConnectionGUID: IpYGBZ9/So2M8oRqxKSkJw==
-X-CSE-MsgGUID: qLi+/Lz3SNOL6XbJD31JrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="42451164"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Jun 2024 23:14:28 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sKXXW-0008Hu-37;
-	Fri, 21 Jun 2024 06:14:26 +0000
-Date: Fri, 21 Jun 2024 14:13:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
-Subject: [driver-core:const_driver 3/10]
- arch/powerpc/platforms/pseries/vio.c:1582:58: sparse: sparse: incorrect type
- in argument 1 (different modifiers)
-Message-ID: <202406211454.XbtJCp0g-lkp@intel.com>
+	s=arc-20240116; t=1718950905; c=relaxed/simple;
+	bh=UqVhYX7+CqNI9WBFZ8VKzEtVLRL2JhfH0PbipTeUeKg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FQ3tENnmDPorTbMc7rpbtn2rl9cH48X3vPBhEDhGQfAsOgRWLIGwhihyHMrWit2FZ8J/cRzOlmIFGDgADxOPtvewg27l0UIUYdMfD9q6VO6As/Q4mzj/IJmYc43EoALeULcyGiC0nCz8Zsdx4XNUZj410t6oB4kNH5nImcPgrkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4W56b95j4zzxPtp;
+	Fri, 21 Jun 2024 14:17:25 +0800 (CST)
+Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id E4038140118;
+	Fri, 21 Jun 2024 14:21:39 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 21 Jun 2024 14:21:39 +0800
+Message-ID: <6e5844cc-827d-4799-9965-959e631bef40@huawei.com>
+Date: Fri, 21 Jun 2024 14:21:39 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 6447/7105] mm/mempolicy.c:2280:15: error:
+ redefinition of 'folio_alloc_mpol_noprof'
+Content-Language: en-US
+To: Philip Li <philip.li@intel.com>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Linux
+ Memory Management List <linux-mm@kvack.org>, Andrew Morton
+	<akpm@linux-foundation.org>
+References: <202406202319.pBcCfVar-lkp@intel.com>
+ <0c35a647-caa4-4451-b74e-65c68c83f0ca@huawei.com>
+ <ZnUH4B6MlKEKDM0A@rli9-mobl>
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <ZnUH4B6MlKEKDM0A@rli9-mobl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemf100008.china.huawei.com (7.185.36.138)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_driver
-head:   d5d1958dc29111bce74f9ddf7aec5803c308837e
-commit: c75570c28cd80a9afb49f5081eed41288ad5d7bf [3/10] driver core: have match() callback in struct bus_type take a const *
-config: powerpc64-randconfig-r113-20240621 (https://download.01.org/0day-ci/archive/20240621/202406211454.XbtJCp0g-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240621/202406211454.XbtJCp0g-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406211454.XbtJCp0g-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/platforms/pseries/vio.c:1582:58: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct device_driver *drv @@     got struct device_driver const *drv @@
-   arch/powerpc/platforms/pseries/vio.c:1582:58: sparse:     expected struct device_driver *drv
-   arch/powerpc/platforms/pseries/vio.c:1582:58: sparse:     got struct device_driver const *drv
+On 2024/6/21 12:56, Philip Li wrote:
+> On Fri, Jun 21, 2024 at 11:17:05AM +0800, Kefeng Wang wrote:
+>>
+>>
+>> On 2024/6/20 23:55, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>> head:   2102cb0d050d34d50b9642a3a50861787527e922
+>>> commit: f85385e70cb4bbb569298830fdf0a3d8325de36d [6447/7105] mm: add folio_alloc_mpol()
+>>> config: x86_64-randconfig-014-20240202 (https://download.01.org/0day-ci/archive/20240620/202406202319.pBcCfVar-lkp@intel.com/config)
+>>> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406202319.pBcCfVar-lkp@intel.com/reproduce)
+>>
+>> Hi, thanks for report, I try with gcc-13 from 0day[1], but can't
+>> reproduce with above config.
+>>
+>> [1] https://download.01.org/0day-ci/cross-package/gcc-13.2.0-nolibc
+>>
+...
 
-vim +1582 arch/powerpc/platforms/pseries/vio.c
+>> The above error is strange, my change shouldn't affect them.
+> 
+> Hi Kefeng, sorry for confusion, usually you only need take care of the issue
+> that is prefixed with >>, which is the new issue being introduced by the commit.
+> Other issues exist due to existing commits.
+> 
+>>
+>>>            |                                              ^~~~
+>>>      mm/mempolicy.c: At top level:
+>>>      mm/mempolicy.c:2221:14: error: redefinition of 'alloc_pages_mpol_noprof'
+>>>       2221 | struct page *alloc_pages_mpol_noprof(gfp_t gfp, unsigned int order,
+> 
+> [...]
+> 
+>>>            |              ^~~~~~~~~~~~~~~~~~~~~~~
+>>>            |                         __count_vm_event
+>>>      mm/mempolicy.c:2272:61: error: 'NUMA_INTERLEAVE_HIT' undeclared (first use in this function)
+>>>       2272 |                         __count_numa_event(page_zone(page), NUMA_INTERLEAVE_HIT);
+>>>            |                                                             ^~~~~~~~~~~~~~~~~~~
+>>>      mm/mempolicy.c: At top level:
+>>>>> mm/mempolicy.c:2280:15: error: redefinition of 'folio_alloc_mpol_noprof'
+>>>       2280 | struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+> 
+> For this report, you can check whether this issue can be reproduced or not.
 
-  1578	
-  1579	static int vio_bus_match(struct device *dev, const struct device_driver *drv)
-  1580	{
-  1581		const struct vio_dev *vio_dev = to_vio_dev(dev);
-> 1582		const struct vio_driver *vio_drv = to_vio_driver(drv);
-  1583		const struct vio_device_id *ids = vio_drv->id_table;
-  1584	
-  1585		return (ids != NULL) && (vio_match_device(ids, vio_dev) != NULL);
-  1586	}
-  1587	
+mm/mempolicy.c:2280:15: error: redefinition of folio_alloc_mpol_noprof'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+obj-$(CONFIG_NUMA) 	+= mempolicy.o
+
+include/linux/gfp.h:324:29: note: previous definition of 
+'folio_alloc_mpol_noprof'
+
+but this one is under !CONFIG_NUMA, and from above config, CONFIG_NUMA
+is enabled, so this should be impossible.
