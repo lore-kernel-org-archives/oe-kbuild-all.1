@@ -1,371 +1,347 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34442231C;
-	Sat, 22 Jun 2024 04:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDBA339BC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 04:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719030217; cv=none; b=pybo/CpdEIU+QWE4rqTMnRAEGaQ1zRvj6/o83d+b4D04kQI004K3Mfc2qF3cAUm+aFHFkYkxOuiyno5O6YFK2O0Bt212o/rPxDmYYDmgoXsRhGLKp3SdlpsUq3X5wgwdTBf1Dw4wjgB4cyG2kKoEeqRRz/UPSktkF2z3zgG9jjg=
+	t=1719030298; cv=none; b=IaPTa0yro+r0Aa0UKGCjznFCTfUVSxmJobTfDfb8INUoUlMN/Z5tPOtxsOx234BtIeMNX/HweuEsycTT8LV2fQV8/J9e1fzDpFCgVFHh75j6x6g4JVBSkxic+BV6Qiw1/3ri8T9+I4PY7VBGNlAb5Ea4khY6geUWGzckHMUvAEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719030217; c=relaxed/simple;
-	bh=C/vIk+XIZ6LrQKWz08F76uSKtzfzfSVvNgGngX7i1UM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=vEjwpfUI+ZaejdN5nEcr6Cf7s9vKd/gACrsFFk2I6WqXGNJc4buWUbQaw0XYvssYSpPgfIxHkjmVntVxwioz071GFrWkW106u32xqg/eYMQuFRRLOdu7ZRpjRgITKRD9zGZKFKKaiaILRq/6kJnip4ebcjUF87jyf9X4slMf9v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR45C1k0; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719030298; c=relaxed/simple;
+	bh=UF/2CsaNQ76vHjcvo9sTUoNGEj0xOUcVuXeTH6QiAtk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D6ISVyECSijetkfI4K7pwF2FbexgsCcHD2GiYJaoLLdOnV2sz2Rt/3A/z0AKyUMzyz4mZoff7xjYbgV25ZSMDpD7q03VwHwHvFpi6UvjG+76weSjxsyqxqUongDJiAI8X7cc7kaN2e23DIfXAc6CFnfqEYfS+H2HGN7qmDtuE/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEe/E4uQ; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR45C1k0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719030215; x=1750566215;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C/vIk+XIZ6LrQKWz08F76uSKtzfzfSVvNgGngX7i1UM=;
-  b=mR45C1k0x8BuUedpmZmb+lb5SnAMUdXw2RLb9GhT4xOM1eZimQFck2GF
-   /8y1a4pYFH+IKWM/7/UIt0AkAOX6OgICnfQITT9tM5OTQqDEwq/8NpX8/
-   HwFqCKgg/T1AN+IXzcqTlb3iK/2SjsA5VzhInEVDU1pnZKH/wUZSatbCQ
-   tQ1h1Rf0PTladl3VUaqd+JGHlKWyc+hIfL92WuqyhCIsPAtonTj5XYDMG
-   6aLHNrDbm8fwDpUBitbf2GVBPFFhfvq/d2roSNjT03rS9ce2eeZGPjCxt
-   If1AQHeCzhmIDKjll4NMeLhJ9AefMA1HBuJg1gQf0D6hUI8EHpj10oxnZ
-   Q==;
-X-CSE-ConnectionGUID: SbVPET81RvubKDEGC1sNdw==
-X-CSE-MsgGUID: IEzWoigDRvmb/AlO/5kjHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="19960222"
-X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="19960222"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 21:23:34 -0700
-X-CSE-ConnectionGUID: gYMeEBYZTyiQo2yo6+6IKQ==
-X-CSE-MsgGUID: pdJrtc93Rg2gbI5Zr0kAfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="42750016"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Jun 2024 21:23:32 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sKsHi-0009Id-1J;
-	Sat, 22 Jun 2024 04:23:30 +0000
-Date: Sat, 22 Jun 2024 12:22:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [broonie-ci:v6_20240619_amergnat_add_audio_support_for_the_mediatek_genio_350_evk_board
- 34/34] sound/soc/mediatek/mt8365/mt8365-afe-clk.c:298:5: warning: no
- previous prototype for function 'mt8365_afe_hd_engen_enable'
-Message-ID: <202406221249.REEiRekU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEe/E4uQ"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4ecf4100d9dso1384461e0c.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 21:24:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719030295; x=1719635095; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t5LUtvbklJ0OC7BwX1453vWX6X8qtNhByqH0/q7p/+c=;
+        b=VEe/E4uQc3805TmknCfWqGUeUzbsC96ZSgc2PtqJQy4O89B1Tb2Xi5s2syJWwlGCmV
+         wkyqlL5woAVID8N5PQ3sw2Ugdz1TJubiyxUNUUXLY0hGKr+dBL5UtF+hge+/IthEmyjG
+         oRET4s0W2IwPQ5peXrK9/yZ5cO7uVPgYAIe6uTE+xuz1O+7Vp7f6cg9lVtijFvjWSVRm
+         SnKjY3s8Cx/n5y0XA6LYw5oXaroACeZKZFgpQig+Q4mnjNNNLn0b4LQh5DuhHqXHw5b2
+         02bz/3YkbuK3g+6bKbrRawV+sp5DOnE1x4UOhVhoVyadMJCASKwOAIHFK+PBzjd849Dc
+         zYQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719030295; x=1719635095;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t5LUtvbklJ0OC7BwX1453vWX6X8qtNhByqH0/q7p/+c=;
+        b=hxrgqR6HJag5yFb7eHWAS6w3EKJJGo0ZBAsWXkGyJhuvW7CgeLxRFhVnQXvatngb+b
+         Qasf3AX48n48CqgivCq0pTtomDfVwbVimz7vo2YdD/wo/k10raPz40sZc0e0Lx1omALx
+         czxX/mBlXcWH9VfwkKw0ZOZhCj2yjuiXZSXMBxsET6lLOiOjwaI9fpAhtUdiRFRLMNJP
+         I/A5g1ze+ZiolVqmKRuOmr/BkOoHPIrOnzM/yxAaSqsZ2xMoJeEeb3zz3b9MRzap6K5a
+         bOiX71Ml4I0cBPhE9phzym5FYgNYdhj8QyFWOnMvoKq+/N5pfMnUaXe0qoA4S972auov
+         ynbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWr1SohBJgkzy9IRnOU15PIiEkKkI3GEwW7Q9+tM6p6EjTYjEFZ6QiLUSk0WVUlck/iUMl+vwmwMgJwHFkmrmXpbtNt6Fkbc6TyfUUadw==
+X-Gm-Message-State: AOJu0YzO+wPvuil8kpBSEZ3bae0z9MwifcFFU7oQPx+GsrOStfOzj6b4
+	IqqZySBMkVewd/N8ntvfaBK4yyGrUGQKVfku4+HIdeoLK/eK3FbvBs8QSh/xotXkTMnzV8h18oL
+	bDUtsGfaxJ9MuIqp2IpBmKDNWG4U=
+X-Google-Smtp-Source: AGHT+IFN+ilfdJ5aKTG+ZybpklgjM4CXArShZxiQtUHqxGXG7iBINXEeBe6pR85Vd1mDXObf5yR8BxFTJ5Oa+VZL6JM=
+X-Received: by 2002:a05:6122:4127:b0:4ee:244:b0ab with SMTP id
+ 71dfb90a1353d-4ef6508a088mr196137e0c.2.1719030294879; Fri, 21 Jun 2024
+ 21:24:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202406220112.qjyQbasK-lkp@intel.com>
+In-Reply-To: <202406220112.qjyQbasK-lkp@intel.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Sat, 22 Jun 2024 16:24:43 +1200
+Message-ID: <CAGsJ_4xn7bw797EBtNvATgYbu+WiDpqgPY69JY6MxRF8db0jtw@mail.gmail.com>
+Subject: Re: [linux-next:master 6448/7397] mm/swapfile.c:1388:6: error:
+ redefinition of 'swap_free_nr'
+To: kernel test robot <lkp@intel.com>
+Cc: Chuanhua Han <hanchuanhua@oppo.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Barry Song <v-songbaohua@oppo.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	"Huang, Ying" <ying.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alexandre,
+On Sat, Jun 22, 2024 at 7:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   b992b79ca8bc336fa8e2c80990b5af80ed8f36fd
+> commit: b858a8a49e72678a7e0ac90b8135d746b31d7586 [6448/7397] mm: swap: in=
+troduce swap_free_nr() for batched swap_free()
+> config: x86_64-randconfig-014-20240202 (https://download.01.org/0day-ci/a=
+rchive/20240622/202406220112.qjyQbasK-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240622/202406220112.qjyQbasK-lkp@intel.com/reproduce)
 
-First bad commit (maybe != root cause):
+I'm not sure why this is happening. I've downloaded the config and
+kernel code and tried to
+reproduce the issue using the same GCC version, but everything seems fine.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v6_20240619_amergnat_add_audio_support_for_the_mediatek_genio_350_evk_board
-head:   bb7947bc00dc3b464cc5ce3db7617d3ef9a9d753
-commit: bb7947bc00dc3b464cc5ce3db7617d3ef9a9d753 [34/34] ASoC: mediatek: Add MT8365 support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240622/202406221249.REEiRekU-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406221249.REEiRekU-lkp@intel.com/reproduce)
+Is LKP experiencing issues today?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406221249.REEiRekU-lkp@intel.com/
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406220112.qjyQbasK-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from mm/swapfile.c:17:
+>    include/linux/swap.h:519:49: error: expected identifier or '(' before =
+numeric constant
+>      519 | #define total_swap_pages                        0L
+>          |                                                 ^~
+>    mm/swapfile.c:67:6: note: in expansion of macro 'total_swap_pages'
+>       67 | long total_swap_pages;
+>          |      ^~~~~~~~~~~~~~~~
+>    mm/swapfile.c:236:10: warning: no previous prototype for 'swap_folio_s=
+ector' [-Wmissing-prototypes]
+>      236 | sector_t swap_folio_sector(struct folio *folio)
+>          |          ^~~~~~~~~~~~~~~~~
+>    mm/swapfile.c: In function 'set_cluster_next':
+>    mm/swapfile.c:797:22: error: 'SWAP_ADDRESS_SPACE_SHIFT' undeclared (fi=
+rst use in this function)
+>      797 |         if ((prev >> SWAP_ADDRESS_SPACE_SHIFT) !=3D
+>          |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/swapfile.c:797:22: note: each undeclared identifier is reported onl=
+y once for each function it appears in
+>    In file included from include/vdso/const.h:5,
+>                     from include/linux/const.h:4,
+>                     from include/linux/list.h:9,
+>                     from include/linux/wait.h:7,
+>                     from include/linux/wait_bit.h:8,
+>                     from include/linux/fs.h:6,
+>                     from include/linux/highmem.h:5,
+>                     from include/linux/bvec.h:10,
+>                     from include/linux/blk_types.h:10,
+>                     from include/linux/blkdev.h:9,
+>                     from mm/swapfile.c:9:
+>    mm/swapfile.c:803:41: error: 'SWAP_ADDRESS_SPACE_PAGES' undeclared (fi=
+rst use in this function)
+>      803 |                 next =3D ALIGN_DOWN(next, SWAP_ADDRESS_SPACE_P=
+AGES);
+>          |                                         ^~~~~~~~~~~~~~~~~~~~~~=
+~~
+>    include/uapi/linux/const.h:32:44: note: in definition of macro '__ALIG=
+N_KERNEL_MASK'
+>       32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(ma=
+sk))
+>          |                                            ^
+>    include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNE=
+L'
+>        9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1)=
+, (a))
+>          |                                 ^~~~~~~~~~~~~~
+>    mm/swapfile.c:803:24: note: in expansion of macro 'ALIGN_DOWN'
+>      803 |                 next =3D ALIGN_DOWN(next, SWAP_ADDRESS_SPACE_P=
+AGES);
+>          |                        ^~~~~~~~~~
+>    mm/swapfile.c: At top level:
+>    mm/swapfile.c:1071:5: warning: no previous prototype for 'get_swap_pag=
+es' [-Wmissing-prototypes]
+>     1071 | int get_swap_pages(int n_goal, swp_entry_t swp_entries[], int =
+entry_order)
+>          |     ^~~~~~~~~~~~~~
+>    mm/swapfile.c:1278:26: error: redefinition of 'get_swap_device'
+>     1278 | struct swap_info_struct *get_swap_device(swp_entry_t entry)
+>          |                          ^~~~~~~~~~~~~~~
+>    include/linux/swap.h:509:40: note: previous definition of 'get_swap_de=
+vice' with type 'struct swap_info_struct *(swp_entry_t)'
+>      509 | static inline struct swap_info_struct *get_swap_device(swp_ent=
+ry_t entry)
+>          |                                        ^~~~~~~~~~~~~~~
+>    mm/swapfile.c:1350:6: error: redefinition of 'swap_free'
+>     1350 | void swap_free(swp_entry_t entry)
+>          |      ^~~~~~~~~
+>    include/linux/swap.h:559:20: note: previous definition of 'swap_free' =
+with type 'void(swp_entry_t)'
+>      559 | static inline void swap_free(swp_entry_t swp)
+>          |                    ^~~~~~~~~
+> >> mm/swapfile.c:1388:6: error: redefinition of 'swap_free_nr'
+>     1388 | void swap_free_nr(swp_entry_t entry, int nr_pages)
+>          |      ^~~~~~~~~~~~
+>    include/linux/swap.h:563:20: note: previous definition of 'swap_free_n=
+r' with type 'void(swp_entry_t,  int)'
+>      563 | static inline void swap_free_nr(swp_entry_t entry, int nr_page=
+s)
+>          |                    ^~~~~~~~~~~~
+>    mm/swapfile.c:1409:6: error: redefinition of 'put_swap_folio'
+>     1409 | void put_swap_folio(struct folio *folio, swp_entry_t entry)
+>          |      ^~~~~~~~~~~~~~
+>    include/linux/swap.h:567:20: note: previous definition of 'put_swap_fo=
+lio' with type 'void(struct folio *, swp_entry_t)'
+>      567 | static inline void put_swap_folio(struct folio *folio, swp_ent=
+ry_t swp)
+>          |                    ^~~~~~~~~~~~~~
+>    mm/swapfile.c:1461:6: warning: no previous prototype for 'swapcache_fr=
+ee_entries' [-Wmissing-prototypes]
+>     1461 | void swapcache_free_entries(swp_entry_t *entries, int n)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~
+>    mm/swapfile.c:1489:5: error: redefinition of '__swap_count'
+>     1489 | int __swap_count(swp_entry_t entry)
+>          |     ^~~~~~~~~~~~
+>    include/linux/swap.h:571:19: note: previous definition of '__swap_coun=
+t' with type 'int(swp_entry_t)'
+>      571 | static inline int __swap_count(swp_entry_t entry)
+>          |                   ^~~~~~~~~~~~
+>    mm/swapfile.c:1502:5: error: redefinition of 'swap_swapcount'
+>     1502 | int swap_swapcount(struct swap_info_struct *si, swp_entry_t en=
+try)
+>          |     ^~~~~~~~~~~~~~
+>    include/linux/swap.h:576:19: note: previous definition of 'swap_swapco=
+unt' with type 'int(struct swap_info_struct *, swp_entry_t)'
+>      576 | static inline int swap_swapcount(struct swap_info_struct *si, =
+swp_entry_t entry)
+>          |                   ^~~~~~~~~~~~~~
+>    mm/swapfile.c:1518:5: error: redefinition of 'swp_swapcount'
+>     1518 | int swp_swapcount(swp_entry_t entry)
+>          |     ^~~~~~~~~~~~~
+>    include/linux/swap.h:581:19: note: previous definition of 'swp_swapcou=
+nt' with type 'int(swp_entry_t)'
+>      581 | static inline int swp_swapcount(swp_entry_t entry)
+>          |                   ^~~~~~~~~~~~~
+>    mm/swapfile.c:1611:6: error: redefinition of 'folio_free_swap'
+>     1611 | bool folio_free_swap(struct folio *folio)
+>          |      ^~~~~~~~~~~~~~~
+>    include/linux/swap.h:593:20: note: previous definition of 'folio_free_=
+swap' with type 'bool(struct folio *)' {aka '_Bool(struct folio *)'}
+>      593 | static inline bool folio_free_swap(struct folio *folio)
+>          |                    ^~~~~~~~~~~~~~~
+>    mm/swapfile.c:1655:6: error: redefinition of 'free_swap_and_cache_nr'
+>     1655 | void free_swap_and_cache_nr(swp_entry_t entry, int nr)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/swap.h:532:20: note: previous definition of 'free_swap_a=
+nd_cache_nr' with type 'void(swp_entry_t,  int)'
+>      532 | static inline void free_swap_and_cache_nr(swp_entry_t entry, i=
+nt nr)
+>          |                    ^~~~~~~~~~~~~~~~~~~~~~
+>    mm/swapfile.c:2303:1: error: redefinition of 'add_swap_extent'
+>     2303 | add_swap_extent(struct swap_info_struct *sis, unsigned long st=
+art_page,
+>          | ^~~~~~~~~~~~~~~
+>    include/linux/swap.h:598:19: note: previous definition of 'add_swap_ex=
+tent' with type 'int(struct swap_info_struct *, long unsigned int,  long un=
+signed int,  sector_t)' {aka 'int(struct swap_info_struct *, long unsigned =
+int,  long unsigned int,  long long unsigned int)'}
+>      598 | static inline int add_swap_extent(struct swap_info_struct *sis=
+,
+>          |                   ^~~~~~~~~~~~~~~
+>    mm/swapfile.c: In function 'setup_swap_extents':
+>    mm/swapfile.c:2389:21: error: implicit declaration of function 'sio_po=
+ol_init'; did you mean 'mempool_init'? [-Werror=3Dimplicit-function-declara=
+tion]
+>     2389 |                     sio_pool_init() !=3D 0) {
+>          |                     ^~~~~~~~~~~~~
+>          |                     mempool_init
+>    mm/swapfile.c:2396:16: error: implicit declaration of function 'generi=
+c_swapfile_activate' [-Werror=3Dimplicit-function-declaration]
+>     2396 |         return generic_swapfile_activate(sis, swap_file, span)=
+;
+>          |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/swapfile.c: In function '_enable_swap_info':
+>    mm/swapfile.c:2444:26: error: lvalue required as left operand of assig=
+nment
+>     2444 |         total_swap_pages +=3D p->pages;
+>          |                          ^~
+>    mm/swapfile.c: At top level:
+>    mm/swapfile.c:2499:6: warning: no previous prototype for 'has_usable_s=
+wap' [-Wmissing-prototypes]
+>     2499 | bool has_usable_swap(void)
+>          |      ^~~~~~~~~~~~~~~
+>    mm/swapfile.c: In function '__do_sys_swapoff':
+>    mm/swapfile.c:2574:26: error: lvalue required as left operand of assig=
+nment
+>     2574 |         total_swap_pages -=3D p->pages;
+>          |                          ^~
+>    mm/swapfile.c:2650:9: error: implicit declaration of function 'exit_sw=
+ap_address_space'; did you mean 'swap_address_space'? [-Werror=3Dimplicit-f=
+unction-declaration]
+>     2650 |         exit_swap_address_space(p->type);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~
+>          |         swap_address_space
+>    In file included from include/linux/export.h:5,
+>                     from include/linux/linkage.h:7,
+>                     from include/linux/fs.h:5:
+>    mm/swapfile.c: In function 'setup_swap_map_and_extents':
+>    mm/swapfile.c:2995:22: error: 'SWAP_ADDRESS_SPACE_PAGES' undeclared (f=
+irst use in this function)
+>     2995 |         DIV_ROUND_UP(SWAP_ADDRESS_SPACE_PAGES, SWAPFILE_CLUSTE=
+R)
+>          |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler.h:284:55: note: in definition of macro '__is_co=
+nstexpr'
+>      284 |         (sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(x) *=
+ 0l)) : (int *)8)))
+>          |                                                       ^
+>    include/linux/minmax.h:169:33: note: in expansion of macro '__careful_=
+cmp'
+>      169 | #define max_t(type, x, y)       __careful_cmp(max, (type)(x), =
+(type)(y))
+>          |                                 ^~~~~~~~~~~~~
+>    mm/swapfile.c:2997:9: note: in expansion of macro 'max_t'
+>     2997 |         max_t(unsigned int, SWAP_CLUSTER_INFO_COLS, SWAP_CLUST=
+ER_SPACE_COLS)
+>          |         ^~~~~
+>    include/linux/math.h:37:22: note: in expansion of macro '__KERNEL_DIV_=
+ROUND_UP'
+>       37 | #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+>          |                      ^~~~~~~~~~~~~~~~~~~~~
+>    mm/swapfile.c:2997:53: note: in expansion of macro 'SWAP_CLUSTER_SPACE=
+_COLS'
+>     2997 |         max_t(unsigned int, SWAP_CLUSTER_INFO_COLS, SWAP_CLUST=
+ER_SPACE_COLS)
+>          |                                                     ^~~~~~~~~~=
+~~~~~~~~~~~~~
+>    mm/swapfile.c:3010:66: note: in expansion of macro 'SWAP_CLUSTER_COLS'
+>     3010 |         unsigned long col =3D p->cluster_next / SWAPFILE_CLUST=
+ER % SWAP_CLUSTER_COLS;
+>          |                                                               =
+   ^~~~~~~~~~~~~~~~~
+>    In file included from include/linux/container_of.h:5,
+>
+>
+> vim +/swap_free_nr +1388 mm/swapfile.c
+>
+>   1387
+> > 1388  void swap_free_nr(swp_entry_t entry, int nr_pages)
+>   1389  {
+>   1390          int nr;
+>   1391          struct swap_info_struct *sis;
+>   1392          unsigned long offset =3D swp_offset(entry);
+>   1393
+>   1394          sis =3D _swap_info_get(entry);
+>   1395          if (!sis)
+>   1396                  return;
+>   1397
+>   1398          while (nr_pages) {
+>   1399                  nr =3D min_t(int, nr_pages, SWAPFILE_CLUSTER - of=
+fset % SWAPFILE_CLUSTER);
+>   1400                  cluster_swap_free_nr(sis, offset, nr);
+>   1401                  offset +=3D nr;
+>   1402                  nr_pages -=3D nr;
+>   1403          }
+>   1404  }
+>   1405
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
 
-All warnings (new ones prefixed by >>):
-
-   In file included from sound/soc/mediatek/mt8365/mt8365-afe-clk.c:11:
-   In file included from sound/soc/mediatek/mt8365/mt8365-afe-common.h:16:
-   In file included from include/sound/soc.h:26:
-   In file included from include/sound/ac97_codec.h:17:
-   In file included from include/sound/pcm.h:15:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/mediatek/mt8365/mt8365-afe-clk.c:298:5: warning: no previous prototype for function 'mt8365_afe_hd_engen_enable' [-Wmissing-prototypes]
-     298 | int mt8365_afe_hd_engen_enable(struct mtk_base_afe *afe, bool apll1)
-         |     ^
-   sound/soc/mediatek/mt8365/mt8365-afe-clk.c:298:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     298 | int mt8365_afe_hd_engen_enable(struct mtk_base_afe *afe, bool apll1)
-         | ^
-         | static 
->> sound/soc/mediatek/mt8365/mt8365-afe-clk.c:310:5: warning: no previous prototype for function 'mt8365_afe_hd_engen_disable' [-Wmissing-prototypes]
-     310 | int mt8365_afe_hd_engen_disable(struct mtk_base_afe *afe, bool apll1)
-         |     ^
-   sound/soc/mediatek/mt8365/mt8365-afe-clk.c:310:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     310 | int mt8365_afe_hd_engen_disable(struct mtk_base_afe *afe, bool apll1)
-         | ^
-         | static 
->> sound/soc/mediatek/mt8365/mt8365-afe-clk.c:314:24: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Wconstant-conversion]
-     313 |                 regmap_update_bits(afe->regmap, AFE_HD_ENGEN_ENABLE,
-         |                 ~~~~~~~~~~~~~~~~~~
-     314 |                                    AFE_22M_PLL_EN, ~AFE_22M_PLL_EN);
-         |                                                    ^~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8365/mt8365-afe-clk.c:317:24: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551613 to 4294967293 [-Wconstant-conversion]
-     316 |                 regmap_update_bits(afe->regmap, AFE_HD_ENGEN_ENABLE,
-         |                 ~~~~~~~~~~~~~~~~~~
-     317 |                                    AFE_24M_PLL_EN, ~AFE_24M_PLL_EN);
-         |                                                    ^~~~~~~~~~~~~~~
-   9 warnings generated.
---
-   In file included from sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:14:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:173:6: warning: no previous prototype for function 'mt8365_afe_clk_group_44k' [-Wmissing-prototypes]
-     173 | bool mt8365_afe_clk_group_44k(int sample_rate)
-         |      ^
-   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:173:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     173 | bool mt8365_afe_clk_group_44k(int sample_rate)
-         | ^
-         | static 
->> sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:499:5: warning: no previous prototype for function 'mt8365_afe_fe_startup' [-Wmissing-prototypes]
-     499 | int mt8365_afe_fe_startup(struct snd_pcm_substream *substream,
-         |     ^
-   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:499:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     499 | int mt8365_afe_fe_startup(struct snd_pcm_substream *substream,
-         | ^
-         | static 
->> sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:575:9: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709547519 to 4294963199 [-Wconstant-conversion]
-     573 |                         regmap_update_bits(afe->regmap, AFE_CM2_CON0,
-         |                         ~~~~~~~~~~~~~~~~~~
-     574 |                                            CM_AFE_CM2_TDM_SEL,
-     575 |                                            ~CM_AFE_CM2_TDM_SEL);
-         |                                            ^~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:654:29: warning: unused variable 'memif' [-Wunused-variable]
-     654 |         struct mtk_base_afe_memif *memif = &afe->memif[dai_id];
-         |                                    ^~~~~
->> sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:717:5: warning: no previous prototype for function 'mt8365_afe_fe_trigger' [-Wmissing-prototypes]
-     717 | int mt8365_afe_fe_trigger(struct snd_pcm_substream *substream, int cmd,
-         |     ^
-   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:717:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     717 | int mt8365_afe_fe_trigger(struct snd_pcm_substream *substream, int cmd,
-         | ^
-         | static 
-   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:746:23: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551599 to 4294967279 [-Wconstant-conversion]
-     745 |                         regmap_update_bits(afe->regmap, AFE_CM1_CON0,
-         |                         ~~~~~~~~~~~~~~~~~~
-     746 |                                            CM_AFE_CM_ON, ~CM_AFE_CM_ON);
-         |                                                          ^~~~~~~~~~~~~
-   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:750:23: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551599 to 4294967279 [-Wconstant-conversion]
-     749 |                         regmap_update_bits(afe->regmap, AFE_CM2_CON0,
-         |                         ~~~~~~~~~~~~~~~~~~
-     750 |                                            CM_AFE_CM_ON, ~CM_AFE_CM_ON);
-         |                                                          ^~~~~~~~~~~~~
-   12 warnings generated.
---
-   In file included from sound/soc/mediatek/mt8365/mt8365-dai-adda.c:12:
-   In file included from include/sound/pcm_params.h:10:
-   In file included from include/sound/pcm.h:15:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/mediatek/mt8365/mt8365-dai-adda.c:93:8: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Wconstant-conversion]
-      91 |                 regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
-         |                 ~~~~~~~~~~~~~~~~~~
-      92 |                                    AFE_ADDA_UL_DL_ADDA_AFE_ON,
-      93 |                                    ~AFE_ADDA_UL_DL_ADDA_AFE_ON);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   6 warnings generated.
---
-   In file included from sound/soc/mediatek/mt8365/mt8365-dai-dmic.c:12:
-   In file included from include/sound/pcm_params.h:10:
-   In file included from include/sound/pcm.h:15:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/mediatek/mt8365/mt8365-dai-dmic.c:64:7: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551613 to 4294967293 [-Wconstant-conversion]
-      62 |         regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
-         |         ~~~~~~~~~~~~~~~~~~
-      63 |                            AFE_ADDA_UL_DL_DMIC_CLKDIV_ON,
-      64 |                            ~AFE_ADDA_UL_DL_DMIC_CLKDIV_ON);
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8365/mt8365-dai-dmic.c:134:12: warning: unused function 'mt8365_dai_load_dmic_iir_coeff_table' [-Wunused-function]
-     134 | static int mt8365_dai_load_dmic_iir_coeff_table(struct mtk_base_afe *afe)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   7 warnings generated.
---
-   In file included from sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:12:
-   In file included from include/sound/pcm_params.h:10:
-   In file included from include/sound/pcm.h:15:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:388:8: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551613 to 4294967293 [-Wconstant-conversion]
-     386 |                 regmap_update_bits(afe->regmap, AFE_ASRC_2CH_CON0,
-         |                 ~~~~~~~~~~~~~~~~~~
-     387 |                                    COEFF_SRAM_CTRL,
-     388 |                                    (unsigned long)~COEFF_SRAM_CTRL);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:396:16: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709549567 to 4294965247 [-Wconstant-conversion]
-     395 |                 regmap_update_bits(afe->regmap, AFE_ASRC_2CH_CON2,
-         |                 ~~~~~~~~~~~~~~~~~~
-     396 |                                    IIR_EN, (unsigned long)~IIR_EN);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:459:16: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Wconstant-conversion]
-     458 |                 regmap_update_bits(afe->regmap, AFE_ASRC_2CH_CON0,
-         |                 ~~~~~~~~~~~~~~~~~~
-     459 |                                    ASM_ON, (unsigned long)~ASM_ON);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:785:33: warning: unused variable 'mt8365_i2s_enum' [-Wunused-const-variable]
-     785 | static SOC_ENUM_SINGLE_EXT_DECL(mt8365_i2s_enum, mt8365_i2s_hd_str);
-         |                                 ^~~~~~~~~~~~~~~
-   include/sound/soc.h:411:24: note: expanded from macro 'SOC_ENUM_SINGLE_EXT_DECL'
-     411 |         const struct soc_enum name = SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(xtexts), xtexts)
-         |                               ^~~~
-   9 warnings generated.
-
-
-vim +/mt8365_afe_hd_engen_enable +298 sound/soc/mediatek/mt8365/mt8365-afe-clk.c
-
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  297  
-04f09b11a08d4f Alexandre Mergnat 2024-06-19 @298  int mt8365_afe_hd_engen_enable(struct mtk_base_afe *afe, bool apll1)
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  299  {
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  300  	if (apll1)
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  301  		regmap_update_bits(afe->regmap, AFE_HD_ENGEN_ENABLE,
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  302  				   AFE_22M_PLL_EN, AFE_22M_PLL_EN);
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  303  	else
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  304  		regmap_update_bits(afe->regmap, AFE_HD_ENGEN_ENABLE,
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  305  				   AFE_24M_PLL_EN, AFE_24M_PLL_EN);
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  306  
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  307  	return 0;
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  308  }
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  309  
-04f09b11a08d4f Alexandre Mergnat 2024-06-19 @310  int mt8365_afe_hd_engen_disable(struct mtk_base_afe *afe, bool apll1)
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  311  {
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  312  	if (apll1)
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  313  		regmap_update_bits(afe->regmap, AFE_HD_ENGEN_ENABLE,
-04f09b11a08d4f Alexandre Mergnat 2024-06-19 @314  				   AFE_22M_PLL_EN, ~AFE_22M_PLL_EN);
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  315  	else
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  316  		regmap_update_bits(afe->regmap, AFE_HD_ENGEN_ENABLE,
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  317  				   AFE_24M_PLL_EN, ~AFE_24M_PLL_EN);
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  318  
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  319  	return 0;
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  320  }
-04f09b11a08d4f Alexandre Mergnat 2024-06-19  321  
-
-:::::: The code at line 298 was first introduced by commit
-:::::: 04f09b11a08d4fc785f0cbea3ea1dfa20bb9df2a ASoC: mediatek: mt8365: Add audio clock control support
-
-:::::: TO: Alexandre Mergnat <amergnat@baylibre.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Barry
