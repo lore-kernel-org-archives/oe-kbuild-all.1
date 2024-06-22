@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AB014B965;
-	Sat, 22 Jun 2024 09:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9211F14B947
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 10:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719048767; cv=none; b=ltXpPuW0eSUP+O5itIN62wl/v2AHImmWJq9uzKKfGKL1/XJROloZim2N5y6hE/cMMfhHZRC5dJaFwmonorZlpWZbl/J1B2twKaVfuSzh42WjzHrzYqCCmcaduuUEMYDI+7vHvjJ49WrtHaIUbnOf4dCEZ6EM7zfH/rP26D04EYg=
+	t=1719051946; cv=none; b=d6WyDPkI/RPLLTJBrS1VEFMls6rC2IZYGh8rynxdTDGVG3jfsFMEqZ8WHCYxIuaka7h46ZlZSkfUA0YtJgwab0Nv42FhS18pabmloKXCywpeUrwxXr0xEvcyHIkpUeM1xyDCMGKIO/V6rpOh8xzsmBS6V9BQH8VcaDO2j/0BhOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719048767; c=relaxed/simple;
-	bh=W2vO+MhPVEQE6EGayvdc03cCAxGUO4Xc2fdmz2I/eBI=;
+	s=arc-20240116; t=1719051946; c=relaxed/simple;
+	bh=8rT2CqGnm/TJMqmJVoOCjXiNPR3P/9auGCszE/EieWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kAY9wo6UspXQhaNEgYSQi1j/Mo/mKyFrFzhAU86ficIBWnKhM2UenDzP+pZIi7VKwJjzTc0Gj9UMqMJNCfGkRUeZ/hrO0TTXWeT4EXulU9UFsJdhjnFYVBGCCRKZMc7S8GSU31+GqoFlh21yKPnT+y6hfvSsce59cvI67g0L3PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JScH60+3; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=AKwZ1NzpuzRhUOoffBouI+dxu92YOjcFgjZNIwLuE7ylgIINwclt7ac1E8BUPGlnhAioWZs4bHEK4HRQW//mb81/0+AKOPnHUzPK3Qma+KhtWdRKcYfGKQIw+fAPHBIKQmLxs9xEY6x+8s7hR+nLHlsKf/ZWM9NPwsDzAjHPQ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVYct8X9; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JScH60+3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVYct8X9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719048766; x=1750584766;
+  t=1719051945; x=1750587945;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W2vO+MhPVEQE6EGayvdc03cCAxGUO4Xc2fdmz2I/eBI=;
-  b=JScH60+3rdOW30+52wtxCHLSXC4ysQP02cx8LQ48TkmLuUDQ8v39fvtN
-   wbvbIxZwLjah8au29P0EbOOD3a6Gppo4MnOhbKXbOw45vkakhyMEKTWoK
-   RUMRrJ5zQ1utQ4FjmvDa1uORzIe9uQCwu7otZrpQ25C/elYZUj5h1vfi9
-   Y3EkcK09LIFfKFIXXVEhjJiS0pWJSdpxiJ6+Pd71kwZGT5yMUZ9Ug1poV
-   370nPxdGGKCL5q+f82DN34eRX+iniqHt5lA7ScHcpiU1W20uyzEnH+kU6
-   8SnX7Ie+ewmr2DLqthruWLj3VNP9dml7en9BT17YEODUGWCGyE+3vCvHn
+  bh=8rT2CqGnm/TJMqmJVoOCjXiNPR3P/9auGCszE/EieWM=;
+  b=fVYct8X9/4qxBU7hcOqnI5FRrjkCVnsDvDF9Z4JDs6A/jcvdCEFSJvbx
+   SUh81Qyx2MiaDozmFrO6LkbWkBkS26IrclckJvlUpC7fv83z3/I7487jK
+   BJXcYKpXm3Ke+8udJAA/iFWqF6nFT+shvgP+IzmZpgASSX+EfMgZBXo1q
+   1SdoxSJgXCzO2hNGgwRhUtBsLfK00YBK0OSnH6zNsPfPvzHhctQdYs9Fd
+   tmm7cSZCEh4RsYs/J9aOF0myiLdY+eWmR5OF+LIrpqfdr6f3ZQS7ldlnX
+   jWnpwb7OFdhZyKvEm7zakfhM3FBOhCXI20vqWRW/7BRimjpRqjbeJazjd
    w==;
-X-CSE-ConnectionGUID: GESuZs6eQQeUbaSW/YrJrA==
-X-CSE-MsgGUID: IBL/nUv1TMu93S2auxFPCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="27484899"
+X-CSE-ConnectionGUID: mAhiWAZoRbGnAIWJjDG4rQ==
+X-CSE-MsgGUID: 5QTtrEvaRXySmzFnv+2aug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="27215838"
 X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
-   d="scan'208";a="27484899"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 02:32:43 -0700
-X-CSE-ConnectionGUID: 5bpCH7fkTg6x4MvPvi/pVw==
-X-CSE-MsgGUID: 4rfv4OkuREepAGh+CwnXaQ==
+   d="scan'208";a="27215838"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 03:25:44 -0700
+X-CSE-ConnectionGUID: aoubWgVLSbCWco7+0w6/nQ==
+X-CSE-MsgGUID: 8zxM5mGzTc6JX+FpqcLfpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
-   d="scan'208";a="42915707"
+   d="scan'208";a="73576700"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 Jun 2024 02:32:41 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 Jun 2024 03:25:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKx6t-0009Vq-0x;
-	Sat, 22 Jun 2024 09:32:39 +0000
-Date: Sat, 22 Jun 2024 17:32:37 +0800
+	id 1sKxwC-0009XW-1j;
+	Sat, 22 Jun 2024 10:25:40 +0000
+Date: Sat, 22 Jun 2024 18:25:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alan Maguire <alan.maguire@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrii Nakryiko <andrii@kernel.org>
-Subject: [bpf-next:master 9/12] kernel/bpf/btf.c:8251:22: error: call to
- undeclared function 'btf_relocate_id'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202406221742.d2srFLVI-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>
+Subject: [bpf-next:master 9/12] kernel/bpf/btf.c:8251:36: error: implicit
+ declaration of function 'btf_relocate_id'; did you mean 'btf_relocate'?
+Message-ID: <202406221805.CeoGYjz6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,45 +65,34 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
 head:   93265a0b79e48fde8ee23fb6e1195d7d99717063
 commit: 8646db238997df36c6ad71a9d7e0b52ceee221b2 [9/12] libbpf,bpf: Share BTF relocate-related code with kernel
-config: i386-buildonly-randconfig-003-20240622 (https://download.01.org/0day-ci/archive/20240622/202406221742.d2srFLVI-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406221742.d2srFLVI-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20240622 (https://download.01.org/0day-ci/archive/20240622/202406221805.CeoGYjz6-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406221805.CeoGYjz6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406221742.d2srFLVI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406221805.CeoGYjz6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/bpf/btf.c:8251:22: error: call to undeclared function 'btf_relocate_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   kernel/bpf/btf.c: In function 'btf_seq_show':
+   kernel/bpf/btf.c:7544:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    7544 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
+         |                             ^~~~~~~~
+   kernel/bpf/btf.c: In function 'btf_snprintf_show':
+   kernel/bpf/btf.c:7581:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    7581 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
+         |         ^~~
+   kernel/bpf/btf.c: In function 'btf_populate_kfunc_set':
+>> kernel/bpf/btf.c:8251:36: error: implicit declaration of function 'btf_relocate_id'; did you mean 'btf_relocate'? [-Werror=implicit-function-declaration]
     8251 |                 set->pairs[i].id = btf_relocate_id(btf, set->pairs[i].id);
-         |                                    ^
-   kernel/bpf/btf.c:8251:22: note: did you mean 'btf_relocate'?
-   include/linux/btf.h:556:5: note: 'btf_relocate' declared here
-     556 | int btf_relocate(struct btf *btf, const struct btf *base_btf, __u32 **map_ids);
-         |     ^
-   kernel/bpf/btf.c:8376:37: error: call to undeclared function 'btf_relocate_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    8376 |                 ret = btf_check_kfunc_protos(btf, btf_relocate_id(btf, kset->set->pairs[i].id),
-         |                                                   ^
-   kernel/bpf/btf.c:8440:17: error: call to undeclared function 'btf_relocate_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    8440 |                 dtor_btf_id = btf_relocate_id(btf, dtors[i].kfunc_btf_id);
-         |                               ^
-   kernel/bpf/btf.c:8529:26: error: call to undeclared function 'btf_relocate_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    8529 |                 tab->dtors[i].btf_id = btf_relocate_id(btf, tab->dtors[i].btf_id);
-         |                                        ^
-   4 errors generated.
---
->> tools/lib/bpf/btf_relocate.c:206:23: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     206 |                 info[id].needs_size = true;
-         |                                     ^ ~~~~
-   tools/lib/bpf/btf_relocate.c:256:25: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     256 |                         base_info.needs_size = true;
-         |                                              ^ ~~~~
-   2 warnings generated.
+         |                                    ^~~~~~~~~~~~~~~
+         |                                    btf_relocate
+   cc1: some warnings being treated as errors
 
 
-vim +/btf_relocate_id +8251 kernel/bpf/btf.c
+vim +8251 kernel/bpf/btf.c
 
   8155	
   8156	static int btf_populate_kfunc_set(struct btf *btf, enum btf_kfunc_hook hook,
