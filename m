@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5355E2D60A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 17:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA064085D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 20:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719077703; cv=none; b=SAyEhP2GpYxt6+NvCvCZfSA+4W3qTtTUiqOB13wzfDlJURyGBhEH5KupzoYb6af2CvKNOQgv1eU/TEhByAU50ThCXsEplYCtSV/YRCoAoH78TxqyTLJ0HqIT8R05AXUgwQCz/LZ6UFXN0t3MGdcI/ZKqLC0CzCuBAiKBYhWfeAg=
+	t=1719089348; cv=none; b=tt603p8RCPiTtCTHsFXWELlb8TdInu2hFT/hYqpjDw+83AJHvRdLFFc2+Evgr/TekYlXPCpbtZzjBfO8oL4gLXjxhWhev24tutlunh/6+ePgHhqN0ePxcjbE9k+1DRprAcQKp7IGQF9nAs3XYR3FH8Uqv3hTc/X5x15+SeTcq64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719077703; c=relaxed/simple;
-	bh=PLH+W5Kr1OGDldrMep9Yo5HHMyeJMw3xX96JkBB/AYw=;
+	s=arc-20240116; t=1719089348; c=relaxed/simple;
+	bh=iTLu5PJ4vdmipW0DFIh1wWr4N36RaonN3vhUtqsnjaU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IQ73Fwo7we9LBTkHF77jANXW+5E6SZigrptXCyMUlO3fewTpm6aRx4lFyGwuTWYSadCDyyK64obSY8UfOE7ymb9lhh1vvhrzkLYyUXRtXX98z1Ef5viAvpuqbXeCXwpIBh2KcUrfcHxanbRX8IsRLMmutLetOX/fwG/giRqKzXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8zFJUQW; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=M8vWIb5kI9ybLqmGDirS6x39xTcFPABphRhpB6xwZg02r3L04KRHE1cf1F6vnURFkkslELAcq4sNSpNWCJhxPn7OMHV2RFzUNPOzlZxoAGO+zUR+zsjOXOnt2sYRHcB4JFtyDle9Ict3xWOhvckKyB414BZN73pApEIguKYJaMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ayl7K2xf; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8zFJUQW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ayl7K2xf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719077700; x=1750613700;
+  t=1719089346; x=1750625346;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PLH+W5Kr1OGDldrMep9Yo5HHMyeJMw3xX96JkBB/AYw=;
-  b=T8zFJUQW6KEdLoB7KewOtpp6Yap23nCSr7IpR7W/1y8gzr5uqnK5wgq1
-   vc0fYycRN5+DgRoldXcBAteqjLlRK1JzmuinorY1lFh6Vh0v+97zmKFrm
-   WIi3XEOzOMf/h3q49xHKmSlVWMoAVmEQJGKdvEqPalX0y5g/GoEEKzHNU
-   xxVf543RMCX1Lq/hkjnNKrw/N1oNt3giGEgTdhKCLcRlnZxbXeyt2oH6T
-   uk5SHmUtmYdCbfOqGfVBpMs6J6GS+Ui1NeSjk4WXxq54UFiRXK7LiZ/wh
-   kE8egwgxiDD+gnmzm+G50a/sePmGPLqZM2iaYoIKsA0cri2A+kUExr/9f
+  bh=iTLu5PJ4vdmipW0DFIh1wWr4N36RaonN3vhUtqsnjaU=;
+  b=Ayl7K2xfs8zOwjv6kOrf49tqdQMgbCr4vTiPAy/0DdBBEQwUBcDoUDQx
+   WWk00z1odJcDhQwx5yL/jqAcOgR2h0ynbqciU37gaHI7sWQp9g/oDCmdG
+   CWUnRpP5XfZqJOSfZuHiY2r10+V1sTjR1tG9eFBj6ex6UCdPE7X2RFZ5N
+   Sqaa9dAf7F/rWNQHRFBpGqJigEuVi69hG1JEX3EyKBV9ddg4qnK6Qn1BQ
+   8wkTSInezV4fQpvpbMW8loMCFUdh1+7Ymdvm/SPuCa1+rra+1cJt7nXQa
+   UWXOgbUNzZ9iLFKEI+gbppt8fxILQC+0Qi6X2IZgBwJ+tumQGOSjrn8aG
    g==;
-X-CSE-ConnectionGUID: d2FobVpmSt+rxKALDrfo1w==
-X-CSE-MsgGUID: 9kUuIfn9R9uNqziQl4rBog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="27496481"
+X-CSE-ConnectionGUID: qwwZbIreRbW0N4unDcHsbw==
+X-CSE-MsgGUID: Nu5gFQgnTF6vbz97TOiNLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="26783732"
 X-IronPort-AV: E=Sophos;i="6.08,258,1712646000"; 
-   d="scan'208";a="27496481"
+   d="scan'208";a="26783732"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 10:35:00 -0700
-X-CSE-ConnectionGUID: 4jmiM1tGSfG5hEYQBwChfQ==
-X-CSE-MsgGUID: 5imaS8AJQyqN6p7sL4bT7Q==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 13:49:05 -0700
+X-CSE-ConnectionGUID: 2qyphCD6RQec08XCRNHwew==
+X-CSE-MsgGUID: YN/wzdLdQIGVbNOkcbCcTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,258,1712646000"; 
-   d="scan'208";a="43319681"
+   d="scan'208";a="43345454"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Jun 2024 10:34:58 -0700
+  by orviesa006.jf.intel.com with ESMTP; 22 Jun 2024 13:49:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sL4db-0009qw-2q;
-	Sat, 22 Jun 2024 17:34:55 +0000
-Date: Sun, 23 Jun 2024 01:34:19 +0800
+	id 1sL7fR-0009zT-2M;
+	Sat, 22 Jun 2024 20:49:01 +0000
+Date: Sun, 23 Jun 2024 04:48:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [usb:usb-testing 18/29]
- arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800:
- interrupt-names:1: 'hs_phy_irq' was expected
-Message-ID: <202406230117.PmWeGRVI-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/000-devicetree 179/184]
+ arch/arm64/boot/dts/apple/t602x-dieX.dtsi:314.39-333.4: Warning
+ (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address
+ format error, expected "39b540000"
+Message-ID: <202406230407.mfv8vk0s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,95 +64,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   819984a0dd3606b7c46fe156cd56a0dc0d604788
-commit: 34aa3ca43902baf3440480bf95abf88b4e092588 [18/29] dt-bindings: usb: qcom,dwc3: Add SC8180X compatibles
-config: arm64-randconfig-051-20240622 (https://download.01.org/0day-ci/archive/20240623/202406230117.PmWeGRVI-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: 37f258d8538e5c156785b30e52b71d9f5832c03c [179/184] arm64: apple: t602x: Add sio and dpaudio device nodes
+config: arm64-randconfig-001-20240607 (https://download.01.org/0day-ci/archive/20240623/202406230407.mfv8vk0s-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406230117.PmWeGRVI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406230407.mfv8vk0s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406230117.PmWeGRVI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406230407.mfv8vk0s-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:0: 'pwr_event' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:0: 'pwr_event' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:1: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: panel: 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: clock-controller@af00000: clocks: [[41, 0], [42], [116, 0], [116, 1], [120, 0], [120, 1], [123, 0], [123, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: clock-controller@af00000: clock-names:1: 'dsi0_phy_pll_out_byteclk' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: clock-controller@af00000: clock-names:2: 'dsi0_phy_pll_out_dsiclk' was expected
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:601.28-604.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:606.34-609.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:611.22-614.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/isp-common.dtsi:18.22-23.5: Warning (unit_address_vs_reg): /reserved-memory/isp-heap: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:477.14-491.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:493.14-502.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:388.29-393.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:314.39-333.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:335.39-354.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:91.42-94.7: Warning (unique_unit_address_if_enabled): /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/panic-count@2)
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:12.10-14.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t602x-die0.dtsi:376.9-385.5: Warning (graph_child_address): /soc/dcp@389c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-die0.dtsi:610.9-619.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:89.9-98.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:241.9-250.5: Warning (graph_child_address): /soc/dcp@315c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:323.9-332.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:344.9-353.5: Warning (graph_child_address): /soc/audio-controller@39b508000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
 --
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:0: 'pwr_event' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:0: 'pwr_event' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:1: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: panel: 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: clock-controller@af00000: clocks: [[41, 0], [42], [118, 0], [118, 1], [122, 0], [122, 1], [125, 0], [125, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: clock-controller@af00000: clock-names:1: 'dsi0_phy_pll_out_byteclk' was expected
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: clock-controller@af00000: clock-names:2: 'dsi0_phy_pll_out_dsiclk' was expected
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:601.28-604.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:606.34-609.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:611.22-614.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:300.14-309.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:311.14-320.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:388.29-393.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:314.39-333.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:335.39-354.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:91.42-94.7: Warning (unique_unit_address_if_enabled): /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/panic-count@2)
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:12.10-14.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t602x-die0.dtsi:376.9-385.5: Warning (graph_child_address): /soc/dcp@389c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-die0.dtsi:610.9-619.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:89.9-98.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:241.9-250.5: Warning (graph_child_address): /soc/dcp@315c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:323.9-332.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:344.9-353.5: Warning (graph_child_address): /soc/audio-controller@39b508000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+--
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:601.28-604.5: Warning (unit_address_vs_reg): /reserved-memory/uat-handoff: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:606.34-609.5: Warning (unit_address_vs_reg): /reserved-memory/uat-pagetables: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:611.22-614.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:300.14-309.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:311.14-320.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:388.29-393.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:314.39-333.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:335.39-354.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:12.10-31.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t602x-die0.dtsi:91.42-94.7: Warning (unique_unit_address_if_enabled): /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@29e114000/pmu@f/legacy_nvmem@6000/panic-count@2)
+   arch/arm64/boot/dts/apple/t602x-common.dtsi:12.10-14.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+>> arch/arm64/boot/dts/apple/t602x-die0.dtsi:376.9-385.5: Warning (graph_child_address): /soc/dcp@389c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-die0.dtsi:610.9-619.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:89.9-98.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:241.9-250.5: Warning (graph_child_address): /soc/dcp@315c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:323.9-332.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t602x-dieX.dtsi:344.9-353.5: Warning (graph_child_address): /soc/audio-controller@39b508000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+
+vim +/39b540000 +314 arch/arm64/boot/dts/apple/t602x-dieX.dtsi
+
+ > 241			ports {
+   242				#address-cells = <1>;
+   243				#size-cells = <0>;
+   244				port@0 {
+   245					reg = <0>;
+   246					DIE_NODE(dcpext1_audio): endpoint {
+   247						remote-endpoint = <&DIE_NODE(dpaudio2_dcp)>;
+   248					};
+   249				};
+   250			};
+   251		};
+   252	
+   253		DIE_NODE(sio_dart): iommu@39b008000 {
+   254			compatible = "apple,t6020-dart", "apple,t8110-dart";
+   255			reg = <0x3 0x9b008000 0x0 0x4000>;
+   256			interrupt-parent = <&aic>;
+   257			interrupts = <AIC_IRQ DIE_NO 1231 IRQ_TYPE_LEVEL_HIGH>;
+   258			#iommu-cells = <1>;
+   259			power-domains = <&DIE_NODE(ps_sio)>;
+   260			//apple,dma-range = <0x100 0x0001c000 0x2ff 0xfffe4000>;
+   261		};
+   262	
+   263		DIE_NODE(pinctrl_ap): pinctrl@39b028000 {
+   264			compatible = "apple,t6020-pinctrl", "apple,pinctrl";
+   265			reg = <0x3 0x9b028000 0x0 0x4000>;
+   266	
+   267			interrupt-parent = <&aic>;
+   268			interrupts = <AIC_IRQ DIE_NO 458 IRQ_TYPE_LEVEL_HIGH>,
+   269					<AIC_IRQ DIE_NO 459 IRQ_TYPE_LEVEL_HIGH>,
+   270					<AIC_IRQ DIE_NO 460 IRQ_TYPE_LEVEL_HIGH>,
+   271					<AIC_IRQ DIE_NO 461 IRQ_TYPE_LEVEL_HIGH>,
+   272					<AIC_IRQ DIE_NO 462 IRQ_TYPE_LEVEL_HIGH>,
+   273					<AIC_IRQ DIE_NO 463 IRQ_TYPE_LEVEL_HIGH>,
+   274					<AIC_IRQ DIE_NO 464 IRQ_TYPE_LEVEL_HIGH>;
+   275	
+   276			clocks = <&clkref>;
+   277			power-domains = <&DIE_NODE(ps_gpio)>;
+   278	
+   279			gpio-controller;
+   280			#gpio-cells = <2>;
+   281			gpio-ranges = <&DIE_NODE(pinctrl_ap) 0 0 255>;
+   282			apple,npins = <255>;
+   283	
+   284			interrupt-controller;
+   285			#interrupt-cells = <2>;
+   286		};
+   287	
+   288		DIE_NODE(sio_mbox): mbox@39bc08000 {
+   289			compatible = "apple,t6020-asc-mailbox", "apple,asc-mailbox-v4";
+   290			reg = <0x3 0x9bc08000 0x0 0x4000>;
+   291			interrupt-parent = <&aic>;
+   292			interrupts = <AIC_IRQ DIE_NO 1248 IRQ_TYPE_LEVEL_HIGH>,
+   293				<AIC_IRQ DIE_NO 1249 IRQ_TYPE_LEVEL_HIGH>,
+   294				<AIC_IRQ DIE_NO 1250 IRQ_TYPE_LEVEL_HIGH>,
+   295				<AIC_IRQ DIE_NO 1251 IRQ_TYPE_LEVEL_HIGH>;
+   296			interrupt-names = "send-empty", "send-not-empty",
+   297				"recv-empty", "recv-not-empty";
+   298			#mbox-cells = <0>;
+   299			power-domains = <&DIE_NODE(ps_sio_cpu)>;
+   300		};
+   301	
+   302		DIE_NODE(sio): sio@39bc00000 {
+   303			compatible = "apple,t6020-sio", "apple,sio";
+   304			reg = <0x3 0x9bc00000 0x0 0x8000>;
+   305			dma-channels = <128>;
+   306			#dma-cells = <1>;
+   307			mboxes = <&DIE_NODE(sio_mbox)>;
+   308			iommus = <&DIE_NODE(sio_dart) 0>;
+   309			power-domains = <&DIE_NODE(ps_sio_cpu)>;
+   310			resets = <&DIE_NODE(ps_sio_cpu)>;
+   311			status = "disabled";
+   312		};
+   313	
+ > 314		DIE_NODE(dpaudio1): audio-controller@39b504000 {
+   315			compatible = "apple,t6020-dpaudio", "apple,dpaudio";
+   316			reg = <0x3 0x9b540000 0x0 0x4000>;
+   317			dmas = <&DIE_NODE(sio) 0x66>;
+   318			dma-names = "tx";
+   319			power-domains = <&DIE_NODE(ps_dpa1)>;
+   320			reset-domains = <&DIE_NODE(ps_dpa1)>;
+   321			status = "disabled";
+   322	
+ > 323			ports {
+   324				#address-cells = <1>;
+   325				#size-cells = <0>;
+   326				port@0 {
+   327					reg = <0>;
+   328					DIE_NODE(dpaudio1_dcp): endpoint {
+   329						remote-endpoint = <&DIE_NODE(dcpext0_audio)>;
+   330					};
+   331				};
+   332			};
+   333		};
+   334	
+ > 335		DIE_NODE(dpaudio2): audio-controller@39b508000 {
+   336			compatible = "apple,t6020-dpaudio", "apple,dpaudio";
+   337			reg = <0x3 0x9b580000 0x0 0x4000>;
+   338			dmas = <&DIE_NODE(sio) 0x68>;
+   339			dma-names = "tx";
+   340			power-domains = <&DIE_NODE(ps_dpa2)>;
+   341			reset-domains = <&DIE_NODE(ps_dpa2)>;
+   342			status = "disabled";
+   343	
+ > 344			ports {
 
 -- 
 0-DAY CI Kernel Test Service
