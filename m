@@ -1,82 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D0916EB76
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jun 2024 23:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BD3A5F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 01:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719013956; cv=none; b=q+EH3xqEcwBMvPtkKzAzNC4d+oCGbCkJ5Pq2/Z2/JeGcHQIR4E4U6OFA81vN4vgcZDsjdc09oZRJN0fRmj07xiV05LZirTuUNMit8H+9cguA+Wrp/3iOXe19Wv3wjwi1HHTSUbH+cHuz4VvJN7G6fp3ZI/Sa2A9fC4WvM3q+Kjg=
+	t=1719020735; cv=none; b=kpvISlT3V0+eKkuLT/ur/ausea5MkJWnSzHTZTLZuhUnQJ+ZGVfE+rANIyfmFOFZ8wRJQ78SmH7z1zR4tejXgvhErPVezsZncUJY9wqEvEBHDFsAbjZWvT07UseVBSj8E3X1rqv7LA1J1eXWsZ/uwBOQoMhYoRJxUaR9oRJ4tKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719013956; c=relaxed/simple;
-	bh=IlwUS5voj83yrVnahkbmNFGTdQnaGbO/2+ABzc4IILs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hnu5b/bA0A6JLEXN1NedLXveL9IPAs2z9tSA+YzYtqZWVQpQLUYHd7ZOf6UwKHihTDKDyOsrgH8cc1p9f8kyvRaN2iDNE2pU7IQtffS5Q+wGLHoA8/iIkquQ29KBt3GHl2GNAfs6c82A35m7P/ip/ZYpSa7+IKSz6S88oT2YNo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cImwVyye; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1719020735; c=relaxed/simple;
+	bh=w6EuVaMnuGqffeBQVudVdtabWJEl7m3aoSA1dDkx7p4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tzTUc6QkS0LmqB29B/5I0/m+OjXRVVyt4T82EchlTL4SfrF7OMKuHVOl0uRaOv/MTE/iKJs9lIoFRvs2tAHGQgv083Ndd8FV0dkrihgOUbKxDVq0DS0WvK735Gm/xpiw1UXwdBbc5gLqXSctLgwUSCVdwo/nQb3zmgDlkmp1NTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pm3A/Yoz; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cImwVyye"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pm3A/Yoz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719013954; x=1750549954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IlwUS5voj83yrVnahkbmNFGTdQnaGbO/2+ABzc4IILs=;
-  b=cImwVyyekRY5OZJaryRZPQh71HgNYY9Fp5r9z8m6YCr+ABz4FQ1Bwv47
-   csW5JfNel0WtX8SqM+dlYvkpjtNfun7guz6JVfIqtVf1kygFMD6ZWqwCz
-   zriXC67WuQ7WtgqKii8x6qryATwX+RPqyIyXrHXbqb0FlpmKL4XKPQVwA
-   nfVH9mIJKqu+E406xNXQJTzU66m2E1VE7g7biXP7IZWSi3b4SDiL6ENpZ
-   Umbj9WrnbZ+vijFeBUNTeHdsrzzDhp2IBqqES6ddQfPfUCSyVHup07jo2
-   kLLk85DuCxFUbyQm2QXx4aOOY1AsHZr+O671KrmKZNVxI0X0EdLrkD51N
-   w==;
-X-CSE-ConnectionGUID: ygoYM29/TAWGHEwhOkPY3Q==
-X-CSE-MsgGUID: uU2OGhfGQSG7sPm0xJk5yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="12187908"
+  t=1719020733; x=1750556733;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=w6EuVaMnuGqffeBQVudVdtabWJEl7m3aoSA1dDkx7p4=;
+  b=Pm3A/YozGNBSvD+WIDuOQ/rr7rqRwv9tBB/4Q/+nqBtITb3dYKvnh9Vk
+   mb2Nhc786bw5msQTMfRYEyIuv5pz+8dQIWDpVDypaA5IojhqhusmI4yyP
+   k7HQ2vMupXPtieL7ebYjE5kq44hINQaYjNvCqFHLtpXe4rnTftIBlNRY8
+   nS/dC7MQ3mzrRkk9+81yxNlclSF/Y7PRxtNxE3nJ9drREKT5srQUsm5H5
+   24/cuamLCr9yqL7d3bzcYySjx6zRJUEBPdh4Z9u9Kt9khSkyPQWOGRg/S
+   IZ/BiryxRJMdMkBgQfA03VVQIxazEJ29NDeUiP06JlwHd3mK91QJmzZGX
+   A==;
+X-CSE-ConnectionGUID: zzji53r4R8GsW+6DZN1bog==
+X-CSE-MsgGUID: 7UVRvJflQaqTKZLTxj6p9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="26757034"
 X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="12187908"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 16:52:34 -0700
-X-CSE-ConnectionGUID: +x18Je5kQISObAMfhdR0PQ==
-X-CSE-MsgGUID: ii9jeeHUSw+zSg9dMw+REQ==
+   d="scan'208";a="26757034"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 18:45:31 -0700
+X-CSE-ConnectionGUID: P9mNGZ4PSg6nYDPUX+2TUg==
+X-CSE-MsgGUID: 2qrnDWnzSaSjiXaocmm9fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="43173490"
+   d="scan'208";a="43444165"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Jun 2024 16:52:27 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 Jun 2024 18:45:30 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKo3M-00098S-1O;
-	Fri, 21 Jun 2024 23:52:24 +0000
-Date: Sat, 22 Jun 2024 07:51:30 +0800
+	id 1sKpok-0009DC-3B;
+	Sat, 22 Jun 2024 01:45:26 +0000
+Date: Sat, 22 Jun 2024 09:45:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 12/23] mfd: Add new driver for MAX77705 PMIC
-Message-ID: <202406220754.8crTEWeR-lkp@intel.com>
-References: <20240618-starqltechn_integration_upstream-v3-12-e3f6662017ac@gmail.com>
+To: Nicolas Belin <nbelin@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [broonie-ci:v6_20240619_amergnat_add_audio_support_for_the_mediatek_genio_350_evk_board
+ 33/34] sound/soc/codecs/mt6357.c:993:29: warning: unused variable 'priv'
+Message-ID: <202406220937.v2IRV5Lt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,120 +63,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-12-e3f6662017ac@gmail.com>
 
-Hi Dzmitry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6906a84c482f098d31486df8dc98cead21cce2d0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20240618-222456
-base:   6906a84c482f098d31486df8dc98cead21cce2d0
-patch link:    https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-12-e3f6662017ac%40gmail.com
-patch subject: [PATCH v3 12/23] mfd: Add new driver for MAX77705 PMIC
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240622/202406220754.8crTEWeR-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220754.8crTEWeR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v6_20240619_amergnat_add_audio_support_for_the_mediatek_genio_350_evk_board
+head:   bb7947bc00dc3b464cc5ce3db7617d3ef9a9d753
+commit: 60c32c70aea34f30fbf5d754189b32581cf6a425 [33/34] ASoC: codecs: add MT6357 support
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240622/202406220937.v2IRV5Lt-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220937.v2IRV5Lt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406220754.8crTEWeR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406220937.v2IRV5Lt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/mfd/max77705-core.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2214:
-   include/linux/vmstat.h:484:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     484 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     485 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:491:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     491 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     492 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:498:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     498 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:512:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     512 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     513 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/mfd/max77705-core.c:20:
->> include/linux/mfd/max77705-private.h:243:19: error: use of undeclared identifier 'MAX77705_USBC_REG_END'; did you mean 'MAX77705_PMIC_REG_END'?
-     243 |         u8 reg_muic_dump[MAX77705_USBC_REG_END];
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-         |                          MAX77705_PMIC_REG_END
-   include/linux/mfd/max77705-private.h:96:2: note: 'MAX77705_PMIC_REG_END' declared here
-      96 |         MAX77705_PMIC_REG_END,
-         |         ^
-   5 warnings and 1 error generated.
+   sound/soc/codecs/mt6357.c: In function 'mt_delay_250_event':
+>> sound/soc/codecs/mt6357.c:993:29: warning: unused variable 'priv' [-Wunused-variable]
+     993 |         struct mt6357_priv *priv = snd_soc_component_get_drvdata(cmpnt);
+         |                             ^~~~
+   sound/soc/codecs/mt6357.c: In function 'mt6357_platform_driver_probe':
+>> sound/soc/codecs/mt6357.c:1867:55: warning: too many arguments for format [-Wformat-extra-args]
+    1867 |                 return dev_err_probe(&pdev->dev, ret, "Failed to parse dts\n", __func__);
+         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +243 include/linux/mfd/max77705-private.h
+vim +/priv +993 sound/soc/codecs/mt6357.c
 
-   216	
-   217	struct max77705_dev {
-   218		struct device *dev;
-   219		struct i2c_client *i2c; /* 0xCC; Haptic, PMIC */
-   220		struct i2c_client *charger; /* 0xD2; Charger */
-   221		struct i2c_client *fuelgauge; /* 0x6C; Fuelgauge */
-   222		struct i2c_client *muic; /* 0x4A; MUIC */
-   223		struct i2c_client *debug; /* 0xC4; Debug */
-   224		struct mutex i2c_lock;
-   225	
-   226		struct regmap *regmap;
-   227		struct regmap *regmap_fg;
-   228		struct regmap *regmap_charger;
-   229		struct regmap *regmap_leds;
-   230	
-   231		int type;
-   232	
-   233		int irq;
-   234		int irq_base;
-   235		int irq_masks_cur[MAX77705_IRQ_GROUP_NR];
-   236		int irq_masks_cache[MAX77705_IRQ_GROUP_NR];
-   237		bool wakeup;
-   238		struct mutex irqlock;
-   239	
-   240	#ifdef CONFIG_HIBERNATION
-   241		/* For hibernation */
-   242		u8 reg_pmic_dump[MAX77705_PMIC_REG_END];
- > 243		u8 reg_muic_dump[MAX77705_USBC_REG_END];
-   244		u8 reg_led_dump[MAX77705_LED_REG_END];
-   245	#endif
-   246	
-   247		/* pmic VER/REV register */
-   248		u8 pmic_rev;	/* pmic Rev */
-   249		u8 pmic_ver;	/* pmic version */
-   250	
-   251		u8 cc_booting_complete;
-   252	
-   253		wait_queue_head_t queue_empty_wait_q;
-   254		int doing_irq;
-   255		int is_usbc_queue;
-   256	
-   257		struct max77705_platform_data *pdata;
-   258	};
-   259	
+   987	
+   988	static int mt_delay_250_event(struct snd_soc_dapm_widget *w,
+   989				      struct snd_kcontrol *kcontrol,
+   990				      int event)
+   991	{
+   992		struct snd_soc_component *cmpnt = snd_soc_dapm_to_component(w->dapm);
+ > 993		struct mt6357_priv *priv = snd_soc_component_get_drvdata(cmpnt);
+   994	
+   995		switch (event) {
+   996		case SND_SOC_DAPM_POST_PMU:
+   997			usleep_range(250, 270);
+   998			break;
+   999		case SND_SOC_DAPM_PRE_PMD:
+  1000			usleep_range(250, 270);
+  1001			break;
+  1002		default:
+  1003			break;
+  1004		}
+  1005	
+  1006		return 0;
+  1007	}
+  1008	
 
 -- 
 0-DAY CI Kernel Test Service
