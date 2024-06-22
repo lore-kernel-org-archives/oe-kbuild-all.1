@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755688BFD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 17:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5355E2D60A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 17:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719077040; cv=none; b=GBzHrWfLbNVRD9HHaRC0gA+Fxc9wZpa+AFy+V7P28NLo+vgBw6whUih6QmDLQc2EfWsR3Vel5DWT0Vwx7XmXCbbUanV95bYW8LzNbpoQROZpiMGPEBBN+mCl8Jy8WrRsZkZ/AltPAcOQzpK8B5dRvp5kSCBzWQdD06SArPHlGOY=
+	t=1719077703; cv=none; b=SAyEhP2GpYxt6+NvCvCZfSA+4W3qTtTUiqOB13wzfDlJURyGBhEH5KupzoYb6af2CvKNOQgv1eU/TEhByAU50ThCXsEplYCtSV/YRCoAoH78TxqyTLJ0HqIT8R05AXUgwQCz/LZ6UFXN0t3MGdcI/ZKqLC0CzCuBAiKBYhWfeAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719077040; c=relaxed/simple;
-	bh=dr0I/I9abVSIT9nEPIZQNLx54T+a6KLHrHxt/+ZwNYk=;
+	s=arc-20240116; t=1719077703; c=relaxed/simple;
+	bh=PLH+W5Kr1OGDldrMep9Yo5HHMyeJMw3xX96JkBB/AYw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WRNJM2p+YPFKZU5zJCnEJmnv4lXGSkTIy2ZmdFayp7HP1taV6OH73eFgjpvVNn/Xvuw2OqGic2YC6AV0ciCTbvBRw1VZnbfJlwhFAgi3rkysWqMsPXcvcICbgsW+tGgdyUDK4b6L59TTnTJGYAtXOgI+SmXKnoS5X1pO+Vkx68Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuLvgWar; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=IQ73Fwo7we9LBTkHF77jANXW+5E6SZigrptXCyMUlO3fewTpm6aRx4lFyGwuTWYSadCDyyK64obSY8UfOE7ymb9lhh1vvhrzkLYyUXRtXX98z1Ef5viAvpuqbXeCXwpIBh2KcUrfcHxanbRX8IsRLMmutLetOX/fwG/giRqKzXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8zFJUQW; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuLvgWar"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8zFJUQW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719077039; x=1750613039;
+  t=1719077700; x=1750613700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dr0I/I9abVSIT9nEPIZQNLx54T+a6KLHrHxt/+ZwNYk=;
-  b=JuLvgWar0+4oy7Dg2xlMCRF0pv6vxO4epOm+cuKPsHIXDawwMsyGohbp
-   g0RUz/e4eBbb6nhdBIRXI75WpzrBgCKJiwyIJkd30XClB+xc7hV6vI+9n
-   1k9qhrQucnSYKUiZk/5712QV4KIZD3G+KUFJKUNGjvDyYH9emxZopvXeq
-   nDUBuSH1uufZo1bn09HxFFgnBcw6rvMqGqUPOzB0bHZEuAxtTp6/aML9e
-   lfy6ARn7ECGfUeZHptOhlPuX5QQHKisghjaBVALxC3t60Va7hZjDh4dP4
-   +6VY/gQddQNtycb0jF0oupn/xucURtu7qNl1AJJIEtnJ+fa5dNjJRQy0S
-   A==;
-X-CSE-ConnectionGUID: 3bK5zdKXSK2xuJe3gVLmQQ==
-X-CSE-MsgGUID: Fm9wj7yGQkOVQRdqT2WPeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="27510024"
+  bh=PLH+W5Kr1OGDldrMep9Yo5HHMyeJMw3xX96JkBB/AYw=;
+  b=T8zFJUQW6KEdLoB7KewOtpp6Yap23nCSr7IpR7W/1y8gzr5uqnK5wgq1
+   vc0fYycRN5+DgRoldXcBAteqjLlRK1JzmuinorY1lFh6Vh0v+97zmKFrm
+   WIi3XEOzOMf/h3q49xHKmSlVWMoAVmEQJGKdvEqPalX0y5g/GoEEKzHNU
+   xxVf543RMCX1Lq/hkjnNKrw/N1oNt3giGEgTdhKCLcRlnZxbXeyt2oH6T
+   uk5SHmUtmYdCbfOqGfVBpMs6J6GS+Ui1NeSjk4WXxq54UFiRXK7LiZ/wh
+   kE8egwgxiDD+gnmzm+G50a/sePmGPLqZM2iaYoIKsA0cri2A+kUExr/9f
+   g==;
+X-CSE-ConnectionGUID: d2FobVpmSt+rxKALDrfo1w==
+X-CSE-MsgGUID: 9kUuIfn9R9uNqziQl4rBog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="27496481"
 X-IronPort-AV: E=Sophos;i="6.08,258,1712646000"; 
-   d="scan'208";a="27510024"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 10:23:58 -0700
-X-CSE-ConnectionGUID: vRmVhkM0Scq4P/+4dXrjEg==
-X-CSE-MsgGUID: w7mU/pC+R7WBcZirFUb22A==
+   d="scan'208";a="27496481"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 10:35:00 -0700
+X-CSE-ConnectionGUID: 4jmiM1tGSfG5hEYQBwChfQ==
+X-CSE-MsgGUID: 5imaS8AJQyqN6p7sL4bT7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,258,1712646000"; 
-   d="scan'208";a="48041426"
+   d="scan'208";a="43319681"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jun 2024 10:23:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 22 Jun 2024 10:34:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sL4Sw-0009qY-30;
-	Sat, 22 Jun 2024 17:23:54 +0000
-Date: Sun, 23 Jun 2024 01:23:20 +0800
+	id 1sL4db-0009qw-2q;
+	Sat, 22 Jun 2024 17:34:55 +0000
+Date: Sun, 23 Jun 2024 01:34:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Malloy Liu <liuqi1610@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21291/23028]
- drivers/spi/spi-phytium-plat.c:186:34: warning: unused variable
- 'phytium_spi_of_match'
-Message-ID: <202406230104.pOYbvQkT-lkp@intel.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [usb:usb-testing 18/29]
+ arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800:
+ interrupt-names:1: 'hs_phy_irq' was expected
+Message-ID: <202406230117.PmWeGRVI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +65,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Malloy,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   10a294b680ddfda97a09883fe559dd418e5340cd
-commit: e8483fcd43fc1dbb8d21bb7eacce804cbab6a7c6 [21291/23028] spi: add phytium spi support
-config: x86_64-randconfig-005-20240420 (https://download.01.org/0day-ci/archive/20240623/202406230104.pOYbvQkT-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406230104.pOYbvQkT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   819984a0dd3606b7c46fe156cd56a0dc0d604788
+commit: 34aa3ca43902baf3440480bf95abf88b4e092588 [18/29] dt-bindings: usb: qcom,dwc3: Add SC8180X compatibles
+config: arm64-randconfig-051-20240622 (https://download.01.org/0day-ci/archive/20240623/202406230117.PmWeGRVI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406230117.PmWeGRVI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406230104.pOYbvQkT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406230117.PmWeGRVI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/spi/spi-phytium-plat.c:186:34: warning: unused variable 'phytium_spi_of_match' [-Wunused-const-variable]
-     186 | static const struct of_device_id phytium_spi_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
-   Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
-   Selected by [y]:
-   - SPI_PHYTIUM_PLAT [=y] && SPI [=y] && SPI_MASTER [=y]
-
-
-vim +/phytium_spi_of_match +186 drivers/spi/spi-phytium-plat.c
-
-   185	
- > 186	static const struct of_device_id phytium_spi_of_match[] = {
-   187		{ .compatible = "phytium,spi", .data = (void *)0 },
-   188		{ /* end of table */}
-   189	};
-   190	MODULE_DEVICE_TABLE(of, phytium_spi_of_match);
-   191	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:0: 'pwr_event' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:0: 'pwr_event' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:1: 'hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: panel: 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: clock-controller@af00000: clocks: [[41, 0], [42], [116, 0], [116, 1], [120, 0], [120, 1], [123, 0], [123, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: clock-controller@af00000: clock-names:1: 'dsi0_phy_pll_out_byteclk' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: clock-controller@af00000: clock-names:2: 'dsi0_phy_pll_out_dsiclk' was expected
+--
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:0: 'pwr_event' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:0: 'pwr_event' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:1: 'hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: panel: 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: clock-controller@af00000: clocks: [[41, 0], [42], [118, 0], [118, 1], [122, 0], [122, 1], [125, 0], [125, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: clock-controller@af00000: clock-names:1: 'dsi0_phy_pll_out_byteclk' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm8x50.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: clock-controller@af00000: clock-names:2: 'dsi0_phy_pll_out_dsiclk' was expected
 
 -- 
 0-DAY CI Kernel Test Service
