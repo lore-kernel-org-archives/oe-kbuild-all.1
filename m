@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1828214C585
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 13:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A5516EC10
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jun 2024 14:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719064372; cv=none; b=l1ezvOeERcHvqg66Mj23MP2Dllq0uK2rJwdna/+b/7Y5W5V+Kz9soWPJBteGuwNO/A49FFZxy0Q5uYiNxJ/PFnJSPYr5ijVndblt8CfJ1ylm5CRNsngqcJ2ewCPF8ZnJ/DDFk6UbaCNk3gb8woLXMJ+BwBYbYOJKX9CODcIEJhI=
+	t=1719065573; cv=none; b=aY8ExuHJiF6gVUgppbBQ2ieVE/Z2xzWccBUFFt/RxCpm1X/+MZXZCEcaPZgo5nzCQaY5ty58s7L9RuLT6E3SbtT3r+m5q94k/UoW8lk0K8P8TmSYfY0+njwAwek9aEcoxMwLHCkeFZhQcrDLulFZsqe6qQ+tnp/I7u/+sqiO8Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719064372; c=relaxed/simple;
-	bh=wnq2CpzIwo0bFPbIpCaibbm893XILf50IBrBH51AoQc=;
+	s=arc-20240116; t=1719065573; c=relaxed/simple;
+	bh=AKyt2Z7+GjJwfDBKf92muYCLgcX/ZW2OWE1u6hEbzXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sO3dIsePg4FyCDm68SlcKsDMe1494INk84UxKVskD/imTtk/crxfnHC24Qux0gUHEWDyGigSL3j+UX9M7mvOz7WHelb57hqzWxb2Yt+jJkP4FqzgEybbvEVoWT6wFUzopOujRwxINAWJpZUcvq0ajIXFNWgqNEKYBxERO5K0GmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAx0NYHB; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=sVgKX7TOStpmJsBPTXGHpn6ch/VmMjsGmU3xtRdeRv0yRZIgO1zRbiUkM62j5YzKR0jYV48hhSuft344oWBZVO/nxi+QPvOQ+7LFPG08aRI0wdGi68C4J0+90TnHSM510LghTX7LbU/znxejWCeB/DwU8lynMKiLqPH0qMfLtWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gbEAzfhk; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAx0NYHB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gbEAzfhk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719064370; x=1750600370;
+  t=1719065570; x=1750601570;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wnq2CpzIwo0bFPbIpCaibbm893XILf50IBrBH51AoQc=;
-  b=NAx0NYHB4iuRohKVHo/cF7uwjknODxJG00lkukrk9aHZ1Ts9kfLjPMtb
-   wYTcaGv5kwyaxUwXbpyhX/Oz6KzdePJGJxxR/MaCcXcdeKp8itUOpB0qG
-   DccJJEONXIbl3IoYByVJBz3wsOCGBZ6r6QZwln3VLRroTBfxkBYIYFWCq
-   eUdWSKzrY9lQb2JAbJTzZ6wcI9ZN4wjew4XWfccZFI4XIQKc5NjfIZdJv
-   DRJJWC6Sq3qoNSVHgQEWWo+/UJ+Mhg7RqHSQ+E8tx/JOccenaq4//KnDe
-   ijmYtLmJShCa95iGRcuk5+1Ry3+xJ3jX2fTie6bK86ZEFVFl8vovXlEa4
-   Q==;
-X-CSE-ConnectionGUID: aJJ9CYcvRUuRA7sFQe29ug==
-X-CSE-MsgGUID: JGaDCnQqQKu46IZwRdGlkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="27490676"
+  bh=AKyt2Z7+GjJwfDBKf92muYCLgcX/ZW2OWE1u6hEbzXI=;
+  b=gbEAzfhkRP1nEggNB4+Uw3RRojUubsIRqUI3kUoQQwAUadXg3abmMXcy
+   6QeZPy8HuyZXYgdmnCmhJiNH5AkfHAeu3rYQt9fCurDcyfmH67NtuxQIz
+   y+Qe10o7G+Eov+jFqjkvpfnWEYDg9EIOsY8/BfhbLDoUUGgAxwHMNPiQg
+   lR0PrKo35isOU+Ux1ArMkHZSP9gpJgUVUecdAaOGLOMtuxHuP56bviqYw
+   S/E4xfTuaaAKisIB/Dl1EAKRW8D4yhWDyV80aEBJ1l0kGB+9AgB22URTj
+   89lVbh3p0IyKbleNCVg4im6GCCgrrjjFMqEAVMhBv4GcVzNsRTKojBKKw
+   A==;
+X-CSE-ConnectionGUID: y/xP2TlJTxWydQp0yn8DbQ==
+X-CSE-MsgGUID: feRkaP4/TJSlx30w9+6DLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="16322595"
 X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
-   d="scan'208";a="27490676"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 06:52:49 -0700
-X-CSE-ConnectionGUID: uks4Su1wSl2E9KZCRlnsOQ==
-X-CSE-MsgGUID: DAIIN9DjTxm+Q5bPmmuKhg==
+   d="scan'208";a="16322595"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 07:12:49 -0700
+X-CSE-ConnectionGUID: BONPp6muQFqz0hKW2XQktg==
+X-CSE-MsgGUID: rZIajE/OQfS2I5+l0htrTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
-   d="scan'208";a="66095619"
+   d="scan'208";a="42723517"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Jun 2024 06:52:48 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Jun 2024 07:12:48 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sL1Ab-0009fm-1z;
-	Sat, 22 Jun 2024 13:52:45 +0000
-Date: Sat, 22 Jun 2024 21:51:46 +0800
+	id 1sL1Ty-0009gc-0R;
+	Sat, 22 Jun 2024 14:12:46 +0000
+Date: Sat, 22 Jun 2024 22:12:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 13138/23028]
- kernel/livepatch/core.c:75:16: warning: no previous prototype for function
- 'klp_check_patch_kprobed'
-Message-ID: <202406222109.fcYovgIQ-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 18175/23028] mm/debug.c:174:3: warning:
+ format specifies type 'void *' but the argument has type 'int'
+Message-ID: <202406222208.eM7WX2QL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,112 +62,233 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Cheng,
+Hi Ding,
 
 FYI, the error/warning still remains.
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   10a294b680ddfda97a09883fe559dd418e5340cd
-commit: 7e2ab91ea07673f855f16b54b7c6e6853b2efc1c [13138/23028] livepatch/x86: support livepatch without ftrace
-config: x86_64-randconfig-073-20240521 (https://download.01.org/0day-ci/archive/20240622/202406222109.fcYovgIQ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406222109.fcYovgIQ-lkp@intel.com/reproduce)
+commit: 2d2fe6b40444bd8f84f674930ac5f98a6314702e [18175/23028] ascend: mm: add an owner for mm_struct
+config: x86_64-randconfig-005-20240420 (https://download.01.org/0day-ci/archive/20240622/202406222208.eM7WX2QL-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406222208.eM7WX2QL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406222109.fcYovgIQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406222208.eM7WX2QL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/livepatch/core.c:75:16: warning: no previous prototype for function 'klp_check_patch_kprobed' [-Wmissing-prototypes]
-      75 | struct kprobe *klp_check_patch_kprobed(struct klp_patch *patch)
-         |                ^
-   kernel/livepatch/core.c:75:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      75 | struct kprobe *klp_check_patch_kprobed(struct klp_patch *patch)
-         | ^
-         | static 
-   kernel/livepatch/core.c:402:5: warning: no previous prototype for function 'klp_try_disable_patch' [-Wmissing-prototypes]
-     402 | int klp_try_disable_patch(void *data)
-         |     ^
-   kernel/livepatch/core.c:402:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     402 | int klp_try_disable_patch(void *data)
-         | ^
-         | static 
-   kernel/livepatch/core.c:441:13: warning: no previous prototype for function 'arch_klp_code_modify_prepare' [-Wmissing-prototypes]
-     441 | void __weak arch_klp_code_modify_prepare(void)
-         |             ^
-   kernel/livepatch/core.c:441:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     441 | void __weak arch_klp_code_modify_prepare(void)
-         | ^
-         | static 
-   kernel/livepatch/core.c:445:13: warning: no previous prototype for function 'arch_klp_code_modify_post_process' [-Wmissing-prototypes]
-     445 | void __weak arch_klp_code_modify_post_process(void)
-         |             ^
-   kernel/livepatch/core.c:445:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     445 | void __weak arch_klp_code_modify_post_process(void)
-         | ^
-         | static 
-   kernel/livepatch/core.c:617:5: warning: no previous prototype for function 'klp_try_enable_patch' [-Wmissing-prototypes]
-     617 | int klp_try_enable_patch(void *data)
-         |     ^
-   kernel/livepatch/core.c:617:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     617 | int klp_try_enable_patch(void *data)
-         | ^
-         | static 
-   kernel/livepatch/core.c:1013:12: warning: no previous prototype for function 'arch_klp_func_can_patch' [-Wmissing-prototypes]
-    1013 | int __weak arch_klp_func_can_patch(struct klp_func *func)
-         |            ^
-   kernel/livepatch/core.c:1013:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1013 | int __weak arch_klp_func_can_patch(struct klp_func *func)
-         | ^
-         | static 
-   6 warnings generated.
+   In file included from mm/debug.c:14:
+   In file included from include/linux/migrate.h:6:
+   In file included from include/linux/mempolicy.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/debug.c:174:3: warning: format specifies type 'void *' but the argument has type 'int' [-Wformat]
+     135 |                 atomic_read(&mm->tlb_flush_pending),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:175:3: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+     142 |                 mm->def_flags, &mm->def_flags
+         |                 ^~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:175:18: warning: format specifies type 'unsigned long' but the argument has type 'const unsigned long *' [-Wformat]
+     143 |                 mm->def_flags, &mm->def_flags
+         |                                ^~~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:143:21: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     143 |                 "def_flags: %#lx(%pGv)\n",
+         |                                  ~^
+   include/linux/printk.h:342:27: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ^~~
+   include/linux/printk.h:332:21: note: expanded from macro 'pr_fmt'
+     332 | #define pr_fmt(fmt) fmt
+         |                     ^~~
+   5 warnings generated.
 
 
-vim +/klp_check_patch_kprobed +75 kernel/livepatch/core.c
+vim +174 mm/debug.c
 
-7e8d223e3ef865 Cheng Jian 2019-01-28   69  
-c8f9d7a3aae362 Cheng Jian 2019-01-28   70  #ifdef CONFIG_LIVEPATCH_RESTRICT_KPROBE
-c8f9d7a3aae362 Cheng Jian 2019-01-28   71  /*
-c8f9d7a3aae362 Cheng Jian 2019-01-28   72   * Check whether a function has been registered with kprobes before patched.
-c8f9d7a3aae362 Cheng Jian 2019-01-28   73   * We can't patched this function util we unregisted the kprobes.
-c8f9d7a3aae362 Cheng Jian 2019-01-28   74   */
-c8f9d7a3aae362 Cheng Jian 2019-01-28  @75  struct kprobe *klp_check_patch_kprobed(struct klp_patch *patch)
-c8f9d7a3aae362 Cheng Jian 2019-01-28   76  {
-c8f9d7a3aae362 Cheng Jian 2019-01-28   77  	struct klp_object *obj;
-c8f9d7a3aae362 Cheng Jian 2019-01-28   78  	struct klp_func *func;
-c8f9d7a3aae362 Cheng Jian 2019-01-28   79  	struct kprobe *kp;
-c8f9d7a3aae362 Cheng Jian 2019-01-28   80  	int i;
-c8f9d7a3aae362 Cheng Jian 2019-01-28   81  
-c8f9d7a3aae362 Cheng Jian 2019-01-28   82  	klp_for_each_object(patch, obj) {
-c8f9d7a3aae362 Cheng Jian 2019-01-28   83  		klp_for_each_func(obj, func) {
-c8f9d7a3aae362 Cheng Jian 2019-01-28   84  			for (i = 0; i < func->old_size; i++) {
-c8f9d7a3aae362 Cheng Jian 2019-01-28   85  				kp = get_kprobe((void *)func->old_addr + i);
-c8f9d7a3aae362 Cheng Jian 2019-01-28   86  				if (kp) {
-c8f9d7a3aae362 Cheng Jian 2019-01-28   87  					pr_err("func %s has been probed, (un)patch failed\n",
-c8f9d7a3aae362 Cheng Jian 2019-01-28   88  						func->old_name);
-c8f9d7a3aae362 Cheng Jian 2019-01-28   89  					return kp;
-c8f9d7a3aae362 Cheng Jian 2019-01-28   90  				}
-c8f9d7a3aae362 Cheng Jian 2019-01-28   91  			}
-c8f9d7a3aae362 Cheng Jian 2019-01-28   92  		}
-c8f9d7a3aae362 Cheng Jian 2019-01-28   93  	}
-c8f9d7a3aae362 Cheng Jian 2019-01-28   94  
-c8f9d7a3aae362 Cheng Jian 2019-01-28   95  	return NULL;
-c8f9d7a3aae362 Cheng Jian 2019-01-28   96  }
-c8f9d7a3aae362 Cheng Jian 2019-01-28   97  #else
-c8f9d7a3aae362 Cheng Jian 2019-01-28   98  static inline struct kprobe *klp_check_patch_kprobed(struct klp_patch *patch)
-c8f9d7a3aae362 Cheng Jian 2019-01-28   99  {
-c8f9d7a3aae362 Cheng Jian 2019-01-28  100  	return NULL;
-c8f9d7a3aae362 Cheng Jian 2019-01-28  101  }
-c8f9d7a3aae362 Cheng Jian 2019-01-28  102  #endif /* CONFIG_LIVEPATCH_RESTRICT_KPROBE */
-c8f9d7a3aae362 Cheng Jian 2019-01-28  103  
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15  @14  #include <linux/migrate.h>
+4e462112e98f9a Vlastimil Babka       2016-03-15   15  #include <linux/page_owner.h>
+82742a3a515219 Sasha Levin           2014-10-09   16  
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   17  #include "internal.h"
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   18  
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   19  char *migrate_reason_names[MR_TYPES] = {
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   20  	"compaction",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   21  	"memory_failure",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   22  	"memory_hotplug",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   23  	"syscall_or_cpuset",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   24  	"mempolicy_mbind",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   25  	"numa_misplaced",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   26  	"cma",
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   27  };
+7cd12b4abfd2f8 Vlastimil Babka       2016-03-15   28  
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   29  const struct trace_print_flags pageflag_names[] = {
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   30  	__def_pageflag_names,
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   31  	{0, NULL}
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   32  };
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   33  
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   34  const struct trace_print_flags gfpflag_names[] = {
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   35  	__def_gfpflag_names,
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   36  	{0, NULL}
+420adbe9fc1a45 Vlastimil Babka       2016-03-15   37  };
+420adbe9fc1a45 Vlastimil Babka       2016-03-15   38  
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   39  const struct trace_print_flags vmaflag_names[] = {
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   40  	__def_vmaflag_names,
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   41  	{0, NULL}
+82742a3a515219 Sasha Levin           2014-10-09   42  };
+82742a3a515219 Sasha Levin           2014-10-09   43  
+ff8e81163889ac Vlastimil Babka       2016-03-15   44  void __dump_page(struct page *page, const char *reason)
+82742a3a515219 Sasha Levin           2014-10-09   45  {
+fc36def997cfd6 Pavel Tatashin        2018-07-03   46  	bool page_poisoned = PagePoisoned(page);
+fc36def997cfd6 Pavel Tatashin        2018-07-03   47  	int mapcount;
+fc36def997cfd6 Pavel Tatashin        2018-07-03   48  
+fc36def997cfd6 Pavel Tatashin        2018-07-03   49  	/*
+fc36def997cfd6 Pavel Tatashin        2018-07-03   50  	 * If struct page is poisoned don't access Page*() functions as that
+fc36def997cfd6 Pavel Tatashin        2018-07-03   51  	 * leads to recursive loop. Page*() check for poisoned pages, and calls
+fc36def997cfd6 Pavel Tatashin        2018-07-03   52  	 * dump_page() when detected.
+fc36def997cfd6 Pavel Tatashin        2018-07-03   53  	 */
+fc36def997cfd6 Pavel Tatashin        2018-07-03   54  	if (page_poisoned) {
+fc36def997cfd6 Pavel Tatashin        2018-07-03   55  		pr_emerg("page:%px is uninitialized and poisoned", page);
+fc36def997cfd6 Pavel Tatashin        2018-07-03   56  		goto hex_only;
+fc36def997cfd6 Pavel Tatashin        2018-07-03   57  	}
+fc36def997cfd6 Pavel Tatashin        2018-07-03   58  
+9996f05eac0981 Kirill A. Shutemov    2016-10-07   59  	/*
+9996f05eac0981 Kirill A. Shutemov    2016-10-07   60  	 * Avoid VM_BUG_ON() in page_mapcount().
+9996f05eac0981 Kirill A. Shutemov    2016-10-07   61  	 * page->_mapcount space in struct page is used by sl[aou]b pages to
+9996f05eac0981 Kirill A. Shutemov    2016-10-07   62  	 * encode own info.
+9996f05eac0981 Kirill A. Shutemov    2016-10-07   63  	 */
+fc36def997cfd6 Pavel Tatashin        2018-07-03   64  	mapcount = PageSlab(page) ? 0 : page_mapcount(page);
+4d35427ad7641c Kirill A. Shutemov    2016-09-19   65  
+152a2d199e1385 Matthew Wilcox        2018-01-04   66  	pr_emerg("page:%px count:%d mapcount:%d mapping:%px index:%#lx",
+4d35427ad7641c Kirill A. Shutemov    2016-09-19   67  		  page, page_ref_count(page), mapcount,
+4d35427ad7641c Kirill A. Shutemov    2016-09-19   68  		  page->mapping, page_to_pgoff(page));
+53f9263baba69f Kirill A. Shutemov    2016-01-15   69  	if (PageCompound(page))
+53f9263baba69f Kirill A. Shutemov    2016-01-15   70  		pr_cont(" compound_mapcount: %d", compound_mapcount(page));
+53f9263baba69f Kirill A. Shutemov    2016-01-15   71  	pr_cont("\n");
+edf14cdbf9a0e5 Vlastimil Babka       2016-03-15   72  	BUILD_BUG_ON(ARRAY_SIZE(pageflag_names) != __NR_PAGEFLAGS + 1);
+ff8e81163889ac Vlastimil Babka       2016-03-15   73  
+b8eceeb99014cf Vlastimil Babka       2016-03-15   74  	pr_emerg("flags: %#lx(%pGp)\n", page->flags, &page->flags);
+b8eceeb99014cf Vlastimil Babka       2016-03-15   75  
+fc36def997cfd6 Pavel Tatashin        2018-07-03   76  hex_only:
+46e8a3a08c23d0 Vlastimil Babka       2016-12-12   77  	print_hex_dump(KERN_ALERT, "raw: ", DUMP_PREFIX_NONE, 32,
+46e8a3a08c23d0 Vlastimil Babka       2016-12-12   78  			sizeof(unsigned long), page,
+46e8a3a08c23d0 Vlastimil Babka       2016-12-12   79  			sizeof(struct page), false);
+46e8a3a08c23d0 Vlastimil Babka       2016-12-12   80  
+82742a3a515219 Sasha Levin           2014-10-09   81  	if (reason)
+82742a3a515219 Sasha Levin           2014-10-09   82  		pr_alert("page dumped because: %s\n", reason);
+b8eceeb99014cf Vlastimil Babka       2016-03-15   83  
+9edad6ea0f1416 Johannes Weiner       2014-12-10   84  #ifdef CONFIG_MEMCG
+fc36def997cfd6 Pavel Tatashin        2018-07-03   85  	if (!page_poisoned && page->mem_cgroup)
+152a2d199e1385 Matthew Wilcox        2018-01-04   86  		pr_alert("page->mem_cgroup:%px\n", page->mem_cgroup);
+9edad6ea0f1416 Johannes Weiner       2014-12-10   87  #endif
+82742a3a515219 Sasha Levin           2014-10-09   88  }
+82742a3a515219 Sasha Levin           2014-10-09   89  
+82742a3a515219 Sasha Levin           2014-10-09   90  void dump_page(struct page *page, const char *reason)
+82742a3a515219 Sasha Levin           2014-10-09   91  {
+ff8e81163889ac Vlastimil Babka       2016-03-15   92  	__dump_page(page, reason);
+4e462112e98f9a Vlastimil Babka       2016-03-15   93  	dump_page_owner(page);
+82742a3a515219 Sasha Levin           2014-10-09   94  }
+82742a3a515219 Sasha Levin           2014-10-09   95  EXPORT_SYMBOL(dump_page);
+82742a3a515219 Sasha Levin           2014-10-09   96  
+82742a3a515219 Sasha Levin           2014-10-09   97  #ifdef CONFIG_DEBUG_VM
+82742a3a515219 Sasha Levin           2014-10-09   98  
+82742a3a515219 Sasha Levin           2014-10-09   99  void dump_vma(const struct vm_area_struct *vma)
+82742a3a515219 Sasha Levin           2014-10-09  100  {
+152a2d199e1385 Matthew Wilcox        2018-01-04  101  	pr_emerg("vma %px start %px end %px\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  102  		"next %px prev %px mm %px\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  103  		"prot %lx anon_vma %px vm_ops %px\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  104  		"pgoff %lx file %px private_data %px\n"
+b8eceeb99014cf Vlastimil Babka       2016-03-15  105  		"flags: %#lx(%pGv)\n",
+82742a3a515219 Sasha Levin           2014-10-09  106  		vma, (void *)vma->vm_start, (void *)vma->vm_end, vma->vm_next,
+82742a3a515219 Sasha Levin           2014-10-09  107  		vma->vm_prev, vma->vm_mm,
+82742a3a515219 Sasha Levin           2014-10-09  108  		(unsigned long)pgprot_val(vma->vm_page_prot),
+82742a3a515219 Sasha Levin           2014-10-09  109  		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
+b8eceeb99014cf Vlastimil Babka       2016-03-15  110  		vma->vm_file, vma->vm_private_data,
+b8eceeb99014cf Vlastimil Babka       2016-03-15  111  		vma->vm_flags, &vma->vm_flags);
+82742a3a515219 Sasha Levin           2014-10-09  112  }
+82742a3a515219 Sasha Levin           2014-10-09  113  EXPORT_SYMBOL(dump_vma);
+82742a3a515219 Sasha Levin           2014-10-09  114  
+31c9afa6db122a Sasha Levin           2014-10-09  115  void dump_mm(const struct mm_struct *mm)
+31c9afa6db122a Sasha Levin           2014-10-09  116  {
+7a9cdebdcc17e4 Linus Torvalds        2018-09-12  117  	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
+31c9afa6db122a Sasha Levin           2014-10-09  118  #ifdef CONFIG_MMU
+152a2d199e1385 Matthew Wilcox        2018-01-04  119  		"get_unmapped_area %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  120  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  121  		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  122  		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
+31c9afa6db122a Sasha Levin           2014-10-09  123  		"hiwater_rss %lx hiwater_vm %lx total_vm %lx locked_vm %lx\n"
+84638335900f19 Konstantin Khlebnikov 2016-01-14  124  		"pinned_vm %lx data_vm %lx exec_vm %lx stack_vm %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  125  		"start_code %lx end_code %lx start_data %lx end_data %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  126  		"start_brk %lx brk %lx start_stack %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  127  		"arg_start %lx arg_end %lx env_start %lx env_end %lx\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  128  		"binfmt %px flags %lx core_state %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  129  #ifdef CONFIG_AIO
+152a2d199e1385 Matthew Wilcox        2018-01-04  130  		"ioctx_table %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  131  #endif
+2d2fe6b40444bd Ding Tianhong         2021-10-30  132  #ifdef CONFIG_MM_OWNER
+152a2d199e1385 Matthew Wilcox        2018-01-04  133  		"owner %px "
+31c9afa6db122a Sasha Levin           2014-10-09  134  #endif
+152a2d199e1385 Matthew Wilcox        2018-01-04  135  		"exe_file %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  136  #ifdef CONFIG_MMU_NOTIFIER
+152a2d199e1385 Matthew Wilcox        2018-01-04  137  		"mmu_notifier_mm %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  138  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  139  #ifdef CONFIG_NUMA_BALANCING
+31c9afa6db122a Sasha Levin           2014-10-09  140  		"numa_next_scan %lu numa_scan_offset %lu numa_scan_seq %d\n"
+31c9afa6db122a Sasha Levin           2014-10-09  141  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  142  		"tlb_flush_pending %d\n"
+b8eceeb99014cf Vlastimil Babka       2016-03-15 @143  		"def_flags: %#lx(%pGv)\n",
+31c9afa6db122a Sasha Levin           2014-10-09  144  
+7a9cdebdcc17e4 Linus Torvalds        2018-09-12  145  		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
+31c9afa6db122a Sasha Levin           2014-10-09  146  #ifdef CONFIG_MMU
+31c9afa6db122a Sasha Levin           2014-10-09  147  		mm->get_unmapped_area,
+31c9afa6db122a Sasha Levin           2014-10-09  148  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  149  		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
+31c9afa6db122a Sasha Levin           2014-10-09  150  		mm->pgd, atomic_read(&mm->mm_users),
+31c9afa6db122a Sasha Levin           2014-10-09  151  		atomic_read(&mm->mm_count),
+af5b0f6a09e42c Kirill A. Shutemov    2017-11-15  152  		mm_pgtables_bytes(mm),
+31c9afa6db122a Sasha Levin           2014-10-09  153  		mm->map_count,
+53f4e528406789 Daniel Jordan         2019-08-14  154  		mm->hiwater_rss, mm->hiwater_vm, mm->total_vm,
+53f4e528406789 Daniel Jordan         2019-08-14  155  		atomic_long_read(&mm->locked_vm),
+84638335900f19 Konstantin Khlebnikov 2016-01-14  156  		mm->pinned_vm, mm->data_vm, mm->exec_vm, mm->stack_vm,
+31c9afa6db122a Sasha Levin           2014-10-09  157  		mm->start_code, mm->end_code, mm->start_data, mm->end_data,
+31c9afa6db122a Sasha Levin           2014-10-09  158  		mm->start_brk, mm->brk, mm->start_stack,
+31c9afa6db122a Sasha Levin           2014-10-09  159  		mm->arg_start, mm->arg_end, mm->env_start, mm->env_end,
+31c9afa6db122a Sasha Levin           2014-10-09  160  		mm->binfmt, mm->flags, mm->core_state,
+31c9afa6db122a Sasha Levin           2014-10-09  161  #ifdef CONFIG_AIO
+31c9afa6db122a Sasha Levin           2014-10-09  162  		mm->ioctx_table,
+31c9afa6db122a Sasha Levin           2014-10-09  163  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  164  #ifdef CONFIG_MEMCG
+31c9afa6db122a Sasha Levin           2014-10-09  165  		mm->owner,
+31c9afa6db122a Sasha Levin           2014-10-09  166  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  167  		mm->exe_file,
+31c9afa6db122a Sasha Levin           2014-10-09  168  #ifdef CONFIG_MMU_NOTIFIER
+31c9afa6db122a Sasha Levin           2014-10-09  169  		mm->mmu_notifier_mm,
+31c9afa6db122a Sasha Levin           2014-10-09  170  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  171  #ifdef CONFIG_NUMA_BALANCING
+31c9afa6db122a Sasha Levin           2014-10-09  172  		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
+31c9afa6db122a Sasha Levin           2014-10-09  173  #endif
+16af97dc5a8975 Nadav Amit            2017-08-10 @174  		atomic_read(&mm->tlb_flush_pending),
+b8eceeb99014cf Vlastimil Babka       2016-03-15 @175  		mm->def_flags, &mm->def_flags
+31c9afa6db122a Sasha Levin           2014-10-09  176  	);
+31c9afa6db122a Sasha Levin           2014-10-09  177  }
+31c9afa6db122a Sasha Levin           2014-10-09  178  
 
-:::::: The code at line 75 was first introduced by commit
-:::::: c8f9d7a3aae362482f81ba7c6819d410d66619ab livepatch/core: Restrict livepatch patched/unpatched when plant kprobe
+:::::: The code at line 174 was first introduced by commit
+:::::: 16af97dc5a8975371a83d9e30a64038b48f40a2d mm: migrate: prevent racy access to tlb_flush_pending
 
-:::::: TO: Cheng Jian <cj.chengjian@huawei.com>
-:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
+:::::: TO: Nadav Amit <nadav.amit@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
