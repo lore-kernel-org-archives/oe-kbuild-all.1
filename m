@@ -1,184 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D9D1CD25;
-	Sun, 23 Jun 2024 14:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA7E63D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 15:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719153781; cv=none; b=ecGFUfsOLL/N+knRqgMATEYA4xIAZcXmKFaQNIGYYkC6aw/IBKEO1w4P3Zw6Sop7leX/vEqZZWs/TUpCWsXjK7jEb/dASHPllYGzGMdJmNWJzl+737jJk9eH57p8/I2V1c8rzWksV5WFAh/5UwB69ES0AgvwGmV5q95GDBF6v+o=
+	t=1719157360; cv=none; b=bzt5sOP3oF7iornke8XM04aXugKxCiLYEqagHtPP3EscrDnBqe0mZ23fg7tv25GVVcI4R0m83S+oKrjBAdBsBY7fUIDZUtyvAnLSp/nFbCwer3Skn/0BCfd4D8q4JJMEJHNJct8rq6kbucSMik89dNgkniWXEZSqs2IN9oSVdFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719153781; c=relaxed/simple;
-	bh=34nDTh4c+rycjUNr64PVy/ygxh9pjwR1JJ9FaW0YwC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=clNVPyM0wgUYZNk2wIyNjaAijY0REn2D4Qb2kGb8rC2sG7r1VIgXvvdN1B9Kpt+Tpfr7OfbtYIxbs9DXusO59kLg6xGTnhreHVzXC2yPMjerHBCaoZBGDzqw0qIj33Z7HrXNCrLkh6FrcZ3868XKZc6th9yi1LFtitpIvRWpfjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmEw1XHD; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719157360; c=relaxed/simple;
+	bh=iFXcoknjEWe4avEoLfa0XtaegaueFZ48+goiOQFuMR0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fGjgKVQTqwXm0wmb0eLMReUIcM9FWpKvtYvYuFSqC+lu8KEyH0QGE40nyro1x7LfPQRQL8La3p7MFJHhExpAaUJSUola+aelv10hyAGZZc1INRz9686AneffK26kINsjPzMntar+yvnocFNYAzImKQRnLgQPXOXtolWhrFs+kOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Q8Xidkl7; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmEw1XHD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719153779; x=1750689779;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=34nDTh4c+rycjUNr64PVy/ygxh9pjwR1JJ9FaW0YwC0=;
-  b=kmEw1XHDr1Pddn7XVXq4VIkV/SimeOqn7a2NEZn3Q40DwHd/hgngdOWR
-   AxnTdPZZC+zecf7R9/824TWtP/gTym8MItH7SpUBQ1YCHpd0xUbelonVM
-   vuoRrE/VH07i7+VRyK+pjl/o1ms7NAFH0EAiLksrYTB9W00rm1AdycziU
-   eeTYIX7wPHGaLLLif//qZs9+X9w/qCT+Vgh2w4FPnMdKNSvyvKldaST+7
-   imdeMNLYC3yy7AUMjEAcf17L+LyejzBr7bDD9P7CfP+TkeyQkYwtqfGcW
-   9s0i2ppSi7n82JYDgpxgGFs707qOnCSYz33MZ3AhpmB4b3Bb7Q9APL05X
-   w==;
-X-CSE-ConnectionGUID: uHkr9foiSeubZYUhsjAhOA==
-X-CSE-MsgGUID: KN7ZZLLtTMi5nacuGctfTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="16006142"
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="16006142"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 07:42:59 -0700
-X-CSE-ConnectionGUID: mlPy7xWzTU2wbcwgfHjamA==
-X-CSE-MsgGUID: OkIit29LToiV5QNOuboBKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="47421761"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Jun 2024 07:42:57 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLOQh-000AZ4-15;
-	Sun, 23 Jun 2024 14:42:55 +0000
-Date: Sun, 23 Jun 2024 22:42:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-diff 6/6] WARNING: modpost:
- "__early_static_cpu_has" [arch/x86/kernel/cpu/mce/mce-inject.ko] undefined!
-Message-ID: <202406232215.OyBzHpSL-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Q8Xidkl7"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-57d20d89748so3305239a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 08:42:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1719157357; x=1719762157; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bwkVEJXxyiArkV9Jcvb+VVmKUfhm5RmA00AhRtW/JHw=;
+        b=Q8Xidkl7nAAZILiJ48Q5f7GGuV/32pj4x5Q3u7M35R5wIR9g9PLG/gi1dzmAuRx3gk
+         VVVZwxDYQ2DHJCFgQ19MdDdhdCjfEnQFmQ7u0dpazS3ZrlNTMqEGdu30yjpu0SCCQZ4Q
+         WGq+JBV5l8BH25zKvE9E7GQpKfaxcR3rAYaNw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719157357; x=1719762157;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bwkVEJXxyiArkV9Jcvb+VVmKUfhm5RmA00AhRtW/JHw=;
+        b=ZwrBZrdBR6qrdf94OzbRi9wwdNRlu9SASb8LUYSv6Ln9Sh766NJ2DvzsKSGCgn72hE
+         ZktNkpIFGhkswa8GDeS0DOMDGoQX8D2Eqt4a3o19AUA3J8kNN1QlHTB8iuFtafBuKRyX
+         GRwzzwJkyGYglpiTGc9R7UReucE05Ld4+IwhDXljaaw8xOg3s2BQPM0yTtJBqyeLBOgI
+         UeJho3JObjsaRsZ1EbWAOlq8pQ7UCCQjIyHRrxFV7UqG4N5gJrDbIU6borSVYqa8M1O+
+         4KsUpx3vFww70l4myRf49DDPZ+k06t/AeFAZdK5OfYcYa4thqi6UZzLe4h2RREtjMRqZ
+         LvMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZvW1z/CHP2OEk+QQ75HcPsxIEfK/EBJ4oTYzfAn4qDR9PGUvwy2nEWV55lCm5JCdrK0HoHTW9YRri+C4nvbVF9dipkbJU5QlftlTMAw==
+X-Gm-Message-State: AOJu0Yx+JltISvv3Qgn+uNwbqXVWMS4Rzmpr8aMXv/fj0PvXM8wMi7yq
+	fugYopmPnHUacydkLSeRxmSpyZ7KRx5orKev5RGvV7BATrP6zKAexT2ZzewWavlATeuM3Ho/B17
+	XbawAjg==
+X-Google-Smtp-Source: AGHT+IG9foZiu4oTIV0pCwqQYNMdxrytFY+geOfIxlyZJ8OTfVVZmGeVJd9NS6fZ9YIghqKjavZxyA==
+X-Received: by 2002:a17:907:a64a:b0:a72:5049:87e0 with SMTP id a640c23a62f3a-a72504989demr67395866b.15.1719157357009;
+        Sun, 23 Jun 2024 08:42:37 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf428b57sm314382666b.28.2024.06.23.08.42.35
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jun 2024 08:42:35 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6f21ff4e6dso456162466b.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 08:42:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXEtjtgxl3HamFj1wuFSfv3NpLJoRK3mUYGyXBNqMQ5JjnFVYCwwBDhUZ+mjqhgpE7BzX8VLxmQ+0bbDfeus7csq/piQbORKDxx1cAJfA==
+X-Received: by 2002:a17:907:a4cc:b0:a6f:e8b4:9e59 with SMTP id
+ a640c23a62f3a-a7242c9c1e4mr147616666b.24.1719157355462; Sun, 23 Jun 2024
+ 08:42:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202406230912.F6XFIyA6-lkp@intel.com> <CAFULd4YVOwxQ4JDaOdscX_vtJsqJBJ5zhd0RtXXutW=Eqh29Qw@mail.gmail.com>
+In-Reply-To: <CAFULd4YVOwxQ4JDaOdscX_vtJsqJBJ5zhd0RtXXutW=Eqh29Qw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 23 Jun 2024 11:42:18 -0400
+X-Gmail-Original-Message-ID: <CAHk-=wg1h4w_m=Op1U4JsyDjsvqG0Kw1EOVMQ+=5GX_XytdorQ@mail.gmail.com>
+Message-ID: <CAHk-=wg1h4w_m=Op1U4JsyDjsvqG0Kw1EOVMQ+=5GX_XytdorQ@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/cmpxchg_32.h:149:9: error: inline assembly
+ requires more registers than available
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
-head:   0f0cdc98e2240e0599117fb18be73d618e51ee8e
-commit: 0f0cdc98e2240e0599117fb18be73d618e51ee8e [6/6] todo
-config: i386-buildonly-randconfig-006-20240623 (https://download.01.org/0day-ci/archive/20240623/202406232215.OyBzHpSL-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406232215.OyBzHpSL-lkp@intel.com/reproduce)
+On Sun, 23 Jun 2024 at 06:14, Uros Bizjak <ubizjak@gmail.com> wrote:
+>
+> The referred patch actually mitigates the issue, as explained in
+> details here [1].
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406232215.OyBzHpSL-lkp@intel.com/
+Clearly not.
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+It might help things in theory, but in practice it clearly just makes
+things worse, and causes problems for clang.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mfgcfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-infra_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mdp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-peri_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-infra_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vdo0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vdo1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-apusys_pll.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdo0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdo1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pmdomain/amlogic/meson-gx-pwrc-vpu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-abt-y030xx067a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-newvision-nv3052c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi-avmm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-goldfish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/twl4030_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
->> WARNING: modpost: "__early_static_cpu_has" [arch/x86/kernel/cpu/mce/mce-inject.ko] undefined!
->> WARNING: modpost: "__early_static_cpu_has" [drivers/vfio/vfio_iommu_type1.ko] undefined!
+And the thing about practice is that it always trumps theory.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> So, without some interest from x86 maintainers, the issue will remain
+> unfixed. If they want x86_32 arch to die then inline locking
+> primitives involving cmpxchg8b are one of the nails in its coffin.
+
+What? No.
+
+That commit will get reverted. It caused problems, and now you are
+blaming others.
+
+You can't just go "I caused issues, but the x86 maintainers aren't
+interested in this area, so it's their fault".
+
+And no, "improved code generation with one compiler version" does not
+then mean "other compilers don't matter".
+
+Now, I do suspect that the issue is some very random thing that could
+be fixed by massaging the inline asm a bit.
+
+For example, why does that 32-bit __arch_try_cmpxchg64() do this:
+
+        if (unlikely(!ret))                                             \
+                *(_oldp) = o.full;                                      \
+
+when I think it would be simpler and more straightforward to just do
+that *(_oldp) = o.full unconditionally? The "dereference" is purely
+syntactic, the intent is that the compiler will just use a register
+for this all (well, two registers on 32-bit), and making it
+conditional makes things worse, because now that "oldp" register
+cannot be the same as "o" itself.
+
+I didn't look very closely into this, but maybe that would just fix
+code generation. And maybe it wouldn't. If there's no other fix
+somebody comes up with, we just have to revert.
+
+                 Linus
