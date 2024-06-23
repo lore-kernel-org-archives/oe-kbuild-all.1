@@ -1,218 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB418181318
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 17:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D6418131A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 18:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719164954; cv=none; b=AEGGvStxCUk1m0k9Y71WaTe+JsRGkujxQCAeams8cB43E1bWHbx+SBtZZYE8fcO9Z1y5Hw9Hs0Retd8WLdUcNapx/LJils075He9gJON8mTYzyzDW1m+ik+lv01MucAqWgJ3dPnRXF/wQZiabR/dUoIEtL1q7IIrT5ewlrtP4XY=
+	t=1719166079; cv=none; b=kA92oSGYLbHsGeQ1DyyfKTDTMiSvtdaiUQ3ZJfLnkiW36BJUN8fFrqgHbraZM+YcoEJYjxZDAfEJ6r6lOo2DDeK8VBj5uLR7GyvX1eHJ/PLR7jc6gdTsNDl6n7DOVk+jfeGsL0o1WJB+avBfF0O4e8ELXu4DByc7rJmTrhYgX+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719164954; c=relaxed/simple;
-	bh=3QoGuMYDJFQ64ysOYCpdxWOFL0YwsWoHuLXLdbGZFCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a0SRCXjiU9x3p24BGOALT2EhxxiFW55vfvUvvZqfKdxff06RUBuIHn9pFgcWmqvt0obrfvaQqemTeqteZ8rPqz9/JqRTJytm0j1XKsAZc97YT+V3Mc73hcsKiQAYbU8CrlzrCfRMDqlpPIgNXywJ/C0U7IF7g2FUdtDxRWjU6OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Khf36Mrq; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719166079; c=relaxed/simple;
+	bh=gN5gx/2bgxPc7Ha4uj6zKWoJM3HzTcGze3wrKsRZO74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UE1L+2Zc2gYpSAugZqb18r/Bi+f/rX6ICqYrtfBPtb1BXFIBcZjlgp3d2CTNBKKLuITl2rJL1zxpQHq8X3kgGZIVkcXyEGqI342sOq+evnlxo6wcyxsvmwJgaAfaa5jHy04Azj1GoGdgGdPa/va2vLeW7fVsY4JUGDsb6dM1Mnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=KuhVY/3V; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Khf36Mrq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719164951; x=1750700951;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3QoGuMYDJFQ64ysOYCpdxWOFL0YwsWoHuLXLdbGZFCQ=;
-  b=Khf36MrqYQcmYM1/5dfVzl80VblPEiSLTBxkYWy+fJlDQQtO2Api8G74
-   4d47utBIySA1TEa+Rn6PyDj2KXaa3/sBfioy/Q4cKA3iNEDnSsYpWFbHH
-   VxeMgKT1wRvuyRpksdPz6KAUwk06seLiXXVItDuCti7nUZsKvDKWI0Dg9
-   RHxgIs+4l3l6uH63P10H7fORQAWZSmIEgr86bfb97dK6X9tkg5NTYDRDr
-   wSH98KjDoxEHUXvXt+OM+cuA4pBmu7SYAQCnVWavzO+F3Wok2tIorpsWm
-   A4j3KRpu3pdlkcOeLECKue6JbwPAUUTA80MP2LAlMHLYSBD0aIGIONSSv
-   w==;
-X-CSE-ConnectionGUID: /JKjGnF0QPysimtwp04kWQ==
-X-CSE-MsgGUID: uoG89dWIRACq9+v4gC+RJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="33593940"
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="33593940"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 10:49:11 -0700
-X-CSE-ConnectionGUID: PrKinLl4R+eB6TuOq1rAvA==
-X-CSE-MsgGUID: V2hS/XW5RgiyYM4GrXJ9Fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="42976951"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 23 Jun 2024 10:49:10 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLRKt-000Aqy-1T;
-	Sun, 23 Jun 2024 17:49:07 +0000
-Date: Mon, 24 Jun 2024 01:48:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andreas Larsson <andreas@gaisler.com>
-Subject: arch/sparc/kernel/head_32.S:121:(.head.text+0x5040): relocation
- truncated to fit: R_SPARC_WDISP22 against `.init.text'
-Message-ID: <202406240441.5zaoshVX-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="KuhVY/3V"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57d1679ee83so3650593a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 11:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1719166075; x=1719770875; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2q/oGp1Uj11i8ttCrYoX4CQ1yZ9C29tZG3LwII1sKnc=;
+        b=KuhVY/3VHmmnK3ileC/I5s/7R1WF48qxZZ5ekrgdrqkDMunE5W51HfUR6KD+MzZCl/
+         Iy9HOOwWG0eDxMS5a9VToWJmMJRnWCAjBbNQ+PzAPL8MuE1ztjQ1gb5soCma106y2C4w
+         CDzWrtKlKzV2LWl0hTA+A96VyuLvdtsvhggkc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719166075; x=1719770875;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2q/oGp1Uj11i8ttCrYoX4CQ1yZ9C29tZG3LwII1sKnc=;
+        b=tzBku11F8bAq1eai+2HghSLkKrq0L0d9hT4TZwq+VrOE02nQw4wqni3hQjZY9XnfWj
+         jGzckQHcrwHb20tOkQhANrutl6cdmeTnT2uNgVHpRB9VgLSX463uwVjURHD+3Z0tInjk
+         emTj+E5fsBSI5JRQUVNDvugYUucKgVrcbC3LivsADittpCNg7CWPWBikifAiLkr3SPMK
+         LVekr4I0IYEnTGFhjEPK43QwRxVLKFAkbxzAwoLyvmMHkZregaT/m1VRIEuMA1M+Gn9t
+         gy6tr0akwNb5IVZYtjlLkELMHdyZm9yxwx3ABh2MBciFmZTyGjmTWGArjVrOFfvl/+gZ
+         vQzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVaqgn9JH84p39k8WH4sXj5kiwMRhMS4rS4/NFg2Or6C9VFTKbIbaWg1Gepd2Gyta6Y0KY1jxtKQ8LaVfiH8JbtKv44Ay/yieELPVbvsg==
+X-Gm-Message-State: AOJu0Yw5w6vKBd1m4j1/s4TE6FgAL/9R1trKfdDNytYIHiE3hYC3tgjw
+	S+CxZDnLMxVJxLczk8NJAXO03hXu2xkzGqglLMnggRlpXWogUmGxCntOSMpKPPHsEuntLmljOJJ
+	K0bSOMQ==
+X-Google-Smtp-Source: AGHT+IFKOlAWwEwZ5HlxU1zvbhB9gyefInB2Wt8V9Cg3UVRBR8gT9fG8VyisW/YqoVR+uQ7HGiBxWw==
+X-Received: by 2002:a17:907:c313:b0:a6f:4827:7966 with SMTP id a640c23a62f3a-a714d729081mr268849966b.15.1719166075599;
+        Sun, 23 Jun 2024 11:07:55 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560627sm331073866b.148.2024.06.23.11.07.54
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jun 2024 11:07:54 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a70c0349b64so109179166b.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 11:07:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUR0BY1TmFQuv46bImIAJ4x25CujmYfMrnObWFmrTCgNYzYOJ2RbWjbVJ2/SoM/LG5qcKpqJuGCaYX61xgGEUuk2GLdT5JGqkgOwvlDNw==
+X-Received: by 2002:a17:906:318e:b0:a6f:5adc:6533 with SMTP id
+ a640c23a62f3a-a715f9795femr222604566b.46.1719166074441; Sun, 23 Jun 2024
+ 11:07:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202406230912.F6XFIyA6-lkp@intel.com> <CAFULd4YVOwxQ4JDaOdscX_vtJsqJBJ5zhd0RtXXutW=Eqh29Qw@mail.gmail.com>
+ <CAHk-=wg1h4w_m=Op1U4JsyDjsvqG0Kw1EOVMQ+=5GX_XytdorQ@mail.gmail.com>
+ <CAFULd4YR-VkAOKiS5yxSUYi0YMzY1p=pkYe4dOkgFs+A=9AFFA@mail.gmail.com> <CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com>
+In-Reply-To: <CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 23 Jun 2024 14:07:37 -0400
+X-Gmail-Original-Message-ID: <CAHk-=whPqqZVSeJiQsMvsAxtAmtR9iAuB4gg_1sUK2D-uBPpLw@mail.gmail.com>
+Message-ID: <CAHk-=whPqqZVSeJiQsMvsAxtAmtR9iAuB4gg_1sUK2D-uBPpLw@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/cmpxchg_32.h:149:9: error: inline assembly
+ requires more registers than available
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Sam,
+On Sun, 23 Jun 2024 at 13:48, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Now, from having looked a bit at this, I can point you to the
+> differences introduced by having to have the emulation fallback.
 
-First bad commit (maybe != root cause):
+Ahh.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7c16f0a4ed1ce7b0dd1c01fc012e5bde89fe7748
-commit: 91d3ff922c346d6d8cb8de5ff8d504fe0ca9e17e sparc32: Fix parport build with sparc32
-date:   4 months ago
-config: sparc-randconfig-r026-20230907 (https://download.01.org/0day-ci/archive/20240624/202406240441.5zaoshVX-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240624/202406240441.5zaoshVX-lkp@intel.com/reproduce)
+Itr does all the same things *and* it has
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406240441.5zaoshVX-lkp@intel.com/
+    "S" (_ptr)
 
-All errors (new ones prefixed by >>):
+as an added register pressure, because if we take the "call
+cmpxchg8b_emu", we need the address in a fixed place.
 
-   arch/sparc/kernel/head_32.o: in function `current_pc':
->> arch/sparc/kernel/head_32.S:121:(.head.text+0x5040): relocation truncated to fit: R_SPARC_WDISP22 against `.init.text'
-   arch/sparc/kernel/head_32.o: in function `halt_notsup':
-   arch/sparc/kernel/head_32.S:198:(.head.text+0x5100): relocation truncated to fit: R_SPARC_WDISP22 against `.init.text'
-   arch/sparc/kernel/head_32.o: in function `leon_init':
-   arch/sparc/kernel/head_32.S:434:(.init.text+0xa4): relocation truncated to fit: R_SPARC_WDISP22 against symbol `leon_smp_cpu_startup' defined in .text section in arch/sparc/kernel/trampoline_32.o
->> arch/sparc/kernel/process_32.o:(.fixup+0x4): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/process_32.o:(.fixup+0xc): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
->> arch/sparc/kernel/signal_32.o:(.fixup+0x0): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x8): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x10): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x18): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x20): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x28): additional relocation overflows omitted from the output
+I don't see any immediately obvious workaround.
 
-
-vim +121 arch/sparc/kernel/head_32.S
-
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   66  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   67  	.global root_flags
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   68  	.global ram_flags
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   69  	.global root_dev
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   70  	.global sparc_ramdisk_image
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   71  	.global sparc_ramdisk_size
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   72  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   73  /* This stuff has to be in sync with SILO and other potential boot loaders
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   74   * Fields should be kept upward compatible and whenever any change is made,
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   75   * HdrS version should be incremented.
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   76   */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   77  	.ascii	"HdrS"
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   78  	.word	LINUX_VERSION_CODE
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   79  	.half	0x0203		/* HdrS version */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   80  root_flags:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   81  	.half	1
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   82  root_dev:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   83  	.half	0
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   84  ram_flags:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   85  	.half	0
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   86  sparc_ramdisk_image:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   87  	.word	0
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   88  sparc_ramdisk_size:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   89  	.word	0
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   90  	.word	reboot_command
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   91  	.word	0, 0, 0
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   92  	.word	_end
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   93  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   94  /* Cool, here we go. Pick up the romvec pointer in %o0 and stash it in
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   95   * %g7 and at prom_vector_p. And also quickly check whether we are on
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   96   * a v0, v2, or v3 prom.
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   97   */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   98  gokernel:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16   99  		/* Ok, it's nice to know, as early as possible, if we
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  100  		 * are already mapped where we expect to be in virtual
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  101  		 * memory.  The Solaris /boot elf format bootloader
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  102  		 * will peek into our elf header and load us where
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  103  		 * we want to be, otherwise we have to re-map.
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  104  		 *
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  105  		 * Some boot loaders don't place the jmp'rs address
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  106  		 * in %o7, so we do a pc-relative call to a local
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  107  		 * label, then see what %o7 has.
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  108  		 */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  109  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  110  		mov	%o7, %g4		! Save %o7
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  111  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  112  		/* Jump to it, and pray... */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  113  current_pc:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  114  		call	1f
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  115  		 nop
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  116  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  117  1:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  118  		mov	%o7, %g3
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  119  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  120  		tst	%o0
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16 @121  		be	no_sun4u_here
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  122  		 mov	%g4, %o7		/* Previous %o7. */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  123  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  124  		mov	%o0, %l0		! stash away romvec
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  125  		mov	%o0, %g7		! put it here too
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  126  		mov	%o1, %l1		! stash away debug_vec too
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  127  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  128  		/* Ok, let's check out our run time program counter. */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  129  		set	current_pc, %g5
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  130  		cmp	%g3, %g5
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  131  		be	already_mapped
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  132  		 nop
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  133  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  134  		/* %l6 will hold the offset we have to subtract
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  135  		 * from absolute symbols in order to access areas
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  136  		 * in our own image.  If already mapped this is
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  137  		 * just plain zero, else it is KERNBASE.
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  138  		 */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  139  		set	KERNBASE, %l6
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  140  		b	copy_prom_lvl14
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  141  		 nop
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  142  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  143  already_mapped:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  144  		mov	0, %l6
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  145  
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  146  		/* Copy over the Prom's level 14 clock handler. */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  147  copy_prom_lvl14:
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  148  #if 1
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  149  		/* DJHR
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  150  		 * preserve our linked/calculated instructions
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  151  		 */
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  152  		set	lvl14_save, %g1
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  153  		set	t_irq14, %g3
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  154  		sub	%g1, %l6, %g1		! translate to physical
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  155  		sub	%g3, %l6, %g3		! translate to physical
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  156  		ldd	[%g3], %g4
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  157  		std	%g4, [%g1]
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  158  		ldd	[%g3+8], %g4
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  159  		std	%g4, [%g1+8]
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  160  #endif
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  161  		rd	%tbr, %g1
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  162  		andn	%g1, 0xfff, %g1		! proms trap table base
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  163  		or	%g0, (0x1e<<4), %g2	! offset to lvl14 intr
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  164  		or	%g1, %g2, %g2
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  165  		set	t_irq14, %g3
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  166  		sub	%g3, %l6, %g3
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  167  		ldd	[%g2], %g4
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  168  		std	%g4, [%g3]
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  169  		ldd	[%g2 + 0x8], %g4
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  170  		std	%g4, [%g3 + 0x8]	! Copy proms handler
-^1da177e4c3f41 arch/sparc/kernel/head.S Linus Torvalds 2005-04-16  171  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+              Linus
