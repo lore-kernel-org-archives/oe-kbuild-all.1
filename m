@@ -1,420 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21212F25
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 05:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C82523D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 08:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719118965; cv=none; b=JF1iPhw/At9rWvoYq6jvd3+aHqLOAk/8z0w9c7o8ntBhnb93UAbro8+RlFKwQg40uyaE0qkVrN48syQcLT+qRCkD6X1FECzKQt5qavsmhCBVA06rNQ2/zRcCvuG/hKwQWPs9lW1JoRa6SzX39pQT5bbLtCquK9p2s5/b90D/xuE=
+	t=1719131501; cv=none; b=gfM4KOKD3+3HkluWKcQJ7a9kMfQla7pqw4qCVwL/CqczEzG0PKsAaod3zOfMmh/CU0oIBVjS601pt76W4Pzr3n9oeWcJuCXn9gGnM5z+d7TJ5Q4GYDx30l6PTQ4LZHR20CPEpP9IobdplIKuThO8k1XDhvOkfxqne4tWU+KyO2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719118965; c=relaxed/simple;
-	bh=jPx9YU7X614JbPllJc0htuyI6wRgceDDVw1qkwO+l3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JTOIFcdo4MDzmgUFQ0W1Ovu6iy6J3+MTbK+tzXYLTaP3vzSxD7sfJ1i42/ufssa0iJDad50FCLIWPS8hfCNZZ/GIhcdwy0e/XttR/ubP7tpCcK4ca4RKOAUUjCwFGKfbd/lXmIKjFn/nWb29yyHdnRvTAylJBM+ap5lfLa3dJL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZkC/13h; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719131501; c=relaxed/simple;
+	bh=v7qG2+wmVcKP3bikUjkdlHeVprJrpA6Qa37pLUSYULI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a82nvO98mehULvHC6hPdthUbs4+3WZn/Y2yNTaH/a4ugk7xdouEA1HWsKB2LC14LAT+ZBQiRastRFOOyvvTVNMIQZ8HTBbD2/ZiI4oHl831NXNqrBVp8xOFddQpuArTguI3kgG6i2YVAntnWBxYfck+VpXtnl2Fepi2I9UHbckE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UBRs0DU3; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZkC/13h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719118962; x=1750654962;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jPx9YU7X614JbPllJc0htuyI6wRgceDDVw1qkwO+l3M=;
-  b=eZkC/13hoJozabhcKe9YTUxC2JbvFqqAWYskCdBhET5EauLoJNb1Cw5W
-   StmjDlce+LCPPvxX6AZ1+p8XcGGzz2cuqWdlxlMsdD7X2h9X97zR6Evuk
-   LptEdsiyfq0gz3ZhIukeGoQv3x3/a5ALk0fP9UTjKt2r5tRe+4VVyemXw
-   /+T0YD027sEKJmo9LSTzVwrr6YWDyzyLOzu39DsdvI10FYfpePIaXtSaA
-   1WnvhVD3ntHvwfhQ4XNsY0v3nChCX2hTf9JIGjxN/1g9PjJqlzeSEFiNH
-   GIF3KWAx5QhNOlv8zPRvJHp91WE6OpuCR8Q0ZX5N9C5pgcuJ+cXTy6XUl
-   A==;
-X-CSE-ConnectionGUID: 7lzZJCtKSw+UnTRf7rZ1TQ==
-X-CSE-MsgGUID: pd3DbOcETIy6QM72njo9zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="19994023"
-X-IronPort-AV: E=Sophos;i="6.08,259,1712646000"; 
-   d="scan'208";a="19994023"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 22:02:42 -0700
-X-CSE-ConnectionGUID: DqwIrO6NTo2G5DxwUEgtyg==
-X-CSE-MsgGUID: E6uTxaNYRQScF1PZYc9yQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,259,1712646000"; 
-   d="scan'208";a="66212853"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Jun 2024 22:02:41 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLFN8-000AGs-23;
-	Sun, 23 Jun 2024 05:02:38 +0000
-Date: Sun, 23 Jun 2024 13:01:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/2]
- include/trace/hooks/bpf_jit_comp.h:14:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202406231256.CIrk98NL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UBRs0DU3"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424900a9b05so426885e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 01:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719131497; x=1719736297; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Jsqj1mnPFmZ4HtpCEpmJpbwJCPM7vnJK8NGNkvKmkbY=;
+        b=UBRs0DU3xpcwOx1tNXmw4bJLdhz4yTslYOGGzA5dz4jtMlQuQhoJ5cz6RqEQ8ABS0H
+         8Zt0uU7K8VmDud5D+aaWlCnbajOhcLs35/DD4mYE1q3P/C0+KQNiGtbAM3njFnTPyP9d
+         wy6vKT2N7GiGqV3Du5J+y1M6oM6/JmHK6B4P+QqSB0ZBycs+UgbUrXYztCRdzKVwccnZ
+         biHSt0KyOQ96LIzj1Nq4eKTpiBt2lqc+2qmsZqXpOwag7AvvPiCp7H9rWdPjIVipq8mX
+         lpep0GNJCu5s7vrZad1tS9wXxa3OoWm7SxpALsbVoeko7Sgvj6z+/8PHmYdyqYf2+74z
+         o8Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719131497; x=1719736297;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jsqj1mnPFmZ4HtpCEpmJpbwJCPM7vnJK8NGNkvKmkbY=;
+        b=QPyHGtG7sA6XDMAZwUriebFkf+DTIxr7kEaf+72zGihtLzXGG+3QTm7AUni50lLUqq
+         U1NBNsyUOzzw2PTbo0Jqe+1C5gNYJ931UKyOBl8pyL8LW4cF0Ao0PTwMS267fwX9M5p4
+         r4ELXjlT53ZGelzdeQwEInXVmmumA/Aw7I54YwBocvZUn76FKjwDWWVkdW9pEzQh9kMF
+         j/+bk+B3+oZSy+/5DQorvVr4+pXqMeyhnUAdLJXe+lyYX7z3YB85wE2ila1fydgP1jVG
+         zg78U43VWJFfd7nPUkSJ9+4yAAKBEIcejlGeMoOMwzikrbC9BF67Z+yy8T9TbBHbWPTn
+         1Gng==
+X-Forwarded-Encrypted: i=1; AJvYcCV48jpaDRK4F/xkIWXOiIWWsdmcdWZl0l8NTQjQM3shwulCeB07UsOYaLCGc4786ExSGQ9gYZixaUCGs5o3QfnTWcWMRZ/wFTzMtjCXqg==
+X-Gm-Message-State: AOJu0YzisAK6OTVe40EL8zGbQDrt75oBGwwwn/vMQnqWM+vGiCxsvy78
+	V5rtI7/5GecU/C41OMzmfqJMEXwLG+oOfBQCv+Ip1LuI9lOMors2FrludGuzDgo=
+X-Google-Smtp-Source: AGHT+IEJILTYt6PUgSjJwIqaKmF0untmUoZHcR9xfPOGbEzHRUI7QzpaSDWIbCleTE9FtfZKsiybyg==
+X-Received: by 2002:a05:600c:4f4d:b0:424:8f0d:c07f with SMTP id 5b1f17b1804b1-4248f0dce13mr3752945e9.4.1719131496800;
+        Sun, 23 Jun 2024 01:31:36 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4248179d3basm100098475e9.4.2024.06.23.01.31.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jun 2024 01:31:36 -0700 (PDT)
+Message-ID: <611ba3b3-3804-4dd1-bb11-0ba206a789cf@linaro.org>
+Date: Sun, 23 Jun 2024 09:31:35 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [srini-nvmem:for-next 9/12] drivers/nvmem/core.c:400:42: error:
+ cannot assign to variable 'bin_attr_nvmem_eeprom_compat' with const-qualified
+ type 'const struct bin_attribute'
+To: kernel test robot <lkp@intel.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+References: <202406231219.Rw6IC4E6-lkp@intel.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <202406231219.Rw6IC4E6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   2886675699f7a7405eb5103c277c1d6ab13c7f95
-commit: 73e6ecb484ef613810cb059282aa5bbba5697947 [1/2] ANDROID: vendor_hooks: add vendor hook for bpf jit
-config: i386-randconfig-r133-20240623 (https://download.01.org/0day-ci/archive/20240623/202406231256.CIrk98NL-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406231256.CIrk98NL-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406231256.CIrk98NL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 23/06/2024 05:51, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-next
+> head:   050e51c214c5bbe5ffd9e7f5927ccdcd2da18fe3
+> commit: 178a9aea2c5db8328757fdea66922bda0236e95c [9/12] nvmem: core: mark bin_attr_nvmem_eeprom_compat as const
+> config: i386-buildonly-randconfig-003-20240623 (https://download.01.org/0day-ci/archive/20240623/202406231219.Rw6IC4E6-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240623/202406231219.Rw6IC4E6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406231219.Rw6IC4E6-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
 
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/signal.h:19,
-                    from drivers/android/vendor_hooks.c:67:
-   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/gzvm.h:16,
-                    from drivers/android/vendor_hooks.c:66:
-   include/trace/stages/init.h:2:23: warning: 'str__gzvm__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpuinfo.h:18,
-                    from drivers/android/vendor_hooks.c:65:
-   include/trace/stages/init.h:2:23: warning: 'str__cpuinfo__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/power.h:38,
-                    from drivers/android/vendor_hooks.c:64:
-   include/trace/stages/init.h:2:23: warning: 'str__power__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/softlockup.h:17,
-                    from drivers/android/vendor_hooks.c:63:
-   include/trace/stages/init.h:2:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bpf_jit_comp.h:20,
-                    from drivers/android/vendor_hooks.c:62:
->> include/trace/stages/init.h:2:23: warning: 'str__bpf_jit_comp__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bug.h:16,
-                    from drivers/android/vendor_hooks.c:61:
-   include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:28,
-                    from drivers/android/vendor_hooks.c:60:
-   include/trace/stages/init.h:2:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:37,
-                    from drivers/android/vendor_hooks.c:59:
-   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/futex.h:49,
-                    from drivers/android/vendor_hooks.c:58:
-   include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:58,
-                    from drivers/android/vendor_hooks.c:57:
-   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+Thanks for reporting this,
+Changes required to address this are now in nvmem for-next.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-
-sparse warnings: (new ones prefixed by >>)
-   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
-   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic.h):
-   include/trace/hooks/gic.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/gic.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/gic.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
-   include/trace/hooks/gic_v3.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/gic_v3.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/gic_v3.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/reboot.h):
-   include/trace/hooks/reboot.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/reboot.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/reboot.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/psci.h):
-   include/trace/hooks/psci.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/psci.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/psci.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/psci.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/psci.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/psci.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
-   include/trace/hooks/preemptirq.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/mm.h):
-   include/trace/hooks/mm.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/mm.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/mm.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/mm.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/mm.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/mm.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/mm.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/mm.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/mm.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/mm.h:51:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/mm.h:51:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/mm.h:51:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/dtask.h):
-   include/trace/hooks/dtask.h:86:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/dtask.h:86:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/dtask.h:86:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
-   include/trace/hooks/traps.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/traps.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/traps.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/traps.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/traps.h:29:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:29:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:29:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/traps.h:33:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:33:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:33:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
-   include/trace/hooks/fault.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/fault.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/fault.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/fault.h:16:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/fault.h:16:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/fault.h:16:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/fault.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/fault.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/fault.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/topology.h):
-   include/trace/hooks/topology.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/topology.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/topology.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
-   include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/bug.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/bug.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bpf_jit_comp.h):
->> include/trace/hooks/bpf_jit_comp.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/bpf_jit_comp.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/bpf_jit_comp.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpuinfo.h):
-   include/trace/hooks/cpuinfo.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpuinfo.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpuinfo.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/usb.h):
-   include/trace/hooks/usb.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/usb.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/usb.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-
-vim +14 include/trace/hooks/bpf_jit_comp.h
-
-     4	
-     5	#define TRACE_INCLUDE_PATH trace/hooks
-     6	#if !defined(_TRACE_HOOK_BPF_JIT_COMP_H) || defined(TRACE_HEADER_MULTI_READ)
-     7	#define _TRACE_HOOK_BPF_JIT_COMP_H
-     8	#include <trace/hooks/vendor_hooks.h>
-     9	/*
-    10	 * Following tracepoints are not exported in tracefs and provide a
-    11	 * mechanism for vendor modules to hook and extend functionality
-    12	 */
-    13	struct bpf_binary_header;
-  > 14	DECLARE_RESTRICTED_HOOK(android_rvh_bpf_int_jit_compile_ro,
-    15		TP_PROTO(const struct bpf_binary_header *header, u32 size),
-    16		TP_ARGS(header, size), 1);
-    17	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--srini
+>>> drivers/nvmem/core.c:400:42: error: cannot assign to variable 'bin_attr_nvmem_eeprom_compat' with const-qualified type 'const struct bin_attribute'
+>       400 |                 bin_attr_nvmem_eeprom_compat.attr.name = "fram";
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+>     drivers/nvmem/core.c:375:35: note: variable 'bin_attr_nvmem_eeprom_compat' declared const here
+>       375 | static const struct bin_attribute bin_attr_nvmem_eeprom_compat = {
+>           | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       376 |         .attr   = {
+>           |         ~~~~~~~~~~~
+>       377 |                 .name   = "eeprom",
+>           |                 ~~~~~~~~~~~~~~~~~~~
+>       378 |         },
+>           |         ~~
+>       379 |         .read   = bin_attr_nvmem_read,
+>           |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       380 |         .write  = bin_attr_nvmem_write,
+>           |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       381 | };
+>           | ~
+>     1 error generated.
+> 
+> 
+> vim +400 drivers/nvmem/core.c
+> 
+> 844003052719375 Srinivas Kandagatla 2020-03-25  382
+> 844003052719375 Srinivas Kandagatla 2020-03-25  383  /*
+> 844003052719375 Srinivas Kandagatla 2020-03-25  384   * nvmem_setup_compat() - Create an additional binary entry in
+> 844003052719375 Srinivas Kandagatla 2020-03-25  385   * drivers sys directory, to be backwards compatible with the older
+> 844003052719375 Srinivas Kandagatla 2020-03-25  386   * drivers/misc/eeprom drivers.
+> 844003052719375 Srinivas Kandagatla 2020-03-25  387   */
+> 844003052719375 Srinivas Kandagatla 2020-03-25  388  static int nvmem_sysfs_setup_compat(struct nvmem_device *nvmem,
+> 844003052719375 Srinivas Kandagatla 2020-03-25  389  				    const struct nvmem_config *config)
+> 844003052719375 Srinivas Kandagatla 2020-03-25  390  {
+> 844003052719375 Srinivas Kandagatla 2020-03-25  391  	int rval;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  392
+> 844003052719375 Srinivas Kandagatla 2020-03-25  393  	if (!config->compat)
+> 844003052719375 Srinivas Kandagatla 2020-03-25  394  		return 0;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  395
+> 844003052719375 Srinivas Kandagatla 2020-03-25  396  	if (!config->base_dev)
+> 844003052719375 Srinivas Kandagatla 2020-03-25  397  		return -EINVAL;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  398
+> fd307a4ad332ef5 Jiri Prchal         2021-06-11  399  	if (config->type == NVMEM_TYPE_FRAM)
+> fd307a4ad332ef5 Jiri Prchal         2021-06-11 @400  		bin_attr_nvmem_eeprom_compat.attr.name = "fram";
+> fd307a4ad332ef5 Jiri Prchal         2021-06-11  401
+> 2a4542e55f1b592 Srinivas Kandagatla 2020-04-17  402  	nvmem->eeprom = bin_attr_nvmem_eeprom_compat;
+> 2a4542e55f1b592 Srinivas Kandagatla 2020-04-17  403  	nvmem->eeprom.attr.mode = nvmem_bin_attr_get_umode(nvmem);
+> 844003052719375 Srinivas Kandagatla 2020-03-25  404  	nvmem->eeprom.size = nvmem->size;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  405  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> 844003052719375 Srinivas Kandagatla 2020-03-25  406  	nvmem->eeprom.attr.key = &eeprom_lock_key;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  407  #endif
+> 844003052719375 Srinivas Kandagatla 2020-03-25  408  	nvmem->eeprom.private = &nvmem->dev;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  409  	nvmem->base_dev = config->base_dev;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  410
+> 844003052719375 Srinivas Kandagatla 2020-03-25  411  	rval = device_create_bin_file(nvmem->base_dev, &nvmem->eeprom);
+> 844003052719375 Srinivas Kandagatla 2020-03-25  412  	if (rval) {
+> 844003052719375 Srinivas Kandagatla 2020-03-25  413  		dev_err(&nvmem->dev,
+> 844003052719375 Srinivas Kandagatla 2020-03-25  414  			"Failed to create eeprom binary file %d\n", rval);
+> 844003052719375 Srinivas Kandagatla 2020-03-25  415  		return rval;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  416  	}
+> 844003052719375 Srinivas Kandagatla 2020-03-25  417
+> 844003052719375 Srinivas Kandagatla 2020-03-25  418  	nvmem->flags |= FLAG_COMPAT;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  419
+> 844003052719375 Srinivas Kandagatla 2020-03-25  420  	return 0;
+> 844003052719375 Srinivas Kandagatla 2020-03-25  421  }
+> 844003052719375 Srinivas Kandagatla 2020-03-25  422
+> 
+> :::::: The code at line 400 was first introduced by commit
+> :::::: fd307a4ad332ef50be5569c92490219e7cd84ce5 nvmem: prepare basics for FRAM support
+> 
+> :::::: TO: Jiri Prchal <jiri.prchal@aksignal.cz>
+> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
