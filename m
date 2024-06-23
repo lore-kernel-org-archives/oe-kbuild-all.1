@@ -1,140 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7829B79B9C;
-	Sun, 23 Jun 2024 18:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A3A79B9C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 18:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719166877; cv=none; b=eOnsh3TTCcXuhFv4AWDtvxlVECPfAEMtiYRxImSI2xOvR0IhVR7E5wu7CL2h0afMjPlInhsTK0uyNhBK320As579j8HS5TCQskFEdgRJHbBpvcnbIeC4glyh3jJxD30O7QIG1UAD5o1aRX4cx+MtIiXT7WxBgQBwBxkNjxy7SeA=
+	t=1719167136; cv=none; b=pnCuzmcBBR0MyNx+Wj9Y2/WSbuKWh/PwFBEq1gLmtlGCeNUuss7EBdtQ3N1TEDdXW/kNeexP3HQQfS0fLzVpokQrQnwNsI6AmpgzpthwoEzLf+kqhTAATDFso6ENsFhcAvDvWPa35Yz5GxIg5fyVsr5iVoWSOkZ4VylXpim4osw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719166877; c=relaxed/simple;
-	bh=duSWdQ+aOaP9HENYg1+didyYLS480gMI9XxeuWAa1M4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AKrBtV1qcaa1khO8siG2pMsHzLv2kyovc0DpHQN4unQr0cv6f1O5naVb9UKaLf+xNOc1Ln+JvCvgcDY5+XWjUFaHwcovXfAHhfZfmFoYqy0xXSFO5kUAE2Z+VKy/SZ0B8mgBwst8AuiuXUIL2NrSajoTpk6Tz3ixA4/pIVZaykc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MuAgNV7V; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719167136; c=relaxed/simple;
+	bh=as/miy1ciTXoov1k9v10YWH2KHSzwtS8c+tFIFA2eEY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IZgvQMzQUM6Ap7C63TkDI2P+k7I5Tb2QucIvMk6479uNjRZ1wWu9NlECTKlnnTmOgnhtvUaPF/fGlrhyN5AfRi5gJUbBRP1x5KkVgdj2ANCqKaqq8HoTFxhF/akQew6Nk/bGfvy8Q/z6H8h2Y+C9WJuRk+QaM1Xg/6+Hoh4rnKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Q8rqpkoc; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MuAgNV7V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719166875; x=1750702875;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=duSWdQ+aOaP9HENYg1+didyYLS480gMI9XxeuWAa1M4=;
-  b=MuAgNV7Vrz8F6qfDcmxfszVbqXWZZDsOuz3gOsVB/rbhlEq5Lyk/XwmZ
-   80tW91OsKpheKo0Z9uuZnXKg3KsZIMV0H/1QQcUMUAaBFwnbImEEf/fZP
-   GphneniBwximpthkaSRosFQkI8c/raDDNWSW9DHWzefAcN6ZrzT+SnSSo
-   lwRKczNqosm1zfsEe1mIq4jVZaQxk3p2OmrFlonYdOF3CC24x1Do5IPD+
-   IxPO8rVQW7eG3CwQ+5OQCu4v5HPUPSoExMF/eV2AQY3vMB39cW/HmmGQI
-   WMiw6ZryKRAmcVBfi/KYvDm+ZF7mT+Qx+vWJsVG2ayqQW8D2WxdEzG7ps
-   g==;
-X-CSE-ConnectionGUID: WCeD/X38T3WL/1/Fef3YHA==
-X-CSE-MsgGUID: A4zhCEBqSWmbyKQI+X30GQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="16273704"
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="16273704"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 11:21:14 -0700
-X-CSE-ConnectionGUID: 8XZG4GP9SluckJkCcub7pg==
-X-CSE-MsgGUID: XlbtoyUpQo2iukJMD25f0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="48245771"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jun 2024 11:21:13 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLRpu-000AwE-2f;
-	Sun, 23 Jun 2024 18:21:10 +0000
-Date: Mon, 24 Jun 2024 02:20:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Bee <knaerzche@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [linux-next:master 4036/7797]
- drivers/clk/rockchip/clk-rk3128.c:582:40: error: use of undeclared
- identifier 'CLK_NR_CLKS'
-Message-ID: <202406240243.f4Ux9lv5-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Q8rqpkoc"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a6fe118805dso120810766b.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 11:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1719167133; x=1719771933; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zPcDcr9W0nDXx9L0w2Y+uq4Fc6p+RIUkLyrf+Mc+Mfs=;
+        b=Q8rqpkocXj50NCjqV/py2+udyazpo6QuMvoUBU5AZyQUr2niFFTKwAh/YEimzpHSTt
+         mtThIPYFVVF5GAmfoXSRvYo5XnLOrTXNBp/CnQCICoLZwc4Vj3Jtxs4qrDBIhH6580zN
+         0v5do++lHFiknunem+cqqV0gv9D1fA4scaRNs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719167133; x=1719771933;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zPcDcr9W0nDXx9L0w2Y+uq4Fc6p+RIUkLyrf+Mc+Mfs=;
+        b=Ezv6wa24ST4Yjxg1VIoh4bytxEhconD37WWPBXxNKF5szqvRrnRFG0hmNhovXFmfdG
+         KdujxG7rSks4ZeMmQlIi1tpsMviBXZJJtx6geCgfvv/BfzgOx4SJI6uzxVfxgaVsrhje
+         WfvTj7MGaFS0NTsTtOfTO5BxwlfeFT+CJvBcX6KqSjFSAhpCQUN9tPCDe+Ylqd0roxtF
+         EGONTUu9LBhExV0/z+hPDrqDgbQvt3zZdxztPvtw2g1RrWjrm02mYcibZnJyHLOGaJVy
+         Gi6va3t4bmUlP9C00KKNDq8uMi1FubvmjccgL5BGO5z9kSWX7HhK/Ek+o0aTH2YkYGjX
+         O9nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSw/kB9GBhe5k5XrVpLjGsCwU+ayFpshO0U05wrivFZf4ITWyzLJVSZ42i/0Xz+/izaTj9AOR+KM9T7qQ1sr4sROOe37f4XuCSibIE2A==
+X-Gm-Message-State: AOJu0YzqSHUQrcV62BdOEIQMqJO4/yE+KsNMtoGC8TWeb+sqnA7iPNdw
+	Vh18/T3oW/UxvIu5GfDhyvfYhcS1jjwsNMdkwTaE8pLcI1BH24Or+m5Mbrs3gpyQ9uYLO7A5Pq/
+	yduNdCw==
+X-Google-Smtp-Source: AGHT+IH6C3yxYJPycKPTchvTTQR8i3bFDpQkInEt2yYQzqyUTBchHdHLFK9NjR7L4jT/TmC8OPTIIA==
+X-Received: by 2002:a17:907:c784:b0:a6f:dcf4:27c with SMTP id a640c23a62f3a-a7245dc96b8mr174923466b.47.1719167132876;
+        Sun, 23 Jun 2024 11:25:32 -0700 (PDT)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf42a65bsm327836766b.40.2024.06.23.11.25.32
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jun 2024 11:25:32 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a689ad8d1f6so448711066b.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jun 2024 11:25:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUVr5ZCNM9wqyspmf34Du521SEC2HQ9XygiJaFdVeDpvGqo4UyDbjgUIZPeIoHjBdrgSkkgMfIuuIRI+eQq+UvdwBpQKrw9wBrQinPGSw==
+X-Received: by 2002:a17:906:c0c7:b0:a6f:e3d1:8b2 with SMTP id
+ a640c23a62f3a-a7245c85a3emr178260866b.9.1719167131894; Sun, 23 Jun 2024
+ 11:25:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202406230912.F6XFIyA6-lkp@intel.com> <CAFULd4YVOwxQ4JDaOdscX_vtJsqJBJ5zhd0RtXXutW=Eqh29Qw@mail.gmail.com>
+ <CAHk-=wg1h4w_m=Op1U4JsyDjsvqG0Kw1EOVMQ+=5GX_XytdorQ@mail.gmail.com>
+ <CAFULd4YR-VkAOKiS5yxSUYi0YMzY1p=pkYe4dOkgFs+A=9AFFA@mail.gmail.com>
+ <CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com> <CAFULd4b43=pTnAMKusJmGCeF1Bk-f6AyeOR8wGM8EieqhuH5WQ@mail.gmail.com>
+In-Reply-To: <CAFULd4b43=pTnAMKusJmGCeF1Bk-f6AyeOR8wGM8EieqhuH5WQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 23 Jun 2024 14:25:15 -0400
+X-Gmail-Original-Message-ID: <CAHk-=wgHa_5u71j=Zx4DceTfjaeL2w1RCPPXbpEEL-xCw-J8ew@mail.gmail.com>
+Message-ID: <CAHk-=wgHa_5u71j=Zx4DceTfjaeL2w1RCPPXbpEEL-xCw-J8ew@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/cmpxchg_32.h:149:9: error: inline assembly
+ requires more registers than available
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f76698bd9a8ca01d3581236082d786e9a6b72bb7
-commit: 9f22b4fbd4c6d27ca4e5f8fa6632e6d7a846af28 [4036/7797] dt-bindings: clock: rk3128: Drop CLK_NR_CLKS
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240624/202406240243.f4Ux9lv5-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240624/202406240243.f4Ux9lv5-lkp@intel.com/reproduce)
+On Sun, 23 Jun 2024 at 14:14, Uros Bizjak <ubizjak@gmail.com> wrote:
+>
+> I disagree with *I tried to shift the blame to others*! I take full
+> responsibility for my patch, and I'm perfectly capable of fixing the
+> breakage with an alternative approach.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406240243.f4Ux9lv5-lkp@intel.com/
+Ah, good. This is something I'm a bit sensitive about, just because
+there's been so many arguments over it over the years, so now I go
+into "preemptive nuclear mode" when the regression issue comes up.
 
-Note: the linux-next/master HEAD f76698bd9a8ca01d3581236082d786e9a6b72bb7 builds fine.
-      It may have been fixed somewhere.
+Sorry.
 
-All errors (new ones prefixed by >>):
+> I'm OK with the revert, but it won't fix the underlying problem.
+> Please see the definition of __arch_cmpxchg64_emu - it forces the
+> address to %esi registers in the same way as __arch_try_cmpxchg64_emu.
+> Effectively, the compiler allocates 5 input registers just for the
+> instruction.
 
->> drivers/clk/rockchip/clk-rk3128.c:582:40: error: use of undeclared identifier 'CLK_NR_CLKS'
-           ctx = rockchip_clk_init(np, reg_base, CLK_NR_CLKS);
-                                                 ^
-   1 error generated.
+Oh, I entirely agree that this is a "random compiler implementation"
+issue, and then the code around it makes all the difference.
 
+> > Now, from having looked a bit at this, I can point you to the
+> > differences introduced by having to have the emulation fallback.
+>
+> Yes, I know this - I also (runtime!) tested the emulation, but with GCC only.
 
-vim +/CLK_NR_CLKS +582 drivers/clk/rockchip/clk-rk3128.c
+Yeah, crossed emails, I started out just doing the "let's see what the
+config difference is", and only after that realized that I had looked
+at the wrong code for cmpxchg (ie I had looked at the simpler native
+case).
 
-f6022e88faca1a Elaine Zhang 2017-06-02  570  
-334614058886fc Elaine Zhang 2017-08-01  571  static struct rockchip_clk_provider *__init rk3128_common_clk_init(struct device_node *np)
-f6022e88faca1a Elaine Zhang 2017-06-02  572  {
-f6022e88faca1a Elaine Zhang 2017-06-02  573  	struct rockchip_clk_provider *ctx;
-f6022e88faca1a Elaine Zhang 2017-06-02  574  	void __iomem *reg_base;
-f6022e88faca1a Elaine Zhang 2017-06-02  575  
-f6022e88faca1a Elaine Zhang 2017-06-02  576  	reg_base = of_iomap(np, 0);
-f6022e88faca1a Elaine Zhang 2017-06-02  577  	if (!reg_base) {
-f6022e88faca1a Elaine Zhang 2017-06-02  578  		pr_err("%s: could not map cru region\n", __func__);
-334614058886fc Elaine Zhang 2017-08-01  579  		return ERR_PTR(-ENOMEM);
-f6022e88faca1a Elaine Zhang 2017-06-02  580  	}
-f6022e88faca1a Elaine Zhang 2017-06-02  581  
-f6022e88faca1a Elaine Zhang 2017-06-02 @582  	ctx = rockchip_clk_init(np, reg_base, CLK_NR_CLKS);
-f6022e88faca1a Elaine Zhang 2017-06-02  583  	if (IS_ERR(ctx)) {
-f6022e88faca1a Elaine Zhang 2017-06-02  584  		pr_err("%s: rockchip clk init failed\n", __func__);
-f6022e88faca1a Elaine Zhang 2017-06-02  585  		iounmap(reg_base);
-334614058886fc Elaine Zhang 2017-08-01  586  		return ERR_PTR(-ENOMEM);
-f6022e88faca1a Elaine Zhang 2017-06-02  587  	}
-f6022e88faca1a Elaine Zhang 2017-06-02  588  
-f6022e88faca1a Elaine Zhang 2017-06-02  589  	rockchip_clk_register_plls(ctx, rk3128_pll_clks,
-f6022e88faca1a Elaine Zhang 2017-06-02  590  				   ARRAY_SIZE(rk3128_pll_clks),
-f6022e88faca1a Elaine Zhang 2017-06-02  591  				   RK3128_GRF_SOC_STATUS0);
-334614058886fc Elaine Zhang 2017-08-01  592  	rockchip_clk_register_branches(ctx, common_clk_branches,
-334614058886fc Elaine Zhang 2017-08-01  593  				  ARRAY_SIZE(common_clk_branches));
-f6022e88faca1a Elaine Zhang 2017-06-02  594  
-f6022e88faca1a Elaine Zhang 2017-06-02  595  	rockchip_clk_register_armclk(ctx, ARMCLK, "armclk",
-f6022e88faca1a Elaine Zhang 2017-06-02  596  			mux_armclk_p, ARRAY_SIZE(mux_armclk_p),
-f6022e88faca1a Elaine Zhang 2017-06-02  597  			&rk3128_cpuclk_data, rk3128_cpuclk_rates,
-f6022e88faca1a Elaine Zhang 2017-06-02  598  			ARRAY_SIZE(rk3128_cpuclk_rates));
-f6022e88faca1a Elaine Zhang 2017-06-02  599  
-f6022e88faca1a Elaine Zhang 2017-06-02  600  	rockchip_register_softrst(np, 9, reg_base + RK2928_SOFTRST_CON(0),
-f6022e88faca1a Elaine Zhang 2017-06-02  601  				  ROCKCHIP_SOFTRST_HIWORD_MASK);
-f6022e88faca1a Elaine Zhang 2017-06-02  602  
-f6022e88faca1a Elaine Zhang 2017-06-02  603  	rockchip_register_restart_notifier(ctx, RK2928_GLB_SRST_FST, NULL);
-f6022e88faca1a Elaine Zhang 2017-06-02  604  
-334614058886fc Elaine Zhang 2017-08-01  605  	return ctx;
-334614058886fc Elaine Zhang 2017-08-01  606  }
-334614058886fc Elaine Zhang 2017-08-01  607  
+> This can be achieved by implementing atomic64_{and,or,xor} as an
+> outline function.
 
-:::::: The code at line 582 was first introduced by commit
-:::::: f6022e88faca1a6a21cbd0f009b477bc530b9cc7 clk: rockchip: add clock controller for rk3128
+Yes, but then a lot of the whole point of commit 95ece48165c1 goes
+away, doesn't it?
 
-:::::: TO: Elaine Zhang <zhangqing@rock-chips.com>
-:::::: CC: Heiko Stuebner <heiko@sntech.de>
+Or were you suggesting the out-of-line code only for the emulation
+case? That would work.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+             Linus
