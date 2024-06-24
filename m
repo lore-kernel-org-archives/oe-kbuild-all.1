@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92B519DF72
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 17:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C4B1A070F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 17:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719250404; cv=none; b=qq6c/aEmrZL09NEANbCPxG2BW5gQf0+DloSljD6j5vZeA26qYNmmVGyYgtqjSMCCuO16kMnc6JiIt6JJOAAnHHVhdH/pGMXSoZgZEAyOY/VNPmDVHlVfZm7ijxBXBIOGb/1sbRk8hB8RCZYqg/Ip1vqPjGu4QcuPSWyAr5hV57s=
+	t=1719251726; cv=none; b=F437h2mLVQeWVuM73BZPpignYn+yBkMYiXoZj8FDYPxFImNXl04hqgSTQ8it8fY204quLWJq2uqGU/Oy5vEnEBJBtGCwOIOboUySt9WOzr9eo19bUDZSWqu/tawpB1BHRyAy95yx0CJFdXK+5JPcfjStvUrzHDoCb7s0PISHTD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719250404; c=relaxed/simple;
-	bh=d5gdZrcoC4Fid+wyB1eWF2yMJjtSqqJQcinrs+mus6o=;
+	s=arc-20240116; t=1719251726; c=relaxed/simple;
+	bh=m67AFNlwX4dfMPT4pN5uCenPaYicw7cuvTArIpw4dtc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MRIzR1A/g9ze71blIYjgAAGBTJUB8tHxAyp7KH7VkPOrPVXVMV4uHZ62aE3cHcfBOM/Kloq0+pwZXMtwRqY9TVWHusNkqz/Yi47lBK7YSh/XNntRploVmCsvojE2OCCRm2nOBEqzUBKULiF6mZCeaSQ96HRK8DcZ7HUVsYQC18M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IufYNnDH; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=UkTH9PyEZAIyWW1EVqEFX2SkztEJ69VAlMHnB1MW9APLXNcxWJosThfGu02MU2f2l6tIO6h/Qf/6ohkJlWF9jcS8Pq7ATGiTPDhp8+h7pEoZNBXt8QRJ0kRtmY91QoqZD6QuOrUfdeHKsx5yGew2w6Pl9oHIxZ1lP4PDnf+Z4eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGsFbrs8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IufYNnDH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGsFbrs8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719250402; x=1750786402;
+  t=1719251724; x=1750787724;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d5gdZrcoC4Fid+wyB1eWF2yMJjtSqqJQcinrs+mus6o=;
-  b=IufYNnDHG4S16m0vnPOdEl9wXGAg+xSKMfdD4UHxebWTFrE/moLP0Alh
-   9WlmLHzX/5ush2IvKVlQnwVO96Kr61TDryiHnwvIECnkMgn++E9mNaWjN
-   nBGmv2NKaV0FCNTE6adjPc62F9lI5jVn231t7kQuX/RSF1N+GyGC7LF8s
-   enBI2R64CisWYaMYPtS+sLXGGE7nJ6e48Syjl3KWVKbEA3sqU125PbVBS
-   DnTpaVL8R8LUtjHCpZzI/R6ZFSxF8J7nJjFoer1o1EGXNOHbogDoMWPe7
-   vPQG0IhMjXStrecoe7A0/I0gqECSr0sl3LqiW0ntc66Lg1wB0EMaKjY17
-   Q==;
-X-CSE-ConnectionGUID: loC0IyPyRvCboJr5z+rpVA==
-X-CSE-MsgGUID: U0sojfEXTrq+LCk7tH84Gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="15991906"
+  bh=m67AFNlwX4dfMPT4pN5uCenPaYicw7cuvTArIpw4dtc=;
+  b=RGsFbrs8qQr2qYb1EsiZJN4+b7/r6SOv8EkIpaBRBW9KPV0kgd2budAK
+   7IrLru28YyepI+ZxI7zCSECDVOcA8joSROGbFiGQgoZ6UFthPST8bd0Em
+   PPk9mLMxGFLTbN13O8KSeMaxTdNaIdsfMQBm6DcLB8HPvokxYLI2hkpU3
+   834uJot1EjGPRm/z62Zsxh87FEZ4jXCCBlHAfagIma2kfp7u9VNwkRPdV
+   Ezr9u3WY7eDUsjp44pzE61MCZmn+v4F4HvQuMlve04kaJgab2vxZ69eq3
+   Tswck/ilPc90mdNux0xNgQ6MC0xkTs/1jT34VfrRsrsVU7I7d43vfR3Ob
+   g==;
+X-CSE-ConnectionGUID: +yT3U3ZIQQKANKtTY6yxyg==
+X-CSE-MsgGUID: ucnQtyebSDySprj6Ma/7dA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="27643777"
 X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="15991906"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 10:33:21 -0700
-X-CSE-ConnectionGUID: 2qtkgSQ2RMucjx4/3OeTiw==
-X-CSE-MsgGUID: dWOjym9XSPirMJXNOhwBvA==
+   d="scan'208";a="27643777"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 10:55:23 -0700
+X-CSE-ConnectionGUID: TLlXHfFDRgep6GuAxZm0sg==
+X-CSE-MsgGUID: Bv95bQxZQxS2BvOMeJJsig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="43477751"
+   d="scan'208";a="48546666"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Jun 2024 10:33:19 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Jun 2024 10:55:21 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sLnZ7-000DZq-2r;
-	Mon, 24 Jun 2024 17:33:17 +0000
-Date: Tue, 25 Jun 2024 01:32:43 +0800
+	id 1sLnuQ-000DbC-2R;
+	Mon, 24 Jun 2024 17:55:18 +0000
+Date: Tue, 25 Jun 2024 01:55:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 153/203] ld:
- drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_if.o:(.rodata+0x14):
- multiple definition of `vdec_h264_if';
- drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_if.o:(.rodata+0x14):
- first defined here
-Message-ID: <202406250137.H7jzj8wr-lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Andrew Halaney <ahalaney@redhat.com>,
+	Elliot Berman <quic_eberman@quicinc.com>
+Subject: [qcom:drivers-for-6.11 25/35] ERROR: modpost:
+ "devm_qcom_tzmem_pool_new" [drivers/firmware/qcom/qcom-scm.ko] undefined!
+Message-ID: <202406250127.8Pl2kqFp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,120 +64,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   d4e5ab445b50a104ed3f1b34ada73f237fe1bfc0
-commit: 3f19f4ecfd3abee6affdb50a93133fc69088771e [153/203] CHROMIUM: Duplicate video decoder drivers for MT8188
-config: i386-buildonly-randconfig-001-20240624 (https://download.01.org/0day-ci/archive/20240625/202406250137.H7jzj8wr-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250137.H7jzj8wr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-6.11
+head:   dcf5bd889a7ce3d9e53bd8075fbade59ebae9104
+commit: 40289e35ca525f29a03989352ab207b6a9675475 [25/35] firmware: qcom: scm: enable the TZ mem allocator
+config: sh-randconfig-002-20240624 (https://download.01.org/0day-ci/archive/20240625/202406250127.8Pl2kqFp-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250127.8Pl2kqFp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406250137.H7jzj8wr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406250127.8Pl2kqFp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_if.o:(.rodata+0x14): multiple definition of `vdec_h264_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_if.o:(.rodata+0x14): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_vp8_if.o:(.rodata+0x14): multiple definition of `vdec_vp8_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_if.o:(.rodata+0x14): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_vp8_req_if.o:(.rodata+0x0): multiple definition of `vdec_vp8_slice_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.o:(.rodata+0x0): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_vp9_if.o:(.rodata+0x14): multiple definition of `vdec_vp9_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.o:(.rodata+0x14): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_vp9_req_lat_if.o:(.rodata+0x0): multiple definition of `vdec_vp9_slice_lat_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.o:(.rodata+0x0): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_av1_req_lat_if.o:(.rodata+0x44): multiple definition of `vdec_av1_slice_lat_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.o:(.rodata+0x44): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_if.o:(.rodata+0x0): multiple definition of `vdec_h264_slice_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_if.o:(.rodata+0x0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_get_ref_list':
->> vdec_h264_req_common.c:(.text+0x0): multiple definition of `mtk_vdec_h264_get_ref_list'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_get_ctrl_ptr':
->> vdec_h264_req_common.c:(.text+0xa0): multiple definition of `mtk_vdec_h264_get_ctrl_ptr'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0xa0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_fill_dpb_info':
->> vdec_h264_req_common.c:(.text+0xd0): multiple definition of `mtk_vdec_h264_fill_dpb_info'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0xd0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_copy_sps_params':
->> vdec_h264_req_common.c:(.text+0x1c0): multiple definition of `mtk_vdec_h264_copy_sps_params'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x1c0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_copy_pps_params':
->> vdec_h264_req_common.c:(.text+0x260): multiple definition of `mtk_vdec_h264_copy_pps_params'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x260): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_copy_slice_hd_params':
->> vdec_h264_req_common.c:(.text+0x2f0): multiple definition of `mtk_vdec_h264_copy_slice_hd_params'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x2f0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_copy_scaling_matrix':
->> vdec_h264_req_common.c:(.text+0x390): multiple definition of `mtk_vdec_h264_copy_scaling_matrix'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x390): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_copy_decode_params':
->> vdec_h264_req_common.c:(.text+0x4f0): multiple definition of `mtk_vdec_h264_copy_decode_params'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x4f0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_update_dpb':
->> vdec_h264_req_common.c:(.text+0x590): multiple definition of `mtk_vdec_h264_update_dpb'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x590): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_get_mv_buf_size':
->> vdec_h264_req_common.c:(.text+0x750): multiple definition of `mtk_vdec_h264_get_mv_buf_size'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x750): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_common.o: in function `mtk_vdec_h264_find_start_code':
->> vdec_h264_req_common.c:(.text+0x760): multiple definition of `mtk_vdec_h264_find_start_code'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.o:vdec_h264_req_common.c:(.text+0x760): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_h264_req_multi_if.o:(.rodata+0x0): multiple definition of `vdec_h264_slice_multi_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.o:(.rodata+0x0): first defined here
->> ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec/vdec_hevc_req_multi_if.o:(.rodata+0x0): multiple definition of `vdec_hevc_slice_multi_if'; drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.o:(.rodata+0x0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_drv_if.o: in function `vdec_if_init':
-   vdec_drv_if.c:(.text+0x0): multiple definition of `vdec_if_init'; drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.o:vdec_drv_if.c:(.text+0x0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_drv_if.o: in function `vdec_if_decode':
-   vdec_drv_if.c:(.text+0x1e0): multiple definition of `vdec_if_decode'; drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.o:vdec_drv_if.c:(.text+0x1e0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_drv_if.o: in function `vdec_if_get_param':
-   vdec_drv_if.c:(.text+0x290): multiple definition of `vdec_if_get_param'; drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.o:vdec_drv_if.c:(.text+0x290): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_drv_if.o: in function `vdec_if_deinit':
-   vdec_drv_if.c:(.text+0x2f0): multiple definition of `vdec_if_deinit'; drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.o:vdec_drv_if.c:(.text+0x2f0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_init':
-   vdec_vpu_if.c:(.text+0x2d0): multiple definition of `vpu_dec_init'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x2d0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_start':
-   vdec_vpu_if.c:(.text+0x3d0): multiple definition of `vpu_dec_start'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x3d0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_get_param':
-   vdec_vpu_if.c:(.text+0x4b0): multiple definition of `vpu_dec_get_param'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x4b0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_core':
-   vdec_vpu_if.c:(.text+0x590): multiple definition of `vpu_dec_core'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x590): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_end':
-   vdec_vpu_if.c:(.text+0x5a0): multiple definition of `vpu_dec_end'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x5a0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_core_end':
-   vdec_vpu_if.c:(.text+0x5b0): multiple definition of `vpu_dec_core_end'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x5b0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_deinit':
-   vdec_vpu_if.c:(.text+0x5c0): multiple definition of `vpu_dec_deinit'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x5c0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_vpu_if.o: in function `vpu_dec_reset':
-   vdec_vpu_if.c:(.text+0x5d0): multiple definition of `vpu_dec_reset'; drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.o:vdec_vpu_if.c:(.text+0x5d0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_init_ctx':
-   vdec_msg_queue.c:(.text+0x0): multiple definition of `vdec_msg_queue_init_ctx'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_qbuf':
-   vdec_msg_queue.c:(.text+0x60): multiple definition of `vdec_msg_queue_qbuf'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x60): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_dqbuf':
-   vdec_msg_queue.c:(.text+0x1b0): multiple definition of `vdec_msg_queue_dqbuf'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x1b0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_update_ube_rptr':
-   vdec_msg_queue.c:(.text+0x4c0): multiple definition of `vdec_msg_queue_update_ube_rptr'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x4c0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_update_ube_wptr':
-   vdec_msg_queue.c:(.text+0x510): multiple definition of `vdec_msg_queue_update_ube_wptr'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x510): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_wait_lat_buf_full':
-   vdec_msg_queue.c:(.text+0x560): multiple definition of `vdec_msg_queue_wait_lat_buf_full'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x560): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_deinit':
-   vdec_msg_queue.c:(.text+0x670): multiple definition of `vdec_msg_queue_deinit'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x670): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/vdec_msg_queue.o: in function `vdec_msg_queue_init':
-   vdec_msg_queue.c:(.text+0x730): multiple definition of `vdec_msg_queue_init'; drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.o:vdec_msg_queue.c:(.text+0x730): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `mtk_vdec_unlock':
-   mtk_vcodec_dec.c:(.text+0xf80): multiple definition of `mtk_vdec_unlock'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0xf80): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `mtk_vdec_lock':
-   mtk_vcodec_dec.c:(.text+0xfa0): multiple definition of `mtk_vdec_lock'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0xfa0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `mtk_vcodec_dec_release':
-   mtk_vcodec_dec.c:(.text+0xfd0): multiple definition of `mtk_vcodec_dec_release'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0xfd0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `mtk_vcodec_dec_set_default_params':
-   mtk_vcodec_dec.c:(.text+0xff0): multiple definition of `mtk_vcodec_dec_set_default_params'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0xff0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `vb2ops_vdec_queue_setup':
-   mtk_vcodec_dec.c:(.text+0x12f0): multiple definition of `vb2ops_vdec_queue_setup'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x12f0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `vb2ops_vdec_buf_prepare':
-   mtk_vcodec_dec.c:(.text+0x13e0): multiple definition of `vb2ops_vdec_buf_prepare'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x13e0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `vb2ops_vdec_buf_finish':
-   mtk_vcodec_dec.c:(.text+0x14a0): multiple definition of `vb2ops_vdec_buf_finish'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x14a0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `vb2ops_vdec_buf_init':
-   mtk_vcodec_dec.c:(.text+0x1510): multiple definition of `vb2ops_vdec_buf_init'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x1510): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `vb2ops_vdec_start_streaming':
-   mtk_vcodec_dec.c:(.text+0x1530): multiple definition of `vb2ops_vdec_start_streaming'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x1530): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `vb2ops_vdec_stop_streaming':
-   mtk_vcodec_dec.c:(.text+0x1550): multiple definition of `vb2ops_vdec_stop_streaming'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x1550): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o: in function `mtk_vcodec_dec_queue_init':
-   mtk_vcodec_dec.c:(.text+0x1670): multiple definition of `mtk_vcodec_dec_queue_init'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:mtk_vcodec_dec.c:(.text+0x1670): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o:(.rodata+0x20): multiple definition of `mtk_vdec_ioctl_ops'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:(.rodata+0x20): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec.o:(.rodata+0x1fc): multiple definition of `mtk_vdec_m2m_ops'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.o:(.rodata+0x1fc): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec_stateful.o:(.rodata+0x80): multiple definition of `mtk_vdec_8173_pdata'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateful.o:(.rodata+0x80): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec_stateless.o:(.rodata+0x40): multiple definition of `mtk_vdec_single_core_pdata'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.o:(.rodata+0x40): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec_stateless.o:(.rodata+0x80): multiple definition of `mtk_lat_sig_core_pdata'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.o:(.rodata+0x80): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec_stateless.o:(.rodata+0xc0): multiple definition of `mtk_vdec_8183_pdata'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.o:(.rodata+0xc0): first defined here
-   ld: drivers/media/platform/mediatek/vcodec/decoder_mt8188/mtk_vcodec_dec_stateless.o:(.rodata+0xf4): multiple definition of `mtk_vcodec_media_ops'; drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.o:(.rodata+0xf4): first defined here
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_helpers_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-bcm-ns-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+>> ERROR: modpost: "devm_qcom_tzmem_pool_new" [drivers/firmware/qcom/qcom-scm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
