@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C4B1A070F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 17:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881B618039
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 18:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719251726; cv=none; b=F437h2mLVQeWVuM73BZPpignYn+yBkMYiXoZj8FDYPxFImNXl04hqgSTQ8it8fY204quLWJq2uqGU/Oy5vEnEBJBtGCwOIOboUySt9WOzr9eo19bUDZSWqu/tawpB1BHRyAy95yx0CJFdXK+5JPcfjStvUrzHDoCb7s0PISHTD4=
+	t=1719252445; cv=none; b=giLLQO5lmVCEg8iW5biP77gREsV2Z3SLBMncUIRTDszXacIlbR+N+I6EovDxgH9qDI3ubLtV/852WiERL2eSf4/dql8l3DPfJHOXoE3nBN6Iz0ucBmJ2jUfsWG7Pk1so15s0ikk+BGZ1Pxv+hJXkHQXFS66B5IZV6fQrWSrr5I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719251726; c=relaxed/simple;
-	bh=m67AFNlwX4dfMPT4pN5uCenPaYicw7cuvTArIpw4dtc=;
+	s=arc-20240116; t=1719252445; c=relaxed/simple;
+	bh=sPl/a7NfL7+Pu1z02U1L+Zs0XE3i3GPnrrGEfMtWOig=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UkTH9PyEZAIyWW1EVqEFX2SkztEJ69VAlMHnB1MW9APLXNcxWJosThfGu02MU2f2l6tIO6h/Qf/6ohkJlWF9jcS8Pq7ATGiTPDhp8+h7pEoZNBXt8QRJ0kRtmY91QoqZD6QuOrUfdeHKsx5yGew2w6Pl9oHIxZ1lP4PDnf+Z4eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGsFbrs8; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=MPBCbHP78n+uA9v6Q1tOL8MnKnQXy9nFd211bFGo3xrs/Iq3nesbK3YcAw+9Q7fRmKFZUHOhZo9sSEltabvW9l3O+WQ0vYHpMhbPetE2Rr/9Nh94Cphxob7Fwd67Q62g1SKp9fEa3bdTKp6looyY25A+mNngIkE+UHKm+qPKCQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzlPjyyX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGsFbrs8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzlPjyyX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719251724; x=1750787724;
+  t=1719252444; x=1750788444;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m67AFNlwX4dfMPT4pN5uCenPaYicw7cuvTArIpw4dtc=;
-  b=RGsFbrs8qQr2qYb1EsiZJN4+b7/r6SOv8EkIpaBRBW9KPV0kgd2budAK
-   7IrLru28YyepI+ZxI7zCSECDVOcA8joSROGbFiGQgoZ6UFthPST8bd0Em
-   PPk9mLMxGFLTbN13O8KSeMaxTdNaIdsfMQBm6DcLB8HPvokxYLI2hkpU3
-   834uJot1EjGPRm/z62Zsxh87FEZ4jXCCBlHAfagIma2kfp7u9VNwkRPdV
-   Ezr9u3WY7eDUsjp44pzE61MCZmn+v4F4HvQuMlve04kaJgab2vxZ69eq3
-   Tswck/ilPc90mdNux0xNgQ6MC0xkTs/1jT34VfrRsrsVU7I7d43vfR3Ob
-   g==;
-X-CSE-ConnectionGUID: +yT3U3ZIQQKANKtTY6yxyg==
-X-CSE-MsgGUID: ucnQtyebSDySprj6Ma/7dA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="27643777"
+  bh=sPl/a7NfL7+Pu1z02U1L+Zs0XE3i3GPnrrGEfMtWOig=;
+  b=KzlPjyyXnLGGLpLso7CZ8DFBXBRNZu7rt/kJc1WZ43DjBWFW2DUMfgzw
+   axkcu4ZzGl4p+UagL4ZpA7rL2J0eOXW5mFHzGEUdWY25FTvTgaXMvGSYa
+   c4pUHKKujzh5x7TpRenNwvFsKaSTSzlx7bGnGdMw3mzLENzzP8aOnR2lh
+   O7O6YiS/Hvgpk9u4UUtHDYxIm5BH9Mrf+rbOa5mpZUYFi2ygOZZm+G8K9
+   eQsARUZf39KXK3UlLQ+P9Fku35b1AJJq13t719WpS+3AjL/01I7lAcYTv
+   Vpozj4TVQdouFWfm0rZOcLFXJqChvZT8KVgwi7bFfmK24vBV4HWncegE+
+   A==;
+X-CSE-ConnectionGUID: nwTm7xTFRd6hyggY0gJXDQ==
+X-CSE-MsgGUID: YM4AhGGRRR6LNqKGGTnkWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="12221850"
 X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="27643777"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 10:55:23 -0700
-X-CSE-ConnectionGUID: TLlXHfFDRgep6GuAxZm0sg==
-X-CSE-MsgGUID: Bv95bQxZQxS2BvOMeJJsig==
+   d="scan'208";a="12221850"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 11:07:23 -0700
+X-CSE-ConnectionGUID: UVwNf4sYSv6aKRSaCnvMZw==
+X-CSE-MsgGUID: KLyHgF8ETA2Kb1oiKzohmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="48546666"
+   d="scan'208";a="43354057"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Jun 2024 10:55:21 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 24 Jun 2024 11:07:21 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sLnuQ-000DbC-2R;
-	Mon, 24 Jun 2024 17:55:18 +0000
-Date: Tue, 25 Jun 2024 01:55:13 +0800
+	id 1sLo63-000Dbr-0g;
+	Mon, 24 Jun 2024 18:07:19 +0000
+Date: Tue, 25 Jun 2024 02:06:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Andrew Halaney <ahalaney@redhat.com>,
-	Elliot Berman <quic_eberman@quicinc.com>
-Subject: [qcom:drivers-for-6.11 25/35] ERROR: modpost:
- "devm_qcom_tzmem_pool_new" [drivers/firmware/qcom/qcom-scm.ko] undefined!
-Message-ID: <202406250127.8Pl2kqFp-lkp@intel.com>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: [tip:irq/core 41/49] drivers/irqchip/irq-dw-apb-ictl.c:33:25: error:
+ expected '=', ',', ';', 'asm' or '__attribute__' before
+ 'dw_apb_ictl_handle_irq'
+Message-ID: <202406250214.WZEjWnnU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,109 +64,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-6.11
-head:   dcf5bd889a7ce3d9e53bd8075fbade59ebae9104
-commit: 40289e35ca525f29a03989352ab207b6a9675475 [25/35] firmware: qcom: scm: enable the TZ mem allocator
-config: sh-randconfig-002-20240624 (https://download.01.org/0day-ci/archive/20240625/202406250127.8Pl2kqFp-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250127.8Pl2kqFp-lkp@intel.com/reproduce)
+Hi Jisheng,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
+head:   f2605e1715dd28e8943b557453fed3a40421d3b5
+commit: 7cc4f309c933ec5d64eea31066fe86bbf9e48819 [41/49] irqchip/dw-apb-ictl: Support building as module
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240625/202406250214.WZEjWnnU-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250214.WZEjWnnU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406250127.8Pl2kqFp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406250214.WZEjWnnU-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_helpers_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-bcm-ns-usb2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
->> ERROR: modpost: "devm_qcom_tzmem_pool_new" [drivers/firmware/qcom/qcom-scm.ko] undefined!
+>> drivers/irqchip/irq-dw-apb-ictl.c:33:25: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'dw_apb_ictl_handle_irq'
+      33 | static void __irq_entry dw_apb_ictl_handle_irq(struct pt_regs *regs)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/irqchip/irq-dw-apb-ictl.c:15:
+   drivers/irqchip/irq-dw-apb-ictl.c: In function 'dw_apb_ictl_init':
+>> drivers/irqchip/irq-dw-apb-ictl.c:206:32: error: 'dw_apb_ictl_handle_irq' undeclared (first use in this function); did you mean 'dw_apb_ictl_init'?
+     206 |                 set_handle_irq(dw_apb_ictl_handle_irq);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/irq.h:1331:23: note: in definition of macro 'set_handle_irq'
+    1331 |                 (void)handle_irq;               \
+         |                       ^~~~~~~~~~
+   drivers/irqchip/irq-dw-apb-ictl.c:206:32: note: each undeclared identifier is reported only once for each function it appears in
+     206 |                 set_handle_irq(dw_apb_ictl_handle_irq);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/irq.h:1331:23: note: in definition of macro 'set_handle_irq'
+    1331 |                 (void)handle_irq;               \
+         |                       ^~~~~~~~~~
+
+
+vim +33 drivers/irqchip/irq-dw-apb-ictl.c
+
+54a38440b84f89 Zhen Lei              2020-09-24   32  
+54a38440b84f89 Zhen Lei              2020-09-24  @33  static void __irq_entry dw_apb_ictl_handle_irq(struct pt_regs *regs)
+54a38440b84f89 Zhen Lei              2020-09-24   34  {
+54a38440b84f89 Zhen Lei              2020-09-24   35  	struct irq_domain *d = dw_apb_ictl_irq_domain;
+54a38440b84f89 Zhen Lei              2020-09-24   36  	int n;
+54a38440b84f89 Zhen Lei              2020-09-24   37  
+54a38440b84f89 Zhen Lei              2020-09-24   38  	for (n = 0; n < d->revmap_size; n += 32) {
+54a38440b84f89 Zhen Lei              2020-09-24   39  		struct irq_chip_generic *gc = irq_get_domain_generic_chip(d, n);
+54a38440b84f89 Zhen Lei              2020-09-24   40  		u32 stat = readl_relaxed(gc->reg_base + APB_INT_FINALSTATUS_L);
+54a38440b84f89 Zhen Lei              2020-09-24   41  
+54a38440b84f89 Zhen Lei              2020-09-24   42  		while (stat) {
+54a38440b84f89 Zhen Lei              2020-09-24   43  			u32 hwirq = ffs(stat) - 1;
+54a38440b84f89 Zhen Lei              2020-09-24   44  
+0953fb263714e1 Mark Rutland          2021-10-20   45  			generic_handle_domain_irq(d, hwirq);
+54a38440b84f89 Zhen Lei              2020-09-24   46  			stat &= ~BIT(hwirq);
+54a38440b84f89 Zhen Lei              2020-09-24   47  		}
+54a38440b84f89 Zhen Lei              2020-09-24   48  	}
+54a38440b84f89 Zhen Lei              2020-09-24   49  }
+54a38440b84f89 Zhen Lei              2020-09-24   50  
+d59f7d15989146 Zhen Lei              2020-09-24   51  static void dw_apb_ictl_handle_irq_cascaded(struct irq_desc *desc)
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   52  {
+b66231183a8542 Thomas Gleixner       2015-07-06   53  	struct irq_domain *d = irq_desc_get_handler_data(desc);
+b66231183a8542 Thomas Gleixner       2015-07-06   54  	struct irq_chip *chip = irq_desc_get_chip(desc);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   55  	int n;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   56  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   57  	chained_irq_enter(chip, desc);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   58  
+b66231183a8542 Thomas Gleixner       2015-07-06   59  	for (n = 0; n < d->revmap_size; n += 32) {
+b66231183a8542 Thomas Gleixner       2015-07-06   60  		struct irq_chip_generic *gc = irq_get_domain_generic_chip(d, n);
+b66231183a8542 Thomas Gleixner       2015-07-06   61  		u32 stat = readl_relaxed(gc->reg_base + APB_INT_FINALSTATUS_L);
+b66231183a8542 Thomas Gleixner       2015-07-06   62  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   63  		while (stat) {
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   64  			u32 hwirq = ffs(stat) - 1;
+046a6ee2343bb2 Marc Zyngier          2021-05-04   65  			generic_handle_domain_irq(d, gc->irq_base + hwirq);
+b66231183a8542 Thomas Gleixner       2015-07-06   66  
+d59f7d15989146 Zhen Lei              2020-09-24   67  			stat &= ~BIT(hwirq);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   68  		}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   69  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   70  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   71  	chained_irq_exit(chip, desc);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   72  }
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09   73  
+54a38440b84f89 Zhen Lei              2020-09-24   74  static int dw_apb_ictl_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+54a38440b84f89 Zhen Lei              2020-09-24   75  				unsigned int nr_irqs, void *arg)
+54a38440b84f89 Zhen Lei              2020-09-24   76  {
+54a38440b84f89 Zhen Lei              2020-09-24   77  	int i, ret;
+54a38440b84f89 Zhen Lei              2020-09-24   78  	irq_hw_number_t hwirq;
+54a38440b84f89 Zhen Lei              2020-09-24   79  	unsigned int type = IRQ_TYPE_NONE;
+54a38440b84f89 Zhen Lei              2020-09-24   80  	struct irq_fwspec *fwspec = arg;
+54a38440b84f89 Zhen Lei              2020-09-24   81  
+54a38440b84f89 Zhen Lei              2020-09-24   82  	ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
+54a38440b84f89 Zhen Lei              2020-09-24   83  	if (ret)
+54a38440b84f89 Zhen Lei              2020-09-24   84  		return ret;
+54a38440b84f89 Zhen Lei              2020-09-24   85  
+54a38440b84f89 Zhen Lei              2020-09-24   86  	for (i = 0; i < nr_irqs; i++)
+54a38440b84f89 Zhen Lei              2020-09-24   87  		irq_map_generic_chip(domain, virq + i, hwirq + i);
+54a38440b84f89 Zhen Lei              2020-09-24   88  
+54a38440b84f89 Zhen Lei              2020-09-24   89  	return 0;
+54a38440b84f89 Zhen Lei              2020-09-24   90  }
+54a38440b84f89 Zhen Lei              2020-09-24   91  
+54a38440b84f89 Zhen Lei              2020-09-24   92  static const struct irq_domain_ops dw_apb_ictl_irq_domain_ops = {
+54a38440b84f89 Zhen Lei              2020-09-24   93  	.translate = irq_domain_translate_onecell,
+54a38440b84f89 Zhen Lei              2020-09-24   94  	.alloc = dw_apb_ictl_irq_domain_alloc,
+54a38440b84f89 Zhen Lei              2020-09-24   95  	.free = irq_domain_free_irqs_top,
+54a38440b84f89 Zhen Lei              2020-09-24   96  };
+54a38440b84f89 Zhen Lei              2020-09-24   97  
+1655b0530d9502 Jisheng Zhang         2014-11-12   98  #ifdef CONFIG_PM
+1655b0530d9502 Jisheng Zhang         2014-11-12   99  static void dw_apb_ictl_resume(struct irq_data *d)
+1655b0530d9502 Jisheng Zhang         2014-11-12  100  {
+1655b0530d9502 Jisheng Zhang         2014-11-12  101  	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(d);
+1655b0530d9502 Jisheng Zhang         2014-11-12  102  	struct irq_chip_type *ct = irq_data_get_chip_type(d);
+1655b0530d9502 Jisheng Zhang         2014-11-12  103  
+1655b0530d9502 Jisheng Zhang         2014-11-12  104  	irq_gc_lock(gc);
+1655b0530d9502 Jisheng Zhang         2014-11-12  105  	writel_relaxed(~0, gc->reg_base + ct->regs.enable);
+1655b0530d9502 Jisheng Zhang         2014-11-12  106  	writel_relaxed(*ct->mask_cache, gc->reg_base + ct->regs.mask);
+1655b0530d9502 Jisheng Zhang         2014-11-12  107  	irq_gc_unlock(gc);
+1655b0530d9502 Jisheng Zhang         2014-11-12  108  }
+1655b0530d9502 Jisheng Zhang         2014-11-12  109  #else
+1655b0530d9502 Jisheng Zhang         2014-11-12  110  #define dw_apb_ictl_resume	NULL
+1655b0530d9502 Jisheng Zhang         2014-11-12  111  #endif /* CONFIG_PM */
+1655b0530d9502 Jisheng Zhang         2014-11-12  112  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  113  static int __init dw_apb_ictl_init(struct device_node *np,
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  114  				   struct device_node *parent)
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  115  {
+d59f7d15989146 Zhen Lei              2020-09-24  116  	const struct irq_domain_ops *domain_ops;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  117  	unsigned int clr = IRQ_NOREQUEST | IRQ_NOPROBE | IRQ_NOAUTOEN;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  118  	struct resource r;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  119  	struct irq_domain *domain;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  120  	struct irq_chip_generic *gc;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  121  	void __iomem *iobase;
+d59f7d15989146 Zhen Lei              2020-09-24  122  	int ret, nrirqs, parent_irq, i;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  123  	u32 reg;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  124  
+7cc4f309c933ec Jisheng Zhang         2024-06-14  125  	if (!parent && IS_BUILTIN(CONFIG_DW_APB_ICTL)) {
+54a38440b84f89 Zhen Lei              2020-09-24  126  		/* Used as the primary interrupt controller */
+54a38440b84f89 Zhen Lei              2020-09-24  127  		parent_irq = 0;
+54a38440b84f89 Zhen Lei              2020-09-24  128  		domain_ops = &dw_apb_ictl_irq_domain_ops;
+54a38440b84f89 Zhen Lei              2020-09-24  129  	} else {
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  130  		/* Map the parent interrupt for the chained handler */
+d59f7d15989146 Zhen Lei              2020-09-24  131  		parent_irq = irq_of_parse_and_map(np, 0);
+d59f7d15989146 Zhen Lei              2020-09-24  132  		if (parent_irq <= 0) {
+e81f54c668d89e Rob Herring           2017-07-18  133  			pr_err("%pOF: unable to parse irq\n", np);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  134  			return -EINVAL;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  135  		}
+54a38440b84f89 Zhen Lei              2020-09-24  136  		domain_ops = &irq_generic_chip_ops;
+54a38440b84f89 Zhen Lei              2020-09-24  137  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  138  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  139  	ret = of_address_to_resource(np, 0, &r);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  140  	if (ret) {
+e81f54c668d89e Rob Herring           2017-07-18  141  		pr_err("%pOF: unable to get resource\n", np);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  142  		return ret;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  143  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  144  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  145  	if (!request_mem_region(r.start, resource_size(&r), np->full_name)) {
+e81f54c668d89e Rob Herring           2017-07-18  146  		pr_err("%pOF: unable to request mem region\n", np);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  147  		return -ENOMEM;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  148  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  149  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  150  	iobase = ioremap(r.start, resource_size(&r));
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  151  	if (!iobase) {
+e81f54c668d89e Rob Herring           2017-07-18  152  		pr_err("%pOF: unable to map resource\n", np);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  153  		ret = -ENOMEM;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  154  		goto err_release;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  155  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  156  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  157  	/*
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  158  	 * DW IP can be configured to allow 2-64 irqs. We can determine
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  159  	 * the number of irqs supported by writing into enable register
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  160  	 * and look for bits not set, as corresponding flip-flops will
+c5f48c0a7aa1a8 Ingo Molnar           2018-12-03  161  	 * have been removed by synthesis tool.
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  162  	 */
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  163  
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  164  	/* mask and enable all interrupts */
+8876ce7d1cbaca Jisheng Zhang         2014-11-12  165  	writel_relaxed(~0, iobase + APB_INT_MASK_L);
+8876ce7d1cbaca Jisheng Zhang         2014-11-12  166  	writel_relaxed(~0, iobase + APB_INT_MASK_H);
+8876ce7d1cbaca Jisheng Zhang         2014-11-12  167  	writel_relaxed(~0, iobase + APB_INT_ENABLE_L);
+8876ce7d1cbaca Jisheng Zhang         2014-11-12  168  	writel_relaxed(~0, iobase + APB_INT_ENABLE_H);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  169  
+8876ce7d1cbaca Jisheng Zhang         2014-11-12  170  	reg = readl_relaxed(iobase + APB_INT_ENABLE_H);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  171  	if (reg)
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  172  		nrirqs = 32 + fls(reg);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  173  	else
+8876ce7d1cbaca Jisheng Zhang         2014-11-12  174  		nrirqs = fls(readl_relaxed(iobase + APB_INT_ENABLE_L));
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  175  
+d59f7d15989146 Zhen Lei              2020-09-24  176  	domain = irq_domain_add_linear(np, nrirqs, domain_ops, NULL);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  177  	if (!domain) {
+e81f54c668d89e Rob Herring           2017-07-18  178  		pr_err("%pOF: unable to add irq domain\n", np);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  179  		ret = -ENOMEM;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  180  		goto err_unmap;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  181  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  182  
+b66231183a8542 Thomas Gleixner       2015-07-06  183  	ret = irq_alloc_domain_generic_chips(domain, 32, 1, np->name,
+b66231183a8542 Thomas Gleixner       2015-07-06  184  					     handle_level_irq, clr, 0,
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  185  					     IRQ_GC_INIT_MASK_CACHE);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  186  	if (ret) {
+e81f54c668d89e Rob Herring           2017-07-18  187  		pr_err("%pOF: unable to alloc irq domain gc\n", np);
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  188  		goto err_unmap;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  189  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  190  
+b66231183a8542 Thomas Gleixner       2015-07-06  191  	for (i = 0; i < DIV_ROUND_UP(nrirqs, 32); i++) {
+b66231183a8542 Thomas Gleixner       2015-07-06  192  		gc = irq_get_domain_generic_chip(domain, i * 32);
+b66231183a8542 Thomas Gleixner       2015-07-06  193  		gc->reg_base = iobase + i * APB_INT_BASE_OFFSET;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  194  		gc->chip_types[0].regs.mask = APB_INT_MASK_L;
+1655b0530d9502 Jisheng Zhang         2014-11-12  195  		gc->chip_types[0].regs.enable = APB_INT_ENABLE_L;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  196  		gc->chip_types[0].chip.irq_mask = irq_gc_mask_set_bit;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  197  		gc->chip_types[0].chip.irq_unmask = irq_gc_mask_clr_bit;
+1655b0530d9502 Jisheng Zhang         2014-11-12  198  		gc->chip_types[0].chip.irq_resume = dw_apb_ictl_resume;
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  199  	}
+350d71b94fc9ed Sebastian Hesselbarth 2013-09-09  200  
+54a38440b84f89 Zhen Lei              2020-09-24  201  	if (parent_irq) {
+d59f7d15989146 Zhen Lei              2020-09-24  202  		irq_set_chained_handler_and_data(parent_irq,
+d59f7d15989146 Zhen Lei              2020-09-24  203  				dw_apb_ictl_handle_irq_cascaded, domain);
+54a38440b84f89 Zhen Lei              2020-09-24  204  	} else {
+54a38440b84f89 Zhen Lei              2020-09-24  205  		dw_apb_ictl_irq_domain = domain;
+54a38440b84f89 Zhen Lei              2020-09-24 @206  		set_handle_irq(dw_apb_ictl_handle_irq);
+
+:::::: The code at line 33 was first introduced by commit
+:::::: 54a38440b84f8933b555c23273deca6a396f6708 irqchip/dw-apb-ictl: Add primary interrupt controller support
+
+:::::: TO: Zhen Lei <thunder.leizhen@huawei.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
