@@ -1,154 +1,262 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2054.outbound.protection.outlook.com [40.107.113.54])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EAF138E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 01:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719192772; cv=fail; b=BASECS7YMowjGS1NhcF8+kaitSSBLQf70+84CisTQ5w0+E89zjxREJr8aNjiuOs/+Jb96nhvq0HTKzayoFIFwnqbwX8I/gyOFuwurog7kP3bkwvUNocVY9BtLR17V8eJS08MhaYO8EW5zsGjsHnX0cymT9By5/mT/bbJvHs7qog=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719192772; c=relaxed/simple;
-	bh=a5cSZRvYIJ1xsUEZhlMipPVyvjx7Lf9tf7d1kcmAtrw=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=BYry+icc51XWFC1Fyvo5MbLYRE0LM+UlzkuhRTy3t2HimOaqXqQyFLI5mW37J7GoSgKXciWZJHNy3O3ql0n9GjxdTcSQPBZxV05RO76BK2zGG+f/vyx5bKJ3pAVWm+FzlT6Gr3hyRnpQKp5PwOyddzyv3H3+dtMQlSr3s/HC1Ww=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=goKxtGEX; arc=fail smtp.client-ip=40.107.113.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD77D442C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 02:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719196735; cv=none; b=FlaIkvyhUbpObx7EBwsNLmxYcK7tjpz0tlaDANoICMUB/F6/KCtNvLOCJadD4CCcOhk9v6xH5ggqadh7io9F4tER6Zhky0QXSnZLDYr+M9KN7/IN30PncBEj8sCCYwfbOsvez7Cl639i18/+ovcnFyWa1vCpGb2Fd2tMVtRwHGs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719196735; c=relaxed/simple;
+	bh=R1Aj2i1RNe7ZjKpm9WWFSq/dbFa8Yyp2OWfVFFP8xq4=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rbearx5WnMkbIfnB5+oCElerlMY88tixTN66Os4zxRTKhUvIoL2N/GPRjvPuFT5N9/kB732dtplcpm5lHX5go3qg154ZWzFsjm3spah0Kzk+BHbxbx1fpKFptx0toHtBXHAC/FxOlIcfA1fJyNhWybqlxUsgbn9GzRrl6LbOPMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9wL/Tg0; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="goKxtGEX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nnXY0gNsw1iCVqPHy4DjLsNEhSx4yVy+hYw7mIlemkG4TaAIRvxJODSSeNqsDHsLS0JZzOGQkyhSoukb2K4eIZlzEvJl2EfvvwE8mYmpTIG/YB8B92hQLseMbcl3n/pVG8zQg+DBnqjBWXTMo22SI7TbSPC3pN/R6swOa46pWXrIBMUxid4AAogzmO6DAtVpDhoI9sq5c9luX8NCtgEOBB/Aph2ztenP//UNMtzinwhnrODl+ZWxSNvd7GjeUFSMUkYlcGhGLQA4qqOq+BS06NU8JNSDFDuEBaLOwNC3Wj+/lNX39qEci+nEUF5n6QKJQbRWTRCGrGGJgEM00ydw0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vRbNaJBpbliy7SKmN7CbO25mzfO3ynkSZG+4mNWdX0g=;
- b=YRwa/xzJUo2sQy23cbUHmWWa9V8YZ3DNFxA9OlOYWtGi3SyKgAcEmDxwD2h4OWG8bA0pvDgapX+6f02tPHjyxAkjuE+fndy1jip71A+gRCkCCPwIDAidIHjXei3UhOhOnHCrN4UiWX2ttiJW3zK6ZMgFWrP7xD3n9oKwS2deHy9wPY15PFrSa98Hbctg+R+w319RG3XLhXY7M9ilzd/g8GDexjrO5Et+Nc+Tl9bsN51lbMG+7Yx2ZLBPLStVUyFZDf4HebkPlHb7bDX9rDVbGy8RrOxtm7v3uAUfscWJCEh70IGiTaq0uRTeAkBgzE0aIdTfNrDHo2jPRE+7B8NOLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vRbNaJBpbliy7SKmN7CbO25mzfO3ynkSZG+4mNWdX0g=;
- b=goKxtGEXwmA0bY5mIYmiD6agruoZbnUsB6UGdClTcHvuuT1xhwMfdH0f00nnJWyMRMf4wUvh/eKqyZWNW735ql5ErghumbeUh9zs0/G0BGnJ1zKJnRPsdrtpm6bTp655zD46wmafXbb0YEnGAsqt0K8YRHbVbZye4wHmktmAjVA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB6968.jpnprd01.prod.outlook.com
- (2603:1096:604:116::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.29; Mon, 24 Jun
- 2024 01:32:46 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
- 01:32:46 +0000
-Message-ID: <877cefktvm.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev,	Niklas =?ISO-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,	kernel test robot <lkp@intel.com>
-Subject: Re: [morimoto:renesas-bsp/v6.6.34-2024-06-17 120/132] arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: /: failed to match any schema with compatible: ['renesas,gray-hawk-single', 'renesas,r8a779h0']
-In-Reply-To: <CAMuHMdVSohkXcCQrcmoZ=sTLjTgeAgsMX3chECO5Sscjd8W4GA@mail.gmail.com>
-References: <202406201854.Pp3ZqJ0W-lkp@intel.com>
-	<CAMuHMdVSohkXcCQrcmoZ=sTLjTgeAgsMX3chECO5Sscjd8W4GA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 24 Jun 2024 01:32:46 +0000
-X-ClientProxiedBy: TYCP286CA0107.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9wL/Tg0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719196733; x=1750732733;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=R1Aj2i1RNe7ZjKpm9WWFSq/dbFa8Yyp2OWfVFFP8xq4=;
+  b=f9wL/Tg0pNPy5Q8/a8KWBNLHZVhNUpuPOyErQYOJ3cQQGjkrxYo4PRXs
+   oTWJCR8aWypmGRVoZtqKOD5vSnDBipqDMXblbb0kw30QzjhyihA+yIIcR
+   8YIZLOQgSfqqhwCjRPktoFj+UUqbrSVP+UN6fqtsy5huoN750dHQfyBls
+   J2LRu2ectpAaDXvqeo6UFHG2e1soASaKIqB1bFddmi92H7LRf1kc7ZEin
+   9s5HVbCt/M4ol5KieVwsgKbyx+UYsFDFzdZOc+r3uZmw0yIGjFSUg3cDj
+   rv6DteZPeI/YY2F79OaBa4/5DnNuDnM752v3Q7agUGP558CMnPlbZynY9
+   g==;
+X-CSE-ConnectionGUID: b0R9qCiERmONVio8kxZ8Nw==
+X-CSE-MsgGUID: DS3CzNYxTJKaskqZ9lMtlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="16030111"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="16030111"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 19:38:52 -0700
+X-CSE-ConnectionGUID: aAm5ODOFQmy9bymk5mh2lg==
+X-CSE-MsgGUID: HutTRNm2TWSuQwWJBKDEIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="43130933"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Jun 2024 19:38:51 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sLZbV-000Bza-0k
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 24 Jun 2024 02:38:49 +0000
+Date: Mon, 24 Jun 2024 10:38:08 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/chromeos-4.19-s0ix 3299/9999]
+ drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3143:21: warning: unused
+ variable 'reg_names'
+Message-ID: <202406241045.bFYlWjGC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6968:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8699f44-6f61-4bdf-971e-08dc93ed8ced
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230037|52116011|366013|376011|1800799021|38350700011;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pxyU31AWQP1MHjfel9DS9NiOBngyES+NHjUCSZ19Ren3C28AKDPjODSjmzio?=
- =?us-ascii?Q?0Q8GJwR7n02eBjMSRuRe0dPCUAPD25jrQB9i+KLNpY1kCWQIuXUzpYLfSBdh?=
- =?us-ascii?Q?XWci3V1RQqwAfrfvgLoWV6ya/Ml3NvMxw7cP86nkEki4AiNTl8/JnutN1L9q?=
- =?us-ascii?Q?/ES9FGd7SyCZT6XuF7qYswl7sDs57QMvm2dQHlTfFceiR3OScwkrP/l+J+aB?=
- =?us-ascii?Q?ni9ygAJ8raeEQ1MqVCQq3demRHxE9CESXddbdH7XKUrMuR5+Hcj/cDZ+69gt?=
- =?us-ascii?Q?y+HQjqK4rNk2g5g38hQ7xwUphtSi0g90fLgpgqn6nMzMX5rhJnFntOrDD/Lv?=
- =?us-ascii?Q?NwXI/IG/9xgW+aGQCyMbarVPuFhpSV8LH2zyuum+O3yYzT4X1s/8lBw9znA/?=
- =?us-ascii?Q?0T/8SugOCiQiIf1XtdxmJ3xYkS93zBe+zCcKWFcNY2FS3w906QO8gAxjJP8d?=
- =?us-ascii?Q?8ciDpDS4QkCDnks1oE875qn2+CntIh5roefbnOkLtJrqsp71sn80MvLFnJWi?=
- =?us-ascii?Q?Phd/32pAmydnrJheds88vb7OozizoKJcFj032zh1vXxWDeq3j5aGNO4tyNlt?=
- =?us-ascii?Q?Hh316dMSL5TMNuYjpZIuRIxg2Hqmwd3vf00/diKOvR4xmacaNoa+mLeZvt+W?=
- =?us-ascii?Q?ffAvAZfFtr44x+CN7MPGmn4MfMqsBEWAaHOkjv0/TJKkp8dy1FIPViY0lF0M?=
- =?us-ascii?Q?Fnjp8AKHV2tcfJWn0HmHT5A61oghCqJpVrcKntnLu3V4N87JTw5diM9+LAvx?=
- =?us-ascii?Q?xZvwVFeXccfY6G9RDRgfYfShvNJUuByDj+UjqQQGH7ev1XbsPqHcbxWA6Q4P?=
- =?us-ascii?Q?+Z0rML8hVNCOhTqmavzIh1sN6QlwCVl25zPiFBKrgu3Tws9NetQTWoWkUV+c?=
- =?us-ascii?Q?9UjJpfNytsgHqnNH211FiEjdnLgFe2/m13UTNm9f+1WpdySCGvQNxSF0zmGv?=
- =?us-ascii?Q?g5gxegTCZDpW0Mg01a7DXrPi9mDPGZ+voyP//znwKNBy0Q9PDa2/TPUPm7A1?=
- =?us-ascii?Q?Id90p+uy9OLpnoHztj873fE0VIepMGlLHtQ+2hnd8WkCGEFotHuWkEz9WF5X?=
- =?us-ascii?Q?pDt1/Q7IbkaLujRisqQNjJDhazhkJqjTNOJco83jtL2F1aOGwwMR8V/TbCVT?=
- =?us-ascii?Q?2olwpb6MVm81fE3L0e4MglvdYbqNKu7dPR7QOpv5ayHDhF5VZW64AYpXRGKU?=
- =?us-ascii?Q?pkMgD8UDhc1a+2U0X0YBVhlwxdaAGeA+QYIVgx968tPfTzVVMdAWij39Wau4?=
- =?us-ascii?Q?ipsfgtYkA1FKjnn+eGHFBm7nECYwQ8bL8tT8ltkbwLIh9Mf3vD8nMkmFGj2g?=
- =?us-ascii?Q?z0HLW3se9kxvsWIVzV3io0VQHwcEw+GWenozYPuhTnlV7VL9sPxrzwI201tM?=
- =?us-ascii?Q?kA98Zpw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(52116011)(366013)(376011)(1800799021)(38350700011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?S9hsfGmNNRHQfDSbXakHSlizm3UaOK2uDIt3Fm3YqeVTZtYDWZQgj6X4gVNx?=
- =?us-ascii?Q?wD5OPBK9LgNLH1iQSanWp7aq5tr83ZGNWS/udOvM1IHfDc1Y51ebVP2iaL1Q?=
- =?us-ascii?Q?EkQ6k2qhYqroJSmP243tira3vU/DfTkAVmuB5H4anIhhKleAjxZdWpekZ5PL?=
- =?us-ascii?Q?y207NsT3VzaKXqB4CgIdGHzD602/4iQPr5i/blMjjZyvlpbRJ4tY1inM4u6P?=
- =?us-ascii?Q?KukUcHf19gpBcuQw+WV/dODd8RVS+5B0fjVCjpRX1lElYLGWB8kIKZJUfTYs?=
- =?us-ascii?Q?SlzbI3CIWCOzURMi9Zx/MHmzUivAa5jHuJIlDfCpjS+b27N/qfv+HpRADkgU?=
- =?us-ascii?Q?7+aX0K/HdZmI/txNgYV3mYohmOARRkhRA6vILbpx8GsSCwask+aW4hpHOcsq?=
- =?us-ascii?Q?V3i0fDedgVgh7yh9Vj1Tf1b+YT9Kv/9yAnqQWdmo42KXD/D4hahNAfYfGZsw?=
- =?us-ascii?Q?g1Wz1OYOKUruQJqPqrphcGmUBfqpU5Fz0SZ6TWfQXOXn1XDQqxsQmoIM+BQu?=
- =?us-ascii?Q?phyCUf103oLGx6/ay2V0X6UXOWpmuBkaEsNY2iSBWdWLeMNGOLINy1v4J/Ss?=
- =?us-ascii?Q?p0HOqYZBOys6IyXX3BRg14hGn0Njxr+sepPq9XPiu/yWiFmchF/nqRVmqD1d?=
- =?us-ascii?Q?jPmN6A4gykPgfGCHEx/GnJvtmuhvb4e5pn+hpp2YKUJX8LtOHvkAofcN8P8J?=
- =?us-ascii?Q?8ZjVGLLlQa5lRbBBm1iDdQewbS2tja2+n41eYDXd3z7HPg8OFbTWHDfeGGCQ?=
- =?us-ascii?Q?lzK/nJDJC96fXrYt0GLuBQjOC84s+Qh4VwqkkhQUfAuJSjgFcHpBBoJ/gV4a?=
- =?us-ascii?Q?DJIX/h7ei5PIMsNZ68xt7INDESrjWKLosgVtepmydRIVYc/tBoBN7Wkie+Wj?=
- =?us-ascii?Q?8xTfNEOj/l8mp0SMB/ayjD+uVo9lYSSptomCkPuCW6PEO6Ir+puDuX8Pr56C?=
- =?us-ascii?Q?aXg9qz5QZo7s8H1QdnzltzOTr/6b5LdjAAv4M/e+bfYfHoeEUbzLG9xQj3ie?=
- =?us-ascii?Q?dSe6GV7/aIlgEvHOflZj6Hxwgb0HFj0f4ErJtkWVFt1ZBmICU/wMUvzP0J0I?=
- =?us-ascii?Q?GpMDp91E5yaDlVZJmVZg1NKdJTGRvdc+YIxUwMyUJsMvLVzOoBhkw8JHacnD?=
- =?us-ascii?Q?l2lyjeTpKc1Ih5ARC+oO6/MyqU+3HCUDcGrmN7c74VsFUoKfVUxAILGiohAB?=
- =?us-ascii?Q?+fMFdg9/uoUB47izQ+gnxxBQPAgWnbjyjPG9fanjUTJZV1JAKKGC81WML0Iu?=
- =?us-ascii?Q?VBmtJ33ABjPN7tKFIFcRAEs66ywXMH5yCr8ZAl9moQUH+QPkRQroIc2Qqe7x?=
- =?us-ascii?Q?C3f9GkYedtZFPNzv0kZKu/Y6Tv8p/A3DqKcc14w3TsGX31k68u04wKpc5hc7?=
- =?us-ascii?Q?RzrVYMix9dQssJCJxizU1Wp6bR7qRItbk0YBna0td26xVy9yHwqwkYoYI9pB?=
- =?us-ascii?Q?GRZUwTfQGDtO86RvWjRP4JtyiVMKhVENxnKMbTDc6TQeO8p255uOMD/cuaGn?=
- =?us-ascii?Q?AiyXrjVZO9fR+FyRq0JqOdnjbR9QrwfOhbGXYD9dKQ1S2jtGih+iUjMHVdiZ?=
- =?us-ascii?Q?XGIF7xCEO5I0aJIAuM8221eZkxBRtik0Adwzw7eVWgnRLR32DGXjZGlNB+QA?=
- =?us-ascii?Q?OHl/jf6TooaQXW9qv4uRQ0U=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8699f44-6f61-4bdf-971e-08dc93ed8ced
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 01:32:46.1454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z9gtG0XifG4T/AVZCMhl6uYi6tlFoMIf7VFbvC5zxNSJZqrmg1LInzwfO9tFLOiFgStpf9YDGfk5cBqO6G9zdG0IcXQG7c1dohZt/wmr3qvvBXCtvbSzZ6kT4pJyO9xT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6968
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
+head:   430bdaa0a8c38697780f45a148964d71951df11f
+commit: a67c1a87a5e5f95b241491fdbdbe04de8d1411c8 [3299/9999] CHROMIUM: MALI: Clean up supply-names and make them optional
+config: arm-randconfig-r064-20240623 (https://download.01.org/0day-ci/archive/20240624/202406241045.bFYlWjGC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240624/202406241045.bFYlWjGC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406241045.bFYlWjGC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   cc1: warning: -Idrivers/gpu/arm/midgard/../../../base: No such file or directory [-Wmissing-include-dirs]
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c: In function 'power_control_init':
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3143:31: error: 'KBASE_MAX_REGULATORS' undeclared (first use in this function)
+    3143 |         const char *reg_names[KBASE_MAX_REGULATORS];
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3143:31: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3151:14: error: 'struct kbase_device' has no member named 'regulator_num'
+    3151 |         kbdev->regulator_num = of_property_count_strings(kbdev->dev->of_node,
+         |              ^~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3154:18: error: 'struct kbase_device' has no member named 'regulator_num'
+    3154 |         if (kbdev->regulator_num > KBASE_MAX_REGULATORS) {
+         |                  ^~
+   In file included from include/linux/platform_device.h:14,
+                    from drivers/gpu/arm/midgard/mali_kbase_linux.h:34,
+                    from drivers/gpu/arm/midgard/mali_kbase.h:51,
+                    from drivers/gpu/arm/midgard/mali_kbase_core_linux.c:23:
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3156:30: error: 'struct kbase_device' has no member named 'regulator_num'
+    3156 |                         kbdev->regulator_num, KBASE_MAX_REGULATORS);
+         |                              ^~
+   include/linux/device.h:1418:39: note: in definition of macro 'dev_err'
+    1418 |         _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3158:25: error: 'struct kbase_device' has no member named 'regulator_num'
+    3158 |         } else if (kbdev->regulator_num == -EINVAL) {
+         |                         ^~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3160:22: error: 'struct kbase_device' has no member named 'regulator_num'
+    3160 |                 kbdev->regulator_num = 1;
+         |                      ^~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3162:25: error: 'struct kbase_device' has no member named 'regulator_num'
+    3162 |         } else if (kbdev->regulator_num < 0) {
+         |                         ^~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3163:28: error: 'struct kbase_device' has no member named 'regulator_num'
+    3163 |                 err = kbdev->regulator_num;
+         |                            ^~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3167:58: error: 'struct kbase_device' has no member named 'regulator_num'
+    3167 |                                                     kbdev->regulator_num);
+         |                                                          ^~
+>> drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3143:21: warning: unused variable 'reg_names' [-Wunused-variable]
+    3143 |         const char *reg_names[KBASE_MAX_REGULATORS];
+         |                     ^~~~~~~~~
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c: In function 'power_control_term':
+   drivers/gpu/arm/midgard/mali_kbase_core_linux.c:3252:13: warning: unused variable 'i' [-Wunused-variable]
+    3252 |         int i;
+         |             ^
+   In file included from drivers/gpu/arm/midgard/mali_kbase_defs.h:37,
+                    from drivers/gpu/arm/midgard/mali_kbase.h:57:
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h: At top level:
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1234:33: warning: 'base_hw_issues_model_tEGx' defined but not used [-Wunused-const-variable=]
+    1234 | static const enum base_hw_issue base_hw_issues_model_tEGx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1227:33: warning: 'base_hw_issues_tEGx_r0p0' defined but not used [-Wunused-const-variable=]
+    1227 | static const enum base_hw_issue base_hw_issues_tEGx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1219:33: warning: 'base_hw_issues_model_tBOx' defined but not used [-Wunused-const-variable=]
+    1219 | static const enum base_hw_issue base_hw_issues_model_tBOx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1212:33: warning: 'base_hw_issues_tBOx_r0p0' defined but not used [-Wunused-const-variable=]
+    1212 | static const enum base_hw_issue base_hw_issues_tBOx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1204:33: warning: 'base_hw_issues_model_tTRx' defined but not used [-Wunused-const-variable=]
+    1204 | static const enum base_hw_issue base_hw_issues_model_tTRx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1197:33: warning: 'base_hw_issues_tTRx_r0p0' defined but not used [-Wunused-const-variable=]
+    1197 | static const enum base_hw_issue base_hw_issues_tTRx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1189:33: warning: 'base_hw_issues_model_tKAx' defined but not used [-Wunused-const-variable=]
+    1189 | static const enum base_hw_issue base_hw_issues_model_tKAx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1182:33: warning: 'base_hw_issues_tKAx_r0p0' defined but not used [-Wunused-const-variable=]
+    1182 | static const enum base_hw_issue base_hw_issues_tKAx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1174:33: warning: 'base_hw_issues_model_tGOx' defined but not used [-Wunused-const-variable=]
+    1174 | static const enum base_hw_issue base_hw_issues_model_tGOx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1166:33: warning: 'base_hw_issues_tGOx_r1p0' defined but not used [-Wunused-const-variable=]
+    1166 | static const enum base_hw_issue base_hw_issues_tGOx_r1p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1158:33: warning: 'base_hw_issues_tGOx_r0p0' defined but not used [-Wunused-const-variable=]
+    1158 | static const enum base_hw_issue base_hw_issues_tGOx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1150:33: warning: 'base_hw_issues_model_tNOx' defined but not used [-Wunused-const-variable=]
+    1150 | static const enum base_hw_issue base_hw_issues_model_tNOx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1142:33: warning: 'base_hw_issues_tNOx_r0p0' defined but not used [-Wunused-const-variable=]
+    1142 | static const enum base_hw_issue base_hw_issues_tNOx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1134:33: warning: 'base_hw_issues_model_tDVx' defined but not used [-Wunused-const-variable=]
+    1134 | static const enum base_hw_issue base_hw_issues_model_tDVx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1127:33: warning: 'base_hw_issues_tDVx_r0p0' defined but not used [-Wunused-const-variable=]
+    1127 | static const enum base_hw_issue base_hw_issues_tDVx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1119:33: warning: 'base_hw_issues_model_tSIx' defined but not used [-Wunused-const-variable=]
+    1119 | static const enum base_hw_issue base_hw_issues_model_tSIx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1112:33: warning: 'base_hw_issues_tSIx_r1p1' defined but not used [-Wunused-const-variable=]
+    1112 | static const enum base_hw_issue base_hw_issues_tSIx_r1p1[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1104:33: warning: 'base_hw_issues_tSIx_r1p0' defined but not used [-Wunused-const-variable=]
+    1104 | static const enum base_hw_issue base_hw_issues_tSIx_r1p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1096:33: warning: 'base_hw_issues_tSIx_r0p1' defined but not used [-Wunused-const-variable=]
+    1096 | static const enum base_hw_issue base_hw_issues_tSIx_r0p1[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1088:33: warning: 'base_hw_issues_tSIx_r0p0' defined but not used [-Wunused-const-variable=]
+    1088 | static const enum base_hw_issue base_hw_issues_tSIx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1079:33: warning: 'base_hw_issues_model_tHEx' defined but not used [-Wunused-const-variable=]
+    1079 | static const enum base_hw_issue base_hw_issues_model_tHEx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1070:33: warning: 'base_hw_issues_tHEx_r0p3' defined but not used [-Wunused-const-variable=]
+    1070 | static const enum base_hw_issue base_hw_issues_tHEx_r0p3[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1060:33: warning: 'base_hw_issues_tHEx_r0p2' defined but not used [-Wunused-const-variable=]
+    1060 | static const enum base_hw_issue base_hw_issues_tHEx_r0p2[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1050:33: warning: 'base_hw_issues_tHEx_r0p1' defined but not used [-Wunused-const-variable=]
+    1050 | static const enum base_hw_issue base_hw_issues_tHEx_r0p1[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1040:33: warning: 'base_hw_issues_tHEx_r0p0' defined but not used [-Wunused-const-variable=]
+    1040 | static const enum base_hw_issue base_hw_issues_tHEx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1026:33: warning: 'base_hw_issues_model_tMIx' defined but not used [-Wunused-const-variable=]
+    1026 | static const enum base_hw_issue base_hw_issues_model_tMIx[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:1009:33: warning: 'base_hw_issues_tMIx_r0p1' defined but not used [-Wunused-const-variable=]
+    1009 | static const enum base_hw_issue base_hw_issues_tMIx_r0p1[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:992:33: warning: 'base_hw_issues_tMIx_r0p0' defined but not used [-Wunused-const-variable=]
+     992 | static const enum base_hw_issue base_hw_issues_tMIx_r0p0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:975:33: warning: 'base_hw_issues_tMIx_r0p0_05dev0' defined but not used [-Wunused-const-variable=]
+     975 | static const enum base_hw_issue base_hw_issues_tMIx_r0p0_05dev0[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:960:33: warning: 'base_hw_issues_model_t82x' defined but not used [-Wunused-const-variable=]
+     960 | static const enum base_hw_issue base_hw_issues_model_t82x[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/arm/midgard/mali_base_hwconfig_issues.h:939:33: warning: 'base_hw_issues_t82x_r1p0' defined but not used [-Wunused-const-variable=]
 
 
-Hi Geert
+vim +/reg_names +3143 drivers/gpu/arm/midgard/mali_kbase_core_linux.c
 
-> More to backport ;-)
-> 
-> Here are all the recent changes to DT binding files that contain
-> "r8a779h0" but haven't been backported yet:
+  3138	
+  3139	static int power_control_init(struct platform_device *pdev)
+  3140	{
+  3141		struct kbase_device *kbdev = to_kbase_device(&pdev->dev);
+  3142		int err = 0;
+> 3143		const char *reg_names[KBASE_MAX_REGULATORS];
+  3144	#if defined(CONFIG_REGULATOR)
+  3145		int i;
+  3146	#endif
+  3147	
+  3148		if (!kbdev)
+  3149			return -ENODEV;
+  3150	
+  3151		kbdev->regulator_num = of_property_count_strings(kbdev->dev->of_node,
+  3152			"supply-names");
+  3153	
+  3154		if (kbdev->regulator_num > KBASE_MAX_REGULATORS) {
+  3155			dev_err(&pdev->dev, "Too many regulators: %d > %d\n",
+  3156				kbdev->regulator_num, KBASE_MAX_REGULATORS);
+  3157			return -EINVAL;
+  3158		} else if (kbdev->regulator_num == -EINVAL) {
+  3159			/* The 'supply-names' is optional; if not there assume "mali" */
+  3160			kbdev->regulator_num = 1;
+  3161			reg_names[0] = "mali";
+  3162		} else if (kbdev->regulator_num < 0) {
+  3163			err = kbdev->regulator_num;
+  3164		} else {
+  3165			err = of_property_read_string_array(kbdev->dev->of_node,
+  3166							    "supply-names", reg_names,
+  3167							    kbdev->regulator_num);
+  3168		}
+  3169	
+  3170		if (err < 0) {
+  3171			dev_err(&pdev->dev, "Error reading supply-names: %d\n", err);
+  3172			return err;
+  3173		}
+  3174	
 
-Thanks. I have backported
-
-Best regards
----
-Kuninori Morimoto
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
