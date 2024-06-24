@@ -1,105 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C061213DDD3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 15:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E8C19CCFD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 15:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719242774; cv=none; b=puJ/spOYMb7BGz4/P33bRb+6xb0JOsey8WyZON4LRh2kx8IeDml///WOdAYIBJuBE+yc7IGuPFwHuMBUz0M5Xie3y00xrKDjbMc7veXaP3+m5Gljhhytnu6tcaYpgphZjTVyTxWs2tu5MD0p3I25fWgVm5vs3l6CxygnNqBV1MY=
+	t=1719243762; cv=none; b=mA/YdDkr/Wl8yEJuWxWY+ZkaS8RPZ5zCUnOjbJiAzAuUmA5e2bb3TKLhwXjFHOwUXq+8geXnKpGD438dGL07e1CG1WcQKnttmZSFmdtk9ZKYpZXqUNlUZqkPNcShUGMfjLXLyZIlqgIeXpmFqSXpux0270COnNFRev5q4kDVFUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719242774; c=relaxed/simple;
-	bh=isSO8zhhTRh50IY8MzHYeg7mqSDdC0WjmZifBVHz8uA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cbuE+SXDCf4murUnyjSBapyn+SY5gcUO8/sI4xnpP62vhZ/gURc9vTf6geQIrkkggAEzspIiR8Pt4r7N+mGlF/8OLzeQi4WF/R2KjwGGaDpYGJdINQkfJyt7sMzzBoj4GDWVV8rXnr/1nF5kb6GYqAA6seopp3D1pOnZMjvcV4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VijO23Xe; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719243762; c=relaxed/simple;
+	bh=4b2NR7ZU6RhCVAQiz4eoi6ItIYSKwVG9ISrse0aWNEo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CY/r4g5k1VyJ8R3i6HmSlVquCcd+5bPkZasRaEOxLdS3vX0fhXZkIioOswTmRV8QKndnjwzSR1sZYO33gJpjehq4KDee2OjtNL1uozYPmAuowv5C4Qcl8OkPJIhoelRq7yxGapTe4R/QmHAiopLPq16a4GDPCMqRGssAdmznK8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MIfUAWpB; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VijO23Xe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719242773; x=1750778773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=isSO8zhhTRh50IY8MzHYeg7mqSDdC0WjmZifBVHz8uA=;
-  b=VijO23XeQdHuqBk/bOxGnDNS5fJ30MTMnISas4Nf9ThVoPHzlLQr+KYh
-   /MS29T+wtySyvg32GHcVT7UgbUVU0pECdSQNcRnIJNM3+Bp6GSS12IQN0
-   3/RIOfUcHbdjFl/MjeFxXgEWQcy2tKqhsyAqvrrtClwT6GKAua4U7Al0P
-   +SCNLnMR1o6PTkQ3QZFM79bGeVUOyky96i0ukmHl5/YXC3Z0218S5sVfW
-   G5bRcuSIMLp6hvYPPkorovfJDnWu95wODHXNgO4gaKyMaoYJIOmqKzyjg
-   /KNxFgjksXW49su6SmTZEH42JZzcsJP/9cYZNtFeXaUMft0hGUkRRjvIg
-   w==;
-X-CSE-ConnectionGUID: 70lag9lcT+KgYTcQKD74zg==
-X-CSE-MsgGUID: B7RaTctySr+jEVDERVqcKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="33761071"
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="33761071"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 08:26:12 -0700
-X-CSE-ConnectionGUID: LYvArBnUSNK9f8uZoAK7xg==
-X-CSE-MsgGUID: fnlpJt5WR3+nJBl3QPMjtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="43418208"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Jun 2024 08:26:10 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLla3-000DQe-2H;
-	Mon, 24 Jun 2024 15:26:07 +0000
-Date: Mon, 24 Jun 2024 23:25:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: dt-bindings: Add description of OmniVision
- OG01A1B image sensor
-Message-ID: <202406242352.HSKkjAv2-lkp@intel.com>
-References: <20240620124745.1265011-2-vladimir.zapolskiy@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIfUAWpB"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so73487881fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 08:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719243759; x=1719848559; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4b2NR7ZU6RhCVAQiz4eoi6ItIYSKwVG9ISrse0aWNEo=;
+        b=MIfUAWpBM4Vf3mXhGuZP/NQD7oneGKnBYjwxLJ39arR0bYPbEqS9nfMhD95Su49dec
+         EddafI6tS1N1o+fzWU92Q8ia/FDwzyYSxQxGaORQuiiNUscRnCFGn1Btmi18CDT4Vw22
+         VJmjNdNCpdOlMQM4oeoagmO2SCItLPzgGsrQ25Ac6tmKX8a5wlt9d+aFsUvxyTIsC1Pg
+         Z1voTAB33L48GhxTinz0+6ZPL960c1gkNeXKPQBtpqixU9mxJK+a7q3tlJLEKU8+61v6
+         Je89BLpHubZ3oOzrida3eCdXIiJWE0xMlZoxarln3ueC1IB3NTa1EqNptE0QrqZUYltE
+         ZP4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719243759; x=1719848559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4b2NR7ZU6RhCVAQiz4eoi6ItIYSKwVG9ISrse0aWNEo=;
+        b=B4x28r8A7Fj72ScDKIenr781K7JMJbVPHBO1YcXzj9EPqHvBJC5NoOkICttU0KNEyo
+         hyDa3//I6PL0Qjs2FbpzqQ1Izeuiv9VBq5dAUkD+TT0IJwSJvUI235g4nL+WyozKtoCc
+         l7Hbxf4UXyUY40p7FbwsGZQTkK9gMD//G4s5Mt0tA9vL/qovJiwBX7WNYrEj5hT3YeLT
+         EMAzOhPltWU75bFh/Mm47ogq3EXepDaTQsFNiy8kSWAq+kM9svE7XyVOFKiFhFSw7VBf
+         OrE/1pp+2EzP5BCm5V3fIgLStur4djCQqhgBapqWJ1oPqhi4zqdFfCsmXrXRJydTz/oQ
+         lwnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAFEAqW0cJISNQiJkhcZmlbv3Awucn6t4qKhtPDEfH/T0j0iZnwwPzPm9Xe6KfWmVYsjgLJvMZYjIAHuuvHnFPTE1tGLM8V95BnPwdLQ==
+X-Gm-Message-State: AOJu0YwR+02fM+yBVp06gx04b+ahjd/iiZ5QHfw0GB+z2JeKJvQpnWo6
+	6vpoIp0SWvGUlQ9K0LjUFNG3CIcQgA9UEdnsqGtYXY12ABbqTRnmDmiVKO541kI7r1dsNp7EOWH
+	n5waM86pJfinPd8eCy3M+0ATWmU4=
+X-Google-Smtp-Source: AGHT+IFBxn4USRqyPo0lzjb2M7Hs+SA4MriqfTierRf32hr1TE1t4qrkidUoMFdnifNpyyPHVkyMzoMzywo22FjadXE=
+X-Received: by 2002:a2e:9917:0:b0:2ec:4bb7:d7f6 with SMTP id
+ 38308e7fff4ca-2ec5b2c4daemr36931881fa.7.1719243758350; Mon, 24 Jun 2024
+ 08:42:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240620124745.1265011-2-vladimir.zapolskiy@linaro.org>
+References: <202406230912.F6XFIyA6-lkp@intel.com> <CAFULd4YVOwxQ4JDaOdscX_vtJsqJBJ5zhd0RtXXutW=Eqh29Qw@mail.gmail.com>
+ <CAHk-=wg1h4w_m=Op1U4JsyDjsvqG0Kw1EOVMQ+=5GX_XytdorQ@mail.gmail.com>
+ <CAFULd4YR-VkAOKiS5yxSUYi0YMzY1p=pkYe4dOkgFs+A=9AFFA@mail.gmail.com>
+ <CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com>
+ <CAHk-=whPqqZVSeJiQsMvsAxtAmtR9iAuB4gg_1sUK2D-uBPpLw@mail.gmail.com>
+ <CAFULd4YAeF7=q7DYUh016kabxS8b32qRbFqDBJQrvLq6RjwEVg@mail.gmail.com>
+ <CAHk-=wiHo2YeA=TOUf8vxFLOc0+BoH8USaiT25fnX2ynXbrZkg@mail.gmail.com> <CAHk-=wgdCs0883dpvZpyna76q9eVcTMvvUVAaBuJMPyrgOhNig@mail.gmail.com>
+In-Reply-To: <CAHk-=wgdCs0883dpvZpyna76q9eVcTMvvUVAaBuJMPyrgOhNig@mail.gmail.com>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Mon, 24 Jun 2024 17:42:32 +0200
+Message-ID: <CAFULd4ZW23_RNye6YGbsT0Uo-vOQBM_tBbSJRhh=0HZzXuC_8Q@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/cmpxchg_32.h:149:9: error: inline assembly
+ requires more registers than available
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vladimir,
+On Mon, Jun 24, 2024 at 4:18=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Mon, 24 Jun 2024 at 09:59, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Mon, 24 Jun 2024 at 03:36, Uros Bizjak <ubizjak@gmail.com> wrote:
+> > >
+> > > A real fix, not only a workaround, is to rewrite asm arguments to
+> > > something like (untested, but "should work"TM):
+> >
+> > Sadly, I already tried that, and it didn't help.
+>
+> Bah. I _had_ tried that, but I had tried it on __arch_cmpxchg64_emu(),
+> not on the "try" version.
+>
+> And no, it hadn't helped.
+>
+> But doing it *right*, and also doing __arch_try_cmpxchg64_emu() *does*
+> actually help.
+>
+> Well, at least the attached patch compiles with the bad config and clang.
+>
+> I'm not certain it does the right thing, because I did more than just
+> the %esi games to try to simplify it.
+>
+> It's *ENTIRELY* possible that I screwed up. Just in this thread, I
+> have looked at the wrong inline asm at least twice now, so I'm not
+> feeling super-competent right now.
+>
+> I'm sending the patch out in the hope that another set of eyes will
+> make it actually better.
 
-kernel test robot noticed the following build warnings:
++ _lock "cmpxchg8b 0(%[ptr])", X86_FEATURE_CX8) \
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on sailus-media-tree/master krzk-dt/for-next robh/for-next linus/master v6.10-rc5 next-20240621]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This can be just:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Zapolskiy/media-dt-bindings-Add-description-of-OmniVision-OG01A1B-image-sensor/20240624-161554
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240620124745.1265011-2-vladimir.zapolskiy%40linaro.org
-patch subject: [PATCH 1/3] media: dt-bindings: Add description of OmniVision OG01A1B image sensor
-reproduce: (https://download.01.org/0day-ci/archive/20240624/202406242352.HSKkjAv2-lkp@intel.com/reproduce)
++ _lock "cmpxchg8b %a[ptr]", X86_FEATURE_CX8) \
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406242352.HSKkjAv2-lkp@intel.com/
+- if (unlikely(!ret)) \
+- *(_oldp) =3D o.full; \
++ *(_oldp) =3D o; \
 
-All warnings (new ones prefixed by >>):
+This one should really update only when cmpxchg fails. The relation
+between cmpxchg and try_cmpxchg is documented in
+Documentation/atomic_t.txt, section CMPXCHG vs TRY_CMPXCHG.
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/og01a1b.yaml
-   Using alabaster theme
+Does the compilation still crash with the condition?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Uros.
