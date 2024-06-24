@@ -1,95 +1,90 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1FE4F5FB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 13:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15B9142635
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 13:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719236748; cv=none; b=anC5yLiXDNcrBzhdbdh7/4wiNge/fQ5w0TuUS2Hp6jbJVnIkpk5/QlH5e3PJV0A02H4pW/PAmo0cA0/ZBerYHAo2u4Y1NUs/9bi2QlsA/Z86VNNaXjGYt2nsWf/FeIF6RB/dsKQsnjaAr06PUMCu0WzbrbiXGRiID3LPZ6SqizA=
+	t=1719237597; cv=none; b=dXB18TTixzY1x5C3rW3WoY7N8qM61Q5Sh1thDwbDLb4aNHvv0++Dp4n6tEO2xq4S30dwa2NTeNFizr1r9aoxgSY48GlkSlkptoaC6oudlwlQa/lS9pyNZwlKo8N4OTZQWZJrfXxMEhY95qDLAVcTZ2fHBI1JsAVKZZHyH7AOOvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719236748; c=relaxed/simple;
-	bh=RqeuvMz0cRSx1ZUaiURn+zvKLMXsN6xdTYTDIkNr6Io=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ys1pSQP+V8eaoqMuHFlYnnNWocMs5MQVzKEJPRepe4iDF7u1soODXZs/G60R1dM4M5Yf9biSpODcBZpyhBzVobp39d4+Nf++VfISs/A+rwnivpox54tGspt16PvU3rCeYLeWBQn947I26C6lVJ9ZYxyaJIcAd0Ck+OuKcW6kbOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zWLO/s9K; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FGBtjy/T; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1719237597; c=relaxed/simple;
+	bh=1RmILU7sEfgOL5C8noYL1Mesy9QeXfx6SH6gs1dytiU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gIGNfpoKE4eDGDPqdsxtLINdH6zG2ICrSkRqEeX56qwDmL4byO0zR8IbYfnEXK7KrwRt4XejmmnNBcfDfKzrmlPhjShrhLlQK+Qrm4lz/AtuAKTmgrvKw4itVu6VHQFBncQHE4m0wNH1TxAzy/BAOd6ubCjjoOuXBX6oalwyz2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TDG6o7co; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zWLO/s9K";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FGBtjy/T"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1719236744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GboIg5eVGHDPZ9dHMp+OprFYxnXj5dxDMNcULCsadHc=;
-	b=zWLO/s9KLalwIYKdFRK1CChvsksfGjPSSuY4q1nfKLracltPA+LwJL/PFALBxbXHW2WJPs
-	GSa+StBJBeUCkGxoKegr11yqWP7Y73QF7er/UpehEri8F4XejtMPwRiMuPTYNOnsZSNYgF
-	KxhY2sz7kPyF8r4RzeROD7kOO+OVDwNdtt8PLMuGs8sM10M78U6BVAFS6nhoRso9FvyO+r
-	bjxSNvyFaloyz5InhM3icfPZ7+EdTebH+7Vtq4XYYV5oecfoaiuOgFk21EH4vWSAKBWns8
-	AG/66DYKssND59/YVEWNeK5Tau8YuQuRm+DudV3kZ5teqza70DQ1M+Fli42elg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1719236744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GboIg5eVGHDPZ9dHMp+OprFYxnXj5dxDMNcULCsadHc=;
-	b=FGBtjy/TwRE/uHMqDgyipx7UFEpUjQmXrf4kBf8fE1Q4esR2Mk0vube5ZaI+ILex74ZHfn
-	2lSN8V2FSINMmxAg==
-To: kernel test robot <lkp@intel.com>, Tianyang Zhang
- <zhangtianyang@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Jianmin Lv <lvjianmin@loongson.cn>, Liupu Wang
- <wangliupu@loongson.cn>
-Subject: Re: [tip:irq/core 39/46]
- drivers/irqchip/irq-loongarch-avec.c:82:17: error: implicit declaration of
- function 'loongson_send_ipi_single'
-In-Reply-To: <202406240451.ygBFNyJ3-lkp@intel.com>
-References: <202406240451.ygBFNyJ3-lkp@intel.com>
-Date: Mon, 24 Jun 2024 15:45:44 +0200
-Message-ID: <87sex28nef.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TDG6o7co"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so71390111fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 06:59:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1719237593; x=1719842393; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FRxJqV/9V3WmotPQQur7o3YnAN57z0pSUs0Lyii+xZw=;
+        b=TDG6o7cowC2F4oe2buSeq+ckW1nexyhXHqywz6aUekEVOzhJWiz7I3TWziaWDRhaJK
+         fGzyAbl75CHMTz385LLLtmfaTqSZwNlGPlmdgkC6zJ7Gy+ZdC/sgIED0tXxgi1mBwyod
+         jtVXbcvAHdHPd8rkb+0cR4IoOWOYze44bttGM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719237593; x=1719842393;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FRxJqV/9V3WmotPQQur7o3YnAN57z0pSUs0Lyii+xZw=;
+        b=FKxSOpLt1JxKrKP7WueMN1tIxYmTo9W+0D60hZylrH+CVeD4hv28j9INe5IGC9Fvdb
+         vsNpcWVp6TjvT6r7qrLHdFTWb8gKNu3HdGn65TaXAV1u7z+PTUq5iSuU13ni2BmFZAdj
+         hVmeHNYCPFl+aDEkt6IubE0/SlWsnFvlinHrlrN0wlMiOo1F+cLS0hC3etfeDG8bvPoR
+         ltBqHwlWdEC+wG1IXf0PInSo7hLmERz1VKaqgngfNPWnIXJwAbjiCRIDWZfwtCZlXAj7
+         YVr45BGl0ziNHysPvkrUJDYE4XiAl14oXN5K6Uf33RXxKjTmJPqzTrexDKm+rROqZsGr
+         Df9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUwqC3URcILW6kPDC51BVhTjgIg0sZKQWG9DqS5FPrhqHLIk2RAmwU2iwN6osw+EfVHOUq8bzjjx7JKFT9J6UURPR0UCDHVXJtl4tB2DQ==
+X-Gm-Message-State: AOJu0Yy+GgiwamYOzzgn2cyHndQWh4xdFcUT1D0MXd3j3b2CjHdvKI9b
+	UwZ9h0hdh5ivEVO9MfS5EVRB2wx9H33pGK7XLaJ+0YTj1MdIIsHkwSp6nES+UnW8Pj3PAwfUbwb
+	hingHUA==
+X-Google-Smtp-Source: AGHT+IGf3tB59RJOKYK4h0wst3KTWvTANTUitGGvVupE8DU8LUJcCQYF2LDgRU0CK35yqQNpye0wUQ==
+X-Received: by 2002:a2e:8746:0:b0:2ec:5685:f061 with SMTP id 38308e7fff4ca-2ec5b2d6313mr36947021fa.21.1719237593514;
+        Mon, 24 Jun 2024 06:59:53 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec538ab50bsm7646101fa.113.2024.06.24.06.59.52
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jun 2024 06:59:52 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ec17eb4493so59857431fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 06:59:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVeH5Lo9XnS9V9hjSi+r1BO3XkXqL943/Jvw6xXeEqDssaanXtswSlFNXkfBz0ytm2oG4gQyUsEVp24FqfptBE+nYI9nLiHI/YdxVIQKg==
+X-Received: by 2002:ac2:592e:0:b0:52c:d5ac:d42 with SMTP id
+ 2adb3069b0e04-52ce182bcadmr3212857e87.9.1719237592124; Mon, 24 Jun 2024
+ 06:59:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <202406230912.F6XFIyA6-lkp@intel.com> <CAFULd4YVOwxQ4JDaOdscX_vtJsqJBJ5zhd0RtXXutW=Eqh29Qw@mail.gmail.com>
+ <CAHk-=wg1h4w_m=Op1U4JsyDjsvqG0Kw1EOVMQ+=5GX_XytdorQ@mail.gmail.com>
+ <CAFULd4YR-VkAOKiS5yxSUYi0YMzY1p=pkYe4dOkgFs+A=9AFFA@mail.gmail.com>
+ <CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com>
+ <CAHk-=whPqqZVSeJiQsMvsAxtAmtR9iAuB4gg_1sUK2D-uBPpLw@mail.gmail.com> <CAFULd4YAeF7=q7DYUh016kabxS8b32qRbFqDBJQrvLq6RjwEVg@mail.gmail.com>
+In-Reply-To: <CAFULd4YAeF7=q7DYUh016kabxS8b32qRbFqDBJQrvLq6RjwEVg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 24 Jun 2024 09:59:35 -0400
+X-Gmail-Original-Message-ID: <CAHk-=wiHo2YeA=TOUf8vxFLOc0+BoH8USaiT25fnX2ynXbrZkg@mail.gmail.com>
+Message-ID: <CAHk-=wiHo2YeA=TOUf8vxFLOc0+BoH8USaiT25fnX2ynXbrZkg@mail.gmail.com>
+Subject: Re: arch/x86/include/asm/cmpxchg_32.h:149:9: error: inline assembly
+ requires more registers than available
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 24 2024 at 05:06, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-> head:   c9d269469d2b9a06559cdc84d12dd3fb4d552581
-> commit: 760d7e719499d64beea62bfcf53938fb233bb6e7 [39/46] Loongarch: Support loongarch avec
-> config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240624/202406240451.ygBFNyJ3-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240624/202406240451.ygBFNyJ3-lkp@intel.com/reproduce)
+On Mon, 24 Jun 2024 at 03:36, Uros Bizjak <ubizjak@gmail.com> wrote:
 >
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406240451.ygBFNyJ3-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/irqchip/irq-loongarch-avec.c: In function 'loongarch_avec_sync':
->>> drivers/irqchip/irq-loongarch-avec.c:82:17: error: implicit declaration of function 'loongson_send_ipi_single' [-Werror=implicit-function-declaration]
->       82 |                 loongson_send_ipi_single(adata->prev_cpu, SMP_CLEAR_VECT);
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/irqchip/irq-loongarch-avec.c:82:59: error: 'SMP_CLEAR_VECT' undeclared (first use in this function)
->       82 |                 loongson_send_ipi_single(adata->prev_cpu, SMP_CLEAR_VECT);
->          |                                                           ^~~~~~~~~~~~~~
->    drivers/irqchip/irq-loongarch-avec.c:82:59: note: each undeclared identifier is reported only once for each function it appears in
->    drivers/irqchip/irq-loongarch-avec.c: In function 'complete_irq_moving':
->    drivers/irqchip/irq-loongarch-avec.c:173:55: error: 'SMP_CLEAR_VECT' undeclared (first use in this function)
->      173 |                         loongson_send_ipi_single(cpu, SMP_CLEAR_VECT);
->          |                                                       ^~~~~~~~~~~~~~
+> A real fix, not only a workaround, is to rewrite asm arguments to
+> something like (untested, but "should work"TM):
 
-So this code was never built with CONFIG_SMP=n.
+Sadly, I already tried that, and it didn't help.
 
-Can the loongson folks please send me a delta patch ASAP, otherwise I'm
-going to revert it.
-
-Thanks,
-
-        tglx
+             Linus
