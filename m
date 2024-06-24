@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A732913BC0B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jun 2024 23:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09B31A2563;
+	Mon, 24 Jun 2024 23:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719273218; cv=none; b=tYu9CGFObwpNyT3UdCaBFHII4KtQp+kWQeJ/hEnN8PRtm6C7aSNOdhc3kclB+1SDH13lVnuYKJv0gmW0ToGRDjkkS3poYSmEDhu16QX8P5tAR5UU2TNwvbJhfGu3GwzMr16J74Mf/6bSCJ5Z+/qYaq4KpJeCoeufHh2Qx5UeC7k=
+	t=1719273219; cv=none; b=pehLBNQMGqL/wL6mT5kV2VjzNjwFmc0G9C8Cxg1hbG7xgiTBCvmDJzoeSoyT7fGq6/2kPuhQuZpHCUo80Sb8ft4GcSSL9rzHfBcFJEbjLvKp/inz1fQfRBW1l7ze1QvCVamIt0kjMAHK0fX5EdybKRD4G4BvOeeoklWHSzmHxus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719273218; c=relaxed/simple;
-	bh=p35BkHilV2FjPspFUbtqHkKaRbuftrg9reUELzU5Tu4=;
+	s=arc-20240116; t=1719273219; c=relaxed/simple;
+	bh=B/GFHm7zyq0ueXrJHR9jcizF4kP7pcHilfrk4JTO0gI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dYWprHLAeA2Pua/A1TOcqHV4vHzNCWR//iIGjRKvgvnfUCtG5D5wJUAf0YJRfYDIrGeS9u+qjSTaUCmF4nXvQrIPwswT2pi9eZdTZduNtEhLiANiiRRgE7INSn6vAc8Xky7XN7hWYl10IwOUOBm5oYjHF+lN80jmtM2/CzoE8UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hcOm6TGn; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=cSOsFGlOOzGiE4wC/95vWBdnOLkBTYZTa4eijKSbq19PhJIAO0qykkZ938BWrhsudNiU2ory6pTvZM/yGr7+C8CRmiH4ecZC9Ji+dadhyb4TivXuvUvYYzNm4gkCaoPcKLVVlb/TJHH/TE8jf/tOX9E0wzqK5e4Un2mwfR1YmL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCr6UBgM; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcOm6TGn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCr6UBgM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719273214; x=1750809214;
+  t=1719273218; x=1750809218;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p35BkHilV2FjPspFUbtqHkKaRbuftrg9reUELzU5Tu4=;
-  b=hcOm6TGnlZXjaido8+ssZC2B9d0XXAMyPOIONMSmoWhl45GxeIIcItfc
-   HA6fpAh2dw+aDbGcKK4L3MZCnUY5hrGNR6XqWegp8+gV7CWfdRDogwbai
-   R0neOtwS8XlNa+YXYoq9DFpeV5Cg3gjfYoLpHX7PYmFW6LggpzySBbmKz
-   UT3aGsUeRzbFcAujZmEAft2QzeJty1iF3mgCc20tnGq9+6nM3BMfgJwpn
-   95lWnmxvgk07ubycNBazxXBi3lroLHJKx0mpePYnnXHg+BA2wlyotE4PO
-   GJnWyWyonzuKsVDO+/mHjbnfP61dP5AUVOJ4SeA5QQ1zj7ZljEJZ0gai4
-   w==;
-X-CSE-ConnectionGUID: jdKCMLzqS4+dUFB9KzzJFQ==
-X-CSE-MsgGUID: Ulu01DM7S3u4EK9cqEL9Tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="26892404"
+  bh=B/GFHm7zyq0ueXrJHR9jcizF4kP7pcHilfrk4JTO0gI=;
+  b=lCr6UBgMDY8NbX04p5/RQrcmOcjxC4IhV44AdrhkLb5IhHkXbE0k0CCS
+   b6a5VXIynWuz4v3test/+BECwB0QkO8JH/QMhfFIT+TqV5jiIv9A7Lka1
+   BOOs07WjDkxKpTQtvgJeXhKBYgbd8zzNh4gcUNNyhvt+DEZyAAK5PSdsm
+   /47O6eKTnoDp331qqKTypdJC5x4fNV3Ve4mXNR9Fww2TCQA2ESzg/glNp
+   3xBSYvP51IAeMFS9yDtxqvidfD56uvgAgjS4A7dV3Ms4JgG92QFTjfr+x
+   H29FWKvAOz/y2RYZ6Rv/tz6czkqnRgChy1QKsELJdQ963gUK2CH+XjyMn
+   Q==;
+X-CSE-ConnectionGUID: LosZ0m21RuGvLNufZ055jg==
+X-CSE-MsgGUID: 1IWZuOwxTn62fItFtbaoAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="27677243"
 X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; 
-   d="scan'208";a="26892404"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 16:53:34 -0700
-X-CSE-ConnectionGUID: 8ZU4Y2N0QJyTznzN2fV+lQ==
-X-CSE-MsgGUID: +O6zOa/fQ7G5wG7htUDa5Q==
+   d="scan'208";a="27677243"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 16:53:34 -0700
+X-CSE-ConnectionGUID: PlVxXWMOQre2Jc4suIX4TQ==
+X-CSE-MsgGUID: CD767dqpSqaBcWJVjR9fdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; 
-   d="scan'208";a="43267385"
+   d="scan'208";a="48410056"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Jun 2024 16:53:33 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Jun 2024 16:53:34 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sLtV5-000DpY-0C;
+	id 1sLtV5-000DpU-00;
 	Mon, 24 Jun 2024 23:53:31 +0000
-Date: Tue, 25 Jun 2024 07:53:11 +0800
+Date: Tue, 25 Jun 2024 07:53:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-fixes-6.10 2/13]
- include/uapi/asm-generic/unistd.h:740:88: error: macro "__SYSCALL" passed 3
- arguments, but takes just 2
-Message-ID: <202406250701.m5Umu4IL-lkp@intel.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [staging:staging-testing 37/59]
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2553:24: warning: variable
+ 'pwdev_priv' set but not used
+Message-ID: <202406250759.FnxzD3PK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +65,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-fixes-6.10
-head:   f2548a9d6019f7ab1106a16893d65dea09b8909a
-commit: a8b9dba1b47c8547c274255de3fe60e02f118fc6 [2/13] syscalls: fix compat_sys_io_pgetevents_time64 usage
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240625/202406250701.m5Umu4IL-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250701.m5Umu4IL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
+head:   921190437a4827667cceef10202b2150571ebe5c
+commit: bdee203cd80ce2d3b0a52015ecfde6ad45d01eb9 [37/59] staging: rtl8723bs: Remove switch(type) as type is constant
+config: x86_64-buildonly-randconfig-004-20240625 (https://download.01.org/0day-ci/archive/20240625/202406250759.FnxzD3PK-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250759.FnxzD3PK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406250701.m5Umu4IL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406250759.FnxzD3PK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/openrisc/include/uapi/asm/unistd.h:30,
-                    from <stdin>:2:
->> include/uapi/asm-generic/unistd.h:740:88: error: macro "__SYSCALL" passed 3 arguments, but takes just 2
-     740 | __SYSCALL(__NR_io_pgetevents_time64, sys_io_pgetevents, compat_sys_io_pgetevents_time64)
-         |                                                                                        ^
-   include/uapi/asm-generic/unistd.h:16: note: macro "__SYSCALL" defined here
-      16 | #define __SYSCALL(x, y)
-         | 
-   make[3]: *** [./Kbuild:44: missing-syscalls] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2553:24: warning: variable 'pwdev_priv' set but not used [-Wunused-but-set-variable]
+    2553 |         struct rtw_wdev_priv *pwdev_priv;
+         |                               ^
+   1 warning generated.
 
 
-vim +/__SYSCALL +740 include/uapi/asm-generic/unistd.h
+vim +/pwdev_priv +2553 drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 
-   713	
-   714	#if defined(__SYSCALL_COMPAT) || __BITS_PER_LONG == 32
-   715	#define __NR_clock_gettime64 403
-   716	__SYSCALL(__NR_clock_gettime64, sys_clock_gettime)
-   717	#define __NR_clock_settime64 404
-   718	__SYSCALL(__NR_clock_settime64, sys_clock_settime)
-   719	#define __NR_clock_adjtime64 405
-   720	__SYSCALL(__NR_clock_adjtime64, sys_clock_adjtime)
-   721	#define __NR_clock_getres_time64 406
-   722	__SYSCALL(__NR_clock_getres_time64, sys_clock_getres)
-   723	#define __NR_clock_nanosleep_time64 407
-   724	__SYSCALL(__NR_clock_nanosleep_time64, sys_clock_nanosleep)
-   725	#define __NR_timer_gettime64 408
-   726	__SYSCALL(__NR_timer_gettime64, sys_timer_gettime)
-   727	#define __NR_timer_settime64 409
-   728	__SYSCALL(__NR_timer_settime64, sys_timer_settime)
-   729	#define __NR_timerfd_gettime64 410
-   730	__SYSCALL(__NR_timerfd_gettime64, sys_timerfd_gettime)
-   731	#define __NR_timerfd_settime64 411
-   732	__SYSCALL(__NR_timerfd_settime64, sys_timerfd_settime)
-   733	#define __NR_utimensat_time64 412
-   734	__SYSCALL(__NR_utimensat_time64, sys_utimensat)
-   735	#define __NR_pselect6_time64 413
-   736	__SC_COMP(__NR_pselect6_time64, sys_pselect6, compat_sys_pselect6_time64)
-   737	#define __NR_ppoll_time64 414
-   738	__SC_COMP(__NR_ppoll_time64, sys_ppoll, compat_sys_ppoll_time64)
-   739	#define __NR_io_pgetevents_time64 416
- > 740	__SYSCALL(__NR_io_pgetevents_time64, sys_io_pgetevents, compat_sys_io_pgetevents_time64)
-   741	#define __NR_recvmmsg_time64 417
-   742	__SC_COMP(__NR_recvmmsg_time64, sys_recvmmsg, compat_sys_recvmmsg_time64)
-   743	#define __NR_mq_timedsend_time64 418
-   744	__SYSCALL(__NR_mq_timedsend_time64, sys_mq_timedsend)
-   745	#define __NR_mq_timedreceive_time64 419
-   746	__SYSCALL(__NR_mq_timedreceive_time64, sys_mq_timedreceive)
-   747	#define __NR_semtimedop_time64 420
-   748	__SYSCALL(__NR_semtimedop_time64, sys_semtimedop)
-   749	#define __NR_rt_sigtimedwait_time64 421
-   750	__SC_COMP(__NR_rt_sigtimedwait_time64, sys_rt_sigtimedwait, compat_sys_rt_sigtimedwait_time64)
-   751	#define __NR_futex_time64 422
-   752	__SYSCALL(__NR_futex_time64, sys_futex)
-   753	#define __NR_sched_rr_get_interval_time64 423
-   754	__SYSCALL(__NR_sched_rr_get_interval_time64, sys_sched_rr_get_interval)
-   755	#endif
-   756	
+554c0a3abf216c Hans de Goede     2017-03-29  2536  
+1d85bb7fd66aa1 Franziska Naepelt 2023-07-01  2537  static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
+554c0a3abf216c Hans de Goede     2017-03-29  2538  				struct cfg80211_mgmt_tx_params *params,
+554c0a3abf216c Hans de Goede     2017-03-29  2539  				u64 *cookie)
+554c0a3abf216c Hans de Goede     2017-03-29  2540  {
+554c0a3abf216c Hans de Goede     2017-03-29  2541  	struct net_device *ndev = wdev_to_ndev(wdev);
+554c0a3abf216c Hans de Goede     2017-03-29  2542  	struct ieee80211_channel *chan = params->chan;
+554c0a3abf216c Hans de Goede     2017-03-29  2543  	const u8 *buf = params->buf;
+554c0a3abf216c Hans de Goede     2017-03-29  2544  	size_t len = params->len;
+554c0a3abf216c Hans de Goede     2017-03-29  2545  	int ret = 0;
+554c0a3abf216c Hans de Goede     2017-03-29  2546  	int tx_ret;
+554c0a3abf216c Hans de Goede     2017-03-29  2547  	u32 dump_limit = RTW_MAX_MGMT_TX_CNT;
+554c0a3abf216c Hans de Goede     2017-03-29  2548  	u32 dump_cnt = 0;
+554c0a3abf216c Hans de Goede     2017-03-29  2549  	bool ack = true;
+554c0a3abf216c Hans de Goede     2017-03-29  2550  	u8 tx_ch = (u8)ieee80211_frequency_to_channel(chan->center_freq);
+554c0a3abf216c Hans de Goede     2017-03-29  2551  	u8 category, action;
+554c0a3abf216c Hans de Goede     2017-03-29  2552  	struct adapter *padapter;
+554c0a3abf216c Hans de Goede     2017-03-29 @2553  	struct rtw_wdev_priv *pwdev_priv;
+554c0a3abf216c Hans de Goede     2017-03-29  2554  
+cd1f1450092216 Michael Straube   2021-08-29  2555  	if (!ndev) {
+554c0a3abf216c Hans de Goede     2017-03-29  2556  		ret = -EINVAL;
+554c0a3abf216c Hans de Goede     2017-03-29  2557  		goto exit;
+554c0a3abf216c Hans de Goede     2017-03-29  2558  	}
+554c0a3abf216c Hans de Goede     2017-03-29  2559  
+42a18f09bcb900 Ivan Safonov      2020-10-11  2560  	padapter = rtw_netdev_priv(ndev);
+554c0a3abf216c Hans de Goede     2017-03-29  2561  	pwdev_priv = adapter_wdev_data(padapter);
+554c0a3abf216c Hans de Goede     2017-03-29  2562  
+554c0a3abf216c Hans de Goede     2017-03-29  2563  	/* cookie generation */
+554c0a3abf216c Hans de Goede     2017-03-29  2564  	*cookie = (unsigned long)buf;
+554c0a3abf216c Hans de Goede     2017-03-29  2565  
+554c0a3abf216c Hans de Goede     2017-03-29  2566  	/* indicate ack before issue frame to avoid racing with rsp frame */
+554c0a3abf216c Hans de Goede     2017-03-29  2567  	rtw_cfg80211_mgmt_tx_status(padapter, *cookie, buf, len, ack, GFP_KERNEL);
+554c0a3abf216c Hans de Goede     2017-03-29  2568  
+04c35396c5c6c6 Fabio Aiuto       2021-04-10  2569  	if (rtw_action_frame_parse(buf, len, &category, &action) == false)
+554c0a3abf216c Hans de Goede     2017-03-29  2570  		goto exit;
+554c0a3abf216c Hans de Goede     2017-03-29  2571  
+554c0a3abf216c Hans de Goede     2017-03-29  2572  	rtw_ps_deny(padapter, PS_DENY_MGNT_TX);
+51c8299a031c19 Kang Minchul      2022-09-22  2573  	if (rtw_pwr_wakeup(padapter) == _FAIL) {
+554c0a3abf216c Hans de Goede     2017-03-29  2574  		ret = -EFAULT;
+554c0a3abf216c Hans de Goede     2017-03-29  2575  		goto cancel_ps_deny;
+554c0a3abf216c Hans de Goede     2017-03-29  2576  	}
+554c0a3abf216c Hans de Goede     2017-03-29  2577  
+554c0a3abf216c Hans de Goede     2017-03-29  2578  	do {
+554c0a3abf216c Hans de Goede     2017-03-29  2579  		dump_cnt++;
+554c0a3abf216c Hans de Goede     2017-03-29  2580  		tx_ret = _cfg80211_rtw_mgmt_tx(padapter, tx_ch, buf, len);
+554c0a3abf216c Hans de Goede     2017-03-29  2581  	} while (dump_cnt < dump_limit && tx_ret != _SUCCESS);
+554c0a3abf216c Hans de Goede     2017-03-29  2582  
+554c0a3abf216c Hans de Goede     2017-03-29  2583  cancel_ps_deny:
+554c0a3abf216c Hans de Goede     2017-03-29  2584  	rtw_ps_deny_cancel(padapter, PS_DENY_MGNT_TX);
+554c0a3abf216c Hans de Goede     2017-03-29  2585  exit:
+554c0a3abf216c Hans de Goede     2017-03-29  2586  	return ret;
+554c0a3abf216c Hans de Goede     2017-03-29  2587  }
+554c0a3abf216c Hans de Goede     2017-03-29  2588  
+
+:::::: The code at line 2553 was first introduced by commit
+:::::: 554c0a3abf216c991c5ebddcdb2c08689ecd290b staging: Add rtl8723bs sdio wifi driver
+
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
