@@ -1,100 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE57D17D8A5;
-	Tue, 25 Jun 2024 21:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC71217E8F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jun 2024 21:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719352374; cv=none; b=HsPUBTjS+Te7xjvaGVN3oETjFW4IuuhpLzNc+QizWSEOeZtrI2yGQBKR69LCzu8o/13aj744PaTNf7F973ms2oFgM8mUtplCvxXZdte0+mlI6jm0tscuvwM5NI2SCm2seiLy0KaF3GkAd8qX1wkyx98vONRiBxwzGdlM6Dq+7xY=
+	t=1719352591; cv=none; b=gI9AT+N3D8dcD9P1msoAAPs9FEK5BPNn9IIABBbfht8hJq6Q4Ci5Bcf95svf8w/KunaOCtt7TncbLV6so5NKXBIYGIKUwFtqwT0xDNlr3yL3Vg/SnN1SN6G5AO5ZdB6Dczcj+lnt0vy1KioDFHiPOorrB7mbkyHkOAxJNRzxr44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719352374; c=relaxed/simple;
-	bh=G6GOHUSnoxrYjNbOCPF7hY75PTqZowehFbGl4aaLeSc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=C16B1ycV7EE4HnJANhUUvqElK6dgMmsrnysumVXj58Vn07XwVA071E4FcW6f3aCfG9c2la0SXWQw44XuX9HZeKRej731MLyTD4LB/QRy6iwO719NEquku87KdV8inminL6676ZXtUle548SilP/8YFL+CJKR9qcYiDQeuK7tYnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=OKHkg445; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719352591; c=relaxed/simple;
+	bh=GuWNAbs7bjOaL4xc/BCWazvANohjlV1xZcqX4cb6aYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G9eM1yYliBGIKFCwUYCPID/QfIoyt9uZFmHBe4BIDpmOEM0stjn9eQ3SCEBSylHAauEyUvAGplIwnDlTgeH1EDtTZD0VSWZHq9+lRWA/o4iUw+1+qQgnkLHLn2LhKsi0Uo5/DWtbFzDWWQxwMyEWIO4170PJld52Wmvj9SBX1jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euGDFgYI; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OKHkg445"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F90CC32781;
-	Tue, 25 Jun 2024 21:52:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1719352373;
-	bh=G6GOHUSnoxrYjNbOCPF7hY75PTqZowehFbGl4aaLeSc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OKHkg445PwrR26/Gvds2THaNYUdszmNn2mqwHCeJ3tzbW340Cko9xEGPVYuGqQ/Mf
-	 TB2iqdnVRgguJLDilrK83MFBxqkYkdILmTTnGoSKTeJwqaSOJKn0yfnS1Uq+CmuAqm
-	 JzAgDO8We3BJvnZEIjHGR3KhXMMVqujz5Sm10n0Q=
-Date: Tue, 25 Jun 2024 14:52:52 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Lance Yang <ioworker0@gmail.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 7701/8232] mm/huge_memory.c:2735:31:
- warning: variable 'page' is uninitialized when used here
-Message-Id: <20240625145252.d78d18a109cb6bf84eefb5f7@linux-foundation.org>
-In-Reply-To: <202406260514.SLhNM9kQ-lkp@intel.com>
-References: <202406260514.SLhNM9kQ-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euGDFgYI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719352589; x=1750888589;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GuWNAbs7bjOaL4xc/BCWazvANohjlV1xZcqX4cb6aYc=;
+  b=euGDFgYIni1RyIWe6inr+QYYSCoTHoHj3mODwBPmUO4By/paVGRnqYPs
+   Kr26F6zuAonUUBr9+6XuL4aPXC2Sj3IRAKFNekJCbzSEPL9Xyr15iiYXq
+   Gl3a21u/6fWstoblxC7jlf4nZmo/Wk3+G+rWI2ZP/BHlHmKPj4bNQXkf0
+   UoOGI48xTHNofgy6HmbtjiehwrZe6u85Mg14fH3rg9pCC6kjQS3S9kej1
+   3sTUnsbSuADyXE+lhF0rlPuNeysK9g81Xs7fFrE4J5Azp23DUhZphLcuW
+   K+yjbqvda/ZwfRKu39hLgFeHeVCDtx+RzE9PrPeki9B10Zun/V0iLcM+a
+   Q==;
+X-CSE-ConnectionGUID: 4CGiyA1qTt20fGdjAPLKtg==
+X-CSE-MsgGUID: bkzjV9hWQkCY2n/euVPr0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="20280752"
+X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
+   d="scan'208";a="20280752"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 14:56:29 -0700
+X-CSE-ConnectionGUID: pELEltEYQ9isSrYY+jItRw==
+X-CSE-MsgGUID: hQBpxJTqSCmHvPdzCK8TVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
+   d="scan'208";a="43856013"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Jun 2024 14:56:27 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sME9J-000Ekc-0Q;
+	Tue, 25 Jun 2024 21:56:25 +0000
+Date: Wed, 26 Jun 2024 05:56:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: alexjlzheng@gmail.com, chandan.babu@oracle.com, djwong@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alexjlzheng@tencent.com
+Subject: Re: [PATCH] xfs: make xfs_log_iovec independent from xfs_log_vec and
+ release it early
+Message-ID: <202406260523.tGxY7QOx-lkp@intel.com>
+References: <20240623123119.3562031-1-alexjlzheng@tencent.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240623123119.3562031-1-alexjlzheng@tencent.com>
 
-On Wed, 26 Jun 2024 05:39:54 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-> commit: 4627108658d68fad359600dbe667b88b501cee71 [7701/8232] mm/vmscan: avoid split lazyfree THP during shrink_folio_list()
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240626/202406260514.SLhNM9kQ-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260514.SLhNM9kQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406260514.SLhNM9kQ-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> mm/huge_memory.c:2735:31: warning: variable 'page' is uninitialized when used here [-Wuninitialized]
->     2735 |         folio_remove_rmap_pmd(folio, page, vma);
->          |                                      ^~~~
->    mm/huge_memory.c:2699:19: note: initialize the variable 'page' to silence this warning
->     2699 |         struct page *page;
->          |                          ^
->          |                           = NULL
->    1 warning generated.
-> 
-> 
+kernel test robot noticed the following build warnings:
 
-um yes. 
-https://lore.kernel.org/all/20240622100057.3352-1-ioworker0@gmail.com/T/#u
-removed the initialization.
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on linus/master v6.10-rc5 next-20240625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I'll do this, because I'm about to push a tree out:
+url:    https://github.com/intel-lab-lkp/linux/commits/alexjlzheng-gmail-com/xfs-make-xfs_log_iovec-independent-from-xfs_log_vec-and-release-it-early/20240625-192710
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20240623123119.3562031-1-alexjlzheng%40tencent.com
+patch subject: [PATCH] xfs: make xfs_log_iovec independent from xfs_log_vec and release it early
+config: i386-buildonly-randconfig-004-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260523.tGxY7QOx-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260523.tGxY7QOx-lkp@intel.com/reproduce)
 
---- a/mm/huge_memory.c~hack
-+++ a/mm/huge_memory.c
-@@ -2697,7 +2697,6 @@ static bool __discard_anon_folio_pmd_loc
- 	struct mm_struct *mm = vma->vm_mm;
- 	int ref_count, map_count;
- 	pmd_t orig_pmd = *pmdp;
--	struct page *page;
- 
- 	if (folio_test_dirty(folio) || pmd_dirty(orig_pmd))
- 		return false;
-@@ -2733,7 +2732,7 @@ static bool __discard_anon_folio_pmd_loc
- 		return false;
- 	}
- 
--	folio_remove_rmap_pmd(folio, page, vma);
-+	folio_remove_rmap_pmd(folio, pmd_page(orig_pmd), vma);
- 	zap_deposited_table(mm, pmdp);
- 	add_mm_counter(mm, MM_ANONPAGES, -HPAGE_PMD_NR);
- 	if (vma->vm_flags & VM_LOCKED)
-_
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260523.tGxY7QOx-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from fs/xfs/libxfs/xfs_da_btree.c:24:
+   fs/xfs/xfs_log.h: In function 'xlog_finish_iovec':
+>> fs/xfs/xfs_log.h:46:34: warning: unused variable 'lvec' [-Wunused-variable]
+      46 |         struct xfs_log_iovec    *lvec = lv->lv_iovecp;
+         |                                  ^~~~
+
+
+vim +/lvec +46 fs/xfs/xfs_log.h
+
+    38	
+    39	void *xlog_prepare_iovec(struct xfs_log_vec *lv, struct xfs_log_iovec **vecp,
+    40			uint type);
+    41	
+    42	static inline void
+    43	xlog_finish_iovec(struct xfs_log_vec *lv, struct xfs_log_iovec *vec,
+    44			int data_len)
+    45	{
+  > 46		struct xfs_log_iovec	*lvec = lv->lv_iovecp;
+    47		struct xlog_op_header	*oph = vec->i_addr;
+    48		int			len;
+    49	
+    50		/*
+    51		 * Always round up the length to the correct alignment so callers don't
+    52		 * need to know anything about this log vec layout requirement. This
+    53		 * means we have to zero the area the data to be written does not cover.
+    54		 * This is complicated by fact the payload region is offset into the
+    55		 * logvec region by the opheader that tracks the payload.
+    56		 */
+    57		len = xlog_calc_iovec_len(data_len);
+    58		if (len - data_len != 0) {
+    59			char	*buf = vec->i_addr + sizeof(struct xlog_op_header);
+    60	
+    61			memset(buf + data_len, 0, len - data_len);
+    62		}
+    63	
+    64		/*
+    65		 * The opheader tracks aligned payload length, whilst the logvec tracks
+    66		 * the overall region length.
+    67		 */
+    68		oph->oh_len = cpu_to_be32(len);
+    69	
+    70		len += sizeof(struct xlog_op_header);
+    71		lv->lv_buf_len += len;
+    72		lv->lv_bytes += len;
+    73		vec->i_len = len;
+    74	
+    75		/* Catch buffer overruns */
+    76		ASSERT((void *)lv->lv_buf + lv->lv_bytes <= (void *)lvec + lv->lv_size);
+    77	}
+    78	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
