@@ -1,139 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58B317BB2C;
-	Tue, 25 Jun 2024 20:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0EF17DE02;
+	Tue, 25 Jun 2024 20:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719347888; cv=none; b=a4gYiPPKEL2YluZ/QheCiCXVLdLU5y9eoD+JI9Geh7FhhzglQg+JmarrnswN86y30ruvAo3zmrx2KKHqV59EXIJaOwi3/YLyjEGBZMDR4FwieOKN5KJ7Sy0gqWB2tRz+1sImNFe5O9Hfw2S3nkACjG1CUPAhyWNC2y/UTssUGz8=
+	t=1719348742; cv=none; b=Hq9fofpGSqRVeUgWue1M4NHwpLl5KjxFYAfZNUGsrgkc0j66iUWEZZeIZYftXnP8T5pksEabQAKtidBa+Il9zhysyHYZQQEEeNLtOVov4Qy/6uiVdrfCcQkxrYJbp4zFNycoqNyVEPVUHitp2b9n36HmBlt5bj0rtvG9BhIeW+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719347888; c=relaxed/simple;
-	bh=0Jqrl/qlVfq1gy0QWHy/E56JtqX6xRFcKBK8/J54FbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uSxOA9VJGATgB1uKmspmD6tcSKsRJyCb0R3O5Vl0miRALhCwuP1GO1nHIql2Yl6PbYvmdR37ov+Y5W5qeVq8vtQ42v878LI/y/pU9Tpul6yG5AknPWJnevp8ss9bQS2xWHv01Z0rGYLwotsm8p38Gs0W6aF2x+T0bk8lMAwTU4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TX5YN5aY; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719348742; c=relaxed/simple;
+	bh=hiJgA6/DnnANN9qeLVXHvmiZDMqRcf+ipIv+ikZ+/GE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JbFW54Ut7s5V/Kvm8+IdqhzVcztyuIY7a2T+MfvbnkRACbu0d7B+jVYz8LWa5w6hT2HO7HojjdPAXvUSVDJ/ETDzUbkA7Ek6h4mSPEDRkJXoI1rm30YE0Fwi9hIxIf6IRkz18Qwn4hL0RGALCkyipVQOfLMmVCKP5ELcHdGzcjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C+Gogdw2; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TX5YN5aY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719347887; x=1750883887;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Jqrl/qlVfq1gy0QWHy/E56JtqX6xRFcKBK8/J54FbY=;
-  b=TX5YN5aYmhQVjZyRv48l7VqcQ/lr5ywjEgXZRCemx+SuWhXZOdE/HDdF
-   JBkda6MbEtQeQIyYcSEMzREJpti8US+4HzP9wIzGWT/pvgHiTq9EtJl9y
-   vJfwn3SlRQe0N+tnIPu07efFqmGkfs7gf9H5l/HsV2ayHyxKN0CtLH9+T
-   nGOjmZN407F70OYDtsO1Jh4a8FhAvIrIbX1GzmNfGkwf71M1WmQjGWtxy
-   HPfUcIcPbBCq82FUfpIur694zj/voGek1I84a0y792azPj8hOWL3KO7Dw
-   8HlG8Nec2EuHRdxw9nREXh/PtUxzGANuXZcKiOW96rYe5f43dOAk837lz
-   w==;
-X-CSE-ConnectionGUID: jnyQ/yBxQie6MlWshcxNeQ==
-X-CSE-MsgGUID: 6HoBtaBvQfGYk5hrrrN6ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16073768"
-X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="16073768"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 13:38:06 -0700
-X-CSE-ConnectionGUID: A+WG40+ZRBKiJOXGn88kHw==
-X-CSE-MsgGUID: dLkWVpYzRl+4oT3dKRuWxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="48216201"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Jun 2024 13:38:04 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMCvS-000EiE-1w;
-	Tue, 25 Jun 2024 20:38:02 +0000
-Date: Wed, 26 Jun 2024 04:37:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: arch/arm/mm/proc.c:82:6: error: conflicting types for
- 'cpu_arm920_reset'
-Message-ID: <202406260432.6WGV2jCk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+Gogdw2"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57d0f84b379so898994a12.2;
+        Tue, 25 Jun 2024 13:52:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719348739; x=1719953539; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PHRkc9t07SlstseLeIgt/BF9i+oxbwcefEU9UF9cIXw=;
+        b=C+Gogdw2oM86NC+SeHf7t7tywgV/t7Nevq4tGy4c4bxUhE5QLuqNzLgGgbF6tGyKev
+         l9VMHEU+gNlxmaKb4VlSwM92VY08HfgXKjTkMT1yTgHurFxhCbSK1x6cslQ8Y6+mBLwE
+         6BUa+pIPasQeDpq0jlSTn08oh01JvmUbt2FctokNby81oxV6OX/mMXNVz7VPwdZDBKIo
+         hW3VEcqk6RvlnX0tyjaqwc7Wg4ILM+5RNgfZxST5Z4LTTYIVTNJ37Ep5K5ws3zbn9i6o
+         U9jRrTob8NLbVasZ8b/UKSxFJop5gyTG0vbpY5/mSe0fV9QoyLoB0YZSXMP6ThOa+L7A
+         FdzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719348739; x=1719953539;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PHRkc9t07SlstseLeIgt/BF9i+oxbwcefEU9UF9cIXw=;
+        b=bcXJanjDyMZUZgen4LSwaPYUCmtFNG/0tRX8nt1ckzFcnM4DyjwwUpgX38uOnE3rB4
+         7X/NACqDHzgYQ3+LoXodDpoWzi2/Eg7+/Wfync+7bf3pCuuI1QPs2Eto7B95J7g67o/V
+         nKJD6Kq8rPkv7ajJ4Mqd7D2ggsVOnyFIyqhSv8F1+9wbnC25TRUoOP8bG8mP1nppjX7H
+         EWP5eKp+AF/6As2tBlKtocsDs8y3r6Fi5MQ4x3EkFu4KH94Clx895MeYgYGKVZh1nKmy
+         EiqPpVGzNBIHNWuLMGwyjAr0DT6/ydc8MXopjEuhOkEA5y2+xWkbB7K/vl91tKrxsiw7
+         Njnw==
+X-Forwarded-Encrypted: i=1; AJvYcCVeF5+jj9wVU9krgkg72vuHKrBM36puUAwFCjOnZAkwvDFxoW6/V6DSbXt4JS79n6WoTs8aLG5vJ+3EX3Z2sTiu3Uh4OqQWABgop32Bq1N8MVV2dRS44nj9OkRWv+02gvNBMmXowPYDGR5r0xc=
+X-Gm-Message-State: AOJu0YwAxFxAwPJ1hjqcj2u4jQkznBDBzctjshrOnvxd7KmtL4j0b5g+
+	5L/m0TRU8yBDckuPgyq9iOOG72i+6Z3mFXVZ8v5LT4hgZ4B2TeORn9flXg==
+X-Google-Smtp-Source: AGHT+IGJnMiPU6FZQ9JOoLfal1V/WdfxPP5gjVBj6ljb7cVv+CJoVMW8AM6Z0i7Q6QmMjOqdkU49BA==
+X-Received: by 2002:a05:6402:40d5:b0:57d:432a:582f with SMTP id 4fb4d7f45d1cf-57d432a5e3amr8476020a12.1.1719348739093;
+        Tue, 25 Jun 2024 13:52:19 -0700 (PDT)
+Received: from [192.168.0.104] (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d3056301bsm6349566a12.89.2024.06.25.13.52.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jun 2024 13:52:18 -0700 (PDT)
+Message-ID: <9dc47763-1c44-4283-8692-5e7dce14a0e2@gmail.com>
+Date: Tue, 25 Jun 2024 22:52:18 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: rtl8192e: Fix conflicting types error with
+ net_device.
+To: Teddy Engel <engel.teddy@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>
+References: <20240625163334.11117-1-engel.teddy@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240625163334.11117-1-engel.teddy@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   55027e689933ba2e64f3d245fb1ff185b3e7fc81
-commit: 1a4fec49efe5273eb2fcf575175a117745f76f97 ARM: 9392/2: Support CLANG CFI
-date:   8 weeks ago
-config: arm-randconfig-002-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260432.6WGV2jCk-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260432.6WGV2jCk-lkp@intel.com/reproduce)
+On 6/25/24 18:33, Teddy Engel wrote:
+> Add a pre-declaration of struct net_device so the compiler is able to
+> use rtl_pci.h / rtl_cam.h.
+> 
+> Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202406250858.L8rJMHQm-lkp@intel.com/
+> Fixes: 7dff0b27d9c8 ("staging: rtl8192e: Remove unnecessary pre-declaration of struct net_device")
+> ---
+> v3: Replace ad-hoc commit id / subject by expected Fixes tag.
+> v2: Add commit id / commit subject  under description.
+> 
+>   drivers/staging/rtl8192e/rtl8192e/rtl_cam.h | 2 ++
+>   drivers/staging/rtl8192e/rtl8192e/rtl_pci.h | 2 ++
+>   2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h
+> index 3a5635494385..9deffdf96072 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h
+> @@ -12,6 +12,8 @@
+>   
+>   #include <linux/types.h>
+>   
+> +struct net_device;
+> +
+>   void rtl92e_cam_reset(struct net_device *dev);
+>   void rtl92e_enable_hw_security_config(struct net_device *dev);
+>   void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h
+> index c645775b2150..3e39c4835ac8 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h
+> @@ -13,6 +13,8 @@
+>   #include <linux/types.h>
+>   #include <linux/pci.h>
+>   
+> +struct net_device;
+> +
+>   bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev);
+>   
+>   #endif
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260432.6WGV2jCk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> arch/arm/mm/proc.c:82:6: error: conflicting types for 'cpu_arm920_reset'
-      82 | void cpu_arm920_reset(void);
-         |      ^
-   arch/arm/include/asm/proc-fns.h:96:13: note: previous declaration is here
-      96 | extern void cpu_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
-         |             ^
-   arch/arm/include/asm/glue-proc.h:251:21: note: expanded from macro 'cpu_reset'
-     251 | #define cpu_reset                       __glue(CPU_NAME,_reset)
-         |                                         ^
-   arch/arm/include/asm/glue.h:20:26: note: expanded from macro '__glue'
-      20 | #define __glue(name,fn)         ____glue(name,fn)
-         |                                 ^
-   arch/arm/include/asm/glue.h:16:27: note: expanded from macro '____glue'
-      16 | #define ____glue(name,fn)       name##fn
-         |                                 ^
-   <scratch space>:70:1: note: expanded from here
-      70 | cpu_arm920_reset
-         | ^
-   1 error generated.
-
-
-vim +/cpu_arm920_reset +82 arch/arm/mm/proc.c
-
-393999fa96273b Linus Walleij 2024-04-23  76  
-393999fa96273b Linus Walleij 2024-04-23  77  #ifdef CONFIG_CPU_ARM920T
-393999fa96273b Linus Walleij 2024-04-23  78  void cpu_arm920_proc_init(void);
-393999fa96273b Linus Walleij 2024-04-23  79  __ADDRESSABLE(cpu_arm920_proc_init);
-393999fa96273b Linus Walleij 2024-04-23  80  void cpu_arm920_proc_fin(void);
-393999fa96273b Linus Walleij 2024-04-23  81  __ADDRESSABLE(cpu_arm920_proc_fin);
-393999fa96273b Linus Walleij 2024-04-23 @82  void cpu_arm920_reset(void);
-393999fa96273b Linus Walleij 2024-04-23  83  __ADDRESSABLE(cpu_arm920_reset);
-393999fa96273b Linus Walleij 2024-04-23  84  int cpu_arm920_do_idle(void);
-393999fa96273b Linus Walleij 2024-04-23  85  __ADDRESSABLE(cpu_arm920_do_idle);
-393999fa96273b Linus Walleij 2024-04-23  86  void cpu_arm920_dcache_clean_area(void *addr, int size);
-393999fa96273b Linus Walleij 2024-04-23  87  __ADDRESSABLE(cpu_arm920_dcache_clean_area);
-393999fa96273b Linus Walleij 2024-04-23  88  void cpu_arm920_switch_mm(phys_addr_t pgd_phys, struct mm_struct *mm);
-393999fa96273b Linus Walleij 2024-04-23  89  __ADDRESSABLE(cpu_arm920_switch_mm);
-393999fa96273b Linus Walleij 2024-04-23  90  void cpu_arm920_set_pte_ext(pte_t *ptep, pte_t pte, unsigned int ext);
-393999fa96273b Linus Walleij 2024-04-23  91  __ADDRESSABLE(cpu_arm920_set_pte_ext);
-393999fa96273b Linus Walleij 2024-04-23  92  #ifdef CONFIG_ARM_CPU_SUSPEND
-393999fa96273b Linus Walleij 2024-04-23  93  void cpu_arm920_do_suspend(void *);
-393999fa96273b Linus Walleij 2024-04-23  94  __ADDRESSABLE(cpu_arm920_do_suspend);
-393999fa96273b Linus Walleij 2024-04-23  95  void cpu_arm920_do_resume(void *);
-393999fa96273b Linus Walleij 2024-04-23  96  __ADDRESSABLE(cpu_arm920_do_resume);
-393999fa96273b Linus Walleij 2024-04-23  97  #endif /* CONFIG_ARM_CPU_SUSPEND */
-393999fa96273b Linus Walleij 2024-04-23  98  #endif /* CONFIG_CPU_ARM920T */
-393999fa96273b Linus Walleij 2024-04-23  99  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 393999fa96273bab8d6efb2f4724030916afd61b ARM: 9389/2: mm: Define prototypes for all per-processor calls
-
-:::::: TO: Linus Walleij <linus.walleij@linaro.org>
-:::::: CC: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
