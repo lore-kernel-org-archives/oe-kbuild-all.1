@@ -1,77 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5484E19149E;
-	Wed, 26 Jun 2024 21:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CF1190664
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 21:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719435806; cv=none; b=MwpnChXKRRR2JsFzxiM5OHBHmmKmPZVeTY5lX+1jHGy9c3ryWmlUZk5o4yCgpolT5MgxY0kn0zoi9cjcWg2E4psbREzaaiYqJ3j1YLC0iedCS1yi1hWTvDSwsERetzubLGG8zG9deb/W4zjM2ykqWTiGxahRxsecYkbbDN7Tszw=
+	t=1719436985; cv=none; b=G7c858fKpHuBTqf5z/fS9ELBpYyif1jtLRjH3NCKeVQc4Jjvr4IWQ5JtciE7kFsGL2z6GA8GJfujPzmOtnITwVZbTxG3JondFBwA8w+JcRCOwmkhOvCBHzO9P5qhkv4t3n0f3gz907bpLDcq1Wvob2U69Wk6npXr7WG9E6hOwaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719435806; c=relaxed/simple;
-	bh=Hr0cYQOnT8q2iekB4fnYppelItCZeQ6LII/9879q54Y=;
+	s=arc-20240116; t=1719436985; c=relaxed/simple;
+	bh=f4nVLOzta92hqUMfbJwPA04s+mQnQATUqGTW4c+CO3s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KlfUO7W0wTA5f+m8xseoMIzbjZXpwXy926X7jCS6eBecgC+OrMhujpUQBm/WflS5MN2tzQdm1wdDcYjk1fo+MCa0AqQWn3ln5ZVCgTbFRP2ejOQ8CGYywM6+H3wXW6vtyh0v2NJux0GU0ZhlW3P+GrFAzuj8zXv4owGcddMs6Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vB+GkfyY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1MpiRB6qnXNmStMl+khLEyTFvl3l77ZGLcAjdx1JPZrxzn8CjKrjiliHkl+1M6BaphGAWjZeXCg5PrB6e0sOGd5HEdI3wO6+HUTJJy0CLe/SorNgq+Su4HMPqLoW4UqsMBbxm1OxXtQ/KkqO6ru3C5kqDgNao0zZbWo2BXpKJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHFElrjU; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vB+GkfyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D2BC116B1;
-	Wed, 26 Jun 2024 21:03:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719435806;
-	bh=Hr0cYQOnT8q2iekB4fnYppelItCZeQ6LII/9879q54Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vB+GkfyY3eApzMyqyZEJNDNlzPWrONWNassqdBx+DWbKo1UHZoD4GFnwpw8EyoPxc
-	 XqfjAwmftHUyMU18kjlUqWuDxEhMnS2dWLsiNMRAvRgUjzEFeHf8XnjGkJpekTPBtm
-	 qFAKlldeDx3n7O+8SJ3sY6deSoNTxdywzsNjO1PSWNKOKizDzDGU8D/5mTZGewY6FE
-	 yMqF3WQ4hSXGNaKQ3e9DCZLxcr6MrSbp/a9lu9RVPRwEm8xC2qs5jxeecblXJYck2a
-	 oshFdjZAUkjUcTjX8Y8sTydJNpH04VjbKGPjcML7M7o3yCBoeNr2Nf9e8FulvOK+OC
-	 uF06wZFIoFG8Q==
-Date: Wed, 26 Jun 2024 14:03:24 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: arch/arm/mm/proc.c:82:6: error: conflicting types for
- 'cpu_arm920_reset'
-Message-ID: <20240626210324.GA109435@fedora-macbook-air-m2>
-References: <202406260432.6WGV2jCk-lkp@intel.com>
- <20240626172154.GA50752@fedora-macbook-air-m2>
- <CACRpkdaXd1sosdWzWOpbtin1h2NFS88Dc3ZfXhyix+t1uC1L8A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHFElrjU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719436984; x=1750972984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f4nVLOzta92hqUMfbJwPA04s+mQnQATUqGTW4c+CO3s=;
+  b=kHFElrjUhr0ruf2kLfo0ZosVeHwAOle0At2FGy++0XzkYWB0Jy/BL7i8
+   tT0f2w3EGSvS46ecEfbV+i6k4Re3gyCUdq9QKkrNZNAFhHeWaFRPqaBWC
+   h+HyQgRrUKiC0kVrI8qNDqaEiwuPCe6W1IDFS2gB1LpOYo8qdA/rkQwU9
+   AdYa4M+feMo9ENXBiF3rVbNN+YI8LAM6M3MDY9sPkcc5Jok03I86FsEgk
+   NBXEEbUJzn8GUEdufs1pOObtg4Aw38LKCS4+VetCy/fNtJVeYNGPAtYCv
+   v/43haQhAMMUEFJwdhWE09eKVRux/NRpFp6wj0XOrB34Sh/bIdsvc1J7U
+   A==;
+X-CSE-ConnectionGUID: xkFapDlJTRGmawVFFxKSpA==
+X-CSE-MsgGUID: HGZ534VfTrCHwXcKhXBMvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="20307545"
+X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
+   d="scan'208";a="20307545"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 14:23:03 -0700
+X-CSE-ConnectionGUID: eucNGz6ARgWIexgd0PGxqw==
+X-CSE-MsgGUID: vVdluytuQzCpKty0TEu4kA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
+   d="scan'208";a="43962303"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Jun 2024 14:22:59 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMa6S-000FZD-24;
+	Wed, 26 Jun 2024 21:22:56 +0000
+Date: Thu, 27 Jun 2024 05:22:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, tglx@linutronix.de,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	tsbogend@alpha.franken.de, daniel.lezcano@linaro.org,
+	paulburton@kernel.org, peterz@infradead.org, mail@birger-koblitz.de,
+	bert@biot.com, john@phrozen.org, sander@svanheule.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+	kabel@kernel.org, ericwouds@gmail.com,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Markus Stockhausen <markus.stockhausen@gmx.de>
+Subject: Re: [PATCH v2 6/8] clocksource: realtek: Add timer driver for
+ rtl-otto platforms
+Message-ID: <202406270511.czjiMAQk-lkp@intel.com>
+References: <20240624012300.1713290-7-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdaXd1sosdWzWOpbtin1h2NFS88Dc3ZfXhyix+t1uC1L8A@mail.gmail.com>
+In-Reply-To: <20240624012300.1713290-7-chris.packham@alliedtelesis.co.nz>
 
-On Wed, Jun 26, 2024 at 10:59:11PM +0200, Linus Walleij wrote:
-> On Wed, Jun 26, 2024 at 7:21 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> 
-> > Hmmm, it seems like the prototypes of the reset functions in
-> > arch/arm/mm/proc.c are incorrect? This builds for me with the original
-> > configuration and allmodconfig + CONFIG_CFI_CLANG=y.
-> 
-> Incidentally I fixed it earlier today!
-> https://lore.kernel.org/linux-arm-kernel/20240626-arm-proto-regression-v1-1-089c23ea13dd@linaro.org/
+Hi Chris,
 
-Aha, I did not go searching like I normally do to see if a patch was
-already sent for it, guess that would have saved me a little time :)
+kernel test robot noticed the following build warnings:
 
-> I added you on Reported-by for now.
-> 
-> > +void cpu_arm7tdmi_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
-> 
-> The attribute is not needed on the prototype AFAICT?
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on tip/timers/core tip/irq/core tip/smp/core linus/master v6.10-rc5 next-20240625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think that in general, noreturn needs to be on prototypes, but for
-this prototype/the sake of CFI, I don't think it matters. Sami is free
-to correct me though.
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/mips-dts-realtek-use-serial-instead-of-uart-in-node-name/20240626-054938
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240624012300.1713290-7-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH v2 6/8] clocksource: realtek: Add timer driver for rtl-otto platforms
+config: m68k-randconfig-r081-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270511.czjiMAQk-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270511.czjiMAQk-lkp@intel.com/reproduce)
 
-Cheers,
-Nathan
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406270511.czjiMAQk-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/tegra/hdmi.c:35:
+>> drivers/gpu/drm/tegra/hdmi.h:122: warning: "ACR_ENABLE" redefined
+     122 | #define ACR_ENABLE         (1 << 31)
+         | 
+   In file included from arch/m68k/include/asm/m520xsim.h:19,
+                    from arch/m68k/include/asm/mcfsim.h:24,
+                    from arch/m68k/include/asm/io_no.h:35,
+                    from arch/m68k/include/asm/io.h:6,
+                    from include/linux/io.h:14,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from include/linux/cgroup.h:26,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from include/linux/regulator/consumer.h:35,
+                    from drivers/gpu/drm/tegra/hdmi.c:17:
+   arch/m68k/include/asm/m52xxacr.h:47: note: this is the location of the previous definition
+      47 | #define ACR_ENABLE      0x00008000      /* Enable this ACR */
+         | 
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for COMMON_CLK
+   Depends on [n]: !HAVE_LEGACY_CLK [=y]
+   Selected by [y]:
+   - REALTEK_OTTO_TIMER [=y] && GENERIC_CLOCKEVENTS [=y]
+
+
+vim +/ACR_ENABLE +122 drivers/gpu/drm/tegra/hdmi.h
+
+edec4af4c3d6d22 Thierry Reding 2012-11-15  119  
+edec4af4c3d6d22 Thierry Reding 2012-11-15  120  #define ACR_SUBPACK_CTS(x) (((x) & 0xffffff) << 8)
+edec4af4c3d6d22 Thierry Reding 2012-11-15  121  #define ACR_SUBPACK_N(x)   (((x) & 0xffffff) << 0)
+edec4af4c3d6d22 Thierry Reding 2012-11-15 @122  #define ACR_ENABLE         (1 << 31)
+edec4af4c3d6d22 Thierry Reding 2012-11-15  123  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
