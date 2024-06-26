@@ -1,65 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5478318A929
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 16:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226B61849EF;
+	Wed, 26 Jun 2024 16:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719418863; cv=none; b=IeRY2AX4AKkL+VbQbe1JAHOKhmmzwL1ZqVrk6wLtEq21WP2OWwrG9rE2E1sYUISHyFi2TP3XWZPGAM1KG71AW+84iIygIkxUu9imduME7ytOA7kwg2ajluKCiL+tWlEz6seO859DLMo6LUO/MebKjrY7e4x17IrOZi1KQuztaYw=
+	t=1719418985; cv=none; b=Z9h+hLcdMD1x6m2CeZwcGzpPLO1U3JnjCl7JJMEtOUdwbY4+d2ZgvnL6Ggq8w4TqDQeAF2m3COg0KfAhLZXRb4Tzxdvw8SuN0x/U5mps5k9zR6BRSFmSXMnniZ3VU3N8jtSW+Ych0PHNAsyVtYJqLpVpgc02NPpvHpIqGqEVCZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719418863; c=relaxed/simple;
-	bh=LsemXSMrG0cG28ju3Gs9TGdTHt5METFW5SyoGa42H70=;
+	s=arc-20240116; t=1719418985; c=relaxed/simple;
+	bh=6gFjRqnmAlZ+KmWeNakm51Ebba0HMPjTrguhw4sm/E0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PSPMmZ527uWj9VZj1VrAVze0W/wKl/2QgqcEaAIiiIO66r+tJA6PhubXcNK7cZkdf/MzVbpm8rYrLHSdmiRvBrRJfLoOhWM2HsSl8K92JGalJOpoA9q4JiAyAjJ7F84wbykooFJZmFmxmRe+2jkcP9OkX2qZBp0+CB1INFSQPLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRkJ2pFV; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=WVyIKBGZLwdQ3EM2gKIjNiJMJd0AB29Z5X9GnyH9pkE+wxjC9zA9eI/FYa6S2WpYS+u99cD+BmfUZtrJR/XXHDSkJOu75IKYK2wIXXwfUWga3hM8Epw9xoO12bzOLla+0gJsyZ1iUzP9tXHP+jZHBsx7hy6m1vEUNDdXPMtGABo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YPv+SDn7; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRkJ2pFV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YPv+SDn7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719418862; x=1750954862;
+  t=1719418984; x=1750954984;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LsemXSMrG0cG28ju3Gs9TGdTHt5METFW5SyoGa42H70=;
-  b=RRkJ2pFVLw4bcavcrSWe+2udKUtlSyscEGs8p2n2tLYEV+G51HwbYB6e
-   B8PW3jCaAORXWCqSWlZRdEriShj6PaZSEKfvLIMiiiLfzWaUykAXerOI/
-   E17poGff4eNgiFTV7H93sBNrADDn71Cvr+bbvpL0AKemugKCtdiYWcaVA
-   +/3MBPwDfN4dzexz+ZAnJVplndoDd6F1219tdekA1IgJ1eqQHhcAptYlW
-   c4bRukQFooFBgP7Y+cKELB99+W0TjnHy7clUBH0uEXYKQI2NUBlFUP9tK
-   L7fgFCwLegPAQ0WW2dfJIsB9WMs2BDjD8cmoEum2aKLwAJt1KhfmqkshI
-   g==;
-X-CSE-ConnectionGUID: Elnz8vGsTDSgI5lOJA26vQ==
-X-CSE-MsgGUID: ugyfIpRkQWeF8lnXKjhKkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="19391247"
+  bh=6gFjRqnmAlZ+KmWeNakm51Ebba0HMPjTrguhw4sm/E0=;
+  b=YPv+SDn7/EhbHb3HgVmYD1gHLPuUSgtsAH/+SVu0IMUDFIzLBUn+NavU
+   DeNMJQxUwS8PREfnIyBJRjHNsWle//Hr2XzOw8crUDtGkLS/WBWSDimcm
+   j878TWe3w7agPSbOeFSqmCd1qCzvUVAtTcP0WVB4su1zNSeNmC1gjcFrf
+   fuN3sBkLnQI+1iiHXvA8qCtwWJU+/8zisrVs4sxnm6Qb41m4n4oP0iqo4
+   hMyfCVynLvrCQDfcTJAkSDuCNb0RZ3jn8/FTWG6dR9d8lZM4LpOgd53sS
+   ORus+ZB/O/FjJHsJv5sp9BCIJbVTf9qLT+ZJWn3jkHm1KJxyTUJYC2Jlq
+   w==;
+X-CSE-ConnectionGUID: ADhJoNlRQseRHDJmz8S/dA==
+X-CSE-MsgGUID: nTrUG5MvQ46Sbk5Fghz4Dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16651452"
 X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="19391247"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 09:21:02 -0700
-X-CSE-ConnectionGUID: nu/CRSJUTOStpLIf32WBQA==
-X-CSE-MsgGUID: IICu3xKWQhazFPHuzNdC2Q==
+   d="scan'208";a="16651452"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 09:23:03 -0700
+X-CSE-ConnectionGUID: aqVxw+UeSm2pAi9hLFlh0g==
+X-CSE-MsgGUID: 49XKsDlLR0O245zfXBJvQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="44162877"
+   d="scan'208";a="43930121"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Jun 2024 09:20:59 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Jun 2024 09:23:00 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMVOD-000FNe-1M;
-	Wed, 26 Jun 2024 16:20:57 +0000
-Date: Thu, 27 Jun 2024 00:19:44 +0800
+	id 1sMVQ9-000FNi-1r;
+	Wed, 26 Jun 2024 16:22:57 +0000
+Date: Thu, 27 Jun 2024 00:21:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Hangbin Liu <liuhangbin@gmail.com>
-Subject: Re: [PATCHv2 net-next] bonding: 3ad: send ifinfo notify when mux
- state changed
-Message-ID: <202406270002.Pr7BwyW0-lkp@intel.com>
-References: <20240625070057.2004129-1-liuhangbin@gmail.com>
+To: ran xiaokai <ranxiaokai627@163.com>, akpm@linux-foundation.org,
+	willy@infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, vbabka@suse.cz,
+	svetly.todorov@memverge.com, ran.xiaokai@zte.com.cn,
+	baohua@kernel.org, ryan.roberts@arm.com, peterx@redhat.com,
+	ziy@nvidia.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] kpageflags: fix wrong KPF_THP on non-pmd-mappable
+ compound pages
+Message-ID: <202406262300.iAURISyJ-lkp@intel.com>
+References: <20240626024924.1155558-3-ranxiaokai627@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,50 +68,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625070057.2004129-1-liuhangbin@gmail.com>
+In-Reply-To: <20240626024924.1155558-3-ranxiaokai627@163.com>
 
-Hi Hangbin,
+Hi ran,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.10-rc5 next-20240625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hangbin-Liu/bonding-3ad-send-ifinfo-notify-when-mux-state-changed/20240626-005323
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240625070057.2004129-1-liuhangbin%40gmail.com
-patch subject: [PATCHv2 net-next] bonding: 3ad: send ifinfo notify when mux state changed
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240627/202406270002.Pr7BwyW0-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270002.Pr7BwyW0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/ran-xiaokai/mm-Constify-folio_order-folio_test_pmd_mappable/20240626-113027
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240626024924.1155558-3-ranxiaokai627%40163.com
+patch subject: [PATCH 2/2] kpageflags: fix wrong KPF_THP on non-pmd-mappable compound pages
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240626/202406262300.iAURISyJ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406262300.iAURISyJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406270002.Pr7BwyW0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406262300.iAURISyJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/grace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
->> ERROR: modpost: "rtmsg_ifinfo" [drivers/net/bonding/bonding.ko] undefined!
+>> fs/proc/page.c:151:35: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     151 |         else if (folio_test_pmd_mappable(folio)) {
+         |                                          ^~~~~
+   include/linux/huge_mm.h:438:58: note: passing argument to parameter 'folio' here
+     438 | static inline bool folio_test_pmd_mappable(struct folio *folio)
+         |                                                          ^
+   1 error generated.
+
+
+vim +151 fs/proc/page.c
+
+   108	
+   109	u64 stable_page_flags(const struct page *page)
+   110	{
+   111		const struct folio *folio;
+   112		unsigned long k;
+   113		unsigned long mapping;
+   114		bool is_anon;
+   115		u64 u = 0;
+   116	
+   117		/*
+   118		 * pseudo flag: KPF_NOPAGE
+   119		 * it differentiates a memory hole from a page with no flags
+   120		 */
+   121		if (!page)
+   122			return 1 << KPF_NOPAGE;
+   123		folio = page_folio(page);
+   124	
+   125		k = folio->flags;
+   126		mapping = (unsigned long)folio->mapping;
+   127		is_anon = mapping & PAGE_MAPPING_ANON;
+   128	
+   129		/*
+   130		 * pseudo flags for the well known (anonymous) memory mapped pages
+   131		 */
+   132		if (page_mapped(page))
+   133			u |= 1 << KPF_MMAP;
+   134		if (is_anon) {
+   135			u |= 1 << KPF_ANON;
+   136			if (mapping & PAGE_MAPPING_KSM)
+   137				u |= 1 << KPF_KSM;
+   138		}
+   139	
+   140		/*
+   141		 * compound pages: export both head/tail info
+   142		 * they together define a compound page's start/end pos and order
+   143		 */
+   144		if (page == &folio->page)
+   145			u |= kpf_copy_bit(k, KPF_COMPOUND_HEAD, PG_head);
+   146		else
+   147			u |= 1 << KPF_COMPOUND_TAIL;
+   148	
+   149		if (folio_test_hugetlb(folio))
+   150			u |= 1 << KPF_HUGE;
+ > 151		else if (folio_test_pmd_mappable(folio)) {
+   152			u |= 1 << KPF_THP;
+   153			if (is_huge_zero_folio(folio))
+   154				u |= 1 << KPF_ZERO_PAGE;
+   155		} else if (is_zero_pfn(page_to_pfn(page)))
+   156			u |= 1 << KPF_ZERO_PAGE;
+   157	
+   158		/*
+   159		 * Caveats on high order pages: PG_buddy and PG_slab will only be set
+   160		 * on the head page.
+   161		 */
+   162		if (PageBuddy(page))
+   163			u |= 1 << KPF_BUDDY;
+   164		else if (page_count(page) == 0 && is_free_buddy_page(page))
+   165			u |= 1 << KPF_BUDDY;
+   166	
+   167		if (PageOffline(page))
+   168			u |= 1 << KPF_OFFLINE;
+   169		if (PageTable(page))
+   170			u |= 1 << KPF_PGTABLE;
+   171		if (folio_test_slab(folio))
+   172			u |= 1 << KPF_SLAB;
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
