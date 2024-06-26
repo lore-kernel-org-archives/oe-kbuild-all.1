@@ -1,61 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3EA433B3;
-	Wed, 26 Jun 2024 21:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75ADE190697
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 21:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719439135; cv=none; b=naaU5PBNoYTIbHdTUJo2370kP2BZ/28OR11ZEow72sdMsYnKSatnOTusIMKdN/X0NSR52VQ9BSsY7KRj3bJfu19gvrfBvcaqV6jjvMEHwrSKpeW8A3Spr7SZ4MApZBNVGs4wDTpCGJ/BhCBRM6peFBiz/EDX/sYh4iKvYGYkiH8=
+	t=1719439137; cv=none; b=ZvbjtzplSDd6V6bV8P8q8tkp4zx3M3Zojr/ERByP5LzRvm3bFQrWYYApksGzXcLSRFAwfUwzxqfbGiSSzQnG1yuqfKuWQqmmGFk7JHVdqpp/cC1pMNiH+UuZiTwAUvxj9DVdYnc6g6pv3NWWHnFBCxA+u4VSgWqeg9e630veskc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719439135; c=relaxed/simple;
-	bh=0fewRG9apOAXsu6MdbDeeIpACWMxRzcivX0n9apKXwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FgXUPUT1n3S0x3tcIhVtO24hcVsNqj7R0naUaIlxAHWBQGCmzpnnLCA2GFEWq0GVgQtLQh/PJelOsWOmlLM3/53FkuXZ9xVWEo13MIKHQ88mUYtmSA+G27nT/Drjg32e8f3Pdg5w+kru7FTR1jNRxWWc4Ad0Bbsz979Em3dW8RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2egQM4/; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1719439137; c=relaxed/simple;
+	bh=hyCc2dx2iCJpyOWsnjpyBn130Gj3NHXIlTdpzmWt8/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=na58kQzSYdibxmiKhJ2+GD3oaazgshU0PEGeO3OIOLH8qGaTdbK7NcRQIoIl4Wps3+btNa1522bPbVr4oqDF98k4MgMVsL/PpRg95vKxk6wu9/O35M7pHunsQc/vZgDtuHv7yvNoviNk3Yv0igiuSfOT5Qr7LYM27DR4stjxRrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OP7lTMc9; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2egQM4/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OP7lTMc9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719439133; x=1750975133;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0fewRG9apOAXsu6MdbDeeIpACWMxRzcivX0n9apKXwg=;
-  b=U2egQM4/NScPonFwRigpuEizaafiyHGRlrEC6pLSUHbcOdLKZUolExZG
-   raTu04YL8gnPKC2v1D7glfB/y1ojD4s9RETo5sK/18lkASdL3X6T569GK
-   gBoDdr5fK0KEo0508ikN60h6qbaVwWAye7tJWZ0zv8ktKwFoPT4Gcy4YY
-   1iY+9oRObZjwrkFKyA7EJqTNqYGWBD/xZD5C22/0o/EkzfDJwDxyGJlU4
-   oecfTU/NXe0MThf7xDrZsTfleifuSCOG2SJA5bd0fNOHGs9EYtpwNu0CU
-   3MPOamQoRzRvcC0G7FaRbLBGgRWQSusRw9hDj78sjww8Fi69qvANr/U1e
-   g==;
-X-CSE-ConnectionGUID: fXGdDDw/Q2moouYuMKqAvw==
-X-CSE-MsgGUID: OB+LnOdOS2yD0HZg6ymBow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16423331"
+  t=1719439136; x=1750975136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hyCc2dx2iCJpyOWsnjpyBn130Gj3NHXIlTdpzmWt8/s=;
+  b=OP7lTMc9mwIjJnYPunpe5Zx2ueQue8mrmqkVsEuaRnzOX+Pg9sJ7Xrl2
+   7MSRhufdqDjgwbw3L6Ba+KAKumBfdQtWgeiHX2OvfNgKd7F8L32poYofX
+   NLQUuZ0+biPn4FI8OFr5Lto3g8uGVBZstGBJeYH8Frg5+aCfjCC+wmRx7
+   UDaeuRqeMEIcbFLY9UoLzkp67+SKNeCwkVSN5cQgBUdOIop8IHguucSyq
+   D1UpNsak2/ZOdwRTwfM+GWfbfr5gG1UWv5FD4pepIj7B7QgrcDN3fEkw2
+   TV2jg0VwYCbf0mgDfLhsDe4T5ESYLRrPYg/D1tdz7iUCZG88MH+vkciOp
+   Q==;
+X-CSE-ConnectionGUID: 4nj5SkkUQ/GGCyyDW2UbZw==
+X-CSE-MsgGUID: b+kZcBenRCS+BW/wvz6acA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16423340"
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="16423331"
+   d="scan'208";a="16423340"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 14:58:53 -0700
-X-CSE-ConnectionGUID: BIVMztFbR6i+urgxsffMBQ==
-X-CSE-MsgGUID: x3K1Tp+6Qmq/5yEjUMzTSQ==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 14:58:55 -0700
+X-CSE-ConnectionGUID: vx5PnEDkTEOuaVKadVDm7A==
+X-CSE-MsgGUID: tX4s7/KHQJeoxy8Sw+d/CQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="49064519"
+   d="scan'208";a="49064537"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Jun 2024 14:58:50 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Jun 2024 14:58:51 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMafA-000Fas-0Y;
+	id 1sMafA-000Fav-1y;
 	Wed, 26 Jun 2024 21:58:48 +0000
-Date: Thu, 27 Jun 2024 05:58:18 +0800
+Date: Thu, 27 Jun 2024 05:58:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikulas Patocka <mpatocka@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Anuj Gupta <anuj20.g@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>
-Subject: [axboe-block:for-next 94/104] include/linux/blk-integrity.h:151:9:
- error: returning 'struct bio_vec' from a function with incompatible result
- type 'struct bio_vec *'; take the address with &
-Message-ID: <202406270508.qSWqG6e7-lkp@intel.com>
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] thermal: sti: depend on THERMAL_OF subsystem
+Message-ID: <202406270530.kN5wIswi-lkp@intel.com>
+References: <20240625-thermal-v2-2-bf8354ed51ee@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,114 +74,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240625-thermal-v2-2-bf8354ed51ee@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-head:   c1440ed442a58eb4060a58f7c1f85775b6bb72ae
-commit: cf546dd289e0f6d2594c25e2fb4e19ee67c6d988 [94/104] block: change rq_integrity_vec to respect the iterator
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240627/202406270508.qSWqG6e7-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270508.qSWqG6e7-lkp@intel.com/reproduce)
+Hi Raphael,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0fc4bfab2cd45f9acb86c4f04b5191e114e901ed]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/thermal-st-switch-from-CONFIG_PM_SLEEP-guards-to-pm_sleep_ptr/20240626-090203
+base:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
+patch link:    https://lore.kernel.org/r/20240625-thermal-v2-2-bf8354ed51ee%40gmail.com
+patch subject: [PATCH v2 2/3] thermal: sti: depend on THERMAL_OF subsystem
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240627/202406270530.kN5wIswi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270530.kN5wIswi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406270508.qSWqG6e7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406270530.kN5wIswi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from block/bdev.c:14:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from block/bdev.c:14:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from block/bdev.c:14:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from block/bdev.c:15:
->> include/linux/blk-integrity.h:151:9: error: returning 'struct bio_vec' from a function with incompatible result type 'struct bio_vec *'; take the address with &
-     151 |         return (struct bio_vec){ };
-         |                ^~~~~~~~~~~~~~~~~~~
-         |                &(                 )
-   12 warnings and 1 error generated.
+   drivers/thermal/st/st_thermal.c: In function 'st_thermal_register':
+>> drivers/thermal/st/st_thermal.c:147:13: warning: variable 'polling_delay' set but not used [-Wunused-but-set-variable]
+     147 |         int polling_delay;
+         |             ^~~~~~~~~~~~~
 
 
-vim +151 include/linux/blk-integrity.h
+vim +/polling_delay +147 drivers/thermal/st/st_thermal.c
 
-   147	
-   148	static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-   149	{
-   150		/* the optimizer will remove all calls to this function */
- > 151		return (struct bio_vec){ };
-   152	}
-   153	#endif /* CONFIG_BLK_DEV_INTEGRITY */
-   154	
+60aef7ce455653 Lee Jones           2014-06-05  138  
+60aef7ce455653 Lee Jones           2014-06-05  139  int st_thermal_register(struct platform_device *pdev,
+60aef7ce455653 Lee Jones           2014-06-05  140  			const struct of_device_id *st_thermal_of_match)
+60aef7ce455653 Lee Jones           2014-06-05  141  {
+60aef7ce455653 Lee Jones           2014-06-05  142  	struct st_thermal_sensor *sensor;
+60aef7ce455653 Lee Jones           2014-06-05  143  	struct device *dev = &pdev->dev;
+60aef7ce455653 Lee Jones           2014-06-05  144  	struct device_node *np = dev->of_node;
+60aef7ce455653 Lee Jones           2014-06-05  145  	const struct of_device_id *match;
+60aef7ce455653 Lee Jones           2014-06-05  146  
+60aef7ce455653 Lee Jones           2014-06-05 @147  	int polling_delay;
+60aef7ce455653 Lee Jones           2014-06-05  148  	int ret;
+60aef7ce455653 Lee Jones           2014-06-05  149  
+60aef7ce455653 Lee Jones           2014-06-05  150  	if (!np) {
+60aef7ce455653 Lee Jones           2014-06-05  151  		dev_err(dev, "device tree node not found\n");
+60aef7ce455653 Lee Jones           2014-06-05  152  		return -EINVAL;
+60aef7ce455653 Lee Jones           2014-06-05  153  	}
+60aef7ce455653 Lee Jones           2014-06-05  154  
+60aef7ce455653 Lee Jones           2014-06-05  155  	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+60aef7ce455653 Lee Jones           2014-06-05  156  	if (!sensor)
+60aef7ce455653 Lee Jones           2014-06-05  157  		return -ENOMEM;
+60aef7ce455653 Lee Jones           2014-06-05  158  
+60aef7ce455653 Lee Jones           2014-06-05  159  	sensor->dev = dev;
+60aef7ce455653 Lee Jones           2014-06-05  160  
+60aef7ce455653 Lee Jones           2014-06-05  161  	match = of_match_device(st_thermal_of_match, dev);
+60aef7ce455653 Lee Jones           2014-06-05  162  	if (!(match && match->data))
+60aef7ce455653 Lee Jones           2014-06-05  163  		return -EINVAL;
+60aef7ce455653 Lee Jones           2014-06-05  164  
+60aef7ce455653 Lee Jones           2014-06-05  165  	sensor->cdata = match->data;
+60aef7ce455653 Lee Jones           2014-06-05  166  	if (!sensor->cdata->ops)
+60aef7ce455653 Lee Jones           2014-06-05  167  		return -EINVAL;
+60aef7ce455653 Lee Jones           2014-06-05  168  
+60aef7ce455653 Lee Jones           2014-06-05  169  	sensor->ops = sensor->cdata->ops;
+60aef7ce455653 Lee Jones           2014-06-05  170  
+331a5fc9f2ed28 Nicolas Boichat     2015-07-08  171  	ret = (sensor->ops->regmap_init)(sensor);
+60aef7ce455653 Lee Jones           2014-06-05  172  	if (ret)
+60aef7ce455653 Lee Jones           2014-06-05  173  		return ret;
+60aef7ce455653 Lee Jones           2014-06-05  174  
+60aef7ce455653 Lee Jones           2014-06-05  175  	ret = st_thermal_alloc_regfields(sensor);
+60aef7ce455653 Lee Jones           2014-06-05  176  	if (ret)
+60aef7ce455653 Lee Jones           2014-06-05  177  		return ret;
+60aef7ce455653 Lee Jones           2014-06-05  178  
+60aef7ce455653 Lee Jones           2014-06-05  179  	sensor->clk = devm_clk_get(dev, "thermal");
+60aef7ce455653 Lee Jones           2014-06-05  180  	if (IS_ERR(sensor->clk)) {
+60aef7ce455653 Lee Jones           2014-06-05  181  		dev_err(dev, "failed to fetch clock\n");
+60aef7ce455653 Lee Jones           2014-06-05  182  		return PTR_ERR(sensor->clk);
+60aef7ce455653 Lee Jones           2014-06-05  183  	}
+60aef7ce455653 Lee Jones           2014-06-05  184  
+60aef7ce455653 Lee Jones           2014-06-05  185  	if (sensor->ops->register_enable_irq) {
+60aef7ce455653 Lee Jones           2014-06-05  186  		ret = sensor->ops->register_enable_irq(sensor);
+60aef7ce455653 Lee Jones           2014-06-05  187  		if (ret)
+60aef7ce455653 Lee Jones           2014-06-05  188  			return ret;
+60aef7ce455653 Lee Jones           2014-06-05  189  	}
+60aef7ce455653 Lee Jones           2014-06-05  190  
+60aef7ce455653 Lee Jones           2014-06-05  191  	ret = st_thermal_sensor_on(sensor);
+60aef7ce455653 Lee Jones           2014-06-05  192  	if (ret)
+60aef7ce455653 Lee Jones           2014-06-05  193  		return ret;
+60aef7ce455653 Lee Jones           2014-06-05  194  
+60aef7ce455653 Lee Jones           2014-06-05  195  	ret = st_thermal_calibration(sensor);
+60aef7ce455653 Lee Jones           2014-06-05  196  	if (ret)
+60aef7ce455653 Lee Jones           2014-06-05  197  		goto sensor_off;
+60aef7ce455653 Lee Jones           2014-06-05  198  
+60aef7ce455653 Lee Jones           2014-06-05  199  	polling_delay = sensor->ops->register_enable_irq ? 0 : 1000;
+60aef7ce455653 Lee Jones           2014-06-05  200  
+60aef7ce455653 Lee Jones           2014-06-05  201  	sensor->thermal_dev =
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  202  		devm_thermal_of_zone_register(dev, 0, sensor, &st_tz_ops);
+60aef7ce455653 Lee Jones           2014-06-05  203  	if (IS_ERR(sensor->thermal_dev)) {
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  204  		dev_err(dev, "failed to register thermal of zone\n");
+60aef7ce455653 Lee Jones           2014-06-05  205  		ret = PTR_ERR(sensor->thermal_dev);
+60aef7ce455653 Lee Jones           2014-06-05  206  		goto sensor_off;
+60aef7ce455653 Lee Jones           2014-06-05  207  	}
+60aef7ce455653 Lee Jones           2014-06-05  208  
+60aef7ce455653 Lee Jones           2014-06-05  209  	platform_set_drvdata(pdev, sensor);
+60aef7ce455653 Lee Jones           2014-06-05  210  
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  211  	/*
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  212  	 * devm_thermal_of_zone_register() doesn't enable hwmon by default
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  213  	 * Enable it here
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  214  	 */
+9819ef601045bf Raphael Gallais-Pou 2024-06-25  215  	return devm_thermal_add_hwmon_sysfs(dev, sensor->thermal_dev);
+60aef7ce455653 Lee Jones           2014-06-05  216  
+60aef7ce455653 Lee Jones           2014-06-05  217  sensor_off:
+60aef7ce455653 Lee Jones           2014-06-05  218  	st_thermal_sensor_off(sensor);
+60aef7ce455653 Lee Jones           2014-06-05  219  
+60aef7ce455653 Lee Jones           2014-06-05  220  	return ret;
+60aef7ce455653 Lee Jones           2014-06-05  221  }
+60aef7ce455653 Lee Jones           2014-06-05  222  EXPORT_SYMBOL_GPL(st_thermal_register);
+60aef7ce455653 Lee Jones           2014-06-05  223  
 
 -- 
 0-DAY CI Kernel Test Service
