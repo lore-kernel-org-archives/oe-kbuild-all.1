@@ -1,61 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB7914EC59
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 18:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E02E17C22A;
+	Wed, 26 Jun 2024 19:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719428315; cv=none; b=B80ruZriiVMOaPVgSXj1hY0nVe92A+sfj2gndRFJD0TJlkQbx7r9R7ap9+4CDqAxR7fSrG9HT2Xj09a9qzwfBG+eWpP+JerFCclZPntf4JP/SK+1QzmHCKEpKbDEkdCzc0Oqqg8DM7G1SwW3Q2AoyxKxvpaBc+1J6gkf5OLbhig=
+	t=1719428644; cv=none; b=Avch9p6zkHc4sn+tvbyHJAn1S4ZZNYq+X/3MXg2tSuQ9RneGA77FB4ScrdPtNkg68NyQHY3HGM8TNSDj0rCKx1LELtbK1alkTdwGNkO2E0VLV8WyD0mNrhAKwpo2wVGPNQs6Mp6oFpED/qP2h6+Bwp9q0dY55eGVv8db8RYzZPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719428315; c=relaxed/simple;
-	bh=i5UhpdzjYZvaqJBaD+CHTK9DLs/LV3zaokJefHlF5Gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HPhBZAF/zJDbOvSXMnCl7LWOF3SSDIFmIFoDkkwu7+65QF0toampmqifSZQ440pTawLMsBvJv9D8qwbNA2y9Qk8LGdGPEpVpDNMrjc0kxD9JKuGYxTQftr1pBIeNWJ2RWTjx6jEvJ8i4BZkH3DQ3yPw7vvgYD2O3q/x9dVG7qQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rw0wHmW/; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719428644; c=relaxed/simple;
+	bh=p3XYPWeJ5vWy755pwk4qlysB95s+FcjpaEBY1UpmIRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEutwNYmRy45RYwysfUZPpozU+jJcM6nweT4A1TXS/bGyU593JyP57KIH1osnEtIZDJZwev06Hbj1j5muH44PI9CMpzHOk0UWhjFsN77QleR1rHXETXzBNpJFGKpkan9e5H8JqRh841hhxeDDxGZR81r+VdJ2bHxMlhDS+Xr8Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnQ/uhCv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rw0wHmW/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719428313; x=1750964313;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i5UhpdzjYZvaqJBaD+CHTK9DLs/LV3zaokJefHlF5Gw=;
-  b=Rw0wHmW/2vFMnnV3774DIuWnymtVn3duUEs0GYlrxfkvYXsMmHGzmFEN
-   tElGThFmuwmVfWgB22okuDpjZprn9JI/dLJqiSoiVd/H5FHU//rbwLNRV
-   38k64iKmpxIGn/HXCoo5Gmt7Xy1me+Kx+dVrhw5Hn8AvnjZCCQRUAV3cn
-   PMNwFeBTSWLgyKZyHxpDxVt1p7VbQ3tEoJ8LmFWiJ8nl78h0Pnebzfrdp
-   JL40r7EaEIXnLoGDQaN8rMWIEOkpcvim+VhdToKopvWZ8J4fRIYKWalO4
-   bBPdLniY5r75v+X06AApuUqkPMBva+TtSTxJEZG8zhAmZcQaurN9pkB+z
-   g==;
-X-CSE-ConnectionGUID: Vx02NlKHQqavFi74l/6YLg==
-X-CSE-MsgGUID: bJL1BAvsSc6U0bEpEi8XEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16671282"
-X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="16671282"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 11:58:31 -0700
-X-CSE-ConnectionGUID: /NMSKhx7QvKC8aoGhRvvmA==
-X-CSE-MsgGUID: GRUNRkxvRj+emt5/R3qmDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="44741593"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Jun 2024 11:58:30 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMXqd-000FUk-0e;
-	Wed, 26 Jun 2024 18:58:27 +0000
-Date: Thu, 27 Jun 2024 02:57:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 5561/7880] kismet: WARNING: unmet direct
- dependencies detected for CRYPTO_LZO when selected by EMM_ZRAM_CONF
-Message-ID: <202406270201.O67i64Ls-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnQ/uhCv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4167FC32789;
+	Wed, 26 Jun 2024 19:04:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719428644;
+	bh=p3XYPWeJ5vWy755pwk4qlysB95s+FcjpaEBY1UpmIRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BnQ/uhCvJZm6OlKDq5Q7p+ZwCZ57vUYhKs5hgyLhfyHuM3fxFBQRowmP2XxoGrbre
+	 f6zeAQSLRf2j5OWhV31rKDOBfgyfcxunOOElfDFpdzBVem4PgwCxvFGdDc0rrLTm0X
+	 LlPN9PBMu8x4cD4MhOKU4nz21Eu8D+cpluBSnuxBEuTjQx80LJybhjXZnMV09TiEMV
+	 75dx4XfV0i4kI5ioQ2xG6R2QplOHRnLwjdVO0n9+fo7MiCaWVgyeGdO2jE8Wc8Tye8
+	 1cCYepmOozNqWvragpi5x6qHXJ9TWaYWBYI9PT5Rmts58T0YRnn8lz8kbf07VhPHPF
+	 gAsMcGXdyHN5Q==
+Date: Wed, 26 Jun 2024 21:03:56 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [pci:controller/rockchip 10/11]
+ drivers/pci/controller/dwc/pcie-designware-ep.c:26:undefined reference to
+ `pci_epc_init_notify'
+Message-ID: <ZnxmHFkIvm-qTfiD@ryzen.lan>
+References: <202406270250.k2esVVnL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +45,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202406270250.k2esVVnL-lkp@intel.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ca7064b2308b42201419e17b030e6a9347be29cd
-commit: 5723adb73901b05640a72b59bfa6125a3a469cd3 [5561/7880] emm: configs: enabled EMM related configs
-config: loongarch-kismet-CONFIG_CRYPTO_LZO-CONFIG_EMM_ZRAM_CONF-0-0 (https://download.01.org/0day-ci/archive/20240627/202406270201.O67i64Ls-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240627/202406270201.O67i64Ls-lkp@intel.com/reproduce)
+On Thu, Jun 27, 2024 at 02:23:38AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
+> head:   246afbe0f6fca433d8d918b740719170b1b082cc
+> commit: 9b2ba393b3a659a4695691794dc030b6f7744b23 [10/11] PCI: dw-rockchip: Add endpoint mode support
+> config: loongarch-randconfig-r081-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270250.k2esVVnL-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270250.k2esVVnL-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406270250.k2esVVnL-lkp@intel.com/
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406270201.O67i64Ls-lkp@intel.com/
+Hello Krzysztof,
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_LZO when selected by EMM_ZRAM_CONF
-   WARNING: unmet direct dependencies detected for CRYPTO_LZO
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_ZSTD
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_LZ4
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_LZ4HC
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
+> All errors (new ones prefixed by >>):
+> 
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init_notify':
+> >> drivers/pci/controller/dwc/pcie-designware-ep.c:26:(.text+0x1e4): undefined reference to `pci_epc_init_notify'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Seeing that it is pcie-designware-ep.c that fails to build, I can see the error.
+I have forgotten to do:
+
+diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+index 9c4fb8ba7573..4c38181acffa 100644
+--- a/drivers/pci/controller/dwc/Kconfig
++++ b/drivers/pci/controller/dwc/Kconfig
+@@ -329,6 +329,7 @@ config PCIE_ROCKCHIP_DW_EP
+        bool "Rockchip DesignWare PCIe controller (endpoint mode)"
+        depends on ARCH_ROCKCHIP || COMPILE_TEST
+        depends on OF
++       depends on PCI_ENDPOINT
+        select PCIE_DW_EP
+        select PCIE_ROCKCHIP_DW
+        help
+
+(The .config in this build has PCIE_ROCKCHIP_DW_EP selected, but not PCI_ENDPOINT,
+which should not be allowed...)
+
+This is my fault, all the other endpoint drivers have a depends on PCI_ENDPOINT.
+Will send a patch for this shortly. I'm truly sorry for this mistake.
+
+
+
+
+Looking more closely at the pci/controller/rockchip branch,
+I can also see that we have another potential problem:
+
+Commit 7a847796e509 ("PCI: endpoint: Introduce 'epc_deinit' event and notify the EPF drivers"),
+which is on branch: pci/endpoint
+has introduced a stub (dummy definition) for pci_epc_init_notify.
+However, if the test robot builds the pci/controller/rockchip branch with PCIE_ROCKCHIP_DW_HOST
+selected, and not PCIE_ROCKCHIP_DW_EP selected, we could get a failure that pci_epc_init_notify()
+does not have a stub...
+
+This problem can be solved by cherry-picking 7a847796e509 ("PCI: endpoint: Introduce 'epc_deinit'
+event and notify the EPF drivers") to the pci/controller/rockchip branch, or by rebasing the
+pci/controller/rockchip branch on top of the pci/endpoint branch... I'm sorry for this too.
+
+
+Kind regards,
+Niklas
