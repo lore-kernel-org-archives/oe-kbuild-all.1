@@ -1,42 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C979417FAAE;
-	Wed, 26 Jun 2024 17:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092FE190465
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 18:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719422516; cv=none; b=IECmcNVulxVpWPxlRh66tPWSR+AjQ8qY9cLuXUqO1jJz74FFEgVSC+dbdNucBsS8L3JDldQighv2/7YEJaCoT9i556oDdL32YuTOK3f7nyZG/qkQH+DtZIVFFGc4XElWlHmqEFEtyE2gt1LP4h8nvYckkXFc1aT/4UkRzZgD41I=
+	t=1719425546; cv=none; b=ak5UH8AFRaVxrGS+Mg4wSNQ9YxuXSU4QMxZ29lFQ+7RDYQM5R8STu7MpoBIRfg5GdvHTfpUPxT0XOugJILZfgECUkoOMc045GoBMnWLdzcaiCD7fjwfVgkwrRTD6Q882cUPD0WGfIOARMAWXTmspPWCuj0JgqK6WdWUyzl48yQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719422516; c=relaxed/simple;
-	bh=ad4rc6FZLnmWijmzWdVBxLkWOIBIb361HgitCWotO68=;
+	s=arc-20240116; t=1719425546; c=relaxed/simple;
+	bh=uFcud2CNZ9VgFs2xDvdrQV4qo4b713G5ZCzzQsE/aM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iJAfHjiW9gyugRexbm37afGfVSYVeRH52RoM1DykMQG4D1kQz4G8Bb3eaedfG0NDhVJu2b8eiSUTLFaMB0nZzqdeoq15B6gNRrTvGIDjnswZJEzBBxoOdS5qZHO3yzq8mfJHcn7N/b0xN7mw4mt3J98xm991KC+4Ir93fLvl7FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cqMy4DMS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSbBqovYSKYbgmzP6ttFnOUSKGhgFc9CqMD1dDNeIuZjzOQurferOccm/PtgnoIida1CCE1c1JsrQcU7BQZltPfWp0lgu5WO2DBm1PjTm6XxzCPDerWX8pFtITe0ehcvT1Bm5DhXgmGsANmcIYw0rT4oY1tY0OkiZvmHh+Kl5v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlS91KCt; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqMy4DMS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF867C116B1;
-	Wed, 26 Jun 2024 17:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719422516;
-	bh=ad4rc6FZLnmWijmzWdVBxLkWOIBIb361HgitCWotO68=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cqMy4DMSOujgTrAZ2D5Y2EiS/C6sfPmo9Szifl+B3gVLiHbsUH2RnWYYJTQUsOXXi
-	 4hS0osIb1DzbchtNbu3Y0PbMeW0ym9Uq9uV53mFiACj6LbCZ7Xa43IGfuUGEqoZWw6
-	 GbI3oP7lwxK8NUIL7bwWvN9edKq3tpTQnRTL9TJtMOLiVTYZsiIbNvA4XvnZ+c0giD
-	 /V1mBt+y5Zx5zxSUfEc9MPrx1iP1CO+gulNd3p8B/C1EeXb/3KLsxTnlJp94G+aVys
-	 9qdV3I9D3xMZfkLUFLNeFDrSx9kD4WNts7iAJaomERQFFzwFeJwTlPnHo5EaqmvNa8
-	 yNlR336vPFdzw==
-Date: Wed, 26 Jun 2024 10:21:54 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: arch/arm/mm/proc.c:82:6: error: conflicting types for
- 'cpu_arm920_reset'
-Message-ID: <20240626172154.GA50752@fedora-macbook-air-m2>
-References: <202406260432.6WGV2jCk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlS91KCt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719425545; x=1750961545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uFcud2CNZ9VgFs2xDvdrQV4qo4b713G5ZCzzQsE/aM0=;
+  b=ZlS91KCtvxeWJiiImBegVbcwQXREMv2LOyWQWaf2hiJnrtE7YjO7RJ3O
+   B+TluxwSG+qrDiZzAECwpBXuO45Y5VMb10SUwwLlTSGIobMsr5cW/QGpi
+   VDLmzMwXSLuyw/z3jMwwhfuPxXWCi4nVlY+YbAQajederWy6WWg0LRFXO
+   3Ojmg/3I4ByJIzOJ7tWkUzoJqRRNYa9ru3GoU2FGtxU1peKu/LwHCrezf
+   bJ1XbYOWAdkHHGZWv91fggfs4rd175v4QkhAKxU8uR0533AQqDFn79tzW
+   wiPzSJOdZYQFWN3Mf/hYMk/z5LVIZZKDVjsYxeQCnMk6Hvn/GS+St3Onp
+   A==;
+X-CSE-ConnectionGUID: +z+Kz6CUTVeJs2BunJM4Gg==
+X-CSE-MsgGUID: dCB1PefbQBGgpJSfZr7BiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27915386"
+X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
+   d="scan'208";a="27915386"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 11:12:24 -0700
+X-CSE-ConnectionGUID: 6M8cDZT6TGiFuEBxvYqhZA==
+X-CSE-MsgGUID: XZGthyPqT7aDqE3H5HnbLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
+   d="scan'208";a="43970333"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 26 Jun 2024 11:12:22 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMX80-000FTM-1H;
+	Wed, 26 Jun 2024 18:12:20 +0000
+Date: Thu, 27 Jun 2024 02:12:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@linux.intel.com,
+	ville.syrjala@linux.intel.com, mika.kahola@intel.com,
+	matthew.d.roper@intel.com
+Subject: Re: [PATCH 1/5] drm/i915/display: Add support for SNPS PHY HDMI PLL
+ algorithm for DG2
+Message-ID: <202406270107.cweaZpry-lkp@intel.com>
+References: <20240626050056.3996349-2-ankit.k.nautiyal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,139 +66,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406260432.6WGV2jCk-lkp@intel.com>
+In-Reply-To: <20240626050056.3996349-2-ankit.k.nautiyal@intel.com>
 
-On Wed, Jun 26, 2024 at 04:37:00AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   55027e689933ba2e64f3d245fb1ff185b3e7fc81
-> commit: 1a4fec49efe5273eb2fcf575175a117745f76f97 ARM: 9392/2: Support CLANG CFI
-> date:   8 weeks ago
-> config: arm-randconfig-002-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260432.6WGV2jCk-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260432.6WGV2jCk-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406260432.6WGV2jCk-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> arch/arm/mm/proc.c:82:6: error: conflicting types for 'cpu_arm920_reset'
->       82 | void cpu_arm920_reset(void);
->          |      ^
->    arch/arm/include/asm/proc-fns.h:96:13: note: previous declaration is here
->       96 | extern void cpu_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
->          |             ^
->    arch/arm/include/asm/glue-proc.h:251:21: note: expanded from macro 'cpu_reset'
->      251 | #define cpu_reset                       __glue(CPU_NAME,_reset)
->          |                                         ^
->    arch/arm/include/asm/glue.h:20:26: note: expanded from macro '__glue'
->       20 | #define __glue(name,fn)         ____glue(name,fn)
->          |                                 ^
->    arch/arm/include/asm/glue.h:16:27: note: expanded from macro '____glue'
->       16 | #define ____glue(name,fn)       name##fn
->          |                                 ^
->    <scratch space>:70:1: note: expanded from here
->       70 | cpu_arm920_reset
->          | ^
->    1 error generated.
+Hi Ankit,
 
-Hmmm, it seems like the prototypes of the reset functions in
-arch/arm/mm/proc.c are incorrect? This builds for me with the original
-configuration and allmodconfig + CONFIG_CFI_CLANG=y.
+kernel test robot noticed the following build errors:
 
-diff --git a/arch/arm/mm/proc.c b/arch/arm/mm/proc.c
-index bdbbf65d1b36..4e4b5733bd26 100644
---- a/arch/arm/mm/proc.c
-+++ b/arch/arm/mm/proc.c
-@@ -17,7 +17,7 @@ void cpu_arm7tdmi_proc_init(void);
- __ADDRESSABLE(cpu_arm7tdmi_proc_init);
- void cpu_arm7tdmi_proc_fin(void);
- __ADDRESSABLE(cpu_arm7tdmi_proc_fin);
--void cpu_arm7tdmi_reset(void);
-+void cpu_arm7tdmi_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm7tdmi_reset);
- int cpu_arm7tdmi_do_idle(void);
- __ADDRESSABLE(cpu_arm7tdmi_do_idle);
-@@ -32,7 +32,7 @@ void cpu_arm720_proc_init(void);
- __ADDRESSABLE(cpu_arm720_proc_init);
- void cpu_arm720_proc_fin(void);
- __ADDRESSABLE(cpu_arm720_proc_fin);
--void cpu_arm720_reset(void);
-+void cpu_arm720_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm720_reset);
- int cpu_arm720_do_idle(void);
- __ADDRESSABLE(cpu_arm720_do_idle);
-@@ -49,7 +49,7 @@ void cpu_arm740_proc_init(void);
- __ADDRESSABLE(cpu_arm740_proc_init);
- void cpu_arm740_proc_fin(void);
- __ADDRESSABLE(cpu_arm740_proc_fin);
--void cpu_arm740_reset(void);
-+void cpu_arm740_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm740_reset);
- int cpu_arm740_do_idle(void);
- __ADDRESSABLE(cpu_arm740_do_idle);
-@@ -64,7 +64,7 @@ void cpu_arm9tdmi_proc_init(void);
- __ADDRESSABLE(cpu_arm9tdmi_proc_init);
- void cpu_arm9tdmi_proc_fin(void);
- __ADDRESSABLE(cpu_arm9tdmi_proc_fin);
--void cpu_arm9tdmi_reset(void);
-+void cpu_arm9tdmi_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm9tdmi_reset);
- int cpu_arm9tdmi_do_idle(void);
- __ADDRESSABLE(cpu_arm9tdmi_do_idle);
-@@ -79,7 +79,7 @@ void cpu_arm920_proc_init(void);
- __ADDRESSABLE(cpu_arm920_proc_init);
- void cpu_arm920_proc_fin(void);
- __ADDRESSABLE(cpu_arm920_proc_fin);
--void cpu_arm920_reset(void);
-+void cpu_arm920_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm920_reset);
- int cpu_arm920_do_idle(void);
- __ADDRESSABLE(cpu_arm920_do_idle);
-@@ -102,7 +102,7 @@ void cpu_arm922_proc_init(void);
- __ADDRESSABLE(cpu_arm922_proc_init);
- void cpu_arm922_proc_fin(void);
- __ADDRESSABLE(cpu_arm922_proc_fin);
--void cpu_arm922_reset(void);
-+void cpu_arm922_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm922_reset);
- int cpu_arm922_do_idle(void);
- __ADDRESSABLE(cpu_arm922_do_idle);
-@@ -119,7 +119,7 @@ void cpu_arm925_proc_init(void);
- __ADDRESSABLE(cpu_arm925_proc_init);
- void cpu_arm925_proc_fin(void);
- __ADDRESSABLE(cpu_arm925_proc_fin);
--void cpu_arm925_reset(void);
-+void cpu_arm925_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm925_reset);
- int cpu_arm925_do_idle(void);
- __ADDRESSABLE(cpu_arm925_do_idle);
-@@ -159,7 +159,7 @@ void cpu_arm940_proc_init(void);
- __ADDRESSABLE(cpu_arm940_proc_init);
- void cpu_arm940_proc_fin(void);
- __ADDRESSABLE(cpu_arm940_proc_fin);
--void cpu_arm940_reset(void);
-+void cpu_arm940_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm940_reset);
- int cpu_arm940_do_idle(void);
- __ADDRESSABLE(cpu_arm940_do_idle);
-@@ -174,7 +174,7 @@ void cpu_arm946_proc_init(void);
- __ADDRESSABLE(cpu_arm946_proc_init);
- void cpu_arm946_proc_fin(void);
- __ADDRESSABLE(cpu_arm946_proc_fin);
--void cpu_arm946_reset(void);
-+void cpu_arm946_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_arm946_reset);
- int cpu_arm946_do_idle(void);
- __ADDRESSABLE(cpu_arm946_do_idle);
-@@ -429,7 +429,7 @@ void cpu_v7_proc_init(void);
- __ADDRESSABLE(cpu_v7_proc_init);
- void cpu_v7_proc_fin(void);
- __ADDRESSABLE(cpu_v7_proc_fin);
--void cpu_v7_reset(void);
-+void cpu_v7_reset(unsigned long addr, bool hvc) __attribute__((noreturn));
- __ADDRESSABLE(cpu_v7_reset);
- int cpu_v7_do_idle(void);
- __ADDRESSABLE(cpu_v7_do_idle);
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-xe/drm-xe-next linus/master v6.10-rc5 next-20240625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ankit-Nautiyal/drm-i915-display-Add-support-for-SNPS-PHY-HDMI-PLL-algorithm-for-DG2/20240626-131209
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240626050056.3996349-2-ankit.k.nautiyal%40intel.com
+patch subject: [PATCH 1/5] drm/i915/display: Add support for SNPS PHY HDMI PLL algorithm for DG2
+config: i386-buildonly-randconfig-006-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270107.cweaZpry-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270107.cweaZpry-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406270107.cweaZpry-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/gpu/drm/i915/display/intel_pll_algorithm.o: in function `get_ana_cp_int_prop.constprop.0':
+>> intel_pll_algorithm.c:(.text+0x2b): undefined reference to `__divdi3'
+>> ld: intel_pll_algorithm.c:(.text+0xc2): undefined reference to `__divdi3'
+   ld: intel_pll_algorithm.c:(.text+0xef): undefined reference to `__divdi3'
+   ld: intel_pll_algorithm.c:(.text+0x153): undefined reference to `__divdi3'
+   ld: intel_pll_algorithm.c:(.text+0x180): undefined reference to `__divdi3'
+   ld: drivers/gpu/drm/i915/display/intel_pll_algorithm.o:intel_pll_algorithm.c:(.text+0x235): more undefined references to `__divdi3' follow
+   ld: drivers/gpu/drm/i915/display/intel_pll_algorithm.o: in function `get_ana_cp_int_prop.constprop.0':
+>> intel_pll_algorithm.c:(.text+0x282): undefined reference to `__udivdi3'
+>> ld: intel_pll_algorithm.c:(.text+0x2f2): undefined reference to `__udivdi3'
+   ld: intel_pll_algorithm.c:(.text+0x31b): undefined reference to `__udivdi3'
+   ld: intel_pll_algorithm.c:(.text+0x33e): undefined reference to `__udivdi3'
+   ld: intel_pll_algorithm.c:(.text+0x36c): undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/i915/display/intel_pll_algorithm.o:intel_pll_algorithm.c:(.text+0x384): more undefined references to `__udivdi3' follow
+   ld: drivers/gpu/drm/i915/display/intel_pll_algorithm.o: in function `intel_snps_phy_compute_hdmi_tmds_pll':
+>> intel_pll_algorithm.c:(.text+0x602): undefined reference to `__udivmoddi4'
+   ld: intel_pll_algorithm.c:(.text+0x61e): undefined reference to `__udivdi3'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
