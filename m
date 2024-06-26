@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97615C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D90D1FBB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719361257; cv=none; b=l77paKxVg4TkrEjGNzZQtXY9l7Cetr4jWUvOOz/GTGmiCkfVuk4ducAqmM9yE8E7AxNZnwDF/vvfMMCaU9l4Ct+SpriE+Rr86eo+F7cylKz3LN2N+OsZuCtbO45vsVlrYnDoFQ0Bi4mbHAyFbZTgauU+DqC+RBZ1wCok/Y1WrfE=
+	t=1719361523; cv=none; b=NYnHABCqv7prrKVpcgNSGIHGcaUjQNnhcCN7exfHcmiy/tVBzip3jVRfSHGcxnqDRNTnVVRoiBfkZMLNNTUgp8gN8K6uLaT+C04Ffe3AzrHvt/AFzLTFGH+sG6yvMwJCZprTVWcN5y+4Uv+pCIWb5qeTtVO1Cub8J96kaMX08mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719361257; c=relaxed/simple;
-	bh=CJoeJ3lDkHIZ/KHxL11f+1YMStkAQJV5OkhkWjkbJqs=;
+	s=arc-20240116; t=1719361523; c=relaxed/simple;
+	bh=pdvH9UYQ/SqS+nHU6W6FNxWXK9lUyuz9ljcuqj5ktlg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ha3XO5FRvzp8wjYg9O8+fzTKwcz37OisXZU7hRs6HYeAvW0V8Io328O5s3hS76zklY1VoFzPLbXdzEUyVUN39P/vZVDO7vZfNCtW01x7C80YTtWhsIhWYHa8v5T6ZwKV9ptau7VJ0Eo+fesoCAqPy4gXpEkFJNOnSLgXXbsCIh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCbLNG7r; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=WCtNjbA2VoKm24pJfUjjOn9WdW/k8O2DGowQeSuzLkR7IzzX3cgUv+pufXEznEhk4Pmfa+Mr6jqz64Nuxu9dCgh9AxBwZ8vT7rY3BwTeXNHd4sMAh3mqlNa9LuHfXCPbSq6fRl2XZhWq+nRgigcTqWXwrkTa8+KwnGvynORN2+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=np9iFzKL; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCbLNG7r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="np9iFzKL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719361256; x=1750897256;
+  t=1719361521; x=1750897521;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CJoeJ3lDkHIZ/KHxL11f+1YMStkAQJV5OkhkWjkbJqs=;
-  b=hCbLNG7rJHGtAldP3Hb2HDZ2tMfiOTYe3FyLDL0q6+8d/nlEQ4BU/xtS
-   qYSIOXMIQNnylmiT4s3DOIg16OxJNZQyRgPepgPuSjhaF2ydGjozMI7DS
-   3L1/aHBA5dIW4h9Dc2PgmUxhRZgmvNI/HXW0XMwRJYgDr71BDEgoUPD8/
-   ejaUxsxzA6/MHGRKURE4TazzFNGzNN6ZFuD7u/v7T885uZZlut8+xsiMW
-   nq0DbZWEWr8AulKv9lVBZvaA0gg+o82eKvJSm3vetV39QXhNCWY5Cu0Yk
-   aIwoJK9vxs4rqJhMGIGYrn59cO4VUCJbexRIID6I6BkXB1Xl90mNY5Gvg
-   w==;
-X-CSE-ConnectionGUID: xzL8fHzrRSSCZxa8uRYTkw==
-X-CSE-MsgGUID: WZLKSCP1SlGcx0C6g4xt1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16286875"
+  bh=pdvH9UYQ/SqS+nHU6W6FNxWXK9lUyuz9ljcuqj5ktlg=;
+  b=np9iFzKLsFz1QS3GA1bSSOTYKOAZvdMVVx2kzMNFtJdvdIyyTfWQwzoT
+   7b12z0O2fQg9sGeflfF202c2asQnvbcqwNaIJ7a9SGdFmlFKMao9Vsbmv
+   RXzZvOMo1mn2/Iy6CaLrcSc1/WRTh5YKL55AjuLHIYm750DPiTSxzAxQF
+   gLZe7ycyVagkzd8MJgn6S4TjUpjabyqNHQYzsef9lhSHT+jgRJGJXiEKU
+   wZk4ykHcCnHrFWv4Ioyi86yOsLw2yjEH+jC/QbkRQxK4sSGnJyW4rBrQG
+   olA5fxap7sfHpp2hezHUcIq7WybzHiBk6d5Vp9yA52bOffnteaJeXF/+X
+   A==;
+X-CSE-ConnectionGUID: qvJD+sEgRWSlLih4lYcjqg==
+X-CSE-MsgGUID: 8osPINxAQv6Y5Vnz/m87Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="27551456"
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="16286875"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:20:55 -0700
-X-CSE-ConnectionGUID: heJN9hlgR2G0rFKXw5HwKA==
-X-CSE-MsgGUID: 9LOxIo6XQtC8ns/GYnSnAw==
+   d="scan'208";a="27551456"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:25:21 -0700
+X-CSE-ConnectionGUID: VFKVk0CLRoyaeAVqjy9c6g==
+X-CSE-MsgGUID: Or6R2Nf1SCmTOt4t1u9WuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="43793764"
+   d="scan'208";a="43919377"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Jun 2024 17:20:55 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 Jun 2024 17:25:18 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMGP6-000Epc-1F;
-	Wed, 26 Jun 2024 00:20:52 +0000
-Date: Wed, 26 Jun 2024 08:19:52 +0800
+	id 1sMGTM-000Ept-1f;
+	Wed, 26 Jun 2024 00:25:16 +0000
+Date: Wed, 26 Jun 2024 08:24:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: daire.mcnamara@microchip.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 2/3] PCI: microchip: Fix inbound address translation
- tables
-Message-ID: <202406260846.ybHvD2P1-lkp@intel.com>
-References: <20240621112915.3434402-3-daire.mcnamara@microchip.com>
+To: David Lin <yu-hao.lin@nxp.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	briannorris@chromium.org, kvalo@kernel.org, francesco@dolcini.it,
+	tsung-hsien.hsieh@nxp.com, David Lin <yu-hao.lin@nxp.com>
+Subject: Re: [PATCH 42/43] wifi: nxpwifi: add Makefile and Kconfig files for
+ nxpwifi compilation
+Message-ID: <202406260848.0pH4xjvI-lkp@intel.com>
+References: <20240621075208.513497-43-yu-hao.lin@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +65,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240621112915.3434402-3-daire.mcnamara@microchip.com>
+In-Reply-To: <20240621075208.513497-43-yu-hao.lin@nxp.com>
 
-Hi,
+Hi David,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
+[auto build test WARNING on 238d636723a30311e20fde0a361662e829fe488b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/daire-mcnamara-microchip-com/PCI-microchip-Fix-outbound-address-translation-tables/20240625-161731
-base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-patch link:    https://lore.kernel.org/r/20240621112915.3434402-3-daire.mcnamara%40microchip.com
-patch subject: [PATCH v4 2/3] PCI: microchip: Fix inbound address translation tables
-config: i386-buildonly-randconfig-004-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260846.ybHvD2P1-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260846.ybHvD2P1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lin/wifi-nxpwifi-add-11ac-c/20240625-161306
+base:   238d636723a30311e20fde0a361662e829fe488b
+patch link:    https://lore.kernel.org/r/20240621075208.513497-43-yu-hao.lin%40nxp.com
+patch subject: [PATCH 42/43] wifi: nxpwifi: add Makefile and Kconfig files for nxpwifi compilation
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240626/202406260848.0pH4xjvI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260848.0pH4xjvI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260846.ybHvD2P1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260848.0pH4xjvI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/clk.h:13,
-                    from drivers/pci/controller/pcie-microchip-host.c:11:
-   drivers/pci/controller/pcie-microchip-host.c: In function 'mc_pcie_setup_inbound_ranges':
-   include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:46:41: note: in expansion of macro '_AC'
-      46 | #define SZ_4G                           _AC(0x100000000, ULL)
-         |                                         ^~~
-   drivers/pci/controller/pcie-microchip-host.c:1000:60: note: in expansion of macro 'SZ_4G'
-    1000 |                         mc_pcie_setup_inbound_atr(0, 0, 0, SZ_4G);
-         |                                                            ^~~~~
-   In file included from <command-line>:
-   In function 'mc_pcie_setup_inbound_atr',
-       inlined from 'mc_pcie_setup_inbound_ranges' at drivers/pci/controller/pcie-microchip-host.c:1000:4,
-       inlined from 'mc_platform_init' at drivers/pci/controller/pcie-microchip-host.c:1212:8:
->> include/linux/compiler_types.h:460:45: error: call to '__compiletime_assert_441' declared with attribute error: FIELD_PREP: value too large for the field
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:441:25: note: in definition of macro '__compiletime_assert'
-     441 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/pci/controller/pcie-microchip-host.c:949:16: note: in expansion of macro 'FIELD_PREP'
-     949 |         val |= FIELD_PREP(ATR_SIZE_MASK, atr_sz);
-         |                ^~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11n_rxreorder.c: In function 'nxpwifi_11n_dispatch_amsdu_pkt':
+>> drivers/net/wireless/nxp/nxpwifi/11n_rxreorder.c:40:47: warning: variable 'rx_hdr' set but not used [-Wunused-but-set-variable]
+      40 |                         struct rx_packet_hdr *rx_hdr;
+         |                                               ^~~~~~
+--
+   drivers/net/wireless/nxp/nxpwifi/sta_event.c: In function 'nxpwifi_sta_event_link_lost':
+>> drivers/net/wireless/nxp/nxpwifi/sta_event.c:21:13: warning: variable 'reason_code' set but not used [-Wunused-but-set-variable]
+      21 |         u16 reason_code;
+         |             ^~~~~~~~~~~
+--
+   drivers/net/wireless/nxp/nxpwifi/sta_rx.c: In function 'nxpwifi_process_rx_packet':
+>> drivers/net/wireless/nxp/nxpwifi/sta_rx.c:78:25: warning: variable 'rx_pkt_len' set but not used [-Wunused-but-set-variable]
+      78 |         u16 rx_pkt_off, rx_pkt_len;
+         |                         ^~~~~~~~~~
 
 
-vim +/__compiletime_assert_441 +460 include/linux/compiler_types.h
+vim +/rx_hdr +40 drivers/net/wireless/nxp/nxpwifi/11n_rxreorder.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  446  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  447  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  448  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  449  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  451   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  452   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  453   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  454   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  455   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  456   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  457   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  458   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  459  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @460  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  461  
+148be2798f7a0c David Lin 2024-06-21  17  
+148be2798f7a0c David Lin 2024-06-21  18  /* This function will dispatch amsdu packet and forward it to kernel/upper
+148be2798f7a0c David Lin 2024-06-21  19   * layer.
+148be2798f7a0c David Lin 2024-06-21  20   */
+148be2798f7a0c David Lin 2024-06-21  21  static int nxpwifi_11n_dispatch_amsdu_pkt(struct nxpwifi_private *priv,
+148be2798f7a0c David Lin 2024-06-21  22  					  struct sk_buff *skb)
+148be2798f7a0c David Lin 2024-06-21  23  {
+148be2798f7a0c David Lin 2024-06-21  24  	struct rxpd *local_rx_pd = (struct rxpd *)(skb->data);
+148be2798f7a0c David Lin 2024-06-21  25  	int ret;
+148be2798f7a0c David Lin 2024-06-21  26  
+148be2798f7a0c David Lin 2024-06-21  27  	if (le16_to_cpu(local_rx_pd->rx_pkt_type) == PKT_TYPE_AMSDU) {
+148be2798f7a0c David Lin 2024-06-21  28  		struct sk_buff_head list;
+148be2798f7a0c David Lin 2024-06-21  29  		struct sk_buff *rx_skb;
+148be2798f7a0c David Lin 2024-06-21  30  
+148be2798f7a0c David Lin 2024-06-21  31  		__skb_queue_head_init(&list);
+148be2798f7a0c David Lin 2024-06-21  32  
+148be2798f7a0c David Lin 2024-06-21  33  		skb_pull(skb, le16_to_cpu(local_rx_pd->rx_pkt_offset));
+148be2798f7a0c David Lin 2024-06-21  34  		skb_trim(skb, le16_to_cpu(local_rx_pd->rx_pkt_length));
+148be2798f7a0c David Lin 2024-06-21  35  
+148be2798f7a0c David Lin 2024-06-21  36  		ieee80211_amsdu_to_8023s(skb, &list, priv->curr_addr,
+148be2798f7a0c David Lin 2024-06-21  37  					 priv->wdev.iftype, 0, NULL, NULL, false);
+148be2798f7a0c David Lin 2024-06-21  38  
+148be2798f7a0c David Lin 2024-06-21  39  		while (!skb_queue_empty(&list)) {
+148be2798f7a0c David Lin 2024-06-21 @40  			struct rx_packet_hdr *rx_hdr;
+148be2798f7a0c David Lin 2024-06-21  41  
+148be2798f7a0c David Lin 2024-06-21  42  			rx_skb = __skb_dequeue(&list);
+148be2798f7a0c David Lin 2024-06-21  43  			rx_hdr = (struct rx_packet_hdr *)rx_skb->data;
+148be2798f7a0c David Lin 2024-06-21  44  
+148be2798f7a0c David Lin 2024-06-21  45  			if (priv->bss_role == NXPWIFI_BSS_ROLE_UAP)
+148be2798f7a0c David Lin 2024-06-21  46  				ret = nxpwifi_uap_recv_packet(priv, rx_skb);
+148be2798f7a0c David Lin 2024-06-21  47  			else
+148be2798f7a0c David Lin 2024-06-21  48  				ret = nxpwifi_recv_packet(priv, rx_skb);
+148be2798f7a0c David Lin 2024-06-21  49  			if (ret == -1)
+148be2798f7a0c David Lin 2024-06-21  50  				nxpwifi_dbg(priv->adapter, ERROR,
+148be2798f7a0c David Lin 2024-06-21  51  					    "Rx of A-MSDU failed");
+148be2798f7a0c David Lin 2024-06-21  52  		}
+148be2798f7a0c David Lin 2024-06-21  53  		return 0;
+148be2798f7a0c David Lin 2024-06-21  54  	}
+148be2798f7a0c David Lin 2024-06-21  55  
+148be2798f7a0c David Lin 2024-06-21  56  	return -1;
+148be2798f7a0c David Lin 2024-06-21  57  }
+148be2798f7a0c David Lin 2024-06-21  58  
 
 -- 
 0-DAY CI Kernel Test Service
