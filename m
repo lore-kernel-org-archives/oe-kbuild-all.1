@@ -1,73 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEAD1586C5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 23:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9251946A6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 23:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719443275; cv=none; b=MGagQEQawkMpnrbXloUQ9jdx98DqciR1JHm3B7brL9kWCT3eG1EUKWXlLelY5TtPTQ771fo5Pqz8vPw9BB+7UrNK9FIEcd6j1uVKN3JswMKV1t+9rS5eT6mzNeSnrjrXqFdYl/tGhJEQIgmASl2aL9Z9TzHjbLQosruZ+lW7PVo=
+	t=1719446088; cv=none; b=TApr0iBBdspVU3J+pBfIopg8rP4g0QDCYbXT3AcZsXC5rrGPQGxZsY8ikSCgDQqYS+PmtjHpIMceOt13s08x+vnRbOmQDYZi1t8KZ59p8SbjJlGoS8dCtRKyk9NTVEgoXCi9ZdXQT3PSG16G21JuIUKMbc7p9+2ISMtGWsUz4VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719443275; c=relaxed/simple;
-	bh=bGsS6QAH1iQGXflkC3m0fScbHj4wlKNAw4ntnVc0CEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rOLZNQxsxESQ5q0C7PUK+ofbrrgr2eZm+OoApBmZvcQtYZNQRAAoi1vJ+9V6SHe6rYLXD4py1x32ixjqI7FiJ8CVqvuCmeWoT03CVkUlYMAVDYzGSNdwl3yTj0+2QYIAYQYWjhXMIUeofz79R2n94chCG/BcJ7CQeMOcdGKIwdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kw4BKMAp; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1719446088; c=relaxed/simple;
+	bh=amqNXX4jeKLOLHOVQ5Dx1ljXHzJqEo2sG7Xg6glLmSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h5qLmh7XIh3Z4okw2Bf1ElXLj8RmKNAIlGFKpHu9mpWFyQ4yXMuW4GF4KTMAzYni36B0HvdNZ35OeB8v03wIysqg3oD6MskwyiFyoSPNOYPFtnEaz7XHBqO51m48b5G0bRPLsRjQl1mSGXtMpy/qWoiUiSNgO364F6RgtG+9gBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZ2jYZbb; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kw4BKMAp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZ2jYZbb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719443274; x=1750979274;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bGsS6QAH1iQGXflkC3m0fScbHj4wlKNAw4ntnVc0CEY=;
-  b=Kw4BKMApq0+bZxmEbkuMjKQFa+DLnmaxZn0AV+Tb5SdsnipwcipGfbYH
-   JdFt+ndDARQbGgyGHIcFmImLqkKmpwMhCcekxK6QbYH6yIEsHyzDdn9iQ
-   hzPBsyMPgovVl9brocdX4BvFJQiT8kjn/LdxuSVcotDGEi6S3uA1KIVuK
-   CpaESrvv7w1Qt+gIi1xiRCmWcjibTYrQS3cM7OA6ENnC/DO2gGDSAQje1
-   6WMHdjpUj9HuiJwCbPHWIRKZKVi1y0GGOpD82AiHcXabpQPsyHlkVaI7Z
-   B8E7sCvKMdLlxOqsPA7zCXMO5k7J3XSEQM7R4R06Y5p5qNkqwfGeYlCNN
+  t=1719446086; x=1750982086;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=amqNXX4jeKLOLHOVQ5Dx1ljXHzJqEo2sG7Xg6glLmSM=;
+  b=FZ2jYZbb7yZBGoom7WoLO5hMlhujKytDp8oRKMC9lVhu0rwW3NW3ULub
+   i3jIioqnsrSWIM0D/SV+RLQOFoPJ4rRbswj5a0weDxibJ44vB968AZGmn
+   CLmDWsKcRl1FWVZXcrgaY3pY6i0QFIcAJYbfZyDXhyPYAYWaiQu9v1qys
+   wsea7FdKPbjADE/cMaI15Is6ftRGoup6afvp5lfMw3UuvemQksOPm0b9z
+   8/WjEnkRP8/NYPtEgdlR2YqevbnsErqhRB4l+NCkCywNHNCXvpAVEkd7D
+   8sUekTvfCruNogDe3dnPAswGyzAscgEqCJr5/lAz6k/jKl/Ms3RKzfOY+
    A==;
-X-CSE-ConnectionGUID: Yi/5n8SoRhiQiMakJS0JCA==
-X-CSE-MsgGUID: FzvssUiXRiyaGfMYKajVgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="34078213"
+X-CSE-ConnectionGUID: 4HOhvf6jQvyCuS6dKqiV8Q==
+X-CSE-MsgGUID: 6GFAuvmcQFiFuCtS8H2uDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="20370885"
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="34078213"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 16:07:53 -0700
-X-CSE-ConnectionGUID: V9jZL/3xQI6a9qnQu9Z9UQ==
-X-CSE-MsgGUID: LAfmfYIOQZ2TdpOB7fLhaQ==
+   d="scan'208";a="20370885"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 16:54:42 -0700
+X-CSE-ConnectionGUID: YkgBcilAT5W3fKKJS2/QmA==
+X-CSE-MsgGUID: 0E/iwxQ/Rw6B9Oon4Cjkfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="67390811"
+   d="scan'208";a="48793026"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jun 2024 16:07:49 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Jun 2024 16:54:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMbjv-000Fe6-1J;
-	Wed, 26 Jun 2024 23:07:47 +0000
-Date: Thu, 27 Jun 2024 07:06:56 +0800
+	id 1sMcTG-000FgI-1H;
+	Wed, 26 Jun 2024 23:54:38 +0000
+Date: Thu, 27 Jun 2024 07:54:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] thermal: sti: depend on THERMAL_OF subsystem
-Message-ID: <202406270605.qodaWd4n-lkp@intel.com>
-References: <20240625-thermal-v2-2-bf8354ed51ee@gmail.com>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: [pci:controller/rockchip 11/11]
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:undefined reference to
+ `pci_epc_init_notify'
+Message-ID: <202406270721.a8SQi2hn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,32 +63,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625-thermal-v2-2-bf8354ed51ee@gmail.com>
 
-Hi Raphael,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0fc4bfab2cd45f9acb86c4f04b5191e114e901ed]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/thermal-st-switch-from-CONFIG_PM_SLEEP-guards-to-pm_sleep_ptr/20240626-090203
-base:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-patch link:    https://lore.kernel.org/r/20240625-thermal-v2-2-bf8354ed51ee%40gmail.com
-patch subject: [PATCH v2 2/3] thermal: sti: depend on THERMAL_OF subsystem
-config: arm64-kismet-CONFIG_ST_THERMAL-CONFIG_ST_THERMAL_MEMMAP-0-0 (https://download.01.org/0day-ci/archive/20240627/202406270605.qodaWd4n-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240627/202406270605.qodaWd4n-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
+head:   246afbe0f6fca433d8d918b740719170b1b082cc
+commit: 246afbe0f6fca433d8d918b740719170b1b082cc [11/11] PCI: dw-rockchip: Use pci_epc_init_notify() directly
+config: loongarch-randconfig-r081-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270721.a8SQi2hn-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270721.a8SQi2hn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406270605.qodaWd4n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406270721.a8SQi2hn-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ST_THERMAL when selected by ST_THERMAL_MEMMAP
-   WARNING: unmet direct dependencies detected for ST_THERMAL
-     Depends on [n]: THERMAL [=y] && (ARCH_STI || ARCH_STM32 [=y]) && OF [=y] && THERMAL_OF [=n]
-     Selected by [y]:
-     - ST_THERMAL_MEMMAP [=y] && THERMAL [=y] && (ARCH_STI || ARCH_STM32 [=y]) && OF [=y]
+All errors (new ones prefixed by >>):
+
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init_notify':
+   drivers/pci/controller/dwc/pcie-designware-ep.c:26:(.text+0x1e4): undefined reference to `pci_epc_init_notify'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_deinit':
+   drivers/pci/controller/dwc/pcie-designware-ep.c:640:(.text+0x83c): undefined reference to `pci_epc_mem_free_addr'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:643:(.text+0x854): undefined reference to `pci_epc_mem_exit'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_linkup':
+   drivers/pci/controller/dwc/pcie-designware-ep.c:811:(.text+0x924): undefined reference to `pci_epc_linkup'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_linkdown':
+   drivers/pci/controller/dwc/pcie-designware-ep.c:836:(.text+0x964): undefined reference to `pci_epc_linkdown'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init':
+   drivers/pci/controller/dwc/pcie-designware-ep.c:875:(.text+0xe90): undefined reference to `__devm_pci_epc_create'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:888:(.text+0xf20): undefined reference to `pci_epc_mem_init'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:895:(.text+0xf54): undefined reference to `pci_epc_mem_alloc_addr'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:906:(.text+0xf74): undefined reference to `pci_epc_mem_exit'
+   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-dw-rockchip.o: in function `rockchip_pcie_configure_ep':
+>> drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:(.text+0x7cc): undefined reference to `pci_epc_init_notify'
+
+
+vim +491 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+
+   441	
+   442	static int rockchip_pcie_configure_ep(struct platform_device *pdev,
+   443					      struct rockchip_pcie *rockchip)
+   444	{
+   445		struct device *dev = &pdev->dev;
+   446		int irq, ret;
+   447		u32 val;
+   448	
+   449		if (!IS_ENABLED(CONFIG_PCIE_ROCKCHIP_DW_EP))
+   450			return -ENODEV;
+   451	
+   452		irq = platform_get_irq_byname(pdev, "sys");
+   453		if (irq < 0) {
+   454			dev_err(dev, "missing sys IRQ resource\n");
+   455			return irq;
+   456		}
+   457	
+   458		ret = devm_request_threaded_irq(dev, irq, NULL,
+   459						rockchip_pcie_ep_sys_irq_thread,
+   460						IRQF_ONESHOT, "pcie-sys", rockchip);
+   461		if (ret) {
+   462			dev_err(dev, "failed to request PCIe sys IRQ\n");
+   463			return ret;
+   464		}
+   465	
+   466		/* LTSSM enable control mode */
+   467		val = HIWORD_UPDATE_BIT(PCIE_LTSSM_ENABLE_ENHANCE);
+   468		rockchip_pcie_writel_apb(rockchip, val, PCIE_CLIENT_HOT_RESET_CTRL);
+   469	
+   470		rockchip_pcie_writel_apb(rockchip, PCIE_CLIENT_EP_MODE,
+   471					 PCIE_CLIENT_GENERAL_CONTROL);
+   472	
+   473		rockchip->pci.ep.ops = &rockchip_pcie_ep_ops;
+   474		rockchip->pci.ep.page_size = SZ_64K;
+   475	
+   476		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+   477	
+   478		ret = dw_pcie_ep_init(&rockchip->pci.ep);
+   479		if (ret) {
+   480			dev_err(dev, "failed to initialize endpoint\n");
+   481			return ret;
+   482		}
+   483	
+   484		ret = dw_pcie_ep_init_registers(&rockchip->pci.ep);
+   485		if (ret) {
+   486			dev_err(dev, "failed to initialize DWC endpoint registers\n");
+   487			dw_pcie_ep_deinit(&rockchip->pci.ep);
+   488			return ret;
+   489		}
+   490	
+ > 491		pci_epc_init_notify(rockchip->pci.ep.epc);
+   492	
+   493		/* unmask DLL up/down indicator and hot reset/link-down reset */
+   494		rockchip_pcie_writel_apb(rockchip, 0x60000, PCIE_CLIENT_INTR_MASK_MISC);
+   495	
+   496		return ret;
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
