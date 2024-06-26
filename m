@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832614C61;
-	Wed, 26 Jun 2024 00:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97615C0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719361200; cv=none; b=ejCK0dSgoapAC2AuNN0OZdCgescuZITklc2tgGJu9BOVi0j4dKctKrHnWMHXh/N/lJAhfX+FQkAQGMkJpbjN95X4WATZfXU11m9RLS3ZplGMs6jhb/VRbOQPL8Y3o8MtUK7m6McvSTelTvhZ6CXb8CZnZlS4eTUeS637qdemrhE=
+	t=1719361257; cv=none; b=l77paKxVg4TkrEjGNzZQtXY9l7Cetr4jWUvOOz/GTGmiCkfVuk4ducAqmM9yE8E7AxNZnwDF/vvfMMCaU9l4Ct+SpriE+Rr86eo+F7cylKz3LN2N+OsZuCtbO45vsVlrYnDoFQ0Bi4mbHAyFbZTgauU+DqC+RBZ1wCok/Y1WrfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719361200; c=relaxed/simple;
-	bh=LAwZpy3+qHkbeq9PeG40wpWmYPLEMz8RHsNqK/BorGA=;
+	s=arc-20240116; t=1719361257; c=relaxed/simple;
+	bh=CJoeJ3lDkHIZ/KHxL11f+1YMStkAQJV5OkhkWjkbJqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tjtKY6xQ2yKfxZgGLs89//WiQB3MWKihS3p7cN1v4ipv3VSYYxJeAtZCSujiuOb8oqMuYmTaUmv/bjQLA1f16B7A2mEQc8Pv/ONWN+LKPjFgDAwWd9NoUchHgBQNEM5+6P/Woqk5PeG8KEuX2wuR1+U3SJD+6sUox8L+6oXMGAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RaY8TZoL; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=ha3XO5FRvzp8wjYg9O8+fzTKwcz37OisXZU7hRs6HYeAvW0V8Io328O5s3hS76zklY1VoFzPLbXdzEUyVUN39P/vZVDO7vZfNCtW01x7C80YTtWhsIhWYHa8v5T6ZwKV9ptau7VJ0Eo+fesoCAqPy4gXpEkFJNOnSLgXXbsCIh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCbLNG7r; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RaY8TZoL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCbLNG7r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719361199; x=1750897199;
+  t=1719361256; x=1750897256;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LAwZpy3+qHkbeq9PeG40wpWmYPLEMz8RHsNqK/BorGA=;
-  b=RaY8TZoL7N8NB56MLZDCcZYuvR1ZqzwK5ARvfr62bhPxmt2Rp+qrBNTm
-   hdHKjgFy7NNWJZ9GEucUk0SDRaNI655Gq3bC9Qe8iTSZhMtWKJT/aGPSK
-   6yUaOMIRCq2eBbMNyhHJgO6ruHGOiZiR0NfjD3Bbxg8sig4q5UC0Scz4+
-   nUcvo7pzeR0KxDtl8kencHeqKYT+nviwWn8CrD6d/VnmYyKLhWBqB8+f7
-   S7lmBiopm9rzS5n+lAI7lkb2/tXi45BOa2yKYi1vrU9b/uepymr4DyGLM
-   tTifDy1N9/MsEeELos20JU24tyv1c+HB1d33hsrkvvXfHC6HpH2obqeP+
-   g==;
-X-CSE-ConnectionGUID: KWuRfBAxTdaB/1/WDDx7ig==
-X-CSE-MsgGUID: vAAulnllQoyRL1RQ08BlSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16233149"
+  bh=CJoeJ3lDkHIZ/KHxL11f+1YMStkAQJV5OkhkWjkbJqs=;
+  b=hCbLNG7rJHGtAldP3Hb2HDZ2tMfiOTYe3FyLDL0q6+8d/nlEQ4BU/xtS
+   qYSIOXMIQNnylmiT4s3DOIg16OxJNZQyRgPepgPuSjhaF2ydGjozMI7DS
+   3L1/aHBA5dIW4h9Dc2PgmUxhRZgmvNI/HXW0XMwRJYgDr71BDEgoUPD8/
+   ejaUxsxzA6/MHGRKURE4TazzFNGzNN6ZFuD7u/v7T885uZZlut8+xsiMW
+   nq0DbZWEWr8AulKv9lVBZvaA0gg+o82eKvJSm3vetV39QXhNCWY5Cu0Yk
+   aIwoJK9vxs4rqJhMGIGYrn59cO4VUCJbexRIID6I6BkXB1Xl90mNY5Gvg
+   w==;
+X-CSE-ConnectionGUID: xzL8fHzrRSSCZxa8uRYTkw==
+X-CSE-MsgGUID: WZLKSCP1SlGcx0C6g4xt1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16286875"
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="16233149"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:19:56 -0700
-X-CSE-ConnectionGUID: OmMYyxwxTtaphR/2m1b0oQ==
-X-CSE-MsgGUID: A4LbpmDfSEqtuUuO+S2UMg==
+   d="scan'208";a="16286875"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:20:55 -0700
+X-CSE-ConnectionGUID: heJN9hlgR2G0rFKXw5HwKA==
+X-CSE-MsgGUID: 9LOxIo6XQtC8ns/GYnSnAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="48201436"
+   d="scan'208";a="43793764"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Jun 2024 17:19:52 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 25 Jun 2024 17:20:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMGO7-000EpK-2t;
-	Wed, 26 Jun 2024 00:19:51 +0000
-Date: Wed, 26 Jun 2024 08:19:11 +0800
+	id 1sMGP6-000Epc-1F;
+	Wed, 26 Jun 2024 00:20:52 +0000
+Date: Wed, 26 Jun 2024 08:19:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kiran K <kiran.k@intel.com>, linux-bluetooth@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ravishankar.srivatsa@intel.com, chethan.tumkur.narayan@intel.com,
-	chandrashekar.devegowda@intel.com, vijay.satija@intel.com,
-	Kiran K <kiran.k@intel.com>
-Subject: Re: [PATCH v2] Bluetooth: btintel: Allow lowering of drive strength
- of BRI
-Message-ID: <202406260704.ZkFL5RKp-lkp@intel.com>
-References: <20240621064419.2185652-1-kiran.k@intel.com>
+To: daire.mcnamara@microchip.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 2/3] PCI: microchip: Fix inbound address translation
+ tables
+Message-ID: <202406260846.ybHvD2P1-lkp@intel.com>
+References: <20240621112915.3434402-3-daire.mcnamara@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,82 +63,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240621064419.2185652-1-kiran.k@intel.com>
+In-Reply-To: <20240621112915.3434402-3-daire.mcnamara@microchip.com>
 
-Hi Kiran,
+Hi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bluetooth-next/master]
-[also build test ERROR on next-20240625]
-[cannot apply to bluetooth/master linus/master v6.10-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel-Allow-lowering-of-drive-strength-of-BRI/20240625-161151
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20240621064419.2185652-1-kiran.k%40intel.com
-patch subject: [PATCH v2] Bluetooth: btintel: Allow lowering of drive strength of BRI
-config: i386-buildonly-randconfig-001-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260704.ZkFL5RKp-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260704.ZkFL5RKp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/daire-mcnamara-microchip-com/PCI-microchip-Fix-outbound-address-translation-tables/20240625-161731
+base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
+patch link:    https://lore.kernel.org/r/20240621112915.3434402-3-daire.mcnamara%40microchip.com
+patch subject: [PATCH v4 2/3] PCI: microchip: Fix inbound address translation tables
+config: i386-buildonly-randconfig-004-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260846.ybHvD2P1-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260846.ybHvD2P1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260704.ZkFL5RKp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260846.ybHvD2P1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/bluetooth/btintel.c:66:46: error: incompatible pointer types passing 'size_t *' (aka 'unsigned int *') to parameter of type 'unsigned long *' [-Werror,-Wincompatible-pointer-types]
-      66 |         status = efi.get_variable(name, guid, NULL, &data_size, NULL);
-         |                                                     ^~~~~~~~~~
-   drivers/bluetooth/btintel.c:76:46: error: incompatible pointer types passing 'size_t *' (aka 'unsigned int *') to parameter of type 'unsigned long *' [-Werror,-Wincompatible-pointer-types]
-      76 |         status = efi.get_variable(name, guid, NULL, &data_size, data);
-         |                                                     ^~~~~~~~~~
-   2 errors generated.
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/align.h:5,
+                    from include/linux/kernel.h:15,
+                    from include/linux/clk.h:13,
+                    from drivers/pci/controller/pcie-microchip-host.c:11:
+   drivers/pci/controller/pcie-microchip-host.c: In function 'mc_pcie_setup_inbound_ranges':
+   include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^~~~~~
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:46:41: note: in expansion of macro '_AC'
+      46 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   drivers/pci/controller/pcie-microchip-host.c:1000:60: note: in expansion of macro 'SZ_4G'
+    1000 |                         mc_pcie_setup_inbound_atr(0, 0, 0, SZ_4G);
+         |                                                            ^~~~~
+   In file included from <command-line>:
+   In function 'mc_pcie_setup_inbound_atr',
+       inlined from 'mc_pcie_setup_inbound_ranges' at drivers/pci/controller/pcie-microchip-host.c:1000:4,
+       inlined from 'mc_platform_init' at drivers/pci/controller/pcie-microchip-host.c:1212:8:
+>> include/linux/compiler_types.h:460:45: error: call to '__compiletime_assert_441' declared with attribute error: FIELD_PREP: value too large for the field
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:441:25: note: in definition of macro '__compiletime_assert'
+     441 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:460:9: note: in expansion of macro '_compiletime_assert'
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:115:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-microchip-host.c:949:16: note: in expansion of macro 'FIELD_PREP'
+     949 |         val |= FIELD_PREP(ATR_SIZE_MASK, atr_sz);
+         |                ^~~~~~~~~~
 
 
-vim +66 drivers/bluetooth/btintel.c
+vim +/__compiletime_assert_441 +460 include/linux/compiler_types.h
 
-    49	
-    50	static const guid_t btintel_guid_dsm =
-    51		GUID_INIT(0xaa10f4e0, 0x81ac, 0x4233,
-    52			  0xab, 0xf6, 0x3b, 0x2a, 0xc5, 0x0e, 0x28, 0xd9);
-    53	
-    54	static void *btintel_uefi_get_variable(efi_char16_t *name, efi_guid_t *guid)
-    55	{
-    56		void *data;
-    57		efi_status_t status;
-    58		size_t data_size = 0;
-    59	
-    60		if (!IS_ENABLED(CONFIG_EFI))
-    61			return ERR_PTR(-EOPNOTSUPP);
-    62	
-    63		if (!efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
-    64			return ERR_PTR(-EOPNOTSUPP);
-    65	
-  > 66		status = efi.get_variable(name, guid, NULL, &data_size, NULL);
-    67	
-    68		if (status != EFI_BUFFER_TOO_SMALL || !data_size)
-    69			return ERR_PTR(-EIO);
-    70	
-    71		data = kmalloc(data_size, GFP_KERNEL);
-    72	
-    73		if (!data)
-    74			return ERR_PTR(-ENOMEM);
-    75	
-    76		status = efi.get_variable(name, guid, NULL, &data_size, data);
-    77	
-    78		if (status != EFI_SUCCESS) {
-    79			kfree(data);
-    80			return ERR_PTR(-ENXIO);
-    81		}
-    82	
-    83		return data;
-    84	}
-    85	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  446  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  447  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  448  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  449  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  451   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  452   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  453   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  454   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  455   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  456   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  457   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  458   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  459  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @460  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  461  
 
 -- 
 0-DAY CI Kernel Test Service
