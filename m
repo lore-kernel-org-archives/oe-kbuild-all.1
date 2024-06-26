@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D90D1FBB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1574A2F5E
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719361523; cv=none; b=NYnHABCqv7prrKVpcgNSGIHGcaUjQNnhcCN7exfHcmiy/tVBzip3jVRfSHGcxnqDRNTnVVRoiBfkZMLNNTUgp8gN8K6uLaT+C04Ffe3AzrHvt/AFzLTFGH+sG6yvMwJCZprTVWcN5y+4Uv+pCIWb5qeTtVO1Cub8J96kaMX08mQ=
+	t=1719361524; cv=none; b=jyYYiOAgJ25jL9PRQA3C+ugDYPxPOjUDrf4UbPiOrgCbwhoF68purl5hcnUwzu5Z9qRAfU9v1mbuGhljepXb++om99MB4/uAxkwWoq1T4Qvb6dsRSMxTVs8y/yHW/nx6zRPqABMLmLWA6qfsZUz8T8dqN2yMW0GiITY4ttgXdRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719361523; c=relaxed/simple;
-	bh=pdvH9UYQ/SqS+nHU6W6FNxWXK9lUyuz9ljcuqj5ktlg=;
+	s=arc-20240116; t=1719361524; c=relaxed/simple;
+	bh=DMGdf2Hjct7n86GfjLZF82YoQjkFd0wZ1mtuIwsi27U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WCtNjbA2VoKm24pJfUjjOn9WdW/k8O2DGowQeSuzLkR7IzzX3cgUv+pufXEznEhk4Pmfa+Mr6jqz64Nuxu9dCgh9AxBwZ8vT7rY3BwTeXNHd4sMAh3mqlNa9LuHfXCPbSq6fRl2XZhWq+nRgigcTqWXwrkTa8+KwnGvynORN2+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=np9iFzKL; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=uU9tg1grC8NEtLXFkYZAcrx9zjXg1mQLz2LtucmKegR2Ub3/5l6xgt4vADUbZ9YRStVWg0gw5tdA3MBXAcju3A8c555QHVqhlLYgYZ9yMGmsYjP0DvpBcCHKlq6fqqBXi90mrWz7KnythjVMmsYLeBTMJ6ia6Gm1RSs1gt+BTJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=amvvYWmq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="np9iFzKL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="amvvYWmq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719361521; x=1750897521;
+  t=1719361522; x=1750897522;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pdvH9UYQ/SqS+nHU6W6FNxWXK9lUyuz9ljcuqj5ktlg=;
-  b=np9iFzKLsFz1QS3GA1bSSOTYKOAZvdMVVx2kzMNFtJdvdIyyTfWQwzoT
-   7b12z0O2fQg9sGeflfF202c2asQnvbcqwNaIJ7a9SGdFmlFKMao9Vsbmv
-   RXzZvOMo1mn2/Iy6CaLrcSc1/WRTh5YKL55AjuLHIYm750DPiTSxzAxQF
-   gLZe7ycyVagkzd8MJgn6S4TjUpjabyqNHQYzsef9lhSHT+jgRJGJXiEKU
-   wZk4ykHcCnHrFWv4Ioyi86yOsLw2yjEH+jC/QbkRQxK4sSGnJyW4rBrQG
-   olA5fxap7sfHpp2hezHUcIq7WybzHiBk6d5Vp9yA52bOffnteaJeXF/+X
-   A==;
-X-CSE-ConnectionGUID: qvJD+sEgRWSlLih4lYcjqg==
-X-CSE-MsgGUID: 8osPINxAQv6Y5Vnz/m87Hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="27551456"
+  bh=DMGdf2Hjct7n86GfjLZF82YoQjkFd0wZ1mtuIwsi27U=;
+  b=amvvYWmq0Op0a57JCdm/kQznXtCErWM//UzxDWazpdxBN+W5gdmmaGVT
+   aazyvITAYfHFe1LpDiPLdx7WTBl0dgJTdwm6gxu10eVRmNtW0jomgjYed
+   BjRC+hB+lm/6dxz+k279zLqXaW4SizsiATG2jpQAnLoKdoS8U4JO4AgX4
+   Notz26x8dhOEzckzBnw/y5rvHLPhtCTJkplsUKCn+II2Fdf5NtyimSEDJ
+   LPqrjeymbcH9qPAGdnUhxt4BRtxKHU9ahQTnzJ+bsVtd9/hZrgx7pEVAC
+   qH8FSCQ/GyxvFjiq3WHJZggWh9/J0HiPXjnMp/G6KsGCav/S/C2sCQofZ
+   w==;
+X-CSE-ConnectionGUID: Cfb24ueRTNeNj8Ok99fb+w==
+X-CSE-MsgGUID: EBNGPPiBR0qyuev7Ti/zcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16092155"
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="27551456"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:25:21 -0700
-X-CSE-ConnectionGUID: VFKVk0CLRoyaeAVqjy9c6g==
-X-CSE-MsgGUID: Or6R2Nf1SCmTOt4t1u9WuQ==
+   d="scan'208";a="16092155"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:25:21 -0700
+X-CSE-ConnectionGUID: 2VsMBAceSEySrlkOcZKcUw==
+X-CSE-MsgGUID: atrnndvTSPuJXOcf4647MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="43919377"
+   d="scan'208";a="44472864"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Jun 2024 17:25:18 -0700
+  by orviesa007.jf.intel.com with ESMTP; 25 Jun 2024 17:25:19 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMGTM-000Ept-1f;
+	id 1sMGTM-000Epq-1A;
 	Wed, 26 Jun 2024 00:25:16 +0000
-Date: Wed, 26 Jun 2024 08:24:23 +0800
+Date: Wed, 26 Jun 2024 08:24:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Lin <yu-hao.lin@nxp.com>, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	briannorris@chromium.org, kvalo@kernel.org, francesco@dolcini.it,
-	tsung-hsien.hsieh@nxp.com, David Lin <yu-hao.lin@nxp.com>
-Subject: Re: [PATCH 42/43] wifi: nxpwifi: add Makefile and Kconfig files for
- nxpwifi compilation
-Message-ID: <202406260848.0pH4xjvI-lkp@intel.com>
-References: <20240621075208.513497-43-yu-hao.lin@nxp.com>
+To: Hongbo Li <lihongbo22@huawei.com>, clm@fb.com, josef@toxicpanda.com,
+	dsterba@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	lihongbo22@huawei.com
+Subject: Re: [PATCH] btrfs: support STATX_DIOALIGN for statx
+Message-ID: <202406260839.lNfzNan4-lkp@intel.com>
+References: <20240620132000.888494-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,89 +64,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240621075208.513497-43-yu-hao.lin@nxp.com>
+In-Reply-To: <20240620132000.888494-1-lihongbo22@huawei.com>
 
-Hi David,
+Hi Hongbo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 238d636723a30311e20fde0a361662e829fe488b]
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.10-rc5 next-20240625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lin/wifi-nxpwifi-add-11ac-c/20240625-161306
-base:   238d636723a30311e20fde0a361662e829fe488b
-patch link:    https://lore.kernel.org/r/20240621075208.513497-43-yu-hao.lin%40nxp.com
-patch subject: [PATCH 42/43] wifi: nxpwifi: add Makefile and Kconfig files for nxpwifi compilation
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240626/202406260848.0pH4xjvI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260848.0pH4xjvI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/btrfs-support-STATX_DIOALIGN-for-statx/20240625-141147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240620132000.888494-1-lihongbo22%40huawei.com
+patch subject: [PATCH] btrfs: support STATX_DIOALIGN for statx
+config: i386-randconfig-015-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260839.lNfzNan4-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260839.lNfzNan4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260848.0pH4xjvI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260839.lNfzNan4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/nxp/nxpwifi/11n_rxreorder.c: In function 'nxpwifi_11n_dispatch_amsdu_pkt':
->> drivers/net/wireless/nxp/nxpwifi/11n_rxreorder.c:40:47: warning: variable 'rx_hdr' set but not used [-Wunused-but-set-variable]
-      40 |                         struct rx_packet_hdr *rx_hdr;
-         |                                               ^~~~~~
---
-   drivers/net/wireless/nxp/nxpwifi/sta_event.c: In function 'nxpwifi_sta_event_link_lost':
->> drivers/net/wireless/nxp/nxpwifi/sta_event.c:21:13: warning: variable 'reason_code' set but not used [-Wunused-but-set-variable]
-      21 |         u16 reason_code;
-         |             ^~~~~~~~~~~
---
-   drivers/net/wireless/nxp/nxpwifi/sta_rx.c: In function 'nxpwifi_process_rx_packet':
->> drivers/net/wireless/nxp/nxpwifi/sta_rx.c:78:25: warning: variable 'rx_pkt_len' set but not used [-Wunused-but-set-variable]
-      78 |         u16 rx_pkt_off, rx_pkt_len;
-         |                         ^~~~~~~~~~
+   fs/btrfs/inode.c: In function 'btrfs_getattr':
+   fs/btrfs/inode.c:8561:3: error: unknown type name 'btrfs_fs_info'; use 'struct' keyword to refer to the type
+      btrfs_fs_info *fs_info = inode_to_fs_info(inode);
+      ^~~~~~~~~~~~~
+      struct 
+   In file included from fs/btrfs/ctree.h:20:0,
+                    from fs/btrfs/inode.c:38:
+>> fs/btrfs/fs.h:882:34: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+    #define inode_to_fs_info(_inode) (BTRFS_I(_Generic((_inode),   \
+                                     ^
+   fs/btrfs/inode.c:8561:28: note: in expansion of macro 'inode_to_fs_info'
+      btrfs_fs_info *fs_info = inode_to_fs_info(inode);
+                               ^~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:8562:38: error: request for member 'fs_devices' in something not a structure or union
+      struct block_device *bdev = fs_info->fs_devices->latest_dev->bdev;
+                                         ^~
+   In file included from arch/x86/include/asm/atomic.h:5:0,
+                    from include/linux/atomic.h:7,
+                    from include/crypto/hash.h:11,
+                    from fs/btrfs/inode.c:6:
+   fs/btrfs/inode.c:8566:11: error: request for member 'sectorsize' in something not a structure or union
+       fs_info->sectorsize);
+              ^
+   include/linux/compiler.h:284:48: note: in definition of macro '__is_constexpr'
+     (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+                                                   ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__careful_cmp'
+    #define max_t(type, x, y) __careful_cmp(max, (type)(x), (type)(y))
+                              ^~~~~~~~~~~~~
+   fs/btrfs/inode.c:8565:25: note: in expansion of macro 'max_t'
+      stat->dio_mem_align = max_t(u32, (bdev_dma_alignment(bdev) + 1),
+                            ^~~~~
+   In file included from include/linux/kernel.h:28:0,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from include/crypto/hash.h:12,
+                    from fs/btrfs/inode.c:6:
+   fs/btrfs/inode.c:8566:11: error: request for member 'sectorsize' in something not a structure or union
+       fs_info->sectorsize);
+              ^
+   include/linux/minmax.h:46:45: note: in definition of macro '__cmp'
+    #define __cmp(op, x, y) ((x) __cmp_op_##op (y) ? (x) : (y))
+                                                ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__careful_cmp'
+    #define max_t(type, x, y) __careful_cmp(max, (type)(x), (type)(y))
+                              ^~~~~~~~~~~~~
+   fs/btrfs/inode.c:8565:25: note: in expansion of macro 'max_t'
+      stat->dio_mem_align = max_t(u32, (bdev_dma_alignment(bdev) + 1),
+                            ^~~~~
+   fs/btrfs/inode.c:8566:11: error: request for member 'sectorsize' in something not a structure or union
+       fs_info->sectorsize);
+              ^
+   include/linux/minmax.h:46:57: note: in definition of macro '__cmp'
+    #define __cmp(op, x, y) ((x) __cmp_op_##op (y) ? (x) : (y))
+                                                            ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__careful_cmp'
+    #define max_t(type, x, y) __careful_cmp(max, (type)(x), (type)(y))
+                              ^~~~~~~~~~~~~
+   fs/btrfs/inode.c:8565:25: note: in expansion of macro 'max_t'
+      stat->dio_mem_align = max_t(u32, (bdev_dma_alignment(bdev) + 1),
+                            ^~~~~
+   fs/btrfs/inode.c:8566:11: error: request for member 'sectorsize' in something not a structure or union
+       fs_info->sectorsize);
+              ^
+   include/linux/minmax.h:50:9: note: in definition of macro '__cmp_once'
+     typeof(y) unique_y = (y);   \
+            ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__careful_cmp'
+    #define max_t(type, x, y) __careful_cmp(max, (type)(x), (type)(y))
+                              ^~~~~~~~~~~~~
+   fs/btrfs/inode.c:8565:25: note: in expansion of macro 'max_t'
+      stat->dio_mem_align = max_t(u32, (bdev_dma_alignment(bdev) + 1),
+                            ^~~~~
+   fs/btrfs/inode.c:8566:11: error: request for member 'sectorsize' in something not a structure or union
+       fs_info->sectorsize);
+              ^
+   include/linux/minmax.h:50:24: note: in definition of macro '__cmp_once'
+     typeof(y) unique_y = (y);   \
+                           ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__careful_cmp'
+    #define max_t(type, x, y) __careful_cmp(max, (type)(x), (type)(y))
+                              ^~~~~~~~~~~~~
+   fs/btrfs/inode.c:8565:25: note: in expansion of macro 'max_t'
+      stat->dio_mem_align = max_t(u32, (bdev_dma_alignment(bdev) + 1),
+                            ^~~~~
+   In file included from include/linux/atomic/atomic-instrumented.h:15:0,
+                    from include/linux/atomic.h:82,
+                    from include/crypto/hash.h:11,
+                    from fs/btrfs/inode.c:6:
+   fs/btrfs/inode.c:8566:11: error: request for member 'sectorsize' in something not a structure or union
+       fs_info->sectorsize);
+              ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                           ^~~~
+   include/linux/minmax.h:51:2: note: in expansion of macro 'static_assert'
+     static_assert(__types_ok(x, y),   \
+     ^~~~~~~~~~~~~
+   include/linux/minmax.h:31:24: note: in expansion of macro '__is_constexpr'
+     __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))), \
+                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:31:39: note: in expansion of macro 'is_signed_type'
+     __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))), \
 
 
-vim +/rx_hdr +40 drivers/net/wireless/nxp/nxpwifi/11n_rxreorder.c
+vim +882 fs/btrfs/fs.h
 
-148be2798f7a0c David Lin 2024-06-21  17  
-148be2798f7a0c David Lin 2024-06-21  18  /* This function will dispatch amsdu packet and forward it to kernel/upper
-148be2798f7a0c David Lin 2024-06-21  19   * layer.
-148be2798f7a0c David Lin 2024-06-21  20   */
-148be2798f7a0c David Lin 2024-06-21  21  static int nxpwifi_11n_dispatch_amsdu_pkt(struct nxpwifi_private *priv,
-148be2798f7a0c David Lin 2024-06-21  22  					  struct sk_buff *skb)
-148be2798f7a0c David Lin 2024-06-21  23  {
-148be2798f7a0c David Lin 2024-06-21  24  	struct rxpd *local_rx_pd = (struct rxpd *)(skb->data);
-148be2798f7a0c David Lin 2024-06-21  25  	int ret;
-148be2798f7a0c David Lin 2024-06-21  26  
-148be2798f7a0c David Lin 2024-06-21  27  	if (le16_to_cpu(local_rx_pd->rx_pkt_type) == PKT_TYPE_AMSDU) {
-148be2798f7a0c David Lin 2024-06-21  28  		struct sk_buff_head list;
-148be2798f7a0c David Lin 2024-06-21  29  		struct sk_buff *rx_skb;
-148be2798f7a0c David Lin 2024-06-21  30  
-148be2798f7a0c David Lin 2024-06-21  31  		__skb_queue_head_init(&list);
-148be2798f7a0c David Lin 2024-06-21  32  
-148be2798f7a0c David Lin 2024-06-21  33  		skb_pull(skb, le16_to_cpu(local_rx_pd->rx_pkt_offset));
-148be2798f7a0c David Lin 2024-06-21  34  		skb_trim(skb, le16_to_cpu(local_rx_pd->rx_pkt_length));
-148be2798f7a0c David Lin 2024-06-21  35  
-148be2798f7a0c David Lin 2024-06-21  36  		ieee80211_amsdu_to_8023s(skb, &list, priv->curr_addr,
-148be2798f7a0c David Lin 2024-06-21  37  					 priv->wdev.iftype, 0, NULL, NULL, false);
-148be2798f7a0c David Lin 2024-06-21  38  
-148be2798f7a0c David Lin 2024-06-21  39  		while (!skb_queue_empty(&list)) {
-148be2798f7a0c David Lin 2024-06-21 @40  			struct rx_packet_hdr *rx_hdr;
-148be2798f7a0c David Lin 2024-06-21  41  
-148be2798f7a0c David Lin 2024-06-21  42  			rx_skb = __skb_dequeue(&list);
-148be2798f7a0c David Lin 2024-06-21  43  			rx_hdr = (struct rx_packet_hdr *)rx_skb->data;
-148be2798f7a0c David Lin 2024-06-21  44  
-148be2798f7a0c David Lin 2024-06-21  45  			if (priv->bss_role == NXPWIFI_BSS_ROLE_UAP)
-148be2798f7a0c David Lin 2024-06-21  46  				ret = nxpwifi_uap_recv_packet(priv, rx_skb);
-148be2798f7a0c David Lin 2024-06-21  47  			else
-148be2798f7a0c David Lin 2024-06-21  48  				ret = nxpwifi_recv_packet(priv, rx_skb);
-148be2798f7a0c David Lin 2024-06-21  49  			if (ret == -1)
-148be2798f7a0c David Lin 2024-06-21  50  				nxpwifi_dbg(priv->adapter, ERROR,
-148be2798f7a0c David Lin 2024-06-21  51  					    "Rx of A-MSDU failed");
-148be2798f7a0c David Lin 2024-06-21  52  		}
-148be2798f7a0c David Lin 2024-06-21  53  		return 0;
-148be2798f7a0c David Lin 2024-06-21  54  	}
-148be2798f7a0c David Lin 2024-06-21  55  
-148be2798f7a0c David Lin 2024-06-21  56  	return -1;
-148be2798f7a0c David Lin 2024-06-21  57  }
-148be2798f7a0c David Lin 2024-06-21  58  
+b33d2e535f9b2a David Sterba 2023-09-14  881  
+41044b41ad2c8c David Sterba 2023-09-14 @882  #define inode_to_fs_info(_inode) (BTRFS_I(_Generic((_inode),			\
+41044b41ad2c8c David Sterba 2023-09-14  883  					   struct inode *: (_inode)))->root->fs_info)
+41044b41ad2c8c David Sterba 2023-09-14  884  
 
 -- 
 0-DAY CI Kernel Test Service
