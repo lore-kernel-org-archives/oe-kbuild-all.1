@@ -1,61 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1BE14B954
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 06:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F48F14D2A8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 06:03:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719381781; cv=none; b=T5bUwv5pYRgA+rzbXx0A5fmOlT2PkEH0fJOMR/ijvkbzZ9ZiNpZbz2492a977jDefGAAlBY3KYQKfoosASV6QjapX2amTVRZoVKdvisXH+fwvuNGAHtcSlnWOL01sD3nPNgFFRd936Lu8sG/uyOriKyPIDxHwFdZfaqypApIAp4=
+	t=1719381782; cv=none; b=pUAdB0sJiWlTPbusMvNdb/G+O7XKBfKjg0jc/QclWFTaLt8Xa8iHd1qXSuE03BML85e558Qa8+sa0uUAuxh/BfT8US9SPmUmHh9Q0XzvHJW04O6JKktOugbpJXutzmgU1A+kEmi8bhi13sgf61h/X6WDUwSSBZc4OhBqfHef+Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719381781; c=relaxed/simple;
-	bh=i3nbNTGdPtzMwCvWGyt6dplWPYLVcAM2yO93Gigm7os=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WSJ3qk4GtMKBsm6KsPNGOoU6nGjHTywBPl5WSYQYhfoAbpm5ZXPbnN/dZyPMKfo0md0xysSAEni+VVxOh5XfCfBS9ry2b8gSPKEXjjIS3N37jFF5Vu+4RItjulo769oTTHHnyzA/hoiddBvmtX4IPyDtlUqbeel9bT5TmEjJGuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJyA1wmA; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1719381782; c=relaxed/simple;
+	bh=+IrAu2tGyYGt+Jo1t4WYi42rdgy5RAFSZck2uvVRV1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OVfzQMYcL4rK53kUIBHlwYMoyOhda9SWay/L8qQBHf60iQ7OMVZfSXHmoL+df6PKA5KSHxSDnjrY+amW9/xUXTNvzfOWXmB4nrZgbkaE/o3qY45rUsoRXjUosdxRX/4dh8qIOs0pmWoLTVFvLRUWHZwocL6Nc4RKOAen3eJBuhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TuWpKdA1; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJyA1wmA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TuWpKdA1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719381779; x=1750917779;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i3nbNTGdPtzMwCvWGyt6dplWPYLVcAM2yO93Gigm7os=;
-  b=IJyA1wmApmsi2oLRA5/5/uXsuiY2SiI4jnzy3nlbMRcZohwvrY35VEa0
-   UAa+wh5wYrMskpf4+zAzqr0QRn3e2PY/atOzCACSR95ErN0YxIE+/in2C
-   2uie2hTgi3slzFmxnCTFuKWi3UXmzV/fHoSCapj/ogKw+OIE5BUSU/N5+
-   BTOFwcieV3qinXtdI+nQm5DJTs8vKnwWVybjPn7NamAV50pH1pxlVUMp/
-   bGq+Qk/i8/r6ffwp9qctQQ7shi+0m/EDgKS/nPMeO2Schh3mYaRhT/h++
-   KRmDl5DSpD7hmgnZJN/lm3jiLPoHeUK5L1lM/9/GLVc+Nj7KcKc09g9LU
-   Q==;
-X-CSE-ConnectionGUID: ihrz3PhfQwmxbeRryLITIA==
-X-CSE-MsgGUID: u6LXaLoCQuWe6aXILR/oxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16580351"
+  t=1719381781; x=1750917781;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+IrAu2tGyYGt+Jo1t4WYi42rdgy5RAFSZck2uvVRV1Q=;
+  b=TuWpKdA1qWeggKYoJQiAi6qPEfu3yJGu7ZOBR52W8aPsaBzsbLZxav7n
+   kYncwEEsAR3xdZ2NXN2Z1LOSZ++Yo9K13n5iz1A3cCKz4pWmoy+1tXCxT
+   oCzfIh/Te2poLxjgQaVCSuElMz3waiF6Ll3qHb3Z7XNJqN7fvG2dn/zyC
+   I8zClPqta/hDtzZ6JxWXKh/5fQBl202Qje3+DTp5jiqbTZYZlkSmaeC+K
+   6Xov8JAfWEvk2FYv0E00BUpFu2VEhb2PxGs9xisA9+81pXQmLhuigoCjg
+   KHNFSR+FCtMe0GAJyh9KlesdEad7+4wJRhyI2/HoHjEDHoZEz0zS3IDyH
+   A==;
+X-CSE-ConnectionGUID: q/qj6hkHRFaTAQ0/UmDgYg==
+X-CSE-MsgGUID: X5jHhJbUSb242x1SrLztmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16580354"
 X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
-   d="scan'208";a="16580351"
+   d="scan'208";a="16580354"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 23:02:51 -0700
-X-CSE-ConnectionGUID: 3PAu7ltzTcSI7ls/tF0xXQ==
-X-CSE-MsgGUID: gEYUTH8mSSyvnaP9HAdZOg==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 23:02:53 -0700
+X-CSE-ConnectionGUID: gtjuWBIQSYmikv9XyhIf2w==
+X-CSE-MsgGUID: KDf4yq2NTSamT5KSmRK+5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
-   d="scan'208";a="48868497"
+   d="scan'208";a="48868500"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 25 Jun 2024 23:02:49 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMLjz-000F2H-1K;
+	id 1sMLjz-000F2N-1g;
 	Wed, 26 Jun 2024 06:02:47 +0000
-Date: Wed, 26 Jun 2024 14:01:45 +0800
+Date: Wed, 26 Jun 2024 14:02:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [linux-next:master 7259/8232] drivers/gpu/drm/drm_panic.c:99:
- multiple definition of `init_module';
- drivers/gpu/drm/drm_drv.o:drivers/gpu/drm/drm_drv.c:1079: first defined here
-Message-ID: <202406261341.GYsbLpN1-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, linux-trace-kernel@vger.kernel.org,
+	rostedt@goodmis.org, mhiramat@kernel.org, oleg@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, peterz@infradead.org, mingo@redhat.com,
+	bpf@vger.kernel.org, jolsa@kernel.org, paulmck@kernel.org,
+	clm@meta.com, Andrii Nakryiko <andrii@kernel.org>
+Subject: Re: [PATCH 04/12] uprobes: revamp uprobe refcounting and lifetime
+ management
+Message-ID: <202406261300.ebbfM0XJ-lkp@intel.com>
+References: <20240625002144.3485799-5-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,56 +66,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240625002144.3485799-5-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-commit: 294bbd1f2697ff28af7f036b2cb19fee78eb100b [7259/8232] drm/panic: Add support for drawing a monochrome graphical logo
-config: i386-randconfig-001-20240626 (https://download.01.org/0day-ci/archive/20240626/202406261341.GYsbLpN1-lkp@intel.com/config)
+Hi Andrii,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240624]
+[also build test WARNING on v6.10-rc5]
+[cannot apply to perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.10-rc5 v6.10-rc4 v6.10-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/uprobes-update-outdated-comment/20240626-001728
+base:   next-20240624
+patch link:    https://lore.kernel.org/r/20240625002144.3485799-5-andrii%40kernel.org
+patch subject: [PATCH 04/12] uprobes: revamp uprobe refcounting and lifetime management
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240626/202406261300.ebbfM0XJ-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406261341.GYsbLpN1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406261300.ebbfM0XJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406261341.GYsbLpN1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406261300.ebbfM0XJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/drm_panic.o: in function `drm_panic_setup_logo':
->> drivers/gpu/drm/drm_panic.c:99: multiple definition of `init_module'; drivers/gpu/drm/drm_drv.o:drivers/gpu/drm/drm_drv.c:1079: first defined here
+>> kernel/events/uprobes.c:638: warning: Function parameter or struct member 'uprobe' not described in '__get_uprobe'
+>> kernel/events/uprobes.c:638: warning: expecting prototype for Caller has to make sure that(). Prototype was for __get_uprobe() instead
 
 
-vim +99 drivers/gpu/drm/drm_panic.c
+vim +638 kernel/events/uprobes.c
 
-    97	
-    98	static int drm_panic_setup_logo(void)
-  > 99	{
-   100		const struct linux_logo *logo = fb_find_logo(1);
-   101		const unsigned char *logo_data;
-   102		struct linux_logo *logo_dup;
-   103	
-   104		if (!logo || logo->type != LINUX_LOGO_MONO)
-   105			return 0;
-   106	
-   107		/* The logo is __init, so we must make a copy for later use */
-   108		logo_data = kmemdup(logo->data,
-   109				    size_mul(DIV_ROUND_UP(logo->width, BITS_PER_BYTE), logo->height),
-   110				    GFP_KERNEL);
-   111		if (!logo_data)
-   112			return -ENOMEM;
-   113	
-   114		logo_dup = kmemdup(logo, sizeof(*logo), GFP_KERNEL);
-   115		if (!logo_dup) {
-   116			kfree(logo_data);
-   117			return -ENOMEM;
-   118		}
-   119	
-   120		logo_dup->data = logo_data;
-   121		logo_mono = logo_dup;
-   122	
-   123		return 0;
-   124	}
-   125	
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  625  
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  626  /**
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  627   * Caller has to make sure that:
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  628   *   a) either uprobe's refcnt is positive before this call;
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  629   *   b) or uprobes_treelock is held (doesn't matter if for read or write),
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  630   *      preventing uprobe's destructor from removing it from uprobes_tree.
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  631   *
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  632   * In the latter case, uprobe's destructor will "resurrect" uprobe instance if
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  633   * it detects that its refcount went back to being positive again inbetween it
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  634   * dropping to zero at some point and (potentially delayed) destructor
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  635   * callback actually running.
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  636   */
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  637  static struct uprobe *__get_uprobe(struct uprobe *uprobe)
+f231722a2b27ee Oleg Nesterov   2015-07-21 @638  {
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  639  	s64 v;
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  640  
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  641  	v = atomic64_add_return(UPROBE_REFCNT_GET, &uprobe->ref);
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  642  
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  643  	/*
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  644  	 * If the highest bit is set, we need to clear it. If cmpxchg() fails,
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  645  	 * we don't retry because there is another CPU that just managed to
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  646  	 * update refcnt and will attempt the same "fix up". Eventually one of
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  647  	 * them will succeed to clear highset bit.
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  648  	 */
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  649  	if (unlikely(v < 0))
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  650  		(void)atomic64_cmpxchg(&uprobe->ref, v, v & ~(1ULL << 63));
+b9adadbcb8dfc8 Andrii Nakryiko 2024-06-24  651  
+f231722a2b27ee Oleg Nesterov   2015-07-21  652  	return uprobe;
+f231722a2b27ee Oleg Nesterov   2015-07-21  653  }
+f231722a2b27ee Oleg Nesterov   2015-07-21  654  
 
 -- 
 0-DAY CI Kernel Test Service
