@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23E615C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B281F1FBB;
+	Wed, 26 Jun 2024 00:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719361198; cv=none; b=qsvynihiUdTig3nfDwjqcCpIy4xVECftWmrnLglfeOimAm8ewpBdd+gSIhH+WRUbEG+6ekWKjwuK9jeItt+85bo9CD1wQrsNIUkd9cLiHm6yZqcJ3cTH+uNylBqa5tkBDy4G2An4e9CzhGkiS1+o+ZGnGakvf2xfl1Pj0WztyXc=
+	t=1719361199; cv=none; b=iTG8jIfmWQjnNYDkUULStLiVqhKCzoSmWTVfVqJukH0GJllwSkSNvbEbi4MZGLczGtQyE34Wgm0zG5f3UWNw/D4CYJrylwyAZsLFe9CIwZ5QpkFEbYfgY/s9FpMiS2qizXffFBLbpuv3vQrKS5g5lhQAq3EAyiRuUl9eZZBOF+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719361198; c=relaxed/simple;
-	bh=PzRDHSyfK6Iqj2MJMWjZzlvh4B9lOljfEzPkzzxDxkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s/tgT4z0XhiWaNesc0hbfL3QpHd+bNpRFItVN2INYOxGS8K6y2EgI9ebce+mQNlfIEuUPiocHIWF9zHu+WadelXQ2OHxMX0J1FtuvTnmvGU1xcrIuGy1bKC9KcVkWSRP5bXaCxarEaDd4GeBAjNur/oShBRiF2geqQIQjD6dISU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRa88De+; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1719361199; c=relaxed/simple;
+	bh=VyKJoiUnArbE85wVbW2yF8U84igiUbDe9AhUCeSC9bA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AUQ+WlxplyeH0VM16fjv4ihoq6HusUadWzjyVR9ma3RHTXqXZitycNGExh1y7tqOPQtJWPNBMn9WB1wGK6jP/vXja5+SRuoPKDreHmwT8961VS9lUOB9ZAk5E6t66YZqAQ0vYgkp2iXYmQEshaeayfFcA+D3YhBvPb0/+om+1Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEYkSQad; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRa88De+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEYkSQad"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719361196; x=1750897196;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PzRDHSyfK6Iqj2MJMWjZzlvh4B9lOljfEzPkzzxDxkg=;
-  b=TRa88De+5jFDtQbU86Lwm+Nj00LPpy+IvkbHOtNJSKDxJP9NEG6qQxbc
-   QaK0kQncnWVQTpop3KyMr9n+dcyhVRHM+4ZD9xKsnV8kVKvXlhAvA9CyX
-   jK5biNFOqf+O3Q9cYMmNLZC2qv+cA8qXrNtyvr2uORldV9pl/j1mGSHxI
-   I9hGYkbSyJPm5OIKN0MJ2tGWfunUcyVShVPUWjUWdaqD8e4mvcEfT3o7p
-   6YUr9nBQwG0ez0KXxSkEJTHj/Ff5jHiqA62PhlbE65k6Ac7UawQdlhGBr
-   g3swfIFWV/DtC7uyege1ilsYcOuxbRR07NkDOZcw/ssXZ4iZADvmGMb+e
+  t=1719361198; x=1750897198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VyKJoiUnArbE85wVbW2yF8U84igiUbDe9AhUCeSC9bA=;
+  b=ZEYkSQadVWYpLhvWaE8Gld6G2GguV1VUFyKCz8aoILMJZawdINvU5KZ/
+   sDJQACpO7/KTpVQbQFntIWI1N1Yt02FNVlU7CEqR3zbVUDFJJk7NEgiHI
+   UghD+H2O8q49IV440IGgvT2HnbVn+EUHmaFizpzaSPyVY9U9EQcUB13xE
+   qikGdL2ojU5nhcoCeUscUJjNV8vSWg+9x+F4LopEz07MMvhdLcP0V/qgg
+   EsNZMZ0t/AOWyzCSmtLJBeUDGn0mtnfRcubh2bOySyOdRcAxQLWevRGTy
+   89z991oByaGhsdTP/MEX1h4io1TIixSPmNrkvEACiEOxjek6fU2VelNib
    w==;
-X-CSE-ConnectionGUID: zncQ8Z1WTXW2vVwhqcQWDA==
-X-CSE-MsgGUID: aNFGA+XsScGz9Wo8yHltXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16233147"
+X-CSE-ConnectionGUID: DZn3DSk7Q6yV53+igdx8ag==
+X-CSE-MsgGUID: HSwFlLnKRDap8DjUufC5RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="19300657"
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="16233147"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:19:56 -0700
-X-CSE-ConnectionGUID: Swxd7vXBQ8ePs1pxgHYeVg==
-X-CSE-MsgGUID: uxz9gTCVTAibk8ph1ZgPHg==
+   d="scan'208";a="19300657"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:19:57 -0700
+X-CSE-ConnectionGUID: JcfAnWtYQAe43ZyW7371ww==
+X-CSE-MsgGUID: YXSpsHLhSsKFj+neRKfkBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="48201431"
+   d="scan'208";a="44531365"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Jun 2024 17:19:52 -0700
+  by orviesa008.jf.intel.com with ESMTP; 25 Jun 2024 17:19:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMGO7-000EpN-39;
-	Wed, 26 Jun 2024 00:19:51 +0000
-Date: Wed, 26 Jun 2024 08:19:16 +0800
+	id 1sMGO8-000EpP-01;
+	Wed, 26 Jun 2024 00:19:52 +0000
+Date: Wed, 26 Jun 2024 08:19:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 12815/15087]
- arch/x86/include/asm/thread_info.h:92:17: error: 'NR_syscalls' undeclared
- here (not in a function); did you mean 'si_syscall'?
-Message-ID: <202406260813.BqUYUoHq-lkp@intel.com>
+To: David Lin <yu-hao.lin@nxp.com>, linux-wireless@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, briannorris@chromium.org,
+	kvalo@kernel.org, francesco@dolcini.it, tsung-hsien.hsieh@nxp.com,
+	David Lin <yu-hao.lin@nxp.com>
+Subject: Re: [PATCH 42/43] wifi: nxpwifi: add Makefile and Kconfig files for
+ nxpwifi compilation
+Message-ID: <202406260755.fqLnsFhr-lkp@intel.com>
+References: <20240621075208.513497-43-yu-hao.lin@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,166 +66,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240621075208.513497-43-yu-hao.lin@nxp.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   6eb9e92fbf125570cc7b4e233b733e3d0e72e5a8
-commit: f50b7d2c226ed73ee8be68842a1bbf7f49da1109 [12815/15087] CHROMIUM: x86: Add alt-syscall support
-config: x86_64-randconfig-r061-20240625 (https://download.01.org/0day-ci/archive/20240626/202406260813.BqUYUoHq-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260813.BqUYUoHq-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 238d636723a30311e20fde0a361662e829fe488b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lin/wifi-nxpwifi-add-11ac-c/20240625-161306
+base:   238d636723a30311e20fde0a361662e829fe488b
+patch link:    https://lore.kernel.org/r/20240621075208.513497-43-yu-hao.lin%40nxp.com
+patch subject: [PATCH 42/43] wifi: nxpwifi: add Makefile and Kconfig files for nxpwifi compilation
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240626/202406260755.fqLnsFhr-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260755.fqLnsFhr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260813.BqUYUoHq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260755.fqLnsFhr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/init_task.h:5,
-                    from init/init_task.c:2:
->> arch/x86/include/asm/thread_info.h:92:17: error: 'NR_syscalls' undeclared here (not in a function); did you mean 'si_syscall'?
-      92 |  .nr_syscalls = NR_syscalls,  \
-         |                 ^~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |  INIT_THREAD_INFO_SYSCALL  \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |  .thread_info = INIT_THREAD_INFO(init_task),
-         |                 ^~~~~~~~~~~~~~~~
->> arch/x86/include/asm/thread_info.h:93:20: error: 'sys_call_table' undeclared here (not in a function); did you mean 'sys_desc_table'?
-      93 |  .sys_call_table = sys_call_table, \
-         |                    ^~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |  INIT_THREAD_INFO_SYSCALL  \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |  .thread_info = INIT_THREAD_INFO(init_task),
-         |                 ^~~~~~~~~~~~~~~~
->> arch/x86/include/asm/thread_info.h:86:22: error: 'IA32_NR_syscalls' undeclared here (not in a function)
-      86 |  .ia32_nr_syscalls = IA32_NR_syscalls,  \
-         |                      ^~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:94:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
-      94 |  INIT_THREAD_INFO_SYSCALL_COMPAT
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |  INIT_THREAD_INFO_SYSCALL  \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |  .thread_info = INIT_THREAD_INFO(init_task),
-         |                 ^~~~~~~~~~~~~~~~
->> arch/x86/include/asm/thread_info.h:87:25: error: 'ia32_sys_call_table' undeclared here (not in a function)
-      87 |  .ia32_sys_call_table = ia32_sys_call_table,
-         |                         ^~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:94:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
-      94 |  INIT_THREAD_INFO_SYSCALL_COMPAT
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |  INIT_THREAD_INFO_SYSCALL  \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |  .thread_info = INIT_THREAD_INFO(init_task),
-         |                 ^~~~~~~~~~~~~~~~
---
-   In file included from include/linux/string.h:294,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/processor.h:23,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:57,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/x86/kernel/alt-syscall.c:1:
-   arch/x86/kernel/alt-syscall.c: In function 'arch_dup_sys_call_table':
->> arch/x86/kernel/alt-syscall.c:40:30: error: 'ia32_sys_call_table' undeclared (first use in this function); did you mean 'alt_sys_call_table'?
-      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
-         |                              ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:638:27: note: in definition of macro '__fortify_memcpy_chk'
-     638 |  const size_t __q_size = (q_size);    \
-         |                           ^~~~~~
-   include/linux/fortify-string.h:694:21: note: in expansion of macro '__struct_size'
-     694 |   __struct_size(p), __struct_size(q),   \
-         |                     ^~~~~~~~~~~~~
-   arch/x86/kernel/alt-syscall.c:40:2: note: in expansion of macro 'memcpy'
-      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
-         |  ^~~~~~
-   arch/x86/kernel/alt-syscall.c:40:30: note: each undeclared identifier is reported only once for each function it appears in
-      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
-         |                              ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:638:27: note: in definition of macro '__fortify_memcpy_chk'
-     638 |  const size_t __q_size = (q_size);    \
-         |                           ^~~~~~
-   include/linux/fortify-string.h:694:21: note: in expansion of macro '__struct_size'
-     694 |   __struct_size(p), __struct_size(q),   \
-         |                     ^~~~~~~~~~~~~
-   arch/x86/kernel/alt-syscall.c:40:2: note: in expansion of macro 'memcpy'
-      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
-         |  ^~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+>> drivers/net/wireless/nxp/nxpwifi/11h.c:208:7: warning: variable 'chan2_offset' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     208 |         case NL80211_CHAN_WIDTH_80P80:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:214:16: note: uninitialized use occurs here
+     214 |         *band_cfg = ((chan2_offset << BAND_CFG_CHAN2_SHIFT_BIT) &
+         |                       ^~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:209:7: warning: variable 'chan2_offset' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     209 |         case NL80211_CHAN_WIDTH_160:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:214:16: note: uninitialized use occurs here
+     214 |         *band_cfg = ((chan2_offset << BAND_CFG_CHAN2_SHIFT_BIT) &
+         |                       ^~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:192:7: warning: variable 'chan2_offset' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     192 |         case NL80211_CHAN_WIDTH_20_NOHT:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:214:16: note: uninitialized use occurs here
+     214 |         *band_cfg = ((chan2_offset << BAND_CFG_CHAN2_SHIFT_BIT) &
+         |                       ^~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:193:7: warning: variable 'chan2_offset' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     193 |         case NL80211_CHAN_WIDTH_20:
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:214:16: note: uninitialized use occurs here
+     214 |         *band_cfg = ((chan2_offset << BAND_CFG_CHAN2_SHIFT_BIT) &
+         |                       ^~~~~~~~~~~~
+>> drivers/net/wireless/nxp/nxpwifi/11h.c:210:2: warning: variable 'chan2_offset' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+     210 |         default:
+         |         ^~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:214:16: note: uninitialized use occurs here
+     214 |         *band_cfg = ((chan2_offset << BAND_CFG_CHAN2_SHIFT_BIT) &
+         |                       ^~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:178:40: note: initialize the variable 'chan2_offset' to silence this warning
+     178 |         u8 chan_band, chan_width, chan2_offset;
+         |                                               ^
+         |                                                = '\0'
+>> drivers/net/wireless/nxp/nxpwifi/11h.c:208:7: warning: variable 'chan_width' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     208 |         case NL80211_CHAN_WIDTH_80P80:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:216:9: note: uninitialized use occurs here
+     216 |                     ((chan_width << BAND_CFG_CHAN_WIDTH_SHIFT_BIT) &
+         |                       ^~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:209:7: warning: variable 'chan_width' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     209 |         case NL80211_CHAN_WIDTH_160:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:216:9: note: uninitialized use occurs here
+     216 |                     ((chan_width << BAND_CFG_CHAN_WIDTH_SHIFT_BIT) &
+         |                       ^~~~~~~~~~
+>> drivers/net/wireless/nxp/nxpwifi/11h.c:210:2: warning: variable 'chan_width' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+     210 |         default:
+         |         ^~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:216:9: note: uninitialized use occurs here
+     216 |                     ((chan_width << BAND_CFG_CHAN_WIDTH_SHIFT_BIT) &
+         |                       ^~~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:178:26: note: initialize the variable 'chan_width' to silence this warning
+     178 |         u8 chan_band, chan_width, chan2_offset;
+         |                                 ^
+         |                                  = '\0'
+>> drivers/net/wireless/nxp/nxpwifi/11h.c:187:2: warning: variable 'chan_band' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+     187 |         default:
+         |         ^~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:218:9: note: uninitialized use occurs here
+     218 |                     ((chan_band << BAND_CFG_CHAN_BAND_SHIFT_BIT) &
+         |                       ^~~~~~~~~
+   drivers/net/wireless/nxp/nxpwifi/11h.c:178:14: note: initialize the variable 'chan_band' to silence this warning
+     178 |         u8 chan_band, chan_width, chan2_offset;
+         |                     ^
+         |                      = '\0'
+   9 warnings generated.
 
 
-vim +92 arch/x86/include/asm/thread_info.h
+vim +/chan2_offset +208 drivers/net/wireless/nxp/nxpwifi/11h.c
 
-    82	
-    83	#ifdef CONFIG_ALT_SYSCALL
-    84	# ifdef CONFIG_IA32_EMULATION
-    85	#  define INIT_THREAD_INFO_SYSCALL_COMPAT			\
-  > 86		.ia32_nr_syscalls	= IA32_NR_syscalls,		\
-  > 87		.ia32_sys_call_table	= ia32_sys_call_table,
-    88	# else
-    89	#  define INIT_THREAD_INFO_SYSCALL_COMPAT /* */
-    90	# endif
-    91	# define INIT_THREAD_INFO_SYSCALL \
-  > 92		.nr_syscalls	= NR_syscalls,		\
-  > 93		.sys_call_table	= sys_call_table,	\
-    94		INIT_THREAD_INFO_SYSCALL_COMPAT
-    95	#else
-    96	# define INIT_THREAD_INFO_SYSCALL /* */
-    97	#endif
-    98	
+647388e635d138 David Lin 2024-06-21  174  
+647388e635d138 David Lin 2024-06-21  175  static void nxpwifi_convert_chan_to_band_cfg(u8 *band_cfg,
+647388e635d138 David Lin 2024-06-21  176  					     struct cfg80211_chan_def *chan_def)
+647388e635d138 David Lin 2024-06-21  177  {
+647388e635d138 David Lin 2024-06-21  178  	u8 chan_band, chan_width, chan2_offset;
+647388e635d138 David Lin 2024-06-21  179  
+647388e635d138 David Lin 2024-06-21  180  	switch (chan_def->chan->band) {
+647388e635d138 David Lin 2024-06-21  181  	case NL80211_BAND_2GHZ:
+647388e635d138 David Lin 2024-06-21  182  		chan_band = BAND_2GHZ;
+647388e635d138 David Lin 2024-06-21  183  		break;
+647388e635d138 David Lin 2024-06-21  184  	case NL80211_BAND_5GHZ:
+647388e635d138 David Lin 2024-06-21  185  		chan_band = BAND_5GHZ;
+647388e635d138 David Lin 2024-06-21  186  		break;
+647388e635d138 David Lin 2024-06-21 @187  	default:
+647388e635d138 David Lin 2024-06-21  188  		break;
+647388e635d138 David Lin 2024-06-21  189  	}
+647388e635d138 David Lin 2024-06-21  190  
+647388e635d138 David Lin 2024-06-21  191  	switch (chan_def->width) {
+647388e635d138 David Lin 2024-06-21  192  	case NL80211_CHAN_WIDTH_20_NOHT:
+647388e635d138 David Lin 2024-06-21  193  	case NL80211_CHAN_WIDTH_20:
+647388e635d138 David Lin 2024-06-21  194  		chan_width = CHAN_BW_20MHZ;
+647388e635d138 David Lin 2024-06-21  195  		break;
+647388e635d138 David Lin 2024-06-21  196  	case NL80211_CHAN_WIDTH_40:
+647388e635d138 David Lin 2024-06-21  197  		chan_width = CHAN_BW_40MHZ;
+647388e635d138 David Lin 2024-06-21  198  		if (chan_def->center_freq1 > chan_def->chan->center_freq)
+647388e635d138 David Lin 2024-06-21  199  			chan2_offset = SEC_CHAN_ABOVE;
+647388e635d138 David Lin 2024-06-21  200  		else
+647388e635d138 David Lin 2024-06-21  201  			chan2_offset = SEC_CHAN_BELOW;
+647388e635d138 David Lin 2024-06-21  202  		break;
+647388e635d138 David Lin 2024-06-21  203  	case NL80211_CHAN_WIDTH_80:
+647388e635d138 David Lin 2024-06-21  204  		chan2_offset =
+647388e635d138 David Lin 2024-06-21  205  			nxpwifi_get_channel_2_offset(chan_def->chan->hw_value);
+647388e635d138 David Lin 2024-06-21  206  		chan_width = CHAN_BW_80MHZ;
+647388e635d138 David Lin 2024-06-21  207  		break;
+647388e635d138 David Lin 2024-06-21 @208  	case NL80211_CHAN_WIDTH_80P80:
+647388e635d138 David Lin 2024-06-21  209  	case NL80211_CHAN_WIDTH_160:
+647388e635d138 David Lin 2024-06-21 @210  	default:
+647388e635d138 David Lin 2024-06-21  211  		break;
+647388e635d138 David Lin 2024-06-21  212  	}
+647388e635d138 David Lin 2024-06-21  213  
+647388e635d138 David Lin 2024-06-21 @214  	*band_cfg = ((chan2_offset << BAND_CFG_CHAN2_SHIFT_BIT) &
+647388e635d138 David Lin 2024-06-21  215  		     BAND_CFG_CHAN2_OFFSET_MASK) |
+647388e635d138 David Lin 2024-06-21 @216  		    ((chan_width << BAND_CFG_CHAN_WIDTH_SHIFT_BIT) &
+647388e635d138 David Lin 2024-06-21  217  		     BAND_CFG_CHAN_WIDTH_MASK) |
+647388e635d138 David Lin 2024-06-21  218  		    ((chan_band << BAND_CFG_CHAN_BAND_SHIFT_BIT) &
+647388e635d138 David Lin 2024-06-21  219  		     BAND_CFG_CHAN_BAND_MASK);
+647388e635d138 David Lin 2024-06-21  220  }
+647388e635d138 David Lin 2024-06-21  221  
 
 -- 
 0-DAY CI Kernel Test Service
