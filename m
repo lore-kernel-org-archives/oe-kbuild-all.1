@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F0533C5;
-	Wed, 26 Jun 2024 18:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB7914EC59
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 18:58:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719427649; cv=none; b=QH3EPUw38avSKv42yw6kWxhw/4zP0+wqLRssPxO/H5Nqk7IGqUceTT6NYaPUT8qxjlEDBhvl5p3AFyPdc4ob56JjMty+bGTO0qrnM9v/EJonLu37u7xBaW2eL+2NiY2sI9h5Ulp5pc5N3yCHgdyeribJV7my6P+1PMGqujvS47U=
+	t=1719428315; cv=none; b=B80ruZriiVMOaPVgSXj1hY0nVe92A+sfj2gndRFJD0TJlkQbx7r9R7ap9+4CDqAxR7fSrG9HT2Xj09a9qzwfBG+eWpP+JerFCclZPntf4JP/SK+1QzmHCKEpKbDEkdCzc0Oqqg8DM7G1SwW3Q2AoyxKxvpaBc+1J6gkf5OLbhig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719427649; c=relaxed/simple;
-	bh=jLrj4xSB9+9tpvGMkgkltWa9FqBWZDGfVPaSflhqoug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eVyhagHXw9MtMh1YN3tMWJjZrKdDXodTwKfZUXSRfdnU1NCFu8nN0cuKiV+CyJ5QDI1OvNwiIZQNKhla/KIzIFQhpy0sTaUVpbXQFMlPoQx/R5Dwh0eIBmO2e1+IJXfTkZcmayIrGgFvGPbJXGSUE+mdTn205cWBhPjtSYMvKm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XIxKIjo2; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1719428315; c=relaxed/simple;
+	bh=i5UhpdzjYZvaqJBaD+CHTK9DLs/LV3zaokJefHlF5Gw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HPhBZAF/zJDbOvSXMnCl7LWOF3SSDIFmIFoDkkwu7+65QF0toampmqifSZQ440pTawLMsBvJv9D8qwbNA2y9Qk8LGdGPEpVpDNMrjc0kxD9JKuGYxTQftr1pBIeNWJ2RWTjx6jEvJ8i4BZkH3DQ3yPw7vvgYD2O3q/x9dVG7qQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rw0wHmW/; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XIxKIjo2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rw0wHmW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719427647; x=1750963647;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jLrj4xSB9+9tpvGMkgkltWa9FqBWZDGfVPaSflhqoug=;
-  b=XIxKIjo2oY5zkI48tZup89uAPchw43wFfRBLCDDAXwvunFVpfk9Y2tXD
-   kd6/SJ27UJwN1XFs8Elio1PU+Wioo+QzJjvjhRDWPdl2JIbLlOQ6v9+eu
-   O1YbUjEQLtXKcL6Mz02ZCh5603VJ1jdlk9SwTZxQw9c53lDgi0zMjKRtV
-   lFa4stuRbPiqFT/8aOVFJus0o/qJ52uujqNAohskSJk/6eUX1R9/XbD4c
-   xfiUz6fMhxzhIO8u9xY/0CBixriU6kYDEITGJCdEjGau2Jf0dgTCpDI+A
-   OIw3p29RJNpq/jzux2tOOvDXXTOT/ssP7AI/G48ruZYfUs+qz2+mNvzRP
+  t=1719428313; x=1750964313;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i5UhpdzjYZvaqJBaD+CHTK9DLs/LV3zaokJefHlF5Gw=;
+  b=Rw0wHmW/2vFMnnV3774DIuWnymtVn3duUEs0GYlrxfkvYXsMmHGzmFEN
+   tElGThFmuwmVfWgB22okuDpjZprn9JI/dLJqiSoiVd/H5FHU//rbwLNRV
+   38k64iKmpxIGn/HXCoo5Gmt7Xy1me+Kx+dVrhw5Hn8AvnjZCCQRUAV3cn
+   PMNwFeBTSWLgyKZyHxpDxVt1p7VbQ3tEoJ8LmFWiJ8nl78h0Pnebzfrdp
+   JL40r7EaEIXnLoGDQaN8rMWIEOkpcvim+VhdToKopvWZ8J4fRIYKWalO4
+   bBPdLniY5r75v+X06AApuUqkPMBva+TtSTxJEZG8zhAmZcQaurN9pkB+z
    g==;
-X-CSE-ConnectionGUID: q3pXQYdgRnarTEEdlY88gQ==
-X-CSE-MsgGUID: ZCf/UfzKTjWKTwPtGzQFCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16405065"
+X-CSE-ConnectionGUID: Vx02NlKHQqavFi74l/6YLg==
+X-CSE-MsgGUID: bJL1BAvsSc6U0bEpEi8XEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16671282"
 X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="16405065"
+   d="scan'208";a="16671282"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 11:47:27 -0700
-X-CSE-ConnectionGUID: 3sUXBsicTJqp3X441e1Vzw==
-X-CSE-MsgGUID: 3Yzs8byHTZG/5SFN5ueH9w==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 11:58:31 -0700
+X-CSE-ConnectionGUID: /NMSKhx7QvKC8aoGhRvvmA==
+X-CSE-MsgGUID: GRUNRkxvRj+emt5/R3qmDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="44738725"
+   d="scan'208";a="44741593"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Jun 2024 11:47:24 -0700
+  by orviesa007.jf.intel.com with ESMTP; 26 Jun 2024 11:58:30 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMXft-000FUI-30;
-	Wed, 26 Jun 2024 18:47:21 +0000
-Date: Thu, 27 Jun 2024 02:46:57 +0800
+	id 1sMXqd-000FUk-0e;
+	Wed, 26 Jun 2024 18:58:27 +0000
+Date: Thu, 27 Jun 2024 02:57:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	jani.nikula@linux.intel.com, ville.syrjala@linux.intel.com,
-	mika.kahola@intel.com, matthew.d.roper@intel.com
-Subject: Re: [PATCH 1/5] drm/i915/display: Add support for SNPS PHY HDMI PLL
- algorithm for DG2
-Message-ID: <202406270253.GoXTAfRN-lkp@intel.com>
-References: <20240626050056.3996349-2-ankit.k.nautiyal@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 5561/7880] kismet: WARNING: unmet direct
+ dependencies detected for CRYPTO_LZO when selected by EMM_ZRAM_CONF
+Message-ID: <202406270201.O67i64Ls-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,156 +64,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626050056.3996349-2-ankit.k.nautiyal@intel.com>
 
-Hi Ankit,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-xe/drm-xe-next linus/master v6.10-rc5 next-20240625]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ankit-Nautiyal/drm-i915-display-Add-support-for-SNPS-PHY-HDMI-PLL-algorithm-for-DG2/20240626-131209
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240626050056.3996349-2-ankit.k.nautiyal%40intel.com
-patch subject: [PATCH 1/5] drm/i915/display: Add support for SNPS PHY HDMI PLL algorithm for DG2
-config: i386-randconfig-011-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270253.GoXTAfRN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270253.GoXTAfRN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ca7064b2308b42201419e17b030e6a9347be29cd
+commit: 5723adb73901b05640a72b59bfa6125a3a469cd3 [5561/7880] emm: configs: enabled EMM related configs
+config: loongarch-kismet-CONFIG_CRYPTO_LZO-CONFIG_EMM_ZRAM_CONF-0-0 (https://download.01.org/0day-ci/archive/20240627/202406270201.O67i64Ls-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240627/202406270201.O67i64Ls-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406270253.GoXTAfRN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406270201.O67i64Ls-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/intel_pll_algorithm.c:153:14: error: variable 'a' is used uninitialized whenever 'for' loop exits because its condition is false [-Werror,-Wsometimes-uninitialized]
-     153 |         for (j = 0; j < 8; j += 2) {
-         |                     ^~~~~
-   drivers/gpu/drm/i915/display/intel_pll_algorithm.c:161:67: note: uninitialized use occurs here
-     161 |         get_ana_cp_int_prop(vco_clk, refclk_postscalar, mpll_ana_v2i, c, a,
-         |                                                                          ^
-   drivers/gpu/drm/i915/display/intel_pll_algorithm.c:153:14: note: remove the condition if it is always true
-     153 |         for (j = 0; j < 8; j += 2) {
-         |                     ^~~~~
-   drivers/gpu/drm/i915/display/intel_pll_algorithm.c:124:10: note: initialize the variable 'a' to silence this warning
-     124 |         int c, a, j;
-         |                 ^
-         |                  = 0
->> drivers/gpu/drm/i915/display/intel_pll_algorithm.c:153:14: error: variable 'ana_freq_vco' is used uninitialized whenever 'for' loop exits because its condition is false [-Werror,-Wsometimes-uninitialized]
-     153 |         for (j = 0; j < 8; j += 2) {
-         |                     ^~~~~
-   drivers/gpu/drm/i915/display/intel_pll_algorithm.c:179:29: note: uninitialized use occurs here
-     179 |         pll_params->ana_freq_vco = ana_freq_vco;
-         |                                    ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_pll_algorithm.c:153:14: note: remove the condition if it is always true
-     153 |         for (j = 0; j < 8; j += 2) {
-         |                     ^~~~~
-   drivers/gpu/drm/i915/display/intel_pll_algorithm.c:123:18: note: initialize the variable 'ana_freq_vco' to silence this warning
-     123 |         int ana_freq_vco;
-         |                         ^
-         |                          = 0
-   2 errors generated.
-
-
-vim +153 drivers/gpu/drm/i915/display/intel_pll_algorithm.c
-
-    92	
-    93	static int _intel_phy_compute_hdmi_tmds_pll(u64 pixel_clock, u32 refclk,
-    94						    u32 ref_range,
-    95						    u32 ana_cp_int_gs,
-    96						    u32 ana_cp_prop_gs,
-    97						    const u64 curve_freq_hz[2][8],
-    98						    const u64 curve_0[2][8],
-    99						    const u64 curve_1[2][8],
-   100						    const u64 curve_2[2][8],
-   101						    u32 prescaler_divider,
-   102						    struct pll_output_params *pll_params)
-   103	{
-   104		/*datarate 10khz */
-   105		u64 datarate = pixel_clock * 10000;
-   106		u32 ssc_up_spread = 1;
-   107		u32 mpll_div5_en = 1;
-   108		u32 hdmi_div = 1;
-   109		u32 ana_cp_int;
-   110		u32 ana_cp_prop;
-   111		u32 refclk_postscalar = refclk >> prescaler_divider;
-   112		u32 tx_clk_div;
-   113		u64 vco_clk;
-   114		u32 vco_div_refclk_integer;
-   115		u32 vco_div_refclk_fracn;
-   116		u32 fracn_quot;
-   117		u32 fracn_rem;
-   118		u32 fracn_den;
-   119		u32 fracn_en;
-   120		u32 pmix_en;
-   121		u32 multiplier;
-   122		int mpll_ana_v2i;
-   123		int ana_freq_vco;
-   124		int c, a, j;
-   125	
-   126		if (pixel_clock < 25175 || pixel_clock > 600000)
-   127			return -EINVAL;
-   128	
-   129		/* Select appropriate v2i point */
-   130		if (datarate <= INTEL_SNPS_PHY_HDMI_9999MHZ) {
-   131			mpll_ana_v2i = 2;
-   132			tx_clk_div = ilog2(INTEL_SNPS_PHY_HDMI_9999MHZ / datarate);
-   133		} else {
-   134			mpll_ana_v2i = 3;
-   135			tx_clk_div = ilog2(INTEL_SNPS_PHY_HDMI_16GHZ / datarate);
-   136		}
-   137		vco_clk = (datarate << tx_clk_div) >> 1;
-   138	
-   139		/* Highly accurate division, calculate fraction to 32 bits of precision */
-   140		vco_div_refclk_integer = vco_clk / refclk_postscalar;
-   141		vco_div_refclk_fracn = ((vco_clk % refclk_postscalar) << 32) / refclk_postscalar;
-   142		fracn_quot = vco_div_refclk_fracn >> 16;
-   143		fracn_rem = vco_div_refclk_fracn & 0xffff;
-   144		fracn_rem = fracn_rem - (fracn_rem >> 15);
-   145		fracn_den = 0xffff;
-   146		fracn_en = (fracn_quot != 0 || fracn_rem != 0) ? 1 : 0;
-   147		pmix_en = fracn_en;
-   148		multiplier = (vco_div_refclk_integer - 16) * 2;
-   149		/* Curve selection for ana_cp_* calculations. One curve hardcoded per v2i range */
-   150		c = mpll_ana_v2i - 2;
-   151	
-   152		/* Find the right segment of the table */
- > 153		for (j = 0; j < 8; j += 2) {
-   154			if (vco_clk <= curve_freq_hz[c][j + 1]) {
-   155				a = j;
-   156				ana_freq_vco = 3 - (a >> 1);
-   157				break;
-   158			}
-   159		}
-   160	
-   161		get_ana_cp_int_prop(vco_clk, refclk_postscalar, mpll_ana_v2i, c, a,
-   162				    curve_freq_hz, curve_0, curve_1, curve_2,
-   163				    &ana_cp_int, &ana_cp_prop);
-   164	
-   165		pll_params->ssc_up_spread = ssc_up_spread;
-   166		pll_params->mpll_div5_en = mpll_div5_en;
-   167		pll_params->hdmi_div = hdmi_div;
-   168		pll_params->ana_cp_int = ana_cp_int;
-   169		pll_params->refclk_postscalar = refclk_postscalar;
-   170		pll_params->tx_clk_div = tx_clk_div;
-   171		pll_params->fracn_quot = fracn_quot;
-   172		pll_params->fracn_rem = fracn_rem;
-   173		pll_params->fracn_den = fracn_den;
-   174		pll_params->fracn_en = fracn_en;
-   175		pll_params->pmix_en = pmix_en;
-   176		pll_params->multiplier = multiplier;
-   177		pll_params->ana_cp_prop = ana_cp_prop;
-   178		pll_params->mpll_ana_v2i = mpll_ana_v2i;
-   179		pll_params->ana_freq_vco = ana_freq_vco;
-   180	
-   181		return 0;
-   182	}
-   183	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_LZO when selected by EMM_ZRAM_CONF
+   WARNING: unmet direct dependencies detected for CRYPTO_LZO
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
+     - EMM_ZRAM_CONF [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_ZSTD
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_LZ4
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_LZ4HC
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
 
 -- 
 0-DAY CI Kernel Test Service
