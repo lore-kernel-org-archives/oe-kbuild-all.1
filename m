@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B0A143C6A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jun 2024 23:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23E615C0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719359627; cv=none; b=YdIrPqq0oRsKBVhhGAXj021DBuvFcrd1JmR/yYZ7+WpfSH2DWUdXTljjK+zYbeEskzyNlt7+PYfT2+Dj1wkQ2eD0en5U4CQkP31Vgx6KpgfA/PbTWuz+XAKLqyQa87Lt79F7LoqhFRXRIHYgUIpiFNZHCcN9wMaAGpgQ+Lrquhs=
+	t=1719361198; cv=none; b=qsvynihiUdTig3nfDwjqcCpIy4xVECftWmrnLglfeOimAm8ewpBdd+gSIhH+WRUbEG+6ekWKjwuK9jeItt+85bo9CD1wQrsNIUkd9cLiHm6yZqcJ3cTH+uNylBqa5tkBDy4G2An4e9CzhGkiS1+o+ZGnGakvf2xfl1Pj0WztyXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719359627; c=relaxed/simple;
-	bh=cH+W3Gc293T1JoiJweFBUjkS8BwzFCRVDOtQlEJPz3I=;
+	s=arc-20240116; t=1719361198; c=relaxed/simple;
+	bh=PzRDHSyfK6Iqj2MJMWjZzlvh4B9lOljfEzPkzzxDxkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ukuAcqCzlmQiGx5TuQeF9lXUuARRmwo/c+UEXcOCiY8anWs1zbQIOlPZ1IVZObKrkSAusVoJr3PT/u0ZTkB7qgwEkCL25Nty3XT57OwkDsljpKPwbslPASNz9QU/Ahey5zTYwEMJVldfPTrBlkNvOcCo17imKMFpfmUE+qIoMk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YSB0FR92; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=s/tgT4z0XhiWaNesc0hbfL3QpHd+bNpRFItVN2INYOxGS8K6y2EgI9ebce+mQNlfIEuUPiocHIWF9zHu+WadelXQ2OHxMX0J1FtuvTnmvGU1xcrIuGy1bKC9KcVkWSRP5bXaCxarEaDd4GeBAjNur/oShBRiF2geqQIQjD6dISU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRa88De+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YSB0FR92"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRa88De+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719359625; x=1750895625;
+  t=1719361196; x=1750897196;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cH+W3Gc293T1JoiJweFBUjkS8BwzFCRVDOtQlEJPz3I=;
-  b=YSB0FR92JNNQw0Blazs/uZx/wobXXY8gi2Wz6Xc0C5DwLeZpKYX6YDzC
-   c2JNbVqPUH5mt1YXROv1RJIGLw6mYdg6tbqJqxrkR955xd3xa8oKa7b4k
-   AOjSDtHqSdGT+xyLQbDW41fe3IIRs6BVKWGahV63uONpRmyoSxtSbRjMz
-   MAI+JrAeQPQZxJC+rOax3xWFo4Vs8dkTU10QM8ByHW0q5znuwYMmYM7I2
-   NC54WIIJfqRrOpB1PX6U084HbGO4ksGSzbdQ8ex/INaOAVlgEZFCe0BvZ
-   Fe+1BvCQwwVpgAxbbtx9HoBxyUwG4S6N62WjLAd8FQoiXSgF14SL2YSsb
+  bh=PzRDHSyfK6Iqj2MJMWjZzlvh4B9lOljfEzPkzzxDxkg=;
+  b=TRa88De+5jFDtQbU86Lwm+Nj00LPpy+IvkbHOtNJSKDxJP9NEG6qQxbc
+   QaK0kQncnWVQTpop3KyMr9n+dcyhVRHM+4ZD9xKsnV8kVKvXlhAvA9CyX
+   jK5biNFOqf+O3Q9cYMmNLZC2qv+cA8qXrNtyvr2uORldV9pl/j1mGSHxI
+   I9hGYkbSyJPm5OIKN0MJ2tGWfunUcyVShVPUWjUWdaqD8e4mvcEfT3o7p
+   6YUr9nBQwG0ez0KXxSkEJTHj/Ff5jHiqA62PhlbE65k6Ac7UawQdlhGBr
+   g3swfIFWV/DtC7uyege1ilsYcOuxbRR07NkDOZcw/ssXZ4iZADvmGMb+e
    w==;
-X-CSE-ConnectionGUID: znB+I6rkTGCPJA90xULg/w==
-X-CSE-MsgGUID: M3LA2JJeToumNXCuADnD8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16554372"
+X-CSE-ConnectionGUID: zncQ8Z1WTXW2vVwhqcQWDA==
+X-CSE-MsgGUID: aNFGA+XsScGz9Wo8yHltXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16233147"
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="16554372"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 16:53:42 -0700
-X-CSE-ConnectionGUID: kBl3ZRLDSYa8Q/EEiS7Bgg==
-X-CSE-MsgGUID: 6aX71E7cSiS/msAWPlJCDA==
+   d="scan'208";a="16233147"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:19:56 -0700
+X-CSE-ConnectionGUID: Swxd7vXBQ8ePs1pxgHYeVg==
+X-CSE-MsgGUID: uxz9gTCVTAibk8ph1ZgPHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="43676169"
+   d="scan'208";a="48201431"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Jun 2024 16:53:41 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 25 Jun 2024 17:19:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMFyk-000Eos-2Z;
-	Tue, 25 Jun 2024 23:53:38 +0000
-Date: Wed, 26 Jun 2024 07:53:16 +0800
+	id 1sMGO7-000EpN-39;
+	Wed, 26 Jun 2024 00:19:51 +0000
+Date: Wed, 26 Jun 2024 08:19:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android15-6.6-desktop 12815/15087]
- init/init_task.c:71:17: error: use of undeclared identifier
- 'sys_call_table'; did you mean 'sg_alloc_table'?
-Message-ID: <202406260719.4UVdiIOg-lkp@intel.com>
+ arch/x86/include/asm/thread_info.h:92:17: error: 'NR_syscalls' undeclared
+ here (not in a function); did you mean 'si_syscall'?
+Message-ID: <202406260813.BqUYUoHq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,270 +66,162 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
 head:   6eb9e92fbf125570cc7b4e233b733e3d0e72e5a8
 commit: f50b7d2c226ed73ee8be68842a1bbf7f49da1109 [12815/15087] CHROMIUM: x86: Add alt-syscall support
-config: x86_64-randconfig-r052-20240625 (https://download.01.org/0day-ci/archive/20240626/202406260719.4UVdiIOg-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260719.4UVdiIOg-lkp@intel.com/reproduce)
+config: x86_64-randconfig-r061-20240625 (https://download.01.org/0day-ci/archive/20240626/202406260813.BqUYUoHq-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260813.BqUYUoHq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260719.4UVdiIOg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260813.BqUYUoHq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> init/init_task.c:71:17: error: use of undeclared identifier 'sys_call_table'; did you mean 'sg_alloc_table'?
-      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
-         |                           ^
-   arch/x86/include/asm/thread_info.h:102:2: note: expanded from macro 'INIT_THREAD_INFO'
-     102 |         INIT_THREAD_INFO_SYSCALL                \
-         |         ^
-   arch/x86/include/asm/thread_info.h:93:20: note: expanded from macro 'INIT_THREAD_INFO_SYSCALL'
-      93 |         .sys_call_table = sys_call_table,       \
-         |                           ^
-   include/linux/scatterlist.h:440:5: note: 'sg_alloc_table' declared here
-     440 | int sg_alloc_table(struct sg_table *, unsigned int, gfp_t);
-         |     ^
->> init/init_task.c:71:17: error: use of undeclared identifier 'ia32_sys_call_table'
-      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
-         |                           ^
-   arch/x86/include/asm/thread_info.h:102:2: note: expanded from macro 'INIT_THREAD_INFO'
-     102 |         INIT_THREAD_INFO_SYSCALL                \
-         |         ^
-   arch/x86/include/asm/thread_info.h:94:2: note: expanded from macro 'INIT_THREAD_INFO_SYSCALL'
-      94 |         INIT_THREAD_INFO_SYSCALL_COMPAT
-         |         ^
-   arch/x86/include/asm/thread_info.h:87:25: note: expanded from macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
-      87 |         .ia32_sys_call_table    = ia32_sys_call_table,
-         |                                   ^
-   2 errors generated.
+   In file included from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/init_task.h:5,
+                    from init/init_task.c:2:
+>> arch/x86/include/asm/thread_info.h:92:17: error: 'NR_syscalls' undeclared here (not in a function); did you mean 'si_syscall'?
+      92 |  .nr_syscalls = NR_syscalls,  \
+         |                 ^~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |  INIT_THREAD_INFO_SYSCALL  \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |  .thread_info = INIT_THREAD_INFO(init_task),
+         |                 ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/thread_info.h:93:20: error: 'sys_call_table' undeclared here (not in a function); did you mean 'sys_desc_table'?
+      93 |  .sys_call_table = sys_call_table, \
+         |                    ^~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |  INIT_THREAD_INFO_SYSCALL  \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |  .thread_info = INIT_THREAD_INFO(init_task),
+         |                 ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/thread_info.h:86:22: error: 'IA32_NR_syscalls' undeclared here (not in a function)
+      86 |  .ia32_nr_syscalls = IA32_NR_syscalls,  \
+         |                      ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:94:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
+      94 |  INIT_THREAD_INFO_SYSCALL_COMPAT
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |  INIT_THREAD_INFO_SYSCALL  \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |  .thread_info = INIT_THREAD_INFO(init_task),
+         |                 ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/thread_info.h:87:25: error: 'ia32_sys_call_table' undeclared here (not in a function)
+      87 |  .ia32_sys_call_table = ia32_sys_call_table,
+         |                         ^~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:94:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
+      94 |  INIT_THREAD_INFO_SYSCALL_COMPAT
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:2: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |  INIT_THREAD_INFO_SYSCALL  \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:17: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |  .thread_info = INIT_THREAD_INFO(init_task),
+         |                 ^~~~~~~~~~~~~~~~
 --
->> arch/x86/kernel/alt-syscall.c:40:30: error: use of undeclared identifier 'ia32_sys_call_table'; did you mean 'sys_call_table'?
-      40 |         memcpy(entry->compat_table, ia32_sys_call_table,
-         |                                     ^~~~~~~~~~~~~~~~~~~
-         |                                     sys_call_table
-   include/linux/fortify-string.h:694:35: note: expanded from macro 'memcpy'
-     694 |                 __struct_size(p), __struct_size(q),                     \
-         |                                                 ^
-   include/linux/fortify-string.h:96:56: note: expanded from macro '__struct_size'
-      96 | #define __struct_size(p)        __builtin_dynamic_object_size(p, 0)
-         |                                                               ^
-   include/linux/fortify-string.h:638:27: note: expanded from macro '__fortify_memcpy_chk'
-     638 |         const size_t __q_size = (q_size);                               \
-         |                                  ^
-   arch/x86/include/asm/syscall.h:21:29: note: 'sys_call_table' declared here
-      21 | extern const sys_call_ptr_t sys_call_table[];
-         |                             ^
->> arch/x86/kernel/alt-syscall.c:40:30: error: use of undeclared identifier 'ia32_sys_call_table'; did you mean 'sys_call_table'?
-      40 |         memcpy(entry->compat_table, ia32_sys_call_table,
-         |                                     ^~~~~~~~~~~~~~~~~~~
-         |                                     sys_call_table
-   include/linux/fortify-string.h:695:35: note: expanded from macro 'memcpy'
-     695 |                 __member_size(p), __member_size(q),                     \
-         |                                                 ^
-   include/linux/fortify-string.h:97:56: note: expanded from macro '__member_size'
-      97 | #define __member_size(p)        __builtin_dynamic_object_size(p, 1)
-         |                                                               ^
-   include/linux/fortify-string.h:640:33: note: expanded from macro '__fortify_memcpy_chk'
-     640 |         const size_t __q_size_field = (q_size_field);                   \
-         |                                        ^
-   arch/x86/include/asm/syscall.h:21:29: note: 'sys_call_table' declared here
-      21 | extern const sys_call_ptr_t sys_call_table[];
-         |                             ^
->> arch/x86/kernel/alt-syscall.c:40:30: error: use of undeclared identifier 'ia32_sys_call_table'; did you mean 'sys_call_table'?
-      40 |         memcpy(entry->compat_table, ia32_sys_call_table,
-         |                                     ^~~~~~~~~~~~~~~~~~~
-         |                                     sys_call_table
-   include/linux/fortify-string.h:693:50: note: expanded from macro 'memcpy'
-     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                                                  ^
-   include/linux/fortify-string.h:648:23: note: expanded from macro '__fortify_memcpy_chk'
-     648 |         __underlying_##op(p, q, __fortify_size);                        \
-         |                              ^
-   arch/x86/include/asm/syscall.h:21:29: note: 'sys_call_table' declared here
-      21 | extern const sys_call_ptr_t sys_call_table[];
-         |                             ^
-   3 errors generated.
+   In file included from include/linux/string.h:294,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:23,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:57,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from arch/x86/kernel/alt-syscall.c:1:
+   arch/x86/kernel/alt-syscall.c: In function 'arch_dup_sys_call_table':
+>> arch/x86/kernel/alt-syscall.c:40:30: error: 'ia32_sys_call_table' undeclared (first use in this function); did you mean 'alt_sys_call_table'?
+      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
+         |                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:638:27: note: in definition of macro '__fortify_memcpy_chk'
+     638 |  const size_t __q_size = (q_size);    \
+         |                           ^~~~~~
+   include/linux/fortify-string.h:694:21: note: in expansion of macro '__struct_size'
+     694 |   __struct_size(p), __struct_size(q),   \
+         |                     ^~~~~~~~~~~~~
+   arch/x86/kernel/alt-syscall.c:40:2: note: in expansion of macro 'memcpy'
+      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
+         |  ^~~~~~
+   arch/x86/kernel/alt-syscall.c:40:30: note: each undeclared identifier is reported only once for each function it appears in
+      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
+         |                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:638:27: note: in definition of macro '__fortify_memcpy_chk'
+     638 |  const size_t __q_size = (q_size);    \
+         |                           ^~~~~~
+   include/linux/fortify-string.h:694:21: note: in expansion of macro '__struct_size'
+     694 |   __struct_size(p), __struct_size(q),   \
+         |                     ^~~~~~~~~~~~~
+   arch/x86/kernel/alt-syscall.c:40:2: note: in expansion of macro 'memcpy'
+      40 |  memcpy(entry->compat_table, ia32_sys_call_table,
+         |  ^~~~~~
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
    Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
    Selected by [y]:
    - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
    WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
    Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
    Selected by [y]:
    - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
 
 
-vim +71 init/init_task.c
+vim +92 arch/x86/include/asm/thread_info.h
 
-d08b9f0ca6605e Sami Tolvanen             2020-04-27   59  
-d11ed3ab3166a2 David Howells             2018-01-02   60  /*
-d11ed3ab3166a2 David Howells             2018-01-02   61   * Set up the first task table, touch at your own risk!. Base=0,
-d11ed3ab3166a2 David Howells             2018-01-02   62   * limit=0x1fffff (=2MB)
-d11ed3ab3166a2 David Howells             2018-01-02   63   */
-0500871f21b237 David Howells             2018-01-02   64  struct task_struct init_task
-0500871f21b237 David Howells             2018-01-02   65  #ifdef CONFIG_ARCH_TASK_STRUCT_ON_STACK
-0500871f21b237 David Howells             2018-01-02   66  	__init_task_data
-0500871f21b237 David Howells             2018-01-02   67  #endif
-d0b7213f895cd0 Stafford Horne            2020-06-26   68  	__aligned(L1_CACHE_BYTES)
-d11ed3ab3166a2 David Howells             2018-01-02   69  = {
-4e7e3adbba5224 David Howells             2018-01-02   70  #ifdef CONFIG_THREAD_INFO_IN_TASK
-4e7e3adbba5224 David Howells             2018-01-02  @71  	.thread_info	= INIT_THREAD_INFO(init_task),
-f0b89d3958d73c Elena Reshetova           2019-01-18   72  	.stack_refcount	= REFCOUNT_INIT(1),
-4e7e3adbba5224 David Howells             2018-01-02   73  #endif
-2f064a59a11ff9 Peter Zijlstra            2021-06-11   74  	.__state	= 0,
-d11ed3ab3166a2 David Howells             2018-01-02   75  	.stack		= init_stack,
-ec1d281923cf81 Elena Reshetova           2019-01-18   76  	.usage		= REFCOUNT_INIT(2),
-d11ed3ab3166a2 David Howells             2018-01-02   77  	.flags		= PF_KTHREAD,
-d11ed3ab3166a2 David Howells             2018-01-02   78  	.prio		= MAX_PRIO - 20,
-d11ed3ab3166a2 David Howells             2018-01-02   79  	.static_prio	= MAX_PRIO - 20,
-d11ed3ab3166a2 David Howells             2018-01-02   80  	.normal_prio	= MAX_PRIO - 20,
-d11ed3ab3166a2 David Howells             2018-01-02   81  	.policy		= SCHED_NORMAL,
-3bd3706251ee8a Sebastian Andrzej Siewior 2019-04-23   82  	.cpus_ptr	= &init_task.cpus_mask,
-b90ca8badbd114 Will Deacon               2021-07-30   83  	.user_cpus_ptr	= NULL,
-3bd3706251ee8a Sebastian Andrzej Siewior 2019-04-23   84  	.cpus_mask	= CPU_MASK_ALL,
-d11ed3ab3166a2 David Howells             2018-01-02   85  	.nr_cpus_allowed= NR_CPUS,
-d11ed3ab3166a2 David Howells             2018-01-02   86  	.mm		= NULL,
-d11ed3ab3166a2 David Howells             2018-01-02   87  	.active_mm	= &init_mm,
-d11ed3ab3166a2 David Howells             2018-01-02   88  	.restart_block	= {
-d11ed3ab3166a2 David Howells             2018-01-02   89  		.fn = do_no_restart_syscall,
-d11ed3ab3166a2 David Howells             2018-01-02   90  	},
-d11ed3ab3166a2 David Howells             2018-01-02   91  	.se		= {
-d11ed3ab3166a2 David Howells             2018-01-02   92  		.group_node 	= LIST_HEAD_INIT(init_task.se.group_node),
-d11ed3ab3166a2 David Howells             2018-01-02   93  	},
-d11ed3ab3166a2 David Howells             2018-01-02   94  	.rt		= {
-d11ed3ab3166a2 David Howells             2018-01-02   95  		.run_list	= LIST_HEAD_INIT(init_task.rt.run_list),
-d11ed3ab3166a2 David Howells             2018-01-02   96  		.time_slice	= RR_TIMESLICE,
-d11ed3ab3166a2 David Howells             2018-01-02   97  	},
-d11ed3ab3166a2 David Howells             2018-01-02   98  	.tasks		= LIST_HEAD_INIT(init_task.tasks),
-4e7e3adbba5224 David Howells             2018-01-02   99  #ifdef CONFIG_SMP
-4e7e3adbba5224 David Howells             2018-01-02  100  	.pushable_tasks	= PLIST_NODE_INIT(init_task.pushable_tasks, MAX_PRIO),
-4e7e3adbba5224 David Howells             2018-01-02  101  #endif
-4e7e3adbba5224 David Howells             2018-01-02  102  #ifdef CONFIG_CGROUP_SCHED
-4e7e3adbba5224 David Howells             2018-01-02  103  	.sched_task_group = &root_task_group,
-4e7e3adbba5224 David Howells             2018-01-02  104  #endif
-d11ed3ab3166a2 David Howells             2018-01-02  105  	.ptraced	= LIST_HEAD_INIT(init_task.ptraced),
-d11ed3ab3166a2 David Howells             2018-01-02  106  	.ptrace_entry	= LIST_HEAD_INIT(init_task.ptrace_entry),
-d11ed3ab3166a2 David Howells             2018-01-02  107  	.real_parent	= &init_task,
-d11ed3ab3166a2 David Howells             2018-01-02  108  	.parent		= &init_task,
-d11ed3ab3166a2 David Howells             2018-01-02  109  	.children	= LIST_HEAD_INIT(init_task.children),
-d11ed3ab3166a2 David Howells             2018-01-02  110  	.sibling	= LIST_HEAD_INIT(init_task.sibling),
-d11ed3ab3166a2 David Howells             2018-01-02  111  	.group_leader	= &init_task,
-d11ed3ab3166a2 David Howells             2018-01-02  112  	RCU_POINTER_INITIALIZER(real_cred, &init_cred),
-d11ed3ab3166a2 David Howells             2018-01-02  113  	RCU_POINTER_INITIALIZER(cred, &init_cred),
-d11ed3ab3166a2 David Howells             2018-01-02  114  	.comm		= INIT_TASK_COMM,
-d11ed3ab3166a2 David Howells             2018-01-02  115  	.thread		= INIT_THREAD,
-d11ed3ab3166a2 David Howells             2018-01-02  116  	.fs		= &init_fs,
-d11ed3ab3166a2 David Howells             2018-01-02  117  	.files		= &init_files,
-0f2122045b9462 Jens Axboe                2020-09-13  118  #ifdef CONFIG_IO_URING
-0f2122045b9462 Jens Axboe                2020-09-13  119  	.io_uring	= NULL,
-0f2122045b9462 Jens Axboe                2020-09-13  120  #endif
-d11ed3ab3166a2 David Howells             2018-01-02  121  	.signal		= &init_signals,
-d11ed3ab3166a2 David Howells             2018-01-02  122  	.sighand	= &init_sighand,
-d11ed3ab3166a2 David Howells             2018-01-02  123  	.nsproxy	= &init_nsproxy,
-d11ed3ab3166a2 David Howells             2018-01-02  124  	.pending	= {
-d11ed3ab3166a2 David Howells             2018-01-02  125  		.list = LIST_HEAD_INIT(init_task.pending.list),
-d11ed3ab3166a2 David Howells             2018-01-02  126  		.signal = {{0}}
-d11ed3ab3166a2 David Howells             2018-01-02  127  	},
-d11ed3ab3166a2 David Howells             2018-01-02  128  	.blocked	= {{0}},
-d11ed3ab3166a2 David Howells             2018-01-02  129  	.alloc_lock	= __SPIN_LOCK_UNLOCKED(init_task.alloc_lock),
-d11ed3ab3166a2 David Howells             2018-01-02  130  	.journal_info	= NULL,
-d11ed3ab3166a2 David Howells             2018-01-02  131  	INIT_CPU_TIMERS(init_task)
-d11ed3ab3166a2 David Howells             2018-01-02  132  	.pi_lock	= __RAW_SPIN_LOCK_UNLOCKED(init_task.pi_lock),
-d11ed3ab3166a2 David Howells             2018-01-02  133  	.timer_slack_ns = 50000, /* 50 usec default slack */
-2c4704756cab7c Eric W. Biederman         2017-09-26  134  	.thread_pid	= &init_struct_pid,
-d11ed3ab3166a2 David Howells             2018-01-02  135  	.thread_group	= LIST_HEAD_INIT(init_task.thread_group),
-d11ed3ab3166a2 David Howells             2018-01-02  136  	.thread_node	= LIST_HEAD_INIT(init_signals.thread_head),
-4b7d248b3a1de4 Richard Guy Briggs        2019-01-22  137  #ifdef CONFIG_AUDIT
-4e7e3adbba5224 David Howells             2018-01-02  138  	.loginuid	= INVALID_UID,
-f0b752168d7091 Richard Guy Briggs        2018-05-12  139  	.sessionid	= AUDIT_SID_UNSET,
-4e7e3adbba5224 David Howells             2018-01-02  140  #endif
-4e7e3adbba5224 David Howells             2018-01-02  141  #ifdef CONFIG_PERF_EVENTS
-4e7e3adbba5224 David Howells             2018-01-02  142  	.perf_event_mutex = __MUTEX_INITIALIZER(init_task.perf_event_mutex),
-4e7e3adbba5224 David Howells             2018-01-02  143  	.perf_event_list = LIST_HEAD_INIT(init_task.perf_event_list),
-4e7e3adbba5224 David Howells             2018-01-02  144  #endif
-4e7e3adbba5224 David Howells             2018-01-02  145  #ifdef CONFIG_PREEMPT_RCU
-4e7e3adbba5224 David Howells             2018-01-02  146  	.rcu_read_lock_nesting = 0,
-4e7e3adbba5224 David Howells             2018-01-02  147  	.rcu_read_unlock_special.s = 0,
-4e7e3adbba5224 David Howells             2018-01-02  148  	.rcu_node_entry = LIST_HEAD_INIT(init_task.rcu_node_entry),
-4e7e3adbba5224 David Howells             2018-01-02  149  	.rcu_blocked_node = NULL,
-4e7e3adbba5224 David Howells             2018-01-02  150  #endif
-4e7e3adbba5224 David Howells             2018-01-02  151  #ifdef CONFIG_TASKS_RCU
-4e7e3adbba5224 David Howells             2018-01-02  152  	.rcu_tasks_holdout = false,
-4e7e3adbba5224 David Howells             2018-01-02  153  	.rcu_tasks_holdout_list = LIST_HEAD_INIT(init_task.rcu_tasks_holdout_list),
-4e7e3adbba5224 David Howells             2018-01-02  154  	.rcu_tasks_idle_cpu = -1,
-4e7e3adbba5224 David Howells             2018-01-02  155  #endif
-d5f177d35c2442 Paul E. McKenney          2020-03-09  156  #ifdef CONFIG_TASKS_TRACE_RCU
-d5f177d35c2442 Paul E. McKenney          2020-03-09  157  	.trc_reader_nesting = 0,
-276c410448dbca Paul E. McKenney          2020-03-17  158  	.trc_reader_special.s = 0,
-d5f177d35c2442 Paul E. McKenney          2020-03-09  159  	.trc_holdout_list = LIST_HEAD_INIT(init_task.trc_holdout_list),
-434c9eefb959c3 Paul E. McKenney          2022-05-16  160  	.trc_blkd_node = LIST_HEAD_INIT(init_task.trc_blkd_node),
-d5f177d35c2442 Paul E. McKenney          2020-03-09  161  #endif
-4e7e3adbba5224 David Howells             2018-01-02  162  #ifdef CONFIG_CPUSETS
-b75058614fdd31 Ahmed S. Darwish          2020-07-20  163  	.mems_allowed_seq = SEQCNT_SPINLOCK_ZERO(init_task.mems_allowed_seq,
-b75058614fdd31 Ahmed S. Darwish          2020-07-20  164  						 &init_task.alloc_lock),
-4e7e3adbba5224 David Howells             2018-01-02  165  #endif
-4e7e3adbba5224 David Howells             2018-01-02  166  #ifdef CONFIG_RT_MUTEXES
-4e7e3adbba5224 David Howells             2018-01-02  167  	.pi_waiters	= RB_ROOT_CACHED,
-4e7e3adbba5224 David Howells             2018-01-02  168  	.pi_top_task	= NULL,
-4e7e3adbba5224 David Howells             2018-01-02  169  #endif
-d11ed3ab3166a2 David Howells             2018-01-02  170  	INIT_PREV_CPUTIME(init_task)
-4e7e3adbba5224 David Howells             2018-01-02  171  #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
-4e7e3adbba5224 David Howells             2018-01-02  172  	.vtime.seqcount	= SEQCNT_ZERO(init_task.vtime_seqcount),
-4e7e3adbba5224 David Howells             2018-01-02  173  	.vtime.starttime = 0,
-4e7e3adbba5224 David Howells             2018-01-02  174  	.vtime.state	= VTIME_SYS,
-4e7e3adbba5224 David Howells             2018-01-02  175  #endif
-4e7e3adbba5224 David Howells             2018-01-02  176  #ifdef CONFIG_NUMA_BALANCING
-98fa15f34cb379 Anshuman Khandual         2019-03-05  177  	.numa_preferred_nid = NUMA_NO_NODE,
-4e7e3adbba5224 David Howells             2018-01-02  178  	.numa_group	= NULL,
-4e7e3adbba5224 David Howells             2018-01-02  179  	.numa_faults	= NULL,
-4e7e3adbba5224 David Howells             2018-01-02  180  #endif
-d73b49365ee65a Andrey Konovalov          2020-12-22  181  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-4e7e3adbba5224 David Howells             2018-01-02  182  	.kasan_depth	= 1,
-4e7e3adbba5224 David Howells             2018-01-02  183  #endif
-dfd402a4c4baae Marco Elver               2019-11-14  184  #ifdef CONFIG_KCSAN
-dfd402a4c4baae Marco Elver               2019-11-14  185  	.kcsan_ctx = {
-757a4cefde7669 Marco Elver               2020-03-25  186  		.scoped_accesses	= {LIST_POISON1, NULL},
-dfd402a4c4baae Marco Elver               2019-11-14  187  	},
-dfd402a4c4baae Marco Elver               2019-11-14  188  #endif
-4e7e3adbba5224 David Howells             2018-01-02  189  #ifdef CONFIG_TRACE_IRQFLAGS
-4e7e3adbba5224 David Howells             2018-01-02  190  	.softirqs_enabled = 1,
-4e7e3adbba5224 David Howells             2018-01-02  191  #endif
-4e7e3adbba5224 David Howells             2018-01-02  192  #ifdef CONFIG_LOCKDEP
-e196e479a3b844 Yuyang Du                 2019-05-06  193  	.lockdep_depth = 0, /* no locks held yet */
-f6ec8829ac9d59 Yuyang Du                 2019-05-06  194  	.curr_chain_key = INITIAL_CHAIN_KEY,
-4e7e3adbba5224 David Howells             2018-01-02  195  	.lockdep_recursion = 0,
-4e7e3adbba5224 David Howells             2018-01-02  196  #endif
-4e7e3adbba5224 David Howells             2018-01-02  197  #ifdef CONFIG_FUNCTION_GRAPH_TRACER
-4e7e3adbba5224 David Howells             2018-01-02  198  	.ret_stack		= NULL,
-7e0a9220467dbc Steven Rostedt (VMware    2021-01-29  199) 	.tracing_graph_pause	= ATOMIC_INIT(0),
-4e7e3adbba5224 David Howells             2018-01-02  200  #endif
-c1a280b68d4e6b Thomas Gleixner           2019-07-26  201  #if defined(CONFIG_TRACING) && defined(CONFIG_PREEMPTION)
-4e7e3adbba5224 David Howells             2018-01-02  202  	.trace_recursion = 0,
-4e7e3adbba5224 David Howells             2018-01-02  203  #endif
-4e7e3adbba5224 David Howells             2018-01-02  204  #ifdef CONFIG_LIVEPATCH
-4e7e3adbba5224 David Howells             2018-01-02  205  	.patch_state	= KLP_UNDEFINED,
-4e7e3adbba5224 David Howells             2018-01-02  206  #endif
-4e7e3adbba5224 David Howells             2018-01-02  207  #ifdef CONFIG_SECURITY
-4e7e3adbba5224 David Howells             2018-01-02  208  	.security	= NULL,
-4e7e3adbba5224 David Howells             2018-01-02  209  #endif
-64bdc0244054f7 Kenta.Tada@sony.com       2021-03-21  210  #ifdef CONFIG_SECCOMP_FILTER
-c818c03b661cd7 Kees Cook                 2020-05-13  211  	.seccomp	= { .filter_count = ATOMIC_INIT(0) },
-c818c03b661cd7 Kees Cook                 2020-05-13  212  #endif
-3e9d5f02f0e124 Qingqing Zhou             2021-11-30  213  #ifdef CONFIG_ANDROID_VENDOR_OEM_DATA
-a2f67957845c52 Maria Yu                  2021-11-24  214  	.android_vendor_data1 = {0, },
-a2f67957845c52 Maria Yu                  2021-11-24  215  	.android_oem_data1 = {0, },
-3e9d5f02f0e124 Qingqing Zhou             2021-11-30  216  #endif
-d11ed3ab3166a2 David Howells             2018-01-02  217  };
-a4a2eb490e38aa Thomas Gleixner           2012-05-03  218  EXPORT_SYMBOL(init_task);
-a4a2eb490e38aa Thomas Gleixner           2012-05-03  219  
-
-:::::: The code at line 71 was first introduced by commit
-:::::: 4e7e3adbba5224604b34b0d42003ff6dbdc8ddd9 Expand various INIT_* macros and remove
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+    82	
+    83	#ifdef CONFIG_ALT_SYSCALL
+    84	# ifdef CONFIG_IA32_EMULATION
+    85	#  define INIT_THREAD_INFO_SYSCALL_COMPAT			\
+  > 86		.ia32_nr_syscalls	= IA32_NR_syscalls,		\
+  > 87		.ia32_sys_call_table	= ia32_sys_call_table,
+    88	# else
+    89	#  define INIT_THREAD_INFO_SYSCALL_COMPAT /* */
+    90	# endif
+    91	# define INIT_THREAD_INFO_SYSCALL \
+  > 92		.nr_syscalls	= NR_syscalls,		\
+  > 93		.sys_call_table	= sys_call_table,	\
+    94		INIT_THREAD_INFO_SYSCALL_COMPAT
+    95	#else
+    96	# define INIT_THREAD_INFO_SYSCALL /* */
+    97	#endif
+    98	
 
 -- 
 0-DAY CI Kernel Test Service
