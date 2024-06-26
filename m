@@ -1,57 +1,59 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664F716DC02;
-	Wed, 26 Jun 2024 09:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B5F22083
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 10:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719395078; cv=none; b=ksXUf7PKxHuZjgHHE2C5EyUPchPCe4xN4piwafvNIZ6cXX6gIM7sQD00PBc1Snm2MS1J0aGDd8tRowXfIuxLzDN+3dMZaIWGQGzjI5YdCWmHpttp76jqrNSj1kWv0Xqgad7JMXKWcP0PFcbf/cArU0m9q/bsmN/WpUjGNOsLoNs=
+	t=1719396519; cv=none; b=A7QNPDazz9hE937O9FEbOrenglbNbrrvPuDKO20AUo76hJ5KkWXOiPqqjgjnkFBj5N1rxWfVz675Rbb5sS6WWH/qjH7cWQXFtnDGOJb9Sxa8rQ+UAwKKiZ4DXs8hzL3c3QoHtmxYaGGe6cOtw5UgvUvRNHajriT27mzlisOUxyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719395078; c=relaxed/simple;
-	bh=BEyHuN9KYaz/HgLYtzWccIdPuHn7PvQuBdSB2pJ8+dw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HLCx6Hmu5EhsEmtogx+xLk6zZaEcju+4gSaXAn+2k8QIqjSocVREUUQoZrxZyxDb7OCHBtLBIvmzjWSMgHAXazI6XhNM9/dqdIY2LAXMUmXe1uiF7cW46RvKmUQ417HB3TZlYo76qexuaaut//+4BpERdMA/lqbxQXQ4FNvAQQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fXFrLmYD; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1719396519; c=relaxed/simple;
+	bh=QOYhx0sbrumiaTUkZqLb1sydzYfcamo/Fd0ReV1T7+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aSyrPr1vRkUtHbhJSdeO6gXe+ucLD+V5ks5wgOreESoKYVNcadKoUWi2TdPdM2bhsqYfTM0jniInM5gOgS36sIJmLi3xE6HcIm8fRB9qt6xEdKwNdPE/9x0fVHhctr4iu2K896LETRwKAxme5hc0iK6GFMVK5qsf/uhksB5oBo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gg2CdOKh; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fXFrLmYD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XzfMdj8RGEXjKOpU3zqHY7Vw5JxOu6m7qj04nFi/KTU=; b=fXFrLmYD4+4DSzF+sPAyI4PYMs
-	MQWE0ReZKAfC+5fkT+sdd+u8LYbumJ/AoYgCW0BewpVHIbh2FNmpeJQQZSY4JqniXLmD6KW+OcAYs
-	HxYtNKvVN0T7akfHN+2LMSKfOCKZ3bN3Jzxt429WJSOx4cbvQb0c0TZOKqiFj4aOPei6ehJr+Qogl
-	xT6qtP47UQ92MhXEMWjiRQhwtzoEvI7CIgWknb6zOdyCl5Ww/4lfSNAKjx7CuB1S0V8t3oEaiGuO5
-	h6MR06GEChqELdPObj0CNUl7JeEYC9bTLMWvmLj9jPTYZZ0/Fw+9YTK2+37z0rlzazchYrZk3VOB7
-	QEY6kAdw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMPAy-00000008YjG-36PX;
-	Wed, 26 Jun 2024 09:44:00 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 138CD30057C; Wed, 26 Jun 2024 11:42:45 +0200 (CEST)
-Date: Wed, 26 Jun 2024 11:42:45 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
-	Borislav Petkov <bp@alien8.de>
-Subject: Re: arch/x86/include/asm/cmpxchg_32.h:149:9: error: inline assembly
- requires more registers than available
-Message-ID: <20240626094245.GD31592@noisy.programming.kicks-ass.net>
-References: <CAFULd4YR-VkAOKiS5yxSUYi0YMzY1p=pkYe4dOkgFs+A=9AFFA@mail.gmail.com>
- <CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com>
- <CAHk-=whPqqZVSeJiQsMvsAxtAmtR9iAuB4gg_1sUK2D-uBPpLw@mail.gmail.com>
- <CAFULd4YAeF7=q7DYUh016kabxS8b32qRbFqDBJQrvLq6RjwEVg@mail.gmail.com>
- <CAHk-=wiHo2YeA=TOUf8vxFLOc0+BoH8USaiT25fnX2ynXbrZkg@mail.gmail.com>
- <CAHk-=wgdCs0883dpvZpyna76q9eVcTMvvUVAaBuJMPyrgOhNig@mail.gmail.com>
- <CAFULd4ZW23_RNye6YGbsT0Uo-vOQBM_tBbSJRhh=0HZzXuC_8Q@mail.gmail.com>
- <CAHk-=wiWEgSo2Tb_bih7mnS27zAPL+RGg_7yX4qK1f710-j-Ng@mail.gmail.com>
- <20240626092841.GC31592@noisy.programming.kicks-ass.net>
- <CAFULd4ZUBaK+FNSKfiJzzZNFQM1bWorZGmaY=fb-sFN2uPK4MA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gg2CdOKh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719396518; x=1750932518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QOYhx0sbrumiaTUkZqLb1sydzYfcamo/Fd0ReV1T7+I=;
+  b=gg2CdOKhk0tXRR89SetWjfOrhOPAGzI0jPKMQFFz9s0v6R8SIcX81bu/
+   LnR2LTV2chhzEzgvWEFktc3Margo9afr0qyvljUaaqtiS/us+jo2Xoyhp
+   frvQ+N823tci7sASkxLYma22Hjwbi01y3i2r3+zwHTaX56+hoVc9gE9zW
+   nZpEevSvi8T0y+lF8yB42PjzkHJ5NaU8RkuoDBWSIvt9fiJc8MkJ9MhbX
+   xjyfv7kijV/TtZ1KhX8cU9vqc+JiOyr9BBfIHa0lXcYKTJLXFeiNzk6BN
+   HXxNtr1jIRQ2l/HJ1R0WdM28UZmx89vY0eIM7cyZw2elO2qZGjiw0HA0/
+   Q==;
+X-CSE-ConnectionGUID: 0ax2yOlPQf+sbfHwgH5uTA==
+X-CSE-MsgGUID: 3YRCmsGNSEyRSFdydqZfJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="27862642"
+X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
+   d="scan'208";a="27862642"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 03:08:37 -0700
+X-CSE-ConnectionGUID: Vrhb2N48QLmR+dU1dux8LA==
+X-CSE-MsgGUID: brqo+h+CSW6DfxeBC6El8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
+   d="scan'208";a="48881613"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 26 Jun 2024 03:08:37 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMPZp-000FB8-2q;
+	Wed, 26 Jun 2024 10:08:33 +0000
+Date: Wed, 26 Jun 2024 18:07:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ tracing_gen_ctx+0x64 (section: .text.unlikely) -> initcall_level_names
+ (section: .init.data)
+Message-ID: <202406261719.2aAerZqM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,12 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFULd4ZUBaK+FNSKfiJzzZNFQM1bWorZGmaY=fb-sFN2uPK4MA@mail.gmail.com>
 
-On Wed, Jun 26, 2024 at 11:33:09AM +0200, Uros Bizjak wrote:
+Hi Masahiro,
 
-> Please see the thread at [1].
-> 
-> [1] https://lore.kernel.org/lkml/CACT4Y+bG+a0w6j6v1AmBE7fqqMSPyPEm4QimCzCouicmHT8FqA@mail.gmail.com/
+FYI, the error/warning still remains.
 
-Ha, handy these archives, much better than my memory indeed.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   55027e689933ba2e64f3d245fb1ff185b3e7fc81
+commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
+date:   11 months ago
+config: xtensa-randconfig-002-20240225 (https://download.01.org/0day-ci/archive/20240626/202406261719.2aAerZqM-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406261719.2aAerZqM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406261719.2aAerZqM-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x30 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> WARNING: modpost: vmlinux: section mismatch in reference: tracing_gen_ctx+0x64 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
