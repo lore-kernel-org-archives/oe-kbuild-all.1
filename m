@@ -1,109 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B67E177998
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 10:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CD417E917
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 10:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719398097; cv=none; b=sV4ogUdzpTSwqxAnCsNZ4WN8BYj1Q1Fv0QwxaeIJonWTlQplQEP/iONhUxcaW1ao0IbMCqpjo0WYUb4083DFSeilGzulsn0W/DGH2x5dhZ1qmtKklF+xgUI1J/pKInfXZ2TflzlmDIjTM00ZXtfhNPaT74z1NrOwnjvzHRgYABY=
+	t=1719398841; cv=none; b=Sj7zYE/Dd0aCRJTdjWgSofDC/HwaJ1fz5j5su2dB4GX5H7vdFvyjwbMafD2fPHi3dUcugdZf6RACA3snf9SIz/Oez1uNKx3zvbEFNXbqiBo4Bmok4+uWkzcSt9mb7MNzSN2X4AUZEFhyN4Rw6WjxwHWCBQ6wM+uPsy11OtnDJtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719398097; c=relaxed/simple;
-	bh=xU+WACS6guDfp3khbUWZJSIr/WJobuA6mh0a6j028os=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UqCiQlMm0msKF46l2qDvkd3KE/e9pGIQzJmhvGX87hLXKNcwB7+ntYLUewYfUK6PNmUVPA7WnBI9Veu1hHjfdgOIwOjel5ZXtUCEkh2OJBZ3MIYvQL5n+CFxn6ACeNRzbUsdc/bRMQCuRSJEIj4sD6maPZRP/QkxcDZWby+Jqo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5LsNdCD; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719398841; c=relaxed/simple;
+	bh=wxrHq8YLOler5eJNVHa07AdcBpDkGb2s0gSKy1Rcjoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C09mlBhfo+hO6Dk4gwQ4hsO5eZXK5NMP/4gfBKqQM6lWfkcoddYsEZoOUkjHAjfxuGdtchClzmjlN6/7xvWTBBx6pXHAEKIBc1WVlbrANlZ6rH9VG57ZJzm5QqPYpDbTPi7rAyWHRBT4nduOAlTxzmcK7uR3WrYlidS3Fg54ZEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=E0lfL2/B; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5LsNdCD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719398096; x=1750934096;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xU+WACS6guDfp3khbUWZJSIr/WJobuA6mh0a6j028os=;
-  b=l5LsNdCDMdgrOcJpxCo6lyr20phsEYfYEevEGQY3A+BMp+SMEF24V9SI
-   nnNUcollQMeDI0CyhqaCL6kbVlEfz00cY2z5NtYC6OZOfJfc3xcDLzR2U
-   koKM1+UOzntglQfUH9Eoi2bYowwrT8soTFnySLDCWFULKMQK5K1PFgKbg
-   GL5r7zk8DFtW/gk/2uTb3bdZLFANu4Nz07Vw7yqCFp1NVekVcLNKBLtED
-   hIrwQ+aWp5i3UX1QUH3ejKvJAq6870cseFluPgIp9Zs18VUfuejSGGGP4
-   CCpmV3w5qCci12sspw+++hOJHBJ0rJn6AuPcDi8ZMMrDhzGWlFllqPTTo
-   Q==;
-X-CSE-ConnectionGUID: CFE6WrCTRxWiNaCNQ9Np2A==
-X-CSE-MsgGUID: oKZ/Bt7BSlKenc8S8loAeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16283370"
-X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
-   d="scan'208";a="16283370"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 03:34:55 -0700
-X-CSE-ConnectionGUID: VwUPJBFIQ0i9JrzWzLa7rA==
-X-CSE-MsgGUID: 0R6/esdBSDizT7t/1EsTyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
-   d="scan'208";a="81501084"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jun 2024 03:34:53 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMPzG-000FCH-1c;
-	Wed, 26 Jun 2024 10:34:50 +0000
-Date: Wed, 26 Jun 2024 18:34:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 5561/7880] kismet: WARNING: unmet direct
- dependencies detected for CRYPTO_LZ4HC when selected by EMM_ZRAM_CONF
-Message-ID: <202406261841.wwG2XDVw-lkp@intel.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="E0lfL2/B"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BC8B940E0219;
+	Wed, 26 Jun 2024 10:47:17 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id u6vXT4yo2Han; Wed, 26 Jun 2024 10:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1719398833; bh=WFvhoSaR1JtMQwa6oAWZalZtdUwtVYaRIDSM12z6668=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E0lfL2/BBVkVTmkEBV7alMhc1su4/ZLeX1SFNPMZ4JLvhE7JYT+f3JDK2Iuq7bNko
+	 oBA4tVP5Zqxm0CBxD+nVbds4qFVhhDuA6lQXO2fPtIst8uMYeVsmcB/hvyxbLdAy0M
+	 G6hjxA+ZczZ6sEKxeUGfLeGOhWMWpLkp5nEhmZOVKBr7O4BDTBvr1ry07TUvrNqxg2
+	 dPyso8Cf+u2Cg1XUB0xq8QQ6c8nP127PAaDl+mYdA7qEWCHKExL/TpDAj4kKo9cR8G
+	 3ieIX3DPKnxVTMURj1dWp6nVQY74oSIpQoZn+8k/5cSQ9Sc0p+Or9RDxtCPd/tktn8
+	 FmSmTuM+D4FmAwHx21yGWUaMPj7zFEjpC+gRe8LzdMN0n8wd7ufYMNaDyVhifSDwbu
+	 a+Ly6O0OVQ30v5O6aI3CHCmOSt8ptNbGTM1n8o8nzVaNmucm5owU0Hz331w8OgyKic
+	 aVTJxD5EE8K/X0rKQvSOd7MNZnO3vV5GKztZ2GZ+YZSTOVZh82jmcZfVBTDCVraejs
+	 ZQX26dUf04gLfwZKqqCPNStFRQntgoGi/gAZnSB/2zXaQucM/SQLsle1vGnCJsk+E2
+	 hB44Y2sjfuB5ORBLJeumIDuUJyfxjIlMgsqAD7zAC36/O6qQKXiShc52n5rrXI7GFL
+	 6LYed0pRX+/acDeWA/R/qxeM=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D22840E0218;
+	Wed, 26 Jun 2024 10:46:49 +0000 (UTC)
+Date: Wed, 26 Jun 2024 12:46:48 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: lkp@intel.com, ardb@kernel.org, brijesh.singh@amd.com, corbet@lwn.net,
+	dave.hansen@linux.intel.com, hpa@zytor.com, jan.kiszka@siemens.com,
+	jgross@suse.com, kbingham@kernel.org, linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, luto@kernel.org, michael.roth@amd.com,
+	mingo@redhat.com, oe-kbuild-all@lists.linux.dev,
+	peterz@infradead.org, rick.p.edgecombe@intel.com,
+	sandipan.das@amd.com, tglx@linutronix.de, thomas.lendacky@amd.com,
+	x86@kernel.org
+Subject: Re: [PATCH] x86/64/mm: Make 5-level paging support unconditional
+Message-ID: <20240626104648.GBZnvxmMXCZbEhoqls@fat_crate.local>
+References: <202406260735.rkb4c8N7-lkp@intel.com>
+ <20240626102624.1059275-1-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20240626102624.1059275-1-kirill.shutemov@linux.intel.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ca7064b2308b42201419e17b030e6a9347be29cd
-commit: 5723adb73901b05640a72b59bfa6125a3a469cd3 [5561/7880] emm: configs: enabled EMM related configs
-config: loongarch-kismet-CONFIG_CRYPTO_LZ4HC-CONFIG_EMM_ZRAM_CONF-0-0 (https://download.01.org/0day-ci/archive/20240626/202406261841.wwG2XDVw-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240626/202406261841.wwG2XDVw-lkp@intel.com/reproduce)
+On Wed, Jun 26, 2024 at 01:26:23PM +0300, Kirill A. Shutemov wrote:
+> Both Intel and AMD CPUs support 5-level paging, which is expected to
+> become more widely adopted in the future.
+> 
+> Remove CONFIG_X86_5LEVEL and ifdeffery for it to make it more readable.
+> 
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Suggested-by: Borislav Petkov <bp@alien8.de>
+> ---
+> 
+>  v2:
+>   - Fix 32-bit build by wrapping p4d_set_huge() and p4d_clear_huge() in
+>     #if CONFIG_PGTABLE_LEVELS > 4
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406261841.wwG2XDVw-lkp@intel.com/
+Is the 0day bot smart enough to detect separate v2 fixups like that and
+re-test using them?
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_LZ4HC when selected by EMM_ZRAM_CONF
-   WARNING: unmet direct dependencies detected for CRYPTO_LZO
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_ZSTD
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_LZ4
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_LZ4HC
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
-   
-   WARNING: unmet direct dependencies detected for MEMCG_ZRAM
-     Depends on [n]: CGROUPS [=y] && MEMCG [=y] && SWAP [=n]
-     Selected by [y]:
-     - EMM_ZRAM_CONF [=y]
+If not, you can push your tree to your repo so that it can chew on it again
+and report any other potential breakages...
+
+Thx.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
