@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FFE79CE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C990715B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 00:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719362581; cv=none; b=bei/g0YCE0W5tXsZl09bsa676YEuXuPOIfqM0StAo3cGXITvBM+t3sEYkbVY9Vj0XKJ3eYG0vUax59UWriyDxnrWZ41G23RiAHSbvYpwxjB5NC81EFvbYk9spJIYd7lIygmUfTDyA+5j5fNCbJnfF5RQeBZ4E1EgR6vA01YDlqU=
+	t=1719363564; cv=none; b=teMitVxHHTdQreKgRCt3k5S3JPG+wuKxsisjvSZGSCGSy+ayJD0qOquUmUJjsnxPWpcRZJ+siEa+4Z5YJvmWOfBwvm49oDxtkr2LlOS3+v01jMG25t16dgPRzHwpBndCujdlpYmWrEWjmG/K8zyTZRQRm5pqQhFfHRDwgRZ5hUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719362581; c=relaxed/simple;
-	bh=lFVdrEJZoexnbnD3vJDnZkAzyif2z9D1eNMfX6Mom8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m2cGdWFhpGaJ+kTub68jcmqBHNVSIlOFxua7Ez/eGC6L0rzeebvldlHAs1dpKRSls8UgpkvGqI+OXy11ONw0iu9uZB4ek2nHAJX6asz2BPQ3h6nsI4yWXrbZW7fDQvhEYZlBWdi64HANUwMbaIF1GWeUeakrOz36PgUmTYAcO+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VEAYXgwD; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1719363564; c=relaxed/simple;
+	bh=s/ibK2QeJ7oTz48E59DL71I9DousxuEFFP4DyX5K61s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/yHcwLfvfyAz4z8TqFTq7PQvsfQE4jDBfHQKB0GUMpIjmMaOruRhQfs4S4Jw9Mj8DIFe7CxEa06aRoWa1QakYx2Ir+WMM6Q5zjwTJ1nHgpqK7wpGl/J6cZScD7i28ZAVgnLyvHE6PqRWquS4lN8O3wA+V3+gs7hQ6PRPPOWd5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8PhWj8v; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VEAYXgwD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8PhWj8v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719362576; x=1750898576;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lFVdrEJZoexnbnD3vJDnZkAzyif2z9D1eNMfX6Mom8Q=;
-  b=VEAYXgwD8ipJmxtLfKrb79z+XwR5aViqkn/Ewoa7G8uAyvThKy9r2WtZ
-   MiYTmrlquGPB1+wvOIC4nHT28qINe2ejuVHWUU4JTp/V9yyUdV86JYlcn
-   ZO9da+o3uX8WDBy9p9lAkMTzeBvs5M5oQ6g2icShjTdpoH5uwjyp4lEW1
-   uIiogrKD6icyELGd/WarxgeJmWqZBbGi1+8/DMS9SCoMyPPxIF43owhPR
-   SqpA0neFgSWzEDdkMe+nfPOuVKfxOxn0jzFRYZmtIxhNYTcijrGsU0ne1
-   0ibob0mSLWpR3k176j26vgmaquH07EZtZDwSyWnI0o+43107P44F2dFYv
-   Q==;
-X-CSE-ConnectionGUID: AcwaphvtQO+0JoLsfZhBrw==
-X-CSE-MsgGUID: ATSnkXz/RHeyqAMrqeZXLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16557215"
+  t=1719363564; x=1750899564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s/ibK2QeJ7oTz48E59DL71I9DousxuEFFP4DyX5K61s=;
+  b=C8PhWj8vdNwANxvtBempCZkdy8rORg6R2QUXpQHLmkmij4ElWfgge4OI
+   EvTcbum5h8VJKDEJW08BUGjv/Y92j4cTQxLXDPacwUbTKlXuqt+hbZ1uh
+   jvrV2Q1F1E+wWYahaDuDSnNx8yu5Va0FdawquKS6fp4JSoVh0Ihv1mCG2
+   T6PPa/EMJjB7WS17e12v+qAPO6bW38AvpbGbdGlmmv1r/LDpS23l2niNP
+   oChSTjJiWY8LqyQILuZgl+95of+BvhO3UEs4dknYGEv9q57JzTq5AMUlN
+   u6S02VqltP6r6LkfGaq3KZdZP5t/TWRu34N8mUEJSpre+DNRSWi4rH9vm
+   w==;
+X-CSE-ConnectionGUID: JH9ZPv4zQNqVpjUpVNgTUg==
+X-CSE-MsgGUID: 6wwBZS2HTQeYJxLILw5Row==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16240156"
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="16557215"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:42:55 -0700
-X-CSE-ConnectionGUID: OyYS1SRqT9KcAPmiQiYtFw==
-X-CSE-MsgGUID: csjZ7jKrQ5CuQO4g0zbR/w==
+   d="scan'208";a="16240156"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 17:59:09 -0700
+X-CSE-ConnectionGUID: PwJXSTC/QWeIjaN3/nr85w==
+X-CSE-MsgGUID: qwQ463bzQZuhnMHlZyujTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
-   d="scan'208";a="44478428"
+   d="scan'208";a="81366230"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Jun 2024 17:42:54 -0700
+  by orviesa001.jf.intel.com with ESMTP; 25 Jun 2024 17:59:06 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMGkN-000Eqk-2U;
-	Wed, 26 Jun 2024 00:42:51 +0000
-Date: Wed, 26 Jun 2024 08:42:33 +0800
+	id 1sMH02-000ErM-38;
+	Wed, 26 Jun 2024 00:59:02 +0000
+Date: Wed, 26 Jun 2024 08:58:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 6593/8232] arch/powerpc/boot/dts/mpc8313erdb.dtb:
- ptp_clock@24E00: interrupts: [[12, 8], [13, 8]] is too long
-Message-ID: <202406260805.BBhzufh7-lkp@intel.com>
+To: Madhavan Srinivasan <maddy@linux.ibm.com>, mpe@ellerman.id.au
+Cc: oe-kbuild-all@lists.linux.dev, atrajeev@linux.vnet.ibm.com,
+	kjain@linux.ibm.com, christophe.leroy@csgroup.eu,
+	Madhavan Srinivasan <maddy@linux.ibm.com>, npiggin@gmail.com,
+	naveen.n.rao@linux.ibm.com, disgoel@linux.vnet.ibm.com,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 2/3] powerpc/pseries: Export hardware trace macro dump
+ via debugfs
+Message-ID: <202406260849.z8VoytFS-lkp@intel.com>
+References: <20240620174614.53751-2-maddy@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,592 +67,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240620174614.53751-2-maddy@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-commit: 01479f1b912aa499057fd29deddb1ffb9c72fa0a [6593/8232] dt-bindings: ptp: Convert ptp-qoirq to yaml format
-config: powerpc-randconfig-051-20240623 (https://download.01.org/0day-ci/archive/20240626/202406260805.BBhzufh7-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260805.BBhzufh7-lkp@intel.com/reproduce)
+Hi Madhavan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.10-rc5 next-20240625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Madhavan-Srinivasan/powerpc-pseries-Export-hardware-trace-macro-dump-via-debugfs/20240625-144003
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20240620174614.53751-2-maddy%40linux.ibm.com
+patch subject: [PATCH 2/3] powerpc/pseries: Export hardware trace macro dump via debugfs
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240626/202406260849.z8VoytFS-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260849.z8VoytFS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406260805.BBhzufh7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406260849.z8VoytFS-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/sleep-nexus/crypto@30000: failed to match any schema with compatible: ['fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/spi@7000: failed to match any schema with compatible: ['fsl,spi']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr']
->> arch/powerpc/boot/dts/mpc8313erdb.dtb: ptp_clock@24E00: interrupts: [[12, 8], [13, 8]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/ethernet@24000/mdio@520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/ethernet@25000/mdio@520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
---
-   	from schema $id: http://devicetree.org/schemas/hwmon/national,lm90.yaml#
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/i2c@3000/clock-generator@69: failed to match any schema with compatible: ['idt,6v49205b']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
-   arch/powerpc/boot/dts/turris1x.dtb: switch@10: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/qca8k.yaml#
->> arch/powerpc/boot/dts/turris1x.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
---
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr', 'fsl-usb2-dr-v2.2']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr', 'fsl-usb2-dr-v2.2']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/sdhc@2e000: failed to match any schema with compatible: ['fsl,esdhc']
->> arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9131-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9131-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/memory-controller@2000: failed to match any schema with compatible: ['fsl,bsc9131-memory-controller']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/i2c@3000/fpga@66: failed to match any schema with compatible: ['fsl,bsc9132qds-fpga', 'fsl,fpga-qixis-i2c']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/i2c@3000/fpga@66: failed to match any schema with compatible: ['fsl,bsc9132qds-fpga', 'fsl,fpga-qixis-i2c']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr', 'fsl-usb2-dr-v2.2']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr', 'fsl-usb2-dr-v2.2']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
->> arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9132-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9132-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
---
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@c300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@c300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@c300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p2020-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
---
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/sata@19000: failed to match any schema with compatible: ['fsl,mpc8536-sata', 'fsl,pq-sata']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/sata@19000: failed to match any schema with compatible: ['fsl,mpc8536-sata', 'fsl,pq-sata']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,mpc8536-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@2b000: failed to match any schema with compatible: ['fsl,mpc8536-usb2-dr', 'fsl-usb2-dr']
---
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/sata@19000: failed to match any schema with compatible: ['fsl,mpc8536-sata', 'fsl,pq-sata']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/sata@19000: failed to match any schema with compatible: ['fsl,mpc8536-sata', 'fsl,pq-sata']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,mpc8536-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.2', 'fsl,mpc8536-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@2b000: failed to match any schema with compatible: ['fsl,mpc8536-usb2-dr', 'fsl-usb2-dr']
---
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/gpio-controller@f000: failed to match any schema with compatible: ['fsl,mpc8572-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,mpc8572-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/ethernet@27000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/mdio@27520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
---
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/gpio-controller@f000: failed to match any schema with compatible: ['fsl,mpc8572-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,mpc8572-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/ethernet@27000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/mdio@27520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
---
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/gpio-controller@f000: failed to match any schema with compatible: ['fsl,mpc8572-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,mpc8572-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ethernet@27000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/mdio@27520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
---
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/gpio-controller@f000: failed to match any schema with compatible: ['fsl,mpc8572-gpio']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,mpc8572-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ethernet@27000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/mdio@27520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
---
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@c300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@c300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@c300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p2020-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/mvme2500.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/spi@7000/slic@0: failed to match any schema with compatible: ['zarlink,le88266']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/spi@7000/slic@1: failed to match any schema with compatible: ['zarlink,le88266']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: flash@0: Unevaluated properties are not allowed ('partition@jffs-fs', 'partition@kernel', 'partition@u-boot' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: flash@0: Unevaluated properties are not allowed ('partition@jffs-fs', 'partition@kernel', 'partition@u-boot' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /pcie@ffe09000: failed to match any schema with compatible: ['fsl,mpc8548-pcie']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe0a000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe0a000: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /pcie@fffe09000: failed to match any schema with compatible: ['fsl,mpc8548-pcie']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe0a000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe0a000: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /localbus@ffe05000: failed to match any schema with compatible: ['fsl,p1021-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /localbus@ffe05000/display@2,0: failed to match any schema with compatible: ['solomon,ssd1289fb']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000: failed to match any schema with compatible: ['fsl,p1021-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/mdio@24000: failed to match any schema with compatible: ['fsl,etsec2-mdio']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/mdio@25000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/mdio@26000: failed to match any schema with compatible: ['fsl,etsec2-tbi']
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ethernet@b0000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ethernet@b1000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ethernet@b2000: failed to match any schema with compatible: ['fsl,etsec2']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p2020-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
->> arch/powerpc/boot/dts/fsl/p2020ds.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p2020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
->> arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
->> arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/mdio@24520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/mdio@25520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/mdio@26520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
->> arch/powerpc/boot/dts/fsl/p2020rdb.dtb: ptp_clock@24e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/ethernet@26000: failed to match any schema with compatible: ['gianfar']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p2020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
+All error/warnings (new ones prefixed by >>):
+
+   In file included from arch/powerpc/platforms/pseries/htmdump.c:19:
+>> arch/powerpc/include/asm/machdep.h:262:85: error: expected ')' before numeric constant
+     262 | #define machine_device_initcall(mach, fn)       __define_machine_initcall(mach, fn, 6)
+         |                                                                                     ^
+   arch/powerpc/include/asm/machdep.h:248:61: note: in definition of macro '__define_machine_initcall'
+     248 |         __define_initcall(__machine_initcall_##mach##_##fn, id);
+         |                                                             ^~
+   arch/powerpc/platforms/pseries/htmdump.c:130:1: note: in expansion of macro 'machine_device_initcall'
+     130 | machine_device_initcall(pseries, htmdump_init);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/include/asm/machdep.h:244:27: warning: '__machine_initcall_pseries_htmdump_init' defined but not used [-Wunused-function]
+     244 |         static int __init __machine_initcall_##mach##_##fn(void) { \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/machdep.h:262:49: note: in expansion of macro '__define_machine_initcall'
+     262 | #define machine_device_initcall(mach, fn)       __define_machine_initcall(mach, fn, 6)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/htmdump.c:130:1: note: in expansion of macro 'machine_device_initcall'
+     130 | machine_device_initcall(pseries, htmdump_init);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +262 arch/powerpc/include/asm/machdep.h
+
+^1da177e4c3f41 include/asm-ppc64/machdep.h        Linus Torvalds   2005-04-16  242  
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  243  #define __define_machine_initcall(mach, fn, id) \
+800d68c3aa0dc3 include/asm-powerpc/machdep.h      Grant Likely     2007-12-02 @244  	static int __init __machine_initcall_##mach##_##fn(void) { \
+800d68c3aa0dc3 include/asm-powerpc/machdep.h      Grant Likely     2007-12-02  245  		if (machine_is(mach)) return fn(); \
+800d68c3aa0dc3 include/asm-powerpc/machdep.h      Grant Likely     2007-12-02  246  		return 0; \
+800d68c3aa0dc3 include/asm-powerpc/machdep.h      Grant Likely     2007-12-02  247  	} \
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  248  	__define_initcall(__machine_initcall_##mach##_##fn, id);
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  249  
+8d3c941e240ba2 arch/powerpc/include/asm/machdep.h Michael Ellerman 2014-07-15  250  #define machine_early_initcall(mach, fn)	__define_machine_initcall(mach, fn, early)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  251  #define machine_core_initcall(mach, fn)		__define_machine_initcall(mach, fn, 1)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  252  #define machine_core_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 1s)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  253  #define machine_postcore_initcall(mach, fn)	__define_machine_initcall(mach, fn, 2)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  254  #define machine_postcore_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 2s)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  255  #define machine_arch_initcall(mach, fn)		__define_machine_initcall(mach, fn, 3)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  256  #define machine_arch_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 3s)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  257  #define machine_subsys_initcall(mach, fn)	__define_machine_initcall(mach, fn, 4)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  258  #define machine_subsys_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 4s)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  259  #define machine_fs_initcall(mach, fn)		__define_machine_initcall(mach, fn, 5)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  260  #define machine_fs_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 5s)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  261  #define machine_rootfs_initcall(mach, fn)	__define_machine_initcall(mach, fn, rootfs)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17 @262  #define machine_device_initcall(mach, fn)	__define_machine_initcall(mach, fn, 6)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  263  #define machine_device_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 6s)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  264  #define machine_late_initcall(mach, fn)		__define_machine_initcall(mach, fn, 7)
+7929d407e47fbf arch/powerpc/include/asm/machdep.h Matthew Leach    2012-12-17  265  #define machine_late_initcall_sync(mach, fn)	__define_machine_initcall(mach, fn, 7s)
+800d68c3aa0dc3 include/asm-powerpc/machdep.h      Grant Likely     2007-12-02  266  
 
 -- 
 0-DAY CI Kernel Test Service
