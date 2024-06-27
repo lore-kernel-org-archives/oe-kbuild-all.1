@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A3519AD93;
-	Thu, 27 Jun 2024 22:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEBB1A08D6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 22:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719527239; cv=none; b=YT1XbLcO8bDK7TFDG3l8QSsfye2kGfsfJs5dAmZ1Zqwz8/IhVJEudq/5J679fJNQ0VJ+mKgsMt1qhe0qDQl9l2f0M5W11HiXbbqOusOIL65BWiBBIxUcMaNkcf569gtoiN+YLIBFj9MXTWAbSkhIKH2I/LdFxu8PqMpO6KYjRkw=
+	t=1719527955; cv=none; b=fwUvtOUekic5NSoBujgYeHZn97VEBGExhTJ7toZzWQgqBKuhjJPercgqvVOdNh8gbDXR1C14x7EQ6ZCmsgDhcyUH0cpllM03mvBNR9xaTXHmshcKkW5rEDiDr6kRBTIF5ThwvDYks+bLU5B/C+5sOHken/EzDciVNyiZwsNnZhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719527239; c=relaxed/simple;
-	bh=6ZRjC23wobObDdFfd8zFQZZ9Z3PFbjqgjYHg7T/vNQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a3tRlmK9locKzllgeKTYnqqAGZBEgMOyR85QBastr6v6CW3uCynoyPDvmItjonLNCKCFTjlN+j/StE7GC/wj89LjMAAcnOlLdlSeT5zf1wtqO7d9qr+eH6Sa3rnoZtx6iUhDZSDoyUCUHQbwAHyOg35pIg2Vic/w17gRILsblfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdGaOk7T; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1719527955; c=relaxed/simple;
+	bh=Nu5yexGfS39nTcCDx0mDl40ejIViXqFA6rhrJNFQPuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cIRyA1wNnnT8HN6CbE+XzHG12OQU8gWPItIN0PTWIrrlnH3Loze+S/b8fcNcEYMmaMNDyqw87Eh45IZ05hidtEocFy1hnRty+mNr5tpf9zTd0o9Xo2nlp2OKhMBGYc+3xZPzl/k/y90Nw/sqQTWByhWTO+ecEpGA1PCffIzyUUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bp7twkdr; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdGaOk7T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bp7twkdr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719527238; x=1751063238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6ZRjC23wobObDdFfd8zFQZZ9Z3PFbjqgjYHg7T/vNQU=;
-  b=fdGaOk7TauulQ2l/YNo97fXu0aFQxvtFw3EOuRxdQa9FwvjCk054Z0xL
-   8Ti4IaU56K7y/Jk8/hKmbgRSHfNHALle0L1F7Gew5EOzceKqMEw5Jt918
-   +XJu2A8asLzmCxmSTHAW3j7KQ8RpgeR8e93LQPyEXLRRvl1eenjABYLxg
-   dUCvT6yhpjflRTQTB4kjKiozDkvNDX4gqQ/oN76MEC8bWGGz+zIGd7WY7
-   jjcwvSCgKWW6kJAVRXKdBgppMyqMIjjWIcZQwBeDynEeGwvQ5KmK/s454
-   m26I30sUUoOAsD36Adymlj3LvKsnsVpLEawraNmCm4b6ueCYyc0p1Cpde
-   Q==;
-X-CSE-ConnectionGUID: MZfwAaP3StChaA2Dm5qHBw==
-X-CSE-MsgGUID: /WCp4C/GSXiKAI2wy14XfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16369838"
+  t=1719527954; x=1751063954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Nu5yexGfS39nTcCDx0mDl40ejIViXqFA6rhrJNFQPuc=;
+  b=Bp7twkdrhIQbO5a+1tL1LHrVTqmVj3xeoYShkrKUAGeNKY50MvcNrO+4
+   oh2n2kymTYo1vUGouCRFmjkVuxDmZXi7IQL3wFHrI1LMHbxKFvnv1Y0Ty
+   bnJLG5FQ+wq7FovX9u46a1CgqIpYKqNu3Mfyp+QBTY38ZjacX1c0IwYaI
+   pBy/Y3tBkGbswHJx0XMH11frIRVbWEuSTWi3hrylmjICaJassfuYHdBah
+   9mlQjm9FKFtxnNdAw4PQ8VSCf5cnuNqS6XkX3zIp9oN6ChM0dX6b7eJgU
+   IMezWigRn9+fp2DZx81QT8pmqY11C+59/HwINnO+r9KW7V8MzVmvPDEe/
+   w==;
+X-CSE-ConnectionGUID: zA8ZIe1eRU6ra5ttj7A+dQ==
+X-CSE-MsgGUID: +mBZK5u4RkSjZrOeOE0EHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16833681"
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="16369838"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 15:27:17 -0700
-X-CSE-ConnectionGUID: zkBVUXQWQjyqQHVWEEfu0Q==
-X-CSE-MsgGUID: fngSrsCqRteimFpQDSTiSw==
+   d="scan'208";a="16833681"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 15:39:13 -0700
+X-CSE-ConnectionGUID: xpRuByoiSeWN1A1vfHODBw==
+X-CSE-MsgGUID: X4m8Ldo7TtCrXW3Gs3D/FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="44625380"
+   d="scan'208";a="49453922"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jun 2024 15:27:10 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Jun 2024 15:39:11 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMxa7-000Gb0-24;
-	Thu, 27 Jun 2024 22:27:07 +0000
-Date: Fri, 28 Jun 2024 06:26:36 +0800
+	id 1sMxll-000GbA-0k;
+	Thu, 27 Jun 2024 22:39:09 +0000
+Date: Fri, 28 Jun 2024 06:38:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
-	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
-	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
-	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-	jhubbard@nvidia.com
-Subject: Re: [PATCH 07/13] huge_memory: Allow mappings of PUD sized pages
-Message-ID: <202406280637.147dyRrV-lkp@intel.com>
-References: <bd332b0d3971b03152b3541f97470817c5147b51.1719386613.git-series.apopple@nvidia.com>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8744/9027] drivers/hid/hidraw.c:143:63: warning:
+ cast from pointer to integer of different size
+Message-ID: <202406280633.OPB5uIFj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,99 +62,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bd332b0d3971b03152b3541f97470817c5147b51.1719386613.git-series.apopple@nvidia.com>
 
-Hi Alistair,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on f2661062f16b2de5d7b6a5c42a9a5c96326b8454]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/mm-gup-c-Remove-redundant-check-for-PCI-P2PDMA-page/20240627-191709
-base:   f2661062f16b2de5d7b6a5c42a9a5c96326b8454
-patch link:    https://lore.kernel.org/r/bd332b0d3971b03152b3541f97470817c5147b51.1719386613.git-series.apopple%40nvidia.com
-patch subject: [PATCH 07/13] huge_memory: Allow mappings of PUD sized pages
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240628/202406280637.147dyRrV-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280637.147dyRrV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   642a16ca7994a50d7de85715996a8ce171a5bdfb
+commit: 67eccf151d76a9939ad8a50c6db5cb486b01df24 [8744/9027] HID: add source argument to HID low level functions
+config: sh-buildonly-randconfig-r004-20220419 (https://download.01.org/0day-ci/archive/20240628/202406280633.OPB5uIFj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280633.OPB5uIFj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280637.147dyRrV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406280633.OPB5uIFj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/rmap.c:1513:37: error: call to '__compiletime_assert_279' declared with 'error' attribute: BUILD_BUG failed
-    1513 |         __folio_add_file_rmap(folio, page, HPAGE_PUD_NR, vma, RMAP_LEVEL_PUD);
-         |                                            ^
-   include/linux/huge_mm.h:111:26: note: expanded from macro 'HPAGE_PUD_NR'
-     111 | #define HPAGE_PUD_NR (1<<HPAGE_PUD_ORDER)
-         |                          ^
-   include/linux/huge_mm.h:110:26: note: expanded from macro 'HPAGE_PUD_ORDER'
-     110 | #define HPAGE_PUD_ORDER (HPAGE_PUD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:97:28: note: expanded from macro 'HPAGE_PUD_SHIFT'
-      97 | #define HPAGE_PUD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:72:1: note: expanded from here
-      72 | __compiletime_assert_279
-         | ^
-   mm/rmap.c:1660:35: error: call to '__compiletime_assert_280' declared with 'error' attribute: BUILD_BUG failed
-    1660 |         __folio_remove_rmap(folio, page, HPAGE_PUD_NR, vma, RMAP_LEVEL_PUD);
-         |                                          ^
-   include/linux/huge_mm.h:111:26: note: expanded from macro 'HPAGE_PUD_NR'
-     111 | #define HPAGE_PUD_NR (1<<HPAGE_PUD_ORDER)
-         |                          ^
-   include/linux/huge_mm.h:110:26: note: expanded from macro 'HPAGE_PUD_ORDER'
-     110 | #define HPAGE_PUD_ORDER (HPAGE_PUD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:97:28: note: expanded from macro 'HPAGE_PUD_SHIFT'
-      97 | #define HPAGE_PUD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:79:1: note: expanded from here
-      79 | __compiletime_assert_280
-         | ^
-   2 errors generated.
+   drivers/hid/hidraw.c: In function 'hidraw_send_report':
+>> drivers/hid/hidraw.c:143:63: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     143 |                 ret = __hid_hw_output_report(dev, buf, count, (__u64)file);
+         |                                                               ^
+   drivers/hid/hidraw.c:154:56: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     154 |                                    HID_REQ_SET_REPORT, (__u64)file);
+         |                                                        ^
+   drivers/hid/hidraw.c: In function 'hidraw_get_report':
+   drivers/hid/hidraw.c:231:56: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     231 |                                    HID_REQ_GET_REPORT, (__u64)file);
+         |                                                        ^
 
 
-vim +1513 mm/rmap.c
+vim +143 drivers/hid/hidraw.c
 
-  1498	
-  1499	/**
-  1500	 * folio_add_file_rmap_pud - add a PUD mapping to a page range of a folio
-  1501	 * @folio:	The folio to add the mapping to
-  1502	 * @page:	The first page to add
-  1503	 * @vma:	The vm area in which the mapping is added
-  1504	 *
-  1505	 * The page range of the folio is defined by [page, page + HPAGE_PUD_NR)
-  1506	 *
-  1507	 * The caller needs to hold the page table lock.
-  1508	 */
-  1509	void folio_add_file_rmap_pud(struct folio *folio, struct page *page,
-  1510			struct vm_area_struct *vma)
-  1511	{
-  1512	#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
-> 1513		__folio_add_file_rmap(folio, page, HPAGE_PUD_NR, vma, RMAP_LEVEL_PUD);
-  1514	#else
-  1515		WARN_ON_ONCE(true);
-  1516	#endif
-  1517	}
-  1518	
+   101	
+   102	/*
+   103	 * The first byte of the report buffer is expected to be a report number.
+   104	 */
+   105	static ssize_t hidraw_send_report(struct file *file, const char __user *buffer, size_t count, unsigned char report_type)
+   106	{
+   107		unsigned int minor = iminor(file_inode(file));
+   108		struct hid_device *dev;
+   109		__u8 *buf;
+   110		int ret = 0;
+   111	
+   112		lockdep_assert_held(&minors_rwsem);
+   113	
+   114		if (!hidraw_table[minor] || !hidraw_table[minor]->exist) {
+   115			ret = -ENODEV;
+   116			goto out;
+   117		}
+   118	
+   119		dev = hidraw_table[minor]->hid;
+   120	
+   121		if (count > HID_MAX_BUFFER_SIZE) {
+   122			hid_warn(dev, "pid %d passed too large report\n",
+   123				 task_pid_nr(current));
+   124			ret = -EINVAL;
+   125			goto out;
+   126		}
+   127	
+   128		if (count < 2) {
+   129			hid_warn(dev, "pid %d passed too short report\n",
+   130				 task_pid_nr(current));
+   131			ret = -EINVAL;
+   132			goto out;
+   133		}
+   134	
+   135		buf = memdup_user(buffer, count);
+   136		if (IS_ERR(buf)) {
+   137			ret = PTR_ERR(buf);
+   138			goto out;
+   139		}
+   140	
+   141		if ((report_type == HID_OUTPUT_REPORT) &&
+   142		    !(dev->quirks & HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP)) {
+ > 143			ret = __hid_hw_output_report(dev, buf, count, (__u64)file);
+   144			/*
+   145			 * compatibility with old implementation of USB-HID and I2C-HID:
+   146			 * if the device does not support receiving output reports,
+   147			 * on an interrupt endpoint, fallback to SET_REPORT HID command.
+   148			 */
+   149			if (ret != -ENOSYS)
+   150				goto out_free;
+   151		}
+   152	
+   153		ret = __hid_hw_raw_request(dev, buf[0], buf, count, report_type,
+   154					   HID_REQ_SET_REPORT, (__u64)file);
+   155	
+   156	out_free:
+   157		kfree(buf);
+   158	out:
+   159		return ret;
+   160	}
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
