@@ -1,112 +1,152 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B868118E772;
-	Thu, 27 Jun 2024 13:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4F21957F2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 14:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719494256; cv=none; b=XIxD4dXiQj0B3SOZ33ZH+V/788tleSYpNxTiI1JRfc3iQgXjiRWQNDijNSXtq7tdMOw64a1Q1qxfcmwVhijUc5gSHY4nqJz+D4ABsz4RBgxnrtqFo/o8X00jkJT0poTCOXAoU3zmjH7qGgmLB/XDD5EZwiLnkpjfPnv3D93JDLg=
+	t=1719496813; cv=none; b=X2rcW/dL/Q+fFGte4KV9VgP39qeqA1HY5ljhUl9fNH0pIZsNCxf4d64R3uALv3eeyURxgawqgsI6Zknvpf3LNlWDF/ydhUaYp1J+71X9CZSfUJYtQHUXbGn9tDG8t8cQbu3ABUsfc0E7u8NmrjylEUcOPPHjr0YuBV4ZYAqplS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719494256; c=relaxed/simple;
-	bh=370pLVgH43l7QVAvTccXXK1/Sk+pJeLSfVCugZ/Pibo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LZ4H7NdnFy5HkUBTqUA/4XhrCbM118wWSJzXrpVxPZNmc+UOqrTpvyZLMjyteUQ6NpORKXexlSOLXwfoIb768Ipn0S4SNGVKZCybGdvyt5oC6tYZ6T40fwIkfpMpbchSLvHpTVv/tq3i98G9sXx8OAj0l477r1IxXsPXVy8h9sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=N2IHBIPr; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1719496813; c=relaxed/simple;
+	bh=LgBGKtBwZfpMFDGPGG2/N4d17mEMbtxMcO4dCLtOSEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DqlhDvxM7vKWcFn6qSo/4dfjeTmJVDog8IMGnG183HYg9f8vMn2tsMCAd7k+LW0BxP+bBMmu4ms3mYuSEZimHAhit6TCA3m1BV2InSk668+rJoglrWyGXWQ5m/32C99CWRHOaidC5nrrzq/YmBPS8RrdGCyfw1p0v+J/crxRlrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QYo7o9H6; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="N2IHBIPr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Fk602
-	xZpwxu8hEFijAI24Vfb9FDwk9rs/d9oKAbmeVY=; b=N2IHBIPrjKfOgTmzvLsRv
-	3ptBqeOjMZh5kRFSqqkdn5oMFelqpFR02q/vREfuFLsz/aHX1UQNV1tzBmZLu57C
-	7lBiK3tg6+Dbc0Kyb0Zsm8zjXXu5ugZ+q94VxU8++QnMuQbnba863wFiB88aMvwc
-	FgdjnVi2cF5fq+D2byvfcc=
-Received: from localhost.localdomain (unknown [193.203.214.57])
-	by gzga-smtp-mta-g0-1 (Coremail) with SMTP id _____wDXjylHZn1mTc7GAg--.20362S4;
-	Thu, 27 Jun 2024 21:16:57 +0800 (CST)
-From: ran xiaokai <ranxiaokai627@163.com>
-To: ziy@nvidia.com
-Cc: baohua@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	lkp@intel.com,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	peterx@redhat.com,
-	ran.xiaokai@zte.com.cn,
-	ranxiaokai627@163.com
-Subject: Re: [PATCH 2/2] kpageflags: fix wrong KPF_THP on non-pmd-mappable compound pages
-Date: Thu, 27 Jun 2024 13:16:55 +0000
-Message-Id: <20240627131655.23524-1-ranxiaokai627@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <D2ATJC1R3T10.14DE626BQO28Y@nvidia.com>
-References: <D2ATJC1R3T10.14DE626BQO28Y@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYo7o9H6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719496810; x=1751032810;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LgBGKtBwZfpMFDGPGG2/N4d17mEMbtxMcO4dCLtOSEE=;
+  b=QYo7o9H6njLhtw+pG2Kvwl7DEbJ9xgSANNBQzb4MYg+rXurmKI3d3Kyf
+   TYNgXf2iExW4dbED31XdriWb4reJcQbM6edqpWpQ0Ja/SCQ1V894n3oct
+   Qq+hP/tPuPtgU9k38Na8oY+sq/p/0ADMM6Jeq7KCcQVFdE1xs2hOG3fTR
+   sxTsbdNVr3hYpO1VY4/FmblKckXS87P6oCmjih5WGD6znMZFK3Y4Euw17
+   WsIgRq4BZv70vBrlc6pcFzkIhpFyPpnfM91Fi6UX/0WBpt+qrlOtqrtpT
+   yVF0QsUoHwKzLs3151zXYk9yr4DcNWdCNH5Wa9aTjtRsU85e16v0rjLTg
+   w==;
+X-CSE-ConnectionGUID: o5vvgHSbT4aA3u9CdnK96g==
+X-CSE-MsgGUID: HcZDqK+/SR2uvFQaYyZbIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27311571"
+X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
+   d="scan'208";a="27311571"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 07:00:10 -0700
+X-CSE-ConnectionGUID: LTr6F1fYT9yQlGDVhYBTqw==
+X-CSE-MsgGUID: /muBcJOpTIuJq4B1D1IPIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
+   d="scan'208";a="48739501"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Jun 2024 07:00:07 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMpfR-000GG5-1J;
+	Thu, 27 Jun 2024 14:00:05 +0000
+Date: Thu, 27 Jun 2024 21:59:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Stefan Agner <stefan@agner.ch>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+Subject: Re: [PATCH] mtd: nand: Add support for M5441x NFC
+Message-ID: <202406272154.v694SvQb-lkp@intel.com>
+References: <20240620-upstream-nfc-mcf5441x-v1-1-69b64807d7a6@yoseli.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXjylHZn1mTc7GAg--.20362S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGFWDCr48Zr4xKryrXr1xGrg_yoW5XFWfpa
-	y8GFs8KF48Wr1rGw4xKF1DZa1jqws8WryagF18Cw47ZFs0vF9Fgr4Ikr15uwnrur1kCrW8
-	Crn3XF9Yqa4UAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUKtCwUUUUU=
-X-CM-SenderInfo: xudq5x5drntxqwsxqiywtou0bp/1tbiqRILTGVOBIjUegAAs1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240620-upstream-nfc-mcf5441x-v1-1-69b64807d7a6@yoseli.org>
 
->On Thu Jun 27, 2024 at 8:38 AM EDT, ran xiaokai wrote:
->> > Hi ran,
->> > 
->> > kernel test robot noticed the following build errors:
->> > 
->> > [auto build test ERROR on akpm-mm/mm-everything]
->> > [also build test ERROR on linus/master v6.10-rc5 next-20240625]
->> > [If your patch is applied to the wrong git tree, kindly drop us a note.
->> > And when submitting patch, we suggest to use '--base' as documented in
->> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
->> > 
->> > url:    https://github.com/intel-lab-lkp/linux/commits/ran-xiaokai/mm-Constify-folio_order-folio_test_pmd_mappable/20240626-113027
->> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->> > patch link:    https://lore.kernel.org/r/20240626024924.1155558-3-ranxiaokai627%40163.com
->> > patch subject: [PATCH 2/2] kpageflags: fix wrong KPF_THP on non-pmd-mappable compound pages
->> > config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240626/202406262300.iAURISyJ-lkp@intel.com/config)
->> > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
->> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406262300.iAURISyJ-lkp@intel.com/reproduce)
->> > 
->> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> > the same patch/commit), kindly add following tags
->> > | Reported-by: kernel test robot <lkp@intel.com>
->> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406262300.iAURISyJ-lkp@intel.com/
->> > 
->> > All errors (new ones prefixed by >>):
->> > 
->> > >> fs/proc/page.c:151:35: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
->> >      151 |         else if (folio_test_pmd_mappable(folio)) {
->> >          |                                          ^~~~~
->> >    include/linux/huge_mm.h:438:58: note: passing argument to parameter 'folio' here
->> >      438 | static inline bool folio_test_pmd_mappable(struct folio *folio)
->> >          |                                                          ^
->> >    1 error generated.
->>
->> Hi,
->>
->> This patch is the second patch of the serial:
->> https://lore.kernel.org/lkml/20240626024924.1155558-1-ranxiaokai627@163.com/
->>
->> and it relies on the first patch:
->> https://lore.kernel.org/lkml/20240626024924.1155558-2-ranxiaokai627@163.com/
->>
->> and it seems the first patch is not applied.
->> Or in this case, we should not split these two patches?
->
->No, this is the definition when THP is disabled. You only changed the
->definition when THP is enabled.
+Hi Jean-Michel,
 
-Thanks for reminding. 
-Will fix this.
+kernel test robot noticed the following build warnings:
 
->-- 
->Best Regards,
->Yan, Zi
->
+[auto build test WARNING on e5b3efbe1ab1793bb49ae07d56d0973267e65112]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Michel-Hautbois/mtd-nand-Add-support-for-M5441x-NFC/20240625-144333
+base:   e5b3efbe1ab1793bb49ae07d56d0973267e65112
+patch link:    https://lore.kernel.org/r/20240620-upstream-nfc-mcf5441x-v1-1-69b64807d7a6%40yoseli.org
+patch subject: [PATCH] mtd: nand: Add support for M5441x NFC
+config: sh-randconfig-001-20240627 (https://download.01.org/0day-ci/archive/20240627/202406272154.v694SvQb-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406272154.v694SvQb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406272154.v694SvQb-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/mtd/nand/raw/vf610_nfc.c: In function 'vf610_nfc_probe':
+>> drivers/mtd/nand/raw/vf610_nfc.c:844:29: warning: unused variable 'child' [-Wunused-variable]
+     844 |         struct device_node *child;
+         |                             ^~~~~
+
+
+vim +/child +844 drivers/mtd/nand/raw/vf610_nfc.c
+
+962c35ef1e6834 drivers/mtd/nand/raw/vf610_nfc.c Miquel Raynal        2018-07-20  837  
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  838  static int vf610_nfc_probe(struct platform_device *pdev)
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  839  {
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  840  	struct vf610_nfc *nfc;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  841  	struct mtd_info *mtd;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  842  	struct nand_chip *chip;
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  843  	struct nand_chip *pdata;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02 @844  	struct device_node *child;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  845  	int err;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  846  	int irq;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  847  
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  848  	nfc = devm_kzalloc(&pdev->dev, sizeof(*nfc), GFP_KERNEL);
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  849  	if (!nfc)
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  850  		return -ENOMEM;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  851  
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  852  	nfc->dev = &pdev->dev;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  853  	chip = &nfc->chip;
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  854  	pdata = dev_get_platdata(&pdev->dev);
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  855  	if (pdata)
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  856  		*chip = *pdata;
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  857  
+960823a226b37e drivers/mtd/nand/vf610_nfc.c     Boris Brezillon      2015-12-10  858  	mtd = nand_to_mtd(chip);
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  859  
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  860  	mtd->owner = THIS_MODULE;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  861  	mtd->dev.parent = nfc->dev;
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  862  
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  863  	/*
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  864  	 * We keep the MTD name unchanged to avoid breaking platforms
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  865  	 * where the MTD cmdline parser is used and the bootloader
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  866  	 * has not been updated to use the new naming scheme.
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  867  	 */
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  868  	if (!nfc->dev->of_node)
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  869  		mtd->name = "NAND";
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  870  	else
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  871  		mtd->name = DRV_NAME;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  872  
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  873  	irq = platform_get_irq(pdev, 0);
+3549fecd10d24b drivers/mtd/nand/raw/vf610_nfc.c Zhu Wang             2023-08-03  874  	if (irq < 0)
+3549fecd10d24b drivers/mtd/nand/raw/vf610_nfc.c Zhu Wang             2023-08-03  875  		return irq;
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  876  
+2d77b08eaf0b2f drivers/mtd/nand/raw/vf610_nfc.c Cai Huoqing          2021-09-01  877  	nfc->regs = devm_platform_ioremap_resource(pdev, 0);
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  878  	if (IS_ERR(nfc->regs)) {
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  879  		dev_err(nfc->dev, "Unable to map registers!\n");
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  880  		return PTR_ERR(nfc->regs);
+8e5473c07a181c drivers/mtd/nand/raw/vf610_nfc.c Jean-Michel Hautbois 2024-06-20  881  	}
+456930d80a2da1 drivers/mtd/nand/vf610_nfc.c     Stefan Agner         2015-09-02  882  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
