@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6182878C60
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 08:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE8477F13
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 08:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719476545; cv=none; b=od0YxhnO9JGl7R2hL6CoHL8GBJhFEzgxBCvJiQlwGhc4dUm1ZEorJzOQ/C9AKZTsCO4XTpYGBRegCc6lWYkWNUN3lSEF2+ITw59GuNDcsBul/l9pO/eJRkkansOsoCacVp9z9JDIBo4RCpqx4I+7uU8L0QJHw92J0GDUF5xh3Z0=
+	t=1719476678; cv=none; b=UdOPcHc1Eai21vkK6Rd9+VMk52ybrEKVuJtqt1BnLSMQgPivpbulcvEErLikm9frjEwit0sCyWSNrCQrmzwT0/ZGms//G7gmIDWFFhgYg3laI5M6Ysu/QFtV1ST2YX1QMRztNZ30e+wiECe5I6uxIOD7kbMEtMJk4VJ+48XZKCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719476545; c=relaxed/simple;
-	bh=ISghhUtE2r7Igcl7j300LIauJ552orZpNkP3zZDTho8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S0seRYOcEVit3bInk2YQxb4woly7s8ZylJ46YrLslFG7SRmH9uNZr82xjySJPDRcF3KFRUQbqMdlWeYhuDldLW0FZXslck7k4xEorCaXz+9YIkyJOMJPsfjQjmMEkIzf6enjOaeQpD1UAlpu32joHeoWmBefjgyZM5KEl27MSzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e2ccMgUO; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1719476678; c=relaxed/simple;
+	bh=nrcED+kfNOJnZI80OvRQZgPNWlUT47kK8X+bKOmviCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bezpiIkae6jvH0R/jBjfz2jemIZBQQ8moDxMwyZhH/a4Ilvv0c5XrD/5LY72TmuHdLXypHh0kqGjuJi1Rw8y+RRbos84XhPL82Kx25BOfOiICr50sE2DrP88ysnmcu33WncLvL5tqMBvKiE+3AUlNIbLYl5ge4fvlkltRklmxPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eg6xybTK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e2ccMgUO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eg6xybTK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719476543; x=1751012543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ISghhUtE2r7Igcl7j300LIauJ552orZpNkP3zZDTho8=;
-  b=e2ccMgUOixuZaLKHpfNB3GHYb6bl3/IrgKN5SEV8ftJETsJiPbb3f84M
-   6Vs1uM8KPEG+PU7dH8vwnYs6ZmgCbjY5LogE41B1x1rPxTSJZx8FKYiQ/
-   LtfRQW9mR5I0xZewGZBJuT1onvpKvp75EwlrrN22ngr3FQHO9OCB/iwrY
-   yh4ywBRGldM/Yh2JWX4gEx6fssAmz3KrCBrgJJDltL8cp73r+36P7Y0+l
-   novpa2xBxR9Q+hndkCWl/KlsBAo+n27K6YxAca/DnpoO8HNqiJgRAny/U
-   UXecKbTtKAER87p8QPUWXQL1BSq43HQbIgmRXTiNX37+32xq6C/odXqqi
-   w==;
-X-CSE-ConnectionGUID: HHgYlZhmR4mgXiLTkC0UvQ==
-X-CSE-MsgGUID: 90xZnY90T8mlnK6EzUJl3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16409299"
+  t=1719476676; x=1751012676;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nrcED+kfNOJnZI80OvRQZgPNWlUT47kK8X+bKOmviCM=;
+  b=eg6xybTKYGhPZMv/ujzj2LmgCaDKyQ7yQtGDYVmdaEF8bW87ZsvSevRG
+   uNIdrIuQECQ0npH/39VLojTk14yxbWiXFTozUOIGTlwbef4gaG8a3fEAY
+   nsz7G2jlj+0Dka5FIN7AE0kU8ShtUGin247Aelda4RWBTrJGsvtXDPvLq
+   XX9U+saeJZmLCrRvWf43F12EaQ8IQ1QDrOGcL1GB/Y5urucs5sddmFa9D
+   pNdQjKTMUQeiJaSwIO9iuNVSaoItW+rgUyED9pIuTHecXWgv5svTE3ldy
+   rY6WTDyY41nL6vyqo/0fP/QwjLwNiA5SBe9iFY2Qwq2iM3AyAjMiadAuA
+   Q==;
+X-CSE-ConnectionGUID: T2h8N46BQcqEERXXH6ZG1Q==
+X-CSE-MsgGUID: s0J6uPC9SN+uCX0ceKe/mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16732460"
 X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="16409299"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 01:22:22 -0700
-X-CSE-ConnectionGUID: ndon4cR8S4WVm0r8v0UuBA==
-X-CSE-MsgGUID: 0JzQBNuLSgGWf3kQc4/Axw==
+   d="scan'208";a="16732460"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 01:24:36 -0700
+X-CSE-ConnectionGUID: glugGBpTT1yyzfQ3hLwEGA==
+X-CSE-MsgGUID: T9QHmxmfQZW2EwUhcgfaTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="44362463"
+   d="scan'208";a="44944816"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Jun 2024 01:22:22 -0700
+  by orviesa007.jf.intel.com with ESMTP; 27 Jun 2024 01:24:31 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMkOZ-000G3A-1o;
-	Thu, 27 Jun 2024 08:22:19 +0000
-Date: Thu, 27 Jun 2024 16:22:13 +0800
+	id 1sMkQf-000G3N-1Q;
+	Thu, 27 Jun 2024 08:24:29 +0000
+Date: Thu, 27 Jun 2024 16:23:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>
-Subject: [nsa:b4/dev-iio-ad9467-new-devs 6/9] arceb-elf-ld:
- drivers/iio/adc/adi-axi-adc.o:(.bss+0x8): multiple definition of `d';
- drivers/iio/industrialio-backend.o:(.bss+0x0): first defined here
-Message-ID: <202406271635.uXCKUZbz-lkp@intel.com>
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] ARM: dts: sti: add thermal-zones support on
+ stih418
+Message-ID: <202406271638.0fz7OuJT-lkp@intel.com>
+References: <20240625-thermal-v2-3-bf8354ed51ee@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +75,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240625-thermal-v2-3-bf8354ed51ee@gmail.com>
 
-tree:   https://github.com/nunojsa/linux b4/dev-iio-ad9467-new-devs
-head:   07a190d5bdd96dcb948ba00339145f0bb2b461e9
-commit: b649e7b925e48f2b8a29b04b71c46b7b24508787 [6/9] iio: backend: add debugFs interface
-config: arc-randconfig-001-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271635.uXCKUZbz-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271635.uXCKUZbz-lkp@intel.com/reproduce)
+Hi Raphael,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0fc4bfab2cd45f9acb86c4f04b5191e114e901ed]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/thermal-st-switch-from-CONFIG_PM_SLEEP-guards-to-pm_sleep_ptr/20240626-090203
+base:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
+patch link:    https://lore.kernel.org/r/20240625-thermal-v2-3-bf8354ed51ee%40gmail.com
+patch subject: [PATCH v2 3/3] ARM: dts: sti: add thermal-zones support on stih418
+config: arm-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271638.0fz7OuJT-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271638.0fz7OuJT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406271635.uXCKUZbz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406271638.0fz7OuJT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/st/stih418.dtsi:51.28-79.5: Warning (thermal_sensors_property): /thermal-zones/cpu-thermal: Missing property '#thermal-sensor-cells' in node /soc/thermal@91a0000 or bad phandle (referred from thermal-sensors[0])
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks: failed to match any schema with compatible: ['st,stih418-clk', 'simple-bus']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000: failed to match any schema with compatible: ['st,clkgen-c32']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000/clockgen-a9-pll: failed to match any schema with compatible: ['st,stih418-clkgen-plla9']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000: failed to match any schema with compatible: ['st,clkgen-c32']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-pll: failed to match any schema with compatible: ['st,clkgen-pll0-a0']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-c@9103000: failed to match any schema with compatible: ['st,clkgen-c32']
+--
+>> arch/arm/boot/dts/st/stih418.dtsi:51.28-79.5: Warning (thermal_sensors_property): /thermal-zones/cpu-thermal: Missing property '#thermal-sensor-cells' in node /soc/thermal@91a0000 or bad phandle (referred from thermal-sensors[0])
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks: failed to match any schema with compatible: ['st,stih418-clk', 'simple-bus']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000: failed to match any schema with compatible: ['st,clkgen-c32']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000/clockgen-a9-pll: failed to match any schema with compatible: ['st,stih418-clkgen-plla9']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000: failed to match any schema with compatible: ['st,clkgen-c32']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-pll: failed to match any schema with compatible: ['st,clkgen-pll0-a0']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-c@9103000: failed to match any schema with compatible: ['st,clkgen-c32']
 
->> arceb-elf-ld: drivers/iio/adc/adi-axi-adc.o:(.bss+0x8): multiple definition of `d'; drivers/iio/industrialio-backend.o:(.bss+0x0): first defined here
-   arceb-elf-ld: drivers/iio/dac/adi-axi-dac.o:(.bss+0x10): multiple definition of `d'; drivers/iio/industrialio-backend.o:(.bss+0x0): first defined here
+vim +51 arch/arm/boot/dts/st/stih418.dtsi
+
+  > 51			cpu_thermal: cpu-thermal {
 
 -- 
 0-DAY CI Kernel Test Service
