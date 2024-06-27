@@ -1,175 +1,134 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44FB1BC41
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 06:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0773C29CA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 06:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719468258; cv=none; b=N8l93ri2AlwRYx8IlY9m08P2pBEffxvwrnIkVtn+SUf9YRMfBdYEaI/b8pSzvRODAxem0j4EmTnHy6iRz3UC+Ub1hxV8GcuDODWMJPtGKUXmVaE0OuUi2QBrlU5vjfdWg4ktu0nuB1Y+auYjYKjuJlz0UvvqAfpMwh26e+X/1Mk=
+	t=1719468985; cv=none; b=W35o459n0LlVLQMKptT3BUv+NrkYpDdESwD3dYuecmLslexQh5NTU9UUzeJIpDVxYs+Pk/G071Pn9OVDVdK63VCmSusWrDPJMGwsO4AClNLGwA75F3fYp9hoIB9O68/S2TFvxjmNpqqvmBSjVkmiu6PPYgQdIk180kGVmaOWLog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719468258; c=relaxed/simple;
-	bh=v5pCreOvdIqh3QFEViJ2F+3YW8l+oc+HAnL+2XoCHCE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uxatNhCFrafFjNZh7tOKFOU0tlL2vufhCdPI5MOI6D4xO1esIUXAxqhNM/pdMlOxOtpiyxvPDg4EG4y02N2OxoV8T7cTxg4+4s27EAVTC6Y3EygT7cqjFC4hGLZe4BLPCcSnhOHU8T/uIJnMdOYxauAkJhja02aO/dScXWYxACY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alun+jCi; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719468985; c=relaxed/simple;
+	bh=xUDqyZGFgT3Ei4PIRYLMa7p+cw0D7RZbZ/mHrYDIWwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rsgEzk0w3XfrBTKgz+OLPI+l2Sd7InVdKafgLaaA+5nPIFEYgHJalFuvsvxTnwsqFUtvaXAJl3wCXMrpLVCJQfHEg28L5BcYsJJE9uVcryvcumELWH6zwF8bpkYBAZQ6D9uYkBpJBsfqhODJytJblpKcOiauaZ0b9po4q750Qu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLW7zNYS; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alun+jCi"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111b0so673048a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 23:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719468255; x=1720073055; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RmCeSR9NMyE+e7XDrDt2L5uekJY6QB3GzYy57BiFvwA=;
-        b=alun+jCihK3I0ULYVVtDqOsMsr/fuA0IAu326tnokVz6YgHmBsM3cAcMXQih5NnzWM
-         e0mDOOypTmu78kn01qgLvjUYrjsd5OeiqbTaJ5/O24EPd3KK8FYxOUhNqt9YtR+5YIYJ
-         tBMJjKpZ4Q8Fmdl6SA7Osj7k2NECVc5oOQ7QWWBrk24R/yFj21ywOZRwg0tKx0iFMDs1
-         5pZ+jHyMU4t39W+B/A7ujP/OWpACqdd3eSkdXbW9chljOTBGIm8mfCt6ghW0Fsv55RvU
-         tWroA5AfBFr24mUfCxO7HW0JxyxJ32oLrDvD3yDPmvSyOAH6NPY2Jkx6HXfHGAUb7g/1
-         oq2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719468255; x=1720073055;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RmCeSR9NMyE+e7XDrDt2L5uekJY6QB3GzYy57BiFvwA=;
-        b=nwHO6sxbBzFndmiUZUwDppc2qla18WsYo2AbTawXFaaUhLxAUeIemWX+Z78lls2V+n
-         tRxDkximVisc9s/z6LSGrWtM3Gm6bcgwJ1RRo2vQFeFTnQpk1Ncpcf+XwfK+/CDRi87T
-         F5RAqo5/yKHXdMl76BS+lBZt7slpYIp7mFsCXMXnXkvkcPbfCNqV9RbMNa9TIWLGNXOp
-         26z2qeg0EGuNrWcq4ibFzNiX8KH3ljbJEak3dFwz/COWTUpsjaj6CR6Jb+VeN3bHii39
-         VX3vB7Q1rod0ayE9rTVwNDE2y65hPUuq8bCB2KQk3MLLVgEhZqpoeFdJWXONX0+x9Abf
-         NoGA==
-X-Gm-Message-State: AOJu0YxNmDiuu9+K7XG71sahTk6NGtPGHX58Dr1NForon3yflYJ1FATN
-	6nyAZVAPPXAJNL9ANzi4CEnHtO5rhdPpsSYQbuPuKP4+hnZJJwZ68+1RP2KdM1sfoKjmZNLgsLR
-	cn6vPS54p4LHGXNcL/Iu12IJQRHnWpwcpHes=
-X-Google-Smtp-Source: AGHT+IGiK3cqdiwJJNS3L5Ut4uoMjBl72jKzBd8iEuSPSJ8fCiAH/hKt6YTpa5gX0P0uhpc1pEwij6SuVHQ/TQQaMH4=
-X-Received: by 2002:a50:d55b:0:b0:57d:669:caf2 with SMTP id
- 4fb4d7f45d1cf-57d4bd9705amr10605623a12.25.1719468254501; Wed, 26 Jun 2024
- 23:04:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLW7zNYS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719468984; x=1751004984;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xUDqyZGFgT3Ei4PIRYLMa7p+cw0D7RZbZ/mHrYDIWwk=;
+  b=bLW7zNYS5398QxdAsglZfW3QQKCt2lxsd7FbADZ7oCiSKmgDx1kkCVcQ
+   4rhWYbjP+w06V96buJ3QVAKznEGE86lV8XX8p1Q0gDjq6dibASFTCn0U2
+   NJUaOauTdGWFYMIZK5/O/1qIfdsvB2RwBtyFRhtZGI68bFlN7Nxnhg9/d
+   c2DIM3J3lYvn6pvnr4tjCTY2+cpRpy7X07b5BgLZwWL+XSfePF2q0WvDY
+   hKLzL6VD9QXkXI79mPluqLWTwPIMiT2bwoNQ2EpON+RXaljvttRNJd1at
+   gtDbOBurKyREwMSt2RdNodttkCcLBDEVOBEhbGMlC0g16qAu8mSGE6lKz
+   A==;
+X-CSE-ConnectionGUID: nNN5zNkpTV22kJG4qyzmfw==
+X-CSE-MsgGUID: AJzdxDx1Tx2Vl6R0OfiNAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="34109784"
+X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
+   d="scan'208";a="34109784"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 23:16:23 -0700
+X-CSE-ConnectionGUID: llF44r6cRbWQUSlDjoIxIQ==
+X-CSE-MsgGUID: /Ne1YL+LSi+LdHMd7qQ3gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
+   d="scan'208";a="44379531"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Jun 2024 23:16:22 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMiQe-000FyU-0t;
+	Thu, 27 Jun 2024 06:16:20 +0000
+Date: Thu, 27 Jun 2024 14:15:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
+	Josef Bacik <josef@toxicpanda.com>
+Subject: [kdave-btrfs-devel:misc-next 18/21] fs/btrfs/fs.h:229:39: warning:
+ left shift count >= width of type
+Message-ID: <202406271454.C5EJ4siE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240625110029.606032-3-mjguzik@gmail.com> <202406271204.0A1VPc0v-lkp@intel.com>
-In-Reply-To: <202406271204.0A1VPc0v-lkp@intel.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Thu, 27 Jun 2024 08:04:01 +0200
-Message-ID: <CAGudoHHUe28J7RWRCk4CKpdVWYiDK_k0TaNva0t2E9RZpxDFVQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] vfs: support statx(..., NULL, AT_EMPTY_PATH, ...)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This submission assumes another patch was already applied, it's all
-fine on the maintainer branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=3Dvfs.mi=
-sc
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   2eed75cd05c7d61c183d018f3032f20dcff2e986
+commit: c7c36d123d0489d845d8727c7e71d851786fb397 [18/21] btrfs: introduce new "rescue=ignoresuperflags" mount option
+config: i386-randconfig-001-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271454.C5EJ4siE-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271454.C5EJ4siE-lkp@intel.com/reproduce)
 
-On Thu, Jun 27, 2024 at 6:10=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Mateusz,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on viro-vfs/for-next]
-> [cannot apply to brauner-vfs/vfs.all linus/master v6.10-rc5 next-20240626=
-]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/vfs-=
-add-CLASS-fd_raw/20240625-233347
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git for-=
-next
-> patch link:    https://lore.kernel.org/r/20240625110029.606032-3-mjguzik%=
-40gmail.com
-> patch subject: [PATCH 2/2] vfs: support statx(..., NULL, AT_EMPTY_PATH, .=
-..)
-> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/202=
-40627/202406271204.0A1VPc0v-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240627/202406271204.0A1VPc0v-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406271204.0A1VPc0v-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    fs/stat.c: In function '__do_sys_statx':
-> >> fs/stat.c:744:39: error: implicit declaration of function 'vfs_empty_p=
-ath'; did you mean 'vfs_statx_path'? [-Werror=3Dimplicit-function-declarati=
-on]
->      744 |         if (flags =3D=3D AT_EMPTY_PATH && vfs_empty_path(dfd, =
-filename))
->          |                                       ^~~~~~~~~~~~~~
->          |                                       vfs_statx_path
->    cc1: some warnings being treated as errors
-> --
->    io_uring/statx.c: In function 'io_statx_prep':
-> >> io_uring/statx.c:41:45: error: implicit declaration of function 'vfs_e=
-mpty_path' [-Werror=3Dimplicit-function-declaration]
->       41 |         if (!(sx->flags =3D=3D AT_EMPTY_PATH && vfs_empty_path=
-(sx->dfd, path))) {
->          |                                             ^~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
->
->
-> vim +744 fs/stat.c
->
->    724
->    725  /**
->    726   * sys_statx - System call to get enhanced stats
->    727   * @dfd: Base directory to pathwalk from *or* fd to stat.
->    728   * @filename: File to stat or "" with AT_EMPTY_PATH
->    729   * @flags: AT_* flags to control pathwalk.
->    730   * @mask: Parts of statx struct actually required.
->    731   * @buffer: Result buffer.
->    732   *
->    733   * Note that fstat() can be emulated by setting dfd to the fd of =
-interest,
->    734   * supplying "" as the filename and setting AT_EMPTY_PATH in the =
-flags.
->    735   */
->    736  SYSCALL_DEFINE5(statx,
->    737                  int, dfd, const char __user *, filename, unsigned=
-, flags,
->    738                  unsigned int, mask,
->    739                  struct statx __user *, buffer)
->    740  {
->    741          int ret;
->    742          struct filename *name;
->    743
->  > 744          if (flags =3D=3D AT_EMPTY_PATH && vfs_empty_path(dfd, fil=
-ename))
->    745                  return do_statx_fd(dfd, flags, mask, buffer);
->    746
->    747          name =3D getname_flags(filename, getname_statx_lookup_fla=
-gs(flags), NULL);
->    748          ret =3D do_statx(dfd, name, flags, mask, buffer);
->    749          putname(name);
->    750
->    751          return ret;
->    752  }
->    753
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406271454.C5EJ4siE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from fs/btrfs/ctree.h:20,
+                    from fs/btrfs/file.c:20:
+>> fs/btrfs/fs.h:229:39: warning: left shift count >= width of type [-Wshift-count-overflow]
+     229 |  BTRFS_MOUNT_IGNORESUPERFLAGS  = (1UL << 32),
+         |                                       ^~
 
 
+vim +229 fs/btrfs/fs.h
 
---=20
-Mateusz Guzik <mjguzik gmail.com>
+   190	
+   191	/*
+   192	 * Flags for mount options.
+   193	 *
+   194	 * Note: don't forget to add new options to btrfs_show_options()
+   195	 */
+   196	enum {
+   197		BTRFS_MOUNT_NODATASUM			= (1UL << 0),
+   198		BTRFS_MOUNT_NODATACOW			= (1UL << 1),
+   199		BTRFS_MOUNT_NOBARRIER			= (1UL << 2),
+   200		BTRFS_MOUNT_SSD				= (1UL << 3),
+   201		BTRFS_MOUNT_DEGRADED			= (1UL << 4),
+   202		BTRFS_MOUNT_COMPRESS			= (1UL << 5),
+   203		BTRFS_MOUNT_NOTREELOG   		= (1UL << 6),
+   204		BTRFS_MOUNT_FLUSHONCOMMIT		= (1UL << 7),
+   205		BTRFS_MOUNT_SSD_SPREAD			= (1UL << 8),
+   206		BTRFS_MOUNT_NOSSD			= (1UL << 9),
+   207		BTRFS_MOUNT_DISCARD_SYNC		= (1UL << 10),
+   208		BTRFS_MOUNT_FORCE_COMPRESS      	= (1UL << 11),
+   209		BTRFS_MOUNT_SPACE_CACHE			= (1UL << 12),
+   210		BTRFS_MOUNT_CLEAR_CACHE			= (1UL << 13),
+   211		BTRFS_MOUNT_USER_SUBVOL_RM_ALLOWED	= (1UL << 14),
+   212		BTRFS_MOUNT_ENOSPC_DEBUG		= (1UL << 15),
+   213		BTRFS_MOUNT_AUTO_DEFRAG			= (1UL << 16),
+   214		BTRFS_MOUNT_USEBACKUPROOT		= (1UL << 17),
+   215		BTRFS_MOUNT_SKIP_BALANCE		= (1UL << 18),
+   216		BTRFS_MOUNT_PANIC_ON_FATAL_ERROR	= (1UL << 19),
+   217		BTRFS_MOUNT_RESCAN_UUID_TREE		= (1UL << 20),
+   218		BTRFS_MOUNT_FRAGMENT_DATA		= (1UL << 21),
+   219		BTRFS_MOUNT_FRAGMENT_METADATA		= (1UL << 22),
+   220		BTRFS_MOUNT_FREE_SPACE_TREE		= (1UL << 23),
+   221		BTRFS_MOUNT_NOLOGREPLAY			= (1UL << 24),
+   222		BTRFS_MOUNT_REF_VERIFY			= (1UL << 25),
+   223		BTRFS_MOUNT_DISCARD_ASYNC		= (1UL << 26),
+   224		BTRFS_MOUNT_IGNOREBADROOTS		= (1UL << 27),
+   225		BTRFS_MOUNT_IGNOREDATACSUMS		= (1UL << 28),
+   226		BTRFS_MOUNT_NODISCARD			= (1UL << 29),
+   227		BTRFS_MOUNT_NOSPACECACHE		= (1UL << 30),
+   228		BTRFS_MOUNT_IGNOREMETACSUMS		= (1UL << 31),
+ > 229		BTRFS_MOUNT_IGNORESUPERFLAGS		= (1UL << 32),
+   230	};
+   231	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
