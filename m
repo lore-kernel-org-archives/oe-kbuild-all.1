@@ -1,59 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA26314D6EB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 20:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FDB14D6EB;
+	Thu, 27 Jun 2024 20:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719520619; cv=none; b=sOOigVAUBnTGCVr9GSdTdlFmiRgZJKMwrnsRDWdvNFMAlDzWmXgdDSX6nZEv44NTYQcl5S0lXj/1inS562LladIH1KlTj1/zGS5x6s9ATnmtqPxyacAt77Cy7D6u+s+TY3sddA/qCDEPe1CYS0sA6Ks2grz27qLvHNbiudJ/QWw=
+	t=1719521936; cv=none; b=gYM9BcaFYZkZb8kCJXqjwkbVp9eRZUYOgy0NzP72cDO3e/TYx9zpCd7e3AAIqgvkhdsOoN6klFbioHiD8NGZ0QohK8c8522s1BQiNz1Q16MmhoeZVXh/AK4J98peGG2x+Dg12WdP5tYFiBhN5TYh0qAqvN4YGQLgINTtplkSDI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719520619; c=relaxed/simple;
-	bh=F+QGA4HxNOYQznM1vZQsnSLCg9JN/YTneQHXy97ivdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gtin/TMELtSOjbf8vi/+SbffKJ303TgMOwfJ4buK/HM8OA6HvU6hbu6OZtMiZphRXxnxbkbnYbXifbgc4dTNoHb9nP9zxkqTgErZpVPXWkDZHf8SBfUxXALJcVv/QBQq7w2H7J1LM1CxM0Go982TLAYaE/f4weHTW3VGcHX6zJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0C4GSZl; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719521936; c=relaxed/simple;
+	bh=09WhEq5r3XGQO4dhtl+2n781sC7j21j+wT5LnkW7syo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qo7gtAjAaSmeCTUAUdBMurOvy5p5+A77hNsDERS5hhI6oW6h0G7llUEqeS3xWOzxQX3PVMQgPmGHX1j664t97/qC17gCqpdCciZCjHao/X0dVNjbGHFEsRkMbNsUMmSer4i5clzR3Gh3mNpRBLE9o6D760ha0PZvdvKCpnCivxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwHZsHEU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0C4GSZl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719520618; x=1751056618;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+QGA4HxNOYQznM1vZQsnSLCg9JN/YTneQHXy97ivdo=;
-  b=M0C4GSZldaIUyzOXMGBDQkply7+ic0QBHYL9y4rt4hTQyuDpLdIuIDPT
-   /rRTCs7EiM17x3eSADMqk/rY05OarC9bCbSj0JFBR8acnUtrMtKDdYDHs
-   L0Bs2qLYNyHzyyy56beBQ1we/QhjAI60Vqia/44u+RwHe0KVZ1MsBx6G5
-   HtxBMml1xWJAbpJgRgKCrMQfJ2SU0z5IJ07AfwKUbdtQv6k90D56qhKUW
-   GwTch69yBuq9c0s0mZtcUjN9tvmES7vnyfYe2XP4ehM7NdD2AOhxG4IfL
-   WYxOcqEdtzZRLvlWLPvWAnHC1FJpJj5uZaz9WpQu3M+Hsl/r9BnHpODPQ
-   Q==;
-X-CSE-ConnectionGUID: Owb6y/ySRj2tIoPuW98elQ==
-X-CSE-MsgGUID: 1DZLGAZmTxKKyAJW5xKZPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16809598"
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="16809598"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 13:36:58 -0700
-X-CSE-ConnectionGUID: 6a6fsf9WQyqThZ5vjjboOw==
-X-CSE-MsgGUID: N48q4LRMTx6N60Z8agD2ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="82052707"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jun 2024 13:36:57 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMvrS-000GVu-11;
-	Thu, 27 Jun 2024 20:36:54 +0000
-Date: Fri, 28 Jun 2024 04:36:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 5/6]
- arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous
- prototype for 'hyp_event_trace_iommu_idmap'
-Message-ID: <202406280419.BCNNhu1Q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwHZsHEU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A8F4C2BBFC;
+	Thu, 27 Jun 2024 20:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719521935;
+	bh=09WhEq5r3XGQO4dhtl+2n781sC7j21j+wT5LnkW7syo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MwHZsHEU0LBEPFP8V7twQLd5G9kEPs5zqsYN12u2t3VDr91wDlRWlhyb5/4t+AuQB
+	 /Xm8aL3W0R/4YWx9z1iD5RnOG7in9GoIZwzLTjnGlAegoWibC7wnbd6yMPEOf5m49a
+	 VJCiozsORs2fto2A3lZ6hSJL67oVsqb19xz5JVH9DY5rOo+kxF8fVHpWNL2qfnyYU1
+	 ocp4qSxDm6V0SxJV0Re6gy61gQAcWOaWOBCyFUsrU+Epvw4/fhTs8jVBvYlLSbJAdO
+	 TOijowy4xrn0G5gH26e6CDayPMkTcmYGcAPZEf/TgdCOoUUABRJLDwXdy5MFyJrOq6
+	 tc+HtDo8OkBsQ==
+Date: Thu, 27 Jun 2024 14:58:54 -0600
+From: Rob Herring <robh@kernel.org>
+To: Tomer Maimon <tmaimon77@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, mturquette@baylibre.com,
+	sboyd@kernel.org, p.zabel@pengutronix.de,
+	krzysztof.kozlowski+dt@linaro.org, tali.perry1@gmail.com,
+	joel@jms.id.au, venture@google.com, yuenn@google.com,
+	benjaminfair@google.com, oe-kbuild-all@lists.linux.dev,
+	openbmc@lists.ozlabs.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v25 1/3] dt-bindings: reset: npcm: add clock properties
+Message-ID: <20240627205854.GA501440-robh@kernel.org>
+References: <20240618185819.2155595-2-tmaimon77@gmail.com>
+ <202406191439.3NcnExKM-lkp@intel.com>
+ <CAP6Zq1h2Sk6H2V-i+PAk_fCy9xdywcYw=w9wT_xcJ2WrqyWbAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,117 +49,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAP6Zq1h2Sk6H2V-i+PAk_fCy9xdywcYw=w9wT_xcJ2WrqyWbAg@mail.gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   45688919defd55d481bb8042c83c0d3bbaa96004
-commit: abd6c25f0d5feba7e4ad7717cf38275c2fcfac76 [5/6] ANDROID: KVM: arm64: iommu: Add idmap trace point
-config: arm64-randconfig-001-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280419.BCNNhu1Q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280419.BCNNhu1Q-lkp@intel.com/reproduce)
+On Thu, Jun 20, 2024 at 10:32:26AM +0300, Tomer Maimon wrote:
+> Hi Rob and Krzysztof,
+> 
+> Could you please review this patch?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280419.BCNNhu1Q-lkp@intel.com/
+I would hope by v25 you'd know you just need to look at DT patchwork to 
+see where you are in the queue. Pinging does nothing to help.
 
-All warnings (new ones prefixed by >>):
+Furthermore, you waited a whole 2 days which isn't much.
 
-   In file included from arch/arm64/kvm/hyp_events.c:14:
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
-      14 | HYP_EVENT(hyp_enter,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
-      23 | HYP_EVENT(hyp_exit,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: in expansion of macro 'HYP_EVENT'
-      32 | HYP_EVENT(host_hcall,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: in expansion of macro 'HYP_EVENT'
-      46 | HYP_EVENT(host_smc,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: in expansion of macro 'HYP_EVENT'
-      61 | HYP_EVENT(host_mem_abort,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace___hyp_printk' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:75:1: note: in expansion of macro 'HYP_EVENT'
-      75 | HYP_EVENT(__hyp_printk,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_ffa_call' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:95:1: note: in expansion of macro 'HYP_EVENT'
-      95 | HYP_EVENT(host_ffa_call,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_psci_mem_protect' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:120:1: note: in expansion of macro 'HYP_EVENT'
-     120 | HYP_EVENT(psci_mem_protect,
-         | ^~~~~~~~~
->> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_iommu_idmap' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:133:1: note: in expansion of macro 'HYP_EVENT'
-     133 | HYP_EVENT(iommu_idmap,
-         | ^~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:217:6: warning: no previous prototype for 'hyp_trace_init_event_early' [-Wmissing-prototypes]
-     217 | bool hyp_trace_init_event_early(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:267:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
-     267 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:341:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     341 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:363:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
-     363 | int hyp_trace_init_events(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:378:5: warning: no previous prototype for 'hyp_trace_init_mod_events' [-Wmissing-prototypes]
-     378 | int hyp_trace_init_mod_events(struct hyp_event *event,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Thanks,
+> 
+> Tomer
+> 
+> On Wed, 19 Jun 2024 at 09:20, kernel test robot <lkp@intel.com> wrote:
+> >
+> > Hi Tomer,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on clk/clk-next]
+> > [also build test WARNING on linus/master pza/reset/next v6.10-rc4 next-20240618]
+> > [cannot apply to pza/imx-drm/next]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Tomer-Maimon/dt-bindings-reset-npcm-add-clock-properties/20240619-093532
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+> > patch link:    https://lore.kernel.org/r/20240618185819.2155595-2-tmaimon77%40gmail.com
+> > patch subject: [PATCH v25 1/3] dt-bindings: reset: npcm: add clock properties
+> > config: arm64-randconfig-051-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191439.3NcnExKM-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 13.2.0
+> > dtschema version: 2024.6.dev1+g833054f
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191439.3NcnExKM-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406191439.3NcnExKM-lkp@intel.com/
+> >
+> > dtcheck warnings: (new ones prefixed by >>)
+> >    arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi:63.7-177.5: Warning (simple_bus_reg): /ahb/apb: simple-bus unit address format error, expected "f0000000"
+> >    arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi:50.35-55.5: Warning (unique_unit_address_if_enabled): /ahb/reset-controller@f0801000: duplicate unit-address (also used in node /ahb/clock-controller@f0801000)
+> >    arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /: memory@0: 'device_type' is a required property
+> >         from schema $id: http://devicetree.org/schemas/memory.yaml#
+> >    arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: system-controller@f0800000: compatible: ['nuvoton,npcm845-gcr', 'syscon'] is too short
+> >         from schema $id: http://devicetree.org/schemas/soc/nuvoton/nuvoton,npcm-gcr.yaml#
+> >    arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: interrupt-controller@dfff9000: 'ppi-partitions' does not match any of the regexes: '^v2m@[0-9a-f]+$', 'pinctrl-[0-9]+'
+> >         from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic.yaml#
+> >    arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: ahb: apb:ranges: [[0, 0, 4026531840, 3145728], [4293918720, 0, 4293918720, 90112]] is not of type 'boolean'
+> >         from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+> > >> arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: reset-controller@f0801000: '#clock-cells' is a required property
+> >         from schema $id: http://devicetree.org/schemas/reset/nuvoton,npcm750-reset.yaml#
+> > >> arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: reset-controller@f0801000: 'clocks' is a required property
+> >         from schema $id: http://devicetree.org/schemas/reset/nuvoton,npcm750-reset.yaml#
 
+While I think things are too noisy for these 0-day reports, this one 
+rightfully shows the ABI break you are causing. You can't add new 
+required properties.
 
-vim +/hyp_event_trace_iommu_idmap +17 arch/arm64/include/asm/kvm_define_hypevents.h
-
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  14  
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  15  #define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  16  	HYP_EVENT_FORMAT(__name, __struct);					\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26 @17  	void hyp_event_trace_##__name(struct ht_iterator *iter)			\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  18  	{									\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  19  		struct trace_hyp_format_##__name __maybe_unused *__entry =	\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  20  			(struct trace_hyp_format_##__name *)iter->ent;		\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  21  		trace_seq_puts(&iter->seq, #__name);				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  22  		trace_seq_putc(&iter->seq, ' ');				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  23  		trace_seq_printf(&iter->seq, __printk);				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  24  		trace_seq_putc(&iter->seq, '\n');				\
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  25  	}
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  26  #define HYP_EVENT_MULTI_READ
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  27  #include __HYP_EVENT_FILE
-f6dbfc683cf5fb Vincent Donnefort 2023-01-26  28  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 ANDROID: KVM: arm64: Add support for nVHE hyp events
-
-:::::: TO: Vincent Donnefort <vdonnefort@google.com>
-:::::: CC: Fuad Tabba <tabba@google.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rob
