@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CCB12F59C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 11:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9C5148820;
+	Thu, 27 Jun 2024 11:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719487892; cv=none; b=lJNgR1ooqhjy5AMgs8Zf/dujbXAbM+ypuf1NZQZ7TIKHhXKUUKWkPyiOJsi2zvtUrKui84viU5Mwhw/kO59HnRegj2BFCgvR0cFkXN6BuMRKVC+3veAPUYwtkbAi6dvJzKK9WHHwBxL+bRcWeAatpKEcTEn3uWw0DLgZEMcJ0HU=
+	t=1719487892; cv=none; b=p2HsfjjfUVVqmNl8lD4Io0UHX2iOPaQQvcyOFoVfA5Vyz+ohMFGrSN+2iX+BZyxlKjwH82W30BKtm2iDY0YlXz8Mb55fwJzno09vKbSbv8NA4Z2pLPAxOrzHsWu/cEZEoOVUhNf3VnsrpiT2mXzGeM0SMvFPwaam1QDk+o6xOEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719487892; c=relaxed/simple;
-	bh=JmabHIiJCTQRE0VWY8FRGcaEwDamGVU8PUlw709Ef0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxgZCGsVQ8sd3prCc+VnP7ZuenXJ8L4Vl4dQN/4Q+4uJKM5SPR25sDEd+rti+6ZawpgzC3Ej5U++3yl84M0oIo5P5UhlMSLWNgMUYnyig5nlgAGwDoaT0w9miE8GMifZLLpuOHhtBQKhgRO7wu0MlIC2fkYxkiZ5Xc5IwoZubZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DnkpeApD; arc=none smtp.client-ip=198.175.65.20
+	bh=5Ej/EuTdRgA8+eq7eLUCqLCSDmSfe6lTfRipnyZy1cI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mXZ4zHTr7BGY+a0ZHMh85HOPKqxNN+jsLtQjfz/UaPTuRmZGQtDejm9jRB0e7U/PWYrT0WO/XP81pHMR/UjwWtx9nO050imGTMDOZYv4xHYQuOWMzQsl5iSHmEB8yJTlYdu1pMGY3a/cTgo3Y46b1htv9lALBOFjKqSVVeqV0LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3L2wP57; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DnkpeApD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3L2wP57"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719487890; x=1751023890;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JmabHIiJCTQRE0VWY8FRGcaEwDamGVU8PUlw709Ef0Q=;
-  b=DnkpeApDVrRXmzyl9cO830UE8HyZXm2e6Q5w+QdIkMP/eQTeotf0KJ1Z
-   qy0tCHbhOI6lbSDIrEaoBZBV8GoaP0RVH7bFaS8P+0yTgdXvHKtEYLQLx
-   omMws5/c7P26X7rRaRvJ4Uvt/RG5If73CU537nYEOgN/ACFdNdkz+od5R
-   q4ouTHy/NzFcElJ8YCiXAntCFrYq/QsOTzKSpZy7rm0xDvWI5xPFm2Wje
-   wv3MZUEuyw3JsLxcqSHfOARvaa/j96k6V2sm4a1wqw+/3PBl3i1DtFWt7
-   o1kqRrNNEvvMQwNjF0crvDPuJzdkfa3QLAvGjP+hJFT/tEbFnMTb7JbOI
-   w==;
-X-CSE-ConnectionGUID: rW5f5A/UToeCtRlTM3skFw==
-X-CSE-MsgGUID: yYec8IiJTma+KhZfQuQrMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16427440"
+  t=1719487892; x=1751023892;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5Ej/EuTdRgA8+eq7eLUCqLCSDmSfe6lTfRipnyZy1cI=;
+  b=g3L2wP57AxFELLzwO3mLptR7EltMqlqFgQtVetfB2H2sk7/hPyc4IHHC
+   zskKNEvcJUET9aAf2S0cQqAZtIPvBkHupX7Gv0Ou6+mxwTDiFB/7thGSw
+   debV3KnQ34csBcHl2UP9Vu1qi1L502qtnMbTIr/tWN1M3sESCC+bIzlXi
+   au6R/b1Iia77gRtAl8LeaPKeqCt3Uf4BXUhscKgm2Nf0pLEPXeFv+/Mcc
+   tP4cZ977k2d7xKb7B829/GW+MQbpeL75YN5ZaM7apfPCxpE+Wg9E18KCI
+   7axDa/Ibm9JS5bprIS1hsAj6wQps2VvT1hd3VQ2L4fXT3a9eP+HKW9veG
+   A==;
+X-CSE-ConnectionGUID: 4yq8tgzTREiycjRqlIv5tA==
+X-CSE-MsgGUID: e0RPqLAoRjGPGjTKKsJRxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27197993"
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="16427440"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 04:31:30 -0700
-X-CSE-ConnectionGUID: F3/UQkc4R8W1dskgzKKJhw==
-X-CSE-MsgGUID: llqONCmBT5O6W8lPncT3Vw==
+   d="scan'208";a="27197993"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 04:31:29 -0700
+X-CSE-ConnectionGUID: RM1mPVH7TcOkdn0S4IOU9w==
+X-CSE-MsgGUID: qXJASOe3SdWSnP3+tPE2Uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="44164257"
+   d="scan'208";a="75100424"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jun 2024 04:31:27 -0700
+  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2024 04:31:27 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMnLY-000G9u-2t;
-	Thu, 27 Jun 2024 11:31:24 +0000
-Date: Thu, 27 Jun 2024 19:31:07 +0800
+	id 1sMnLZ-000GA0-0A;
+	Thu, 27 Jun 2024 11:31:25 +0000
+Date: Thu, 27 Jun 2024 19:30:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: x1e80100: add soundwire controller
- resets
-Message-ID: <202406271923.v945xTG8-lkp@intel.com>
-References: <20240624-x1e-swr-reset-v1-3-da326d0733d4@linaro.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
+Subject: [paragon-software-group-ntfs3:master 35/42]
+ fs/ntfs3/frecord.c:1934:16: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202406271920.hndE8N6D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,76 +62,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624-x1e-swr-reset-v1-3-da326d0733d4@linaro.org>
 
-Hi Srinivas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 781025f172e19ca5682d7bfc5243e7aa74c4977f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/dt-bindings-clock-Add-x1e80100-LPASS-AUDIOCC-reset-controller/20240625-210534
-base:   781025f172e19ca5682d7bfc5243e7aa74c4977f
-patch link:    https://lore.kernel.org/r/20240624-x1e-swr-reset-v1-3-da326d0733d4%40linaro.org
-patch subject: [PATCH 3/3] arm64: dts: qcom: x1e80100: add soundwire controller resets
-config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271923.v945xTG8-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271923.v945xTG8-lkp@intel.com/reproduce)
+tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
+head:   bde63e8eae5d67582b32517229de11ef00223e34
+commit: 27ba86795ed65b6f2f88f1b63786fe68c57b3b61 [35/42] fs/ntfs3: Do copy_to_user out of run_lock
+config: nios2-randconfig-r111-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271920.hndE8N6D-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240627/202406271920.hndE8N6D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406271923.v945xTG8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406271920.hndE8N6D-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c271000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c272000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c273000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c274000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: Unevaluated properties are not allowed ('vddpe-3v3-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: clock-controller@6b6c000: compatible: ['qcom,x1e80100-lpassaudiocc', 'qcom,sc8280xp-lpassaudiocc'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,sc8280xp-lpasscc.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: clock-controller@6ea0000: compatible: ['qcom,x1e80100-lpasscc', 'qcom,sc8280xp-lpasscc'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,sc8280xp-lpasscc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@3: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@3/gpio@8800: failed to match any schema with compatible: ['qcom,pmc8380-gpio', 'qcom,spmi-gpio']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@4: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@4/gpio@8800: failed to match any schema with compatible: ['qcom,pmc8380-gpio', 'qcom,spmi-gpio']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@5: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@5/gpio@8800: failed to match any schema with compatible: ['qcom,pmc8380-gpio', 'qcom,spmi-gpio']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@6: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
---
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c271000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c272000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c273000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c274000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: Unevaluated properties are not allowed ('vddpe-3v3-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: clock-controller@6b6c000: compatible: ['qcom,x1e80100-lpassaudiocc', 'qcom,sc8280xp-lpassaudiocc'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,sc8280xp-lpasscc.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: clock-controller@6ea0000: compatible: ['qcom,x1e80100-lpasscc', 'qcom,sc8280xp-lpasscc'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,sc8280xp-lpasscc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@3: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@3/gpio@8800: failed to match any schema with compatible: ['qcom,pmc8380-gpio', 'qcom,spmi-gpio']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@4: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@4/gpio@8800: failed to match any schema with compatible: ['qcom,pmc8380-gpio', 'qcom,spmi-gpio']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@5: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@5/gpio@8800: failed to match any schema with compatible: ['qcom,pmc8380-gpio', 'qcom,spmi-gpio']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c42d000/pmic@6: failed to match any schema with compatible: ['qcom,pmc8380', 'qcom,spmi-pmic']
+sparse warnings: (new ones prefixed by >>)
+>> fs/ntfs3/frecord.c:1934:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *d @@     got struct fiemap_extent [noderef] __user *[assigned] dest @@
+   fs/ntfs3/frecord.c:1934:16: sparse:     expected void *d
+   fs/ntfs3/frecord.c:1934:16: sparse:     got struct fiemap_extent [noderef] __user *[assigned] dest
+   fs/ntfs3/frecord.c:2011:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct fiemap_extent [noderef] __user *fi_extents_start @@     got struct fiemap_extent *[assigned] fe_k @@
+   fs/ntfs3/frecord.c:2011:35: sparse:     expected struct fiemap_extent [noderef] __user *fi_extents_start
+   fs/ntfs3/frecord.c:2011:35: sparse:     got struct fiemap_extent *[assigned] fe_k
+   fs/ntfs3/frecord.c: note: in included file:
+   fs/ntfs3/ntfs.h:461:21: sparse: sparse: self-comparison always evaluates to false
+
+vim +1934 fs/ntfs3/frecord.c
+
+  1900	
+  1901	/*
+  1902	 * fiemap_fill_next_extent_k - a copy of fiemap_fill_next_extent
+  1903	 * but it accepts kernel address for fi_extents_start
+  1904	 */
+  1905	static int fiemap_fill_next_extent_k(struct fiemap_extent_info *fieinfo,
+  1906					     u64 logical, u64 phys, u64 len, u32 flags)
+  1907	{
+  1908		struct fiemap_extent extent;
+  1909		struct fiemap_extent __user *dest = fieinfo->fi_extents_start;
+  1910	
+  1911		/* only count the extents */
+  1912		if (fieinfo->fi_extents_max == 0) {
+  1913			fieinfo->fi_extents_mapped++;
+  1914			return (flags & FIEMAP_EXTENT_LAST) ? 1 : 0;
+  1915		}
+  1916	
+  1917		if (fieinfo->fi_extents_mapped >= fieinfo->fi_extents_max)
+  1918			return 1;
+  1919	
+  1920		if (flags & FIEMAP_EXTENT_DELALLOC)
+  1921			flags |= FIEMAP_EXTENT_UNKNOWN;
+  1922		if (flags & FIEMAP_EXTENT_DATA_ENCRYPTED)
+  1923			flags |= FIEMAP_EXTENT_ENCODED;
+  1924		if (flags & (FIEMAP_EXTENT_DATA_TAIL | FIEMAP_EXTENT_DATA_INLINE))
+  1925			flags |= FIEMAP_EXTENT_NOT_ALIGNED;
+  1926	
+  1927		memset(&extent, 0, sizeof(extent));
+  1928		extent.fe_logical = logical;
+  1929		extent.fe_physical = phys;
+  1930		extent.fe_length = len;
+  1931		extent.fe_flags = flags;
+  1932	
+  1933		dest += fieinfo->fi_extents_mapped;
+> 1934		memcpy(dest, &extent, sizeof(extent));
+  1935	
+  1936		fieinfo->fi_extents_mapped++;
+  1937		if (fieinfo->fi_extents_mapped == fieinfo->fi_extents_max)
+  1938			return 1;
+  1939		return (flags & FIEMAP_EXTENT_LAST) ? 1 : 0;
+  1940	}
+  1941	
 
 -- 
 0-DAY CI Kernel Test Service
