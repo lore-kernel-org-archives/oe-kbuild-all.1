@@ -1,110 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9346C2D030;
-	Thu, 27 Jun 2024 06:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44FB1BC41
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 06:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719468200; cv=none; b=jt0pFMO7qrmP7UF4rlgowg56mj1+bhnEgzGUNxgrGJI70Q4eG2r6GkHVFvZkV72UsEa1BM+gpCoRvcCJFiRl36d22E55M7+h5nEPdgWlarERe2fZtq5JmKqbinfbqFJ2I4Peeaxw+t59WRFXIBpKntwd2NT/lz5LjgtEzW8M7hs=
+	t=1719468258; cv=none; b=N8l93ri2AlwRYx8IlY9m08P2pBEffxvwrnIkVtn+SUf9YRMfBdYEaI/b8pSzvRODAxem0j4EmTnHy6iRz3UC+Ub1hxV8GcuDODWMJPtGKUXmVaE0OuUi2QBrlU5vjfdWg4ktu0nuB1Y+auYjYKjuJlz0UvvqAfpMwh26e+X/1Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719468200; c=relaxed/simple;
-	bh=4CqwC/h8Hq99XyzmVd2N3YYjezUQfz9NB1gbjL7hLIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tkMpP88D8Q/a3GNa5h+tKItOaT4SXkbOBeuuaaNbu54Ejl2Vot3ACnuDjfKlQnhg/uXG+EkmYaR0Gxw/jxXD0HM+19go3fQeIRSEoaGbhBTGrFolThA7UHvWksGme+RS0W2Zt3xF5jeYzT0N5Rlyw/1RvqEBfR9YjaF8sNDNOL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myhSuC/O; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719468258; c=relaxed/simple;
+	bh=v5pCreOvdIqh3QFEViJ2F+3YW8l+oc+HAnL+2XoCHCE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uxatNhCFrafFjNZh7tOKFOU0tlL2vufhCdPI5MOI6D4xO1esIUXAxqhNM/pdMlOxOtpiyxvPDg4EG4y02N2OxoV8T7cTxg4+4s27EAVTC6Y3EygT7cqjFC4hGLZe4BLPCcSnhOHU8T/uIJnMdOYxauAkJhja02aO/dScXWYxACY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alun+jCi; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myhSuC/O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719468198; x=1751004198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4CqwC/h8Hq99XyzmVd2N3YYjezUQfz9NB1gbjL7hLIo=;
-  b=myhSuC/OrZpqROkksa/8ob1lv5Fr6Zd5pxkXWTLmf5pSX7K48cIdxMHN
-   tWt8x5P7IuaPx2/AESm8cm9f91jKwOGPo3K39UkjpyCybWPT57KmGwq3s
-   BI+KvxrI9TkWPXgrK4VgIW/bH5bfLuxTU2Cn86+7ULPIOYd0aTDVdsiVa
-   CDsxgjYUZEf0+28b2WQqJNzPvcYEMxQoTHO6V+a7PvzWHM00YaP/dc0sk
-   liFJZGIqzbUzaNrHC7DCmMev7npmEtL8VVBez7TlKdJI+cp4pb6DQLG86
-   Xh1zzHult9hTWD1DE3AUB+Eq/dWpQlRDehH7g+m0xEE1oyfe5W1bHp49L
-   g==;
-X-CSE-ConnectionGUID: PgO79wGZSjKhBxs6M0skUQ==
-X-CSE-MsgGUID: q1kkK9LcTRCo0Htr1Bd7Xg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16719829"
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="16719829"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 23:03:18 -0700
-X-CSE-ConnectionGUID: l8yesZsUQtqWf5ridgwqzA==
-X-CSE-MsgGUID: dWeeFWuaReCNOxLLg4ytZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="81814004"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jun 2024 23:03:17 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMiDy-000Fxm-0T;
-	Thu, 27 Jun 2024 06:03:14 +0000
-Date: Thu, 27 Jun 2024 14:02:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rob Clark <robdclark@chromium.org>
-Subject: [drm-msm:msm-next-robclark 2/9]
- drivers/gpu/drm/msm/adreno/adreno_gpu.c:1070:6: warning: unused variable
- 'fcode'
-Message-ID: <202406271326.VtVZv0d9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alun+jCi"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111b0so673048a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 23:04:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719468255; x=1720073055; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RmCeSR9NMyE+e7XDrDt2L5uekJY6QB3GzYy57BiFvwA=;
+        b=alun+jCihK3I0ULYVVtDqOsMsr/fuA0IAu326tnokVz6YgHmBsM3cAcMXQih5NnzWM
+         e0mDOOypTmu78kn01qgLvjUYrjsd5OeiqbTaJ5/O24EPd3KK8FYxOUhNqt9YtR+5YIYJ
+         tBMJjKpZ4Q8Fmdl6SA7Osj7k2NECVc5oOQ7QWWBrk24R/yFj21ywOZRwg0tKx0iFMDs1
+         5pZ+jHyMU4t39W+B/A7ujP/OWpACqdd3eSkdXbW9chljOTBGIm8mfCt6ghW0Fsv55RvU
+         tWroA5AfBFr24mUfCxO7HW0JxyxJ32oLrDvD3yDPmvSyOAH6NPY2Jkx6HXfHGAUb7g/1
+         oq2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719468255; x=1720073055;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RmCeSR9NMyE+e7XDrDt2L5uekJY6QB3GzYy57BiFvwA=;
+        b=nwHO6sxbBzFndmiUZUwDppc2qla18WsYo2AbTawXFaaUhLxAUeIemWX+Z78lls2V+n
+         tRxDkximVisc9s/z6LSGrWtM3Gm6bcgwJ1RRo2vQFeFTnQpk1Ncpcf+XwfK+/CDRi87T
+         F5RAqo5/yKHXdMl76BS+lBZt7slpYIp7mFsCXMXnXkvkcPbfCNqV9RbMNa9TIWLGNXOp
+         26z2qeg0EGuNrWcq4ibFzNiX8KH3ljbJEak3dFwz/COWTUpsjaj6CR6Jb+VeN3bHii39
+         VX3vB7Q1rod0ayE9rTVwNDE2y65hPUuq8bCB2KQk3MLLVgEhZqpoeFdJWXONX0+x9Abf
+         NoGA==
+X-Gm-Message-State: AOJu0YxNmDiuu9+K7XG71sahTk6NGtPGHX58Dr1NForon3yflYJ1FATN
+	6nyAZVAPPXAJNL9ANzi4CEnHtO5rhdPpsSYQbuPuKP4+hnZJJwZ68+1RP2KdM1sfoKjmZNLgsLR
+	cn6vPS54p4LHGXNcL/Iu12IJQRHnWpwcpHes=
+X-Google-Smtp-Source: AGHT+IGiK3cqdiwJJNS3L5Ut4uoMjBl72jKzBd8iEuSPSJ8fCiAH/hKt6YTpa5gX0P0uhpc1pEwij6SuVHQ/TQQaMH4=
+X-Received: by 2002:a50:d55b:0:b0:57d:669:caf2 with SMTP id
+ 4fb4d7f45d1cf-57d4bd9705amr10605623a12.25.1719468254501; Wed, 26 Jun 2024
+ 23:04:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240625110029.606032-3-mjguzik@gmail.com> <202406271204.0A1VPc0v-lkp@intel.com>
+In-Reply-To: <202406271204.0A1VPc0v-lkp@intel.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 27 Jun 2024 08:04:01 +0200
+Message-ID: <CAGudoHHUe28J7RWRCk4CKpdVWYiDK_k0TaNva0t2E9RZpxDFVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] vfs: support statx(..., NULL, AT_EMPTY_PATH, ...)
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next-robclark
-head:   52a9d1d57df039b7a9b0bb879b516df7a3c7a04f
-commit: 6b0a29e37296e9f22e1d58b75466ac0bb19b7fd1 [2/9] drm/msm/adreno: Implement SMEM-based speed bin
-config: i386-buildonly-randconfig-005-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271326.VtVZv0d9-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271326.VtVZv0d9-lkp@intel.com/reproduce)
+This submission assumes another patch was already applied, it's all
+fine on the maintainer branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=3Dvfs.mi=
+sc
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406271326.VtVZv0d9-lkp@intel.com/
+On Thu, Jun 27, 2024 at 6:10=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Mateusz,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on viro-vfs/for-next]
+> [cannot apply to brauner-vfs/vfs.all linus/master v6.10-rc5 next-20240626=
+]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/vfs-=
+add-CLASS-fd_raw/20240625-233347
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git for-=
+next
+> patch link:    https://lore.kernel.org/r/20240625110029.606032-3-mjguzik%=
+40gmail.com
+> patch subject: [PATCH 2/2] vfs: support statx(..., NULL, AT_EMPTY_PATH, .=
+..)
+> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/202=
+40627/202406271204.0A1VPc0v-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240627/202406271204.0A1VPc0v-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406271204.0A1VPc0v-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    fs/stat.c: In function '__do_sys_statx':
+> >> fs/stat.c:744:39: error: implicit declaration of function 'vfs_empty_p=
+ath'; did you mean 'vfs_statx_path'? [-Werror=3Dimplicit-function-declarati=
+on]
+>      744 |         if (flags =3D=3D AT_EMPTY_PATH && vfs_empty_path(dfd, =
+filename))
+>          |                                       ^~~~~~~~~~~~~~
+>          |                                       vfs_statx_path
+>    cc1: some warnings being treated as errors
+> --
+>    io_uring/statx.c: In function 'io_statx_prep':
+> >> io_uring/statx.c:41:45: error: implicit declaration of function 'vfs_e=
+mpty_path' [-Werror=3Dimplicit-function-declaration]
+>       41 |         if (!(sx->flags =3D=3D AT_EMPTY_PATH && vfs_empty_path=
+(sx->dfd, path))) {
+>          |                                             ^~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+>
+>
+> vim +744 fs/stat.c
+>
+>    724
+>    725  /**
+>    726   * sys_statx - System call to get enhanced stats
+>    727   * @dfd: Base directory to pathwalk from *or* fd to stat.
+>    728   * @filename: File to stat or "" with AT_EMPTY_PATH
+>    729   * @flags: AT_* flags to control pathwalk.
+>    730   * @mask: Parts of statx struct actually required.
+>    731   * @buffer: Result buffer.
+>    732   *
+>    733   * Note that fstat() can be emulated by setting dfd to the fd of =
+interest,
+>    734   * supplying "" as the filename and setting AT_EMPTY_PATH in the =
+flags.
+>    735   */
+>    736  SYSCALL_DEFINE5(statx,
+>    737                  int, dfd, const char __user *, filename, unsigned=
+, flags,
+>    738                  unsigned int, mask,
+>    739                  struct statx __user *, buffer)
+>    740  {
+>    741          int ret;
+>    742          struct filename *name;
+>    743
+>  > 744          if (flags =3D=3D AT_EMPTY_PATH && vfs_empty_path(dfd, fil=
+ename))
+>    745                  return do_statx_fd(dfd, flags, mask, buffer);
+>    746
+>    747          name =3D getname_flags(filename, getname_statx_lookup_fla=
+gs(flags), NULL);
+>    748          ret =3D do_statx(dfd, name, flags, mask, buffer);
+>    749          putname(name);
+>    750
+>    751          return ret;
+>    752  }
+>    753
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/msm/adreno/adreno_gpu.c:1070:6: warning: unused variable 'fcode' [-Wunused-variable]
-    1070 |         u32 fcode;
-         |             ^~~~~
-   1 warning generated.
 
 
-vim +/fcode +1070 drivers/gpu/drm/msm/adreno/adreno_gpu.c
-
-  1066	
-  1067	int adreno_read_speedbin(struct adreno_gpu *adreno_gpu,
-  1068				 struct device *dev, u32 *fuse)
-  1069	{
-> 1070		u32 fcode;
-  1071		int ret;
-  1072	
-  1073		/*
-  1074		 * Try reading the speedbin via a nvmem cell first
-  1075		 * -ENOENT means "no nvmem-cells" and essentially means "old DT" or
-  1076		 * "nvmem fuse is irrelevant", simply assume it's fine.
-  1077		 */
-  1078		ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", fuse);
-  1079		if (!ret)
-  1080			return 0;
-  1081		else if (ret != -ENOENT)
-  1082			return dev_err_probe(dev, ret, "Couldn't read the speed bin fuse value\n");
-  1083	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Mateusz Guzik <mjguzik gmail.com>
