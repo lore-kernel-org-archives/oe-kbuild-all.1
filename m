@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9251946A6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jun 2024 23:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7F017E9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 00:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719446088; cv=none; b=TApr0iBBdspVU3J+pBfIopg8rP4g0QDCYbXT3AcZsXC5rrGPQGxZsY8ikSCgDQqYS+PmtjHpIMceOt13s08x+vnRbOmQDYZi1t8KZ59p8SbjJlGoS8dCtRKyk9NTVEgoXCi9ZdXQT3PSG16G21JuIUKMbc7p9+2ISMtGWsUz4VI=
+	t=1719447355; cv=none; b=mrZoN7I0aM730ZKFnltWx/r5P+vBpkHi6kXaT46YdI7ZSDJb2uDrxy4zHoxIv/JIX983Xq3qkc9yG/boDHwr0K7p4++yysWrhTqbj0kxME02NpnM9tKqwD/8K+c8Ui1ABMAO40P0mjrIj0h2pjBIHx98oVcxEjOoFl47GCs+JCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719446088; c=relaxed/simple;
-	bh=amqNXX4jeKLOLHOVQ5Dx1ljXHzJqEo2sG7Xg6glLmSM=;
+	s=arc-20240116; t=1719447355; c=relaxed/simple;
+	bh=9UK2MBKoe/cDDxJ8/CUtGrKqLJs2uax83Lv/FrTTJ2E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h5qLmh7XIh3Z4okw2Bf1ElXLj8RmKNAIlGFKpHu9mpWFyQ4yXMuW4GF4KTMAzYni36B0HvdNZ35OeB8v03wIysqg3oD6MskwyiFyoSPNOYPFtnEaz7XHBqO51m48b5G0bRPLsRjQl1mSGXtMpy/qWoiUiSNgO364F6RgtG+9gBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZ2jYZbb; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=GxaBInTREDzapVPGnfSXeUgpRoQgS+r1hyz1ve7T6BlYxR7h6ENLNRw0oT3e2bKZG3+bWL59BAvwhNnLpPsdYvsE1GmYtE7ttKdLLlvZXXwxQG1Ai/HbyxWzPByiUf+Q10vfJsK+AZF4cXK/ZqHLqAL68FMGo85hqVedVBDLkII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QV21EdLV; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZ2jYZbb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QV21EdLV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719446086; x=1750982086;
+  t=1719447353; x=1750983353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=amqNXX4jeKLOLHOVQ5Dx1ljXHzJqEo2sG7Xg6glLmSM=;
-  b=FZ2jYZbb7yZBGoom7WoLO5hMlhujKytDp8oRKMC9lVhu0rwW3NW3ULub
-   i3jIioqnsrSWIM0D/SV+RLQOFoPJ4rRbswj5a0weDxibJ44vB968AZGmn
-   CLmDWsKcRl1FWVZXcrgaY3pY6i0QFIcAJYbfZyDXhyPYAYWaiQu9v1qys
-   wsea7FdKPbjADE/cMaI15Is6ftRGoup6afvp5lfMw3UuvemQksOPm0b9z
-   8/WjEnkRP8/NYPtEgdlR2YqevbnsErqhRB4l+NCkCywNHNCXvpAVEkd7D
-   8sUekTvfCruNogDe3dnPAswGyzAscgEqCJr5/lAz6k/jKl/Ms3RKzfOY+
-   A==;
-X-CSE-ConnectionGUID: 4HOhvf6jQvyCuS6dKqiV8Q==
-X-CSE-MsgGUID: 6GFAuvmcQFiFuCtS8H2uDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="20370885"
+  bh=9UK2MBKoe/cDDxJ8/CUtGrKqLJs2uax83Lv/FrTTJ2E=;
+  b=QV21EdLVuLoJ6yZhDyHIfikwugPpjg00JsuYOTAx+dZt9evsbSzVd9u+
+   stssFW8P4L1oR+lHP5lOM+L+DfVQ5V03BrN62YGlTiBU0AKjFoT5Fuf+r
+   NC6UCI4gwJKUfyVp1vVaz+fpUM+H+JIjduEWjIc3Ph+vd76T4kCxD0sQP
+   eICV26F3f1ccXTV7tMHcgQiH5XAwP2B51CAei0VuWeWdLHI+82GX3Ndru
+   oUm9DcjennbdB6ia9Mn3IUIPKNH9KwtMN56whspDmACxvhG/TwhN26n4B
+   X389IYJe8ScTKzFTsSuhFTXuHCUvK2A0fkbcae8ObFH0vIlwvb2N08uBh
+   w==;
+X-CSE-ConnectionGUID: i/o7AUPQTe6qItlJOiioJA==
+X-CSE-MsgGUID: FyO5KBRdQna3LYVuhjBVkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16695723"
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="20370885"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 16:54:42 -0700
-X-CSE-ConnectionGUID: YkgBcilAT5W3fKKJS2/QmA==
-X-CSE-MsgGUID: 0E/iwxQ/Rw6B9Oon4Cjkfg==
+   d="scan'208";a="16695723"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 17:15:53 -0700
+X-CSE-ConnectionGUID: oJRd9BUlTKO/hvzp5425yg==
+X-CSE-MsgGUID: 47hBYYk+QUqLoWHPNPaUYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="48793026"
+   d="scan'208";a="44255620"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Jun 2024 16:54:40 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Jun 2024 17:15:51 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMcTG-000FgI-1H;
-	Wed, 26 Jun 2024 23:54:38 +0000
-Date: Thu, 27 Jun 2024 07:54:05 +0800
+	id 1sMcnl-000FhO-0C;
+	Thu, 27 Jun 2024 00:15:49 +0000
+Date: Thu, 27 Jun 2024 08:15:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Subject: [pci:controller/rockchip 11/11]
- drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:undefined reference to
- `pci_epc_init_notify'
-Message-ID: <202406270721.a8SQi2hn-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [linux-next:master 8025/8719]
+ arch/arm64/boot/dts/qcom/msm8953-motorola-potter.dtb: gpu@1c00000:
+ clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem',
+ 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+Message-ID: <202406270818.rudgdA19-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,98 +66,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
-head:   246afbe0f6fca433d8d918b740719170b1b082cc
-commit: 246afbe0f6fca433d8d918b740719170b1b082cc [11/11] PCI: dw-rockchip: Use pci_epc_init_notify() directly
-config: loongarch-randconfig-r081-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270721.a8SQi2hn-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270721.a8SQi2hn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   df9574a57d02b265322e77fb8628d4d33641dda9
+commit: 399af57ccca2f4bdf6feba8a41b80967b10ea9f1 [8025/8719] dt-bindings: display/msm/gpu: fix the schema being not applied
+config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270818.rudgdA19-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270818.rudgdA19-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406270721.a8SQi2hn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406270818.rudgdA19-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init_notify':
-   drivers/pci/controller/dwc/pcie-designware-ep.c:26:(.text+0x1e4): undefined reference to `pci_epc_init_notify'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_deinit':
-   drivers/pci/controller/dwc/pcie-designware-ep.c:640:(.text+0x83c): undefined reference to `pci_epc_mem_free_addr'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:643:(.text+0x854): undefined reference to `pci_epc_mem_exit'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_linkup':
-   drivers/pci/controller/dwc/pcie-designware-ep.c:811:(.text+0x924): undefined reference to `pci_epc_linkup'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_linkdown':
-   drivers/pci/controller/dwc/pcie-designware-ep.c:836:(.text+0x964): undefined reference to `pci_epc_linkdown'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init':
-   drivers/pci/controller/dwc/pcie-designware-ep.c:875:(.text+0xe90): undefined reference to `__devm_pci_epc_create'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:888:(.text+0xf20): undefined reference to `pci_epc_mem_init'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:895:(.text+0xf54): undefined reference to `pci_epc_mem_alloc_addr'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:906:(.text+0xf74): undefined reference to `pci_epc_mem_exit'
-   loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-dw-rockchip.o: in function `rockchip_pcie_configure_ep':
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:(.text+0x7cc): undefined reference to `pci_epc_init_notify'
-
-
-vim +491 drivers/pci/controller/dwc/pcie-dw-rockchip.c
-
-   441	
-   442	static int rockchip_pcie_configure_ep(struct platform_device *pdev,
-   443					      struct rockchip_pcie *rockchip)
-   444	{
-   445		struct device *dev = &pdev->dev;
-   446		int irq, ret;
-   447		u32 val;
-   448	
-   449		if (!IS_ENABLED(CONFIG_PCIE_ROCKCHIP_DW_EP))
-   450			return -ENODEV;
-   451	
-   452		irq = platform_get_irq_byname(pdev, "sys");
-   453		if (irq < 0) {
-   454			dev_err(dev, "missing sys IRQ resource\n");
-   455			return irq;
-   456		}
-   457	
-   458		ret = devm_request_threaded_irq(dev, irq, NULL,
-   459						rockchip_pcie_ep_sys_irq_thread,
-   460						IRQF_ONESHOT, "pcie-sys", rockchip);
-   461		if (ret) {
-   462			dev_err(dev, "failed to request PCIe sys IRQ\n");
-   463			return ret;
-   464		}
-   465	
-   466		/* LTSSM enable control mode */
-   467		val = HIWORD_UPDATE_BIT(PCIE_LTSSM_ENABLE_ENHANCE);
-   468		rockchip_pcie_writel_apb(rockchip, val, PCIE_CLIENT_HOT_RESET_CTRL);
-   469	
-   470		rockchip_pcie_writel_apb(rockchip, PCIE_CLIENT_EP_MODE,
-   471					 PCIE_CLIENT_GENERAL_CONTROL);
-   472	
-   473		rockchip->pci.ep.ops = &rockchip_pcie_ep_ops;
-   474		rockchip->pci.ep.page_size = SZ_64K;
-   475	
-   476		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
-   477	
-   478		ret = dw_pcie_ep_init(&rockchip->pci.ep);
-   479		if (ret) {
-   480			dev_err(dev, "failed to initialize endpoint\n");
-   481			return ret;
-   482		}
-   483	
-   484		ret = dw_pcie_ep_init_registers(&rockchip->pci.ep);
-   485		if (ret) {
-   486			dev_err(dev, "failed to initialize DWC endpoint registers\n");
-   487			dw_pcie_ep_deinit(&rockchip->pci.ep);
-   488			return ret;
-   489		}
-   490	
- > 491		pci_epc_init_notify(rockchip->pci.ep.epc);
-   492	
-   493		/* unmask DLL up/down indicator and hot reset/link-down reset */
-   494		rockchip_pcie_writel_apb(rockchip, 0x60000, PCIE_CLIENT_INTR_MASK_MISC);
-   495	
-   496		return ret;
-   497	}
-   498	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/msm8953-motorola-potter.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/msm8953-motorola-potter.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/msm8953-xiaomi-daisy.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/msm8953-xiaomi-mido.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/msm8953-xiaomi-mido.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/msm8953-xiaomi-tissot.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/msm8953-xiaomi-tissot.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/msm8953-xiaomi-vince.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sdm450-motorola-ali.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/sdm450-motorola-ali.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi632.dtsi:184.9-203.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi632.dtsi:190.19-202.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+--
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:911.27-961.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1329.11-1339.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sdm632-motorola-ocean.dtb: gpu@1c00000: clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/sdm632-motorola-ocean.dtb: iommu@1c48000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'qcom,msm8953-iommu' is not one of ['qcom,msm8976-iommu']
+   	'qcom,msm-iommu-v1' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/qcom,iommu.yaml#
+   arch/arm64/boot/dts/qcom/sdm632-motorola-ocean.dtb: /soc@0/i2c@7af5000/led-controller@36: failed to match any schema with compatible: ['ti,lm3697']
 
 -- 
 0-DAY CI Kernel Test Service
