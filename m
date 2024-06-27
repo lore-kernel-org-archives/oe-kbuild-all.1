@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA959196D9E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 16:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E58199E9E;
+	Thu, 27 Jun 2024 16:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719504776; cv=none; b=ZqxvcyRToZeADAEZXpfLEmoHGF8+tyFjxWymAqy3Y001SPFGJVLYezin9NErV5B4J26Q6NdJk6/+k4X6SaF4/QVX95VnX5y47BX69V/07TewUWS2Ism5dWFAtAZMdT5nrC2yqpf343QRQG5S+NLycjSXxdMQwtWzaRoG8cseJjY=
+	t=1719507375; cv=none; b=dWRx3VR6F/IUY0i8aeLyoy1sDd/vEIdIc7YbSBxwfYPDWA9kW8xwQhWQZ9JlDuiIEd2ymTTRgXm3bX8pfwGK+a7NFykSIYWwu/GLqC0Iwwok+z5oE6rezvnv50EkTY0NGonW7pnvWooMdjguQKzlWTf1ZVPZgR22alENXbnh76Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719504776; c=relaxed/simple;
-	bh=lVwymRTAkXkRP8EJadrKbFks6VbP5wd9zzubHE/h2U4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ONg3akmyRH6MDBLhdSNEcLAYUnPtUclXsVE9O1QCvJXkFYnPeitHePUbsYVGik8B0+ykiwVXcEXpm1Kn0QEEPopZjObP5x5SHXvmk1ZD5fF57ro3zbTfR7g4PzwsTlZn+bpyis7F0zf7/MVLi34E3VosF0ZEr61chgBm90PUg/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VKgIVt+Z; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1719507375; c=relaxed/simple;
+	bh=tXnUP+Q4ipMZHMdFaly9rDmGwdmTVd9/H6CA/PJ6e9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lsUQAo2t+V+dJ+Q5lPq4QYJ7EEKEDj6mDnvsIGCdN+E4LaRaawj+Dx7J7wKpY/M3K3NnKtVYBG76Dr3K6/b6eXuz4faxXmzwcDowspMzqdlH6TmQY+WJ6qmlT6b/EEzBC0iHlsBWFNvSupS73biczZBy89W94nsoqmTaoEMj6yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrSchKrs; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKgIVt+Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrSchKrs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719504775; x=1751040775;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lVwymRTAkXkRP8EJadrKbFks6VbP5wd9zzubHE/h2U4=;
-  b=VKgIVt+ZYs9CT6MewwGomDcmKoXksv9nbcnkJXLzldduddh+JwI1Gtw8
-   XmWbz0geEsB54vlKAQ4vPjxHiudMLHaueFeKAnPw0tcxA17OqGBfDroF3
-   fX+q03X+f9lmbXJwxzxhNKFMk3iB3aMQm990mEbQl2ZKQm0vmrU25umSh
-   3XoWh/McO8okZAAWtSBaJAVfzf76zAbtY/4TfkBx9Mi5lELceBpLyI73R
-   UEb3QJqv7StPuTI5MGLAkDBHQfN3Xe0LZ3swd48Xyn+8NhjSyx82PARG8
-   VzKy/iPm9tUfmdRo6TssGeLz9AznwoCGuOFwh5dmFCQGvZX/cmabEgAFI
-   Q==;
-X-CSE-ConnectionGUID: qkSvSIK3STKWF2KEvd7aXw==
-X-CSE-MsgGUID: KkoomSFIQ2OGlnNqZxtoag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16485329"
+  t=1719507374; x=1751043374;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tXnUP+Q4ipMZHMdFaly9rDmGwdmTVd9/H6CA/PJ6e9g=;
+  b=mrSchKrshCwg0tvfnXSiLQrW+w0X5whGQDwyswMKSkfp2QD8RmQ7UqbB
+   86AHxZyrh9UKFipL/Z3je6Hy7X/XZSz4quKAq13o/iqcPZFg2S6+ORLrP
+   fRyURy5VH6IjMyEWR9du06xMb7Shl5bE9mmyLP5MBz4lRam4osMPXFLU2
+   L40ZHYvB0INs3mx7WNg2dqtxgb1V9vLtNrwXgOJ9szHSodK1n1TGiztqL
+   +fMEs1lDPLtnn/BAdXBdmwHrs4IoPdRb615nA428Lot6ZhR3I4nQc9Cb5
+   zJdmMsujT0TYpOW4Iq4azXu5sBN0pLolJWulNU4V0U2OOqDRiKTPls5Pj
+   g==;
+X-CSE-ConnectionGUID: lhpVY703TfCB/GYTGiBn3g==
+X-CSE-MsgGUID: 9KIf9bWjQN6yKebsr+AyPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="12286787"
 X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
-   d="scan'208";a="16485329"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 09:12:55 -0700
-X-CSE-ConnectionGUID: 8BDKGnrwTjyUxsAeKt7jYw==
-X-CSE-MsgGUID: 9ExfgNUOQJ2kyBdJW2lOxA==
+   d="scan'208";a="12286787"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 09:56:13 -0700
+X-CSE-ConnectionGUID: bsmEuNJtTamAJkDBSbSqeA==
+X-CSE-MsgGUID: dLAGV4qcSZK0xnMWNIgGbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
-   d="scan'208";a="67640410"
+   d="scan'208";a="45202273"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jun 2024 09:12:53 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2024 09:56:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMrjv-000GKc-0H;
-	Thu, 27 Jun 2024 16:12:51 +0000
-Date: Fri, 28 Jun 2024 00:12:13 +0800
+	id 1sMsPn-000GMk-1E;
+	Thu, 27 Jun 2024 16:56:07 +0000
+Date: Fri, 28 Jun 2024 00:55:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Clark <robdclark@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 6881/8719] drivers/gpu/drm/msm/msm_gem.c:51:43:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202406280050.syeEwLTE-lkp@intel.com>
+To: Chris Lu <chris.lu@mediatek.com>, Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Von Dentz <luiz.dentz@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sean Wang <sean.wang@mediatek.com>,
+	Aaron Hou <aaron.hou@mediatek.com>,
+	Steve Lee <steve.lee@mediatek.com>,
+	linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-mediatek <linux-mediatek@lists.infradead.org>,
+	Chris Lu <chris.lu@mediatek.com>
+Subject: Re: [PATCH v5 8/8] Bluetooth: btusb: mediatek: add ISO data
+ transmission functions
+Message-ID: <202406280003.brf5D1qt-lkp@intel.com>
+References: <20240626025329.26424-9-chris.lu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +72,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240626025329.26424-9-chris.lu@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   df9574a57d02b265322e77fb8628d4d33641dda9
-commit: 204226de27c3a6328b155005f132afe12eca3a5e [6881/8719] drm/msm: Add GPU memory traces
-config: powerpc64-randconfig-r132-20240627 (https://download.01.org/0day-ci/archive/20240628/202406280050.syeEwLTE-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240628/202406280050.syeEwLTE-lkp@intel.com/reproduce)
+Hi Chris,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on next-20240626]
+[cannot apply to bluetooth/master linus/master v6.10-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Lu/Bluetooth-btusb-mediatek-remove-the-unnecessary-goto-tag/20240626-114003
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240626025329.26424-9-chris.lu%40mediatek.com
+patch subject: [PATCH v5 8/8] Bluetooth: btusb: mediatek: add ISO data transmission functions
+config: i386-buildonly-randconfig-003-20240627 (https://download.01.org/0day-ci/archive/20240628/202406280003.brf5D1qt-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280003.brf5D1qt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280050.syeEwLTE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406280003.brf5D1qt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/msm/msm_gem.c:51:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct pid *pid @@     got struct pid [noderef] __rcu *pid @@
-   drivers/gpu/drm/msm/msm_gem.c:51:43: sparse:     expected struct pid *pid
-   drivers/gpu/drm/msm/msm_gem.c:51:43: sparse:     got struct pid [noderef] __rcu *pid
-   drivers/gpu/drm/msm/msm_gem.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All errors (new ones prefixed by >>):
 
-vim +51 drivers/gpu/drm/msm/msm_gem.c
+   In file included from drivers/bluetooth/btusb.c:28:
+>> drivers/bluetooth/btmtk.h:274:17: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
+     274 |         return PTR_ERR(-EOPNOTSUPP);
+         |                        ^~~~~~~~~~~
+   include/linux/err.h:49:61: note: passing argument to parameter 'ptr' here
+      49 | static inline long __must_check PTR_ERR(__force const void *ptr)
+         |                                                             ^
+   In file included from drivers/bluetooth/btusb.c:28:
+>> drivers/bluetooth/btmtk.h:274:9: error: incompatible integer to pointer conversion returning 'long' from a function with result type 'struct urb *' [-Wint-conversion]
+     274 |         return PTR_ERR(-EOPNOTSUPP);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-    44	
-    45	static void update_ctx_mem(struct drm_file *file, ssize_t size)
-    46	{
-    47		struct msm_file_private *ctx = file->driver_priv;
-    48		uint64_t ctx_mem = atomic64_add_return(size, &ctx->ctx_mem);
-    49	
-    50		rcu_read_lock(); /* Locks file->pid! */
-  > 51		trace_gpu_mem_total(0, pid_nr(file->pid), ctx_mem);
-    52		rcu_read_unlock();
-    53	
+
+vim +274 drivers/bluetooth/btmtk.h
+
+   270	
+   271	static struct urb *alloc_mtk_intr_urb(struct hci_dev *hdev, struct sk_buff *skb,
+   272					      usb_complete_t tx_complete)
+   273	{
+ > 274		return PTR_ERR(-EOPNOTSUPP);
+   275	}
+   276	
 
 -- 
 0-DAY CI Kernel Test Service
