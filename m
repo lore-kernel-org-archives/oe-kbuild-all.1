@@ -1,72 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE8477F13
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 08:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4BA7BB14;
+	Thu, 27 Jun 2024 08:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719476678; cv=none; b=UdOPcHc1Eai21vkK6Rd9+VMk52ybrEKVuJtqt1BnLSMQgPivpbulcvEErLikm9frjEwit0sCyWSNrCQrmzwT0/ZGms//G7gmIDWFFhgYg3laI5M6Ysu/QFtV1ST2YX1QMRztNZ30e+wiECe5I6uxIOD7kbMEtMJk4VJ+48XZKCM=
+	t=1719477209; cv=none; b=Fh4JG3TRruALFN6IUnLdQeain2b/55um5jYBfJjggI4VVhomNSVqskBW2GUpf2JhmNhlTR2l3AGJpSkP0NEwP1XjAlf4Lb3ZDzH456xvKU2jnW4CaElh+0D4Ol7sVbzVYE0hyID7w3gf3obqnbmX2ffnX7DF5ZfB175NvEKBv+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719476678; c=relaxed/simple;
-	bh=nrcED+kfNOJnZI80OvRQZgPNWlUT47kK8X+bKOmviCM=;
+	s=arc-20240116; t=1719477209; c=relaxed/simple;
+	bh=Pi4LKlzc/7YwEBuJLXtj6NR3Kr9eYb1JNmen4IQ5Bi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bezpiIkae6jvH0R/jBjfz2jemIZBQQ8moDxMwyZhH/a4Ilvv0c5XrD/5LY72TmuHdLXypHh0kqGjuJi1Rw8y+RRbos84XhPL82Kx25BOfOiICr50sE2DrP88ysnmcu33WncLvL5tqMBvKiE+3AUlNIbLYl5ge4fvlkltRklmxPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eg6xybTK; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PgEBkLSP0tvmqVMM5yZWwI8piSJww65Fkl7kLzLtGdHYWAtkUBc7JgLzF6cVTTfj09zzZjRA549KaWeCrMleMn+fzh10nDcOK1iCXV6ww67OQfY8qO5xHZ8KP2PLr+ZhWjdJ7R+36OqfUObI7JaOxHuc421axD/Plg2ckpvhku4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fspg5BEj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eg6xybTK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719476676; x=1751012676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nrcED+kfNOJnZI80OvRQZgPNWlUT47kK8X+bKOmviCM=;
-  b=eg6xybTKYGhPZMv/ujzj2LmgCaDKyQ7yQtGDYVmdaEF8bW87ZsvSevRG
-   uNIdrIuQECQ0npH/39VLojTk14yxbWiXFTozUOIGTlwbef4gaG8a3fEAY
-   nsz7G2jlj+0Dka5FIN7AE0kU8ShtUGin247Aelda4RWBTrJGsvtXDPvLq
-   XX9U+saeJZmLCrRvWf43F12EaQ8IQ1QDrOGcL1GB/Y5urucs5sddmFa9D
-   pNdQjKTMUQeiJaSwIO9iuNVSaoItW+rgUyED9pIuTHecXWgv5svTE3ldy
-   rY6WTDyY41nL6vyqo/0fP/QwjLwNiA5SBe9iFY2Qwq2iM3AyAjMiadAuA
-   Q==;
-X-CSE-ConnectionGUID: T2h8N46BQcqEERXXH6ZG1Q==
-X-CSE-MsgGUID: s0J6uPC9SN+uCX0ceKe/mw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16732460"
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="16732460"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 01:24:36 -0700
-X-CSE-ConnectionGUID: glugGBpTT1yyzfQ3hLwEGA==
-X-CSE-MsgGUID: T9QHmxmfQZW2EwUhcgfaTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="44944816"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jun 2024 01:24:31 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMkQf-000G3N-1Q;
-	Thu, 27 Jun 2024 08:24:29 +0000
-Date: Thu, 27 Jun 2024 16:23:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] ARM: dts: sti: add thermal-zones support on
- stih418
-Message-ID: <202406271638.0fz7OuJT-lkp@intel.com>
-References: <20240625-thermal-v2-3-bf8354ed51ee@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fspg5BEj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72470C2BBFC;
+	Thu, 27 Jun 2024 08:33:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719477208;
+	bh=Pi4LKlzc/7YwEBuJLXtj6NR3Kr9eYb1JNmen4IQ5Bi0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fspg5BEj6Xorw6NIDyTtodUt+PvMNTpiF5Ts/WB9ie/3pY1SmyyV6qeDnMCoWTjxo
+	 5hwBVKq0r+N3nOVL9S8Y/dnQ4dD633g2zqNLnVv/zOCvC8jAf0fdeHrviw6oPRUqUj
+	 /fzpX0mCNWVtDmJdu7Hq0GEVUHssMvPT48i4GQOuv19/pB3WXrWy8LzGcbcgys8H+M
+	 IbwN9XXWjuv70aaGvg5HuFIrqeS1Umoe8vEKE1Ip7PodxcIRInSZ0Vzx1JBXKzZZHC
+	 Hbg2YkU6Bu4DERnQ9nJprrSR+XwsNzNL2P0mHAOobJIGoqgAOOL5Lt1UraRTMbwvwp
+	 qyALbDXn69sZg==
+Date: Thu, 27 Jun 2024 10:33:24 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [pci:controller/rockchip 11/11]
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:undefined reference to
+ `pci_epc_init_notify'
+Message-ID: <Zn0j1LrkLELW0fO1@ryzen.lan>
+References: <202406270721.a8SQi2hn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,57 +44,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625-thermal-v2-3-bf8354ed51ee@gmail.com>
+In-Reply-To: <202406270721.a8SQi2hn-lkp@intel.com>
 
-Hi Raphael,
+On Thu, Jun 27, 2024 at 07:54:05AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
+> head:   246afbe0f6fca433d8d918b740719170b1b082cc
+> commit: 246afbe0f6fca433d8d918b740719170b1b082cc [11/11] PCI: dw-rockchip: Use pci_epc_init_notify() directly
+> config: loongarch-randconfig-r081-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270721.a8SQi2hn-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406270721.a8SQi2hn-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406270721.a8SQi2hn-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init_notify':
+>    drivers/pci/controller/dwc/pcie-designware-ep.c:26:(.text+0x1e4): undefined reference to `pci_epc_init_notify'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_deinit':
+>    drivers/pci/controller/dwc/pcie-designware-ep.c:640:(.text+0x83c): undefined reference to `pci_epc_mem_free_addr'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:643:(.text+0x854): undefined reference to `pci_epc_mem_exit'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_linkup':
+>    drivers/pci/controller/dwc/pcie-designware-ep.c:811:(.text+0x924): undefined reference to `pci_epc_linkup'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_linkdown':
+>    drivers/pci/controller/dwc/pcie-designware-ep.c:836:(.text+0x964): undefined reference to `pci_epc_linkdown'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init':
+>    drivers/pci/controller/dwc/pcie-designware-ep.c:875:(.text+0xe90): undefined reference to `__devm_pci_epc_create'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:888:(.text+0xf20): undefined reference to `pci_epc_mem_init'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:895:(.text+0xf54): undefined reference to `pci_epc_mem_alloc_addr'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.c:906:(.text+0xf74): undefined reference to `pci_epc_mem_exit'
+>    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-dw-rockchip.o: in function `rockchip_pcie_configure_ep':
+> >> drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:(.text+0x7cc): undefined reference to `pci_epc_init_notify'
 
-kernel test robot noticed the following build warnings:
+Hello Krzysztof,
 
-[auto build test WARNING on 0fc4bfab2cd45f9acb86c4f04b5191e114e901ed]
+This is the same problem that the kernel test robot previously reported,
+and is fixed by:
+https://lore.kernel.org/linux-pci/20240626191325.4074794-2-cassel@kernel.org/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/thermal-st-switch-from-CONFIG_PM_SLEEP-guards-to-pm_sleep_ptr/20240626-090203
-base:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-patch link:    https://lore.kernel.org/r/20240625-thermal-v2-3-bf8354ed51ee%40gmail.com
-patch subject: [PATCH v2 3/3] ARM: dts: sti: add thermal-zones support on stih418
-config: arm-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271638.0fz7OuJT-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271638.0fz7OuJT-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406271638.0fz7OuJT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/st/stih418.dtsi:51.28-79.5: Warning (thermal_sensors_property): /thermal-zones/cpu-thermal: Missing property '#thermal-sensor-cells' in node /soc/thermal@91a0000 or bad phandle (referred from thermal-sensors[0])
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks: failed to match any schema with compatible: ['st,stih418-clk', 'simple-bus']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000: failed to match any schema with compatible: ['st,clkgen-c32']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000/clockgen-a9-pll: failed to match any schema with compatible: ['st,stih418-clkgen-plla9']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000: failed to match any schema with compatible: ['st,clkgen-c32']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-pll: failed to match any schema with compatible: ['st,clkgen-pll0-a0']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
-   arch/arm/boot/dts/st/stih418-b2199.dtb: /clocks/clockgen-c@9103000: failed to match any schema with compatible: ['st,clkgen-c32']
---
->> arch/arm/boot/dts/st/stih418.dtsi:51.28-79.5: Warning (thermal_sensors_property): /thermal-zones/cpu-thermal: Missing property '#thermal-sensor-cells' in node /soc/thermal@91a0000 or bad phandle (referred from thermal-sensors[0])
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks: failed to match any schema with compatible: ['st,stih418-clk', 'simple-bus']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000: failed to match any schema with compatible: ['st,clkgen-c32']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000/clockgen-a9-pll: failed to match any schema with compatible: ['st,stih418-clkgen-plla9']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a9@92b0000/clk-m-a9: failed to match any schema with compatible: ['st,stih407-clkgen-a9-mux', 'st,clkgen-mux']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000: failed to match any schema with compatible: ['st,clkgen-c32']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-pll: failed to match any schema with compatible: ['st,clkgen-pll0-a0']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-a@90ff000/clk-s-a0-flexgen: failed to match any schema with compatible: ['st,flexgen', 'st,flexgen-stih410-a0']
-   arch/arm/boot/dts/st/stih418-b2264.dtb: /clocks/clockgen-c@9103000: failed to match any schema with compatible: ['st,clkgen-c32']
+Like I wrote in the other kernel test robot report, depending on .config,
+we could also see another build error if we don't have:
+7a847796e509 ("PCI: endpoint: Introduce 'epc_deinit' event and notify the EPF drivers")
+(from the pci/endpoint branch).
 
-vim +51 arch/arm/boot/dts/st/stih418.dtsi
+You have also previously cherry-picked:
+3d2e425263e2 ("PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event")
+(from the pci/controller/dwc branch) which we also depend on.
 
-  > 51			cpu_thermal: cpu-thermal {
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Perhaps the smartest thing right now is to just recreate the
+pci/controller/rockchip branch, by:
+1) reset the rockchip branch to v6.10-rc1
+2) merge the pci/controller/dwc branch to the rockchip branch
+3) merge the pci/endpoint branch to to the rockchip branch
+4) pick all the patches that are currently on the pci/controller/rockchip
+5) squash: 246afbe0f6fc ("PCI: dw-rockchip: Use pci_epc_init_notify() directly")
+   into the commit that adds dw-rockchip endpoint mode support
+   (9b2ba393b3a6 ("PCI: dw-rockchip: Add endpoint mode support"))
+6) squash: https://lore.kernel.org/linux-pci/20240626191325.4074794-2-cassel@kernel.org/
+   into the commit that adds dw-rockchip endpoint mode support
+   (9b2ba393b3a6 ("PCI: dw-rockchip: Add endpoint mode support"))
+
+
+This way:
+- All commits will build as individual patches, so no build errors from the
+  test robot (even when it builds a patch that is in the middle (e.g. 10/11)).
+- Even if futher commits are applied to pci/controller/dwc or pci/endpoint,
+  we will not depend on any newly applied patches to these branches, so there
+  will be no need to "re-merge" the branches to the rockchip branch.
+
+
+Kind regards,
+Niklas
