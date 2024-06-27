@@ -1,73 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5218419AA62
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 18:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E703C199E9B;
+	Thu, 27 Jun 2024 18:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719512720; cv=none; b=QkfqV8gTIX5D+rYCD7CaNwBxmK/e4eldj40CSrG0gcE2zU6MXCpN+u3uKzs7PaoLIwPYqTvIAfXna69i159HvU2yDsGfLPeipng8nilPWBfwK7JG53oXq5vXor82jfRBNZs7UmC191/nCfCg/BMGXTWPazxLN+a7qaP5kx3eu7c=
+	t=1719513630; cv=none; b=Zu18UCBu9zeEYUftXfeHV6F+Fb7DfSBZCi0SChrJMDctH9OaeDR+VWJrlic6A/OKZaTyaNF0S4fjR9ZIXq1IKF9eg4cnR0tbUSkj+E9xsnnMXOcYxKWG4E/3S+axXLFdkJgpQglKVivIUQorCjTXoMOZFTN79ValZFKnfd667z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719512720; c=relaxed/simple;
-	bh=hkbH3h5i6uGsXa8uzjWtbfxWSJess7YTCGvakbQvPXY=;
+	s=arc-20240116; t=1719513630; c=relaxed/simple;
+	bh=KkLyl1RC/EwhIBQ23wSnNwb/PtCW43HptLeyStQCzBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pjmw7sGU1KJVmRCWjvQtKrOhBHwrxnlm65bX34S8o2wFcxAh9fAy/JScjNaAwtKFmNfETScNhI9Q/OBlJoK+bTNpqyTRffelGkBH8GkQRCT9oDRQC2AftBno2RVg/pA5K/NEme4hXJ15M842qelIgwwWf+hmT8CtRybxAY4n/L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFU8II/x; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFU8II/x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719512718; x=1751048718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hkbH3h5i6uGsXa8uzjWtbfxWSJess7YTCGvakbQvPXY=;
-  b=lFU8II/xSunAAy1OHa/W80Ve9O7bz+BK7qcjSzH/7UNK1nurkCTDu0Zq
-   FmLKp4tBm4KwjxtOH7OK0Hfzr6uzqhTBbXfuHmUDWGsE7+/vE+X3xSEdb
-   kSsbJcEijbXzklINkMJrTiR9MqOQ+4hsmA3FaCygllmfTpsAuYHHZD78n
-   T+W5r5f2Nj4D8yvNCWHIlm1bvIKnll1E8rNwx44tT6yu/NBU9fdXc4PzN
-   vI9+sL4CRPk14qhD6VZFFxUu+dRWIrSlZkJPdfU30EQQNKp+jN+Nj/pI5
-   pnBT8vnHMey3W4AKUbUJ6EE2DZjoOPuUZtqwBjZfrvZHcRMB7nNWiUOPk
-   A==;
-X-CSE-ConnectionGUID: Yl4DxkB7T+qW/d3xarIW2g==
-X-CSE-MsgGUID: PqYhEn6SS6WzQcruhQGWkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16345772"
-X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
-   d="scan'208";a="16345772"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 11:25:17 -0700
-X-CSE-ConnectionGUID: Ee3EDbM+Tpuq9RV7L2Kj0w==
-X-CSE-MsgGUID: DPfCvDUHTxeU4kbEH+bqdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
-   d="scan'208";a="48808509"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Jun 2024 11:25:13 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMtny-000GQC-3D;
-	Thu, 27 Jun 2024 18:25:11 +0000
-Date: Fri, 28 Jun 2024 02:25:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH net-next] dt-bindings: net: Define properties at top-level
-Message-ID: <202406280202.IRKWOMQk-lkp@intel.com>
-References: <20240625215442.190557-2-robh@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=C37TX/0Z5GOAQKvqqxICo+dEG9VoToRPNN2MEFlnE1dfhbz4ycsYeqH9mhRrxFJ1aohyCDW8OfAIb8wfMZGXNxNVAZB2AyKCloKQvAY2RMxEX8V/fkLEx++JXj6VRpyfTMvRdxWk54rycKPkrgtS14uAInMvUjyFviwp7Wxs/MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5854ac817afso1116391a12.2;
+        Thu, 27 Jun 2024 11:40:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719513627; x=1720118427;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TRtwt1nHk/eFQfYHJCx8+U3yM4OGoY8sGkg3XpVPOa0=;
+        b=qD3UbQwVX+iF9YHsNxkQSQJB2wpVqR1Ira3pXpFnigRN2OB6pmA4BL0JqYS+nZKVLG
+         wtmvR/MNJtgpktUcv9C3BgO2ghBBcB6X9SJrghDO/e06uZIh/MtA09eI+OUU109rzeqf
+         syNbkoYm2qzpGCZlpaAE1IH4C3XvNR2sxUvvlo8KPF0wgZkmHKJ9cuNyhVpE5aOFOtoS
+         8IK5fR+bTRstEQDiCRxB8qHNKrrz/LfVYM7kYycyz5lNK4Iz1V7eJ1EF1+/mpfa0vjBv
+         uaZugFzzFmbZGVBrpC2hCtRF+9XMnWinczhDGES39jrnvAoG6aFpt36rZ2ehdJPb81aK
+         E79A==
+X-Forwarded-Encrypted: i=1; AJvYcCV83pyv0q8BDEkyLwhNq6fz+QwtUEkcOLF9+FtFTQVhccZ7T3rR6mh90LPKIwlN9qYTpmH/dNNOp6HQabf2dsrcXtTA7useoE2J5CP9hQbzeWIErCTErqY8KmO+66lcRxm2rqk=
+X-Gm-Message-State: AOJu0Yy6O+1/YuvRQv2L2X57dVpdOoiSeMOXHr+JJ2cUd/C3+Fvhlg7z
+	5qpmFBOCAfbi38enDlrmkVNwfo2iZBFfsGnTTIKCuX/Qpdhou+Ti
+X-Google-Smtp-Source: AGHT+IGyWL39Gdti/FMrbm7JkEdRxyFNJ+JC9do85JtWo4z+QZkEpUt2llHGxHDQC6aOi9kuwYXphQ==
+X-Received: by 2002:a50:c34d:0:b0:57c:7151:2669 with SMTP id 4fb4d7f45d1cf-57d4a276171mr11107130a12.7.1719513626964;
+        Thu, 27 Jun 2024 11:40:26 -0700 (PDT)
+Received: from gmail.com (fwdproxy-lla-115.fbsv.net. [2a03:2880:30ff:73::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58612c83578sm28651a12.18.2024.06.27.11.40.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 11:40:26 -0700 (PDT)
+Date: Thu, 27 Jun 2024 11:40:24 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Vladimir Oltean <olteanv@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kuba@kernel.org, horms@kernel.org, Roy.Pledge@nxp.com,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
+Message-ID: <Zn2yGBuwiW/BYvQ7@gmail.com>
+References: <20240624162128.1665620-1-leitao@debian.org>
+ <202406261920.l5pzM1rj-lkp@intel.com>
+ <20240626140623.7ebsspddqwc24ne4@skbuf>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,161 +59,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625215442.190557-2-robh@kernel.org>
+In-Reply-To: <20240626140623.7ebsspddqwc24ne4@skbuf>
 
-Hi Rob,
+Hello Vladimir,
 
-kernel test robot noticed the following build warnings:
+On Wed, Jun 26, 2024 at 05:06:23PM +0300, Vladimir Oltean wrote:
+> On Wed, Jun 26, 2024 at 08:09:53PM +0800, kernel test robot wrote:
 
-[auto build test WARNING on net-next/main]
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:3280:12: warning: stack frame size (16664) exceeds limit (2048) in 'dpaa_eth_probe' [-Wframe-larger-than]
+> >     3280 | static int dpaa_eth_probe(struct platform_device *pdev)
+> >          |            ^
+> >    1 warning generated.
+> > --
+> > >> drivers/net/ethernet/freescale/dpaa/dpaa_ethtool.c:454:12: warning: stack frame size (8264) exceeds limit (2048) in 'dpaa_set_coalesce' [-Wframe-larger-than]
+> >      454 | static int dpaa_set_coalesce(struct net_device *dev,
+> >          |            ^
+> >    1 warning generated.
+> 
+> Arrays of NR_CPUS elements are what it probably doesn't like?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-net-Define-properties-at-top-level/20240626-091748
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240625215442.190557-2-robh%40kernel.org
-patch subject: [PATCH net-next] dt-bindings: net: Define properties at top-level
-config: arc-randconfig-051-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280202.IRKWOMQk-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev2+g3b69bad
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280202.IRKWOMQk-lkp@intel.com/reproduce)
+Can it use the number of online CPUs instead of NR_CPUS?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280202.IRKWOMQk-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arc/boot/dts/axs101.dtb: axs10x_mb: connector: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs101.dtb: axs10x_mb: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs101.dtb: axs10x_mb: sound_playback: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs101.dtb: /axs10x_mb/i2sclk@100a0: failed to match any schema with compatible: ['snps,axs10x-i2s-pll-clock']
-   arch/arc/boot/dts/axs101.dtb: i2cclk: clock-frequency:0:0: 50000000 is greater than the maximum of 5000000
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
-   arch/arc/boot/dts/axs101.dtb: /axs10x_mb/pguclk@10080: failed to match any schema with compatible: ['snps,axs10x-pgu-pll-clock']
->> arch/arc/boot/dts/axs101.dtb: ethernet@18000: snps,pbl: False schema does not allow [[32]]
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arc/boot/dts/axs101.dtb: uart@20000: $nodename:0: 'uart@20000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/axs101.dtb: uart@20000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/axs101.dtb: uart@21000: $nodename:0: 'uart@21000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/axs101.dtb: uart@21000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/axs101.dtb: uart@22000: $nodename:0: 'uart@22000' does not match '^serial(@.*)?$'
---
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/axs103.dtb: /cpu_card/pct: failed to match any schema with compatible: ['snps,archs-pct']
-   arch/arc/boot/dts/axs103.dtb: axs10x_mb: $nodename:0: 'axs10x_mb' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs103.dtb: axs10x_mb: connector: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs103.dtb: axs10x_mb: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs103.dtb: axs10x_mb: sound_playback: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arc/boot/dts/axs103.dtb: ethernet@18000: snps,pbl: False schema does not allow [[32]]
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arc/boot/dts/axs103.dtb: usb@40000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arc/boot/dts/axs103.dtb: usb@60000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arc/boot/dts/axs103.dtb: mmc@15000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yaml#
-   arch/arc/boot/dts/axs103.dtb: /axs10x_mb/i2sclk@100a0: failed to match any schema with compatible: ['snps,axs10x-i2s-pll-clock']
-   arch/arc/boot/dts/axs103.dtb: i2cclk: clock-frequency:0:0: 50000000 is greater than the maximum of 5000000
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: /cpu_card/pct: failed to match any schema with compatible: ['snps,archs-pct']
-   arch/arc/boot/dts/axs103_idu.dtb: axs10x_mb: $nodename:0: 'axs10x_mb' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: axs10x_mb: connector: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: axs10x_mb: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: axs10x_mb: sound_playback: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arc/boot/dts/axs103_idu.dtb: ethernet@18000: snps,pbl: False schema does not allow [[32]]
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: usb@40000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: usb@60000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: mmc@15000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: /axs10x_mb/i2sclk@100a0: failed to match any schema with compatible: ['snps,axs10x-i2s-pll-clock']
-   arch/arc/boot/dts/axs103_idu.dtb: i2cclk: clock-frequency:0:0: 50000000 is greater than the maximum of 5000000
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
---
-   arch/arc/boot/dts/hsdk.dtb: soc: gpu-core-clk: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/hsdk.dtb: soc: mmcclk-biu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/hsdk.dtb: soc: gpu-cfg-clk: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/hsdk.dtb: /soc/reset-controller@8a0: failed to match any schema with compatible: ['snps,hsdk-reset']
-   arch/arc/boot/dts/hsdk.dtb: /soc/core-clk@0: failed to match any schema with compatible: ['snps,hsdk-core-pll-clock']
-   arch/arc/boot/dts/hsdk.dtb: serial@5000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
->> arch/arc/boot/dts/hsdk.dtb: ethernet@8000: snps,pbl: False schema does not allow [[32]]
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arc/boot/dts/hsdk.dtb: usb@60000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arc/boot/dts/hsdk.dtb: usb@40000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arc/boot/dts/hsdk.dtb: mmc@a000: Unevaluated properties are not allowed ('dma-coherent', 'num-slots' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yaml#
-   arch/arc/boot/dts/hsdk.dtb: /soc/gpio@14b0: failed to match any schema with compatible: ['snps,creg-gpio-hsdk']
-   arch/arc/boot/dts/hsdk.dtb: dmac@80000: '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/snps,dw-axi-dmac.yaml#
---
-   arch/arc/boot/dts/vdk_hs38.dtb: /cpu_card/archs-intc@cpu: failed to match any schema with compatible: ['snps,archs-intc']
-   arch/arc/boot/dts/vdk_hs38.dtb: dw-apb-uart@5000: $nodename:0: 'dw-apb-uart@5000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: dw-apb-uart@5000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: /interrupt-controller@e0012000: failed to match any schema with compatible: ['snps,dw-apb-ictl']
-   arch/arc/boot/dts/vdk_hs38.dtb: axs10x_mb_vdk: $nodename:0: 'axs10x_mb_vdk' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: axs10x_mb_vdk: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arc/boot/dts/vdk_hs38.dtb: ethernet@18000: snps,pbl: False schema does not allow [[32]]
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@20000: $nodename:0: 'uart@20000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@20000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@21000: $nodename:0: 'uart@21000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@21000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@22000: $nodename:0: 'uart@22000' does not match '^serial(@.*)?$'
---
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: /cpu_card/idu-interrupt-controller: failed to match any schema with compatible: ['snps,archs-idu-intc']
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: dw-apb-uart@5000: $nodename:0: 'dw-apb-uart@5000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: dw-apb-uart@5000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: /interrupt-controller@e0012000: failed to match any schema with compatible: ['snps,dw-apb-ictl']
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: axs10x_mb_vdk: $nodename:0: 'axs10x_mb_vdk' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: axs10x_mb_vdk: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arc/boot/dts/vdk_hs38_smp.dtb: ethernet@18000: snps,pbl: False schema does not allow [[32]]
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@20000: $nodename:0: 'uart@20000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@20000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@21000: $nodename:0: 'uart@21000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@21000: Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@22000: $nodename:0: 'uart@22000' does not match '^serial(@.*)?$'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Other than that, I would say we can drop this patch in the meantime, so,
+we can move with the others, while this one is being addressed.
