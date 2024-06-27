@@ -1,42 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D71841A94;
-	Thu, 27 Jun 2024 08:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE8312A16C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 09:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719478275; cv=none; b=cmynan82nhajWv3WSvcKBTAyogO25+Dpz85ghqPkpOhhn+6bLz0+v9zsa5tCyiNDy44r2cV0OPtGJV0lGP2IjBBWb1KjNEFR5t+WGuNOLRb8Ynl8tyvLllxMY6/mLG+RIEMFN0lfhhbKnNNq9qrggOU0HrwcwgcsO9aoxT7wyWA=
+	t=1719478806; cv=none; b=WAGH8shw+NvlodK9+IfMp/oJV996TM5nn7lCodXloi5thcr5UCX94tAoqmzBJWXAmLlpWXQwqEZsIU+Q5bL1eoQHNtvoahshb0QY3px6x6jd4CzJ3balDBgB49Tyd753dN3mzXxb5cqLrkfXUtS1EOGY4btP2UbaBhiOp3b7G5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719478275; c=relaxed/simple;
-	bh=RNQYhslrCN1E1JQQ9hu0V0o+kjdwAkUIWyPDeNLPaCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WF46wFGPuhwN9MurNrvvZ71pucicgf8RPOI/1V086fqh9/yhF85gP2u+1PNK7/v2SHo+i0kPcJfmeqWUFxOqglkcjy3ThS1iOSDcey7fTRXWxDPErIRc+EZ76aVTq4CwQMI5LKqTpR0M5sH92NRqnQPugIXLoU9s9HxKr3IoYpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dEA71OMW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719478806; c=relaxed/simple;
+	bh=H7b2LY83lSDab8qeVyeKHWzEL0OH3OgUya/F1ucVntw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ZAFu1ep+TQuvfZUHqseq9sfjc521MjeI3PGbizPXMULSk9gDknDXdzul8MBSub9zLW0x/D226LDjCcpV786NhTXQNgJp6jDpPZcKkAUINFO4bejj7b6FIgJ88aKt7gChRgguNP8XeNHso7shZUoM8ykzfgbiNKHDF7NcC+ajfsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjNvMSjr; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dEA71OMW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1E0C4AF07;
-	Thu, 27 Jun 2024 08:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719478274;
-	bh=RNQYhslrCN1E1JQQ9hu0V0o+kjdwAkUIWyPDeNLPaCQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dEA71OMWfVMTznmtLZiGZ2tqn/dg7C7Ga0Kq1v3m7Ypy3w0Bzq8rDJuDiMpfFaDEE
-	 a7atnYGx105MwwHsnAOJKxugLPq59W1zPQjrIB9/yCCGVJmjpikQhHoi4+BLGR5ISJ
-	 g2601RvDAzZO/HIDhAlAwW8aIJ44kFPdmDeIsL3QIR3gvnMxj76FJR0LRufr57Lrty
-	 6NLrKEdxwrqiI98JHVSGkQwK3UeeB8FdvzDH4wV95yHACx/gOlInKJ24j53sYa/p4U
-	 uaLmi604cQgxeGifZh5jTFg7NcfDmPuNRaResCuOFcXgR4HT7PD6ROFjvJPOT8Btkh
-	 +Gwqb0U7AGoHg==
-Date: Thu, 27 Jun 2024 10:51:10 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Subject: Re: [pci:controller/rockchip 11/11]
- drivers/pci/controller/dwc/pcie-dw-rockchip.c:491:undefined reference to
- `pci_epc_init_notify'
-Message-ID: <Zn0n_qvyd47Aw65E@ryzen.lan>
-References: <202406270721.a8SQi2hn-lkp@intel.com>
- <Zn0j1LrkLELW0fO1@ryzen.lan>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjNvMSjr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719478804; x=1751014804;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=H7b2LY83lSDab8qeVyeKHWzEL0OH3OgUya/F1ucVntw=;
+  b=AjNvMSjrLUe0M5IGsFq0MltFlI43rfzeGrTtEQoVMaztxuzgJKl2GvKD
+   ygVWj69gfOfiP5e9QB/4CchJFCSCxiKdusUN0ONCCoW2y8+Dow2if+mA2
+   edtZPG8Oyz8mEvootavYTJdhFZJQILX//Cuqg183lsnRMTJHraxJA5rwk
+   E3x9D5Y/yYNIvSwngTKBst/l+b9at2IH0B1G/5OjIskI3f+DhT4ahun0s
+   DkUq+mCyo6ETvuaPUlFRr/mzu8SCZl3UeFjXPbflChue6XxkkSBmRxtjV
+   +kLdtevrBuuMqPSEWw+n72jjGT95WAnnsQYUg3ACjagMXaxcX9QRqj6zm
+   A==;
+X-CSE-ConnectionGUID: 6ll2rT7XToSN5MIP70OBAQ==
+X-CSE-MsgGUID: k9bYRlkTTLKE8D7jvrVxuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="12276846"
+X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
+   d="scan'208";a="12276846"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 02:00:04 -0700
+X-CSE-ConnectionGUID: 3IDMqEq+R4C0+gRatTrCWw==
+X-CSE-MsgGUID: 1B6WLMgGRbal5DfiHaN4Aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
+   d="scan'208";a="45052961"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2024 02:00:02 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMkz2-000G4o-1M;
+	Thu, 27 Jun 2024 09:00:00 +0000
+Date: Thu, 27 Jun 2024 16:59:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mikhail Ukhin <mish.uxin2012@yandex.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 5.10/5.15] ata: libata-scsi: check cdb length for
+ VARIABLE_LENGTH_CMD commands
+Message-ID: <Zn0p23YAY5Pojyvi@7e8ef4ebee7b>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,36 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zn0j1LrkLELW0fO1@ryzen.lan>
+In-Reply-To: <20240626211358.148625-1-mish.uxin2012@yandex.ru>
 
-On Thu, Jun 27, 2024 at 10:33:24AM +0200, Niklas Cassel wrote:
-> 
-> Perhaps the smartest thing right now is to just recreate the
-> pci/controller/rockchip branch, by:
-> 1) reset the rockchip branch to v6.10-rc1
-> 2) merge the pci/controller/dwc branch to the rockchip branch
-> 3) merge the pci/endpoint branch to to the rockchip branch
-> 4) pick all the patches that are currently on the pci/controller/rockchip
-> 5) squash: 246afbe0f6fc ("PCI: dw-rockchip: Use pci_epc_init_notify() directly")
->    into the commit that adds dw-rockchip endpoint mode support
->    (9b2ba393b3a6 ("PCI: dw-rockchip: Add endpoint mode support"))
-> 6) squash: https://lore.kernel.org/linux-pci/20240626191325.4074794-2-cassel@kernel.org/
->    into the commit that adds dw-rockchip endpoint mode support
->    (9b2ba393b3a6 ("PCI: dw-rockchip: Add endpoint mode support"))
-> 
-> 
-> This way:
-> - All commits will build as individual patches, so no build errors from the
->   test robot (even when it builds a patch that is in the middle (e.g. 10/11)).
-> - Even if futher commits are applied to pci/controller/dwc or pci/endpoint,
->   we will not depend on any newly applied patches to these branches, so there
->   will be no need to "re-merge" the branches to the rockchip branch.
+Hi,
 
-The end result would look like this:
-https://github.com/floatious/linux/commits/dw-rockchip-remerge-example/
+Thanks for your patch.
 
-(Just in case you want to git diff to see that we did the same thing...)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH v4 5.10/5.15] ata: libata-scsi: check cdb length for VARIABLE_LENGTH_CMD commands
+Link: https://lore.kernel.org/stable/20240626211358.148625-1-mish.uxin2012%40yandex.ru
+
+Please ignore this mail if the patch is not relevant for upstream.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
-Kind regards,
-Niklas
+
