@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9634A155303
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 12:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1A13DBA8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 12:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719490817; cv=none; b=bdq9jU1EY0PXihL/eOvlXDTFMgwJASpZSu7JTH3aNSTNiHA8iLs/p04WiLOR6ox9wirDJ8N0LjDBZzsdnrVMEyaSqeh6TwqalK3FG0bNqfm4uLv5BQmSiQtrGsEi0IR2mPOx7m3jGZEUV0ET2IuWIcMC0cMLXT3xvp1wjutshqo=
+	t=1719491539; cv=none; b=iNcHer1IhcxSglXIODs1jRYUUKvM3eFNsbMn0YAz9J3AX8iBFJQ9iSJP9j4EdQximrSrfCIrBxpqUGUV/XVaJwBu+RMRlxLtYDG5VopHPHoYHlDlbDp/TBVSewdjGr+EhM69XeeVFu3th92AK0ykZ0JYc6uOrVS5KB5mYDz7ZqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719490817; c=relaxed/simple;
-	bh=SQmAxBLZy60L3pq4X8eI1tmnjQfOG2LrLW350cz+Vto=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ahQ9wybJP4Vv4B/NcHkQLPcdYTkg++VOdlHLbzBIbjEPmqhEhe+/+bQW6h3CDY11hU6gdPzn60QVTvukpwTk8Ry09fiExPVv1C4MwmCJMly5ForAPi40HfIRuoUr7sHOPOSUrJf16noa0c+tSd+01X0lEeVqoT1MmM3U1POORoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQzwxQPQ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1719491539; c=relaxed/simple;
+	bh=OKTTvpkgfT9N6byPGMlzyaEOXMNds9nVvX79L7haZ/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rWUI7AqkaCT1QUnjwovZWlvxLht9y7lpja3iHz/25t8c0vw7qU/zzEY3Lt8s72TLmhTA53z4f5iH8qyIPF+eLX1lcoVEv0nSqs9o2+SLF2mwPtwmcSAFruXluCYntuIe7POUeNS4ClR4MDML1OtMrMtBvIfkTIkBrmYT3M7iYNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKJfRPDp; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQzwxQPQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKJfRPDp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719490814; x=1751026814;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SQmAxBLZy60L3pq4X8eI1tmnjQfOG2LrLW350cz+Vto=;
-  b=KQzwxQPQXKKSZJG3FJcPtmwkCz9DGUsgkuwUcGutFy8p6KJClK8gj3ks
-   AtBa9HNjGZlTKqm9rpMhFf6CPuZYlnjAHO5kXyg+CTfW7R9co1g00Gl4s
-   OVn7j2gh5RoVzQHRpWqAJKcvE8CknX2f/xYcOyK930upS885tpWH08JU4
-   +Rf3NCvTqTdtOG0pp+bo6grjVAGYD5PY4pZU5w6xZS3TsTxQrE1X2KK8W
-   XNRdnwLXclu2zjxRDorOUHkaYXCSS4iususAtHDo/L2UqSfgtL3+bQOk5
-   Tgnwy/Hj+CS7GDDOmM6VqQQU1JItZfUQM4Tpm58PPmeRDXzDeyPtVtGYp
-   Q==;
-X-CSE-ConnectionGUID: W5dIPzidRhixWLFlETIZoA==
-X-CSE-MsgGUID: p/xFYaerSOiiPkPDnUvUcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16287923"
+  t=1719491537; x=1751027537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OKTTvpkgfT9N6byPGMlzyaEOXMNds9nVvX79L7haZ/k=;
+  b=hKJfRPDpQZMjXYbh1jZUK4lUsuVha1AlPuBta/0re4/pDzu+I6Acnnhd
+   xSRjUqFF+ghHj7WVhJaK4YgQUKr2adN9Z/0rdW1zfwKXfMN1b2+9cQ1Lp
+   Nx8ip+Gd/DxCT+5D7d/r2stGmRSuslJNY85413xMCLQy2WujTEPGQed0g
+   IaWUXR0jDMBbRKu0Tb0QTeNsiw/E4DP/QMatdI3Q2Mo4gWIuqAoNIp2Sc
+   aA7NdljdsokKC76K6oQCayZ4qqYmCDjEraO52YwWakfIROaiCvPRmRQCP
+   I/Cs2NwH6ZqaXqMPR9T/60bTaDp6nw/O8OuePn6Ter03hKgogElDdPwhD
+   w==;
+X-CSE-ConnectionGUID: CjR8N/N6SoOfGPJORmzawA==
+X-CSE-MsgGUID: v6+xIngWSt2STN/fmR8lBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="20496209"
 X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
-   d="scan'208";a="16287923"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 05:20:05 -0700
-X-CSE-ConnectionGUID: h0/ljt0ZRjCdWoCgUO8jTQ==
-X-CSE-MsgGUID: fRTccY90SFSiam3imW9qKA==
+   d="scan'208";a="20496209"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 05:32:16 -0700
+X-CSE-ConnectionGUID: gbPP9sXfTaqdaHoiKlKISQ==
+X-CSE-MsgGUID: 6+vERKVyTDaAINbam3ihBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
-   d="scan'208";a="48806961"
+   d="scan'208";a="44773483"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Jun 2024 05:20:03 -0700
+  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2024 05:32:13 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMo6b-000GBV-0l;
-	Thu, 27 Jun 2024 12:20:01 +0000
-Date: Thu, 27 Jun 2024 20:20:00 +0800
+	id 1sMoIM-000GC6-1i;
+	Thu, 27 Jun 2024 12:32:10 +0000
+Date: Thu, 27 Jun 2024 20:31:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eddie James <eajames@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ninad Palsule <ninad@linux.ibm.com>
-Subject: [linux-next:master 2742/8232]
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb:
- /ahb/apb/fsi@1e79b000/cfam@0,0/scom@1000: failed to match any schema with
- compatible: ['ibm,p9-scom']
-Message-ID: <202406272002.EnrSjYcT-lkp@intel.com>
+To: Jialong Yang <jialong.yang@shingroup.cn>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, luming.yu@shingroup.cn,
+	shenghui.qu@shingroup.cn, Jialong Yang <jialong.yang@shingroup.cn>,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] powerpc/mmiotrace: Add MMIO Tracing tool for
+ PowerPC
+Message-ID: <202406271946.A6jwFfaY-lkp@intel.com>
+References: <2bf90acf7d29641ba6643934ff8dbba897dbd2d9.1718873074.git.jialong.yang@shingroup.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,205 +69,314 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <2bf90acf7d29641ba6643934ff8dbba897dbd2d9.1718873074.git.jialong.yang@shingroup.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-commit: 26e67f6ba292b41c6cf297194a3f2941688cad0f [2742/8232] ARM: dts: aspeed: Add IBM P11 Blueridge BMC system
-config: arm-randconfig-051-20240625 (https://download.01.org/0day-ci/archive/20240627/202406272002.EnrSjYcT-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406272002.EnrSjYcT-lkp@intel.com/reproduce)
+Hi Jialong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.10-rc5 next-20240626]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jialong-Yang/powerpc-mmiotrace-bind-ioremap-and-page-fault-to-active-mmiotrace/20240624-163027
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/2bf90acf7d29641ba6643934ff8dbba897dbd2d9.1718873074.git.jialong.yang%40shingroup.cn
+patch subject: [PATCH v1 1/2] powerpc/mmiotrace: Add MMIO Tracing tool for PowerPC
+config: powerpc-randconfig-r113-20240627 (https://download.01.org/0day-ci/archive/20240627/202406271946.A6jwFfaY-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240627/202406271946.A6jwFfaY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406272002.EnrSjYcT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406271946.A6jwFfaY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: pressure-sensor@76: '#io-channel-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/bus@1e78a000/i2c-bus@480/led-controller@60: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/bus@1e78a000/i2c-bus@480/led-controller@61: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/bus@1e78a000/i2c-bus@600/i2c-mux@70/i2c@0/led-controller@60: failed to match any schema with compatible: ['nxp,pca9551']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/bus@1e78a000/i2c-bus@700/led-controller@60: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/led-controller@60: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/bus@1e78a000/i2c-bus@800/led-controller@60: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,p9-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,i2c-fsi']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@0/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@0/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@1/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@1/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@c/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@c/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@d/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@d/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi2spi@1c00: '#address-cells', '#size-cells', 'spi@0', 'spi@20', 'spi@40', 'spi@60' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,fsi2spi.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi2spi@1c00/spi@0: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi2spi@1c00/spi@20: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi2spi@1c00/spi@40: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi2spi@1c00/spi@60: failed to match any schema with compatible: ['ibm,spi-fsi']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,p9-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/sbefifo@2400/occ: failed to match any schema with compatible: ['ibm,p10-occ']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400: failed to match any schema with compatible: ['ibm,p9-fsi-controller']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/scom@1000: failed to match any schema with compatible: ['ibm,p9-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,i2c-fsi']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@2/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@2/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@3/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@3/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@10/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@10/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@11/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/i2c@1800/i2c-bus@11/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi2spi@1c00: '#address-cells', '#size-cells', 'spi@0', 'spi@20', 'spi@40', 'spi@60' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,fsi2spi.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/fsi2spi@1c00/spi@0: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/fsi2spi@1c00/spi@20: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/fsi2spi@1c00/spi@40: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/fsi2spi@1c00/spi@60: failed to match any schema with compatible: ['ibm,spi-fsi']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,p9-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/sbefifo@2400/occ: failed to match any schema with compatible: ['ibm,p10-occ']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@1,0/fsi@3400: failed to match any schema with compatible: ['ibm,p9-fsi-controller']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/scom@1000: failed to match any schema with compatible: ['ibm,p9-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800: failed to match any schema with compatible: ['ibm,i2c-fsi']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@0/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@0/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@1/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@1/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@c/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@c/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@d/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@d/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi2spi@1c00: '#address-cells', '#size-cells', 'spi@0', 'spi@20', 'spi@40', 'spi@60' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,fsi2spi.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/fsi2spi@1c00/spi@0: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/fsi2spi@1c00/spi@20: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/fsi2spi@1c00/spi@40: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/fsi2spi@1c00/spi@60: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,p9-sbefifo']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/sbefifo@2400/occ: failed to match any schema with compatible: ['ibm,p10-occ']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@2,0/fsi@3400: failed to match any schema with compatible: ['ibm,p9-fsi-controller']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/scom@1000: failed to match any schema with compatible: ['ibm,p9-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800: failed to match any schema with compatible: ['ibm,i2c-fsi']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@2/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@2/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@3/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@3/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@a/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@b/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@e/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@f/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@10/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@10/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi@20: '#address-cells', '#size-cells', 'cfam@0,0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,i2cr-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@11/fsi@20/cfam@0,0/scom@1000: failed to match any schema with compatible: ['ibm,i2cr-scom']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/i2c@1800/i2c-bus@11/fsi@20/cfam@0,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,odyssey-sbefifo']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: fsi2spi@1c00: '#address-cells', '#size-cells', 'spi@0', 'spi@20', 'spi@40', 'spi@60' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,fsi2spi.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/fsi2spi@1c00/spi@0: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/fsi2spi@1c00/spi@20: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/fsi2spi@1c00/spi@40: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/fsi2spi@1c00/spi@60: failed to match any schema with compatible: ['ibm,spi-fsi']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/sbefifo@2400: failed to match any schema with compatible: ['ibm,p9-sbefifo']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/sbefifo@2400/occ: failed to match any schema with compatible: ['ibm,p10-occ']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/fsi@3400/cfam@3,0/fsi@3400: failed to match any schema with compatible: ['ibm,p9-fsi-controller']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+All error/warnings (new ones prefixed by >>):
+
+   arch/powerpc/mm/kmmio.c: In function 'pmd_mkinvalid':
+>> arch/powerpc/mm/kmmio.c:140:16: error: implicit declaration of function '__pmd_raw' [-Werror=implicit-function-declaration]
+     140 |         return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+         |                ^~~~~~~~~
+>> arch/powerpc/mm/kmmio.c:140:26: error: implicit declaration of function 'pmd_raw'; did you mean 'pmd_bad'? [-Werror=implicit-function-declaration]
+     140 |         return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+         |                          ^~~~~~~
+         |                          pmd_bad
+   In file included from include/linux/byteorder/big_endian.h:5,
+                    from arch/powerpc/include/uapi/asm/byteorder.h:14,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/powerpc/include/asm/bitops.h:325,
+                    from include/linux/bitops.h:63,
+                    from include/linux/thread_info.h:27,
+                    from arch/powerpc/include/asm/ptrace.h:342,
+                    from arch/powerpc/include/asm/hw_irq.h:12,
+                    from arch/powerpc/include/asm/irqflags.h:12,
+                    from include/linux/irqflags.h:18,
+                    from include/asm-generic/cmpxchg-local.h:6,
+                    from arch/powerpc/include/asm/cmpxchg.h:755,
+                    from arch/powerpc/include/asm/atomic.h:11,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rculist.h:11,
+                    from arch/powerpc/mm/kmmio.c:10:
+>> arch/powerpc/mm/kmmio.c:140:70: error: '_PAGE_INVALID' undeclared (first use in this function); did you mean 'RPM_INVALID'?
+     140 |         return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+         |                                                                      ^~~~~~~~~~~~~
+   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
+      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
+         |                                                   ^
+   arch/powerpc/mm/kmmio.c:140:42: note: in expansion of macro 'cpu_to_be64'
+     140 |         return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+         |                                          ^~~~~~~~~~~
+   arch/powerpc/mm/kmmio.c:140:70: note: each undeclared identifier is reported only once for each function it appears in
+     140 |         return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+         |                                                                      ^~~~~~~~~~~~~
+   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
+      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
+         |                                                   ^
+   arch/powerpc/mm/kmmio.c:140:42: note: in expansion of macro 'cpu_to_be64'
+     140 |         return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+         |                                          ^~~~~~~~~~~
+   arch/powerpc/mm/kmmio.c: In function 'kmmio_handler':
+>> arch/powerpc/mm/kmmio.c:318:32: error: 'struct pt_regs' has no member named 'softe'
+     318 |         ctx->saved_softe = regs->softe;
+         |                                ^~
+   arch/powerpc/mm/kmmio.c:330:13: error: 'struct pt_regs' has no member named 'softe'
+     330 |         regs->softe = IRQS_DISABLED; // soft interrupt
+         |             ^~
+>> arch/powerpc/mm/kmmio.c:332:9: error: 'local_paca' undeclared (first use in this function); did you mean 'local_lock'?
+     332 |         local_paca->srr_valid = 0;
+         |         ^~~~~~~~~~
+         |         local_lock
+   arch/powerpc/mm/kmmio.c: In function 'post_kmmio_handler':
+   arch/powerpc/mm/kmmio.c:383:13: error: 'struct pt_regs' has no member named 'softe'
+     383 |         regs->softe = ctx->saved_softe;
+         |             ^~
+   arch/powerpc/mm/kmmio.c: In function 'pmd_mkinvalid':
+>> arch/powerpc/mm/kmmio.c:141:1: warning: control reaches end of non-void function [-Wreturn-type]
+     141 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +/__pmd_raw +140 arch/powerpc/mm/kmmio.c
+
+   137	
+   138	static inline pmd_t pmd_mkinvalid(pmd_t pmd)
+   139	{
+ > 140		return __pmd_raw(pmd_raw(pmd) & ~cpu_to_be64(_PAGE_PRESENT | _PAGE_INVALID));
+ > 141	}
+   142	
+   143	static void clear_pmd_presence(pmd_t *pmd, bool clear, pmdval_t *old)
+   144	{
+   145		pmd_t new_pmd;
+   146		pmdval_t v = pmd_val(*pmd);
+   147	
+   148		if (clear) {
+   149			*old = v;
+   150			new_pmd = pmd_mkinvalid(*pmd);
+   151		} else {
+   152			/* Presume this has been called with clear==true previously */
+   153			new_pmd = __pmd(*old);
+   154		}
+   155		*pmd = new_pmd;
+   156	}
+   157	
+   158	static void clear_pte_presence(pte_t *pte, bool clear, pteval_t *old, unsigned long addr)
+   159	{
+   160		pteval_t v = pte_val(*pte);
+   161	
+   162		if (clear) {
+   163			*old = v;
+   164			/* Nothing should care about address */
+   165			pte_clear(&init_mm, addr, pte);
+   166		} else {
+   167			/* Presume this has been called with clear==true previously */
+   168			set_pte_at(&init_mm, addr, pte, __pte(*old));
+   169		}
+   170	}
+   171	
+   172	static int clear_page_presence(struct kmmio_fault_page *f, bool clear)
+   173	{
+   174		unsigned int level;
+   175		pte_t *pte = lookup_address(f->addr, &level);
+   176	
+   177		if (!pte) {
+   178			pr_err("no pte for addr 0x%08lx\n", f->addr);
+   179			return -1;
+   180		}
+   181	
+   182		if (level == PMD_SHIFT)
+   183			clear_pmd_presence((pmd_t *)pte, clear, &f->old_presence);
+   184		else if (level == PAGE_SHIFT)
+   185			clear_pte_presence(pte, clear, &f->old_presence, f->addr);
+   186		else {
+   187			pr_err("unexpected page level 0x%x.\n", level);
+   188			return -1;
+   189		}
+   190	
+   191		mmap_read_lock(&init_mm);
+   192		struct vm_area_struct *vma = find_vma(&init_mm, f->addr);
+   193	
+   194		mmap_read_unlock(&init_mm);
+   195	
+   196		flush_tlb_page(vma, f->addr);
+   197	
+   198		return 0;
+   199	}
+   200	
+   201	/*
+   202	 * Mark the given page as not present. Access to it will trigger a fault.
+   203	 *
+   204	 * Struct kmmio_fault_page is protected by RCU and kmmio_lock, but the
+   205	 * protection is ignored here. RCU read lock is assumed held, so the struct
+   206	 * will not disappear unexpectedly. Furthermore, the caller must guarantee,
+   207	 * that double arming the same virtual address (page) cannot occur.
+   208	 *
+   209	 * Double disarming on the other hand is allowed, and may occur when a fault
+   210	 * and mmiotrace shutdown happen simultaneously.
+   211	 */
+   212	static int arm_kmmio_fault_page(struct kmmio_fault_page *f)
+   213	{
+   214		int ret;
+   215	
+   216		WARN_ONCE(f->armed, pr_fmt("kmmio page already armed.\n"));
+   217		if (f->armed) {
+   218			pr_warn("double-arm: addr 0x%08lx, ref %d, old %d\n",
+   219				f->addr, f->count, !!f->old_presence);
+   220		}
+   221		ret = clear_page_presence(f, true);
+   222		WARN_ONCE(ret < 0, pr_fmt("arming at 0x%08lx failed.\n"),
+   223			  f->addr);
+   224		f->armed = true;
+   225		return ret;
+   226	}
+   227	
+   228	/** Restore the given page to saved presence state. */
+   229	static void disarm_kmmio_fault_page(struct kmmio_fault_page *f)
+   230	{
+   231		int ret = clear_page_presence(f, false);
+   232	
+   233		WARN_ONCE(ret < 0,
+   234				KERN_ERR "kmmio disarming at 0x%08lx failed.\n", f->addr);
+   235		f->armed = false;
+   236	}
+   237	
+   238	/*
+   239	 * This is being called from do_page_fault().
+   240	 *
+   241	 * We may be in an interrupt or a critical section. Also prefecthing may
+   242	 * trigger a page fault. We may be in the middle of process switch.
+   243	 * We cannot take any locks, because we could be executing especially
+   244	 * within a kmmio critical section.
+   245	 *
+   246	 * Local interrupts are disabled, so preemption cannot happen.
+   247	 * Do not enable interrupts, do not sleep, and watch out for other CPUs.
+   248	 */
+   249	/*
+   250	 * Interrupts are disabled on entry as trap3 is an interrupt gate
+   251	 * and they remain disabled throughout this function.
+   252	 */
+   253	int kmmio_handler(struct pt_regs *regs, unsigned long addr)
+   254	{
+   255		struct kmmio_context *ctx;
+   256		struct kmmio_fault_page *faultpage;
+   257		int ret = 0; /* default to fault not handled */
+   258		unsigned long page_base = addr;
+   259		unsigned int l;
+   260		pte_t *pte = lookup_address(addr, &l);
+   261	
+   262		if (!pte)
+   263			return -EINVAL;
+   264		page_base &= page_level_mask(l);
+   265	
+   266		/*
+   267		 * Hold the RCU read lock over single stepping to avoid looking
+   268		 * up the probe and kmmio_fault_page again. The rcu_read_lock_sched()
+   269		 * also disables preemption and prevents process switch during
+   270		 * the single stepping. We can only handle one active kmmio trace
+   271		 * per cpu, so ensure that we finish it before something else
+   272		 * gets to run.
+   273		 */
+   274		rcu_read_lock_sched_notrace();
+   275	
+   276		faultpage = get_kmmio_fault_page(page_base);
+   277		if (!faultpage) {
+   278			/*
+   279			 * Either this page fault is not caused by kmmio, or
+   280			 * another CPU just pulled the kmmio probe from under
+   281			 * our feet. The latter case should not be possible.
+   282			 */
+   283			goto no_kmmio;
+   284		}
+   285	
+   286		ctx = this_cpu_ptr(&kmmio_ctx);
+   287		if (ctx->active) {
+   288			if (page_base == ctx->addr) {
+   289				/*
+   290				 * A second fault on the same page means some other
+   291				 * condition needs handling by do_page_fault(), the
+   292				 * page really not being present is the most common.
+   293				 */
+   294				pr_debug("secondary hit for 0x%08lx CPU %d.\n",
+   295					 addr, smp_processor_id());
+   296	
+   297				if (!faultpage->old_presence)
+   298					pr_info("unexpected secondary hit for address 0x%08lx on CPU %d.\n",
+   299						addr, smp_processor_id());
+   300			} else {
+   301				/*
+   302				 * Prevent overwriting already in-flight context.
+   303				 * This should not happen, let's hope disarming at
+   304				 * least prevents a panic.
+   305				 */
+   306				pr_emerg("recursive probe hit on CPU %d, for address 0x%08lx. Ignoring.\n",
+   307					 smp_processor_id(), addr);
+   308				pr_emerg("previous hit was at 0x%08lx.\n", ctx->addr);
+   309				disarm_kmmio_fault_page(faultpage);
+   310			}
+   311			goto no_kmmio;
+   312		}
+   313		ctx->active++;
+   314	
+   315		ctx->fpage = faultpage;
+   316		ctx->probe = get_kmmio_probe(page_base);
+   317		ctx->saved_flags = (regs->msr & (MSR_SE | MSR_EE));
+ > 318		ctx->saved_softe = regs->softe;
+   319		ctx->addr = page_base;
+   320	
+   321		if (ctx->probe && ctx->probe->pre_handler)
+   322			ctx->probe->pre_handler(ctx->probe, regs, addr);
+   323	
+   324		/*
+   325		 * Enable single-stepping and disable interrupts for the faulting
+   326		 * context. Local interrupts must not get enabled during stepping.
+   327		 */
+   328		regs->msr |= MSR_SE;         // single step
+   329		regs->msr &= ~MSR_EE;        // hard interrupt
+   330		regs->softe = IRQS_DISABLED; // soft interrupt
+   331	
+ > 332		local_paca->srr_valid = 0;
+   333	
+   334		/* Now we set present bit in PTE and single step. */
+   335		disarm_kmmio_fault_page(ctx->fpage);
+   336	
+   337		/*
+   338		 * If another cpu accesses the same page while we are stepping,
+   339		 * the access will not be caught. It will simply succeed and the
+   340		 * only downside is we lose the event. If this becomes a problem,
+   341		 * the user should drop to single cpu before tracing.
+   342		 */
+   343	
+   344		return 1; /* fault handled */
+   345	
+   346	no_kmmio:
+   347		rcu_read_unlock_sched_notrace();
+   348		return ret;
+   349	}
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
