@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03FE1DFFB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 15:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BECE1C2336
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719589310; cv=none; b=m+s87DX29xT20gjh/Wvz6I/PR0Lqmi0hXAZ+2maEMkDuOE8eFUjXMCdrl+texdolyThMDxKchq9VqaGVCsFgTsgN3UiDwje5/+3nLvvac9IzdgmbZbpySGpBxVWyBhWNbFbKU9il2AjXgaU6Co1j5XVIINgCRO1fYojEfeLD6kQ=
+	t=1719590898; cv=none; b=qvYgf3QXw8xyI3T/TTW1j3e7FmY3TTBH1+sMH0pUDCD41IeL4qL8OiLiI92SG0GM/c7GxR609QpK2CU1lTYMoW9PdlmLW0edhF1M+26AwOyaE4K9COYnmkkoFwtg+vg2/iCXUY7kKlTYwLtq619eDdv1pQVhvbwvPuyH2aMOtCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719589310; c=relaxed/simple;
-	bh=IHJ+WL0cVa7RZfOP1r25uJJTXNAbWWjv4QSn6GWPoFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nU4rBOxSpVJajxrWwvJhiOLD6plW4pf/csgOp3Pp3pE0PWgEi6zM22VcbJUx23sUU5sZQc15XPO1Z6ssO+j7p2RUzMJpZb2XP6UfnZvHrz0WlRmnHQOrPiyeeXg2EfU3o9SVN7HONy4rarqFG2k57AfXAEekSTo1wAUTk5nvazc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J96w4SWh; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1719590898; c=relaxed/simple;
+	bh=zzorYU/27hnfjB1vjJiodp8DNsccMxFGZ8yXSPHKSPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EtL8MWM4mU7Y6+wc0qalWSHR+67D9pVBwTerCxlFJtIvcnB1e9fcwpEZAwmSyLpBtqnak45pMoMsmRdhReqEOc+tisb7M7NTtpf0uo5HV4h0M3Ce4glWFZMCGKgwIEyrmXoeC7okHuk5jimL9ImuWJvOdB4SzhRNUOwVQcd7c8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWzUdkq7; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J96w4SWh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWzUdkq7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719589308; x=1751125308;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IHJ+WL0cVa7RZfOP1r25uJJTXNAbWWjv4QSn6GWPoFI=;
-  b=J96w4SWh8wleI1W/7iYqyGZcMp2h8N0iDowJAE0WH9a/Yx14ZWcoYib8
-   0WidMKNRW+wAMYpkf1F824EjJfqqeVbKo+k7c2NlG1f7SO8mN+DU4793h
-   J57SFnhCu3bVo5vsiRpPwupndTTR6FhTahVelP9FyBjU94FsyQy6c1+XK
-   Kz2Q9Fh7Xo4Fa4Y042oIjF2I6Kmmx+7uyoWqxCUBMpVMVEMsBBRLcVEKu
-   ALmna03xAEkfV7WW8JRlQVffowf+RPoRFETItr5b16Gw/j+K2jqAeo9Tq
-   7o9EhA0UG9forMNSf464XaEkD4E4zjY6gydWbqY/df71hbBZj+S3C9WGf
-   Q==;
-X-CSE-ConnectionGUID: 8hp4NZ7ySyGbPt2BKsAszg==
-X-CSE-MsgGUID: LqOc4v5TRrmxILH/Ch4A+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="39294077"
+  t=1719590897; x=1751126897;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zzorYU/27hnfjB1vjJiodp8DNsccMxFGZ8yXSPHKSPw=;
+  b=OWzUdkq7INJ1DYSHSxDhGCQFLwqTS0juuly81ExZWArlbzURHN1Nn7Le
+   O5TfdmGfP0kk5MRDWAYr42eYkBDkRiCdbTCpLY8BR5sRsmQf9y7EFApNe
+   urHNnXA75xBqSsRRJxQGOBMVIs2lIdscroPELLRqgB2Ehxxw4DLYvewAk
+   5Dd+jZc1glCkzD/gHdNkNP4oxg645AlrfC2rJv6IJMU52iaiSAI/43v24
+   w3dqtETtJKpL0CSr6EfzfmjCnAEG3LpGQO5+sef6ejqx9zFWQqFUDf1cX
+   fKvDqm/N86SeCN/sZ6UtTIOkEC/6uYaJT3AXcNJPWQzLpQAFL0pve+ZIX
+   A==;
+X-CSE-ConnectionGUID: +NP8TPwJS1iJaY8fyUbHKQ==
+X-CSE-MsgGUID: nflCY8kkRLWUNp5ytLLMFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="42201328"
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="39294077"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 08:41:47 -0700
-X-CSE-ConnectionGUID: RacXKUJBQHS352mb9/VZzA==
-X-CSE-MsgGUID: BAZidLR0S0egDvoKw0m1Aw==
+   d="scan'208";a="42201328"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:08:16 -0700
+X-CSE-ConnectionGUID: acw2AI8ZR92T05WVV7j1zw==
+X-CSE-MsgGUID: 6iW7oFrTT8ShSatx/+rPiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="44758001"
+   d="scan'208";a="49395167"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Jun 2024 08:41:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Jun 2024 09:08:13 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNDjN-000HGE-0B;
-	Fri, 28 Jun 2024 15:41:45 +0000
-Date: Fri, 28 Jun 2024 23:40:45 +0800
+	id 1sNE8w-000HJm-1d;
+	Fri, 28 Jun 2024 16:08:10 +0000
+Date: Sat, 29 Jun 2024 00:07:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tengfei Fan <quic_tengfan@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
-Subject: [qcom:arm64-for-6.11 111/251]
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtb:
- /soc@0/system-cache-controller@9200000: failed to match any schema with
- compatible: ['qcom,sa8775p-llcc']
-Message-ID: <202406282334.68O8E6ob-lkp@intel.com>
+To: Shiji Yang <yangshiji66@outlook.com>, linux-mips@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Khalid Aziz <khalid@gonehiking.org>, Baoquan He <bhe@redhat.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
+	Shiji Yang <yangshiji66@outlook.com>,
+	Mieczyslaw Nalewaj <namiltd@yahoo.com>
+Subject: Re: [PATCH V2] mips: kernel: fix detect_memory_region() function
+Message-ID: <202406282354.0hGuOKo0-lkp@intel.com>
+References: <TYCP286MB089598ABD1E2F66003D71EB8BCD52@TYCP286MB0895.JPNP286.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,34 +71,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <TYCP286MB089598ABD1E2F66003D71EB8BCD52@TYCP286MB0895.JPNP286.PROD.OUTLOOK.COM>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.11
-head:   fd513b922e34edb0db1284a4abee7f6c10ffd9a7
-commit: 809c20b1ffc80200bfcbbeceb0d946a3e0eed3a4 [111/251] arm64: dts: qcom: sa8775p: Add llcc support for the SA8775p platform
-config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240628/202406282334.68O8E6ob-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406282334.68O8E6ob-lkp@intel.com/reproduce)
+Hi Shiji,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shiji-Yang/mips-kernel-fix-detect_memory_region-function/20240626-070033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/TYCP286MB089598ABD1E2F66003D71EB8BCD52%40TYCP286MB0895.JPNP286.PROD.OUTLOOK.COM
+patch subject: [PATCH V2] mips: kernel: fix detect_memory_region() function
+config: mips-randconfig-r113-20240628 (https://download.01.org/0day-ci/archive/20240628/202406282354.0hGuOKo0-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240628/202406282354.0hGuOKo0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406282334.68O8E6ob-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406282354.0hGuOKo0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: usb@a4f8800: interrupt-names: ['pwr_event', 'hs_phy_irq', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/system-cache-controller@9200000: failed to match any schema with compatible: ['qcom,sa8775p-llcc']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+sparse warnings: (new ones prefixed by >>)
+>> arch/mips/kernel/setup.c:104:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void *dm @@
+   arch/mips/kernel/setup.c:104:53: sparse:     expected void volatile [noderef] __iomem *mem
+   arch/mips/kernel/setup.c:104:53: sparse:     got void *dm
+>> arch/mips/kernel/setup.c:105:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void *dm @@
+   arch/mips/kernel/setup.c:105:33: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/kernel/setup.c:105:33: sparse:     got void *dm
+>> arch/mips/kernel/setup.c:105:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/kernel/setup.c:105:55: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/kernel/setup.c:105:55: sparse:     got void *
+   arch/mips/kernel/setup.c:106:62: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void *dm @@
+   arch/mips/kernel/setup.c:106:62: sparse:     expected void volatile [noderef] __iomem *mem
+   arch/mips/kernel/setup.c:106:62: sparse:     got void *dm
+   arch/mips/kernel/setup.c:107:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void *dm @@
+   arch/mips/kernel/setup.c:107:41: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/kernel/setup.c:107:41: sparse:     got void *dm
+   arch/mips/kernel/setup.c:107:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/kernel/setup.c:107:63: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/kernel/setup.c:107:63: sparse:     got void *
+   arch/mips/kernel/setup.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+
+vim +104 arch/mips/kernel/setup.c
+
+    97	
+    98	void __init detect_memory_region(phys_addr_t start, phys_addr_t sz_min, phys_addr_t sz_max)
+    99	{
+   100		void *dm = (void *)KSEG1ADDR(&detect_magic);
+   101		phys_addr_t size;
+   102	
+   103		for (size = sz_min; size < sz_max; size <<= 1) {
+ > 104			__raw_writel(MIPS_MEM_TEST_PATTERN, dm);
+ > 105			if (__raw_readl(dm) == __raw_readl(dm + size)) {
+   106				__raw_writel(~MIPS_MEM_TEST_PATTERN, dm);
+   107				if (__raw_readl(dm) == __raw_readl(dm + size))
+   108					break;
+   109			}
+   110		}
+   111	
+   112		pr_debug("Memory: %lluMB of RAM detected at 0x%llx (min: %lluMB, max: %lluMB)\n",
+   113			((unsigned long long) size) / SZ_1M,
+   114			(unsigned long long) start,
+   115			((unsigned long long) sz_min) / SZ_1M,
+   116			((unsigned long long) sz_max) / SZ_1M);
+   117	
+   118		memblock_add(start, size);
+   119	}
+   120	#endif /* CONFIG_64BIT */
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
