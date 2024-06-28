@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43591BE25F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0E51CB306
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719592383; cv=none; b=gIw5C/zBB9v3DxWIA9Fu9t+7GOUJW49npzm3D3pFP/cxznQhrIKfjeyFHf0QDh89CuEKIPjZGHJRiPT/4sRDQIqMB8sYpkhSyN6zu58j0gwarmLY3mGGXOkbnKgYRNB4ISXrqXLd1WnLJCNhyn+Sg8fOd88E6mojv8I+zJ6wKKA=
+	t=1719593000; cv=none; b=mfhMLwDegsBes9xf92os1eZX3k9Bp8UYZo2HlZi3J9swy/xnaHNNUM/w1wjslkNX14Zo7nKRVAhPwmr3qrdhtGYaQMR22NEujOMvzxMUlTH4roASLYVmY+sAlloPKEOyby17CDjUnk120/3Zd9L817JyThAqi0UkVZAKXSuYhpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719592383; c=relaxed/simple;
-	bh=UziAVxGIMxKimVIvWEEoSCI3IvuFy9O2kjXtnQXXDzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GL4cROj3Rkho8Tn0Zxu0uUSrlzzKlkmoC2YN32c4zoJvvpWOXeJ2c29JC0glKPhlfP4vJrtzm2yaaqhUuUdv76S6ryqSZG5Y6+MQXJ3QKzBfWyeW3G5c4I9IHy/bWbVEI+NJXHl0K4dihAPHYwvRzevZMSPo193EDKxvMWLsE/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2p3UYqx; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1719593000; c=relaxed/simple;
+	bh=z/4L0eSVXccZMgMN7BJeINBr5OhRIa0BBq4tYtQTIaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uRHQRofCmARinLdaPS2FN4fCHy6prEmYjNMmZFtCvio0vbprxczVCNFkIp3SmFaOIRbSYSIicDX/H6ZwF+6SPfGtDtlASneya4xxVZiv12j3HLr6ueGf06iG7CGdOBFxRK/bYPICMyl0LsQNKDJRFt6RCV235NXCYSUE9Ze9v8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ks+8exVq; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2p3UYqx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ks+8exVq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719592381; x=1751128381;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UziAVxGIMxKimVIvWEEoSCI3IvuFy9O2kjXtnQXXDzM=;
-  b=O2p3UYqxx+neIDs/VHLZssNVYWPvwWdJBHEywACAVmHnGX8lWnkW4bH/
-   48FSKisIDkuLt7WlUMcSmntPfUqxq47KxY4ZB76BsJ+y4nF0whGM+30Yy
-   76s1334frtJfnB7opsmLTfSb4Mi3y7Q5cYCazJAu1NU97RB4T8YjnxmEv
-   pEad3+gMfm7wduQMPVDuZOc0Lj/Y/bPcY7M15gDYyORGzQYIZrM5FkYbm
-   AjzzJfWffQCGp88vE9jOFk6ns9CXW/zFSz59qb/hIEa/cfDW4feR2P8MW
-   X+wB6VapyXnn/tXB5zMRrwWKdE+C/q/JDsJy0A/sKhf52wURZYiwAEdDU
+  t=1719592999; x=1751128999;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z/4L0eSVXccZMgMN7BJeINBr5OhRIa0BBq4tYtQTIaQ=;
+  b=Ks+8exVqWX1VHZNGXWHxNIAWnZWUjb+sT51jr+dy0E540Ulpc+SGaDBf
+   6vS6TqbDW1hdbRK+smOeTVRG/kz8ksZEqfUKRWqAaovYES7E4Ol67/tVR
+   NThdN5NNcHTklpFkoLdP4wdnxUKuSjg4aBgwZdMLsuBu/ARj1A0SbfDRH
+   YoItKHhUFE9sM1P3/683j+2guxv6FlK+z82X4fot3mUQiJr1hgPIWxImI
+   m86SX4C1MQ726OWAkLpWnk5w7wOjnbn2stU57V13xWkYdOU+nA4lV0ONK
+   3SHFghJ1mbcVBbEYhEUufWNhjiedZn78FaXATGp8NhcFspefxPVjYiDX2
    A==;
-X-CSE-ConnectionGUID: fKV6PYO3TByZn2rpiAYFmA==
-X-CSE-MsgGUID: UX39gmBsRMmH1qzrDiudZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16457625"
+X-CSE-ConnectionGUID: w34+yNd8QJCMiQTuzULdOQ==
+X-CSE-MsgGUID: Wg+ewTY9SMG5QfgUV1Z4kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16917659"
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="16457625"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:33:01 -0700
-X-CSE-ConnectionGUID: PjH0WufYSg2TMeOvv/BMKA==
-X-CSE-MsgGUID: iBTfl+UnRi+7HD2djoy5ng==
+   d="scan'208";a="16917659"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:43:19 -0700
+X-CSE-ConnectionGUID: auo8GXtFSbGMDmQdAs82Nw==
+X-CSE-MsgGUID: B0XYjkOpRTuMN5wPKfJgrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="44904378"
+   d="scan'208";a="49404640"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Jun 2024 09:32:58 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Jun 2024 09:43:17 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNEWu-000HOn-1c;
-	Fri, 28 Jun 2024 16:32:56 +0000
-Date: Sat, 29 Jun 2024 00:31:57 +0800
+	id 1sNEgt-000HS9-2W;
+	Fri, 28 Jun 2024 16:43:15 +0000
+Date: Sat, 29 Jun 2024 00:43:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas Cassel <cassel@kernel.org>, Damien Le Moal <dlemoal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	John Garry <john.g.garry@oracle.com>,
-	Jason Yan <yanaijie@huawei.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	linux-ide@vger.kernel.org
-Subject: Re: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port
- print_ids
-Message-ID: <202406290027.cdgsPQAF-lkp@intel.com>
-References: <20240626180031.4050226-26-cassel@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 11/11] sh4-linux-ld: inode.c:undefined reference to
+ `__cmpxchg_called_with_bad_pointer'
+Message-ID: <202406290019.2WssYvJX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,80 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626180031.4050226-26-cassel@kernel.org>
 
-Hi Niklas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.10-rc5 next-20240627]
-[cannot apply to mkp-scsi/for-next jejb-scsi/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/ata-libata-core-Fix-null-pointer-dereference-on-error/20240627-123023
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240626180031.4050226-26-cassel%40kernel.org
-patch subject: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port print_ids
-config: i386-randconfig-141-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290027.cdgsPQAF-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   a69a9862e4b4e57bfe4ec489196208bbb81c08b4
+commit: a69a9862e4b4e57bfe4ec489196208bbb81c08b4 [11/11] fs: add percpu counters to count fine vs. coarse timestamps
+config: sh-randconfig-002-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290019.2WssYvJX-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290019.2WssYvJX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406290027.cdgsPQAF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406290019.2WssYvJX-lkp@intel.com/
 
-smatch warnings:
-drivers/ata/libata-core.c:5467 ata_port_alloc() warn: unsigned 'ap->print_id' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +5467 drivers/ata/libata-core.c
-
-  5443	
-  5444	/**
-  5445	 *	ata_port_alloc - allocate and initialize basic ATA port resources
-  5446	 *	@host: ATA host this allocated port belongs to
-  5447	 *
-  5448	 *	Allocate and initialize basic ATA port resources.
-  5449	 *
-  5450	 *	RETURNS:
-  5451	 *	Allocate ATA port on success, NULL on failure.
-  5452	 *
-  5453	 *	LOCKING:
-  5454	 *	Inherited from calling layer (may sleep).
-  5455	 */
-  5456	struct ata_port *ata_port_alloc(struct ata_host *host)
-  5457	{
-  5458		struct ata_port *ap;
-  5459	
-  5460		ap = kzalloc(sizeof(*ap), GFP_KERNEL);
-  5461		if (!ap)
-  5462			return NULL;
-  5463	
-  5464		ap->pflags |= ATA_PFLAG_INITIALIZING | ATA_PFLAG_FROZEN;
-  5465		ap->lock = &host->lock;
-  5466		ap->print_id = ida_alloc_min(&ata_ida, 1, GFP_KERNEL);
-> 5467		if (ap->print_id < 0) {
-  5468			kfree(ap);
-  5469			return NULL;
-  5470		}
-  5471		ap->host = host;
-  5472		ap->dev = host->dev;
-  5473	
-  5474		mutex_init(&ap->scsi_scan_mutex);
-  5475		INIT_DELAYED_WORK(&ap->hotplug_task, ata_scsi_hotplug);
-  5476		INIT_DELAYED_WORK(&ap->scsi_rescan_task, ata_scsi_dev_rescan);
-  5477		INIT_LIST_HEAD(&ap->eh_done_q);
-  5478		init_waitqueue_head(&ap->eh_wait_q);
-  5479		init_completion(&ap->park_req_pending);
-  5480		timer_setup(&ap->fastdrain_timer, ata_eh_fastdrain_timerfn,
-  5481			    TIMER_DEFERRABLE);
-  5482	
-  5483		ap->cbl = ATA_CBL_NONE;
-  5484	
-  5485		ata_link_init(ap, &ap->link, 0);
-  5486	
+   sh4-linux-ld: fs/inode.o: in function `inode_set_ctime_current':
+   inode.c:(.text+0x40d0): undefined reference to `__cmpxchg_called_with_bad_pointer'
+>> sh4-linux-ld: inode.c:(.text+0x42a0): undefined reference to `__cmpxchg_called_with_bad_pointer'
 
 -- 
 0-DAY CI Kernel Test Service
