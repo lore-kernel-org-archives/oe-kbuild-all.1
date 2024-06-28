@@ -1,61 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688BC6EB56
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 20:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD18770F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 20:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719605194; cv=none; b=T3ShAfxkeRIPrHh21ZT8WR07+zrjCqnYcAaG4VlmYBGks+VtQ72Htgy6rVhHvJfR/+66NYnxOvq0gp5S0vu78brHr0GdNH8XjJlhmu5dUlJs2o362+y8SB5gdL8TK7nJkLLQjFK6uqTm9LwrjwsylOW86/OvtA+B4+FcBmzTpUw=
+	t=1719605256; cv=none; b=nPTJRgVA6vb90IV1Ys2NSqJ3Keuk1tMOzL2scw9iTqttcmmbTx61CsVvArCR7JJWD1AXau/BOoOZlZWgchBPpnA/9ItP5hlNJEWEYpfWdDk6ulFqCFL1l1bnCDmhSSQodBnHBZHL7H4iYzHqsb1XYCbj/W7hMMj+/XER5+2btl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719605194; c=relaxed/simple;
-	bh=HhgH3/4MRvPkkluwzxezBQOLm0SqOpAzwNtPKb9p2+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D9c06FRtsRTtr/ejPmAvGGxRz8P1JcWmWvBQYYQwqmlRDYB/jWKqxjN4JQOnYoYkj/DH4DwoIdUF2/E39I2+lWLfE41nf1KOkFEQMeKIhzgGArEkU0uVcBVRfRsnUUBPHv+g90Zh8zM8sQskzIApDENs+VynKCJESgt5hE7QfTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmzFGgGj; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1719605256; c=relaxed/simple;
+	bh=0PjGwPWldCD0xPnSfdbjRAC8QfzgJtyroxiHeScz7FQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s0PNa8R6P2yQ5M1iYYe02alEUV9NLv6CfKffXFxw9jFPp6WzCbodECeAuUiNO0Fl/GsUgpqtAUB+PBkuo8v7c9aVeYYhS7DyCKR2H/fgNsztkywjBSdBbxUC9rWLPUwi1ZqGOKHQYg7emrxz70gjwM2AuKwZdWCgXLIkieID+Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNSN7tTX; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmzFGgGj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNSN7tTX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719605192; x=1751141192;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HhgH3/4MRvPkkluwzxezBQOLm0SqOpAzwNtPKb9p2+k=;
-  b=RmzFGgGjC8A89dlEpNrlXTAB+uCZI0LsuZxPjT7B90HRnotM/vLaCmqp
-   E0PjBAvgW6da/Oo7p09r/tKVCji3DxLY1NZNC/mhqRr7BX5RAORp37+cf
-   Q1GtY/2Y8qmxtiQFxCRYzFbPU9aPh4abQvbsn0xVx207wKo5TMOzSHnel
-   M22JofpEcwPFlEQ/qdlRufhVtp/QpuOMGFTx0lGZBpZj19v914pcO7VU8
-   AVXIjl0za1GIlZZMAqdjj+pHJzYuJrWX1pbuEQLND9Wyqu5BusIXyOTHT
-   JmbGj09LTGjeZBe+8+RAncp6bqhY+QReU8E3+ngf5PBsnk/kVLMCm6yWD
+  t=1719605255; x=1751141255;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0PjGwPWldCD0xPnSfdbjRAC8QfzgJtyroxiHeScz7FQ=;
+  b=bNSN7tTX8oJG/BRJd6Y6RoJfbnlmet0eiiD6QOjPhgEQ5t8lhi9zrpta
+   26DEtV6I5jJo2Vy9YuYp9Axs3hNaXff5zeSp9xmb7KM1MDGnl0Up5y8f4
+   61gxtFn4J8HqejZgX3EAQlJXUJ492UQ93h5x8+k9Yy8swoM/6rXzVILvl
+   RV1U2lGLPVwgu3OYP0oDobNq1BoHfxqBY15YMZyHLSLB/cCFZEy/twH2D
+   nlzvp14I2GI0HuinSIUOwzkMCHrG0Z5HSSGgmMkdKaJWR9WW8MfYwR8/3
+   CFl9o1bXBe9x5QIsi6Fh4a26PY8mEhJYsZfLUhXIhjyDVDayR686XE3pA
    A==;
-X-CSE-ConnectionGUID: qisiCiunS8i2KSSebIWs8A==
-X-CSE-MsgGUID: B6iXcfW7RuCgPgcm2u92sA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="19703863"
+X-CSE-ConnectionGUID: jt2lcXczRUaCCJXKXBpJIA==
+X-CSE-MsgGUID: v4Z8q3LVQHSQjg5rcpdhMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16622495"
 X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="19703863"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 13:06:30 -0700
-X-CSE-ConnectionGUID: wVkbdKI8SU6qDS53J4oJUw==
-X-CSE-MsgGUID: asEyVRoJSHe/2rDUjJ5Viw==
+   d="scan'208";a="16622495"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 13:07:34 -0700
+X-CSE-ConnectionGUID: JfGYV9VQQpSB9ks5i7ayxA==
+X-CSE-MsgGUID: ryZkIDmVRNOOzPzx+J8UHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="45260436"
+   d="scan'208";a="49456002"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Jun 2024 13:06:28 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Jun 2024 13:07:29 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNHrW-000IHm-02;
-	Fri, 28 Jun 2024 20:06:26 +0000
-Date: Sat, 29 Jun 2024 04:05:42 +0800
+	id 1sNHsU-000IIG-0l;
+	Fri, 28 Jun 2024 20:07:26 +0000
+Date: Sat, 29 Jun 2024 04:06:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marex@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [net-next:main 1/24] arch/arm64/boot/dts/apm/apm-mustang.dtb:
- menetphy@3: $nodename:0: 'menetphy@3' does not match
- '^ethernet-phy(@[a-f0-9]+)?$'
-Message-ID: <202406290316.YvZdvLxu-lkp@intel.com>
+To: Daniel Golle <daniel@makrotopia.org>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@debian.org>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Martin Kaiser <martin@kaiser.cx>, Tony Luck <tony.luck@intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 3/3] arm64: dts: rockchip: add DT entry for RNG to
+ RK356x
+Message-ID: <202406290305.M3hDJkwM-lkp@intel.com>
+References: <2181f2207391fb8fb8ae2cfda07d38f65da05ed9.1719365406.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,231 +78,236 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <2181f2207391fb8fb8ae2cfda07d38f65da05ed9.1719365406.git.daniel@makrotopia.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-main
-head:   748e3bbf47212d5e2e22d731328b0c15ee3b85ae
-commit: 8fda53719a596fa2a2880c42b5fa4126fbbbfc3d [1/24] dt-bindings: net: r=
-ealtek,rtl82xx: Document known PHY IDs as compatible strings
-config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/arch=
-ive/20240629/202406290316.YvZdvLxu-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326=
-ba38a991250a8587a399a260b0f7af2c9166a)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus rockchip/for-next robh/for-next herbert-cryptodev-2.6/master linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-rng-Add-Rockchip-RK3568-TRNG/20240626-114623
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/2181f2207391fb8fb8ae2cfda07d38f65da05ed9.1719365406.git.daniel%40makrotopia.org
+patch subject: [PATCH v5 3/3] arm64: dts: rockchip: add DT entry for RNG to RK356x
+config: arm64-randconfig-051-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290305.M3hDJkwM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240629/202406290316.YvZdvLxu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290305.M3hDJkwM-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406290316.YvZdvLxu-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406290305.M3hDJkwM-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/sata@1a000000: failed to m=
-atch any schema with compatible: ['apm,xgene-ahci']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/sata@1a400000: failed to m=
-atch any schema with compatible: ['apm,xgene-ahci']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/sata@1a800000: failed to m=
-atch any schema with compatible: ['apm,xgene-ahci']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/gpio@17001000: failed to m=
-atch any schema with compatible: ['apm,xgene-gpio-sb']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/rtc@10510000: failed to ma=
-tch any schema with compatible: ['apm,xgene-rtc']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mdio@17020000: failed to m=
-atch any schema with compatible: ['apm,xgene-mdio-rgmii']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000: phy-handle:0=
-: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.=
-yaml#
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/ethernet@17020000: failed =
-to match any schema with compatible: ['apm,xgene-enet']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/ethernet@17020000/mdio: fa=
-iled to match any schema with compatible: ['apm,xgene-mdio']
->> arch/arm64/boot/dts/apm/apm-mustang.dtb: menetphy@3: $nodename:0: 'menet=
-phy@3' does not match '^ethernet-phy(@[a-f0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
->> arch/arm64/boot/dts/apm/apm-mustang.dtb: menetphy@3: Unevaluated propert=
-ies are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/ethernet@1f210000: failed =
-to match any schema with compatible: ['apm,xgene1-sgenet']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/ethernet@1f210030: failed =
-to match any schema with compatible: ['apm,xgene1-sgenet']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/ethernet@1f610000: failed =
-to match any schema with compatible: ['apm,xgene1-xgenet']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/ethernet@1f620000: failed =
-to match any schema with compatible: ['apm,xgene1-xgenet']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/dma@1f270000: failed to ma=
-tch any schema with compatible: ['apm,xgene-storm-dma']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: poweroff_mbox@10548000: compati=
-ble: 'anyOf' conditional failed, one must be fixed:
-   	['syscon'] is too short
-   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
-inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
- 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
-ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
--rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
-reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
--wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
-n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
- 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
-1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
-arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
-2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
-ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
-cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
-sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
-wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
-qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
-'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
-hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
--usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
-,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: clock-generato=
-r@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: clock-generato=
-r@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: ethernet-phy@0=
-: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3-c22'] is=
- too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: clo=
-ck-generator@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: clo=
-ck-generator@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: eth=
-ernet-phy@0: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802=
-=2E3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: i2c@fe5b0000: Unevaluated properties are not allowed ('pintctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-rk3x.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb: clock=
--generator@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb: clock=
--generator@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb: ether=
-net-phy@0: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3=
--c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: clock-gen=
-erator@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: clock-gen=
-erator@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: ethernet-=
-phy@0: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3-c22=
-'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: i2c@fe5b0000: Unevaluated properties are not allowed ('pintctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-rk3x.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb=
-: clock-generator@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb=
-: clock-generator@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb=
-: ethernet-phy@0: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ie=
-ee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1682.12-1692.7: Warning (graph=
-_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1710.12-1720.7: Warning (graph=
-_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1738.12-1748.7: Warning (graph=
-_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1766.12-1776.7: Warning (graph=
-_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: clock-generato=
-r@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: clock-generato=
-r@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: ethernet-phy@0=
-: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3-c22'] is=
- too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1682.12-1692.7: Warning (graph=
-_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1710.12-1720.7: Warning (graph=
-_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1738.12-1748.7: Warning (graph=
-_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1766.12-1776.7: Warning (graph=
-_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: clo=
-ck-generator@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: clo=
-ck-generator@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: eth=
-ernet-phy@0: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802=
-=2E3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi:486.10-497.6: Warning (graph_child_address): /i2c@fe5c0000/tcpc@60/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: bluetooth: reset-gpios: False schema does not allow [[34, 20, 1]]
+   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: bluetooth: 'device-wake-gpios', 'host-wake-gpios' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: usb2phy@fe8a0000: otg-port: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
 --
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1682.12-1692.7: Warning (graph=
-_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1710.12-1720.7: Warning (graph=
-_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1738.12-1748.7: Warning (graph=
-_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1766.12-1776.7: Warning (graph=
-_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single ch=
-ild node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb: clock=
--generator@6a: 'idt,shutdown' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
-   arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb: clock=
--generator@6a: 'idt,output-enable-active' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.ya=
-ml#
->> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb: ether=
-net-phy@0: compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3=
--c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:288.10-292.5: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:289.29-291.6: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0/endpoint@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: panel@0: 'port@0', 'reset-gpios' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/panel/boe,th101mb31ig002-28a.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: phy@fe870000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip-inno-csi-dphy.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:288.10-292.5: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:289.29-291.6: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0/endpoint@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: panel@0: 'port@0', 'reset-gpios' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/panel/boe,th101mb31ig002-28a.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: phy@fe870000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip-inno-csi-dphy.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb30.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: wifi@1: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['brcm,bcm43455-fmac'] is too short
+   	'brcm,bcm43455-fmac' is not one of ['brcm,bcm4329-fmac', 'pci14e4,43dc', 'pci14e4,4464', 'pci14e4,4488', 'pci14e4,4425', 'pci14e4,4433']
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: wifi@1: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: bluetooth: reset-gpios: False schema does not allow [[103, 16, 1]]
+   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: phy@fe840000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: phy@fe840000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: phy@fe840000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: bluetooth: clock-names: 'oneOf' conditional failed, one must be fixed:
+   	['ext_clock'] is too short
+   	'extclk' was expected
+   	'txco' was expected
+   	'lpo' was expected
+   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: bluetooth: 'device-wake-gpios', 'host-wake-gpios' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dtb: mmc@fe2b0000: Unevaluated properties are not allowed ('supports-sd' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/rockchip-dw-mshc.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dtb: mmc@fe310000: Unevaluated properties are not allowed ('supports-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/snps,dwcmshc-sdhci.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: sata@fc800000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/ata/rockchip,dwc-ahci.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: phy@fe8c0000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip,pcie3-phy.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r68s.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: mmc@fe310000: Unevaluated properties are not allowed ('supports-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/snps,dwcmshc-sdhci.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: sata@fc000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/ata/rockchip,dwc-ahci.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5c.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: sata@fc800000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/ata/rockchip,dwc-ahci.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: phy@fe830000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: phy@fe820000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dtb: sata@fc400000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/ata/rockchip,dwc-ahci.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dtb: phy@fe830000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: sata@fc800000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/ata/rockchip,dwc-ahci.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: pmic@20: regulators:DCDC_REG1: Unevaluated properties are not allowed ('regulator-init-microvolt' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: pmic@20: regulators:DCDC_REG2: Unevaluated properties are not allowed ('regulator-init-microvolt' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: pmic@20: regulators:DCDC_REG4: Unevaluated properties are not allowed ('regulator-init-microvolt' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: phy@fe8c0000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip,pcie3-phy.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5.dtb: rng@fe388000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rng/rockchip,rk3568-rng.yaml#
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
